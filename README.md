@@ -11,15 +11,10 @@ $ hugo server
 
 ## Deploy
 ```sh
-# Build Website, and production codes are under /public/ folder.
+# Build Website, and production codes are under /docs/ folder.
 $ hugo
 
-$ chmod +x publish.sh
-
-# Production codes will be published to origin/gh-pages branch.
-$ ./publish.sh
-
-# Config source to gh-pages branch in GitHub Pages settings.
+# Config source to /docs folder in GitHub Pages settings.
 ```
 
 Thanks to [Hugo Framework](https://gohugo.io/) & [Hugo Fresh Theme](https://themes.gohugo.io/hugo-fresh/).
