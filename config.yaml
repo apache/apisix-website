@@ -28,7 +28,7 @@ params:
     subtitle1: 云原生、高性能、可扩展的微服务 API 网关。
     subtitle2: 基于 Nginx 和 etcd 来实现，具备动态路由、插件热加载和 gRPC 代理和协议转换功能，更适合微服务体系下的 API 管理。
     # Button text
-    buttontext: View on GitHub
+    buttontext: 访问 GitHub
     # Where the main hero button links to
     buttonlink: "https://github.com/iresty/apisix"
     # Hero image (from static/images/___)
