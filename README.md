@@ -6,15 +6,23 @@
 ```sh
 $ brew install hugo
 
+# Branch dev is the development branch, and master is the preview branch
+$ git checkout dev
+
 $ hugo server
 ```
 
 ## Deploy
 ```sh
-# Build Website, and production codes are under /docs/ folder.
+$ git checkout dev
+
+# Build Website, and production codes are under /public/ folder.
 $ hugo
 
-# Config source to /docs folder in GitHub Pages settings.
+$ chmod +x publish.sh
+
+# Push production files to master branch
+$ ./publish.sh
 ```
 
 Thanks to [Hugo Framework](https://gohugo.io/) & [Hugo Fresh Theme](https://themes.gohugo.io/hugo-fresh/).
