@@ -57,7 +57,7 @@ params:
       icon: plug-cloud
       text: 从路由、json schema 检验，到内置的丰富插件，都是按照最高的性能要求来设计和实现。
     - title: 多协议和多平台支持
-      icon: plug-cloud
+      icon: doc-sync
       text: 支持 http 到 gRPC 的协议转换，支持websocket、gRPC、Dubbo、MQTT 的代理，支持包括 ARM64 在内的多种平台。
   section3:
     title: 谁在使用 Apache APISIX？
