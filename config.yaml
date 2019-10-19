@@ -16,20 +16,21 @@ params:
   description: 
   navbarlogo:
   # Logo (from static/images/logos/___)
-   image: logos/fresh.svg
+   image: logos/apisix.svg
    link: /
   font:
     name: "Open Sans"
     sizes: [400,600]
   hero:
     # Main hero title
-    title: Manage. Deploy.
+    title: Apache APISIX
     # Hero subtitle (optional)
-    subtitle: Lorem ipsum sit dolor amet is dummy text used by the typography industry
+    subtitle1: 云原生、高性能、可扩展的微服务 API 网关。
+    subtitle2: 基于 Nginx 和 etcd 来实现，具备动态路由、插件热加载和 gRPC 代理和协议转换功能，更适合微服务体系下的 API 管理。
     # Button text
-    buttontext: Get started
+    buttontext: View on GitHub
     # Where the main hero button links to
-    buttonlink: "#"
+    buttonlink: "https://github.com/iresty/apisix"
     # Hero image (from static/images/___)
     image: illustrations/worker.svg
     # Footer logos (from static/images/logos/clients/___.svg)
@@ -41,112 +42,51 @@ params:
     - gutwork
   # Customizable navbar. For a dropdown, add a "sublinks" list.
   navbar:
-  - title: Home
+  - title: 首页
     url: /
   section1:
-    title: Great power comes
-    subtitle: with great responsibility
+    title: 为什么选择 Apache APISIX？
     tiles:
-    - title: App builder
+    - title: 高可用，安全第一
       icon: mouse-globe
-      text: This is some explanatory text that is on two rows
-      url: /
-      buttonText: Free trial
-    - title: Cloud integration
+      text: 内置高可用方案，并提供多种身份认证和接口校验的安全插件，把稳定和安全放在第一位
+    - title: 易用的管理界面，强大的开发接口
       icon: laptop-cloud
-      text: This is some explanatory text that is on two rows
-      url: /
-      buttonText: Get started
-    - title: Add-ons & plugins
+      text: 自带简洁、易用的管理界面，并提供强大、灵活的接口以便开发者使用。
+    - title: 极致性能
       icon: plug-cloud
-      text: This is some explanatory text that is on two rows
-      url: /
-      buttonText: Get started
-  section2:
-    title: You're here because you want the best
-    subtitle: And we know it
-    features:
-    - title: Powerful and unified interface
-      text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-      # Icon (from /images/illustrations/icons/___.svg)
-      icon: laptop-globe
-    - title: Cross-device synchronisation
-      text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-      icon: doc-sync
-    - title: Nomad system
-      text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-      icon: mobile-feed
+      text: 从路由、json schema 检验，到内置的丰富插件，都是按照最高的性能要求来设计和实现。
+    - title: 多协议和多平台支持
+      icon: plug-cloud
+      text: 支持 http 到 gRPC 的协议转换，支持websocket、gRPC、Dubbo、MQTT 的代理，支持包括 ARM64 在内的多种平台。
   section3:
-    title: One platform
-    subtitle: To rule them all
-    image: illustrations/mockups/app-mockup.png
-    buttonText: Get started
-    buttonLink: "#"
-  section4:
-    title: Our Clients love us!
-    subtitle: Lorem ipsum sit dolor amet is a dummy text used by typography industry
-    clients:
-    - name: Irma Walters
-      quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
-      job: Accountant
-      img: 1
-    - name: John Bradley
-      quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
-      job: Financial Analyst
-      img: 2
-    - name: Gary Blackman
-      quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
-      job: HR Manager
-      img: 3
+    title: 谁在使用 Apache APISIX？
+    image: https://raw.githubusercontent.com/iresty/apisix/master/doc/images/user-wall.jpg
   section5: true
   footer:
-    # Logo (from /images/logos/___)
-    logo: fresh-white-alt.svg
-    # Social Media Title
-    socialmediatitle: Follow Us
-    # Social media links (GitHub, Twitter, etc.). All are optional.
-    socialmedia:
-    - link: https://github.com/lucperkins/github-fresh
-      # Icons are from Font Awesome
-      icon: github
-    - link: https://dribbble.com/#
-      icon: dribbble
-    - link: https://facebook.com/#
-      icon: facebook
-    - link: https://twitter.com/lucperkins
-      icon: twitter
-    - link: https://bitbucket.org/#
-      icon: bitbucket
-    bulmalogo: true
     quicklinks:
       column1:
-        title: "Product"
-        links:
-        - text: Discover features
-          link: /
-        - text: Why choose our product?
-          link: /
-        - text: Compare features
-          link: /
-        - text: Our roadmap
-          link: /
-        - text: AGB
-          link: /agb
+        title: "Disclaimer"
+        text: Apache APISIX (incubating) is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
       column2:
-        title: "Docs"
+        title: "Documentation"
         links:
-        - text: Get started
+        - text: Overview
           link: /
-        - text: User guides
+        - text: Quick start
           link: /
-        - text: Admin guide
-          link: /
-        - text: Developers
+        - text: Developer guide
           link: /
       column3:
-        title: "Blog"
+        title: "ASF"
         links:
-        - text: Latest news
-          link: /blog/first
-        - text: Tech articles
-          link: /blog/second
+        - text: Foundation
+          link: /
+        - text: License
+          link: /
+        - text: Events
+          link: /
+        - text: Sponsorship
+          link: /
+        - text: Thanks
+          link: /
