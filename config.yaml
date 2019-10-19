@@ -72,21 +72,21 @@ params:
         title: "Documentation"
         links:
         - text: Overview
-          link: /
+          link: https://github.com/iresty/apisix#whats-apisix
         - text: Quick start
-          link: /
+          link: https://github.com/iresty/apisix#quickstart
         - text: Developer guide
-          link: /
+          link: https://github.com/iresty/apisix/blob/master/doc/architecture-design.md
       column3:
         title: "ASF"
         links:
         - text: Foundation
-          link: /
+          link: http://www.apache.org/
         - text: License
-          link: /
+          link: http://www.apache.org/licenses/
         - text: Events
-          link: /
+          link: https://apachecon.com/?ref=apisix.incubator.apache.org
         - text: Sponsorship
-          link: /
+          link: http://www.apache.org/foundation/sponsorship.html
         - text: Thanks
-          link: /
+          link: http://www.apache.org/foundation/thanks.html
