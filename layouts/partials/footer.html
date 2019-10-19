@@ -1,0 +1,33 @@
+{{- $footer      := .Site.Params.footer }}
+{{- $quickLinks  := index $footer "quicklinks" }}
+<footer class="footer footer-gray">
+  <div class="container">
+    <div class="columns">
+      {{- range $quickLinks }}
+        <div class="column is-4">
+          <div class="footer-column">
+            <div class="footer-header">
+                <h3>{{ .title }}</h3>
+            </div>
+            <div class="footer-description">
+              {{ .text }}
+            </div>
+            <ul class="link-list">
+              {{- range .links }}
+              <li>
+                <a href="{{ .link }}">
+                  {{ .text }}
+                </a>
+              </li>
+              {{- end }}
+            </ul>
+          </div>
+        </div>
+      {{- end }}
+    </div>
+    <div class="divider"></div>
+    <div class="copyright">
+Copyright © 2019 The Apache Software Foundation. Apache APISIX, and its feather logo are trademarks of The Apache Software Foundation.
+    </div>
+  </div>
+</footer>
