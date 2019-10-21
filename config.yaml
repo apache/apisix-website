@@ -34,6 +34,9 @@ languages:
       navbar:
       - title: Home
         url: /
+      language:
+        name: 中
+        link: /zh
       section1:
         title: Why Apache APISIX？
         tiles:
@@ -105,6 +108,9 @@ languages:
     navbar:
     - title: 首页
       url: /
+    language:
+        name: EN
+        link: /
     section1:
       title: 为什么选择 Apache APISIX？
       tiles:

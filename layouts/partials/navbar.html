@@ -3,6 +3,7 @@
 {{ if .Params.sidebar }}
 {{ $sidebarVisible = .Params.sidebar }}
 {{ end }}
+{{- $language     := .Site.Params.language }}
 {{- $navbarLogo     := .Site.Params.navbarlogo }}
 <nav class="navbar is-fresh is-transparent no-shadow" role="navigation" aria-label="main navigation">
   <div class="container">
@@ -79,6 +80,7 @@
           {{- end }}
           {{- end }}
         </div>
+        <a class="language-switcher" href="{{ $language.link }}">{{ $language.name }}</a>
       </div>
   </div>
 </nav>
