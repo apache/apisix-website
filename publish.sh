@@ -11,8 +11,8 @@ rm -rf public
 mkdir public
 rm -rf .git/worktrees/public/
 
-echo "Checking out master branch into public"
-git worktree add -B master public origin/master
+echo "Checking out asf-site branch into public"
+git worktree add -B asf-site public origin/asf-site
 
 echo "Removing existing files"
 rm -rf public/*
@@ -20,8 +20,8 @@ rm -rf public/*
 echo "Generating site"
 hugo
 
-echo "Updating master branch"
-cd public && cp ../README.md ./ && git add --all && git commit -m "Publishing to master (publish.sh)"
+echo "Updating asf-site branch"
+cd public && cp ../README.md ./ && cp ../.asf.yaml ./ && git add --all && git commit -m "Publishing to asf-site (publish.sh)"
 
 echo "Push to origin"
-git push origin master -f
+git push origin asf-site -f
