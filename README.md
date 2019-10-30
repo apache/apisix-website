@@ -1,6 +1,6 @@
-# APISIX
+# Apache APISIX
 
-> The website of [APISIX](https://github.com/iresty/apisix), a cloud-native microservices api gateway.
+> The website of [Apache APISIX](https://github.com/apache/incubator-apisix), a cloud-native microservices api gateway.
 
 ## Development
 ```sh
