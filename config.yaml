@@ -1,5 +1,5 @@
 baseURL: https://apisix.incubator.apache.org/
-title: APISIX
+title: Apache APISIX
 theme: hugo-fresh
 googleAnalytics: #Put in your tracking code without quotes like this: UA-XXXXXX...
 #Disables warningss
