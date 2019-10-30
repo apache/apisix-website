@@ -6,16 +6,11 @@
 ```sh
 $ brew install hugo
 
-# Branch dev is the development branch, and master is the preview branch
-$ git checkout dev
-
 $ hugo server
 ```
 
 ## Deploy
 ```sh
-$ git checkout dev
-
 # Build Website, and production codes are under /public/ folder.
 $ hugo
 
