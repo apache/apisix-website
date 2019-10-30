@@ -3,44 +3,44 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://iresty.github.io/</loc>
+    <loc>https://apisix.incubator.apache.org/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://iresty.github.io/zh/"
+                href="https://apisix.incubator.apache.org/zh/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://iresty.github.io/"
+                href="https://apisix.incubator.apache.org/"
                 />
   </url>
   
   <url>
-    <loc>https://iresty.github.io/categories/</loc>
+    <loc>https://apisix.incubator.apache.org/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://iresty.github.io/zh/categories/"
+                href="https://apisix.incubator.apache.org/zh/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://iresty.github.io/categories/"
+                href="https://apisix.incubator.apache.org/categories/"
                 />
   </url>
   
   <url>
-    <loc>https://iresty.github.io/tags/</loc>
+    <loc>https://apisix.incubator.apache.org/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://iresty.github.io/zh/tags/"
+                href="https://apisix.incubator.apache.org/zh/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://iresty.github.io/tags/"
+                href="https://apisix.incubator.apache.org/tags/"
                 />
   </url>
   
