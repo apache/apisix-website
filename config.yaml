@@ -1,4 +1,4 @@
-baseURL: https://iresty.github.io/
+baseURL: https://apisix.incubator.apache.org/
 title: APISIX
 theme: hugo-fresh
 googleAnalytics: #Put in your tracking code without quotes like this: UA-XXXXXX...
@@ -20,7 +20,7 @@ languages:
         # Button text
         buttontext: View on GitHub
         # Where the main hero button links to
-        buttonlink: "https://github.com/iresty/apisix"
+        buttonlink: "https://github.com/apache/incubator-apisix"
         # Hero image (from static/images/___)
         image: illustrations/worker.svg
         # Footer logos (from static/images/logos/clients/___.svg)
@@ -54,7 +54,7 @@ languages:
           text: Supports http to gRPC transcoding, supports websocket, gRPC, Dubbo, MQTT proxy, and supports multiple platforms including ARM64.
       section3:
         title: Who Uses Apache APISIX？
-        image: https://raw.githubusercontent.com/iresty/apisix/master/doc/images/user-wall.jpg
+        image: https://github.com/apache/incubator-apisix/blob/master/doc/images/user-wall.jpg
       section5: true
       footer:
         quicklinks:
@@ -65,11 +65,11 @@ languages:
             title: "Documentation"
             links:
             - text: Overview
-              link: https://github.com/iresty/apisix#whats-apisix
+              link: https://github.com/apache/incubator-apisix#apisix
             - text: Quick start
-              link: https://github.com/iresty/apisix#quickstart
+              link: https://github.com/apache/incubator-apisix#quickstart
             - text: Developer guide
-              link: https://github.com/iresty/apisix/blob/master/doc/architecture-design.md
+              link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
           column3:
             title: "ASF"
             links:
@@ -94,7 +94,7 @@ languages:
       # Button text
       buttontext: 访问 GitHub
       # Where the main hero button links to
-      buttonlink: "https://github.com/iresty/apisix"
+      buttonlink: "https://github.com/apache/incubator-apisix"
       # Hero image (from static/images/___)
       image: illustrations/worker.svg
       # Footer logos (from static/images/logos/clients/___.svg)
@@ -128,7 +128,7 @@ languages:
         text: 支持 http 到 gRPC 的协议转换，支持 websocket、gRPC、Dubbo、MQTT 的代理，支持包括 ARM64 在内的多种平台
     section3:
       title: 谁在使用 Apache APISIX？
-      image: https://raw.githubusercontent.com/iresty/apisix/master/doc/images/user-wall.jpg
+      image: https://github.com/apache/incubator-apisix/blob/master/doc/images/user-wall.jpg
     section5: true
     footer:
       quicklinks:
@@ -139,11 +139,11 @@ languages:
           title: "Documentation"
           links:
           - text: Overview
-            link: https://github.com/iresty/apisix#whats-apisix
+            link: https://github.com/apache/incubator-apisix#apisix
           - text: Quick start
-            link: https://github.com/iresty/apisix#quickstart
+            link: https://github.com/apache/incubator-apisix#quickstart
           - text: Developer guide
-            link: https://github.com/iresty/apisix/blob/master/doc/architecture-design.md
+            link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
         column3:
           title: "ASF"
           links:
