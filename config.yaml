@@ -54,7 +54,7 @@ languages:
           text: Supports http to gRPC transcoding, supports websocket, gRPC, Dubbo, MQTT proxy, and supports multiple platforms including ARM64.
       section3:
         title: Who Uses Apache APISIX？
-        image: https://raw.githubusercontent.com/apache/incubator-apisix/master/doc/images/user-wall.jpg
+        image: https://raw.githubusercontent.com/iresty/iresty.com/master/user-wall.jpg
       section5: true
       footer:
         quicklinks:
@@ -128,7 +128,7 @@ languages:
         text: 支持 http 到 gRPC 的协议转换，支持 websocket、gRPC、Dubbo、MQTT 的代理，支持包括 ARM64 在内的多种平台
     section3:
       title: 谁在使用 Apache APISIX？
-      image: https://raw.githubusercontent.com/apache/incubator-apisix/master/doc/images/user-wall.jpg
+      image: https://raw.githubusercontent.com/iresty/iresty.com/master/user-wall.jpg
     section5: true
     footer:
       quicklinks:
