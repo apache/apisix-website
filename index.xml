@@ -5,9 +5,19 @@
     <link>https://apisix.incubator.apache.org/</link>
     <description>Recent content on Apache APISIX</description>
     <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 26 Nov 2019 23:48:02 +0800</lastBuildDate>
     
 	<atom:link href="https://apisix.incubator.apache.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Downloads</title>
+      <link>https://apisix.incubator.apache.org/downloads/</link>
+      <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/downloads/</guid>
+      <description>Releases Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )      Verify the releases PGP signatures KEYS  It is essential that you verify the integrity of the downloaded files using the PGP or SHA signatures.</description>
+    </item>
     
   </channel>
 </rss>

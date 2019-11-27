@@ -4,6 +4,7 @@
   
   <url>
     <loc>https://apisix.incubator.apache.org/</loc>
+    <lastmod>2019-11-26T23:48:02+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -14,6 +15,11 @@
                 hreflang="en"
                 href="https://apisix.incubator.apache.org/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://apisix.incubator.apache.org/downloads/</loc>
+    <lastmod>2019-11-26T23:48:02+08:00</lastmod>
   </url>
   
   <url>
