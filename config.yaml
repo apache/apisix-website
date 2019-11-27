@@ -34,6 +34,8 @@ languages:
       navbar:
       - title: Home
         url: /
+      - title: Downloads
+        url: /downloads
       language:
         name: 中
         link: /zh
@@ -108,6 +110,8 @@ languages:
     navbar:
     - title: 首页
       url: /
+    - title: 下载
+      url: /downloads
     language:
         name: EN
         link: /
