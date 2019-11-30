@@ -4,6 +4,8 @@
 {{- $subtitle2   := index $hero "subtitle2" }}
 {{- $buttonText := index $hero "buttontext" }}
 {{- $buttonLink := index $hero "buttonlink" }}
+{{- $downloadsButtonText := index $hero "downloadsbuttontext" }}
+{{- $downloadsButtonLink := index $hero "downloadsbuttonlink" }}
 {{- $image      := index $hero "image" }}
 <div class="hero-body">
   <div class="container">
@@ -28,6 +30,9 @@
         <p class="btns">
           <a class="button cta rounded primary-btn raised" href="{{ $buttonLink }}">
             {{ $buttonText }}
+          </a>
+          <a class="button cta rounded primary-btn raised" href="{{ $downloadsButtonLink }}">
+            {{ $downloadsButtonText }}
           </a>
         </p>
       </div>

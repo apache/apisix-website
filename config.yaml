@@ -21,6 +21,8 @@ languages:
         buttontext: View on GitHub
         # Where the main hero button links to
         buttonlink: "https://github.com/apache/incubator-apisix"
+        downloadsButtonText: Downloads
+        downloadsButtonLink: "./downloads"
         # Hero image (from static/images/___)
         image: illustrations/worker.svg
         # Footer logos (from static/images/logos/clients/___.svg)
@@ -97,6 +99,8 @@ languages:
       buttontext: 访问 GitHub
       # Where the main hero button links to
       buttonlink: "https://github.com/apache/incubator-apisix"
+      downloadsbuttontext: 下载
+      downloadsbuttonlink: "../downloads"
       # Hero image (from static/images/___)
       image: illustrations/worker.svg
       # Footer logos (from static/images/logos/clients/___.svg)
