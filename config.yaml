@@ -38,6 +38,10 @@ languages:
         url: /
       - title: Downloads
         url: /downloads
+      - title: Get Involved
+        sublinks:
+        - title: Release Guide
+          url: contribute/release
       language:
         name: 中
         link: /zh
@@ -116,6 +120,10 @@ languages:
       url: /
     - title: 下载
       url: /downloads
+    - title: 参与
+      sublinks:
+      - title: 发布指南
+        url: contribute/release
     language:
         name: EN
         link: /
