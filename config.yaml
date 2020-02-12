@@ -43,7 +43,7 @@ languages:
       - title: Get Involved
         sublinks:
         - title: Release Guide
-          url: contribute/release
+          url: /contribute/release
       language:
         name: 中
         link: /zh
@@ -119,15 +119,15 @@ languages:
     # Customizable navbar. For a dropdown, add a "sublinks" list.
     navbar:
     - title: 首页
-      url: /
+      url: /zh
     - title: 安全
-      url: security
+      url: /zh/security
     - title: 下载
-      url: /downloads
+      url: /zh/downloads
     - title: 参与
       sublinks:
       - title: 发布指南
-        url: contribute/release
+        url: /zh/contribute/release
     language:
         name: EN
         link: /
