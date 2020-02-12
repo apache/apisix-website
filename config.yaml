@@ -36,6 +36,8 @@ languages:
       navbar:
       - title: Home
         url: /
+      - title: Security
+        url: /security
       - title: Downloads
         url: /downloads
       - title: Get Involved
@@ -118,6 +120,8 @@ languages:
     navbar:
     - title: 首页
       url: /
+    - title: 安全
+      url: security
     - title: 下载
       url: /downloads
     - title: 参与
