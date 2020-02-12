@@ -36,5 +36,14 @@ GnuPG-2.x可使用：
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  gpg (GnuPG) 2.</description>
     </item>
     
+    <item>
+      <title>下载</title>
+      <link>https://apisix.incubator.apache.org/zh/downloads/</link>
+      <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/zh/downloads/</guid>
+      <description>Releases Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )      Verify the releases PGP signatures KEYS  It is essential that you verify the integrity of the downloaded files using the PGP or SHA signatures.</description>
+    </item>
+    
   </channel>
 </rss>
