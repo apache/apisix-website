@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Contributes on Apache APISIX</title>
+    <link>https://apisix.incubator.apache.org/contribute/</link>
+    <description>Recent content in Contributes on Apache APISIX</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 07 Jan 2020 11:46:04 +0800</lastBuildDate>
+    
+	<atom:link href="https://apisix.incubator.apache.org/contribute/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Release Guide</title>
+      <link>https://apisix.incubator.apache.org/contribute/release/</link>
+      <pubDate>Tue, 07 Jan 2020 11:46:04 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/contribute/release/</guid>
+      <description>GPG 设置 安装 GPG 在 GnuPG 官网下载安装包。 GnuPG 的 1.x 版本和 2.x 版本的命令有细微差别，下列说明以 GnuPG-2.1.23 版本为例。
+安装完成后，执行以下命令查看版本号。
+1 2  gpg --version    创建 Key 安装完成后，执行以下命令创建key。
+GnuPG-2.x可使用：
+1 2  gpg --full-gen-key    GnuPG-1.x可使用：
+1 2  gpg --gen-key    根据提示完成key：
+注意：请使用Apache mail生成GPG的Key。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  gpg (GnuPG) 2.</description>
+    </item>
+    
+  </channel>
+</rss>
