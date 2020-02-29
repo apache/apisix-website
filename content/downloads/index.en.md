@@ -29,6 +29,30 @@ include_footer: true
           )
         </div>
       </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.0</div>
+        <div class="flex-row" role="cell">2020 January 15</div>
+        <div class="flex-row" role="cell">
+          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.0/">source</a>
+          (
+          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.asc">asc</a>
+          <a
+            href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.sha512">sha512</a>
+          )
+        </div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.1</div>
+        <div class="flex-row" role="cell">2020 February 24</div>
+        <div class="flex-row" role="cell">
+          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.1/">source</a>
+          (
+          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.asc">asc</a>
+          <a
+            href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.sha512">sha512</a>
+          )
+        </div>
+      </div>
     </div>
   </section>
   <section>
