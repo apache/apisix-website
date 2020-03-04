@@ -21,11 +21,11 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>0.9</div>
         <div class="flex-row" role="cell">2019 November 24</div>
         <div class="flex-row" role="cell">
-          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/0.9/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/0.9/">source</a>
           (
-          <a href="http://www.apache.org/dist/incubator/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.asc">asc</a>
+          <a href="https://downloads.apache.org/incubator/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.asc">asc</a>
           <a
-            href="http://www.apache.org/dist/incubator/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.sha512">sha512</a>
+            href="https://downloads.apache.org/incubator/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.sha512">sha512</a>
           )
         </div>
       </div>
@@ -33,11 +33,11 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.0</div>
         <div class="flex-row" role="cell">2020 January 15</div>
         <div class="flex-row" role="cell">
-          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.0/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.0/">source</a>
           (
-          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.asc">asc</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.asc">asc</a>
           <a
-            href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.sha512">sha512</a>
+            href="https://downloads.apache.org/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.sha512">sha512</a>
           )
         </div>
       </div>
@@ -45,11 +45,11 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.1</div>
         <div class="flex-row" role="cell">2020 February 24</div>
         <div class="flex-row" role="cell">
-          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.1/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.1/">source</a>
           (
-          <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.asc">asc</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.asc">asc</a>
           <a
-            href="https://dist.apache.org/repos/dist/release/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.sha512">sha512</a>
+            href="https://downloads.apache.org/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.sha512">sha512</a>
           )
         </div>
       </div>
