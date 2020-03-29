@@ -73,10 +73,10 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/moonming" target="_blank">wenming</a>
+          <a href="https://whimsy.apache.org/roster/committer/wenming" target="_blank">wenming</a>
         </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>Ming Wen</div>
-        <div class="flex-row" role="cell">Name</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>moonming</div>
+        <div class="flex-row" role="cell">Ming Wen</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
