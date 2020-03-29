@@ -5,10 +5,33 @@
     <link>https://apisix.incubator.apache.org/zh/contribute/</link>
     <description>Recent content in Contributes on Apache APISIX</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 07 Jan 2020 11:46:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 11:46:04 +0800</lastBuildDate>
     
 	<atom:link href="https://apisix.incubator.apache.org/zh/contribute/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>提交者指南</title>
+      <link>https://apisix.incubator.apache.org/zh/contribute/committer/</link>
+      <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/zh/contribute/committer/</guid>
+      <description>  加入提交者 Apache APISIX 社区遵照 Apache 社区 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
+流程如下：
+1. 在 @private 邮件列表中发起讨论，注意：当前只有 PMC 可以提名；
+2. 如果投票通过，将发送邀请函以成为提交者，需 CC @private 邮件列表；
+3. 新的提交者签署 ICLA 并提交有意愿的 Apache ID 与邮箱地址；
+4. 更新 团队 页。
+  职责 1. 开发新功能；
+2. 重构代码；
+3. 及时尽责地审阅 PR；
+4. 讨论新的需求；
+5. 回复提问；
+6. 更新文档与示例；
+7. 提升流程与相关工具；
+8. 指导新的贡献者加入社区。
+  </description>
+    </item>
     
     <item>
       <title>发布指南</title>
