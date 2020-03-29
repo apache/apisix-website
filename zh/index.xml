@@ -57,6 +57,19 @@
     </item>
     
     <item>
+      <title>贡献者指南</title>
+      <link>https://apisix.incubator.apache.org/zh/contribute/contributor/</link>
+      <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/zh/contribute/contributor/</guid>
+      <description>Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
+Submit an issue 1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.
+2. Check the Issue List to make sure the problem is not repeated.
+3. Create a new issue and choose the type of issue.
+4. Define the issue with a clear and descriptive title.</description>
+    </item>
+    
+    <item>
       <title>安全</title>
       <link>https://apisix.incubator.apache.org/zh/security/</link>
       <pubDate>Thu, 16 Jan 2020 11:46:04 +0800</pubDate>
