@@ -5,10 +5,19 @@
     <link>https://apisix.incubator.apache.org/zh/</link>
     <description>Recent content on Apache APISIX</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 16 Jan 2020 11:46:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 11:46:04 +0800</lastBuildDate>
     
 	<atom:link href="https://apisix.incubator.apache.org/zh/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>团队</title>
+      <link>https://apisix.incubator.apache.org/zh/team/</link>
+      <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/zh/team/</guid>
+      <description>成员 PPMC ID GitHub 账户 公开名称  yousa  Miss-you Hui Li  shuaijinchao  shuaijinchao JinChao Shuai  chenjunxu  nic-chen Junxu Chen  tangke  supermario1990 Ke Tang  totemofwolf  totemofwolf Lang Wang  lizhiyong  zhiyong0804 Li Zhiyong  liling  lilien1010 Ling Li  linsir  linsir Linsir Wu  wenming  Ming Wen Name  wusheng  wu-sheng Sheng Wu  coolsoul  soulsoul Suo Zhang  agile6v  agile6v Wei Liu  liyong  chnliyong Yong Li  membphis  membphis YuanSheng Wang  juzhiyuan  juzhiyuan Zhiyuan   提交者 下列名单不包含上方表格成员。</description>
+    </item>
     
     <item>
       <title>安全</title>

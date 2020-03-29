@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://apisix.incubator.apache.org/</loc>
-    <lastmod>2020-01-16T11:46:04+08:00</lastmod>
+    <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -14,6 +14,21 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://apisix.incubator.apache.org/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://apisix.incubator.apache.org/team/</loc>
+    <lastmod>2020-03-29T11:46:04+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://apisix.incubator.apache.org/zh/team/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://apisix.incubator.apache.org/team/"
                 />
   </url>
   
