@@ -4,7 +4,7 @@ date: 2020-03-29T11:46:04+08:00
 include_footer: true
 ---
 
-<div>
+<div class="downloads">
   <section>
     <h2 class="title">Members</h2>
     <p class="description"></p>
