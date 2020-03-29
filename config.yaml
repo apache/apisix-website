@@ -42,6 +42,8 @@ languages:
         url: /downloads
       - title: Get Involved
         sublinks:
+        - title: Subscribe Guide
+          url: /contribute/subscribe
         - title: Committer Guide
           url: /contribute/committer
         - title: Release Guide
@@ -130,6 +132,8 @@ languages:
       url: /zh/downloads
     - title: 参与
       sublinks:
+      - title: 订阅指南
+        url: /zh/contribute/subscribe
       - title: 提交者指南
         url: /zh/contribute/committer
       - title: 发布指南
