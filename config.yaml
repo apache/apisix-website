@@ -44,6 +44,8 @@ languages:
         sublinks:
         - title: Subscribe Guide
           url: /contribute/subscribe
+        - title: Contributor Guide
+          url: /contribute/contributor
         - title: Committer Guide
           url: /contribute/committer
         - title: Release Guide
@@ -134,6 +136,8 @@ languages:
       sublinks:
       - title: 订阅指南
         url: /zh/contribute/subscribe
+      - title: 贡献者指南
+        url: /zh/contribute/contributor
       - title: 提交者指南
         url: /zh/contribute/committer
       - title: 发布指南
