@@ -44,6 +44,8 @@ languages:
         sublinks:
         - title: Release Guide
           url: /contribute/release
+      - title: Team
+        url: /team
       language:
         name: 中
         link: /zh
@@ -128,6 +130,8 @@ languages:
       sublinks:
       - title: 发布指南
         url: /zh/contribute/release
+    - title: 团队
+      url: /zh/team
     language:
         name: EN
         link: /
