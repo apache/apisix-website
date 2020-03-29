@@ -16,7 +16,7 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/team/</guid>
-      <description>成员 PPMC ID GitHub 账户 公开名称  yousa  Miss-you Hui Li  shuaijinchao  shuaijinchao JinChao Shuai  chenjunxu  nic-chen Junxu Chen  tangke  supermario1990 Ke Tang  totemofwolf  totemofwolf Lang Wang  lizhiyong  zhiyong0804 Li Zhiyong  liling  lilien1010 Ling Li  linsir  linsir Linsir Wu  wenming  Ming Wen Name  wusheng  wu-sheng Sheng Wu  coolsoul  soulsoul Suo Zhang  agile6v  agile6v Wei Liu  liyong  chnliyong Yong Li  membphis  membphis YuanSheng Wang  juzhiyuan  juzhiyuan Zhiyuan   提交者 下列名单不包含上方表格成员。</description>
+      <description>成员 PPMC ID GitHub 账户 公开名称  yousa  Miss-you Hui Li  shuaijinchao  shuaijinchao JinChao Shuai  chenjunxu  nic-chen Junxu Chen  tangke  supermario1990 Ke Tang  totemofwolf  totemofwolf Lang Wang  lizhiyong  zhiyong0804 Li Zhiyong  liling  lilien1010 Ling Li  linsir  linsir Linsir Wu  wenming  moonming Ming Wen  wusheng  wu-sheng Sheng Wu  coolsoul  soulsoul Suo Zhang  agile6v  agile6v Wei Liu  liyong  chnliyong Yong Li  membphis  membphis YuanSheng Wang  juzhiyuan  juzhiyuan Zhiyuan   提交者 下列名单不包含上方表格成员。</description>
     </item>
     
     <item>
@@ -39,6 +39,20 @@
 6. 更新文档与示例；
 7. 提升流程与相关工具；
 8. 指导新的贡献者加入社区。
+  </description>
+    </item>
+    
+    <item>
+      <title>订阅指南</title>
+      <link>https://apisix.incubator.apache.org/zh/contribute/subscribe/</link>
+      <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/zh/contribute/subscribe/</guid>
+      <description>  在使用 Apache APISIX 的过程中，若遇到任何问题，或有建议、想法，请大胆地使用 Appache 邮件列表与社区成员互动。
+1. 发送邮件以订阅：使用你的常用邮箱，发送一封包含任意内容的邮件至 dev-subscribe@apisix.apache.org 。
+2. 发送确认订阅邮件：第一步完成后，你将收到一封来自 dev-help@apisix.apache.org 的邮件，（若没有收到，请稍后检查诸如 RSS Feeds、垃圾邮件等选项卡）。接着，请回复任意内容至该邮件，以便完成订阅确认。
+3. 接收欢迎邮件：完成上述步骤后，你将收到一封题为 WELCOME to dev@apisix.apache.org 的邮件，这表示你已成功订阅该邮件列表。
+4. 此后，你将可以通过该邮箱收到 Apache APISIX 最新的邮件，也欢迎你通过邮件列表与社区交流！
   </description>
     </item>
     

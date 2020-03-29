@@ -48,6 +48,21 @@
   </url>
   
   <url>
+    <loc>https://apisix.incubator.apache.org/contribute/subscribe/</loc>
+    <lastmod>2020-03-29T11:46:04+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://apisix.incubator.apache.org/zh/contribute/subscribe/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://apisix.incubator.apache.org/contribute/subscribe/"
+                />
+  </url>
+  
+  <url>
     <loc>https://apisix.incubator.apache.org/team/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
