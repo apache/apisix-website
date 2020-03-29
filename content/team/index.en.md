@@ -4,7 +4,7 @@ date: 2020-03-29T11:46:04+08:00
 include_footer: true
 ---
 
-<div class="downloads">
+<div>
   <section>
     <h2 class="title">Members</h2>
     <p class="description"></p>
@@ -206,5 +206,6 @@ include_footer: true
     <p class="description">
       The Apache APISIX community follows the <a href="http://community.apache.org/newcommitter.html">Apache Community’s process</a> on accepting a new committer. After a contributor participates APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.
     </p>
+    <p>You can read Contributor Guide(TODO) to participate the community, and can get more information on <a href="/contribute/committer/">Committer Guide</a>.</p>
   </section>
 </div>
