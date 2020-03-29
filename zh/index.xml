@@ -11,6 +11,16 @@
     
     
     <item>
+      <title>两步验证</title>
+      <link>https://apisix.incubator.apache.org/zh/contribute/2fa/</link>
+      <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
+      
+      <guid>https://apisix.incubator.apache.org/zh/contribute/2fa/</guid>
+      <description>Two-factor authentication(2FA) Two factor authentication (2FA) refers to the authentication method that combines both passport and an object (credit card, SMS phone, token or biomarkers as fingerprint) to identify a user. To ensure the security of the committer’s account, we need you to enable 2FA to sign in and contribute codes on GitHub. More details, please refer to 2FA.
+Note:If you do not enable 2FA, you will be removed from the project and unable to access our repositories and the fork from our private repository.</description>
+    </item>
+    
+    <item>
       <title>团队</title>
       <link>https://apisix.incubator.apache.org/zh/team/</link>
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
