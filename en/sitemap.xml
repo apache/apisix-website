@@ -108,17 +108,17 @@
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/security/</loc>
+    <loc>https://apisix.incubator.apache.org/contribute/security/</loc>
     <lastmod>2020-01-16T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/security/"
+                href="https://apisix.incubator.apache.org/zh/contribute/security/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/security/"
+                href="https://apisix.incubator.apache.org/contribute/security/"
                 />
   </url>
   
