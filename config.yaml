@@ -36,10 +36,8 @@ languages:
       navbar:
       - title: Home
         url: /
-      - title: Docs
+      - title: Documentation
         url: https://github.com/apache/incubator-apisix/tree/master/doc
-      - title: Downloads
-        url: /downloads
       - title: Get Involved
         sublinks:
         - title: Subscribe Guide
@@ -70,6 +68,8 @@ languages:
           url: https://www.apache.org/foundation/sponsorship.html
         - title: Thanks
           url: https://www.apache.org/foundation/thanks.html
+      - title: Downloads
+        url: /downloads
       language:
         name: 中
         link: /zh
@@ -97,28 +97,6 @@ languages:
           column1:
             title: "Disclaimer"
             text: Apache APISIX (incubating) is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
-          column2:
-            title: "Documentation"
-            links:
-            - text: Overview
-              link: https://github.com/apache/incubator-apisix#apisix
-            - text: Quick start
-              link: https://github.com/apache/incubator-apisix#quickstart
-            - text: Developer guide
-              link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
-          column3:
-            title: "ASF"
-            links:
-            - text: Foundation
-              link: http://www.apache.org/
-            - text: License
-              link: http://www.apache.org/licenses/
-            - text: Events
-              link: https://apachecon.com/?ref=apisix.incubator.apache.org
-            - text: Sponsorship
-              link: http://www.apache.org/foundation/sponsorship.html
-            - text: Thanks
-              link: http://www.apache.org/foundation/thanks.html
   zh:
     params:
     hero:
@@ -148,8 +126,6 @@ languages:
       url: /zh
     - title: 文档
       url: https://github.com/apache/incubator-apisix/tree/master/doc
-    - title: 下载
-      url: /zh/downloads
     - title: 参与
       sublinks:
       - title: 订阅指南
@@ -180,6 +156,8 @@ languages:
         url: https://www.apache.org/foundation/sponsorship.html
       - title: 致谢
         url: https://www.apache.org/foundation/thanks.html
+    - title: 下载
+      url: /zh/downloads
     language:
         name: EN
         link: /
@@ -207,28 +185,6 @@ languages:
         column1:
           title: "Disclaimer"
           text: Apache APISIX (incubating) is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
-        column2:
-          title: "Documentation"
-          links:
-          - text: Overview
-            link: https://github.com/apache/incubator-apisix#apisix
-          - text: Quick start
-            link: https://github.com/apache/incubator-apisix#quickstart
-          - text: Developer guide
-            link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
-        column3:
-          title: "ASF"
-          links:
-          - text: Foundation
-            link: http://www.apache.org/
-          - text: License
-            link: http://www.apache.org/licenses/
-          - text: Events
-            link: https://apachecon.com/?ref=apisix.incubator.apache.org
-          - text: Sponsorship
-            link: http://www.apache.org/foundation/sponsorship.html
-          - text: Thanks
-            link: http://www.apache.org/foundation/thanks.html
 
 params:
  # Open graph allows easy social sharing. If you don't want it you can set it to false or just delete the variable
@@ -237,7 +193,7 @@ params:
   description:
   navbarlogo:
   # Logo (from static/images/logos/___)
-   image: logos/apisix.svg
+   image: logos/apache_logo.png
    link: /
   font:
     name: "Open Sans"

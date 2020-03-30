@@ -15,3 +15,13 @@
 .warning {
   font-weight: bold;
 }
+
+.navbar.is-fresh .navbar-brand img {
+  width: 300px;
+  height: 122px;
+  max-height: 122px;
+}
+
+.navbar.is-fresh .language-switcher {
+  margin-top: 0;
+}
