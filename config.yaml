@@ -16,7 +16,8 @@ languages:
         title: Apache APISIX
         # Hero subtitle (optional)
         subtitle1: Cloud-native microservices API gateway, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices.
-        subtitle2: APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading, which is especially suitable for API management under micro-service system.
+        subtitle2: Apache APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading, which is especially suitable for API management under micro-service system.
+        subtitle3: Apache releases are beginning from version 0.9. 
         # Button text
         buttontext: View on GitHub
         # Where the main hero button links to
@@ -105,6 +106,7 @@ languages:
       # Hero subtitle (optional)
       subtitle1: 云原生、高性能、可扩展的微服务 API 网关
       subtitle2: 基于 Nginx 和 etcd 来实现，具备动态路由、插件热加载和 gRPC 代理和协议转换功能，更适合微服务体系下的 API 管理
+      subtitle3: Apache release 从 0.9 版本开始
       # Button text
       buttontext: 访问 GitHub
       # Where the main hero button links to
