@@ -56,6 +56,20 @@ languages:
           url: /contribute/2fa
       - title: Team
         url: /team
+      - title: ASF
+        sublinks:
+        - title: Foundation
+          url: https://www.apache.org/
+        - title: License
+          url: https://www.apache.org/licenses/
+        - title: Events
+          url: https://www.apache.org/events/current-event
+        - title: Security
+          url: https://www.apache.org/security/
+        - title: SponsorShip
+          url: https://www.apache.org/foundation/sponsorship.html
+        - title: Thanks
+          url: https://www.apache.org/foundation/thanks.html
       language:
         name: 中
         link: /zh
@@ -152,6 +166,20 @@ languages:
         url: /zh/contribute/2fa
     - title: 团队
       url: /zh/team
+    - title: ASF
+      sublinks:
+      - title: 基金会
+        url: https://www.apache.org/
+      - title: 协议
+        url: https://www.apache.org/licenses/
+      - title: 事件
+        url: https://www.apache.org/events/current-event
+      - title: 安全
+        url: https://www.apache.org/security/
+      - title: 赞助
+        url: https://www.apache.org/foundation/sponsorship.html
+      - title: 致谢
+        url: https://www.apache.org/foundation/thanks.html
     language:
         name: EN
         link: /
