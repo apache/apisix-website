@@ -88,15 +88,21 @@ languages:
         - title: Multi-protocol and multi-platform support
           icon: doc-sync
           text: Supports http to gRPC transcoding, supports websocket, gRPC, Dubbo, MQTT proxy, and supports multiple platforms including ARM64.
-      section3:
-        title: Who Uses Apache APISIX？
-        image: https://raw.githubusercontent.com/iresty/iresty.com/master/user-wall.jpg
       section5: true
       footer:
         quicklinks:
           column1:
             title: "Disclaimer"
             text: Apache APISIX (incubating) is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+          column2:
+            title: "Documentation"
+            links:
+            - text: Overview
+              link: https://github.com/apache/incubator-apisix#apisix
+            - text: Quick start
+              link: https://github.com/apache/incubator-apisix#quickstart
+            - text: Developer guide
+              link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
   zh:
     params:
     hero:
@@ -185,6 +191,15 @@ languages:
         column1:
           title: "Disclaimer"
           text: Apache APISIX (incubating) is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+          column2:
+            title: "Documentation"
+            links:
+            - text: Overview
+              link: https://github.com/apache/incubator-apisix#apisix
+            - text: Quick start
+              link: https://github.com/apache/incubator-apisix#quickstart
+            - text: Developer guide
+              link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
 
 params:
  # Open graph allows easy social sharing. If you don't want it you can set it to false or just delete the variable
