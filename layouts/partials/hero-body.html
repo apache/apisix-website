@@ -2,6 +2,7 @@
 {{- $title      := index $hero "title" }}
 {{- $subtitle1   := index $hero "subtitle1" }}
 {{- $subtitle2   := index $hero "subtitle2" }}
+{{- $subtitle3   := index $hero "subtitle3" }}
 {{- $buttonText := index $hero "buttontext" }}
 {{- $buttonLink := index $hero "buttonlink" }}
 {{- $downloadsButtonText := index $hero "downloadsbuttontext" }}
@@ -22,6 +23,12 @@
         {{ end }}
 
         {{ with $subtitle2 }}
+        <h2 class="subtitle is-4 is-muted">
+          {{ . }}
+        </h2>
+        {{ end }}
+
+        {{ with $subtitle3 }}
         <h2 class="subtitle is-4 is-muted">
           {{ . }}
         </h2>
