@@ -52,6 +52,19 @@ include_footer: true
             href="https://downloads.apache.org/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.sha512">sha512</a>
           )
         </div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.2</div>
+        <div class="flex-row" role="cell">2020 April 20</div>
+        <div class="flex-row" role="cell">
+          <a href="https://downloads.apache.org/incubator/apisix/1.2/">source</a>
+          (
+          <a href="https://downloads.apache.org/incubator/apisix/1.2/apache-apisix-1.2-incubating-src.tar.gz.asc">asc</a>
+          <a
+            href="https://downloads.apache.org/incubator/apisix/1.2/apache-apisix-1.2-incubating-src.tar.gz.sha512">sha512</a>
+          )
+        </div>
+      </div>
     </div>
   </section>
   <section>
