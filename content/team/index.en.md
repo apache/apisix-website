@@ -120,6 +120,13 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>juzhiyuan</div>
         <div class="flex-row" role="cell">Zhiyuan</div>
       </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/sshniro" target="_blank">sshniro</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>sshniro</div>
+        <div class="flex-row" role="cell">Nirojan Selvanathan</div>
+      </div>
     </div>
     <h3 class="subtitle">Committers</h3>
     <p class="description">The following list excludes PPMC members above.</p>
