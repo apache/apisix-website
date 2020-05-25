@@ -34,5 +34,6 @@ jobs:
       with:
         build_dir: public
         target_branch: asf-site
+        keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
