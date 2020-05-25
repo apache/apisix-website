@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Apache APISIX</title>
@@ -16,7 +16,8 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/2fa/</guid>
-      <description></description>
+      <description>Two-factor authentication(2FA) Two factor authentication (2FA) refers to the authentication method that combines both passport and an object (credit card, SMS phone, token or biomarkers as fingerprint) to identify a user. To ensure the security of the committer’s account, we need you to enable 2FA to sign in and contribute codes on GitHub. More details, please refer to 2FA.
+Note:If you do not enable 2FA, you will be removed from the project and unable to access our repositories and the fork from our private repository.</description>
     </item>
     
     <item>
@@ -25,7 +26,7 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/team/</guid>
-      <description></description>
+      <description>成员 PPMC ID GitHub 账户 公开名称  yousa  Miss-you Hui Li  shuaijinchao  shuaijinchao JinChao Shuai  chenjunxu  nic-chen Junxu Chen  tangke  supermario1990 Ke Tang  totemofwolf  totemofwolf Lang Wang  lizhiyong  zhiyong0804 Li Zhiyong  liling  lilien1010 Ling Li  linsir  linsir Linsir Wu  wenming  moonming Ming Wen  wusheng  wu-sheng Sheng Wu  coolsoul  soulsoul Suo Zhang  agile6v  agile6v Wei Liu  liyong  chnliyong Yong Li  membphis  membphis YuanSheng Wang  juzhiyuan  juzhiyuan Zhiyuan  sshniro  sshniro Nirojan Selvanathan   提交者 下列名单不包含上方表格成员。</description>
     </item>
     
     <item>
@@ -34,7 +35,21 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/committer/</guid>
-      <description></description>
+      <description>  加入提交者 Apache APISIX 社区遵照 Apache 社区 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
+流程如下：
+1. 在 @private 邮件列表中发起讨论，注意：当前只有 PMC 可以提名；
+2. 如果投票通过，将发送邀请函以成为提交者，需 CC @private 邮件列表；
+3. 新的提交者签署 ICLA 并提交有意愿的 Apache ID 与邮箱地址；
+4. 更新 团队 页。
+  职责 1. 开发新功能；
+2. 重构代码；
+3. 及时尽责地审阅 PR；
+4. 讨论新的需求；
+5. 回复提问；
+6. 更新文档与示例；
+7. 提升流程与相关工具；
+8. 指导新的贡献者加入社区。
+  </description>
     </item>
     
     <item>
@@ -43,7 +58,12 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/subscribe/</guid>
-      <description></description>
+      <description>  在使用 Apache APISIX 的过程中，若遇到任何问题，或有建议、想法，请大胆地使用 Appache 邮件列表与社区成员互动。
+1. 发送邮件以订阅：使用你的常用邮箱，发送一封包含任意内容的邮件至 dev-subscribe@apisix.apache.org 。
+2. 发送确认订阅邮件：第一步完成后，你将收到一封来自 dev-help@apisix.apache.org 的邮件，（若没有收到，请稍后检查诸如 RSS Feeds、垃圾邮件等选项卡）。接着，请回复任意内容至该邮件，以便完成订阅确认。
+3. 接收欢迎邮件：完成上述步骤后，你将收到一封题为 WELCOME to dev@apisix.apache.org 的邮件，这表示你已成功订阅该邮件列表。
+4. 此后，你将可以通过该邮箱收到 Apache APISIX 最新的邮件，也欢迎你通过邮件列表与社区交流！
+  </description>
     </item>
     
     <item>
@@ -52,7 +72,11 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/contributor/</guid>
-      <description></description>
+      <description>Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
+Submit an issue 1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.
+2. Check the Issue List to make sure the problem is not repeated.
+3. Create a new issue and choose the type of issue.
+4. Define the issue with a clear and descriptive title.</description>
     </item>
     
     <item>
@@ -61,7 +85,8 @@
       <pubDate>Thu, 16 Jan 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/security/</guid>
-      <description></description>
+      <description>The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache Incubator APISIX is also very concerned Security issues related to its features and functionality.
+If you have apprehensions regarding APISIX’s security or you discover vulnerability or potential threat, don’t hesitate to get in touch with the Apache Security Team by dropping a mail at security@apache.org. Please specify the project name as Incubator APISIX and its product name APISIX or APISIX-Dashboard in the email and provide a description of the relevant problem or potential threat.</description>
     </item>
     
     <item>
@@ -70,7 +95,14 @@
       <pubDate>Tue, 07 Jan 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/release/</guid>
-      <description></description>
+      <description>GPG 设置 安装 GPG 在 GnuPG 官网下载安装包。 GnuPG 的 1.x 版本和 2.x 版本的命令有细微差别，下列说明以 GnuPG-2.1.23 版本为例。
+安装完成后，执行以下命令查看版本号。
+1 2  gpg --version    创建 Key 安装完成后，执行以下命令创建key。
+GnuPG-2.x可使用：
+1 2  gpg --full-gen-key    GnuPG-1.x可使用：
+1 2  gpg --gen-key    根据提示完成key：
+注意：请使用Apache mail生成GPG的Key。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  gpg (GnuPG) 2.</description>
     </item>
     
     <item>
@@ -79,7 +111,7 @@
       <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/downloads/</guid>
-      <description>1 2  gpg -i KEYS    &amp;lt;p&amp;gt; or &amp;lt;/p&amp;gt; 1 2  pgpk -a KEYS    &amp;lt;p&amp;gt; or &amp;lt;/p&amp;gt; 1 2  pgp -ka KEYS    &amp;lt;p&amp;gt; To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide. &amp;lt;/p&amp;gt; 1 2  gpg --verify apache-apisix-incubating-********.asc apache-apisix-incubating-*********    &amp;lt;p&amp;gt; or &amp;lt;/p&amp;gt; 1 2  pgpv apache-apisix-incubating-********.</description>
+      <description>Releases Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )   1.0 2020 January 15 source ( asc sha512 )   1.1 2020 February 24 source ( asc sha512 )   1.2 2020 April 20 source ( asc sha512 )   1.</description>
     </item>
     
   </channel>
