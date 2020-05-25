@@ -4,11 +4,7 @@
     
 
 <meta property="og:title" content="Contributor Guide" />
-<meta property="og:description" content="Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
-Submit an issue 1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.
-2. Check the Issue List to make sure the problem is not repeated.
-3. Create a new issue and choose the type of issue.
-4. Define the issue with a clear and descriptive title." />
+<meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://apisix.incubator.apache.org/contribute/contributor/" />
 <meta property="article:published_time" content="2020-03-29T11:46:04+08:00" />
@@ -23,7 +19,7 @@ Submit an issue 1. Before submitting your issues, please go through a comprehens
     
 <link rel="icon" type="image/png" href="/images/favicon.png" />
 <link href="https://fonts.googleapis.com/css?family=Open&#43;Sans:400,600" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/css/style.min.54048238003034db6d186a452bc9c6a16486d96d044cf1a23e2ff5a2d1504f5f.css" integrity="sha256-VASCOAAwNNttGGpFK8nGoWSG2W0ETPGiPi/1otFQT18=">
+<link rel="stylesheet" type="text/css" href="/css/style.min.0716df82c59b46eb0b19ff92fab552fc16c047bf08587a79e580f97e70330158.css" integrity="sha256-BxbfgsWbRusLGf&#43;S&#43;rVS/BbAR78IWHp55YD5fnAzAVg=">
 <link rel="stylesheet" type="text/css" href="/css/icons.css">
 
   </head>
@@ -222,123 +218,7 @@ Submit an issue 1. Before submitting your issues, please go through a comprehens
         <div class="divider"></div>
       </div>
     </div>
-    <div>
-  <p>Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.</p>
-  <br />
-  <h2 class="title">Submit an issue</h2>
-  <p>1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.</p>
-  <p>2. Check the <a href="https://github.com/apache/incubator-apisix/issues" target="_blank">Issue List</a> to make sure the problem is not repeated.</p>
-  <p>3. Create a new issue and choose the type of issue.</p>
-  <p>4. Define the issue with a clear and descriptive title.</p>
-  <p>5. Fill in necessary information according to the template.</p>
-  <p>6. Choose a label after issue created.</p>
-  <p>7. Please pay attention to your issue, you may need provide more information during discussion.</p>
-  <br />
-  <h2 class="title">Developer Flow</h2>
-  <p></p>
-  <h3 class="subtitle">Fork repo</h3>
-  <p>Fork the Apache APISIX repo to your own repo to work, then setting proper upstream.</p>
-  <br />
-  <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">remote</span> <span style="color:#a6e22e">add</span> <span style="color:#a6e22e">upstream</span> <span style="color:#a6e22e">https</span>:<span style="color:#75715e">//github.com/apache/incubator-apisix.git
-</span><span style="color:#75715e"></span>  </code></pre></td></tr></table>
-</div>
-</div>
-  <br />
-  <h3 class="subtitle">Choose an issue</h3>
-  <p></p>
-  <p>1. Please choose your target issue. If it is a new issue discovered or a new function enhancement to offer, please create an issue and set the right label for it.</p>
-  <p>2. After choosing the relevant issue, please reply with a deadline to indicate that you are working on it.</p>
-  <p>3. Find a mentor from <a href="/team">the Team page</a> and your mentor will give you feedback about your PR or issue in time.</p>
-  <br />
-  <h3 class="subtitle">Create your branch</h3>
-  <p></p>
-  <p>Switch to your forked master branch, pull codes from upstream, then create a new branch.</p>
-  <br />
-  <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">checkout</span> <span style="color:#a6e22e">master</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">pull</span> <span style="color:#a6e22e">upstream</span> <span style="color:#a6e22e">master</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">checkout</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">b</span> <span style="color:#a6e22e">IssueNo</span>
-  </code></pre></td></tr></table>
-</div>
-</div>
-  <p></p>
-  <p><strong>Notice:</strong> We will merge PR using squash, commit logs will be different form upstream if you use one older branch.</p>
-  <br />
-  <h3 class="subtitle">Coding</h3>
-  <p></p>
-  <p>1. Please obey the Code of Conduct during the process of development and finish the check before submitting the pull request.</p>
-  <p>2. Then push codes to your fork repo.</p>
-  <br />
-  <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">add</span> <span style="color:#a6e22e">modified</span><span style="color:#f92672">-</span><span style="color:#a6e22e">file</span><span style="color:#f92672">-</span><span style="color:#a6e22e">names</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">commit</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">m</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">push</span> <span style="color:#a6e22e">origin</span> <span style="color:#a6e22e">issueNo</span>
-  </code></pre></td></tr></table>
-</div>
-</div>
-  <br />
-  <h3 class="subtitle">Submit PR</h3>
-  <p></p>
-  <p>1. Send a pull request to the master branch.</p>
-  <p>2. The mentor will do codes review before discussing some details (including the design, the implementation and the performance) with you.</p>
-  <p>3. Then congratulate to you to be an official contributor of Apache APISIX.</p>
-  <br />
-  <h3 class="subtitle">Delete branch</h3>
-  <p></p>
-  <p>You can delete the remote branch (origin/IssueNo) and the local branch (IssueNo) associated with the remote branch (origin/IssueNo) after the mentor merged the PR into the master branch.</p>
-  <br />
-  <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">checkout</span> <span style="color:#a6e22e">master</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">branch</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">d</span> <span style="color:#a6e22e">IssueNo</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">push</span> <span style="color:#a6e22e">origin</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">delete</span> <span style="color:#a6e22e">issueNo</span>
-  </code></pre></td></tr></table>
-</div>
-</div>
-  <br />
-  <h3 class="subtitle">Notice</h3>
-  <p></p>
-  <p>Please note that in order to show your ID in the contributor list, please DO NOT forget to set the configurations below:</p>
-  <br />
-  <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">config</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">global</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span> <span style="color:#e6db74">&#34;username&#34;</span>
-  <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">config</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">global</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">email</span> <span style="color:#e6db74">&#34;mail address&#34;</span>
-  </code></pre></td></tr></table>
-</div>
-</div>
-</div>
+    <!-- raw HTML omitted -->
 
   </div>
 </section>
