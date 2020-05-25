@@ -35,5 +35,6 @@ jobs:
       uses: crazy-max/ghaction-github-pages@v2.0.1
       with:
         build_dir: public
+        target_branch: asf-site
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
