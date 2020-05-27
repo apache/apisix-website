@@ -1,5 +1,5 @@
 baseURL: https://apisix.incubator.apache.org/
-title: Apache APISIX
+title: Apache APISIX (incubating) 
 theme: hugo-fresh
 googleAnalytics: #Put in your tracking code without quotes like this: UA-XXXXXX...
 #Disables warningss
@@ -13,10 +13,10 @@ languages:
     params:
       hero:
         # Main hero title
-        title: Apache APISIX
+        title: Apache APISIX (incubating)
         # Hero subtitle (optional)
         subtitle1: Cloud-native microservices API gateway, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices.
-        subtitle2: Apache APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading, which is especially suitable for API management under micro-service system.
+        subtitle2: Apache APISIX (incubating) is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading, which is especially suitable for API management under micro-service system.
         subtitle3: Apache releases are beginning from version 0.9. 
         # Button text
         buttontext: View on GitHub
@@ -75,7 +75,7 @@ languages:
         name: 中
         link: /zh
       section1:
-        title: Why Apache APISIX？
+        title: Why Apache APISIX (incubating)？
         tiles:
         - title: High availability, safety first
           icon: mouse-globe
@@ -108,7 +108,7 @@ languages:
     params:
     hero:
       # Main hero title
-      title: Apache APISIX
+      title: Apache APISIX (incubating)
       # Hero subtitle (optional)
       subtitle1: 云原生、高性能、可扩展的微服务 API 网关
       subtitle2: 基于 Nginx 和 etcd 来实现，具备动态路由、插件热加载和 gRPC 代理和协议转换功能，更适合微服务体系下的 API 管理
@@ -170,7 +170,7 @@ languages:
         name: EN
         link: /
     section1:
-      title: 为什么选择 Apache APISIX？
+      title: 为什么选择 Apache APISIX (incubating)？
       tiles:
       - title: 高可用，安全第一
         icon: mouse-globe
@@ -185,7 +185,7 @@ languages:
         icon: doc-sync
         text: 支持 http 到 gRPC 的协议转换，支持 websocket、gRPC、Dubbo、MQTT 的代理，支持包括 ARM64 在内的多种平台
     section3:
-      title: 谁在使用 Apache APISIX？
+      title: 谁在使用 Apache APISIX (incubating)？
       image: https://raw.githubusercontent.com/iresty/iresty.com/master/user-wall.jpg
     section5: true
     footer:

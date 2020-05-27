@@ -199,7 +199,7 @@ include_footer: true
   </section>
   <section>
     <h2 class="title">Contributors</h2>
-    <p class="description">You can find all contributors of Apache APISIX from GitHub contribution list.</p>
+    <p class="description">You can find all contributors of Apache APISIX (incubating) from GitHub contribution list.</p>
     <p class="description">
       <a href="https://github.com/apache/incubator-apisix/graphs/contributors">1. incubator-apisix</a>
     </p>
@@ -211,7 +211,7 @@ include_footer: true
   <section>
     <h2 class="title">Becoming a Committer</h2>
     <p class="description">
-      The Apache APISIX community follows the <a href="http://community.apache.org/newcommitter.html">Apache Community’s process</a> on accepting a new committer. After a contributor participates APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.
+      The Apache APISIX (incubating) community follows the <a href="http://community.apache.org/newcommitter.html">Apache Community’s process</a> on accepting a new committer. After a contributor participates APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.
     </p>
     <p>You can read Contributor Guide(TODO) to participate the community, and can get more information on <a href="/contribute/committer/">Committer Guide</a>.</p>
   </section>

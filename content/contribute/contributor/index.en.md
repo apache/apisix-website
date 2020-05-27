@@ -58,7 +58,7 @@ include_footer: true
   <p></p>
   <p>1. Send a pull request to the master branch.</p>
   <p>2. The mentor will do codes review before discussing some details (including the design, the implementation and the performance) with you.</p>
-  <p>3. Then congratulate to you to be an official contributor of Apache APISIX.</p>
+  <p>3. Then congratulation to you to be an official contributor of Apache APISIX (incubating).</p>
   <br />
   <h3 class="subtitle">Delete branch</h3>
   <p></p>
