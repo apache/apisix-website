@@ -28,7 +28,7 @@ include_footer: true
   <br />
   <section>
     <h2 class="title">Promotion</h2>
-    <p>The Apache APISIX community follows the <a href="http://community.apache.org/newcommitter.html">Apache Community’s process</a> on accepting a new committer. After a contributor participates APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.</p>
+    <p>The Apache APISIX (incubating) community follows the <a href="http://community.apache.org/newcommitter.html">Apache Community’s process</a> on accepting a new committer. After a contributor participates APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.</p>
     <p>Processes are:</p>
     <p>1. Start the discussion and vote in @private. Only current PMC member could nominate</p>
     <p>2. If the vote passes, send an offer to become a committer with @private CC’ed</p>

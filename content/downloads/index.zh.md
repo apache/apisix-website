@@ -8,7 +8,7 @@ include_footer: true
   <section>
     <h2 class="title">Releases</h2>
     <p class="description">
-      Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be
+      Apache APISIX (incubating) is released as source code tarballs. The downloads are distributed via mirror sites and should be
       checked for tampering using GPG or SHA-512.
     </p>
     <div class="table-container" role="table" aria-label="Destinations">
