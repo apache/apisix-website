@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Apache APISIX</title>
+    <title>Apache APISIX (incubating)</title>
     <link>https://apisix.incubator.apache.org/</link>
-    <description>Recent content on Apache APISIX</description>
+    <description>Recent content on Apache APISIX (incubating)</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 29 Mar 2020 11:46:04 +0800</lastBuildDate>
     
@@ -56,7 +56,7 @@ Submit an issue 1. Before submitting your issues, please go through a comprehens
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/contribute/subscribe/</guid>
-      <description>During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.
+      <description>During the process of using Apache APISIX (incubating), if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.
 1. Send e-mail to subscribe the mailing-list first. Use your mailbox to send an e-mail to dev-subscribe@apisix.apache.org with any subjects or contents.
 2. Receive and reply the confirmation e-mail. After Step 1, you will receive a confirmation e-mail from dev-help@apisix.</description>
     </item>
@@ -102,7 +102,7 @@ GnuPG-2.x可使用：
       <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/downloads/</guid>
-      <description>Releases Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )   1.0 2020 January 15 source ( asc sha512 )   1.1 2020 February 24 source ( asc sha512 )   1.2 2020 April 20 source ( asc sha512 )   1.</description>
+      <description>Releases Apache APISIX (incubating) is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )   1.0 2020 January 15 source ( asc sha512 )   1.1 2020 February 24 source ( asc sha512 )   1.2 2020 April 20 source ( asc sha512 )   1.</description>
     </item>
     
   </channel>

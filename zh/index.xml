@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Apache APISIX</title>
+    <title>Apache APISIX (incubating)</title>
     <link>https://apisix.incubator.apache.org/zh/</link>
-    <description>Recent content on Apache APISIX</description>
+    <description>Recent content on Apache APISIX (incubating)</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 29 Mar 2020 11:46:04 +0800</lastBuildDate>
     
@@ -35,7 +35,7 @@ Note:If you do not enable 2FA, you will be removed from the project and unable t
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/committer/</guid>
-      <description>  加入提交者 Apache APISIX 社区遵照 Apache 社区 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
+      <description>  加入提交者 Apache APISIX (incubating) 社区遵照 Apache 社区 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
 流程如下：
 1. 在 @private 邮件列表中发起讨论，注意：当前只有 PMC 可以提名；
 2. 如果投票通过，将发送邀请函以成为提交者，需 CC @private 邮件列表；
@@ -58,11 +58,11 @@ Note:If you do not enable 2FA, you will be removed from the project and unable t
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/contribute/subscribe/</guid>
-      <description>  在使用 Apache APISIX 的过程中，若遇到任何问题，或有建议、想法，请大胆地使用 Appache 邮件列表与社区成员互动。
+      <description>  在使用 Apache APISIX (incubating) 的过程中，若遇到任何问题，或有建议、想法，请大胆地使用 Appache 邮件列表与社区成员互动。
 1. 发送邮件以订阅：使用你的常用邮箱，发送一封包含任意内容的邮件至 dev-subscribe@apisix.apache.org 。
 2. 发送确认订阅邮件：第一步完成后，你将收到一封来自 dev-help@apisix.apache.org 的邮件，（若没有收到，请稍后检查诸如 RSS Feeds、垃圾邮件等选项卡）。接着，请回复任意内容至该邮件，以便完成订阅确认。
 3. 接收欢迎邮件：完成上述步骤后，你将收到一封题为 WELCOME to dev@apisix.apache.org 的邮件，这表示你已成功订阅该邮件列表。
-4. 此后，你将可以通过该邮箱收到 Apache APISIX 最新的邮件，也欢迎你通过邮件列表与社区交流！
+4. 此后，你将可以通过该邮箱收到 Apache APISIX (incubating) 最新的邮件，也欢迎你通过邮件列表与社区交流！
   </description>
     </item>
     
@@ -111,7 +111,7 @@ GnuPG-2.x可使用：
       <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
       
       <guid>https://apisix.incubator.apache.org/zh/downloads/</guid>
-      <description>Releases Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )   1.0 2020 January 15 source ( asc sha512 )   1.1 2020 February 24 source ( asc sha512 )   1.2 2020 April 20 source ( asc sha512 )   1.</description>
+      <description>Releases Apache APISIX (incubating) is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019 November 24 source ( asc sha512 )   1.0 2020 January 15 source ( asc sha512 )   1.1 2020 February 24 source ( asc sha512 )   1.2 2020 April 20 source ( asc sha512 )   1.</description>
     </item>
     
   </channel>
