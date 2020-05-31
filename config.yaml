@@ -45,6 +45,8 @@ languages:
           url: /contribute/subscribe
         - title: Contributor Guide
           url: /contribute/contributor
+        - title: GitHub Issue Tracker
+          url: https://github.com/apache/incubator-apisix/issues
         - title: Committer Guide
           url: /contribute/committer
         - title: Release Guide
@@ -140,6 +142,8 @@ languages:
         url: /zh/contribute/subscribe
       - title: 贡献者指南
         url: /zh/contribute/contributor
+      - title: GitHub Issue Tracker
+        url: https://github.com/apache/incubator-apisix/issues
       - title: 提交者指南
         url: /zh/contribute/committer
       - title: 发布指南
