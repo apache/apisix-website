@@ -376,7 +376,7 @@ GnuPG-2.x可使用：
 </span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">gpg</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">list</span><span style="color:#f92672">-</span><span style="color:#a6e22e">keys</span>
     <span style="color:#f92672">/</span><span style="color:#a6e22e">home</span><span style="color:#f92672">/</span><span style="color:#a6e22e">resty</span><span style="color:#f92672">/</span>.<span style="color:#a6e22e">gnupg</span><span style="color:#f92672">/</span><span style="color:#a6e22e">pubring</span>.<span style="color:#a6e22e">gpg</span>
     <span style="color:#f92672">------------------------------</span>
-    <span style="color:#a6e22e">pub</span>   <span style="color:#ae81ff">4096</span><span style="color:#a6e22e">R</span><span style="color:#f92672">/</span><span style="color:#ae81ff">30</span><span style="color:#a6e22e">B5FD72</span> <span style="color:#ae81ff">2020</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>      
+    <span style="color:#a6e22e">pub</span>   <span style="color:#ae81ff">4096</span><span style="color:#a6e22e">R</span><span style="color:#f92672">/</span><span style="color:#ae81ff">30</span><span style="color:#a6e22e">B5FD72</span> <span style="color:#ae81ff">2020</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>
     <span style="color:#a6e22e">uid</span>   <span style="color:#a6e22e">Yuansheng</span> <span style="color:#a6e22e">Wang</span> &lt;<span style="color:#a6e22e">membphis</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">apache</span>.<span style="color:#a6e22e">org</span>&gt;
     <span style="color:#a6e22e">sub</span>   <span style="color:#ae81ff">4096</span><span style="color:#a6e22e">R</span><span style="color:#f92672">/</span><span style="color:#ae81ff">3</span><span style="color:#a6e22e">D2F913D</span> <span style="color:#ae81ff">2020</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>
     </code></pre></td></tr></table>
@@ -449,7 +449,7 @@ GnuPG-2.x可使用：
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">cd</span> <span style="color:#a6e22e">apisix</span> 
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">cd</span> <span style="color:#a6e22e">apisix</span>
     <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">ls</span>
     <span style="color:#a6e22e">KEYS</span>
     </code></pre></td></tr></table>
@@ -558,7 +558,7 @@ GnuPG-2.x可使用：
     <span style="color:#a6e22e">KEYS</span>
 
     <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">新建版本号目录并进入</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">比如</span><span style="color:#960050;background-color:#1e0010">：</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rc1</span>
-    <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">mkdir</span> <span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rc1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cd</span> <span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rc1</span> 
+    <span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#a6e22e">mkdir</span> <span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rc1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cd</span> <span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rc1</span>
 
     <span style="color:#960050;background-color:#1e0010">#</span> <span style="color:#a6e22e">下载安装包</span>
     <span style="color:#a6e22e">git</span> <span style="color:#a6e22e">clone</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">b</span> <span style="color:#a6e22e">v1</span><span style="color:#ae81ff">.0</span> <span style="color:#a6e22e">git</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span>:<span style="color:#a6e22e">apache</span><span style="color:#f92672">/</span><span style="color:#a6e22e">incubator</span><span style="color:#f92672">-</span><span style="color:#a6e22e">apisix</span>.<span style="color:#a6e22e">git</span> <span style="color:#a6e22e">apache</span><span style="color:#f92672">-</span><span style="color:#a6e22e">apisix</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#a6e22e">incubating</span>
@@ -613,13 +613,13 @@ GnuPG-2.x可使用：
     </code></pre></td></tr></table>
 </div>
 </div>
-    <h3 class="subtitle">发投票邮件</h3>
+    <h3 class="subtitle">发投票邮件到 dev 邮件列表</h3>
     <p><a href="https://lists.apache.org/thread.html/4d45dcbeecd0bb70f8010db3d075a5624817a5783beee66f392ae5e0%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
     <h3 class="subtitle">统计投票结果</h3>
     <p><a href="https://lists.apache.org/thread.html/r8c6e14ea1a0c79b5dfb1dba0e1b6bc919a4797a0c4664f8add3b045c%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 dev@apisix.apache.org。</p>
-    <h3 class="subtitle">再次发起投票邮件</h3>
+    <h3 class="subtitle">发起投票邮件到孵化器邮件列表</h3>
     <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXH7e-CfxXBr5fuPsEAsfMXU4jGs4L7EM2qz+zTcHP=u1w@mail.gmail.com%3e">点击此处查看参考邮件</a> 在 general@incubator.apache.org 发起投票邮件，同时需要将在 dev@apisix.apache.org 邮件列表中的统计结果附加到此封邮件，主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
-    <h3 class="subtitle">再次统计投票结果</h3>
+    <h3 class="subtitle">统计孵化器的投票结果</h3>
     <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXFAL247-9u4ehaBxrEzHKjYkzhH2iZuiU2jdTx7zG4bzw@mail.gmail.com%3e">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 general@incubator.apache.org。</p>
     <h3 class="subtitle">发 announce 邮件</h3>
     <p><a href="https://lists.apache.org/thread.html/r67093ed9a5fbe106dc5066c283f225544f5ae14248df061019d1062e%40%3Cgeneral.incubator.apache.org%3E">点击此处查看参考邮件</a> 在 dev@apisix.apache.org 和 general@incubator.apache.org 两个邮件列表发起 announce 邮件</p>
