@@ -39,7 +39,7 @@ include_footer: true
     $ gpg --list-keys
     /home/resty/.gnupg/pubring.gpg
     ------------------------------
-    pub   4096R/30B5FD72 2020-01-02      
+    pub   4096R/30B5FD72 2020-01-02
     uid   Yuansheng Wang <membphis@apache.org>
     sub   4096R/3D2F913D 2020-01-02
     {{< / highlight >}}
@@ -73,7 +73,7 @@ include_footer: true
     {{< / highlight >}}
     <p>进入 apisix 目录并查看其中文件:</p>
     {{< highlight go "linenos=table" >}}
-    $ cd apisix 
+    $ cd apisix
     $ ls
     KEYS
     {{< / highlight >}}
@@ -99,7 +99,7 @@ include_footer: true
     KEYS
 
     # 新建版本号目录并进入，比如：1.0-rc1
-    $ mkdir 1.0-rc1 && cd 1.0-rc1 
+    $ mkdir 1.0-rc1 && cd 1.0-rc1
 
     # 下载安装包
     git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0-incubating
@@ -152,13 +152,13 @@ include_footer: true
     Transmitting file data ...
     Committed revision 37435.
     {{< / highlight >}}
-    <h3 class="subtitle">发投票邮件</h3>
+    <h3 class="subtitle">发投票邮件到 dev 邮件列表</h3>
     <p><a href="https://lists.apache.org/thread.html/4d45dcbeecd0bb70f8010db3d075a5624817a5783beee66f392ae5e0%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
     <h3 class="subtitle">统计投票结果</h3>
     <p><a href="https://lists.apache.org/thread.html/r8c6e14ea1a0c79b5dfb1dba0e1b6bc919a4797a0c4664f8add3b045c%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 dev@apisix.apache.org。</p>
-    <h3 class="subtitle">再次发起投票邮件</h3>
+    <h3 class="subtitle">发起投票邮件到孵化器邮件列表</h3>
     <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXH7e-CfxXBr5fuPsEAsfMXU4jGs4L7EM2qz+zTcHP=u1w@mail.gmail.com%3e">点击此处查看参考邮件</a> 在 general@incubator.apache.org 发起投票邮件，同时需要将在 dev@apisix.apache.org 邮件列表中的统计结果附加到此封邮件，主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
-    <h3 class="subtitle">再次统计投票结果</h3>
+    <h3 class="subtitle">统计孵化器的投票结果</h3>
     <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXFAL247-9u4ehaBxrEzHKjYkzhH2iZuiU2jdTx7zG4bzw@mail.gmail.com%3e">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 general@incubator.apache.org。</p>
     <h3 class="subtitle">发 announce 邮件</h3>
     <p><a href="https://lists.apache.org/thread.html/r67093ed9a5fbe106dc5066c283f225544f5ae14248df061019d1062e%40%3Cgeneral.incubator.apache.org%3E">点击此处查看参考邮件</a> 在 dev@apisix.apache.org 和 general@incubator.apache.org 两个邮件列表发起 announce 邮件</p>
