@@ -78,7 +78,7 @@ include_footer: true
         </div>
       </div>
       <div class="flex-table row" role="rowgroup">
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.3</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.4</div>
         <div class="flex-row" role="cell">2020 June 29</div>
         <div class="flex-row" role="cell">
           <a href="https://downloads.apache.org/incubator/apisix/1.4/">source</a>
