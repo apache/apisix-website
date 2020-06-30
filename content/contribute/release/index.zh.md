@@ -163,7 +163,7 @@ include_footer: true
     <h3 class="subtitle">发 announce 邮件</h3>
     <p><a href="https://lists.apache.org/thread.html/r67093ed9a5fbe106dc5066c283f225544f5ae14248df061019d1062e%40%3Cgeneral.incubator.apache.org%3E">点击此处查看参考邮件</a> 在 dev@apisix.apache.org 和 general@incubator.apache.org 两个邮件列表发起 announce 邮件</p>
     <h3 class="subtitle">将安装包从 dev 移动到 release 目录下</h3>
-    <p>包名中的RC去掉后，将 KEYS 文件以及安装包移动到 <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/">此地址</a></p>
+    <p>去掉包名中的 RC，将 KEYS 文件以及安装包移动到 <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/">此地址</a></p>
     <h3 class="subtitle">更新下载信息</h3>
     <p>更新<a href="http://apisix.apache.org/downloads/">此地址</a> 的下载信息，源码在 https://github.com/apache/incubator-apisix-website</p>
   </section>
