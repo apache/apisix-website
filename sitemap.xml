@@ -2,14 +2,14 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
 	<sitemap>
-	   	<loc>https://apisix.incubator.apache.org/en/sitemap.xml</loc>
+	   	<loc>https://apisix.apache.org/en/sitemap.xml</loc>
 		
 	   	<lastmod>2020-03-29T11:46:04+08:00</lastmod>
 		
 	</sitemap>
 	
 	<sitemap>
-	   	<loc>https://apisix.incubator.apache.org/zh/sitemap.xml</loc>
+	   	<loc>https://apisix.apache.org/zh/sitemap.xml</loc>
 		
 	   	<lastmod>2020-03-29T11:46:04+08:00</lastmod>
 		

@@ -3,180 +3,180 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/</loc>
+    <loc>https://apisix.apache.org/zh/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/"
+                href="https://apisix.apache.org/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/"
+                href="https://apisix.apache.org/zh/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/"
+                href="https://apisix.apache.org/contribute/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/"
+                href="https://apisix.apache.org/zh/contribute/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/2fa/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/2fa/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/2fa/"
+                href="https://apisix.apache.org/contribute/2fa/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/2fa/"
+                href="https://apisix.apache.org/zh/contribute/2fa/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/team/</loc>
+    <loc>https://apisix.apache.org/zh/team/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/team/"
+                href="https://apisix.apache.org/team/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/team/"
+                href="https://apisix.apache.org/zh/team/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/committer/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/committer/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/committer/"
+                href="https://apisix.apache.org/contribute/committer/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/committer/"
+                href="https://apisix.apache.org/zh/contribute/committer/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/subscribe/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/subscribe/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/subscribe/"
+                href="https://apisix.apache.org/contribute/subscribe/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/subscribe/"
+                href="https://apisix.apache.org/zh/contribute/subscribe/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/contributor/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/contributor/</loc>
     <lastmod>2020-03-29T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/contributor/"
+                href="https://apisix.apache.org/contribute/contributor/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/contributor/"
+                href="https://apisix.apache.org/zh/contribute/contributor/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/security/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/security/</loc>
     <lastmod>2020-01-16T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/security/"
+                href="https://apisix.apache.org/contribute/security/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/security/"
+                href="https://apisix.apache.org/zh/contribute/security/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/contribute/release/</loc>
+    <loc>https://apisix.apache.org/zh/contribute/release/</loc>
     <lastmod>2020-01-07T11:46:04+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/contribute/release/"
+                href="https://apisix.apache.org/contribute/release/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/contribute/release/"
+                href="https://apisix.apache.org/zh/contribute/release/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/downloads/</loc>
+    <loc>https://apisix.apache.org/zh/downloads/</loc>
     <lastmod>2019-11-26T23:48:02+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/downloads/"
+                href="https://apisix.apache.org/downloads/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/downloads/"
+                href="https://apisix.apache.org/zh/downloads/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/categories/</loc>
+    <loc>https://apisix.apache.org/zh/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/categories/"
+                href="https://apisix.apache.org/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/categories/"
+                href="https://apisix.apache.org/zh/categories/"
                 />
   </url>
   
   <url>
-    <loc>https://apisix.incubator.apache.org/zh/tags/</loc>
+    <loc>https://apisix.apache.org/zh/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://apisix.incubator.apache.org/tags/"
+                href="https://apisix.apache.org/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://apisix.incubator.apache.org/zh/tags/"
+                href="https://apisix.apache.org/zh/tags/"
                 />
   </url>
   
