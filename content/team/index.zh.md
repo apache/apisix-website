@@ -201,17 +201,17 @@ include_footer: true
     <h2 class="title">贡献者</h2>
     <p class="description">你可以在下方链接中查看所有贡献者：</p>
     <p class="description">
-      <a href="https://github.com/apache/incubator-apisix/graphs/contributors">1. incubator-apisix</a>
+      <a href="https://github.com/apache/incubator-apisix/graphs/contributors">1. apisix</a>
     </p>
     <p class="description">
-      <a href="https://github.com/apache/incubator-apisix-dashboard/graphs/contributors">2. incubator-apisix-dashboard</a>
+      <a href="https://github.com/apache/incubator-apisix-dashboard/graphs/contributors">2. apisix-dashboard</a>
     </p>
   </section>
   <p class="description">&nbsp;</p>
   <section>
     <h2 class="title">成为提交者</h2>
     <p class="description">
-      Apache APISIX (incubating) 社区遵照 <a href="http://community.apache.org/newcommitter.html">Apache 社区</a> 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
+      Apache APISIX 社区遵照 <a href="http://community.apache.org/newcommitter.html">Apache 社区</a> 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
     </p>
     <p>你可以阅读贡献指南（TODO）以了解如何参加社区，也可以从 <a href="/zh/contribute/committer/">提交者指南</a> 了解如何成为提交者。</p>
   </section>

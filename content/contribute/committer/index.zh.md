@@ -7,7 +7,7 @@ include_footer: true
 <div>
   <section>
     <h2 class="title">加入提交者</h2>
-    <p>Apache APISIX (incubating) 社区遵照 <a href="http://community.apache.org/newcommitter.html">Apache 社区</a> 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。</p>
+    <p>Apache APISIX 社区遵照 <a href="http://community.apache.org/newcommitter.html">Apache 社区</a> 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。</p>
     <p>流程如下：</p>
     <p>1. 在 @private 邮件列表中发起讨论，注意：当前只有 PMC 可以提名；</p>
     <p>2. 如果投票通过，将发送邀请函以成为提交者，需 CC @private 邮件列表；</p>
