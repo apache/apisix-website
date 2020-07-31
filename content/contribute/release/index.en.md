@@ -67,7 +67,7 @@ include_footer: true
     <h3 class="subtitle">Add your GPG key to Apache svn</h3>
     <p>download APISIX svn</p>
     {{< highlight go "linenos=table" >}}
-    $ svn --username=${Apache username} co https://dist.apache.org/repos/dist/dev/incubator/apisix
+    $ svn --username=${Apache username} co https://dist.apache.org/repos/dist/dev/apisix
     {{< / highlight >}}
     {{< highlight go "linenos=table" >}}
     $ cd apisix
@@ -96,33 +96,33 @@ include_footer: true
     $ mkdir 1.0-rc1 && cd 1.0-rc1
 
     # download repo
-    git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0-incubating
+    git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0
 
     # check version
-    $ cd apache-apisix-1.0-incubating && ./utils/check-version.sh 1.0 && cd ..
+    $ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
 
     # delete .git
-    $ rm -rf apache-apisix-1.0-incubating/.git
+    $ rm -rf apache-apisix-1.0/.git
 
     # make tar package
-    $ tar zcvf apache-apisix-1.0-rc1-incubating-src.tar.gz apache-apisix-1.0-incubating
+    $ tar zcvf apache-apisix-1.0-rc1-src.tar.gz apache-apisix-1.0
 
     # Signature (this brings up a dialog box that prompts you to enter the password you entered when generating the gpg)
-    $ gpg --armor --detach-sign apache-apisix-1.0-rc1-incubating-src.tar.gz
+    $ gpg --armor --detach-sign apache-apisix-1.0-rc1-src.tar.gz
 
     # Generate sha512 checksum file
-    $ shasum -a512 apache-apisix-1.0-rc1-incubating-src.tar.gz > apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    $ shasum -a512 apache-apisix-1.0-rc1-src.tar.gz > apache-apisix-1.0-rc1-src.tar.gz.sha512
 
-    # remove apache-apisix-1.0-rc1-incubating
-    $ rm -rf apache-apisix-1.0-incubating
+    # remove apache-apisix-1.0-rc1
+    $ rm -rf apache-apisix-1.0
 
     # check files
     $ cd .. && tree
     .
     ├── 1.0-rc1
-    │   ├── apache-apisix-1.0-rc1-incubating-src.tar.gz
-    │   ├── apache-apisix-1.0-rc1-incubating-src.tar.gz.asc
-    │   └── apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    │   ├── apache-apisix-1.0-rc1-src.tar.gz
+    │   ├── apache-apisix-1.0-rc1-src.tar.gz.asc
+    │   └── apache-apisix-1.0-rc1-src.tar.gz.sha512
     └── KEYS
 
     1 directory, 4 files
@@ -130,9 +130,9 @@ include_footer: true
     # add files to SVN
     $ svn add *
     A         1.0-rc1
-    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.asc
-    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz
-    A         1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.asc
+    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz
+    A         1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.sha512
     svn: warning: W150002: '/home/resty/git/apache_svn/apisix/KEYS' is already under version control
     svn: E200009: Could not add all targets because some targets are already versioned
     svn: E200009: Illegal target for the requested operation
@@ -140,24 +140,23 @@ include_footer: true
     # commit to Apache SVN
     $ svn --username=${Apache username} commit -m "release 1.0-rc1"
     Adding         1.0-rc1
-    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz
-    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.asc
-    Adding         1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz
+    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.asc
+    Adding         1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.sha512
     Transmitting file data ...
     Committed revision 37435.
     {{< / highlight >}}
     <h3 class="subtitle">Send vote thread to dev mailinglist</h3>
-    <p><a href="https://lists.apache.org/thread.html/4d45dcbeecd0bb70f8010db3d075a5624817a5783beee66f392ae5e0%40%3Cdev.apisix.apache.org%3E">Click here to view the reference email</a>There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue. </p>
+    <p><a href="https://lists.apache.org/thread.html/r19d355210af8e9459e3e7a72578c511a13b226e5214ade3edf41c965%40%3Cdev.apisix.apache.org%3E">Click here to view the reference email</a>There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue. </p>
+
     <h3 class="subtitle">Send vote result thread to dev mailinglist</h3>
-    <p><a href="https://lists.apache.org/thread.html/r8c6e14ea1a0c79b5dfb1dba0e1b6bc919a4797a0c4664f8add3b045c%40%3Cdev.apisix.apache.org%3E">Click here to view the reference email</a> at least 3 `+1` votes is required, then send the vote result to dev@apisix.apache.org. </p>
-    <h3 class="subtitle">Send vote thread to the incubator mailing list</h3>
-    <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXH7e-CfxXBr5fuPsEAsfMXU4jGs4L7EM2qz+zTcHP=u1w@mail.gmail.com%3e">Click here to view the reference email</a> send vote thread to general@incubator.apache.org and add link of vote result of dev@apisix.apache.org in this new thread.</p>
-    <h3 class="subtitle">Send vote result</h3>
-    <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXFAL247-9u4ehaBxrEzHKjYkzhH2iZuiU2jdTx7zG4bzw@mail.gmail.com%3e">Click here to view the reference email</a> There is a minimum wait of 72 hours before statistical voting results, and You need at least 3 binding `+1` votes from IPMCs(If there are less than 3 binding votes, the result email cannot be sent), then you can sent the result to general@incubator.apache.org. </p>
+    <p><a href="https://lists.apache.org/thread.html/r567ee0a770f92032d85ea1621bc756772e6d0ab033f299642f1f623d%40%3Cdev.apisix.apache.org%3E">Click here to view the reference email</a> at least 3 `+1` votes is required, then send the vote result to dev@apisix.apache.org. </p>
+
     <h3 class="subtitle">send announce</h3>
-    <p><a href="https://lists.apache.org/thread.html/r67093ed9a5fbe106dc5066c283f225544f5ae14248df061019d1062e%40%3Cgeneral.incubator.apache.org%3E">Click here to view the reference email</a> send announce email to dev@apisix.apache.org and general@incubator.apache.org </p>
+    <p><a href="https://lists.apache.org/thread.html/r612cf8db32ca15a1ca73167e3baf89ca9ab30100368b200d495d39a3%40%3Cdev.apisix.apache.org%3E">Click here to view the reference email</a> send announce email to dev@apisix.apache.org and announce@apache.org </p>
+
     <h3 class="subtitle">move package from dev to dist</h3>
-    <p>Remove `rc` from the package name, move KEYS and package to <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/"> address </a></p>
+    <p>Remove `rc` from the package name, move KEYS and package to <a href="https://dist.apache.org/repos/dist/release/apisix/"> address </a></p>
     <h3 class="subtitle">update download page</h3>
     <p>update <a href="http://apisix.apache.org/downloads/"> address </a>, source repo is https://github.com/apache/incubator-apisix-website</p>
   </section>
