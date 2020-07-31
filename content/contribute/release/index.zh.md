@@ -69,7 +69,7 @@ include_footer: true
     <h3 class="subtitle">Apache svn 中添加自己的 GPG 公钥</h3>
     <p>下载 svn 目录</p>
     {{< highlight go "linenos=table" >}}
-    $ svn --username=${Apache 用户名} co https://dist.apache.org/repos/dist/dev/incubator/apisix
+    $ svn --username=${Apache 用户名} co https://dist.apache.org/repos/dist/dev/apisix
     {{< / highlight >}}
     <p>进入 apisix 目录并查看其中文件:</p>
     {{< highlight go "linenos=table" >}}
@@ -102,33 +102,33 @@ include_footer: true
     $ mkdir 1.0-rc1 && cd 1.0-rc1
 
     # 下载安装包
-    git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0-incubating
+    git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0
 
     # 检查版本号
-    $ cd apache-apisix-1.0-incubating && ./utils/check-version.sh 1.0 && cd ..
+    $ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
 
     # 删除 .git 文件夹
-    $ rm -rf apache-apisix-1.0-incubating/.git
+    $ rm -rf apache-apisix-1.0/.git
 
     # 制作压缩包
-    $ tar zcvf apache-apisix-1.0-rc1-incubating-src.tar.gz apache-apisix-1.0-incubating
+    $ tar zcvf apache-apisix-1.0-rc1-src.tar.gz apache-apisix-1.0
 
     # 制作签名（这步会弹出对话框，提示你输入生成 gpg 时录入的密码）
-    $ gpg --armor --detach-sign apache-apisix-1.0-rc1-incubating-src.tar.gz
+    $ gpg --armor --detach-sign apache-apisix-1.0-rc1-src.tar.gz
 
     # 生成 sha512 校验文件
-    $ shasum -a512 apache-apisix-1.0-rc1-incubating-src.tar.gz > apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    $ shasum -a512 apache-apisix-1.0-rc1-src.tar.gz > apache-apisix-1.0-rc1-src.tar.gz.sha512
 
-    # 删除 apache-apisix-1.0-rc1-incubating
-    $ rm -rf apache-apisix-1.0-incubating
+    # 删除 apache-apisix-1.0-rc1
+    $ rm -rf apache-apisix-1.0
 
     # 后退到 Apache svn 的 apisix 根目录，并确认文件目录
     $ cd .. && tree
     .
     ├── 1.0-rc1
-    │   ├── apache-apisix-1.0-rc1-incubating-src.tar.gz
-    │   ├── apache-apisix-1.0-rc1-incubating-src.tar.gz.asc
-    │   └── apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    │   ├── apache-apisix-1.0-rc1-src.tar.gz
+    │   ├── apache-apisix-1.0-rc1-src.tar.gz.asc
+    │   └── apache-apisix-1.0-rc1-src.tar.gz.sha512
     └── KEYS
 
     1 directory, 4 files
@@ -136,9 +136,9 @@ include_footer: true
     # 添加新文件到 svn
     $ svn add *
     A         1.0-rc1
-    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.asc
-    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz
-    A         1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.asc
+    A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz
+    A         1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.sha512
     svn: warning: W150002: '/home/resty/git/apache_svn/apisix/KEYS' is already under version control
     svn: E200009: Could not add all targets because some targets are already versioned
     svn: E200009: Illegal target for the requested operation
@@ -146,24 +146,20 @@ include_footer: true
     # 提交修改到 Apache svn 服务器
     $ svn --username=${Apache 用户名} commit -m "release 1.0-rc1"
     Adding         1.0-rc1
-    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz
-    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.asc
-    Adding         1.0-rc1/apache-apisix-1.0-rc1-incubating-src.tar.gz.sha512
+    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz
+    Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.asc
+    Adding         1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.sha512
     Transmitting file data ...
     Committed revision 37435.
     {{< / highlight >}}
     <h3 class="subtitle">发投票邮件到 dev 邮件列表</h3>
-    <p><a href="https://lists.apache.org/thread.html/4d45dcbeecd0bb70f8010db3d075a5624817a5783beee66f392ae5e0%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
+    <p><a href="https://lists.apache.org/thread.html/r19d355210af8e9459e3e7a72578c511a13b226e5214ade3edf41c965%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
     <h3 class="subtitle">统计投票结果</h3>
-    <p><a href="https://lists.apache.org/thread.html/r8c6e14ea1a0c79b5dfb1dba0e1b6bc919a4797a0c4664f8add3b045c%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 dev@apisix.apache.org。</p>
-    <h3 class="subtitle">发起投票邮件到孵化器邮件列表</h3>
-    <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXH7e-CfxXBr5fuPsEAsfMXU4jGs4L7EM2qz+zTcHP=u1w@mail.gmail.com%3e">点击此处查看参考邮件</a> 在 general@incubator.apache.org 发起投票邮件，同时需要将在 dev@apisix.apache.org 邮件列表中的统计结果附加到此封邮件，主要参考内容：邮件发送人（apache 邮箱）、邮件标题、邮件正文（主要是修改版本号和链接地址）。</p>
-    <h3 class="subtitle">统计孵化器的投票结果</h3>
-    <p><a href="http://mail-archives.apache.org/mod_mbox/incubator-general/202004.mbox/%3cCABZgMXFAL247-9u4ehaBxrEzHKjYkzhH2iZuiU2jdTx7zG4bzw@mail.gmail.com%3e">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 general@incubator.apache.org。</p>
+    <p><a href="https://lists.apache.org/thread.html/r567ee0a770f92032d85ea1621bc756772e6d0ab033f299642f1f623d%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 发起投票邮件后需要等待72小时，然后统计投票结果并发送一封 result 邮件到 dev@apisix.apache.org。</p>
     <h3 class="subtitle">发 announce 邮件</h3>
-    <p><a href="https://lists.apache.org/thread.html/r67093ed9a5fbe106dc5066c283f225544f5ae14248df061019d1062e%40%3Cgeneral.incubator.apache.org%3E">点击此处查看参考邮件</a> 在 dev@apisix.apache.org 和 general@incubator.apache.org 两个邮件列表发起 announce 邮件</p>
+    <p><a href="https://lists.apache.org/thread.html/r612cf8db32ca15a1ca73167e3baf89ca9ab30100368b200d495d39a3%40%3Cdev.apisix.apache.org%3E">点击此处查看参考邮件</a> 在 dev@apisix.apache.org 和 announce@apache.org 两个邮件列表发起 announce 邮件</p>
     <h3 class="subtitle">将安装包从 dev 移动到 release 目录下</h3>
-    <p>去掉包名中的 RC，将 KEYS 文件以及安装包移动到 <a href="https://dist.apache.org/repos/dist/release/incubator/apisix/">此地址</a></p>
+    <p>去掉包名中的 RC，将 KEYS 文件以及安装包移动到 <a href="https://dist.apache.org/repos/dist/release/apisix/">此地址</a></p>
     <h3 class="subtitle">更新下载信息</h3>
     <p>更新<a href="http://apisix.apache.org/downloads/">此地址</a> 的下载信息，源码在 https://github.com/apache/incubator-apisix-website</p>
   </section>
