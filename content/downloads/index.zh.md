@@ -19,9 +19,9 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>0.9</div>
-        <div class="flex-row" role="cell">2019 November 24</div>
+        <div class="flex-row" role="cell">2019-11-24</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/incubator/apisix/0.9/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/0.9/">源码</a>
           (
           <a href="https://downloads.apache.org/incubator/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -31,9 +31,9 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.0</div>
-        <div class="flex-row" role="cell">2020 January 15</div>
+        <div class="flex-row" role="cell">2020-01-15</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/incubator/apisix/1.0/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.0/">源码</a>
           (
           <a href="https://downloads.apache.org/incubator/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -43,9 +43,9 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.1</div>
-        <div class="flex-row" role="cell">2020 February 24</div>
+        <div class="flex-row" role="cell">2020-02-24</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/incubator/apisix/1.1/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.1/">源码</a>
           (
           <a href="https://downloads.apache.org/incubator/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -55,9 +55,9 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.2</div>
-        <div class="flex-row" role="cell">2020 April 20</div>
+        <div class="flex-row" role="cell">2020-04-20</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/incubator/apisix/1.2/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.2/">源码</a>
           (
           <a href="https://downloads.apache.org/incubator/apisix/1.2/apache-apisix-1.2-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -67,9 +67,9 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.3</div>
-        <div class="flex-row" role="cell">2020 May 24</div>
+        <div class="flex-row" role="cell">2020-05-24</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/incubator/apisix/1.3/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.3/">源码</a>
           (
           <a href="https://downloads.apache.org/incubator/apisix/1.3/apache-apisix-1.3-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -79,9 +79,9 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.4</div>
-        <div class="flex-row" role="cell">2020 June 29</div>
+        <div class="flex-row" role="cell">2020-06-29</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/incubator/apisix/1.4/">source</a>
+          <a href="https://downloads.apache.org/incubator/apisix/1.4/">源码</a>
           (
           <a href="https://downloads.apache.org/incubator/apisix/1.4/apache-apisix-1.4-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -91,13 +91,25 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.4.1</div>
-        <div class="flex-row" role="cell">2020 July 20</div>
+        <div class="flex-row" role="cell">2020-07-20</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/1.4.1/">source</a>
+          <a href="https://downloads.apache.org/apisix/1.4.1/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/1.4.1/apache-apisix-1.4.1-src.tar.gz.asc">asc</a>
           <a
             href="https://downloads.apache.org/apisix/1.4.1/apache-apisix-1.4.1-src.tar.gz.sha512">sha512</a>
+          )
+        </div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.5</div>
+        <div class="flex-row" role="cell">2020-08-05</div>
+        <div class="flex-row" role="cell">
+          <a href="https://downloads.apache.org/apisix/1.5/">源码</a>
+          (
+          <a href="https://downloads.apache.org/apisix/1.5/apache-apisix-1.5-src.tar.gz.asc">asc</a>
+          <a
+            href="https://downloads.apache.org/apisix/1.5/apache-apisix-1.5-src.tar.gz.sha512">sha512</a>
           )
         </div>
       </div>
