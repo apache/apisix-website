@@ -27,7 +27,7 @@ include_footer: true
     <p>根据提示完成key：</p>
     <p class="warning">注意：请使用Apache mail生成GPG的Key。</p>
     {{< highlight go "linenos=table" >}}
-    {{% contribute/release/gpg-key-generator %}}
+    {{% contribute/release/gpg-key-generator-zh %}}
     {{< / highlight >}}
     <h3 class="subtitle">查看生成的key</h3>
     {{< highlight go "linenos=table" >}}
