@@ -8,7 +8,7 @@ include_footer: true
   <section>
     <h2 class="title">成员</h2>
     <p class="description"></p>
-    <h3 class="subtitle">PPMC</h3>
+    <h3 class="subtitle">PMC</h3>
     <div class="table-container" role="table" aria-label="Destinations">
       <div class="flex-table header" role="rowgroup">
         <div class="flex-row first" role="columnheader">ID</div>
@@ -211,7 +211,7 @@ include_footer: true
   <section>
     <h2 class="title">成为提交者</h2>
     <p class="description">
-      Apache APISIX 社区遵照 <a href="http://community.apache.org/newcommitter.html">Apache 社区</a> 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
+      Apache APISIX 社区遵照 <a href="http://community.apache.org/newcommitter.html">Apache 社区</a> 流程来接受新的提交者，当一位贡献者非常活跃时，PMC 以及提交者将共同决定是否邀请该贡献者加入社区。
     </p>
     <p>你可以阅读贡献指南（TODO）以了解如何参加社区，也可以从 <a href="/zh/contribute/committer/">提交者指南</a> 了解如何成为提交者。</p>
   </section>

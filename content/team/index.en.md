@@ -8,7 +8,7 @@ include_footer: true
   <section>
     <h2 class="title">Members</h2>
     <p class="description"></p>
-    <h3 class="subtitle">PPMC</h3>
+    <h3 class="subtitle">PMC</h3>
     <div class="table-container" role="table" aria-label="Destinations">
       <div class="flex-table header" role="rowgroup">
         <div class="flex-row first" role="columnheader">ID</div>
@@ -129,7 +129,7 @@ include_footer: true
       </div>
     </div>
     <h3 class="subtitle">Committers</h3>
-    <p class="description">The following list excludes PPMC members above.</p>
+    <p class="description">The following list excludes PMC members above.</p>
     <div class="table-container" role="table" aria-label="Destinations">
       <div class="flex-table header" role="rowgroup">
         <div class="flex-row first" role="columnheader">ID</div>

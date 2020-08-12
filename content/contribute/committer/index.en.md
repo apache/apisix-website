@@ -49,8 +49,8 @@ include_footer: true
   </section>
   <br />
   <section>
-  <h2 class="title">How to become a APISIX PPMC?</h2>
-  <p>In APISIX community, if a committer who have earned even more merit, can be invited to be a part of the Podling Project Management Committee (PPMC).</p>
+  <h2 class="title">How to become a APISIX PMC?</h2>
+  <p>In APISIX community, if a committer who have earned even more merit, can be invited to be a part of the Project Management Committee (PMC).</p>
     <p>One thing that is sometimes hard to understand when you are new to the open development process used at the ASF, is that we value the community more than the code. A strong and healthy community will be respectful and be a fun and rewarding place. More importantly, a diverse and healthy community can continue to support the code over the longer term, even as individual companies come and go from the field.</p>
   </section>
 </div>
