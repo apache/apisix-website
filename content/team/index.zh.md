@@ -201,10 +201,10 @@ include_footer: true
     <h2 class="title">贡献者</h2>
     <p class="description">你可以在下方链接中查看所有贡献者：</p>
     <p class="description">
-      <a href="https://github.com/apache/incubator-apisix/graphs/contributors">1. apisix</a>
+      <a href="https://github.com/apache/apisix/graphs/contributors">1. apisix</a>
     </p>
     <p class="description">
-      <a href="https://github.com/apache/incubator-apisix-dashboard/graphs/contributors">2. apisix-dashboard</a>
+      <a href="https://github.com/apache/apisix-dashboard/graphs/contributors">2. apisix-dashboard</a>
     </p>
   </section>
   <p class="description">&nbsp;</p>

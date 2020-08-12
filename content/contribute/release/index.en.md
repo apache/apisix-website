@@ -96,7 +96,7 @@ include_footer: true
     $ mkdir 1.0-rc1 && cd 1.0-rc1
 
     # download repo
-    git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0
+    git clone -b v1.0 git@github.com:apache/apisix.git apache-apisix-1.0
 
     # check version
     $ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
@@ -158,6 +158,6 @@ include_footer: true
     <h3 class="subtitle">move package from dev to dist</h3>
     <p>Remove `rc` from the package name, move KEYS and package to <a href="https://dist.apache.org/repos/dist/release/apisix/"> address </a></p>
     <h3 class="subtitle">update download page</h3>
-    <p>update <a href="http://apisix.apache.org/downloads/"> address </a>, source repo is https://github.com/apache/incubator-apisix-website</p>
+    <p>update <a href="http://apisix.apache.org/downloads/"> address </a>, source repo is https://github.com/apache/apisix-website</p>
   </section>
 </div>

@@ -9,7 +9,7 @@ include_footer: true
   <br />
   <h2 class="title">提交 Issue</h2>
   <p>1. 在提交 Issue 之前，请充分利用搜索，确保问题无法通过搜索结果解决。</p>
-  <p>2. 检查 <a href="https://github.com/apache/incubator-apisix/issues" target="_blank">Issue 列表</a> 确保没有重复的问题</p>
+  <p>2. 检查 <a href="https://github.com/apache/apisix/issues" target="_blank">Issue 列表</a> 确保没有重复的问题</p>
   <p>3. 创建一个新的 Issue 并选择恰当的 Issue 类型。</p>
   <p>4. 用一个清晰准确的描述性标题来描述您的 Issue。</p>
   <p>5. 根据模板，填写必要的信息。</p>
@@ -22,7 +22,7 @@ include_footer: true
   <p>请 Fork 一份 Apache APISIX 的代码仓库到您自己的仓库中，然后设定恰当的上游分支。</p>
   <br />
   {{< highlight go "linenos=table" >}}
-  git remote add upstream https://github.com/apache/incubator-apisix.git
+  git remote add upstream https://github.com/apache/apisix.git
   {{< / highlight >}}
   <br />
   <h3 class="subtitle">选择一个 Issue</h3>

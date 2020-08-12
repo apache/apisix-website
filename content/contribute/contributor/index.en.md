@@ -9,7 +9,7 @@ include_footer: true
   <br />
   <h2 class="title">Submit an issue</h2>
   <p>1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.</p>
-  <p>2. Check the <a href="https://github.com/apache/incubator-apisix/issues" target="_blank">Issue List</a> to make sure the problem is not repeated.</p>
+  <p>2. Check the <a href="https://github.com/apache/apisix/issues" target="_blank">Issue List</a> to make sure the problem is not repeated.</p>
   <p>3. Create a new issue and choose the type of issue.</p>
   <p>4. Define the issue with a clear and descriptive title.</p>
   <p>5. Fill in necessary information according to the template.</p>
@@ -22,7 +22,7 @@ include_footer: true
   <p>Fork the Apache APISIX repo to your own repo to work, then setting proper upstream.</p>
   <br />
   {{< highlight go "linenos=table" >}}
-  git remote add upstream https://github.com/apache/incubator-apisix.git
+  git remote add upstream https://github.com/apache/apisix.git
   {{< / highlight >}}
   <br />
   <h3 class="subtitle">Choose an issue</h3>

@@ -102,7 +102,7 @@ include_footer: true
     $ mkdir 1.0-rc1 && cd 1.0-rc1
 
     # 下载安装包
-    git clone -b v1.0 git@github.com:apache/incubator-apisix.git apache-apisix-1.0
+    git clone -b v1.0 git@github.com:apache/apisix.git apache-apisix-1.0
 
     # 检查版本号
     $ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
@@ -161,6 +161,6 @@ include_footer: true
     <h3 class="subtitle">将安装包从 dev 移动到 release 目录下</h3>
     <p>去掉包名中的 RC，将 KEYS 文件以及安装包移动到 <a href="https://dist.apache.org/repos/dist/release/apisix/">此地址</a></p>
     <h3 class="subtitle">更新下载信息</h3>
-    <p>更新<a href="http://apisix.apache.org/downloads/">此地址</a> 的下载信息，源码在 https://github.com/apache/incubator-apisix-website</p>
+    <p>更新<a href="http://apisix.apache.org/downloads/">此地址</a> 的下载信息，源码在 https://github.com/apache/apisix-website</p>
   </section>
 </div>

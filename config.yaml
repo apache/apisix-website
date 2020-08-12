@@ -21,7 +21,7 @@ languages:
         # Button text
         buttontext: View on GitHub
         # Where the main hero button links to
-        buttonlink: "https://github.com/apache/incubator-apisix"
+        buttonlink: "https://github.com/apache/apisix"
         downloadsButtonText: Downloads
         downloadsButtonLink: "./downloads"
         # Hero image (from static/images/___)
@@ -38,7 +38,7 @@ languages:
       - title: Home
         url: /
       - title: Documentation
-        url: https://github.com/apache/incubator-apisix/tree/master/doc
+        url: https://github.com/apache/apisix/tree/master/doc
       - title: Get Involved
         sublinks:
         - title: Subscribe Guide
@@ -46,7 +46,7 @@ languages:
         - title: Contributor Guide
           url: /contribute/contributor
         - title: GitHub Issue Tracker
-          url: https://github.com/apache/incubator-apisix/issues
+          url: https://github.com/apache/apisix/issues
         - title: Committer Guide
           url: /contribute/committer
         - title: Release Guide
@@ -98,11 +98,11 @@ languages:
             title: "Documentation"
             links:
             - text: Overview
-              link: https://github.com/apache/incubator-apisix#apisix
+              link: https://github.com/apache/apisix#apisix
             - text: Quick start
-              link: https://github.com/apache/incubator-apisix#quickstart
+              link: https://github.com/apache/apisix#quickstart
             - text: Developer guide
-              link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
+              link: https://github.com/apache/apisix/blob/master/doc/architecture-design.md
   zh:
     params:
     hero:
@@ -115,7 +115,7 @@ languages:
       # Button text
       buttontext: 访问 GitHub
       # Where the main hero button links to
-      buttonlink: "https://github.com/apache/incubator-apisix"
+      buttonlink: "https://github.com/apache/apisix"
       downloadsbuttontext: 下载
       downloadsbuttonlink: "../downloads"
       # Hero image (from static/images/___)
@@ -132,7 +132,7 @@ languages:
     - title: 首页
       url: /zh
     - title: 文档
-      url: https://github.com/apache/incubator-apisix/tree/master/doc
+      url: https://github.com/apache/apisix/tree/master/doc
     - title: 参与
       sublinks:
       - title: 订阅指南
@@ -140,7 +140,7 @@ languages:
       - title: 贡献者指南
         url: /zh/contribute/contributor
       - title: GitHub Issue Tracker
-        url: https://github.com/apache/incubator-apisix/issues
+        url: https://github.com/apache/apisix/issues
       - title: 提交者指南
         url: /zh/contribute/committer
       - title: 发布指南
@@ -195,11 +195,11 @@ languages:
             title: "Documentation"
             links:
             - text: Overview
-              link: https://github.com/apache/incubator-apisix#apisix
+              link: https://github.com/apache/apisix#apisix
             - text: Quick start
-              link: https://github.com/apache/incubator-apisix#quickstart
+              link: https://github.com/apache/apisix#quickstart
             - text: Developer guide
-              link: https://github.com/apache/incubator-apisix/blob/master/doc/architecture-design.md
+              link: https://github.com/apache/apisix/blob/master/doc/architecture-design.md
 
 params:
  # Open graph allows easy social sharing. If you don't want it you can set it to false or just delete the variable
