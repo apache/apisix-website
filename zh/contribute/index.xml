@@ -32,7 +32,7 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.apache.org/zh/contribute/committer/</guid>
-      <description>  加入提交者 Apache APISIX 社区遵照 Apache 社区 流程来接受新的提交者，当一位贡献者非常活跃时，PMC、PPMC 以及提交者将共同决定是否邀请该贡献者加入社区。
+      <description>  加入提交者 Apache APISIX 社区遵照 Apache 社区 流程来接受新的提交者，当一位贡献者非常活跃时，PMC 以及提交者将共同决定是否邀请该贡献者加入社区。
 流程如下：
 1. 在 @private 邮件列表中发起讨论，注意：当前只有 PMC 可以提名；
 2. 如果投票通过，将发送邀请函以成为提交者，需 CC @private 邮件列表；
@@ -79,7 +79,7 @@
 7. 请关注您的 Issue，您可能需要在讨论中提供更多的信息。
 开发者流程 
 Fork 代码仓库 请 Fork 一份 Apache APISIX 的代码仓库到您自己的仓库中，然后设定恰当的上游分支。
-1 2  git remote add upstream https://github.com/apache/incubator-apisix.git     选择一个 Issue 
+1 2  git remote add upstream https://github.com/apache/apisix.git     选择一个 Issue 
 1. 请选择您的目标 Issue。如果您希望报告一个新发现的 Issue 或者一个新的功能增强，请先创建 Issue 并设定恰当的标签。
 2. 在选择一个有价值的 Issue 之后，请回复一个截止时间来表明您正在尝试解决它。
 3. 在 团队页面 选择一个导师，他将会及时对您的 Issue 和 PR 做出反馈。</description>
