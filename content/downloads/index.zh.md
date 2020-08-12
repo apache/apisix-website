@@ -113,6 +113,18 @@ include_footer: true
           )
         </div>
       </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>dashboard-1.5</div>
+        <div class="flex-row" role="cell">2020-08-12</div>
+        <div class="flex-row" role="cell">
+          <a href="https://downloads.apache.org/apisix/dashboard-1.5/">源码</a>
+          (
+          <a href="https://downloads.apache.org/apisix/dashboard-1.5/apache-apisix-dashboard-1.5.tar.gz.asc">asc</a>
+          <a
+            href="https://downloads.apache.org/apisix/dashboard-1.5/apache-apisix-dashboard-1.5.tar.gz.sha512">sha512</a>
+          )
+        </div>
+      </div>
     </div>
   </section>
   <section>
