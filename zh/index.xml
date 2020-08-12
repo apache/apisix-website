@@ -16,8 +16,14 @@
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.apache.org/zh/contribute/2fa/</guid>
-      <description>Two-factor authentication(2FA) Two factor authentication (2FA) refers to the authentication method that combines both passport and an object (credit card, SMS phone, token or biomarkers as fingerprint) to identify a user. To ensure the security of the committer’s account, we need you to enable 2FA to sign in and contribute codes on GitHub. More details, please refer to 2FA.
-Note:If you do not enable 2FA, you will be removed from the project and unable to access our repositories and the fork from our private repository.</description>
+      <description> 两步验证（2FA） 两步验证（2FA）是一种更加安全的用户认证手段，在除了使用用户名和密码之外，还需要使用其他材料（如信用卡、手机短信、令牌、指纹等生物特征）验证用户身份。为了确保提交者账户的安全性，您需要在 GitHub 上启用 2FA 来登录和提交贡献。更多的细节，请参考 2FA。
+注意：如果您没有启用 2FA，您将会被从项目中移除，亦无法访问我们的仓库、fork 我们的私有仓库。
+在 GitHub 上启用 2FA 具体操作细节，请参考 Enable Two Factor Authentication with TOTP。
+在启用 2FA 之后，您需要使用用户名/密码 + 验证码，来登陆 GitHub。
+提示： 如果您无法通过页面上的链接下载 APP，您可以在应用商店中搜索下载 Google Authenticator。
+如何提交代码 在启用 2FA 之后，您需要生成私有访问令牌（Private Access Token）来进行 Git 提交之类的操作。此时，您将使用用户名 + 令牌来提交代码，而不是原先的用户名 + 密码。
+具体操作细节，请参考 Create a Private Token.
+ </description>
     </item>
     
     <item>
@@ -72,11 +78,20 @@ Note:If you do not enable 2FA, you will be removed from the project and unable t
       <pubDate>Sun, 29 Mar 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.apache.org/zh/contribute/contributor/</guid>
-      <description>Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
-Submit an issue 1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.
-2. Check the Issue List to make sure the problem is not repeated.
-3. Create a new issue and choose the type of issue.
-4. Define the issue with a clear and descriptive title.</description>
+      <description>请按照这份指南，报告 bugs、提出建议或提交 PR，不必拘谨。
+提交 Issue 1. 在提交 Issue 之前，请充分利用搜索，确保问题无法通过搜索结果解决。
+2. 检查 Issue 列表 确保没有重复的问题
+3. 创建一个新的 Issue 并选择恰当的 Issue 类型。
+4. 用一个清晰准确的描述性标题来描述您的 Issue。
+5. 根据模板，填写必要的信息。
+6. 为您的 Issue 选择恰当的标签。
+7. 请关注您的 Issue，您可能需要在讨论中提供更多的信息。
+开发者流程 
+Fork 代码仓库 请 Fork 一份 Apache APISIX 的代码仓库到您自己的仓库中，然后设定恰当的上游分支。
+1 2  git remote add upstream https://github.com/apache/incubator-apisix.git     选择一个 Issue 
+1. 请选择您的目标 Issue。如果您希望报告一个新发现的 Issue 或者一个新的功能增强，请先创建 Issue 并设定恰当的标签。
+2. 在选择一个有价值的 Issue 之后，请回复一个截止时间来表明您正在尝试解决它。
+3. 在 团队页面 选择一个导师，他将会及时对您的 Issue 和 PR 做出反馈。</description>
     </item>
     
     <item>
@@ -85,8 +100,10 @@ Submit an issue 1. Before submitting your issues, please go through a comprehens
       <pubDate>Thu, 16 Jan 2020 11:46:04 +0800</pubDate>
       
       <guid>https://apisix.apache.org/zh/contribute/security/</guid>
-      <description>The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache APISIX is also very concerned Security issues related to its features and functionality.
-If you have apprehensions regarding APISIX’s security or you discover vulnerability or potential threat, don’t hesitate to get in touch with the Apache Security Team by dropping a mail at security@apache.org. Please specify the project name as APISIX and its product name APISIX or APISIX-Dashboard in the email and provide a description of the relevant problem or potential threat.</description>
+      <description>Apache 软件基金会采取严格的立场来消除软件项目中的安全问题，Apache APISIX 同样非常重视与其特性和功能相关的安全问题。
+如果您对 APISIX 的安全性感到担忧，或者发现了漏洞或潜在的威胁，请立即通过电子邮箱 security@apache.org 与 Apache 安全团队联系。请在邮件中指明项目名称 APISIX 及产品名称 APISIX 或 APISIX-Dashboard，并提供相关问题或潜在威胁的描述。我们建议您同时给出复现问题的方法。Apache 安全团队及 APISIX 社区将会在调查分析后与您联系。
+请您注意：在通过安全邮件报告安全问题前，请不要在公开场合披露相关问题。
+ </description>
     </item>
     
     <item>
@@ -111,7 +128,7 @@ GnuPG-2.x可使用：
       <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
       
       <guid>https://apisix.apache.org/zh/downloads/</guid>
-      <description>Releases Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be checked for tampering using GPG or SHA-512. Version Release date Source download  0.9 2019-11-24 源码 ( asc sha512 )   1.0 2020-01-15 源码 ( asc sha512 )   1.1 2020-02-24 源码 ( asc sha512 )   1.2 2020-04-20 源码 ( asc sha512 )   1.3 2020-05-24 源码 ( asc sha512 )   1.</description>
+      <description>发行版本 Apache APISIX 以源码包的形式发行，通过镜像站分发下载。为保证内容没有被篡改，需要使用 GPG 或 SHA-512 校验。 版本 发行时间 源码下载  0.9 2019-11-24 源码 ( asc sha512 )   1.0 2020-01-15 源码 ( asc sha512 )   1.1 2020-02-24 源码 ( asc sha512 )   1.2 2020-04-20 源码 ( asc sha512 )   1.3 2020-05-24 源码 ( asc sha512 )   1.4 2020-06-29 源码 ( asc sha512 )   1.4.1 2020-07-20 源码 ( asc sha512 )   1.</description>
     </item>
     
   </channel>
