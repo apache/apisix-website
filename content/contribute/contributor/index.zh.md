@@ -7,7 +7,7 @@ include_footer: true
 <div>
   <p>请按照这份指南，报告 bugs、提出建议或提交 PR，不必拘谨。</p>
   <br />
-  <h2 class="title">Submit an issue</h2>
+  <h2 class="title">提交 Issue</h2>
   <p>1. 在提交 Issue 之前，请充分利用搜索，确保问题无法通过搜索结果解决。</p>
   <p>2. 检查 <a href="https://github.com/apache/incubator-apisix/issues" target="_blank">Issue 列表</a> 确保没有重复的问题</p>
   <p>3. 创建一个新的 Issue 并选择恰当的 Issue 类型。</p>
