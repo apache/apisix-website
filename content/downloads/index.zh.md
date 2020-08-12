@@ -6,16 +6,15 @@ include_footer: true
 
 <div class="downloads">
   <section>
-    <h2 class="title">Releases</h2>
+    <h2 class="title">发行版本</h2>
     <p class="description">
-      Apache APISIX is released as source code tarballs. The downloads are distributed via mirror sites and should be
-      checked for tampering using GPG or SHA-512.
+      Apache APISIX 以源码包的形式发行，通过镜像站分发下载。为保证内容没有被篡改，需要使用 GPG 或 SHA-512 校验。
     </p>
     <div class="table-container" role="table" aria-label="Destinations">
       <div class="flex-table header" role="rowgroup">
-        <div class="flex-row first" role="columnheader">Version</div>
-        <div class="flex-row" role="columnheader">Release date</div>
-        <div class="flex-row" role="columnheader">Source download</div>
+        <div class="flex-row first" role="columnheader">版本</div>
+        <div class="flex-row" role="columnheader">发行时间</div>
+        <div class="flex-row" role="columnheader">源码下载</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>0.9</div>
@@ -128,13 +127,10 @@ include_footer: true
     </div>
   </section>
   <section>
-    <h2 class="title">Verify the releases</h2>
-    <a href="https://www.apache.org/dist/incubator/apisix/KEYS">PGP signatures KEYS</a>
+    <h2 class="title">校验发行版本</h2>
+    <a href="https://www.apache.org/dist/incubator/apisix/KEYS">PGP 签名密钥</a>
     <p>
-      It is essential that you verify the integrity of the downloaded files using the PGP or SHA signatures. The PGP
-      signatures can be verified using GPG or PGP. Please download the KEYS as well as the asc signature files for
-      relevant distribution. It is recommended to get these files from the main distribution directory and not from the
-      mirrors.
+      使用 PGP 或 SHA 签名检验下载文件的完整性非常重要。PGP 签名可用 GPG 或 PGP 验证。请下载密钥以及对应版本的 acs 签名文件，我们建议您从主发布目录而不是镜像中获取这些文件。
     </p>
 
     {{< highlight go "linenos=table" >}}
@@ -142,7 +138,7 @@ include_footer: true
     {{< / highlight >}}
 
     <p>
-      or
+      或者
     </p>
 
     {{< highlight go "linenos=table,hl_lines=8 15-17,linenostart=1" >}}
@@ -150,7 +146,7 @@ include_footer: true
     {{< / highlight >}}
 
     <p>
-      or
+      或者
     </p>
 
     {{< highlight go "linenos=table,hl_lines=8 15-17,linenostart=1" >}}
@@ -158,8 +154,7 @@ include_footer: true
     {{< / highlight >}}
 
     <p>
-      To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and
-      follow the below guide.
+      要验证二进制文件或源代码，您可以从主发布目录下载相关的 asc 文件，并根据下面的指南操作。
     </p>
 
     {{< highlight go "linenos=table,hl_lines=8 15-17,linenostart=1" >}}
@@ -167,7 +162,7 @@ include_footer: true
     {{< / highlight >}}
 
     <p>
-      or
+      或者
     </p>
 
     {{< highlight go "linenos=table,hl_lines=8 15-17,linenostart=1" >}}
@@ -175,7 +170,7 @@ include_footer: true
     {{< / highlight >}}
 
     <p>
-      or
+      或者
     </p>
 
     {{< highlight go "linenos=table,hl_lines=8 15-17,linenostart=1" >}}

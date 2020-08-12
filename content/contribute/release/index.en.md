@@ -27,7 +27,7 @@ include_footer: true
     <p>Follow the instructions to generate key：</p>
     <p class="warning">Note: Please use Apache email address to generate the GPG Key.</p>
     {{< highlight go "linenos=table" >}}
-    {{% contribute/release/gpg-key-generator %}}
+    {{% contribute/release/gpg-key-generator-en %}}
     {{< / highlight >}}
     <h3 class="subtitle">View the generated key:</h3>
     {{< highlight go "linenos=table" >}}
