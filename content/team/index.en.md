@@ -17,6 +17,13 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/akayeshmantha" target="_blank">akayeshmantha</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>Akayeshmantha</div>
+        <div class="flex-row" role="cell">Ayeshmantha Perera</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
           <a href="https://whimsy.apache.org/roster/committer/yousa" target="_blank">yousa</a>
         </div>
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>Miss-you</div>
@@ -24,10 +31,10 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/shuaijinchao" target="_blank">shuaijinchao</a>
+          <a href="https://whimsy.apache.org/roster/committer/qiujiayu" target="_blank">qiujiayu</a>
         </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>shuaijinchao</div>
-        <div class="flex-row" role="cell">JinChao Shuai</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>qiujiayu</div>
+        <div class="flex-row" role="cell">Jiayu Qiu</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
@@ -38,24 +45,10 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/tangke" target="_blank">tangke</a>
-        </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>supermario1990</div>
-        <div class="flex-row" role="cell">Ke Tang</div>
-      </div>
-      <div class="flex-table row" role="rowgroup">
-        <div class="flex-row" role="cell">
           <a href="https://whimsy.apache.org/roster/committer/totemofwolf" target="_blank">totemofwolf</a>
         </div>
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>totemofwolf</div>
         <div class="flex-row" role="cell">Lang Wang</div>
-      </div>
-      <div class="flex-table row" role="rowgroup">
-        <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/lizhiyong" target="_blank">lizhiyong</a>
-        </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>zhiyong0804</div>
-        <div class="flex-row" role="cell">Li Zhiyong</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
@@ -80,6 +73,13 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/sshniro" target="_blank">sshniro</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>sshniro</div>
+        <div class="flex-row" role="cell">Nirojan Selvanathan</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
           <a href="https://whimsy.apache.org/roster/committer/wusheng" target="_blank">wusheng</a>
         </div>
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>wu-sheng</div>
@@ -87,10 +87,10 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/coolsoul" target="_blank">coolsoul</a>
+          <a href="https://whimsy.apache.org/roster/committer/kvn" target="_blank">kvn</a>
         </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>soulsoul</div>
-        <div class="flex-row" role="cell">Suo Zhang</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>gxthrj</div>
+        <div class="flex-row" role="cell">Wei Jin</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
@@ -101,13 +101,6 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/liyong" target="_blank">liyong</a>
-        </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>chnliyong</div>
-        <div class="flex-row" role="cell">Yong Li</div>
-      </div>
-      <div class="flex-table row" role="rowgroup">
-        <div class="flex-row" role="cell">
           <a href="https://whimsy.apache.org/roster/committer/membphis" target="_blank">membphis</a>
         </div>
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>membphis</div>
@@ -115,17 +108,17 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/spacewander" target="_blank">spacewander</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>spacewander</div>
+        <div class="flex-row" role="cell">Zexuan Luo</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
           <a href="https://whimsy.apache.org/roster/committer/juzhiyuan" target="_blank">juzhiyuan</a>
         </div>
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>juzhiyuan</div>
         <div class="flex-row" role="cell">Zhiyuan</div>
-      </div>
-      <div class="flex-table row" role="rowgroup">
-        <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/sshniro" target="_blank">sshniro</a>
-        </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>sshniro</div>
-        <div class="flex-row" role="cell">Nirojan Selvanathan</div>
       </div>
     </div>
     <h3 class="subtitle">Committers</h3>
@@ -138,24 +131,52 @@ include_footer: true
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/akayeshmantha" target="_blank">akayeshmantha</a>
+          <a href="https://whimsy.apache.org/roster/committer/shuaijinchao" target="_blank">shuaijinchao</a>
         </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>Akayeshmantha</div>
-        <div class="flex-row" role="cell">Ayeshmantha Perera</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>shuaijinchao</div>
+        <div class="flex-row" role="cell">JinChao Shuai</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/sshniro" target="_blank">sshniro</a>
+          <a href="https://whimsy.apache.org/roster/committer/tangke" target="_blank">tangke</a>
         </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>sshniro</div>
-        <div class="flex-row" role="cell">Nirojan Selvanathan</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>supermario1990</div>
+        <div class="flex-row" role="cell">Ke Tang</div>
       </div>
       <div class="flex-table row" role="rowgroup">
         <div class="flex-row" role="cell">
-          <a href="https://whimsy.apache.org/roster/committer/spacewander" target="_blank">spacewander</a>
+          <a href="https://whimsy.apache.org/roster/committer/lizhiyong" target="_blank">lizhiyong</a>
         </div>
-        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>spacewander</div>
-        <div class="flex-row" role="cell">Zexuan Luo</div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>zhiyong0804</div>
+        <div class="flex-row" role="cell">Li Zhiyong</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/coolsoul" target="_blank">coolsoul</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>soulsoul</div>
+        <div class="flex-row" role="cell">Suo Zhang</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/vinci" target="_blank">vinci</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>ShiningRush</div>
+        <div class="flex-row" role="cell">Vinci</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/sunyi" target="_blank">sunyi</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>LiteSun</div>
+        <div class="flex-row" role="cell">Yi Sun</div>
+      </div>
+      <div class="flex-table row" role="rowgroup">
+        <div class="flex-row" role="cell">
+          <a href="https://whimsy.apache.org/roster/committer/liyong" target="_blank">liyong</a>
+        </div>
+        <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>chnliyong</div>
+        <div class="flex-row" role="cell">Yong Li</div>
       </div>
     </div>
   </section>
