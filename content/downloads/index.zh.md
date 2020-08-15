@@ -20,7 +20,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>0.9</div>
         <div class="flex-row" role="cell">2019-11-24</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/apisix/0.9/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/apisix/0.9/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -32,7 +32,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.0</div>
         <div class="flex-row" role="cell">2020-01-15</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/apisix/1.0/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/apisix/1.0/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -44,7 +44,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.1</div>
         <div class="flex-row" role="cell">2020-02-24</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/apisix/1.1/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/apisix/1.1/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/apisix/1.1/apache-apisix-1.1-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -56,7 +56,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.2</div>
         <div class="flex-row" role="cell">2020-04-20</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/apisix/1.2/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/apisix/1.2/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/apisix/1.2/apache-apisix-1.2-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -68,7 +68,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.3</div>
         <div class="flex-row" role="cell">2020-05-24</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/apisix/1.3/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/apisix/1.3/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/apisix/1.3/apache-apisix-1.3-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -80,7 +80,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.4</div>
         <div class="flex-row" role="cell">2020-06-29</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/apisix/1.4/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/apisix/1.4/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/apisix/1.4/apache-apisix-1.4-incubating-src.tar.gz.asc">asc</a>
           <a
@@ -92,7 +92,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.4.1</div>
         <div class="flex-row" role="cell">2020-07-20</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/1.4.1/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/1.4.1/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/1.4.1/apache-apisix-1.4.1-src.tar.gz.asc">asc</a>
           <a
@@ -104,7 +104,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>1.5</div>
         <div class="flex-row" role="cell">2020-08-05</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/1.5/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/1.5/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/1.5/apache-apisix-1.5-src.tar.gz.asc">asc</a>
           <a
@@ -116,7 +116,7 @@ include_footer: true
         <div class="flex-row first" role="cell"><span class="flag-icon flag-icon-gb"></span>dashboard-1.5</div>
         <div class="flex-row" role="cell">2020-08-12</div>
         <div class="flex-row" role="cell">
-          <a href="https://downloads.apache.org/apisix/dashboard-1.5/">源码</a>
+          <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/apisix/dashboard-1.5/">源码</a>
           (
           <a href="https://downloads.apache.org/apisix/dashboard-1.5/apache-apisix-dashboard-1.5.tar.gz.asc">asc</a>
           <a
