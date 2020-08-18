@@ -128,7 +128,7 @@ GnuPG-2.x可使用：
       <pubDate>Tue, 26 Nov 2019 23:48:02 +0800</pubDate>
       
       <guid>https://apisix.apache.org/zh/downloads/</guid>
-      <description>发行版本 Apache APISIX 以源码包的形式发行，通过镜像站分发下载。为保证内容没有被篡改，需要使用 GPG 或 SHA-512 校验。 版本 发行时间 源码下载  0.9 2019-11-24 源码 ( asc sha512 )   1.0 2020-01-15 源码 ( asc sha512 )   1.1 2020-02-24 源码 ( asc sha512 )   1.2 2020-04-20 源码 ( asc sha512 )   1.3 2020-05-24 源码 ( asc sha512 )   1.4 2020-06-29 源码 ( asc sha512 )   1.4.1 2020-07-20 源码 ( asc sha512 )   1.</description>
+      <description>发行版本 Apache APISIX 以源码包的形式发行，通过镜像站分发下载。为保证内容没有被篡改，需要使用 GPG 或 SHA-512 校验。 版本 发行时间 源码下载  dashboard-1.5 2020-08-12 source ( asc sha512 )   1.5 2020-08-05 source ( asc sha512 )   1.4.1 2020-07-20 source ( asc sha512 )   1.4 2020-06-29 source ( asc sha512 )   1.3 2020-05-24 source ( asc sha512 )   1.2 2020-04-20 source ( asc sha512 )   1.1 2020-02-24 source ( asc sha512 )   1.</description>
     </item>
     
   </channel>
