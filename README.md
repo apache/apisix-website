@@ -1,23 +1,15 @@
-# Apache APISIX
+# Apache APISIX Website
 
-> The website of [Apache APISIX](https://github.com/apache/apisix), a cloud-native microservices api gateway.
+The website of [Apache APISIX](https://github.com/apache/apisix), a cloud-native microservices api gateway.
 
-## Development
+## Usage
+
 ```sh
-$ brew install hugo
+$ cd website
 
-$ hugo server
+$ yarn
+
+$ yarn start
 ```
 
-## Deploy
-```sh
-# Build Website, and production codes are under /public/ folder.
-$ hugo
-
-$ chmod +x publish.sh
-
-# Push production files to master branch
-$ ./publish.sh
-```
-
-Thanks to [Hugo Framework](https://gohugo.io/) & [Hugo Fresh Theme](https://themes.gohugo.io/hugo-fresh/).
+Thanks to [docusaurus](https://docusaurus.io/)
