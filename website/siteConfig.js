@@ -1,23 +1,30 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// See https://docusaurus.io/docs/site-config for all the possible
-// site configuration options.
-
-// List of projects/orgs using your project for the users page.
 const users = [
   {
-    caption: "User1",
-    // You will need to prepend the image path with your baseUrl
-    // if it is not '/', like: '/test-site/img/image.jpg'.
-    image: "/img/undraw_open_source.svg",
-    infoLink: "https://www.facebook.com",
+    caption: "360",
+    image: "https://static.apiseven.com/2020/05/WechatIMG618.png",
+    infoLink: "https://www.360.com",
     pinned: true,
-  },
+  }, {
+    caption: "HelloTalk",
+    image: "https://static.apiseven.com/2020/05/HelloTalk.png",
+    infoLink: "https://www.hellotalk.com/?lang=en",
+    pinned: true,
+  }, {
+    caption: "网易",
+    image: "https://static.apiseven.com/2020/05/1588907762-WechatIMG2916.png",
+    infoLink: "https://www.163.com",
+    pinned: true,
+  }, {
+    caption: "腾讯云",
+    image: "https://static.apiseven.com/2020/05/%E8%85%BE%E8%AE%AF%E4%BA%91-1536x546.jpg",
+    infoLink: "https://qcloud.com",
+    pinned: true,
+  }, {
+    caption: "中国航信",
+    image: "https://static.apiseven.com/2020/05/%E4%B8%AD%E5%9B%BD%E8%88%AA%E4%BF%A1.png",
+    infoLink: "http://www.infosky.com.cn/publish/main/index.html",
+    pinned: true,
+  }
 ];
 
 const siteConfig = {

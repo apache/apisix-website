@@ -37,7 +37,7 @@ class Users extends React.Component {
               <React.Fragment>
                 <p>Are you using this project?</p>
                 <a
-                  href={`${siteConfig.repoUrl}/edit/master/website/siteConfig.js`}
+                  href="https://github.com/apache/apisix/blob/master/doc/powered-by.md"
                   className="button">
                   Add your company
                 </a>
