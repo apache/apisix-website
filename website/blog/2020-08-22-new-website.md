@@ -9,4 +9,4 @@ We are just refactored out website for Apache APISIX by using [docusaurus](https
 
 <!--truncate-->
 
-All contents will be hidden after the `<!--truncate-->` tag in blog list.
+Tip: all contents will be hidden after the `<!--truncate-->` tag in blog list.
