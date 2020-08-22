@@ -21,9 +21,7 @@ function Help(props) {
 
   const supportLinks = [
     {
-      content: `Learn more using the [documentation on this site.](${docUrl(
-        'doc1.html',
-      )})`,
+      content: 'Learn more using the [documentation on this site.](https://github.com/apache/apisix/tree/master/doc)',
       title: 'Browse Docs',
     },
     {
