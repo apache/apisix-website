@@ -31,7 +31,7 @@ jobs:
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2.0.1
       with:
-        build_dir: build
+        build_dir: website/build
         target_branch: asf-site-test
         keep_history: true
       env:
