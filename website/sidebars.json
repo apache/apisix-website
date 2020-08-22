@@ -1,5 +1,5 @@
 {
   "docs": {
-    "Get Involved": ["subscrbe-guide"]
+    "Get Involved": ["subscrbe-guide", "contributor-guide", "committer-guide", "release-guide", "security", "2FA"]
   }
 }
