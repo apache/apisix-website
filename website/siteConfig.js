@@ -29,12 +29,9 @@ const siteConfig = {
   organizationName: "Apache",
   headerLinks: [
     { doc: "doc1", label: "Docs" },
-    { doc: "doc4", label: "GitHub" },
-    { doc: "doc4", label: "Events" },
     { blog: true, label: "Blog" },
     { page: "help", label: "Downloads" },
     { page: "help", label: "Team" },
-    { doc: "doc4", label: "Links" },
     { page: "help", label: "Help" },
     { search: true },
     { languages: true },
@@ -50,7 +47,7 @@ const siteConfig = {
 
   /* Colors for website */
   colors: {
-    primaryColor: "#a30328",
+    primaryColor: "#b52b27",
     secondaryColor: "#72021c",
   },
 
