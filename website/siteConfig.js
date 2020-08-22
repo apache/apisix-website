@@ -38,7 +38,7 @@ const siteConfig = {
     { doc: "subscrbe-guide", label: "Docs" },
     { blog: true, label: "Blog" },
     { doc: "downloads", label: "Downloads" },
-    { page: "help", label: "Team" },
+    { doc: "team", label: "Team" },
     { page: "help", label: "Help" },
     { search: true },
     { languages: true },
