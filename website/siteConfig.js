@@ -37,7 +37,7 @@ const siteConfig = {
   headerLinks: [
     { doc: "subscrbe-guide", label: "Docs" },
     { blog: true, label: "Blog" },
-    { page: "help", label: "Downloads" },
+    { doc: "downloads", label: "Downloads" },
     { page: "help", label: "Team" },
     { page: "help", label: "Help" },
     { search: true },
