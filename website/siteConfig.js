@@ -36,6 +36,8 @@ const siteConfig = {
     { page: "help", label: "Team" },
     { doc: "doc4", label: "Links" },
     { page: "help", label: "Help" },
+    { search: true },
+    { languages: true },
   ],
 
   // If you have users set above, you add it here:
@@ -67,7 +69,8 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: 'Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, and its feather logo are trademarks of The Apache Software Foundation.',
+  copyright:
+    "Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, and its feather logo are trademarks of The Apache Software Foundation.",
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
@@ -98,7 +101,14 @@ const siteConfig = {
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-  repoUrl: 'https://github.com/apache/apisix',
+  repoUrl: "https://github.com/apache/apisix",
+  algolia: {
+    apiKey: '',
+    appId: ''
+  },
+  gaTrackingId: '',
+  twitterUsername: 'ApacheAPISIX',
+  scrollToTop: true,
 };
 
 module.exports = siteConfig;
