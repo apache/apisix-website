@@ -1,7 +1,6 @@
 ---
 id: downloads
 title: Downloads
-unlisted: true
 ---
 
 Use the links below to download the Apache APISIX from one of our mirrors.

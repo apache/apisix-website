@@ -1,7 +1,6 @@
 ---
 id: team
 title: Team
-unlisted: true
 ---
 
 ## Members
