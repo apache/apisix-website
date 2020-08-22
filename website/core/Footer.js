@@ -30,27 +30,25 @@ class Footer extends React.Component {
             )}
           </a>
           <div>
-            <h5>Docs</h5>
-            <a href={this.docUrl('doc1.html')}>
-              Getting Started (or other categories)
-            </a>
-            <a href={this.docUrl('doc2.html')}>Guides (or other categories)</a>
-            <a href={this.docUrl('doc3.html')}>
-              API Reference (or other categories)
-            </a>
+            <h5>ASF</h5>
+            <a href="https://www.apache.org/security/">Security</a>
+            <a href="https://www.apache.org/">Foundation</a>
+            <a href="https://www.apache.org/licenses/">LICENSES</a>
+            {/* <a href="https://apachecon.com/?ref=apisix.apache.org">ApacheCon</a>
+            <a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a>
+            <a href="https://www.apache.org/foundation/thanks.html">Thanks</a> */}
           </div>
           <div>
             <h5>Community</h5>
             <a href={`${this.props.config.baseUrl}users`}>User Showcase</a>
             <a
-              href="https://stackoverflow.com/questions/tagged/"
+              href="https://github.com/apache/apisix/issues"
               target="_blank"
               rel="noreferrer noopener">
-              Stack Overflow
+              Issues
             </a>
-            <a href="https://discordapp.com/">Project Chat</a>
             <a
-              href="https://twitter.com/"
+              href="https://twitter.com/ApacheAPISIX"
               target="_blank"
               rel="noreferrer noopener">
               Twitter
@@ -96,15 +94,21 @@ class Footer extends React.Component {
         </section>
 
         <a
-          href="https://opensource.facebook.com/"
+          href="https://www.apache.org/"
           target="_blank"
           rel="noreferrer noopener"
-          className="fbOpenSource">
+          style={{
+            display: 'block',
+            margin: '1em auto',
+            opacity: 0.8,
+            transition: 'opacity 0.15s ease-in-out',
+            textAlign: 'center'
+          }}
+        >
           <img
-            src={`${this.props.config.baseUrl}img/oss_logo.png`}
-            alt="Facebook Open Source"
-            width="170"
-            height="45"
+            src={`${this.props.config.baseUrl}img/asf_logo_wide_small.png`}
+            alt="Apache Software Foundation"
+            style={{width: 370, height: 64}}
           />
         </a>
         <section className="copyright">{this.props.config.copyright}</section>
