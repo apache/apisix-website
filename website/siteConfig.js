@@ -103,8 +103,9 @@ const siteConfig = {
   // template. For example, if you need your repo's URL...
   repoUrl: "https://github.com/apache/apisix",
   algolia: {
-    apiKey: '',
-    appId: ''
+    apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+    appId: 'ZHVP417Y1Y',
+    indexName: 'apache-apisix-website'
   },
   gaTrackingId: '',
   twitterUsername: 'ApacheAPISIX',
