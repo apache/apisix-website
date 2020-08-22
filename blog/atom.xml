@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://apisix.apache.org//blog</id>
+    <title>Apache APISIX Blog</title>
+    <updated>2020-08-22T06:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://apisix.apache.org//blog"/>
+    <subtitle>The best place to stay up-to-date with the latest Apache APISIX news and events.</subtitle>
+    <logo>https://apisix.apache.org//img/logo.png</logo>
+    <rights>Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, and its feather logo are trademarks of The Apache Software Foundation.</rights>
+    <entry>
+        <title type="html"><![CDATA[New website for Apache APISIX]]></title>
+        <id>https://apisix.apache.org//blog/2020/08/22/new-website.html</id>
+        <link href="https://apisix.apache.org//blog/2020/08/22/new-website.html"/>
+        <updated>2020-08-22T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>We are just refactored out website for Apache APISIX by using <a href="https://docusaurus.io/">docusaurus</a>.</p>
+]]></summary>
+        <author>
+            <name>juzhiyuan</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
+    </entry>
+</feed>
