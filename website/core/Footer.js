@@ -40,13 +40,13 @@ class Footer extends React.Component {
           </div>
           <div>
             <h5>Community</h5>
-            <a href={`${this.props.config.baseUrl}users`}>User Showcase</a>
             <a
               href="https://github.com/apache/apisix"
               target="_blank"
               rel="noreferrer noopener">
               GitHub
             </a>
+            <a href="https://apisix.slack.com/">Slack</a>
             <a
               href="https://twitter.com/ApacheAPISIX"
               target="_blank"
@@ -56,6 +56,7 @@ class Footer extends React.Component {
           </div>
           <div>
             <h5>More</h5>
+            <a href={`${this.props.config.baseUrl}users`}>User Showcase</a>
             <a href={`${this.props.config.baseUrl}blog`}>Blog</a>
           </div>
         </section>
