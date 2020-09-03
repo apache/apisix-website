@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>Apache APISIX Blog</title>
+        <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org//blog</link>
-        <description>The best place to stay up-to-date with the latest Apache APISIX news and events.</description>
+        <description>The best place to stay up-to-date with the latest Apache APISIX™ news and events.</description>
         <lastBuildDate>Sat, 22 Aug 2020 06:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
-            <title>Apache APISIX Blog</title>
+            <title>Apache APISIX™ Blog</title>
             <url>https://apisix.apache.org//img/logo.png</url>
             <link>https://apisix.apache.org//blog</link>
         </image>
-        <copyright>Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, and its feather logo are trademarks of The Apache Software Foundation.</copyright>
+        <copyright>Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</copyright>
         <item>
             <title><![CDATA[New website for Apache APISIX]]></title>
             <link>https://apisix.apache.org//blog/2020/08/22/new-website.html</link>
