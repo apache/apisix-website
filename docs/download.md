@@ -3,9 +3,9 @@ id: downloads
 title: Downloads
 ---
 
-Use the links below to download the Apache APISIX from one of our mirrors.
+Use the links below to download the Apache APISIX™ from one of our mirrors.
 
-## APISIX
+## APISIX™
 
 | Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                             |
 | ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -18,7 +18,7 @@ Use the links below to download the Apache APISIX from one of our mirrors.
 | 1.0     | 15/01/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz) ([asc](https://downloads.apache.org/apisix/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.asc) [sha512](https://downloads.apache.org/apisix/apisix/1.0/apache-apisix-1.0-incubating-src.tar.gz.sha512)) |
 | 0.9     | 24/11/2019   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz) ([asc](https://downloads.apache.org/apisix/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.asc) [sha512](https://downloads.apache.org/apisix/apisix/0.9/apache-apisix-0.9-incubating-src.tar.gz.sha512)) |
 
-## APISIX Dashboard
+## APISIX™ Dashboard
 
 | Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                       |
 | ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
