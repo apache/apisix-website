@@ -29,7 +29,8 @@ const users = [
 
 const siteConfig = {
   title: "Apache APISIX™",
-  tagline: "The Cloud-Native API Gateway",
+  tagline: "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
+  tagline2: "Apache APISIX software provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.",
   url: "https://apisix.apache.org/",
   baseUrl: "/",
   projectName: "apisix-website",

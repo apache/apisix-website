@@ -2,6 +2,9 @@
 id: downloads
 title: Downloads
 ---
+Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.
+
+Apache APISIX software provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
 Use the links below to download the Apache APISIX™ from one of our mirrors.
 
