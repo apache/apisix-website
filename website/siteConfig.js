@@ -29,7 +29,7 @@ const users = [
 
 const siteConfig = {
   title: "Apache APISIX™",
-  tagline: "The Cloud-Native API Gateway",
+  tagline: "A dynamic, real-time, high-performance API gateway, based on the Nginx library and etcd.",
   url: "https://apisix.apache.org/",
   baseUrl: "/",
   projectName: "apisix-website",
