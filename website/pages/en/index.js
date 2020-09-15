@@ -39,6 +39,7 @@ class HomeSplash extends React.Component {
       <h2 className="projectTitle">
         {props.title}
         <small>{props.tagline}</small>
+        <small>{props.tagline2}</small>
       </h2>
     );
 
@@ -62,7 +63,7 @@ class HomeSplash extends React.Component {
       <SplashContainer>
         {/* <Logo img_src={`${baseUrl}img/undraw_monitor.svg`} /> */}
         <div className="inner">
-          <ProjectTitle tagline={siteConfig.tagline} title={siteConfig.title} />
+          <ProjectTitle tagline={siteConfig.tagline} tagline2={siteConfig.tagline2} title={siteConfig.title} />
           <PromoSection>
             <Button href="https://github.com/apache/apisix" target="_blank">View on GitHub</Button>
             <Button href="/docs/downloads" target="_blank">Downloads</Button>
