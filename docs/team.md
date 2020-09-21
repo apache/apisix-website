@@ -25,6 +25,7 @@ title: Team
 | [spacewander](https://whimsy.apache.org/roster/committer/spacewander)     | spacewander   | Zexuan Luo          |
 | [juzhiyuan](https://whimsy.apache.org/roster/committer/juzhiyuan)         | juzhiyuan     | Zhiyuan             |
 | [shuaijinchao](https://whimsy.apache.org/roster/committer/shuaijinchao)   | shuaijinchao  | JinChao Shuai       |
+| [vinci](https://whimsy.apache.org/roster/committer/vinci)                 | ShiningRush   | Vinci               |
 
 ### Committer
 
@@ -35,7 +36,6 @@ title: Team
 | [tangke](https://whimsy.apache.org/roster/committer/tangke)       | supermario1990 | Ke Tang     |
 | [lizhiyong](https://whimsy.apache.org/roster/committer/lizhiyong) | zhiyong0804    | Li Zhiyong  |
 | [coolsoul](https://whimsy.apache.org/roster/committer/coolsoul)   | soulsoul       | Suo Zhang   |
-| [vinci](https://whimsy.apache.org/roster/committer/vinci)         | ShiningRush    | Vinci       |
 | [sunyi](https://whimsy.apache.org/roster/committer/sunyi)         | LiteSun        | Yi Sun      |
 | [liyong](https://whimsy.apache.org/roster/committer/liyong)       | chnliyong      | Yong Li     |
 | [bzp2010](https://whimsy.apache.org/roster/committer/bzp2010)     | bzp2010        | Zeping Bai  |
