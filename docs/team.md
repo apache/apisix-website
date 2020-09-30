@@ -39,6 +39,8 @@ title: Team
 | [sunyi](https://whimsy.apache.org/roster/committer/sunyi)         | LiteSun        | Yi Sun      |
 | [liyong](https://whimsy.apache.org/roster/committer/liyong)       | chnliyong      | Yong Li     |
 | [bzp2010](https://whimsy.apache.org/roster/committer/bzp2010)     | bzp2010        | Zeping Bai  |
+| [liuxiran](https://whimsy.apache.org/roster/committer/liuxiran)   | liuxiran       | Xiran Liu   |
+| [shuyangw](https://whimsy.apache.org/roster/committer/shuyangw)   | yiyiyimu       | Shuyang Wu  |
 
 ## Mentors
 
