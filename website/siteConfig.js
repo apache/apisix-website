@@ -111,7 +111,8 @@ const siteConfig = {
   gaTrackingId: '',
   twitterUsername: 'ApacheAPISIX',
   scrollToTop: true,
-  docsSideNavCollapsible: true
+  docsSideNavCollapsible: true,
+  docsUrl: ''
 };
 
 module.exports = siteConfig;
