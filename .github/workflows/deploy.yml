@@ -19,7 +19,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    
+
+    - name: Clone apisix's docs from repo
+      run: |
+        git clone https://github.com/apache/apisix.git
+        cp -r apisix/doc ./docs/apisix
+
     - name: Build
       run: cd website && yarn && yarn build
       
