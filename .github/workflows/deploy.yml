@@ -24,6 +24,7 @@ jobs:
       run: |
         git clone https://github.com/apache/apisix.git
         cp -r apisix/doc ./docs/apisix
+        cp -r apisix/doc/images ./website/static
 
     - name: Build
       run: cd website && yarn && yarn build
