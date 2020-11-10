@@ -7,9 +7,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-  # NOTE: this is just to trigger CD
-  pull_request:
-     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,6 +36,6 @@ jobs:
       with:
         build_dir: website/build/apisix-website
         target_branch: asf-site
-        keep_history: false
+        keep_history: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
