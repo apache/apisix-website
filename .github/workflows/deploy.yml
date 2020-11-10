@@ -7,6 +7,9 @@ name: CI
 on:
   push:
     branches: [ master ]
+  # NOTE: this is just to trigger CD
+  pull_request:
+     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,7 +22,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    
+
+    - name: Clone apisix's docs from repo
+      run: |
+        git clone https://github.com/apache/apisix.git
+        cp -r apisix/doc apisix-website/docs/apisix
+
     - name: Build
       run: cd website && yarn && yarn build
       
@@ -31,6 +39,6 @@ jobs:
       with:
         build_dir: website/build/apisix-website
         target_branch: asf-site
-        keep_history: true
+        keep_history: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
