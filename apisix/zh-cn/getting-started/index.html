@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/zh-cn/getting-started · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/zh-cn/getting-started · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/zh-cn/getting-started</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+[English](/apisix/getting-started)
+<h1><a class="anchor" aria-hidden="true" id="快速入门指南"></a><a href="#快速入门指南" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>快速入门指南</h1>
+<p>本指南的目的是介绍如何使用 APISIX 来配置出一个安全的可以对外提供服务的 API。当您读完本指南，你需要自己安装一下 APISIX 应用，并准备好一个可以对外提供服务的 API，该服务将由 API key 进行访问保护。</p>
+<p>本指南会使用到以下 GET 请求，该服务可以回显发送到这个 API 的传参。</p>
+<pre><code class="hljs css language-bash">$ curl --location --request GET <span class="hljs-string">"https://httpbin.org/get?foo1=bar1&amp;foo2=bar2"</span>
+</code></pre>
+<p>让我们来分析一下这个 URL 请求</p>
+<ul>
+<li>Scheme: HTTPS</li>
+<li>Host/Address: httpbin.org</li>
+<li>Port: 443</li>
+<li>URI: /get</li>
+<li>Query Parameters: foo1, foo2</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="前提"></a><a href="#前提" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>前提</h2>
+<ul>
+<li>本指南使用 docker 和 docker compose 来安装 Apache APISIX。 但是， 如果您已经以其他方式安装了 Apache APISIX ，您只需跳到 <a href="/apisix/zh-cn/getting-started#第二步:-在-APISIX-中设置路由">第二步</a> 。</li>
+<li>Curl：指南使用 Curl 命令进行 API 测试，但是您也可以使用您选择的任何其他工具（ 例如 Postman ）。</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="第一步-安装-apisix"></a><a href="#第一步-安装-apisix" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>第一步: 安装 APISIX</h2>
+<p>Apache APISIX 可以多种操作环境中安装。<a href="/apisix/zh-cn/how-to-build#installation-via-source-release">如何安装文档</a> 显示了多个平台中的安装步骤。
+为了快速入门，让我们基于 docker 容器的安装方式进行安装。启动 Apache APISIX 服务，我们可以参照这个镜像文件<a href="https://github.com/apache/apisix-docker">repository</a> 并切换到 example 文件夹下执行如下命令。</p>
+<p>如下命令会启动 Apache APISIX 服务并默认在 9080 端口（ https 请求是 9443 端口） 提供 admin API 接口服务</p>
+<pre><code class="hljs css language-bash">$ git <span class="hljs-built_in">clone</span> https://github.com/apache/apisix-docker.git
+$ <span class="hljs-built_in">cd</span> apisix-docker/example
+$ docker-compose -p docker-apisix up -d
+</code></pre>
+<p>第一次下载源代码需要一段时间，之后将非常快。在 docker 容器启动后，请访问以下链接，检查您是否获得成功的响应。</p>
+<pre><code class="hljs css language-bash">$ curl <span class="hljs-string">"http://127.0.0.1:9080/apisix/admin/services/"</span> -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span>
+</code></pre>
+<p>下面是 Admin API 的接口响应：</p>
+<pre><code class="hljs css language-json">{
+    <span class="hljs-attr">"node"</span>: {
+        <span class="hljs-attr">"createdIndex"</span>: <span class="hljs-number">6</span>,
+        <span class="hljs-attr">"modifiedIndex"</span>: <span class="hljs-number">6</span>,
+        <span class="hljs-attr">"key"</span>: <span class="hljs-string">"/apisix/services"</span>,
+        <span class="hljs-attr">"dir"</span>: <span class="hljs-literal">true</span>
+        },
+    <span class="hljs-attr">"action"</span>: <span class="hljs-string">"get"</span>
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="第二步-在-apache-apisix-中创建-route"></a><a href="#第二步-在-apache-apisix-中创建-route" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>第二步: 在 Apache APISIX 中创建 Route</h2>
+<p>为了配置各种 routes / services / plugins ，APISIX 提供了强大的 Admin API 和一个<a href="https://github.com/apache/apisix-dashboard"> web控制台 </a>。
+本指南将会使用到 Admin API 接口。</p>
+<p>一个微服务可以通过 APISIX 的路由、服务、上游和插件等多个实体之间的关系进行配置。
+Route（路由）与客户端请求匹配，并指定它们到达 APISIX 后如何发送到 Upstream（上游，后端 API 服务）。
+Service（服务）为上游服务提供了抽象。因此，您可以创建单个 Service 并在多个 Route 中引用它。
+查看架构文档可以获取更多信息。</p>
+<p>从技术上讲，所有这些信息（upstream、service、plugins）都可以包含在路由配置中。 Route 路由是由这三个主要部分组成的。</p>
+<ul>
+<li><p>路由匹配规则：</p>
+<p>让我们来看看下面的场景
+<a href="http://example.com/services/users">http://example.com/services/users</a></p>
+<p>上面的URL托管了系统中所有跟用户有关的（getUser/GetAllUsers）微服务。例如，可以通过URL（ <a href="http://example.com/services/users/GetAllUsers">http://example.com/services/users/GetAllUsers</a> ） 访问到 GetAllUsers 服务接口。
+现在要公开 <code>users</code> 路径下的所有 <code>GET</code> 服务请求（微服务）。以下是匹配此类请求的路由配置。</p>
+<pre><code class="hljs css language-json">{
+    "methods": ["GET"],
+    "host": "example.com",
+    "uri": "/services/users/*",
+    ... Additional Configurations
+}
+</code></pre>
+<p>通过上面的匹配规则你就可以通过如下的命令跟 APISIX 进行交互了</p>
+<pre><code class="hljs css language-bash">curl -i -X GET <span class="hljs-string">"http://{apisix_server.com}:{port}/services/users/getAllUsers?limit=10"</span> -H <span class="hljs-string">"Host: example.com"</span>
+</code></pre></li>
+<li><p>Upstream 信息：</p>
+<p>Upstream 是一个虚拟主机抽象，它根据配置规则在给定的一组服务节点上执行负载平衡。
+因此，单个上游配置可以由提供相同服务的多个服务器组成。每个节点将包括一个 key（地址/ip:port）和一个 value （节点的权重）。
+服务可以通过轮询或一致哈希（cHash）机制进行负载平衡。</p>
+<p>配置路由时，可以直接设置 Upstream 信息，也可以使用服务抽象来引用 Upstream 信息。</p></li>
+<li><p>各种插件</p>
+<p>插件允许您扩展 APISIX 的功能，并实现可以与 HTTP request / response 生命周期接口的任意逻辑。
+因此，如果您想对 API 进行身份验证，那么您可以使用密钥验证插件来对每个请求强制进行身份验证。</p></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="设置-upstream"></a><a href="#设置-upstream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>设置 Upstream</h3>
+<p>执行以下命令在 APISIX 中创建 id 为 50 的上游信息，并使用 round-robin 机制进行负载平衡。</p>
+<pre><code class="hljs css language-bash">curl <span class="hljs-string">"http://127.0.0.1:9080/apisix/admin/upstreams/50"</span> -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
+{
+    "type": "roundrobin",
+    "nodes": {
+        "httpbin.org:443": 1
+    }
+}'</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="为转发-upstream--添加-route-信息"></a><a href="#为转发-upstream--添加-route-信息" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>为转发 Upstream  添加 Route 信息</h3>
+<p>默认情况下，Apache APISIX 通过 HTTP 协议代理请求。如果我们的后端托管在 HTTPS 环境中，让我们使用 proxy-rewrite 插件将方案更改为 HTTPS 。</p>
+<pre><code class="hljs css language-bash">curl <span class="hljs-string">"http://127.0.0.1:9080/apisix/admin/routes/5"</span> -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
+{
+    "uri": "/get",
+    "host": "httpbin.org",
+    "plugins": {
+        "proxy-rewrite": {
+          "scheme": "https"
+        }
+    },
+    "upstream_id": 50
+}'</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="访问-apache-apisix-进行测试"></a><a href="#访问-apache-apisix-进行测试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>访问 Apache APISIX 进行测试</h3>
+<p>现在让我们调用 Apache APISIX 来测试新配置的路由。</p>
+<pre><code class="hljs css language-bash">curl -i -X GET <span class="hljs-string">"http://127.0.0.1:9080/get?foo1=bar1&amp;foo2=bar2"</span> -H <span class="hljs-string">"Host: httpbin.org"</span>
+</code></pre>
+<p>API 也可以通过 HTTPs（9443）端口服务访问。如果您使用的是自签名证书，那么通过 curl 命令使用 <code>-k</code> 参数忽略自签名证书错误。</p>
+<pre><code class="hljs css language-bash">curl -i -k -X GET <span class="hljs-string">"https://127.0.0.1:9443/get?foo1=bar1&amp;foo2=bar2"</span> -H <span class="hljs-string">"Host: httpbin.org"</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="第三步-为服务增加鉴权"></a><a href="#第三步-为服务增加鉴权" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>第三步: 为服务增加鉴权</h2>
+<p>由于服务对公众开放，我们需要为新创建的 Apache APISIX 服务接口提供适当的保护。执行以下命令来创建一个名为 John 需要 api-key 的用户。</p>
+<p>注：Apache APISIX 支持多种认证机制，查看插件文档了解更多。</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "username": "john",
+    "plugins": {
+        "key-auth": {
+            "key": "superSecretAPIKey"
+        }
+    }
+}'
+</code></pre>
+<p>现在，让我们将服务配置为包含 KEY 验证插件。</p>
+<pre><code class="hljs css language-bash">curl http://127.0.0.1:9080/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
+{
+    "uri": "/get",
+    "host": "httpbin.org",
+    "plugins": {
+        "proxy-rewrite": {
+          "scheme": "https"
+        },
+        "key-auth": {}
+    },
+    "upstream_id": 50
+}'</span>
+</code></pre>
+<p>由于 route 由密钥验证插件保护，前一个访问 API 的 curl 命令将产生未经授权的访问错误。
+现在使用下面的命令安全地访问请求。</p>
+<pre><code class="hljs css language-bash">curl -i -X GET http://127.0.0.1:9080/get -H <span class="hljs-string">"Host: httpbin.org"</span> -H <span class="hljs-string">'apikey: superSecretAPIKey'</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="为-route-添加前缀"></a><a href="#为-route-添加前缀" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>为 route 添加前缀</h2>
+<p>现在，假设您要向路由添加前缀（例如：samplePrefix），并且不想使用 <code>host</code> 头， 则可以使用代理来完成。</p>
+<pre><code class="hljs css language-bash">curl http://127.0.0.1:9080/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
+{
+    "uri": "/samplePrefix/get",
+    "plugins": {
+        "proxy-rewrite": {
+          "scheme": "https",
+          "regex_uri": ["^/samplePrefix/get(.*)", "/get$1"]
+        },
+        "key-auth": {}
+    },
+    "upstream_id": 50
+}'</span>
+</code></pre>
+<p>现在可以使用以下命令调用路由：</p>
+<pre><code class="hljs css language-bash">curl -i -X GET <span class="hljs-string">'http://127.0.0.1:9080/samplePrefix/get?param1=foo&amp;param2=bar'</span> -H <span class="hljs-string">'apikey: superSecretAPIKey'</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="apache-apisix-控制台"></a><a href="#apache-apisix-控制台" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Apache APISIX 控制台</h2>
+<p>到目前为止，已经通过使用 admin API 接口编排对 Apache APISIX 的 API 的调用。然而，Apache APISIX 还提供执行类似操作的一个 web 应用，就是web控制台。
+可以在<a href="https://github.com/apache/apisix">repository</a>中使用。控制台是直观的，您可以通过它编排同样的路由配置。</p>
+<p><img src="../images/dashboard.png" alt="Dashboard"></p>
+<h3><a class="anchor" aria-hidden="true" id="故障排查"></a><a href="#故障排查" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>故障排查</h3>
+<ul>
+<li><p>确保所需的端口未被其他系统/进程使用（默认端口为：9080、9443、2379）。下面是终止正在侦听特定端口（基于unix的系统）的进程的命令。</p>
+<pre><code class="hljs css language-bash">sudo fuser -k 9443/tcp
+</code></pre></li>
+<li><p>如果 docker 容器持续重启或者重启失败，请登录容器并观察日志以诊断问题。</p>
+<pre><code class="hljs css language-bash">docker logs -f --tail container_id
+</code></pre></li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#前提">前提</a></li><li><a href="#第一步-安装-apisix">第一步: 安装 APISIX</a></li><li><a href="#第二步-在-apache-apisix-中创建-route">第二步: 在 Apache APISIX 中创建 Route</a><ul class="toc-headings"><li><a href="#设置-upstream">设置 Upstream</a></li><li><a href="#为转发-upstream--添加-route-信息">为转发 Upstream  添加 Route 信息</a></li><li><a href="#访问-apache-apisix-进行测试">访问 Apache APISIX 进行测试</a></li></ul></li><li><a href="#第三步-为服务增加鉴权">第三步: 为服务增加鉴权</a></li><li><a href="#为-route-添加前缀">为 route 添加前缀</a></li><li><a href="#apache-apisix-控制台">Apache APISIX 控制台</a><ul class="toc-headings"><li><a href="#故障排查">故障排查</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

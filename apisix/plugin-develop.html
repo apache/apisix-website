@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/plugin-develop · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/plugin-develop · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/plugin-develop</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+[中文](/apisix/zh-cn/plugin-develop)
+<h1><a class="anchor" aria-hidden="true" id="table-of-contents"></a><a href="#table-of-contents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>table of contents</h1>
+<ul>
+<li><a href="#check-dependencies"><strong>check dependencies</strong></a></li>
+<li><a href="#name-and-config"><strong>name and config</strong></a></li>
+<li><a href="#schema-and-check"><strong>schema and check</strong></a></li>
+<li><a href="#choose-phase-to-run"><strong>choose phase to run</strong></a></li>
+<li><a href="#implement-the-logic"><strong>implement the logic</strong></a></li>
+<li><a href="#write-test-case"><strong>write test case</strong></a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="check-dependencies"></a><a href="#check-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>check dependencies</h2>
+<p>if you have dependencies on external libraries, check the dependent items. if your plugin needs to use shared memory, it
+needs to declare in <strong>bin/apisix</strong>, for example :</p>
+<pre><code class="hljs css language-nginx">    <span class="hljs-attribute">lua_shared_dict</span> plugin-limit-req     <span class="hljs-number">10m</span>;
+    <span class="hljs-attribute">lua_shared_dict</span> plugin-limit-count   <span class="hljs-number">10m</span>;
+    <span class="hljs-attribute">lua_shared_dict</span> prometheus-metrics   <span class="hljs-number">10m</span>;
+    <span class="hljs-attribute">lua_shared_dict</span> plugin-limit-conn    <span class="hljs-number">10m</span>;
+    <span class="hljs-attribute">lua_shared_dict</span> upstream-healthcheck <span class="hljs-number">10m</span>;
+    <span class="hljs-attribute">lua_shared_dict</span> worker-events        <span class="hljs-number">10m</span>;
+
+    <span class="hljs-comment"># for openid-connect plugin</span>
+    <span class="hljs-attribute">lua_shared_dict</span> discovery             <span class="hljs-number">1m</span>; <span class="hljs-comment"># cache for discovery metadata documents</span>
+    <span class="hljs-attribute">lua_shared_dict</span> jwks                  <span class="hljs-number">1m</span>; <span class="hljs-comment"># cache for JWKs</span>
+    <span class="hljs-attribute">lua_shared_dict</span> introspection        <span class="hljs-number">10m</span>; <span class="hljs-comment"># cache for JWT verification results</span>
+</code></pre>
+<p>The plugin itself provides the init method. It is convenient for plugins to perform some initialization after
+the plugin is loaded.</p>
+<p>Note : if the dependency of some plugin needs to be initialized when Nginx start, you may need to add logic to the initialization
+method &quot;http_init&quot; in the file <strong>apisix.lua</strong>, And you may need to add some processing on generated part of Nginx
+configuration file in <strong>bin/apisix</strong> file. but it is easy to have an impact on the overall situation according to the
+existing plugin mechanism, we do not recommend this unless you have a complete grasp of the code.</p>
+<h2><a class="anchor" aria-hidden="true" id="name-and-config"></a><a href="#name-and-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>name and config</h2>
+<p>determine the name and priority of the plugin, and add to conf/config-default.yaml. For example, for the key-auth plugin,
+you need to specify the plugin name in the code (the name is the unique identifier of the plugin and cannot be
+duplicate), you can see the code in file &quot;<strong>apisix/plugins/key-auth.lua</strong>&quot; :</p>
+<pre><code class="hljs css language-lua">   <span class="hljs-keyword">local</span> plugin_name = <span class="hljs-string">"key-auth"</span>
+
+   <span class="hljs-keyword">local</span> _M = {
+      version = <span class="hljs-number">0.1</span>,
+      priority = <span class="hljs-number">2500</span>,
+      <span class="hljs-built_in">type</span> = <span class="hljs-string">'auth'</span>,
+      name = plugin_name,
+      schema = schema,
+   }
+</code></pre>
+<p>Note : The priority of the new plugin cannot be the same as the priority of any existing plugin. In addition, plugins with a high priority value will be executed first. For example, the priority of basic-auth is 2520 and the priority of ip-restriction is 3000. Therefore, the ip-restriction plugin will be executed first, then the basic-auth plugin.</p>
+<p>in the &quot;<strong>conf/config-default.yaml</strong>&quot; configuration file, the enabled plugins (all specified by plugin name) are listed.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">plugins:</span>                          <span class="hljs-comment"># plugin list</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">example-plugin</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">limit-req</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">limit-count</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">limit-conn</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">key-auth</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">prometheus</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">node-status</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">jwt-auth</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">zipkin</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">ip-restriction</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">grpc-transcode</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">serverless-pre-function</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">serverless-post-function</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">openid-connect</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">proxy-rewrite</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">redirect</span>
+</code></pre>
+<p>Note : the order of the plugins is not related to the order of execution.</p>
+<p>If your plugin has a new code directory of its own, you will need to modify the <code>Makefile</code> to create directory, such as:</p>
+<pre><code class="hljs"><span class="hljs-variable">$(</span>INSTALL) -d <span class="hljs-variable">$(</span>INST_LUADIR)/apisix/plugins/skywalking
+<span class="hljs-variable">$(</span>INSTALL) apisix/plugins/skywalking/*.lua <span class="hljs-variable">$(</span>INST_LUADIR)/apisix/plugins/skywalking/
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="schema-and-check"></a><a href="#schema-and-check" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>schema and check</h2>
+<p>Write <a href="https://json-schema.org">Json Schema</a> descriptions and check functions. similarly, take the key-auth plugin as an example to see its
+configuration data :</p>
+<pre><code class="hljs css language-json"> "key-auth" : {
+       "key" : "auth-one"
+  }
+</code></pre>
+<p>The configuration data of the plugin is relatively simple. Only one attribute named key is supported. Let's look
+at its schema description :</p>
+<pre><code class="hljs css language-lua">   <span class="hljs-keyword">local</span> schema = {
+       <span class="hljs-built_in">type</span> = <span class="hljs-string">"object"</span>,
+       properties = {
+           key = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"string"</span>},
+       }
+   }
+</code></pre>
+<p>At the same time, we need to implement the <strong>check_schema(conf)</strong> method to complete the specification verification.</p>
+<pre><code class="hljs css language-lua">   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.check_schema</span><span class="hljs-params">(conf)</span></span>
+       <span class="hljs-keyword">return</span> core.schema.check(schema, conf)
+   <span class="hljs-keyword">end</span>
+</code></pre>
+<p>Note: the project has provided the public method &quot;<strong>core.schema.check</strong>&quot;, which can be used directly to complete JSON
+verification.</p>
+<p>In addition, if the plugin needs to use some metadata, we can define the plugin <code>metadata_schema</code>, and then we can dynamically manage these metadata through the <code>admin api</code>. Example:</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> metadata_schema = {
+    <span class="hljs-built_in">type</span> = <span class="hljs-string">"object"</span>,
+    properties = {
+        ikey = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"number"</span>, minimum = <span class="hljs-number">0</span>},
+        skey = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"string"</span>},
+    },
+    required = {<span class="hljs-string">"ikey"</span>, <span class="hljs-string">"skey"</span>},
+    additionalProperties = <span class="hljs-literal">false</span>,
+}
+
+<span class="hljs-keyword">local</span> plugin_name = <span class="hljs-string">"example-plugin"</span>
+
+<span class="hljs-keyword">local</span> _M = {
+    version = <span class="hljs-number">0.1</span>,
+    priority = <span class="hljs-number">0</span>,        <span class="hljs-comment">-- <span class="hljs-doctag">TODO:</span> add a type field, may be a good idea</span>
+    name = plugin_name,
+    schema = schema,
+    metadata_schema = metadata_schema,
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="choose-phase-to-run"></a><a href="#choose-phase-to-run" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>choose phase to run</h2>
+<p>Determine which phase to run, generally access or rewrite. If you don't know the <a href="https://openresty-reference.readthedocs.io/en/latest/Directives/">Openresty life cycle</a>, it's
+recommended to know it in advance. For example key-auth is an authentication plugin, thus the authentication should be completed
+before forwarding the request to any upstream service. Therefore, the plugin can be executed in the rewrite and access phases.
+In APISIX, the authentication logic is implemented in the rewrite phase. Generally, IP access and interface
+permission are completed in the access phase.</p>
+<p>The following code snippet shows how to implement any logic relevant to the plugin in the Openresty log phase.</p>
+<pre><code class="hljs css language-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.log</span><span class="hljs-params">(conf)</span></span>
+<span class="hljs-comment">-- Implement logic here</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p><strong>Note : we can't invoke <code>ngx.exit</code> or <code>core.respond.exit</code> in rewrite phase and access phase. if need to exit, just return the status and body, the plugin engine will make the exit happen with the returned status and body. <a href="https://github.com/apache/apisix/blob/master/apisix/plugins/limit-count.lua#L132">example</a></strong></p>
+<h2><a class="anchor" aria-hidden="true" id="implement-the-logic"></a><a href="#implement-the-logic" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>implement the logic</h2>
+<p>Write the logic of the plugin in the corresponding phase.</p>
+<h2><a class="anchor" aria-hidden="true" id="write-test-case"></a><a href="#write-test-case" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>write test case</h2>
+<p>For functions, write and improve the test cases of various dimensions, do a comprehensive test for your plugin ! The
+test cases of plugins are all in the &quot;<strong>t/plugin</strong>&quot; directory. You can go ahead to find out. APISIX uses
+<a href="https://github.com/openresty/test-nginx">****test-nginx****</a> as the test framework. A test case,.t file is usually
+divided into prologue and data parts by _<em>data_</em>. Here we will briefly introduce the data part, that is, the part
+of the real test case. For example, the key-auth plugin :</p>
+<pre><code class="hljs css language-perl">=== TEST <span class="hljs-number">1</span>: sanity
+--- config
+    location /t {
+        content_by_lua_block {
+            <span class="hljs-keyword">local</span> plugin = <span class="hljs-keyword">require</span>(<span class="hljs-string">"apisix.plugins.key-auth"</span>)
+            <span class="hljs-keyword">local</span> ok, err = plugin.check_schema({key = <span class="hljs-string">'test-key'</span>})
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> ok then
+                ngx.say(err)
+            end
+
+            ngx.say(<span class="hljs-string">"done"</span>)
+        }
+    }
+--- request
+GET /t
+--- response_body
+done
+--- no_error_log
+[error]
+</code></pre>
+<p>A test case consists of three parts :</p>
+<ul>
+<li><strong>Program code</strong> : configuration content of Nginx location</li>
+<li><strong>Input</strong> : http request information</li>
+<li><strong>Output check</strong> : status, header, body, error log check</li>
+</ul>
+<p>When we request <strong>/t</strong>, which config in the configuration file, the Nginx will call &quot;<strong>content_by_lua_block</strong>&quot; instruction to
+complete the Lua script, and finally return. The assertion of the use case is response_body return &quot;done&quot;,
+&quot;<strong>no_error_log</strong>&quot; means to check the &quot;<strong>error.log</strong>&quot; of Nginx. There must be no ERROR level record. The log files for the unit test
+are located in the following folder: 't/servroot/logs'.</p>
+<p>Refer the following <a href="/apisix/how-to-build#test">document</a> to setup the testing framework.</p>
+<h3><a class="anchor" aria-hidden="true" id="attach-the-test-nginx-execution-process"></a><a href="#attach-the-test-nginx-execution-process" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attach the test-nginx execution process:</h3>
+<p>According to the path we configured in the makefile and some configuration items at the front of each <strong>.t</strong> file, the
+framework will assemble into a complete nginx.conf file. &quot;<strong>t/servroot</strong>&quot; is the working directory of Nginx and start the
+Nginx instance. according to the information provided by the test case, initiate the http request and check that the
+return items of HTTP include HTTP status, HTTP response header, HTTP response body and so on.</p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#check-dependencies">check dependencies</a></li><li><a href="#name-and-config">name and config</a></li><li><a href="#schema-and-check">schema and check</a></li><li><a href="#choose-phase-to-run">choose phase to run</a></li><li><a href="#implement-the-logic">implement the logic</a></li><li><a href="#write-test-case">write test case</a><ul class="toc-headings"><li><a href="#attach-the-test-nginx-execution-process">Attach the test-nginx execution process:</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

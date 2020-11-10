@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/zh-cn/stand-alone · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/zh-cn/stand-alone · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/zh-cn/stand-alone</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p><a href="/apisix/stand-alone">English</a></p>
+<h2><a class="anchor" aria-hidden="true" id="stand-alone-mode"></a><a href="#stand-alone-mode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Stand-alone mode</h2>
+<p>开启 Stand-alone 模式的 APISIX 节点，将不再使用默认的 etcd 作为配置中心。</p>
+<p>这种方式比较适合两类用户：</p>
+<ol>
+<li>kubernetes(k8s)：声明式 API 场景，通过全量 yaml 配置来动态更新修改路由规则。</li>
+<li>不同配置中心：配置中心的实现有很多，比如 Consul 等，使用全量 yaml 做中间转换桥梁。</li>
+</ol>
+<p>APISIX 节点服务启动后会立刻加载 <code>conf/apisix.yaml</code> 文件中的路由规则到内存，并且每间隔一定时间
+（默认 1 秒钟），都会尝试检测文件内容是否有更新，如果有更新则重新加载规则。</p>
+<p><em>注意</em>：重新加载规则并更新时，均是内存热更新，不会有工作进程的替换过程，是个热更新过程。</p>
+<p>通过设置 <code>conf/config.yaml</code> 中的 <code>apisix.config_center</code> 选项为 <code>yaml</code> 表示启
+用 Stand-alone 模式。</p>
+<p>参考下面示例：</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">apisix:</span>
+  <span class="hljs-comment"># ...</span>
+  <span class="hljs-attr">config_center:</span> <span class="hljs-string">yaml</span>             <span class="hljs-comment"># etcd: use etcd to store the config value</span>
+                                  <span class="hljs-comment"># yaml: fetch the config value from local yaml file `/your_path/conf/apisix.yaml`</span>
+<span class="hljs-comment"># ...</span>
+</code></pre>
+<p>此外由于目前 Admin API 都是基于 etcd 配置中心解决方案，当开启 Stand-alone 模式后，
+Admin API 实际将不起作用。</p>
+<h2><a class="anchor" aria-hidden="true" id="如何配置规则"></a><a href="#如何配置规则" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何配置规则</h2>
+<p>所有的路由规则均存放在 <code>conf/apisix.yaml</code> 这一个文件中，APISIX 会以每秒（默认）频率检查文件是否有变化，如果有变化，则会检查文件末尾是否能找到 <code>#END</code> 结尾，找到后则重新加载文件更新到内存。</p>
+<p>下面就是个最小的示例：</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">routes:</span>
+  <span class="hljs-bullet">-</span>
+    <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello</span>
+    <span class="hljs-attr">upstream:</span>
+        <span class="hljs-attr">nodes:</span>
+            <span class="hljs-attr">"127.0.0.1:1980":</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+<span class="hljs-comment">#END</span>
+</code></pre>
+<p><em>注意</em>：如果<code>conf/apisix.yaml</code>末尾不能找到 <code>#END</code>，那么 APISIX 将不会加载这个文件规则到内存。</p>
+<h3><a class="anchor" aria-hidden="true" id="配置-router"></a><a href="#配置-router" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置 Router</h3>
+<p>单个 Router：</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">routes:</span>
+  <span class="hljs-bullet">-</span>
+    <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello</span>
+    <span class="hljs-attr">upstream:</span>
+        <span class="hljs-attr">nodes:</span>
+            <span class="hljs-attr">"127.0.0.1:1980":</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+<span class="hljs-comment">#END</span>
+</code></pre>
+<p>多个 Router：</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">routes:</span>
+  <span class="hljs-bullet">-</span>
+    <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello</span>
+    <span class="hljs-attr">upstream:</span>
+        <span class="hljs-attr">nodes:</span>
+            <span class="hljs-attr">"127.0.0.1:1980":</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+  <span class="hljs-bullet">-</span>
+    <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello2</span>
+    <span class="hljs-attr">upstream:</span>
+        <span class="hljs-attr">nodes:</span>
+            <span class="hljs-attr">"127.0.0.1:1981":</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+<span class="hljs-comment">#END</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="配置-router--service"></a><a href="#配置-router--service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置 Router + Service</h3>
+<pre><code class="hljs css language-yml"><span class="hljs-attr">routes:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello</span>
+        <span class="hljs-attr">service_id:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">services:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">id:</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">upstream:</span>
+            <span class="hljs-attr">nodes:</span>
+                <span class="hljs-attr">"127.0.0.1:1980":</span> <span class="hljs-number">1</span>
+            <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+<span class="hljs-comment">#END</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="配置-router--upstream"></a><a href="#配置-router--upstream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置 Router + Upstream</h3>
+<pre><code class="hljs css language-yml"><span class="hljs-attr">routes:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello</span>
+        <span class="hljs-attr">upstream_id:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">upstreams:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">id:</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">nodes:</span>
+            <span class="hljs-attr">"127.0.0.1:1980":</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+<span class="hljs-comment">#END</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="配置-router--service--upstream"></a><a href="#配置-router--service--upstream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置 Router + Service + Upstream</h4>
+<pre><code class="hljs css language-yml"><span class="hljs-attr">routes:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">uri:</span> <span class="hljs-string">/hello</span>
+        <span class="hljs-attr">service_id:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">services:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">id:</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">upstream_id:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">upstreams:</span>
+    <span class="hljs-bullet">-</span>
+        <span class="hljs-attr">id:</span> <span class="hljs-number">2</span>
+        <span class="hljs-attr">nodes:</span>
+            <span class="hljs-attr">"127.0.0.1:1980":</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">roundrobin</span>
+<span class="hljs-comment">#END</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="配置-plugins"></a><a href="#配置-plugins" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置 Plugins</h4>
+<pre><code class="hljs css language-yml"><span class="hljs-comment"># 列出的插件会被热加载并覆盖掉启动时的配置</span>
+<span class="hljs-attr">plugins:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">ip-restriction</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">jwt-auth</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">mqtt-proxy</span>
+    <span class="hljs-attr">stream:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># stream 插件需要设置 stream 属性为 true</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#stand-alone-mode">Stand-alone mode</a></li><li><a href="#如何配置规则">如何配置规则</a><ul class="toc-headings"><li><a href="#配置-router">配置 Router</a></li><li><a href="#配置-router--service">配置 Router + Service</a></li><li><a href="#配置-router--upstream">配置 Router + Upstream</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

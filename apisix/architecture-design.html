@@ -1,0 +1,588 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/architecture-design · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/architecture-design · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/architecture-design</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p><a href="/apisix/zh-cn/architecture-design">Chinese</a></p>
+<h2><a class="anchor" aria-hidden="true" id="table-of-contents"></a><a href="#table-of-contents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ul>
+<li><a href="#apisix"><strong>APISIX</strong></a></li>
+<li><a href="#apisix-config"><strong>APISIX Config</strong></a></li>
+<li><a href="#route"><strong>Route</strong></a></li>
+<li><a href="#service"><strong>Service</strong></a></li>
+<li><a href="#plugin"><strong>Plugin</strong></a></li>
+<li><a href="#script"><strong>Script</strong></a></li>
+<li><a href="#upstream"><strong>Upstream</strong></a></li>
+<li><a href="#router"><strong>Router</strong></a></li>
+<li><a href="#consumer"><strong>Consumer</strong></a></li>
+<li><a href="#Global-Rule"><strong>Global Rule</strong></a></li>
+<li><a href="#Debug-mode"><strong>Debug mode</strong></a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="apisix"></a><a href="#apisix" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>APISIX</h2>
+<h3><a class="anchor" aria-hidden="true" id="plugin-loading-process"></a><a href="#plugin-loading-process" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin Loading Process</h3>
+<p><img src="./images/flow-load-plugin.png" alt="flow-load-plugin"></p>
+<h3><a class="anchor" aria-hidden="true" id="plugin-hierarchy-structure"></a><a href="#plugin-hierarchy-structure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin Hierarchy Structure</h3>
+<p><img src="./images/flow-plugin-internal.png" width="50%" height="50%"></p>
+<h2><a class="anchor" aria-hidden="true" id="apisix-config"></a><a href="#apisix-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>APISIX Config</h2>
+<p>For example, set the default listening port of APISIX to 8000, and keep other configurations as default. The configuration in <code>conf/config.yaml</code> should be like this:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">apisix:</span>
+  <span class="hljs-attr">node_listen:</span> <span class="hljs-number">8000</span>             <span class="hljs-comment"># APISIX listening port</span>
+</code></pre>
+<p>Set the default listening port of APISIX to 8000, set the <code>etcd</code> address to <code>http://foo:2379</code>,
+and keep other configurations as default. The configuration in <code>conf/config.yaml</code> should be like this:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">apisix:</span>
+  <span class="hljs-attr">node_listen:</span> <span class="hljs-number">8000</span>             <span class="hljs-comment"># APISIX listening port</span>
+
+<span class="hljs-attr">etcd:</span>
+  <span class="hljs-attr">host:</span> <span class="hljs-string">"http://foo:2379"</span>       <span class="hljs-comment"># etcd address</span>
+</code></pre>
+<p>Other default configurations can be found in the <code>conf/config-default.yaml</code> file, which is bound to the APISIX source code. <strong>Never</strong> manually modify the <code>conf/config-default.yaml</code> file. If you need to customize any configuration, you should update the <code>conf/config.yaml</code> file.</p>
+<p><strong>Note</strong> <code>APISIX</code> will generate <code>conf/nginx.conf</code> file automatically, so please <em>DO NOT EDIT</em> <code>conf/nginx.conf</code> file too.</p>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="route"></a><a href="#route" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route</h2>
+<p>The route matches the client's request by defining rules, then loads and executes the corresponding plugin based on the matching result, and forwards the request to the specified Upstream.</p>
+<p>The route mainly consists of three parts: matching rules (e.g uri, host, remote_addr, etc.), plugin configuration (current-limit &amp; rate-limit, etc.) and upstream information.</p>
+<p>The following image shows an example of some Route rules. When some attribute values are the same, the figure is identified by the same color.</p>
+<p><img src="./images/routes-example.png" width="50%" height="50%"></p>
+<p>We configure all the parameters directly in the Route, it's easy to set up, and each Route has a relatively high degree of freedom. But when our Route has more repetitive configurations (such as enabling the same plugin configuration or upstream information), once we need update these same properties, we have to traverse all the Routes and modify them, so it adding a lot of complexity of management and maintenance.</p>
+<p>The shortcomings mentioned above are independently abstracted in APISIX by the two concepts <a href="#service">Service</a> and <a href="#upstream">Upstream</a>.</p>
+<p>The route example created below is to proxy the request with URL <code>/index.html</code> to the Upstream service with the address <code>39.97.63.215:80</code>:</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "uri": "/index.html",
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+
+HTTP/1.1 201 Created
+Date: Sat, 31 Aug 2019 01:17:15 GMT
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: APISIX web server
+
+{"node":{"value":{"uri":"\/index.html","upstream":{"nodes":{"39.97.63.215:80":1},"type":"roundrobin"}},"createdIndex":61925,"key":"\/apisix\/routes\/1","modifiedIndex":61925},"action":"create"}
+</code></pre>
+<p>When we receive a successful response, it indicates that the route was successfully created.</p>
+<p>For specific options of Route, please refer to <a href="/apisix/admin-api#route">Admin API</a>.</p>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="service"></a><a href="#service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Service</h2>
+<p>A <code>Service</code> is an abstraction of an API (which can also be understood as a set of Route abstractions). It usually corresponds to the upstream service abstraction. Between <code>Route</code> and <code>Service</code>, usually the relationship of N:1, please see the following image.</p>
+<p><img src="./images/service-example.png" width="50%" height="50%"></p>
+<p>Different Route rules are bound to a Service at the same time. These Routes will have the same upstream and plugin configuration, reducing redundant configuration.</p>
+<p>The following example creates a Service that enables the current-limit plugin, and then binds the Route with the id of <code>100</code> and <code>101</code> to the Service.</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> create new Service</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/200 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "plugins": {
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    },
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+<span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-string"> create new Route and reference the service by id `200`</span></span>
+curl http://127.0.0.1:9080/apisix/admin/routes/100 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "methods": ["GET"],
+    "uri": "/index.html",
+    "service_id": "200"
+}'
+
+curl http://127.0.0.1:9080/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "methods": ["GET"],
+    "uri": "/foo/index.html",
+    "service_id": "200"
+}'
+</code></pre>
+<p>Of course, we can also specify different plugin parameters or upstream for Route. Some of the following Routes have different current-limit parameters. Other parts (such as upstream) continue to use the configuration parameters in Service.</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/102 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/bar/index.html",
+    "id": "102",
+    "service_id": "200",
+    "plugins": {
+        "limit-count": {
+            "count": 2000,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    }
+}'
+</code></pre>
+<p>Note: When both Route and Service enable the same plugin, the Route parameter has a higher priority than Service.</p>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="plugin"></a><a href="#plugin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin</h2>
+<p><code>Plugin</code> represents the plugin configuration that will be executed during the <code>HTTP</code> request/response lifecycle.</p>
+<p>The <code>Plugin</code> configuration can be bound directly to <code>Route</code> or it can be bound to <code>Service</code> or <code>Consumer</code>. For the configuration of the same plugin, only one copy is valid, and the configuration selection priority is always <code>Consumer</code> &gt; <code>Route</code> &gt; <code>Service</code>.</p>
+<p>In <code>conf/config.yaml</code>, you can declare which plugins are supported by the local APISIX node. This is a whitelisting mechanism. Plugins that are not in this whitelist will be automatically ignored. This feature can be used to temporarily turn off or turn on specific plugins, which is very effective in dealing with unexpected situations.</p>
+<p>The configuration of the plugin can be directly bound to the specified Route, or it can be bound to the Service, but the plugin configuration in Route has a higher priority.</p>
+<p>A plugin will only be executed once in a single request, even if it is bound to multiple different objects (such as Route or Service).</p>
+<p>The order in which plugins are run is determined by the priority of the plugin itself, for example:</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> _M = {
+    version = <span class="hljs-number">0.1</span>,
+    priority = <span class="hljs-number">0</span>, <span class="hljs-comment">-- the priority of this plugin will be 0</span>
+    name = plugin_name,
+    schema = schema,
+    metadata_schema = metadata_schema,
+}
+</code></pre>
+<p>The plugin configuration is submitted as part of Route or Service and placed under <code>plugins</code>. It internally uses the plugin name as the hash's key to hold configuration items for different plugins.</p>
+<pre><code class="hljs css language-json">{
+    ...
+    "plugins": {
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        },
+        "prometheus": {}
+    }
+}
+</code></pre>
+<p>Not all plugins have specific configuration items. For example, there is no specific configuration item under <code>prometheus</code>. In this case, an empty object identifier can be used.</p>
+<p><a href="/apisix/README#plugins">APISIX supported plugin list</a></p>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="script"></a><a href="#script" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Script</h2>
+<p><code>Script</code> represents a script that will be executed during the <code>HTTP</code> request/response life cycle.</p>
+<p>The <code>Script</code> configuration can be directly bound to the <code>Route</code>.</p>
+<p><code>Script</code> and <code>Plugin</code> are mutually exclusive, and <code>Script</code> is executed first. This means that after configuring <code>Script</code>, the <code>Plugin</code> configured on <code>Route</code> will not be executed.</p>
+<p>In theory, you can write arbitrary Lua code in <code>Script</code>, or you can directly call existing plugins to reuse existing code.</p>
+<p><code>Script</code> also has the concept of execution phase, supporting <code>access</code>, <code>header_filer</code>, <code>body_filter</code> and <code>log</code> phase. The system will automatically execute the code of the corresponding phase in the <code>Script</code> script in the corresponding phase.</p>
+<pre><code class="hljs css language-json">{
+    ...
+    "script": "local _M = {} \n function _M.access(api_ctx) \n ngx.log(ngx.INFO,\"hit access phase\") \n end \nreturn _M"
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="upstream"></a><a href="#upstream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upstream</h2>
+<p>Upstream is a virtual host abstraction that performs load balancing on a given set of service nodes according to configuration rules. Upstream address information can be directly configured to <code>Route</code> (or <code>Service</code>). When Upstream has duplicates, you need to use &quot;reference&quot; to avoid duplication.</p>
+<p><img src="./images/upstream-example.png" width="50%" height="50%"></p>
+<p>As shown in the image above, by creating an Upstream object and referencing it by ID in <code>Route</code>, you can ensure that only the value of an object is maintained.</p>
+<p>Upstream configuration can be directly bound to the specified <code>Route</code> or it can be bound to <code>Service</code>, but the configuration in <code>Route</code> has a higher priority. The priority behavior here is very similar to <code>Plugin</code>.</p>
+<h3><a class="anchor" aria-hidden="true" id="configuration"></a><a href="#configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration</h3>
+<p>In addition to the basic complex equalization algorithm selection, APISIX's Upstream also supports logic for upstream passive health check and retry, see the table below.</p>
+<table>
+<thead>
+<tr><th>Name</th><th>Optional</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>type</td><td>required</td><td><code>roundrobin</code> supports the weight of the load, <code>chash</code> consistency hash, pick one of them.</td></tr>
+<tr><td>nodes</td><td>required if <code>service_name</code> and <code>k8s_deployment_info</code> not configured</td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected.</td></tr>
+<tr><td>service_name</td><td>required if <code>nodes</code> and <code>k8s_deployment_info</code> not configured</td><td>The name of the upstream service and used with the registry, refer to <a href="/apisix/discovery">Integration service discovery registry</a>.</td></tr>
+<tr><td>k8s_deployment_info</td><td>required if <code>nodes</code> and <code>service_name</code> not configured</td><td>fields: <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>, <code>port</code> is number, <code>backend_type</code> is <code>pod</code> or <code>service</code>, others is string.</td></tr>
+<tr><td>hash_on</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Supported types <code>vars</code>(Nginx variables), <code>header</code>(custom header), <code>cookie</code>, <code>consumer</code>, the default value is <code>vars</code>.</td></tr>
+<tr><td>key</td><td>required</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_id</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
+<tr><td>checks</td><td>optional</td><td>Configure the parameters of the health check. For details, refer to <a href="/apisix/health-check">health-check</a>.</td></tr>
+<tr><td>retries</td><td>optional</td><td>Pass the request to the next upstream using the underlying Nginx retry mechanism, the retry mechanism is enabled by default and set the number of retries according to the number of backend nodes. If <code>retries</code> option is explicitly set, it will override the default value.</td></tr>
+<tr><td>enable_websocket</td><td>optional</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td></tr>
+<tr><td>timeout</td><td>optional</td><td>Set the timeout for connection, sending and receiving messages.</td></tr>
+<tr><td>desc</td><td>optional</td><td>Identifies route names, usage scenarios, and more.</td></tr>
+<tr><td>labels</td><td>optional</td><td>The key/value pairs to specify attributes.</td></tr>
+<tr><td>pass_host</td><td>optional</td><td><code>pass</code> pass the client request host, <code>node</code> not pass the client request host, using the upstream node host, <code>rewrite</code> rewrite host by the configured <code>upstream_host</code>.</td></tr>
+<tr><td>upstream_host</td><td>optional</td><td>This option is only valid if the <code>pass_host</code> is <code>rewrite</code>.</td></tr>
+</tbody>
+</table>
+<p>Create an upstream object use case:</p>
+<pre><code class="hljs css language-json">curl http://127.0.0.1:9080/apisix/admin/upstreams/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "type": "roundrobin",
+    "k8s_deployment_info": {
+        "namespace": "test-namespace",
+        "deploy_name": "test-deploy-name",
+        "service_name": "test-service-name",
+        "backend_type": "pod",
+        "port": 8080
+    }
+}'
+
+curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "type": "chash",
+    "key": "remote_addr",
+    "enable_websocket": true,
+    "nodes": {
+        "127.0.0.1:80": 1,
+        "foo.com:80": 2
+    }
+}'
+</code></pre>
+<p>After the upstream object is created, it can be referenced by specific <code>Route</code> or <code>Service</code>, for example:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/index.html",
+    "upstream_id": 2
+}'
+</code></pre>
+<p>For convenience, you can also directly bind the upstream address to a <code>Route</code> or <code>Service</code>, for example:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/index.html",
+    "plugins": {
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    },
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+</code></pre>
+<p>Here's an example of configuring a health check:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/index.html",
+    "plugins": {
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    },
+    "upstream": {
+         "nodes": {
+            "39.97.63.215:80": 1
+        }
+        "type": "roundrobin",
+        "retries": 2,
+        "checks": {
+            "active": {
+                "http_path": "/status",
+                "host": "foo.com",
+                "healthy": {
+                    "interval": 2,
+                    "successes": 1
+                },
+                "unhealthy": {
+                    "interval": 1,
+                    "http_failures": 2
+                }
+            }
+        }
+    }
+}'
+</code></pre>
+<p>More details can be found in <a href="/apisix/health-check">Health Checking Documents</a>.</p>
+<p>Here are some examples of configurations using different <code>hash_on</code> types:</p>
+<h4><a class="anchor" aria-hidden="true" id="consumer"></a><a href="#consumer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h4>
+<p>Create a consumer object:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "username": "jack",
+    "plugins": {
+       "key-auth": {
+            "key": "auth-jack"
+        }
+    }
+}'
+</code></pre>
+<p>Create route object and enable <code>key-auth</code> plugin authentication:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "plugins": {
+        "key-auth": {}
+    },
+    "upstream": {
+        "nodes": {
+            "127.0.0.1:1980": 1,
+            "127.0.0.1:1981": 1
+        },
+        "type": "chash",
+        "hash_on": "consumer"
+    },
+    "uri": "/server_port"
+}'
+</code></pre>
+<p>Test request, the <code>consumer_id</code> after authentication is passed will be used as the hash value of the load balancing hash algorithm:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/server_port -H "apikey: auth-jack"
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="cookie"></a><a href="#cookie" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cookie</h4>
+<p>Create route and upstream object, <code>hash_on</code> is <code>cookie</code>:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/hash_on_cookie",
+    "upstream": {
+        "key": "sid",
+        "type ": "chash",
+        "hash_on ": "cookie",
+        "nodes ": {
+            "127.0.0.1:1980": 1,
+            "127.0.0.1:1981": 1
+        }
+    }
+}'
+</code></pre>
+<p>The client requests with <code>Cookie</code>:</p>
+<pre><code class="hljs css language-shell"> curl http://127.0.0.1:9080/hash_on_cookie -H "Cookie: sid=3c183a30cffcda1408daf1c61d47b274"
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="header"></a><a href="#header" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Header</h4>
+<p>Create route and upstream object, <code>hash_on</code> is <code>header</code>, <code>key</code> is <code>Content-Type</code>:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/hash_on_header",
+    "upstream": {
+        "key": "content-type",
+        "type ": "chash",
+        "hash_on ": "header",
+        "nodes ": {
+            "127.0.0.1:1980": 1,
+            "127.0.0.1:1981": 1
+        }
+    }
+}'
+</code></pre>
+<p>The client requests with header <code>Content-Type</code>:</p>
+<pre><code class="hljs css language-shell"> curl http://127.0.0.1:9080/hash_on_header -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -H "Content-Type: application/json"
+</code></pre>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="router"></a><a href="#router" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Router</h2>
+<p>A distinguishing feature of APISIX from other API gateways is that it allows users to choose different routers to better match free services, making the best choice between performance and freedom.</p>
+<p>Set the route that best suits your business needs in the local configuration <code>conf/config.yaml</code>.</p>
+<ul>
+<li><p><code>apisix.router.http</code>: HTTP Request Route。</p>
+<ul>
+<li><code>radixtree_uri</code>: (Default) only use <code>uri</code> as the primary index. Support for full and deep prefix matching based on the <code>radixtree</code> engine, see <a href="/apisix/router-radixtree">How to use router-radixtree</a>.
+<ul>
+<li><code>Absolute match</code>: Complete match for the given <code>uri</code>, such as <code>/foo/bar</code>,<code>/foo/glo</code>.</li>
+<li><code>Prefix match</code>: Use <code>*</code> at the end to represent the given <code>uri</code> as a prefix match. For example, <code>/foo*</code> allows matching <code>/foo/</code>, <code>/foo/a</code> and <code>/foo/b</code>.</li>
+<li><code>match priority</code>: first try absolute match, if you can't hit absolute match, try prefix match.</li>
+<li><code>Any filter attribute</code>: Allows you to specify any Nginx built-in variable as a filter, such as URL request parameters, request headers, cookies, and so on.</li>
+</ul></li>
+<li><code>radixtree_host_uri</code>: Use <code>host + uri</code> as the primary index (based on the <code>radixtree</code> engine), matching both host and URL for the current request.</li>
+</ul></li>
+<li><p><code>apisix.router.ssl</code>: SSL loads the matching route.</p>
+<ul>
+<li><code>radixtree_sni</code>: (Default) Use <code>SNI</code> (Server Name Indication) as the primary index (based on the radixtree engine).</li>
+</ul></li>
+</ul>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="consumer-1"></a><a href="#consumer-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h2>
+<p>For the API gateway, it is usually possible to identify a certain type of requester by using a domain name such as a request domain name, a client IP address, etc., and then perform plugin filtering and forward the request to the specified upstream, but sometimes the depth is insufficient.</p>
+<p><img src="./images/consumer-who.png" width="50%" height="50%"></p>
+<p>As shown in the image above, as an API gateway, you should know who the API Consumer is, so you can configure different rules for different API Consumers.</p>
+<table>
+<thead>
+<tr><th>Field</th><th>Required</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>username</td><td>Yes</td><td>Consumer Name.</td></tr>
+<tr><td>plugins</td><td>No</td><td>The corresponding plugin configuration of the Consumer, which has the highest priority: Consumer &gt; Route &gt; Service. For specific plugin configurations, refer to the <a href="#plugin">Plugins</a> section.</td></tr>
+</tbody>
+</table>
+<p>In APISIX, the process of identifying a Consumer is as follows:</p>
+<p><img src="./images/consumer-internal.png" width="50%" height="50%"></p>
+<ol>
+<li>Authorization certification: e.g <a href="/apisix/plugins/key-auth">key-auth</a>, <a href="/apisix/plugins/jwt-auth">JWT</a>, etc.</li>
+<li>Get consumer_id: By authorization, you can naturally get the corresponding Consumer <code>id</code>, which is the unique identifier of the Consumer object.</li>
+<li>Get the Plugin or Upstream information bound to the Consumer: Complete the different configurations for different Consumers.</li>
+</ol>
+<p>To sum up, Consumer is a consumer of certain types of services and needs to be used in conjunction with the user authentication system.</p>
+<p>For example, different consumers request the same API, and the gateway service corresponds to different Plugin or Upstream configurations according to the current request user information.</p>
+<p>In addition, you can refer to the <a href="/apisix/plugins/key-auth">key-auth</a> authentication authorization plugin call logic to help you further understand the Consumer concept and usage.</p>
+<p>How to enable a specific plugin for a Consumer, you can see the following example:</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> Create a Consumer, specify the authentication plugin key-auth, and <span class="hljs-built_in">enable</span> the specific plugin <span class="hljs-built_in">limit</span>-count</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "username": "jack",
+    "plugins": {
+        "key-auth": {
+            "key": "auth-one"
+        },
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    }
+}'
+<span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-string"> Create a Router, set routing rules and enable plugin configuration</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H '</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PUT -d '</span></span>
+{
+    "plugins": {
+        "key-auth": {}
+    },
+    "upstream": {
+        "nodes": {
+            "127.0.0.1:1980": 1
+        },
+        "type": "roundrobin"
+    },
+    "uri": "/hello"
+}'
+<span class="hljs-meta">
+#</span><span class="bash"> Send a <span class="hljs-built_in">test</span> request, the first two <span class="hljs-built_in">return</span> to normal, did not reach the speed <span class="hljs-built_in">limit</span> threshold</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/hello -H <span class="hljs-string">'apikey: auth-one'</span> -I</span>
+...
+<span class="hljs-meta">
+$</span><span class="bash"> curl http://127.0.0.1:9080/hello -H <span class="hljs-string">'apikey: auth-one'</span> -I</span>
+...
+<span class="hljs-meta">
+#</span><span class="bash"> The third <span class="hljs-built_in">test</span> returns 503 and the request is restricted</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/hello -H <span class="hljs-string">'apikey: auth-one'</span> -I</span>
+HTTP/1.1 503 Service Temporarily Unavailable
+...
+
+</code></pre>
+<p>Use the <a href="/apisix/plugins/consumer-restriction">consumer-restriction</a> plug-in to restrict the access of Jack to this API.</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> Add Jack to the blacklist</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "plugins": {
+        "key-auth": {},
+        "consumer-restriction": {
+            "blacklist": [
+                "jack"
+            ]
+        }
+    },
+    "upstream": {
+        "nodes": {
+            "127.0.0.1:1980": 1
+        },
+        "type": "roundrobin"
+    },
+    "uri": "/hello"
+}'
+<span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-string"> Repeated tests, all return 403; Jack is forbidden to access this API</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/hello -H '</span>apikey: auth-one<span class="hljs-string">' -I</span></span>
+HTTP/1.1 403
+...
+
+</code></pre>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="global-rule"></a><a href="#global-rule" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Rule</h2>
+<p><a href="#Plugin">Plugin</a> just can be binded to <a href="#Service">Service</a> or <a href="#Route">Route</a>, if we want a <a href="#Plugin">Plugin</a> work on all requests, how to do it?
+We can register a global <a href="#Plugin">Plugin</a> with <code>GlobalRule</code>:</p>
+<pre><code class="hljs css language-shell">curl -X PUT \
+  https://{apisix_listen_address}/apisix/admin/global_rules/1 \
+  -H 'Content-Type: application/json' \
+  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \
+  -d '{
+        "plugins": {
+            "limit-count": {
+                "time_window": 60,
+                "policy": "local",
+                "count": 2,
+                "key": "remote_addr",
+                "rejected_code": 503
+            }
+        }
+    }'
+</code></pre>
+<p>Now, the <code>limit-count</code> plugin will work on all requests</p>
+<p>we can list all <code>GlobalRule</code> via admin api as below:</p>
+<pre><code class="hljs css language-shell">curl https://{apisix_listen_address}/apisix/admin/global_rules
+</code></pre>
+<p><a href="#Table-of-contents">Back to top</a></p>
+<h2><a class="anchor" aria-hidden="true" id="debug-mode"></a><a href="#debug-mode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debug mode</h2>
+<h3><a class="anchor" aria-hidden="true" id="basic-debug-mode"></a><a href="#basic-debug-mode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Debug Mode</h3>
+<p>Enable basic debug mode just by setting <code>apisix.enable_debug = true</code> in <code>conf/config.yaml</code> file.</p>
+<p>e.g Using both <code>limit-conn</code> and <code>limit-count</code> plugins for a <code>/hello</code> request, there will have a response header called <code>Apisix-Plugins: limit-conn, limit-count</code>.</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:1984/hello -i</span>
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Connection: keep-alive
+Apisix-Plugins: limit-conn, limit-count
+X-RateLimit-Limit: 2
+X-RateLimit-Remaining: 1
+Server: openresty
+
+hello world
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="advanced-debug-mode"></a><a href="#advanced-debug-mode" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Debug Mode</h3>
+<p>Enable advanced debug mode by modifying the configuration in <code>conf/debug.yaml</code> file. Because there will have a check every second, only the checker reads the <code>#END</code> flag, and the file would consider as closed.</p>
+<p>The checker would judge whether the file data changed according to the last modification time of the file. If there has any change, reload it. If there was no change, skip this check. So it's hot reload for enabling or disabling advanced debug mode.</p>
+<table>
+<thead>
+<tr><th>Key</th><th>Optional</th><th>Description</th><th>Default</th></tr>
+</thead>
+<tbody>
+<tr><td>hook_conf.enable</td><td>required</td><td>Enable/Disable hook debug trace. Target module function's input arguments or returned value would be printed once this option is enabled.</td><td>false</td></tr>
+<tr><td>hook_conf.name</td><td>required</td><td>The module list name of hook which has enabled debug trace</td><td></td></tr>
+<tr><td>hook_conf.log_level</td><td>required</td><td>Logging levels for input arguments &amp; returned value</td><td>warn</td></tr>
+<tr><td>hook_conf.is_print_input_args</td><td>required</td><td>Enable/Disable input arguments print</td><td>true</td></tr>
+<tr><td>hook_conf.is_print_return_value</td><td>required</td><td>Enable/Disable returned value print</td><td>true</td></tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">hook_conf:</span>
+  <span class="hljs-attr">enable:</span> <span class="hljs-literal">false</span>                 <span class="hljs-comment"># Enable/Disable Hook Debug Trace</span>
+  <span class="hljs-attr">name:</span> <span class="hljs-string">hook_phase</span>              <span class="hljs-comment"># The Module List Name of Hook which has enabled Debug Trace</span>
+  <span class="hljs-attr">log_level:</span> <span class="hljs-string">warn</span>               <span class="hljs-comment"># Logging Levels</span>
+  <span class="hljs-attr">is_print_input_args:</span> <span class="hljs-literal">true</span>     <span class="hljs-comment"># Enable/Disable Input Arguments Print</span>
+  <span class="hljs-attr">is_print_return_value:</span> <span class="hljs-literal">true</span>   <span class="hljs-comment"># Enable/Disable Returned Value Print</span>
+
+<span class="hljs-attr">hook_phase:</span>                     <span class="hljs-comment"># Module Function List, Name: hook_phase</span>
+  <span class="hljs-attr">apisix:</span>                       <span class="hljs-comment"># Referenced Module Name</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">http_access_phase</span>         <span class="hljs-comment"># Function Names：Array</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">http_header_filter_phase</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">http_body_filter_phase</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">http_log_phase</span>
+
+<span class="hljs-comment">#END</span>
+</code></pre>
+<p><a href="#Table-of-contents">Back to top</a></p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#table-of-contents">Table of Contents</a></li><li><a href="#apisix">APISIX</a><ul class="toc-headings"><li><a href="#plugin-loading-process">Plugin Loading Process</a></li><li><a href="#plugin-hierarchy-structure">Plugin Hierarchy Structure</a></li></ul></li><li><a href="#apisix-config">APISIX Config</a></li><li><a href="#route">Route</a></li><li><a href="#service">Service</a></li><li><a href="#plugin">Plugin</a></li><li><a href="#script">Script</a></li><li><a href="#upstream">Upstream</a><ul class="toc-headings"><li><a href="#configuration">Configuration</a></li></ul></li><li><a href="#router">Router</a></li><li><a href="#consumer-1">Consumer</a></li><li><a href="#global-rule">Global Rule</a></li><li><a href="#debug-mode">Debug mode</a><ul class="toc-headings"><li><a href="#basic-debug-mode">Basic Debug Mode</a></li><li><a href="#advanced-debug-mode">Advanced Debug Mode</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

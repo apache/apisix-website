@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/install-dependencies · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/install-dependencies · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/install-dependencies</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h1><a class="anchor" aria-hidden="true" id="install-dependencies"></a><a href="#install-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install Dependencies</h1>
+<ul>
+<li><a href="#install-dependencies">Install Dependencies</a></li>
+<li><a href="#note">Note</a></li>
+<li><a href="#centos-7">CentOS 7</a></li>
+<li><a href="#fedora-31--32">Fedora 31 &amp; 32</a></li>
+<li><a href="#ubuntu-1604--1804">Ubuntu 16.04 &amp; 18.04</a></li>
+<li><a href="#debian-9--10">Debian 9 &amp; 10</a></li>
+<li><a href="#mac-osx">Mac OSX</a></li>
+</ul>
+<h1><a class="anchor" aria-hidden="true" id="note"></a><a href="#note" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Note</h1>
+<ul>
+<li><p>Since v2.0 Apache APISIX would not support the v2 protocol storage to etcd anymore, and the minimum etcd version supported is v3.4.0.</p></li>
+<li><p>Now by default Apache APISIX uses HTTP protocol to talk with etcd cluster, which is insecure. Please configure certificate and correspsonding private key for your etcd cluster, and use &quot;https&quot; scheme explicitly in the etcd endpoints list in your Apache APISIX configuration, if you want to keep the data secure and integral. See the etcd section in <code>conf/config-default.yaml</code> for more details.</p></li>
+<li><p>If you want use Tengine instead of OpenResty, please take a look at this installation step script <a href="../.travis/linux_tengine_runner.sh">Install Tengine at Ubuntu</a>.</p></li>
+</ul>
+<h1><a class="anchor" aria-hidden="true" id="centos-7"></a><a href="#centos-7" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CentOS 7</h1>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> install epel, `luarocks` need it.</span>
+wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo rpm -ivh epel-release-latest-7.noarch.rpm
+<span class="hljs-meta">
+#</span><span class="bash"> install etcd</span>
+wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
+tar -xvf etcd-v3.4.13-linux-amd64.tar.gz &amp;&amp; \
+    cd etcd-v3.4.13-linux-amd64 &amp;&amp; \
+    sudo cp -a etcd etcdctl /usr/bin/
+<span class="hljs-meta">
+#</span><span class="bash"> add OpenResty <span class="hljs-built_in">source</span></span>
+sudo yum install yum-utils
+sudo yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo
+<span class="hljs-meta">
+#</span><span class="bash"> install OpenResty and some compilation tools</span>
+sudo yum install -y openresty curl git gcc luarocks lua-devel
+<span class="hljs-meta">
+#</span><span class="bash"> start etcd server</span>
+nohup etcd &amp;
+</code></pre>
+<h1><a class="anchor" aria-hidden="true" id="fedora-31--32"></a><a href="#fedora-31--32" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fedora 31 &amp; 32</h1>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> add OpenResty <span class="hljs-built_in">source</span></span>
+sudo yum install yum-utils
+sudo yum-config-manager --add-repo https://openresty.org/package/fedora/openresty.repo
+<span class="hljs-meta">
+#</span><span class="bash"> install etcd</span>
+wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
+tar -xvf etcd-v3.4.13-linux-amd64.tar.gz &amp;&amp; \
+    cd etcd-v3.4.13-linux-amd64 &amp;&amp; \
+    sudo cp -a etcd etcdctl /usr/bin/
+<span class="hljs-meta">
+#</span><span class="bash"> install OpenResty and some compilation tools</span>
+sudo yum install -y openresty curl git gcc luarocks lua-devel
+<span class="hljs-meta">
+#</span><span class="bash"> start etcd server</span>
+nohup etcd &amp;
+</code></pre>
+<h1><a class="anchor" aria-hidden="true" id="ubuntu-1604--1804"></a><a href="#ubuntu-1604--1804" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ubuntu 16.04 &amp; 18.04</h1>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> add OpenResty <span class="hljs-built_in">source</span></span>
+wget -qO - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main"
+sudo apt-get update
+<span class="hljs-meta">
+#</span><span class="bash"> install etcd</span>
+wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
+tar -xvf etcd-v3.4.13-linux-amd64.tar.gz &amp;&amp; \
+    cd etcd-v3.4.13-linux-amd64 &amp;&amp; \
+    sudo cp -a etcd etcdctl /usr/bin/
+<span class="hljs-meta">
+#</span><span class="bash"> install OpenResty and some compilation tools</span>
+sudo apt-get install -y git openresty curl luarocks
+<span class="hljs-meta">
+#</span><span class="bash"> start etcd server</span>
+nohup etcd &amp;
+</code></pre>
+<h1><a class="anchor" aria-hidden="true" id="debian-9--10"></a><a href="#debian-9--10" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debian 9 &amp; 10</h1>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> optional</span>
+sed -i 's|^deb http://deb.debian.org/debian|deb http://mirrors.huaweicloud.com/debian|g' /etc/apt/sources.list
+sed -i 's|^deb http://security.debian.org/debian-security|deb http://mirrors.huaweicloud.com/debian-security|g' /etc/apt/sources.list
+apt update
+apt install wget gnupg -y
+<span class="hljs-meta">
+#</span><span class="bash"> add OpenResty <span class="hljs-built_in">source</span></span>
+wget -qO - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y "deb http://openresty.org/package/debian $(lsb_release -sc) openresty"
+sudo apt-get update
+<span class="hljs-meta">
+#</span><span class="bash"> install etcd</span>
+wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
+tar -xvf etcd-v3.4.13-linux-amd64.tar.gz &amp;&amp; \
+    cd etcd-v3.4.13-linux-amd64 &amp;&amp; \
+    sudo cp -a etcd etcdctl /usr/bin/
+<span class="hljs-meta">
+#</span><span class="bash"> install OpenResty and some compilation tools</span>
+sudo apt-get install -y git openresty curl luarocks make
+<span class="hljs-meta">
+#</span><span class="bash"> start etcd server</span>
+nohup etcd &amp;
+</code></pre>
+<h1><a class="anchor" aria-hidden="true" id="mac-osx"></a><a href="#mac-osx" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mac OSX</h1>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> install OpenResty, etcd and some compilation tools</span>
+brew install openresty/brew/openresty etcd luarocks curl git
+<span class="hljs-meta">
+#</span><span class="bash"> start etcd server</span>
+etcd &amp;
+<span class="hljs-meta">
+#</span><span class="bash"> <span class="hljs-built_in">enable</span> TLS <span class="hljs-keyword">for</span> etcd server</span>
+etcd --cert-file=/path/to/cert --key-file=/path/to/pkey --advertise-client-urls https://127.0.0.1:2379
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

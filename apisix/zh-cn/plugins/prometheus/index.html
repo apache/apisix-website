@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/zh-cn/plugins/prometheus · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/zh-cn/plugins/prometheus · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/zh-cn/plugins/prometheus</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<ul>
+<li><a href="/apisix/plugins/prometheus">English</a></li>
+</ul>
+<h1><a class="anchor" aria-hidden="true" id="prometheus"></a><a href="#prometheus" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>prometheus</h1>
+<p>此插件是提供符合prometheus数据格式的监控指标数据。</p>
+<h2><a class="anchor" aria-hidden="true" id="属性"></a><a href="#属性" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>属性</h2>
+<p>无</p>
+<h2><a class="anchor" aria-hidden="true" id="接口"></a><a href="#接口" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>接口</h2>
+<p>插件会增加 <code>/apisix/prometheus/metrics</code> 这个接口，你可能需要通过 <a href="plugin-interceptors.md">interceptors</a>
+来保护它。</p>
+<h2><a class="anchor" aria-hidden="true" id="如何开启插件"></a><a href="#如何开启插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何开启插件</h2>
+<p><code>prometheus</code> 插件用空{}就可以开启了,他没有任何的选项。</p>
+<p>例子如下:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/hello",
+    "plugins": {
+        "prometheus":{}
+    },
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:80": 1
+        }
+    }
+}'
+</code></pre>
+<p>你可以使用浏览器打开 dashboard：<code>http://127.0.0.1:9080/apisix/dashboard/</code>，通过 web 界面来完成上面的操作，先增加一个 route：</p>
+<p><img src="../../images/plugin/prometheus-1.png" alt=""></p>
+<p>然后在 route 页面中添加 prometheus 插件：</p>
+<p><img src="../../images/plugin/prometheus-2.png" alt=""></p>
+<h2><a class="anchor" aria-hidden="true" id="如何提取指标数据"></a><a href="#如何提取指标数据" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何提取指标数据</h2>
+<p>我们可以从指定的 url 中提取指标数据 <code>/apisix/prometheus/metrics</code>:</p>
+<pre><code class="hljs">curl -i <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:9080/apisix</span><span class="hljs-regexp">/prometheus/metrics</span>
+</code></pre>
+<p>把改uri地址配置到 prometheus 中去,就会自动完成指标数据提取.</p>
+<p>例子如下:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">scrape_configs:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">'apisix'</span>
+    <span class="hljs-attr">metrics_path:</span> <span class="hljs-string">'/apisix/prometheus/metrics'</span>
+    <span class="hljs-attr">static_configs:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> <span class="hljs-string">['127.0.0.1:9080']</span>
+</code></pre>
+<p>我们也可以在 prometheus 控制台中去检查状态:</p>
+<p><img src="../../images/plugin/prometheus01.png" alt=""></p>
+<p><img src="../../images/plugin/prometheus02.png" alt=""></p>
+<h3><a class="anchor" aria-hidden="true" id="grafana-面板"></a><a href="#grafana-面板" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Grafana 面板</h3>
+<p>插件导出的指标可以在 Grafana 进行图形化绘制显示。</p>
+<p>下载 <a href="../../json/apisix-grafana-dashboard.json">Grafana dashboard 元数据</a> 并导入到 Grafana 中。</p>
+<p>你可以到 <a href="https://grafana.com/grafana/dashboards/11719">Grafana 官方</a> 下载 <code>Grafana</code> 元数据.</p>
+<p><img src="../../images/plugin/grafana_1.png" alt=""></p>
+<p><img src="../../images/plugin/grafana_2.png" alt=""></p>
+<p><img src="../../images/plugin/grafana_3.png" alt=""></p>
+<h3><a class="anchor" aria-hidden="true" id="可有的指标"></a><a href="#可有的指标" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>可有的指标</h3>
+<ul>
+<li><code>Status codes</code>: upstream 服务返回的 HTTP 状态码，每个服务返回状态码的次数或者所有服务的状态码次数总和都可以统计到。</li>
+<li><code>Bandwidth</code>: 流经apisix的总带宽(可分出口带宽和入口带宽). 每个服务指标或者是所有服务指标的总和都可以统计到。</li>
+<li><code>etcd reachability</code>: apisix 连接 etcd 的可用性，用 0 和 1来表示。</li>
+<li><code>Connections</code>: 各种的 Nginx 连接指标，如 active（正处理的活动连接数），reading（nginx 读取到客户端的 Header 信息数），writing（nginx 返回给客户端的 Header 信息数），已建立的连接数。.</li>
+</ul>
+<p>这里是apisix的原始的指标数据集:</p>
+<pre><code class="hljs">$ curl http://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.2</span>:<span class="hljs-number">9080</span>/apisix/prometheus/metrics
+<span class="hljs-comment"># HELP apisix_bandwidth Total bandwidth in bytes consumed per service in Apisix</span>
+<span class="hljs-comment"># TYPE apisix_bandwidth counter</span>
+apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">183</span>
+apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">183</span>
+apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">2379</span>
+apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">83</span>
+apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">76</span>
+apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">988</span>
+<span class="hljs-comment"># HELP apisix_etcd_reachable Config server etcd reachable from Apisix, 0 is unreachable</span>
+<span class="hljs-comment"># TYPE apisix_etcd_reachable gauge</span>
+apisix_etcd_reachable <span class="hljs-number">1</span>
+<span class="hljs-comment"># HELP apisix_http_status HTTP status codes per service in Apisix</span>
+<span class="hljs-comment"># TYPE apisix_http_status counter</span>
+apisix_http_status{code=<span class="hljs-string">"200"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">1</span>
+apisix_http_status{code=<span class="hljs-string">"200"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">1</span>
+apisix_http_status{code=<span class="hljs-string">"200"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">13</span>
+<span class="hljs-comment"># HELP apisix_nginx_http_current_connections Number of HTTP connections</span>
+<span class="hljs-comment"># TYPE apisix_nginx_http_current_connections gauge</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"accepted"</span>} <span class="hljs-number">11994</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"active"</span>} <span class="hljs-number">2</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"handled"</span>} <span class="hljs-number">11994</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"reading"</span>} <span class="hljs-number">0</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"total"</span>} <span class="hljs-number">1191780</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"waiting"</span>} <span class="hljs-number">1</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"writing"</span>} <span class="hljs-number">1</span>
+<span class="hljs-comment"># HELP apisix_nginx_metric_errors_total Number of nginx-lua-prometheus errors</span>
+<span class="hljs-comment"># TYPE apisix_nginx_metric_errors_total counter</span>
+apisix_nginx_metric_errors_total <span class="hljs-number">0</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="禁用插件"></a><a href="#禁用插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>禁用插件</h2>
+<p>在插件设置页面中删除相应的 json 配置即可禁用 <code>prometheus</code> 插件。APISIX 的插件是热加载的，因此无需重启 APISIX 服务。</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/hello",
+    "plugins": {},
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:80": 1
+        }
+    }
+}'
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#属性">属性</a></li><li><a href="#接口">接口</a></li><li><a href="#如何开启插件">如何开启插件</a></li><li><a href="#如何提取指标数据">如何提取指标数据</a><ul class="toc-headings"><li><a href="#grafana-面板">Grafana 面板</a></li><li><a href="#可有的指标">可有的指标</a></li></ul></li><li><a href="#禁用插件">禁用插件</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

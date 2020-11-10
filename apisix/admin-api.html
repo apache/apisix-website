@@ -1,0 +1,727 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/admin-api · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/admin-api · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/admin-api</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h1><a class="anchor" aria-hidden="true" id="table-of-contents"></a><a href="#table-of-contents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h1>
+<ul>
+<li><a href="#route">Route</a></li>
+<li><a href="#service">Service</a></li>
+<li><a href="#consumer">Consumer</a></li>
+<li><a href="#upstream">Upstream</a></li>
+<li><a href="#ssl">SSL</a></li>
+<li><a href="#plugin-metadata">Plugin Metadata</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="route"></a><a href="#route" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route</h2>
+<p><em>API</em>：/apisix/admin/routes/{id}?ttl=0</p>
+<p><em>Description</em>：Route matches requests based on preset rules, and loads the appropriate plugin according to the matching result, then forwarding requests to target Upstream.</p>
+<blockquote>
+<p>Request Methods：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/routes/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/routes/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
+<tr><td>POST</td><td>/apisix/admin/routes</td><td>{...}</td><td>Create resource, and ID is generated by server</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/routes/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/routes/{id}</td><td>{...}</td><td>Standard PATCH. Update some attributes of the existing Route, and other attributes not involved will remain as they are; if you want to delete an attribute, set the value of the attribute Set to null to delete; especially, when the value of the attribute is an array, the attribute will be updated in full</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/routes/{id}/{path}</td><td>{...}</td><td>SubPath PATCH, specify the attribute of Route to be updated through {path}, update the value of this attribute in full, and other attributes that are not involved will remain as they are. The difference between the two PATCH can refer to the following examples</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>URI Request Parameters：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>parameter</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>ttl</td><td>False</td><td>Auxiliary</td><td>Expires after target seconds</td><td>ttl=1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Parameter</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>name</td><td>False</td><td>Auxiliary</td><td>Identifies route names.</td><td>customer-xxxx</td></tr>
+<tr><td>desc</td><td>False</td><td>Auxiliary</td><td>route description, usage scenarios, and more.</td><td>customer xxxx</td></tr>
+<tr><td>uri</td><td>True</td><td>Match Rules</td><td>In addition to full matching such as <code>/foo/bar</code>、<code>/foo/gloo</code>, using different <a href="/apisix/architecture-design#router">Router</a> allows more advanced matching, see <a href="/apisix/architecture-design#router">Router</a> for more.</td><td>&quot;/hello&quot;</td></tr>
+<tr><td>host</td><td>False</td><td>Match Rules</td><td>Currently requesting a domain name, such as <code>foo.com</code>; pan-domain names such as <code>*.foo.com</code> are also supported.</td><td>&quot;foo.com&quot;</td></tr>
+<tr><td>hosts</td><td>False</td><td>Match Rules</td><td>The <code>host</code> in the form of a list means that multiple different hosts are allowed, and match any one of them.</td><td>{&quot;foo.com&quot;, &quot;*.bar.com&quot;}</td></tr>
+<tr><td>remote_addr</td><td>False</td><td>Match Rules</td><td>The client requests an IP address: <code>192.168.1.101</code>, <code>192.168.1.102</code>, and CIDR format support <code>192.168.1.0/24</code>. In particular, APISIX also fully supports IPv6 address matching: <code>::1</code>, <code>fe80::1</code>, <code>fe80::1/64</code>, etc.</td><td>&quot;192.168.1.0/24&quot;</td></tr>
+<tr><td>remote_addrs</td><td>False</td><td>Match Rules</td><td>The <code>remote_addr</code> in the form of a list indicates that multiple different IP addresses are allowed, and match any one of them.</td><td>{&quot;127.0.0.1&quot;, &quot;192.0.0.0/8&quot;, &quot;::1&quot;}</td></tr>
+<tr><td>methods</td><td>False</td><td>Match Rules</td><td>If empty or without this option, there are no <code>method</code> restrictions, and it can be a combination of one or more: <code>GET</code>,<code>POST</code>,<code>PUT</code>,<code>DELETE</code>,<code>PATCH</code>, <code>HEAD</code>,<code>OPTIONS</code>,<code>CONNECT</code>,<code>TRACE</code>.</td><td>{&quot;GET&quot;, &quot;POST&quot;}</td></tr>
+<tr><td>priority</td><td>False</td><td>Match Rules</td><td>If different routes contain the same <code>uri</code>, determine which route is matched first based on the attribute<code>priority</code>. Larger value means higher priority. The default value is 0.</td><td>priority = 10</td></tr>
+<tr><td>vars</td><td>False</td><td>Match Rules</td><td>A list of one or more <code>{var, operator, val}</code> elements, like this: <code>{{var, operator, val}, {var, operator, val}, ...}}</code>. For example: <code>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</code> means that the current request parameter <code>name</code> is <code>json</code>. The <code>var</code> here is consistent with the internal variable name of Nginx, so you can also use <code>request_uri</code>, <code>host</code>, etc. For the operator part, the currently supported operators are <code>==</code>, <code>~=</code>,<code>&gt;</code>, <code>&lt;</code>, and <code>~~</code>. For the <code>&gt;</code> and <code>&lt;</code> operators, the result is first converted to <code>number</code> and then compared. See a list of <a href="#available-operators">supported operators</a></td><td>{{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}, {&quot;arg_age&quot;, &quot;&gt;&quot;, 18}}</td></tr>
+<tr><td>filter_func</td><td>False</td><td>Match Rules</td><td>User-defined filtering function. You can use it to achieve matching requirements for special scenarios. This function accepts an input parameter named <code>vars</code> by default, which you can use to get Nginx variables.</td><td>function(vars) return vars[&quot;arg_name&quot;] == &quot;json&quot; end</td></tr>
+<tr><td>plugins</td><td>False</td><td>Plugin</td><td>See <a href="/apisix/architecture-design#plugin">Plugin</a> for more</td><td></td></tr>
+<tr><td>script</td><td>False</td><td>Script</td><td>See <a href="/apisix/architecture-design#script">Script</a> for more</td><td></td></tr>
+<tr><td>upstream</td><td>False</td><td>Upstream</td><td>Enabled Upstream configuration, see <a href="/apisix/architecture-design#upstream">Upstream</a> for more</td><td></td></tr>
+<tr><td>upstream_id</td><td>False</td><td>Upstream</td><td>Enabled upstream id, see <a href="/apisix/architecture-design#upstream">Upstream</a> for more</td><td></td></tr>
+<tr><td>service_id</td><td>False</td><td>Service</td><td>Binded Service configuration, see <a href="/apisix/architecture-design#service">Service</a> for more</td><td></td></tr>
+<tr><td>service_protocol</td><td>False</td><td>Upstream protocol type</td><td>only <code>grpc</code> and <code>http</code> are supported</td><td><code>http</code> is the default value; Must set <code>grpc</code> if using <code>gRPC proxy</code> or <code>gRPC transcode</code></td></tr>
+<tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+</tbody>
+</table>
+<p>For the same type of parameters, such as <code>host</code> and <code>hosts</code>, <code>remote_addr</code> and <code>remote_addrs</code> cannot exist at the same time, only one of them can be selected. If enabled at the same time, the API will response an error.</p>
+<p>Config Example:</p>
+<pre><code class="hljs css language-shell">{
+    "id": "1",                  # id, unnecessary.
+    "uri": "/release/a",        # uri
+    "uris": ["/a","/b"],        # A set of uri, URL and uris need only have a non-empty one.
+    "methods": ["GET","POST"],  # Can fill multiple methods
+    "host": "aa.com",           # host
+    "hosts": ["a.com","b.com"], # A set of host. Host and hosts only need to be non-empty one.
+    "plugins": {},              # Bound plugin
+    "priority": 0,              # If different routes contain the same `uri`, determine which route is matched first based on the attribute` priority`, the default value is 0.
+    "name": "route-xxx",
+    "desc": "hello world",
+    "remote_addr": "127.0.0.1", # Client IP
+    "remote_addrs": ["127.0.0.1"], # A set of Client IP. Remote_addr and remo-te_addrs only need to be non-empty one.
+    "vars": [],                 # A list of one or more `{var, operator, val}` elements
+    "upstream_id": "1",         # upstream id, recommended
+    "upstream": {},             # upstream, not recommended
+    "filter_func": "",          # User-defined filtering function
+}
+</code></pre>
+<p>Example：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> Create a route</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "uri": "/index.html",
+    "hosts": ["foo.com", "*.bar.com"],
+    "remote_addrs": ["127.0.0.0/8"],
+    "methods": ["PUT", "GET"],
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+
+HTTP/1.1 201 Created
+Date: Sat, 31 Aug 2019 01:17:15 GMT
+...
+<span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-string"> Create a route expires after 60 seconds, then it'</span>s deleted automatically</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/2?ttl=60 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "uri": "/aa/index.html",
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+
+HTTP/1.1 201 Created
+Date: Sat, 31 Aug 2019 01:17:15 GMT
+...
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Add an upstream node to the Route</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "upstream": {
+        "nodes": {
+            "39.97.63.216:80": 1
+        }
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will be updated to:
+{
+    "39.97.63.215:80": 1,
+    "39.97.63.216:80": 1
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Update the weight of an upstream node to the Route</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "upstream": {
+        "nodes": {
+            "39.97.63.216:80": 10
+        }
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will be updated to:
+{
+    "39.97.63.215:80": 1,
+    "39.97.63.216:80": 10
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Delete an upstream node for the Route</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "upstream": {
+        "nodes": {
+            "39.97.63.215:80": null
+        }
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will be updated to:
+{
+    "39.97.63.216:80": 10
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Replace methods of the Route  --  array</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'{</span></span>
+    "methods": ["GET", "POST"]
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, methods will not retain the original data, and the entire update is:
+["GET", "POST"]
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Replace upstream nodes of the Route -- sub path</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1/upstream/nodes -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "39.97.63.200:80": 1
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, nodes will not retain the original data, and the entire update is:
+{
+    "39.97.63.200:80": 1
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Replace methods of the Route -- sub path</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1/methods -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d<span class="hljs-string">'["POST", "DELETE", " PATCH"]'</span></span>
+HTTP/1.1 200 OK
+...
+
+After successful execution, methods will not retain the original data, and the entire update is:
+["POST", "DELETE", "PATCH"]
+
+</code></pre>
+<blockquote>
+<p>Response Parameters</p>
+</blockquote>
+<p>Return response from etcd currently.</p>
+<h3><a class="anchor" aria-hidden="true" id="available-operators"></a><a href="#available-operators" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Available Operators</h3>
+<table>
+<thead>
+<tr><th>Operator</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>==</td><td>Equal</td><td>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</td></tr>
+<tr><td>~=</td><td>Not Equal</td><td>{&quot;arg_name&quot;, &quot;~=&quot;, &quot;json&quot;}</td></tr>
+<tr><td>&gt;</td><td>Greater Than</td><td>{&quot;arg_age&quot;, &quot;&gt;&quot;, 24}</td></tr>
+<tr><td>&lt;</td><td>Less Than</td><td>{&quot;arg_age&quot;, &quot;&lt;&quot;, 24}</td></tr>
+<tr><td>~~</td><td>Regex</td><td>{&quot;arg_name&quot;, &quot;~~&quot;, &quot;[a-z]+&quot;}</td></tr>
+</tbody>
+</table>
+<p>Consider the following example: matching requests whose <code>request name</code> is equal to <code>json</code>, <code>age</code> is greater than <code>18</code>, and <code>address</code> begins with <code>China</code>:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
+{
+    "uri": "/index.html",
+    "vars": [
+        ["arg_name", "==", "json"],
+        ["arg_age", "&gt;", "18"],
+        ["arg_address", "~~", "China.*"]
+    ],
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+</code></pre>
+<p><a href="#Table-of-Contents">Back to TOC</a></p>
+<h2><a class="anchor" aria-hidden="true" id="service"></a><a href="#service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Service</h2>
+<p><em>API</em>：/apisix/admin/services/{id}</p>
+<p><em>Description</em>：A <code>Service</code> is an abstraction of an API (which can also be understood as a set of Route abstractions). It usually corresponds to the upstream service abstraction. Between <code>Route</code> and <code>Service</code>, usually the relationship of N:1.</p>
+<blockquote>
+<p>Request Methods：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/services/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/services/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
+<tr><td>POST</td><td>/apisix/admin/services</td><td>{...}</td><td>Create resource, and ID is generated by server</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/services/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/services/{id}</td><td>{...}</td><td>Standard PATCH. Update some attributes of the existing Service, and other attributes not involved will remain as they are; if you want to delete an attribute, set the value of the attribute Set to null to delete; especially, when the value of the attribute is an array, the attribute will be updated in full</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/services/{id}/{path}</td><td>{...}</td><td>SubPath PATCH, specify the attribute of Service to be updated through {path}, update the value of this attribute in full, and other attributes that are not involved will remain as they are. The difference between the two PATCH can refer to the following examples</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Parameter</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>plugins</td><td>False</td><td>Plugin</td><td>See <a href="/apisix/architecture-design#plugin">Plugin</a> for more</td><td></td></tr>
+<tr><td>upstream</td><td>False</td><td>Upstream</td><td>Enabled Upstream configuration, see <a href="/apisix/architecture-design#upstream">Upstream</a> for more</td><td></td></tr>
+<tr><td>upstream_id</td><td>False</td><td>Upstream</td><td>Enabled upstream id, see <a href="/apisix/architecture-design#upstream">Upstream</a> for more</td><td></td></tr>
+<tr><td>name</td><td>False</td><td>Auxiliary</td><td>Identifies service names.</td><td>customer-xxxx</td></tr>
+<tr><td>desc</td><td>False</td><td>Auxiliary</td><td>service usage scenarios, and more.</td><td>customer xxxx</td></tr>
+<tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+</tbody>
+</table>
+<p>Config Example:</p>
+<pre><code class="hljs css language-shell">{
+    "id": "1",          # id
+    "plugins": {},      # Bound plugin
+    "upstream_id": "1", # upstream id, recommended
+    "upstream": {},     # upstream, not recommended
+    "name": "service-test",
+    "desc": "hello world",
+}
+</code></pre>
+<p>Example：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/201  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "plugins": {
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    },
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "39.97.63.215:80": 1
+        }
+    }
+}'
+
+HTTP/1.1 201 Created
+...
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Add an upstream node to the Service</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/services/201 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "upstream": {
+        "nodes": {
+            "39.97.63.216:80": 1
+        }
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will be updated to:
+{
+    "39.97.63.215:80": 1,
+    "39.97.63.216:80": 1
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Update the weight of an upstream node to the Service</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/201 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "upstream": {
+        "nodes": {
+            "39.97.63.216:80": 10
+        }
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will be updated to:
+{
+    "39.97.63.215:80": 1,
+    "39.97.63.216:80": 10
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Delete an upstream node for the Service</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/services/201 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "upstream": {
+        "nodes": {
+            "39.97.63.215:80": null
+        }
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will be updated to:
+{
+    "39.97.63.216:80": 10
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Replace upstream nodes of the Service</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/201/upstream/nodes -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "39.97.63.200:80": 1
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, upstream nodes will not retain the original data, and the entire update is:
+{
+    "39.97.63.200:80": 1
+}
+
+</code></pre>
+<blockquote>
+<p>Response Parameters</p>
+</blockquote>
+<p>Return response from etcd currently.</p>
+<p><a href="#Table-of-Contents">Back to TOC</a></p>
+<h2><a class="anchor" aria-hidden="true" id="consumer"></a><a href="#consumer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h2>
+<p><em>API</em>：/apisix/admin/consumers/{id}</p>
+<p><em>Description</em>：Consumers are consumers of certain types of services and can only be used in conjunction with a user authentication system. Consumer regards the <code>username</code> property as the identity, so only the HTTP <code>PUT</code> method is supported for creating a new consumer.</p>
+<blockquote>
+<p>Request Methods：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/consumers/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/consumers/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/consumers/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Parameter</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>username</td><td>True</td><td>Name</td><td>Consumer name</td><td></td></tr>
+<tr><td>plugins</td><td>False</td><td>Plugin</td><td>See <a href="/apisix/architecture-design#plugin">Plugin</a> for more</td><td></td></tr>
+<tr><td>desc</td><td>False</td><td>Auxiliary</td><td>Identifies route names, usage scenarios, and more.</td><td>customer xxxx</td></tr>
+<tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+</tbody>
+</table>
+<p>Config Example:</p>
+<pre><code class="hljs css language-shell">{
+    "id": "1",              # id
+    "plugins": {},          # Bound plugin
+    "username": "name",     # Consumer name
+    "desc": "hello world",  # Consumer desc
+}
+</code></pre>
+<p>The binding authentication and authorization plug-in is a bit special. When it needs to be used in conjunction with the consumer, it needs to provide user name, password and other information; on the other hand, when it is bound with route / service, it does not require any parameters. Because at this time, it is based on the user request data to infer which consumer the user corresponds to.</p>
+<p>Example:</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers/2  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "username": "jack",
+    "plugins": {
+        "key-auth": {
+            "key": "auth-one"
+        },
+        "limit-count": {
+            "count": 2,
+            "time_window": 60,
+            "rejected_code": 503,
+            "key": "remote_addr"
+        }
+    }
+}'
+HTTP/1.1 200 OK
+Date: Thu, 26 Dec 2019 08:17:49 GMT
+...
+
+{"node":{"value":{"username":"jack","plugins":{"key-auth":{"key":"auth-one"},"limit-count":{"time_window":60,"count":2,"rejected_code":503,"key":"remote_addr","policy":"local"}}},"createdIndex":64,"key":"\/apisix\/consumers\/jack","modifiedIndex":64},"prevNode":{"value":"{\"username\":\"jack\",\"plugins\":{\"key-auth\":{\"key\":\"auth-one\"},\"limit-count\":{\"time_window\":60,\"count\":2,\"rejected_code\":503,\"key\":\"remote_addr\",\"policy\":\"local\"}}}","createdIndex":63,"key":"\/apisix\/consumers\/jack","modifiedIndex":63},"action":"set"}
+</code></pre>
+<blockquote>
+<p>Response Parameters</p>
+</blockquote>
+<p>Return response from etcd currently.</p>
+<p><a href="#Table-of-Contents">Back to TOC</a></p>
+<h2><a class="anchor" aria-hidden="true" id="upstream"></a><a href="#upstream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upstream</h2>
+<p><em>API</em>：/apisix/admin/upstreams/{id}</p>
+<p><em>Description</em>：Upstream configuration can be directly bound to the specified <code>Route</code> or it can be bound to <code>Service</code>, but the configuration in <code>Route</code> has a higher priority. The priority behavior here is very similar to <code>Plugin</code>.</p>
+<blockquote>
+<p>Request Methods：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/upstreams/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/upstreams/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
+<tr><td>POST</td><td>/apisix/admin/upstreams</td><td>{...}</td><td>Create resource, and ID is generated by server</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/upstreams/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/upstreams/{id}</td><td>{...}</td><td>Standard PATCH. Update some attributes of the existing Upstream, and other attributes not involved will remain as they are; if you want to delete an attribute, set the value of the attribute Set to null to delete; especially, when the value of the attribute is an array, the attribute will be updated in full</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/upstreams/{id}/{path}</td><td>{...}</td><td>SubPath PATCH, specify the attribute of Upstream to be updated through {path}, update the value of this attribute in full, and other attributes that are not involved will remain as they are. The difference between the two PATCH can refer to the following example</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters：</p>
+</blockquote>
+<p>In addition to the basic complex equalization algorithm selection, APISIX's Upstream also supports logic for upstream passive health check and retry, see the table below.</p>
+<table>
+<thead>
+<tr><th>Name</th><th>Optional</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>type</td><td>required</td><td><code>roundrobin</code> supports the weight of the load, <code>chash</code> consistency hash,<code>ewma</code> minimum latency ,pick one of them.see <a href="https://en.wikipedia.org/wiki/EWMA_chart">https://en.wikipedia.org/wiki/EWMA_chart</a> for details</td></tr>
+<tr><td>nodes</td><td>required if <code>k8s_deployment_info</code> not configured</td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected.</td></tr>
+<tr><td>k8s_deployment_info</td><td>required if <code>nodes</code> not configured</td><td>fields: <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>, <code>port</code> is number, <code>backend_type</code> is <code>pod</code> or <code>service</code>, others is string.</td></tr>
+<tr><td>hash_on</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Supported types <code>vars</code>(Nginx variables), <code>header</code>(custom header), <code>cookie</code>, <code>consumer</code>, the default value is <code>vars</code>.</td></tr>
+<tr><td>key</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_id</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
+<tr><td>checks</td><td>optional</td><td>Configure the parameters of the health check. For details, refer to <a href="/apisix/health-check">health-check</a>.</td></tr>
+<tr><td>retries</td><td>optional</td><td>Pass the request to the next upstream using the underlying Nginx retry mechanism, the retry mechanism is enabled by default and set the number of retries according to the number of backend nodes. If <code>retries</code> option is explicitly set, it will override the default value. <code>0</code> means disable retry mechanism.</td></tr>
+<tr><td>enable_websocket</td><td>optional</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td></tr>
+<tr><td>timeout</td><td>optional</td><td>Set the timeout for connection, sending and receiving messages.</td></tr>
+<tr><td>name</td><td>optional</td><td>Identifies upstream names</td></tr>
+<tr><td>desc</td><td>optional</td><td>upstream usage scenarios, and more.</td></tr>
+<tr><td>pass_host</td><td>optional</td><td><code>pass</code> pass the client request host, <code>node</code> not pass the client request host, using the upstream node host, <code>rewrite</code> rewrite host by the configured <code>upstream_host</code>.</td></tr>
+<tr><td>upstream_host</td><td>optional</td><td>This option is only valid if the <code>pass_host</code> is <code>rewrite</code>.</td></tr>
+<tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+</tbody>
+</table>
+<p>Config Example:</p>
+<pre><code class="hljs css language-shell">{
+    "id": "1",                  # id
+    "retries": 1,               # retry times
+    "timeout": {                # Set the timeout for connection, sending and receiving messages.
+        "connect":15,
+        "send":15,
+        "read":15,
+    },
+    "enable_websocket": true,
+    "nodes": {"host:80": 100},  # Upstream machine address list, the format is `Address + Port`
+    "k8s_deployment_info": {    # kubernetes deployment info
+        "namespace": "test-namespace",
+        "deploy_name": "test-deploy-name",
+        "service_name": "test-service-name",
+        "backend_type": "pod",    # pod or service
+        "port": 8080
+    },
+    "type":"roundrobin",        # chash or roundrobin
+    "checks": {},               # Health check parameters
+    "hash_on": "",
+    "key": "",
+    "name": "upstream-for-test",
+    "desc": "hello world",
+}
+</code></pre>
+<p>Example：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "type":"roundrobin",
+    "nodes":{
+        "127.0.0.1:80":1,
+        "127.0.0.2:80":2,
+        "foo.com:80":3
+    }
+}'
+HTTP/1.1 201 Created
+Date: Thu, 26 Dec 2019 04:19:34 GMT
+Content-Type: text/plain
+...
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Add a node to the Upstream</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "nodes": {
+        "39.97.63.216:80": 1
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, nodes will be updated to:
+{
+    "39.97.63.215:80": 1,
+    "39.97.63.216:80": 1
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Update the weight of a node to the Upstream</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "nodes": {
+        "39.97.63.216:80": 10
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, nodes will be updated to:
+{
+    "39.97.63.215:80": 1,
+    "39.97.63.216:80": 10
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> Delete a node for the Upstream</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "nodes": {
+        "39.97.63.215:80": null
+    }
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, nodes will be updated to:
+{
+    "39.97.63.216:80": 10
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> Replace the nodes of the Upstream</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100/nodes -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "39.97.63.200:80": 1
+}'
+HTTP/1.1 200 OK
+...
+
+After the execution is successful, nodes will not retain the original data, and the entire update is:
+{
+    "39.97.63.200:80": 1
+}
+
+</code></pre>
+<blockquote>
+<p>Response Parameters</p>
+</blockquote>
+<p>Return response from etcd currently.</p>
+<p><a href="#Table-of-Contents">Back to TOC</a></p>
+<h2><a class="anchor" aria-hidden="true" id="ssl"></a><a href="#ssl" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SSL</h2>
+<p><em>API</em>：/apisix/admin/ssl/{id}</p>
+<p><em>Description</em>：SSL.</p>
+<blockquote>
+<p>Request Methods：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/ssl/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/ssl/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
+<tr><td>POST</td><td>/apisix/admin/ssl</td><td>{...}</td><td>Create resource, and ID is generated by server</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/ssl/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Parameter</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>cert</td><td>True</td><td>Public key</td><td>https Public key</td><td></td></tr>
+<tr><td>key</td><td>True</td><td>Private key</td><td>https Private key</td><td></td></tr>
+<tr><td>sni</td><td>True</td><td>Match Rules</td><td>https SNI</td><td></td></tr>
+<tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+</tbody>
+</table>
+<p>Config Example:</p>
+<pre><code class="hljs css language-shell">{
+    "id": "1",      # id
+    "cert": "cert", # Public key
+    "key": "key",   # Private key
+    "sni": "sni"    # https SNI
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="plugin-metadata"></a><a href="#plugin-metadata" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin Metadata</h2>
+<p><em>API</em>：/apisix/admin/plugin_metadata/{plugin_name}</p>
+<p><em>Description</em>: plugin metadata.</p>
+<blockquote>
+<p>Request Methods:</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/plugin_metadata/{plugin_name}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/plugin_metadata/{plugin_name}</td><td>{...}</td><td>Create resource by plugin name</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/plugin_metadata/{plugin_name}</td><td>NULL</td><td>Remove resource</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters:</p>
+</blockquote>
+<p>A json object with a data structure defined according to <code>metadata_schema</code> of the plugin ({plugin_name}).</p>
+<p>Config Example:</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/example-plugin  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "skey": "val",
+    "ikey": 1
+}'
+HTTP/1.1 201 Created
+Date: Thu, 26 Dec 2019 04:19:34 GMT
+Content-Type: text/plain
+</code></pre>
+<p><a href="#Table-of-Contents">Back to TOC</a></p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a><ul class="toc-headings"><li><a href="#available-operators">Available Operators</a></li></ul></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/zh-cn/https · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/zh-cn/https · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscrbe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/zh-cn/https</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p><a href="/apisix/https">English</a></p>
+<h3><a class="anchor" aria-hidden="true" id="https"></a><a href="#https" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTPS</h3>
+<p><code>APISIX</code> 支持通过 TLS 扩展 SNI 实现加载特定的 SSL 证书以实现对 https 的支持。</p>
+<p>SNI(Server Name Indication)是用来改善 SSL 和 TLS 的一项特性，它允许客户端在服务器端向其发送证书之前向服务器端发送请求的域名，服务器端根据客户端请求的域名选择合适的SSL证书发送给客户端。</p>
+<h3><a class="anchor" aria-hidden="true" id="单一域名指定"></a><a href="#单一域名指定" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单一域名指定</h3>
+<p>通常情况下一个 SSL 证书只包含一个静态域名，配置一个 <code>ssl</code> 参数对象，它包括 <code>cert</code>、<code>key</code>和<code>sni</code>三个属性，详细如下：</p>
+<ul>
+<li><code>cert</code>: SSL 密钥对的公钥，pem 格式</li>
+<li><code>key</code>: SSL 密钥对的私钥，pem 格式</li>
+<li><code>sni</code>: SSL 证书所指定的域名，注意在设置这个参数之前，你需要确保这个证书对应的私钥是有效的。</li>
+</ul>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/ssl/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "cert": "...",
+    "key": "....",
+    "sni": "test.com"
+}'
+<span class="hljs-meta">
+#</span><span class="bash"> 测试一下</span>
+
+curl --resolve 'test.com:9443:127.0.0.1' https://test.com:9443/hello  -vvv
+* Added test.com:9443:127.0.0.1 to DNS cache
+* About to connect() to test.com port 9443 (#0)
+*   Trying 127.0.0.1...
+* Connected to test.com (127.0.0.1) port 9443 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+* skipping SSL peer certificate verification
+* SSL connection using TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+* Server certificate:
+*   subject: CN=test.com,O=iresty,L=ZhuHai,ST=GuangDong,C=CN
+*   start date: Jun 24 22:18:05 2019 GMT
+*   expire date: May 31 22:18:05 2119 GMT
+*   common name: test.com
+*   issuer: CN=test.com,O=iresty,L=ZhuHai,ST=GuangDong,C=CN
+<span class="hljs-meta">&gt;</span><span class="bash"> GET /hello HTTP/1.1</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> User-Agent: curl/7.29.0</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> Host: test.com:9443</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> Accept: */*</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="泛域名"></a><a href="#泛域名" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>泛域名</h3>
+<p>一个 SSL 证书的域名也可能包含泛域名，如<code>*.test.com</code>，它代表所有以<code>test.com</code>结尾的域名都可以使用该证书。
+比如<code>*.test.com</code>，可以匹配 <code>www.test.com</code>、<code>mail.test.com</code>甚至<code>a.b.test.com</code>。</p>
+<p>看下面这个例子，请注意 <code>sni</code> 这个属性:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/ssl/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "cert": "...",
+    "key": "....",
+    "sni": "*.test.com"
+}'
+<span class="hljs-meta">
+#</span><span class="bash"> 测试一下</span>
+
+curl --resolve 'www.test.com:9443:127.0.0.1' https://www.test.com:9443/hello  -vvv
+* Added test.com:9443:127.0.0.1 to DNS cache
+* About to connect() to test.com port 9443 (#0)
+*   Trying 127.0.0.1...
+* Connected to test.com (127.0.0.1) port 9443 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+* skipping SSL peer certificate verification
+* SSL connection using TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+* Server certificate:
+*   subject: CN=test.com,O=iresty,L=ZhuHai,ST=GuangDong,C=CN
+*   start date: Jun 24 22:18:05 2019 GMT
+*   expire date: May 31 22:18:05 2119 GMT
+*   common name: test.com
+*   issuer: CN=test.com,O=iresty,L=ZhuHai,ST=GuangDong,C=CN
+<span class="hljs-meta">&gt;</span><span class="bash"> GET /hello HTTP/1.1</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> User-Agent: curl/7.29.0</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> Host: test.com:9443</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> Accept: */*</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="多域名的情况"></a><a href="#多域名的情况" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>多域名的情况</h3>
+<p>如果一个 SSL 证书包含多个独立域名，比如<code>www.test.com</code>和<code>mail.test.com</code>，通配符方式又会导致匹配不严谨。
+所以针对不同域名，设置不同 SSL 证书对象即可。</p>
+<h3><a class="anchor" aria-hidden="true" id="单域名多证书的情况"></a><a href="#单域名多证书的情况" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单域名多证书的情况</h3>
+<p>如果你期望为一个域名配置多张证书，例如以此来同时支持使用 ECC 和 RSA
+的密钥交换算法，那么你可以将额外的证书和私钥（第一张证书和其私钥依然使用 <code>cert</code> 和 <code>key</code>）配置在 <code>certs</code> 和 <code>keys</code> 中。</p>
+<ul>
+<li><code>certs</code>：PEM 格式的 SSL 证书列表</li>
+<li><code>keys</code>：PEM 格式的 SSL 证书私钥列表</li>
+</ul>
+<p><code>APISIX</code> 会将相同下标的证书和私钥配对使用，因此 <code>certs</code> 和 <code>keys</code> 列表的长度必须一致。</p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
