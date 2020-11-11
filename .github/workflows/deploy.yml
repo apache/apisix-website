@@ -7,6 +7,8 @@ name: CI
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
   schedule:
   # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
   - cron: "0 9 * * *"
@@ -26,11 +28,9 @@ jobs:
     - name: Clone apisix's docs from repo & update image's link
       run: |
         git clone https://github.com/apache/apisix.git
-        cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
+        cp -r apisix/doc/images ./website/static
         cp -r apisix/doc ./docs/apisix
         cd ./docs/apisix
-        find . -type f -name "*.md" -print0 | xargs -0 sed -i '' -e 's/\.\.\/images/https\:\/\/apisix\.apache\.org\/images/g'
-        find . -type f -name "*.md" -print0 | xargs -0 sed -i '' -e 's/\.\/images/https\:\/\/apisix\.apache\.org\/images/g'
 
     - name: Build
       run: cd website && yarn && yarn build
