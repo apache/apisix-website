@@ -220,7 +220,6 @@ curl http://127.0.0.1:9080/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
 <tr><td>hash_on</td><td>可选</td><td><code>hash_on</code> 支持的类型有 <code>vars</code>（Nginx内置变量），<code>header</code>（自定义header），<code>cookie</code>，<code>consumer</code>，默认值为 <code>vars</code></td></tr>
 <tr><td>checks</td><td>可选</td><td>配置健康检查的参数，详细可参考<a href="/apisix/health-check">health-check</a></td></tr>
 <tr><td>retries</td><td>可选</td><td>使用底层的 Nginx 重试机制将请求传递给下一个上游，默认 APISIX 会启用重试机制，根据配置的后端节点个数设置重试次数，如果此参数显式被设置将会覆盖系统默认设置的重试次数。</td></tr>
-<tr><td>enable_websocket</td><td>可选</td><td>是否启用 <code>websocket</code>（布尔值），默认不启用</td></tr>
 <tr><td>labels</td><td>可选</td><td>用于标识属性的键值对。</td></tr>
 <tr><td>pass_host</td><td>可选</td><td><code>pass</code> 透传客户端请求的 host, <code>node</code> 不透传客户端请求的 host, 使用 upstream node 配置的 host, <code>rewrite</code> 使用 <code>upstream_host</code> 配置的值重写 host 。</td></tr>
 <tr><td>upstream_host</td><td>可选</td><td>只在 <code>pass_host</code> 配置为 <code>rewrite</code> 时有效。</td></tr>
@@ -251,7 +250,6 @@ curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 {
     "type": "chash",
     "key": "remote_addr",
-    "enable_websocket": true,
     "nodes": {
         "127.0.0.1:80": 1,
         "foo.com:80": 2

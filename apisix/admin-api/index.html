@@ -87,6 +87,7 @@
 <tr><td>service_id</td><td>False</td><td>Service</td><td>Binded Service configuration, see <a href="/apisix/architecture-design#service">Service</a> for more</td><td></td></tr>
 <tr><td>service_protocol</td><td>False</td><td>Upstream protocol type</td><td>only <code>grpc</code> and <code>http</code> are supported</td><td><code>http</code> is the default value; Must set <code>grpc</code> if using <code>gRPC proxy</code> or <code>gRPC transcode</code></td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>enable_websocket</td><td>False</td><td>Auxiliary</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td><td></td></tr>
 </tbody>
 </table>
 <p>For the same type of parameters, such as <code>host</code> and <code>hosts</code>, <code>remote_addr</code> and <code>remote_addrs</code> cannot exist at the same time, only one of them can be selected. If enabled at the same time, the API will response an error.</p>
@@ -118,6 +119,7 @@
     "hosts": ["foo.com", "*.bar.com"],
     "remote_addrs": ["127.0.0.0/8"],
     "methods": ["PUT", "GET"],
+    "enable_websocket": true,
     "upstream": {
         "type": "roundrobin",
         "nodes": {
@@ -305,6 +307,7 @@ After successful execution, methods will not retain the original data, and the e
 <tr><td>name</td><td>False</td><td>Auxiliary</td><td>Identifies service names.</td><td>customer-xxxx</td></tr>
 <tr><td>desc</td><td>False</td><td>Auxiliary</td><td>service usage scenarios, and more.</td><td>customer xxxx</td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>enable_websocket</td><td>False</td><td>Auxiliary</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td><td></td></tr>
 </tbody>
 </table>
 <p>Config Example:</p>
@@ -315,6 +318,7 @@ After successful execution, methods will not retain the original data, and the e
     "upstream": {},     # upstream, not recommended
     "name": "service-test",
     "desc": "hello world",
+    "enable_websocket": true,
 }
 </code></pre>
 <p>Example：</p>
@@ -328,6 +332,7 @@ After successful execution, methods will not retain the original data, and the e
             "key": "remote_addr"
         }
     },
+    "enable_websocket": true,
     "upstream": {
         "type": "roundrobin",
         "nodes": {
@@ -516,7 +521,6 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>key</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_id</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
 <tr><td>checks</td><td>optional</td><td>Configure the parameters of the health check. For details, refer to <a href="/apisix/health-check">health-check</a>.</td></tr>
 <tr><td>retries</td><td>optional</td><td>Pass the request to the next upstream using the underlying Nginx retry mechanism, the retry mechanism is enabled by default and set the number of retries according to the number of backend nodes. If <code>retries</code> option is explicitly set, it will override the default value. <code>0</code> means disable retry mechanism.</td></tr>
-<tr><td>enable_websocket</td><td>optional</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td></tr>
 <tr><td>timeout</td><td>optional</td><td>Set the timeout for connection, sending and receiving messages.</td></tr>
 <tr><td>name</td><td>optional</td><td>Identifies upstream names</td></tr>
 <tr><td>desc</td><td>optional</td><td>upstream usage scenarios, and more.</td></tr>
@@ -534,7 +538,6 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
         "send":15,
         "read":15,
     },
-    "enable_websocket": true,
     "nodes": {"host:80": 100},  # Upstream machine address list, the format is `Address + Port`
     "k8s_deployment_info": {    # kubernetes deployment info
         "namespace": "test-namespace",
