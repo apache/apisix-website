@@ -222,7 +222,7 @@ Click here to view the reference emailThere is a minimum wait of 72 hours before
 
 ### Send VOTE RESULT thread to dev mailinglist
 
-Click here to view the reference email at least 3 `+1` votes is required, then send the vote result to dev@apisix.apache.org.
+Click here to view the reference email at least 3 `+1` binding votes is required, then send the vote result to dev@apisix.apache.org.
 
 ### Send ANNOUNCE
 
