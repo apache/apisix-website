@@ -218,15 +218,15 @@ Committed revision 37435.
 
 ### Send VOTE thread to dev mailinglist
 
-Click here to view the reference emailThere is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue.
+Click [here](https://lists.apache.org/thread.html/rf534952a6b2d23ed6efdd61f15b40fa9e4de230164a1ccf168176734%40%3Cdev.apisix.apache.org%3E) to view the reference emailThere is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue.
 
 ### Send VOTE RESULT thread to dev mailinglist
 
-Click here to view the reference email at least 3 `+1` votes is required, then send the vote result to dev@apisix.apache.org.
+Click [here](https://lists.apache.org/thread.html/r9153da737a4590dbbba7272acc004cf4bc7abefa488069810d790643%40%3Cdev.apisix.apache.org%3E) to view the reference email at least 3 `+1` [binding votes](https://www.apache.org/foundation/voting.html#binding-votes) is required, then send the vote result to dev@apisix.apache.org.
 
 ### Send ANNOUNCE
 
-Click here to view the reference email send announce email to dev@apisix.apache.org and announce@apache.org
+Click [here](https://lists.apache.org/thread.html/r6e90ffb7964314605c082ac3ae204303ad94f0f71087542c33fcd7bf%40%3Cdev.apisix.apache.org%3E) to view the reference email send announce email to dev@apisix.apache.org and announce@apache.org
 
 ### Move package from dev to dist
 
