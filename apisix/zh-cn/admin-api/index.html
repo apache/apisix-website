@@ -90,6 +90,8 @@
 <tr><td>filter_func</td><td>可选</td><td>匹配规则</td><td>用户自定义的过滤函数。可以使用它来实现特殊场景的匹配要求实现。该函数默认接受一个名为 vars 的输入参数，可以用它来获取 Nginx 变量。</td><td>function(vars) return vars[&quot;arg_name&quot;] == &quot;json&quot; end</td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>可选</td><td>辅助</td><td>是否启用 <code>websocket</code>(boolean), 缺省 <code>false</code>.</td><td></td></tr>
+<tr><td>create_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>有两点需要特别注意：</p>
@@ -316,6 +318,8 @@ HTTP/1.1 200 OK
 <tr><td>desc</td><td>可选</td><td>辅助</td><td>服务描述、使用场景等。</td><td></td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>可选</td><td>辅助</td><td>是否启用 <code>websocket</code>(boolean), 缺省 <code>false</code>.</td><td></td></tr>
+<tr><td>create_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>serivce 对象 json 配置内容：</p>
@@ -432,7 +436,7 @@ HTTP/1.1 200 OK
 <p>目前是直接返回与 etcd 交互后的结果。</p>
 <p><a href="#目录">Back to TOC</a></p>
 <h2><a class="anchor" aria-hidden="true" id="consumer"></a><a href="#consumer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h2>
-<p><em>地址</em>：/apisix/admin/consumers/{id}</p>
+<p><em>地址</em>：/apisix/admin/consumers/{username}</p>
 <p><em>说明</em>：Consumer 是某类服务的消费者，需与用户认证体系配合才能使用。Consumer 使用 <code>username</code> 作为唯一标识，只支持使用 HTTP <code>PUT</code> 方法创建 Consumer。</p>
 <blockquote>
 <p>请求方法：</p>
@@ -443,7 +447,7 @@ HTTP/1.1 200 OK
 </thead>
 <tbody>
 <tr><td>GET</td><td>/apisix/admin/consumers/{id}</td><td>无</td><td>获取资源</td></tr>
-<tr><td>PUT</td><td>/apisix/admin/consumers/{id}</td><td>{...}</td><td>根据 id 创建资源</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/consumers</td><td>{...}</td><td>创建资源</td></tr>
 <tr><td>DELETE</td><td>/apisix/admin/consumers/{id}</td><td>无</td><td>删除资源</td></tr>
 </tbody>
 </table>
@@ -459,11 +463,12 @@ HTTP/1.1 200 OK
 <tr><td>plugins</td><td>可选</td><td>Plugin</td><td>该 Consumer 对应的插件配置，它的优先级是最高的：Consumer &gt; Route &gt; Service。对于具体插件配置，可以参考 <a href="#plugin">Plugins</a> 章节。</td><td></td></tr>
 <tr><td>desc</td><td>可选</td><td>辅助</td><td>consumer描述</td><td></td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>create_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>consumer 对象 json 配置内容：</p>
 <pre><code class="hljs css language-shell">{
-    "id": "1",              # id
     "plugins": {},          # 指定 consumer 绑定的插件
     "username": "name",     # 必填
     "desc": "hello world",  # consumer 描述
@@ -472,7 +477,7 @@ HTTP/1.1 200 OK
 <p>绑定认证授权插件有些特别，当它需要与 consumer 联合使用时，需要提供用户名、密码等信息；另一方面，当它与 route/service 绑定时，是不需要任何参数的。因为这时候是根据用户请求数据来反向推出用户对应的是哪个 consumer</p>
 <p>示例：</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> 创建 Consumer ，指定认证插件 key-auth ，并开启特定插件 <span class="hljs-built_in">limit</span>-count</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers/2  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
     "username": "jack",
     "plugins": {
@@ -539,6 +544,8 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>pass_host</td><td>可选</td><td>枚举</td><td><code>pass</code> 透传客户端请求的 host, <code>node</code> 不透传客户端请求的 host, 使用 upstream node 配置的 host, <code>rewrite</code> 使用 <code>upstream_host</code> 配置的值重写 host 。</td><td></td></tr>
 <tr><td>upstream_host</td><td>可选</td><td>辅助</td><td>只在 <code>pass_host</code> 配置为 <code>rewrite</code> 时有效。</td><td></td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>create_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>upstream 对象 json 配置内容：</p>
@@ -679,6 +686,8 @@ HTTP/1.1 200 OK
 <tr><td>key</td><td>必需</td><td>私钥</td><td>https 证书私钥</td><td></td></tr>
 <tr><td>sni</td><td>必需</td><td>匹配规则</td><td>https 证书SNI</td><td></td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>create_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>ssl 对象 json 配置内容：</p>

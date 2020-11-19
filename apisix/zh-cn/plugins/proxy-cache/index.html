@@ -38,7 +38,7 @@
 <tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>有效值</th><th>描述</th></tr>
 </thead>
 <tbody>
-<tr><td>cache_zone</td><td>string</td><td>必须</td><td></td><td></td><td>指定使用哪个缓存区域，不同的缓存区域可以配置不同的路径，在conf/config.yaml文件中可以预定义使用的缓存区域</td></tr>
+<tr><td>cache_zone</td><td>string</td><td>可选</td><td>disk_cache_one</td><td></td><td>指定使用哪个缓存区域，不同的缓存区域可以配置不同的路径，在 conf/config.yaml 文件中可以预定义使用的缓存区域。当不使用默认值时，指定的缓存区域与 conf/config.yaml 文件中预定义的缓存区域不一致，缓存无效。</td></tr>
 <tr><td>cache_key</td><td>array[string]</td><td>可选</td><td>[&quot;$host&quot;, &quot;$request_uri&quot;]</td><td></td><td>缓存key，可以使用变量。例如：[&quot;$host&quot;, &quot;$uri&quot;, &quot;-cache-id&quot;]</td></tr>
 <tr><td>cache_bypass</td><td>array[string]</td><td>可选</td><td></td><td></td><td>是否跳过缓存检索，即不在缓存中查找数据，可以使用变量，需要注意当此参数的值不为空或非'0'时将会跳过缓存的检索。例如：[&quot;$arg_bypass&quot;]</td></tr>
 <tr><td>cache_method</td><td>array[string]</td><td>可选</td><td>[&quot;GET&quot;, &quot;HEAD&quot;]</td><td>[&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;PATCH&quot;, &quot;HEAD&quot;,&quot;OPTIONS&quot;, &quot;CONNECT&quot;, &quot;TRACE&quot;]</td><td>根据请求method决定是否需要缓存</td></tr>
@@ -48,20 +48,30 @@
 </tbody>
 </table>
 <p>注：变量以$开头，也可以使用变量和字符串的结合，但是需要以数组的形式分开写，最终变量被解析后会和字符串拼接在一起。</p>
+<p>在 <code>conf/config.yaml</code> 文件中的配置示例:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">proxy_cache:</span>                       <span class="hljs-comment"># 代理缓存配置</span>
+    <span class="hljs-attr">cache_ttl:</span> <span class="hljs-string">10s</span>                 <span class="hljs-comment"># 如果上游未指定缓存时间，则为默认缓存时间</span>
+    <span class="hljs-attr">zones:</span>                         <span class="hljs-comment"># 缓存的参数</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">disk_cache_one</span>         <span class="hljs-comment"># 缓存名称(缓存区域)，管理员可以通过admin api中的 cache_zone 字段指定要使用的缓存区域</span>
+      <span class="hljs-attr">memory_size:</span> <span class="hljs-string">50m</span>             <span class="hljs-comment"># 共享内存的大小，用于存储缓存索引</span>
+      <span class="hljs-attr">disk_size:</span> <span class="hljs-string">1G</span>                <span class="hljs-comment"># 磁盘大小，用于存储缓存数据</span>
+      <span class="hljs-attr">disk_path:</span> <span class="hljs-string">"/tmp/disk_cache_one"</span> <span class="hljs-comment"># 存储缓存数据的路径</span>
+      <span class="hljs-attr">cache_levels:</span> <span class="hljs-string">"1:2"</span>          <span class="hljs-comment"># 缓存的层次结构级别</span>
+</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="示例"></a><a href="#示例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>示例</h3>
 <h4><a class="anchor" aria-hidden="true" id="启用插件"></a><a href="#启用插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>启用插件</h4>
-<p>示例1：为特定路由启用 <code>proxy-cache</code> 插件：</p>
+<p>示例一：cache_zone 参数默认为 <code>disk_cache_one</code></p>
+<p>1、为特定路由启用 <code>proxy-cache</code> 插件：</p>
 <pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins": {
         "proxy-cache": {
-           "cache_zone": "disk_cache_one",
-           "cache_key":  ["$uri", "-cache-id"],
-           "cache_bypass": ["$arg_bypass"],
-           "cache_method": ["GET"],
-           "cache_http_status": [200],
-           "hide_cache_headers": true,
-           "no_cache": ["$arg_test"]
+            "cache_key":  ["$uri", "-cache-id"],
+            "cache_bypass": ["$arg_bypass"],
+            "cache_method": ["GET"],
+            "cache_http_status": [200],
+            "hide_cache_headers": true,
+            "no_cache": ["$arg_test"]
         }
     },
     "upstream": {
@@ -87,10 +97,9 @@ Apisix-Cache-Status: MISS
 hello
 </code></pre>
 <blockquote>
-<p>http status 返回<code>200</code>并且响应头中包含<code>Apisix-Cache-Status</code>，表示该插件已启用。</p>
+<p>http status 返回<code>200</code>并且响应头中包含 <code>Apisix-Cache-Status</code>，表示该插件已启用。</p>
 </blockquote>
-<p>示例2：验证文件是否被缓存，再次请求上边的地址：</p>
-<p>测试：</p>
+<p>2、验证数据是否被缓存，再次请求上边的地址：</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/hello -i</span>
 HTTP/1.1 200 OK
 Content-Type: application/octet-stream
@@ -104,9 +113,102 @@ Apisix-Cache-Status: HIT
 hello
 </code></pre>
 <blockquote>
-<p>响应头  Apisix-Cache-Status 值变为了 HIT，说明文件已经被缓存</p>
+<p>响应头  Apisix-Cache-Status 值变为了 HIT，说明数据已经被缓存</p>
 </blockquote>
-<p>示例3：如何清理缓存的文件，只需要指定请求的 method 为 PURGE：</p>
+<p>示例二：自定义 cache_zone 参数为 <code>disk_cache_two</code></p>
+<p>1、在 <code>conf/config.yaml</code> 文件中的指定缓存区域等信息:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">proxy_cache:</span>
+    <span class="hljs-attr">cache_ttl:</span> <span class="hljs-string">10s</span>
+    <span class="hljs-attr">zones:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">disk_cache_two</span>
+      <span class="hljs-attr">memory_size:</span> <span class="hljs-string">50m</span>
+      <span class="hljs-attr">disk_size:</span> <span class="hljs-string">1G</span>
+      <span class="hljs-attr">disk_path:</span> <span class="hljs-string">"/tmp/disk_cache_one"</span>
+      <span class="hljs-attr">cache_levels:</span> <span class="hljs-string">"1:2"</span>
+</code></pre>
+<p>2、为特定路由启用 <code>proxy-cache</code> 插件：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "plugins": {
+        "proxy-cache": {
+            "cache_zone": "disk_cache_two",
+            "cache_key":  ["$uri", "-cache-id"],
+            "cache_bypass": ["$arg_bypass"],
+            "cache_method": ["GET"],
+            "cache_http_status": [200],
+            "hide_cache_headers": true,
+            "no_cache": ["$arg_test"]
+        }
+    },
+    "upstream": {
+        "nodes": {
+            "127.0.0.1:1999": 1
+        },
+        "type": "roundrobin"
+    },
+    "uri": "/hello"
+}'
+</code></pre>
+<p>测试：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/hello -i</span>
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Content-Length: 6
+Connection: keep-alive
+Server: APISIX web server
+Date: Tue, 03 Mar 2020 10:45:36 GMT
+Last-Modified: Tue, 03 Mar 2020 10:36:38 GMT
+Apisix-Cache-Status: MISS
+
+hello
+</code></pre>
+<blockquote>
+<p>http status 返回<code>200</code>并且响应头中包含 <code>Apisix-Cache-Status</code>，表示该插件已启用。</p>
+</blockquote>
+<p>3、验证数据是否被缓存，再次请求上面的地址：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/hello -i</span>
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Content-Length: 6
+Connection: keep-alive
+Server: APISIX web server
+Date: Tue, 03 Mar 2020 11:14:46 GMT
+Last-Modified: Thu, 20 Feb 2020 14:21:41 GMT
+Apisix-Cache-Status: HIT
+
+hello
+</code></pre>
+<blockquote>
+<p>响应头 <code>Apisix-Cache-Status</code> 值变为了 HIT，说明数据已经被缓存</p>
+</blockquote>
+<p>示例3：指定 cache_zone 为 <code>invalid_disk_cache</code> 与 <code>conf/config.yaml</code> 文件中指定的缓存区域 <code>disk_cache_one</code> 不一致。</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+{
+    "plugins": {
+        "proxy-cache": {
+            "cache_zone": "invalid_disk_cache",
+            "cache_key":  ["$uri", "-cache-id"],
+            "cache_bypass": ["$arg_bypass"],
+            "cache_method": ["GET"],
+            "cache_http_status": [200],
+            "hide_cache_headers": true,
+            "no_cache": ["$arg_test"]
+        }
+    },
+    "upstream": {
+        "nodes": {
+            "127.0.0.1:1999": 1
+        },
+        "type": "roundrobin"
+    },
+    "uri": "/hello"
+}'
+</code></pre>
+<pre><code class="hljs css language-json">{<span class="hljs-attr">"error_msg"</span>:<span class="hljs-string">"failed to check the configuration of plugin proxy-cache err: cache_zone invalid_disk_cache not found"</span>}
+</code></pre>
+<p>响应错误信息，表示插件配置无效。</p>
+<h4><a class="anchor" aria-hidden="true" id="清除缓存数据"></a><a href="#清除缓存数据" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>清除缓存数据</h4>
+<p>如何清理缓存的数据，只需要指定请求的 method 为 PURGE。</p>
 <p>测试：</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl -i http://127.0.0.1:9080/hello -X PURGE</span>
 HTTP/1.1 200 OK
@@ -117,8 +219,25 @@ Connection: keep-alive
 Server: APISIX web server
 </code></pre>
 <blockquote>
-<p>响应码为200即表示删除成功，如果文件未找到将返回404</p>
+<p>响应码为200即表示删除成功，如果缓存的数据未找到将返回404。</p>
 </blockquote>
+<p>再次请求，缓存数据未找到返回404：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl -i http://127.0.0.1:9080/hello -X PURGE</span>
+HTTP/1.1 404 Not Found
+Date: Wed, 18 Nov 2020 05:46:34 GMT
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: APISIX web server
+
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;openresty&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <h4><a class="anchor" aria-hidden="true" id="禁用插件"></a><a href="#禁用插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>禁用插件</h4>
 <p>移除插件配置中相应的 JSON 配置可立即禁用该插件，无需重启服务：</p>
 <pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '

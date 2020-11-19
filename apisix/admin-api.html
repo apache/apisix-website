@@ -88,6 +88,8 @@
 <tr><td>service_protocol</td><td>False</td><td>Upstream protocol type</td><td>only <code>grpc</code> and <code>http</code> are supported</td><td><code>http</code> is the default value; Must set <code>grpc</code> if using <code>gRPC proxy</code> or <code>gRPC transcode</code></td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>False</td><td>Auxiliary</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td><td></td></tr>
+<tr><td>create_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>For the same type of parameters, such as <code>host</code> and <code>hosts</code>, <code>remote_addr</code> and <code>remote_addrs</code> cannot exist at the same time, only one of them can be selected. If enabled at the same time, the API will response an error.</p>
@@ -308,6 +310,8 @@ After successful execution, methods will not retain the original data, and the e
 <tr><td>desc</td><td>False</td><td>Auxiliary</td><td>service usage scenarios, and more.</td><td>customer xxxx</td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>False</td><td>Auxiliary</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td><td></td></tr>
+<tr><td>create_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>Config Example:</p>
@@ -421,7 +425,7 @@ After successful execution, upstream nodes will not retain the original data, an
 <p>Return response from etcd currently.</p>
 <p><a href="#Table-of-Contents">Back to TOC</a></p>
 <h2><a class="anchor" aria-hidden="true" id="consumer"></a><a href="#consumer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h2>
-<p><em>API</em>：/apisix/admin/consumers/{id}</p>
+<p><em>API</em>：/apisix/admin/consumers/{username}</p>
 <p><em>Description</em>：Consumers are consumers of certain types of services and can only be used in conjunction with a user authentication system. Consumer regards the <code>username</code> property as the identity, so only the HTTP <code>PUT</code> method is supported for creating a new consumer.</p>
 <blockquote>
 <p>Request Methods：</p>
@@ -431,9 +435,9 @@ After successful execution, upstream nodes will not retain the original data, an
 <tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>GET</td><td>/apisix/admin/consumers/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
-<tr><td>PUT</td><td>/apisix/admin/consumers/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
-<tr><td>DELETE</td><td>/apisix/admin/consumers/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+<tr><td>GET</td><td>/apisix/admin/consumers/{username}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/consumers</td><td>{...}</td><td>Create resource by username</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/consumers/{username}</td><td>NULL</td><td>Remove resource</td></tr>
 </tbody>
 </table>
 <blockquote>
@@ -448,11 +452,12 @@ After successful execution, upstream nodes will not retain the original data, an
 <tr><td>plugins</td><td>False</td><td>Plugin</td><td>See <a href="/apisix/architecture-design#plugin">Plugin</a> for more</td><td></td></tr>
 <tr><td>desc</td><td>False</td><td>Auxiliary</td><td>Identifies route names, usage scenarios, and more.</td><td>customer xxxx</td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>create_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>Config Example:</p>
 <pre><code class="hljs css language-shell">{
-    "id": "1",              # id
     "plugins": {},          # Bound plugin
     "username": "name",     # Consumer name
     "desc": "hello world",  # Consumer desc
@@ -460,9 +465,8 @@ After successful execution, upstream nodes will not retain the original data, an
 </code></pre>
 <p>The binding authentication and authorization plug-in is a bit special. When it needs to be used in conjunction with the consumer, it needs to provide user name, password and other information; on the other hand, when it is bound with route / service, it does not require any parameters. Because at this time, it is based on the user request data to infer which consumer the user corresponds to.</p>
 <p>Example:</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers/2  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
-    "username": "jack",
     "plugins": {
         "key-auth": {
             "key": "auth-one"
@@ -518,7 +522,7 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>nodes</td><td>required if <code>k8s_deployment_info</code> not configured</td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected.</td></tr>
 <tr><td>k8s_deployment_info</td><td>required if <code>nodes</code> not configured</td><td>fields: <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>, <code>port</code> is number, <code>backend_type</code> is <code>pod</code> or <code>service</code>, others is string.</td></tr>
 <tr><td>hash_on</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Supported types <code>vars</code>(Nginx variables), <code>header</code>(custom header), <code>cookie</code>, <code>consumer</code>, the default value is <code>vars</code>.</td></tr>
-<tr><td>key</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_id</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
+<tr><td>key</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_name</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
 <tr><td>checks</td><td>optional</td><td>Configure the parameters of the health check. For details, refer to <a href="/apisix/health-check">health-check</a>.</td></tr>
 <tr><td>retries</td><td>optional</td><td>Pass the request to the next upstream using the underlying Nginx retry mechanism, the retry mechanism is enabled by default and set the number of retries according to the number of backend nodes. If <code>retries</code> option is explicitly set, it will override the default value. <code>0</code> means disable retry mechanism.</td></tr>
 <tr><td>timeout</td><td>optional</td><td>Set the timeout for connection, sending and receiving messages.</td></tr>
@@ -526,7 +530,9 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>desc</td><td>optional</td><td>upstream usage scenarios, and more.</td></tr>
 <tr><td>pass_host</td><td>optional</td><td><code>pass</code> pass the client request host, <code>node</code> not pass the client request host, using the upstream node host, <code>rewrite</code> rewrite host by the configured <code>upstream_host</code>.</td></tr>
 <tr><td>upstream_host</td><td>optional</td><td>This option is only valid if the <code>pass_host</code> is <code>rewrite</code>.</td></tr>
-<tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>labels</td><td>optional</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>create_time</td><td>optional</td><td>epoch timestamp in second, like <code>1602883670</code>, will be created automatically if missing</td></tr>
+<tr><td>update_time</td><td>optional</td><td>epoch timestamp in second, like <code>1602883670</code>, will be created automatically if missing</td></tr>
 </tbody>
 </table>
 <p>Config Example:</p>
@@ -668,6 +674,8 @@ After the execution is successful, nodes will not retain the original data, and 
 <tr><td>key</td><td>True</td><td>Private key</td><td>https Private key</td><td></td></tr>
 <tr><td>sni</td><td>True</td><td>Match Rules</td><td>https SNI</td><td></td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
+<tr><td>create_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
 </tbody>
 </table>
 <p>Config Example:</p>

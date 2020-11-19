@@ -113,7 +113,7 @@ You can configure it via <code>apisix/admin/plugin_metadata/batch-requests</code
 <p>You can pass your request detail to batch API( <code>/apisix/batch-requests</code> ), <code>apisix</code> can automatically complete requests via <a href="https://en.wikipedia.org/wiki/HTTP_pipelining">http pipeline</a>. Such as:</p>
 <pre><code class="hljs css language-shell">curl --location --request POST 'http://127.0.0.1:9080/apisix/batch-requests' \
 --header 'Content-Type: application/json' \
---d '{
+--data '{
     "headers": {
         "Content-Type": "application/json",
         "admin-jwt":"xxxx"

@@ -47,8 +47,8 @@
 <tbody>
 <tr><td>broker_list</td><td>object</td><td>必须</td><td></td><td></td><td>要推送的 kafka 的 broker 列表。</td></tr>
 <tr><td>kafka_topic</td><td>string</td><td>必须</td><td></td><td></td><td>要推送的 topic。</td></tr>
-<tr><td>key</td><td>string</td><td>必须</td><td></td><td></td><td>发送数据的超时时间。</td></tr>
-<tr><td>timeout</td><td>integer</td><td>可选</td><td>3</td><td>[1,...]</td><td>用于加密消息的密钥。</td></tr>
+<tr><td>key</td><td>string</td><td>必须</td><td></td><td></td><td>用于加密消息的密钥。</td></tr>
+<tr><td>timeout</td><td>integer</td><td>可选</td><td>3</td><td>[1,...]</td><td>发送数据的超时时间。</td></tr>
 <tr><td>name</td><td>string</td><td>可选</td><td>&quot;kafka logger&quot;</td><td></td><td>batch processor 的唯一标识。</td></tr>
 <tr><td>meta_format</td><td>string</td><td>可选</td><td>&quot;default&quot;</td><td>枚举：<code>default</code>，<code>origin</code></td><td><code>default</code>：获取请求信息以默认的 JSON 编码方式。<code>origin</code>：获取请求信息以 HTTP 原始请求方式。<a href="#meta_format-参考示例">具体示例</a></td></tr>
 <tr><td>batch_max_size</td><td>integer</td><td>可选</td><td>1000</td><td>[1,...]</td><td>每批的最大大小</td></tr>

@@ -76,9 +76,9 @@
 }'
 </code></pre>
 <p>You can open dashboard with a browser: <code>http://127.0.0.1:9080/apisix/dashboard/</code>, to complete the above operation through the web interface, first add a route:
-<img src="../images/plugin/limit-count-1.png" alt="Add a router."></p>
+<img src="https://apisix.apache.org/images/plugin/limit-count-1.png" alt="Add a router."></p>
 <p>Then add limit-count plugin:
-<img src="../images/plugin/limit-count-2.png" alt="Add limit-count plugin."></p>
+<img src="https://apisix.apache.org/images/plugin/limit-count-2.png" alt="Add limit-count plugin."></p>
 <p>If you need a cluster-level precision traffic limit, then we can do it with the redis server. The rate limit of the traffic will be shared between different APISIX nodes to limit the rate of cluster traffic.</p>
 <p>Here is the example if we use single <code>redis</code> policy:</p>
 <pre><code class="hljs css language-shell">curl -i http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
