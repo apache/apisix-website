@@ -75,9 +75,9 @@
 }'
 </code></pre>
 <p>You can open dashboard with a browser: <code>http://127.0.0.1:9080/apisix/dashboard/</code>, to complete the above operation through the web interface, first add a route:</p>
-<p><img src="..https://apisix.apache.org/images/plugin/limit-req-1.png" alt="add route"></p>
+<p><img src="../images/plugin/limit-req-1.png" alt="add route"></p>
 <p>Then add limit-req plugin:</p>
-<p><img src="..https://apisix.apache.org/images/plugin/limit-req-2.png" alt="add plugin"></p>
+<p><img src="../images/plugin/limit-req-2.png" alt="add plugin"></p>
 <p><strong>Test Plugin</strong></p>
 <p>The above configuration limits the request rate to 1 per second. If it is greater than 1 and less than 3, the delay will be added. If the rate exceeds 3, it will be rejected:</p>
 <pre><code class="hljs css language-shell">curl -i http://127.0.0.1:9080/index.html

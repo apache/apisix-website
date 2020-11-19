@@ -75,9 +75,9 @@
 }'
 </code></pre>
 <p>你可以使用浏览器打开 dashboard：<code>http://127.0.0.1:9080/apisix/dashboard/</code>，通过 web 界面来完成上面的操作，先增加一个 route：</p>
-<p><img src="../..https://apisix.apache.org/images/plugin/limit-req-1.png" alt="添加路由"></p>
+<p><img src="../../images/plugin/limit-req-1.png" alt="添加路由"></p>
 <p>然后在 route 页面中添加 limit-req 插件：</p>
-<p><img src="../..https://apisix.apache.org/images/plugin/limit-req-2.png" alt="添加插件"></p>
+<p><img src="../../images/plugin/limit-req-2.png" alt="添加插件"></p>
 <p><strong>测试插件</strong></p>
 <p>上述配置限制了每秒请求速率为 1，大于 1 小于 3 的会被加上延时，速率超过 3 就会被拒绝：</p>
 <pre><code class="hljs css language-shell">curl -i http://127.0.0.1:9080/index.html
