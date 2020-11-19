@@ -50,9 +50,9 @@
 }'
 </code></pre>
 <p>你可以使用浏览器打开 dashboard：<code>http://127.0.0.1:9080/apisix/dashboard/</code>，通过 web 界面来完成上面的操作，先增加一个 route：</p>
-<p><img src="../https://apisix.apache.org/images/plugin/prometheus-1.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/prometheus-1.png" alt=""></p>
 <p>然后在 route 页面中添加 prometheus 插件：</p>
-<p><img src="../https://apisix.apache.org/images/plugin/prometheus-2.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/prometheus-2.png" alt=""></p>
 <h2><a class="anchor" aria-hidden="true" id="如何提取指标数据"></a><a href="#如何提取指标数据" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>如何提取指标数据</h2>
 <p>我们可以从指定的 url 中提取指标数据 <code>/apisix/prometheus/metrics</code>:</p>
 <pre><code class="hljs">curl -i <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:9080/apisix</span><span class="hljs-regexp">/prometheus/metrics</span>
@@ -66,15 +66,15 @@
     <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> <span class="hljs-string">['127.0.0.1:9080']</span>
 </code></pre>
 <p>我们也可以在 prometheus 控制台中去检查状态:</p>
-<p><img src="../https://apisix.apache.org/images/plugin/prometheus01.png" alt=""></p>
-<p><img src="../https://apisix.apache.org/images/plugin/prometheus02.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/prometheus01.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/prometheus02.png" alt=""></p>
 <h3><a class="anchor" aria-hidden="true" id="grafana-面板"></a><a href="#grafana-面板" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Grafana 面板</h3>
 <p>插件导出的指标可以在 Grafana 进行图形化绘制显示。</p>
 <p>下载 <a href="../../json/apisix-grafana-dashboard.json">Grafana dashboard 元数据</a> 并导入到 Grafana 中。</p>
 <p>你可以到 <a href="https://grafana.com/grafana/dashboards/11719">Grafana 官方</a> 下载 <code>Grafana</code> 元数据.</p>
-<p><img src="../https://apisix.apache.org/images/plugin/grafana_1.png" alt=""></p>
-<p><img src="../https://apisix.apache.org/images/plugin/grafana_2.png" alt=""></p>
-<p><img src="../https://apisix.apache.org/images/plugin/grafana_3.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/grafana_1.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/grafana_2.png" alt=""></p>
+<p><img src="../..https://apisix.apache.org/images/plugin/grafana_3.png" alt=""></p>
 <h3><a class="anchor" aria-hidden="true" id="可有的指标"></a><a href="#可有的指标" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>可有的指标</h3>
 <ul>
 <li><code>Status codes</code>: upstream 服务返回的 HTTP 状态码，每个服务返回状态码的次数或者所有服务的状态码次数总和都可以统计到。</li>
