@@ -31,7 +31,7 @@ jobs:
         cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
         cp -r apisix/doc ./docs/apisix
         cd ./docs/apisix
-        find . -type f -name "*.md" -print0 | xargs -0 sed -i -e 's/.images/https\:\/\/apisix\.apache\.org\/images/g'
+        find . -type f -name "*.md" -print0 | xargs -0 sed -i -e 's/(.+)?images/https\:\/\/apisix\.apache\.org\/images/g'
 
     - name: Build
       run: cd website && yarn && yarn build
