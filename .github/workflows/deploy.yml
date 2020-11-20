@@ -42,7 +42,7 @@ jobs:
         cp ../../../README.md ./ && cp ../../../.asf.yaml ./
         cd apisix
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/doc\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-        # find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images\/src="https:\/\/apisix\.apache\.org\/images/g'
+        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images\/src="https:\/\/apisix\.apache\.org\/images/g'
         # find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
         # find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
         # find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
