@@ -30,14 +30,23 @@ jobs:
         git clone https://github.com/apache/apisix.git
         cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
         cp -r apisix/doc ./docs/apisix
-        cd ./docs/apisix
-        find . -type f -name "*.md" -print0 | xargs -0 sed -i -e 's/(\.\.\/|\.\/)+?(\w+\/)?images/https\:\/\/apisix\.apache\.org\/images/g'
+        # cd ./docs/apisix
+        # find . -type f -name "*.md" -print0 | xargs -0 sed -i -e 's/(\.\.\/|\.\/)+?(\w+\/)?images/https\:\/\/apisix\.apache\.org\/images/g'
 
     - name: Build
       run: cd website && yarn && yarn build
       
     - name: Copy files
-      run: cd website && cd build && cd apisix-website && cp ../../../README.md ./ && cp ../../../.asf.yaml ./
+      run: |
+        cd website && cd build && cd apisix-website
+        cp ../../../README.md ./ && cp ../../../.asf.yaml ./
+        cd apisix
+        export TARGET_STR=src="https://apisix.apache.org/images
+        sed -i -e 's/src="../../doc/images/$TARGET_STR/g' ./architecture-design.html 
+        sed -i -e 's/src="../../images/$TARGET_STR/g' ./architecture-design.html 
+        sed -i -e 's/src="../images/$TARGET_STR/g' ./architecture-design.html 
+        sed -i -e 's/src="./images/$TARGET_STR/g' ./architecture-design.html 
+        sed -i -e 's/src="images/$TARGET_STR/g' ./architecture-design.html 
       
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2.0.1
