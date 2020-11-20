@@ -41,7 +41,7 @@ jobs:
         cd website && cd build && cd apisix-website
         cp ../../../README.md ./ && cp ../../../.asf.yaml ./
         cd apisix
-        export TARGET_STR=src="https://apisix.apache.org/images
+        export TARGET_STR='src="https://apisix.apache.org/images'
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="../../doc/images/$TARGET_STR/g'
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="../../images/$TARGET_STR/g'
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="../images/$TARGET_STR/g'
