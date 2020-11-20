@@ -59,7 +59,7 @@
 <p>令牌自省通过针对 Oauth 2 授权服务器验证令牌来帮助验证请求。
 前提条件是，您应该在身份服务器中创建受信任的客户端，并生成用于自省的有效令牌（JWT）。
 下图显示了通过网关进行令牌自省的示例（成功）流程。</p>
-<p><img src="../../images/plugin/oauth-1.png" alt="token introspection"></p>
+<p><img src="https://apisix.apache.org/images/plugin/oauth-1.png" alt="token introspection"></p>
 <p>以下是 curl 命令，用于将插件启用到外部服务。
 通过自省请求标头中提供的令牌，此路由将保护 <a href="https://httpbin.org/get">https://httpbin.org/get</a>（echo 服务）。</p>
 <pre><code class="hljs css language-bash">curl http://127.0.0.1:9080/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'

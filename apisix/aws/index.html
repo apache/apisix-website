@@ -26,7 +26,7 @@
 <p><a href="https://github.com/apache/apisix">APISIX</a> is a cloud-native microservices API gateway, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices.</p>
 <h2><a class="anchor" aria-hidden="true" id="architecture"></a><a href="#architecture" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Architecture</h2>
 <p>This reference architecture walks you through building <strong>APISIX</strong> as a serverless container API Gateway on top of AWS Fargate with AWS CDK.</p>
-<p><img src="images/aws-fargate-cdk.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/aws-fargate-cdk.png" alt=""></p>
 <h2><a class="anchor" aria-hidden="true" id="generate-an-aws-cdk-project-with-projen"></a><a href="#generate-an-aws-cdk-project-with-projen" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Generate an AWS CDK project with <code>projen</code></h2>
 <pre><code class="hljs css language-bash">$ mkdir apisix-aws
 $ <span class="hljs-built_in">cd</span> <span class="hljs-variable">$_</span>
@@ -182,12 +182,12 @@ Name:   apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
 Address: 44.226.102.63
 </code></pre>
 <p>Configure the IP addresses returned as your upstream nodes in your <strong>APISIX</strong> dashboard followed by the <strong>Services</strong> and <strong>Routes</strong> configuration. Let's say we have a <code>/index.php</code> as the URI for the first route for our first <strong>Service</strong> from the <strong>Upstream</strong> IP adddresses.</p>
-<p><img src="images/aws-nlb-ip-addr.png" alt="">
-<img src="images/aws-define-service.png" alt="">
-<img src="images/aws-define-route.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/aws-nlb-ip-addr.png" alt="">
+<img src="https://apisix.apache.org/images/aws-define-service.png" alt="">
+<img src="https://apisix.apache.org/images/aws-define-route.png" alt=""></p>
 <h2><a class="anchor" aria-hidden="true" id="validation"></a><a href="#validation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Validation</h2>
 <p>OK. Let's test the <code>/index.php</code> on <code>{apiSix.ApiSixServiceServiceURL}/index.php</code></p>
-<p><img src="images/aws-caddy-php-welcome-page.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/aws-caddy-php-welcome-page.png" alt=""></p>
 <p>Now we have been successfully running <strong>APISIX</strong> in AWS Fargate as serverless container API Gateway service.</p>
 <h2><a class="anchor" aria-hidden="true" id="clean-up"></a><a href="#clean-up" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Clean up</h2>
 <pre><code class="hljs css language-bash">$ cdk destroy
@@ -221,7 +221,7 @@ apiSix.ApiSixServiceLoadBalancerDNSD4E5B8CB = apiSi-ApiSi-123HOROQKWZKA-12683252
 apiSix.ApiSixServiceServiceURLF6EC7872 = http://apiSi-ApiSi-123HOROQKWZKA-1268325233.cn-northwest-1.elb.amazonaws.com.cn
 </code></pre>
 <p>Open the <code>apiSix.ApiSixDashboardURL</code> URL and log in to configure your <strong>APISIX</strong> in AWS China region.</p>
-<p><img src="images/apisix-dashboard-prompt-ningxia.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/apisix-dashboard-prompt-ningxia.png" alt=""></p>
 <p><em>TBD</em></p>
 <h2><a class="anchor" aria-hidden="true" id="decouple-apisix-and-etcd3-on-aws"></a><a href="#decouple-apisix-and-etcd3-on-aws" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decouple APISIX and etcd3 on AWS</h2>
 <p>For high availability and state consistency consideration, you might be interested to decouple the <strong>etcd3</strong> as a seperate cluster from <strong>APISIX</strong> not only for performance but also high availability and faught tolerance yet with highly reliable state consistency.</p>

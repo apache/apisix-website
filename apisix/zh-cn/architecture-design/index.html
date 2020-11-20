@@ -38,9 +38,9 @@
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="apisix"></a><a href="#apisix" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>APISIX</h2>
 <h3><a class="anchor" aria-hidden="true" id="插件加载流程"></a><a href="#插件加载流程" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>插件加载流程</h3>
-<p><img src="../images/flow-load-plugin.png" alt="插件加载流程"></p>
+<p><img src="https://apisix.apache.org/images/flow-load-plugin.png" alt="插件加载流程"></p>
 <h3><a class="anchor" aria-hidden="true" id="插件内部结构"></a><a href="#插件内部结构" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>插件内部结构</h3>
-<p><img src="../images/flow-plugin-internal.png" width="50%" height="50%"></p>
+<p><img src="https://apisix.apache.org/images/flow-plugin-internal.png" width="50%" height="50%"></p>
 <h2><a class="anchor" aria-hidden="true" id="apisix-config"></a><a href="#apisix-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>APISIX Config</h2>
 <p>通过修改本地 <code>conf/config.yaml</code> 文件完成对 APISIX 服务本身的基本配置。</p>
 <p>比如修改 APISIX 默认监听端口为 8000，其他配置保持默认，在 <code>conf/config.yaml</code> 中只需这样配置：</p>
@@ -65,7 +65,7 @@
 插件，并把请求转发给到指定 Upstream。</p>
 <p>Route 中主要包含三部分内容：匹配规则(比如 uri、host、remote_addr 等)，插件配置(限流限速等)和上游信息。
 请看下图示例，是一些 Route 规则的实例，当某些属性值相同时，图中用相同颜色标识。</p>
-<p><img src="../images/routes-example.png" width="50%" height="50%"></p>
+<p><img src="https://apisix.apache.org/images/routes-example.png" width="50%" height="50%"></p>
 <p>我们直接在 Route 中完成所有参数的配置，优点是容易设置，每个 Route 都相对独立自由度比较高。但当我们的 Route 有比较多的重复配置（比如启用相同的插件配置或上游信息），一旦我们要更新这些相同属性时，就需要遍历所有 Route 并进行修改，给后期管理维护增加不少复杂度。</p>
 <p>上面提及重复的缺点在 APISIX 中独立抽象了 <a href="#service">Service</a> 和 <a href="#upstream">Upstream</a> 两个概念来解决。</p>
 <p>下面创建的 Route 示例，是把 URL 为 &quot;/index.html&quot; 的请求代理到地址为 &quot;39.97.63.215:80&quot; 的 Upstream 服务：</p>
@@ -95,7 +95,7 @@ Server: APISIX web server
 <h2><a class="anchor" aria-hidden="true" id="service"></a><a href="#service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Service</h2>
 <p><code>Service</code> 是某类 API 的抽象（也可以理解为一组 Route 的抽象）。它通常与上游服务抽象是一一对应的，<code>Route</code>
 与 <code>Service</code> 之间，通常是 N:1 的关系，参看下图。</p>
-<p><img src="../images/service-example.png" width="50%" height="50%"></p>
+<p><img src="https://apisix.apache.org/images/service-example.png" width="50%" height="50%"></p>
 <p>不同 Route 规则同时绑定到一个 Service 上，这些 Route 将具有相同的上游和插件配置，减少冗余配置。</p>
 <p>比如下面的例子，创建了一个启用限流插件的 Service，然后把 id 为 <code>100</code>、<code>101</code> 的 Route 都绑定在这个 Service 上。</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> create new Service</span>
@@ -202,7 +202,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
 <p><a href="#目录">返回目录</a></p>
 <h2><a class="anchor" aria-hidden="true" id="upstream"></a><a href="#upstream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upstream</h2>
 <p>Upstream 是虚拟主机抽象，对给定的多个服务节点按照配置规则进行负载均衡。Upstream 的地址信息可以直接配置到 <code>Route</code>（或 <code>Service</code>) 上，当 Upstream 有重复时，就需要用“引用”方式避免重复了。</p>
-<p><img src="../images/upstream-example.png" width="50%" height="50%"></p>
+<p><img src="https://apisix.apache.org/images/upstream-example.png" width="50%" height="50%"></p>
 <p>如上图所示，通过创建 Upstream 对象，在 <code>Route</code> 用 ID 方式引用，就可以确保只维护一个对象的值了。</p>
 <p>Upstream 的配置可以被直接绑定在指定 <code>Route</code> 中，也可以被绑定在 <code>Service</code> 中，不过 <code>Route</code> 中的配置
 优先级更高。这里的优先级行为与 <code>Plugin</code> 非常相似</p>
@@ -416,7 +416,7 @@ curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 <h2><a class="anchor" aria-hidden="true" id="consumer-1"></a><a href="#consumer-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h2>
 <p>对于 API 网关通常可以用请求域名、客户端 IP 地址等字段识别到某类请求方，
 然后进行插件过滤并转发请求到指定上游，但有时候这个深度不够。</p>
-<p><img src="../images/consumer-who.png" width="50%" height="50%"></p>
+<p><img src="https://apisix.apache.org/images/consumer-who.png" width="50%" height="50%"></p>
 <p>如上图所示，作为 API 网关，需要知道 API Consumer（消费方）具体是谁，这样就可以对不同 API Consumer 配置不同规则。</p>
 <table>
 <thead>
@@ -428,7 +428,7 @@ curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 </tbody>
 </table>
 <p>在 APISIX 中，识别 Consumer 的过程如下图：</p>
-<p><img src="../images/consumer-internal.png" width="50%" height="50%"></p>
+<p><img src="https://apisix.apache.org/images/consumer-internal.png" width="50%" height="50%"></p>
 <ol>
 <li>授权认证：比如有 <a href="/apisix/plugins/key-auth">key-auth</a>、<a href="/apisix/zh-cn/plugins/jwt-auth">JWT</a> 等。</li>
 <li>获取 consumer_name：通过授权认证，即可自然获取到对应的 Consumer name，它是 Consumer 对象的唯一识别标识。</li>
