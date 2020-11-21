@@ -57,7 +57,7 @@
 <p>我们可以从指定的 url 中提取指标数据 <code>/apisix/prometheus/metrics</code>:</p>
 <pre><code class="hljs">curl -i <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:9080/apisix</span><span class="hljs-regexp">/prometheus/metrics</span>
 </code></pre>
-<p>把改uri地址配置到 prometheus 中去,就会自动完成指标数据提取.</p>
+<p>把该uri地址配置到 prometheus 中去,就会自动完成指标数据提取.</p>
 <p>例子如下:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">scrape_configs:</span>
   <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">'apisix'</span>

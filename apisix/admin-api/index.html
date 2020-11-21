@@ -670,8 +670,10 @@ After the execution is successful, nodes will not retain the original data, and 
 <tr><th>Parameter</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr>
 </thead>
 <tbody>
-<tr><td>cert</td><td>True</td><td>Public key</td><td>https Public key</td><td></td></tr>
-<tr><td>key</td><td>True</td><td>Private key</td><td>https Private key</td><td></td></tr>
+<tr><td>cert</td><td>True</td><td>Certificate</td><td>https certificate</td><td></td></tr>
+<tr><td>key</td><td>True</td><td>Private key</td><td>https private key</td><td></td></tr>
+<tr><td>certs</td><td>False</td><td>An array of certificate</td><td>when you need to configure multiple certificate for the same domain, you can pass extra https certificates (excluding the one given as cert) in this field</td><td></td></tr>
+<tr><td>keys</td><td>False</td><td>An array of private key</td><td>https private keys. The keys should be paired with certs above</td><td></td></tr>
 <tr><td>sni</td><td>True</td><td>Match Rules</td><td>https SNI</td><td></td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>create_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
@@ -681,7 +683,7 @@ After the execution is successful, nodes will not retain the original data, and 
 <p>Config Example:</p>
 <pre><code class="hljs css language-shell">{
     "id": "1",      # id
-    "cert": "cert", # Public key
+    "cert": "cert", # Certificate
     "key": "key",   # Private key
     "sni": "sni"    # https SNI
 }
