@@ -28,15 +28,20 @@ jobs:
         git clone https://github.com/apache/apisix.git
         cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
         cp -r apisix/doc ./docs/apisix
-        cd ./docs/apisix
-        find . -type f -name "*.md" -print0 | xargs -0 sed -i '' -e 's/\.\.\/images/https\:\/\/apisix\.apache\.org\/images/g'
-        find . -type f -name "*.md" -print0 | xargs -0 sed -i '' -e 's/\.\/images/https\:\/\/apisix\.apache\.org\/images/g'
 
     - name: Build
       run: cd website && yarn && yarn build
       
     - name: Copy files
-      run: cd website && cd build && cd apisix-website && cp ../../../README.md ./ && cp ../../../.asf.yaml ./
+      run: |
+        cd website/build/apisix-website
+        cp ../../../README.md ./ && cp ../../../.asf.yaml ./
+        cd apisix
+        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/doc\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
       
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2.0.1
