@@ -65,7 +65,7 @@ The rbac feature is provided by <a href="https://github.com/iGeeky/wolf">wolf</a
 <ol>
 <li>set a consumer and config the value of the <code>wolf-rbac</code>。</li>
 </ol>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/consumers  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "username":"wolf_rbac",
   "plugins":{
@@ -85,7 +85,7 @@ The rbac feature is provided by <a href="https://github.com/iGeeky/wolf">wolf</a
 <ol>
 <li>Add a <code>Route</code> or <code>Service</code> and enable the wolf-rbac plugin.</li>
 </ol>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/*",
@@ -213,7 +213,7 @@ HTTP/1.1 200 OK
 <p>When you want to disable the <code>wolf-rbac</code> plugin, it is very simple,
 you can delete the corresponding json configuration in the plugin configuration,
 no need to restart the service, it will take effect immediately:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/*",

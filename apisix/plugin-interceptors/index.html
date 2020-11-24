@@ -30,7 +30,7 @@ plugins to protect them. To solve the problem, we add a new concept called 'inte
 to run rules to protect them.</p>
 <p>Here is an example to limit the access of <code>/apisix/prometheus/metrics</code> (a route introduced via plugin prometheus)
 to clients in <code>10.0.0.0/24</code>:</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/prometheus -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/plugin_metadata/prometheus -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
 {
     "interceptors": [
         {

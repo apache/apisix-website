@@ -132,14 +132,14 @@ Makefile rules:
       <span class="hljs-attr">role:</span> <span class="hljs-string">admin</span>
 </code></pre>
 <p>当我们需要访问 Admin API 时，就可以使用上面记录的 key 作为 token 了。</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes?api_key=abcdefghabcdefgh -i</span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes?api_key=abcdefghabcdefgh -i</span>
 HTTP/1.1 200 OK
 Date: Fri, 28 Feb 2020 07:48:04 GMT
 Content-Type: text/plain
 ... ...
 {"node":{...},"action":"get"}
 <span class="hljs-meta">
-$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes?api_key=abcdefghabcdefgh-invalid -i</span>
+$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes?api_key=abcdefghabcdefgh-invalid -i</span>
 HTTP/1.1 401 Unauthorized
 Date: Fri, 28 Feb 2020 08:17:58 GMT
 Content-Type: text/html

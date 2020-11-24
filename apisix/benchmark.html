@@ -40,7 +40,7 @@ and the response size was 1KB.</p>
 <p>The result of Flame Graph:
 <img src="../doc/images/flamegraph-1.jpg" alt="flamegraph-1"></p>
 <p>And if you want to run the benchmark test in your machine, you should run another Nginx to listen 80 port.</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/hello",
@@ -69,7 +69,7 @@ and the response size was 1KB.</p>
 <p>The result of Flame Graph:
 <img src="https://apisix.apache.org/images/flamegraph-2.jpg" alt="flamegraph-2"></p>
 <p>And if you want to run the benchmark test in your machine, you should run another Nginx to listen 80 port.</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/hello",

@@ -38,7 +38,7 @@
 <li>注意： APISIX 使用 TLS 加密的 HTTP/2 暴露 gRPC 服务, 所以需要先 <a href="https.md">配置 SSL 证书</a>；</li>
 <li>下面例子所代理的 gRPC 服务可供参考：<a href="https://github.com/iresty/grpc_server_example">grpc_server_example</a>。</li>
 </ul>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["POST", "GET"],
     "uri": "/helloworld.Greeter/SayHello",

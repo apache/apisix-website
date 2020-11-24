@@ -59,7 +59,7 @@
 <ol>
 <li>创建一个 consumer 对象，并设置插件 <code>jwt-auth</code> 的值。</li>
 </ol>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "username": "jack",
     "plugins": {
@@ -71,7 +71,7 @@
 }'
 </code></pre>
 <p><code>jwt-auth</code> 默认使用 <code>HS256</code> 算法，如果使用 <code>RS256</code> 算法，需要指定算法，并配置公钥与私钥，示例如下：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "username": "kerouac",
     "plugins": {
@@ -91,7 +91,7 @@
 <ol start="2">
 <li>创建 Route 或 Service 对象，并开启 <code>jwt-auth</code> 插件。</li>
 </ol>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/index.html",

@@ -115,7 +115,7 @@
 </code></pre>
 <p>Example：</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> Create a route</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
     "uri": "/index.html",
     "hosts": ["foo.com", "*.bar.com"],
@@ -135,7 +135,7 @@ Date: Sat, 31 Aug 2019 01:17:15 GMT
 ...
 <span class="hljs-meta">
 #</span><span class="bash"><span class="hljs-string"> Create a route expires after 60 seconds, then it'</span>s deleted automatically</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/2?ttl=60 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/2?ttl=60 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
     "uri": "/aa/index.html",
     "upstream": {
@@ -152,7 +152,7 @@ Date: Sat, 31 Aug 2019 01:17:15 GMT
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Add an upstream node to the Route</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "upstream": {
         "nodes": {
@@ -171,7 +171,7 @@ After successful execution, upstream nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"> Update the weight of an upstream node to the Route</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
 {
     "upstream": {
         "nodes": {
@@ -190,7 +190,7 @@ After successful execution, upstream nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Delete an upstream node for the Route</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "upstream": {
         "nodes": {
@@ -208,7 +208,7 @@ After successful execution, upstream nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"> Replace methods of the Route  --  array</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'{</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'{</span></span>
     "methods": ["GET", "POST"]
 }'
 HTTP/1.1 200 OK
@@ -219,7 +219,7 @@ After successful execution, methods will not retain the original data, and the e
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Replace upstream nodes of the Route -- sub path</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1/upstream/nodes -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/routes/1/upstream/nodes -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "39.97.63.200:80": 1
 }'
@@ -233,7 +233,7 @@ After successful execution, nodes will not retain the original data, and the ent
 <span class="hljs-meta">
 
 #</span><span class="bash"> Replace methods of the Route -- sub path</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1/methods -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d<span class="hljs-string">'["POST", "DELETE", " PATCH"]'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/1/methods -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d<span class="hljs-string">'["POST", "DELETE", " PATCH"]'</span></span>
 HTTP/1.1 200 OK
 ...
 
@@ -259,7 +259,7 @@ After successful execution, methods will not retain the original data, and the e
 </tbody>
 </table>
 <p>Consider the following example: matching requests whose <code>request name</code> is equal to <code>json</code>, <code>age</code> is greater than <code>18</code>, and <code>address</code> begins with <code>China</code>:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
 {
     "uri": "/index.html",
     "vars": [
@@ -326,7 +326,7 @@ After successful execution, methods will not retain the original data, and the e
 }
 </code></pre>
 <p>Example：</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/201  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/services/201  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
     "plugins": {
         "limit-count": {
@@ -350,7 +350,7 @@ HTTP/1.1 201 Created
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Add an upstream node to the Service</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/services/201 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/services/201 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "upstream": {
         "nodes": {
@@ -369,7 +369,7 @@ After successful execution, upstream nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"> Update the weight of an upstream node to the Service</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/201 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/services/201 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
 {
     "upstream": {
         "nodes": {
@@ -388,7 +388,7 @@ After successful execution, upstream nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Delete an upstream node for the Service</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/services/201 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/services/201 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "upstream": {
         "nodes": {
@@ -406,7 +406,7 @@ After successful execution, upstream nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"> Replace upstream nodes of the Service</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/201/upstream/nodes -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/services/201/upstream/nodes -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
 {
     "39.97.63.200:80": 1
 }'
@@ -465,7 +465,7 @@ After successful execution, upstream nodes will not retain the original data, an
 </code></pre>
 <p>The binding authentication and authorization plug-in is a bit special. When it needs to be used in conjunction with the consumer, it needs to provide user name, password and other information; on the other hand, when it is bound with route / service, it does not require any parameters. Because at this time, it is based on the user request data to infer which consumer the user corresponds to.</p>
 <p>Example:</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/consumers  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
     "plugins": {
         "key-auth": {
@@ -561,7 +561,7 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 }
 </code></pre>
 <p>Example：</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/upstreams/100  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
 {
     "type":"roundrobin",
     "nodes":{
@@ -577,7 +577,7 @@ Content-Type: text/plain
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Add a node to the Upstream</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/upstreams/100 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "nodes": {
         "39.97.63.216:80": 1
@@ -594,7 +594,7 @@ After successful execution, nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"> Update the weight of a node to the Upstream</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/upstreams/100 -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
 {
     "nodes": {
         "39.97.63.216:80": 10
@@ -611,7 +611,7 @@ After successful execution, nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"><span class="hljs-string"> Delete a node for the Upstream</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/upstreams/100 -H'</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
 {
     "nodes": {
         "39.97.63.215:80": null
@@ -627,7 +627,7 @@ After successful execution, nodes will be updated to:
 <span class="hljs-meta">
 
 #</span><span class="bash"> Replace the nodes of the Upstream</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/upstreams/100/nodes -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/upstreams/100/nodes -H<span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
 {
     "39.97.63.200:80": 1
 }'
@@ -709,7 +709,7 @@ After the execution is successful, nodes will not retain the original data, and 
 </blockquote>
 <p>A json object with a data structure defined according to <code>metadata_schema</code> of the plugin ({plugin_name}).</p>
 <p>Config Example:</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/example-plugin  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/plugin_metadata/example-plugin  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
 {
     "skey": "val",
     "ikey": 1

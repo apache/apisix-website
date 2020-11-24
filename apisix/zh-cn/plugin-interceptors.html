@@ -27,7 +27,7 @@
 <p>有些插件为实现它的功能会注册额外的接口。</p>
 <p>由于这些接口不是通过 admin API 添加的，所以没办法像管理 Route 那样管理它们。为了能够保护这些接口不被利用，我们引入了 interceptors 的概念。</p>
 <p>下面是通过 interceptors 来保护由 prometheus 插件引入的 <code>/apisix/prometheus/metrics</code> 接口，限定只能由 <code>10.0.0.0/24</code> 网段的用户访问：</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/prometheus -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/plugin_metadata/prometheus -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -i -X PUT -d <span class="hljs-string">'</span></span>
 {
     "interceptors": [
         {

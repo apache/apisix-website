@@ -58,7 +58,7 @@ plugins:
 </span></code></pre>
 <p>然后重载 APISIX，这样会创建一个后台定时器，向 skywalking 服务器定期上报数据。</p>
 <p>下面是一个示例，在指定的 route 上开启了 skywalking 插件:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uris": [

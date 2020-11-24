@@ -58,7 +58,7 @@ then you can add this plugin in any route.</li>
 <ol start="2">
 <li>Create a route object, and enable plugin <code>node-status</code>.</li>
 </ol>
-<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
+<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
 {
     "uri": "/route1",
     "upstream": {
@@ -124,7 +124,7 @@ then you can not add this plugin in any route.</li>
 you can delete the corresponding json configuration in the plugin configuration,
 no need to restart the service, it will take effect immediately.</li>
 </ol>
-<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
+<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
 {
     "uri": "/route1",
     "upstream": {
