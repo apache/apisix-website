@@ -50,13 +50,13 @@
 <tr><td>key</td><td>string</td><td>可选</td><td></td><td></td><td>用于消息的分区分配。</td></tr>
 <tr><td>timeout</td><td>integer</td><td>可选</td><td>3</td><td>[1,...]</td><td>发送数据的超时时间。</td></tr>
 <tr><td>name</td><td>string</td><td>可选</td><td>&quot;kafka logger&quot;</td><td></td><td>batch processor 的唯一标识。</td></tr>
-<tr><td>meta_format</td><td>string</td><td>可选</td><td>&quot;default&quot;</td><td>枚举：<code>default</code>，<code>origin</code></td><td><code>default</code>：获取请求信息以默认的 JSON 编码方式。<code>origin</code>：获取请求信息以 HTTP 原始请求方式。<a href="#meta_format-参考示例">具体示例</a></td></tr>
-<tr><td>batch_max_size</td><td>integer</td><td>可选</td><td>1000</td><td>[1,...]</td><td>每批的最大大小</td></tr>
-<tr><td>inactive_timeout</td><td>integer</td><td>可选</td><td>5</td><td>[1,...]</td><td>刷新缓冲区的最大时间（以秒为单位）</td></tr>
-<tr><td>buffer_duration</td><td>integer</td><td>可选</td><td>60</td><td>[1,...]</td><td>必须先处理批次中最旧条目的最长期限（以秒为单位）</td></tr>
-<tr><td>max_retry_count</td><td>integer</td><td>可选</td><td>0</td><td>[0,...]</td><td>从处理管道中移除之前的最大重试次数</td></tr>
-<tr><td>retry_delay</td><td>integer</td><td>可选</td><td>1</td><td>[0,...]</td><td>如果执行失败，则应延迟执行流程的秒数</td></tr>
-<tr><td>include_req_body</td><td>boolean</td><td>可选</td><td></td><td></td><td>是否包括请求 body</td></tr>
+<tr><td>meta_format</td><td>enum</td><td>可选</td><td>&quot;default&quot;</td><td>[&quot;default&quot;，&quot;origin&quot;]</td><td><code>default</code>：获取请求信息以默认的 JSON 编码方式。<code>origin</code>：获取请求信息以 HTTP 原始请求方式。<a href="#meta_format-参考示例">具体示例</a></td></tr>
+<tr><td>batch_max_size</td><td>integer</td><td>可选</td><td>1000</td><td>[1,...]</td><td>设置每批发送日志的最大条数，当日志条数达到设置的最大值时，会自动推送全部日志到 <code>Kafka</code> 服务。</td></tr>
+<tr><td>inactive_timeout</td><td>integer</td><td>可选</td><td>5</td><td>[1,...]</td><td>刷新缓冲区的最大时间（以秒为单位），当达到最大的刷新时间时，无论缓冲区中的日志数量是否达到设置的最大条数，也会自动将全部日志推送到 <code>Kafka</code> 服务。</td></tr>
+<tr><td>buffer_duration</td><td>integer</td><td>可选</td><td>60</td><td>[1,...]</td><td>必须先处理批次中最旧条目的最长期限（以秒为单位）。</td></tr>
+<tr><td>max_retry_count</td><td>integer</td><td>可选</td><td>0</td><td>[0,...]</td><td>从处理管道中移除之前的最大重试次数。</td></tr>
+<tr><td>retry_delay</td><td>integer</td><td>可选</td><td>1</td><td>[0,...]</td><td>如果执行失败，则应延迟执行流程的秒数。</td></tr>
+<tr><td>include_req_body</td><td>boolean</td><td>可选</td><td>false</td><td>[false, true]</td><td>是否包括请求 body。false： 表示不包含请求的 body ； true： 表示包含请求的 body 。</td></tr>
 </tbody>
 </table>
 <h3><a class="anchor" aria-hidden="true" id="meta_format-参考示例"></a><a href="#meta_format-参考示例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>meta_format 参考示例</h3>
