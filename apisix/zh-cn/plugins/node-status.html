@@ -56,7 +56,7 @@
 <ol start="2">
 <li>在创建 route 时添加插件 <code>node-status</code></li>
 </ol>
-<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
+<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
 {
     "uri": "/route1",
     "upstream": {
@@ -118,7 +118,7 @@ Server: APISIX web server
 <ol start="2">
 <li>删除 route 中的 <code>node-status</code> 插件信息</li>
 </ol>
-<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
+<pre><code class="hljs css language-sh">$ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'
 {
     "uri": "/route1",
     "upstream": {

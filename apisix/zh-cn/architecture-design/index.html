@@ -69,7 +69,7 @@
 <p>我们直接在 Route 中完成所有参数的配置，优点是容易设置，每个 Route 都相对独立自由度比较高。但当我们的 Route 有比较多的重复配置（比如启用相同的插件配置或上游信息），一旦我们要更新这些相同属性时，就需要遍历所有 Route 并进行修改，给后期管理维护增加不少复杂度。</p>
 <p>上面提及重复的缺点在 APISIX 中独立抽象了 <a href="#service">Service</a> 和 <a href="#upstream">Upstream</a> 两个概念来解决。</p>
 <p>下面创建的 Route 示例，是把 URL 为 &quot;/index.html&quot; 的请求代理到地址为 &quot;39.97.63.215:80&quot; 的 Upstream 服务：</p>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
     "uri": "/index.html",
     "upstream": {
@@ -99,7 +99,7 @@ Server: APISIX web server
 <p>不同 Route 规则同时绑定到一个 Service 上，这些 Route 将具有相同的上游和插件配置，减少冗余配置。</p>
 <p>比如下面的例子，创建了一个启用限流插件的 Service，然后把 id 为 <code>100</code>、<code>101</code> 的 Route 都绑定在这个 Service 上。</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> create new Service</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/services/200 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/services/200 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
 {
     "plugins": {
         "limit-count": {
@@ -118,14 +118,14 @@ Server: APISIX web server
 }'
 <span class="hljs-meta">
 #</span><span class="bash"><span class="hljs-string"> create new Route and reference the service by id `200`</span></span>
-curl http://127.0.0.1:9180/apisix/admin/routes/100 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/100 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/index.html",
     "service_id": "200"
 }'
 
-curl http://127.0.0.1:9180/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/foo/index.html",
@@ -133,7 +133,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
 }'
 </code></pre>
 <p>当然我们也可以为 Route 指定不同的插件参数或上游，比如下面这个 Route 设置了不同的限流参数，其他部分（比如上游）则继续使用 Service 中的配置参数。</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/102 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/102 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/bar/index.html",
     "id": "102",
@@ -235,7 +235,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
 <li>如果指定的 <code>hash_on</code> 和 <code>key</code> 获取不到值时，就是用默认值：<code>remote_addr</code>。</li>
 </ol>
 <p>创建上游对象用例：</p>
-<pre><code class="hljs css language-json">curl http://127.0.0.1:9180/apisix/admin/upstreams/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-json">curl http://127.0.0.1:9080/apisix/admin/upstreams/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "type": "roundrobin",
     "k8s_deployment_info": {
@@ -247,7 +247,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
     }
 }'
 
-curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "type": "chash",
     "key": "remote_addr",
@@ -258,14 +258,14 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 }'
 </code></pre>
 <p>上游对象创建后，均可以被具体 <code>Route</code> 或 <code>Service</code> 引用，例如：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/index.html",
     "upstream_id": 2
 }'
 </code></pre>
 <p>为了方便使用，也可以直接把上游地址直接绑到某个 <code>Route</code> 或 <code>Service</code> ，例如：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/index.html",
     "plugins": {
@@ -285,7 +285,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 }'
 </code></pre>
 <p>下面是一个配置了健康检查的示例：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/index.html",
     "plugins": {
@@ -323,7 +323,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 <p>下面是几个使用不同<code>hash_on</code>类型的配置示例：</p>
 <h4><a class="anchor" aria-hidden="true" id="consumer"></a><a href="#consumer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consumer</h4>
 <p>创建一个consumer对象:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "username": "jack",
     "plugins": {
@@ -334,7 +334,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 }'
 </code></pre>
 <p>新建路由，打开<code>key-auth</code>插件认证，<code>upstream</code>的<code>hash_on</code>类型为<code>consumer</code>：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins": {
         "key-auth": {}
@@ -355,7 +355,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 </code></pre>
 <h5><a class="anchor" aria-hidden="true" id="cookie"></a><a href="#cookie" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cookie</h5>
 <p>新建路由和<code>Upstream</code>，<code>hash_on</code>类型为<code>cookie</code>：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/hash_on_cookie",
     "upstream": {
@@ -374,7 +374,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 </code></pre>
 <h5><a class="anchor" aria-hidden="true" id="header"></a><a href="#header" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Header</h5>
 <p>新建路由和<code>Upstream</code>，<code>hash_on</code>类型为<code>header</code>， <code>key</code>为<code>content-type</code>：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/hash_on_header",
     "upstream": {
@@ -439,7 +439,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 <p>此外，大家也可以参考 <a href="/apisix/plugins/key-auth">key-auth</a> 认证授权插件的调用逻辑，辅助大家来进一步理解 Consumer 概念和使用。</p>
 <p>如何对某个 Consumer 开启指定插件，可以看下面例子：</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> 创建 Consumer ，指定认证插件 key-auth ，并开启特定插件 <span class="hljs-built_in">limit</span>-count</span>
-<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/consumers -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
 {
     "username": "jack",
     "plugins": {
@@ -456,7 +456,7 @@ curl http://127.0.0.1:9180/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 }'
 <span class="hljs-meta">
 #</span><span class="bash"><span class="hljs-string"> 创建 Router，设置路由规则和启用插件配置</span></span>
-<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H '</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PUT -d '</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H '</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PUT -d '</span></span>
 {
     "plugins": {
         "key-auth": {}
@@ -486,7 +486,7 @@ HTTP/1.1 503 Service Temporarily Unavailable
 <p>结合 <a href="/apisix/zh-cn/plugins/consumer-restriction">consumer-restriction</a> 插件，限制jack对该 route 的访问</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> 设置黑名单，禁止jack访问该API</span>
 <span class="hljs-meta">
-$</span><span class="bash"> curl http://127.0.0.1:9180/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
+$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'</span></span>
 {
     "plugins": {
         "key-auth": {},

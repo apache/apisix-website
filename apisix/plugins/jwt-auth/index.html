@@ -59,7 +59,7 @@ You may need to use <a href="/apisix/plugin-interceptors">interceptors</a> to pr
 <ol>
 <li>set a consumer and config the value of the <code>jwt-auth</code> option</li>
 </ol>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "username": "jack",
     "plugins": {
@@ -71,7 +71,7 @@ You may need to use <a href="/apisix/plugin-interceptors">interceptors</a> to pr
 }'
 </code></pre>
 <p><code>jwt-auth</code> uses the <code>HS256</code> algorithm by default, and if you use the <code>RS256</code> algorithm, you need to specify the algorithm and configure the public key and private key, as follows:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "username": "kerouac",
     "plugins": {
@@ -91,7 +91,7 @@ You may need to use <a href="/apisix/plugin-interceptors">interceptors</a> to pr
 <ol start="2">
 <li>add a Route or add a Service, and enable the <code>jwt-auth</code> plugin</li>
 </ol>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/index.html",

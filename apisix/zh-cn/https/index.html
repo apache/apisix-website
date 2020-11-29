@@ -33,7 +33,7 @@
 <li><code>key</code>: SSL 密钥对的私钥，pem 格式</li>
 <li><code>sni</code>: SSL 证书所指定的域名，注意在设置这个参数之前，你需要确保这个证书对应的私钥是有效的。</li>
 </ul>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/ssl/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/ssl/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "cert": "...",
     "key": "....",
@@ -65,7 +65,7 @@ curl --resolve 'test.com:9443:127.0.0.1' https://test.com:9443/hello  -vvv
 <p>一个 SSL 证书的域名也可能包含泛域名，如<code>*.test.com</code>，它代表所有以<code>test.com</code>结尾的域名都可以使用该证书。
 比如<code>*.test.com</code>，可以匹配 <code>www.test.com</code>、<code>mail.test.com</code>甚至<code>a.b.test.com</code>。</p>
 <p>看下面这个例子，请注意 <code>sni</code> 这个属性:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/ssl/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/ssl/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "cert": "...",
     "key": "....",

@@ -39,7 +39,7 @@ gRPC client -&gt; APISIX -&gt; gRPC server</p>
 <li>attention: APISIX use TLS‑encrypted HTTP/2 to expose gRPC service, so need to <a href="https.md">config SSL certificate</a></li>
 <li>the grpc server example：<a href="https://github.com/iresty/grpc_server_example">grpc_server_example</a></li>
 </ul>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["POST", "GET"],
     "uri": "/helloworld.Greeter/SayHello",

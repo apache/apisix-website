@@ -62,7 +62,7 @@ The following image shows an example(successful) flow of the token introspection
 <p><img src="https://apisix.apache.org/images/plugin/oauth-1.png" alt="token introspection"></p>
 <p>The following is the curl command to enable the plugin to an external service.
 This route will protect <code>https://httpbin.org/get</code>(echo service) by introspecting the token provided in the header of the request.</p>
-<pre><code class="hljs css language-bash">curl http://127.0.0.1:9180/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
+<pre><code class="hljs css language-bash">curl http://127.0.0.1:9080/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
 {
   "uri": "/get",
   "plugins": {
@@ -95,7 +95,7 @@ This route will protect <code>https://httpbin.org/get</code>(echo service) by in
 a token introspection endpoint, the public key workflow will be executed instead of verifying with the identity server.
 This method can be used if you want to reduce additional network calls and to speedup the process.</p>
 <p>The following configurations shows how to add a public key introspection to a route.</p>
-<pre><code class="hljs css language-bash">curl http://127.0.0.1:9180/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
+<pre><code class="hljs css language-bash">curl http://127.0.0.1:9080/apisix/admin/routes/5 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -d <span class="hljs-string">'
 {
   "uri": "/get",
   "plugins": {
