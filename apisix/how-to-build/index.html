@@ -30,15 +30,16 @@
 <p>You can install Apache APISIX in a variety of ways, including source code packages, Docker, and Luarocks.</p>
 <h3><a class="anchor" aria-hidden="true" id="installation-via-source-release"></a><a href="#installation-via-source-release" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation via source release</h3>
 <p>You need to download the Apache source release first:</p>
-<pre><code class="hljs css language-shell">wget http://www.apache.org/dist/apisix/2.0/apache-apisix-2.0-src.tar.gz
-tar zxvf apache-apisix-2.0-src.tar.gz
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> mkdir apisix-2.1</span>
+<span class="hljs-meta">$</span><span class="bash"> wget https://downloads.apache.org/apisix/2.1/apache-apisix-2.1-src.tgz</span>
+<span class="hljs-meta">$</span><span class="bash"> tar zxvf apache-apisix-2.1-src.tgz -C apisix-2.1</span>
 </code></pre>
 <p>Install the Lua libraries that the runtime depends on:</p>
-<pre><code class="hljs css language-shell">cd apache-apisix-2.0
+<pre><code class="hljs css language-shell">cd apache-apisix-2.1
 make deps
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="installation-via-rpm-package-centos-7"></a><a href="#installation-via-rpm-package-centos-7" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation via RPM package (CentOS 7)</h3>
-<pre><code class="hljs css language-shell">sudo yum install -y https://github.com/apache/apisix/releases/download/2.0/apisix-2.0-0.el7.noarch.rpm
+<pre><code class="hljs css language-shell">sudo yum install -y https://github.com/apache/apisix/releases/download/2.1/apisix-2.1-0.el7.noarch.rpm
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="installation-via-luarocks-macos-not-supported"></a><a href="#installation-via-luarocks-macos-not-supported" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation via Luarocks (macOS not supported)</h3>
 <p>Execute the following command in the terminal to complete the installation of APISIX (only recommended for developers):</p>
@@ -50,11 +51,11 @@ make deps
 <blockquote>
 <p>Install the specified version via Luarocks:</p>
 </blockquote>
-<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> Install version 2.0</span>
-sudo luarocks install --lua-dir=/path/openresty/luajit apisix 2.0
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> Install version 2.1</span>
+sudo luarocks install --lua-dir=/path/openresty/luajit apisix 2.1
 <span class="hljs-meta">
 #</span><span class="bash"> old luarocks not support the `lua-dir` parameter, you can remove this option</span>
-sudo luarocks install apisix 2.0
+sudo luarocks install apisix 2.1
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="3-manage-startstop-apisix-server"></a><a href="#3-manage-startstop-apisix-server" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Manage (start/stop) APISIX Server</h2>
 <p>We can start the APISIX server by command <code>make run</code> in APISIX home folder,
