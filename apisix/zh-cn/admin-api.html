@@ -474,7 +474,7 @@ HTTP/1.1 200 OK
     "desc": "hello world",  # consumer 描述
 }
 </code></pre>
-<p>绑定认证授权插件有些特别，当它需要与 consumer 联合使用时，需要提供用户名、密码等信息；另一方面，当它与 route/service 绑定时，是不需要任何参数的。因为这时候是根据用户请求数据来反向推出用户对应的是哪个 consumer</p>
+<p>绑定认证插件有些特别，当它需要与 consumer 联合使用时，需要提供用户名、密码等信息；另一方面，当它与 route/service 绑定时，是不需要任何参数的。因为这时候是根据用户请求数据来反向推出用户对应的是哪个 consumer</p>
 <p>示例：</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> 创建 Consumer ，指定认证插件 key-auth ，并开启特定插件 <span class="hljs-built_in">limit</span>-count</span>
 <span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
@@ -498,6 +498,7 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 
 {"node":{"value":{"username":"jack","plugins":{"key-auth":{"key":"auth-one"},"limit-count":{"time_window":60,"count":2,"rejected_code":503,"key":"remote_addr","policy":"local"}}},"createdIndex":64,"key":"\/apisix\/consumers\/jack","modifiedIndex":64},"prevNode":{"value":"{\"username\":\"jack\",\"plugins\":{\"key-auth\":{\"key\":\"auth-one\"},\"limit-count\":{\"time_window\":60,\"count\":2,\"rejected_code\":503,\"key\":\"remote_addr\",\"policy\":\"local\"}}}","createdIndex":63,"key":"\/apisix\/consumers\/jack","modifiedIndex":63},"action":"set"}
 </code></pre>
+<p>从 <code>v2.2</code> 版本之后，同一个 consumer 可以绑定多个认证插件。</p>
 <blockquote>
 <p>应答参数</p>
 </blockquote>
