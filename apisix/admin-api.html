@@ -467,6 +467,7 @@ After successful execution, upstream nodes will not retain the original data, an
 <p>Example:</p>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/consumers  -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
 {
+    "username": "jack",
     "plugins": {
         "key-auth": {
             "key": "auth-one"
