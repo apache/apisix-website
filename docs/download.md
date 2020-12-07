@@ -18,7 +18,7 @@ Use the links below to download the Apache APISIX™ from one of our mirrors.
 
 | Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                       |
 | ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.1     | 23/11/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/dashboard-2.1/apache-apisix-dashboard-2.1-src.tgz) ([asc](https://downloads.apache.org/apisix/dashboard-2.1/apache-apisix-dashboard-2.1-src.tgz.asc) [sha512](https://downloads.apache.org/apisix/dashboard-2.1/apache-apisix-dashboard-2.1-src.tgz.sha512)) |
+| 2.1.1     | 07/12/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix-dashboard-2.1.1/apache-apisix-dashboard-2.1.1-src.tgz) ([asc](https://downloads.apache.org/apisix/apisix-dashboard-2.1.1/apache-apisix-dashboard-2.1.1-src.tgz.asc) [sha512](https://downloads.apache.org/apisix/apisix-dashboard-2.1.1/apache-apisix-dashboard-2.1.1-src.tgz.sha512)) |
 
 ## Verify the releases
 
