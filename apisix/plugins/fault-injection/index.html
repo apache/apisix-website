@@ -33,10 +33,10 @@
 <tr><th>Name</th><th>Type</th><th>Requirement</th><th>Default</th><th>Valid</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>abort.http_status</td><td>integer</td><td>optional</td><td></td><td>[200, ...]</td><td>user-specified http code returned to the client.</td></tr>
-<tr><td>abort.body</td><td>string</td><td>optional</td><td></td><td></td><td>response data returned to the client.</td></tr>
+<tr><td>abort.http_status</td><td>integer</td><td>required</td><td></td><td>[200, ...]</td><td>user-specified http code returned to the client.</td></tr>
+<tr><td>abort.body</td><td>string</td><td>optional</td><td></td><td></td><td>response data returned to the client. Nginx varialbe can be used inside, like <code>client addr: $remote_addr\n</code></td></tr>
 <tr><td>abort.percentage</td><td>integer</td><td>optional</td><td></td><td>[0, 100]</td><td>percentage of requests to be aborted.</td></tr>
-<tr><td>delay.duration</td><td>number</td><td>optional</td><td></td><td></td><td>delay time (can be decimal).</td></tr>
+<tr><td>delay.duration</td><td>number</td><td>required</td><td></td><td></td><td>delay time (can be decimal).</td></tr>
 <tr><td>delay.percentage</td><td>integer</td><td>optional</td><td></td><td>[0, 100]</td><td>percentage of requests to be delayed.</td></tr>
 </tbody>
 </table>

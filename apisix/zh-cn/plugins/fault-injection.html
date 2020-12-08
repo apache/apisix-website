@@ -33,10 +33,10 @@
 <tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>有效值</th><th>描述</th></tr>
 </thead>
 <tbody>
-<tr><td>abort.http_status</td><td>integer</td><td>可选</td><td></td><td>[200, ...]</td><td>返回给客户端的 http 状态码</td></tr>
-<tr><td>abort.body</td><td>string</td><td>可选</td><td></td><td></td><td>返回给客户端的响应数据</td></tr>
+<tr><td>abort.http_status</td><td>integer</td><td>必需</td><td></td><td>[200, ...]</td><td>返回给客户端的 http 状态码</td></tr>
+<tr><td>abort.body</td><td>string</td><td>可选</td><td></td><td></td><td>返回给客户端的响应数据。支持使用 Nginx 变量，如 <code>client addr: $remote_addr\n</code></td></tr>
 <tr><td>abort.percentage</td><td>integer</td><td>可选</td><td></td><td>[0, 100]</td><td>将被中断的请求占比</td></tr>
-<tr><td>delay.duration</td><td>number</td><td>可选</td><td></td><td></td><td>延迟时间，可以指定小数</td></tr>
+<tr><td>delay.duration</td><td>number</td><td>必需</td><td></td><td></td><td>延迟时间，可以指定小数</td></tr>
 <tr><td>delay.percentage</td><td>integer</td><td>可选</td><td></td><td>[0, 100]</td><td>将被延迟的请求占比</td></tr>
 </tbody>
 </table>
