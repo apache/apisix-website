@@ -90,6 +90,7 @@
 <tr><td>filter_func</td><td>可选</td><td>匹配规则</td><td>用户自定义的过滤函数。可以使用它来实现特殊场景的匹配要求实现。该函数默认接受一个名为 vars 的输入参数，可以用它来获取 Nginx 变量。</td><td>function(vars) return vars[&quot;arg_name&quot;] == &quot;json&quot; end</td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>可选</td><td>辅助</td><td>是否启用 <code>websocket</code>(boolean), 缺省 <code>false</code>.</td><td></td></tr>
+<tr><td>status</td><td>可选</td><td>辅助</td><td>是否启用此路由, 缺省 <code>1</code>。</td><td><code>1</code> 表示启用，<code>0</code> 表示禁用</td></tr>
 <tr><td>create_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 <tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
@@ -245,6 +246,34 @@ HTTP/1.1 200 OK
 
 执行成功后，methods 将不保留原来的数据，整个更新为：
 ["POST", "DELETE", "PATCH"]
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> 禁用路由</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H '</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "status": 0
+}'
+HTTP/1.1 200 OK
+...
+
+执行成功后，status 将更新为：
+{
+    "status": 0
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"> 启用路由</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "status": 1
+}'
+HTTP/1.1 200 OK
+...
+
+执行成功后，status 将更新为：
+{
+    "status": 1
+}
 
 
 </code></pre>

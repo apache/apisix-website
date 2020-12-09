@@ -88,6 +88,7 @@
 <tr><td>service_protocol</td><td>False</td><td>Upstream protocol type</td><td>only <code>grpc</code> and <code>http</code> are supported</td><td><code>http</code> is the default value; Must set <code>grpc</code> if using <code>gRPC proxy</code> or <code>gRPC transcode</code></td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>False</td><td>Auxiliary</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td><td></td></tr>
+<tr><td>status</td><td>False</td><td>Auxiliary</td><td>enable this route, default <code>1</code>.</td><td><code>1</code> to enable, <code>0</code> to disable</td></tr>
 <tr><td>create_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
 <tr><td>update_time</td><td>False</td><td>Auxiliary</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
 </tbody>
@@ -239,6 +240,35 @@ HTTP/1.1 200 OK
 
 After successful execution, methods will not retain the original data, and the entire update is:
 ["POST", "DELETE", "PATCH"]
+<span class="hljs-meta">
+
+#</span><span class="bash"> <span class="hljs-built_in">disable</span> route</span>
+<span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PATCH -i -d <span class="hljs-string">'</span></span>
+{
+    "status": 0
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, status nodes will be updated to:
+{
+    "status": 0
+}
+<span class="hljs-meta">
+
+#</span><span class="bash"><span class="hljs-string"> enable route</span></span>
+<span class="hljs-meta">$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H '</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PATCH -i -d '</span></span>
+{
+    "status": 1
+}'
+HTTP/1.1 200 OK
+...
+
+After successful execution, status nodes will be updated to:
+{
+    "status": 1
+}
+
 
 </code></pre>
 <blockquote>
