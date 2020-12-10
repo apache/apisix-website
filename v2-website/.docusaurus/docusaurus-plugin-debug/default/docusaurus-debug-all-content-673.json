@@ -1,0 +1,280 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "versionLabel": "Next",
+          "versionPath": "/../docs",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "/Users/guoqi/workspace/apisix-website/website/sidebars.json",
+          "docsDirPath": "/Users/guoqi/workspace/apisix-website/docs",
+          "mainDocId": "security",
+          "sidebars": {
+            "docs": [
+              {
+                "collapsed": true,
+                "type": "category",
+                "label": "Get Involved",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "security"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "subscrbe-guide"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "contributor-guide"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "committer-guide"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "2fa"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "release-guide"
+                  }
+                ]
+              }
+            ]
+          },
+          "permalinkToSidebar": {
+            "/../docs/2fa": "docs",
+            "/../docs/committer-guide": "docs",
+            "/../docs/contributor-guide": "docs",
+            "/../docs/release-guide": "docs",
+            "/../docs/security": "docs",
+            "/../docs/subscrbe-guide": "docs"
+          },
+          "docs": [
+            {
+              "unversionedId": "2fa",
+              "id": "2fa",
+              "isDocsHomePage": false,
+              "title": "2FA",
+              "description": "Two-factor authentication(2FA)",
+              "source": "@site/../docs/2fa.md",
+              "slug": "/2fa",
+              "permalink": "/../docs/2fa",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "sidebar": "docs",
+              "previous": {
+                "title": "Committer Guide",
+                "permalink": "/../docs/committer-guide"
+              },
+              "next": {
+                "title": "Release Guide",
+                "permalink": "/../docs/release-guide"
+              }
+            },
+            {
+              "unversionedId": "committer-guide",
+              "id": "committer-guide",
+              "isDocsHomePage": false,
+              "title": "Committer Guide",
+              "description": "What can I contribute?",
+              "source": "@site/../docs/committer-guide.md",
+              "slug": "/committer-guide",
+              "permalink": "/../docs/committer-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "sidebar": "docs",
+              "previous": {
+                "title": "Contributor Guide",
+                "permalink": "/../docs/contributor-guide"
+              },
+              "next": {
+                "title": "2FA",
+                "permalink": "/../docs/2fa"
+              }
+            },
+            {
+              "unversionedId": "contributor-guide",
+              "id": "contributor-guide",
+              "isDocsHomePage": false,
+              "title": "Contributor Guide",
+              "description": "Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.",
+              "source": "@site/../docs/contributor-guide.md",
+              "slug": "/contributor-guide",
+              "permalink": "/../docs/contributor-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "sidebar": "docs",
+              "previous": {
+                "title": "Subscribe Guide",
+                "permalink": "/../docs/subscrbe-guide"
+              },
+              "next": {
+                "title": "Committer Guide",
+                "permalink": "/../docs/committer-guide"
+              }
+            },
+            {
+              "unversionedId": "downloads",
+              "id": "downloads",
+              "isDocsHomePage": false,
+              "title": "Downloads",
+              "description": "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
+              "source": "@site/../docs/download.md",
+              "slug": "/downloads",
+              "permalink": "/../docs/downloads",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "release-guide",
+              "id": "release-guide",
+              "isDocsHomePage": false,
+              "title": "Release Guide",
+              "description": "GPG Settings",
+              "source": "@site/../docs/release-guide.md",
+              "slug": "/release-guide",
+              "permalink": "/../docs/release-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "sidebar": "docs",
+              "previous": {
+                "title": "2FA",
+                "permalink": "/../docs/2fa"
+              }
+            },
+            {
+              "unversionedId": "security",
+              "id": "security",
+              "isDocsHomePage": false,
+              "title": "Security",
+              "description": "The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache APISIX is also very concerned Security issues related to its features and functionality.",
+              "source": "@site/../docs/security-guide.md",
+              "slug": "/security",
+              "permalink": "/../docs/security",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "sidebar": "docs",
+              "next": {
+                "title": "Subscribe Guide",
+                "permalink": "/../docs/subscrbe-guide"
+              }
+            },
+            {
+              "unversionedId": "subscrbe-guide",
+              "id": "subscrbe-guide",
+              "isDocsHomePage": false,
+              "title": "Subscribe Guide",
+              "description": "During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.",
+              "source": "@site/../docs/subscribe-guide.md",
+              "slug": "/subscrbe-guide",
+              "permalink": "/../docs/subscrbe-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "sidebar": "docs",
+              "previous": {
+                "title": "Security",
+                "permalink": "/../docs/security"
+              },
+              "next": {
+                "title": "Contributor Guide",
+                "permalink": "/../docs/contributor-guide"
+              }
+            },
+            {
+              "unversionedId": "team",
+              "id": "team",
+              "isDocsHomePage": false,
+              "title": "Team",
+              "description": "Members",
+              "source": "@site/../docs/team.md",
+              "slug": "/team",
+              "permalink": "/../docs/team",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogPosts": [
+        {
+          "id": "New website for Apache APISIX",
+          "metadata": {
+            "permalink": "/blog/2020/08/22/new-website",
+            "source": "@site/blog/2020-08-22-new-website.md",
+            "description": "We are just refactored out website for Apache APISIX by using docusaurus.",
+            "date": "2020-08-22T00:00:00.000Z",
+            "tags": [],
+            "title": "New website for Apache APISIX",
+            "readingTime": 0.13,
+            "truncated": true
+          }
+        }
+      ],
+      "blogListPaginated": [
+        {
+          "metadata": {
+            "permalink": "/blog",
+            "page": 1,
+            "postsPerPage": 10,
+            "totalPages": 1,
+            "totalCount": 1,
+            "previousPage": null,
+            "nextPage": null,
+            "blogDescription": "Blog",
+            "blogTitle": "Blog"
+          },
+          "items": [
+            "New website for Apache APISIX"
+          ]
+        }
+      ],
+      "blogTags": {},
+      "blogTagsListPath": null
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/help",
+        "source": "@site/src/pages/help.js"
+      },
+      {
+        "type": "jsx",
+        "permalink": "/",
+        "source": "@site/src/pages/index.js"
+      },
+      {
+        "type": "jsx",
+        "permalink": "/users",
+        "source": "@site/src/pages/users.js"
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {
+    "default": null
+  },
+  "docusaurus-theme-classic": {
+    "default": null
+  },
+  "docusaurus-theme-search-algolia": {
+    "default": null
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "unversionedId": "release-guide",
+  "id": "release-guide",
+  "isDocsHomePage": false,
+  "title": "Release Guide",
+  "description": "GPG Settings",
+  "source": "@site/../docs/release-guide.md",
+  "slug": "/release-guide",
+  "permalink": "/../docs/release-guide",
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "sidebar": "docs",
+  "previous": {
+    "title": "2FA",
+    "permalink": "/../docs/2fa"
+  }
+}

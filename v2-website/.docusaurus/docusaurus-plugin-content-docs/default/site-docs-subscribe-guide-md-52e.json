@@ -1,0 +1,22 @@
+{
+  "unversionedId": "subscrbe-guide",
+  "id": "subscrbe-guide",
+  "isDocsHomePage": false,
+  "title": "Subscribe Guide",
+  "description": "During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.",
+  "source": "@site/../docs/subscribe-guide.md",
+  "slug": "/subscrbe-guide",
+  "permalink": "/../docs/subscrbe-guide",
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "sidebar": "docs",
+  "previous": {
+    "title": "Security",
+    "permalink": "/../docs/security"
+  },
+  "next": {
+    "title": "Contributor Guide",
+    "permalink": "/../docs/contributor-guide"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "unversionedId": "2fa",
+  "id": "2fa",
+  "isDocsHomePage": false,
+  "title": "2FA",
+  "description": "Two-factor authentication(2FA)",
+  "source": "@site/../docs/2fa.md",
+  "slug": "/2fa",
+  "permalink": "/../docs/2fa",
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "sidebar": "docs",
+  "previous": {
+    "title": "Committer Guide",
+    "permalink": "/../docs/committer-guide"
+  },
+  "next": {
+    "title": "Release Guide",
+    "permalink": "/../docs/release-guide"
+  }
+}

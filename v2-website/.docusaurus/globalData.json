@@ -1,0 +1,56 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/../docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/../docs",
+          "mainDocId": "security",
+          "docs": [
+            {
+              "id": "2fa",
+              "path": "/../docs/2fa",
+              "sidebar": "docs"
+            },
+            {
+              "id": "committer-guide",
+              "path": "/../docs/committer-guide",
+              "sidebar": "docs"
+            },
+            {
+              "id": "contributor-guide",
+              "path": "/../docs/contributor-guide",
+              "sidebar": "docs"
+            },
+            {
+              "id": "downloads",
+              "path": "/../docs/downloads"
+            },
+            {
+              "id": "release-guide",
+              "path": "/../docs/release-guide",
+              "sidebar": "docs"
+            },
+            {
+              "id": "security",
+              "path": "/../docs/security",
+              "sidebar": "docs"
+            },
+            {
+              "id": "subscrbe-guide",
+              "path": "/../docs/subscrbe-guide",
+              "sidebar": "docs"
+            },
+            {
+              "id": "team",
+              "path": "/../docs/team"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

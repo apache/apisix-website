@@ -1,0 +1,90 @@
+{
+  "/-deb": {
+    "component": "component---site-src-pages-index-jsc-4-f-f99",
+    "config": "config---5-e-9-4f3"
+  },
+  "/__docusaurus/debug-3d6": {
+    "component": "component---theme-debug-config-23-a-2ff"
+  },
+  "/__docusaurus/debug/config-914": {
+    "component": "component---theme-debug-config-23-a-2ff"
+  },
+  "/__docusaurus/debug/content-c28": {
+    "component": "component---theme-debug-contentba-8-ce7",
+    "allContent": "allContent---docusaurus-debug-content-246-9aa"
+  },
+  "/__docusaurus/debug/globalData-3cf": {
+    "component": "component---theme-debug-global-dataede-0fa"
+  },
+  "/__docusaurus/debug/metadata-31b": {
+    "component": "component---theme-debug-site-metadata-68-e-3d4"
+  },
+  "/__docusaurus/debug/registry-0da": {
+    "component": "component---theme-debug-registry-679-501"
+  },
+  "/__docusaurus/debug/routes-244": {
+    "component": "component---theme-debug-routes-946-699"
+  },
+  "/blog-a41": {
+    "component": "component---theme-blog-list-pagea-6-a-7ba",
+    "sidebar": "sidebar---blog-65-c-a77",
+    "items": [
+      {
+        "content": "content---blog-37-e-858"
+      }
+    ],
+    "metadata": "metadata---blogb-2-b-df1"
+  },
+  "/blog/2020/08/22/new-website-aeb": {
+    "component": "component---theme-blog-post-pageccc-cab",
+    "sidebar": "sidebar---blog-65-c-a77",
+    "content": "content---blog-2020-08-22-new-websitea-66-f7d"
+  },
+  "/help-416": {
+    "component": "component---site-src-pages-help-js-7-e-3-222",
+    "config": "config---5-e-9-4f3"
+  },
+  "/search-f38": {
+    "component": "component---users-guoqi-workspace-apisix-website-v-2-website-node-modules-docusaurus-theme-search-algolia-src-theme-search-page-index-js-5-c-3-12a"
+  },
+  "/users-9b3": {
+    "component": "component---site-src-pages-users-js-1-db-7ac",
+    "config": "config---5-e-9-4f3"
+  },
+  "/../docs-9dc": {
+    "component": "component---theme-doc-page-1-be-9be",
+    "versionMetadata": "versionMetadata---docs-935-539"
+  },
+  "/../docs/2fa-0db": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-2-fa-34-b-92f"
+  },
+  "/../docs/committer-guide-ce2": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-committer-guidef-6-e-9c8"
+  },
+  "/../docs/contributor-guide-e62": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-contributor-guidef-28-2c7"
+  },
+  "/../docs/downloads-5f2": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-downloads-120-94c"
+  },
+  "/../docs/release-guide-6c8": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-release-guided-82-8bb"
+  },
+  "/../docs/security-8a9": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-securityc-2-e-ad1"
+  },
+  "/../docs/subscrbe-guide-276": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-subscrbe-guide-52-e-bfc"
+  },
+  "/../docs/team-44b": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-teamdcf-f80"
+  }
+}
