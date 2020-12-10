@@ -4,9 +4,9 @@
   "isDocsHomePage": false,
   "title": "Team",
   "description": "Members",
-  "source": "@site/../docs/team.md",
+  "source": "@site/docs/team.mdx",
   "slug": "/team",
-  "permalink": "/../docs/team",
+  "permalink": "/docs/team",
   "version": "current",
   "lastUpdatedBy": "Author",
   "lastUpdatedAt": 1539502055

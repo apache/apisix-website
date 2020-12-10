@@ -13,43 +13,43 @@
           {
             "type": "link",
             "label": "Security",
-            "href": "/../docs/security"
+            "href": "/docs/security"
           },
           {
             "type": "link",
             "label": "Subscribe Guide",
-            "href": "/../docs/subscrbe-guide"
+            "href": "/docs/subscrbe-guide"
           },
           {
             "type": "link",
             "label": "Contributor Guide",
-            "href": "/../docs/contributor-guide"
+            "href": "/docs/contributor-guide"
           },
           {
             "type": "link",
             "label": "Committer Guide",
-            "href": "/../docs/committer-guide"
+            "href": "/docs/committer-guide"
           },
           {
             "type": "link",
             "label": "2FA",
-            "href": "/../docs/2fa"
+            "href": "/docs/2fa"
           },
           {
             "type": "link",
             "label": "Release Guide",
-            "href": "/../docs/release-guide"
+            "href": "/docs/release-guide"
           }
         ]
       }
     ]
   },
   "permalinkToSidebar": {
-    "/../docs/2fa": "docs",
-    "/../docs/committer-guide": "docs",
-    "/../docs/contributor-guide": "docs",
-    "/../docs/release-guide": "docs",
-    "/../docs/security": "docs",
-    "/../docs/subscrbe-guide": "docs"
+    "/docs/2fa": "docs",
+    "/docs/committer-guide": "docs",
+    "/docs/contributor-guide": "docs",
+    "/docs/release-guide": "docs",
+    "/docs/security": "docs",
+    "/docs/subscrbe-guide": "docs"
   }
 }

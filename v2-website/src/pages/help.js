@@ -6,11 +6,10 @@
  */
 
 import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from "@theme/Layout";
+import styles from './styles.module.css';
 
-const Help = (props) => {
-  const { siteConfig } = useDocusaurusContext();
-
+const Help = () => {
   const supportLinks = [
     {
       content: 'Learn more using the [documentation on this site.](https://github.com/apache/apisix/tree/master/doc)',
@@ -28,23 +27,25 @@ const Help = (props) => {
 
   return (
     <div className="docMainWrapper wrapper">
-      <layout className="mainContainer documentContainer postContainer">
-        <div className="post">
+      <Layout className="mainContainer documentContainer postContainer">
+        <div className={styles.post}>
           <header className="postHeader">
             <h1>Need help?</h1>
           </header>
-          <p>This project is maintained by a dedicated group of people.</p>
-          {/* <GridBlock contents={supportLinks} layout="threeColumn" /> */}
-          {supportLinks.map(({ title, content }, idx) => (
-            <div
-              key={idx}
-            >
-              <h3>{title}</h3>
-              <p>{content}</p>
-            </div>
-          ))}
+          <p className={styles.spacing}>This project is maintained by a dedicated group of people.</p>
+          <div class="row">
+            {supportLinks.map(({ title, content }, idx) => (
+              <div
+                class="col"
+                key={idx}
+              >
+                <h3>{title}</h3>
+                <div>{content}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </layout>
+      </Layout>
     </div>
   );
 }

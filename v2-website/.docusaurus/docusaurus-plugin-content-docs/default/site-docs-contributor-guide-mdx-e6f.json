@@ -4,7 +4,7 @@
   "isDocsHomePage": false,
   "title": "Contributor Guide",
   "description": "Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.",
-  "source": "@site/docs/contributor-guide.md",
+  "source": "@site/docs/contributor-guide.mdx",
   "slug": "/contributor-guide",
   "permalink": "/docs/contributor-guide",
   "version": "current",

@@ -5,11 +5,11 @@
         {
           "versionName": "current",
           "versionLabel": "Next",
-          "versionPath": "/../docs",
+          "versionPath": "/docs",
           "isLast": true,
           "routePriority": -1,
           "sidebarFilePath": "/Users/guoqi/workspace/apisix-website/website/sidebars.json",
-          "docsDirPath": "/Users/guoqi/workspace/apisix-website/docs",
+          "docsDirPath": "/Users/guoqi/workspace/apisix-website/v2-website/docs",
           "mainDocId": "security",
           "sidebars": {
             "docs": [
@@ -47,12 +47,12 @@
             ]
           },
           "permalinkToSidebar": {
-            "/../docs/2fa": "docs",
-            "/../docs/committer-guide": "docs",
-            "/../docs/contributor-guide": "docs",
-            "/../docs/release-guide": "docs",
-            "/../docs/security": "docs",
-            "/../docs/subscrbe-guide": "docs"
+            "/docs/2fa": "docs",
+            "/docs/committer-guide": "docs",
+            "/docs/contributor-guide": "docs",
+            "/docs/release-guide": "docs",
+            "/docs/security": "docs",
+            "/docs/subscrbe-guide": "docs"
           },
           "docs": [
             {
@@ -61,20 +61,20 @@
               "isDocsHomePage": false,
               "title": "2FA",
               "description": "Two-factor authentication(2FA)",
-              "source": "@site/../docs/2fa.md",
+              "source": "@site/docs/2fa.mdx",
               "slug": "/2fa",
-              "permalink": "/../docs/2fa",
+              "permalink": "/docs/2fa",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055,
               "sidebar": "docs",
               "previous": {
                 "title": "Committer Guide",
-                "permalink": "/../docs/committer-guide"
+                "permalink": "/docs/committer-guide"
               },
               "next": {
                 "title": "Release Guide",
-                "permalink": "/../docs/release-guide"
+                "permalink": "/docs/release-guide"
               }
             },
             {
@@ -83,20 +83,20 @@
               "isDocsHomePage": false,
               "title": "Committer Guide",
               "description": "What can I contribute?",
-              "source": "@site/../docs/committer-guide.md",
+              "source": "@site/docs/committer-guide.mdx",
               "slug": "/committer-guide",
-              "permalink": "/../docs/committer-guide",
+              "permalink": "/docs/committer-guide",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055,
               "sidebar": "docs",
               "previous": {
                 "title": "Contributor Guide",
-                "permalink": "/../docs/contributor-guide"
+                "permalink": "/docs/contributor-guide"
               },
               "next": {
                 "title": "2FA",
-                "permalink": "/../docs/2fa"
+                "permalink": "/docs/2fa"
               }
             },
             {
@@ -105,20 +105,20 @@
               "isDocsHomePage": false,
               "title": "Contributor Guide",
               "description": "Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.",
-              "source": "@site/../docs/contributor-guide.md",
+              "source": "@site/docs/contributor-guide.mdx",
               "slug": "/contributor-guide",
-              "permalink": "/../docs/contributor-guide",
+              "permalink": "/docs/contributor-guide",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055,
               "sidebar": "docs",
               "previous": {
                 "title": "Subscribe Guide",
-                "permalink": "/../docs/subscrbe-guide"
+                "permalink": "/docs/subscrbe-guide"
               },
               "next": {
                 "title": "Committer Guide",
-                "permalink": "/../docs/committer-guide"
+                "permalink": "/docs/committer-guide"
               }
             },
             {
@@ -127,9 +127,9 @@
               "isDocsHomePage": false,
               "title": "Downloads",
               "description": "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
-              "source": "@site/../docs/download.md",
+              "source": "@site/docs/download.mdx",
               "slug": "/downloads",
-              "permalink": "/../docs/downloads",
+              "permalink": "/docs/downloads",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055
@@ -140,16 +140,16 @@
               "isDocsHomePage": false,
               "title": "Release Guide",
               "description": "GPG Settings",
-              "source": "@site/../docs/release-guide.md",
+              "source": "@site/docs/release-guide.mdx",
               "slug": "/release-guide",
-              "permalink": "/../docs/release-guide",
+              "permalink": "/docs/release-guide",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055,
               "sidebar": "docs",
               "previous": {
                 "title": "2FA",
-                "permalink": "/../docs/2fa"
+                "permalink": "/docs/2fa"
               }
             },
             {
@@ -158,16 +158,16 @@
               "isDocsHomePage": false,
               "title": "Security",
               "description": "The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache APISIX is also very concerned Security issues related to its features and functionality.",
-              "source": "@site/../docs/security-guide.md",
+              "source": "@site/docs/security-guide.mdx",
               "slug": "/security",
-              "permalink": "/../docs/security",
+              "permalink": "/docs/security",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055,
               "sidebar": "docs",
               "next": {
                 "title": "Subscribe Guide",
-                "permalink": "/../docs/subscrbe-guide"
+                "permalink": "/docs/subscrbe-guide"
               }
             },
             {
@@ -176,20 +176,20 @@
               "isDocsHomePage": false,
               "title": "Subscribe Guide",
               "description": "During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.",
-              "source": "@site/../docs/subscribe-guide.md",
+              "source": "@site/docs/subscribe-guide.mdx",
               "slug": "/subscrbe-guide",
-              "permalink": "/../docs/subscrbe-guide",
+              "permalink": "/docs/subscrbe-guide",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055,
               "sidebar": "docs",
               "previous": {
                 "title": "Security",
-                "permalink": "/../docs/security"
+                "permalink": "/docs/security"
               },
               "next": {
                 "title": "Contributor Guide",
-                "permalink": "/../docs/contributor-guide"
+                "permalink": "/docs/contributor-guide"
               }
             },
             {
@@ -198,9 +198,9 @@
               "isDocsHomePage": false,
               "title": "Team",
               "description": "Members",
-              "source": "@site/../docs/team.md",
+              "source": "@site/docs/team.mdx",
               "slug": "/team",
-              "permalink": "/../docs/team",
+              "permalink": "/docs/team",
               "version": "current",
               "lastUpdatedBy": "Author",
               "lastUpdatedAt": 1539502055

@@ -53,8 +53,8 @@ export default {
       "@docusaurus/preset-classic",
       {
         "docs": {
-          "path": "../docs",
-          "routeBasePath": "../docs",
+          "path": "docs",
+          "routeBasePath": "docs",
           "remarkPlugins": [],
           "rehypePlugins": [],
           "showLastUpdateAuthor": true,
@@ -81,27 +81,27 @@ export default {
         {
           "to": "docs/",
           "label": "Docs",
-          "position": "left"
+          "position": "right"
         },
         {
           "to": "/blog",
           "label": "Blog",
-          "position": "left"
+          "position": "right"
         },
         {
           "to": "docs/downloads",
           "label": "Downloads",
-          "position": "left"
+          "position": "right"
         },
         {
           "to": "docs/team",
           "label": "Team",
-          "position": "left"
+          "position": "right"
         },
         {
           "to": "/help",
           "label": "Help",
-          "position": "left"
+          "position": "right"
         }
       ],
       "hideOnScroll": false

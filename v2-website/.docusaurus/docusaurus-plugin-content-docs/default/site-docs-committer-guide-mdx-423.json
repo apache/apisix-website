@@ -4,7 +4,7 @@
   "isDocsHomePage": false,
   "title": "Committer Guide",
   "description": "What can I contribute?",
-  "source": "@site/docs/committer-guide.md",
+  "source": "@site/docs/committer-guide.mdx",
   "slug": "/committer-guide",
   "permalink": "/docs/committer-guide",
   "version": "current",

@@ -51,40 +51,40 @@
     "component": "component---site-src-pages-users-js-1-db-7ac",
     "config": "config---5-e-9-4f3"
   },
-  "/../docs-9dc": {
+  "/docs-d89": {
     "component": "component---theme-doc-page-1-be-9be",
-    "versionMetadata": "versionMetadata---docs-935-539"
+    "versionMetadata": "versionMetadata---docs-935-398"
   },
-  "/../docs/2fa-0db": {
+  "/docs/2fa-223": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-2-fa-34-b-92f"
+    "content": "content---docs-2-fa-629-894"
   },
-  "/../docs/committer-guide-ce2": {
+  "/docs/committer-guide-9be": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-committer-guidef-6-e-9c8"
+    "content": "content---docs-committer-guide-423-678"
   },
-  "/../docs/contributor-guide-e62": {
+  "/docs/contributor-guide-b4f": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-contributor-guidef-28-2c7"
+    "content": "content---docs-contributor-guidee-6-f-bd8"
   },
-  "/../docs/downloads-5f2": {
+  "/docs/downloads-c57": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-downloads-120-94c"
+    "content": "content---docs-downloadse-6-f-1d7"
   },
-  "/../docs/release-guide-6c8": {
+  "/docs/release-guide-a13": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-release-guided-82-8bb"
+    "content": "content---docs-release-guideeec-b2a"
   },
-  "/../docs/security-8a9": {
+  "/docs/security-ceb": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-securityc-2-e-ad1"
+    "content": "content---docs-security-71-f-0d7"
   },
-  "/../docs/subscrbe-guide-276": {
+  "/docs/subscrbe-guide-68d": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-subscrbe-guide-52-e-bfc"
+    "content": "content---docs-subscrbe-guidef-7-a-aad"
   },
-  "/../docs/team-44b": {
+  "/docs/team-2ce": {
     "component": "component---theme-doc-item-178-a40",
-    "content": "content---docs-teamdcf-f80"
+    "content": "content---docs-team-9-e-6-ee2"
   }
 }

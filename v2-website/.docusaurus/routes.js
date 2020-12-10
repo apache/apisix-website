@@ -68,48 +68,48 @@ export default [
   exact: true,
 },
 {
-  path: '/../docs',
-  component: ComponentCreator('/../docs','9dc'),
+  path: '/docs',
+  component: ComponentCreator('/docs','d89'),
   
   routes: [
 {
-  path: '/../docs/2fa',
-  component: ComponentCreator('/../docs/2fa','0db'),
+  path: '/docs/2fa',
+  component: ComponentCreator('/docs/2fa','223'),
   exact: true,
 },
 {
-  path: '/../docs/committer-guide',
-  component: ComponentCreator('/../docs/committer-guide','ce2'),
+  path: '/docs/committer-guide',
+  component: ComponentCreator('/docs/committer-guide','9be'),
   exact: true,
 },
 {
-  path: '/../docs/contributor-guide',
-  component: ComponentCreator('/../docs/contributor-guide','e62'),
+  path: '/docs/contributor-guide',
+  component: ComponentCreator('/docs/contributor-guide','b4f'),
   exact: true,
 },
 {
-  path: '/../docs/downloads',
-  component: ComponentCreator('/../docs/downloads','5f2'),
+  path: '/docs/downloads',
+  component: ComponentCreator('/docs/downloads','c57'),
   exact: true,
 },
 {
-  path: '/../docs/release-guide',
-  component: ComponentCreator('/../docs/release-guide','6c8'),
+  path: '/docs/release-guide',
+  component: ComponentCreator('/docs/release-guide','a13'),
   exact: true,
 },
 {
-  path: '/../docs/security',
-  component: ComponentCreator('/../docs/security','8a9'),
+  path: '/docs/security',
+  component: ComponentCreator('/docs/security','ceb'),
   exact: true,
 },
 {
-  path: '/../docs/subscrbe-guide',
-  component: ComponentCreator('/../docs/subscrbe-guide','276'),
+  path: '/docs/subscrbe-guide',
+  component: ComponentCreator('/docs/subscrbe-guide','68d'),
   exact: true,
 },
 {
-  path: '/../docs/team',
-  component: ComponentCreator('/../docs/team','44b'),
+  path: '/docs/team',
+  component: ComponentCreator('/docs/team','2ce'),
   exact: true,
 },
 ]
