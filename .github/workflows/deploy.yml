@@ -7,9 +7,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-  schedule:
-  # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
-  - cron: "0 9 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
