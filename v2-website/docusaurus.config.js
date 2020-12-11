@@ -1,4 +1,4 @@
-module.exports={
+module.exports = {
   "title": "Apache APISIX™",
   "tagline": "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
   "url": "https://apisix.apache.org/",
