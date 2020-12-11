@@ -41,6 +41,7 @@ title: Team
 | [bzp2010](https://whimsy.apache.org/roster/committer/bzp2010)     | bzp2010        | Zeping Bai  |
 | [liuxiran](https://whimsy.apache.org/roster/committer/liuxiran)   | liuxiran       | Xiran Liu   |
 | [shuyangw](https://whimsy.apache.org/roster/committer/shuyangw)   | yiyiyimu       | Shuyang Wu  |
+| [shuyangw](https://whimsy.apache.org/roster/committer/tokers)     | tokers         | Chao Zhang  |
 
 ## Mentors
 
