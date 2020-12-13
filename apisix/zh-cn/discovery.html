@@ -151,8 +151,8 @@
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">discovery:</span>
   <span class="hljs-attr">eureka:</span>
     <span class="hljs-attr">host:</span>                            <span class="hljs-comment"># it's possible to define multiple eureka hosts addresses of the same eureka cluster.</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">"http://${usename}:${passowrd}@${eureka_host1}:${eureka_port1}"</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">"http://${usename}:${passowrd}@${eureka_host2}:${eureka_port2}"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"http://${username}:${password}@${eureka_host1}:${eureka_port1}"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"http://${username}:${password}@${eureka_host2}:${eureka_port2}"</span>
     <span class="hljs-attr">prefix:</span> <span class="hljs-string">"/eureka/"</span>
     <span class="hljs-attr">fetch_interval:</span> <span class="hljs-number">30</span>               <span class="hljs-comment"># 从 eureka 中拉取数据的时间间隔，默认30秒</span>
     <span class="hljs-attr">weight:</span> <span class="hljs-number">100</span>                      <span class="hljs-comment"># default weight for node</span>
