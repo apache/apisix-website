@@ -47,7 +47,7 @@ OAuth/OIDC and UMA compliant identity providers as well.</p>
 <tbody>
 <tr><td>token_endpoint</td><td>string</td><td>required</td><td></td><td>[1, 4096]</td><td>A OAuth2-compliant Token Endpoint that supports the <code>urn:ietf:params:oauth:grant-type:uma-ticket</code> grant type.</td></tr>
 <tr><td>grant_type</td><td>string</td><td>optional</td><td>&quot;urn:ietf:params:oauth:grant-type:uma-ticket&quot;</td><td>[&quot;urn:ietf:params:oauth:grant-type:uma-ticket&quot;]</td><td></td></tr>
-<tr><td>audience</td><td>string</td><td>optional</td><td></td><td></td><td>The client identifier of the resource server to which the client is seeking access. <br />This parameter is mandatory when parameter permission is defined.</td></tr>
+<tr><td>audience</td><td>string</td><td>optional</td><td></td><td></td><td>The client identifier of the resource server to which the client is seeking access. <br>This parameter is mandatory when parameter permission is defined.</td></tr>
 <tr><td>permissions</td><td>array[string]</td><td>optional</td><td></td><td></td><td>A string representing a set of one or more resources and scopes the client is seeking access.  The format of the string must be: <code>RESOURCE_ID#SCOPE_ID</code>.</td></tr>
 <tr><td>timeout</td><td>integer</td><td>optional</td><td>3000</td><td>[1000, ...]</td><td>Timeout(ms) for the http connection with the Identity Server.</td></tr>
 <tr><td>ssl_verify</td><td>boolean</td><td>optional</td><td>true</td><td></td><td>Verify if SSL cert matches hostname.</td></tr>
