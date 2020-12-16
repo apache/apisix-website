@@ -13,7 +13,7 @@ authorImageURL: https://avatars0.githubusercontent.com/u/33000667
 
 ### Envoy filter
 
-Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures. 
+Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures.
 A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.
 
 ![Envoy filter](https://static.apiseven.com/filters.png)
@@ -31,7 +31,7 @@ Developers can extend Envoy in three ways:
 | WASM  |        high-medium         | on the fence |  depends on language   | compilation time depends on language |
 
 1. Using C++ to extend
-   
+
 In this way, C++ code is written directly on the basis of Envoy for functional enhancement. After implementing a custom filter, the new binary file is recompiled to complete the upgrade. There are two problems with this way:
 
 - Limited by the C++ language, difficulty of getting started, scarcity of developers.
@@ -114,16 +114,16 @@ We use the previous example to show how the plugin runs:
 
 ![Plugin workflow](https://static.apiseven.com/workflow.png)
 
-**First step, read configuration**
+#### First step, read configuration
 
 We configure through metadata to determine what plugins need to run on each route and what configuration is for each plugin.
 In the example, we configured plugin `uri-blocker` for the route whose prefix is ​​`/foo`, as well as the block rule of the plugin and the response status when a block is required.
 
-**Second step, parse request**
+#### Second step, parse request**
 
 We encapsulated the client request data into `ctx` so that it can be used directly in the entire process.
 
-**Third step, run the plugin**
+#### Third step, run the plugin**
 
 We determine whether we need to block this request by matching the configured rules and the obtained uri. If a block is needed, we call `respond` to directly respond, otherwise we let it go.
 
