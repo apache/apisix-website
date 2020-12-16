@@ -1,5 +1,5 @@
 ---
-title: "Envoy and Apache APISIX: Another way to implement Envoy filter"
+title: "Envoy and Apache APISIX: Another way to implement the Envoy filter"
 author: nic-chen
 authorURL: https://github.com/nic-chen
 authorImageURL: https://avatars0.githubusercontent.com/u/33000667
