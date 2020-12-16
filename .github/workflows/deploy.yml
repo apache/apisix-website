@@ -31,7 +31,7 @@ jobs:
 
     - name: Build
       run: cd website && yarn && yarn build
-      
+
     - name: Copy files
       run: |
         cd website/build/apisix-website
@@ -42,7 +42,7 @@ jobs:
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
         find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
-      
+
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2.0.1
       with:
