@@ -119,11 +119,11 @@ We use the previous example to show how the plugin runs:
 We configure through metadata to determine what plugins need to run on each route and what configuration is for each plugin.
 In the example, we configured plugin `uri-blocker` for the route whose prefix is ​​`/foo`, as well as the block rule of the plugin and the response status when a block is required.
 
-#### Second step, parse request**
+#### Second step, parse request
 
 We encapsulated the client request data into `ctx` so that it can be used directly in the entire process.
 
-#### Third step, run the plugin**
+#### Third step, run the plugin
 
 We determine whether we need to block this request by matching the configured rules and the obtained uri. If a block is needed, we call `respond` to directly respond, otherwise we let it go.
 
