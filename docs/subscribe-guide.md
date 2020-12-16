@@ -1,5 +1,5 @@
 ---
-id: subscrbe-guide
+id: subscribe-guide
 title: Subscribe Guide
 ---
 

@@ -36,7 +36,7 @@ const siteConfig = {
   projectName: "apisix-website",
   organizationName: "Apache",
   headerLinks: [
-    { doc: "subscrbe-guide", label: "Docs" },
+    { doc: "subscribe-guide", label: "Docs" },
     { blog: true, label: "Blog" },
     { doc: "downloads", label: "Downloads" },
     { doc: "team", label: "Team" },
