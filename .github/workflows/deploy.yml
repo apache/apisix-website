@@ -6,10 +6,10 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   schedule:
-  # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
-  - cron: "0 9 * * *"
+    # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
+    - cron: "0 9 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,34 +20,34 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: Clone apisix's docs from repo & update image's link
-      run: |
-        git clone https://github.com/apache/apisix.git
-        cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
-        cp -r apisix/doc ./docs/apisix
+      - name: Clone apisix's docs from repo & update image's link
+        run: |
+          git clone https://github.com/apache/apisix.git
+          cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
+          cp -r apisix/doc ./docs/apisix
 
-    - name: Build
-      run: cd website && yarn && yarn build
+      - name: Build
+        run: cd website && yarn && yarn build
 
-    - name: Copy files
-      run: |
-        cd website/build/apisix-website
-        cp ../../../README.md ./ && cp ../../../.asf.yaml ./
-        cd apisix
-        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/doc\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-        find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
+      - name: Copy files
+        run: |
+          cd website/build/apisix-website
+          cp ../../../README.md ./ && cp ../../../.asf.yaml ./
+          cd apisix
+          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/doc\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
+          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
 
-    - name: GitHub Pages
-      uses: crazy-max/ghaction-github-pages@v2.0.1
-      with:
-        build_dir: website/build/apisix-website
-        target_branch: asf-site
-        keep_history: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2.0.1
+        with:
+          build_dir: website/build/apisix-website
+          target_branch: asf-site
+          keep_history: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
