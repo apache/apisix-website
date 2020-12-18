@@ -89,7 +89,20 @@ hello, world
 <tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>有效值</th><th>描述</th></tr>
 </thead>
 <tbody>
-<tr><td>log_format</td><td>object</td><td>可选</td><td>{&quot;host&quot;: &quot;$host&quot;, &quot;@timestamp&quot;: &quot;$time_iso8601&quot;, &quot;client_ip&quot;: &quot;$remote_addr&quot;}</td><td></td><td>以 Hash 对象方式声明日志格式。对 value 部分，仅支持字符串。如果是以<code>$</code>开头，则表明是要获取 <a href="http://nginx.org/en/docs/varindex.html">Nginx 内置变量</a>。特别的，该设置是全局生效的，意味着指定 log_format 后，将对所有绑定 http-logger 的 Route 或 Service 生效。</td></tr>
+<tr><td>log_format</td><td>object</td><td>可选</td><td>{&quot;host&quot;: &quot;$host&quot;, &quot;@timestamp&quot;: &quot;$time_iso8601&quot;, &quot;client_ip&quot;: &quot;$remote_addr&quot;}</td><td></td><td>以 JSON 对象方式声明日志格式。对 value 部分，仅支持字符串。如果是以 <code>$</code> 开头，则表明是要获取 <strong>APISIX</strong> 变量或 <a href="http://nginx.org/en/docs/varindex.html">Nginx 内置变量</a>。特别的，该设置是全局生效的，意味着指定 log_format 后，将对所有绑定 http-logger 的 Route 或 Service 生效。</td></tr>
+</tbody>
+</table>
+<p><strong>APISIX 变量</strong></p>
+<table>
+<thead>
+<tr><th>变量名</th><th>描述</th><th>使用示例</th></tr>
+</thead>
+<tbody>
+<tr><td>route_id</td><td><code>route</code> 的 id</td><td>$route_id</td></tr>
+<tr><td>route_name</td><td><code>route</code> 的 name</td><td>$route_name</td></tr>
+<tr><td>service_id</td><td><code>service</code> 的 id</td><td>$service_id</td></tr>
+<tr><td>service_name</td><td><code>service</code> 的 name</td><td>$service_name</td></tr>
+<tr><td>consumer_name</td><td><code>consumer</code> 的 username</td><td>$consumer_name</td></tr>
 </tbody>
 </table>
 <h3><a class="anchor" aria-hidden="true" id="设置日志格式示例"></a><a href="#设置日志格式示例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>设置日志格式示例</h3>
