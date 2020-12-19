@@ -69,7 +69,9 @@ $ git push origin issueNo
 
 2. The mentor will do codes review before discussing some details (including the design, the implementation and the performance) with you.
 
-3. Then congratulate to you to be an official contributor of Apache APISIX.
+3. Also make sure that the pull request title has a semantic prefix like `fix:` or `feat:` or any other [conventional commit types](https://github.com/commitizen/conventional-commit-types/blob/master/index.json).
+
+4. Then congratulate to you to be an official contributor of Apache APISIX.
 
 ### Delete branch
 
