@@ -33,7 +33,7 @@ class Footer extends React.Component {
             <h5>ASF</h5>
             <a href="https://www.apache.org/">Foundation</a>
             <a href="https://www.apache.org/licenses/">License</a>
-            <a href="http://www.apache.org/events/current-event/">Events</a>
+            <a href="https://www.apache.org/events/">Events</a>
             <a href="https://www.apache.org/security/">Security</a>
             <a href="https://www.apache.org/foundation/sponsorship.html">
               Sponsorship
