@@ -86,7 +86,7 @@
 <tr><td>remote_addrs</td><td>可选</td><td>匹配规则</td><td>非空列表形态的 <code>remote_addr</code>，表示允许有多个不同 IP 地址，符合其中任意一个即可。</td><td>{&quot;127.0.0.1&quot;, &quot;192.0.0.0/8&quot;, &quot;::1&quot;}</td></tr>
 <tr><td>methods</td><td>可选</td><td>匹配规则</td><td>如果为空或没有该选项，代表没有任何 <code>method</code> 限制，也可以是一个或多个的组合：<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, <code>OPTIONS</code>，<code>CONNECT</code>，<code>TRACE</code>。</td><td>{&quot;GET&quot;, &quot;POST&quot;}</td></tr>
 <tr><td>priority</td><td>可选</td><td>匹配规则</td><td>如果不同路由包含相同 <code>uri</code>，根据属性 <code>priority</code> 确定哪个 <code>route</code> 被优先匹配，值越大优先级越高，默认值为 0。</td><td>priority = 10</td></tr>
-<tr><td>vars</td><td>可选</td><td>匹配规则</td><td>由一个或多个<code>{var, operator, val}</code>元素组成的列表，类似这样：<code>{{var, operator, val}, {var, operator, val}, ...}}</code>。例如：<code>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</code>，表示当前请求参数 <code>name</code> 是 <code>json</code>。这里的 <code>var</code> 与 Nginx 内部自身变量命名是保持一致，所以也可以使用 <code>request_uri</code>、<code>host</code> 等；对于 <code>operator</code> 部分，目前已支持的运算符有 <code>==</code>、<code>~=</code>、<code>&gt;</code>、<code>&lt;</code> 和 <code>~~</code>。对于<code>&gt;</code>和<code>&lt;</code>两个运算符，会把结果先转换成 number 然后再做比较。查看支持的<a href="#运算符列表">运算符列表</a></td><td>{{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}, {&quot;arg_age&quot;, &quot;&gt;&quot;, 18}}</td></tr>
+<tr><td>vars</td><td>可选</td><td>匹配规则</td><td>由一个或多个<code>{var, operator, val}</code>元素组成的列表，类似这样：<code>{{var, operator, val}, {var, operator, val}, ...}}</code>。例如：<code>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</code>，表示当前请求参数 <code>name</code> 是 <code>json</code>。这里的 <code>var</code> 与 Nginx 内部自身变量命名是保持一致，所以也可以使用 <code>request_uri</code>、<code>host</code> 等。更多细节请参考<a href="https://github.com/api7/lua-resty-expr">lua-resty-expr</a></td><td>{{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}, {&quot;arg_age&quot;, &quot;&gt;&quot;, 18}}</td></tr>
 <tr><td>filter_func</td><td>可选</td><td>匹配规则</td><td>用户自定义的过滤函数。可以使用它来实现特殊场景的匹配要求实现。该函数默认接受一个名为 vars 的输入参数，可以用它来获取 Nginx 变量。</td><td>function(vars) return vars[&quot;arg_name&quot;] == &quot;json&quot; end</td></tr>
 <tr><td>labels</td><td>可选</td><td>匹配规则</td><td>标识附加属性的键值对</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>可选</td><td>辅助</td><td>是否启用 <code>websocket</code>(boolean), 缺省 <code>false</code>.</td><td></td></tr>
@@ -103,17 +103,14 @@
 <p>route 对象 json 配置内容：</p>
 <pre><code class="hljs css language-shell">{
     "id": "1",                  # id，非必填
-    "uri": "/release/a",        # URL 路径
-    "uris": ["/a","/b"],        # 一组 URL 路径， URL 与 uris 只需要有一个非空即可
+    "uris": ["/a","/b"],        # 一组 URL 路径
     "methods": ["GET","POST"],  # 可以填多个方法
-    "host": "aa.com",           # host 域名
-    "hosts": ["a.com","b.com"], # 一组 host 域名， host 与 hosts 只需要有一个非空即可
+    "hosts": ["a.com","b.com"], # 一组 host 域名
     "plugins": {},              # 指定 route 绑定的插件
     "priority": 0,              # apisix 支持多种匹配方式，可能会在一次匹配中同时匹配到多条路由，此时优先级高的优先匹配中
     "name": "路由xxx",
     "desc": "hello world",
-    "remote_addr": "127.0.0.1", # 客户端请求 IP 地址
-    "remote_addrs": ["127.0.0.1"],  # 一组客户端请求 IP 地址， remote_addr 与 remote_addrs 只需要有一个非空即可
+    "remote_addrs": ["127.0.0.1"],  # 一组客户端请求 IP 地址
     "vars": [],                 # 由一个或多个 {var, operator, val} 元素组成的列表
     "upstream_id": "1",         # upstream 对象在 etcd 中的 id ，建议使用此值
     "upstream": {},             # upstream 信息对象，建议尽量不要使用
@@ -281,36 +278,6 @@ HTTP/1.1 200 OK
 <p>应答参数</p>
 </blockquote>
 <p>目前是直接返回与 etcd 交互后的结果。</p>
-<h3><a class="anchor" aria-hidden="true" id="运算符列表"></a><a href="#运算符列表" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>运算符列表</h3>
-<table>
-<thead>
-<tr><th>运算符</th><th>描述</th><th>例子</th></tr>
-</thead>
-<tbody>
-<tr><td>==</td><td>相等</td><td>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</td></tr>
-<tr><td>~=</td><td>不等于</td><td>{&quot;arg_name&quot;, &quot;~=&quot;, &quot;json&quot;}</td></tr>
-<tr><td>&gt;</td><td>大于</td><td>{&quot;arg_age&quot;, &quot;&gt;&quot;, 24}</td></tr>
-<tr><td>&lt;</td><td>小于</td><td>{&quot;arg_age&quot;, &quot;&lt;&quot;, 24}</td></tr>
-<tr><td>~~</td><td>正则匹配</td><td>{&quot;arg_name&quot;, &quot;~~&quot;, &quot;[a-z]+&quot;}</td></tr>
-</tbody>
-</table>
-<p>请看下面例子，匹配请求参数 name 等于 json ，age 大于 18 且 address 开头是 China 的请求：</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-{
-    "uri": "/index.html",
-    "vars": [
-        ["arg_name", "==", "json"],
-        ["arg_age", "&gt;", "18"],
-        ["arg_address", "~~", "^China.*"]
-    ],
-    "upstream": {
-        "type": "roundrobin",
-        "nodes": {
-            "39.97.63.215:80": 1
-        }
-    }
-}'
-</code></pre>
 <p><a href="#目录">Back to TOC</a></p>
 <h2><a class="anchor" aria-hidden="true" id="service"></a><a href="#service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Service</h2>
 <p><em>地址</em>：/apisix/admin/services/{id}</p>
@@ -761,7 +728,7 @@ Date: Thu, 26 Dec 2019 04:19:34 GMT
 Content-Type: text/plain
 </code></pre>
 <p><a href="#目录">Back to TOC</a></p>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a><ul class="toc-headings"><li><a href="#运算符列表">运算符列表</a></li></ul></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

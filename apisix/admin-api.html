@@ -79,7 +79,7 @@
 <tr><td>remote_addrs</td><td>False, can't be used with <code>remote_addr</code></td><td>Match Rules</td><td>The <code>remote_addr</code> in the form of a non-empty list indicates that multiple different IP addresses are allowed, and match any one of them.</td><td>{&quot;127.0.0.1&quot;, &quot;192.0.0.0/8&quot;, &quot;::1&quot;}</td></tr>
 <tr><td>methods</td><td>False</td><td>Match Rules</td><td>If empty or without this option, there are no <code>method</code> restrictions, and it can be a combination of one or more: <code>GET</code>,<code>POST</code>,<code>PUT</code>,<code>DELETE</code>,<code>PATCH</code>, <code>HEAD</code>,<code>OPTIONS</code>,<code>CONNECT</code>,<code>TRACE</code>.</td><td>{&quot;GET&quot;, &quot;POST&quot;}</td></tr>
 <tr><td>priority</td><td>False</td><td>Match Rules</td><td>If different routes contain the same <code>uri</code>, determine which route is matched first based on the attribute<code>priority</code>. Larger value means higher priority. The default value is 0.</td><td>priority = 10</td></tr>
-<tr><td>vars</td><td>False</td><td>Match Rules</td><td>A list of one or more <code>{var, operator, val}</code> elements, like this: <code>{{var, operator, val}, {var, operator, val}, ...}}</code>. For example: <code>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</code> means that the current request parameter <code>name</code> is <code>json</code>. The <code>var</code> here is consistent with the internal variable name of Nginx, so you can also use <code>request_uri</code>, <code>host</code>, etc. For the operator part, the currently supported operators are <code>==</code>, <code>~=</code>,<code>&gt;</code>, <code>&lt;</code>, and <code>~~</code>. For the <code>&gt;</code> and <code>&lt;</code> operators, the result is first converted to <code>number</code> and then compared. See a list of <a href="#available-operators">supported operators</a></td><td>{{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}, {&quot;arg_age&quot;, &quot;&gt;&quot;, 18}}</td></tr>
+<tr><td>vars</td><td>False</td><td>Match Rules</td><td>A list of one or more <code>{var, operator, val}</code> elements, like this: <code>{{var, operator, val}, {var, operator, val}, ...}}</code>. For example: <code>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</code> means that the current request parameter <code>name</code> is <code>json</code>. The <code>var</code> here is consistent with the internal variable name of Nginx, so you can also use <code>request_uri</code>, <code>host</code>, etc. For more details, see <a href="https://github.com/api7/lua-resty-expr">lua-resty-expr</a></td><td>{{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}, {&quot;arg_age&quot;, &quot;&gt;&quot;, 18}}</td></tr>
 <tr><td>filter_func</td><td>False</td><td>Match Rules</td><td>User-defined filtering function. You can use it to achieve matching requirements for special scenarios. This function accepts an input parameter named <code>vars</code> by default, which you can use to get Nginx variables.</td><td>function(vars) return vars[&quot;arg_name&quot;] == &quot;json&quot; end</td></tr>
 <tr><td>plugins</td><td>False</td><td>Plugin</td><td>See <a href="/apisix/architecture-design#plugin">Plugin</a> for more</td><td></td></tr>
 <tr><td>script</td><td>False</td><td>Script</td><td>See <a href="/apisix/architecture-design#script">Script</a> for more</td><td></td></tr>
@@ -98,17 +98,14 @@
 <p>Config Example:</p>
 <pre><code class="hljs css language-shell">{
     "id": "1",                  # id, unnecessary.
-    "uri": "/release/a",        # uri
-    "uris": ["/a","/b"],        # A set of uri, URL and uris need only have a non-empty one.
+    "uris": ["/a","/b"],        # A set of uri.
     "methods": ["GET","POST"],  # Can fill multiple methods
-    "host": "aa.com",           # host
-    "hosts": ["a.com","b.com"], # A set of host. Host and hosts only need to be non-empty one.
+    "hosts": ["a.com","b.com"], # A set of host.
     "plugins": {},              # Bound plugin
     "priority": 0,              # If different routes contain the same `uri`, determine which route is matched first based on the attribute` priority`, the default value is 0.
     "name": "route-xxx",
     "desc": "hello world",
-    "remote_addr": "127.0.0.1", # Client IP
-    "remote_addrs": ["127.0.0.1"], # A set of Client IP. Remote_addr and remo-te_addrs only need to be non-empty one.
+    "remote_addrs": ["127.0.0.1"], # A set of Client IP.
     "vars": [],                 # A list of one or more `{var, operator, val}` elements
     "upstream_id": "1",         # upstream id, recommended
     "upstream": {},             # upstream, not recommended
@@ -276,36 +273,6 @@ After successful execution, status nodes will be updated to:
 <p>Response Parameters</p>
 </blockquote>
 <p>Return response from etcd currently.</p>
-<h3><a class="anchor" aria-hidden="true" id="available-operators"></a><a href="#available-operators" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Available Operators</h3>
-<table>
-<thead>
-<tr><th>Operator</th><th>Description</th><th>Example</th></tr>
-</thead>
-<tbody>
-<tr><td>==</td><td>Equal</td><td>{&quot;arg_name&quot;, &quot;==&quot;, &quot;json&quot;}</td></tr>
-<tr><td>~=</td><td>Not Equal</td><td>{&quot;arg_name&quot;, &quot;~=&quot;, &quot;json&quot;}</td></tr>
-<tr><td>&gt;</td><td>Greater Than</td><td>{&quot;arg_age&quot;, &quot;&gt;&quot;, 24}</td></tr>
-<tr><td>&lt;</td><td>Less Than</td><td>{&quot;arg_age&quot;, &quot;&lt;&quot;, 24}</td></tr>
-<tr><td>~~</td><td>Regex</td><td>{&quot;arg_name&quot;, &quot;~~&quot;, &quot;[a-z]+&quot;}</td></tr>
-</tbody>
-</table>
-<p>Consider the following example: matching requests whose <code>request name</code> is equal to <code>json</code>, <code>age</code> is greater than <code>18</code>, and <code>address</code> begins with <code>China</code>:</p>
-<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-{
-    "uri": "/index.html",
-    "vars": [
-        ["arg_name", "==", "json"],
-        ["arg_age", "&gt;", "18"],
-        ["arg_address", "~~", "China.*"]
-    ],
-    "upstream": {
-        "type": "roundrobin",
-        "nodes": {
-            "39.97.63.215:80": 1
-        }
-    }
-}'
-</code></pre>
 <p><a href="#Table-of-Contents">Back to TOC</a></p>
 <h2><a class="anchor" aria-hidden="true" id="service"></a><a href="#service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Service</h2>
 <p><em>API</em>：/apisix/admin/services/{id}</p>
@@ -752,7 +719,7 @@ Date: Thu, 26 Dec 2019 04:19:34 GMT
 Content-Type: text/plain
 </code></pre>
 <p><a href="#Table-of-Contents">Back to TOC</a></p>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a><ul class="toc-headings"><li><a href="#available-operators">Available Operators</a></li></ul></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="http://www.apache.org/events/current-event/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
