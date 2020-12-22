@@ -78,7 +78,7 @@ spec:
             memory: 1G
 
 ```
-It's a example about manager-api, dashboard is similar to this.
+It's an example about manager-api, dashboard is similar to this.
 
 First I set two new configmap for images.
 
@@ -136,5 +136,3 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 Go to apisix-dashboard.alpha.tplinknbu.com and login.
-
-
