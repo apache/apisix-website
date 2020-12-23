@@ -195,41 +195,10 @@ curl http://127.0.0.1:9080/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
 <p>As shown in the image above, by creating an Upstream object and referencing it by ID in <code>Route</code>, you can ensure that only the value of an object is maintained.</p>
 <p>Upstream configuration can be directly bound to the specified <code>Route</code> or it can be bound to <code>Service</code>, but the configuration in <code>Route</code> has a higher priority. The priority behavior here is very similar to <code>Plugin</code>.</p>
 <h3><a class="anchor" aria-hidden="true" id="configuration"></a><a href="#configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration</h3>
-<p>In addition to the basic complex equalization algorithm selection, APISIX's Upstream also supports logic for upstream passive health check and retry, see the table below.</p>
-<table>
-<thead>
-<tr><th>Name</th><th>Optional</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td>type</td><td>required</td><td><code>roundrobin</code> supports the weight of the load, <code>chash</code> consistency hash, pick one of them.</td></tr>
-<tr><td>nodes</td><td>required if <code>service_name</code> and <code>k8s_deployment_info</code> not configured</td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected.</td></tr>
-<tr><td>service_name</td><td>required if <code>nodes</code> and <code>k8s_deployment_info</code> not configured</td><td>The name of the upstream service and used with the registry, refer to <a href="/apisix/discovery">Integration service discovery registry</a>.</td></tr>
-<tr><td>k8s_deployment_info</td><td>required if <code>nodes</code> and <code>service_name</code> not configured</td><td>fields: <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>, <code>port</code> is number, <code>backend_type</code> is <code>pod</code> or <code>service</code>, others is string.</td></tr>
-<tr><td>hash_on</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Supported types <code>vars</code>(Nginx variables), <code>header</code>(custom header), <code>cookie</code>, <code>consumer</code>, the default value is <code>vars</code>.</td></tr>
-<tr><td>key</td><td>required</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_name</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
-<tr><td>checks</td><td>optional</td><td>Configure the parameters of the health check. For details, refer to <a href="/apisix/health-check">health-check</a>.</td></tr>
-<tr><td>retries</td><td>optional</td><td>Pass the request to the next upstream using the underlying Nginx retry mechanism, the retry mechanism is enabled by default and set the number of retries according to the number of backend nodes. If <code>retries</code> option is explicitly set, it will override the default value.</td></tr>
-<tr><td>timeout</td><td>optional</td><td>Set the timeout for connection, sending and receiving messages.</td></tr>
-<tr><td>desc</td><td>optional</td><td>Identifies route names, usage scenarios, and more.</td></tr>
-<tr><td>labels</td><td>optional</td><td>The key/value pairs to specify attributes.</td></tr>
-<tr><td>pass_host</td><td>optional</td><td><code>pass</code> pass the client request host, <code>node</code> not pass the client request host, using the upstream node host, <code>rewrite</code> rewrite host by the configured <code>upstream_host</code>.</td></tr>
-<tr><td>upstream_host</td><td>optional</td><td>This option is only valid if the <code>pass_host</code> is <code>rewrite</code>.</td></tr>
-</tbody>
-</table>
+<p>In addition to the basic complex equalization algorithm selection, APISIX's Upstream also supports logic for upstream passive health check and retry, see the link below.</p>
+<p><a href="https://github.com/apache/apisix/blob/master/doc/admin-api.md#upstream">https://github.com/apache/apisix/blob/master/doc/admin-api.md#upstream</a></p>
 <p>Create an upstream object use case:</p>
 <pre><code class="hljs css language-json">curl http://127.0.0.1:9080/apisix/admin/upstreams/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{
-    "type": "roundrobin",
-    "k8s_deployment_info": {
-        "namespace": "test-namespace",
-        "deploy_name": "test-deploy-name",
-        "service_name": "test-service-name",
-        "backend_type": "pod",
-        "port": 8080
-    }
-}'
-
-curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "type": "chash",
     "key": "remote_addr",
@@ -243,7 +212,7 @@ curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335
 <pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri": "/index.html",
-    "upstream_id": 2
+    "upstream_id": 1
 }'
 </code></pre>
 <p>For convenience, you can also directly bind the upstream address to a <code>Route</code> or <code>Service</code>, for example:</p>

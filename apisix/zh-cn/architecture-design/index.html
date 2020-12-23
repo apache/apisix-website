@@ -207,47 +207,10 @@ curl http://127.0.0.1:9080/apisix/admin/routes/101 -H 'X-API-KEY: edd1c9f034335f
 <p>Upstream 的配置可以被直接绑定在指定 <code>Route</code> 中，也可以被绑定在 <code>Service</code> 中，不过 <code>Route</code> 中的配置
 优先级更高。这里的优先级行为与 <code>Plugin</code> 非常相似</p>
 <h3><a class="anchor" aria-hidden="true" id="配置参数"></a><a href="#配置参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置参数</h3>
-<p>APISIX 的 Upstream 除了基本的复杂均衡算法选择外，还支持对上游做主被动健康检查、重试等逻辑，具体看下面表格。</p>
-<table>
-<thead>
-<tr><th>名字</th><th>可选</th><th>说明</th></tr>
-</thead>
-<tbody>
-<tr><td>type</td><td>必填</td><td><code>roundrobin</code> 支持权重的负载，<code>chash</code> 一致性哈希，两者是二选一的</td></tr>
-<tr><td>nodes</td><td>与 <code>k8s_deployment_info</code>、 <code>service_name</code> 三选一</td><td>哈希表，内部元素的 key 是上游机器地址列表，格式为<code>地址 + Port</code>，其中地址部分可以是 IP 也可以是域名，比如 <code>192.168.1.100:80</code>、<code>foo.com:80</code> 等。value 则是节点的权重。当权重值为 <code>0</code> 代表该上游节点失效，不会被选中，可以用于暂时摘除节点的情况。</td></tr>
-<tr><td>service_name</td><td>与 <code>nodes</code>、 <code>k8s_deployment_info</code> 三选一</td><td>用于设置上游服务名，并配合注册中心使用，详细可参考<a href="/apisix/zh-cn/discovery">集成服务发现注册中心</a></td></tr>
-<tr><td>k8s_deployment_info</td><td>与 <code>nodes</code>、 <code>service_name</code> 三选一</td><td>哈希表</td><td>字段包括 <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>，其中 <code>port</code> 字段为数值，<code>backend_type</code> 为 <code>pod</code> 或 <code>service</code>，其他为字符串</td></tr>
-<tr><td>key</td><td>可选</td><td>在 <code>type</code> 等于 <code>chash</code> 是必选项。 <code>key</code> 需要配合 <code>hash_on</code> 来使用，通过 <code>hash_on</code> 和 <code>key</code> 来查找对应的 node <code>id</code></td></tr>
-<tr><td>hash_on</td><td>可选</td><td><code>hash_on</code> 支持的类型有 <code>vars</code>（Nginx内置变量），<code>header</code>（自定义header），<code>cookie</code>，<code>consumer</code>，默认值为 <code>vars</code></td></tr>
-<tr><td>checks</td><td>可选</td><td>配置健康检查的参数，详细可参考<a href="/apisix/health-check">health-check</a></td></tr>
-<tr><td>retries</td><td>可选</td><td>使用底层的 Nginx 重试机制将请求传递给下一个上游，默认 APISIX 会启用重试机制，根据配置的后端节点个数设置重试次数，如果此参数显式被设置将会覆盖系统默认设置的重试次数。</td></tr>
-<tr><td>labels</td><td>可选</td><td>用于标识属性的键值对。</td></tr>
-<tr><td>pass_host</td><td>可选</td><td><code>pass</code> 透传客户端请求的 host, <code>node</code> 不透传客户端请求的 host, 使用 upstream node 配置的 host, <code>rewrite</code> 使用 <code>upstream_host</code> 配置的值重写 host 。</td></tr>
-<tr><td>upstream_host</td><td>可选</td><td>只在 <code>pass_host</code> 配置为 <code>rewrite</code> 时有效。</td></tr>
-</tbody>
-</table>
-<p><code>hash_on</code> 比较复杂，这里专门说明下：</p>
-<ol>
-<li>设为 <code>vars</code> 时，<code>key</code> 为必传参数，目前支持的 Nginx 内置变量有 <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>，其中 <code>arg_***</code> 是来自URL的请求参数，<a href="http://nginx.org/en/docs/varindex.html">Nginx 变量列表</a></li>
-<li>设为 <code>header</code> 时, <code>key</code> 为必传参数，其值为自定义的 header name, 即 &quot;http_<code>key</code>&quot;</li>
-<li>设为 <code>cookie</code> 时, <code>key</code> 为必传参数，其值为自定义的 cookie name，即 &quot;cookie_<code>key</code>&quot;</li>
-<li>设为 <code>consumer</code> 时，<code>key</code> 不需要设置。此时哈希算法采用的 <code>key</code> 为认证通过的 <code>consumer_name</code>。</li>
-<li>如果指定的 <code>hash_on</code> 和 <code>key</code> 获取不到值时，就是用默认值：<code>remote_addr</code>。</li>
-</ol>
+<p>APISIX 的 Upstream 除了基本的复杂均衡算法选择外，还支持对上游做主被动健康检查、重试等逻辑，具体看下面的链接。</p>
+<p><a href="https://github.com/apache/apisix/blob/master/doc/admin-api.md#upstream">https://github.com/apache/apisix/blob/master/doc/admin-api.md#upstream</a></p>
 <p>创建上游对象用例：</p>
 <pre><code class="hljs css language-json">curl http://127.0.0.1:9080/apisix/admin/upstreams/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{
-    "type": "roundrobin",
-    "k8s_deployment_info": {
-        "namespace": "test-namespace",
-        "deploy_name": "test-deploy-name",
-        "service_name": "test-service-name",
-        "backend_type": "pod",
-        "port": 8080
-    }
-}'
-
-curl http://127.0.0.1:9080/apisix/admin/upstreams/2 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "type": "chash",
     "key": "remote_addr",

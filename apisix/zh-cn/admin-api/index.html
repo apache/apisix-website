@@ -528,14 +528,13 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><th>名字</th><th>可选项</th><th>类型</th><th>说明</th><th>示例</th></tr>
 </thead>
 <tbody>
-<tr><td>nodes</td><td>与 <code>k8s_deployment_info</code> 二选一</td><td>Node</td><td>哈希表，内部元素的 key 是上游机器地址列表，格式为<code>地址 + Port</code>，其中地址部分可以是 IP 也可以是域名，比如 <code>192.168.1.100:80</code>、<code>foo.com:80</code>等。value 则是节点的权重，特别的，当权重值为 <code>0</code> 有特殊含义，通常代表该上游节点失效，永远不希望被选中。<code>nodes</code> 可以为空，这通常用作占位符。客户端命中这样的上游会返回 502。</td><td><code>192.168.1.100:80</code></td></tr>
-<tr><td>k8s_deployment_info</td><td>与 <code>nodes</code> 二选一</td><td>哈希表</td><td>字段包括 <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>，其中 <code>port</code> 字段为数值，<code>backend_type</code> 为 <code>pod</code> 或 <code>service</code>，其他为字符串</td><td><code>{&quot;namespace&quot;: &quot;test-namespace&quot;, &quot;deploy_name&quot;: &quot;test-deploy-name&quot;, &quot;service_name&quot;: &quot;test-service-name&quot;, &quot;backend_type&quot;: &quot;pod&quot;, &quot;port&quot;: 8080}</code></td></tr>
+<tr><td>nodes</td><td>必需</td><td>Node</td><td>哈希表，内部元素的 key 是上游机器地址列表，格式为<code>地址 + Port</code>，其中地址部分可以是 IP 也可以是域名，比如 <code>192.168.1.100:80</code>、<code>foo.com:80</code>等。value 则是节点的权重，特别的，当权重值为 <code>0</code> 有特殊含义，通常代表该上游节点失效，永远不希望被选中。<code>nodes</code> 可以为空，这通常用作占位符。客户端命中这样的上游会返回 502。</td><td><code>192.168.1.100:80</code></td></tr>
 <tr><td>type</td><td>必需</td><td>枚举</td><td><code>roundrobin</code> 支持权重的负载，<code>chash</code> 一致性哈希，两者是二选一的</td><td><code>roundrobin</code></td><td></td></tr>
 <tr><td>key</td><td>条件必需</td><td>匹配类型</td><td>该选项只有类型是 <code>chash</code> 才有效。根据 <code>key</code> 来查找对应的 node <code>id</code>，相同的 <code>key</code> 在同一个对象中，永远返回相同 id，目前支持的 Nginx 内置变量有 <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>，其中 <code>arg_***</code> 是来自URL的请求参数，<a href="http://nginx.org/en/docs/varindex.html">Nginx 变量列表</a></td><td></td></tr>
 <tr><td>checks</td><td>可选</td><td>health_checker</td><td>配置健康检查的参数，详细可参考<a href="/apisix/health-check">health-check</a></td><td></td></tr>
 <tr><td>retries</td><td>可选</td><td>整型</td><td>使用底层的 Nginx 重试机制将请求传递给下一个上游，默认启用重试且次数为后端 node 数量。如果指定了具体重试次数，它将覆盖默认值。<code>0</code> 代表不启用重试机制</td><td></td></tr>
 <tr><td>timeout</td><td>可选</td><td>超时时间对象</td><td>设置连接、发送消息、接收消息的超时时间</td><td></td></tr>
-<tr><td>hash_on</td><td>可选</td><td>辅助</td><td>该参数作为一致性 hash 的入参</td><td></td></tr>
+<tr><td>hash_on</td><td>可选</td><td>辅助</td><td><code>hash_on</code> 支持的类型有 <code>vars</code>（Nginx内置变量），<code>header</code>（自定义header），<code>cookie</code>，<code>consumer</code>，默认值为 <code>vars</code></td></tr>
 <tr><td>name</td><td>可选</td><td>辅助</td><td>标识上游服务名称、使用场景等。</td><td></td></tr>
 <tr><td>desc</td><td>可选</td><td>辅助</td><td>上游服务描述、使用场景等。</td><td></td></tr>
 <tr><td>pass_host</td><td>可选</td><td>枚举</td><td><code>pass</code> 透传客户端请求的 host, <code>node</code> 不透传客户端请求的 host, 使用 upstream node 配置的 host, <code>rewrite</code> 使用 <code>upstream_host</code> 配置的值重写 host 。</td><td></td></tr>
@@ -545,6 +544,14 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>update_time</td><td>可选</td><td>辅助</td><td>单位为秒的 epoch 时间戳，如果不指定则自动创建</td><td>1602883670</td></tr>
 </tbody>
 </table>
+<p><code>hash_on</code> 比较复杂，这里专门说明下：</p>
+<ol>
+<li>设为 <code>vars</code> 时，<code>key</code> 为必传参数，目前支持的 Nginx 内置变量有 <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>，其中 <code>arg_***</code> 是来自URL的请求参数，<a href="http://nginx.org/en/docs/varindex.html">Nginx 变量列表</a></li>
+<li>设为 <code>header</code> 时, <code>key</code> 为必传参数，其值为自定义的 header name, 即 &quot;http_<code>key</code>&quot;</li>
+<li>设为 <code>cookie</code> 时, <code>key</code> 为必传参数，其值为自定义的 cookie name，即 &quot;cookie_<code>key</code>&quot;</li>
+<li>设为 <code>consumer</code> 时，<code>key</code> 不需要设置。此时哈希算法采用的 <code>key</code> 为认证通过的 <code>consumer_name</code>。</li>
+<li>如果指定的 <code>hash_on</code> 和 <code>key</code> 获取不到值时，就是用默认值：<code>remote_addr</code>。</li>
+</ol>
 <p>upstream 对象 json 配置内容：</p>
 <pre><code class="hljs css language-shell">{
     "id": "1",                  # id
@@ -555,13 +562,6 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
         "read":15,
     },
     "nodes": {"host:80": 100},  # 上游机器地址列表，格式为`地址 + Port`
-    "k8s_deployment_info": {    # k8s deployment 信息
-        "namespace": "test-namespace",
-        "deploy_name": "test-deploy-name",
-        "service_name": "test-service-name",
-        "backend_type": "pod",   # pod or service
-        "port": 8080
-    },
     "type":"roundrobin",        # chash or roundrobin
     "checks": {},               # 配置健康检查的参数
     "hash_on": "",

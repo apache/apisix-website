@@ -519,8 +519,7 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 </thead>
 <tbody>
 <tr><td>type</td><td>required</td><td><code>roundrobin</code> supports the weight of the load, <code>chash</code> consistency hash,<code>ewma</code> minimum latency ,pick one of them.see <a href="https://en.wikipedia.org/wiki/EWMA_chart">https://en.wikipedia.org/wiki/EWMA_chart</a> for details</td></tr>
-<tr><td>nodes</td><td>required if <code>k8s_deployment_info</code> not configured</td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected. The <code>nodes</code> can be empty, which means it is a placeholder and will be filled later. Clients use such an upstream will get 502 response.</td></tr>
-<tr><td>k8s_deployment_info</td><td>required if <code>nodes</code> not configured</td><td>fields: <code>namespace</code>、<code>deploy_name</code>、<code>service_name</code>、<code>port</code>、<code>backend_type</code>, <code>port</code> is number, <code>backend_type</code> is <code>pod</code> or <code>service</code>, others is string.</td></tr>
+<tr><td>nodes</td><td>required</td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected. The <code>nodes</code> can be empty, which means it is a placeholder and will be filled later. Clients use such an upstream will get 502 response.</td></tr>
 <tr><td>hash_on</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Supported types <code>vars</code>(Nginx variables), <code>header</code>(custom header), <code>cookie</code>, <code>consumer</code>, the default value is <code>vars</code>.</td></tr>
 <tr><td>key</td><td>optional</td><td>This option is only valid if the <code>type</code> is <code>chash</code>. Find the corresponding node <code>id</code> according to <code>hash_on</code> and <code>key</code>. When <code>hash_on</code> is set as <code>vars</code>, <code>key</code> is the required parameter, for now, it support nginx built-in variables like <code>uri, server_name, server_addr, request_uri, remote_port, remote_addr, query_string, host, hostname, arg_***</code>, <code>arg_***</code> is arguments in the request line, <a href="http://nginx.org/en/docs/varindex.html">Nginx variables list</a>. When <code>hash_on</code> is set as <code>header</code>, <code>key</code> is the required parameter, and <code>header name</code> is customized. When <code>hash_on</code> is set to <code>cookie</code>, <code>key</code> is the required parameter, and <code>cookie name</code> is customized. When <code>hash_on</code> is set to <code>consumer</code>, <code>key</code> does not need to be set. In this case, the <code>key</code> adopted by the hash algorithm is the <code>consumer_name</code> authenticated. If the specified <code>hash_on</code> and <code>key</code> can not fetch values, it will be fetch <code>remote_addr</code> by default.</td></tr>
 <tr><td>checks</td><td>optional</td><td>Configure the parameters of the health check. For details, refer to <a href="/apisix/health-check">health-check</a>.</td></tr>
@@ -535,6 +534,14 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>update_time</td><td>optional</td><td>epoch timestamp in second, like <code>1602883670</code>, will be created automatically if missing</td></tr>
 </tbody>
 </table>
+<p><code>hash_on</code> can be set to different types:</p>
+<ol>
+<li>when it is <code>vars</code>, the <code>key</code> is required. The <code>key</code> can be any <a href="http://nginx.org/en/docs/varindex.html">Nginx builtin variables</a>, without the prefix '$'.</li>
+<li>when it is <code>header</code>, the <code>key</code> is required. It is equal to &quot;http_<code>key</code>&quot;.</li>
+<li>when it is <code>cookie</code>, the <code>key</code> is required. It is equal to &quot;cookie_<code>key</code>&quot;.</li>
+<li>when it is <code>consumer</code>, the <code>key</code> is optional. The key is the <code>consumer_name</code> set by authentication plugin.</li>
+<li>If there is no value for either <code>hash_on</code> or <code>key</code>, <code>remote_addr</code> will be used as key.</li>
+</ol>
 <p>Config Example:</p>
 <pre><code class="hljs css language-shell">{
     "id": "1",                  # id
@@ -545,13 +552,6 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
         "read":15,
     },
     "nodes": {"host:80": 100},  # Upstream machine address list, the format is `Address + Port`
-    "k8s_deployment_info": {    # kubernetes deployment info
-        "namespace": "test-namespace",
-        "deploy_name": "test-deploy-name",
-        "service_name": "test-service-name",
-        "backend_type": "pod",    # pod or service
-        "port": 8080
-    },
     "type":"roundrobin",        # chash or roundrobin
     "checks": {},               # Health check parameters
     "hash_on": "",
