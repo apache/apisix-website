@@ -98,6 +98,7 @@ these metric data.</p>
 <li><code>Bandwidth</code>: Total Bandwidth (egress/ingress) flowing through apisix. This metric is available per service and as a sum across all services.</li>
 <li><code>etcd reachability</code>: A gauge type with a value of 0 or 1, representing if etcd can be reached by a apisix or not.</li>
 <li><code>Connections</code>: Various Nginx connection metrics like active, reading, writing, and number of accepted connections.</li>
+<li><code>Batch process entries</code>: A gauge type, when we use plugins and the plugin used batch process to send data, such as: sys logger, http logger, sls logger, tcp logger, udp logger and zipkin, then the entries which hasn't been sent in batch process will be counted in the metrics.</li>
 </ul>
 <p>Here is the original metric data of apisix:</p>
 <pre><code class="hljs">$ curl http://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.2</span>:<span class="hljs-number">9080</span>/apisix/prometheus/metrics
@@ -109,6 +110,14 @@ apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span cl
 apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">83</span>
 apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">76</span>
 apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">988</span>
+<span class="hljs-comment"># HELP apisix_batch_process_entries batch process remaining entries</span>
+<span class="hljs-comment"># TYPE apisix_batch_process_entries gauge</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"http-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"sls-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"tcp-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"udp-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"sys-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"zipkin_report"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
 <span class="hljs-comment"># HELP apisix_etcd_reachable Config server etcd reachable from Apisix, 0 is unreachable</span>
 <span class="hljs-comment"># TYPE apisix_etcd_reachable gauge</span>
 apisix_etcd_reachable <span class="hljs-number">1</span>
