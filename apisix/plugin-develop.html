@@ -31,6 +31,8 @@
 <li><a href="#choose-phase-to-run"><strong>choose phase to run</strong></a></li>
 <li><a href="#implement-the-logic"><strong>implement the logic</strong></a></li>
 <li><a href="#write-test-case"><strong>write test case</strong></a></li>
+<li><a href="#register-public-api"><strong>register public API</strong></a></li>
+<li><a href="#register-control-api"><strong>register control API</strong></a></li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="check-dependencies"></a><a href="#check-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>check dependencies</h2>
 <p>if you have dependencies on external libraries, check the dependent items. if your plugin needs to use shared memory, it
@@ -54,23 +56,22 @@ method &quot;http_init&quot; in the file <strong>apisix.lua</strong>, And you ma
 configuration file in <strong>bin/apisix</strong> file. but it is easy to have an impact on the overall situation according to the
 existing plugin mechanism, we do not recommend this unless you have a complete grasp of the code.</p>
 <h2><a class="anchor" aria-hidden="true" id="name-and-config"></a><a href="#name-and-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>name and config</h2>
-<p>determine the name and priority of the plugin, and add to conf/config-default.yaml. For example, for the key-auth plugin,
+<p>Determine the name and priority of the plugin, and add to conf/config-default.yaml. For example, for the example-plugin plugin,
 you need to specify the plugin name in the code (the name is the unique identifier of the plugin and cannot be
-duplicate), you can see the code in file &quot;<strong>apisix/plugins/key-auth.lua</strong>&quot; :</p>
-<pre><code class="hljs css language-lua">   <span class="hljs-keyword">local</span> plugin_name = <span class="hljs-string">"key-auth"</span>
+duplicate), you can see the code in file &quot;<strong>apisix/plugins/example-plugin.lua</strong>&quot; :</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> plugin_name = <span class="hljs-string">"example-plugin"</span>
 
-   <span class="hljs-keyword">local</span> _M = {
-      version = <span class="hljs-number">0.1</span>,
-      priority = <span class="hljs-number">2500</span>,
-      <span class="hljs-built_in">type</span> = <span class="hljs-string">'auth'</span>,
-      name = plugin_name,
-      schema = schema,
-   }
+<span class="hljs-keyword">local</span> _M = {
+    version = <span class="hljs-number">0.1</span>,
+    priority = <span class="hljs-number">0</span>,
+    name = plugin_name,
+    schema = schema,
+    metadata_schema = metadata_schema,
+}
 </code></pre>
-<p>Note : The priority of the new plugin cannot be the same as the priority of any existing plugin. In addition, plugins with a high priority value will be executed first. For example, the priority of basic-auth is 2520 and the priority of ip-restriction is 3000. Therefore, the ip-restriction plugin will be executed first, then the basic-auth plugin.</p>
+<p>Note : The priority of the new plugin cannot be the same as the priority of any existing plugin. In addition, plugins with a high priority value will be executed first in a given phase (see the definition of <code>phase</code> in <a href="#choose-phase-to-run">choose-phase-to-run</a>). For example, the priority of example-plugin is 0 and the priority of ip-restriction is 3000. Therefore, the ip-restriction plugin will be executed first, then the example-plugin plugin.</p>
 <p>in the &quot;<strong>conf/config-default.yaml</strong>&quot; configuration file, the enabled plugins (all specified by plugin name) are listed.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">plugins:</span>                          <span class="hljs-comment"># plugin list</span>
-  <span class="hljs-bullet">-</span> <span class="hljs-string">example-plugin</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">limit-req</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">limit-count</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">limit-conn</span>
@@ -86,6 +87,7 @@ duplicate), you can see the code in file &quot;<strong>apisix/plugins/key-auth.l
   <span class="hljs-bullet">-</span> <span class="hljs-string">openid-connect</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">proxy-rewrite</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">redirect</span>
+  <span class="hljs-string">...</span>
 </code></pre>
 <p>Note : the order of the plugins is not related to the order of execution.</p>
 <p>If your plugin has a new code directory of its own, you will need to modify the <code>Makefile</code> to create directory, such as:</p>
@@ -93,25 +95,32 @@ duplicate), you can see the code in file &quot;<strong>apisix/plugins/key-auth.l
 <span class="hljs-variable">$(</span>INSTALL) apisix/plugins/skywalking/*.lua <span class="hljs-variable">$(</span>INST_LUADIR)/apisix/plugins/skywalking/
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="schema-and-check"></a><a href="#schema-and-check" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>schema and check</h2>
-<p>Write <a href="https://json-schema.org">Json Schema</a> descriptions and check functions. similarly, take the key-auth plugin as an example to see its
+<p>Write <a href="https://json-schema.org">Json Schema</a> descriptions and check functions. Similarly, take the example-plugin plugin as an example to see its
 configuration data :</p>
-<pre><code class="hljs css language-json"> "key-auth" : {
-       "key" : "auth-one"
-  }
+<pre><code class="hljs css language-json">"example-plugin" : {
+    "i": 1,
+    "s": "s",
+    "t": [1]
+}
 </code></pre>
-<p>The configuration data of the plugin is relatively simple. Only one attribute named key is supported. Let's look
-at its schema description :</p>
-<pre><code class="hljs css language-lua">   <span class="hljs-keyword">local</span> schema = {
-       <span class="hljs-built_in">type</span> = <span class="hljs-string">"object"</span>,
-       properties = {
-           key = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"string"</span>},
-       }
-   }
+<p>Let's look at its schema description :</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> schema = {
+    <span class="hljs-built_in">type</span> = <span class="hljs-string">"object"</span>,
+    properties = {
+        i = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"number"</span>, minimum = <span class="hljs-number">0</span>},
+        s = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"string"</span>},
+        t = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"array"</span>, minItems = <span class="hljs-number">1</span>},
+        ip = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"string"</span>},
+        port = {<span class="hljs-built_in">type</span> = <span class="hljs-string">"integer"</span>},
+    },
+    required = {<span class="hljs-string">"i"</span>},
+}
 </code></pre>
+<p>The schema defines a non-negative number <code>i</code>, a string <code>s</code>, a non-empty array of <code>t</code>, and <code>ip</code> / <code>port</code>. Only <code>i</code> is required.</p>
 <p>At the same time, we need to implement the <strong>check_schema(conf)</strong> method to complete the specification verification.</p>
-<pre><code class="hljs css language-lua">   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.check_schema</span><span class="hljs-params">(conf)</span></span>
-       <span class="hljs-keyword">return</span> core.schema.check(schema, conf)
-   <span class="hljs-keyword">end</span>
+<pre><code class="hljs css language-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.check_schema</span><span class="hljs-params">(conf, schema_type)</span></span>
+    <span class="hljs-keyword">return</span> core.schema.check(schema, conf)
+<span class="hljs-keyword">end</span>
 </code></pre>
 <p>Note: the project has provided the public method &quot;<strong>core.schema.check</strong>&quot;, which can be used directly to complete JSON
 verification.</p>
@@ -136,13 +145,52 @@ verification.</p>
     metadata_schema = metadata_schema,
 }
 </code></pre>
+<p>You might have noticed the key-auth plugin has <code>type = 'auth'</code> in its definition.
+When we set the type of plugin to <code>auth</code>, it means that this plugin is an authentication plugin.</p>
+<p>An authentication plugin needs to choose a consumer after execution. For example, in key-auth plugin, it calls the <code>consumer.attach_consumer</code> to attach a consumer, which is chosen via the <code>apikey</code> header.</p>
+<p>To interact with the <code>consumer</code> resource, this type of plugin needs to provide a <code>consumer_schema</code> to check the <code>plugins</code> configuration in the <code>consumer</code>.</p>
+<p>Here is the consumer configuration for key-auth plugin:</p>
+<pre><code class="hljs css language-json">{
+    <span class="hljs-attr">"username"</span>: <span class="hljs-string">"Joe"</span>,
+    <span class="hljs-attr">"plugins"</span>: {
+        <span class="hljs-attr">"key-auth"</span>: {
+            <span class="hljs-attr">"key"</span>: <span class="hljs-string">"Joe's key"</span>
+        }
+    }
+}
+</code></pre>
+<p>It will be used when you try to create a <a href="https://github.com/apache/apisix/blob/master/doc/admin-api.md#consumer">Consumer</a></p>
+<p>To validate the configuration, the plugin uses a schema like this:</p>
+<pre><code class="hljs css language-json">local consumer_schema = {
+    type = "object",
+    additionalProperties = false,
+    properties = {
+        key = {type = "string"},
+    },
+    required = {"key"},
+}
+</code></pre>
+<p>Note the difference between key-auth's <strong>check_schema(conf)</strong> method to example-plugin's:</p>
+<pre><code class="hljs css language-lua"><span class="hljs-comment">-- key-auth</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.check_schema</span><span class="hljs-params">(conf, schema_type)</span></span>
+    <span class="hljs-keyword">if</span> schema_type == core.schema.TYPE_CONSUMER <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">return</span> core.schema.check(consumer_schema, conf)
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> core.schema.check(schema, conf)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+<pre><code class="hljs css language-lua"><span class="hljs-comment">-- example-plugin</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.check_schema</span><span class="hljs-params">(conf, schema_type)</span></span>
+    <span class="hljs-keyword">return</span> core.schema.check(schema, conf)
+<span class="hljs-keyword">end</span>
+</code></pre>
 <h2><a class="anchor" aria-hidden="true" id="choose-phase-to-run"></a><a href="#choose-phase-to-run" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>choose phase to run</h2>
 <p>Determine which phase to run, generally access or rewrite. If you don't know the <a href="https://openresty-reference.readthedocs.io/en/latest/Directives/">Openresty life cycle</a>, it's
 recommended to know it in advance. For example key-auth is an authentication plugin, thus the authentication should be completed
-before forwarding the request to any upstream service. Therefore, the plugin can be executed in the rewrite and access phases.
-In APISIX, the authentication logic is implemented in the rewrite phase. Generally, IP access and interface
-permission are completed in the access phase.</p>
-<p>The following code snippet shows how to implement any logic relevant to the plugin in the Openresty log phase.</p>
+before forwarding the request to any upstream service. Therefore, the plugin must be executed in the rewrite phases.
+In APISIX, only the authentication logic can be run in the rewrite phase. Other logic needs to run before proxy should be in access phase.</p>
+<p>The following code snippet shows how to implement any logic relevant to the plugin in the OpenResty log phase.</p>
 <pre><code class="hljs css language-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.log</span><span class="hljs-params">(conf)</span></span>
 <span class="hljs-comment">-- Implement logic here</span>
 <span class="hljs-keyword">end</span>
@@ -161,7 +209,7 @@ of the real test case. For example, the key-auth plugin :</p>
     location /t {
         content_by_lua_block {
             <span class="hljs-keyword">local</span> plugin = <span class="hljs-keyword">require</span>(<span class="hljs-string">"apisix.plugins.key-auth"</span>)
-            <span class="hljs-keyword">local</span> ok, err = plugin.check_schema({key = <span class="hljs-string">'test-key'</span>})
+            <span class="hljs-keyword">local</span> ok, err = plugin.check_schema({key = <span class="hljs-string">'test-key'</span>}, core.schema.TYPE_CONSUMER)
             <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> ok then
                 ngx.say(err)
             end
@@ -192,7 +240,49 @@ are located in the following folder: 't/servroot/logs'.</p>
 framework will assemble into a complete nginx.conf file. &quot;<strong>t/servroot</strong>&quot; is the working directory of Nginx and start the
 Nginx instance. according to the information provided by the test case, initiate the http request and check that the
 return items of HTTP include HTTP status, HTTP response header, HTTP response body and so on.</p>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#check-dependencies">check dependencies</a></li><li><a href="#name-and-config">name and config</a></li><li><a href="#schema-and-check">schema and check</a></li><li><a href="#choose-phase-to-run">choose phase to run</a></li><li><a href="#implement-the-logic">implement the logic</a></li><li><a href="#write-test-case">write test case</a><ul class="toc-headings"><li><a href="#attach-the-test-nginx-execution-process">Attach the test-nginx execution process:</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+<h3><a class="anchor" aria-hidden="true" id="register-public-api"></a><a href="#register-public-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Register public API</h3>
+<p>A plugin can register API which exposes to the public. Take jwt-auth plugin as an example, this plugin registers <code>GET /apisix/plugin/jwt/sign</code> to allow client to sign its key:</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">gen_token</span><span class="hljs-params">()</span></span>
+    ...
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.api</span><span class="hljs-params">()</span></span>
+    <span class="hljs-keyword">return</span> {
+        {
+            methods = {<span class="hljs-string">"GET"</span>},
+            uri = <span class="hljs-string">"/apisix/plugin/jwt/sign"</span>,
+            handler = gen_token,
+        }
+    }
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>Note that the public API is exposed to the public.
+You may need to use <a href="/apisix/plugin-interceptors">interceptors</a> to protect it.</p>
+<h3><a class="anchor" aria-hidden="true" id="register-control-api"></a><a href="#register-control-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Register control API</h3>
+<p>If you only want to expose the API to the localhost or intranet, you can expose it via <a href="/apisix/control-api">Control API</a>.</p>
+<p>Take a look at example-plugin plugin:</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>
+    <span class="hljs-keyword">local</span> args = ngx.req.get_uri_args()
+    <span class="hljs-keyword">if</span> args[<span class="hljs-string">"json"</span>] <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">200</span>, {msg = <span class="hljs-string">"world"</span>}
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">200</span>, <span class="hljs-string">"world\n"</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.control_api</span><span class="hljs-params">()</span></span>
+    <span class="hljs-keyword">return</span> {
+        {
+            methods = {<span class="hljs-string">"GET"</span>},
+            uris = {<span class="hljs-string">"/v1/plugin/example-plugin/hello"</span>},
+            handler = hello,
+        }
+    }
+<span class="hljs-keyword">end</span>
+</code></pre>
+<p>If you don't change the default control API configuration, the plugin will be expose <code>GET /v1/plugin/example-plugin/hello</code> which can only be accessed via <code>127.0.0.1</code>.</p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#check-dependencies">check dependencies</a></li><li><a href="#name-and-config">name and config</a></li><li><a href="#schema-and-check">schema and check</a></li><li><a href="#choose-phase-to-run">choose phase to run</a></li><li><a href="#implement-the-logic">implement the logic</a></li><li><a href="#write-test-case">write test case</a><ul class="toc-headings"><li><a href="#attach-the-test-nginx-execution-process">Attach the test-nginx execution process:</a></li><li><a href="#register-public-api">Register public API</a></li><li><a href="#register-control-api">Register control API</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2020 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
