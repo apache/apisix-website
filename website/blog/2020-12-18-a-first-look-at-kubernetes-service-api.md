@@ -5,7 +5,7 @@ authorURL: https://github.com/gxthrj
 authorImageURL: https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6d2bf19c426da6498b8888edc96509be649&v=4
 ---  
 
-> [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC & Apache apisix-ingress-controller Founder from [Shenzhen Zhiliu Technology Co.](http://www.apiseven.com/)
+> [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC & Apache apisix-ingress-controller Founder from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
 > Source:
 > * https://github.com/apache/apisix
