@@ -3,13 +3,14 @@ title: "初探 Kubernetes Service APIs"
 author: Wei Jin
 authorURL: https://github.com/gxthrj
 authorImageURL: https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6d2bf19c426da6498b8888edc96509be649&v=4
----  
+---
 
 > [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC & Apache apisix-ingress-controller Founder from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
 > Source:
-> * https://github.com/apache/apisix
-> * https://github.com/apache/apisix-ingress-controller
+>
+> - https://github.com/apache/apisix
+> - https://github.com/apache/apisix-ingress-controller
 
 ## 前言
 
@@ -29,7 +30,7 @@ authorImageURL: https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6d
 
 Kubernetes Service APIs 设计之初，目标并没有局限在 Ingress， 而是为了增强 service networking，着重通过以下几点来增强：表达性、扩展性、RBAC。
 
-1. 更强的表达能力，例如 可以根据header 、weighting 来管理流量
+1. 更强的表达能力，例如 可以根据 header 、weighting 来管理流量
 
 ```text
 kind: HTTPRoute
@@ -49,9 +50,9 @@ matches:
 
 ![api-model](https://kubernetes-sigs.github.io/service-apis/images/api-model.png)
 
-3. 面向角色 RBAC：多层 API 的实现，其中一个思想就是从使用者的角度去设计资源对象。这些资源最终会与 Kubernetes 上运行应用程序的常见角色进行映射。 
+3. 面向角色 RBAC：多层 API 的实现，其中一个思想就是从使用者的角度去设计资源对象。这些资源最终会与 Kubernetes 上运行应用程序的常见角色进行映射。
 
-## Kubernetes Service APIs  抽象出了哪些资源对象？
+## Kubernetes Service APIs 抽象出了哪些资源对象？
 
 Kubernetes Service APIs 基于使用者角色，将定义了以下几种资源：
 
@@ -61,7 +62,7 @@ GatewayClass, Gateway, Route
 
 - 与 Gateway 的关系，类似 ingress 中的 ingess.class annotation；
 
-- GatewayClass 定义了一组共享相同配置和行为的网关。每个GatewayClass将由单个 controller 处理，controller 与 GatewayClass 是一对多的关系；
+- GatewayClass 定义了一组共享相同配置和行为的网关。每个 GatewayClass 将由单个 controller 处理，controller 与 GatewayClass 是一对多的关系；
 
 - GatewayClass 是 cluster 资源。必须至少定义一个 GatewayClass 才能具有功能网关。
 
@@ -75,7 +76,7 @@ GatewayClass, Gateway, Route
 
 - Gateway 与 Route 是多对多的关系；
 
-3. Route 描述了通过网关的流量如何映射到服务。  
+3. Route 描述了通过网关的流量如何映射到服务。
 
 ![schema-uml](https://kubernetes-sigs.github.io/service-apis/images/schema-uml.svg)
 
@@ -91,9 +92,9 @@ Kubernetes Service APIs 作为一种实现标准，带来了以下改变：
 
 2. Class 概念：GatewayClasses 可以配置不同负载均衡实现的类型。这些类 class 使用户可以轻松而明确地了解哪些功能可以用作资源模型本身。
 
-3. 共享网关：通过允许独立的路由资源 HTTPRoute 绑定到同一个 GatewayClass，它们可以共享负载平衡器和VIP。按照使用者分层，这使得团队可以安全地共享基础结构，而无需关心下层 Gateway 的具体实现。
+3. 共享网关：通过允许独立的路由资源 HTTPRoute 绑定到同一个 GatewayClass，它们可以共享负载平衡器和 VIP。按照使用者分层，这使得团队可以安全地共享基础结构，而无需关心下层 Gateway 的具体实现。
 
-4. 带类型的后端引用:  使用带类型的后端引用，路由可以引用Kubernetes Services，也可以引用任何类型的设计为网关后端的Kubernetes资源，比如 pod，又或者是 statefulset 比如 DB， 甚至是可访问的集群外部资源。
+4. 带类型的后端引用: 使用带类型的后端引用，路由可以引用 Kubernetes Services，也可以引用任何类型的设计为网关后端的 Kubernetes 资源，比如 pod，又或者是 statefulset 比如 DB， 甚至是可访问的集群外部资源。
 
 5. 跨命名空间引用：跨不同命名空间的路由可以绑定到 Gateway。允许跨命名空间的互相访问。同时也可以限制某个 Gateway 下的 Route 可以访问的命名空间范围。
 
@@ -101,7 +102,7 @@ Kubernetes Service APIs 作为一种实现标准，带来了以下改变：
 
 目前已知的从代码层面能看到对 Kubernetes Service APIs 资源对象支持的 Ingress 有 Contour, ingress-gce。
 
-## Kubernetes Service APIs  如何管理资源读写权限？
+## Kubernetes Service APIs 如何管理资源读写权限？
 
 Kubernetes Service APIs 按照使用者的维度分为 3 个角色
 
@@ -111,19 +112,19 @@ Kubernetes Service APIs 按照使用者的维度分为 3 个角色
 
 3. 应用开发者 Route
 
-RBAC（基于角色的访问控制）是用于Kubernetes授权的标准。允许用户配置谁可以对特定范围内的资源执行操作。 RBAC可用于启用上面定义的每个角色。
+RBAC（基于角色的访问控制）是用于 Kubernetes 授权的标准。允许用户配置谁可以对特定范围内的资源执行操作。 RBAC 可用于启用上面定义的每个角色。
 
 在大多数情况下，希望所有角色都可以读取所有资源
 
 三层模型的写权限如下。
 
-| | GatewayClass | Gateway | Route |
-| --- | --- | --- | --- |
-| Infrastructure Provider | Yes | Yes | Yes |
-| Cluster Operators | No | Yes | Yes |
-| Application Developers | No | No | Yes |
+|                         | GatewayClass | Gateway | Route |
+| ----------------------- | ------------ | ------- | ----- |
+| Infrastructure Provider | Yes          | Yes     | Yes   |
+| Cluster Operators       | No           | Yes     | Yes   |
+| Application Developers  | No           | No      | Yes   |
 
-## Kubernetes Service APIs  有哪些扩展点？
+## Kubernetes Service APIs 有哪些扩展点？
 
 网关的需求非常丰富，同一个场景实现的方式多种多样，各有利弊。Kubernetes Service APIs 提炼出 多层 资源对象，同时也预留了一些扩展点。
 
@@ -144,5 +145,6 @@ RBAC（基于角色的访问控制）是用于Kubernetes授权的标准。允许
 ---
 
 参考:
-* https://kubernetes-sigs.github.io/service-apis/
-* https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api
+
+- https://kubernetes-sigs.github.io/service-apis/
+- https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api
