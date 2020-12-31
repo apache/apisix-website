@@ -13,7 +13,7 @@ authorImageURL: https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6d
 
 ## 前言
 
-笔者是 Apache APISIX PMC，也是 Apache apisix-ingress-controller Founder, 通过调研和社区交流，打算在 Apache apisix-ingress-controller 的后期版本中逐步支持 Kubernetes Service APIs .
+笔者是 Apache APISIX PMC，也是 Apache APISIX Ingress Controller Founder，通过调研和社区交流，打算在 Apache APISIX Ingress Controller 的后期版本中逐步支持 Kubernetes Service APIs.
 
 我们知道 Kubernetes 为了将集群内部服务暴露出去，有多种方案实现，其中一个比较受大众推崇的就是 Ingress。Ingress 作为一种对外暴露服务的标准，有相当多的第三方实现，每种实现都有各自的技术栈 和 所依赖的网关的影子，相互之间并不兼容。
 
