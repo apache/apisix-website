@@ -158,11 +158,11 @@ Committed revision 37434.
 
 ### Make source code package and upload to Apache SVN
 
-Here's an example of preparing a 1.0-rc1 version. Before you make package, make sure you have branch v1.0 ready on github.
+Here's an example of preparing a 1.0 version. Before you make package, make sure you have branch v1.0 ready on github.
 
 ```sh
-# Create a new version number directory and enter, for example: 1.0-rc1
-$ mkdir 1.0-rc1 && cd 1.0-rc1
+# Create a new version number directory and enter, for example: 1.0
+$ mkdir 1.0 && cd 1.0
 
 # download repo
 git clone -b v1.0 git@github.com:apache/apisix.git apache-apisix-1.0
@@ -174,44 +174,44 @@ $ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
 $ rm -rf apache-apisix-1.0/.git
 
 # make tar package
-$ tar zcvf apache-apisix-1.0-rc1-src.tar.gz apache-apisix-1.0
+$ tar zcvf apache-apisix-1.0-src.tar.gz apache-apisix-1.0
 
 # Signature (this brings up a dialog box that prompts you to enter the password you entered when generating the gpg)
-$ gpg --armor --detach-sign apache-apisix-1.0-rc1-src.tar.gz
+$ gpg --armor --detach-sign apache-apisix-1.0-src.tar.gz
 
 # Generate sha512 checksum file
-$ shasum -a512 apache-apisix-1.0-rc1-src.tar.gz > apache-apisix-1.0-rc1-src.tar.gz.sha512
+$ shasum -a512 apache-apisix-1.0-src.tar.gz > apache-apisix-1.0-src.tar.gz.sha512
 
-# remove apache-apisix-1.0-rc1
+# remove apache-apisix-1.0
 $ rm -rf apache-apisix-1.0
 
 # check files
 $ cd .. && tree
 .
-├── 1.0-rc1
-│   ├── apache-apisix-1.0-rc1-src.tar.gz
-│   ├── apache-apisix-1.0-rc1-src.tar.gz.asc
-│   └── apache-apisix-1.0-rc1-src.tar.gz.sha512
+├── 1.0
+│   ├── apache-apisix-1.0-src.tar.gz
+│   ├── apache-apisix-1.0-src.tar.gz.asc
+│   └── apache-apisix-1.0-src.tar.gz.sha512
 └── KEYS
 
 1 directory, 4 files
 
 # add files to SVN
 $ svn add *
-A         1.0-rc1
-A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.asc
-A  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz
-A         1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.sha512
+A         1.0
+A  (bin)  1.0/apache-apisix-1.0-src.tar.gz.asc
+A  (bin)  1.0/apache-apisix-1.0-src.tar.gz
+A         1.0/apache-apisix-1.0-src.tar.gz.sha512
 svn: warning: W150002: '/home/resty/git/apache_svn/apisix/KEYS' is already under version control
 svn: E200009: Could not add all targets because some targets are already versioned
 svn: E200009: Illegal target for the requested operation
 
 # commit to Apache SVN
-$ svn --username=${Apache username} commit -m "release 1.0-rc1"
-Adding         1.0-rc1
-Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz
-Adding  (bin)  1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.asc
-Adding         1.0-rc1/apache-apisix-1.0-rc1-src.tar.gz.sha512
+$ svn --username=${Apache username} commit -m "release 1.0"
+Adding         1.0
+Adding  (bin)  1.0/apache-apisix-1.0-src.tar.gz
+Adding  (bin)  1.0/apache-apisix-1.0-src.tar.gz.asc
+Adding         1.0/apache-apisix-1.0-src.tar.gz.sha512
 Transmitting file data ...
 Committed revision 37435.
 ```
@@ -230,7 +230,7 @@ Click [here](https://lists.apache.org/thread.html/r6e90ffb7964314605c082ac3ae204
 
 ### Move package from dev to dist
 
-Remove `rc` from the package name, move KEYS and package to address
+Move KEYS and package to `release` branch.
 
 ### Update Download page
 
