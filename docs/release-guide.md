@@ -173,14 +173,9 @@ $ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
 # delete .git
 $ rm -rf apache-apisix-1.0/.git
 
-# make tar package
-$ tar zcvf apache-apisix-1.0-src.tar.gz apache-apisix-1.0
-
-# Signature (this brings up a dialog box that prompts you to enter the password you entered when generating the gpg)
-$ gpg --armor --detach-sign apache-apisix-1.0-src.tar.gz
-
-# Generate sha512 checksum file
-$ shasum -a512 apache-apisix-1.0-src.tar.gz > apache-apisix-1.0-src.tar.gz.sha512
+# make tar package / asc / sha512
+$ cd apache-apisix-1.0 && make release-src VERSION=1.0 
+$ mv ./release/* ../ && cd ..
 
 # remove apache-apisix-1.0
 $ rm -rf apache-apisix-1.0
