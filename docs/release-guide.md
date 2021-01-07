@@ -162,23 +162,24 @@ Here's an example of preparing a 1.0 version. Before you make package, make sure
 
 ```sh
 # Create a new version number directory and enter, for example: 1.0
-$ mkdir 1.0 && cd 1.0
+$ export APISIX_VERSION=1.0
+$ mkdir $APISIX_VERSION && cd $APISIX_VERSION
 
 # download repo
-git clone -b v1.0 git@github.com:apache/apisix.git apache-apisix-1.0
+git clone -b v$APISIX_VERSION git@github.com:apache/apisix.git apache-apisix-$APISIX_VERSION
 
 # check version
-$ cd apache-apisix-1.0 && ./utils/check-version.sh 1.0 && cd ..
+$ cd apache-apisix-$APISIX_VERSION && ./utils/check-version.sh $APISIX_VERSION && cd ..
 
 # delete .git
-$ rm -rf apache-apisix-1.0/.git
+$ rm -rf apache-apisix-$APISIX_VERSION/.git
 
 # make tar package / asc / sha512
-$ cd apache-apisix-1.0 && make release-src VERSION=1.0 
+$ cd apache-apisix-$APISIX_VERSION && make release-src VERSION=$APISIX_VERSION
 $ mv ./release/* ../ && cd ..
 
 # remove apache-apisix-1.0
-$ rm -rf apache-apisix-1.0
+$ rm -rf apache-apisix-$APISIX_VERSION
 
 # check files
 $ cd .. && tree
