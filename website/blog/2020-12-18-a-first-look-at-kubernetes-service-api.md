@@ -138,7 +138,7 @@ RBAC（基于角色的访问控制）是用于 Kubernetes 授权的标准。允�
 
 - Custom Route 以上扩展点都不能满足时，可以完全自定义一个 Route。
 
-# 总结
+## 总结
 
 本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。当然，项目初期也有不足的地方，目前 Kubernetes Service APIs 虽然已经从大的层面上规定了资源对象，但资源对象内部还有不少细节需要讨论之后再确定，以防止可能出现的冲突场景，结构上存在一定变数。
 
