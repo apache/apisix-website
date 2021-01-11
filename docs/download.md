@@ -26,6 +26,12 @@ Use the links below to download the Apache APISIX™ from one of our mirrors.
 | ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0.1.0-rc2     | 24/12/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz) ([asc](https://downloads.apache.org/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz.asc) [sha512](https://downloads.apache.org/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz.sha512)) |
 
+## All Releases
+
+Find all APISIX releases in the [Archive repository](https://archive.apache.org/dist/apisix/).
+
+[Incubating Archive repository](https://archive.apache.org/dist/incubator/apisix/) hosts older releases when APISIX was an incubator project.
+
 ## Verify the releases
 
 [PGP signatures KEYS](https://downloads.apache.org/apisix/KEYS)
