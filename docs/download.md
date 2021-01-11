@@ -2,6 +2,7 @@
 id: downloads
 title: Downloads
 ---
+
 Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.
 
 Apache APISIX software provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
@@ -10,21 +11,22 @@ Use the links below to download the Apache APISIX™ from one of our mirrors.
 
 ## APISIX™
 
-| Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                             |
-| ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.2     | 08/01/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/2.2/apache-apisix-2.2-src.tgz) ([asc](https://downloads.apache.org/apisix/2.2/apache-apisix-2.2-src.tgz.asc) [sha512](https://downloads.apache.org/apisix/2.2/apache-apisix-2.2-src.tgz.sha512))
+| Version | Release Date | Downloads                                                                                                                                                                                                                                              |
+| ------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2.2     | 08/01/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/2.2/apache-apisix-2.2-src.tgz) ([asc](https://downloads.apache.org/apisix/2.2/apache-apisix-2.2-src.tgz.asc) [sha512](https://downloads.apache.org/apisix/2.2/apache-apisix-2.2-src.tgz.sha512)) |
 
 ## APISIX™ Dashboard
 
-| Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                       |
-| ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                                               |
+| ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2.3     | 11/01/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/dashboard/2.3/apisix-dashboard-2.3-src.tgz) ([asc](https://www.apache.org/dyn/closer.cgi/apisix/dashboard/2.3/apisix-dashboard-2.3-src.tgz.asc) [sha512](https://www.apache.org/dyn/closer.cgi/apisix/dashboard/2.3/apisix-dashboard-2.3-src.tgz.sha512))                         |
 | 2.2     | 16/12/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix-dashboard-2.2/apache-apisix-dashboard-2.2-src.tgz) ([asc](https://downloads.apache.org/apisix/apisix-dashboard-2.2/apache-apisix-dashboard-2.2-src.tgz.asc) [sha512](https://downloads.apache.org/apisix/apisix-dashboard-2.2/apache-apisix-dashboard-2.2-src.tgz.sha512)) |
 
 ## APISIX™ Ingress Controller
 
-| Version | Release Date | Downloads                                                                                                                                                                                                                                                                                                       |
-| ------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1.0-rc2     | 24/12/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz) ([asc](https://downloads.apache.org/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz.asc) [sha512](https://downloads.apache.org/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz.sha512)) |
+| Version   | Release Date | Downloads                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| --------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0.1.0-rc2 | 24/12/2020   | [source](https://www.apache.org/dyn/closer.cgi/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz) ([asc](https://downloads.apache.org/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz.asc) [sha512](https://downloads.apache.org/apisix/apisix-ingress-controller-0.1.0/apache-apisix-ingress-controller-0.1.0-rc2-src.tar.gz.sha512)) |
 
 ## All Releases
 
