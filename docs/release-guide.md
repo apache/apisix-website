@@ -33,7 +33,7 @@ gpg --gen-key
 
 Follow the instructions to generate key：
 
-Note: Please use Apache email address to generate the GPG Key.
+Note: Please use the Apache email address to generate the GPG Key.
 
 ```sh
 gpg (GnuPG) 2.0.12; Copyright (C) 2009 Free Software Foundation, Inc.
@@ -102,7 +102,7 @@ $ gpg --keyserver hkp://pool.sks-keyservers.net --send-key 30B5FD72
 gpg: sending key 30B5FD72 to hkp server pool.sks-keyservers.net
 ```
 
-`pool.sks-keyservers.net` is one of pub key servers,the pub key will be automatically synchronized between each server, just choose any one.
+`pool.sks-keyservers.net` is one of the pub key servers, the pub key will be automatically synchronized between each server, just choose anyone.
 
 ### Add `Key Fingerprint` to id.apache.org
 
@@ -138,7 +138,7 @@ $ ls
 KEYS
 ```
 
-Export the public key and append to the KEYS file.
+Export the public key and append it to the KEYS file.
 
 ```sh
 $ gpg -a --export ${GPG username} >> KEYS
@@ -152,13 +152,13 @@ Authentication realm: <https://dist.apache.org:443> ASF Committers
 Password for 'membphis': # input password
 Store password unencrypted (yes/no)? yes
 Sending KEYS
-Transmitting file data .
+Transmitting file data.
 Committed revision 37434.
 ```
 
 ### Make source code package and upload to Apache SVN
 
-Here's an example of preparing a 1.0 version. Before you make package, make sure you have branch v1.0 ready on github.
+Here's an example of preparing a 1.0 version. Before you make the package, make sure you have branch v1.0 ready on GitHub.
 
 ```sh
 # Create a new version number directory and enter, for example: 1.0
@@ -212,22 +212,22 @@ Transmitting file data ...
 Committed revision 37435.
 ```
 
-### Send VOTE thread to dev mailinglist
+### Send VOTE thread to the dev mailing list
 
-Click [here](https://lists.apache.org/thread.html/rf534952a6b2d23ed6efdd61f15b40fa9e4de230164a1ccf168176734%40%3Cdev.apisix.apache.org%3E) to view the reference emailThere is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue.
+Click [here](https://lists.apache.org/thread.html/rf534952a6b2d23ed6efdd61f15b40fa9e4de230164a1ccf168176734%40%3Cdev.apisix.apache.org%3E) to view the reference email. There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue.
 
-### Send VOTE RESULT thread to dev mailinglist
+### Send VOTE RESULT thread to the dev mailing list
 
 Click [here](https://lists.apache.org/thread.html/r9153da737a4590dbbba7272acc004cf4bc7abefa488069810d790643%40%3Cdev.apisix.apache.org%3E) to view the reference email at least 3 `+1` [binding votes](https://www.apache.org/foundation/voting.html#binding-votes) is required, then send the vote result to dev@apisix.apache.org.
+
+### Move package from dev to dist
+
+Invite [PMCs](https://apisix.apache.org/team/) to move KEYS and package under the [`release`](https://dist.apache.org/repos/dist/release/apisix/) directory.
+
+### Update Download page
+
+The [Download](https://github.com/apache/apisix-website) page contains links for Apache APISIX, Apache APISIX Dashboard, and other sources, and we need to update its contents [here](https://github.com/apache/apisix-website/blob/master/docs/download.md).
 
 ### Send ANNOUNCE
 
 Click [here](https://lists.apache.org/thread.html/r6e90ffb7964314605c082ac3ae204303ad94f0f71087542c33fcd7bf%40%3Cdev.apisix.apache.org%3E) to view the reference email send announce email to dev@apisix.apache.org and announce@apache.org
-
-### Move package from dev to dist
-
-Move KEYS and package to `release` branch.
-
-### Update Download page
-
-update address , source repo is https://github.com/apache/apisix-website
