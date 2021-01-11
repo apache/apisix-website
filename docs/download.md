@@ -55,13 +55,13 @@ pgp -ka KEYS
 To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide.
 
 ```sh
-gpg --verify apache-apisix-**\*\*\*\***.asc apache-apisix-****\*****
+gpg --verify apache-apisix-********.asc apache-apisix-********
 
 or
 
-pgpv apache-apisix-**\*\*\*\***.asc
+pgpv apache-apisix-********.asc
 
 or
 
-pgp apache-apisix-**\*\*\*\***.asc
+pgp apache-apisix-********.asc
 ```
