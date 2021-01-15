@@ -43,11 +43,10 @@ jobs:
           find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
           find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
 
-      - name: GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v2.0.1
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
-          build_dir: website/build/apisix-website
-          target_branch: asf-site
-          keep_history: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: website/build/apisix-website
+          publish_branch: asf-site
