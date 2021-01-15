@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/discovery · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/discovery · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscribe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/discovery</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+[Chinese](/apisix/zh-cn/discovery)
+<h1><a class="anchor" aria-hidden="true" id="integration-service-discovery-registry"></a><a href="#integration-service-discovery-registry" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration service discovery registry</h1>
+<ul>
+<li><a href="#Summary"><strong>Summary</strong></a></li>
+<li><a href="#how-extend-the-discovery-client"><strong>How extend the discovery client?</strong></a>
+<ul>
+<li><a href="#basic-steps"><strong>Basic steps</strong></a></li>
+<li><a href="#the-example-of-eureka"><strong>the example of Eureka</strong></a>
+<ul>
+<li><a href="#implementation-of-eurekalua"><strong>Implementation of eureka.lua</strong></a></li>
+<li><a href="#how-convert-eurekas-instance-data-to-apisixs-node"><strong>How convert Eureka's instance data to APISIX's node?</strong></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#configuration-for-discovery-client"><strong>Configuration for discovery client</strong></a>
+<ul>
+<li><a href="#initial-service-discovery"><strong>Initial service discovery</strong></a></li>
+<li><a href="#configuration-for-eureka"><strong>Configuration for Eureka</strong></a></li>
+</ul></li>
+<li><a href="#upstream-setting"><strong>Upstream setting</strong></a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="summary"></a><a href="#summary" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Summary</h2>
+<p>When system traffic changes, the number of servers of the upstream service also increases or decreases, or the server needs to be replaced due to its hardware failure. If the gateway maintains upstream service information through configuration, the maintenance costs in the microservices architecture pattern are unpredictable. Furthermore, due to the untimely update of these information, will also bring a certain impact for the business, and the impact of human error operation can not be ignored. So it is very necessary for the gateway to automatically get the latest list of service instances through the service registry。As shown in the figure below：</p>
+<p><img src="https://apisix.apache.org/images/discovery.png" alt=""></p>
+<ol>
+<li>When the service starts, it will report some of its information, such as the service name, IP, port and other information to the registry. The services communicate with the registry using a mechanism such as a heartbeat, and if the registry and the service are unable to communicate for a long time, the instance will be cancel.When the service goes offline, the registry will delete the instance information.</li>
+<li>The gateway gets service instance information from the registry in near-real time.</li>
+<li>When the user requests the service through the gateway, the gateway selects one instance from the registry for proxy.</li>
+</ol>
+<p>Common registries: Eureka, Etcd, Consul, Zookeeper, Nacos etc.</p>
+<h2><a class="anchor" aria-hidden="true" id="how-extend-the-discovery-client"></a><a href="#how-extend-the-discovery-client" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How extend the discovery client?</h2>
+<h3><a class="anchor" aria-hidden="true" id="basic-steps"></a><a href="#basic-steps" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic steps</h3>
+<p>It is very easy for APISIX to extend the discovery client, the basic steps are as follows</p>
+<ol>
+<li><p>Add the implementation of registry client in the 'apisix/discovery/' directory;</p></li>
+<li><p>Implement the <code>_M. init_worker()</code> function for initialization and the <code>_M. nodes(service_name)</code> function for obtaining the list of service instance nodes;</p></li>
+<li><p>Convert the registry data into data in APISIX;</p></li>
+</ol>
+<h3><a class="anchor" aria-hidden="true" id="the-example-of-eureka"></a><a href="#the-example-of-eureka" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>the example of Eureka</h3>
+<h4><a class="anchor" aria-hidden="true" id="implementation-of-eurekalua"></a><a href="#implementation-of-eurekalua" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Implementation of eureka.lua</h4>
+<p>First, add <a href="../apisix/discovery/eureka.lua"><code>eureka.lua</code></a> in the <code>apisix/discovery/</code> directory;</p>
+<p>Then implement the <code>_M.init_worker()</code> function for initialization and the <code>_M.nodes(service_name)</code> function for obtaining the list of service instance nodes in <code>eureka.lua</code>:</p>
+<pre><code class="hljs css language-lua"><span class="hljs-keyword">local</span> _M = {
+    version = <span class="hljs-number">1.0</span>,
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.nodes</span><span class="hljs-params">(service_name)</span></span>
+    ... ...
+<span class="hljs-keyword">end</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_M.init_worker</span><span class="hljs-params">()</span></span>
+    ... ...
+<span class="hljs-keyword">end</span>
+
+
+<span class="hljs-keyword">return</span> _M
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="how-convert-eurekas-instance-data-to-apisixs-node"></a><a href="#how-convert-eurekas-instance-data-to-apisixs-node" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How convert Eureka's instance data to APISIX's node?</h4>
+<p>Here's an example of Eureka's data：</p>
+<pre><code class="hljs css language-json">{
+  "applications": {
+      "application": [
+          {
+              "name": "USER-SERVICE",                 # service name
+              "instance": [
+                  {
+                      "instanceId": "192.168.1.100:8761",
+                      "hostName": "192.168.1.100",
+                      "app": "USER-SERVICE",          # service name
+                      "ipAddr": "192.168.1.100",      # IP address
+                      "status": "UP",
+                      "overriddenStatus": "UNKNOWN",
+                      "port": {
+                          "$": 8761,
+                          "@enabled": "true"
+                      },
+                      "securePort": {
+                          "$": 443,
+                          "@enabled": "false"
+                      },
+                      "metadata": {
+                          "management.port": "8761",
+                          "weight": 100               # Setting by 'eureka.instance.metadata-map.weight' of the spring boot application
+                      },
+                      "homePageUrl": "http://192.168.1.100:8761/",
+                      "statusPageUrl": "http://192.168.1.100:8761/actuator/info",
+                      "healthCheckUrl": "http://192.168.1.100:8761/actuator/health",
+                      ... ...
+                  }
+              ]
+          }
+      ]
+  }
+}
+</code></pre>
+<p>Deal with the Eureka's instance data need the following steps :</p>
+<ol>
+<li>select the UP instance. When the value of <code>overriddenStatus</code> is &quot;UP&quot; or the value of <code>overriddenStatus</code> is &quot;UNKNOWN&quot; and the value of <code>status</code> is &quot;UP&quot;.</li>
+<li>Host. The <code>ipAddr</code> is the IP address of instance; and must be IPv4 or IPv6.</li>
+<li>Port. If the value of <code>port[&quot;@enabled&quot;]</code> is equal to &quot;true&quot;, using the value of <code>port[&quot;\$&quot;]</code>, If the value of <code>securePort[&quot;@enabled&quot;]</code> is equal to &quot;true&quot;, using the value of <code>securePort[&quot;\$&quot;]</code>.</li>
+<li>Weight. <code>local weight = metadata.weight or local_conf.eureka.weight or 100</code></li>
+</ol>
+<p>The result of this example is as follows:</p>
+<pre><code class="hljs css language-json">[
+  {
+    <span class="hljs-attr">"host"</span> : <span class="hljs-string">"192.168.1.100"</span>,
+    <span class="hljs-attr">"port"</span> : <span class="hljs-number">8761</span>,
+    <span class="hljs-attr">"weight"</span> : <span class="hljs-number">100</span>,
+    <span class="hljs-attr">"metadata"</span> : {
+      <span class="hljs-attr">"management.port"</span>: <span class="hljs-string">"8761"</span>,
+    }
+  }
+]
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="configuration-for-discovery-client"></a><a href="#configuration-for-discovery-client" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for discovery client</h2>
+<h3><a class="anchor" aria-hidden="true" id="initial-service-discovery"></a><a href="#initial-service-discovery" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Initial service discovery</h3>
+<p>Add the following configuration to <code>conf/config.yaml</code> to add different service discovery clients for dynamic selection during use:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">discovery:</span>
+  <span class="hljs-attr">eureka:</span>
+      <span class="hljs-string">...</span>
+</code></pre>
+<p>This name should be consistent with the file name of the implementation registry in the <code>apisix/discovery/</code> directory.</p>
+<p>The supported discovery client: Eureka.</p>
+<h3><a class="anchor" aria-hidden="true" id="configuration-for-eureka"></a><a href="#configuration-for-eureka" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for Eureka</h3>
+<p>Add following configuration in <code>conf/config.yaml</code> ：</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">discovery:</span>
+  <span class="hljs-attr">eureka:</span>
+    <span class="hljs-attr">host:</span>                            <span class="hljs-comment"># it's possible to define multiple eureka hosts addresses of the same eureka cluster.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"http://${username}:${password}@${eureka_host1}:${eureka_port1}"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"http://${username}:${password}@${eureka_host2}:${eureka_port2}"</span>
+    <span class="hljs-attr">prefix:</span> <span class="hljs-string">"/eureka/"</span>
+    <span class="hljs-attr">fetch_interval:</span> <span class="hljs-number">30</span>               <span class="hljs-comment"># 30s</span>
+    <span class="hljs-attr">weight:</span> <span class="hljs-number">100</span>                      <span class="hljs-comment"># default weight for node</span>
+    <span class="hljs-attr">timeout:</span>
+      <span class="hljs-attr">connect:</span> <span class="hljs-number">2000</span>                  <span class="hljs-comment"># 2000ms</span>
+      <span class="hljs-attr">send:</span> <span class="hljs-number">2000</span>                     <span class="hljs-comment"># 2000ms</span>
+      <span class="hljs-attr">read:</span> <span class="hljs-number">5000</span>                     <span class="hljs-comment"># 5000ms</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="upstream-setting"></a><a href="#upstream-setting" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Upstream setting</h2>
+<p>Here is an example of routing a request with a URL of &quot;/user/*&quot; to a service which named &quot;user-service&quot; and use eureka discovery client in the registry :</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "uri": "/user/*",
+    "upstream": {
+        "service_name": "USER-SERVICE",
+        "type": "roundrobin",
+        "discovery_type": "eureka"
+    }
+}'
+
+HTTP/1.1 201 Created
+Date: Sat, 31 Aug 2019 01:17:15 GMT
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: APISIX web server
+
+{"node":{"value":{"uri":"\/user\/*","upstream": {"service_name": "USER-SERVICE", "type": "roundrobin", "discovery_type": "eureka"}},"createdIndex":61925,"key":"\/apisix\/routes\/1","modifiedIndex":61925},"action":"create"}
+</code></pre>
+<p>Because the upstream interface URL may have conflict, usually in the gateway by prefix to distinguish:</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl http://127.0.0.1:9080/apisix/admin/routes/1 -H <span class="hljs-string">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span> -X PUT -i -d <span class="hljs-string">'</span></span>
+{
+    "uri": "/a/*",
+    "plugins": {
+        "proxy-rewrite" : {
+            regex_uri: ["^/a/(.*)", "/${1}"]
+        }
+    }
+    "upstream": {
+        "service_name": "A-SERVICE",
+        "type": "roundrobin",
+        "discovery_type": "eureka"
+    }
+}'
+<span class="hljs-meta">
+$</span><span class="bash"><span class="hljs-string"> curl http://127.0.0.1:9080/apisix/admin/routes/2 -H '</span>X-API-KEY: edd1c9f034335f136f87ad84b625c8f1<span class="hljs-string">' -X PUT -i -d '</span></span>
+{
+    "uri": "/b/*",
+    "plugins": {
+        "proxy-rewrite" : {
+            regex_uri: ["^/b/(.*)", "/${1}"]
+        }
+    }
+    "upstream": {
+        "service_name": "B-SERVICE",
+        "type": "roundrobin",
+        "discovery_type": "eureka"
+    }
+}'
+</code></pre>
+<p>Suppose both A-SERVICE and B-SERVICE provide a <code>/test</code> API. The above configuration allows access to A-SERVICE's <code>/test</code> API through <code>/a/test</code> and B-SERVICE's <code>/test</code> API through <code>/b/test</code>.</p>
+<p><strong>Notice</strong>：When configuring <code>upstream.service_name</code>,  <code>upstream.nodes</code> will no longer take effect, but will be replaced by 'nodes' obtained from the registry.</p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#summary">Summary</a></li><li><a href="#how-extend-the-discovery-client">How extend the discovery client?</a><ul class="toc-headings"><li><a href="#basic-steps">Basic steps</a></li><li><a href="#the-example-of-eureka">the example of Eureka</a></li></ul></li><li><a href="#configuration-for-discovery-client">Configuration for discovery client</a><ul class="toc-headings"><li><a href="#initial-service-discovery">Initial service discovery</a></li><li><a href="#configuration-for-eureka">Configuration for Eureka</a></li></ul></li><li><a href="#upstream-setting">Upstream setting</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

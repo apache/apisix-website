@@ -1,0 +1,190 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/plugins/prometheus · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/plugins/prometheus · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscribe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/plugins/prometheus</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<ul>
+<li><a href="/apisix/zh-cn/plugins/prometheus">中文</a></li>
+</ul>
+<h1><a class="anchor" aria-hidden="true" id="prometheus"></a><a href="#prometheus" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>prometheus</h1>
+<p>This plugin exposes metrics in Prometheus Exposition format.</p>
+<h2><a class="anchor" aria-hidden="true" id="attributes"></a><a href="#attributes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attributes</h2>
+<p>none.</p>
+<h2><a class="anchor" aria-hidden="true" id="api"></a><a href="#api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API</h2>
+<p>This plugin will add <code>/apisix/prometheus/metrics</code> to expose the metrics.
+You may need to use <a href="/apisix/plugin-interceptors">interceptors</a> to protect it.</p>
+<h2><a class="anchor" aria-hidden="true" id="how-to-enable-it"></a><a href="#how-to-enable-it" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to enable it</h2>
+<p><code>prometheus</code> plugin can be enable with empty table, because it doesn't have
+any options yet.</p>
+<p>For example:</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/hello",
+    "plugins": {
+        "prometheus":{}
+    },
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:80": 1
+        }
+    }
+}'
+</code></pre>
+<p>You can open dashboard with a browser: <code>http://127.0.0.1:9080/apisix/dashboard/</code>, to complete the above operation through the web interface, first add a route:</p>
+<p><img src="https://apisix.apache.org/images/plugin/prometheus-1.png" alt=""></p>
+<p>Then add prometheus plugin:</p>
+<p><img src="https://apisix.apache.org/images/plugin/prometheus-2.png" alt=""></p>
+<h2><a class="anchor" aria-hidden="true" id="how-to-fetch-the-metric-data"></a><a href="#how-to-fetch-the-metric-data" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to fetch the metric data</h2>
+<p>We fetch the metric data from the specified url <code>/apisix/prometheus/metrics</code>.</p>
+<pre><code class="hljs">curl -i <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/127.0.0.1:9080/apisix</span><span class="hljs-regexp">/prometheus/metrics</span>
+</code></pre>
+<p>Puts this URL address into prometheus, and it will automatically fetch
+these metric data.</p>
+<p>For example like this:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">scrape_configs:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">'apisix'</span>
+    <span class="hljs-attr">metrics_path:</span> <span class="hljs-string">'/apisix/prometheus/metrics'</span>
+    <span class="hljs-attr">static_configs:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> <span class="hljs-string">['127.0.0.1:9080']</span>
+</code></pre>
+<p>And we can check the status at prometheus console:</p>
+<p><img src="https://apisix.apache.org/images/plugin/prometheus01.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/plugin/prometheus02.png" alt=""></p>
+<h2><a class="anchor" aria-hidden="true" id="how-to-specify-export-uri"></a><a href="#how-to-specify-export-uri" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to specify export uri</h2>
+<p>We can change the default export uri in the <code>plugin_attr</code> section of <code>conf/config.yaml</code>.</p>
+<table>
+<thead>
+<tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>export_uri</td><td>string</td><td>&quot;/apisix/prometheus/metrics&quot;</td><td>uri to get the prometheus metrics</td></tr>
+</tbody>
+</table>
+<p>Here is an example:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">plugin_attr:</span>
+  <span class="hljs-attr">prometheus:</span>
+    <span class="hljs-attr">export_uri:</span> <span class="hljs-string">/apisix/metrics</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="grafana-dashboard"></a><a href="#grafana-dashboard" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Grafana dashboard</h3>
+<p>Metrics exported by the plugin can be graphed in Grafana using a drop in dashboard.</p>
+<p>Downloads <a href="../json/apisix-grafana-dashboard.json">Grafana dashboard meta</a> and imports it to Grafana。</p>
+<p>Or you can goto <a href="https://grafana.com/grafana/dashboards/11719">Grafana official</a> for <code>Grafana</code> meta data.</p>
+<p><img src="https://apisix.apache.org/images/plugin/grafana_1.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/plugin/grafana_2.png" alt=""></p>
+<p><img src="https://apisix.apache.org/images/plugin/grafana_3.png" alt=""></p>
+<h3><a class="anchor" aria-hidden="true" id="available-metrics"></a><a href="#available-metrics" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Available metrics</h3>
+<ul>
+<li><code>Status codes</code>: HTTP status codes returned by upstream services. These are available per service and across all services.</li>
+<li><code>Bandwidth</code>: Total Bandwidth (egress/ingress) flowing through apisix. This metric is available per service and as a sum across all services.</li>
+<li><code>etcd reachability</code>: A gauge type with a value of 0 or 1, representing if etcd can be reached by a apisix or not.</li>
+<li><code>Connections</code>: Various Nginx connection metrics like active, reading, writing, and number of accepted connections.</li>
+<li><code>Batch process entries</code>: A gauge type, when we use plugins and the plugin used batch process to send data, such as: sys logger, http logger, sls logger, tcp logger, udp logger and zipkin, then the entries which hasn't been sent in batch process will be counted in the metrics.</li>
+<li><code>Latency</code>: The per service histogram of request time and the overhead added by APISIX (request time - upstream response time).</li>
+<li><code>Info</code>: the information of APISIX node.</li>
+</ul>
+<p>Here is the original metric data of apisix:</p>
+<pre><code class="hljs">$ curl http://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">9080</span>/apisix/prometheus/metrics
+<span class="hljs-comment"># HELP apisix_bandwidth Total bandwidth in bytes consumed per service in Apisix</span>
+<span class="hljs-comment"># TYPE apisix_bandwidth counter</span>
+apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">183</span>
+apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">183</span>
+apisix_bandwidth{type=<span class="hljs-string">"egress"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">2379</span>
+apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">83</span>
+apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">76</span>
+apisix_bandwidth{type=<span class="hljs-string">"ingress"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">988</span>
+<span class="hljs-comment"># HELP apisix_batch_process_entries batch process remaining entries</span>
+<span class="hljs-comment"># TYPE apisix_batch_process_entries gauge</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"http-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"sls-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"tcp-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"udp-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"sys-logger"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+apisix_batch_process_entries{name=<span class="hljs-string">"zipkin_report"</span>,route_id=<span class="hljs-string">"9"</span>,server_addr=<span class="hljs-string">"127.0.0.1"</span>} <span class="hljs-number">1</span>
+<span class="hljs-comment"># HELP apisix_etcd_reachable Config server etcd reachable from Apisix, 0 is unreachable</span>
+<span class="hljs-comment"># TYPE apisix_etcd_reachable gauge</span>
+apisix_etcd_reachable <span class="hljs-number">1</span>
+<span class="hljs-comment"># HELP apisix_http_status HTTP status codes per service in Apisix</span>
+<span class="hljs-comment"># TYPE apisix_http_status counter</span>
+apisix_http_status{code=<span class="hljs-string">"200"</span>,service=<span class="hljs-string">"127.0.0.2"</span>} <span class="hljs-number">1</span>
+apisix_http_status{code=<span class="hljs-string">"200"</span>,service=<span class="hljs-string">"bar.com"</span>} <span class="hljs-number">1</span>
+apisix_http_status{code=<span class="hljs-string">"200"</span>,service=<span class="hljs-string">"foo.com"</span>} <span class="hljs-number">13</span>
+<span class="hljs-comment"># HELP apisix_nginx_http_current_connections Number of HTTP connections</span>
+<span class="hljs-comment"># TYPE apisix_nginx_http_current_connections gauge</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"accepted"</span>} <span class="hljs-number">11994</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"active"</span>} <span class="hljs-number">2</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"handled"</span>} <span class="hljs-number">11994</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"reading"</span>} <span class="hljs-number">0</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"total"</span>} <span class="hljs-number">1191780</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"waiting"</span>} <span class="hljs-number">1</span>
+apisix_nginx_http_current_connections{<span class="hljs-keyword">state</span>=<span class="hljs-string">"writing"</span>} <span class="hljs-number">1</span>
+<span class="hljs-comment"># HELP apisix_nginx_metric_errors_total Number of nginx-lua-prometheus errors</span>
+<span class="hljs-comment"># TYPE apisix_nginx_metric_errors_total counter</span>
+apisix_nginx_metric_errors_total <span class="hljs-number">0</span>
+<span class="hljs-comment"># HELP apisix_http_latency HTTP request latency in milliseconds per service in APISIX</span>
+<span class="hljs-comment"># TYPE apisix_http_latency histogram</span>
+apisix_http_latency_bucket{type=<span class="hljs-string">"request"</span>,service=<span class="hljs-string">""</span>,consumer=<span class="hljs-string">""</span>,node=<span class="hljs-string">"127.0.0.1"</span>,le=<span class="hljs-string">"00001.0"</span>} <span class="hljs-number">1</span>
+apisix_http_latency_bucket{type=<span class="hljs-string">"request"</span>,service=<span class="hljs-string">""</span>,consumer=<span class="hljs-string">""</span>,node=<span class="hljs-string">"127.0.0.1"</span>,le=<span class="hljs-string">"00002.0"</span>} <span class="hljs-number">1</span>
+...
+<span class="hljs-comment"># HELP apisix_http_overhead HTTP request overhead added by APISIX in milliseconds per service in APISIX</span>
+<span class="hljs-comment"># TYPE apisix_http_overhead histogram</span>
+apisix_http_overhead_bucket{type=<span class="hljs-string">"request"</span>,service=<span class="hljs-string">""</span>,consumer=<span class="hljs-string">""</span>,node=<span class="hljs-string">"127.0.0.1"</span>,le=<span class="hljs-string">"00001.0"</span>} <span class="hljs-number">1</span>
+apisix_http_overhead_bucket{type=<span class="hljs-string">"request"</span>,service=<span class="hljs-string">""</span>,consumer=<span class="hljs-string">""</span>,node=<span class="hljs-string">"127.0.0.1"</span>,le=<span class="hljs-string">"00002.0"</span>} <span class="hljs-number">1</span>
+...
+<span class="hljs-comment"># HELP apisix_node_info Info of APISIX node</span>
+<span class="hljs-comment"># TYPE apisix_node_info gauge</span>
+apisix_node_info{hostname=<span class="hljs-string">"desktop-2022q8f-wsl"</span>} <span class="hljs-number">1</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="disable-plugin"></a><a href="#disable-plugin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Disable Plugin</h2>
+<p>Remove the corresponding json configuration in the plugin configuration to disable <code>prometheus</code>.
+APISIX plugins are hot-reloaded, therefore no need to restart APISIX.</p>
+<pre><code class="hljs css language-shell">curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/hello",
+    "plugins": {},
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:80": 1
+        }
+    }
+}'
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#attributes">Attributes</a></li><li><a href="#api">API</a></li><li><a href="#how-to-enable-it">How to enable it</a></li><li><a href="#how-to-fetch-the-metric-data">How to fetch the metric data</a></li><li><a href="#how-to-specify-export-uri">How to specify export uri</a><ul class="toc-headings"><li><a href="#grafana-dashboard">Grafana dashboard</a></li><li><a href="#available-metrics">Available metrics</a></li></ul></li><li><a href="#disable-plugin">Disable Plugin</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

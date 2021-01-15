@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apisix/aws · Apache APISIX™</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!--"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="apisix/aws · Apache APISIX™"/><meta property="og:type" content="website"/><meta property="og:url" content="https://apisix.apache.org//"/><meta property="og:description" content="&lt;!--"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://apisix.apache.org/blog/atom.xml" title="Apache APISIX™ Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://apisix.apache.org/blog/feed.xml" title="Apache APISIX™ Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="Apache APISIX™"/><h2 class="headerTitleWithLogo">Apache APISIX™</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/subscribe-guide" target="_self">Docs</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="/downloads" target="_self">Downloads</a></li><li class=""><a href="/team" target="_self">Team</a></li><li class=""><a href="/help" target="_self">Help</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">apisix/aws</h1></header><article><div><span><!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h1><a class="anchor" aria-hidden="true" id="running-apisix-in-aws-with-aws-cdk"></a><a href="#running-apisix-in-aws-with-aws-cdk" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running APISIX in AWS with AWS CDK</h1>
+<p><a href="https://github.com/apache/apisix">APISIX</a> is a cloud-native microservices API gateway, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices.</p>
+<h2><a class="anchor" aria-hidden="true" id="architecture"></a><a href="#architecture" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Architecture</h2>
+<p>This reference architecture walks you through building <strong>APISIX</strong> as a serverless container API Gateway on top of AWS Fargate with AWS CDK.</p>
+<p><img src="https://apisix.apache.org/images/aws-fargate-cdk.png" alt=""></p>
+<h2><a class="anchor" aria-hidden="true" id="generate-an-aws-cdk-project-with-projen"></a><a href="#generate-an-aws-cdk-project-with-projen" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Generate an AWS CDK project with <code>projen</code></h2>
+<pre><code class="hljs css language-bash">$ mkdir apisix-aws
+$ <span class="hljs-built_in">cd</span> <span class="hljs-variable">$_</span>
+$ npx projen new awscdk-app-ts
+</code></pre>
+<p>update the <code>.projenrc.js</code> with the following content:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> { AwsCdkTypeScriptApp } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'projen'</span>);
+
+<span class="hljs-keyword">const</span> project = <span class="hljs-keyword">new</span> AwsCdkTypeScriptApp({
+  <span class="hljs-attr">cdkVersion</span>: <span class="hljs-string">"1.70.0"</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">"apisix-aws"</span>,
+  <span class="hljs-attr">cdkDependencies</span>: [
+    <span class="hljs-string">'@aws-cdk/aws-ec2'</span>,
+    <span class="hljs-string">'@aws-cdk/aws-ecs'</span>,
+    <span class="hljs-string">'@aws-cdk/aws-ecs-patterns'</span>,
+  ]
+});
+
+project.synth();
+</code></pre>
+<p>update the project:</p>
+<pre><code class="hljs css language-ts">$ npx projen
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="update-srcmaints"></a><a href="#update-srcmaints" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>update <code>src/main.ts</code></h2>
+<pre><code class="hljs css language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cdk <span class="hljs-keyword">from</span> <span class="hljs-string">'@aws-cdk/core'</span>;
+<span class="hljs-keyword">import</span> { Vpc, Port } <span class="hljs-keyword">from</span> <span class="hljs-string">'@aws-cdk/aws-ec2'</span>;
+<span class="hljs-keyword">import</span> { Cluster, ContainerImage, TaskDefinition, Compatibility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@aws-cdk/aws-ecs'</span>;
+<span class="hljs-keyword">import</span> { ApplicationLoadBalancedFargateService, NetworkLoadBalancedFargateService } <span class="hljs-keyword">from</span> <span class="hljs-string">'@aws-cdk/aws-ecs-patterns'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> ApiSixStack <span class="hljs-keyword">extends</span> cdk.Stack {
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params">scope: cdk.Construct, id: <span class="hljs-built_in">string</span>, props?: cdk.StackProps</span>) {
+    <span class="hljs-keyword">super</span>(scope, id, props);
+
+    <span class="hljs-keyword">const</span> vpc = Vpc.fromLookup(<span class="hljs-keyword">this</span>, <span class="hljs-string">'VPC'</span>, {
+      isDefault: <span class="hljs-literal">true</span>
+    })
+
+    <span class="hljs-keyword">const</span> cluster = <span class="hljs-keyword">new</span> Cluster(<span class="hljs-keyword">this</span>, <span class="hljs-string">'Cluster'</span>, {
+      vpc
+    })
+
+    <span class="hljs-comment">/**
+     * ApiSix service
+     */</span>
+    <span class="hljs-keyword">const</span> taskDefinition = <span class="hljs-keyword">new</span> TaskDefinition(<span class="hljs-keyword">this</span>, <span class="hljs-string">'TaskApiSix'</span>, {
+      compatibility: Compatibility.FARGATE,
+      memoryMiB: <span class="hljs-string">'512'</span>,
+      cpu: <span class="hljs-string">'256'</span>
+    })
+
+    taskDefinition
+      .addContainer(<span class="hljs-string">'apisix'</span>, {
+        image: ContainerImage.fromRegistry(<span class="hljs-string">'iresty/apisix'</span>),
+      })
+      .addPortMappings({
+        containerPort: <span class="hljs-number">9080</span>
+      })
+
+    taskDefinition
+      .addContainer(<span class="hljs-string">'etcd'</span>, {
+        image: ContainerImage.fromRegistry(<span class="hljs-string">'gcr.azk8s.cn/etcd-development/etcd:v3.3.12'</span>),
+        <span class="hljs-comment">// image: ContainerImage.fromRegistry('gcr.io/etcd-development/etcd:v3.3.12'),</span>
+      })
+      .addPortMappings({
+        containerPort: <span class="hljs-number">2379</span>
+      })
+
+    <span class="hljs-keyword">const</span> svc = <span class="hljs-keyword">new</span> ApplicationLoadBalancedFargateService(<span class="hljs-keyword">this</span>, <span class="hljs-string">'ApiSixService'</span>, {
+      cluster,
+      taskDefinition,
+    })
+
+    svc.targetGroup.setAttribute(<span class="hljs-string">'deregistration_delay.timeout_seconds'</span>, <span class="hljs-string">'30'</span>)
+    svc.targetGroup.configureHealthCheck({
+      interval: cdk.Duration.seconds(<span class="hljs-number">5</span>),
+      healthyHttpCodes: <span class="hljs-string">'404'</span>,
+      healthyThresholdCount: <span class="hljs-number">2</span>,
+      unhealthyThresholdCount: <span class="hljs-number">3</span>,
+      timeout: cdk.Duration.seconds(<span class="hljs-number">4</span>)
+    })
+
+    <span class="hljs-comment">/**
+     * PHP service
+     */</span>
+    <span class="hljs-keyword">const</span> taskDefinitionPHP = <span class="hljs-keyword">new</span> TaskDefinition(<span class="hljs-keyword">this</span>, <span class="hljs-string">'TaskPHP'</span>, {
+      compatibility: Compatibility.FARGATE,
+      memoryMiB: <span class="hljs-string">'512'</span>,
+      cpu: <span class="hljs-string">'256'</span>
+    })
+
+    taskDefinitionPHP
+      .addContainer(<span class="hljs-string">'php'</span>, {
+        image: ContainerImage.fromRegistry(<span class="hljs-string">'abiosoft/caddy:php'</span>),
+      })
+      .addPortMappings({
+        containerPort: <span class="hljs-number">2015</span>
+      })
+
+    <span class="hljs-keyword">const</span> svcPHP = <span class="hljs-keyword">new</span> NetworkLoadBalancedFargateService(<span class="hljs-keyword">this</span>, <span class="hljs-string">'PhpService'</span>, {
+      cluster,
+      taskDefinition: taskDefinitionPHP,
+      assignPublicIp: <span class="hljs-literal">true</span>,
+    })
+
+    <span class="hljs-comment">// allow Fargate task behind NLB to accept all traffic</span>
+    svcPHP.service.connections.allowFromAnyIpv4(Port.tcp(<span class="hljs-number">2015</span>))
+    svcPHP.targetGroup.setAttribute(<span class="hljs-string">'deregistration_delay.timeout_seconds'</span>, <span class="hljs-string">'30'</span>)
+    svcPHP.loadBalancer.setAttribute(<span class="hljs-string">'load_balancing.cross_zone.enabled'</span>, <span class="hljs-string">'true'</span>)
+
+    <span class="hljs-keyword">new</span> cdk.CfnOutput(<span class="hljs-keyword">this</span>, <span class="hljs-string">'ApiSixDashboardURL'</span>, {
+      value: <span class="hljs-string">`http://<span class="hljs-subst">${svc.loadBalancer.loadBalancerDnsName}</span>/apisix/dashboard/`</span>
+    })
+  }
+}
+
+<span class="hljs-keyword">const</span> devEnv = {
+  account: process.env.CDK_DEFAULT_ACCOUNT,
+  region: process.env.CDK_DEFAULT_REGION,
+};
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> cdk.App();
+
+<span class="hljs-keyword">new</span> ApiSixStack(app, <span class="hljs-string">'apisix-stack-dev'</span>, { env: devEnv });
+
+app.synth();
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="deploy-the-apisix-stack-with-aws-cdk"></a><a href="#deploy-the-apisix-stack-with-aws-cdk" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploy the APISIX Stack with AWS CDK</h2>
+<pre><code class="hljs css language-bash">$ cdk diff
+$ cdk deploy
+</code></pre>
+<p>On deployment complete, some outputs will be returned:</p>
+<pre><code class="hljs css language-bash">Outputs:
+apiSix.PhpServiceLoadBalancerDNS5E5BAB1B = apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
+apiSix.ApiSixDashboardURL = http://apiSi-ApiSi-1TM103DN35GRY-1477666967.us-west-2.elb.amazonaws.com/apisix/dashboard/
+apiSix.ApiSixServiceLoadBalancerDNSD4E5B8CB = apiSi-ApiSi-1TM103DN35GRY-1477666967.us-west-2.elb.amazonaws.com
+apiSix.ApiSixServiceServiceURLF6EC7872 = http://apiSi-ApiSi-1TM103DN35GRY-1477666967.us-west-2.elb.amazonaws.com
+</code></pre>
+<p>Open the <code>apiSix.ApiSixDashboardURL</code> from your browser and you will see the login prompt.</p>
+<h3><a class="anchor" aria-hidden="true" id="configure-the-upstream-nodes"></a><a href="#configure-the-upstream-nodes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configure the upstream nodes</h3>
+<p>All upstream nodes are running as <strong>AWS Fargate</strong> tasks and registered to the <strong>NLB(Network Load Balancer)</strong> exposing multiple static IP addresses. We can query the IP addresses by <strong>nslookup</strong> the <strong>apiSix.PhpServiceLoadBalancerDNS5E5BAB1B</strong> like this:</p>
+<pre><code class="hljs css language-bash">$ nslookup apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
+Server:         192.168.31.1
+Address:        192.168.31.1<span class="hljs-comment">#53</span>
+
+Non-authoritative answer:
+Name:   apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
+Address: 44.224.124.213
+Name:   apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
+Address: 18.236.43.167
+Name:   apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
+Address: 35.164.164.178
+Name:   apiSi-PhpSe-FOL2MM4TW7G8-09029e095ab36fcc.elb.us-west-2.amazonaws.com
+Address: 44.226.102.63
+</code></pre>
+<p>Configure the IP addresses returned as your upstream nodes in your <strong>APISIX</strong> dashboard followed by the <strong>Services</strong> and <strong>Routes</strong> configuration. Let's say we have a <code>/index.php</code> as the URI for the first route for our first <strong>Service</strong> from the <strong>Upstream</strong> IP addresses.</p>
+<p><img src="https://apisix.apache.org/images/aws-nlb-ip-addr.png" alt="">
+<img src="https://apisix.apache.org/images/aws-define-service.png" alt="">
+<img src="https://apisix.apache.org/images/aws-define-route.png" alt=""></p>
+<h2><a class="anchor" aria-hidden="true" id="validation"></a><a href="#validation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Validation</h2>
+<p>OK. Let's test the <code>/index.php</code> on <code>{apiSix.ApiSixServiceServiceURL}/index.php</code></p>
+<p><img src="https://apisix.apache.org/images/aws-caddy-php-welcome-page.png" alt=""></p>
+<p>Now we have been successfully running <strong>APISIX</strong> in AWS Fargate as serverless container API Gateway service.</p>
+<h2><a class="anchor" aria-hidden="true" id="clean-up"></a><a href="#clean-up" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Clean up</h2>
+<pre><code class="hljs css language-bash">$ cdk destroy
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="running-apisix-in-aws-china-regions"></a><a href="#running-apisix-in-aws-china-regions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running APISIX in AWS China Regions</h2>
+<p>update <code>src/main.ts</code></p>
+<pre><code class="hljs css language-js">  taskDefinition
+    .addContainer(<span class="hljs-string">'etcd'</span>, {
+      <span class="hljs-attr">image</span>: ContainerImage.fromRegistry(<span class="hljs-string">'gcr.azk8s.cn/etcd-development/etcd:v3.3.12'</span>),
+      <span class="hljs-comment">// image: ContainerImage.fromRegistry('gcr.io/etcd-development/etcd:v3.3.12'),</span>
+    })
+    .addPortMappings({
+      <span class="hljs-attr">containerPort</span>: <span class="hljs-number">2379</span>
+    })
+</code></pre>
+<p><em>(read <a href="https://github.com/iresty/docker-apisix/blob/9a731f698171f4838e9bc0f1c05d6dda130ca89b/example/docker-compose.yml#L18-L19">here</a> for more reference)</em></p>
+<p>Run <code>cdk deploy</code> and specify your preferred AWS region in China.</p>
+<pre><code class="hljs css language-bash"><span class="hljs-comment"># let's say we have another AWS_PROFILE for China regions called 'cn'</span>
+<span class="hljs-comment"># make sure you have aws configure --profile=cn properly.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># deploy to NingXia region</span>
+$ cdk deploy --profile cn -c region=cn-northwest-1
+<span class="hljs-comment"># deploy to Beijing region</span>
+$ cdk deploy --profile cn -c region=cn-north-1
+</code></pre>
+<p>In the following case, we got the <code>Outputs</code> returned for <strong>AWS Ningxia region(cn-northwest-1)</strong>:</p>
+<pre><code class="hljs css language-bash">Outputs:
+apiSix.PhpServiceLoadBalancerDNS5E5BAB1B = apiSi-PhpSe-1760FFS3K7TXH-562fa1f7f642ec24.elb.cn-northwest-1.amazonaws.com.cn
+apiSix.ApiSixDashboardURL = http://apiSi-ApiSi-123HOROQKWZKA-1268325233.cn-northwest-1.elb.amazonaws.com.cn/apisix/dashboard/
+apiSix.ApiSixServiceLoadBalancerDNSD4E5B8CB = apiSi-ApiSi-123HOROQKWZKA-1268325233.cn-northwest-1.elb.amazonaws.com.cn
+apiSix.ApiSixServiceServiceURLF6EC7872 = http://apiSi-ApiSi-123HOROQKWZKA-1268325233.cn-northwest-1.elb.amazonaws.com.cn
+</code></pre>
+<p>Open the <code>apiSix.ApiSixDashboardURL</code> URL and log in to configure your <strong>APISIX</strong> in AWS China region.</p>
+<p><em>TBD</em></p>
+<h2><a class="anchor" aria-hidden="true" id="decouple-apisix-and-etcd3-on-aws"></a><a href="#decouple-apisix-and-etcd3-on-aws" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decouple APISIX and etcd3 on AWS</h2>
+<p>For high availability and state consistency consideration, you might be interested to decouple the <strong>etcd3</strong> as a separate cluster from <strong>APISIX</strong> not only for performance but also high availability and fault tolerance yet with highly reliable state consistency.</p>
+<p><em>TBD</em></p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#architecture">Architecture</a></li><li><a href="#generate-an-aws-cdk-project-with-projen">Generate an AWS CDK project with <code>projen</code></a></li><li><a href="#update-srcmaints">update <code>src/main.ts</code></a></li><li><a href="#deploy-the-apisix-stack-with-aws-cdk">Deploy the APISIX Stack with AWS CDK</a><ul class="toc-headings"><li><a href="#configure-the-upstream-nodes">Configure the upstream nodes</a></li></ul></li><li><a href="#validation">Validation</a></li><li><a href="#clean-up">Clean up</a></li><li><a href="#running-apisix-in-aws-china-regions">Running APISIX in AWS China Regions</a></li><li><a href="#decouple-apisix-and-etcd3-on-aws">Decouple APISIX and etcd3 on AWS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                appId: 'ZHVP417Y1Y',
+                apiKey: '79e72fedcf3719ba85c552f710ade8a3',
+                indexName: 'apache-apisix-website',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

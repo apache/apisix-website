@@ -106,7 +106,7 @@ matches:
 <li>GatewayClass 定义了一组具有通用配置和行为的网关类型</li>
 </ol>
 <ul>
-<li><p>与 Gateway 的关系，类似 ingress 中的 ingess.class annotation；</p></li>
+<li><p>与 Gateway 的关系，类似 ingress 中的 ingress.class annotation；</p></li>
 <li><p>GatewayClass 定义了一组共享相同配置和行为的网关。每个 GatewayClass 将由单个 controller 处理，controller 与 GatewayClass 是一对多的关系；</p></li>
 <li><p>GatewayClass 是 cluster 资源。必须至少定义一个 GatewayClass 才能具有功能网关。</p></li>
 </ul>
@@ -161,7 +161,7 @@ matches:
 <p>目前 Kubernetes Service APIs 的扩展点基本集中在 Route 上：</p>
 <ul>
 <li><p>RouteMatch 可以扩展 Route 匹配规则。</p></li>
-<li><p>spcify Backend 可以扩展特定类型的 后端服务， 除了上面提到的 Kubernetes 资源外，还可以扩展比如 文件系统，函数表达式等。</p></li>
+<li><p>specify Backend 可以扩展特定类型的 后端服务， 除了上面提到的 Kubernetes 资源外，还可以扩展比如 文件系统，函数表达式等。</p></li>
 <li><p>Route filter 可以在 Route 的生命周期中增加扩展点，处理 request/response 。</p></li>
 <li><p>Custom Route 以上扩展点都不能满足时，可以完全自定义一个 Route。</p></li>
 </ul>
