@@ -26,6 +26,7 @@ title: Team
 | [juzhiyuan](https://whimsy.apache.org/roster/committer/juzhiyuan)         | juzhiyuan     | Zhiyuan             |
 | [shuaijinchao](https://whimsy.apache.org/roster/committer/shuaijinchao)   | shuaijinchao  | JinChao Shuai       |
 | [vinci](https://whimsy.apache.org/roster/committer/vinci)                 | ShiningRush   | Vinci               |
+| [liuxiran](https://whimsy.apache.org/roster/committer/liuxiran)           | liuxiran      | Xiran Liu           |
 
 ### Committer
 
@@ -39,7 +40,6 @@ title: Team
 | [sunyi](https://whimsy.apache.org/roster/committer/sunyi)         | LiteSun        | Yi Sun      |
 | [liyong](https://whimsy.apache.org/roster/committer/liyong)       | chnliyong      | Yong Li     |
 | [bzp2010](https://whimsy.apache.org/roster/committer/bzp2010)     | bzp2010        | Zeping Bai  |
-| [liuxiran](https://whimsy.apache.org/roster/committer/liuxiran)   | liuxiran       | Xiran Liu   |
 | [shuyangw](https://whimsy.apache.org/roster/committer/shuyangw)   | yiyiyimu       | Shuyang Wu  |
 | [tokers](https://whimsy.apache.org/roster/committer/tokers)       | tokers         | Chao Zhang  |
 | [yangli](https://whimsy.apache.org/roster/committer/yangli)       |                | acmly       |
