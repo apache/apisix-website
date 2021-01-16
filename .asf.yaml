@@ -14,21 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 github:
-    description: Apache APISIX Website
-    homepage: https://apisix.apache.org/
-    labels:
-      - apisix
-      - website
-
-    features:
-      issues: true
-      projects: true
-
-    enabled_merge_buttons:
-      squash:  true
-      merge:   false
-      rebase:  false
+      description: Apache APISIX Website
+      homepage: https://apisix.apache.org/
+      labels:
+        - apisix
+        - website
+      features:
+        issues: true
+        projects: true
+      enabled_merge_buttons:
+        squash: true
+        merge: false
+        rebase: false
 publish:
-  whoami: asf-site
+      whoami: asf-site
