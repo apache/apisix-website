@@ -15,30 +15,30 @@ The entire flow is comprised of the following four phases.
 
 This phase will decide if a feature is ready to be released as well as the release time.
 
-- A new target milestone will be created in Github. (e.g. [`2.3`](https://github.com/apache/apisix-dashboard/milestone/6))
-- A discussion will be started on devel mailing list [dev@apisix.apache.org](dev@apisix.apache.org) for gathering ideas for the next release
-- Maintainer team will then mark the issues and pull requests with the target milestone
+- A new target milestone will be created in Github. (e.g. [`2.3`](https://github.com/apache/apisix-dashboard/milestone/6)).
+- A discussion will be started on dev mailing list [dev@apisix.apache.org](dev@apisix.apache.org) for gathering ideas for the next release.
+- Maintainer team will then mark the issues and pull requests with the target milestone.
 
 ### Development Phase
 
 This phase is for deveoping new features and fix bugs.
 
-- Maintainer team and contributors will work for the issues targeted to release milestone
-- Every single new issue is required to be recognized if should be included in the next release. If yes, the milestone needs to be set for the issue
+- Maintainer team and contributors will work on the issues targeted to release milestone.
+- Every single new issue is required to be recognized if it should be included in the next release. If yes, the milestone needs to be set for the issue.
 
 ### Release Phase
 
 This phase will be throughout the entire Release Time Window.
 
-- A new branch (e.g. [`v2.3`](https://github.com/apache/apisix-dashboard/tree/v2.3)) for release is created from `master` branch, which is also considered as the start of Release Time Window
-- Set corresponding configurations for the new release branch, please see the chart above for details
-- As complying with **Upstream first**, each commit needs to be merged into `master` branch first. Afterwards, it will be backported to the new release branch if the relevant pull request is with `need backport` label attached
-- At the end of Release Time Window, the `CHANGELOG` for the new release will be added
-- Tag the last commit and release the assets via the following section [GPG Settings](#gpg-settings)
+- A new branch (e.g. [`v2.3`](https://github.com/apache/apisix-dashboard/tree/v2.3)) for release is created from the `master` branch, which is also considered as the start of the Release Time Window.
+- Set corresponding configurations for the new release branch, please see the chart above for details.
+- As complying with **Upstream first**, each commit needs to be merged into the `master` branch first. Afterward, it will be backported to the new release branch if the relevant pull request is with the `need backport` label attached.
+- At the end of the Release Time Window, the `CHANGELOG` for the new release will be added.
+- Tag the last commit and release the assets via the following section [GPG Settings](#gpg-settings).
 
 ### Maintenance Phase
 
-Once a version is released, it will enter the maintenance mode and will only accpet security and critical bug patches backported from `master` branch. A new version will be release soon after significant bugs got fixed, with patch version increment (e.g. `2.3.1`). In this case, all users are recommended to upgrade to the latest release to avoid potential risk to the stability.
+Once a version is released, it will enter the maintenance mode and will only accpet the security and critical bug patches backported from the `master` branch. A new version will be released soon after significant bugs got fixed, with patch version increment (e.g. `2.3.1`). In this case, all users are recommended to upgrade to the latest release to avoid potential risk to the stability.
 
 ## GPG Settings
 
