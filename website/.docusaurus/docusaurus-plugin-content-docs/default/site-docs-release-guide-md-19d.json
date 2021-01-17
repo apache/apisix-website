@@ -1,0 +1,13 @@
+{
+  "unversionedId": "release-guide",
+  "id": "release-guide",
+  "isDocsHomePage": false,
+  "title": "Release Guide",
+  "description": "Release Flow",
+  "source": "@site/..\\docs\\release-guide.md",
+  "slug": "/release-guide",
+  "permalink": "/docs/release-guide",
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055
+}

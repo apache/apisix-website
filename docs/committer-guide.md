@@ -2,28 +2,27 @@
 id: committer-guide
 title: Committer Guide
 ---
-
 ## What can I contribute?
 
 All forms of contributions are accepted, for example:
 
-1. Take a look at issues with tag called Good first issue or Help wanted.
+1.  Take a look at issues with tag called Good first issue or Help wanted.
 
-2. Join the discussion on mailing list.
+2.  Join the discussion on mailing list.
 
-3. Answer questions on issues.
+3.  Answer questions on issues.
 
-4. Fix bugs reported on issues, and send us pull request.
+4.  Fix bugs reported on issues, and send us pull request.
 
-5. Review the existing pull request.
+5.  Review the existing pull request.
 
-6. Improve the website.
+6.  Improve the website.
 
-7. Write document or article.
+7.  Write document or article.
 
-8. Any form of contribution that is not mentioned above.
+8.  Any form of contribution that is not mentioned above.
 
-If you would like to contribute, please send an email to dev@apisix.apache.org to let us know!
+If you would like to contribute, please send an email to [dev@apisix.apache.org](mailto:dev@apisix.apache.org) to let us know!
 
 ## How to become a APISIX committer?
 
@@ -39,31 +38,31 @@ The Apache APISIX community follows the Apache Community’s process on acceptin
 
 Processes are:
 
-1. Start the discussion and vote in @private. Only current PMC member could nominate
+1.  Start the discussion and vote in @private. Only current PMC member could nominate
 
-2. If the vote passes, send an offer to become a committer with @private CC’ed
+2.  If the vote passes, send an offer to become a committer with @private CC’ed
 
-3. New committer signs ICLA and apply Apache ID and email address
+3.  New committer signs ICLA and apply Apache ID and email address
 
-4. Update Team page.
+4.  Update Team page.
 
 ## Responsibilities
 
-1. Develop new features
+1.  Develop new features
 
-2. Refactor codes
+2.  Refactor codes
 
-3. Review PR reliably and in time
+3.  Review PR reliably and in time
 
-4. Consider and accept feature requests
+4.  Consider and accept feature requests
 
-5. Answer questions
+5.  Answer questions
 
-6. Update documentation and examples
+6.  Update documentation and examples
 
-7. Improve processes and tools
+7.  Improve processes and tools
 
-8. Guide new contributors join community.
+8.  Guide new contributors join community.
 
 ## How to become a APISIX PMC?
 

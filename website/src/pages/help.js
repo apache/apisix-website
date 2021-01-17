@@ -7,7 +7,13 @@
 
 const React = require('react');
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = {
+  Container: props => <div {...props}></div>,
+  GridBlock: props => <div {...props}></div>,
+  MarkdownBlock: props => <div {...props}></div>
+};
+
+import Layout from "@theme/Layout";
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
@@ -49,4 +55,4 @@ function Help(props) {
   );
 }
 
-module.exports = Help;
+export default props => <Layout><Help {...props} /></Layout>;

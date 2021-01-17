@@ -1,0 +1,98 @@
+{
+  "/-d7d": {
+    "component": "component---site-src-pages-index-jsece-a18",
+    "config": "config---5-e-9-4f3"
+  },
+  "/__docusaurus/debug-3d6": {
+    "component": "component---theme-debug-config-23-a-2ff"
+  },
+  "/__docusaurus/debug/config-914": {
+    "component": "component---theme-debug-config-23-a-2ff"
+  },
+  "/__docusaurus/debug/content-d12": {
+    "component": "component---theme-debug-contentba-8-ce7",
+    "allContent": "allContent---docusaurus-debug-content-4-c-9-f03"
+  },
+  "/__docusaurus/debug/globalData-3cf": {
+    "component": "component---theme-debug-global-dataede-0fa"
+  },
+  "/__docusaurus/debug/metadata-31b": {
+    "component": "component---theme-debug-site-metadata-68-e-3d4"
+  },
+  "/__docusaurus/debug/registry-0da": {
+    "component": "component---theme-debug-registry-679-501"
+  },
+  "/__docusaurus/debug/routes-244": {
+    "component": "component---theme-debug-routes-946-699"
+  },
+  "/blog-9e5": {
+    "component": "component---theme-blog-list-pagea-6-a-7ba",
+    "sidebar": "sidebar---blogb-30-90a",
+    "items": [
+      {
+        "content": "content---blogc-8-d-c18"
+      },
+      {
+        "content": "content---blog-970-dcd"
+      }
+    ],
+    "metadata": "metadata---blog-5-c-4-506"
+  },
+  "/blog/2020/12/16/another-way-to-implement-envoy-filter-bd8": {
+    "component": "component---theme-blog-post-pageccc-cab",
+    "sidebar": "sidebar---blogb-30-90a",
+    "content": "content---blog-2020-12-16-another-way-to-implement-envoy-filtera-10-3fd"
+  },
+  "/blog/2020/12/18/a-first-look-at-kubernetes-service-api-c7d": {
+    "component": "component---theme-blog-post-pageccc-cab",
+    "sidebar": "sidebar---blogb-30-90a",
+    "content": "content---blog-2020-12-18-a-first-look-at-kubernetes-service-api-18-d-8b9"
+  },
+  "/help-6a6": {
+    "component": "component---site-src-pages-help-js-374-183",
+    "config": "config---5-e-9-4f3"
+  },
+  "/search-9d1": {
+    "component": "component---e-final-apisix-website-website-node-modules-docusaurus-theme-search-algolia-src-theme-search-page-index-jscca-eb2"
+  },
+  "/users-884": {
+    "component": "component---site-src-pages-users-js-879-d99",
+    "config": "config---5-e-9-4f3"
+  },
+  "/docs-d69": {
+    "component": "component---theme-doc-page-1-be-9be",
+    "versionMetadata": "versionMetadata---docsf-97-b71"
+  },
+  "/docs/-24c": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-0-ff-d2b"
+  },
+  "/docs/2fa-03a": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-2-fa-301-358"
+  },
+  "/docs/committer-guide-3b0": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-committer-guidef-77-be6"
+  },
+  "/docs/contributor-guide-697": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-contributor-guide-591-a2a"
+  },
+  "/docs/downloads-ea5": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-downloads-9-a-5-a11"
+  },
+  "/docs/release-guide-55b": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-release-guide-19-d-cef"
+  },
+  "/docs/security-852": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-security-291-43d"
+  },
+  "/docs/team-c9f": {
+    "component": "component---theme-doc-item-178-a40",
+    "content": "content---docs-team-525-f54"
+  }
+}

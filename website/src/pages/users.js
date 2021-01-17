@@ -7,7 +7,13 @@
 
 const React = require('react');
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = {
+  Container: props => <div {...props}></div>,
+  GridBlock: props => <div {...props}></div>,
+  MarkdownBlock: props => <div {...props}></div>
+};
+
+import Layout from "@theme/Layout";
 
 const Container = CompLibrary.Container;
 
@@ -50,4 +56,4 @@ class Users extends React.Component {
   }
 }
 
-module.exports = Users;
+export default props => <Layout><Users {...props} /></Layout>;

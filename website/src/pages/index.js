@@ -7,9 +7,15 @@
 
 const React = require('react');
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = {
+  Container: props => <div {...props}></div>,
+  GridBlock: props => <div {...props}></div>,
+  MarkdownBlock: props => <div {...props}></div>
+};
 
-const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
+import Layout from "@theme/Layout";
+
+const MarkdownBlock = CompLibrary.MarkdownBlock;/* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
@@ -179,4 +185,4 @@ class Index extends React.Component {
   }
 }
 
-module.exports = Index;
+export default props => <Layout><Index {...props} /></Layout>;

@@ -1,0 +1,216 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "versionLabel": "Next",
+          "versionPath": "/docs",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "E:\\Final\\apisix-website\\website1.0\\sidebars.json",
+          "docsDirPath": "E:\\Final\\apisix-website\\docs",
+          "docsDirPathLocalized": "E:\\Final\\apisix-website\\website\\i18n\\en\\docusaurus-plugin-content-docs\\current",
+          "mainDocId": "subscribe-guide",
+          "sidebars": {},
+          "permalinkToSidebar": {},
+          "docs": [
+            {
+              "unversionedId": "2fa",
+              "id": "2fa",
+              "isDocsHomePage": false,
+              "title": "2FA",
+              "description": "Two-factor authentication(2FA)",
+              "source": "@site/..\\docs\\2fa.md",
+              "slug": "/2fa",
+              "permalink": "/docs/2fa",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "committer-guide",
+              "id": "committer-guide",
+              "isDocsHomePage": false,
+              "title": "Committer Guide",
+              "description": "What can I contribute?",
+              "source": "@site/..\\docs\\committer-guide.md",
+              "slug": "/committer-guide",
+              "permalink": "/docs/committer-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "contributor-guide",
+              "id": "contributor-guide",
+              "isDocsHomePage": false,
+              "title": "Contributor Guide",
+              "description": "Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.",
+              "source": "@site/..\\docs\\contributor-guide.md",
+              "slug": "/contributor-guide",
+              "permalink": "/docs/contributor-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "downloads",
+              "id": "downloads",
+              "isDocsHomePage": false,
+              "title": "Downloads",
+              "description": "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
+              "source": "@site/..\\docs\\download.md",
+              "slug": "/downloads",
+              "permalink": "/docs/downloads",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "release-guide",
+              "id": "release-guide",
+              "isDocsHomePage": false,
+              "title": "Release Guide",
+              "description": "Release Flow",
+              "source": "@site/..\\docs\\release-guide.md",
+              "slug": "/release-guide",
+              "permalink": "/docs/release-guide",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "security",
+              "id": "security",
+              "isDocsHomePage": false,
+              "title": "Security",
+              "description": "The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache APISIX is also very concerned Security issues related to its features and functionality.",
+              "source": "@site/..\\docs\\security-guide.md",
+              "slug": "/security",
+              "permalink": "/docs/security",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "subscribe-guide",
+              "id": "subscribe-guide",
+              "isDocsHomePage": true,
+              "title": "Subscribe Guide",
+              "description": "During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.",
+              "source": "@site/..\\docs\\subscribe-guide.md",
+              "slug": "/",
+              "permalink": "/docs/",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            },
+            {
+              "unversionedId": "team",
+              "id": "team",
+              "isDocsHomePage": false,
+              "title": "Team",
+              "description": "Members",
+              "source": "@site/..\\docs\\team.md",
+              "slug": "/team",
+              "permalink": "/docs/team",
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogPosts": [
+        {
+          "id": "初探 Kubernetes Service APIs",
+          "metadata": {
+            "permalink": "/blog/2020/12/18/a-first-look-at-kubernetes-service-api",
+            "source": "@site/blog\\2020-12-18-a-first-look-at-kubernetes-service-api.md",
+            "description": "@gxthrj, Apache APISIX PMC & Apache apisix-ingress-controller Founder from Shenzhen Zhiliu Technology Co.",
+            "date": "2020-12-18T00:00:00.000Z",
+            "tags": [],
+            "title": "初探 Kubernetes Service APIs",
+            "readingTime": 2.14,
+            "truncated": false,
+            "nextItem": {
+              "title": "Envoy and Apache APISIX: Another way to implement the Envoy filter",
+              "permalink": "/blog/2020/12/16/another-way-to-implement-envoy-filter"
+            }
+          }
+        },
+        {
+          "id": "Envoy and Apache APISIX: Another way to implement the Envoy filter",
+          "metadata": {
+            "permalink": "/blog/2020/12/16/another-way-to-implement-envoy-filter",
+            "source": "@site/blog\\2020-12-16-another-way-to-implement-envoy-filter.md",
+            "description": "@nic-chen, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.",
+            "date": "2020-12-16T00:00:00.000Z",
+            "tags": [],
+            "title": "Envoy and Apache APISIX: Another way to implement the Envoy filter",
+            "readingTime": 4.71,
+            "truncated": false,
+            "prevItem": {
+              "title": "初探 Kubernetes Service APIs",
+              "permalink": "/blog/2020/12/18/a-first-look-at-kubernetes-service-api"
+            }
+          }
+        }
+      ],
+      "blogListPaginated": [
+        {
+          "metadata": {
+            "permalink": "/blog",
+            "page": 1,
+            "postsPerPage": 10,
+            "totalPages": 1,
+            "totalCount": 2,
+            "previousPage": null,
+            "nextPage": null,
+            "blogDescription": "Blog",
+            "blogTitle": "Blog"
+          },
+          "items": [
+            "初探 Kubernetes Service APIs",
+            "Envoy and Apache APISIX: Another way to implement the Envoy filter"
+          ]
+        }
+      ],
+      "blogTags": {},
+      "blogTagsListPath": null
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/help",
+        "source": "@site/src\\pages\\help.js"
+      },
+      {
+        "type": "jsx",
+        "permalink": "/",
+        "source": "@site/src\\pages\\index.js"
+      },
+      {
+        "type": "jsx",
+        "permalink": "/users",
+        "source": "@site/src\\pages\\users.js"
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {
+    "default": null
+  },
+  "docusaurus-theme-classic": {
+    "default": null
+  },
+  "docusaurus-theme-search-algolia": {
+    "default": null
+  }
+}

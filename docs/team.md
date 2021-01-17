@@ -2,7 +2,6 @@
 id: team
 title: Team
 ---
-
 ## Members
 
 ### PMC
@@ -30,7 +29,7 @@ title: Team
 
 ### Committer
 
-> The following list excludes PMC members above.
+&gt; The following list excludes PMC members above.
 
 | ID                                                                | GitHub         | Public Name |
 | ----------------------------------------------------------------- | -------------- | ----------- |
@@ -55,10 +54,10 @@ title: Team
 
 ## Contributors
 
-> You can find all contributors of Apache APISIX from GitHub contribution list.
+&gt; You can find all contributors of Apache APISIX from GitHub contribution list.
 
-1. [apisix](https://github.com/apache/apisix/graphs/contributors)
-2. [apisix-dashboard](https://github.com/apache/apisix-dashboard/graphs/contributors)
+1.  [apisix](https://github.com/apache/apisix/graphs/contributors)
+2.  [apisix-dashboard](https://github.com/apache/apisix-dashboard/graphs/contributors)
 
 ## Becoming a Committer
 
