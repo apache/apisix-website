@@ -29,6 +29,7 @@
 <li><a href="#consumer">Consumer</a></li>
 <li><a href="#upstream">Upstream</a></li>
 <li><a href="#ssl">SSL</a></li>
+<li><a href="#global-rule">Global Rule</a></li>
 <li><a href="#plugin-metadata">Plugin Metadata</a></li>
 <li><a href="#plugin">Plugin</a></li>
 </ul>
@@ -523,7 +524,7 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><th>Name</th><th>Optional</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>type</td><td>required</td><td><code>roundrobin</code> supports the weight of the load, <code>chash</code> consistency hash,<code>ewma</code> minimum latency ,pick one of them.see <a href="https://en.wikipedia.org/wiki/EWMA_chart">https://en.wikipedia.org/wiki/EWMA_chart</a> for details</td></tr>
+<tr><td>type</td><td>required</td><td>the balancer algorithm</td></tr>
 <tr><td>nodes</td><td>required, can't be used with <code>service_name</code></td><td>Hash table, the key of the internal element is the upstream machine address list, the format is <code>Address + Port</code>, where the address part can be IP or domain name, such as <code>192.168.1.100:80</code>, <code>foo.com:80</code>, etc. Value is the weight of the node. In particular, when the weight value is <code>0</code>, it has a special meaning, which usually means that the upstream node is invalid and never wants to be selected. The <code>nodes</code> can be empty, which means it is a placeholder and will be filled later. Clients use such an upstream will get 502 response.</td></tr>
 <tr><td>service_name</td><td>required, can't be used with <code>nodes</code></td><td>the name of service used in the service discovery, see <a href="/apisix/discovery">discovery</a> for more details</td></tr>
 <tr><td>discovery_type</td><td>required, if <code>server_name</code> is used</td><td>the type of service discovery, see <a href="/apisix/discovery">discovery</a> for more details</td></tr>
@@ -541,6 +542,13 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
 <tr><td>update_time</td><td>optional</td><td>epoch timestamp in second, like <code>1602883670</code>, will be created automatically if missing</td></tr>
 </tbody>
 </table>
+<p><code>type</code> can be one of:</p>
+<ul>
+<li><code>roundrobin</code>: roundrobin with weight</li>
+<li><code>chash</code>: consistent hash</li>
+<li><code>ewma</code>: pick one of node which has minimum latency. See <a href="https://en.wikipedia.org/wiki/EWMA_chart">https://en.wikipedia.org/wiki/EWMA_chart</a> for details.</li>
+<li><code>least_conn</code>: pick node which has the lowest <code>(active_conn + 1) / weight</code>. Note the <code>active connection</code> concept is the same with Nginx: it is a connection in used by a request.</li>
+</ul>
 <p><code>hash_on</code> can be set to different types:</p>
 <ol>
 <li>when it is <code>vars</code>, the <code>key</code> is required. The <code>key</code> can be any <a href="http://nginx.org/en/docs/varindex.html">Nginx builtin variables</a>, without the prefix '$'.</li>
@@ -560,7 +568,7 @@ Date: Thu, 26 Dec 2019 08:17:49 GMT
         "read":15,
     },
     "nodes": {"host:80": 100},  # Upstream machine address list, the format is `Address + Port`
-    "type":"roundrobin",        # chash or roundrobin
+    "type":"roundrobin",
     "checks": {},               # Health check parameters
     "hash_on": "",
     "key": "",
@@ -698,6 +706,38 @@ After the execution is successful, nodes will not retain the original data, and 
     "snis": ["t.com"]    # https SNI
 }
 </code></pre>
+<h2><a class="anchor" aria-hidden="true" id="global-rule"></a><a href="#global-rule" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Rule</h2>
+<p><em>API</em>：/apisix/admin/global_rules/{id}</p>
+<p><em>Description</em>: Set plugins which run globally. Those plugins will be run before any Route/Service level plugins.</p>
+<blockquote>
+<p>Request Methods：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Method</th><th>Request URI</th><th>Request Body</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>/apisix/admin/global_rules</td><td>NULL</td><td>Fetch resource list</td></tr>
+<tr><td>GET</td><td>/apisix/admin/global_rules/{id}</td><td>NULL</td><td>Fetch resource</td></tr>
+<tr><td>PUT</td><td>/apisix/admin/global_rules/{id}</td><td>{...}</td><td>Create resource by ID</td></tr>
+<tr><td>DELETE</td><td>/apisix/admin/global_rules/{id}</td><td>NULL</td><td>Remove resource</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/global_rules/{id}</td><td>{...}</td><td>Standard PATCH. Update some attributes of the existing global rule, and other attributes not involved will remain as they are; if you want to delete an attribute, set the value of the attribute Set to null to delete; especially, when the value of the attribute is an array, the attribute will be updated in full</td></tr>
+<tr><td>PATCH</td><td>/apisix/admin/global_rules/{id}/{path}</td><td>{...}</td><td>SubPath PATCH, specify the attribute of global rule to be updated through {path}, update the value of this attribute in full, and other attributes that are not involved will remain as they are.</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>Request Body Parameters：</p>
+</blockquote>
+<table>
+<thead>
+<tr><th>Parameter</th><th>Required</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>plugins</td><td>True</td><td>See <a href="/apisix/architecture-design#plugin">Plugin</a></td><td></td></tr>
+<tr><td>create_time</td><td>False</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
+<tr><td>update_time</td><td>False</td><td>epoch timestamp in second, will be created automatically if missing</td><td>1602883670</td></tr>
+</tbody>
+</table>
 <h2><a class="anchor" aria-hidden="true" id="plugin-metadata"></a><a href="#plugin-metadata" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin Metadata</h2>
 <p><em>API</em>：/apisix/admin/plugin_metadata/{plugin_name}</p>
 <p><em>Description</em>: plugin metadata.</p>
@@ -769,7 +809,7 @@ $</span><span class="bash"> curl <span class="hljs-string">"http://127.0.0.1:908
 </tbody>
 </table>
 <p><a href="#Table-of-Contents">Back to TOC</a></p>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li><li><a href="#plugin">Plugin</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#route">Route</a></li><li><a href="#service">Service</a></li><li><a href="#consumer">Consumer</a></li><li><a href="#upstream">Upstream</a></li><li><a href="#ssl">SSL</a></li><li><a href="#global-rule">Global Rule</a></li><li><a href="#plugin-metadata">Plugin Metadata</a></li><li><a href="#plugin">Plugin</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
