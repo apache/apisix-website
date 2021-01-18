@@ -8,18 +8,18 @@
 const React = require('react');
 
 const CompLibrary = {
-  Container: props => <div {...props}></div>,
-  GridBlock: props => <div {...props}></div>,
-  MarkdownBlock: props => <div {...props}></div>
+  Container: (props) => <div {...props}></div>,
+  GridBlock: (props) => <div {...props}></div>,
+  MarkdownBlock: (props) => <div {...props}></div>,
 };
 
-import Layout from "@theme/Layout";
+import Layout from '@theme/Layout';
 
 const Container = CompLibrary.Container;
 
 class Users extends React.Component {
   render() {
-    const {config: siteConfig} = this.props;
+    const { config: siteConfig } = this.props;
     if ((siteConfig.users || []).length === 0) {
       return null;
     }
@@ -44,7 +44,8 @@ class Users extends React.Component {
                 <p>Are you using this project?</p>
                 <a
                   href="https://github.com/apache/apisix/blob/master/doc/powered-by.md"
-                  className="button">
+                  className="button"
+                >
                   Add your company
                 </a>
               </React.Fragment>
@@ -56,4 +57,8 @@ class Users extends React.Component {
   }
 }
 
-export default props => <Layout><Users {...props} /></Layout>;
+export default (props) => (
+  <Layout>
+    <Users {...props} />
+  </Layout>
+);

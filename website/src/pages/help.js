@@ -8,26 +8,27 @@
 const React = require('react');
 
 const CompLibrary = {
-  Container: props => <div {...props}></div>,
-  GridBlock: props => <div {...props}></div>,
-  MarkdownBlock: props => <div {...props}></div>
+  Container: (props) => <div {...props}></div>,
+  GridBlock: (props) => <div {...props}></div>,
+  MarkdownBlock: (props) => <div {...props}></div>,
 };
 
-import Layout from "@theme/Layout";
+import Layout from '@theme/Layout';
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
 function Help(props) {
-  const {config: siteConfig, language = ''} = props;
-  const {baseUrl, docsUrl} = siteConfig;
+  const { config: siteConfig, language = '' } = props;
+  const { baseUrl, docsUrl } = siteConfig;
   const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
   const langPart = `${language ? `${language}/` : ''}`;
   const docUrl = (doc) => `${baseUrl}${docsPart}${langPart}${doc}`;
 
   const supportLinks = [
     {
-      content: 'Learn more using the [documentation on this site.](https://github.com/apache/apisix/tree/master/doc)',
+      content:
+        'Learn more using the [documentation on this site.](https://github.com/apache/apisix/tree/master/doc)',
       title: 'Browse Docs',
     },
     {
@@ -55,4 +56,8 @@ function Help(props) {
   );
 }
 
-export default props => <Layout><Help {...props} /></Layout>;
+export default (props) => (
+  <Layout>
+    <Help {...props} />
+  </Layout>
+);

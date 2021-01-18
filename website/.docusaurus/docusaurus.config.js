@@ -53,15 +53,15 @@ export default {
       "@docusaurus/preset-classic",
       {
         "docs": {
-          "homePageId": "subscribe-guide",
           "showLastUpdateAuthor": true,
           "showLastUpdateTime": true,
           "path": "..\\docs",
           "sidebarPath": "..\\website1.0\\sidebars.json"
         },
-        "blog": {},
         "theme": {
-          "customCss": "..\\src\\css\\customTheme.css"
+          "customCss": [
+            "E:\\Final\\apisix-website\\website\\static\\css\\custom.css"
+          ]
         }
       }
     ]
@@ -77,6 +77,11 @@ export default {
         {
           "to": "docs/",
           "label": "Docs",
+          "position": "left"
+        },
+        {
+          "to": "/blog",
+          "label": "Blog",
           "position": "left"
         },
         {
@@ -98,13 +103,68 @@ export default {
       "hideOnScroll": false
     },
     "footer": {
+      "logo": {
+        "alt": "Logo",
+        "src": "img/asf_logo_wide_small.png",
+        "href": "https://www.apache.org/"
+      },
       "links": [
+        {
+          "title": "ASF",
+          "items": [
+            {
+              "label": "Foundation",
+              "to": "https://www.apache.org/"
+            },
+            {
+              "label": "License",
+              "to": "https://www.apache.org/licenses/"
+            },
+            {
+              "label": "Events",
+              "to": "https://www.apache.org/events/"
+            },
+            {
+              "label": "Security",
+              "to": "https://www.apache.org/security/"
+            },
+            {
+              "label": "Sponsorship",
+              "to": "https://www.apache.org/foundation/sponsorship.html"
+            },
+            {
+              "label": "Thanks",
+              "to": "https://www.apache.org/foundation/thanks.html"
+            }
+          ]
+        },
         {
           "title": "Community",
           "items": [
             {
+              "label": "GitHub Issue Tracker",
+              "to": "https://github.com/apache/apisix/issues"
+            },
+            {
+              "label": "Slack",
+              "to": "https://apisix.slack.com/"
+            },
+            {
               "label": "Twitter",
               "to": "https://twitter.com/ApacheAPISIX"
+            }
+          ]
+        },
+        {
+          "title": "More",
+          "items": [
+            {
+              "label": "User Showcase",
+              "to": "https://apisix.apache.org/users/"
+            },
+            {
+              "label": "Blog",
+              "to": "https://apisix.apache.org/blog/"
             }
           ]
         }

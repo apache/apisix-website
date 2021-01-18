@@ -6,6 +6,7 @@
  */
 
 /* your custom css */
+@import url('https://apisix.apache.org/css/main.css');
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
@@ -20,4 +21,21 @@
 }
 
 @media only screen and (min-width: 1500px) {
+}
+
+/* testing */
+div.inner {
+  color: #b22222;
+}
+
+themeConfig.footer {
+  background: 'black';
+}
+
+.navbar {
+  background: #b22222;
+}
+.footer {
+  background-color: black;
+  color: darkgray;
 }
