@@ -21,7 +21,7 @@ This phase will decide if a feature is ready to be released as well as the relea
 
 ### Development Phase
 
-This phase is for deveoping new features and fix bugs.
+This phase is for developing new features and fixing bugs.
 
 - Maintainer team and contributors will work on the issues targeted to release milestone.
 - Every single new issue is required to be recognized if it should be included in the next release. If yes, the milestone needs to be set for the issue.
@@ -38,7 +38,7 @@ This phase will be throughout the entire Release Time Window.
 
 ### Maintenance Phase
 
-Once a version is released, it will enter the maintenance mode and will only accpet the security and critical bug patches backported from the `master` branch. A new version will be released soon after significant bugs got fixed, with patch version increment (e.g. `2.3.1`). In this case, all users are recommended to upgrade to the latest release to avoid potential risk to the stability.
+Once a version is released, it will enter the maintenance mode and will only accept the security and critical bug patches backported from the `master` branch. A new version will be released soon after significant bugs got fixed, with patch version increment (e.g. `2.3.1`). In this case, all users are recommended to upgrade to the latest release to avoid potential risk to the stability.
 
 ## GPG Settings
 

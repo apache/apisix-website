@@ -102,7 +102,7 @@ routes:
             - root.m+
 ```
 
-### How does it works
+### How does it work
 
 We don't need to make major changes to Envoy, only some optimizations that are suitable for public needs.
 
