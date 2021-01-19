@@ -34,8 +34,8 @@
 <li><a href="#upstream"><strong>Upstream</strong></a></li>
 <li><a href="#router"><strong>Router</strong></a></li>
 <li><a href="#consumer-1"><strong>Consumer</strong></a></li>
-<li><a href="#Global-Rule"><strong>Global Rule</strong></a></li>
-<li><a href="#Debug-mode"><strong>Debug mode</strong></a></li>
+<li><a href="#global-rule"><strong>Global Rule</strong></a></li>
+<li><a href="#debug-mode"><strong>Debug mode</strong></a></li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="apisix"></a><a href="#apisix" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>APISIX</h2>
 <h3><a class="anchor" aria-hidden="true" id="plugin-loading-process"></a><a href="#plugin-loading-process" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin Loading Process</h3>
@@ -464,8 +464,8 @@ HTTP/1.1 403
 </code></pre>
 <p><a href="#table-of-contents">Back to top</a></p>
 <h2><a class="anchor" aria-hidden="true" id="global-rule"></a><a href="#global-rule" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Rule</h2>
-<p><a href="#Plugin">Plugin</a> just can be binded to <a href="#Service">Service</a> or <a href="#Route">Route</a>, if we want a <a href="#Plugin">Plugin</a> work on all requests, how to do it?
-We can register a global <a href="#Plugin">Plugin</a> with <code>GlobalRule</code>:</p>
+<p><a href="#plugin">Plugin</a> just can be binded to <a href="#service">Service</a> or <a href="#route">Route</a>, if we want a <a href="#plugin">Plugin</a> work on all requests, how to do it?
+We can register a global <a href="#plugin">Plugin</a> with <code>GlobalRule</code>:</p>
 <pre><code class="hljs css language-shell">curl -X PUT \
   https://{apisix_listen_address}/apisix/admin/global_rules/1 \
   -H 'Content-Type: application/json' \
