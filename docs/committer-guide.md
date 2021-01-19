@@ -18,7 +18,7 @@ All forms of contributions are accepted, for example:
 
 6.  Improve the website.
 
-7.  Write document or article.
+7. Write a document or article.
 
 8.  Any form of contribution that is not mentioned above.
 
@@ -34,7 +34,7 @@ More details could be found [here](https://community.apache.org/contributors/).
 
 ## Promotion
 
-The Apache APISIX community follows the Apache Community’s process on accepting a new committer. After a contributor participates APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.
+The Apache APISIX community follows the Apache Community’s process on accepting a new committer. After a contributor participates in APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.
 
 Processes are:
 
