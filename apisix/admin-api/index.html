@@ -89,7 +89,7 @@
 <tr><td>upstream</td><td>False</td><td>Upstream</td><td>Enabled Upstream configuration, see <a href="/apisix/architecture-design#upstream">Upstream</a> for more</td><td></td></tr>
 <tr><td>upstream_id</td><td>False</td><td>Upstream</td><td>Enabled upstream id, see <a href="/apisix/architecture-design#upstream">Upstream</a> for more</td><td></td></tr>
 <tr><td>service_id</td><td>False</td><td>Service</td><td>Binded Service configuration, see <a href="/apisix/architecture-design#service">Service</a> for more</td><td></td></tr>
-<tr><td>service_protocol</td><td>False</td><td>Upstream protocol type</td><td>only <code>grpc</code> and <code>http</code> are supported</td><td><code>http</code> is the default value; Must set <code>grpc</code> if using <code>gRPC proxy</code> or <code>gRPC transcode</code></td></tr>
+<tr><td>service_protocol</td><td>False</td><td>Upstream protocol type</td><td>only <code>grpc</code></td><td>Must set <code>grpc</code> if using <code>gRPC proxy</code> or <code>gRPC transcode</code>.</td></tr>
 <tr><td>labels</td><td>False</td><td>Match Rules</td><td>Key/value pairs to specify attributes</td><td>{&quot;version&quot;:&quot;v2&quot;,&quot;build&quot;:&quot;16&quot;,&quot;env&quot;:&quot;production&quot;}</td></tr>
 <tr><td>enable_websocket</td><td>False</td><td>Auxiliary</td><td>enable <code>websocket</code>(boolean), default <code>false</code>.</td><td></td></tr>
 <tr><td>status</td><td>False</td><td>Auxiliary</td><td>enable this route, default <code>1</code>.</td><td><code>1</code> to enable, <code>0</code> to disable</td></tr>

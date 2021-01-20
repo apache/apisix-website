@@ -30,7 +30,6 @@
 <li><a href="#如何启用"><strong>如何启用</strong></a></li>
 <li><a href="#测试插件"><strong>测试插件</strong></a></li>
 <li><a href="#禁用插件"><strong>禁用插件</strong></a></li>
-<li><a href="#示例"><strong>示例</strong></a></li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="名称"></a><a href="#名称" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>名称</h2>
 <p><code>request-id</code> 插件通过 APISIX 为每一个请求代理添加唯一 ID（UUID），以用于追踪 API 请求。该插件在 <code>header_name</code> 已经在请求中存在时不会为请求添加新的 ID</p>
@@ -60,7 +59,7 @@
             "127.0.0.1:8080": 1
         }
     }
-}
+}'
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="测试插件"></a><a href="#测试插件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>测试插件</h2>
 <pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl -i http://127.0.0.1:9080/hello</span>
@@ -79,7 +78,7 @@ HTTP/1.1 200 OK
             "127.0.0.1:8080": 1
         }
     }
-}
+}'
 </code></pre>
 </span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#名称">名称</a></li><li><a href="#属性">属性</a></li><li><a href="#如何启用">如何启用</a></li><li><a href="#测试插件">测试插件</a></li><li><a href="#禁用插件">禁用插件</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>ASF</h5><a href="https://www.apache.org/">Foundation</a><a href="https://www.apache.org/licenses/">License</a><a href="https://www.apache.org/events/">Events</a><a href="https://www.apache.org/security/">Security</a><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></div><div><h5>Community</h5><a href="https://github.com/apache/apisix/issues">GitHub Issue Tracker</a><a href="https://apisix.slack.com/">Slack</a><a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/users">User Showcase</a><a href="/blog">Blog</a></div></section><a href="https://www.apache.org/" target="_blank" rel="noreferrer noopener" style="display:block;margin:1em auto;opacity:0.8;transition:opacity 0.15s ease-in-out;text-align:center"><img src="/img/asf_logo_wide_small.png" alt="Apache Software Foundation" style="width:370px;height:64px"/></a><section class="copyright">Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
                 document.addEventListener('keyup', function(e) {

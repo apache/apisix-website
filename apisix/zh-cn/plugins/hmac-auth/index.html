@@ -63,7 +63,7 @@
         "hmac-auth": {
             "access_key": "user-key",
             "secret_key": "my-secret-key",
-            "clock_skew": 10,
+            "clock_skew": 0,
             "signed_headers": ["User-Agent", "Accept-Language", "x-custom-a"]
         }
     }
@@ -131,21 +131,72 @@ HeaderKey2 + <span class="hljs-string">":"</span> + HeaderValue2 + <span class="
 ...
 HeaderKeyN + <span class="hljs-string">":"</span> + HeaderValueN + <span class="hljs-string">"<span class="hljs-subst">\n</span>"</span>
 </code></pre>
-<p>拼接后的示例：</p>
-<pre><code class="hljs css language-plain">GET
-/hello
-
-your-access-key
-Mon, <span class="hljs-number">28</span> Sep <span class="hljs-number">2020</span> <span class="hljs-number">06</span>:<span class="hljs-number">48</span>:<span class="hljs-number">57</span> GMT
-x-custom-header:value
+<p><strong>签名字符串拼接示例</strong></p>
+<p>以下面请求为例：</p>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl -i http://127.0.0.1:9080/index.html?name=james&amp;age=36 \</span>
+-H "X-HMAC-SIGNED-HEADERS: User-Agent;x-custom-a" \
+-H "x-custom-a: test" \
+-H "User-Agent: curl/7.29.0"
 </code></pre>
+<p>根据<code>签名生成公式</code>生成的 <code>signing_string</code> 为：</p>
+<pre><code class="hljs css language-plain"><span class="hljs-comment">"GET</span>
+/<span class="hljs-built_in">index</span>.html
+age=<span class="hljs-number">36</span>&amp;name=james
+user-key
+Tue, <span class="hljs-number">19</span> Jan <span class="hljs-number">2021</span> <span class="hljs-number">11</span>:<span class="hljs-number">33</span>:<span class="hljs-number">20</span> GMT
+User-Agen<span class="hljs-variable">t:curl</span>/<span class="hljs-number">7.29</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">x</span>-custom-<span class="hljs-variable">a:test</span>
+<span class="hljs-comment">"</span>
+</code></pre>
+<p>注意：最后一个请求头也需要 + <code>\n</code>。</p>
+<p><strong>生成签名</strong></p>
+<p>使用 Python 来生成签名 <code>SIGNATURE</code>：</p>
+<pre><code class="hljs css language-python"><span class="hljs-keyword">import</span> hashlib
+<span class="hljs-keyword">import</span> hmac
+<span class="hljs-keyword">import</span> base64
+
+secret = bytes(<span class="hljs-string">'my-secret-key'</span>, <span class="hljs-string">'utf-8'</span>)
+message = bytes(<span class="hljs-string">"""GET
+/index.html
+age=36&amp;name=james
+user-key
+Tue, 19 Jan 2021 11:33:20 GMT
+User-Agent:curl/7.29.0
+x-custom-a:test
+"""</span>, <span class="hljs-string">'utf-8'</span>)
+
+hash = hmac.new(secret, message, hashlib.sha256)
+
+<span class="hljs-comment"># to lowercase base64</span>
+print(base64.b64encode(hash.digest()))
+</code></pre>
+<table>
+<thead>
+<tr><th>Type</th><th>Hash</th></tr>
+</thead>
+<tbody>
+<tr><td>SIGNATURE</td><td>8XV1GB7Tq23OJcoz6wjqTs4ZLxr9DiLoY4PxzScWGYg=</td></tr>
+</tbody>
+</table>
 <h3><a class="anchor" aria-hidden="true" id="使用生成好的签名进行请求尝试"></a><a href="#使用生成好的签名进行请求尝试" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用生成好的签名进行请求尝试</h3>
-<p><strong>注:</strong></p>
-<ol>
-<li><strong>ACCESS_KEY, SIGNATURE, ALGORITHM, DATE, SIGNED_HEADERS 分别代表对应的变量</strong></li>
-<li><strong>SIGNED_HEADERS 为客户端指定的加入加密计算的 headers。若存在多个 headers 需以 &quot;;&quot; 分割：<code>x-custom-header-a;x-custom-header-b</code></strong></li>
-<li><strong>SIGNATURE 需要使用 base64 进行加密：<code>base64_encode(SIGNATURE)</code></strong></li>
-</ol>
+<pre><code class="hljs css language-shell"><span class="hljs-meta">$</span><span class="bash"> curl -i <span class="hljs-string">"http://127.0.0.1:9080/index.html?name=james&amp;age=36"</span> \</span>
+-H "X-HMAC-SIGNATURE: 8XV1GB7Tq23OJcoz6wjqTs4ZLxr9DiLoY4PxzScWGYg=" \
+-H "X-HMAC-ALGORITHM: hmac-sha256" \
+-H "X-HMAC-ACCESS-KEY: user-key" \
+-H "Date: Tue, 19 Jan 2021 11:33:20 GMT" \
+-H "X-HMAC-SIGNED-HEADERS: User-Agent;x-custom-a" \
+-H "x-custom-a: test" \
+-H "User-Agent: curl/7.29.0"
+
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Date: Tue, 19 Jan 2021 11:33:20 GMT
+Server: APISIX/2.2
+......
+</code></pre>
+<p><strong>下面是签名信息的两种组装形式</strong></p>
 <ul>
 <li>签名信息拼一起放到请求头 <code>Authorization</code> 字段中：</li>
 </ul>
@@ -173,6 +224,12 @@ Accept-Ranges: bytes
 &lt;!DOCTYPE html&gt;
 &lt;html lang="cn"&gt;
 </code></pre>
+<p><strong>注:</strong></p>
+<ol>
+<li><strong>ACCESS_KEY, SIGNATURE, ALGORITHM, DATE, SIGNED_HEADERS 分别代表对应的变量</strong></li>
+<li><strong>SIGNED_HEADERS 为客户端指定的加入加密计算的 headers。若存在多个 headers 需以 &quot;;&quot; 分割：<code>x-custom-header-a;x-custom-header-b</code></strong></li>
+<li><strong>SIGNATURE 需要使用 base64 进行加密：<code>base64_encode(SIGNATURE)</code></strong></li>
+</ol>
 <h2><a class="anchor" aria-hidden="true" id="自定义-header-名称"></a><a href="#自定义-header-名称" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>自定义 header 名称</h2>
 <p>我们可以在 <code>conf/config.yaml</code> 中，<code>plugin_attr</code> 下添加插件的属性配置来自定义参数 header 名称。</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">plugin_attr:</span>
@@ -209,7 +266,7 @@ Accept-Ranges: bytes
 }'
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="签名生成示例"></a><a href="#签名生成示例" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>签名生成示例</h2>
-<p>以 HMAC SHA256 为例，介绍一下各种语言的签名生成示例。</p>
+<p>以 HMAC SHA256 为例，介绍一下各种语言的签名生成示例。需要注意各种语言中对签名字符串的换行符的处理方式，这很容易导致出现 <code>{&quot;message&quot;:&quot;Invalid signature&quot;}</code> 的问题。</p>
 <p>示例入参说明:</p>
 <table>
 <thead>
