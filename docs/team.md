@@ -43,6 +43,7 @@ title: Team
 | [shuyangw](https://whimsy.apache.org/roster/committer/shuyangw)   | yiyiyimu       | Shuyang Wu  |
 | [tokers](https://whimsy.apache.org/roster/committer/tokers)       | tokers         | Chao Zhang  |
 | [yangli](https://whimsy.apache.org/roster/committer/yangli)       |                | acmly       |
+| [starsz](https://whimsy.apache.org/roster/committer/starsz)       | starsz         | Xinxin Zhu  |
 | [majunjie](https://whimsy.apache.org/roster/committer/majunjie)   | imjoey         | Joey Ma     |
 
 ## Mentors
