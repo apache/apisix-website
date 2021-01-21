@@ -4,7 +4,7 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org//blog</link>
         <description>The best place to stay up-to-date with the latest Apache APISIX™ news and events.</description>
-        <lastBuildDate>Fri, 18 Dec 2020 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 21 Jan 2021 06:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -13,6 +13,13 @@
             <link>https://apisix.apache.org//blog</link>
         </image>
         <copyright>Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</copyright>
+        <item>
+            <title><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
+            <link>https://apisix.apache.org//blog/2021/01/21/run-ingress-apisix-on-amazon-eks.html</link>
+            <guid>https://apisix.apache.org//blog/2021/01/21/run-ingress-apisix-on-amazon-eks.html</guid>
+            <pubDate>Thu, 21 Jan 2021 06:00:00 GMT</pubDate>
+            <description><![CDATA[<blockquote> <p><a href="https://github.com/tokers">@Chao Zhang</a>, Apache APISIX Comitter from <a href="https://www.apiseven.com/">Shenzhen Zhiliu Technology Co.</a></p> <p>Source:</p> <ul> <li><a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></li> <li><a href="https://github.com/apache/apisix-helm-chart">https://github.com/apache/apisix-helm-chart</a></li> <li><a href="https://github.com/apache/apisix-ingress-controller">https://github.com/apache/apisix-ingress-controller</a></li> </ul> </blockquote> <p>This post is based on <a href="https://github.com/apache/apisix-ingress-controller/blob/master/docs/deployments/aws.md">Install Ingress...</a></p>]]></description>
+        </item>
         <item>
             <title><![CDATA[初探 Kubernetes Service APIs]]></title>
             <link>https://apisix.apache.org//blog/2020/12/18/a-first-look-at-kubernetes-service-api.html</link>

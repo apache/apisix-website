@@ -2,12 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org//blog</id>
     <title>Apache APISIX™ Blog</title>
-    <updated>2020-12-18T06:00:00.000Z</updated>
+    <updated>2021-01-21T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org//blog"/>
     <subtitle>The best place to stay up-to-date with the latest Apache APISIX™ news and events.</subtitle>
     <logo>https://apisix.apache.org//img/logo.png</logo>
     <rights>Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</rights>
+    <entry>
+        <title type="html"><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
+        <id>https://apisix.apache.org//blog/2021/01/21/run-ingress-apisix-on-amazon-eks.html</id>
+        <link href="https://apisix.apache.org//blog/2021/01/21/run-ingress-apisix-on-amazon-eks.html"/>
+        <updated>2021-01-21T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote> <p><a href="https://github.com/tokers">@Chao Zhang</a>, Apache APISIX Comitter from <a href="https://www.apiseven.com/">Shenzhen Zhiliu Technology Co.</a></p> <p>Source:</p> <ul> <li><a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></li> <li><a href="https://github.com/apache/apisix-helm-chart">https://github.com/apache/apisix-helm-chart</a></li> <li><a href="https://github.com/apache/apisix-ingress-controller">https://github.com/apache/apisix-ingress-controller</a></li> </ul> </blockquote> <p>This post is based on <a href="https://github.com/apache/apisix-ingress-controller/blob/master/docs/deployments/aws.md">Install Ingress...</a></p>]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[初探 Kubernetes Service APIs]]></title>
         <id>https://apisix.apache.org//blog/2020/12/18/a-first-look-at-kubernetes-service-api.html</id>
