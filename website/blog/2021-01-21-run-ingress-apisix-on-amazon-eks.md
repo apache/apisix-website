@@ -13,7 +13,6 @@ authorImageURL: https://avatars0.githubusercontent.com/u/10428333?s=60&v=4
 > - https://github.com/apache/apisix-helm-chart
 > - https://github.com/apache/apisix-ingress-controller
 
-
 This post is based on [Install Ingress APISIX on Amazon EKS](https://github.com/apache/apisix-ingress-controller/blob/master/docs/deployments/aws.md).
 
 -
@@ -144,5 +143,5 @@ If the Serivce type is `ClusterIP,` you have to login to a pod in the EKS cluste
 
 ## See Also
 
-* https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api
-* https://www.apiseven.com/zh/blog/another-way-to-implement-envoy-filter
+- https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api
+- https://www.apiseven.com/zh/blog/another-way-to-implement-envoy-filter
