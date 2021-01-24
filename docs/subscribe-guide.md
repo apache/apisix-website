@@ -1,5 +1,6 @@
 ---
 id: subscribe-guide
+slug: /
 title: Subscribe Guide
 ---
 
