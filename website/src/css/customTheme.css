@@ -1,0 +1,61 @@
+:root {
+  --ifm-color-primary-lightest: #ffffff;
+  --ifm-color-primary-lighter: #d0312d;
+  --ifm-color-primary-light: #f8f8fa;
+  --ifm-color-primary: #b52b27;
+  --ifm-color-dark: #000000;
+  --ifm-color-primary-dark: #a5a0a0;
+  --ifm-color-primary-darker: #9a2521;
+  --ifm-color-shadow--lw: #7f1e1b;
+}
+.navbar {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-primary-lightest);
+}
+.footer.logo {
+  width: 370;
+  height: 64;
+}
+.footer {
+  color: var(--ifm-color-primary-dark);
+}
+.button {
+  margin-left: 10px;
+}
+div.inner {
+  color: var(--ifm-color-primary);
+}
+.Learnhow {
+  background: var(--ifm-color-primary-light);
+  width: 100%;
+}
+.image {
+  padding: 75px 10px 75px 75px;
+  height: 200;
+  width: 200;
+}
+.more-users {
+  padding-top: 75px;
+}
+.logo {
+  padding: 10px 30px 10px 30px;
+  width: 100px;
+  height: 50px;
+}
+.productShowcaseSection {
+  color: var(--ifm-color-primary);
+}
+
+/*
+.footer .logo {
+  width: 75px;
+  height: 75px;
+}
+*/
+
+.postHeader {
+  padding-top: 50px;
+}
+.Header {
+  padding-top: 50px;
+}
