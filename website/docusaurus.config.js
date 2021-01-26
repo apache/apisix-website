@@ -55,7 +55,8 @@ module.exports={
         "docs": {
           "showLastUpdateAuthor": true,
           "showLastUpdateTime": true,
-          "path": "../docs",
+          "path": "docs",
+          "editUrl": "https://github.com/apache/apisix-website/edit/master/website",
           "sidebarPath": "../website/sidebars.json"
         },
         "blog": {
