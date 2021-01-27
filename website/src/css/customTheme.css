@@ -8,10 +8,6 @@
   --ifm-color-primary-darker: #9a2521;
   --ifm-color-shadow--lw: #7f1e1b;
 }
-.navbar {
-  background: var(--ifm-color-primary);
-  color: var(--ifm-color-primary-lightest);
-}
 .footer.logo {
   width: 370;
   height: 64;
@@ -39,7 +35,6 @@ div.inner {
 }
 .logo {
   padding: 10px 30px 10px 30px;
-  width: 100px;
   height: 50px;
 }
 .productShowcaseSection {
