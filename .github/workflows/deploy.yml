@@ -34,8 +34,8 @@ jobs:
 
       - name: Copy files
         run: |
-          cd website/build/apisix-website
-          cp ../../../README.md ./ && cp ../../../.asf.yaml ./
+          cd website/build/
+          cp ../../README.md ./ && cp ../../.asf.yaml ./
           cd apisix
           find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/doc\/images/src="https:\/\/apisix\.apache\.org\/images/g'
           find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
@@ -48,5 +48,5 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: website/build/apisix-website
+          publish_dir: website/build
           publish_branch: asf-site
