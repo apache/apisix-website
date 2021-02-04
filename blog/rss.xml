@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Apache APISIX™ Blog</title>
+        <link>https://apisix.apache.org/blog</link>
+        <description>Apache APISIX™ Blog</description>
+        <lastBuildDate>Thu, 21 Jan 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
+            <link>https://apisix.apache.org/blog/2021/01/21/run-ingress-apisix-on-amazon-eks</link>
+            <guid>Run Ingress APISIX on Amazon EKS</guid>
+            <pubDate>Thu, 21 Jan 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Chao Zhang, Apache APISIX Comitter from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[初探 Kubernetes Service APIs]]></title>
+            <link>https://apisix.apache.org/blog/2020/12/18/a-first-look-at-kubernetes-service-api</link>
+            <guid>初探 Kubernetes Service APIs</guid>
+            <pubDate>Fri, 18 Dec 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[@gxthrj, Apache APISIX PMC & Apache apisix-ingress-controller Founder from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Envoy and Apache APISIX: Another way to implement the Envoy filter]]></title>
+            <link>https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter</link>
+            <guid>Envoy and Apache APISIX: Another way to implement the Envoy filter</guid>
+            <pubDate>Wed, 16 Dec 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[@nic-chen, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[New website for Apache APISIX]]></title>
+            <link>https://apisix.apache.org/blog/2020/08/22/new-website</link>
+            <guid>New website for Apache APISIX</guid>
+            <pubDate>Sat, 22 Aug 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[We are just refactored out website for Apache APISIX by using docusaurus.]]></description>
+        </item>
+    </channel>
+</rss>
