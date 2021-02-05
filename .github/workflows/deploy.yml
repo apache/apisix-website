@@ -23,30 +23,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Clone apisix's docs from repo & update image's link
-        run: |
-          git clone https://github.com/apache/apisix.git
-          cp -r apisix/doc/images ./website/static && rm -rf apisix/doc/images
-          cp -r apisix/doc ./docs/apisix
-
       - name: Build
         run: cd website && yarn && yarn build
-
-      - name: Copy files
-        run: |
-          cd website/build/apisix-website
-          cp ../../../README.md ./ && cp ../../../.asf.yaml ./
-          cd apisix
-          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/doc\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="\.\/images/src="https:\/\/apisix\.apache\.org\/images/g'
-          find . -type f -name "*.html" -print0 | xargs -0 sed -i -e 's/src="images/src="https:\/\/apisix\.apache\.org\/images/g'
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: website/build/apisix-website
+          publish_dir: website/build
           publish_branch: asf-site
