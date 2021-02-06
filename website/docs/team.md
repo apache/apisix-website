@@ -61,6 +61,11 @@ title: Team
 
 1. [apisix](https://github.com/apache/apisix/graphs/contributors)
 2. [apisix-dashboard](https://github.com/apache/apisix-dashboard/graphs/contributors)
+3. [apisix-website](https://github.com/apache/apisix-website/graphs/contributors)
+4. [apisix-docker](https://github.com/apache/apisix-docker/graphs/contributors)
+5. [apisix-ingress-controller](https://github.com/apache/apisix-ingress-controller/graphs/contributors)
+6. [apisix-helm-chart](https://github.com/apache/apisix-helm-chart/graphs/contributors)
+7. [apisix-control-plane](https://github.com/apache/apisix-control-plane/graphs/contributors)
 
 ## Becoming a Committer
 
