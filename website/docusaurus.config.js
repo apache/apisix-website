@@ -56,6 +56,7 @@ module.exports={
           "showLastUpdateAuthor": true,
           "showLastUpdateTime": true,
           "path": "docs",
+          "routeBasePath":'/',
           "editUrl": "https://github.com/apache/apisix-website/edit/master/website",
           "sidebarPath": "../website/sidebars.json"
         },
@@ -88,12 +89,12 @@ module.exports={
           "position": "left"
         },
         {
-          "to": "docs/downloads",
+          "to": "/downloads",
           "label": "Downloads",
           "position": "left"
         },
         {
-          "to": "docs/team",
+          "to": "/team",
           "label": "Team",
           "position": "left"
         },
