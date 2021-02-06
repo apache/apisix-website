@@ -1,5 +1,5 @@
 :root {
-  --ifm-color-primary-lightest: #ffffff;
+  --ifm-color-primary-lightest: rgb(228, 222, 222);;
   --ifm-color-primary-lighter: #d0312d;
   --ifm-color-primary-light: #f8f8fa;
   --ifm-color-primary: #b52b27;
@@ -8,8 +8,7 @@
   --ifm-color-primary-darker: #9a2521;
   --ifm-color-shadow--lw: #7f1e1b;
 }
-.navbar {
-  background: var(--ifm-color-primary);
+.navbar a {
   color: var(--ifm-color-primary-lightest);
 }
 .footer.logo {
@@ -39,7 +38,6 @@ div.inner {
 }
 .logo {
   padding: 10px 30px 10px 30px;
-  width: 100px;
   height: 50px;
 }
 .productShowcaseSection {
