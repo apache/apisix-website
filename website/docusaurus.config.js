@@ -92,7 +92,6 @@ module.exports={
           "to": "/downloads",
           "label": "Downloads",
           "position": "left"
-          
         },
         {
           "to": "/team",
