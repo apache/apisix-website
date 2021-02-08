@@ -79,7 +79,7 @@ module.exports={
       },
       "items": [
         {
-          "to": "docs/",
+          "to": "/docs",
           "label": "Docs",
           "position": "left"
         },
