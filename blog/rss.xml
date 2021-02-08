@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Thu, 21 Jan 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 08 Feb 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Stable Product Delivery with Cypress]]></title>
+            <link>https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress</link>
+            <guid>Stable Product Delivery with Cypress</guid>
+            <pubDate>Mon, 08 Feb 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@LiteSun, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
             <link>https://apisix.apache.org/blog/2021/01/21/run-ingress-apisix-on-amazon-eks</link>
