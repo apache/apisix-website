@@ -75,7 +75,6 @@ div.inner {
   margin-top: 48px;
 }
 .showcase .logo {
-  /* padding: 10px 30px 10px 30px; */
   margin: 0 12px;
   padding: 8px 18px;
   height: 50px;
@@ -88,7 +87,6 @@ div.inner {
   background: var(--ifm-color-primary-light);
   width: 100%;
   border-radius: 16px;
-  /* background: #f3f4f6; */
 }
 .learn-how .container {
   margin-top: 36px;
@@ -100,10 +98,6 @@ div.inner {
   font-size: 2.2rem;
   margin-bottom: 10px;
 }
-/* .learn-how .hero__subtitle {
-  font-size: 1.4rem;
-  letter-spacing: -0.2px;
-} */
 
 /* button */
 .button {
