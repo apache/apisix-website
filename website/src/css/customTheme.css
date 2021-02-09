@@ -1,5 +1,5 @@
 :root {
-  --ifm-color-primary-lightest: rgb(228, 222, 222);;
+  --ifm-color-primary-lightest: rgb(228, 222, 222);
   --ifm-color-primary-lighter: #d0312d;
   --ifm-color-primary-light: #f8f8fa;
   --ifm-color-primary: #b52b27;
@@ -7,26 +7,16 @@
   --ifm-color-primary-dark: #a5a0a0;
   --ifm-color-primary-darker: #9a2521;
   --ifm-color-shadow--lw: #7f1e1b;
+
+  --color-primary: #df2d2d;
 }
-.navbar a {
-  color: var(--ifm-color-primary-lightest);
+
+body {
+  font-family: "Inter", sans-serif;
 }
-.footer.logo {
-  width: 370;
-  height: 64;
-}
-.footer {
-  color: var(--ifm-color-primary-dark);
-}
-.button {
-  margin-left: 10px;
-}
+
 div.inner {
   color: var(--ifm-color-primary);
-}
-.Learnhow {
-  background: var(--ifm-color-primary-light);
-  width: 100%;
 }
 .image {
   padding: 75px 10px 75px 75px;
@@ -36,24 +26,166 @@ div.inner {
 .more-users {
   padding-top: 75px;
 }
-.logo {
-  padding: 10px 30px 10px 30px;
-  height: 50px;
-}
-.productShowcaseSection {
+.product-showcase-section {
   color: var(--ifm-color-primary);
 }
 
-/*
-.footer .logo {
-  width: 75px;
-  height: 75px;
+.post-header {
+  padding-top: 50px;
 }
-*/
+.header {
+  padding-top: 50px;
+}
 
-.postHeader {
-  padding-top: 50px;
+/* home splash */
+.home-splash {
+  margin-top: 8px;
 }
-.Header {
-  padding-top: 50px;
+
+.home-splash .title {
+  font-size: 2.4rem;
+  color: black;
+  opacity: 0.92;
+}
+
+.home-splash .title.brand {
+  font-size: 2.9rem;
+  color: #df2d2d;
+}
+
+.home-splash .subtitle {
+  color: #000000;
+  opacity: 0.58;
+  font-size: 1.2rem;
+}
+
+.home-splash .button-wrapper {
+  margin-top: 28px;
+}
+
+/* showcase */
+.product-showcase-section {
+  color: var(--color-primary);
+}
+.showcase {
+  padding-bottom: 8rem;
+}
+
+.showcase .logos {
+  margin-top: 48px;
+}
+.showcase .logo {
+  /* padding: 10px 30px 10px 30px; */
+  margin: 0 12px;
+  padding: 8px 18px;
+  height: 50px;
+  border-radius: 8px;
+  background: white;
+}
+
+/* learn how */
+.learn-how {
+  background: var(--ifm-color-primary-light);
+  width: 100%;
+  border-radius: 16px;
+  /* background: #f3f4f6; */
+}
+.learn-how .container {
+  margin-top: 36px;
+}
+.learn-how .hero__title {
+  font-weight: 700;
+  color: black;
+  opacity: 0.84;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+/* .learn-how .hero__subtitle {
+  font-size: 1.4rem;
+  letter-spacing: -0.2px;
+} */
+
+/* button */
+.button {
+  margin: 0 10px;
+  padding: 8px 18px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  background: #fee2e2;
+  color: #ef4444;
+  transition: all 0.3s;
+}
+.button:hover {
+  background: #fecaca;
+  color: #ef4444;
+}
+.button.github {
+  background: #111827;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+}
+.button.github .github-logo {
+  height: 24px;
+  margin: 0 8px 1px 0px;
+}
+.button.github:hover {
+  background: #000;
+}
+.button-wrapper {
+  margin: 0 -10px;
+}
+.button.secondary {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+.button.secondary:hover {
+  background: #e5e7eb;
+}
+a {
+  color: inherit;
+  cursor: pointer;
+}
+a:hover {
+  color: var(--color-primary);
+}
+
+/* footer */
+.footer__links .footer__title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.footer__links .footer__item a {
+  opacity: 0.86;
+}
+.footer__links a:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.footer__bottom {
+  margin-top: 36px;
+}
+.footer__bottom a[href^="https://www.apache.org/"]
+{
+  opacity: 1;
+}
+.footer__bottom a[href^="https://www.apache.org/"]:hover
+{
+  transform: scale(0.5);
+}
+.footer__bottom a[href^="https://www.apache.org/"] img
+{
+  margin-top: 0;
+  background: white;
+  padding: 8px 20px 6px 19px;
+  border-radius: 24px;
+}
+.footer__copyright {
+  font-size: 12px;
+  max-width: 680px;
+  margin: 0 auto;
+  opacity: 0.88;
 }

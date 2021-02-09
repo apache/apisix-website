@@ -1,32 +1,38 @@
-const React = require('react');
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import Layout from '@theme/Layout';
-
+const React = require("react");
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Layout from "@theme/Layout";
+import GitHubLogo from "../assets/icons/github-logo.svg";
 
 const Index = (props) => {
   const { siteConfig } = useDocusaurusContext();
 
   const HomeSplash = () => (
-    <div className="hero text--center">
+    <div className="hero home-splash">
       <div className="container">
         <div className="inner">
           <div className="padding-vert--md">
-            <h1 className="hero__title">{siteConfig.title}</h1>
-            <p className="hero__subtitle">{siteConfig.tagline}</p>
-            <p className="hero__subtitle">{siteConfig.customFields.tagline2}</p>
+            <h1 className="title brand">Apache APISIX™</h1>
+            <h1 className="title">A Dynamic Cloud-Native API Gateway</h1>
+            <div className="subtitle">
+              Provides rich traffic management features such as load balancing,
+              dynamic upstream, canary release, circuit breaking,
+              authentication, observability, and more. Based on the Nginx
+              library and etcd.
+            </div>
           </div>
-          <div className="pluginWrapper buttonWrapper">
+          <div className="pluginWrapper button-wrapper">
             <Link
               to="https://github.com/apache/apisix"
-              className="button  button--outline button--primary"
+              className="button  button--outline button--primary github"
             >
+              <GitHubLogo className="github-logo" />
               View on GitHub
             </Link>
             <Link
-              to={useBaseUrl('/docs/downloads')}
-              className="button  button--outline button--primary"
+              to={useBaseUrl("downloads")}
+              className="button  button--outline button--primary secondary"
             >
               Downloads
             </Link>
@@ -37,7 +43,7 @@ const Index = (props) => {
   );
   const LearnHow = () => (
     <div className="hero">
-      <div className="Learnhow">
+      <div className="learn-how">
         <div className="container">
           <div className="row">
             <div className="col col--7">
@@ -87,21 +93,23 @@ const Index = (props) => {
       ));
 
     return (
-      <div className="hero text--center">
+      <div className="hero text--center showcase">
         <div className="container">
-          <div className="productShowcaseSection">
+          <div className="product-showcase-section">
             <h1>Who is Using This?</h1>
           </div>
-          <p>This project is used by all these folks</p>
-          <div className="logos">{showcase}</div>
-          <div className="more-users">
-            <Link
-              to= './Users'
-              className="button button--primary button--outline "
+          <p>
+            This project is used by all these folks
+            <br />
+            Are you using this project?{" "}
+            <a
+              href="https://github.com/apache/apisix/blob/master/doc/powered-by.md"
+              target="_blank"
             >
-              <small>More {siteConfig.title} Users</small>
-            </Link>
-          </div>
+              <u>Add your company</u>
+            </a>
+          </p>
+          <div className="logos">{showcase}</div>
         </div>
       </div>
     );

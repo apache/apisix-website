@@ -11,7 +11,9 @@
     "deploy": "docusaurus deploy",
     "docusaurus": "docusaurus"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@svgr/webpack": "^5.5.0"
+  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.70",
     "@docusaurus/preset-classic": "2.0.0-alpha.70",
@@ -20,7 +22,11 @@
     "react-dom": "^16.10.2"
   },
   "browserslist": {
-    "production": [">0.5%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
