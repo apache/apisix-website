@@ -208,9 +208,6 @@ git clone -b v$APISIX_VERSION git@github.com:apache/apisix.git apache-apisix-$AP
 # check version
 $ cd apache-apisix-$APISIX_VERSION && ./utils/check-version.sh $APISIX_VERSION && cd ..
 
-# delete .git
-$ rm -rf apache-apisix-$APISIX_VERSION/.git
-
 # make tar package / asc / sha512
 $ cd apache-apisix-$APISIX_VERSION && make release-src VERSION=$APISIX_VERSION
 $ mv ./release/* ../ && cd ..
