@@ -42,6 +42,16 @@ div.inner {
 header h2 {
   color: var(--color-primary);
 }
+
+/* navbar */
+.navbar .react-toggle {
+  display: none;
+}
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--color-primary);
+}
+
 /* home splash */
 .home-splash {
   margin-top: 8px;

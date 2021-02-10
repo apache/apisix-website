@@ -76,7 +76,7 @@ module.exports = {
   plugins: [],
   themeConfig: {
     navbar: {
-      // title: "Apache APISIX™",
+      title: "Apache APISIX™",
       logo: {
         src: "img/logo.png",
       },
@@ -84,27 +84,27 @@ module.exports = {
         {
           to: "/docs",
           label: "Docs",
-          position: "left",
+          position: "right",
         },
         {
           to: "/blog",
           label: "Blog",
-          position: "left",
+          position: "right",
         },
         {
           to: "/downloads",
           label: "Downloads",
-          position: "left",
+          position: "right",
         },
         {
           to: "/team",
           label: "Team",
-          position: "left",
+          position: "right",
         },
         {
           to: "/help",
           label: "Help",
-          position: "left",
+          position: "right",
         },
       ],
     },
