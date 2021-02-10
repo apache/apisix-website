@@ -2,13 +2,15 @@
   --ifm-color-primary-lightest: rgb(228, 222, 222);
   --ifm-color-primary-lighter: #d0312d;
   --ifm-color-primary-light: #f8f8fa;
-  --ifm-color-primary: #b52b27;
+  --ifm-color-primary: #e8433e;
   --ifm-color-dark: #000000;
   --ifm-color-primary-dark: #a5a0a0;
   --ifm-color-primary-darker: #9a2521;
   --ifm-color-shadow--lw: #7f1e1b;
 
-  --color-primary: #df2d2d;
+  --color-primary: #e8433e;
+  --color-secondary: #6b7280;
+  --color-secondary-bg: #f3f4f6;
 }
 
 body {
@@ -37,6 +39,9 @@ div.inner {
   padding-top: 50px;
 }
 
+header h2 {
+  color: var(--color-primary);
+}
 /* home splash */
 .home-splash {
   margin-top: 8px;
@@ -232,4 +237,74 @@ a:hover {
 
 .feature-word-text-exit-done {
   opacity: 0;
+}
+
+/* help page */
+.help-page h1 {
+  font-size: 3rem;
+}
+.help-page .cards {
+  margin-top: 38px;
+  margin-bottom: 72px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 36px;
+}
+.help-page .card {
+  padding: 24px 28px 18px 28px;
+  box-shadow: unset;
+  background: var(--color-secondary-bg);
+}
+
+.help-page .card .header {
+  padding: 0;
+}
+
+.help-page .card h2 {
+  display: flex;
+  align-items: center;
+}
+
+.help-page .card h2 img {
+  padding-bottom: 2px;
+  height: 28px;
+  margin-right: 14px;
+}
+
+.help-page #documents-icon {
+  margin-right: 10px;
+  margin-left: -6px;
+}
+
+.help-page .card p {
+  color: #6b7280;
+}
+
+.help-page .card .buttons {
+  margin-top: 18px;
+}
+
+.help-page .card .buttons a {
+  font-size: 18px;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-right: 32px;
+}
+
+.help-page .card .buttons a:hover {
+  text-decoration: none;
+}
+
+.help-page .card .buttons a:hover svg {
+  transform: translateX(4px);
+}
+
+.help-page .card .buttons svg {
+  height: 12px;
+  margin-left: 4px;
+  transition: transform 0.3s;
+}
+
+.help-page .card .buttons {
+  display: flex;
 }
