@@ -1,5 +1,6 @@
 const React = require("react");
 import Layout from "@theme/Layout";
+import ChevronRight from "../assets/icons/chevron-right.svg";
 
 function Help(props) {
   const { config: siteConfig, language = "" } = props;
@@ -8,7 +9,7 @@ function Help(props) {
   const langPart = `${language ? `${language}/` : ""}`;
   const docUrl = (doc) => `${baseUrl}${docsPart}${langPart}${doc}`;
   return (
-    <div className="container">
+    <div className="container help-page">
       <div className="row">
         <div className="post-header">
           <h1>Need help?</h1>
@@ -17,29 +18,46 @@ function Help(props) {
       <div className="row">
         This project is maintained by a dedicated group of people.
       </div>
-      <div className="row">
-        <div class="col col--4">
+      <div className="row cards">
+        <div class="card">
           <div className="header">
-            <h3>Browse Docs</h3>
+            <h2>
+              <img src="../../static/img/documents.png" id="documents-icon" />
+              Browse Docs
+            </h2>
           </div>
-          <p>
-            Learn more using the{" "}
-            <a href="https://github.com/apache/apisix/tree/master/doc">
-              documentation on this site.
+          <p>Learn more using the documentation on this site.</p>
+          <div className="buttons">
+            <a
+              href="https://github.com/apache/apisix/tree/master/doc"
+              target="_blank"
+            >
+              Read Documents <ChevronRight />
             </a>
-          </p>
+          </div>
         </div>
-        <div class="col col--4">
+        <div class="card">
           <div className="header">
-            <h3>Join the community</h3>
+            <h2>
+              <img src="../../static/img/community.png" />
+              Join the community
+            </h2>
           </div>
           <p>Ask questions about the documentation and project</p>
-        </div>
-        <div class="col col--4">
-          <div className="header">
-            <h3>Stay up to date</h3>
+          <div className="buttons">
+            <a href="https://github.com/apache/apisix/issues" target="_blank">
+              GitHub <ChevronRight />
+            </a>
+            <a
+              href="https://join.slack.com/t/the-asf/shared_invite/zt-lcbw4olf-_5s17RLU0Cx8xTvj2bNbjg"
+              target="_blank"
+            >
+              Slack <ChevronRight />
+            </a>
+            <a href="https://twitter.com/ApacheAPISIX" target="_blank">
+              Twitter <ChevronRight />
+            </a>
           </div>
-          <p>Find out what's new with this project</p>
         </div>
       </div>
     </div>
