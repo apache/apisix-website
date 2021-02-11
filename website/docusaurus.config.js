@@ -302,7 +302,7 @@ module.exports = {
       },
       items: [
         {
-          to: "/docs",
+          to: "/subscribe-guide",
           label: "Docs",
           position: "right",
         },
@@ -328,7 +328,6 @@ module.exports = {
         },
       ],
     },
-
     footer: {
       links: [
         {

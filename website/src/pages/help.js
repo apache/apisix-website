@@ -48,7 +48,10 @@ function Help(props) {
             <a href="https://github.com/apache/apisix/issues" target="_blank">
               GitHub <ChevronRight />
             </a>
-            <a href="hhttps://apisix.slack.com/" target="_blank">
+            <a
+              href="https://join.slack.com/t/the-asf/shared_invite/zt-lcbw4olf-_5s17RLU0Cx8xTvj2bNbjg"
+              target="_blank"
+            >
               Slack <ChevronRight />
             </a>
             <a href="https://twitter.com/ApacheAPISIX" target="_blank">
