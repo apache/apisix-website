@@ -22,7 +22,7 @@ function Help(props) {
         <div class="card">
           <div className="header">
             <h2>
-              <img src="../../static/img/documents.png" id="documents-icon" />
+              <img src="/img/documents.png" id="documents-icon" />
               Browse Docs
             </h2>
           </div>
@@ -39,7 +39,7 @@ function Help(props) {
         <div class="card">
           <div className="header">
             <h2>
-              <img src="../../static/img/community.png" />
+              <img src="/img/community.png" />
               Join the community
             </h2>
           </div>
