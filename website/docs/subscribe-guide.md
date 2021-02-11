@@ -1,6 +1,6 @@
 ---
 id: subscribe-guide
-slug: /docs
+slug: /subscribe-guide
 title: Subscribe Guide
 ---
 

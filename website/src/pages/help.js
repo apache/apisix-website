@@ -22,7 +22,7 @@ function Help(props) {
         <div class="card">
           <div className="header">
             <h2>
-              <img src="../../static/img/documents.png" id="documents-icon" />
+              <img src="/img/documents.png" id="documents-icon" />
               Browse Docs
             </h2>
           </div>
@@ -39,7 +39,7 @@ function Help(props) {
         <div class="card">
           <div className="header">
             <h2>
-              <img src="../../static/img/community.png" />
+              <img src="/img/community.png" />
               Join the community
             </h2>
           </div>
@@ -48,7 +48,10 @@ function Help(props) {
             <a href="https://github.com/apache/apisix/issues" target="_blank">
               GitHub <ChevronRight />
             </a>
-            <a href="hhttps://apisix.slack.com/" target="_blank">
+            <a
+              href="https://join.slack.com/t/the-asf/shared_invite/zt-lcbw4olf-_5s17RLU0Cx8xTvj2bNbjg"
+              target="_blank"
+            >
               Slack <ChevronRight />
             </a>
             <a href="https://twitter.com/ApacheAPISIX" target="_blank">

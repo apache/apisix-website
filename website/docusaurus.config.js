@@ -302,7 +302,7 @@ module.exports = {
       },
       items: [
         {
-          to: "/docs",
+          to: "/subscribe-guide",
           label: "Docs",
           position: "right",
         },
@@ -328,7 +328,6 @@ module.exports = {
         },
       ],
     },
-
     footer: {
       links: [
         {
@@ -401,8 +400,7 @@ module.exports = {
         "Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
     },
     algolia: {
-      apiKey: "79e72fedcf3719ba85c552f710ade8a3",
-      appId: "ZHVP417Y1Y",
+      apiKey: "ad95c83c2872f173de8bcc4a0351c5c2",
       indexName: "apache-apisix-website",
     },
   },
