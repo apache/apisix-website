@@ -123,13 +123,12 @@ const Showcase = () => {
   if ((siteConfig.customFields.users || []).length === 0) {
     return null;
   }
-  const showcase = siteConfig.customFields.users
-    .filter((user) => user.pinned)
-    .map((user) => (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img className="logo" src={user.image} alt={user.caption} />
-      </a>
-    ));
+  const showcase = siteConfig.customFields.users.map((user) => (
+    <a href={user.infoLink} key={user.infoLink} target="_blank">
+      <img className="user-logo" src={user.image} alt={user.caption} />
+    </a>
+  ));
+  const middleIndex = (showcase.length / 2).toFixed(0);
 
   return (
     <div className="hero text--center showcase">
@@ -149,7 +148,18 @@ const Showcase = () => {
             <u>Add your company</u>
           </a>
         </p>
-        <div className="logos">{showcase}</div>
+        <div className="user-logos">
+          <div className="logo-row">
+            <span className="user-logos-container">
+              <section>{showcase.slice(0, middleIndex)}</section>
+            </span>
+          </div>
+          <div className="logo-row">
+            <span className="user-logos-container">
+              <section>{showcase.slice(middleIndex, showcase.length)}</section>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -95,17 +95,65 @@ header h2 {
 }
 .showcase {
   padding-bottom: 8rem;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+.showcase .container {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: unset;
 }
 
-.showcase .logos {
+.showcase .user-logos {
   margin-top: 48px;
 }
-.showcase .logo {
-  margin: 0 12px;
-  padding: 8px 18px;
-  height: 50px;
-  border-radius: 8px;
-  background: white;
+
+.showcase .logo-row {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 5rem;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.showcase .user-logos-container {
+  display: inline-block;
+  animation: 36s linear 0s infinite reverse none running logo-animation;
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute;
+}
+.showcase .user-logos-container:hover {
+  animation-play-state: paused !important;
+}
+
+.showcase .user-logos-container section {
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.showcase .user-logo {
+  max-width: 128px;
+  max-height: 50px;
+  margin: 0 16px;
+}
+
+@keyframes logo-animation {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
 }
 
 /* learn how */
