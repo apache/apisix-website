@@ -9,7 +9,7 @@
   --ifm-color-shadow--lw: #7f1e1b;
 
   --color-primary: #e8433e;
-  --color-secondary: #6b7280;
+  --color-secondary: #4b5563;
   --color-secondary-bg: #f3f4f6;
 }
 
@@ -160,7 +160,7 @@ header h2 {
 }
 .button.secondary {
   background: #f3f4f6;
-  color: #6b7280;
+  color: var(--color-secondary);
   border: 1px solid #d1d5db;
   box-sizing: border-box;
 }
@@ -181,7 +181,7 @@ a:hover {
   font-size: 1.1rem;
 }
 .footer__links .footer__item a {
-  opacity: 0.86;
+  opacity: 0.94;
 }
 .footer__links a:hover {
   opacity: 1;

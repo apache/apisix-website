@@ -109,6 +109,7 @@ const LearnHow = () => (
               className="image"
               src="https://github.com/apache/apisix/blob/master/doc/images/apisix.png?raw=true"
               align="right"
+              alt="apisix-description"
             />
           </div>
         </div>
@@ -126,12 +127,7 @@ const Showcase = () => {
     .filter((user) => user.pinned)
     .map((user) => (
       <a href={user.infoLink} key={user.infoLink}>
-        <img
-          className="logo"
-          src={user.image}
-          alt={user.caption}
-          title={user.caption}
-        />
+        <img className="logo" src={user.image} alt={user.caption} />
       </a>
     ));
 
@@ -148,6 +144,7 @@ const Showcase = () => {
           <a
             href="https://github.com/apache/apisix/blob/master/doc/powered-by.md"
             target="_blank"
+            rel="noopener"
           >
             <u>Add your company</u>
           </a>
