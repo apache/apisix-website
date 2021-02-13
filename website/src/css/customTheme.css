@@ -51,6 +51,9 @@ header h2 {
 .navbar__link--active {
   color: var(--color-primary);
 }
+.navbar-sidebar {
+  box-shadow: unset;
+}
 
 /* home splash */
 .home-splash {
@@ -269,7 +272,7 @@ a:hover {
   opacity: 0.88;
 }
 
-/* 
+/*
   Animations
 */
 
