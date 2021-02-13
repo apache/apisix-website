@@ -109,6 +109,7 @@ const LearnHow = () => (
               className="image"
               src="https://github.com/apache/apisix/blob/master/doc/images/apisix.png?raw=true"
               align="right"
+              alt="apisix-description"
             />
           </div>
         </div>
@@ -122,18 +123,12 @@ const Showcase = () => {
   if ((siteConfig.customFields.users || []).length === 0) {
     return null;
   }
-  const showcase = siteConfig.customFields.users
-    .filter((user) => user.pinned)
-    .map((user) => (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img
-          className="logo"
-          src={user.image}
-          alt={user.caption}
-          title={user.caption}
-        />
-      </a>
-    ));
+  const showcase = siteConfig.customFields.users.map((user) => (
+    <a href={user.infoLink} key={user.infoLink} target="_blank">
+      <img className="user-logo" src={user.image} alt={user.caption} />
+    </a>
+  ));
+  const middleIndex = (showcase.length / 2).toFixed(0);
 
   return (
     <div className="hero text--center showcase">
@@ -148,11 +143,29 @@ const Showcase = () => {
           <a
             href="https://github.com/apache/apisix/blob/master/doc/powered-by.md"
             target="_blank"
+            rel="noopener"
           >
             <u>Add your company</u>
           </a>
         </p>
-        <div className="logos">{showcase}</div>
+        <div className="user-logos">
+          <div className="logo-row">
+            <span className="user-logos-container">
+              <section>
+                <span>{showcase.slice(0, middleIndex)}</span>
+                <span>{showcase.slice(0, middleIndex)}</span>
+              </section>
+            </span>
+          </div>
+          <div className="logo-row">
+            <span className="user-logos-container">
+              <section>
+                <span>{showcase.slice(middleIndex, showcase.length)}</span>
+                <span>{showcase.slice(middleIndex, showcase.length)}</span>
+              </section>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
