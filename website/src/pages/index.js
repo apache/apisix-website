@@ -151,12 +151,18 @@ const Showcase = () => {
         <div className="user-logos">
           <div className="logo-row">
             <span className="user-logos-container">
-              <section>{showcase.slice(0, middleIndex)}</section>
+              <section>
+                <span>{showcase.slice(0, middleIndex)}</span>
+                <span>{showcase.slice(0, middleIndex)}</span>
+              </section>
             </span>
           </div>
           <div className="logo-row">
             <span className="user-logos-container">
-              <section>{showcase.slice(middleIndex, showcase.length)}</section>
+              <section>
+                <span>{showcase.slice(middleIndex, showcase.length)}</span>
+                <span>{showcase.slice(middleIndex, showcase.length)}</span>
+              </section>
             </span>
           </div>
         </div>

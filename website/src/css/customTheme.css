@@ -112,6 +112,10 @@ header h2 {
   margin-top: 48px;
 }
 
+.showcase .user-logos:hover span {
+  animation-play-state: paused !important;
+}
+
 .showcase .logo-row {
   display: flex;
   -webkit-box-align: center;
@@ -124,16 +128,20 @@ header h2 {
 
 .showcase .user-logos-container {
   display: inline-block;
-  animation: 36s linear 0s infinite reverse none running logo-animation;
   white-space: nowrap;
   overflow: hidden;
   position: absolute;
 }
-.showcase .user-logos-container:hover {
-  animation-play-state: paused !important;
-}
 
 .showcase .user-logos-container section {
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.showcase .user-logos-container section span {
+  animation: 36s linear 0s infinite reverse none running logo-animation;
   white-space: nowrap;
   overflow: hidden;
   display: flex;
