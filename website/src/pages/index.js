@@ -6,6 +6,7 @@ import Layout from "@theme/Layout";
 import GitHubLogo from "../assets/icons/github-logo.svg";
 import { useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
+import ChevronRight from "../assets/icons/chevron-right.svg";
 
 const HomeSplash = () => {
   const [featureWordIndex, setFeatureWordIndex] = useState(0);
@@ -120,15 +121,15 @@ const LearnHow = () => (
 
 const Showcase = () => {
   const { siteConfig } = useDocusaurusContext();
-  if ((siteConfig.customFields.users || []).length === 0) {
+  if (!(siteConfig.customFields.showcases || []).length) {
     return null;
   }
-  const showcase = siteConfig.customFields.users.map((user) => (
+  const showcases = siteConfig.customFields.showcases.map((user) => (
     <a href={user.infoLink} key={user.infoLink} target="_blank">
       <img className="user-logo" src={user.image} alt={user.caption} />
     </a>
   ));
-  const middleIndex = (showcase.length / 2).toFixed(0);
+  const middleIndex = (showcases.length / 2).toFixed(0);
 
   return (
     <div className="hero text--center showcase">
@@ -152,20 +153,59 @@ const Showcase = () => {
           <div className="logo-row">
             <span className="user-logos-container">
               <section>
-                <span>{showcase.slice(0, middleIndex)}</span>
-                <span>{showcase.slice(0, middleIndex)}</span>
+                <span>{showcases.slice(0, middleIndex)}</span>
+                <span>{showcases.slice(0, middleIndex)}</span>
               </section>
             </span>
           </div>
           <div className="logo-row">
             <span className="user-logos-container">
               <section>
-                <span>{showcase.slice(middleIndex, showcase.length)}</span>
-                <span>{showcase.slice(middleIndex, showcase.length)}</span>
+                <span>{showcases.slice(middleIndex, showcases.length)}</span>
+                <span>{showcases.slice(middleIndex, showcases.length)}</span>
               </section>
             </span>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const EventsSection = () => {
+  const { siteConfig } = useDocusaurusContext();
+  const events = (siteConfig.customFields.events || [])
+    .slice(0, 4)
+    .map((event) => {
+      const publishTime = event.fileName.slice(0, 10);
+      const splittedFileName = event.fileName.split("-");
+      const url = `/events/${splittedFileName
+        .slice(0, 3)
+        .join("/")}/${splittedFileName.slice(3).join("-")}`;
+      return (
+        <a className="event-item" key={event.title} href={url} target="_blank">
+          <div>
+            <div className="event-title">{event.title}</div>
+            <div className="event-publish-time">{publishTime}</div>
+          </div>
+          <div className="event-read-button">
+            Read <ChevronRight />
+          </div>
+        </a>
+      );
+    });
+  return (
+    <div className="hero text--center events-section">
+      <div className="container">
+        <div>
+          <h1 className="color-primary">Events</h1>
+        </div>
+        <div className="events-view-all-button">
+          <a href="/events" target="_blank">
+            <u>View All Events</u>
+          </a>
+        </div>
+        <div className="events-container">{events}</div>
       </div>
     </div>
   );
@@ -176,6 +216,7 @@ const Index = (props) => {
     <Layout>
       <HomeSplash />
       <LearnHow />
+      <EventsSection />
       <Showcase />
     </Layout>
   );
