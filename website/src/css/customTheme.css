@@ -301,6 +301,9 @@ a {
 a:hover {
   color: var(--color-primary);
 }
+.markdown a {
+  color: var(--color-primary);
+}
 
 /* footer */
 .footer {
