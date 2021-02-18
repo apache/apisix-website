@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { paramCase } from "change-case";
 
 import IconInfo from "../../assets/icons/info.svg";
 import IconStar from "../../assets/icons/star.svg";
@@ -31,6 +30,7 @@ const ProjectCard = (props) => {
   const [repoStats, setRepoStats] = useState({ stars: 0, issues: 0 });
   const {
     name,
+    nameInParamCase,
     description,
     shape,
     color,
@@ -47,8 +47,10 @@ const ProjectCard = (props) => {
       <IconHexagon />
     );
   const downloadLink = `apisix${
-    "/" + paramCase(name.replace("APISIX™", ""))
-  }/${version}/apache-${paramCase(name.replace("™", ""))}-${version}-src`;
+    nameInParamCase !== "apisix" ? "/" + nameInParamCase : ""
+  }/${version}/apache-${
+    nameInParamCase !== "apisix" ? "apisix-" + nameInParamCase : ""
+  }-${version}-src`;
 
   useEffect(() => {
     getGitHubRepoStats(githubRepo).then((stats) => {
