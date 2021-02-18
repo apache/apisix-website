@@ -39,20 +39,18 @@ div.inner {
   padding-top: 50px;
 }
 
+.color-primary {
+  color: var(--ifm-color-primary);
+}
+
 header h2 {
   color: var(--color-primary);
 }
 
 /* navbar */
-.navbar .react-toggle {
-  display: none;
-}
 .navbar__link:hover,
 .navbar__link--active {
   color: var(--color-primary);
-}
-.navbar-sidebar {
-  box-shadow: unset;
 }
 
 /* home splash */
@@ -97,7 +95,6 @@ header h2 {
   color: var(--color-primary);
 }
 .showcase {
-  padding-bottom: 8rem;
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
@@ -167,9 +164,80 @@ header h2 {
   }
 }
 
+/* events section  */
+.events-section .events-container {
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 16px 0;
+}
+.events-section .event-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  border: 1px solid #eee;
+  margin: 8px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  text-decoration: none;
+  min-width: 256px;
+}
+@media (max-width: 574px) {
+  .events-section .event-item .event-read-button {
+    display: none;
+  }
+}
+.events-section .event-item .event-title {
+  font-weight: 500;
+  color: #000;
+  opacity: 0.88;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.events-section .event-item .event-publish-time {
+  color: #000;
+  opacity: 0.58;
+  font-size: 12px;
+}
+.events-section .event-item .event-read-button {
+  margin-top: 16px;
+  font-weight: 500;
+  color: #000;
+  opacity: 0.58;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+.events-section .event-item .event-read-button svg {
+  height: 8px;
+  margin-left: 1px;
+  transition: all 0.3s;
+}
+.events-section .event-item:hover .event-title {
+  color: var(--ifm-color-primary);
+}
+.events-section .event-item:hover .event-read-button {
+  opacity: 0.88;
+}
+.events-section .event-item:hover {
+  border-color: rgb(231, 231, 231);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+.events-section .events-view-all-button {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
 /* learn how */
 .learn-how {
-  background: var(--ifm-color-primary-light);
   width: 100%;
   border-radius: 16px;
   background: var(--color-secondary-bg);
@@ -233,8 +301,14 @@ a {
 a:hover {
   color: var(--color-primary);
 }
+.markdown a {
+  color: var(--color-primary);
+}
 
 /* footer */
+.footer {
+  margin-top: 2rem;
+}
 .footer__links .footer__title {
   font-weight: 700;
   font-size: 1.1rem;
@@ -272,7 +346,7 @@ a:hover {
   opacity: 0.88;
 }
 
-/*
+/* 
   Animations
 */
 
