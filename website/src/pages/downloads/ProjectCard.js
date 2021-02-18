@@ -160,13 +160,24 @@ const LeftSide = styled.div`
   flex-shrink: 2;
   padding-left: 0.6rem;
 `;
-const Title = styled.div`
+const Title = styled.a`
   font-size: 2.4rem;
   font-weight: bold;
   margin-top: -6px;
+  display: block;
+  cursor: pointer;
   @media (max-width: 600px) {
     margin-top: 0px;
     font-size: 1.6rem;
+  }
+  svg {
+    transition: all 0.6s;
+  }
+  &:hover {
+    color: inherit;
+    svg {
+      transform: rotate(360deg);
+    }
   }
 `;
 const Description = styled.div`
