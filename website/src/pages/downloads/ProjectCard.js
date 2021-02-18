@@ -49,7 +49,7 @@ const ProjectCard = (props) => {
   const downloadLink = `apisix${
     nameInParamCase !== "apisix" ? "/" + nameInParamCase : ""
   }/${version}/apache-${
-    nameInParamCase !== "apisix" ? "apisix-" + nameInParamCase : ""
+    nameInParamCase !== "apisix" ? "apisix-" + nameInParamCase : "apisix"
   }-${version}-src`;
 
   useEffect(() => {
