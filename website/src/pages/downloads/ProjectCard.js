@@ -46,7 +46,7 @@ const ProjectCard = (props) => {
     ) : (
       <IconHexagon />
     );
-  const downloadLink = `https://www.apache.org/dyn/closer.cgi/apisix${
+  const downloadLink = `apisix${
     "/" + paramCase(name.replace("APISIX™", ""))
   }/${version}/apache-${paramCase(name.replace("™", ""))}-${version}-src`;
 
@@ -107,13 +107,22 @@ const ProjectCard = (props) => {
             isDropdownOpen={isDropdownOpen}
             setIsDropdownOpen={setIsDropdownOpen}
           >
-            <DropdownItem href={`${downloadLink}.tgz`} target="_blank">
+            <DropdownItem
+              href={`https://www.apache.org/dyn/closer.cgi/${downloadLink}.tgz`}
+              target="_blank"
+            >
               Source
             </DropdownItem>
-            <DropdownItem href={`${downloadLink}.tgz.asc`} target="_blank">
+            <DropdownItem
+              href={`https://downloads.apache.org/${downloadLink}.tgz.asc`}
+              target="_blank"
+            >
               ASC
             </DropdownItem>
-            <DropdownItem href={`${downloadLink}.tgz.sha512`} target="_blank">
+            <DropdownItem
+              href={`https://downloads.apache.org/${downloadLink}.tgz.sha512`}
+              target="_blank"
+            >
               SHA512
             </DropdownItem>
           </Dropdown>
