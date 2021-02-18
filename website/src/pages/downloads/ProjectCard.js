@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { paramCase } from "change-case";
 
 import IconInfo from "../../assets/icons/info.svg";
 import IconStar from "../../assets/icons/star.svg";
@@ -31,6 +30,7 @@ const ProjectCard = (props) => {
   const [repoStats, setRepoStats] = useState({ stars: 0, issues: 0 });
   const {
     name,
+    nameInParamCase,
     description,
     shape,
     color,
@@ -46,9 +46,11 @@ const ProjectCard = (props) => {
     ) : (
       <IconHexagon />
     );
-  const downloadLink = `https://www.apache.org/dyn/closer.cgi/apisix${
-    "/" + paramCase(name.replace("APISIX™", ""))
-  }/${version}/apache-${paramCase(name.replace("™", ""))}-${version}-src`;
+  const downloadLink = `apisix${
+    nameInParamCase !== "apisix" ? "/" + nameInParamCase : ""
+  }/${version}/apache-${
+    nameInParamCase !== "apisix" ? "apisix-" + nameInParamCase : "apisix"
+  }-${version}-src`;
 
   useEffect(() => {
     getGitHubRepoStats(githubRepo).then((stats) => {
@@ -107,13 +109,22 @@ const ProjectCard = (props) => {
             isDropdownOpen={isDropdownOpen}
             setIsDropdownOpen={setIsDropdownOpen}
           >
-            <DropdownItem href={`${downloadLink}.tgz`} target="_blank">
+            <DropdownItem
+              href={`https://www.apache.org/dyn/closer.cgi/${downloadLink}.tgz`}
+              target="_blank"
+            >
               Source
             </DropdownItem>
-            <DropdownItem href={`${downloadLink}.tgz.asc`} target="_blank">
+            <DropdownItem
+              href={`https://downloads.apache.org/${downloadLink}.tgz.asc`}
+              target="_blank"
+            >
               ASC
             </DropdownItem>
-            <DropdownItem href={`${downloadLink}.tgz.sha512`} target="_blank">
+            <DropdownItem
+              href={`https://downloads.apache.org/${downloadLink}.tgz.sha512`}
+              target="_blank"
+            >
               SHA512
             </DropdownItem>
           </Dropdown>
@@ -151,13 +162,24 @@ const LeftSide = styled.div`
   flex-shrink: 2;
   padding-left: 0.6rem;
 `;
-const Title = styled.div`
+const Title = styled.a`
   font-size: 2.4rem;
   font-weight: bold;
   margin-top: -6px;
+  display: block;
+  cursor: pointer;
   @media (max-width: 600px) {
     margin-top: 0px;
     font-size: 1.6rem;
+  }
+  svg {
+    transition: all 0.6s;
+  }
+  &:hover {
+    color: inherit;
+    svg {
+      transform: rotate(360deg);
+    }
   }
 `;
 const Description = styled.div`

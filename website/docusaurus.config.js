@@ -17,6 +17,7 @@ module.exports = {
     downloads: [
       {
         name: "APISIX™",
+        nameInParamCase: "apisix",
         description: "A dynamic, real-time, high-performance API gateway.",
         shape: "triangle",
         color: "var(--ifm-color-primary)",
@@ -26,6 +27,7 @@ module.exports = {
       },
       {
         name: "APISIX™ Dashboard",
+        nameInParamCase: "dashboard",
         description:
           "Designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface.",
         shape: "square",
@@ -36,6 +38,7 @@ module.exports = {
       },
       {
         name: "APISIX™ Ingress Controller",
+        nameInParamCase: "ingress-controller",
         description: "An Apache APISIX control plane component.",
         shape: "hexagon",
         color: "#2563EB",
