@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "@theme/Layout";
 import ChevronRight from "../assets/icons/chevron-right.svg";
-import styled from "styled-components";
 
 const PageTitle = styled.h1`
   margin-top: 2rem;
