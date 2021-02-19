@@ -261,12 +261,10 @@ https://github.com/apache/apisix/blob/2.0/CHANGELOG.md#200
 The release candidates:
 
 https://dist.apache.org/repos/dist/dev/apisix/2.0/
-<https://dist.apache.org/repos/dist/dev/apisix/1.5-rc1/>
 
 Git tag for the release:
 
 https://github.com/apache/apisix/tree/2.0
-<https://github.com/apache/apisix/tree/v1.5>
 
 Release Commit ID:
 
@@ -274,8 +272,7 @@ https://github.com/apache/apisix/commit/79be83dd8adfbd5a1d98e0685c5db67166adac3f
 
 Keys to verify the Release Candidate:
 
-https://dist.apache.org/repos/dist/release/apisix/KEYS
-<https://dist.apache.org/repos/dist/dev/apisix/KEYS>
+https://dist.apache.org/repos/dist/dev/apisix/KEYS
 
 Steps to validating the release:
 
@@ -287,7 +284,7 @@ https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz
 
 2. Checksums and signatures
 
-wget https://dist.apache.org/repos/dist/release/apisix/KEYS
+wget https://dist.apache.org/repos/dist/dev/apisix/KEYS
 
 wget
 https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz.asc
@@ -318,9 +315,6 @@ Please vote accordingly:
 [ ] +0 no opinion
 [ ] -1 disapprove with the reason
 
-Thanks,
-Ming Wen, Apache APISIX & Apache SkyWalking
-Twitter: _WenMing
 ```
 
 ### Send VOTE RESULT thread to the dev mailing list
