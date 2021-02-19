@@ -248,7 +248,80 @@ Committed revision 37435.
 
 ### Send VOTE thread to the dev mailing list
 
-Click [here](https://lists.apache.org/thread.html/rf534952a6b2d23ed6efdd61f15b40fa9e4de230164a1ccf168176734%40%3Cdev.apisix.apache.org%3E) to view the reference email. There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue.
+There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue. The reference email is as shown below.
+
+```
+Hello, Community,
+This is a call for the vote to release Apache APISIX version 2.0.
+
+Release notes:
+
+https://github.com/apache/apisix/blob/2.0/CHANGELOG.md#200
+
+The release candidates:
+
+https://dist.apache.org/repos/dist/dev/apisix/2.0/
+<https://dist.apache.org/repos/dist/dev/apisix/1.5-rc1/>
+
+Git tag for the release:
+
+https://github.com/apache/apisix/tree/2.0
+<https://github.com/apache/apisix/tree/v1.5>
+
+Release Commit ID:
+
+https://github.com/apache/apisix/commit/79be83dd8adfbd5a1d98e0685c5db67166adac3f
+
+Keys to verify the Release Candidate:
+
+https://dist.apache.org/repos/dist/release/apisix/KEYS
+<https://dist.apache.org/repos/dist/dev/apisix/KEYS>
+
+Steps to validating the release:
+
+1. Download the release
+
+wget
+https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz
+
+
+2. Checksums and signatures
+
+wget https://dist.apache.org/repos/dist/release/apisix/KEYS
+
+wget
+https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz.asc
+
+wget
+https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz.sha512
+
+gpg --import KEYS
+
+shasum -c apache-apisix-2.0-src.tgz.sha512
+
+gpg --verify apache-apisix-2.0-src.tgz.asc apache-apisix-2.0-src.tgz
+
+3. Unzip and Check files
+
+tar zxvf apache-apisix-2.0-src.tgz
+
+4. Build Apache APISIX:
+
+https://github.com/apache/apisix/blob/2.0/doc/how-to-build.md#installation-via-source-release
+
+The vote will be open for at least 72 hours or until necessary number of
+votes are reached.
+
+Please vote accordingly:
+
+[ ] +1 approve
+[ ] +0 no opinion
+[ ] -1 disapprove with the reason
+
+Thanks,
+Ming Wen, Apache APISIX & Apache SkyWalking
+Twitter: _WenMing
+```
 
 ### Send VOTE RESULT thread to the dev mailing list
 
