@@ -1,34 +1,5 @@
 [
   {
-    "groupName": "Mentors",
-    "members": [
-      {
-        "name": "Justin Mclean",
-        "username": "jmclean",
-        "githubUsername": "justinmclean",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/144504?v=4"
-      },
-      {
-        "name": "Kevin Ratnasekera",
-        "username": "djkevincr",
-        "githubUsername": "djkevincr",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/1346010?v=4"
-      },
-      {
-        "name": "Von Gosling",
-        "username": "vongosling",
-        "githubUsername": "vongosling",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/635581?v=4"
-      },
-      {
-        "name": "Willem Ning Jiang",
-        "username": "ningjiang",
-        "githubUsername": "WillemJiang",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/219644?v=4"
-      }
-    ]
-  },
-  {
     "groupName": "PMC",
     "members": [
       {
@@ -50,10 +21,28 @@
         "avatarUrl": "https://avatars.githubusercontent.com/u/3702914?v=4"
       },
       {
+        "name": "JinChao Shuai",
+        "username": "shuaijinchao",
+        "githubUsername": "shuaijinchao",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/8529452?v=4"
+      },
+      {
+        "name": "Justin Mclean",
+        "username": "jmclean",
+        "githubUsername": "justinmclean",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/144504?v=4"
+      },
+      {
         "name": "Junxu Chen",
         "username": "chenjunxu",
         "githubUsername": "nic-chen",
         "avatarUrl": "https://avatars.githubusercontent.com/u/33000667?v=4"
+      },
+      {
+        "name": "Kevin Ratnasekera",
+        "username": "djkevincr",
+        "githubUsername": "djkevincr",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/1346010?v=4"
       },
       {
         "name": "Lang Wang",
@@ -92,6 +81,18 @@
         "avatarUrl": "https://avatars.githubusercontent.com/u/5441976?v=4"
       },
       {
+        "name": "Vinci",
+        "username": "vinci",
+        "githubUsername": "ShiningRush",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/24238012?v=4"
+      },
+      {
+        "name": "Von Gosling",
+        "username": "vongosling",
+        "githubUsername": "vongosling",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/635581?v=4"
+      },
+      {
         "name": "Wei Jin",
         "username": "kvn",
         "githubUsername": "gxthrj",
@@ -102,6 +103,18 @@
         "username": "agile6v",
         "githubUsername": "agile6v",
         "avatarUrl": "https://avatars.githubusercontent.com/u/2017491?v=4"
+      },
+      {
+        "name": "Willem Ning Jiang",
+        "username": "ningjiang",
+        "githubUsername": "WillemJiang",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/219644?v=4"
+      },
+      {
+        "name": "Xiran Liu",
+        "username": "liuxiran",
+        "githubUsername": "liuxiran",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/2561857?v=4"
       },
       {
         "name": "YuanSheng Wang",
@@ -120,30 +133,30 @@
         "username": "juzhiyuan",
         "githubUsername": "juzhiyuan",
         "avatarUrl": "https://avatars.githubusercontent.com/u/2106987?v=4"
-      },
-      {
-        "name": "JinChao Shuai",
-        "username": "shuaijinchao",
-        "githubUsername": "shuaijinchao",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/8529452?v=4"
-      },
-      {
-        "name": "Vinci",
-        "username": "vinci",
-        "githubUsername": "ShiningRush",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/24238012?v=4"
-      },
-      {
-        "name": "Xiran Liu",
-        "username": "liuxiran",
-        "githubUsername": "liuxiran",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/2561857?v=4"
       }
     ]
   },
   {
     "groupName": "Committer",
     "members": [
+      {
+        "name": "acmly",
+        "username": "yangli",
+        "githubUsername": "",
+        "avatarUrl": ""
+      },
+      {
+        "name": "Chao Zhang",
+        "username": "tokers",
+        "githubUsername": "tokers",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/10428333?v=4"
+      },
+      {
+        "name": "Joey Ma",
+        "username": "majunjie",
+        "githubUsername": "imjoey",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/2542401?v=4"
+      },
       {
         "name": "Ke Tang",
         "username": "tangke",
@@ -157,10 +170,22 @@
         "avatarUrl": "https://avatars.githubusercontent.com/u/15864088?v=4"
       },
       {
+        "name": "Shuyang Wu",
+        "username": "shuyangw",
+        "githubUsername": "yiyiyimu",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/34589752?v=4"
+      },
+      {
         "name": "Suo Zhang",
         "username": "coolsoul",
         "githubUsername": "soulsoul",
         "avatarUrl": "https://avatars.githubusercontent.com/u/4963471?v=4"
+      },
+      {
+        "name": "Xinxin Zhu",
+        "username": "starsz",
+        "githubUsername": "starsz",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/25628854?v=4"
       },
       {
         "name": "Yi Sun",
@@ -179,36 +204,6 @@
         "username": "bzp2010",
         "githubUsername": "bzp2010",
         "avatarUrl": "https://avatars.githubusercontent.com/u/8078418?v=4"
-      },
-      {
-        "name": "Shuyang Wu",
-        "username": "shuyangw",
-        "githubUsername": "yiyiyimu",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/34589752?v=4"
-      },
-      {
-        "name": "Chao Zhang",
-        "username": "tokers",
-        "githubUsername": "tokers",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/10428333?v=4"
-      },
-      {
-        "name": "acmly",
-        "username": "yangli",
-        "githubUsername": "",
-        "avatarUrl": ""
-      },
-      {
-        "name": "Xinxin Zhu",
-        "username": "starsz",
-        "githubUsername": "starsz",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/25628854?v=4"
-      },
-      {
-        "name": "Joey Ma",
-        "username": "majunjie",
-        "githubUsername": "imjoey",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/2542401?v=4"
       }
     ]
   }

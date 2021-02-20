@@ -70,7 +70,7 @@ const MemberName = styled.div`
   line-height: 1rem;
 `;
 const Username = styled.div`
-  font-size: 12px;
+  font-size: 0.8rem;
   font-weight: 500;
   margin-top: 8px;
 `;
