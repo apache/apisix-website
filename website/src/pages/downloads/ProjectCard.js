@@ -64,7 +64,7 @@ const ProjectCard = (props) => {
   return (
     <Card>
       <LeftSide>
-        <Title>
+        <Title href={`https://github.com/${githubRepo}`} target="_blank">
           <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
           {name}
         </Title>
@@ -177,6 +177,7 @@ const Title = styled.a`
   }
   &:hover {
     color: inherit;
+    text-decoration: none;
     svg {
       transform: rotate(360deg);
     }

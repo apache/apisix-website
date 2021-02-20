@@ -17,6 +17,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+svg {
+  height: 24px;
+}
+
 div.inner {
   color: var(--ifm-color-primary);
 }
@@ -383,20 +387,17 @@ a:hover {
 }
 
 /* help page */
-.help-page h1 {
-  font-size: 3rem;
-}
 .help-page .cards {
   margin-top: 38px;
-  margin-bottom: 72px;
+  margin-bottom: 56px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 36px;
 }
 .help-page .card {
   padding: 24px 28px 18px 28px;
-  box-shadow: unset;
-  background: var(--color-secondary-bg);
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
 }
 
 .help-page .card .header {
@@ -439,7 +440,7 @@ a:hover {
 }
 
 .help-page .card .buttons a:hover svg {
-  transform: translateX(4px);
+  transform: translateX(2px);
 }
 
 .help-page .card .buttons svg {

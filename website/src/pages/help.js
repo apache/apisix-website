@@ -1,6 +1,24 @@
-const React = require("react");
+import React from "react";
+import styled from "styled-components";
 import Layout from "@theme/Layout";
 import ChevronRight from "../assets/icons/chevron-right.svg";
+
+const PageTitle = styled.h1`
+  margin-top: 2rem;
+  font-size: 3rem;
+  font-weight: 800;
+`;
+
+const PageSubtitle = styled.div`
+  margin-bottom: 3rem;
+`;
+
+const Page = styled.div`
+  max-width: var(--ifm-container-width);
+  margin: 0 auto;
+  padding: 2rem var(--ifm-spacing-horizontal);
+  width: 100%;
+`;
 
 function Help(props) {
   const { config: siteConfig, language = "" } = props;
@@ -9,17 +27,13 @@ function Help(props) {
   const langPart = `${language ? `${language}/` : ""}`;
   const docUrl = (doc) => `${baseUrl}${docsPart}${langPart}${doc}`;
   return (
-    <div className="container help-page">
-      <div className="row">
-        <div className="post-header">
-          <h1>Need help?</h1>
-        </div>
-      </div>
-      <div className="row">
+    <Page className="help-page">
+      <PageTitle>NEED HELP?</PageTitle>
+      <PageSubtitle>
         This project is maintained by a dedicated group of people.
-      </div>
+      </PageSubtitle>
       <div className="row cards">
-        <div class="card">
+        <div className="card">
           <div className="header">
             <h2>
               <img
@@ -36,35 +50,39 @@ function Help(props) {
               href="https://github.com/apache/apisix/tree/master/doc"
               target="_blank"
             >
-              Read Documents <ChevronRight />
+              Read Documents
+              <ChevronRight />
             </a>
           </div>
         </div>
-        <div class="card">
+        <div className="card">
           <div className="header">
             <h2>
               <img src="/img/community.png" alt="community icon" />
-              Join the community
+              Join Community
             </h2>
           </div>
           <p>Ask questions about the documentation and project</p>
           <div className="buttons">
             <a href="https://github.com/apache/apisix/issues" target="_blank">
-              GitHub <ChevronRight />
+              GitHub
+              <ChevronRight />
             </a>
             <a
               href="https://join.slack.com/t/the-asf/shared_invite/zt-lcbw4olf-_5s17RLU0Cx8xTvj2bNbjg"
               target="_blank"
             >
-              Slack <ChevronRight />
+              Slack
+              <ChevronRight />
             </a>
             <a href="https://twitter.com/ApacheAPISIX" target="_blank">
-              Twitter <ChevronRight />
+              Twitter
+              <ChevronRight />
             </a>
           </div>
         </div>
       </div>
-    </div>
+    </Page>
   );
 }
 

@@ -12,14 +12,16 @@ const DownloadsPage = styled.div`
   width: 100%;
 `;
 const PageTitle = styled.h1`
-  text-align: center;
   margin-top: 2rem;
-  margin-bottom: 3rem;
   font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+`;
+const PageSubtitle = styled.div`
+  margin-bottom: 4rem;
 `;
 const Description = styled.div`
   margin-top: 6rem;
-
   h2 {
     margin-top: 4rem;
     margin-bottom: 0.8rem;
@@ -43,10 +45,11 @@ export default (props) => {
     <Layout>
       <DownloadsPage>
         <PageTitle>Downloads</PageTitle>
+        <PageSubtitle>We love open source.</PageSubtitle>
         {projects}
         <Description>
           <h2>History Versions</h2>
-          <div class="markdown">
+          <div className="markdown">
             Find all APISIX releases in the&nbsp;
             <a href="https://archive.apache.org/dist/apisix/" target="_blank">
               Archive repository
@@ -62,7 +65,7 @@ export default (props) => {
             &nbsp;hosts older releases when APISIX was an incubator project.
           </div>
           <h2>Verify the releases</h2>
-          <div class="markdown">
+          <div className="markdown">
             <a href="https://downloads.apache.org/apisix/KEYS" target="_blank">
               Get PGP signatures KEYS
             </a>
