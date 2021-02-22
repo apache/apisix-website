@@ -251,7 +251,7 @@ function Team(props) {
       return (
         <div key={member.username}>
           <MemberCard
-            href={`https://whimsy.apache.org/roster/committer/${member.username}`}
+            href={`https://github.com/${member.githubUsername}`}
             target="_blank"
           >
             <Avatar src={member.avatarUrl} />
