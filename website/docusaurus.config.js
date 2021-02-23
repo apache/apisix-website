@@ -58,6 +58,18 @@ module.exports = {
       "apache/apisix-control-plane",
     ],
   },
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "zh-cn"],
+    localeConfigs: {
+      en: {
+        label: "English",
+      },
+      "zh-cn": {
+        label: "简体中文",
+      },
+    },
+  },
   onBrokenLinks: "log",
   onBrokenMarkdownLinks: "log",
   presets: [
@@ -67,11 +79,9 @@ module.exports = {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: "docs",
-          routeBasePath: "/",
-          editUrl:
-            "https://github.com/apache/apisix-website/edit/master/website",
-          sidebarPath: "../website/sidebars.json",
+          path: "docs/apisix",
+          routeBasePath: "/docs/apisix",
+          sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
         },
         blog: {
           path: "blog",
@@ -91,6 +101,16 @@ module.exports = {
         path: "events",
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-dashboard",
+        path: "docs/apisix-dashboard",
+        routeBasePath: "/docs/dashboard",
+        sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
+        // ... other options
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
@@ -100,9 +120,18 @@ module.exports = {
       },
       items: [
         {
-          to: "/subscribe-guide",
           label: "Docs",
           position: "right",
+          items: [
+            {
+              label: "APISIX",
+              to: "/docs/apisix/security",
+            },
+            {
+              label: "APISIX Dashboard",
+              to: "/docs/dashboard/test",
+            },
+          ],
         },
         {
           to: "/blog",
@@ -127,6 +156,10 @@ module.exports = {
         {
           to: "/help",
           label: "Help",
+          position: "right",
+        },
+        {
+          type: "localeDropdown",
           position: "right",
         },
       ],
