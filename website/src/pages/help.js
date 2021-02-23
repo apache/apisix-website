@@ -20,23 +20,6 @@ const Page = styled.div`
   width: 100%;
 `;
 
-const PageTitle = styled.h1`
-  margin-top: 2rem;
-  font-size: 3rem;
-  font-weight: 800;
-`;
-
-const PageSubtitle = styled.div`
-  margin-bottom: 3rem;
-`;
-
-const Page = styled.div`
-  max-width: var(--ifm-container-width);
-  margin: 0 auto;
-  padding: 2rem var(--ifm-spacing-horizontal);
-  width: 100%;
-`;
-
 function Help(props) {
   const { config: siteConfig, language = "" } = props;
   const { baseUrl, docsUrl } = siteConfig;
