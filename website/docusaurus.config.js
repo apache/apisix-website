@@ -79,9 +79,9 @@ module.exports = {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: "docs/apisix",
-          routeBasePath: "/docs/apisix",
-          sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+          path: "docs/general",
+          routeBasePath: "/docs/general",
+          sidebarPath: require.resolve("./docs/general/sidebars.json"),
         },
         blog: {
           path: "blog",
@@ -104,11 +104,30 @@ module.exports = {
     [
       "@docusaurus/plugin-content-docs",
       {
+        id: "docs-apisix",
+        path: "docs/apisix",
+        routeBasePath: "/docs/apisix",
+        sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
         id: "docs-apisix-dashboard",
         path: "docs/apisix-dashboard",
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
-        // ... other options
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-ingress-controller",
+        path: "docs/apisix-ingress-controller",
+        routeBasePath: "/docs/ingress-controller",
+        sidebarPath: require.resolve(
+          "./docs/apisix-ingress-controller/sidebars.json"
+        ),
       },
     ],
   ],
@@ -122,14 +141,23 @@ module.exports = {
         {
           label: "Docs",
           position: "right",
+          to: "/docs",
           items: [
             {
-              label: "APISIX",
-              to: "/docs/apisix/security",
+              label: "General",
+              to: "/docs/general/security",
             },
             {
-              label: "APISIX Dashboard",
+              label: "APISIX™️",
+              to: "/docs/apisix/test",
+            },
+            {
+              label: "APISIX™️ Dashboard",
               to: "/docs/dashboard/test",
+            },
+            {
+              label: "APISIX™️ Ingress Controller",
+              to: "/docs/ingress-controller/test",
             },
           ],
         },

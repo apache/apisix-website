@@ -1,12 +1,5 @@
 {
   "docs": {
-    "APISIX™️": [
-      "security",
-      "subscribe-guide",
-      "contributor-guide",
-      "committer-guide",
-      "2fa",
-      "release-guide"
-    ]
+    "APISIX™️": ["test"]
   }
 }
