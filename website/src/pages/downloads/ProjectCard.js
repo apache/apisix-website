@@ -164,8 +164,9 @@ const LeftSide = styled.div`
 `;
 const Title = styled.a`
   font-size: 2.4rem;
+  line-height: 2.4rem;
+  margin-bottom: 1rem;
   font-weight: bold;
-  margin-top: -6px;
   display: block;
   cursor: pointer;
   @media (max-width: 600px) {
