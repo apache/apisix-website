@@ -60,12 +60,12 @@ module.exports = {
   },
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "zh-cn"],
+    locales: ["en", "zh"],
     localeConfigs: {
       en: {
         label: "English",
       },
-      "zh-cn": {
+      zh: {
         label: "简体中文",
       },
     },

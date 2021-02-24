@@ -1,108 +1,124 @@
-console.log("start pullDocs.js");
+console.log("Start pullDocs.js");
 
 const childProcess = require("child_process");
 const fs = require("fs");
 
-const docsPaths = {
-  apisix: {
-    pluginId: "docs-apisix",
-    latestDocs: {
-      en: "./website/docs/apisix",
-      zh:
-        "./website/i18n/zh-cn/docusaurus-plugin-content-docs-docs-apisix/current",
-    },
-  },
-  apisixDashboard: {
-    pluginId: "docs-apisix-dashboard",
-    latestDocs: {
-      en: "./website/docs/apisix-dashboard",
-      zh:
-        "./website/i18n/zh-cn/docusaurus-plugin-content-docs-docs-apisix-dashboard/current",
-    },
-  },
-  apisixDashboard: {
-    pluginId: "docs-apisix-ingress-controller",
-    latestDocs: {
-      en: "./website/docs/apisix-ingress-controller",
-      zh:
-        "./website/i18n/zh-cn/docusaurus-plugin-content-docs-docs-apisix-ingress-controller/current",
-    },
-  },
-};
+const projects = ["apisix", "apisix-dashboard", "apisix-ingress-controller"];
 
-function isFileExisted(path) {
+const projectPaths = projects.map((project) => {
+  return {
+    project: project,
+    pluginId: `docs-${project}`,
+    latestDocs: {
+      en: `./website/docs/${project}`,
+      zh: `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${project}/current`,
+    },
+  };
+});
+
+const isFileExisted = (path) => {
   try {
     fs.accessSync(path);
     return true;
   } catch {
     return false;
   }
-}
+};
 
-const copyDocs = (source, project, locale) => {
+const replaceMDImageUrl = (project, paths) => {
+  const replace = require("replace-in-file");
+  const allMDFilePaths = paths.map((p) => `${p}/**/*.md`);
+
+  const options = {
+    files: allMDFilePaths,
+    from: /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g,
+    to: (match) => {
+      console.log(match);
+      const imgPath = match
+        .match(/\((.+?)\)/g)[0]
+        .replace("(", "")
+        .replace(")", "")
+        .replaceAll("../", "");
+      const newUrl = `(https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath})`;
+      const result = match.replace(match.match(/\((.+?)\)/g)[0], newUrl);
+      console.log(result);
+      return result;
+    },
+  };
+
+  try {
+    const results = replace.sync(options);
+    console.log("Replacement results:", results);
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+};
+
+const copyDocs = (source, target, projectName, locale) => {
   if (isFileExisted(`${source}/${locale}/latest`) === false) {
-    console.log(`[${project}] can not find ${locale} latest folder, skip.`);
+    console.log(`[${projectName}] can not find ${locale} latest folder, skip.`);
     return;
   }
 
-  console.log(`[${project}] load ${locale} latest docs config.json`);
+  console.log(`[${projectName}] load ${locale} latest docs config.json`);
   const configLatest = JSON.parse(
     fs.readFileSync(`${source}/${locale}/latest/config.json`)
   );
 
-  console.log(`[${project}] delete ${locale} docs config.json`);
+  console.log(`[${projectName}] delete ${locale} docs config.json`);
   fs.unlinkSync(`${source}/${locale}/latest/config.json`);
 
-  console.log(
-    `[${project}] copy latest ${locale} docs to ${docsPaths[project].latestDocs[locale]}`
-  );
-  childProcess.execSync(
-    `cp -rf ${source}/${locale}/latest/* ${docsPaths[project].latestDocs[locale]}`
-  );
+  console.log(`[${projectName}] copy latest ${locale} docs to ${target}`);
+  childProcess.execSync(`cp -rf ${source}/${locale}/latest/* ${target}`);
 
-  console.log(`[${project}] write sidebar.json`);
+  console.log(`[${projectName}] write sidebar.json`);
   const sidebar = {
-    docs: { ...configLatest.sidebar },
+    docs: { ...(configLatest.sidebar || {}) },
   };
-  fs.writeFileSync(
-    `${docsPaths[project].latestDocs[locale]}/sidebars.json`,
-    JSON.stringify(sidebar, null, 4)
-  );
+  fs.writeFileSync(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
 };
 
 const main = () => {
+  console.log("Install dependencies");
+  childProcess.execSync("npm i --save replace-in-file");
   childProcess.execSync("mkdir tmp");
 
   console.log("Clone repos");
-  childProcess.execSync(
-    `git clone --depth=1 https://github.com/apache/apisix.git &
-     git clone --depth=1 https://github.com/apache/apisix-dashboard.git &
-     git clone --depth=1 https://github.com/apache/apisix-ingress-controller.git &
-     wait`,
-    {
-      cwd: "./tmp",
-    }
-  );
+  const gitCommand =
+    projects
+      .map(
+        (project) =>
+          `git clone --depth=1 https://github.com/apache/${project}.git`
+      )
+      .join(" & ") + " & wait";
+  childProcess.execSync(gitCommand, { cwd: "./tmp" });
 
-  copyDocs("./tmp/apisix/docs", "apisix", "en");
-  copyDocs("./tmp/apisix/docs", "apisix", "zh");
+  console.log("Replace image url inside MD files");
+  projects.map((project) => {
+    replaceMDImageUrl(project, [`./tmp/${project}/docs`]);
+  });
 
-  copyDocs("./tmp/apisix-dashboard/docs", "apisixDashboard", "en");
-  copyDocs("./tmp/apisix-dashboard/docs", "apisixDashboard", "zh");
+  console.log("Copy docs");
+  projectPaths.map((path) => {
+    copyDocs(
+      `./tmp/${path.project}/docs`,
+      path.latestDocs.en,
+      path.project,
+      "en"
+    );
+    copyDocs(
+      `./tmp/${path.project}/docs`,
+      path.latestDocs.zh,
+      path.project,
+      "zh"
+    );
+  });
 
-  copyDocs(
-    "./tmp/apisix-ingress-controller/docs",
-    "apisixIngressController",
-    "en"
-  );
-  copyDocs(
-    "./tmp/apisix-ingress-controller/docs",
-    "apisixIngressController",
-    "zh"
-  );
-
-  console.log("delete tmp folder");
+  console.log("Delete tmp folder");
   childProcess.execSync("rm -rf tmp");
+
+  console.log("Delete node_modules");
+  childProcess.execSync("rm -rf package.json package-lock.json node_modules");
 };
 
 main();
