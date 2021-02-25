@@ -72,6 +72,7 @@ module.exports = {
   },
   onBrokenLinks: "log",
   onBrokenMarkdownLinks: "log",
+  noIndex: true,
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -149,15 +150,15 @@ module.exports = {
             },
             {
               label: "APISIX™️",
-              to: "/docs/apisix/test",
+              to: "/docs/apisix/introduction",
             },
             {
               label: "APISIX™️ Dashboard",
-              to: "/docs/dashboard/test",
+              to: "/docs/dashboard/introduction",
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "/docs/ingress-controller/test",
+              to: "/docs/ingress-controller/install",
             },
           ],
         },
