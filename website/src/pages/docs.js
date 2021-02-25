@@ -120,7 +120,7 @@ const ProjectCard = (props) => {
     );
 
   return (
-    <Card href={`/docs/${nameInParamCase}/test`}>
+    <Card href={`/docs/${nameInParamCase}`}>
       <Title>
         <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
         {name}
