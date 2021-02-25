@@ -1,9 +1,10 @@
-console.log("Start pullDocs.js");
+console.log("Start sync-docs.js");
 
 const childProcess = require("child_process");
 const fs = require("fs");
 
-const projects = ["apisix", "apisix-dashboard", "apisix-ingress-controller"];
+// NOTE: disable "apisix", "apisix-dashboard" currently
+const projects = ["apisix-ingress-controller"];
 
 const projectPaths = projects.map((project) => {
   return {
@@ -38,7 +39,10 @@ const replaceMDImageUrl = (project, paths) => {
         .match(/\((.+?)\)/g)[0]
         .replace("(", "")
         .replace(")", "")
-        .replaceAll("../", "");
+        .replace("../", "")
+        .replace("../", "")
+        .replace("../", "")
+        .replace("../", "");
       const newUrl = `(https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath})`;
       const result = match.replace(match.match(/\((.+?)\)/g)[0], newUrl);
       console.log(result);
@@ -48,9 +52,9 @@ const replaceMDImageUrl = (project, paths) => {
 
   try {
     const results = replace.sync(options);
-    console.log("Replacement results:", results);
+    console.log(`${project} - Replacement results:`, results);
   } catch (error) {
-    console.error("Error occurred:", error);
+    console.error(`${project} - Error occurred:`, error);
   }
 };
 
