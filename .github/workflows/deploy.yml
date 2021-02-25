@@ -27,7 +27,7 @@ jobs:
 
       - name: Pull Docs
         run: |
-          node scripts/sync-docs.js && git status
+          node sync-docs.js && git status
 
       - name: Build
         run: |
