@@ -39,7 +39,10 @@ const replaceMDImageUrl = (project, paths) => {
         .match(/\((.+?)\)/g)[0]
         .replace("(", "")
         .replace(")", "")
-        .replaceAll("../", "");
+        .replace("../", "")
+        .replace("../", "")
+        .replace("../", "")
+        .replace("../", "");
       const newUrl = `(https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath})`;
       const result = match.replace(match.match(/\((.+?)\)/g)[0], newUrl);
       console.log(result);
