@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://apisix.apache.org/blog</id>
+    <title>Apache APISIX™ Blog</title>
+    <updated>2021-02-08T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://apisix.apache.org/blog"/>
+    <subtitle>Apache APISIX™ Blog</subtitle>
+    <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Stable Product Delivery with Cypress]]></title>
+        <id>Stable Product Delivery with Cypress</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/02/08/stable-product-delivery-with-cypress"/>
+        <updated>2021-02-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@LiteSun, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
+        <id>Run Ingress APISIX on Amazon EKS</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/01/21/run-ingress-apisix-on-amazon-eks"/>
+        <updated>2021-01-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@Chao Zhang, Apache APISIX Comitter from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[初探 Kubernetes Service APIs]]></title>
+        <id>初探 Kubernetes Service APIs</id>
+        <link href="https://apisix.apache.org/zh/blog/2020/12/18/a-first-look-at-kubernetes-service-api"/>
+        <updated>2020-12-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@gxthrj, Apache APISIX PMC & Apache apisix-ingress-controller Founder from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Envoy and Apache APISIX: Another way to implement the Envoy filter]]></title>
+        <id>Envoy and Apache APISIX: Another way to implement the Envoy filter</id>
+        <link href="https://apisix.apache.org/zh/blog/2020/12/16/another-way-to-implement-envoy-filter"/>
+        <updated>2020-12-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@nic-chen, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[New website for Apache APISIX]]></title>
+        <id>New website for Apache APISIX</id>
+        <link href="https://apisix.apache.org/zh/blog/2020/08/22/new-website"/>
+        <updated>2020-08-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[We are just refactored out website for Apache APISIX by using docusaurus.]]></summary>
+    </entry>
+</feed>

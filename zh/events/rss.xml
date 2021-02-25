@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Apache APISIX™ Blog</title>
+        <link>https://apisix.apache.org/events</link>
+        <description>Apache APISIX™ Blog</description>
+        <lastBuildDate>Fri, 12 Feb 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Release Apache APISIX Dashboard 2.4]]></title>
+            <link>https://apisix.apache.org/zh/events/2021/02/12/release-apache-apisix-dashboard-2.4</link>
+            <guid>Release Apache APISIX Dashboard 2.4</guid>
+            <pubDate>Fri, 12 Feb 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This release mainly improves basic features, bugfix and adds test cases.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX Ingress Controller 0.3.0]]></title>
+            <link>https://apisix.apache.org/zh/events/2021/02/11/release-apache-apisix-ingress-controller-0.3.0</link>
+            <guid>Release Apache APISIX Ingress Controller 0.3.0</guid>
+            <pubDate>Thu, 11 Feb 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This release mainly improves the program robustness and adds some features.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX 2.3]]></title>
+            <link>https://apisix.apache.org/zh/events/2021/02/09/release-apache-apisix-2.3</link>
+            <guid>Release Apache APISIX 2.3</guid>
+            <pubDate>Tue, 09 Feb 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Change]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX Ingress Controller 0.2.0]]></title>
+            <link>https://apisix.apache.org/zh/events/2021/01/19/release-apache-apisix-ingress-controller-0.2.0</link>
+            <guid>Release Apache APISIX Ingress Controller 0.2.0</guid>
+            <pubDate>Tue, 19 Jan 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This release mainly improve basic features, bugfix and adds test cases.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX Ingress Controller 0.1.0]]></title>
+            <link>https://apisix.apache.org/zh/events/2020/12/23/release-apache-apisix-ingress-controller-0.1.0</link>
+            <guid>Release Apache APISIX Ingress Controller 0.1.0</guid>
+            <pubDate>Wed, 23 Dec 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[This release mainly improve basic features, bugfix and adds test cases.]]></description>
+        </item>
+    </channel>
+</rss>
