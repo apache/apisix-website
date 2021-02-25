@@ -1,4 +1,4 @@
-console.log("Start pullDocs.js");
+console.log("Start sync-docs.js");
 
 const childProcess = require("child_process");
 const fs = require("fs");
