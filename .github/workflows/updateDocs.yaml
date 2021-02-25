@@ -22,6 +22,9 @@ jobs:
           node pullDocs.js && git status
 
       - name: Add & Commit
-        uses: EndBug/add-and-commit@v7.0.0
-        with:
-          message: "docs: update docs (by GitHub Action)"
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "docs: update docs (by GitHub Action)"
+          git push

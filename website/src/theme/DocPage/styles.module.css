@@ -44,8 +44,8 @@
     background-color: var(--ifm-color-emphasis-200);
   }
 
-  html[data-theme='dark'] .collapsedDocSidebar:hover,
-  html[data-theme='dark'] .collapsedDocSidebar:focus {
+  html[data-theme="dark"] .collapsedDocSidebar:hover,
+  html[data-theme="dark"] .collapsedDocSidebar:focus {
     background-color: var(--collapse-button-bg-color-dark);
   }
 

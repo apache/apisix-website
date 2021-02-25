@@ -22,13 +22,13 @@
   }
 
   .sidebarVersionSwitch {
-  display: flex;
-  align-items:center;
-  padding: 4px 1rem;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #eee;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    padding: 4px 1rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   }
 
   .sidebarWithHideableNavbar {
@@ -88,14 +88,14 @@
     margin-top: 4px;
   }
 
-  html[data-theme='dark'] .collapseSidebarButton {
+  html[data-theme="dark"] .collapseSidebarButton {
     background-color: var(--collapse-button-bg-color-dark);
     border: none;
     border-left: 1px solid var(--ifm-toc-border-color);
   }
 
-  html[data-theme='dark'] .collapseSidebarButton:hover,
-  html[data-theme='dark'] .collapseSidebarButton:focus {
+  html[data-theme="dark"] .collapseSidebarButton:hover,
+  html[data-theme="dark"] .collapseSidebarButton:focus {
     background-color: var(--ifm-color-emphasis-200);
   }
 }
