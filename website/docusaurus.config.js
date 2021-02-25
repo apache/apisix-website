@@ -142,7 +142,7 @@ module.exports = {
         {
           label: "Docs",
           position: "right",
-          to: "/docs",
+          // to: "/docs",
           items: [
             {
               label: "General",
@@ -158,7 +158,7 @@ module.exports = {
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "/docs/ingress-controller",
+              to: "/docs/ingress-controller/design",
             },
           ],
         },
