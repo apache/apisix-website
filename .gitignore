@@ -8,7 +8,6 @@ lib/core/MetadataBlog.js
 website/translated_docs
 website/build/
 website/node_modules
-website/i18n/*
 
 # generated files
 website/.docusaurus
@@ -25,3 +24,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vscode
+tmp

@@ -58,6 +58,18 @@ module.exports = {
       "apache/apisix-control-plane",
     ],
   },
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "zh"],
+    localeConfigs: {
+      en: {
+        label: "English",
+      },
+      zh: {
+        label: "简体中文",
+      },
+    },
+  },
   onBrokenLinks: "log",
   onBrokenMarkdownLinks: "log",
   presets: [
@@ -67,11 +79,9 @@ module.exports = {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: "docs",
-          routeBasePath: "/",
-          editUrl:
-            "https://github.com/apache/apisix-website/edit/master/website",
-          sidebarPath: "../website/sidebars.json",
+          path: "docs/general",
+          routeBasePath: "/docs/general",
+          sidebarPath: require.resolve("./docs/general/sidebars.json"),
         },
         blog: {
           path: "blog",
@@ -91,6 +101,35 @@ module.exports = {
         path: "events",
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix",
+        path: "docs/apisix",
+        routeBasePath: "/docs/apisix",
+        sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-dashboard",
+        path: "docs/apisix-dashboard",
+        routeBasePath: "/docs/dashboard",
+        sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-ingress-controller",
+        path: "docs/apisix-ingress-controller",
+        routeBasePath: "/docs/ingress-controller",
+        sidebarPath: require.resolve(
+          "./docs/apisix-ingress-controller/sidebars.json"
+        ),
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
@@ -100,9 +139,27 @@ module.exports = {
       },
       items: [
         {
-          to: "/subscribe-guide",
           label: "Docs",
           position: "right",
+          to: "/docs",
+          items: [
+            {
+              label: "General",
+              to: "/docs/general/security",
+            },
+            {
+              label: "APISIX™️",
+              to: "/docs/apisix/test",
+            },
+            {
+              label: "APISIX™️ Dashboard",
+              to: "/docs/dashboard/test",
+            },
+            {
+              label: "APISIX™️ Ingress Controller",
+              to: "/docs/ingress-controller/test",
+            },
+          ],
         },
         {
           to: "/blog",
@@ -127,6 +184,10 @@ module.exports = {
         {
           to: "/help",
           label: "Help",
+          position: "right",
+        },
+        {
+          type: "localeDropdown",
           position: "right",
         },
       ],

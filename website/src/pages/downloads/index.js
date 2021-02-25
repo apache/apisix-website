@@ -38,7 +38,7 @@ export default (props) => {
     return null;
   }
   const projects = siteConfig.customFields.downloads.map((project) => {
-    return <ProjectCard {...project} />;
+    return <ProjectCard key={project.name} {...project} />;
   });
 
   return (
