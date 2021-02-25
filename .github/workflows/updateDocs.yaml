@@ -3,6 +3,8 @@ name: Sync Docs from projects
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   schedule:
     # Run everyday at 6:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: "0 6 * * *"
@@ -21,10 +23,10 @@ jobs:
         run: |
           node pullDocs.js && git status
 
-      - name: Add & Commit
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "docs: update docs (by GitHub Action)"
-          git push
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: master
