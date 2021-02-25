@@ -7,6 +7,8 @@ name: CI
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: "0 9 * * *"
@@ -34,7 +36,7 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: website/build
