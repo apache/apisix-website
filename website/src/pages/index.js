@@ -55,7 +55,7 @@ const HomeSplash = () => {
                   <span>{featureWords[featureWordIndex]}</span>
                 </CSSTransition>
               </span>
-              &nbsp;Cloud-Native API Gateway
+              &nbsp; Cloud-Native API Gateway
             </h1>
             <div className="subtitle">
               Provides rich traffic management features such as load balancing,
