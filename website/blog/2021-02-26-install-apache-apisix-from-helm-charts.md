@@ -46,19 +46,11 @@ Just a few steps to install Apache APISIX
    STATUS: deployed
    REVISION: 1
    TEST SUITE: None
-   ```
-
-NOTES:
-
-1. Get the application URL by running these commands:
-
-   ```
+   NOTES:
+   1. Get the application URL by running these commands:
      export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services apisix-gw-gateway)
-
      export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
-
      echo http://$NODE_IP:$NODE_PORT
-
    ```
 
 ## See Also
