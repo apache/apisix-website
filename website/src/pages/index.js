@@ -10,7 +10,7 @@ import ChevronRight from "../assets/icons/chevron-right.svg";
 
 const HomeSplash = () => {
   const [featureWordIndex, setFeatureWordIndex] = useState(0);
-  const featureWords = ["Dynamic", "Real-Time", "High-Performance"];
+  const featureWords = ["Dynamic", "Real-Time", "Performant"];
 
   const [isShow, setIsShow] = useState(true);
 
