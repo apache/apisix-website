@@ -34,7 +34,7 @@ This release mainly improves basic features, bugfix and adds test cases.
 
 ### Test Case
 
-- Use ginkgo framwork to do backend E2E testing. [#1319](https://github.com/apache/apisix-dashboard/pull/1319)
+- Use ginkgo framework to do backend E2E testing. [#1319](https://github.com/apache/apisix-dashboard/pull/1319)
 - Add action to check the version for release. [#1418](https://github.com/apache/apisix-dashboard/pull/1418)
 - Add test for make build. [#1421](https://github.com/apache/apisix-dashboard/pull/1421)
 - Remove the etcd dependency in part of unit test. [#1169](https://github.com/apache/apisix-dashboard/pull/1469)
@@ -45,4 +45,4 @@ This release mainly improves basic features, bugfix and adds test cases.
 
 ### Doc
 
-- Doc: add document for introducing bakend e2e test. [#1381](https://github.com/apache/apisix-dashboard/pull/1381)
+- Doc: add document for introducing backend e2e test. [#1381](https://github.com/apache/apisix-dashboard/pull/1381)
