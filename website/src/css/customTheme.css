@@ -95,7 +95,7 @@ header h2 {
   color: var(--color-primary);
 }
 
-.navbar__title {
+.navbar__title{
   font-size: 18px;
   height: 30px;
 }
@@ -107,8 +107,9 @@ header h2 {
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .home-splash {
+    /* margin-top: 8px; Original*/
     margin-top: -20px;
-    margin-bottom: -50px;
+    margin-bottom: -50px;/*Check*/
   }
 }
 
@@ -123,10 +124,9 @@ header h2 {
   }
 }
 
-@media only screen and (min-device-width: 320px) and (max-width: 375px) {
-  .home-splash .title {
-    font-size: 3rem;
-  }
+.home-splash .title.brand {
+  font-size: 2.69rem;
+  color: #df2d2d;
 }
 
 .home-splash .title.slogan .feature-word {
@@ -331,11 +331,12 @@ header h2 {
 /* button */
 .button {
   margin: 0 10px;
-  padding: 12px 24px;
+  padding: 18px 18px;
   font-size: 18px;
   font-weight: 600;
   border-radius: 10px;
   border: none;
+  width: 224px;
   background: #fee2e2;
   color: #ef4444;
   transition: all 0.3s;
@@ -349,10 +350,7 @@ header h2 {
   color: white;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid #101827;
-  padding: 11px 23px;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 }
 .button.github .github-logo {
   height: 24px;
@@ -368,8 +366,8 @@ header h2 {
   background: #f3f4f6;
   color: #1f2937;
   border: 1px solid #d1d5db;
-  padding: 11px 23px;
-  margin-bottom: 1rem;
+  box-sizing: border-box;
+  margin-bottom: 15px;
 }
 .button.secondary:hover {
   background: #e5e7eb;
