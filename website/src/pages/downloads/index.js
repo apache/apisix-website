@@ -78,7 +78,7 @@ export default (props) => {
             the mirrors.
             <br />
             <StyledCodeBlock>{`gpg -i KEYS
-          
+
 # or
 pgpk -a KEYS
 
