@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[65],{132:function(s){s.exports=JSON.parse('{"pluginId":"docs-apisix-dashboard","version":"current","label":"Next","isLast":true,"docsSidebars":{"docs":[]},"permalinkToSidebar":{}}')}}]);

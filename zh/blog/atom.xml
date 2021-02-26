@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX™ Blog</title>
-    <updated>2021-02-08T00:00:00.000Z</updated>
+    <updated>2021-02-26T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX™ Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Install Apache APISIX from Helm Charts]]></title>
+        <id>Install Apache APISIX from Helm Charts</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/02/26/install-apache-apisix-from-helm-charts"/>
+        <updated>2021-02-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@tokers, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Stable Product Delivery with Cypress]]></title>
         <id>Stable Product Delivery with Cypress</id>

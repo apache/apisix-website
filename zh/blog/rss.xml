@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Mon, 08 Feb 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 26 Feb 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Install Apache APISIX from Helm Charts]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/02/26/install-apache-apisix-from-helm-charts</link>
+            <guid>Install Apache APISIX from Helm Charts</guid>
+            <pubDate>Fri, 26 Feb 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@tokers, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Stable Product Delivery with Cypress]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/02/08/stable-product-delivery-with-cypress</link>
