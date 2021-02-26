@@ -301,7 +301,7 @@ function Team(props) {
             APISIX's community actively, PMC and Committers will make decisions
             to invite the contributor join Committers and PMC.
           </ContributeCardSubtitle>
-          <ContributeCardButton href="/contributor-guide">
+          <ContributeCardButton href="/docs/general/contributor-guide">
             Start Contribute
           </ContributeCardButton>
         </ContributeCardLeftSide>
