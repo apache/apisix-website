@@ -26,7 +26,7 @@
         <id>Run Ingress APISIX on Amazon EKS</id>
         <link href="https://apisix.apache.org/blog/2021/01/21/run-ingress-apisix-on-amazon-eks"/>
         <updated>2021-01-21T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[@Chao Zhang, Apache APISIX Comitter from Shenzhen Zhiliu Technology Co.]]></summary>
+        <summary type="html"><![CDATA[@Chao Zhang, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[初探 Kubernetes Service APIs]]></title>
