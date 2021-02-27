@@ -274,12 +274,11 @@ header h2 {
 /* button */
 .button {
   margin: 0 10px;
-  padding: 18px 18px;
+  padding: 8px 18px;
   font-size: 18px;
   font-weight: 600;
   border-radius: 10px;
   border: none;
-  width: 224px;
   background: #fee2e2;
   color: #ef4444;
   transition: all 0.3s;
@@ -294,10 +293,13 @@ header h2 {
   display: inline-flex;
   align-items: center;
   margin-bottom: 15px;
+  padding: 18px 18px;
+  width: 224px;
+
 }
 .button.github .github-logo {
   height: 24px;
-  margin: 0 8px 1px 0px;
+  margin: 0 12px 1px 0px;
 }
 .button.github:hover {
   background: #000;
@@ -311,6 +313,8 @@ header h2 {
   border: 1px solid #d1d5db;
   box-sizing: border-box;
   margin-bottom: 15px;
+  width: 224px;
+  padding: 18px 18px;
 }
 .button.secondary:hover {
   background: #e5e7eb;
