@@ -136,7 +136,7 @@ module.exports = {
     navbar: {
       title: "Apache APISIX™",
       logo: {
-        src: "img/logo.png",
+        src: "img/logo2.svg",
       },
       items: [
         {

@@ -10,7 +10,7 @@ import ChevronRight from "../assets/icons/chevron-right.svg";
 
 const HomeSplash = () => {
   const [featureWordIndex, setFeatureWordIndex] = useState(0);
-  const featureWords = ["Dynamic", "Real-Time", "High-Performance"];
+  const featureWords = ["Dynamic", "Real-Time", "Performant"];
 
   const [isShow, setIsShow] = useState(true);
 
@@ -55,7 +55,7 @@ const HomeSplash = () => {
                   <span>{featureWords[featureWordIndex]}</span>
                 </CSSTransition>
               </span>
-              &nbsp;Cloud-Native API Gateway
+              &nbsp; Cloud-Native API Gateway
             </h1>
             <div className="subtitle">
               Provides rich traffic management features such as load balancing,
