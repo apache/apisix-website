@@ -292,7 +292,8 @@ header h2 {
   display: inline-flex;
   align-items: center;
   margin-bottom: 15px;
-  padding: 18px 26px;
+  padding: 18px;
+  justify-content: center;
   width: 224px;
 
 }
@@ -313,7 +314,8 @@ header h2 {
   box-sizing: border-box;
   margin-bottom: 15px;
   width: 224px;
-  padding: 18px 18px;
+  padding: 18px;
+  justify-content: center;
 }
 .button.secondary:hover {
   background: #e5e7eb;
