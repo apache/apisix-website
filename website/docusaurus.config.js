@@ -150,7 +150,7 @@ module.exports = {
             },
             {
               label: "APISIX™️",
-              to: "/docs/apisix",
+              to: "/docs/apisix/architecture-design",
             },
             {
               label: "APISIX™️ Dashboard",
