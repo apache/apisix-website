@@ -24,6 +24,7 @@ module.exports = {
         githubRepo: "apache/apisix",
         version: "2.3",
         releaseDate: "2021-02-09",
+        firstDocPath: "/architecture-design",
       },
       {
         name: "APISIX™ Dashboard",
@@ -35,6 +36,7 @@ module.exports = {
         githubRepo: "apache/apisix-dashboard",
         version: "2.4",
         releaseDate: "2021-02-12",
+        firstDocPath: "/USER_GUIDE",
       },
       {
         name: "APISIX™ Ingress Controller",
@@ -45,6 +47,7 @@ module.exports = {
         githubRepo: "apache/apisix-ingress-controller",
         version: "0.3.0",
         releaseDate: "2021-02-11",
+        firstDocPath: "/design",
       },
     ],
     team: require("./static/data/team.json"),
@@ -142,7 +145,7 @@ module.exports = {
         {
           label: "Docs",
           position: "right",
-          // to: "/docs",
+          to: "/docs",
           items: [
             {
               label: "General",
