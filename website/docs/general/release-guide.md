@@ -16,7 +16,7 @@ The entire flow is comprised of the following four phases.
 This phase will decide if a feature is ready to be released as well as the release time.
 
 - A new target milestone will be created in Github. (e.g. [`2.3`](https://github.com/apache/apisix-dashboard/milestone/6)).
-- A discussion will be started on dev mailing list [dev@apisix.apache.org](dev@apisix.apache.org) for gathering ideas for the next release.
+- A discussion will be started on dev mailing list dev@apisix.apache.org for gathering ideas for the next release.
 - Maintainer team will then mark the issues and pull requests with the target milestone.
 
 ### Development Phase

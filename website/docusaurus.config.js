@@ -158,7 +158,7 @@ module.exports = {
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "/docs/ingress-controller/design",
+              to: "https://apisix.apache.org/docs/ingress-controller/design/",
             },
           ],
         },
