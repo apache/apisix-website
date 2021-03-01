@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import "../css/customTheme.css";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 import IconTriangle from "../assets/icons/triangle.svg";
 import IconSquare from "../assets/icons/square.svg";
 import IconHexagon from "../assets/icons/hexagon.svg";
+import IconPentagon from "../assets/icons/pentagon.svg";
+import IconDiamond from "../assets/icons/diamond.svg";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -70,7 +73,6 @@ const Title = styled.div`
   }
 `;
 const Description = styled.div`
-  color: #374151;
   font-size: 1rem;
   margin-top: 0px;
   @media (max-width: 600px) {
@@ -94,7 +96,6 @@ const VersionInfo = styled.div`
   display: inline-flex;
   font-size: 1rem;
   margin-top: 1rem;
-  color: #4b5563;
   span {
     font-weight: 500;
   }
@@ -109,10 +110,15 @@ const ProjectCard = (props) => {
     color,
     version,
     releaseDate,
+    firstDocPath = "",
   } = props;
   const shapeComponent =
     shape === "triangle" ? (
       <IconTriangle />
+    ) : shape === "pentagon" ? (
+      <IconPentagon />
+    ) : shape === "diamond" ? (
+      <IconDiamond />
     ) : shape === "square" ? (
       <IconSquare />
     ) : (
@@ -120,13 +126,13 @@ const ProjectCard = (props) => {
     );
 
   return (
-    <Card href={`/docs/${nameInParamCase}`}>
+    <Card href={`/docs/${nameInParamCase}${firstDocPath}`}>
       <Title>
         <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
         {name}
       </Title>
-      <Description>{description}</Description>
-      <VersionInfo>
+      <Description className="docs-subtitle">{description}</Description>
+      <VersionInfo className="docs-versioninfo">
         Latest version&nbsp;<span>{version}</span>&nbsp;released at&nbsp;
         <span>{releaseDate}</span>
       </VersionInfo>
@@ -136,10 +142,10 @@ const ProjectCard = (props) => {
 
 export default (props) => {
   const { siteConfig } = useDocusaurusContext();
-  if (!(siteConfig.customFields.downloads || []).length) {
+  if (!(siteConfig.customFields.docs || []).length) {
     return null;
   }
-  const projects = siteConfig.customFields.downloads.map((project) => {
+  const projects = siteConfig.customFields.docs.map((project) => {
     return <ProjectCard key={project.name} {...project} />;
   });
 

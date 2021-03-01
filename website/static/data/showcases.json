@@ -1,255 +1,266 @@
 [
   {
     "caption": "360 奇虎",
-    "image": "https://static.apiseven.com/logo/360.png",
+    "image": "showcase/360.png",
     "infoLink": "https://www.360.cn/",
     "pinned": true
   },
   {
     "caption": "大商天狗",
-    "image": "https://static.apiseven.com/logo/51tiangou.svg",
+    "image": "showcase/51tiangou.png",
     "infoLink": "http://51tiangou.com/",
     "pinned": true
   },
   {
     "caption": "妙笔 AI",
-    "image": "https://static.apiseven.com/logo/aimiaobi.png",
+    "image": "showcase/aimiaobi.png",
     "infoLink": "http://aimiaobi.com/",
     "pinned": true
   },
   {
     "caption": "超链云商",
-    "image": "https://static.apiseven.com/logo/chaolian360.png",
+    "image": "showcase/chaolian360.png",
     "infoLink": "https://www.chaolian360.com/",
     "pinned": true
   },
   {
     "caption": "DaoCloud",
-    "image": "https://static.apiseven.com/logo/daocloud.png",
+    "image": "showcase/daocloud.png",
     "infoLink": "https://www.daocloud.io/",
     "pinned": true
   },
   {
     "caption": "小电科技",
-    "image": "https://static.apiseven.com/logo/dian.png",
+    "image": "showcase/dian.png",
     "infoLink": "http://dian.so/",
     "pinned": true
   },
   {
     "caption": "嘀嗒出行",
-    "image": "https://static.apiseven.com/logo/didachuxing.jpg",
+    "image": "showcase/didachuxing.jpg",
     "infoLink": "https://www.didachuxing.com/",
     "pinned": true
   },
   {
     "caption": "湖南新云网",
-    "image": "https://static.apiseven.com/logo/cunw.png",
+    "image": "showcase/cunw.png",
     "infoLink": "http://www.cunw.com.cn/",
     "pinned": true
   },
   {
     "caption": "大搜车",
-    "image": "https://static.apiseven.com/logo/dasouche.png",
+    "image": "showcase/dasouche.png",
     "infoLink": "https://www.dasouche.com/",
     "pinned": true
   },
   {
     "caption": "大淘客",
-    "image": "https://static.apiseven.com/logo/dataoke.png",
+    "image": "showcase/dataoke.png",
     "infoLink": "https://www.dataoke.com/",
     "pinned": true
   },
   {
     "caption": "eFactory",
-    "image": "https://static.apiseven.com/logo/eFactory.webp",
+    "image": "showcase/eFactory.webp",
     "infoLink": "https://www.efactory-project.eu/",
     "pinned": true
   },
   {
     "caption": "理房通",
-    "image": "https://static.apiseven.com/logo/ehomepay.png",
+    "image": "showcase/ehomepay.png",
     "infoLink": "https://www.ehomepay.com.cn/",
     "pinned": true
   },
   {
     "caption": "简单一点科技",
-    "image": "https://static.apiseven.com/logo/eZone.png",
+    "image": "showcase/eZone.png",
     "infoLink": "https://ezone.work/",
     "pinned": true
   },
   {
     "caption": "fansup",
-    "image": "https://static.apiseven.com/logo/fansup.png",
+    "image": "showcase/fansup.png",
     "infoLink": "https://fansup.mobi/",
     "pinned": true
   },
   {
     "caption": "海尔优家",
-    "image": "https://static.apiseven.com/logo/haier.webp",
+    "image": "showcase/haier.webp",
     "infoLink": "http://haieruplus.com/",
     "pinned": true
   },
   {
     "caption": "中移杭研",
-    "image": "https://static.apiseven.com/logo/hy10086.png",
+    "image": "showcase/hy10086.png",
     "infoLink": "https://hy.10086.cn/",
     "pinned": true
   },
   {
     "caption": "航天网信",
-    "image": "https://static.apiseven.com/logo/htzhiyun.png",
+    "image": "showcase/htzhiyun.png",
     "infoLink": "https://www.htzhiyun.cn/",
     "pinned": true
   },
   {
     "caption": "好洛维",
-    "image": "https://static.apiseven.com/logo/hellowin.jpg",
+    "image": "showcase/hellowin.jpg",
     "infoLink": "http://www.hellowin.cn/",
     "pinned": true
   },
   {
     "caption": "HelloTalk",
-    "image": "https://static.apiseven.com/logo/HelloTalk.png",
+    "image": "showcase/HelloTalk.png",
     "infoLink": "https://www.hellotalk.com/",
     "pinned": true
   },
   {
     "caption": "华为",
-    "image": "https://static.apiseven.com/logo/huawei.png",
+    "image": "showcase/huawei.png",
     "infoLink": "http://huawei.com/",
     "pinned": true
   },
   {
     "caption": "虎牙",
-    "image": "https://static.apiseven.com/logo/huya.jpeg",
+    "image": "showcase/huya.jpg",
     "infoLink": "https://www.huya.com/",
     "pinned": true
   },
   {
     "caption": "艾佳生活",
-    "image": "https://static.apiseven.com/logo/ihomefnt.gif",
+    "image": "showcase/ihomefnt.gif",
     "infoLink": "https://www.ihomefnt.com/",
     "pinned": true
   },
   {
     "caption": "简单心理",
-    "image": "https://static.apiseven.com/logo/jiandanxinli.png",
+    "image": "showcase/jiandanxinli.png",
     "infoLink": "https://www.jiandanxinli.com/",
     "pinned": true
   },
   {
     "caption": "同程金服",
-    "image": "https://static.apiseven.com/logo/jr_ly.png",
+    "image": "showcase/jr_ly.png",
     "infoLink": "https://jr.ly.com/",
     "pinned": true
   },
   {
     "caption": "贝壳找房",
-    "image": "https://static.apiseven.com/logo/ke.png",
+    "image": "showcase/ke.png",
     "infoLink": "https://www.ke.com/",
     "pinned": true
   },
   {
     "caption": "魅族",
-    "image": "https://static.apiseven.com/logo/meizu.jpg",
+    "image": "showcase/meizu.jpg",
     "infoLink": "https://www.meizu.com/",
     "pinned": true
   },
   {
     "caption": "明源云客",
-    "image": "https://static.apiseven.com/logo/mingyuanyun.jpg",
+    "image": "showcase/mingyuanyun.jpg",
     "infoLink": "https://www.mingyuanyun.com/",
     "pinned": true
   },
   {
     "caption": "NASA",
-    "image": "https://static.apiseven.com/logo/nasa.png",
+    "image": "showcase/nasa.png",
     "infoLink": "https://www.jpl.nasa.gov/",
     "pinned": true
   },
   {
     "caption": "网易",
-    "image": "https://static.apiseven.com/logo/163.png",
+    "image": "showcase/163.png",
     "infoLink": "http://www.163.com/",
     "pinned": true
   },
   {
     "caption": "湖南国科云通",
-    "image": "https://static.apiseven.com/logo/sinog2c.png",
+    "image": "showcase/sinog2c.png",
     "infoLink": "http://sinog2c.com/",
     "pinned": true
   },
   {
     "caption": "炎黄新星",
-    "image": "https://static.apiseven.com/logo/sinovatech.gif",
+    "image": "showcase/sinovatech.gif",
     "infoLink": "https://www.sinovatech.com/",
     "pinned": true
   },
   {
     "caption": "泰康云",
-    "image": "https://static.apiseven.com/logo/taikang.svg",
+    "image": "showcase/taikang.png",
     "infoLink": "http://taikang.com/",
     "pinned": true
   },
   {
     "caption": "糖豆网",
-    "image": "https://static.apiseven.com/logo/tangdou.png",
+    "image": "showcase/tangdou.png",
     "infoLink": "http://www.tangdou.com/",
     "pinned": true
   },
   {
     "caption": "腾讯云",
-    "image": "https://static.apiseven.com/logo/TencentCloud.jpg",
+    "image": "showcase/TencentCloud.jpg",
     "infoLink": "https://cloud.tencent.com/",
     "pinned": true
   },
-
   {
     "caption": "腾讯优图",
-    "image": "https://static.apiseven.com/logo/youtu.jpg",
+    "image": "showcase/youtu.jpg",
     "infoLink": "https://open.youtu.qq.com/",
     "pinned": true
   },
   {
     "caption": "万思",
-    "image": "https://static.apiseven.com/logo/teamones.png",
+    "image": "showcase/teamones.png",
     "infoLink": "https://www.teamones.cn/",
     "pinned": true
   },
   {
     "caption": "中国航信",
-    "image": "https://static.apiseven.com/logo/TravelSky.png",
+    "image": "showcase/TravelSky.png",
     "infoLink": "http://travelsky.com/",
     "pinned": true
   },
   {
     "caption": "随行付",
-    "image": "https://static.apiseven.com/logo/vbill.png",
+    "image": "showcase/vbill.png",
     "infoLink": "https://vbill.cn/",
     "pinned": true
   },
   {
     "caption": "优信二手车",
-    "image": "https://static.apiseven.com/logo/xin.png",
+    "image": "showcase/xin.png",
     "infoLink": "https://www.xin.com/",
     "pinned": true
   },
   {
     "caption": "雪球",
-    "image": "https://static.apiseven.com/logo/xueqiu.jpeg",
+    "image": "showcase/xueqiu.jpg",
     "infoLink": "https://xueqiu.com/",
     "pinned": true
   },
   {
     "caption": "租租车",
-    "image": "https://static.apiseven.com/logo/zuzuche.png",
+    "image": "showcase/zuzuche.png",
     "infoLink": "https://www.zuzuche.com/",
     "pinned": true
   },
   {
     "caption": "作业帮",
-    "image": "https://static.apiseven.com/logo/zybang.png",
+    "image": "showcase/zybang.png",
     "infoLink": "https://www.zybang.com/",
+    "pinned": true
+  },
+  {
+    "caption": "腾讯游戏",
+    "image": "showcase/TencentGame.png",
+    "infoLink": "https://game.qq.com/",
+    "pinned": true
+  },
+   {
+    "caption": "奥格科技股份有限公司",
+    "image": "showcase/Augurit.jpg",
+    "infoLink": "http://www.augurit.com/",
     "pinned": true
   }
 ]

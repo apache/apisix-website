@@ -21,16 +21,6 @@
     transition: opacity 50ms ease;
   }
 
-  .sidebarVersionSwitch {
-    display: flex;
-    align-items: center;
-    padding: 4px 1rem;
-    margin: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #eee;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  }
-
   .sidebarWithHideableNavbar {
     padding-top: 0;
   }
@@ -81,11 +71,11 @@
     position: sticky;
     bottom: 0;
     border-radius: 0;
+    margin: 0;
   }
 
   .collapseSidebarButtonIcon {
     transform: rotate(180deg);
-    margin-top: 4px;
   }
 
   html[data-theme="dark"] .collapseSidebarButton {
@@ -118,6 +108,20 @@
   font-weight: var(--ifm-font-weight-bold);
   line-height: 0.9;
   width: 24px;
+}
+
+.sidebarVersionSwitch {
+  display: flex;
+  align-items: center;
+  padding: 4px 1rem;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+.sidebarVersionSwitch a {
+  display: inline-block;
 }
 
 :global(.menu__list) :global(.menu__list) {

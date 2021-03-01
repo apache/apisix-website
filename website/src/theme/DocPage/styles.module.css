@@ -12,6 +12,7 @@
 @media (min-width: 997px) {
   .docPage {
     display: flex;
+    margin-bottom: -2rem;
   }
 
   .docSidebarContainer {
@@ -51,6 +52,7 @@
 
   .docMainContainer {
     flex-grow: 1;
+    max-width: calc(100% - var(--doc-sidebar-width));
   }
 
   .docItemWrapperEnhanced {

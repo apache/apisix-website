@@ -36,7 +36,6 @@ const HomeSplash = () => {
       <div className="container">
         <div className="inner">
           <div className="padding-vert--md">
-            <h1 className="title brand">Apache APISIX™</h1>
             <h1 className="title slogan">
               A&nbsp;
               <span className="feature-word">
@@ -45,17 +44,12 @@ const HomeSplash = () => {
                   timeout={2000}
                   classNames="feature-word-text"
                   appear={true}
-                  onEnter={(el) => {}}
-                  onEntering={(el) => {}}
-                  onEntered={(el) => {}}
-                  onExit={(el) => {}}
-                  onExiting={(el) => {}}
-                  onExited={(el) => {}}
                 >
                   <span>{featureWords[featureWordIndex]}</span>
                 </CSSTransition>
               </span>
-              &nbsp; Cloud-Native API Gateway
+              <span className="hide-on-mobile">&nbsp;</span>Cloud-Native API
+              Gateway
             </h1>
             <div className="subtitle">
               Provides rich traffic management features such as load balancing,
@@ -108,7 +102,7 @@ const LearnHow = () => (
           <div className="col">
             <img
               className="image"
-              src="https://github.com/apache/apisix/blob/master/docs/assets/images/apisix.png?raw=true"
+              src="https://user-images.githubusercontent.com/40708551/114740649-a9bf2200-9d67-11eb-8e1d-1409fb5c18c2.png"
               align="right"
               alt="apisix-description"
             />
@@ -126,7 +120,7 @@ const Showcase = () => {
   }
   const showcases = siteConfig.customFields.showcases.map((user) => (
     <a href={user.infoLink} key={user.infoLink} target="_blank">
-      <img className="user-logo" src={user.image} alt={user.caption} />
+      <img className="user-logo" src={'https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/static/img/' +  user.image} alt={user.caption} />
     </a>
   ));
   const middleIndex = (showcases.length / 2).toFixed(0);
@@ -140,9 +134,9 @@ const Showcase = () => {
         <p>
           This project is used by all these folks
           <br />
-          Are you using this project?{" "}
+          Are you using this project?&nbsp;
           <a
-            href="https://github.com/apache/apisix/blob/master/docs/en/latest/powered-by.md"
+            href="https://github.com/apache/apisix/blob/master/powered-by.md"
             target="_blank"
             rel="noopener"
           >
@@ -211,6 +205,59 @@ const EventsSection = () => {
   );
 };
 
+const ContributionSection = () => {
+
+  return (
+    <div className="contribution">
+      <div className="center-elem contribution-text">
+        <h2>Make your first contribution to Apache APISIX™</h2>
+      </div>
+      <div className="center-elem">
+        <p>Find a good first issue to get you started !</p>
+      </div>
+      <div className="contribution-link">
+             <Link
+              to="/docs/general/contributor-guide#good-first-issues"
+             >
+              <GitHubLogo className="contribution-logo" />
+              Good First Issues
+            </Link>
+      </div>
+    </div>
+  );
+};
+
+const NewsletterSection = () => {
+
+  return (
+    <div className="newsletter">
+      <div className="center-elem news-logo">
+        <svg className="news-logo-svg" width="185" height="156" viewBox="0 0 185 156" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 155.5L94 0L185 155.5H140L94 83L42.5 155.5H0Z" fill="#F8423F"/>
+        <path d="M94 82.5L42.5 155H0L76.5 57L94 82.5Z" fill="url(#paint0_linear)"/>
+        <path d="M140 155.5H185L94 0L140 155.5Z" fill="url(#paint1_linear)"/>
+        <defs>
+        <linearGradient id="paint0_linear" x1="222.5" y1="50" x2="85" y2="223.5" gradientUnits="userSpaceOnUse">
+        <stop offset="0.536111" stopColor="#FC0A04"/>
+        <stop offset="1" stopColor="#CF0500" stopOpacity="0.77"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear" x1="139.5" y1="1.50861e-06" x2="226" y2="136" gradientUnits="userSpaceOnUse">
+        <stop offset="0.473466" stopColor="#E2423E"/>
+        <stop offset="1" stopColor="#E2423E" stopOpacity="0.77"/>
+        </linearGradient>
+        </defs>
+      </svg>
+      </div>
+      <div className="center-elem news-text">
+        <h2>Stay up to date about all Apache APISIX™ News</h2>
+      </div>
+      <div className="center-elem">
+        <a className="news-button" href="/docs/general/subscribe-guide">Subscribe</a>
+      </div>
+    </div>
+  );
+};
+
 const Index = (props) => {
   return (
     <Layout>
@@ -218,6 +265,8 @@ const Index = (props) => {
       <LearnHow />
       <EventsSection />
       <Showcase />
+      <ContributionSection />
+      <NewsletterSection />
     </Layout>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import "../css/customTheme.css"
 import Layout from "@theme/Layout";
 import ChevronRight from "../assets/icons/chevron-right.svg";
 
@@ -47,7 +48,7 @@ function Help(props) {
           <p>Learn more using the documentation on this site.</p>
           <div className="buttons">
             <a
-              href="https://github.com/apache/apisix/tree/master/doc"
+              href="https://apisix.apache.org/docs/"
               target="_blank"
             >
               Read Documents
@@ -69,7 +70,7 @@ function Help(props) {
               <ChevronRight />
             </a>
             <a
-              href="https://join.slack.com/t/the-asf/shared_invite/zt-lcbw4olf-_5s17RLU0Cx8xTvj2bNbjg"
+              href="https://join.slack.com/t/the-asf/shared_invite/zt-mrougyeu-2aG7BnFaV0VnAT9_JIUVaA"
               target="_blank"
             >
               Slack
