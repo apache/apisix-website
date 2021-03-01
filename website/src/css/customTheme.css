@@ -87,19 +87,6 @@ header h2 {
   }
 }
 
-
-/* .home-splash .title.brand {
-  font-size: 2.69rem;
-  color: #df2d2d;
-} 
-Original
-*/
-.home-splash .title.brand {
-  font-size: 2.69rem;
-  color: #df2d2d;
-  display: none;
-} 
-
 .home-splash .title.slogan .feature-word {
   background: var(--color-secondary-bg);
   border-radius: 8px;
@@ -115,9 +102,9 @@ Original
   color: #000000;
   opacity: 0.58;
   font-size: 1.2rem;
-  width: 65%; /*Added*/
+  width: 65%;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {  /*Added*/
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .home-splash .subtitle {
     color: #000000;
     opacity: 0.58;
@@ -339,7 +326,7 @@ Original
   box-sizing: border-box;
   margin-bottom: 15px;
   width: 224px;
-  padding: 12px;  /*18px  orig*/
+  padding: 12px;
   justify-content: center;
 }
 .button.secondary:hover {
