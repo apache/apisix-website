@@ -80,7 +80,7 @@ header h2 {
   opacity: 0.92;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
-  .home-splash .title {   /*Original*/
+  .home-splash .title {
     font-size: 2.9rem;
     color: #df2d2d;
     opacity: 0.92;
