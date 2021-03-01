@@ -154,7 +154,7 @@ module.exports = {
             },
             {
               label: "APISIX™️ Dashboard",
-              to: "/docs/dashboard",
+              to: "/docs/dashboard/faq",
             },
             {
               label: "APISIX™️ Ingress Controller",
