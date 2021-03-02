@@ -93,6 +93,9 @@ module.exports = {
         theme: {
           customCss: "../src/css/customTheme.css",
         },
+        gtag: {
+          trackingID: "G-WQLBQL6GY3",
+        },
       },
     ],
   ],
