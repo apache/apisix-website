@@ -47,7 +47,7 @@ function Help(props) {
           <p>Learn more using the documentation on this site.</p>
           <div className="buttons">
             <a
-              href="https://github.com/apache/apisix/tree/master/doc"
+              href="https://apisix.apache.org/docs/"
               target="_blank"
             >
               Read Documents
