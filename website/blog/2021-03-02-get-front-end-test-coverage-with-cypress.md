@@ -28,19 +28,19 @@ Cypress officially recommends two approaches, the first is to generate a tempora
 
 1. Installing Dependencies
 
-```javaScript
+```shell
 yarn add  babel-plugin-istanbul --dev
 ```
 
 2. Install the cypress plug-in
 
-```javaScript
+```shell
 yarn add  @cypress/code-coverage --dev
 ```
 
 3. Configuring babel
 
-```javaScript
+```ts
 // web/config/config.ts
 extraBabelPlugins: [
     ['babel-plugin-istanbul',  {
@@ -70,7 +70,7 @@ After the configuration is done, we need to run the test case. After the test ca
 
 The test coverage information will appear in the console after executing the following command.
 
-```javaScript
+```shell
 npx nyc report --reporter=text-summary
 ```
 
