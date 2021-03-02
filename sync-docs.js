@@ -77,7 +77,7 @@ const copyDocs = (source, target, projectName, locale) => {
 
   console.log(`[${projectName}] write sidebar.json`);
   const sidebar = {
-    docs: [...(configLatest.sidebar || {})],
+    docs: [...(configLatest.sidebar || [])],
   };
   fs.writeFileSync(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
 };
