@@ -93,9 +93,6 @@ module.exports = {
         theme: {
           customCss: "../src/css/customTheme.css",
         },
-        gtag: {
-          trackingID: "G-WQLBQL6GY3",
-        },
       },
     ],
   ],
@@ -280,6 +277,9 @@ module.exports = {
           "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
       },
     ],
+    gtag: {
+      trackingID: "G-WQLBQL6GY3",
+    },
   },
   stylesheets: [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
