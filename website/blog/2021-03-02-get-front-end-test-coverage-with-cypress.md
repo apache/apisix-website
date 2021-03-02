@@ -71,13 +71,13 @@ Under the coverage directory, a more detailed report page will be available, as 
 
 ![3.png](https://lh4.googleusercontent.com/skjR9YUcbmeytfoYnR0it7Vfc7mheCJDt7PSUsp549IbOdfqskTrIOqUXw01e0fnuNwpGoo3GtqAER3eQjNoTIdmU7HY6hc_sZ5NYc3h-MyxqmVz_NaC3AM-J4rWJFy-9IoTWjpn)
 
-+ Statements indicates whether each statement was executed
+- Statements indicates whether each statement was executed
 
-+ Branchs indicates whether each if block was executed
+- Branchs indicates whether each if block was executed
 
-+ Functions indicates whether each function is called
+- Functions indicates whether each function is called
 
-+ Lines indicates whether each line was executed
+- Lines indicates whether each line was executed
 
 ## Summary
 
