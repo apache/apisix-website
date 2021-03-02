@@ -57,7 +57,9 @@ module.exports = (on, config) => {
   require('@cypress/code-coverage/task')(on, config);
   return config;
 };
+```
 
+```javaScript
 // web/cypress/support/index.js
 import '@cypress/code-coverage/support';
 ```
