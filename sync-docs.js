@@ -3,8 +3,8 @@ console.log("Start sync-docs.js");
 const childProcess = require("child_process");
 const fs = require("fs");
 
-// NOTE: disable "apisix-dashboard" "apisix-docker" "apisix-helm-chart" currently
-const projects = ["apisix-ingress-controller", "apisix"];
+// NOTE: disable "apisix-docker" "apisix-helm-chart" currently
+const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
 
 const projectPaths = projects.map((project) => {
   return {
@@ -77,7 +77,7 @@ const copyDocs = (source, target, projectName, locale) => {
 
   console.log(`[${projectName}] write sidebar.json`);
   const sidebar = {
-    docs: [...(configLatest.sidebar || {})],
+    docs: [...(configLatest.sidebar || [])],
   };
   fs.writeFileSync(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
 };
