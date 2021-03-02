@@ -3,8 +3,8 @@ console.log("Start sync-docs.js");
 const childProcess = require("child_process");
 const fs = require("fs");
 
-// NOTE: disable "apisix-dashboard" "apisix-docker" "apisix-helm-chart" currently
-const projects = ["apisix-ingress-controller", "apisix"];
+// NOTE: disable "apisix-docker" "apisix-helm-chart" currently
+const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
 
 const projectPaths = projects.map((project) => {
   return {
