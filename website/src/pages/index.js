@@ -36,7 +36,6 @@ const HomeSplash = () => {
       <div className="container">
         <div className="inner">
           <div className="padding-vert--md">
-            <h1 className="title brand">Apache APISIX™</h1>
             <h1 className="title slogan">
               A&nbsp;
               <span className="feature-word">
