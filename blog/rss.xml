@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Fri, 26 Feb 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 02 Mar 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Get Front-End Test Coverage with Cypress]]></title>
+            <link>https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress</link>
+            <guid>Get Front-End Test Coverage with Cypress</guid>
+            <pubDate>Tue, 02 Mar 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@LiteSun, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Install Apache APISIX from Helm Charts]]></title>
             <link>https://apisix.apache.org/blog/2021/02/26/install-apache-apisix-from-helm-charts</link>
