@@ -14,7 +14,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4b
 
 ## Background
 
-In the article ["Stable Product Delivery with Cypress"](/blog/2021/02/08/stable-product-delivery-with-cypress), we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient. This article will describe how to use Cypress to get E2E coverage on the front end of APISIX Dashboard.
+In the article ["Stable Product Delivery with Cypress"](/blog/2021/02/08/stable-product-delivery-with-cypress), we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient.This article will describe how to get APISIX Dashboard front-end E2E coverage using Cypress.
 
 ## What is code coverage?
 
@@ -45,7 +45,7 @@ yarn add  @cypress/code-coverage --dev
 extraBabelPlugins: [
     ['babel-plugin-istanbul',  {
       "exclude": ["**/.umi", "**/locales"]
-    }],	
+    }],
   ],
 ```
 
@@ -64,8 +64,7 @@ import '@cypress/code-coverage/support';
 
 5. Get Test Coverage
 
-After the configuration is done, we need to run the test case. After the test case is run, Cypress will generate `coverage` and
-`.nyc_output` folders, which contain the test coverage reports.
+After the configuration is done, we need to run the test case. After the test case is run, Cypress will generate `coverage` and `.nyc_output` folders, which contain the test coverage reports.
 
 ![1.png](https://lh4.googleusercontent.com/o-tyQagmCjprpNkuTjMFLaALZKtW4pyC9nj-GcPx4MM3xK0zrMED9Nndk5ZmZkZsQ5SIJPEovcrHyjWP2YXtEcYYDpLL49aV_97N83doTkOuMXlFsVjGu53A9FdlxOCr6i3aIDTA)
 
