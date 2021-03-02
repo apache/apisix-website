@@ -28,31 +28,39 @@ Cypress officially recommends two approaches, the first is to generate a tempora
 
 1. Installing Dependencies
 
-    yarn add  babel-plugin-istanbul --dev
+```javaScript
+yarn add  babel-plugin-istanbul --dev
+```
 
 2. Install the cypress plug-in
 
-    yarn add  @cypress/code-coverage --dev
+```javaScript
+yarn add  @cypress/code-coverage --dev
+```
 
 3. Configuring babel
 
-        // web/config/config.ts
-        extraBabelPlugins: [
-            ['babel-plugin-istanbul',  {
-              "exclude": ["**/.umi", "**/locales"]
-            }],	
-          ],
+```javaScript
+// web/config/config.ts
+extraBabelPlugins: [
+    ['babel-plugin-istanbul',  {
+      "exclude": ["**/.umi", "**/locales"]
+    }],	
+  ],
+```
 
 4. Configuring Cypress code coverage plugin
 
-        // web/cypress/plugins/index.js
-        module.exports = (on, config) => {
-          require('@cypress/code-coverage/task')(on, config);
-          return config;
-        };
-        
-        // web/cypress/support/index.js
-        import '@cypress/code-coverage/support';
+```javaScript
+// web/cypress/plugins/index.js
+module.exports = (on, config) => {
+  require('@cypress/code-coverage/task')(on, config);
+  return config;
+};
+
+// web/cypress/support/index.js
+import '@cypress/code-coverage/support';
+```
 
 5. Get Test Coverage
 
@@ -63,7 +71,9 @@ After the configuration is done, we need to run the test case. After the test ca
 
 The test coverage information will appear in the console after executing the following command.
 
-    npx nyc report --reporter=text-summary
+```javaScript
+npx nyc report --reporter=text-summary
+```
 
 ![2.png](https://lh4.googleusercontent.com/n0CON1WF64wEnh3IYEc3wwwOJ2Ft_WmMLfkhOPKIKxoW0NP6Eq8VplJ87EepL5zIWOeyfJhlDmhc3ImE0ivgRlXWe1RuW2x7vL_JEri7Mz6b3tOY0it8bVvUe83CAHNgeoyXZnsy)
 
