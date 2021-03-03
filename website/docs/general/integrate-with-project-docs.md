@@ -3,7 +3,7 @@ id: integrate-with-project-docs
 title: Integrate with Project documentations
 ---
 
-## docs directory structure
+## Directory Structure
 
 Put all Markdown files into the latest directory
 
@@ -32,7 +32,7 @@ Put all Markdown files into the latest directory
 
 ## Configuration file
 
-This file is located in /docs/<locale>/latest/config.json, where locale is locale codes, please refer to https://www.science.co.il/language/Locale-codes.php, locale is all lowercase. Don't forget to remove the comment after copying JSON.
+This file is located in `/docs/<locale>/latest/config.json`, where locale is locale codes, please refer to https://www.science.co.il/language/Locale-codes.php, locale is all lowercase. Don't forget to remove the comment after copying JSON.
 
 More information about sidebar can be found at https://v2.docusaurus.io/docs/next/sidebar
 
