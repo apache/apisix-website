@@ -37,7 +37,6 @@ const replaceMDImageUrl = (project, paths) => {
     to: (match) => {
       console.log(match);
       const imgPath = match
-        //.match(/\((.+?)\)/g)[0]
         .replace("(", "")
         .replace(")", "")
         .replace("../", "")
