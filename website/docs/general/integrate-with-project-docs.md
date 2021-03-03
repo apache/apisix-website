@@ -73,8 +73,8 @@ More information about sidebar can be found at https://v2.docusaurus.io/docs/nex
 
 ## Markdown formatting restrictions
 
-- Use relative paths within Markdown files (... /xxx/xxx), not absolute paths (/docs/en/xxx/xxx). If you want to refer to files outside the docs directory, please use https://github.com/apache/apisix-xxx/blob/master/xxx/xxx.xxx
+- Use relative paths within Markdown files `../xxx/xxx`, not absolute paths `/docs/en/xxx/xxx`. If you want to refer to files outside the docs directory, please use https://github.com/apache/apisix-xxx/blob/master/xxx/xxx.xxx
 
-- You need to use Markdown syntax when introducing images, i.e. ! [a image](. /assets/xxxx.png). Images cannot be introduced using HTML tags, i.e. <img src=". /assets/xxxx.png" />
+- You need to use Markdown syntax when introducing images, i.e. `![image name](./assets/xxxx.png)`. Images cannot be introduced using HTML tags, i.e. <img src=". /assets/xxxx.png" />
 
 - If the Markdown file contains HTML tags within it, be sure to make sure the tags are closed. For example <br> must be written as <br/>
