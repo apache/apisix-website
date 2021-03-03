@@ -35,7 +35,6 @@ const replaceMDImageUrl = (project, paths) => {
     // NOTE: just replace the url begin with ../assets/images ,then can replace with absolute url path
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
-      console.log(match);
       const imgPath = match
         .replace("(", "")
         .replace(")", "")
@@ -44,6 +43,7 @@ const replaceMDImageUrl = (project, paths) => {
         .replace("../", "")
         .replace("../", "");
       const newUrl = `https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath}`;
+      console.log(`${project}: ${match} -> ${newUrl}`);
       return newUrl;
     },
   };
