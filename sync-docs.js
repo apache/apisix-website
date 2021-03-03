@@ -3,8 +3,8 @@ console.log("Start sync-docs.js");
 const childProcess = require("child_process");
 const fs = require("fs");
 
-// NOTE: disable "apisix-dashboard" "apisix-docker" "apisix-helm-chart" currently
-const projects = ["apisix-ingress-controller", "apisix"];
+// NOTE: disable "apisix-docker" "apisix-helm-chart" currently
+const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
 
 const projectPaths = projects.map((project) => {
   return {
@@ -32,21 +32,19 @@ const replaceMDImageUrl = (project, paths) => {
 
   const options = {
     files: allMDFilePaths,
-    from: /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g,
+    // NOTE: just replace the url begin with ../assets/images ,then can replace with absolute url path
+    from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
-      console.log(match);
       const imgPath = match
-        .match(/\((.+?)\)/g)[0]
         .replace("(", "")
         .replace(")", "")
         .replace("../", "")
         .replace("../", "")
         .replace("../", "")
         .replace("../", "");
-      const newUrl = `(https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath})`;
-      const result = match.replace(match.match(/\((.+?)\)/g)[0], newUrl);
-      console.log(result);
-      return result;
+      const newUrl = `https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath}`;
+      console.log(`${project}: ${match} -> ${newUrl}`);
+      return newUrl;
     },
   };
 
@@ -77,7 +75,7 @@ const copyDocs = (source, target, projectName, locale) => {
 
   console.log(`[${projectName}] write sidebar.json`);
   const sidebar = {
-    docs: [...(configLatest.sidebar || {})],
+    docs: [...(configLatest.sidebar || [])],
   };
   fs.writeFileSync(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
 };

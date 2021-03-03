@@ -24,6 +24,7 @@ module.exports = {
         githubRepo: "apache/apisix",
         version: "2.3",
         releaseDate: "2021-02-09",
+        firstDocPath: "/architecture-design",
       },
       {
         name: "APISIX™ Dashboard",
@@ -35,6 +36,7 @@ module.exports = {
         githubRepo: "apache/apisix-dashboard",
         version: "2.4",
         releaseDate: "2021-02-12",
+        firstDocPath: "/USER_GUIDE",
       },
       {
         name: "APISIX™ Ingress Controller",
@@ -45,6 +47,7 @@ module.exports = {
         githubRepo: "apache/apisix-ingress-controller",
         version: "0.3.0",
         releaseDate: "2021-02-11",
+        firstDocPath: "/design",
       },
     ],
     team: require("./static/data/team.json"),
@@ -83,6 +86,15 @@ module.exports = {
           path: "docs/general",
           routeBasePath: "/docs/general",
           sidebarPath: require.resolve("./docs/general/sidebars.json"),
+          editUrl: function ({
+            locale,
+            version,
+            versionDocsDirPath,
+            docPath,
+            permalink,
+          }) {
+            return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
+          },
         },
         blog: {
           path: "blog",
@@ -109,6 +121,15 @@ module.exports = {
         path: "docs/apisix",
         routeBasePath: "/docs/apisix",
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
+        },
       },
     ],
     [
@@ -118,6 +139,15 @@ module.exports = {
         path: "docs/apisix-dashboard",
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-dashboard/edit/master/docs/${locale}/latest/${docPath}`;
+        },
       },
     ],
     [
@@ -129,6 +159,15 @@ module.exports = {
         sidebarPath: require.resolve(
           "./docs/apisix-ingress-controller/sidebars.json"
         ),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/${locale}/latest/${docPath}`;
+        },
       },
     ],
   ],
@@ -142,23 +181,23 @@ module.exports = {
         {
           label: "Docs",
           position: "right",
-          // to: "/docs",
+          to: "/docs",
           items: [
-            {
-              label: "General",
-              to: "/docs/general/security",
-            },
             {
               label: "APISIX™️",
               to: "/docs/apisix/architecture-design",
             },
             {
               label: "APISIX™️ Dashboard",
-              to: "/docs/dashboard",
+              to: "/docs/dashboard/USER_GUIDE",
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "/docs/ingress-controller/design",
+              to: "/docs/ingress-controller/design/",
+            },
+            {
+              label: "General",
+              to: "/docs/general/security",
             },
           ],
         },
@@ -274,6 +313,9 @@ module.exports = {
           "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
       },
     ],
+    gtag: {
+      trackingID: "G-WQLBQL6GY3",
+    },
   },
   stylesheets: [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",

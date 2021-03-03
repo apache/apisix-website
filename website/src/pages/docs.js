@@ -109,6 +109,7 @@ const ProjectCard = (props) => {
     color,
     version,
     releaseDate,
+    firstDocPath = "",
   } = props;
   const shapeComponent =
     shape === "triangle" ? (
@@ -120,7 +121,7 @@ const ProjectCard = (props) => {
     );
 
   return (
-    <Card href={`/docs/${nameInParamCase}`}>
+    <Card href={`/docs/${nameInParamCase}${firstDocPath}`}>
       <Title>
         <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
         {name}

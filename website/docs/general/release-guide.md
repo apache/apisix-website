@@ -16,7 +16,7 @@ The entire flow is comprised of the following four phases.
 This phase will decide if a feature is ready to be released as well as the release time.
 
 - A new target milestone will be created in Github. (e.g. [`2.3`](https://github.com/apache/apisix-dashboard/milestone/6)).
-- A discussion will be started on dev mailing list [dev@apisix.apache.org](dev@apisix.apache.org) for gathering ideas for the next release.
+- A discussion will be started on dev mailing list dev@apisix.apache.org for gathering ideas for the next release.
 - Maintainer team will then mark the issues and pull requests with the target milestone.
 
 ### Development Phase
@@ -248,7 +248,7 @@ Committed revision 37435.
 
 ### Send VOTE thread to the dev mailing list
 
-There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue. The reference email is as shown below.
+There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue. An email example is as shown below.
 
 ```
 Hello, Community,
@@ -256,19 +256,19 @@ This is a call for the vote to release Apache APISIX version 2.0.
 
 Release notes:
 
-https://github.com/apache/apisix/blob/2.0/CHANGELOG.md#200
+https://github.com/apache/apisix/blob/2.4/CHANGELOG.md#240
 
 The release candidates:
 
-https://dist.apache.org/repos/dist/dev/apisix/2.0/
+https://dist.apache.org/repos/dist/dev/apisix/2.4/
 
 Git tag for the release:
 
-https://github.com/apache/apisix/tree/2.0
+https://github.com/apache/apisix/tree/2.4
 
 Release Commit ID:
 
-https://github.com/apache/apisix/commit/79be83dd8adfbd5a1d98e0685c5db67166adac3f
+https://github.com/apache/apisix/commit/b94d3fc3b298df593ba6fe5c7b285768b567991e
 
 Keys to verify the Release Candidate:
 
@@ -278,33 +278,30 @@ Steps to validating the release:
 
 1. Download the release
 
-wget
-https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz
+wget https://dist.apache.org/repos/dist/dev/apisix/2.4/apache-apisix-2.4-src.tgz
 
 
 2. Checksums and signatures
 
 wget https://dist.apache.org/repos/dist/dev/apisix/KEYS
 
-wget
-https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz.asc
+wget https://dist.apache.org/repos/dist/dev/apisix/2.4/apache-apisix-2.4-src.tgz.asc
 
-wget
-https://dist.apache.org/repos/dist/dev/apisix/2.0/apache-apisix-2.0-src.tgz.sha512
+wget https://dist.apache.org/repos/dist/dev/apisix/2.4/apache-apisix-2.4-src.tgz.sha512
 
 gpg --import KEYS
 
-shasum -c apache-apisix-2.0-src.tgz.sha512
+shasum -c apache-apisix-2.4-src.tgz.sha512
 
-gpg --verify apache-apisix-2.0-src.tgz.asc apache-apisix-2.0-src.tgz
+gpg --verify apache-apisix-2.4-src.tgz.asc apache-apisix-2.4-src.tgz
 
 3. Unzip and Check files
 
-tar zxvf apache-apisix-2.0-src.tgz
+tar zxvf apache-apisix-2.4-src.tgz
 
 4. Build Apache APISIX:
 
-https://github.com/apache/apisix/blob/2.0/doc/how-to-build.md#installation-via-source-release
+https://github.com/apache/apisix/blob/release/2.4/docs/en/latest/how-to-build.md#installation-via-source-release
 
 The vote will be open for at least 72 hours or until necessary number of
 votes are reached.
