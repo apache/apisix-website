@@ -9,22 +9,22 @@ Put all Markdown files into the latest directory
 
 ```
 /docs
-├── assets # Store static files
-│ ├── images
-│ │ ├── xxxxx.png
-│ └── other
-│ └── xxxxx.xxx
+├── assets  # 存放静态文件
+│   ├── images
+│   │   ├── xxxxx.png
+│   └── other
+│       └── xxxxx.xxx
 ├── en
-│ └── latest
-│ ├── doc1.md
-│ ├── folder
-│ │ └── doc2.md
-│ │ └── folder2
-│ │ └── doc3.md
-│ └── config.json # Configuration file for this locale
+│   └── latest
+│       ├── doc1.md
+│       ├── folder
+│       │   └── doc2.md
+│       │       └── folder2
+│       │           └── doc3.md
+│       └── config.json # 此locale的配置文件
 ├── es
-│ └── latest
-│ └── ...
+│   └── latest
+│       └── ...
 └── zh
     └── latest
         └── ...
