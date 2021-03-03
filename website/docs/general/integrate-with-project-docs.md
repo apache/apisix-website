@@ -36,7 +36,7 @@ This file is located in `/docs/<locale>/latest/config.json`, where locale is loc
 
 More information about sidebar can be found at https://v2.docusaurus.io/docs/next/sidebar
 
-```json
+```jsonc
 {
   "version": 2.3,
   "sidebar": [
