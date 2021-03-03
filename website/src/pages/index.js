@@ -44,17 +44,12 @@ const HomeSplash = () => {
                   timeout={2000}
                   classNames="feature-word-text"
                   appear={true}
-                  onEnter={(el) => {}}
-                  onEntering={(el) => {}}
-                  onEntered={(el) => {}}
-                  onExit={(el) => {}}
-                  onExiting={(el) => {}}
-                  onExited={(el) => {}}
                 >
                   <span>{featureWords[featureWordIndex]}</span>
                 </CSSTransition>
               </span>
-              &nbsp; Cloud-Native API Gateway
+              <span className="hide-on-mobile">&nbsp;</span>Cloud-Native API
+              Gateway
             </h1>
             <div className="subtitle">
               Provides rich traffic management features such as load balancing,
@@ -139,7 +134,7 @@ const Showcase = () => {
         <p>
           This project is used by all these folks
           <br />
-          Are you using this project?{" "}
+          Are you using this project?
           <a
             href="https://github.com/apache/apisix/blob/master/docs/en/latest/powered-by.md"
             target="_blank"
