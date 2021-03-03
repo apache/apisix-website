@@ -1,6 +1,13 @@
-docs directory structure
+---
+id: integrate-with-project-docs
+title: Integrate with Project documentations
+---
+
+## docs directory structure
+
 Put all Markdown files into the latest directory
 
+```
 /docs
 ├── assets # Store static files
 │ ├── images
@@ -21,11 +28,15 @@ Put all Markdown files into the latest directory
 └── zh
     └── latest
         └── ...
-Configuration file
-is located in /docs/<locale>/latest/config.json, where locale is locale codes, please refer to https://www.science.co.il/language/Locale-codes.php, locale is all lowercase. Don't forget to remove the comment after copying JSON.
+```
+
+## Configuration file
+
+This file is located in /docs/<locale>/latest/config.json, where locale is locale codes, please refer to https://www.science.co.il/language/Locale-codes.php, locale is all lowercase. Don't forget to remove the comment after copying JSON.
 
 More information about sidebar can be found at https://v2.docusaurus.io/docs/next/sidebar
 
+```json
 {
   "version": 2.3,
   "sidebar": [
@@ -58,9 +69,12 @@ More information about sidebar can be found at https://v2.docusaurus.io/docs/nex
     }
   ]
 }
-Markdown formatting restrictions
-Use relative paths within Markdown files (... /xxx/xxx), not absolute paths (/docs/en/xxx/xxx). If you want to refer to files outside the docs directory, please use https://github.com/apache/apisix-xxx/blob/master/xxx/xxx.xxx
-You need to use Markdown syntax when introducing images, i.e. ! [a image](. /assets/xxxx.png). Images cannot be introduced using HTML tags, i.e. <img src=". /assets/xxxx.png" />
-If the Markdown file contains HTML tags within it, be sure to make sure the tags are closed. For example <br> must be written as <br/>
+```
 
-Translated with www.DeepL.com/Translator (free version)
+## Markdown formatting restrictions
+
+- Use relative paths within Markdown files (... /xxx/xxx), not absolute paths (/docs/en/xxx/xxx). If you want to refer to files outside the docs directory, please use https://github.com/apache/apisix-xxx/blob/master/xxx/xxx.xxx
+
+- You need to use Markdown syntax when introducing images, i.e. ! [a image](. /assets/xxxx.png). Images cannot be introduced using HTML tags, i.e. <img src=". /assets/xxxx.png" />
+
+- If the Markdown file contains HTML tags within it, be sure to make sure the tags are closed. For example <br> must be written as <br/>
