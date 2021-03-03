@@ -9,7 +9,7 @@ Put all Markdown files into the latest directory
 
 ```
 /docs
-├── assets  # 存放静态文件
+├── assets
 │   ├── images
 │   │   ├── xxxxx.png
 │   └── other
