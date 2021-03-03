@@ -86,6 +86,15 @@ module.exports = {
           path: "docs/general",
           routeBasePath: "/docs/general",
           sidebarPath: require.resolve("./docs/general/sidebars.json"),
+          editUrl: function ({
+            locale,
+            version,
+            versionDocsDirPath,
+            docPath,
+            permalink,
+          }) {
+            return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
+          },
         },
         blog: {
           path: "blog",
@@ -112,6 +121,15 @@ module.exports = {
         path: "docs/apisix",
         routeBasePath: "/docs/apisix",
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
+        },
       },
     ],
     [
@@ -121,6 +139,15 @@ module.exports = {
         path: "docs/apisix-dashboard",
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-dashboard/edit/master/docs/${locale}/latest/${docPath}`;
+        },
       },
     ],
     [
@@ -132,6 +159,15 @@ module.exports = {
         sidebarPath: require.resolve(
           "./docs/apisix-ingress-controller/sidebars.json"
         ),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/${locale}/latest/${docPath}`;
+        },
       },
     ],
   ],
@@ -148,10 +184,6 @@ module.exports = {
           to: "/docs",
           items: [
             {
-              label: "General",
-              to: "/docs/general/security",
-            },
-            {
               label: "APISIX™️",
               to: "/docs/apisix/architecture-design",
             },
@@ -161,7 +193,11 @@ module.exports = {
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "https://apisix.apache.org/docs/ingress-controller/design/",
+              to: "/docs/ingress-controller/design/",
+            },
+            {
+              label: "General",
+              to: "/docs/general/security",
             },
           ],
         },
