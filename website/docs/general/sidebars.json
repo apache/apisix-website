@@ -6,7 +6,8 @@
       "contributor-guide",
       "committer-guide",
       "2fa",
-      "release-guide"
+      "release-guide",
+      "integrate-with-project-docs"
     ]
   }
 }
