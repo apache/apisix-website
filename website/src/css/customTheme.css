@@ -528,6 +528,7 @@ a:hover {
 .news-button:hover{
   background: black;
   color: white;
+  text-decoration: none;
 }
 
 .news-logo-svg{
