@@ -134,7 +134,7 @@ const Showcase = () => {
         <p>
           This project is used by all these folks
           <br />
-          Are you using this project?
+          Are you using this project?&nbsp;
           <a
             href="https://github.com/apache/apisix/blob/master/docs/en/latest/powered-by.md"
             target="_blank"
