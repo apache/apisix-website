@@ -216,12 +216,12 @@ const NewsletterSection = () => {
         <path d="M140 155.5H185L94 0L140 155.5Z" fill="url(#paint1_linear)"/>
         <defs>
         <linearGradient id="paint0_linear" x1="222.5" y1="50" x2="85" y2="223.5" gradientUnits="userSpaceOnUse">
-        <stop offset="0.536111" stop-color="#FC0A04"/>
-        <stop offset="1" stop-color="#CF0500" stop-opacity="0.77"/>
+        <stop offset="0.536111" stopColor="#FC0A04"/>
+        <stop offset="1" stopColor="#CF0500" stopOpacity="0.77"/>
         </linearGradient>
         <linearGradient id="paint1_linear" x1="139.5" y1="1.50861e-06" x2="226" y2="136" gradientUnits="userSpaceOnUse">
-        <stop offset="0.473466" stop-color="#E2423E"/>
-        <stop offset="1" stop-color="#E2423E" stop-opacity="0.77"/>
+        <stop offset="0.473466" stopColor="#E2423E"/>
+        <stop offset="1" stopColor="#E2423E" stopOpacity="0.77"/>
         </linearGradient>
         </defs>
       </svg>
