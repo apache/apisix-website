@@ -47,7 +47,7 @@ module.exports = {
         githubRepo: "apache/apisix-ingress-controller",
         version: "0.3.0",
         releaseDate: "2021-02-11",
-        firstDocPath: "/design",
+        firstDocPath: "/getting-started",
       },
     ],
     team: require("./static/data/team.json"),
