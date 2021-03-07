@@ -7,6 +7,9 @@ authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4b
 
 > [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
+
+<!--truncate-->
+
 > Source:
 >
 > - https://github.com/apache/apisix
