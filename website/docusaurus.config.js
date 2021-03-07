@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "var(--ifm-color-primary)",
         githubRepo: "apache/apisix",
-        version: "2.3",
-        releaseDate: "2021-02-09",
+        version: "2.4",
+        releaseDate: "2021-03-05",
         firstDocPath: "/architecture-design",
       },
       {
@@ -47,7 +47,7 @@ module.exports = {
         githubRepo: "apache/apisix-ingress-controller",
         version: "0.3.0",
         releaseDate: "2021-02-11",
-        firstDocPath: "/design",
+        firstDocPath: "/getting-started",
       },
     ],
     team: require("./static/data/team.json"),
@@ -300,8 +300,9 @@ module.exports = {
         "Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
     },
     algolia: {
-      apiKey: "ad95c83c2872f173de8bcc4a0351c5c2",
-      indexName: "apache-apisix-website",
+      apiKey: "287206c9872faf0e77b7c5228d4c3789",
+      indexName: "apache_apisix",
+      contextualSearch: true,
     },
     colorMode: {
       disableSwitch: true,
