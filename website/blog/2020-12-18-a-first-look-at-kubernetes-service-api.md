@@ -7,6 +7,9 @@ authorImageURL: "https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6
 
 > [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC & Apache apisix-ingress-controller Founder from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
+
+<!--truncate-->
+
 > Source:
 >
 > - https://github.com/apache/apisix
