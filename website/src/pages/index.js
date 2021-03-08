@@ -136,7 +136,7 @@ const Showcase = () => {
           <br />
           Are you using this project?&nbsp;
           <a
-            href="https://github.com/apache/apisix/blob/master/docs/en/latest/powered-by.md"
+            href="https://github.com/apache/apisix/blob/master/powered-by.md"
             target="_blank"
             rel="noopener"
           >
