@@ -193,7 +193,7 @@ module.exports = {
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "/docs/ingress-controller/design/",
+              to: "/docs/ingress-controller/getting-started/",
             },
             {
               label: "General",
