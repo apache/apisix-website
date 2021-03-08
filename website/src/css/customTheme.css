@@ -134,6 +134,7 @@ header h2 {
   padding-right: 0;
   margin-left: 0;
   margin-right: 0;
+  margin-bottom: 70px;
 }
 .showcase .container {
   padding-left: 0;
@@ -500,4 +501,41 @@ a:hover {
 
 .help-page .card .buttons {
   display: flex;
+}
+
+/*newsletter section*/
+
+.center-elem{
+  display: flex;
+  justify-content: center;
+}
+
+.news-logo{
+  margin-bottom: 20px;
+}
+
+.news-button{
+  border: #111827;
+  padding: 5px 30px;
+  border-style: solid;
+  border-radius: 9px;
+  background: #111827;
+  color: white;
+  margin: 4px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.news-button:hover{
+  background: black;
+  color: white;
+  text-decoration: none;
+}
+
+.news-logo-svg{
+  height: 42px;
+}
+
+.news-text{
+  color: var(--color-primary);
+  text-align: center;
 }
