@@ -24,7 +24,7 @@ module.exports = {
         githubRepo: "apache/apisix",
         version: "2.4",
         releaseDate: "2021-03-05",
-        firstDocPath: "/architecture-design",
+        firstDocPath: "/getting-started",
       },
       {
         name: "APISIX™ Dashboard",
@@ -185,7 +185,7 @@ module.exports = {
           items: [
             {
               label: "APISIX™️",
-              to: "/docs/apisix/architecture-design",
+              to: "/docs/apisix/getting-started",
             },
             {
               label: "APISIX™️ Dashboard",
