@@ -6,6 +6,8 @@ const fs = require("fs");
 // NOTE: disable "apisix-docker" "apisix-helm-chart" currently
 const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
 
+const langs = ["en", "zh", "es"];
+
 const projectPaths = projects.map((project) => {
   return {
     project: project,
@@ -26,31 +28,53 @@ const isFileExisted = (path) => {
   }
 };
 
-const replaceMDImageUrl = (project, paths) => {
+const replaceMDElements = (project, path) => {
   const replace = require("replace-in-file");
-  const allMDFilePaths = paths.map((p) => `${p}/**/*.md`);
+  const allMDFilePaths = path.map((p) => `${p}/**/*.md`);
 
-  const options = {
+  // replace the image urls inside markdown files
+  const imageOptions = {
     files: allMDFilePaths,
     // NOTE: just replace the url begin with ../assets/images ,then can replace with absolute url path
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
-      const imgPath = match
-        .replace("(", "")
-        .replace(")", "")
-        .replace("../", "")
-        .replace("../", "")
-        .replace("../", "")
-        .replace("../", "");
+      const imgPath = match.replace(/\(|\)|\.\.\/*/g, "");
       const newUrl = `https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath}`;
-      console.log(`${project}: ${match} -> ${newUrl}`);
+      console.log(`${project}: ${match} 👉 ${newUrl}`);
+      return newUrl;
+    },
+  };
+
+  // replace the markdown urls inside markdown files
+  const markdownOptions = {
+    files: allMDFilePaths,
+    from: RegExp(
+      `\\[.*\\]\\((\\.\\.\\/)*(${langs.join("|")})\\/.*\\.md\\)`,
+      "g"
+    ),
+    to: (match) => {
+      const markdownPath = match.replace(/\(|\)|\.\.\/*|\[.*\]|\.\//g, ""); // "en/latest/discovery/dns.md"
+      const lang = markdownPath.split("/")[0];
+      const urlPath = markdownPath.replace(
+        RegExp(`(${langs.join("|")})\\/latest\\/|\\.md`, "g"),
+        ""
+      ); // "discovery/dns"
+      const projectNameWithoutPrefix =
+        project === "apisix" ? "apisix" : project.replace("apisix-", "");
+      let newUrl = match.replace(
+        /\]\(.*\)/g,
+        `](https://apisix.apache.org${
+          lang !== "en" ? "/" + lang : ""
+        }/docs/${projectNameWithoutPrefix}/${urlPath})`
+      );
+      console.log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
   };
 
   try {
-    const results = replace.sync(options);
-    console.log(`${project} - Replacement results:`, results);
+    replace.sync(imageOptions);
+    replace.sync(markdownOptions);
   } catch (error) {
     console.error(`${project} - Error occurred:`, error);
   }
@@ -95,9 +119,9 @@ const main = () => {
       .join(" & ") + " & wait";
   childProcess.execSync(gitCommand, { cwd: "./tmp" });
 
-  console.log("Replace image url inside MD files");
+  console.log("Replace elements inside MD files");
   projects.map((project) => {
-    replaceMDImageUrl(project, [`./tmp/${project}/docs`]);
+    replaceMDElements(project, [`./tmp/${project}/docs`]);
   });
 
   console.log("Copy docs");
