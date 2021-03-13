@@ -251,5 +251,11 @@
     "image": "https://static.apiseven.com/logo/zybang.png",
     "infoLink": "https://www.zybang.com/",
     "pinned": true
+  },
+  {
+    "caption": "腾讯游戏",
+    "image": "https://game.gtimg.cn/images/game/web201910/images/logo.png",
+    "infoLink": "https://game.qq.com/",
+    "pinned": true
   }
 ]
