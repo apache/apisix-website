@@ -77,8 +77,9 @@ const replaceMDElements = (project, path) => {
 };
 
 const removeFolder = (tarDir) => {
-  let files = fs.readdirSync(tarDir);
+  if (!fs.existsSync(tarDir)) return;
 
+  let files = fs.readdirSync(tarDir);
   files.forEach((file) => {
     const tarPath = path.join(tarDir, file);
     let stats = fs.statSync(tarPath);
@@ -138,7 +139,6 @@ const main = () => {
   console.log("Install dependencies");
   childProcess.execSync("npm i --save replace-in-file");
 
-  // remove tmp directory firstly
   removeFolder("tmp");
   fs.mkdirSync("tmp");
 
