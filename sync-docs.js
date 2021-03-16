@@ -2,6 +2,7 @@ console.log("Start sync-docs.js");
 
 const childProcess = require("child_process");
 const fs = require("fs");
+const path = require("path");
 
 // NOTE: disable "apisix-docker" "apisix-helm-chart" currently
 const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
@@ -20,12 +21,7 @@ const projectPaths = projects.map((project) => {
 });
 
 const isFileExisted = (path) => {
-  try {
-    fs.accessSync(path);
-    return true;
-  } catch {
-    return false;
-  }
+  return fs.existsSync(path);
 };
 
 const replaceMDElements = (project, path) => {
@@ -80,6 +76,41 @@ const replaceMDElements = (project, path) => {
   }
 };
 
+const removeFolder = (tarDir) => {
+  if (!fs.existsSync(tarDir)) return;
+
+  let files = fs.readdirSync(tarDir);
+  files.forEach((file) => {
+    const tarPath = path.join(tarDir, file);
+    let stats = fs.statSync(tarPath);
+    if (stats.isDirectory()) {
+      removeFolder(tarPath);
+    } else {
+      fs.unlinkSync(tarPath);
+    }
+  });
+
+  fs.rmdirSync(tarDir);
+}
+
+const copyFolder = (srcDir, tarDir) => {
+  let files = fs.readdirSync(srcDir);
+  files.forEach(file => {
+    let srcPath = path.join(srcDir, file);
+    let tarPath = path.join(tarDir, file);
+
+    let stats = fs.statSync(srcPath);
+    if (stats.isDirectory()) {
+      if (!fs.existsSync(tarPath)) {
+        fs.mkdirSync(tarPath);
+      }
+      copyFolder(srcPath, tarPath);
+    } else {
+      fs.copyFileSync(srcPath, tarPath);
+    }
+  });
+}
+
 const copyDocs = (source, target, projectName, locale) => {
   if (isFileExisted(`${source}/${locale}/latest`) === false) {
     console.log(`[${projectName}] can not find ${locale} latest folder, skip.`);
@@ -95,7 +126,7 @@ const copyDocs = (source, target, projectName, locale) => {
   fs.unlinkSync(`${source}/${locale}/latest/config.json`);
 
   console.log(`[${projectName}] copy latest ${locale} docs to ${target}`);
-  childProcess.execSync(`cp -rf ${source}/${locale}/latest/* ${target}`);
+  copyFolder(`${source}/${locale}/latest/`, target)
 
   console.log(`[${projectName}] write sidebar.json`);
   const sidebar = {
@@ -107,7 +138,9 @@ const copyDocs = (source, target, projectName, locale) => {
 const main = () => {
   console.log("Install dependencies");
   childProcess.execSync("npm i --save replace-in-file");
-  childProcess.execSync("mkdir tmp");
+
+  removeFolder("tmp");
+  fs.mkdirSync("tmp");
 
   console.log("Clone repos");
   const gitCommand =
@@ -116,7 +149,7 @@ const main = () => {
         (project) =>
           `git clone --depth=1 https://github.com/apache/${project}.git`
       )
-      .join(" & ") + " & wait";
+      .join(" & ");
   childProcess.execSync(gitCommand, { cwd: "./tmp" });
 
   console.log("Replace elements inside MD files");
@@ -141,10 +174,15 @@ const main = () => {
   });
 
   console.log("Delete tmp folder");
-  childProcess.execSync("rm -rf tmp");
+  removeFolder("tmp");
 
-  console.log("Delete node_modules");
-  childProcess.execSync("rm -rf package.json package-lock.json node_modules");
+  console.log("Delete npm related files");
+  removeFolder("node_modules");
+  ["package.json", "package-lock.json"].forEach((file) => {
+    if (fs.existsSync(file)){
+      fs.unlinkSync(file);
+    }
+  })
 };
 
 main();
