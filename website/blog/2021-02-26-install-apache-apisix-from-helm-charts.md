@@ -7,6 +7,9 @@ authorImageURL: "https://avatars.githubusercontent.com/u/10428333?s=400&u=f48ef5
 
 > [@tokers](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
+
+<!--truncate-->
+
 > Source:
 >
 > - https://github.com/apache/apisix

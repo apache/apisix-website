@@ -51,13 +51,19 @@ header h2 {
   color: var(--color-primary);
 }
 
+@media only screen and (max-width: 414px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
 /* navbar */
 .navbar__link:hover,
 .navbar__link--active {
   color: var(--color-primary);
 }
 
-.navbar__title{
+.navbar__title {
   font-size: 18px;
   height: 30px;
 }
@@ -75,23 +81,24 @@ header h2 {
 }
 
 .home-splash .title {
-  font-size: 4.0rem;
-  color: #df2d2d;
-  opacity: 0.92;
+  font-size: 5rem;
+  font-weight: 800;
+  color: #101827;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 376px) and (max-device-width: 736px) {
   .home-splash .title {
-    font-size: 2.9rem;
-    color: #df2d2d;
-    opacity: 0.92;
+    font-size: 3.52rem;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-width: 375px) {
+  .home-splash .title {
+    font-size: 3rem;
   }
 }
 
 .home-splash .title.slogan .feature-word {
-  background: var(--color-secondary-bg);
-  border-radius: 8px;
-  padding: 2px 10px;
-  overflow: hidden;
+  color: var(--ifm-color-primary);
 }
 
 .home-splash .title.slogan .feature-word span {
@@ -127,6 +134,7 @@ header h2 {
   padding-right: 0;
   margin-left: 0;
   margin-right: 0;
+  margin-bottom: 70px;
 }
 .showcase .container {
   padding-left: 0;
@@ -285,7 +293,7 @@ header h2 {
 /* button */
 .button {
   margin: 0 10px;
-  padding: 8px 18px;
+  padding: 12px 24px;
   font-size: 18px;
   font-weight: 600;
   border-radius: 10px;
@@ -299,15 +307,14 @@ header h2 {
   color: #ef4444;
 }
 .button.github {
-  background: #111827;
+  background: #101827;
   color: white;
   display: inline-flex;
   align-items: center;
-  margin-bottom: 15px;
-  padding: 12px;
   justify-content: center;
-  width: 224px;
-
+  border: 1px solid #101827;
+  padding: 11px 23px;
+  margin-bottom: 1rem;
 }
 .button.github .github-logo {
   height: 24px;
@@ -321,16 +328,25 @@ header h2 {
 }
 .button.secondary {
   background: #f3f4f6;
-  color: var(--color-secondary);
+  color: #1f2937;
   border: 1px solid #d1d5db;
-  box-sizing: border-box;
-  margin-bottom: 15px;
-  width: 224px;
-  padding: 12px;
-  justify-content: center;
+  padding: 11px 23px;
+  margin-bottom: 1rem;
 }
 .button.secondary:hover {
   background: #e5e7eb;
+}
+@media only screen and (max-width: 414px) {
+  .button {
+    margin: 0;
+  }
+  .button.secondary,
+  .button.github {
+    width: 100%;
+  }
+  .button-wrapper {
+    margin: 0;
+  }
 }
 a {
   color: inherit;
@@ -485,4 +501,41 @@ a:hover {
 
 .help-page .card .buttons {
   display: flex;
+}
+
+/*newsletter section*/
+
+.center-elem{
+  display: flex;
+  justify-content: center;
+}
+
+.news-logo{
+  margin-bottom: 20px;
+}
+
+.news-button{
+  border: #111827;
+  padding: 5px 30px;
+  border-style: solid;
+  border-radius: 9px;
+  background: #111827;
+  color: white;
+  margin: 4px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.news-button:hover{
+  background: black;
+  color: white;
+  text-decoration: none;
+}
+
+.news-logo-svg{
+  height: 42px;
+}
+
+.news-text{
+  color: var(--color-primary);
+  text-align: center;
 }

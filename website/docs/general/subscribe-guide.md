@@ -13,3 +13,5 @@ During the process of using Apache APISIX, if there has any problems, suggestion
 3. Receive the Welcome e-mail. After finishing the two steps above, an e-mail with the subject of WELCOME to dev@apisix.apache.org will be sent to your e-mail address. Until now, you have succeeded in subscribing Apache APISIX mailing-list.
 
 4. Until now, you can interact with community by your subscribed email or track email conversations by Archived email list.
+
+5. To view the Archived email lists, check out [history mailing-list](https://lists.apache.org/list.html?apisix.apache.org).

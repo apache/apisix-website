@@ -7,6 +7,9 @@ authorImageURL: "https://avatars0.githubusercontent.com/u/10428333?s=60&v=4"
 
 > [@Chao Zhang](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
+
+<!--truncate-->
+
 > Source:
 >
 > - https://github.com/apache/apisix
