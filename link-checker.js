@@ -114,6 +114,6 @@ const linkValidate = (link) => {
 	let result = await Promise.all(externalLinkCheckPromises);
 	let brokenList = result.filter((item) => item.statusText !== "OK");
 
-	console.log("Write broken list to file");
-	fs.writeFileSync('./brokenLink.json', JSON.stringify(brokenList));
+	console.log("[Finish] Write broken list to file");
+	fs.writeFileSync('./brokenLinks.json', JSON.stringify(brokenList));
 })();

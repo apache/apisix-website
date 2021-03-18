@@ -41,5 +41,5 @@ jobs:
         if: always()
         with:
           name: broken-links.json
-          path: brokenList.json
+          path: brokenLinks.json
           retention-days: 5
