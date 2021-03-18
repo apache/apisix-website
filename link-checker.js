@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
-const mdLinks = require("markdown-links-validator").mdLinks;
 
 const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
 
@@ -21,12 +20,66 @@ const scanFolder = (tarDir) => {
 	return filePaths;
 }
 
-(async function main() {
+const scanLinkInMDFile = (filePath) => {
+	const fileContent = fs.readFileSync(filePath, 'utf-8');
+	const regex = /\[[\s\S]*?\]\([\s\S]*?\)/g;
+	if (fileContent.match(regex)) {
+		const arrayOfLinks = fileContent.match(regex);
+		const links = arrayOfLinks.map((item) => {
+			const textHrefDivide = item.split('](');
+			const text = textHrefDivide[0].replace('[', '');
+			const url = textHrefDivide[1].replace(')', '');
+			return ({url, text, file: filePath});
+		});
+
+		// filter out links to other Markdown files
+		const filteredList = [];
+		const unfilteredList = links.filter((link) => {
+			const result = link.url.startsWith("http://") || link.url.startsWith("https://");
+			if (!result) filteredList.push(link);
+			return result;
+		});
+		return {
+			links: unfilteredList,
+			filteredLinks: filteredList,
+		};
+	} else {
+		return {
+			links: [],
+			filteredLinks: [],
+		};
+	}
+}
+
+const linkValidate = (link) => {
+	return new Promise((resolve) => {
+		const axios = require("axios");
+		axios.get(link.url)
+				.then((res) => {
+					console.log(`[Link Checker] check ${link.url}, result is ${res.statusText}`)
+					resolve({
+						...link,
+						status: res.status,
+						statusText: res.statusText,
+					});
+				})
+				.catch((err) => {
+					console.log(`[Link Checker] check ${link.url}, result is FAIL`);
+					resolve({
+						...link,
+						status: 404,
+						statusText: 'FAIL',
+					});
+				});
+	});
+}
+
+(async function main(values) {
 	console.log("Start link-checker.js");
 	console.log("Install dependencies");
-	childProcess.execSync("npm i --save markdown-links-validator");
+	childProcess.execSync("npm i --save axios");
 
-	console.log("Scan all documents");
+	console.log("[Document Scanner] Scan all documents");
 	let allDocPaths = [];
 	projects.map((project) => {
 		let latestDocs = {
@@ -40,22 +93,27 @@ const scanFolder = (tarDir) => {
 		});
 	});
 
-	console.log("Scan broken links");
-	let brokenLinks = [];
+	console.log("[Link Scanner] Scan all links");
+	let externalLinks = []; // links to other sites
+	let internalLinks = []; // links to other Markdown files or anchor
 	for (const file of allDocPaths) {
-		try {
-			let links = await mdLinks(file, {validate: true});
-			links.forEach((link) => {
-				if (link.statusText === "FAIL") {
-					brokenLinks.push(link);
-				}
-				console.log(`[Check Link] check "${link.url}", result is ${link.statusText}`);
-			});
-		} catch (e) {
-
-		}
+		const scanResult = scanLinkInMDFile(file);
+		externalLinks.push(...scanResult.links);
+		internalLinks.push(...scanResult.filteredLinks);
 	}
 
+	console.log(`[Link Scanner] Scan result: ${externalLinks.length} external links, ${internalLinks.length} internal links`)
+
+	console.log(`[Link Checker] Start external link check`);
+	let externalLinkCheckPromises = [];
+	externalLinks.forEach((link) => {
+		externalLinkCheckPromises.push(linkValidate(link));
+	});
+
+
+	let result = await Promise.all(externalLinkCheckPromises);
+	let brokenList = result.filter((item) => item.statusText !== "OK");
+
 	console.log("Write broken list to file");
-	fs.writeFileSync('./brokenLink.json', JSON.stringify(brokenLinks));
+	fs.writeFileSync('./brokenLink.json', JSON.stringify(brokenList));
 })();
