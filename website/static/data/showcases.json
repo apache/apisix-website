@@ -1,7 +1,7 @@
 [
   {
     "caption": "360 奇虎",
-    "image": "./../img/showcase/360.pnh",
+    "image": "./../img/showcase/360.png",
     "infoLink": "https://www.360.cn/",
     "pinned": true
   },
@@ -121,7 +121,7 @@
   },
   {
     "caption": "虎牙",
-    "image": "./../img/showcase/huya.jpeg",
+    "image": "./../img/showcase/huya.jpg",
     "infoLink": "https://www.huya.com/",
     "pinned": true
   },
@@ -236,7 +236,7 @@
   },
   {
     "caption": "雪球",
-    "image": "./../img/showcase/xueqiu.jpeg",
+    "image": "./../img/showcase/xueqiu.jpg",
     "infoLink": "https://xueqiu.com/",
     "pinned": true
   },
