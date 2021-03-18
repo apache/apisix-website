@@ -64,10 +64,10 @@ const linkValidate = (link) => {
 					});
 				})
 				.catch((err) => {
-					console.log(`[Link Checker] check ${link.url}, result is FAIL`);
+					console.log(`[Link Checker] check "${link.url}", result is FAIL`);
 					resolve({
 						...link,
-						status: err.response.status,
+						status: 0,
 						statusText: 'FAIL',
 					});
 				});
