@@ -56,7 +56,7 @@ const linkValidate = (link) => {
 		const axios = require("axios");
 		axios.get(link.url)
 				.then((res) => {
-					console.log(`[Link Checker] check ${link.url}, result is ${res.statusText}`)
+					console.log(`[Link Checker] check "${link.url}", result is ${res.statusText}`)
 					resolve({
 						...link,
 						status: res.status,
@@ -67,7 +67,7 @@ const linkValidate = (link) => {
 					console.log(`[Link Checker] check ${link.url}, result is FAIL`);
 					resolve({
 						...link,
-						status: 404,
+						status: err.response.status,
 						statusText: 'FAIL',
 					});
 				});
@@ -112,7 +112,7 @@ const linkValidate = (link) => {
 
 
 	let result = await Promise.all(externalLinkCheckPromises);
-	let brokenList = result.filter((item) => item.statusText !== "OK");
+	let brokenList = result.filter((item) => item.status !== 200);
 
 	console.log("[Finish] Write broken list to file");
 	fs.writeFileSync('./brokenLinks.json', JSON.stringify(brokenList));
