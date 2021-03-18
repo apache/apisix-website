@@ -33,5 +33,5 @@ jobs:
           node sync-docs.js && git status
 
       - name: Check Links
-          run: |
-            node link-checker.js && git status
+        run: |
+          node link-checker.js && git status
