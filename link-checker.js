@@ -29,14 +29,30 @@ const scanLinkInMDFile = (filePath) => {
 			const textHrefDivide = item.split('](');
 			const text = textHrefDivide[0].replace('[', '');
 			const url = textHrefDivide[1].replace(')', '');
+			if (!url.endsWith(".md")) return false;
 			return ({url, text, file: filePath});
 		});
 
 		// filter out links to other Markdown files
 		const filteredList = [];
 		const unfilteredList = links.filter((link) => {
+			if (!link) return false;
 			const result = link.url.startsWith("http://") || link.url.startsWith("https://");
-			if (!result) filteredList.push(link);
+			if (!result) {
+				if (link.url.startsWith("#") || link.url.indexOf("#") > 0) {
+					let split = link.url.split("#");
+					if (split.length > 1) {
+						link.anchor = "#" + split[1];
+						link.url = path.normalize(path.dirname(filePath) + "/" + link.url);
+					} else {
+						link.anchor = link.url;
+						link.url = filePath;
+					}
+				} else {
+					link.url = path.normalize(path.dirname(filePath) + "/" + link.url);
+				}
+				filteredList.push(link)
+			}
 			return result;
 		});
 		return {
@@ -104,16 +120,30 @@ const linkValidate = (link) => {
 
 	console.log(`[Link Scanner] Scan result: ${externalLinks.length} external links, ${internalLinks.length} internal links`)
 
+	let externalBrokenList = [];
 	console.log(`[Link Checker] Start external link check`);
 	let externalLinkCheckPromises = [];
 	externalLinks.forEach((link) => {
 		externalLinkCheckPromises.push(linkValidate(link));
 	});
 
-
 	let result = await Promise.all(externalLinkCheckPromises);
-	let brokenList = result.filter((item) => item.status !== 200);
+	externalBrokenList.push(...result.filter((item) => item.status !== 200));
+
+	console.log(`[Link Checker] Start internal link check`);
+	let internalBrokenList = [];
+	internalLinks.forEach((link) => {
+		let exist = true;
+		if (!fs.existsSync(link.url)) {
+			internalBrokenList.push(link);
+			exist = false;
+		}
+		console.log(`[Link Checker] check "${link.url}", result is ${exist}`)
+	});
 
 	console.log("[Finish] Write broken list to file");
-	fs.writeFileSync('./brokenLinks.json', JSON.stringify(brokenList));
+	fs.writeFileSync('./brokenLinks.json', JSON.stringify({
+		external: externalBrokenList,
+		internal: internalBrokenList,
+	}));
 })();
