@@ -1,4 +1,11 @@
 module.exports = {
+  scripts: [
+    "https://docusaurus.io/style.css",
+    {
+      src: "https://www.apachecon.com/event-images/snippet.js",
+      async: true,
+    }
+  ],
   title: "Apache APISIX™",
   tagline:
     "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
