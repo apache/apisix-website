@@ -46,7 +46,7 @@ const scanLinkInMDFile = (filePath, project) => {
 				let split = url.split("#").filter(item => item !== "");
 				if (split.length > 1) {
 					link.anchor = "#" + split[1];
-					url = path.normalize(path.dirname(filePath) + "/" + link.url);
+					url = path.normalize(path.dirname(filePath) + path.sep + link.url);
 				} else {
 					link.anchor = link.url;
 					url = filePath;
@@ -54,14 +54,15 @@ const scanLinkInMDFile = (filePath, project) => {
 			} else if (url === "LICENSE" || url === 'logos/apache-apisix.png') {
 				url = "https://github.com/apache/" + project + "/blob/master/" + url;
 			} else if (!url.endsWith(".md")) { // not end with ".md"
-				let lang = filePath.startsWith("website\\docs") ? "en" : filePath.split("i18n\\")[1].split("\\")[0];
-				let subPath = filePath.startsWith("website\\docs") ? path.dirname(filePath.split("docs\\" + project + "\\")[1]) : path.dirname(filePath.split("docs-" + project + "\\current\\")[1]);
-				subPath = subPath !== "." ? subPath + "/" : "";
-				let originPath = path.normalize("docs/" + lang + "/latest/" + subPath + url).replace(/\\/g, '/');
+				console.log(filePath, link.url, filePath.startsWith("website\\docs"));
+				let lang = filePath.startsWith("website" + path.sep + "docs") ? "en" : filePath.split("i18n" + path.sep)[1].split(path.sep)[0];
+				let subPath = filePath.startsWith("website" + path.sep + "docs") ? path.dirname(filePath.split("docs" + path.sep + project + path.sep)[1]) : path.dirname(filePath.split("docs-" + project + path.sep + "current" + path.sep)[1]);
+				subPath = subPath !== "." ? subPath + path.sep : "";
+				let originPath = path.normalize("docs" + path.sep + lang + path.sep + "latest" + path.sep + subPath + url).replace(/\\/g, '/');
 
 				url = "https://github.com/apache/" + project + "/blob/master/" + originPath;
 			} else { // such as "./abcd", "../abcd", "../../../abcd"
-				url = path.normalize(path.dirname(filePath) + "/" + url);
+				url = path.normalize(path.dirname(filePath) + path.sep + url);
 			}
 
 			// set url
