@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
-
-const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
+const common = require("./common.js");
 
 const scanFolder = (tarDir) => {
   let filePaths = [];
@@ -29,7 +28,7 @@ const scanLinkInMDFile = (filePath, project) => {
       const textHrefDivide = item.split('](');
       const text = textHrefDivide[0].replace('[', '');
       const url = textHrefDivide[1].replace(')', '');
-      return ({ url, text, file: filePath });
+      return ({url, text, file: filePath});
     });
 
     // filter out links to other Markdown files
@@ -98,44 +97,39 @@ const linkValidate = (link) => {
   return new Promise((resolve) => {
     const axios = require("axios");
     axios.get(link.url)
-      .then((res) => {
-        console.log(`[Link Checker] check "${link.url}", result is ${res.statusText}`)
-        resolve({
-          ...link,
-          status: res.status,
-          statusText: res.statusText,
+        .then((res) => {
+          console.log(`[Link Checker] check "${link.url}", result is ${res.statusText}`)
+          resolve({
+            ...link,
+            status: res.status,
+            statusText: res.statusText,
+          });
+        })
+        .catch((err) => {
+          console.log(`[Link Checker] check "${link.url}", result is FAIL`);
+          resolve({
+            ...link,
+            status: 0,
+            statusText: 'FAIL',
+          });
         });
-      })
-      .catch((err) => {
-        console.log(`[Link Checker] check "${link.url}", result is FAIL`);
-        resolve({
-          ...link,
-          status: 0,
-          statusText: 'FAIL',
-        });
-      });
   });
 }
 
-(async function main(values) {
+(async function main() {
   console.log("Start link-checker.js");
   console.log("Install dependencies");
   childProcess.execSync("npm i --save axios");
 
   console.log("[Document Scanner] Scan all documents");
   let allDocuments = [];
-  projects.map((project) => {
-    let latestDocs = {
-      en: `./website/docs/${project}`,
-      zh: `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${project}/current`,
-    };
-
-    Object.values(latestDocs).forEach((docPath) => {
-      if (!fs.existsSync(docPath)) return;
+  common.projectPaths().map((projectInfo) => {
+    Object.values(projectInfo.paths).forEach((path) => {
+      if (!fs.existsSync(path)) return;
       allDocuments.push({
-        files: scanFolder(docPath),
-        docPath,
-        project,
+        files: scanFolder(path),
+        path,
+        project: projectInfo.project,
       })
     });
   });
