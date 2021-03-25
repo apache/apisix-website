@@ -232,6 +232,7 @@ module.exports = {
         },
       ],
     },
+    hideableSidebar: true,
     footer: {
       links: [
         {
