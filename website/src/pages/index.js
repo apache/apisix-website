@@ -120,7 +120,7 @@ const Showcase = () => {
   }
   const showcases = siteConfig.customFields.showcases.map((user) => (
     <a href={user.infoLink} key={user.infoLink} target="_blank">
-      <img className="user-logo" src={'https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/static/' +  user.image} alt={user.caption} />
+      <img className="user-logo" src={'https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/static/img/' +  user.image} alt={user.caption} />
     </a>
   ));
   const middleIndex = (showcases.length / 2).toFixed(0);
