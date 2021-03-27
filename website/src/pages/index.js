@@ -4,6 +4,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Layout from "@theme/Layout";
 import GitHubLogo from "../assets/icons/github-logo.svg";
+import DocumentLogo from "../assets/icons/document-text.svg";
 import { useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import ChevronRight from "../assets/icons/chevron-right.svg";
@@ -205,6 +206,43 @@ const EventsSection = () => {
   );
 };
 
+const ContributionSection = () => {
+
+  return (
+    <div className="contribution">
+      <div className="center-elem contribution-text">
+        <h2>Contribute to APISIX</h2>
+      </div>
+      <div className="center-elem">
+        <p>Want to help out, or find an issue  and want to let us know?</p>
+      </div>
+      <div className="contribution-links">
+            <Link
+              to="/docs/general/contributor-guide"
+              className="button  button--outline button--primary secondary"
+            >
+              <DocumentLogo className="document-logo" />
+               Contribution Guidelines
+            </Link>
+            <Link
+              to="https://github.com/apache/apisix"
+              className="button  button--outline button--primary github"
+            >
+              <GitHubLogo className="github-logo" />
+              GitHub Source code
+            </Link>
+            <Link
+              to="https://github.com/apache/apisix#community"
+              className="button  button--outline button--primary github"
+            >
+              <GitHubLogo className="github-logo" />
+              Good First Issues
+            </Link>
+      </div>
+    </div>
+  );
+};
+
 const NewsletterSection = () => {
 
   return (
@@ -243,6 +281,7 @@ const Index = (props) => {
       <LearnHow />
       <EventsSection />
       <Showcase />
+      <ContributionSection />
       <NewsletterSection />
     </Layout>
   );

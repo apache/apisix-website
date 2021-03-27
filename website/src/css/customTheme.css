@@ -503,18 +503,40 @@ a:hover {
   display: flex;
 }
 
-/*newsletter section*/
+/*contribution section*/
+.contribution {
+  justify-content: center;
+  margin-bottom: 100px;
+}
 
-.center-elem{
+.center-elem {
   display: flex;
   justify-content: center;
 }
 
-.news-logo{
+.contribution-text {
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.contribution-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*newsletter section*/
+
+.center-elem {
+  display: flex;
+  justify-content: center;
+}
+
+.news-logo {
   margin-bottom: 20px;
 }
 
-.news-button{
+.news-button {
   border: #111827;
   padding: 5px 30px;
   border-style: solid;
@@ -525,17 +547,17 @@ a:hover {
   text-decoration: none;
   transition: all 0.3s;
 }
-.news-button:hover{
+.news-button:hover {
   background: black;
   color: white;
   text-decoration: none;
 }
 
-.news-logo-svg{
+.news-logo-svg {
   height: 42px;
 }
 
-.news-text{
+.news-text {
   color: var(--color-primary);
   text-align: center;
 }
