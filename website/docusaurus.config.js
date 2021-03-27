@@ -49,6 +49,17 @@ module.exports = {
         releaseDate: "2021-03-12",
         firstDocPath: "/getting-started",
       },
+      {
+        name: "APISIX™ Helm Charts",
+        nameInParamCase: "helm-charts",
+        description: "An Apache APISIX Helm Charts provide the installation of Apache APISIX components for kubernetes.",
+        shape: "hexagon",
+        color: "#2563EB",
+        githubRepo: "apache/apisix-helm-chart",
+        version: "0.4.0",
+        releaseDate: "2021-03-12",
+        firstDocPath: "/apisix",
+      },
     ],
     team: require("./static/data/team.json"),
     allRepos: [
@@ -194,6 +205,10 @@ module.exports = {
             {
               label: "APISIX™️ Ingress Controller",
               to: "/docs/ingress-controller/getting-started/",
+            },
+            {
+              label: "Apache™️ APISIX Helm Charts",
+              to: "/docs/helm-chart/apisix/",
             },
             {
               label: "General",
