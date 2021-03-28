@@ -219,7 +219,7 @@ const ContributionSection = () => {
              <Link
               to="/docs/general/contributor-guide#good-first-issues"
              >
-              <GitHubLogo className="github-logo" />
+              <GitHubLogo className="contribution-logo" />
               Good First Issues
             </Link>
       </div>

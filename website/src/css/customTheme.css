@@ -525,6 +525,11 @@ a:hover {
   justify-content: center;
 }
 
+.contribution-logo {
+  vertical-align: middle;
+  margin: 0 12px 1px 0px;
+}
+
 /*newsletter section*/
 
 .center-elem {
