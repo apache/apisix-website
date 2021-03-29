@@ -63,7 +63,7 @@ module.exports = {
       {
         name: "APISIX™ Docker",
         nameInParamCase: "docker",
-        description: "The docker for Apache APISIX.",
+        description: "Docker tooling for Apache APISIX.",
         shape: "square",
         color: "#2563EB",
         githubRepo: "apache/apisix-helm-chart",
