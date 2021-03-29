@@ -3,9 +3,8 @@ console.log("Start sync-docs.js");
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
-// "apisix-docker", 
-const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard", "apisix-helm-chart"];
 
+const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard", "apisix-helm-chart", "apisix-docker"];
 const langs = ["en", "zh", "es"];
 
 const projectPaths = projects.map((project) => {
