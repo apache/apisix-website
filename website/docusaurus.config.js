@@ -60,6 +60,17 @@ module.exports = {
         releaseDate: "2021-03-12",
         firstDocPath: "/apisix",
       },
+      {
+        name: "APISIX™ Docker",
+        nameInParamCase: "docker",
+        description: "Docker tooling for Apache APISIX.",
+        shape: "square",
+        color: "#2563EB",
+        githubRepo: "apache/apisix-helm-chart",
+        version: "1.0.0",
+        releaseDate: "2020-12-1",
+        firstDocPath: "/docker",
+      },
     ],
     team: require("./static/data/team.json"),
     allRepos: [
@@ -209,6 +220,10 @@ module.exports = {
             {
               label: "Apache™️ APISIX Helm Charts",
               to: "/docs/helm-chart/apisix/",
+            },
+            {
+              label: "Apache™️ APISIX Docker",
+              to: "/docs/docker/build/",
             },
             {
               label: "General",
