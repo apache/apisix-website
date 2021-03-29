@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.4",
-        releaseDate: "2021-02-12",
+        version: "2.5",
+        releaseDate: "2021-03-29",
         firstDocPath: "/USER_GUIDE",
       },
       {
