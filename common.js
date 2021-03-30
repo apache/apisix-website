@@ -1,5 +1,4 @@
-// NOTE: disable "apisix-docker" "apisix-helm-chart" currently
-const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard"];
+const projects = ["apisix-ingress-controller", "apisix", "apisix-dashboard", "apisix-docker", "apisix-helm-chart"];
 const languages = ["en", "zh", "es"];
 
 module.exports = {
