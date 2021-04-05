@@ -170,6 +170,42 @@ module.exports = {
         },
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-helm-charts",
+        path: "docs/apisix-helm-charts",
+        routeBasePath: "/docs/helm-charts",
+        sidebarPath: require.resolve("./docs/apisix-helm-charts/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-docker",
+        path: "docs/apisix-docker",
+        routeBasePath: "/docs/docker",
+        sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-docker/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
