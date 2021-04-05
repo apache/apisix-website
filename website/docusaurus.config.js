@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "var(--ifm-color-primary)",
         githubRepo: "apache/apisix",
-        version: "2.4",
-        releaseDate: "2021-03-05",
+        version: "2.5",
+        releaseDate: "2021-04-05",
         firstDocPath: "/getting-started",
       },
       {
