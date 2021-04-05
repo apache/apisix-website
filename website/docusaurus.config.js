@@ -195,10 +195,10 @@ module.exports = {
     [
       "@docusaurus/plugin-content-docs",
       {
-        id: "docs-apisix-helm-charts",
-        path: "docs/apisix-helm-charts",
-        routeBasePath: "/docs/helm-charts",
-        sidebarPath: require.resolve("./docs/apisix-helm-charts/sidebars.json"),
+        id: "docs-apisix-helm-chart",
+        path: "docs/apisix-helm-chart",
+        routeBasePath: "/docs/helm-chart",
+        sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
         editUrl: function ({
           locale,
           version,
