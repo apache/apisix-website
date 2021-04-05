@@ -52,7 +52,7 @@ module.exports = {
       {
         name: "APISIX™ Helm Charts",
         nameInParamCase: "helm-charts",
-        description: "An Apache APISIX Helm Charts provide the installation of Apache APISIX components for kubernetes.",
+        description: "Apache APISIX Helm Charts provide the installation of Apache APISIX components for kubernetes.",
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-helm-chart",
