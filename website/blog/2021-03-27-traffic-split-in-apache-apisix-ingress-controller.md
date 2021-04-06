@@ -91,11 +91,7 @@ The above case marks the service "foo-canary" as "canary", and creates a canary 
 
 ## Apache APISIX
 
-<<<<<<< HEAD
 [Apache APISIX](https://apisix.apache.org) splits traffic with custom rules by its [traffic-split](https://apisix.apache.org/docs/apisix/plugins/traffic-split) plugin, and Apache APISIX Ingress Controller implements the traffic split feature to [ApisixRoute](https://apisix.apache.org/docs/ingress-controller/concepts/apisix_route) (as the first-class support, without relying on annotations) by this plugin and the flexible route match abilities in ApisixRoute.
-=======
-[Apache APISIX](https://apisix.apache.org) splits traffic with custom rules by its [traffic-split](apisix.apache.org/docs/apisix/plugins/traffic-split) plugin, and Apache APISIX Ingress Controller implements the traffic split feature to [ApisixRoute](apisix.apache.org/docs/ingress-controller/concepts/apisix_route) (as the first-class support, without relying on annotations) by this plugin and the flexible route match abilities in ApisixRoute.
->>>>>>> 872c37edaaecd5d470064da4b6c9d5de6889af4f
 
 ### Weight-Based
 
