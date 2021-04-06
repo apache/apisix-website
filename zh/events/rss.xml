@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/events</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Fri, 12 Mar 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 05 Apr 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Release Apache APISIX 2.5]]></title>
+            <link>https://apisix.apache.org/zh/events/2021/04/05/release-apache-apisix-2.5</link>
+            <guid>Release Apache APISIX 2.5</guid>
+            <pubDate>Mon, 05 Apr 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Change]]></description>
+        </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 0.4.0]]></title>
             <link>https://apisix.apache.org/zh/events/2021/03/12/release-apache-apisix-ingress-controller-0.4.0</link>
