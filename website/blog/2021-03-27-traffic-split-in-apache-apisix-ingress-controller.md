@@ -47,7 +47,7 @@ metadata:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/canary: "true"
       nginx.ingress.kubernetes.io/canary-by-header: "User-Agent"
-      nginx.ingress.kubernetes.io/canary-by-header-pattern: 
+      nginx.ingress.kubernetes.io/canary-by-header-pattern:
 ".*Mozilla.*"
   name: ingress-v1beta1
 ```
@@ -61,7 +61,7 @@ apiVersion: configuration.konghq.com/v1
 kind: KongPlugin
 metadata:
   name: foo-canary
-config: 
+config:
   percentage: 30
   upstream_host: foo.com
   upstream_fallback: false
