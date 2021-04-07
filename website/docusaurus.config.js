@@ -50,6 +50,7 @@ module.exports = {
         firstDocPath: "/getting-started",
       }
     ],
+
     team: require("./static/data/team.json"),
     allRepos: [
       "apache/apisix",
