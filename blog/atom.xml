@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX™ Blog</title>
-    <updated>2021-03-02T00:00:00.000Z</updated>
+    <updated>2021-03-27T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX™ Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Traffic Split in Apache APISIX Ingress Controller]]></title>
+        <id>Traffic Split in Apache APISIX Ingress Controller</id>
+        <link href="https://apisix.apache.org/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller"/>
+        <updated>2021-03-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway (e.g. Apache APISIX and Traefik), Service Mesh (e.g. Istio and Linkerd) are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Get Front-End Test Coverage with Cypress]]></title>
         <id>Get Front-End Test Coverage with Cypress</id>
