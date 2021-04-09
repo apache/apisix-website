@@ -10,7 +10,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/10428333?s=460&u=f48ef5
 <!--truncate-->
 
 > Source: https://www.apiseven.com/en/blog/traffic-split-in-apache-apisix-ingress-controller
-> 
+>
 Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway (e.g. [Apache APISIX](http://apisix.apache.org/) and [Traefik](https://traefik.io/)), Service Mesh (e.g. [Istio](https://istio.io/) and [Linkerd](https://linkerd.io/)) are capable of doing traffic splitting and implement functionalities like [Canary Release](https://blog.getambassador.io/cloud-native-patterns-canary-release-1cb8f82d371a) and [Blue-Green Deployment](https://martinfowler.com/bliki/BlueGreenDeployment.html).
 
 Traffic split is also a key feature in [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/). As the ingress layer in the [Kuberentes](https://kubernetes.io/) cluster, it’s desired to reduce the risk due to release a new version of the application by setting up some traffic split rules in the ingress controller, so only a controllable amount of traffic will be routed to newly released instances. In this article, we’ll introduce the traffic split (also called canary release) in [Ingress Nginx](https://kubernetes.github.io/ingress-nginx/) and [Kong Ingress Controller](https://github.com/Kong/kubernetes-ingress-controller), and ultimately we explain the traffic split in [Apache APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller).
