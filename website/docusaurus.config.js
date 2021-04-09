@@ -314,7 +314,9 @@ module.exports = {
       contextualSearch: true,
     },
     colorMode: {
-      disableSwitch: true,
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
     metadatas: [
       {
