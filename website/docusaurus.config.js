@@ -173,6 +173,7 @@ module.exports = {
   ],
   themeConfig: {
     navbar: {
+      hideOnScroll: true,
       title: "Apache APISIX™",
       logo: {
         src: "img/logo2.svg",
