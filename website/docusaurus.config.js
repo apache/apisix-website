@@ -96,6 +96,7 @@ module.exports = {
           }) {
             return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
           },
+          disableVersioning: true,
         },
         blog: {
           path: "blog",
