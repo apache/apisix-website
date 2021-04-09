@@ -50,6 +50,7 @@ module.exports = {
         firstDocPath: "/getting-started",
       }
     ],
+
     team: require("./static/data/team.json"),
     allRepos: [
       "apache/apisix",
@@ -167,6 +168,42 @@ module.exports = {
           permalink,
         }) {
           return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-helm-chart",
+        path: "docs/apisix-helm-chart",
+        routeBasePath: "/docs/helm-chart",
+        sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-docker",
+        path: "docs/apisix-docker",
+        routeBasePath: "/docs/docker",
+        sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-docker/edit/master/docs/${locale}/latest/${docPath}`;
         },
       },
     ],
