@@ -7,10 +7,16 @@
   --ifm-color-primary-dark: #a5a0a0;
   --ifm-color-primary-darker: #9a2521;
   --ifm-color-shadow--lw: #7f1e1b;
-
+  --ifn-color-title: #101827;
   --color-primary: #e8433e;
   --color-secondary: #4b5563;
   --color-secondary-bg: #f3f4f6;
+}
+
+html[data-theme='dark'] {
+  --color-secondary-bg: gray;
+  --ifm-color-dark: gray;
+  --ifn-color-title: gray;
 }
 
 body {
@@ -83,7 +89,7 @@ header h2 {
 .home-splash .title {
   font-size: 5rem;
   font-weight: 800;
-  color: #101827;
+  color: var(--ifn-color-title);
 }
 @media only screen and (min-device-width: 376px) and (max-device-width: 736px) {
   .home-splash .title {
@@ -106,14 +112,14 @@ header h2 {
 }
 
 .home-splash .subtitle {
-  color: #000000;
-  opacity: 0.58;
+  color: var(--ifm-color-dark);
+  opacity: 0.70;
   font-size: 1.2rem;
   width: 65%;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .home-splash .subtitle {
-    color: #000000;
+    color: var(--ifm-color-dark);
     opacity: 0.58;
     font-size: 1.2rem;
     width: 100%;
@@ -213,7 +219,7 @@ header h2 {
   flex-direction: column;
   justify-content: space-between;
   text-align: left;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-secondary-bg);
   margin: 8px;
   padding: 8px 18px;
   border-radius: 6px;
@@ -231,7 +237,7 @@ header h2 {
 }
 .events-section .event-item .event-title {
   font-weight: 500;
-  color: #000;
+  color: var(--ifm-color-dark);
   opacity: 0.88;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -240,14 +246,14 @@ header h2 {
   transition: all 0.3s;
 }
 .events-section .event-item .event-publish-time {
-  color: #000;
+  color: var(--ifm-color-dark);
   opacity: 0.58;
   font-size: 12px;
 }
 .events-section .event-item .event-read-button {
   margin-top: 16px;
   font-weight: 500;
-  color: #000;
+  color: var(--ifm-color-dark);
   opacity: 0.58;
   font-size: 12px;
   transition: all 0.3s;
@@ -307,7 +313,7 @@ header h2 {
   color: #ef4444;
 }
 .button.github {
-  background: #101827;
+  background: var(--ifm-color-dark);
   color: white;
   display: inline-flex;
   align-items: center;
