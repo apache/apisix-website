@@ -22,9 +22,9 @@ module.exports = {
         shape: "triangle",
         color: "var(--ifm-color-primary)",
         githubRepo: "apache/apisix",
-        version: "2.4",
-        releaseDate: "2021-03-05",
-        firstDocPath: "/architecture-design",
+        version: "2.5",
+        releaseDate: "2021-04-05",
+        firstDocPath: "/getting-started",
       },
       {
         name: "APISIX™ Dashboard",
@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.4",
-        releaseDate: "2021-02-12",
+        version: "2.5",
+        releaseDate: "2021-03-29",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -45,11 +45,12 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "0.3.0",
-        releaseDate: "2021-02-11",
+        version: "0.4.0",
+        releaseDate: "2021-03-12",
         firstDocPath: "/getting-started",
-      },
+      }
     ],
+
     team: require("./static/data/team.json"),
     allRepos: [
       "apache/apisix",
@@ -170,9 +171,46 @@ module.exports = {
         },
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-helm-chart",
+        path: "docs/apisix-helm-chart",
+        routeBasePath: "/docs/helm-chart",
+        sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-docker",
+        path: "docs/apisix-docker",
+        routeBasePath: "/docs/docker",
+        sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-docker/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
+      hideOnScroll: true,
       title: "Apache APISIX™",
       logo: {
         src: "img/logo2.svg",
@@ -185,7 +223,7 @@ module.exports = {
           items: [
             {
               label: "APISIX™️",
-              to: "/docs/apisix/architecture-design",
+              to: "/docs/apisix/getting-started",
             },
             {
               label: "APISIX™️ Dashboard",
@@ -193,7 +231,15 @@ module.exports = {
             },
             {
               label: "APISIX™️ Ingress Controller",
-              to: "/docs/ingress-controller/design/",
+              to: "/docs/ingress-controller/getting-started/",
+            },
+            {
+              label: "Apache™️ APISIX Helm Charts",
+              to: "/docs/helm-chart/apisix/",
+            },
+            {
+              label: "Apache™️ APISIX Docker",
+              to: "/docs/docker/build/",
             },
             {
               label: "General",
@@ -232,6 +278,7 @@ module.exports = {
         },
       ],
     },
+    hideableSidebar: true,
     footer: {
       links: [
         {
@@ -305,7 +352,9 @@ module.exports = {
       contextualSearch: true,
     },
     colorMode: {
-      disableSwitch: true,
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
     metadatas: [
       {
