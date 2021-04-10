@@ -17,10 +17,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-svg {
-  height: 24px;
-}
-
 div.inner {
   color: var(--ifm-color-primary);
 }
@@ -528,6 +524,7 @@ a:hover {
 .contribution-logo {
   vertical-align: middle;
   margin: 0 12px 1px 0px;
+  height: 24px;
 }
 
 /*newsletter section*/
