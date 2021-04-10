@@ -12,7 +12,7 @@
             <link>https://apisix.apache.org/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller</link>
             <guid>Traffic Split in Apache APISIX Ingress Controller</guid>
             <pubDate>Sat, 27 Mar 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway (e.g. Apache APISIX and Traefik), Service Mesh (e.g. Istio and Linkerd) are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.]]></description>
+            <description><![CDATA[@tokers, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
             <title><![CDATA[Get Front-End Test Coverage with Cypress]]></title>
