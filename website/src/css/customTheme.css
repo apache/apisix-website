@@ -19,11 +19,11 @@
 }
 
 html[data-theme='dark'] {
-  --color-secondary-bg: #000;
+  --color-secondary-bg: #121212;
   --ifm-color-dark: #b0b0b0;
   --color-title: #f0f0f0;
   --color-subtitle: #f0f0f0;
-  --color-github-button: gray;
+  --color-github-button: #121212;
   --color-secondary-text: #b0b0b0;
   --color-border: #b0b0b0;
 }
