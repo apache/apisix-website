@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import "../css/customTheme.css";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
@@ -70,7 +71,6 @@ const Title = styled.div`
   }
 `;
 const Description = styled.div`
-  color: #374151;
   font-size: 1rem;
   margin-top: 0px;
   @media (max-width: 600px) {
@@ -94,7 +94,6 @@ const VersionInfo = styled.div`
   display: inline-flex;
   font-size: 1rem;
   margin-top: 1rem;
-  color: #4b5563;
   span {
     font-weight: 500;
   }
@@ -126,8 +125,8 @@ const ProjectCard = (props) => {
         <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
         {name}
       </Title>
-      <Description>{description}</Description>
-      <VersionInfo>
+      <Description className="docs-subtitle">{description}</Description>
+      <VersionInfo className="docs-versioninfo">
         Latest version&nbsp;<span>{version}</span>&nbsp;released at&nbsp;
         <span>{releaseDate}</span>
       </VersionInfo>

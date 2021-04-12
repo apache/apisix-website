@@ -16,6 +16,16 @@
   --color-secondary-bg: #f3f4f6;
   --color-secondary-text: #444952;
   --color-border: #eee;
+  --color-downloads-subtitle: #374051;
+  --color-downloads-leftsidelinks: #4b5563;
+  --color-downloads-leftsidelink-hover: #111827;
+  --color-downloads-rightside-versioninfo: #6b7280;
+  --color-downloads-rightside-versioninfo-span: #374151;
+  --color-team-repocard: #374151;
+  --color-team-repocard-hover: #111827;
+  --color-docs-subtitle: #374151;
+  --color-docs-versioninfo: #4b5563;
+  --color-help-subtitle: #6b7280;
 }
 
 html[data-theme='dark'] {
@@ -26,6 +36,16 @@ html[data-theme='dark'] {
   --color-github-button: #121212;
   --color-secondary-text: #b0b0b0;
   --color-border: #b0b0b0;
+  --color-downloads-subtitle: #f0f0f0;
+  --color-downloads-leftsidelinks: #909397;
+  --color-downloads-leftsidelink-hover: #f0f0f0;
+  --color-downloads-rightside-versioninfo: #f0f0f0;
+  --color-downloads-rightside-versioninfo-span: #909397;
+  --color-team-repocard: #f0f0f0;
+  --color-team-repocard-hover: #909397;
+  --color-docs-subtitle: #f0f0f0;
+  --color-docs-versioninfo: #b0b0b0;
+  --color-help-subtitle: #f0f0f0;
 }
 
 body {
@@ -583,4 +603,44 @@ a:hover {
 .news-text {
   color: var(--color-primary);
   text-align: center;
+}
+
+.downloads-subtitle {
+  color: var(--color-downloads-subtitle);
+}
+
+.downloads-leftsidelinks {
+  color: var(--color-downloads-leftsidelinks);
+}
+
+.downloads-leftsidelink:hover {
+  color: var(--color-downloads-leftsidelink-hover);
+}
+
+.downloads-versioninfo {
+  color: var(--color-downloads-rightside-versioninfo);
+}
+
+.downloads-versioninfo-span {
+  color: var(--color-downloads-rightside-versioninfo-span)
+}
+
+.team-repocard {
+  color: var(--color-team-repocard)
+}
+
+.team-repocard:hover {
+  color: var(--color-team-repocard-hover);
+}
+
+.docs-subtitle {
+  color: var(--color-docs-subtitle);
+}
+
+.docs-versioninfo {
+  color: var(--color-docs-versioninfo);
+}
+
+.help-page .card p {
+  color: var(--color-help-subtitle);
 }
