@@ -324,7 +324,7 @@ Invite [PMCs](https://apisix.apache.org/team/) to move KEYS and package under th
 
 ### Update Download page
 
-The [Download](https://github.com/apache/apisix-website) page contains links for Apache APISIX, Apache APISIX Dashboard, and other sources, and we need to update its contents [here](https://github.com/apache/apisix-website/blob/master/docs/download.md).
+The [Download](https://github.com/apache/apisix-website) page contains links for Apache APISIX, Apache APISIX Dashboard, and other sources, and we need to update its contents [here](https://github.com/apache/apisix-website/blob/master/website/docusaurus.config.js).
 
 ### Send ANNOUNCE
 
