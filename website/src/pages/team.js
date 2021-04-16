@@ -275,7 +275,7 @@ function Team(props) {
         target="_blank"
         key={repo}
       >
-        <GitHubLogo /> {repo}
+        <GitHubLogo className="team-githubLogo" /> {repo}
       </RepoCard>
     );
   });
