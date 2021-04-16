@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import "../css/customTheme.css"
 import Layout from "@theme/Layout";
 import ChevronRight from "../assets/icons/chevron-right.svg";
 

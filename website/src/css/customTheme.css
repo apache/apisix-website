@@ -3,22 +3,53 @@
   --ifm-color-primary-lighter: #d0312d;
   --ifm-color-primary-light: #f8f8fa;
   --ifm-color-primary: #e8433e;
-  --ifm-color-dark: #000000;
+  --ifm-color-dark: #000;
   --ifm-color-primary-dark: #a5a0a0;
   --ifm-color-primary-darker: #9a2521;
   --ifm-color-shadow--lw: #7f1e1b;
-
+  --color-title: #101827;
+  --color-github-button: #101827;
+  --color-github-button-hover: #000;
   --color-primary: #e8433e;
+  --color-subtitle: #000;
   --color-secondary: #4b5563;
   --color-secondary-bg: #f3f4f6;
+  --color-secondary-text: #444952;
+  --color-border: #eee;
+  --color-downloads-subtitle: #374051;
+  --color-downloads-leftsidelinks: #4b5563;
+  --color-downloads-leftsidelink-hover: #111827;
+  --color-downloads-rightside-versioninfo: #6b7280;
+  --color-downloads-rightside-versioninfo-span: #374151;
+  --color-team-repocard: #374151;
+  --color-team-repocard-hover: #111827;
+  --color-docs-subtitle: #374151;
+  --color-docs-versioninfo: #4b5563;
+  --color-help-subtitle: #6b7280;
+}
+
+html[data-theme='dark'] {
+  --color-secondary-bg: #121212;
+  --ifm-color-dark: #b0b0b0;
+  --color-title: #f0f0f0;
+  --color-subtitle: #f0f0f0;
+  --color-github-button: #121212;
+  --color-secondary-text: #b0b0b0;
+  --color-border: #b0b0b0;
+  --color-downloads-subtitle: #f0f0f0;
+  --color-downloads-leftsidelinks: #909397;
+  --color-downloads-leftsidelink-hover: #f0f0f0;
+  --color-downloads-rightside-versioninfo: #f0f0f0;
+  --color-downloads-rightside-versioninfo-span: #909397;
+  --color-team-repocard: #f0f0f0;
+  --color-team-repocard-hover: #909397;
+  --color-docs-subtitle: #f0f0f0;
+  --color-docs-versioninfo: #b0b0b0;
+  --color-help-subtitle: #f0f0f0;
 }
 
 body {
   font-family: "Inter", sans-serif;
-}
-
-svg {
-  height: 24px;
 }
 
 div.inner {
@@ -83,7 +114,7 @@ header h2 {
 .home-splash .title {
   font-size: 5rem;
   font-weight: 800;
-  color: #101827;
+  color: var(--color-title);
 }
 @media only screen and (min-device-width: 376px) and (max-device-width: 736px) {
   .home-splash .title {
@@ -106,14 +137,14 @@ header h2 {
 }
 
 .home-splash .subtitle {
-  color: #000000;
+  color: var(--color-subtitle);
   opacity: 0.58;
   font-size: 1.2rem;
   width: 65%;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .home-splash .subtitle {
-    color: #000000;
+    color: var(--ifm-color-dark);
     opacity: 0.58;
     font-size: 1.2rem;
     width: 100%;
@@ -213,7 +244,7 @@ header h2 {
   flex-direction: column;
   justify-content: space-between;
   text-align: left;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border);
   margin: 8px;
   padding: 8px 18px;
   border-radius: 6px;
@@ -231,7 +262,7 @@ header h2 {
 }
 .events-section .event-item .event-title {
   font-weight: 500;
-  color: #000;
+  color: var(--color-subtitle);
   opacity: 0.88;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -240,14 +271,14 @@ header h2 {
   transition: all 0.3s;
 }
 .events-section .event-item .event-publish-time {
-  color: #000;
+  color: var(--color-subtitle);
   opacity: 0.58;
   font-size: 12px;
 }
 .events-section .event-item .event-read-button {
   margin-top: 16px;
   font-weight: 500;
-  color: #000;
+  color: var(--color-subtitle);
   opacity: 0.58;
   font-size: 12px;
   transition: all 0.3s;
@@ -284,10 +315,13 @@ header h2 {
 }
 .learn-how .hero__title {
   font-weight: 700;
-  color: black;
+  color: var(--color-subtitle);
   opacity: 0.84;
   font-size: 2.2rem;
   margin-bottom: 10px;
+}
+.learn-how .hero__subtitle{
+  color: var(--color-secondary-text);
 }
 
 /* button */
@@ -307,7 +341,7 @@ header h2 {
   color: #ef4444;
 }
 .button.github {
-  background: #101827;
+  background: var(--color-github-button);
   color: white;
   display: inline-flex;
   align-items: center;
@@ -321,7 +355,7 @@ header h2 {
   margin: 0 12px 1px 0px;
 }
 .button.github:hover {
-  background: #000;
+  background: var(--color-github-button-hover);
 }
 .button-wrapper {
   margin: 0 -10px;
@@ -528,6 +562,7 @@ a:hover {
 .contribution-logo {
   vertical-align: middle;
   margin: 0 12px 1px 0px;
+  height: 24px;
 }
 
 /*newsletter section*/
@@ -546,14 +581,14 @@ a:hover {
   padding: 5px 30px;
   border-style: solid;
   border-radius: 9px;
-  background: #111827;
+  background: var(--color-github-button);
   color: white;
   margin: 4px;
   text-decoration: none;
   transition: all 0.3s;
 }
 .news-button:hover {
-  background: black;
+  background: var(--color-github-button-hover);
   color: white;
   text-decoration: none;
 }
@@ -565,4 +600,44 @@ a:hover {
 .news-text {
   color: var(--color-primary);
   text-align: center;
+}
+
+.downloads-subtitle {
+  color: var(--color-downloads-subtitle);
+}
+
+.downloads-leftsidelinks {
+  color: var(--color-downloads-leftsidelinks);
+}
+
+.downloads-leftsidelink:hover {
+  color: var(--color-downloads-leftsidelink-hover);
+}
+
+.downloads-versioninfo {
+  color: var(--color-downloads-rightside-versioninfo);
+}
+
+.downloads-versioninfo-span {
+  color: var(--color-downloads-rightside-versioninfo-span)
+}
+
+.team-repocard {
+  color: var(--color-team-repocard)
+}
+
+.team-repocard:hover {
+  color: var(--color-team-repocard-hover);
+}
+
+.docs-subtitle {
+  color: var(--color-docs-subtitle);
+}
+
+.docs-versioninfo {
+  color: var(--color-docs-versioninfo);
+}
+
+.help-page .card p {
+  color: var(--color-help-subtitle);
 }

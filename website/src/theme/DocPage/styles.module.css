@@ -12,6 +12,7 @@
 @media (min-width: 997px) {
   .docPage {
     display: flex;
+    margin-bottom: -2rem;
   }
 
   .docSidebarContainer {

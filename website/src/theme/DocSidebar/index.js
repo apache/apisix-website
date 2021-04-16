@@ -188,10 +188,6 @@ function DocSidebar({
     [styles.sidebarHidden]: isHidden
   })}>
 
-    <div className={styles.sidebarVersionSwitch}>
-    Version: <DocsVersionDropdownNavbarItem docsPluginId={docPluginId} dropdownItemsBefore={[]} dropdownItemsAfter={[]} />
-    </div>
-
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       <div className={clsx('menu', 'menu--responsive', 'thin-scrollbar', styles.menu, {
       'menu--show': showResponsiveSidebar,
