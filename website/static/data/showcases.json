@@ -256,5 +256,11 @@
     "image": "showcase/TencentGame.png",
     "infoLink": "https://game.qq.com/",
     "pinned": true
+  },
+   {
+    "caption": "奥格科技股份有限公司",
+    "image": "showcase/Augurit.png",
+    "infoLink": "http://www.augurit.com/",
+    "pinned": true
   }
 ]
