@@ -16,12 +16,12 @@
     "babel-plugin-styled-components": "^1.12.0"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.71",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.71",
+    "@docusaurus/core": "^2.0.0-alpha.adf2a526e5",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.adf2a526e5",
     "change-case": "^4.1.2",
     "clsx": "^1.1.1",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-transition-group": "^4.4.1",
     "styled-components": "^5.2.1"
   },
