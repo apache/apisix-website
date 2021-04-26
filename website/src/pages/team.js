@@ -290,6 +290,8 @@ function Team(props) {
         list.
       </SectionSubtitle>
       <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
+      <SectionTitle>Contributor Over Time</SectionTitle>
+      <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time"/>
       <ContributeCard>
         <ContributeCardLeftSide>
           <ContributeCardTitle>🛠 Become A Committer </ContributeCardTitle>
