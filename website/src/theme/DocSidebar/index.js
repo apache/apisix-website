@@ -154,6 +154,19 @@ function DocSidebarItem(props) {
   }
 }
 
+function useShowAnnouncementBar() {
+  const {isAnnouncementBarClosed} = useUserPreferencesContext();
+  const [showAnnouncementBar, setShowAnnouncementBar] = useState(
+    !isAnnouncementBarClosed,
+  );
+  useScrollPosition(({scrollY}) => {
+    if (!isAnnouncementBarClosed) {
+      setShowAnnouncementBar(scrollY === 0);
+    }
+  });
+  return showAnnouncementBar;
+}
+
 function DocSidebar({
   path,
   sidebar,
@@ -162,6 +175,7 @@ function DocSidebar({
   isHidden,
   docPluginId
 }) {
+  const showAnnouncementBar = useShowAnnouncementBar();
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     navbar: {
@@ -169,12 +183,6 @@ function DocSidebar({
     },
     hideableSidebar
   } = useThemeConfig();
-  const {
-    isAnnouncementBarClosed
-  } = useUserPreferencesContext();
-  const {
-    scrollY
-  } = useScrollPosition();
   useLockBodyScroll(showResponsiveSidebar);
   const windowSize = useWindowSize();
   useEffect(() => {
@@ -191,7 +199,7 @@ function DocSidebar({
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
       <div className={clsx('menu', 'menu--responsive', 'thin-scrollbar', styles.menu, {
       'menu--show': showResponsiveSidebar,
-      [styles.menuWithAnnouncementBar]: !isAnnouncementBarClosed && scrollY === 0
+      [styles.menuWithAnnouncementBar]: showAnnouncementBar
     })}>
         <button aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'} aria-haspopup="true" className="button button--secondary button--sm menu__button" type="button" onClick={() => {
         setShowResponsiveSidebar(!showResponsiveSidebar);
