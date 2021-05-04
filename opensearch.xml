@@ -7,5 +7,5 @@
   <Image width="16" height="16" type="image/x-icon">https://apisix.apache.org/img/favicon.png</Image>
   <Url type="text/html" method="get" template="https://apisix.apache.org//search?q={searchTerms}"/>
   <Url type="application/opensearchdescription+xml" rel="self" template="https://apisix.apache.org//opensearch.xml" />
-  <moz:SearchForm>https://apisix.apache.org/</moz:SearchForm>
+  <moz:SearchForm>https://apisix.apache.org//</moz:SearchForm>
 </OpenSearchDescription>
