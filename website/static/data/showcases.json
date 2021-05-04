@@ -7,7 +7,7 @@
   },
   {
     "caption": "大商天狗",
-    "image": "showcase/51tiangou.svg",
+    "image": "showcase/51tiangou.png",
     "infoLink": "http://51tiangou.com/",
     "pinned": true
   },
@@ -187,7 +187,7 @@
   },
   {
     "caption": "泰康云",
-    "image": "showcase/taikang.svg",
+    "image": "showcase/taikang.png",
     "infoLink": "http://taikang.com/",
     "pinned": true
   },
@@ -203,7 +203,6 @@
     "infoLink": "https://cloud.tencent.com/",
     "pinned": true
   },
-
   {
     "caption": "腾讯优图",
     "image": "showcase/youtu.jpg",
@@ -256,6 +255,12 @@
     "caption": "腾讯游戏",
     "image": "showcase/TencentGame.png",
     "infoLink": "https://game.qq.com/",
+    "pinned": true
+  },
+   {
+    "caption": "奥格科技股份有限公司",
+    "image": "showcase/Augurit.jpg",
+    "infoLink": "http://www.augurit.com/",
     "pinned": true
   }
 ]
