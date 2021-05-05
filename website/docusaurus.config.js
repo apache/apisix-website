@@ -120,6 +120,8 @@ module.exports = {
       {
         id: "docs-apisix",
         path: "docs/apisix",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/apisix",
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
         editUrl: function ({
@@ -138,6 +140,8 @@ module.exports = {
       {
         id: "docs-apisix-dashboard",
         path: "docs/apisix-dashboard",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
         editUrl: function ({
@@ -156,6 +160,8 @@ module.exports = {
       {
         id: "docs-apisix-ingress-controller",
         path: "docs/apisix-ingress-controller",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/ingress-controller",
         sidebarPath: require.resolve(
           "./docs/apisix-ingress-controller/sidebars.json"
@@ -176,6 +182,8 @@ module.exports = {
       {
         id: "docs-apisix-helm-chart",
         path: "docs/apisix-helm-chart",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/helm-chart",
         sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
         editUrl: function ({
@@ -194,6 +202,8 @@ module.exports = {
       {
         id: "docs-apisix-docker",
         path: "docs/apisix-docker",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/docker",
         sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
         editUrl: function ({
