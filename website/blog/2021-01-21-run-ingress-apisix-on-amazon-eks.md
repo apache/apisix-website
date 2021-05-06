@@ -16,7 +16,7 @@ authorImageURL: "https://avatars0.githubusercontent.com/u/10428333?s=60&v=4"
 > - https://github.com/apache/apisix-helm-chart
 > - https://github.com/apache/apisix-ingress-controller
 
-This post is based on [Install Ingress APISIX on Amazon EKS](https://github.com/apache/apisix-ingress-controller/blob/master/docs/deployments/aws.md).
+This post is based on [Install Ingress APISIX on Amazon EKS](https://github.com/apache/apisix-ingress-controller/blob/master/docs/en/latest/deployments/aws.md).
 
 -
 
@@ -65,7 +65,7 @@ kubectl get service apisix-gateway \
 
  Another thing should be concerned that the `allow.ipList` field should be customized according to the [EKS CIDR Ranges](https://amazonaws-china.com/premiumsupport/knowledge-center/eks-multiple-cidr-ranges/) in your EKS cluster, so that the apisix-ingress-controller can be authorized by Apache APISIX (for the resources pushing).
 
-See value.yaml](https://github.com/apache/apisix-helm-chart/blob/master/chart/apisix/values.yaml) to learn all the configuration items if you have other requirements.
+See value.yaml](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix/values.yaml) to learn all the configuration items if you have other requirements.
 
 ## Install apisix-ingress-controller
 
@@ -85,7 +85,7 @@ helm install ingress-apisix ./charts/ingress-apisix \
 
 The ingress-apisix-base chart installed some basic dependencies for apisix-ingress-controller, such as ServiceAccount, its exclusive CRDs and etc.
 
-The ingress-apisix chart guides us how to install the controller itself, you can change the image tag to the desired release version, also the value of `ingressController.config.apisix.adminKey` in above mentioned commands should be filled according to your practical usage (and be sure the admin key is same as the on in Apache APISIX deployment). See [value.yaml](https://github.com/apache/apisix-ingress-controller/blob/master/charts/ingress-apisix/values.yaml) to learn all the configuration items if you have other requirements.
+The ingress-apisix chart guides us how to install the controller itself, you can change the image tag to the desired release version, also the value of `ingressController.config.apisix.adminKey` in above mentioned commands should be filled according to your practical usage (and be sure the admin key is same as the on in Apache APISIX deployment). See [values.yaml](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-ingress-controller/values.yaml) to learn all the configuration items if you have other requirements.
 
 Now try to open your EKS console, choosing your cluster and clicking the Workloads tag, you shall see all pods of Apache APISIX, etcd and apisix-ingress-controller are ready.
 
