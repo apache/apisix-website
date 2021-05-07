@@ -151,7 +151,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-dashboard/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-dashboard/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -173,7 +173,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -193,7 +193,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -213,7 +213,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-docker/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-docker/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
