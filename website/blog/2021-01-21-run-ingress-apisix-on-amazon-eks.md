@@ -16,7 +16,7 @@ authorImageURL: "https://avatars0.githubusercontent.com/u/10428333?s=60&v=4"
 > - https://github.com/apache/apisix-helm-chart
 > - https://github.com/apache/apisix-ingress-controller
 
-This post is based on [Install Ingress APISIX on Amazon EKS](https://github.com/apache/apisix-ingress-controller/blob/master/docs/en/latest/deployments/aws.md).
+This post is based on [Install Ingress APISIX on Amazon EKS](http://apisix.incubator.apache.org/docs/ingress-controller/deployments/aws/).
 
 -
 
