@@ -65,7 +65,7 @@ kubectl get service apisix-gateway \
 
  Another thing should be concerned that the `allow.ipList` field should be customized according to the [EKS CIDR Ranges](https://amazonaws-china.com/premiumsupport/knowledge-center/eks-multiple-cidr-ranges/) in your EKS cluster, so that the apisix-ingress-controller can be authorized by Apache APISIX (for the resources pushing).
 
-See value.yaml](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix/values.yaml) to learn all the configuration items if you have other requirements.
+See [value.yaml](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix/values.yaml) to learn all the configuration items if you have other requirements.
 
 ## Install apisix-ingress-controller
 
