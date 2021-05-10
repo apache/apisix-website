@@ -26,6 +26,8 @@
   --color-docs-subtitle: #374151;
   --color-docs-versioninfo: #4b5563;
   --color-help-subtitle: #6b7280;
+  --color-downloads-dropdown: #fff;
+  --color-downloads-dropdown-items: #f3f4f6;
 }
 
 html[data-theme='dark'] {
@@ -46,6 +48,8 @@ html[data-theme='dark'] {
   --color-docs-subtitle: #f0f0f0;
   --color-docs-versioninfo: #b0b0b0;
   --color-help-subtitle: #f0f0f0;
+  --color-downloads-dropdown: #121212;
+  --color-downloads-dropdown-items: #18191a;
 }
 
 body {
@@ -624,6 +628,14 @@ a:hover {
 
 .downloads-versioninfo-span {
   color: var(--color-downloads-rightside-versioninfo-span)
+}
+
+.downloads-dropdown {
+  background-color: var(--color-downloads-dropdown);
+}
+
+.download-dropdown-item:hover {
+  background-color: var(--color-downloads-dropdown-items);
 }
 
 .team-repocard {
