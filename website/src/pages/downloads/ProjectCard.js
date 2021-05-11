@@ -19,7 +19,11 @@ const Dropdown = (props) => {
     }
   });
   return (
-    <StyledDropdown ref={ref} open={isDropdownOpen}>
+    <StyledDropdown
+      className="downloads-dropdown"
+      ref={ref}
+      open={isDropdownOpen}
+    >
       {props.children}
     </StyledDropdown>
   );
@@ -97,9 +101,11 @@ const ProjectCard = (props) => {
       </LeftSide>
       <RightSide>
         <VersionInfo className="downloads-versioninfo">
-          Latest Version · <span className="downloads-versioninfo-span">{version}</span>
+          Latest Version ·{" "}
+          <span className="downloads-versioninfo-span">{version}</span>
           <br />
-          Release Date · <span className="downloads-versioninfo-span">{releaseDate}</span>
+          Release Date ·{" "}
+          <span className="downloads-versioninfo-span">{releaseDate}</span>
         </VersionInfo>
         <div>
           <Button
@@ -113,18 +119,21 @@ const ProjectCard = (props) => {
             setIsDropdownOpen={setIsDropdownOpen}
           >
             <DropdownItem
+              className="download-dropdown-item"
               href={`https://www.apache.org/dyn/closer.cgi/${downloadLink}.tgz`}
               target="_blank"
             >
               Source
             </DropdownItem>
             <DropdownItem
+              className="download-dropdown-item"
               href={`https://downloads.apache.org/${downloadLink}.tgz.asc`}
               target="_blank"
             >
               ASC
             </DropdownItem>
             <DropdownItem
+              className="download-dropdown-item"
               href={`https://downloads.apache.org/${downloadLink}.tgz.sha512`}
               target="_blank"
             >
@@ -272,7 +281,6 @@ const StyledDropdown = styled.div`
   right: 0;
   position: absolute;
   margin-top: 0.25rem;
-  background: #fff;
   border-radius: 0.5rem;
   border: 1px solid #eee;
   z-index: 100;
@@ -290,7 +298,6 @@ const DropdownItem = styled.a`
   color: inherit;
   &:hover {
     color: inherit;
-    background: var(--color-secondary-bg);
     text-decoration: none;
   }
 `;
