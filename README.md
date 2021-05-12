@@ -15,3 +15,6 @@ $ yarn start
 ```
 
 Thanks to [docusaurus](https://docusaurus.io/)
+
+## Contributors flow Graph for `Apache APISIX™ Website`
+<img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix-website&merge=true" alt="Contributor Over Time"/>
