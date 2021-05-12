@@ -136,10 +136,10 @@ const ProjectCard = (props) => {
 
 export default (props) => {
   const { siteConfig } = useDocusaurusContext();
-  if (!(siteConfig.customFields.downloads || []).length) {
+  if (!(siteConfig.customFields.docs || []).length) {
     return null;
   }
-  const projects = siteConfig.customFields.downloads.map((project) => {
+  const projects = siteConfig.customFields.docs.map((project) => {
     return <ProjectCard key={project.name} {...project} />;
   });
 
