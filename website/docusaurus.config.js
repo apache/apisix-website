@@ -69,7 +69,7 @@ module.exports = {
         githubRepo: "apache/apisix-helm-chart",
         version: "1.0.0",
         releaseDate: "2020-12-1",
-        firstDocPath: "/docker",
+        firstDocPath: "/build",
       }
     ],
     
