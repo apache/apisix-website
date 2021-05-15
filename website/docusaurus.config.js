@@ -66,7 +66,7 @@ module.exports = {
         description: "Docker tooling for Apache APISIX.",
         shape: "diamond",
         color: "#FFD700",
-        githubRepo: "apache/apisix-helm-chart",
+        githubRepo: "apache/apisix-docker",
         version: "1.0.0",
         releaseDate: "2020-12-1",
         firstDocPath: "/build",
