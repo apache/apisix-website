@@ -425,6 +425,7 @@ module.exports = {
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
+    image: 'img/favicon.png',
     metadatas: [
       {
         name: "description",
