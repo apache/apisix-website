@@ -291,6 +291,9 @@ function Team(props) {
       </SectionSubtitle>
       <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
       <SectionTitle>Contributor Over Time</SectionTitle>
+      <SectionSubtitle>
+        Note: This graph contains contributors from all repos under Apache APISIX
+      </SectionSubtitle>
       <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time"/>
       <ContributeCard>
         <ContributeCardLeftSide>
