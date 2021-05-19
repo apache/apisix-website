@@ -143,9 +143,9 @@ module.exports = {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: "docs/general",
-          routeBasePath: "/docs/general",
-          sidebarPath: require.resolve("./docs/general/sidebars.json"),
+          path: "docs/apisix",
+          routeBasePath: "/docs/apisix",
+          sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
           editUrl: function ({
             locale,
             version,
@@ -153,7 +153,7 @@ module.exports = {
             docPath,
             permalink,
           }) {
-            return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
+            return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
           },
         },
         blog: {
@@ -177,12 +177,12 @@ module.exports = {
     [
       "@docusaurus/plugin-content-docs",
       {
-        id: "docs-apisix",
-        path: "docs/apisix",
+        id: "docs-general",
+        path: "docs/general",
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
-        routeBasePath: "/docs/apisix",
-        sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+        routeBasePath: "/docs/general",
+        sidebarPath: require.resolve("./docs/general/sidebars.json"),
         editUrl: function ({
           locale,
           version,
@@ -190,7 +190,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
         },
       },
     ],
@@ -345,6 +345,17 @@ module.exports = {
           type: "localeDropdown",
           position: "right",
         },
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+          dropdownActiveClassDisabled: true,
+          dropdownItemsAfter: [
+            {
+              to: '/versions',
+              label: 'All versions',
+            },
+          ],
+        },
       ],
     },
     hideableSidebar: true,
@@ -440,3 +451,4 @@ module.exports = {
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
   ],
 };
+
