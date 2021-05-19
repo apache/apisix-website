@@ -72,7 +72,7 @@ module.exports = {
         firstDocPath: "/build",
       }
     ],
-    
+
     downloads: [
       {
         name: "APISIX™",
