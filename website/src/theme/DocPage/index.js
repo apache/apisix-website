@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import renderRoutes from "@docusaurus/renderRoutes";
@@ -26,6 +26,16 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     docsSidebars,
     version,
   } = versionMetadata;
+
+  useEffect(() => {
+    console.log(docsSidebars[sidebarName][0].label);
+    if(docsSidebars[sidebarName][0].label !== "Apache APISIX"){
+      document.querySelector(".dropdown--left").style.display = "none";
+    }
+    return () => {
+    }
+  }, []);
+
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
@@ -122,6 +132,7 @@ function DocPage(props) {
   const currentDocRoute = docRoutes.find((docRoute) =>
     matchPath(location.pathname, docRoute)
   );
+  console.log(currentDocRoute.path);
 
   if (!currentDocRoute) {
     return <NotFound {...props} />;
