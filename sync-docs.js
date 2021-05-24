@@ -191,14 +191,6 @@ const setUp = () => {
 const cleanUp = () => {
   log("Delete tmp folder");
   removeFolder("tmp");
-
-  // log("Delete npm related files");
-  // removeFolder("node_modules");
-  // ["package.json", "package-lock.json"].forEach((file) => {
-  //   if (fs.existsSync(file)) {
-  //     fs.unlinkSync(file);
-  //   }
-  // });
 };
 
 const main = () => {
