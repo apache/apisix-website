@@ -417,12 +417,16 @@ module.exports = {
     },
     announcementBar: {
       id: 'apisix-2.6-Release',
+      backgroundColor: "#e8433e",
+      textColor: 'white',
       content:
-        '➡️ Apache APISIX v2.6.0 released, users can view Changelogs <a target="_blank" rel="noopener noreferrer" href="https://github.com/apache/apisix/blob/release/2.6/CHANGELOG.md">APISIX 2.6.0 release</a>! 🔄',
+        '➡️ Apache APISIX v2.6.0 released, users can view Changelogs <a target="_blank" rel="noopener noreferrer" href="https://github.com/apache/apisix/blob/2.6/CHANGELOG.md#260">APISIX 2.6.0 release</a>! 🔄',
     },
     /*
     announcementBar: {
       id: 'query',
+      backgroundColor: "#e8433e",
+      textColor: 'white',
       content:
         '❓ have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-mrougyeu-2aG7BnFaV0VnAT9_JIUVaA">join #apisix channel</a>! ⭐️',
     },
