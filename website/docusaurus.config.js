@@ -14,16 +14,16 @@ module.exports = {
     events: require("./static/data/events.json"),
     repoUrl: "https://github.com/apache/apisix",
     docsUrl: "",
-    downloads: [
+    docs: [
       {
         name: "APISIX™",
         nameInParamCase: "apisix",
         description: "A dynamic, real-time, high-performance API gateway.",
         shape: "triangle",
-        color: "var(--ifm-color-primary)",
+        color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.5",
-        releaseDate: "2021-04-05",
+        version: "2.6",
+        releaseDate: "2021-05-24",
         firstDocPath: "/getting-started",
       },
       {
@@ -47,6 +47,65 @@ module.exports = {
         githubRepo: "apache/apisix-ingress-controller",
         version: "0.5.0",
         releaseDate: "2021-04-11",
+        firstDocPath: "/getting-started",
+      },
+      {
+        name: "APISIX™ Helm Charts",
+        nameInParamCase: "helm-chart",
+        description: "An Apache APISIX Helm Charts provide the installation of Apache APISIX components for kubernetes.",
+        shape: "pentagon",
+        color: "#C71585",
+        githubRepo: "apache/apisix-helm-chart",
+        version: "0.4.0",
+        releaseDate: "2021-03-12",
+        firstDocPath: "/apisix",
+      },
+      {
+        name: "APISIX™ Docker",
+        nameInParamCase: "docker",
+        description: "Docker tooling for Apache APISIX.",
+        shape: "diamond",
+        color: "#FFD700",
+        githubRepo: "apache/apisix-docker",
+        version: "1.0.0",
+        releaseDate: "2020-12-1",
+        firstDocPath: "/build",
+      }
+    ],
+    
+    downloads: [
+      {
+        name: "APISIX™",
+        nameInParamCase: "apisix",
+        description: "A dynamic, real-time, high-performance API gateway.",
+        shape: "triangle",
+        color: "#e8433e",
+        githubRepo: "apache/apisix",
+        version: "2.6",
+        releaseDate: "2021-05-24",
+        firstDocPath: "/getting-started",
+      },
+      {
+        name: "APISIX™ Dashboard",
+        nameInParamCase: "dashboard",
+        description:
+          "Designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface.",
+        shape: "square",
+        color: "#10B981",
+        githubRepo: "apache/apisix-dashboard",
+        version: "2.6",
+        releaseDate: "2021-04-22",
+        firstDocPath: "/USER_GUIDE",
+      },
+      {
+        name: "APISIX™ Ingress Controller",
+        nameInParamCase: "ingress-controller",
+        description: "An Apache APISIX control plane component.",
+        shape: "hexagon",
+        color: "#2563EB",
+        githubRepo: "apache/apisix-ingress-controller",
+        version: "0.6.0",
+        releaseDate: "2021-05-13",
         firstDocPath: "/getting-started",
       }
     ],
@@ -120,6 +179,8 @@ module.exports = {
       {
         id: "docs-apisix",
         path: "docs/apisix",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/apisix",
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
         editUrl: function ({
@@ -138,6 +199,8 @@ module.exports = {
       {
         id: "docs-apisix-dashboard",
         path: "docs/apisix-dashboard",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
         editUrl: function ({
@@ -147,7 +210,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-dashboard/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-dashboard/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -156,6 +219,8 @@ module.exports = {
       {
         id: "docs-apisix-ingress-controller",
         path: "docs/apisix-ingress-controller",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/ingress-controller",
         sidebarPath: require.resolve(
           "./docs/apisix-ingress-controller/sidebars.json"
@@ -167,7 +232,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -176,6 +241,8 @@ module.exports = {
       {
         id: "docs-apisix-helm-chart",
         path: "docs/apisix-helm-chart",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/helm-chart",
         sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
         editUrl: function ({
@@ -185,7 +252,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -194,6 +261,8 @@ module.exports = {
       {
         id: "docs-apisix-docker",
         path: "docs/apisix-docker",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
         routeBasePath: "/docs/docker",
         sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
         editUrl: function ({
@@ -203,7 +272,7 @@ module.exports = {
           docPath,
           permalink,
         }) {
-          return `https://github.com/apache/apisix-docker/edit/master/docs/${locale}/latest/${docPath}`;
+          return `https://github.com/apache/apisix-docker/edit/master/docs/en/latest/${docPath}`;
         },
       },
     ],
@@ -356,6 +425,7 @@ module.exports = {
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
+    image: 'img/favicon.png',
     metadatas: [
       {
         name: "description",

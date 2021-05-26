@@ -1,4 +1,8 @@
-console.log("Start sync-docs.js");
+const log = (text) => {
+  console.log(` \u001b[32m${text}\u001b[0m`);
+};
+
+log("Start sync-docs.js");
 
 const childProcess = require("child_process");
 const fs = require("fs");
@@ -62,7 +66,7 @@ const replaceMDElements = (project, path) => {
           lang !== "en" ? "/" + lang : ""
         }/docs/${projectNameWithoutPrefix}/${urlPath})`
       );
-      console.log(`${project}: ${match} 👉 ${newUrl}`);
+      log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
   };
@@ -90,11 +94,11 @@ const removeFolder = (tarDir) => {
   });
 
   fs.rmdirSync(tarDir);
-}
+};
 
 const copyFolder = (srcDir, tarDir) => {
   let files = fs.readdirSync(srcDir);
-  files.forEach(file => {
+  files.forEach((file) => {
     let srcPath = path.join(srcDir, file);
     let tarPath = path.join(tarDir, file);
 
@@ -108,80 +112,127 @@ const copyFolder = (srcDir, tarDir) => {
       fs.copyFileSync(srcPath, tarPath);
     }
   });
-}
+};
 
 const copyDocs = (source, target, projectName, locale) => {
   if (isFileExisted(`${source}/${locale}/latest`) === false) {
-    console.log(`[${projectName}] can not find ${locale} latest folder, skip.`);
+    log(`[${projectName}] can not find ${locale} latest folder, skip.`);
     return;
   }
 
-  console.log(`[${projectName}] load ${locale} latest docs config.json`);
+  log(`[${projectName}] load ${locale} latest docs config.json`);
   const configLatest = JSON.parse(
     fs.readFileSync(`${source}/${locale}/latest/config.json`)
   );
 
-  console.log(`[${projectName}] delete ${locale} docs config.json`);
+  log(`[${projectName}] delete ${locale} docs config.json`);
   fs.unlinkSync(`${source}/${locale}/latest/config.json`);
 
-  console.log(`[${projectName}] copy latest ${locale} docs to ${target}`);
-  copyFolder(`${source}/${locale}/latest/`, target)
+  log(`[${projectName}] copy latest ${locale} docs to ${target}`);
+  copyFolder(`${source}/${locale}/latest/`, target);
 
-  console.log(`[${projectName}] write sidebar.json`);
+  log(`[${projectName}] write sidebar.json`);
   const sidebar = {
     docs: [...(configLatest.sidebar || [])],
   };
   fs.writeFileSync(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
 };
 
-const main = () => {
-  console.log("Install dependencies");
+const copyAllDocs = (project) => {
+  copyDocs(
+    `./tmp/${project.project}/docs`,
+    project.latestDocs.en,
+    project.project,
+    "en"
+  );
+  copyDocs(
+    `./tmp/${project.project}/docs`,
+    project.latestDocs.zh,
+    project.project,
+    "zh"
+  );
+};
+
+const cloneRepos = () => {
+  log("Clone repos");
+  const gitCommand = projects
+    .map((project) => `git clone https://github.com/apache/${project}.git`)
+    .join(" & ");
+  childProcess.execSync(gitCommand, { cwd: "./tmp" });
+};
+
+const findReleaseVersions = (project) => {
+  // release branch name format example: origin/release/2.5
+  const branchRaw = childProcess
+    .execSync("git --no-pager branch -r", {
+      cwd: `./tmp/${project}`,
+    })
+    .toString();
+  const versions = [];
+  branchRaw.split("\n").map((b) => {
+    if (b.includes("release") === false) return;
+    const version = b.trim().replace("origin/release/", "");
+    if (version === "test") return;
+    versions.push(version);
+  });
+  log("Found release versions: ", versions);
+  return versions;
+};
+
+const setUp = () => {
+  log("Install dependencies");
   childProcess.execSync("npm i --save replace-in-file");
+  childProcess.execSync("npm install", { cwd: `./website` });
 
   removeFolder("tmp");
   fs.mkdirSync("tmp");
+};
 
-  console.log("Clone repos");
-  const gitCommand =
-    projects
-      .map(
-        (project) =>
-          `git clone --depth=1 https://github.com/apache/${project}.git`
-      )
-      .join(" & ");
-  childProcess.execSync(gitCommand, { cwd: "./tmp" });
-
-  console.log("Replace elements inside MD files");
-  projects.map((project) => {
-    replaceMDElements(project, [`./tmp/${project}/docs`]);
-  });
-
-  console.log("Copy docs");
-  projectPaths.map((path) => {
-    copyDocs(
-      `./tmp/${path.project}/docs`,
-      path.latestDocs.en,
-      path.project,
-      "en"
-    );
-    copyDocs(
-      `./tmp/${path.project}/docs`,
-      path.latestDocs.zh,
-      path.project,
-      "zh"
-    );
-  });
-
-  console.log("Delete tmp folder");
+const cleanUp = () => {
+  log("Delete tmp folder");
   removeFolder("tmp");
+};
 
-  console.log("Delete npm related files");
-  removeFolder("node_modules");
-  ["package.json", "package-lock.json"].forEach((file) => {
-    if (fs.existsSync(file)){
-      fs.unlinkSync(file);
-    }
-  })
+const main = () => {
+  setUp();
+
+  cloneRepos();
+
+  log("Versioning");
+  projectPaths.map((project) => {
+    const projectName = project.project;
+    const versions = findReleaseVersions(projectName);
+    versions.map((version) => {
+      log(`Versioning for ${project} version: ${version}`);
+      childProcess.execSync(`git checkout -f origin/release/${version}`, {
+        cwd: `./tmp/${projectName}`,
+      });
+
+      log("Replace elements inside MD files");
+      replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
+
+      copyAllDocs(project);
+      childProcess.execSync(
+        `npm run docusaurus docs:version:docs-${projectName} ${version}`,
+        { cwd: `./website` }
+      );
+    });
+  });
+
+  log("Copy next version docs");
+  projectPaths.map((project) => {
+    const projectName = project.project;
+    childProcess.execSync(`git checkout -f master`, {
+      cwd: `./tmp/${projectName}`,
+    });
+
+    log("Replace elements inside MD files");
+    replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
+
+    copyAllDocs(project);
+  });
+
+  cleanUp();
 };
 
 main();
