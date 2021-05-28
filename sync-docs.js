@@ -247,7 +247,6 @@ const main = () => {
 
     log("Replace elements inside MD files");
     replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
-
     copyAllDocs(project);
   });
 

@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.5",
-        releaseDate: "2021-04-05",
+        version: "2.6",
+        releaseDate: "2021-05-24",
         firstDocPath: "/getting-started",
       },
       {
@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.6",
-        releaseDate: "2021-04-22",
+        version: "2.6.1",
+        releaseDate: "2021-05-27",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -81,8 +81,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.5",
-        releaseDate: "2021-04-05",
+        version: "2.6",
+        releaseDate: "2021-05-24",
         firstDocPath: "/getting-started",
       },
       {
@@ -93,8 +93,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.6",
-        releaseDate: "2021-04-22",
+        version: "2.6.1",
+        releaseDate: "2021-05-27",
         firstDocPath: "/USER_GUIDE",
       },
       {
