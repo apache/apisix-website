@@ -99,7 +99,7 @@ const removeFolder = (tarDir) => {
 const copyFolder = (srcDir, tarDir) => {
   let files = fs.readdirSync(srcDir);
   if (isFileExisted(tarDir) === false) {
-    fs.mkdir(tarDir, () => log(`create directory ${tarDir}`));
+    fs.mkdirSync(tarDir, () => log(`create directory ${tarDir}`));
   }
   files.forEach((file) => {
     let srcPath = path.join(srcDir, file);
