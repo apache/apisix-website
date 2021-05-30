@@ -98,6 +98,9 @@ const removeFolder = (tarDir) => {
 
 const copyFolder = (srcDir, tarDir) => {
   let files = fs.readdirSync(srcDir);
+  if (isFileExisted(tarDir) === false) {
+    fs.mkdirSync(tarDir, () => log(`create directory ${tarDir}`));
+  }
   files.forEach((file) => {
     let srcPath = path.join(srcDir, file);
     let tarPath = path.join(tarDir, file);
@@ -191,6 +194,14 @@ const setUp = () => {
 const cleanUp = () => {
   log("Delete tmp folder");
   removeFolder("tmp");
+
+  log("Delete npm related files");
+  removeFolder("node_modules");
+  ["package.json", "package-lock.json"].forEach((file) => {
+    if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
+  });
 };
 
 const main = () => {
@@ -212,10 +223,18 @@ const main = () => {
       replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
 
       copyAllDocs(project);
+      // versioning English docs
       childProcess.execSync(
         `npm run docusaurus docs:version:docs-${projectName} ${version}`,
         { cwd: `./website` }
       );
+      // versioning Chinese docs
+      if (isFileExisted(`./tmp/${projectName}/docs/zh/latest`) !== false) {
+        copyFolder(
+          project.latestDocs.zh,
+          `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${version}`
+        );
+      }
     });
   });
 
@@ -228,7 +247,6 @@ const main = () => {
 
     log("Replace elements inside MD files");
     replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
-
     copyAllDocs(project);
   });
 
