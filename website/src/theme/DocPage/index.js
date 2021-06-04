@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import renderRoutes from "@docusaurus/renderRoutes";
@@ -26,6 +26,26 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     docsSidebars,
     version,
   } = versionMetadata;
+
+  useEffect(() => {
+    if(docsSidebars[sidebarName][0].label === "General"){
+      document.querySelectorAll(".navbar__link--active")[0].text = "General";
+    } else if (document.getElementById("getting-started")) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX";
+    } else if (document.getElementById("dashboard")) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX Dashboard";
+    } else if (document.getElementById("what-is-apisix-ingress-controller")) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX Ingress Controller";
+    } else if (document.getElementById("dependencies")) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Helm Chart";
+    } else if (document.getElementById("build-an-image-from-source")) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Docker";
+    }
+    return () => {
+      console.log('\u{1F680} documentation changed')
+    }
+  }, []);
+
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
@@ -34,7 +54,6 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     if (hiddenSidebar) {
       setHiddenSidebar(false);
     }
-
     setHiddenSidebarContainer(!hiddenSidebarContainer);
   }, [hiddenSidebar]);
   return (
