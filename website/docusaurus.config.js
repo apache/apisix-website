@@ -416,21 +416,12 @@ module.exports = {
         "Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
     },
     announcementBar: {
-      id: 'apisix-2.6-Release',
-      backgroundColor: "#e8433e",
-      textColor: 'white',
-      content:
-        '➡️ Apache APISIX v2.6.0 released, users can view Changelogs <a target="_blank" rel="noopener noreferrer" href="https://github.com/apache/apisix/blob/2.6/CHANGELOG.md#260">APISIX 2.6.0 release</a>! 🔄',
-    },
-    /*
-    announcementBar: {
       id: 'query',
       backgroundColor: "#e8433e",
       textColor: 'white',
       content:
-        '❓ have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-mrougyeu-2aG7BnFaV0VnAT9_JIUVaA">join #apisix channel</a>! ⭐️',
+        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-mrougyeu-2aG7BnFaV0VnAT9_JIUVaA">join #apisix channel</a>! ⭐️',
     },
-     */
     algolia: {
       apiKey: "287206c9872faf0e77b7c5228d4c3789",
       indexName: "apache_apisix",
