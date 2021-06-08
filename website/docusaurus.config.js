@@ -388,7 +388,7 @@ module.exports = {
             },
             {
               label: "Slack",
-              to: "https://apisix.slack.com/",
+              to: "https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg",
             },
             {
               label: "Twitter",
@@ -420,7 +420,7 @@ module.exports = {
       backgroundColor: "#e8433e",
       textColor: 'white',
       content:
-        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-mrougyeu-2aG7BnFaV0VnAT9_JIUVaA">join #apisix channel</a>! ⭐️',
+        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg">join #apisix channel</a>! ⭐️',
     },
     algolia: {
       apiKey: "287206c9872faf0e77b7c5228d4c3789",
