@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Sat, 27 Mar 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 07 Jun 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX not affected by NGINX CVE-2021-23017]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/06/07/Apache-APISIX-not-affected-by-NGINX-CVE-2021-23017</link>
+            <guid>Apache APISIX not affected by NGINX CVE-2021-23017</guid>
+            <pubDate>Mon, 07 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Traffic Split in Apache APISIX Ingress Controller]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller</link>
