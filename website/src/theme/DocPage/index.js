@@ -27,18 +27,26 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     version,
   } = versionMetadata;
 
+  const pageId = {
+    general : "General",
+    apisix : "getting-started",
+    apisixDashboard : "dashboard",
+    apisixIngressController : "what-is-apisix-ingress-controller",
+    apisixHelmChart : "dependencies",
+    apisixDocker : "build-an-image-from-source"
+  }
   useEffect(() => {
-    if(docsSidebars[sidebarName][0].label === "General"){
+    if(docsSidebars[sidebarName][0].label === pageId.general){
       document.querySelectorAll(".navbar__link--active")[0].text = "General";
-    } else if (document.getElementById("getting-started")) {
+    } else if (document.getElementById(pageId.apisix)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX";
-    } else if (document.getElementById("dashboard")) {
+    } else if (document.getElementById(pageId.apisixDashboard)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX Dashboard";
-    } else if (document.getElementById("what-is-apisix-ingress-controller")) {
+    } else if (document.getElementById(pageId.apisixIngressController)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX Ingress Controller";
-    } else if (document.getElementById("dependencies")) {
+    } else if (document.getElementById(pageId.apisixHelmChart)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Helm Chart";
-    } else if (document.getElementById("build-an-image-from-source")) {
+    } else if (document.getElementById(pageId.apisixDocker)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Docker";
     }
     return () => {
