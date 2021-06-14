@@ -32,7 +32,7 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     apisix : "getting-started",
     apisixDashboard : "dashboard",
     apisixIngressController : "what-is-apisix-ingress-controller",
-    apisixHelmChart : "dependencies",
+    apisixHelmChart : "install",
     apisixDocker : "build-an-image-from-source"
   }
   useEffect(() => {
