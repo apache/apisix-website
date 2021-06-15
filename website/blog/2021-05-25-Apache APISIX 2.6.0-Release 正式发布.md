@@ -20,7 +20,7 @@ APISIX 现在支持通过 Lua 语言编写插件，在代理请求的过程中�
 
 从 2.6 版本开始，借助 plugin runner，APISIX 支持运行非 Lua 语言编写的插件。架构图如下：
 
-![](../static/img/blog_img/2021-05-25-1.png)
+![2021-05-25-1](../static/img/blog_img/2021-05-25-1.png)
 
 APISIX 会以 sidecar 的形式运行 plugin runner。
 
@@ -46,6 +46,7 @@ APISIX 添加了对 Nacos 服务发现功能的支持。
 
 用户只需开启 Nacos 服务发现功能，并在上游配置中设置服务名称，APISIX 就会在后台定期根据服务名称获取 Nacos 中对应服务的实例地址。这样一来，无需在 APISIX 里面配置具体的上游节点地址，只需要在 Nacos 里面配置即可。
 目前 APISIX 内置的服务发现功能已支持下列外部服务：
+
 1. DNS
 
 2. Consul KV mode
@@ -62,7 +63,7 @@ APISIX 添加了对 Nacos 服务发现功能的支持。
 
 ## 下载
 
-下载 Apache APISIX 2.6.0-Release 源代码及二进制安装包，请访问下载页面: `https://apisix.apache.org/downloads/ `。
+下载 Apache APISIX 2.6.0-Release 源代码及二进制安装包，请访问下载页面: `https://apisix.apache.org/downloads/`。
 
 ## 文档更新
 
