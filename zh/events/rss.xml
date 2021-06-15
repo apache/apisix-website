@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/events</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Thu, 27 May 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 15 Jun 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Release Apache APISIX Dashboard 2.7]]></title>
+            <link>https://apisix.apache.org/zh/events/2021/06/15/release-apache-apisix-dashboard-2.7</link>
+            <guid>Release Apache APISIX Dashboard 2.7</guid>
+            <pubDate>Tue, 15 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This release mainly improves basic features, bugfix and adds test cases.]]></description>
+        </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.6.1]]></title>
             <link>https://apisix.apache.org/zh/events/2021/05/27/release-apache-apisix-dashboard-2.6.1</link>
