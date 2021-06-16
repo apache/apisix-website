@@ -104,8 +104,8 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "0.6.0",
-        releaseDate: "2021-05-13",
+        version: "1.0.0",
+        releaseDate: "2021-06-16",
         firstDocPath: "/getting-started",
       }
     ],
