@@ -48,7 +48,6 @@ APISIX 添加了对 Nacos 服务发现功能的支持。
 目前 APISIX 内置的服务发现功能已支持下列外部服务：
 
 1. DNS
-
 2. Consul KV mode
 
 3. Eureka
