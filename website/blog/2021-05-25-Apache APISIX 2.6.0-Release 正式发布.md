@@ -52,7 +52,6 @@ APISIX 添加了对 Nacos 服务发现功能的支持。
 2. Consul KV mode
 
 3. Eureka
-
 4. Nacos
 
 ▌**支持:配置 IPv6 的 DNS resolver**
