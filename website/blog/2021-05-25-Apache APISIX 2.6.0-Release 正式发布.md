@@ -49,7 +49,6 @@ APISIX 添加了对 Nacos 服务发现功能的支持。
 
 1. DNS
 2. Consul KV mode
-
 3. Eureka
 4. Nacos
 
