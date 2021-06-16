@@ -15,6 +15,20 @@
             <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
+            <title><![CDATA[基于 Apache APISIX 实现的服务网格项目正式开源]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/05/31/基于 Apache APISIX 实现的服务网格项目正式开源</link>
+            <guid>基于 Apache APISIX 实现的服务网格项目正式开源</guid>
+            <pubDate>Mon, 31 May 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@tokers, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX 2.6.0-Release 正式发布]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/05/25/Apache APISIX 2.6.0-Release 正式发布</link>
+            <guid>Apache APISIX 2.6.0-Release 正式发布</guid>
+            <pubDate>Tue, 25 May 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
             <title><![CDATA[Traffic Split in Apache APISIX Ingress Controller]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller</link>
             <guid>Traffic Split in Apache APISIX Ingress Controller</guid>
