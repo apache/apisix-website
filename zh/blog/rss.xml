@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Mon, 07 Jun 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 16 Jun 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Chaos Mesh 助力 Apache APISIX 提升稳定性]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/06/16/Chaos-Mesh-helps-Apache-APISIX-improve-stability</link>
+            <guid>Chaos Mesh 助力 Apache APISIX 提升稳定性</guid>
+            <pubDate>Wed, 16 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Yiyiyimu,Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX not affected by NGINX CVE-2021-23017]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/06/07/Apache-APISIX-not-affected-by-NGINX-CVE-2021-23017</link>
