@@ -34,7 +34,7 @@ Apache APISIX 是 Apache 基金会下的顶级项目，目前在生产环境中�
 
 接下来以上述两个用户反馈场景为例，依照这五个步骤为大家介绍 Apache APISIX 应用混沌工程的流程。
 
-#### 场景一
+**场景一**
 
 ![2021-06-16-1](../static/img/blog_img/2021-06-16-1.png)
 
@@ -42,7 +42,7 @@ Apache APISIX 是 Apache 基金会下的顶级项目，目前在生产环境中�
 
 在对照组也就是引入 Chaos 前进行实验，检测 set/get route 均能成功，etcd 可连接，并记录此时的 RPS。之后，使用 network chaos 添加 5s 的网络延迟 ，再次进行实验，此时 set route 失败，get route 成功，etcd 无法连接，RPS 与之前相比无明显变化。实验符合预期。
 
-#### 场景二
+**场景二**
 
 ![2021-06-16-2](../static/img/blog_img/2021-06-16-2.png)
 
