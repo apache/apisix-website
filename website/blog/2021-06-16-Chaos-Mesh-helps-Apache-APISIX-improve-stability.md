@@ -52,16 +52,16 @@ Apache APISIX 是 Apache 基金会下的顶级项目，目前在生产环境中�
 
 ## 未来计划
 
-1. **借助 e2e 模拟场景进行混沌测试**
+#### 1. 借助 e2e 模拟场景进行混沌测试
 
 目前在 Apache APISIX 中，仍然主要依靠人来识别系统中可能的脆弱点进行测试修复。对于开源社区来说，与之前提到的 Netflix 在企业中应用混沌工程不同，尽管在 CI 中测试，无需担心混沌工程的故障半径对生产环境的影响，但同时也无法覆盖生产环境中的复杂而全面的场景。
 
 为了覆盖更多的场景，未来社区计划利用现有的 e2e 测试模拟更加完整的场景，进行更大范围、更强随机性的混沌测试。
 
-2. **为更多 Apache APISIX 项目添加混沌测试**
+#### 2. 为更多 Apache APISIX 项目添加混沌测试
 
 除了为 Apache APISIX 找到更多可能的脆弱点之外，社区还计划为 Apache APISIX Dashboard 和 Apache APISIX Ingress Controller 等更多项目添加混沌测试。
 
-3. **为 Chaos Mesh 添加功能**
+#### 3. 为 Chaos Mesh 添加功能
 
 在部署 Chaos Mesh 时遇见一些暂不支持的功能，包括网络延迟的目标不支持选择 service，网络混沌无法指定容器端口注入等，Apache APISIX 社区未来也会协助 Chaos Mesh 添加相关功能。希望开源社区都会越来越好。
