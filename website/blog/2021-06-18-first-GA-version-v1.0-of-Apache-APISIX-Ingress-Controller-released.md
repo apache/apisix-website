@@ -4,13 +4,14 @@ author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
 ---
-> [@tao12345666333](https://github.com/tao12345666333), Apache APISIX commiter from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
 
-<!--truncate-->
+> [@tao12345666333](https://github.com/tao12345666333), Apache APISIX commiter from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
+
 ### 关于 Apache APISIX Ingress Controller
 
 Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面承载流量的云原生 Ingress Controller 实现，采用 CRD 的方式对 Kubernetes 进行了扩展。
+
+<!--truncate-->
 
 可支持使用包括 ApisixRoute、ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
 
@@ -28,47 +29,30 @@ Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面�
 
 例如通过以下配置定义一个 keyAuth 资源：
 
-```text
+```yaml
 apiVersion: apisix.apache.org/v2alpha1
-
 kind: ApisixConsumer
-
 metadata:
-
   name: keyauth
-
 spec:
-
   authParameter:
-
     keyAuth:
-
       value:
-
         key: API
 ```
 
 在 ApisixRoute 中只需要增加对应类型的 `authentication` 配置即可。
 
-```text
+```yaml
 apiVersion: apisix.apache.org/v2alpha1
-
 kind: ApisixRoute
-
 metadata:
-
- name: httpbin-route
-
+  name: httpbin-route
 spec:
-
- http:
-
+  http:
    ...
-
    authentication:
-
      enable: true
-
      type: keyAuth
 ```
 
@@ -76,25 +60,16 @@ spec:
 
 在 v1.0 版本中我们也为 ApisixTls 自定义资源增加了 mTLS 的支持，只需要在 ApisixTls 资源的配置中增加 client 配置即可，例如：
 
-```text
+```yaml
 apiVersion: apisix.apache.org/v1
-
 kind: ApisixTls
-
 metadata:
-
   name: sample-tls
-
 spec:
-
   ...
-
   client:
-
     caSecret:
-
       name: client-ca-secret
-
       namespace: default
 ```
 
@@ -104,7 +79,7 @@ spec:
 - `k8s.apisix.apache.org/rewrite-target` 和 `k8s.apisix.apache.org/rewrite-target-regex` 可进行 target 的 rewrite 操作；
 - `k8s.apisix.apache.org/http-to-https` 可进行 HTTP 到 HTTPS 的强制重定向；
 
-更多特性变更请参考项目 CHANGELOG 。
+更多特性变更请参考项目 [CHANGELOG](https://github.com/apache/apisix-ingress-controller/blob/master/CHANGELOG.md) 。
 
 ### 为什么使用 APISIX Ingress Controller
 
