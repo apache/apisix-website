@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.6.1",
-        releaseDate: "2021-05-27",
+        version: "2.7",
+        releaseDate: "2021-06-15",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -93,8 +93,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.6.1",
-        releaseDate: "2021-05-27",
+        version: "2.7",
+        releaseDate: "2021-06-15",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -104,8 +104,8 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "0.6.0",
-        releaseDate: "2021-05-13",
+        version: "1.0.0",
+        releaseDate: "2021-06-16",
         firstDocPath: "/getting-started",
       }
     ],

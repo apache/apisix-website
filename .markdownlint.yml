@@ -4,6 +4,10 @@ MD013: false
 # MD014 Dollar signs used before commands without showing output
 MD014: false
 
+# MD024 Multiple headings with the same content
+MD024:
+  siblings_only: true
+
 # MD026/no-trailing-punctuation Trailing punctuation in heading
 MD026: false
 
