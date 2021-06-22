@@ -70,9 +70,19 @@ module.exports = {
         version: "1.0.0",
         releaseDate: "2020-12-1",
         firstDocPath: "/build",
+      },
+      {
+        name: "APISIX™ Java Plugin Runner",
+        nameInParamCase: "java-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Java. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "star",
+        color: "#FB9300",
+        githubRepo: "apache/apisix-java-plugin-runner",
+        version: "0.1.0",
+        releaseDate: "2021-06-23",
+        firstDocPath: "/development",
       }
     ],
-    
     downloads: [
       {
         name: "APISIX™",
@@ -119,6 +129,7 @@ module.exports = {
       "apache/apisix-ingress-controller",
       "apache/apisix-helm-chart",
       "apache/apisix-control-plane",
+      "apache/apisix-java-plugin-runner"
     ],
   },
   i18n: {
@@ -276,6 +287,26 @@ module.exports = {
         },
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-java-plugin-runner",
+        path: "docs/apisix-java-plugin-runner",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/java-plugin-runner",
+        sidebarPath: require.resolve("./docs/apisix-java-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-java-plugin-runner/edit/main/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
@@ -309,6 +340,10 @@ module.exports = {
             {
               label: "Apache™️ APISIX Docker",
               to: "/docs/docker/build/",
+            },
+            {
+              label: "Apache™️ APISIX Java Plugin Runner",
+              to: "/docs/apisix-java-plugin-runner/development/"
             },
             {
               label: "General",
