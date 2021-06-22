@@ -204,18 +204,18 @@ public class TokenValidator implements PluginFilter {
 在 Apache APISIX 上配置的上游服务是 httpbin.org，可以访问 Apache APISIX，触发路由，让 Apache APISIX 调用 apisix-java-plugin-runner 去执行 TokenValidator 插件，测试一下 Java 插件效果。
 
 ```text
-curl -H 'token: 123456' 127.0.0.1:9080/get 
+curl -H 'token: 123456' 127.0.0.1:9080/get
 {
- "args": {}, 
+ "args": {},
  "headers": {
- "Accept": "/", 
- "Host": "127.0.0.1", 
- "Token": "123456", 
- "User-Agent": "curl/7.71.1", 
- "X-Amzn-Trace-Id": "Root=1-60cb0424-02b5bf804cfeab5252392f96", 
+ "Accept": "/",
+ "Host": "127.0.0.1",
+ "Token": "123456",
+ "User-Agent": "curl/7.71.1",
+ "X-Amzn-Trace-Id": "Root=1-60cb0424-02b5bf804cfeab5252392f96",
  "X-Forwarded-Host": "127.0.0.1"
- }, 
- "origin": "127.0.0.1", 
+ },
+ "origin": "127.0.0.1",
  "url": "http://127.0.0.1/get"
 }
 ```
@@ -225,9 +225,10 @@ curl -H 'token: 123456' 127.0.0.1:9080/get
 插件开发完成后，部署操作可以参考 [部署 apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/how-it-works.md#run)。
 
 ## 6. 视频教程
-<iframe 
-    height="350" 
-    width="600" 
-    src="../static/video/2021-06-21-use-Java-to-write-Apache-APISIX-plugins.mp4" 
+
+<iframe
+    height="350"
+    width="600"
+    src="https://api7-website-1301662268.file.myqcloud.com/2021-06-21-use-Java-to-write-Apache-APISIX-plugins.mp4"
     frameborder="0">
 </iframe>
