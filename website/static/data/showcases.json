@@ -257,7 +257,7 @@
     "infoLink": "https://game.qq.com/",
     "pinned": true
   },
-   {
+  {
     "caption": "奥格科技股份有限公司",
     "image": "showcase/Augurit.jpg",
     "infoLink": "http://www.augurit.com/",
@@ -270,15 +270,9 @@
     "pinned": true
   },
   {
-    "caption": "中食安泓(广东)健康产业有限公司",
-    "image": "showcase/zhi20.png",
-    "infoLink": "http://www.zhi20.com/",
-    "pinned": true
-  },
-  {
-    "caption": "满帮",
-    "image": "showcase/manbang.png",
-    "infoLink": "https://zh.wikipedia.org/wiki/%E6%BB%A1%E5%B8%AE",
+    "caption": "运满满",
+    "image": "showcase/ymm.png",
+    "infoLink": "http://www.ymm56.com/",
     "pinned": true
   },
   {
@@ -300,12 +294,6 @@
     "pinned": true
   },
   {
-    "caption": "杭州紫豪网络科技有限公司",
-    "image": "showcase/hzzh.png",
-    "infoLink": "http://sms.gs/",
-    "pinned": true
-  },
-  {
     "caption": "ENN",
     "image": "showcase/enn.png",
     "infoLink": "https://www.ennonline.net/",
@@ -315,12 +303,6 @@
     "caption": "深圳小黄狗环保科技",
     "image": "showcase/xiaohuanggou.png",
     "infoLink": "https://www.xhg.com/",
-    "pinned": true
-  },
-  {
-    "caption": "仙山映画",
-    "image": "showcase/magichill.png",
-    "infoLink": "http://www.magichill.cn/",
     "pinned": true
   },
   {
@@ -338,7 +320,7 @@
   {
     "caption": "TOPSEC",
     "image": "showcase/topsec.png",
-    "infoLink": "https://www.topsectechnology.com/",
+    "infoLink": "https://www.topsec.com.cn/",
     "pinned": true
   }
 ]
