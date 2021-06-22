@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 贡献者专访|普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚"
+title: "Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚"
 author: Ming Wen
 authorURL: "https://github.com/moonming"
 authorImageURL: "https://avatars.githubusercontent.com/u/26448043?v=4"
