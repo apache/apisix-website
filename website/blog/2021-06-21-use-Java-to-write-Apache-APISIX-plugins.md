@@ -28,7 +28,7 @@ Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在�
 
 当你在 Apache APISIX 中配置一个 plugin runner 时，Apache APISIX 会启动一个子进程运行 plugin runner，该子进程与 Apache APISIX 进程属于同一个用户。当我们重启或重新加载 Apache APISIX 时，plugin runner 也将被重启。
 
-如果你为一个给定的路由配置了 ext-plugin-* 插件，击中该路由的请求将触发  Apache APISIX，通过 unix socket 向 plugin runner 执行 RPC 调用。调用细分为两个阶段：
+如果你为一个给定的路由配置了 ext-plugin-* 插件，命中该路由的请求将触发  Apache APISIX，通过 unix socket 向 plugin runner 执行 RPC 调用。调用细分为两个阶段：
 
 - ext-plugin-pre-req: 在执行 Apache APISIX 内置插件(Lua 语言插件)之前
 - ext-plugin-post-req: 在执行 Apache APISIX 内置插件(Lua 语言插件)之后
