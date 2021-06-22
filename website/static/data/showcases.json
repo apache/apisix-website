@@ -262,5 +262,83 @@
     "image": "showcase/Augurit.jpg",
     "infoLink": "http://www.augurit.com/",
     "pinned": true
+  },
+  {
+    "caption": "凯儿得乐",
+    "image": "showcase/caredaily.png",
+    "infoLink": "https://www.caredaily.com/",
+    "pinned": true
+  },
+  {
+    "caption": "中食安泓(广东)健康产业有限公司",
+    "image": "showcase/zhi20.png",
+    "infoLink": "http://www.zhi20.com/",
+    "pinned": true
+  },
+  {
+    "caption": "满帮",
+    "image": "showcase/manbang.png",
+    "infoLink": "https://zh.wikipedia.org/wiki/%E6%BB%A1%E5%B8%AE",
+    "pinned": true
+  },
+  {
+    "caption": "昆仑数智",
+    "image": "showcase/kunlunshuzhi.png",
+    "infoLink": "http://www.klszkj.com/",
+    "pinned": true
+  },
+  {
+    "caption": "北京时代新威信息技术有限公司",
+    "image": "showcase/powertime.png",
+    "infoLink": "http://www.powertime.cn/",
+    "pinned": true
+  },
+  {
+    "caption": "牧原集团",
+    "image": "showcase/muyuan.png",
+    "infoLink": "http://www.muyuanfoods.com/",
+    "pinned": true
+  },
+  {
+    "caption": "杭州紫豪网络科技有限公司",
+    "image": "showcase/hzzh.png",
+    "infoLink": "http://sms.gs/",
+    "pinned": true
+  },
+  {
+    "caption": "ENN",
+    "image": "showcase/enn.png",
+    "infoLink": "https://www.ennonline.net/",
+    "pinned": true
+  },
+  {
+    "caption": "深圳小黄狗环保科技",
+    "image": "showcase/xiaohuanggou.png",
+    "infoLink": "https://www.xhg.com/",
+    "pinned": true
+  },
+  {
+    "caption": "仙山映画",
+    "image": "showcase/magichill.png",
+    "infoLink": "http://www.magichill.cn/",
+    "pinned": true
+  },
+  {
+    "caption": "北京小川科技有限责任公司",
+    "image": "showcase/zuiyou.png",
+    "infoLink": "https://h5.izuiyou.com/",
+    "pinned": true
+  },
+  {
+    "caption": "邦盛科技",
+    "image": "showcase/bangsheng.png",
+    "infoLink": "https://www.bsfit.com.cn/",
+    "pinned": true
+  },
+  {
+    "caption": "TOPSEC",
+    "image": "showcase/topsec.png",
+    "infoLink": "https://www.topsectechnology.com/",
+    "pinned": true
   }
 ]
