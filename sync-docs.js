@@ -9,7 +9,7 @@ const fs = require("fs");
 const path = require("path");
 const common = require("./common.js");
 
-const { projects, langs, projectPaths } = common;
+const { projects, languages, projectPaths } = common;
 
 const isFileExisted = (path) => {
   return fs.existsSync(path);
@@ -36,14 +36,14 @@ const replaceMDElements = (project, path, branch = "master") => {
   const markdownOptions = {
     files: allMDFilePaths,
     from: RegExp(
-      `\\[.*\\]\\((\\.\\.\\/)*(${langs.join("|")})\\/.*\\.md\\)`,
+      `\\[.*\\]\\((\\.\\.\\/)*(${languages.join("|")})\\/.*\\.md\\)`,
       "g"
     ),
     to: (match) => {
       const markdownPath = match.replace(/\(|\)|\.\.\/*|\[.*\]|\.\//g, ""); // "en/latest/discovery/dns.md"
       const lang = markdownPath.split("/")[0];
       const urlPath = markdownPath.replace(
-        RegExp(`(${langs.join("|")})\\/latest\\/|\\.md`, "g"),
+        RegExp(`(${languages.join("|")})\\/latest\\/|\\.md`, "g"),
         ""
       ); // "discovery/dns"
       const projectNameWithoutPrefix =
