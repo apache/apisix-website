@@ -22,6 +22,13 @@
             <description><![CDATA[@tao12345666333, Apache APISIX commiter from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX Dashboard 访问控制绕过漏洞公告（CVE-2021-33190）]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/06/17/Apache-APISIX-Dashboard-Access-Control-Bypass-Vulnerability-Announcement</link>
+            <guid>Apache APISIX Dashboard 访问控制绕过漏洞公告（CVE-2021-33190）</guid>
+            <pubDate>Thu, 17 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@juzhiyuan, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
             <title><![CDATA[Chaos Mesh 助力 Apache APISIX 提升稳定性]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/06/16/Chaos-Mesh-helps-Apache-APISIX-improve-stability</link>
             <guid>Chaos Mesh 助力 Apache APISIX 提升稳定性</guid>
@@ -83,6 +90,13 @@
             <guid>Run Ingress APISIX on Amazon EKS</guid>
             <pubDate>Thu, 21 Jan 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[@Chao Zhang, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/01/11/interview-Apache-APISIX-contributor-Wang-Pengcheng-Senior-Security-Advisor-of-PwC-South-China-Data-Security-and-Privacy-Protection-Team</link>
+            <guid>Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚</guid>
+            <pubDate>Mon, 11 Jan 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@moonming, Apache APISIX PMC Chair from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
             <title><![CDATA[初探 Kubernetes Service APIs]]></title>
