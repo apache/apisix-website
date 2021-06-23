@@ -25,7 +25,7 @@ const languages = ["en", "zh", "es"];
 module.exports = {
   projects,
   languages,
-  projectPaths: () => projects.map((project) => {
+  projectPaths: projects.map((project) => {
     return {
       name: project.name,
       pluginId: `docs-${project.name}`,
