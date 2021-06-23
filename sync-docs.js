@@ -9,25 +9,13 @@ const fs = require("fs");
 const path = require("path");
 const common = require("./common.js");
 
-const projects = common.projects;
-const langs = common.languages;
-
-const projectPaths = projects.map((project) => {
-  return {
-    project: project,
-    pluginId: `docs-${project}`,
-    latestDocs: {
-      en: `./website/docs/${project}`,
-      zh: `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${project}/current`,
-    },
-  };
-});
+const { projects, langs, projectPaths } = common;
 
 const isFileExisted = (path) => {
   return fs.existsSync(path);
 };
 
-const replaceMDElements = (project, path) => {
+const replaceMDElements = (project, path, branch = "master") => {
   const replace = require("replace-in-file");
   const allMDFilePaths = path.map((p) => `${p}/**/*.md`);
 
@@ -38,7 +26,7 @@ const replaceMDElements = (project, path) => {
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
       const imgPath = match.replace(/\(|\)|\.\.\/*/g, "");
-      const newUrl = `https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath}`;
+      const newUrl = `https://raw.githubusercontent.com/apache/${project}/${branch}/docs/${imgPath}`;
       console.log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
@@ -62,8 +50,7 @@ const replaceMDElements = (project, path) => {
         project === "apisix" ? "apisix" : project.replace("apisix-", "");
       let newUrl = match.replace(
         /\]\(.*\)/g,
-        `](https://apisix.apache.org${
-          lang !== "en" ? "/" + lang : ""
+        `](https://apisix.apache.org${lang !== "en" ? "/" + lang : ""
         }/docs/${projectNameWithoutPrefix}/${urlPath})`
       );
       log(`${project}: ${match} 👉 ${newUrl}`);
@@ -159,7 +146,7 @@ const copyAllDocs = (project) => {
 const cloneRepos = () => {
   log("Clone repos");
   const gitCommand = projects
-    .map((project) => `git clone https://github.com/apache/${project}.git`)
+    .map((project) => `git clone https://github.com/apache/${project.name}.git`)
     .join(" & ");
   childProcess.execSync(gitCommand, { cwd: "./tmp" });
 };
@@ -211,7 +198,7 @@ const main = () => {
 
   log("Versioning");
   projectPaths.map((project) => {
-    const projectName = project.project;
+    const projectName = project.name;
     const versions = findReleaseVersions(projectName);
     versions.map((version) => {
       log(`Versioning for ${project} version: ${version}`);
@@ -220,7 +207,7 @@ const main = () => {
       });
 
       log("Replace elements inside MD files");
-      replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
+      replaceMDElements(projectName, [`./tmp/${projectName}/docs`], project.branch);
 
       copyAllDocs(project);
       // versioning English docs
@@ -240,13 +227,13 @@ const main = () => {
 
   log("Copy next version docs");
   projectPaths.map((project) => {
-    const projectName = project.project;
-    childProcess.execSync(`git checkout -f master`, {
+    const projectName = project.name;
+    childProcess.execSync(`git checkout -f ${project.branch}`, {
       cwd: `./tmp/${projectName}`,
     });
 
     log("Replace elements inside MD files");
-    replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
+    replaceMDElements(projectName, [`./tmp/${projectName}/docs`], project.branch);
     copyAllDocs(project);
   });
 
