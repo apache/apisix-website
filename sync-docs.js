@@ -130,15 +130,15 @@ const copyDocs = (source, target, projectName, locale) => {
 
 const copyAllDocs = (project) => {
   copyDocs(
-    `./tmp/${project.project}/docs`,
+    `./tmp/${project.name}/docs`,
     project.latestDocs.en,
-    project.project,
+    project.name,
     "en"
   );
   copyDocs(
-    `./tmp/${project.project}/docs`,
+    `./tmp/${project.name}/docs`,
     project.latestDocs.zh,
-    project.project,
+    project.name,
     "zh"
   );
 };
