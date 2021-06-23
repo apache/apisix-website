@@ -29,7 +29,7 @@ module.exports = {
     return {
       name: project.name,
       pluginId: `docs-${project.name}`,
-      paths: {
+      latestDocs: {
         en: `./website/docs/${project.name}`,
         zh: `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/current`,
       },
