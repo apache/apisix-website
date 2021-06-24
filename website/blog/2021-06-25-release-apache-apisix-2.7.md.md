@@ -61,4 +61,3 @@ APISIX-OpenResty 目前包含了以下新功能：
 ## 下载
 
 下载 Apache APISIX 2.7.0-Release 源代码及二进制安装包，请访问下载页面: `https://apisix.apache.org/downloads/`。
-
