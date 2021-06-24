@@ -343,7 +343,7 @@ module.exports = {
             },
             {
               label: "Apache™️ APISIX Java Plugin Runner",
-              to: "/docs/apisix-java-plugin-runner/development/"
+              to: "/docs/java-plugin-runner/development/"
             },
             {
               label: "General",
