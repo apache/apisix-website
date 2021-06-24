@@ -29,12 +29,11 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
 
   const pageId = {
     general : "General",
-    apisix : "apisix",
-    apisixDashboard : "apisix-dashboard",
-    apisixIngressController : "apisix-ingress-controller",
-    apisixHelmChart : "apisix-helm-chart",
-    apisixDocker : "apisix-docker",
-    apisixJavaPluginRunner : "apisix-java-plugin-runner"
+    apisix : "getting-started",
+    apisixDashboard : "dashboard",
+    apisixIngressController : "what-is-apisix-ingress-controller",
+    apisixHelmChart : "install",
+    apisixDocker : "build-an-image-from-source"
   }
   useEffect(() => {
     if(docsSidebars[sidebarName][0].label === pageId.general){
@@ -49,8 +48,6 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Helm Chart";
     } else if (document.getElementById(pageId.apisixDocker)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Docker";
-    } else if (document.getElementById(pageId.apisixJavaPluginRunner)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Java Plugin Runner";
     }
     return () => {
       console.log('\u{1F680} documentation changed')
