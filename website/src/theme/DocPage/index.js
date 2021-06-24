@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import renderRoutes from "@docusaurus/renderRoutes";
@@ -65,7 +65,6 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     if (hiddenSidebar) {
       setHiddenSidebar(false);
     }
-
     setHiddenSidebarContainer(!hiddenSidebarContainer);
   }, [hiddenSidebar]);
   return (

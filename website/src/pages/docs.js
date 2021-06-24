@@ -9,6 +9,7 @@ import IconSquare from "../assets/icons/square.svg";
 import IconHexagon from "../assets/icons/hexagon.svg";
 import IconPentagon from "../assets/icons/pentagon.svg";
 import IconDiamond from "../assets/icons/diamond.svg";
+import IconStar from "../assets/icons/star-solid.svg";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -121,8 +122,10 @@ const ProjectCard = (props) => {
       <IconDiamond />
     ) : shape === "square" ? (
       <IconSquare />
-    ) : (
+    ) : shape === "hexagon" ? (
       <IconHexagon />
+    ) : (
+      <IconStar />
     );
 
   return (

@@ -257,10 +257,70 @@
     "infoLink": "https://game.qq.com/",
     "pinned": true
   },
-   {
+  {
     "caption": "奥格科技股份有限公司",
-    "image": "showcase/Augurit.jpg",
+    "image": "showcase/Augurit.png",
     "infoLink": "http://www.augurit.com/",
+    "pinned": true
+  },
+  {
+    "caption": "凯儿得乐",
+    "image": "showcase/caredaily.png",
+    "infoLink": "https://www.caredaily.com/",
+    "pinned": true
+  },
+  {
+    "caption": "满帮集团",
+    "image": "showcase/ymm.png",
+    "infoLink": "http://www.ymm56.com/",
+    "pinned": true
+  },
+  {
+    "caption": "昆仑数智",
+    "image": "showcase/kunlunshuzhi.png",
+    "infoLink": "http://www.klszkj.com/",
+    "pinned": true
+  },
+  {
+    "caption": "北京时代新威信息技术有限公司",
+    "image": "showcase/powertime.png",
+    "infoLink": "http://www.powertime.cn/",
+    "pinned": true
+  },
+  {
+    "caption": "牧原集团",
+    "image": "showcase/muyuan.png",
+    "infoLink": "http://www.muyuanfoods.com/",
+    "pinned": true
+  },
+  {
+    "caption": "ENN",
+    "image": "showcase/enn.png",
+    "infoLink": "https://www.ennonline.net/",
+    "pinned": true
+  },
+  {
+    "caption": "深圳小黄狗环保科技",
+    "image": "showcase/xiaohuanggou.png",
+    "infoLink": "https://www.xhg.com/",
+    "pinned": true
+  },
+  {
+    "caption": "北京小川科技有限责任公司",
+    "image": "showcase/zuiyou.png",
+    "infoLink": "https://h5.izuiyou.com/",
+    "pinned": true
+  },
+  {
+    "caption": "邦盛科技",
+    "image": "showcase/bangsheng.png",
+    "infoLink": "https://www.bsfit.com.cn/",
+    "pinned": true
+  },
+  {
+    "caption": "TOPSEC",
+    "image": "showcase/topsec.png",
+    "infoLink": "https://www.topsec.com.cn/",
     "pinned": true
   }
 ]
