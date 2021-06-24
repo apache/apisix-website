@@ -54,13 +54,13 @@ Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳支
 root@apisix:~$ kubectl -n apisix exec -it `kubectl -n apisix get pods -l app.kubernetes.io/name=apisix -o name` -- bash
 bash-5.1# curl httpbin.default/get
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.default", 
+    "Accept": "*/*",
+    "Host": "httpbin.default",
     "User-Agent": "curl/7.76.1"
-  }, 
-  "origin": "10.244.3.3", 
+  },
+  "origin": "10.244.3.3",
   "url": "http://httpbin.default/get"
 }
 ```
@@ -89,14 +89,14 @@ bash-5.1# curl "http://127.0.0.1:9180/apisix/admin/routes/1" -H "X-API-KEY: edd1
 ```shell
 bash-5.1# curl http://127.0.0.1:9080/get -H "HOST: httpbin.org"
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.76.1", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.76.1",
     "X-Forwarded-Host": "httpbin.org"
-  }, 
-  "origin": "127.0.0.1", 
+  },
+  "origin": "127.0.0.1",
   "url": "http://httpbin.org/get"
 }
 ```
@@ -115,14 +115,14 @@ apisix-gateway   NodePort    10.96.158.192   <none>        80:32763/TCP   51m
 ```shell
 root@apisix:~$ curl http://172.18.0.2:32763/get -H "HOST: httpbin.org"
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.58.0", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.58.0",
     "X-Forwarded-Host": "httpbin.org"
-  }, 
-  "origin": "10.244.3.1", 
+  },
+  "origin": "10.244.3.1",
   "url": "http://httpbin.org/get"
 }
 ```
@@ -145,14 +145,14 @@ root@apisix:~$ curl http://172.18.0.2:32763/get -H "HOST: httpbin.org"
 ```shell
 root@apisix:~$ curl http://172.18.0.2:32763/get -H "HOST: httpbin-ing.org"
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin-ing.org", 
-    "User-Agent": "curl/7.58.0", 
+    "Accept": "*/*",
+    "Host": "httpbin-ing.org",
+    "User-Agent": "curl/7.58.0",
     "X-Forwarded-Host": "httpbin-ing.org"
-  }, 
-  "origin": "10.244.3.1", 
+  },
+  "origin": "10.244.3.1",
   "url": "http://httpbin-ing.org/get"
 }
 ```
