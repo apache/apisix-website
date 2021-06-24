@@ -26,6 +26,37 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     docsSidebars,
     version,
   } = versionMetadata;
+
+  const pageId = {
+    general : "General",
+    apisix : "apisix",
+    apisixDashboard : "apisix-dashboard",
+    apisixIngressController : "apisix-ingress-controller",
+    apisixHelmChart : "apisix-helm-chart",
+    apisixDocker : "apisix-docker",
+    apisixJavaPluginRunner : "apisix-java-plugin-runner"
+  }
+  useEffect(() => {
+    if(docsSidebars[sidebarName][0].label === pageId.general){
+      document.querySelectorAll(".navbar__link--active")[0].text = "General";
+    } else if (document.getElementById(pageId.apisix)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX";
+    } else if (document.getElementById(pageId.apisixDashboard)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX Dashboard";
+    } else if (document.getElementById(pageId.apisixIngressController)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX Ingress Controller";
+    } else if (document.getElementById(pageId.apisixHelmChart)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Helm Chart";
+    } else if (document.getElementById(pageId.apisixDocker)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Docker";
+    } else if (document.getElementById(pageId.apisixJavaPluginRunner)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Java Plugin Runner";
+    }
+    return () => {
+      console.log('\u{1F680} documentation changed')
+    }
+  }, []);
+
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
