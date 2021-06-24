@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Mon, 21 Jun 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 23 Jun 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast</link>
+            <guid>Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller</guid>
+            <pubDate>Wed, 23 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@tao12345666333, Apache APISIX commiter from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[使用 Java 编写 Apache APISIX 插件]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins</link>
