@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.6",
-        releaseDate: "2021-05-24",
+        version: "2.7",
+        releaseDate: "2021-06-25",
         firstDocPath: "/getting-started",
       },
       {
@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.6.1",
-        releaseDate: "2021-05-27",
+        version: "2.7",
+        releaseDate: "2021-06-15",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -70,9 +70,19 @@ module.exports = {
         version: "1.0.0",
         releaseDate: "2020-12-1",
         firstDocPath: "/build",
+      },
+      {
+        name: "APISIX™ Java Plugin Runner",
+        nameInParamCase: "java-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Java. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "star",
+        color: "#FB9300",
+        githubRepo: "apache/apisix-java-plugin-runner",
+        version: "0.1.0",
+        releaseDate: "2021-06-23",
+        firstDocPath: "/development",
       }
     ],
-    
     downloads: [
       {
         name: "APISIX™",
@@ -81,8 +91,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.6",
-        releaseDate: "2021-05-24",
+        version: "2.7",
+        releaseDate: "2021-06-25",
         firstDocPath: "/getting-started",
       },
       {
@@ -93,8 +103,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.6",
-        releaseDate: "2021-04-22",
+        version: "2.7",
+        releaseDate: "2021-06-15",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -104,8 +114,8 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "0.6.0",
-        releaseDate: "2021-05-13",
+        version: "1.0.0",
+        releaseDate: "2021-06-16",
         firstDocPath: "/getting-started",
       }
     ],
@@ -119,6 +129,7 @@ module.exports = {
       "apache/apisix-ingress-controller",
       "apache/apisix-helm-chart",
       "apache/apisix-control-plane",
+      "apache/apisix-java-plugin-runner"
     ],
   },
   i18n: {
@@ -276,6 +287,26 @@ module.exports = {
         },
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-java-plugin-runner",
+        path: "docs/apisix-java-plugin-runner",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/java-plugin-runner",
+        sidebarPath: require.resolve("./docs/apisix-java-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-java-plugin-runner/edit/main/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
@@ -309,6 +340,10 @@ module.exports = {
             {
               label: "Apache™️ APISIX Docker",
               to: "/docs/docker/build/",
+            },
+            {
+              label: "Apache™️ APISIX Java Plugin Runner",
+              to: "/docs/java-plugin-runner/development/"
             },
             {
               label: "General",
@@ -388,7 +423,7 @@ module.exports = {
             },
             {
               label: "Slack",
-              to: "https://apisix.slack.com/",
+              to: "https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg",
             },
             {
               label: "Twitter",

@@ -9,25 +9,13 @@ const fs = require("fs");
 const path = require("path");
 const common = require("./common.js");
 
-const projects = common.projects;
-const langs = common.languages;
-
-const projectPaths = projects.map((project) => {
-  return {
-    project: project,
-    pluginId: `docs-${project}`,
-    latestDocs: {
-      en: `./website/docs/${project}`,
-      zh: `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${project}/current`,
-    },
-  };
-});
+const { projects, languages, projectPaths } = common;
 
 const isFileExisted = (path) => {
   return fs.existsSync(path);
 };
 
-const replaceMDElements = (project, path) => {
+const replaceMDElements = (project, path, branch = "master") => {
   const replace = require("replace-in-file");
   const allMDFilePaths = path.map((p) => `${p}/**/*.md`);
 
@@ -38,7 +26,7 @@ const replaceMDElements = (project, path) => {
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
       const imgPath = match.replace(/\(|\)|\.\.\/*/g, "");
-      const newUrl = `https://raw.githubusercontent.com/apache/${project}/master/docs/${imgPath}`;
+      const newUrl = `https://raw.githubusercontent.com/apache/${project}/${branch}/docs/${imgPath}`;
       console.log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
@@ -48,22 +36,21 @@ const replaceMDElements = (project, path) => {
   const markdownOptions = {
     files: allMDFilePaths,
     from: RegExp(
-      `\\[.*\\]\\((\\.\\.\\/)*(${langs.join("|")})\\/.*\\.md\\)`,
+      `\\[.*\\]\\((\\.\\.\\/)*(${languages.join("|")})\\/.*\\.md\\)`,
       "g"
     ),
     to: (match) => {
       const markdownPath = match.replace(/\(|\)|\.\.\/*|\[.*\]|\.\//g, ""); // "en/latest/discovery/dns.md"
       const lang = markdownPath.split("/")[0];
       const urlPath = markdownPath.replace(
-        RegExp(`(${langs.join("|")})\\/latest\\/|\\.md`, "g"),
+        RegExp(`(${languages.join("|")})\\/latest\\/|\\.md`, "g"),
         ""
       ); // "discovery/dns"
       const projectNameWithoutPrefix =
         project === "apisix" ? "apisix" : project.replace("apisix-", "");
       let newUrl = match.replace(
         /\]\(.*\)/g,
-        `](https://apisix.apache.org${
-          lang !== "en" ? "/" + lang : ""
+        `](https://apisix.apache.org${lang !== "en" ? "/" + lang : ""
         }/docs/${projectNameWithoutPrefix}/${urlPath})`
       );
       log(`${project}: ${match} 👉 ${newUrl}`);
@@ -98,6 +85,9 @@ const removeFolder = (tarDir) => {
 
 const copyFolder = (srcDir, tarDir) => {
   let files = fs.readdirSync(srcDir);
+  if (isFileExisted(tarDir) === false) {
+    fs.mkdirSync(tarDir, () => log(`create directory ${tarDir}`));
+  }
   files.forEach((file) => {
     let srcPath = path.join(srcDir, file);
     let tarPath = path.join(tarDir, file);
@@ -140,15 +130,15 @@ const copyDocs = (source, target, projectName, locale) => {
 
 const copyAllDocs = (project) => {
   copyDocs(
-    `./tmp/${project.project}/docs`,
+    `./tmp/${project.name}/docs`,
     project.latestDocs.en,
-    project.project,
+    project.name,
     "en"
   );
   copyDocs(
-    `./tmp/${project.project}/docs`,
+    `./tmp/${project.name}/docs`,
     project.latestDocs.zh,
-    project.project,
+    project.name,
     "zh"
   );
 };
@@ -156,7 +146,7 @@ const copyAllDocs = (project) => {
 const cloneRepos = () => {
   log("Clone repos");
   const gitCommand = projects
-    .map((project) => `git clone https://github.com/apache/${project}.git`)
+    .map((project) => `git clone https://github.com/apache/${project.name}.git`)
     .join(" & ");
   childProcess.execSync(gitCommand, { cwd: "./tmp" });
 };
@@ -191,6 +181,14 @@ const setUp = () => {
 const cleanUp = () => {
   log("Delete tmp folder");
   removeFolder("tmp");
+
+  log("Delete npm related files");
+  removeFolder("node_modules");
+  ["package.json", "package-lock.json"].forEach((file) => {
+    if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
+  });
 };
 
 const main = () => {
@@ -200,7 +198,7 @@ const main = () => {
 
   log("Versioning");
   projectPaths.map((project) => {
-    const projectName = project.project;
+    const projectName = project.name;
     const versions = findReleaseVersions(projectName);
     versions.map((version) => {
       log(`Versioning for ${project} version: ${version}`);
@@ -209,26 +207,33 @@ const main = () => {
       });
 
       log("Replace elements inside MD files");
-      replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
+      replaceMDElements(projectName, [`./tmp/${projectName}/docs`], project.branch);
 
       copyAllDocs(project);
+      // versioning English docs
       childProcess.execSync(
         `npm run docusaurus docs:version:docs-${projectName} ${version}`,
         { cwd: `./website` }
       );
+      // versioning Chinese docs
+      if (isFileExisted(`./tmp/${projectName}/docs/zh/latest`) !== false) {
+        copyFolder(
+          project.latestDocs.zh,
+          `./website/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${version}`
+        );
+      }
     });
   });
 
   log("Copy next version docs");
   projectPaths.map((project) => {
-    const projectName = project.project;
-    childProcess.execSync(`git checkout -f master`, {
+    const projectName = project.name;
+    childProcess.execSync(`git checkout -f ${project.branch}`, {
       cwd: `./tmp/${projectName}`,
     });
 
     log("Replace elements inside MD files");
-    replaceMDElements(projectName, [`./tmp/${projectName}/docs`]);
-
+    replaceMDElements(projectName, [`./tmp/${projectName}/docs`], project.branch);
     copyAllDocs(project);
   });
 
