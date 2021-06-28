@@ -1,5 +1,9 @@
 [
   {
+    "title": "Release Apache APISIX Dashboard 2.7",
+    "fileName": "2021-06-15-release-apache-apisix-dashboard-2.7"
+  },
+  {
     "title": "Release Apache APISIX Dashboard 2.6.1",
     "fileName": "2021-05-27-release-apache-apisix-dashboard-2.6.1"
   },
