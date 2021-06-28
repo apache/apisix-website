@@ -457,6 +457,11 @@ module.exports = {
       content:
         '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg">join #apisix channel</a>! ⭐️',
     },
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+      defaultLanguage: 'bash',
+    },
     algolia: {
       apiKey: "287206c9872faf0e77b7c5228d4c3789",
       indexName: "apache_apisix",
