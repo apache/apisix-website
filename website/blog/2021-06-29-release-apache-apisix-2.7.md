@@ -50,5 +50,5 @@ Apache APISIX 2.7.0-Release 正式发布！欢迎大家下载使用。
 
 下载 Apache APISIX 2.7.0-Release
 
-* 源代码：请访问下载页面`https://apisix.apache.org/downloads/`
-* 二进制安装包：请访问安装指南 `https://apisix.apache.org/zh/docs/apisix/how-to-build/`
+* 源代码：请访问[下载页面](https://apisix.apache.org/downloads/)
+* 二进制安装包：请访问[安装指南](https://apisix.apache.org/zh/docs/apisix/how-to-build/)
