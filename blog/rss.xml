@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Tue, 29 Jun 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 30 Jun 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[差之毫厘：etcd 3 完美支持 HTTP 访问？]]></title>
+            <link>https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly</link>
+            <guid>差之毫厘：etcd 3 完美支持 HTTP 访问？</guid>
+            <pubDate>Wed, 30 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX 2.7.0-Release 正式发布]]></title>
             <link>https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7</link>
