@@ -28,7 +28,7 @@ In version 2.7, we have developed new features of TCP proxy, including:
 - Route rules  based on SNI
 - Verify client certificate dynamically
 
-In subsequent versions, we will continue to  improve TCP proxy,  stay tuned!
+In subsequent versions, we will continue to improve TCP proxy,  stay tuned!
 
 ### Enhanced Nginx configuration
 
