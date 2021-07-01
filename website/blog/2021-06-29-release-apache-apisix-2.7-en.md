@@ -51,4 +51,4 @@ In subsequent versions, we will continue to set the following Nginx configuratio
 Download Apache APISIX 2.7.0-Release
 
 - Source code: please visit [download page](https://apisix.apache.org/downloads/)
-- Binary installation package: please visit [installation guide](https://apisix.apache.org/zh/docs/apisix/how-to-build/)
+- Binary installation package: please visit [Installation Guide](https://apisix.apache.org/zh/docs/apisix/how-to-build/)
