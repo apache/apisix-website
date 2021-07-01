@@ -26,7 +26,7 @@ In version 2.7, we have developed new features of TCP proxy, including:
 - Allow mqtt-proxy plugin to configure domain name
 - Support receiving TLS over TCP connection, the certificate can be dynamically configured like HTTPS certificate
 - Route rules  based on SNI
-- Verify client certificate dynamically 
+- Verify client certificate dynamically
 
 In subsequent versions, we will continue to  improve TCP proxy,  stay tuned!
 
@@ -36,8 +36,8 @@ We hope to set more and more Nginx configurations dynamically, so we add our own
 
 The following new features are currently included:
 
-- Set mTLS dynamically 
-- Set client_max_body_size dynamically 
+- Set mTLS dynamically
+- Set client_max_body_size dynamically
 
 In subsequent versions, we will continue to set the following Nginx configurations to dynamically:
 
