@@ -10,7 +10,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 <!--truncate-->
 Apache APISIX has over 200 contributors in GitHub main repo!
 
-Before entering the Apache incubator, Apache APISIX had only more than 20 contributors. Today, there are more than 200 contributors to the main Apache APISIX library. 200 contributors have submitted a total of 2386 PRs, making it the most active open source gateway project in the world.
+Before entering the Apache incubator, Apache APISIX had only more than 20 contributors. Today, there are more than 200 contributors to the main Apache APISIX repo. 200 contributors have submitted a total of 2386 PRs, making it the most active open source gateway project in the world.
 
 In August 2019, Apache APISIX released the first version 0.6.0. Version 1.0 was released in January 2020, which was the first production version of Apache APISIX. We maintain a fast and stable pace , release a new version every month. Such rapid iteration is inseparable from the support of every contributor in the community. Thanks to the community contributors for your contributions in all aspects of code, documentation, and operations!
 
