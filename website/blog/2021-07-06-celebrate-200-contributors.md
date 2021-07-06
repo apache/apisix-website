@@ -14,7 +14,7 @@ Before entering the Apache incubator, Apache APISIX had only more than 20 contri
 
 In August 2019, Apache APISIX released the first version 0.6.0. Version 1.0 was released in January 2020, which was the first production version of Apache APISIX. We maintain a fast and stable pace , release a new version every month. Such rapid iteration is inseparable from the support of every contributor in the community. Thanks to the community contributors for your contributions in all aspects of code, documentation, and operations!
 
-![2021-07-06-1](../static/img/blog_img/2021-07-06-1.jpg)
+![poster](https://user-images.githubusercontent.com/23514812/124587288-096e2a80-de8a-11eb-94b3-95b5932c0093.jpg)
 
 The goal of Apache APISIX is not just to be an API gateway. Apache APISIX hopes to be the fourth and seventh layer of traffic processing and connection in the cloud-native era. All configurations in Apache APISIX are dynamic, which is very important for elastic scaling and multi-cloud deployment in the cloud-native era.
 Welcome to join the Apache APISIX community, welcome to use Apache APISIX!
@@ -42,6 +42,6 @@ Sincerely invite you to join the Apache APISIX open source community, let us wor
 
 There is no barrier to becoming an Apache APISIX contributor. In the Apache APISIX community, it not only includes code contributions, but also documentation, testing, design, and video production. Posting pr or issue on Github, sharing cases through live broadcast, helping you solve problems in exchange groups, and participating in offline Meetup are all ways to participate in the community.Participating communities can also get exclusive peripherals of Apache APISIX, cool T-shirts, stickers, etc.
 
-![2021-07-06-2](../static/img/blog_img/2021-07-06-2.png)
+![img](https://user-images.githubusercontent.com/23514812/124587334-1723b000-de8a-11eb-8a8f-c10dfd9aa0a2.png)
 
 Looks forward to your joining!
