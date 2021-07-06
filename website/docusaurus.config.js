@@ -378,7 +378,7 @@ module.exports = {
               to: "/docs/java-plugin-runner/development/"
             },
             {
-              label: "Apache™️ APISIX JGo Runner",
+              label: "Apache™️ APISIX Go Runner",
               to: "/docs/go-plugin-runner/getting-started/"
             },
             {
