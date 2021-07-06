@@ -17,6 +17,9 @@ const projects = [
   }, {
     name: "apisix-java-plugin-runner",
     branch: "main"
+  }, {
+    name: "apisix-go-plugin-runner",
+    branch: "master"
   }
 ];
 
