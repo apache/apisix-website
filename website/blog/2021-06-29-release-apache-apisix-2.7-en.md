@@ -36,8 +36,8 @@ We hope to set more and more Nginx configurations dynamically, so we add our own
 
 The following new features are currently included:
 
-- Set mTLS dynamically
-- Set client_max_body_size dynamically
+- Dynamically set mTLS 
+- Dynamically set client_max_body_size
 
 In future releases, we will continue to allow the following Nginx configurations to be set dynamically:
 
