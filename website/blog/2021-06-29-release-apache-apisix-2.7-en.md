@@ -32,7 +32,7 @@ In future releases, we will continue to improve TCP proxy, so stay tuned!
 
 ### Enhanced Nginx configuration
 
-We hope to set more and more Nginx configurations dynamically, so we add our own patches and Nginx C modules to enhance native Nginx.
+We hope to dynamically set more and more Nginx configurations, so we add our own patches and Nginx C modules to enhance the native Nginx.
 
 The following new features are currently included:
 
