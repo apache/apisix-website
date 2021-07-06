@@ -39,7 +39,7 @@ The following new features are currently included:
 - Set mTLS dynamically
 - Set client_max_body_size dynamically
 
-In subsequent versions, we will continue to set the following Nginx configurations to dynamically:
+In future releases, we will continue to allow the following Nginx configurations to be set dynamically:
 
 - upstream keepalive
 - gzip
