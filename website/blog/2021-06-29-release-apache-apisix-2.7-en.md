@@ -24,7 +24,7 @@ In version 2.7, we have developed new features of TCP proxy, including:
 
 - Allow domain name configuration in upstream
 - Allow mqtt-proxy plugin to configure domain name
-- Support receiving TLS over TCP connection, the certificate can be dynamically configured like HTTPS certificate
+- Support for receiving TLS over TCP connections, the certificate of which can be dynamically configured just like HTTPS certificate
 - SNI-based route rules
 - Verify client certificate dynamically
 
