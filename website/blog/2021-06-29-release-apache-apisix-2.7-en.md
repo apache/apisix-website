@@ -16,7 +16,7 @@ This version supports multi-language plugins, enhances the four-layer TCP proxy,
 
 ### Multi-language plugin
 
-With the release of the first version of apisix-java-plugin-runner,  and apisix-go-plugin-runner completes main function,  the multi-language plugin of Apache APISIX supports the two most widely used back-end programming languages. If you are still worried that the development of Apache APISIX plugin will be limited to Lua ecosystem, please try our multi-language plugin runner to develop Java / Go plugins.
+With the release of the first version of apisix-java-plugin-runner, and apisix-go-plugin-runner completes its main functions, the multi-language plugin of Apache APISIX supports the two most widely used back-end programming languages. If you are still worried that the development of Apache APISIX plugin will be limited to Lua ecosystem, please try our multi-language plugin runner to develop Java / Go plugins.
 
 ### Enhanced four-layer TCP proxy
 
