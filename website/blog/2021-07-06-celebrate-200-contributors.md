@@ -8,7 +8,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 >
 
 <!--truncate-->
-Apache APISIX has over 200 contributors in GitHub main repo! 
+Apache APISIX has over 200 contributors in GitHub main repo!
 
 Before entering the Apache incubator, Apache APISIX had only more than 20 contributors. Today, there are more than 200 contributors to the main Apache APISIX library. 200 contributors have submitted a total of 2386 PRs, making it the most active open source gateway project in the world.
 
@@ -27,16 +27,17 @@ When reaching 200 contributors, the controbutors in the community sent their ble
 
 [Serendipity96](https://github.com/Serendipity96): The project construction is very friendly to novices. A good first issue is set up. Although I know little about  code, I can also participate in it. I am able to modify some documentation issues. The community deals  issues and pr very quickly.
 
-[Yiyiyimu](https://github.com/Yiyiyimu): From the total ignorance before the Open Source Promotion Plan, to the surprise of nominating as committer at the end of the event, thank you Apache APISIX for showing me the brilliance of the open source community. As the 104th contributor, congratulations to Apache APISIX for reaching 200 contributors! 
+[Yiyiyimu](https://github.com/Yiyiyimu): From the total ignorance before the Open Source Promotion Plan, to the surprise of nominating as committer at the end of the event, thank you Apache APISIX for showing me the brilliance of the open source community. As the 104th contributor, congratulations to Apache APISIX for reaching 200 contributors!
 
 [tokers](https://github.com/tokers): Since open source of Apache APISIX in 2019, both software quality and community building have become more and more complete and healthy in just two years. It has become the most popular open source API gateway project, as a part of the community. I can clearly feel everyone's enthusiasm for Apache APISIX, which is also a major driving force for the continuous improvement of this software. I hope that in the future, Apache APISIX can become more mature and easy to use.
 
-[iamayushdas](https://github.com/iamayushdas):Kudos to Apache APISIX for completing 200 contributors 🥳 It's a very auspicious moment for me on being the part of such an amazing organisation “Apache APISIX ". This increased number of contributors not only show how much useful the project is but also it is possible because of supporting developers who not only helps experienced contributors but also newbies who are even new to the OpenSource culture,OpenSource culture is truly and honestly followed by Apache APISIX. If you are new to OpenSource and trust me you will never regret and also this could be the best decision of your path towards an OpenSource developer and contributor. 
+[iamayushdas](https://github.com/iamayushdas):Kudos to Apache APISIX for completing 200 contributors 🥳 It's a very auspicious moment for me on being the part of such an amazing organisation “Apache APISIX ". This increased number of contributors not only show how much useful the project is but also it is possible because of supporting developers who not only helps experienced contributors but also newbies who are even new to the OpenSource culture,OpenSource culture is truly and honestly followed by Apache APISIX. If you are new to OpenSource and trust me you will never regret and also this could be the best decision of your path towards an OpenSource developer and contributor.
 
 [tao12345666333](https://github.com/tao12345666333): Apache APISIX has a very active and friendly community. Whether it is an issue or a PR, you will get detailed feedback and the experience is very good. I wish the Apache APISIX community is getting bigger and bigger, with more and more functions, and 666 together.
 community activity
 
 ## Join the Apache APISIX community
+
 Sincerely invite you to join the Apache APISIX open source community, let us work together to create the best API gateway in the cloud-native era!
 
 There is no barrier to becoming an Apache APISIX contributor. In the Apache APISIX community, it not only includes code contributions, but also documentation, testing, design, and video production. Posting pr or issue on Github, sharing cases through live broadcast, helping you solve problems in exchange groups, and participating in offline Meetup are all ways to participate in the community.Participating communities can also get exclusive peripherals of Apache APISIX, cool T-shirts, stickers, etc.
