@@ -53,7 +53,7 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     } else if (document.getElementById(pageId.apisixJavaPluginRunner)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Java Plugin Runner";
     } else if (document.getElementById(pageId.apisixGoRunner)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Go Runner";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Go Plugin Runner";
     }
     return () => {
       console.log('\u{1F680} documentation changed')
