@@ -4,9 +4,16 @@
         <title>Apache APISIX™ Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX™ Blog</description>
-        <lastBuildDate>Wed, 30 Jun 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 06 Jul 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX has over 200 contributors in GitHub main repo! ]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/07/06/celebrate-200-contributors</link>
+            <guid>Apache APISIX has over 200 contributors in GitHub main repo! </guid>
+            <pubDate>Tue, 06 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[差之毫厘：etcd 3 完美支持 HTTP 访问？]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/06/30/etcd3-support-HTTP-access-perfectly</link>
