@@ -81,6 +81,17 @@ module.exports = {
         version: "0.1.0",
         releaseDate: "2021-06-23",
         firstDocPath: "/development",
+      },
+      {
+        name: "APISIX™ Go Plugin Runner",
+        nameInParamCase: "go-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "nonagon",
+        color: "#FB9300",
+        githubRepo: "apache/apisix-go-plugin-runner",
+        version: "0.1.0",
+        releaseDate: "2021-07-6",
+        firstDocPath: "/getting-started",
       }
     ],
     downloads: [
@@ -129,7 +140,8 @@ module.exports = {
       "apache/apisix-ingress-controller",
       "apache/apisix-helm-chart",
       "apache/apisix-control-plane",
-      "apache/apisix-java-plugin-runner"
+      "apache/apisix-java-plugin-runner",
+      "apache/apisix-go-plugin-runner"
     ],
   },
   i18n: {
@@ -307,6 +319,26 @@ module.exports = {
         },
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-go-plugin-runner",
+        path: "docs/apisix-go-plugin-runner",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/go-plugin-runner",
+        sidebarPath: require.resolve("./docs/apisix-go-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-go-plugin-runner/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
@@ -344,6 +376,10 @@ module.exports = {
             {
               label: "Apache™️ APISIX Java Plugin Runner",
               to: "/docs/java-plugin-runner/development/"
+            },
+            {
+              label: "Apache™️ APISIX Go Runner",
+              to: "/docs/go-plugin-runner/getting-started/"
             },
             {
               label: "General",
@@ -456,6 +492,11 @@ module.exports = {
       textColor: 'white',
       content:
         '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg">join #apisix channel</a>! ⭐️',
+    },
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+      defaultLanguage: 'bash',
     },
     algolia: {
       apiKey: "287206c9872faf0e77b7c5228d4c3789",
