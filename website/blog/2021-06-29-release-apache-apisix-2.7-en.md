@@ -10,7 +10,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 
 Apache APISIX 2.7.0 has been released! Welcome to download and use it.
 
-This version supports multi-language plugins, enhances the four-layer TCP proxy, and enhances Nginx configuration. More than 20 developers participated, and more than 70 pull requests have been submitted. The following is an introduction to the key features.
+This version supports multi-language plugins, enhances the four-layer TCP proxy and Nginx configuration. More than 20 developers participated, and 70 plus pull requests have been submitted. The following is an introduction to the key features.
 
 ## Release Notes
 
