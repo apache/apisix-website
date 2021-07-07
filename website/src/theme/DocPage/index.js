@@ -34,7 +34,8 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     apisixIngressController : "what-is-apisix-ingress-controller",
     apisixHelmChart : "seeking-help",
     apisixDocker : "build-an-image-from-source",
-    apisixJavaPluginRunner : "overview"
+    apisixJavaPluginRunner : "overview",
+    apisixGoRunner : "prerequisites"
   }
   useEffect(() => {
     if(docsSidebars[sidebarName][0].label === pageId.general){
@@ -51,6 +52,8 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Docker";
     } else if (document.getElementById(pageId.apisixJavaPluginRunner)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Java Plugin Runner";
+    } else if (document.getElementById(pageId.apisixGoRunner)) {
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Go Runner";
     }
     return () => {
       console.log('\u{1F680} documentation changed')
