@@ -86,8 +86,8 @@ module.exports = {
         name: "APISIX™ Go Plugin Runner",
         nameInParamCase: "go-plugin-runner",
         description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
-        shape: "nonagon",
-        color: "#FB9300",
+        shape: "octagon",
+        color: "#3B14A7",
         githubRepo: "apache/apisix-go-plugin-runner",
         version: "0.1.0",
         releaseDate: "2021-07-6",
@@ -378,7 +378,7 @@ module.exports = {
               to: "/docs/java-plugin-runner/development/"
             },
             {
-              label: "Apache™️ APISIX Go Runner",
+              label: "Apache™️ APISIX Go Plugin Runner",
               to: "/docs/go-plugin-runner/getting-started/"
             },
             {
