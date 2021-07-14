@@ -160,7 +160,7 @@ const findReleaseVersions = (project) => {
     .toString();
   const versions = [];
   branchRaw.split("\n").map((b) => {
-    if (b.includes("release") === false) return;
+    if (b.includes("release/") === false) return;
     const version = b.trim().replace("origin/release/", "");
     if (version === "test") return;
     versions.push(version);
@@ -201,7 +201,7 @@ const main = () => {
     const projectName = project.name;
     const versions = findReleaseVersions(projectName);
     versions.map((version) => {
-      log(`Versioning for ${project} version: ${version}`);
+      log(`Versioning for ${projectName} version: ${version}`);
       childProcess.execSync(`git checkout -f origin/release/${version}`, {
         cwd: `./tmp/${projectName}`,
       });
