@@ -13,7 +13,7 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 
 整个处理流程较长，效率较低，无法满足低代码化的 DevOps 运维趋势。因此，我们期待有一个管理后台入口，运维同学在 UI 界面上就可以操作所有的 http api 路由等配置。
 
-![img](https://static001.geekbang.org/wechat/images/44/4441456040626fee1cfc7db125032d75.png)
+![xinlang1](https://user-images.githubusercontent.com/23514812/125594900-d4c01fb7-3af4-4e8c-8779-f3f16b7f0bca.png)
 
 经过一番调研之后，我们选择了最接近期盼的基于云原生的微服务 API 网关：Apache APISIX。比较看重的点，有这么几个：
 
@@ -24,7 +24,7 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 5. 较好扩展性，支持 Consul kv 难度不大；
 6. 性能表现也不错。
 
-![img](https://static001.geekbang.org/wechat/images/db/db5f50e9430ac51c7d9efcb650e3a45a.png)
+![xinlang2](https://user-images.githubusercontent.com/23514812/125596483-aee21ac7-a902-4e44-abc4-8bfda4f51f82.png)
 
 ## 2 为什么选择定制化开发
 
@@ -51,7 +51,7 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 
 用户、角色和实际操作的产品线就有了如下对应关联：
 
-![img](https://static001.geekbang.org/wechat/images/3a/3a019e4c544900874b35ec9ff91d2cc8.png)
+![xinlang3](https://user-images.githubusercontent.com/23514812/125596630-15444f25-0bcb-4f2f-8fd2-7bef6faf6f4e.png)
 
 一个用户可以被分派承担不同运维角色去管理维护不同的产品线服务。
 
@@ -59,23 +59,23 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 
 ### 3.2 新增路由发布审核工作流
 
-![img](https://static001.geekbang.org/wechat/images/7d/7d06a7e8840874e4818b340832db638e.png)
+![xinlang4](https://user-images.githubusercontent.com/23514812/125596773-6ebbb1f2-1287-418b-a5f0-1fc85c9e8e9f.png)
 
 在开源版本中，创建或修改完一个路由之后就可以直接发布。
 
 而在我们的定制版本中，路由创建或修改之后，还需要经过审核工作流处理之后才能发布，处理流程虽然有所拉长，但我们认为在企业层面审核授权后的发布行为才更可信。
 
-![img](https://static001.geekbang.org/wechat/images/c7/c7221dc5dc0de0866582eb77c5ef66c0.png)
+![xinlang5](https://user-images.githubusercontent.com/23514812/125596844-7e3f057e-1dc4-4c3e-8d91-2b2c3d8e780f.png)
 
 在创建路由规则时，默认情况下必须要经过审核。为了兼顾效率，新服务录入的时候，可选择免审、快速发布通道，直接点击发布按钮。
 
-![img](https://static001.geekbang.org/wechat/images/4f/4faf645f3d6694db32baaafac0b82203.png)
+![xinlang6](https://user-images.githubusercontent.com/23514812/125596916-e3a7c3e6-7201-4b37-89b5-bacbbb6f4a9d.png)
 
 当一个重要 API 路由某次调整规则发布上线后出现问题时，可以选择该路由规则上一个版本进行快速回滚，粒度为单个路由的回滚，不会影响到其它路由规则。
 
 单条路由回滚内部处理流程如下图示。
 
-![img](https://static001.geekbang.org/wechat/images/65/65f8c40f7e00b1f1fa5c90bbfb7a580c.png)
+![xinlang7](https://user-images.githubusercontent.com/23514812/125596979-74aa252c-3a84-44e5-a62a-6d9e254de859.png)
 
 我们需要为单个路由的每次发布建立版本数据库存储。这样我们在审核之后进行全量发布，每发布一次会就会产生一个版本号，以及对应的完整配置数据；然后版本列表越积越多。当我们需要回滚的时候去版本列表里面选择一个对应版本回滚即可；某种意义上来讲，回滚其实是一个特殊形式的全量发布。
 
@@ -85,29 +85,29 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 
 虽然灰度发布是一个低频的行为，但和全量发布之间依然存在状态的转换。
 
-![img](https://static001.geekbang.org/wechat/images/4e/4e84f2e6cc079abe045ec960fcefd582.png)
+![xinlang8](https://user-images.githubusercontent.com/23514812/125597330-b3dde9ba-28f3-4899-9f4f-53b89131e653.png)
 
 当灰度发布的占比减少到 0% 的时候，就是全量发布的状态；灰度发布上升到 100% 的情况下，就是下一次的全量发布，这就是它的状态转换。
 
-![img](https://static001.geekbang.org/wechat/images/ef/ef9ab94899616371ed0deb61faf862e2.png)
+![xinlang9](https://user-images.githubusercontent.com/23514812/125598577-bcf2b13d-031a-440c-9480-c68d41d5ca9c.png)
 
 上图为在操作灰度发布选择具体的网关实例时的截图。
 
 灰度发布完整功能除了管理后台支持，还需要在网关实例上暴露出一些 API 支持。
 
-![img](https://static001.geekbang.org/wechat/images/bc/bc36b568a8595aafbe5b65e0b1a71530.png)
+![xinlang10](https://user-images.githubusercontent.com/23514812/125597285-cf3c9145-adc6-4fa4-979e-124ea8f376b5.png)
 
 灰度发布 API 固定 URI, 统一路径为 /admin/services/gray/{SAAS_ID}/routes。不同 HTTP Method 呈现不同业务含义，POST 表示创建，停止灰度是 DELETE，查看就是 GET。
 
 #### 3.3.1 启动流程
 
-![img](https://static001.geekbang.org/wechat/images/cc/cca6ae79dc04508321c9f8af8eba0074.png)
+![xinlang11](https://user-images.githubusercontent.com/23514812/125597454-e4ad004e-9f04-495d-bb93-33c4b9942d4d.png)
 
 从网关层面发布一个 API，接收数据后 worker 进程校验发送来的数据的合法性，合法数据会通过事件广播给所有的 worker 进程。随后调用灰度发布 API ，添加完灰度规则，在下一个请求被处理时生效。
 
 #### 3.3.2 停用流程
 
-![img](https://static001.geekbang.org/wechat/images/3c/3cfb6993ffd068f1f210e04a7fe2d9b5.png)
+![xinlang12](https://user-images.githubusercontent.com/23514812/125597537-99270698-992a-4f58-91b4-06067f4d44d2.png)
 
 停用流程和灰度分布流程基本一致，通过 DELETE 的方法调用灰度发布的 API，广播给所有的 work 进程，每个 work 接收到需要停用的灰度的 ID 值后在 route 表里进行检测。若 route 表里存在就删除，然后尝试从 ETCD 里面还原出来。如果灰度停用了，要保证原先存在 ETCD 能够还原出来，不能影响到正常服务。
 
@@ -117,35 +117,35 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 
 通过为管理后台暴露出 Go Impport HTTP API，运维同学可以在现成的 Bash Script 脚本文件中填写分配的 token、SaaS ID 以及相关的 UID 等，从而较为快速地导入服务到管理后台中。导入服务后续操作依然还是需要在管理后台 H5 界面上完成。
 
-![img](https://static001.geekbang.org/wechat/images/3e/3e77fd2f71e973a6bebe66649450aed1.png)
+![xinlang13](https://user-images.githubusercontent.com/23514812/125597641-54bf1649-0238-4973-8501-48c1cead328e.png)
 
 ## 4 在 Apache APISIX 的数据面，我们改了些什么
 
 基于 Apache APISIX 数据面定制开发需要遵循一些代码路径规则。其中，Apache APISIX 网关的代码和定制代码分开存放不同路径，两者协同工作，各自可独立迭代。
 
-![img](https://static001.geekbang.org/wechat/images/85/85889d7cfdc0f5bb69f404178eb12668.png)
+![xinlang14](https://user-images.githubusercontent.com/23514812/125597706-33f97c9a-1e82-43c5-9ed7-e13b051ad9a0.png)
 
 ### 4.1 安装包的修改
 
 因此打包时，不但有定制代码，还需要把依赖、配置等全部打包到一起进行分发。至于输出的格式，要么选择 Docker，要么打到一个 tar 包中，按需选择。
 
-![img](https://static001.geekbang.org/wechat/images/14/14475a37e3cb1a4384f14759870e9cb7.png)
+![xinlang15](https://user-images.githubusercontent.com/23514812/125597788-24829253-d6f2-4f65-9799-3fc840a7c970.png)
 
 ### 4.2 代码的定制开发
 
 有些定制模块需要在被初始化时优先加载，这样对 Apache APISIX 的代码入侵就变得很小，只需要修改 NGINX.conf 文件。
 
-![img](https://static001.geekbang.org/wechat/images/05/05fdcdd9778b938badad17ff4bf44b13.png)
+![xinlang16](https://user-images.githubusercontent.com/23514812/125597856-6020f223-dfeb-44a1-8a80-896a24a3d8fb.png)
 
 比如，需要为 upstream 对象塞入一个 saas_id 属性字段，可以在初始化时调用如下方法。
 
-![img](https://static001.geekbang.org/wechat/images/63/633f2a04edce5b5891ac5c7e24f57243.png)
+![xinlang17](https://user-images.githubusercontent.com/23514812/125598009-75d4aaf7-10b7-476b-af22-97a0630d878c.png)
 
 类似修改等，需要在 init_worker_by_lua_* 阶段完成调用，完成初始化。
 
 另外一种情况：如何直接重写当前已有模块的实现。比如有一个 debug 模块，现在需要对它的初始化逻辑进行重构，即对 init_worker 函数进行重写。
 
-![img](https://static001.geekbang.org/wechat/images/69/694b02ef3ed38f1dba783faa8b28880b.png)
+![xinlang18](https://user-images.githubusercontent.com/23514812/125598066-fd0da722-7fb0-44a2-99cd-15bf07fd1ad6.png)
 
 这种方式的好处在于，既能保证 API 原始的物理文件不动，又能加入自定义的 API 具体逻辑的重写，从而降低了后期代码管理的成本，也为后续升级带来很大的便利。
 
@@ -155,15 +155,15 @@ title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
 
 当前微博很多服务采用 Consul KV 的方式作为服务注册和发现机制。以前 Apache APISIX 是不支持 Consul KV 方式服务发现机制的，就需要在网关层添加一个 consul_kv.lua 模块，同时也需要在管理后台提供 UI 界面支持，如下：
 
-![img](https://static001.geekbang.org/wechat/images/ce/ce7006930479103f51cd5e73773d7ef0.png)
+![xinlang19](https://user-images.githubusercontent.com/23514812/125598115-d72321e4-b886-4e0d-965f-50c06f0f3104.png)
 
 在控制台中的 upstream 列表中，填写的所有东西一目了然，鼠标移动到注册服务地址上，就会自动呈现所有注册节点的元数据，极大方便了运维同学日常操作。
 
-![img](https://static001.geekbang.org/wechat/images/50/50506f2a376bdeb858833a844e8fd649.png)
+![xinlang20](https://user-images.githubusercontent.com/23514812/125598173-0b456929-5c41-4ddc-9675-a80f5129621f.png)
 
 consul_kv.lua 模块在网关层的配置方式较为简单，同时支持多个不同 Consul 集群连接，当然这也是实际环境要求使然。
 
-![img](https://static001.geekbang.org/wechat/images/04/049770f96851bc1b573ba08ea55380d6.png)
+![xinlang21](https://user-images.githubusercontent.com/23514812/125598228-bd02e3ab-3c70-4f2c-8860-3ddee4bb9dcc.png)
 
 目前这部分代码已被合并到 APISIX master 分支中，2.4 版本已包含。
 
@@ -179,7 +179,7 @@ consul_kv.lua 模块在网关层的配置方式较为简单，同时支持多个
 
 举一个例子，在迁移过程中，需要一一将 nginx.conf 文件中的各种上游以及路由等规则导入到网关系统管理后台中，这是一个非常枯燥的手动操作过程，因此我们开发了快速导入接口，提供 bash script 脚本一键录入等功能来简化这个过程。
 
-![img](https://static001.geekbang.org/wechat/images/94/9405397748d8b67a548426ab5196b9b3.png)
+![xinlang22](https://user-images.githubusercontent.com/23514812/125598279-1fa93710-e5a0-4dc4-b42b-46b02f66f6a8.png)
 
 同时我们也会遇到 NGINX 各种复杂变量判断语句，目前主要是发现一个解决一个，不断积累经验。
 
