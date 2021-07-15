@@ -30,7 +30,7 @@
   --color-downloads-dropdown-items: #f3f4f6;
 }
 
-html[data-theme='dark'] {
+html[data-theme="dark"] {
   --color-secondary-bg: #121212;
   --ifm-color-dark: #b0b0b0;
   --color-title: #f0f0f0;
@@ -324,7 +324,7 @@ header h2 {
   font-size: 2.2rem;
   margin-bottom: 10px;
 }
-.learn-how .hero__subtitle{
+.learn-how .hero__subtitle {
   color: var(--color-secondary-text);
 }
 
@@ -569,7 +569,7 @@ a:hover {
   height: 24px;
 }
 
-.team-githubLogo{
+.team-githubLogo {
   height: 24px;
 }
 
@@ -627,7 +627,7 @@ a:hover {
 }
 
 .downloads-versioninfo-span {
-  color: var(--color-downloads-rightside-versioninfo-span)
+  color: var(--color-downloads-rightside-versioninfo-span);
 }
 
 .downloads-dropdown {
@@ -639,7 +639,7 @@ a:hover {
 }
 
 .team-repocard {
-  color: var(--color-team-repocard)
+  color: var(--color-team-repocard);
 }
 
 .team-repocard:hover {
@@ -656,4 +656,43 @@ a:hover {
 
 .help-page .card p {
   color: var(--color-help-subtitle);
+}
+
+.pic-wrapper {
+  width: 440px;
+  position: fixed;
+  display: flex;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  outline: 0;
+  overflow: auto;
+  border: 0;
+  box-shadow: 0 0 20px -12px #626365;
+}
+
+.pic-wrapper a {
+  display: flex;
+}
+
+.pic-wrapper-close {
+  position: absolute;
+  z-index: 1000;
+  top: 10px;
+  right: 25px;
+  font-weight: 900;
+  color: rgb(135, 151, 172);
+  font-size: 16px;
+  outline: none;
+  border: 1px solid transparent;
+}
+
+.pic-wrapper-close:hover {
+  cursor: pointer;
+}
+
+.pic-wrapper-close svg {
+  width: 10px;
+  height: 15px;
+  display: inherit;
 }
