@@ -261,22 +261,23 @@ const NewsletterSection = () => {
 const PicPoster = () => {
   const [display, setDisplay] = useState(true);
   const [theme, setTheme] = useState('light');
+  const windowGlobal = typeof window !== 'undefined' && window
 
   useEffect(() => {
     addEventListener('click', () => {
-      if (localStorage.getItem('theme') !== theme) {
+      if (windowGlobal.localStorage.getItem('theme') !== theme) {
         setTheme(localStorage.getItem('theme'));
       };
     });
   }, [theme]);
 
-  if (!display || localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY')) {
+  if (!display || windowGlobal.localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY')) {
     return false;
   };
 
   const onClose = () => {
     setDisplay(false);
-    localStorage.setItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY', 'read');
+    windowGlobal.localStorage.setItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY', 'read');
   };
 
   return (
