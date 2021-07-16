@@ -373,31 +373,31 @@ module.exports = {
           to: "/docs",
           items: [
             {
-              label: "APISIX™️",
+              label: "Apache APISIX™️",
               to: "/docs/apisix/getting-started",
             },
             {
-              label: "APISIX™️ Dashboard",
+              label: "Apache APISIX™️ Dashboard",
               to: "/docs/dashboard/USER_GUIDE",
             },
             {
-              label: "APISIX™️ Ingress Controller",
+              label: "Apache APISIX™️ Ingress Controller",
               to: "/docs/ingress-controller/getting-started/",
             },
             {
-              label: "Apache™️ APISIX Helm Charts",
+              label: "Apache APISIX™️ Helm Charts",
               to: "/docs/helm-chart/apisix/",
             },
             {
-              label: "Apache™️ APISIX Docker",
+              label: "Apache APISIX™️ Docker",
               to: "/docs/docker/build/",
             },
             {
-              label: "Apache™️ APISIX Java Plugin Runner",
+              label: "Apache APISIX™️ Java Plugin Runner",
               to: "/docs/java-plugin-runner/development/"
             },
             {
-              label: "Apache™️ APISIX Go Plugin Runner",
+              label: "Apache APISIX™️ Go Plugin Runner",
               to: "/docs/go-plugin-runner/getting-started/"
             },
             {
