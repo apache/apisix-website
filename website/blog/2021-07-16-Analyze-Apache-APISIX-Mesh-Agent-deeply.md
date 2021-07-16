@@ -78,7 +78,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
 
 转换后的配置将被缓存在 apisix-mesh-agent 的内存中。那么数据又该怎么传递给 Apache APISIX 呢？
 
-## 模拟 ETCD 
+## 模拟 ETCD
 
 Apache APISIX 使用 [ETCD](https://etcd.io/) 作为其配置中心，通过 ETCD 的 watch 机制不断获取最新的配置从而保证其处理正确性。为了能让 Apache APISIX 在不做任何改变的情况下就能工作于服务网格场景中，我们让 apisix-mesh-agent 模拟了 [ETCD V3 APIs](https://etcd.io/docs/v3.4/learning/api/)，从而能够将其从控制面获取到的配置（加以转换后）传递到本地的 Apache APISIX 进程。
 
