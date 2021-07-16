@@ -258,7 +258,7 @@ const NewsletterSection = () => {
   );
 };
 
-const PicPoster = () => {
+const Contributor200Poster = () => {
   const [display, setDisplay] = useState(true);
   const [theme, setTheme] = useState('light');
 
@@ -305,7 +305,7 @@ const Index = (props) => {
       <Showcase />
       <ContributionSection />
       <NewsletterSection />
-      <PicPoster />
+      <Contributor200Poster />
     </Layout>
   );
 };
