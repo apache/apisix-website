@@ -271,7 +271,7 @@ const PicPoster = () => {
   }, [theme]);
 
   if (!display || (typeof window !== 'undefined' && localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY'))) {
-    return false;
+    return null;
   }
 
   const onClose = () => {
@@ -299,13 +299,13 @@ const PicPoster = () => {
 const Index = (props) => {
   return (
     <Layout>
-      <PicPoster />
       <HomeSplash />
       <LearnHow />
       <EventsSection />
       <Showcase />
       <ContributionSection />
       <NewsletterSection />
+      <PicPoster />
     </Layout>
   );
 };
