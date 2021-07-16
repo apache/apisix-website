@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX™ Blog</title>
-    <updated>2021-07-06T00:00:00.000Z</updated>
+    <updated>2021-07-16T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX™ Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[深度剖析 Apache APISIX Mesh Agent]]></title>
+        <id>深度剖析 Apache APISIX Mesh Agent</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/07/16/Analyze-Apache-APISIX-Mesh-Agent-deeply"/>
+        <updated>2021-07-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@tokers, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX has over 200 contributors in GitHub main repo! ]]></title>
         <id>Apache APISIX has over 200 contributors in GitHub main repo! </id>
