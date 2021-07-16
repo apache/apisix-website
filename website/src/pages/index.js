@@ -289,8 +289,8 @@ const PicPoster = () => {
         </svg>
       </button>
       <a href="/blog/2021/07/06/celebrate-200-contributors" onClick={onClose}>
-        {theme === "light" && <img src="/static/img/200_mark_light.jpg" alt="" />}
-        {theme === "dark" && <img src="/static/img/200_mark_dark.jpg" alt="" />}
+        {theme === "light" && <img src="/img/200_mark_light.jpg" alt="" />}
+        {theme === "dark" && <img src="/img/200_mark_dark.jpg" alt="" />}
       </a>
     </div>
   )
