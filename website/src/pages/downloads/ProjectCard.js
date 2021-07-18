@@ -10,6 +10,7 @@ import IconTriangle from "../../assets/icons/triangle.svg";
 import IconSquare from "../../assets/icons/square.svg";
 import IconHexagon from "../../assets/icons/hexagon.svg";
 import IconStarSolid from "../../assets/icons/star-solid.svg";
+import IconOctagon from "../../assets/icons/octagon.svg";
 
 const Dropdown = (props) => {
   const ref = useRef();
@@ -51,8 +52,10 @@ const ProjectCard = (props) => {
       <IconSquare />
     ) : shape === "hexagon" ? (
       <IconHexagon />
-    ) : (
+    ) : shape === "star" ? (
       <IconStarSolid />
+    ) : (
+      <IconOctagon />
     );
 
   useEffect(() => {

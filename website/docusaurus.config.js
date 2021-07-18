@@ -148,6 +148,19 @@ module.exports = {
         releaseDate: "2021-06-23",
         firstDocPath: "/development",
       },
+      {
+        name: "APISIX™ Go Plugin Runner",
+        nameInParamCase: "go-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "octagon",
+        color: "#3B14A7",
+        githubRepo: "apache/apisix-go-plugin-runner",
+        githubBranch: "master",
+        downloadPath: "apisix/go-plugin-runner/0.1.0/apisix-go-plugin-runner-0.1.0-src",
+        version: "0.1.0",
+        releaseDate: "2021-07-6",
+        firstDocPath: "/getting-started",
+      }
     ],
 
     team: require("./static/data/team.json"),
