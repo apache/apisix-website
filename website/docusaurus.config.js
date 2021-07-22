@@ -1,5 +1,5 @@
 module.exports = {
-  title: "Apache APISIX™",
+  title: "Apache APISIX®",
   tagline:
     "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
   url: "https://apisix.apache.org/",
@@ -16,7 +16,7 @@ module.exports = {
     docsUrl: "",
     docs: [
       {
-        name: "APISIX™",
+        name: "APISIX®",
         nameInParamCase: "apisix",
         description: "A dynamic, real-time, high-performance API gateway.",
         shape: "triangle",
@@ -27,7 +27,7 @@ module.exports = {
         firstDocPath: "/getting-started",
       },
       {
-        name: "APISIX™ Dashboard",
+        name: "APISIX® Dashboard",
         nameInParamCase: "dashboard",
         description:
           "Designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface.",
@@ -39,7 +39,7 @@ module.exports = {
         firstDocPath: "/USER_GUIDE",
       },
       {
-        name: "APISIX™ Ingress Controller",
+        name: "APISIX® Ingress Controller",
         nameInParamCase: "ingress-controller",
         description: "An Apache APISIX control plane component.",
         shape: "hexagon",
@@ -50,7 +50,7 @@ module.exports = {
         firstDocPath: "/getting-started",
       },
       {
-        name: "APISIX™ Helm Charts",
+        name: "APISIX® Helm Charts",
         nameInParamCase: "helm-chart",
         description: "An Apache APISIX Helm Charts provide the installation of Apache APISIX components for kubernetes.",
         shape: "pentagon",
@@ -61,7 +61,7 @@ module.exports = {
         firstDocPath: "/apisix",
       },
       {
-        name: "APISIX™ Docker",
+        name: "APISIX® Docker",
         nameInParamCase: "docker",
         description: "Docker tooling for Apache APISIX.",
         shape: "diamond",
@@ -72,7 +72,7 @@ module.exports = {
         firstDocPath: "/build",
       },
       {
-        name: "APISIX™ Java Plugin Runner",
+        name: "APISIX® Java Plugin Runner",
         nameInParamCase: "java-plugin-runner",
         description: "Runs Apache APISIX plugins written in Java. Implemented as a sidecar that accompanies Apache APISIX.",
         shape: "star",
@@ -83,7 +83,7 @@ module.exports = {
         firstDocPath: "/development",
       },
       {
-        name: "APISIX™ Go Plugin Runner",
+        name: "APISIX® Go Plugin Runner",
         nameInParamCase: "go-plugin-runner",
         description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
         shape: "octagon",
@@ -96,7 +96,7 @@ module.exports = {
     ],
     downloads: [
       {
-        name: "APISIX™",
+        name: "APISIX®",
         nameInParamCase: "apisix",
         description: "A dynamic, real-time, high-performance API gateway.",
         shape: "triangle",
@@ -109,7 +109,7 @@ module.exports = {
         firstDocPath: "/getting-started",
       },
       {
-        name: "APISIX™ Dashboard",
+        name: "APISIX® Dashboard",
         nameInParamCase: "dashboard",
         description:
           "Designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface.",
@@ -123,7 +123,7 @@ module.exports = {
         firstDocPath: "/USER_GUIDE",
       },
       {
-        name: "APISIX™ Ingress Controller",
+        name: "APISIX® Ingress Controller",
         nameInParamCase: "ingress-controller",
         description: "An Apache APISIX control plane component.",
         shape: "hexagon",
@@ -136,7 +136,7 @@ module.exports = {
         firstDocPath: "/getting-started",
       },
       {
-        name: "APISIX™ Java Plugin Runner",
+        name: "APISIX® Java Plugin Runner",
         nameInParamCase: "java-plugin-runner",
         description: "Runs Apache APISIX plugins written in Java. Implemented as a sidecar that accompanies Apache APISIX.",
         shape: "star",
@@ -149,7 +149,7 @@ module.exports = {
         firstDocPath: "/development",
       },
       {
-        name: "APISIX™ Go Plugin Runner",
+        name: "APISIX® Go Plugin Runner",
         nameInParamCase: "go-plugin-runner",
         description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
         shape: "octagon",
@@ -375,7 +375,7 @@ module.exports = {
   themeConfig: {
     navbar: {
       hideOnScroll: true,
-      title: "Apache APISIX™",
+      title: "Apache APISIX®",
       logo: {
         src: "img/logo2.svg",
       },
@@ -386,31 +386,31 @@ module.exports = {
           to: "/docs",
           items: [
             {
-              label: "Apache APISIX™️",
+              label: "Apache APISIX®️",
               to: "/docs/apisix/getting-started",
             },
             {
-              label: "Apache APISIX™️ Dashboard",
+              label: "Apache APISIX®️ Dashboard",
               to: "/docs/dashboard/USER_GUIDE",
             },
             {
-              label: "Apache APISIX™️ Ingress Controller",
+              label: "Apache APISIX®️ Ingress Controller",
               to: "/docs/ingress-controller/getting-started/",
             },
             {
-              label: "Apache APISIX™️ Helm Charts",
+              label: "Apache APISIX®️ Helm Charts",
               to: "/docs/helm-chart/apisix/",
             },
             {
-              label: "Apache APISIX™️ Docker",
+              label: "Apache APISIX®️ Docker",
               to: "/docs/docker/build/",
             },
             {
-              label: "Apache APISIX™️ Java Plugin Runner",
+              label: "Apache APISIX®️ Java Plugin Runner",
               to: "/docs/java-plugin-runner/development/"
             },
             {
-              label: "Apache APISIX™️ Go Plugin Runner",
+              label: "Apache APISIX®️ Go Plugin Runner",
               to: "/docs/go-plugin-runner/getting-started/"
             },
             {
@@ -516,7 +516,7 @@ module.exports = {
       },
 
       copyright:
-        "Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
+        "Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
     },
     announcementBar: {
       id: 'query',
