@@ -79,7 +79,7 @@ module.exports = {
         color: "#FB9300",
         githubRepo: "apache/apisix-java-plugin-runner",
         version: "0.1.0",
-        releaseDate: "2021-06-23",
+        releaseDate: "2021-07-09",
         firstDocPath: "/development",
       },
       {
@@ -90,7 +90,7 @@ module.exports = {
         color: "#3B14A7",
         githubRepo: "apache/apisix-go-plugin-runner",
         version: "0.1.0",
-        releaseDate: "2021-07-6",
+        releaseDate: "2021-07-15",
         firstDocPath: "/getting-started",
       }
     ],
@@ -145,7 +145,7 @@ module.exports = {
         githubBranch: "main",
         downloadPath: "apisix/java-plugin-runner/0.1/apisix-java-plugin-runner-0.1.0-src",
         version: "0.1.0",
-        releaseDate: "2021-06-23",
+        releaseDate: "2021-07-09",
         firstDocPath: "/development",
       },
       {
@@ -158,7 +158,7 @@ module.exports = {
         githubBranch: "master",
         downloadPath: "apisix/go-plugin-runner/0.1.0/apisix-go-plugin-runner-0.1.0-src",
         version: "0.1.0",
-        releaseDate: "2021-07-6",
+        releaseDate: "2021-07-15",
         firstDocPath: "/getting-started",
       }
     ],
