@@ -420,6 +420,24 @@ module.exports = {
           ],
         },
         {
+          label: "FAQ",
+          position: "right",
+          items: [
+            {
+              label: "Apache APISIX®",
+              to: "/docs/apisix/FAQ/",
+            },
+            {
+              label: "Apache APISIX® Dashboard",
+              to: "/docs/dashboard/FAQ/",
+            },
+            {
+              label: "Apache APISIX® Ingress Controller",
+              to: "/docs/ingress-controller/FAQ/",
+            },
+          ]
+        },
+        {
           to: "/blog",
           label: "Blog",
           position: "right",
