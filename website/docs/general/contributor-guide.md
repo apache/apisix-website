@@ -41,7 +41,7 @@ git remote add upstream https://github.com/apache/apisix.git
 
 #### **Good First Issues**:
 
-Good First Issue curates easy pickings from this project, and helps you make your first contribution to Apache APISIX™.
+Good First Issue curates easy pickings from this project, and helps you make your first contribution to Apache APISIX®.
 
 - [Apache APISIX](https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 - [Apache APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)

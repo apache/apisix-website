@@ -210,7 +210,7 @@ const ContributionSection = () => {
   return (
     <div className="contribution">
       <div className="center-elem contribution-text">
-        <h2>Make your first contribution to Apache APISIX™</h2>
+        <h2>Make your first contribution to Apache APISIX®</h2>
       </div>
       <div className="center-elem">
         <p>Find a good first issue to get you started !</p>
@@ -249,7 +249,7 @@ const NewsletterSection = () => {
         </svg>
       </div>
       <div className="center-elem news-text">
-        <h2>Stay up to date about all Apache APISIX™ News</h2>
+        <h2>Stay up to date about all Apache APISIX® News</h2>
       </div>
       <div className="center-elem">
         <a className="news-button" href="/docs/general/subscribe-guide">Subscribe</a>
