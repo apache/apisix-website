@@ -35,16 +35,19 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     apisixHelmChart : "seeking-help",
     apisixDocker : "build-an-image-from-source",
     apisixJavaPluginRunner : "overview",
-    apisixGoRunner : "prerequisites"
+    apisixGoRunner : "prerequisites",
+    apisixFAQ: "why-a-new-api-gateway",
+    apisixDashboardFAQ: "vue.js-version-of-the-dashboard",
+    apisixIngressControllerFAQ: "how-to-bind-service-and-upstream"
   }
   useEffect(() => {
     if(docsSidebars[sidebarName][0].label === pageId.general){
       document.querySelectorAll(".navbar__link--active")[0].text = "General";
-    } else if (document.getElementById(pageId.apisix)) {
+    } else if (document.getElementById(pageId.apisix) || document.getElementById(pageId.apisixFAQ)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX®";
-    } else if (document.getElementById(pageId.apisixDashboard)) {
+    } else if (document.getElementById(pageId.apisixDashboard) || document.getElementById(pageId.apisixDashboardFAQ)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Dashboard";
-    } else if (document.getElementById(pageId.apisixIngressController)) {
+    } else if (document.getElementById(pageId.apisixIngressController) || document.getElementById(pageId.apisixIngressControllerFAQ)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Ingress Controller";
     } else if (document.getElementById(pageId.apisixHelmChart)) {
       document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Helm Chart";
