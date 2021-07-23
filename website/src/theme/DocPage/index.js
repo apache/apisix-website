@@ -41,19 +41,19 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     if(docsSidebars[sidebarName][0].label === pageId.general){
       document.querySelectorAll(".navbar__link--active")[0].text = "General";
     } else if (document.getElementById(pageId.apisix)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX®";
     } else if (document.getElementById(pageId.apisixDashboard)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Dashboard";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Dashboard";
     } else if (document.getElementById(pageId.apisixIngressController)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Ingress Controller";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Ingress Controller";
     } else if (document.getElementById(pageId.apisixHelmChart)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Helm Chart";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Helm Chart";
     } else if (document.getElementById(pageId.apisixDocker)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Docker";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Docker";
     } else if (document.getElementById(pageId.apisixJavaPluginRunner)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Java Plugin Runner";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Java Plugin Runner";
     } else if (document.getElementById(pageId.apisixGoRunner)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX™ Go Plugin Runner";
+      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Go Plugin Runner";
     }
     return () => {
       console.log('\u{1F680} documentation changed')
