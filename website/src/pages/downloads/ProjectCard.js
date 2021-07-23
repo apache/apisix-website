@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import useOutsideClick from "../../hooks/useOutsideClick";
-
+import "../../css/customTheme.css";
 import IconInfo from "../../assets/icons/info.svg";
 import IconStar from "../../assets/icons/star.svg";
 import IconDocumentText from "../../assets/icons/document-text.svg";
@@ -9,6 +9,8 @@ import IconDownload from "../../assets/icons/download.svg";
 import IconTriangle from "../../assets/icons/triangle.svg";
 import IconSquare from "../../assets/icons/square.svg";
 import IconHexagon from "../../assets/icons/hexagon.svg";
+import IconStarSolid from "../../assets/icons/star-solid.svg";
+import IconOctagon from "../../assets/icons/octagon.svg";
 
 const Dropdown = (props) => {
   const ref = useRef();
@@ -19,7 +21,11 @@ const Dropdown = (props) => {
     }
   });
   return (
-    <StyledDropdown ref={ref} open={isDropdownOpen}>
+    <StyledDropdown
+      className="downloads-dropdown"
+      ref={ref}
+      open={isDropdownOpen}
+    >
       {props.children}
     </StyledDropdown>
   );
@@ -30,27 +36,27 @@ const ProjectCard = (props) => {
   const [repoStats, setRepoStats] = useState({ stars: 0, issues: 0 });
   const {
     name,
-    nameInParamCase,
     description,
     shape,
     color,
     version,
     releaseDate,
     githubRepo,
+    githubBranch,
+    downloadPath
   } = props;
   const shapeComponent =
     shape === "triangle" ? (
       <IconTriangle />
     ) : shape === "square" ? (
       <IconSquare />
-    ) : (
+    ) : shape === "hexagon" ? (
       <IconHexagon />
+    ) : shape === "star" ? (
+      <IconStarSolid />
+    ) : (
+      <IconOctagon />
     );
-  const downloadLink = `apisix${
-    nameInParamCase !== "apisix" ? "/" + nameInParamCase : ""
-  }/${version}/apache-${
-    nameInParamCase !== "apisix" ? "apisix-" + nameInParamCase : "apisix"
-  }-${version}-src`;
 
   useEffect(() => {
     getGitHubRepoStats(githubRepo).then((stats) => {
@@ -68,9 +74,10 @@ const ProjectCard = (props) => {
           <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
           {name}
         </Title>
-        <Description>{description}</Description>
-        <LeftSideLinks>
+        <Description className="downloads-subtitle">{description}</Description>
+        <LeftSideLinks className="downloads-leftsidelinks">
           <LeftSideLink
+            className="downloads-leftsidelink"
             href={`https://github.com/${githubRepo}`}
             target="_blank"
             title="Stars"
@@ -78,6 +85,7 @@ const ProjectCard = (props) => {
             <IconStar /> {repoStats.stars}
           </LeftSideLink>
           <LeftSideLink
+            className="downloads-leftsidelink"
             href={`https://github.com/${githubRepo}/issues`}
             target="_blank"
             title="Issues"
@@ -85,7 +93,8 @@ const ProjectCard = (props) => {
             <IconInfo /> {repoStats.issues}
           </LeftSideLink>
           <LeftSideLink
-            href={`https://github.com/${githubRepo}/blob/master/CHANGELOG.md`}
+            className="downloads-leftsidelink"
+            href={`https://github.com/${githubRepo}/blob/${githubBranch}/CHANGELOG.md`}
             target="_blank"
           >
             <IconDocumentText /> CHANGELOG
@@ -93,10 +102,12 @@ const ProjectCard = (props) => {
         </LeftSideLinks>
       </LeftSide>
       <RightSide>
-        <VersionInfo>
-          Latest Version · <span>{version}</span>
+        <VersionInfo className="downloads-versioninfo">
+          Latest Version ·{" "}
+          <span className="downloads-versioninfo-span">{version}</span>
           <br />
-          Release Date · <span>{releaseDate}</span>
+          Release Date ·{" "}
+          <span className="downloads-versioninfo-span">{releaseDate}</span>
         </VersionInfo>
         <div>
           <Button
@@ -110,19 +121,22 @@ const ProjectCard = (props) => {
             setIsDropdownOpen={setIsDropdownOpen}
           >
             <DropdownItem
-              href={`https://www.apache.org/dyn/closer.cgi/${downloadLink}.tgz`}
+              className="download-dropdown-item"
+              href={`https://www.apache.org/dyn/closer.cgi/${downloadPath}.tgz`}
               target="_blank"
             >
               Source
             </DropdownItem>
             <DropdownItem
-              href={`https://downloads.apache.org/${downloadLink}.tgz.asc`}
+              className="download-dropdown-item"
+              href={`https://downloads.apache.org/${downloadPath}.tgz.asc`}
               target="_blank"
             >
               ASC
             </DropdownItem>
             <DropdownItem
-              href={`https://downloads.apache.org/${downloadLink}.tgz.sha512`}
+              className="download-dropdown-item"
+              href={`https://downloads.apache.org/${downloadPath}.tgz.sha512`}
               target="_blank"
             >
               SHA512
@@ -164,8 +178,9 @@ const LeftSide = styled.div`
 `;
 const Title = styled.a`
   font-size: 2.4rem;
+  line-height: 2.4rem;
+  margin-bottom: 1rem;
   font-weight: bold;
-  margin-top: -6px;
   display: block;
   cursor: pointer;
   @media (max-width: 600px) {
@@ -184,7 +199,6 @@ const Title = styled.a`
   }
 `;
 const Description = styled.div`
-  color: #374151;
   font-size: 1.2rem;
   margin-top: 0px;
   @media (max-width: 600px) {
@@ -207,7 +221,7 @@ const ShapeBeforeTitle = styled.span`
 const LeftSideLinks = styled.div`
   display: inline-flex;
   font-size: 1rem;
-  color: #4b5563;
+
   margin-top: 24px;
   & svg {
     height: 1rem;
@@ -223,7 +237,6 @@ const LeftSideLink = styled.a`
   transition: all 0.3s;
   color: inherit;
   &:hover {
-    color: #111827;
     text-decoration: none;
   }
 `;
@@ -270,7 +283,6 @@ const StyledDropdown = styled.div`
   right: 0;
   position: absolute;
   margin-top: 0.25rem;
-  background: #fff;
   border-radius: 0.5rem;
   border: 1px solid #eee;
   z-index: 100;
@@ -288,16 +300,13 @@ const DropdownItem = styled.a`
   color: inherit;
   &:hover {
     color: inherit;
-    background: var(--color-secondary-bg);
     text-decoration: none;
   }
 `;
 const VersionInfo = styled.div`
-  color: #6b7280;
   text-align: right;
   font-size: 0.9rem;
   span {
-    color: #374151;
     font-weight: 500;
   }
   @media (max-width: 600px) {

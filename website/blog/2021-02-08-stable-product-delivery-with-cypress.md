@@ -7,6 +7,9 @@ authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4b
 
 > [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
+
+<!--truncate-->
+
 > Source:
 >
 > - https://github.com/apache/apisix
@@ -92,7 +95,7 @@ beforeEach(() => {
 
 2. Extract the selector and data as public variables.
 
-To make it more intuitive for the user to understand the meaning of the test code, we extract selcector and data as public variables.
+To make it more intuitive for the user to understand the meaning of the test code, we extract a selector and data as public variables.
 
 ```javaScript
   const data = {
@@ -111,7 +114,7 @@ To make it more intuitive for the user to understand the meaning of the test cod
 
 3. Remove cy.wait(someTime)
 
-We used cy.wait(someTime) in the early days of Cypress, but found that cy.wait(someTime) relies too much on the network environment and the performance of the test machine, which can cause test cases to report errors when the network environment or machine performance is poor. The recommended practice is to use it in conjunction with cy.intercpet() to explicitly specify the network resources to wait for.
+We used cy.wait(someTime) in the early days of Cypress, but found that cy.wait(someTime) relies too much on the network environment and the performance of the test machine, which can cause test cases to report errors when the network environment or machine performance is poor. The recommended practice is to use it in conjunction with cy.intercept() to explicitly specify the network resources to wait for.
 
 ```javascript
 cy.intercept("https://apisix.apache.org/").as("fetchURL");

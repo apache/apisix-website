@@ -7,6 +7,9 @@ authorImageURL: "https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6
 
 > [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC & Apache apisix-ingress-controller Founder from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
+
+<!--truncate-->
+
 > Source:
 >
 > - https://github.com/apache/apisix
@@ -18,7 +21,7 @@ authorImageURL: "https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6
 
 我们知道 Kubernetes 为了将集群内部服务暴露出去，有多种方案实现，其中一个比较受大众推崇的就是 Ingress。Ingress 作为一种对外暴露服务的标准，有相当多的第三方实现，每种实现都有各自的技术栈 和 所依赖的网关的影子，相互之间并不兼容。
 
-为了统一各种 Ingress 的实现，便于 Kubernetes 上统一管理，[SIG-NETWORK](https://github.com/kubernetes/community/tree/master/sig-network) 社区推出了[Kubernetes Service APIs](https://kubernetes-sigs.github.io/service-apis/) 一套标准实现，称为第二代 Ingress 。
+为了统一各种 Ingress 的实现，便于 Kubernetes 上统一管理，[SIG-NETWORK](https://github.com/kubernetes/community/tree/master/sig-network) 社区推出了[Kubernetes Service APIs](https://gateway-api.sigs.k8s.io/) 一套标准实现，称为第二代 Ingress 。
 
 ## 主题描述
 
@@ -146,5 +149,5 @@ RBAC（基于角色的访问控制）是用于 Kubernetes 授权的标准。允�
 
 参考:
 
-- https://kubernetes-sigs.github.io/service-apis/
+- https://gateway-api.sigs.k8s.io/
 - https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api

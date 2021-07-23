@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import GitHubLogo from "../assets/icons/github-logo.svg";
-
+import "../css/customTheme.css";
 import IconCode from "../assets/icons/code.svg";
 import IconStar from "../assets/icons/star.svg";
 import IconDatabase from "../assets/icons/database.svg";
@@ -99,14 +99,11 @@ const RepoCard = styled.a`
   padding: 1rem;
   margin: 8px;
   cursor: pointer;
-  color: #374151;
   transition: all 0.3s;
 
   &:hover {
     opacity: 0.98;
-    color: inherit;
     text-decoration: none;
-    color: #111827;
   }
 
   svg {
@@ -273,11 +270,12 @@ function Team(props) {
   const repoComponents = siteConfig.customFields.allRepos.map((repo) => {
     return (
       <RepoCard
+        className="team-repocard"
         href={`https://github.com/${repo}/graphs/contributors`}
         target="_blank"
         key={repo}
       >
-        <GitHubLogo /> {repo}
+        <GitHubLogo className="team-githubLogo" /> {repo}
       </RepoCard>
     );
   });
@@ -292,6 +290,11 @@ function Team(props) {
         list.
       </SectionSubtitle>
       <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
+      <SectionTitle>Contributor Over Time</SectionTitle>
+      <SectionSubtitle>
+        Note: This graph contains contributors from all repos under Apache APISIX
+      </SectionSubtitle>
+      <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time"/>
       <ContributeCard>
         <ContributeCardLeftSide>
           <ContributeCardTitle>🛠 Become A Committer </ContributeCardTitle>
@@ -301,7 +304,7 @@ function Team(props) {
             APISIX's community actively, PMC and Committers will make decisions
             to invite the contributor join Committers and PMC.
           </ContributeCardSubtitle>
-          <ContributeCardButton href="/contributor-guide">
+          <ContributeCardButton href="/docs/general/contributor-guide">
             Start Contribute
           </ContributeCardButton>
         </ContributeCardLeftSide>

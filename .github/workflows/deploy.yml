@@ -1,15 +1,17 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Test and Deploy Website
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
-    - cron: "0 9 * * *"
+    - cron: "0 5 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,7 +23,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/setup-node@v2.2.0
+        with:
+          node-version: "12"
+
+      - name: Pull Docs
+        run: |
+          node sync-docs.js && git status
 
       - name: Build
         run: |
@@ -29,8 +38,8 @@ jobs:
           cp ../.asf.yaml ./build
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3.8.0
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.event_name == 'schedule'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: website/build

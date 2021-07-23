@@ -14,16 +14,17 @@ module.exports = {
     events: require("./static/data/events.json"),
     repoUrl: "https://github.com/apache/apisix",
     docsUrl: "",
-    downloads: [
+    docs: [
       {
         name: "APISIX™",
         nameInParamCase: "apisix",
         description: "A dynamic, real-time, high-performance API gateway.",
         shape: "triangle",
-        color: "var(--ifm-color-primary)",
+        color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.3",
-        releaseDate: "2021-02-09",
+        version: "2.7",
+        releaseDate: "2021-06-25",
+        firstDocPath: "/getting-started",
       },
       {
         name: "APISIX™ Dashboard",
@@ -33,8 +34,9 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.4",
-        releaseDate: "2021-02-12",
+        version: "2.7",
+        releaseDate: "2021-06-15",
+        firstDocPath: "/USER_GUIDE",
       },
       {
         name: "APISIX™ Ingress Controller",
@@ -43,10 +45,124 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "0.3.0",
-        releaseDate: "2021-02-11",
+        version: "1.1.0",
+        releaseDate: "2021-07-13",
+        firstDocPath: "/getting-started",
       },
+      {
+        name: "APISIX™ Helm Charts",
+        nameInParamCase: "helm-chart",
+        description: "An Apache APISIX Helm Charts provide the installation of Apache APISIX components for kubernetes.",
+        shape: "pentagon",
+        color: "#C71585",
+        githubRepo: "apache/apisix-helm-chart",
+        version: "0.4.0",
+        releaseDate: "2021-03-12",
+        firstDocPath: "/apisix",
+      },
+      {
+        name: "APISIX™ Docker",
+        nameInParamCase: "docker",
+        description: "Docker tooling for Apache APISIX.",
+        shape: "diamond",
+        color: "#FFD700",
+        githubRepo: "apache/apisix-docker",
+        version: "1.0.0",
+        releaseDate: "2020-12-1",
+        firstDocPath: "/build",
+      },
+      {
+        name: "APISIX™ Java Plugin Runner",
+        nameInParamCase: "java-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Java. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "star",
+        color: "#FB9300",
+        githubRepo: "apache/apisix-java-plugin-runner",
+        version: "0.1.0",
+        releaseDate: "2021-07-09",
+        firstDocPath: "/development",
+      },
+      {
+        name: "APISIX™ Go Plugin Runner",
+        nameInParamCase: "go-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "octagon",
+        color: "#3B14A7",
+        githubRepo: "apache/apisix-go-plugin-runner",
+        version: "0.1.0",
+        releaseDate: "2021-07-15",
+        firstDocPath: "/getting-started",
+      }
     ],
+    downloads: [
+      {
+        name: "APISIX™",
+        nameInParamCase: "apisix",
+        description: "A dynamic, real-time, high-performance API gateway.",
+        shape: "triangle",
+        color: "#e8433e",
+        githubRepo: "apache/apisix",
+        githubBranch: "master",
+        downloadPath: "apisix/2.7/apache-apisix-2.7-src",
+        version: "2.7",
+        releaseDate: "2021-06-25",
+        firstDocPath: "/getting-started",
+      },
+      {
+        name: "APISIX™ Dashboard",
+        nameInParamCase: "dashboard",
+        description:
+          "Designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface.",
+        shape: "square",
+        color: "#10B981",
+        githubRepo: "apache/apisix-dashboard",
+        githubBranch: "master",
+        downloadPath: "apisix/dashboard/2.7/apache-apisix-dashboard-2.7-src",
+        version: "2.7",
+        releaseDate: "2021-06-15",
+        firstDocPath: "/USER_GUIDE",
+      },
+      {
+        name: "APISIX™ Ingress Controller",
+        nameInParamCase: "ingress-controller",
+        description: "An Apache APISIX control plane component.",
+        shape: "hexagon",
+        color: "#2563EB",
+        githubRepo: "apache/apisix-ingress-controller",
+        githubBranch: "master",
+        downloadPath: "apisix/ingress-controller/1.1.0/apache-apisix-ingress-controller-1.1.0-src",
+        version: "1.1.0",
+        releaseDate: "2021-07-13",
+        firstDocPath: "/getting-started",
+      },
+      {
+        name: "APISIX™ Java Plugin Runner",
+        nameInParamCase: "java-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Java. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "star",
+        color: "#FB9300",
+        githubRepo: "apache/apisix-java-plugin-runner",
+        githubBranch: "main",
+        downloadPath: "apisix/java-plugin-runner/0.1/apisix-java-plugin-runner-0.1.0-src",
+        version: "0.1.0",
+        releaseDate: "2021-07-09",
+        firstDocPath: "/development",
+      },
+      {
+        name: "APISIX™ Go Plugin Runner",
+        nameInParamCase: "go-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Go. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "octagon",
+        color: "#3B14A7",
+        githubRepo: "apache/apisix-go-plugin-runner",
+        githubBranch: "master",
+        downloadPath: "apisix/go-plugin-runner/0.1.0/apisix-go-plugin-runner-0.1.0-src",
+        version: "0.1.0",
+        releaseDate: "2021-07-15",
+        firstDocPath: "/getting-started",
+      }
+    ],
+
     team: require("./static/data/team.json"),
     allRepos: [
       "apache/apisix",
@@ -56,10 +172,25 @@ module.exports = {
       "apache/apisix-ingress-controller",
       "apache/apisix-helm-chart",
       "apache/apisix-control-plane",
+      "apache/apisix-java-plugin-runner",
+      "apache/apisix-go-plugin-runner"
     ],
+  },
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "zh"],
+    localeConfigs: {
+      en: {
+        label: "English",
+      },
+      zh: {
+        label: "简体中文",
+      },
+    },
   },
   onBrokenLinks: "log",
   onBrokenMarkdownLinks: "log",
+  noIndex: true,
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -67,11 +198,18 @@ module.exports = {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: "docs",
-          routeBasePath: "/",
-          editUrl:
-            "https://github.com/apache/apisix-website/edit/master/website",
-          sidebarPath: "../website/sidebars.json",
+          path: "docs/general",
+          routeBasePath: "/docs/general",
+          sidebarPath: require.resolve("./docs/general/sidebars.json"),
+          editUrl: function ({
+            locale,
+            version,
+            versionDocsDirPath,
+            docPath,
+            permalink,
+          }) {
+            return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
+          },
         },
         blog: {
           path: "blog",
@@ -91,18 +229,195 @@ module.exports = {
         path: "events",
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix",
+        path: "docs/apisix",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/apisix",
+        sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-dashboard",
+        path: "docs/apisix-dashboard",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/dashboard",
+        sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-dashboard/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-ingress-controller",
+        path: "docs/apisix-ingress-controller",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/ingress-controller",
+        sidebarPath: require.resolve(
+          "./docs/apisix-ingress-controller/sidebars.json"
+        ),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-helm-chart",
+        path: "docs/apisix-helm-chart",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/helm-chart",
+        sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-docker",
+        path: "docs/apisix-docker",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/docker",
+        sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-docker/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-java-plugin-runner",
+        path: "docs/apisix-java-plugin-runner",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/java-plugin-runner",
+        sidebarPath: require.resolve("./docs/apisix-java-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-java-plugin-runner/edit/main/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-go-plugin-runner",
+        path: "docs/apisix-go-plugin-runner",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/go-plugin-runner",
+        sidebarPath: require.resolve("./docs/apisix-go-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          locale,
+          version,
+          versionDocsDirPath,
+          docPath,
+          permalink,
+        }) {
+          return `https://github.com/apache/apisix-go-plugin-runner/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
+      hideOnScroll: true,
       title: "Apache APISIX™",
       logo: {
-        src: "img/logo.png",
+        src: "img/logo2.svg",
       },
       items: [
         {
-          to: "/subscribe-guide",
           label: "Docs",
           position: "right",
+          to: "/docs",
+          items: [
+            {
+              label: "Apache APISIX™️",
+              to: "/docs/apisix/getting-started",
+            },
+            {
+              label: "Apache APISIX™️ Dashboard",
+              to: "/docs/dashboard/USER_GUIDE",
+            },
+            {
+              label: "Apache APISIX™️ Ingress Controller",
+              to: "/docs/ingress-controller/getting-started/",
+            },
+            {
+              label: "Apache APISIX™️ Helm Charts",
+              to: "/docs/helm-chart/apisix/",
+            },
+            {
+              label: "Apache APISIX™️ Docker",
+              to: "/docs/docker/build/",
+            },
+            {
+              label: "Apache APISIX™️ Java Plugin Runner",
+              to: "/docs/java-plugin-runner/development/"
+            },
+            {
+              label: "Apache APISIX™️ Go Plugin Runner",
+              to: "/docs/go-plugin-runner/getting-started/"
+            },
+            {
+              label: "General",
+              to: "/docs/general/security",
+            },
+          ],
         },
         {
           to: "/blog",
@@ -129,8 +444,13 @@ module.exports = {
           label: "Help",
           position: "right",
         },
+        {
+          type: "localeDropdown",
+          position: "right",
+        },
       ],
     },
+    hideableSidebar: true,
     footer: {
       links: [
         {
@@ -171,7 +491,7 @@ module.exports = {
             },
             {
               label: "Slack",
-              to: "https://apisix.slack.com/",
+              to: "https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg",
             },
             {
               label: "Twitter",
@@ -198,13 +518,29 @@ module.exports = {
       copyright:
         "Copyright © 2019-2021 The Apache Software Foundation. Apache APISIX, APISIX™, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
     },
+    announcementBar: {
+      id: 'query',
+      backgroundColor: "#e8433e",
+      textColor: 'white',
+      content:
+        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg">join #apisix channel</a>! ⭐️',
+    },
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+      defaultLanguage: 'bash',
+    },
     algolia: {
-      apiKey: "ad95c83c2872f173de8bcc4a0351c5c2",
-      indexName: "apache-apisix-website",
+      apiKey: "287206c9872faf0e77b7c5228d4c3789",
+      indexName: "apache_apisix",
+      contextualSearch: true,
     },
     colorMode: {
-      disableSwitch: true,
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
+    image: 'img/favicon.png',
     metadatas: [
       {
         name: "description",
@@ -212,6 +548,9 @@ module.exports = {
           "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
       },
     ],
+    gtag: {
+      trackingID: "G-WQLBQL6GY3",
+    },
   },
   stylesheets: [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",

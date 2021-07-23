@@ -1,5 +1,33 @@
 [
   {
+    "title": "Release Apache APISIX Dashboard 2.7",
+    "fileName": "2021-06-15-release-apache-apisix-dashboard-2.7"
+  },
+  {
+    "title": "Release Apache APISIX Dashboard 2.6.1",
+    "fileName": "2021-05-27-release-apache-apisix-dashboard-2.6.1"
+  },
+  {
+    "title": "Release Apache APISIX 2.6",
+    "fileName": "2021-05-24-release-apache-apisix-2.6"
+  },
+  {
+    "title": "Release Apache APISIX Dashboard 2.6",
+    "fileName": "2021-04-22-release-apache-apisix-dashboard-2.6"
+  },
+  {
+    "title": "Release Apache APISIX 2.5",
+    "fileName": "2021-04-05-release-apache-apisix-2.5"
+  },
+  {
+    "title": "Release Apache APISIX Ingress Controller 0.4.0",
+    "fileName": "2021-03-12-release-apache-apisix-ingress-controller-0.4.0"
+  },
+  {
+    "title": "Release Apache APISIX 2.4",
+    "fileName": "2021-03-05-release-apache-apisix-2.4"
+  },
+  {
     "title": "Release Apache APISIX Dashboard 2.4",
     "fileName": "2021-02-12-release-apache-apisix-dashboard-2.4"
   },

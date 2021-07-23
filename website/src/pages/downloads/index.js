@@ -38,7 +38,7 @@ export default (props) => {
     return null;
   }
   const projects = siteConfig.customFields.downloads.map((project) => {
-    return <ProjectCard {...project} />;
+    return <ProjectCard key={project.name} {...project} />;
   });
 
   return (
@@ -78,7 +78,7 @@ export default (props) => {
             the mirrors.
             <br />
             <StyledCodeBlock>{`gpg -i KEYS
-          
+
 # or
 pgpk -a KEYS
 

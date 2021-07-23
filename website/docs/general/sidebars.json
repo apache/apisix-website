@@ -1,12 +1,13 @@
 {
   "docs": {
-    "Get Involved": [
+    "General": [
       "security",
       "subscribe-guide",
       "contributor-guide",
       "committer-guide",
       "2fa",
-      "release-guide"
+      "release-guide",
+      "integrate-with-project-docs"
     ]
   }
 }
