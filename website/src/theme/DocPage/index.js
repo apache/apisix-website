@@ -37,8 +37,8 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     apisixJavaPluginRunner : "overview",
     apisixGoRunner : "prerequisites",
     apisixFAQ: "why-a-new-api-gateway",
-    apisixDashboardFAQ: "vue.js-version-of-the-dashboard",
-    apisixIngressControllerFAQ: "how-to-bind-service-and-upstream"
+    apisixDashboardFAQ: "1-vuejs-version-of-the-dashboard",
+    apisixIngressControllerFAQ: "1-how-to-bind-service-and-upstream"
   }
   useEffect(() => {
     if(docsSidebars[sidebarName][0].label === pageId.general){
