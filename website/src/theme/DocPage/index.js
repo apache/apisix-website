@@ -27,36 +27,33 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
     version,
   } = versionMetadata;
 
-  const pageId = {
-    general : "General",
-    apisix : "getting-started",
-    apisixDashboard : "dashboard",
-    apisixIngressController : "what-is-apisix-ingress-controller",
-    apisixHelmChart : "seeking-help",
-    apisixDocker : "build-an-image-from-source",
-    apisixJavaPluginRunner : "overview",
-    apisixGoRunner : "prerequisites",
-    apisixFAQ: "why-a-new-api-gateway",
-    apisixDashboardFAQ: "1-vuejs-version-of-the-dashboard",
-    apisixIngressControllerFAQ: "1-how-to-bind-service-and-upstream"
-  }
   useEffect(() => {
-    if(docsSidebars[sidebarName][0].label === pageId.general){
-      document.querySelectorAll(".navbar__link--active")[0].text = "General";
-    } else if (document.getElementById(pageId.apisix) || document.getElementById(pageId.apisixFAQ)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX®";
-    } else if (document.getElementById(pageId.apisixDashboard) || document.getElementById(pageId.apisixDashboardFAQ)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Dashboard";
-    } else if (document.getElementById(pageId.apisixIngressController) || document.getElementById(pageId.apisixIngressControllerFAQ)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Ingress Controller";
-    } else if (document.getElementById(pageId.apisixHelmChart)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Helm Chart";
-    } else if (document.getElementById(pageId.apisixDocker)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Docker";
-    } else if (document.getElementById(pageId.apisixJavaPluginRunner)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Java Plugin Runner";
-    } else if (document.getElementById(pageId.apisixGoRunner)) {
-      document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Go Plugin Runner";
+    const currentPage = currentDocRoute.path.split("/")[2] || "";
+    switch (currentPage) {
+      case "general":
+        document.querySelectorAll(".navbar__link--active")[0].text = "General";
+        break;
+      case "apisix":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX®";
+        break;
+      case "dashboard":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Dashboard";
+        break;
+      case "ingress-controller":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Ingress Controller";
+        break;
+      case "helm-chart":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Helm Chart";
+        break;
+      case "docker":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Docker";
+        break;
+      case "java-plugin-runner":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Java Plugin Runner";
+        break;
+      case "go-plugin-runner":
+        document.querySelectorAll(".navbar__link--active")[0].text = "Apache APISIX® Go Plugin Runner";
+        break;
     }
     return () => {
       console.log('\u{1F680} documentation changed')
