@@ -435,6 +435,10 @@ module.exports = {
               label: "Apache APISIX® Ingress Controller",
               to: "/docs/ingress-controller/FAQ/",
             },
+             {
+              label: "Apache APISIX® Helm Chart",
+              to: "/docs/helm-chart/FAQ/",
+            },
           ]
         },
         {
