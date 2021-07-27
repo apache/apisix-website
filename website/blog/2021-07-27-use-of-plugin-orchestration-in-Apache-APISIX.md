@@ -56,7 +56,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 <iframe
     height="350"
-    width="600"
+    width="100%"
     src="https://api7-website-1301662268.file.myqcloud.com/202107/%E6%8F%92%E4%BB%B6%E7%BC%96%E6%8E%92.mp4"
     frameborder="0">
 </iframe>
