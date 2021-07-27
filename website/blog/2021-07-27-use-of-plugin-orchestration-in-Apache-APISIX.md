@@ -91,7 +91,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 为了生成合法、有效的 script 函数，ManagerAPI 选择了 DAG 有向无环图的数据结构进行底层设计，并自主研发了 `dag-to-lua` [项目](https://github.com/api7/dag-to-lua)：它将根节点作为开始节点，根据判断条件决定下一个流转插件，这将有效避免逻辑死循环。如下为 DAG 数据结构的示意图：
 
-![Apache APISIX data structure](../static/img/blog_img/2021-07-27-3.png)
+![Apache APISIX plugin orchestration DAG data structure](../static/img/blog_img/2021-07-27-3.png)
 
 对应到 ManagerAPI 接收的 `script` 参数上，示例如下：
 
