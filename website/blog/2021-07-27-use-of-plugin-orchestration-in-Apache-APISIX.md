@@ -75,7 +75,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 ### Apache APISIX
 
-在 Apache APISIX 中，我们在 Route 实体中新增了 `script` 执行逻辑[PR](https://github.com/apache/apisix/pull/1982)，可用于接收 Dashboard 生成的 Lua 函数并执行，它支持调用已有插件以复用代码。另外，它也作用于 HTTP 请求的生命周期中的各个阶段，如 `access`、`header_filer`、`body_filter` 等，系统会在相应阶段自动执行 `script` 函数对应阶段代码，见如下 `script` 示例：
+在 Apache APISIX 中，我们在 Route 实体中新增了 `script` 执行逻辑 [PR](https://github.com/apache/apisix/pull/1982)，可用于接收 Dashboard 生成的 Lua 函数并执行，它支持调用已有插件以复用代码。另外，它也作用于 HTTP 请求的生命周期中的各个阶段，如 `access`、`header_filer`、`body_filter` 等，系统会在相应阶段自动执行 `script` 函数对应阶段代码，见如下 `script` 示例：
 
 ```shell
 {
