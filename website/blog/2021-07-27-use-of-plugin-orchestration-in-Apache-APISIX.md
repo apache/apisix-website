@@ -54,7 +54,12 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 见如下操作视频：
 
-不支持在 Docs 外粘贴 block
+<iframe
+    height="350"
+    width="600"
+    src="https://api7-website-1301662268.file.myqcloud.com/202107/%E6%8F%92%E4%BB%B6%E7%BC%96%E6%8E%92.mp4"
+    frameborder="0">
+</iframe>
 
 该视频中，Web 界面列出了目前已有的插件与画板，我们可以将插件拖拽到画板上进行编排，并填写插件绑定的数据，然后便完成了整个流程。在整个过程中：
 
@@ -66,9 +71,11 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 那么 Apache APISIX 是如何与低代码能力结合的呢？这需要数据面 Apache APISIX 与控制面 Apache APISIX Dashboard 共同配合完成。整体流程如下：
 
+![2021-07-27-2](../static/img/blog_img/2021-07-27-2.png)
+
 ### Apache APISIX
 
-在 Apache APISIX 中，我们在 Route 实体中新增了 `script` 执行逻辑（PR：https://github.com/apache/apisix/pull/1982），可用于接收 Dashboard 生成的 Lua 函数并执行，它支持调用已有插件以复用代码。另外，它也作用于 HTTP 请求的生命周期中的各个阶段，如 `access`、`header_filer`、`body_filter` 等，系统会在相应阶段自动执行 `script` 函数对应阶段代码，见如下 `script` 示例：
+在 Apache APISIX 中，我们在 Route 实体中新增了 `script` 执行逻辑[PR](https://github.com/apache/apisix/pull/1982)，可用于接收 Dashboard 生成的 Lua 函数并执行，它支持调用已有插件以复用代码。另外，它也作用于 HTTP 请求的生命周期中的各个阶段，如 `access`、`header_filer`、`body_filter` 等，系统会在相应阶段自动执行 `script` 函数对应阶段代码，见如下 `script` 示例：
 
 ```shell
 {
@@ -82,7 +89,9 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 在 Dashboard 中，它包含了 Web 与 ManagerAPI 共两个子组件：Web 用于提供可视化界面，方便我们配置 API 网关；ManagerAPI 用于提供 RESTful API，供 Web 或其它客户端调用以便操作配置中心（默认为 ETCD），进而间接地控制 Apache APISIX。
 
-为了生成合法、有效的 script 函数，ManagerAPI 选择了 DAG 有向无环图的数据结构进行底层设计，并自主研发了 `dag-to-lua` 项目（GitHub：https://github.com/api7/dag-to-lua）：它将根节点作为开始节点，根据判断条件决定下一个流转插件，这将有效避免逻辑死循环。如下为 DAG 数据结构的示意图：
+为了生成合法、有效的 script 函数，ManagerAPI 选择了 DAG 有向无环图的数据结构进行底层设计，并自主研发了 `dag-to-lua` [项目](https://github.com/api7/dag-to-lua)：它将根节点作为开始节点，根据判断条件决定下一个流转插件，这将有效避免逻辑死循环。如下为 DAG 数据结构的示意图：
+
+![2021-07-27-3](../static/img/blog_img/2021-07-27-3.png)
 
 对应到 ManagerAPI 接收的 `script` 参数上，示例如下：
 
@@ -130,13 +139,21 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 在 Web 侧，经过挑选、对比与项目验证，我们选择了蚂蚁金服开源的 X6 图编辑引擎作为插件编排 Web 部分的底层框架，除了完善、清晰的文档外，一系列开箱即用的交互组件以及节点可定制化能力也是我们选择它的原因。
 
+![2021-07-27-4](../static/img/blog_img/2021-07-27-4.png)
+
 在编排实现过程中，我们抽象出了通用元件与插件元件的概念：通用元件是指开始节点、结束节点与条件判断节点，插件元件则是每一个可用的 Apache APISIX 插件，通过将这些元件拖拽到画板中来完成插件编排的流程。如图所示：
+
+![2021-07-27-5](../static/img/blog_img/2021-07-27-5.png)
 
 在拖拽过程中，我们需要限制一系列的边界条件，这里有几个例子：
 
 当插件未配置时，系统将出现「存在未配置的元件」的错误提示，可以直观地看到哪个插件没有配置数据：
 
+![2021-07-27-6](../static/img/blog_img/2021-07-27-6.png)
+
 当编辑某条 API 时，若该 API 已经绑定了插件数据，当使用插件编排模式时，系统在检测后将出现警告信息，只有用户明确确认希望使用编排模式时，系统才能继续进行。这可以有效避免 API 数据被误操作的情况。
+
+![2021-07-27-7](../static/img/blog_img/2021-07-27-7.png)
 
 此外，还存在诸如开始元件只能有一个输出、条件判断元件只能有一个输入等情况。试想：如果系统不加限制地让用户操作，不合理的插件组合既无意义，又会产生无法预料的错误，因此不断丰富边界条件，也是在设计插件编排时需要着重考虑的问题。
 
