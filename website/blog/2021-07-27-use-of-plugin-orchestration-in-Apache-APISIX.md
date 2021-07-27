@@ -149,7 +149,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 当插件未配置时，系统将出现「存在未配置的元件」的错误提示，可以直观地看到哪个插件没有配置数据：
 
-![Apache APISIX dashboard](../static/img/blog_img/2021-07-27-6.png)
+![Apache APISIX dashboard plugin orchestration demo2](../static/img/blog_img/2021-07-27-6.png)
 
 当编辑某条 API 时，若该 API 已经绑定了插件数据，当使用插件编排模式时，系统在检测后将出现警告信息，只有用户明确确认希望使用编排模式时，系统才能继续进行。这可以有效避免 API 数据被误操作的情况。
 
