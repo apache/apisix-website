@@ -153,7 +153,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 当编辑某条 API 时，若该 API 已经绑定了插件数据，当使用插件编排模式时，系统在检测后将出现警告信息，只有用户明确确认希望使用编排模式时，系统才能继续进行。这可以有效避免 API 数据被误操作的情况。
 
-![Apache APISIX dashboard](../static/img/blog_img/2021-07-27-7.png)
+![Apache APISIX dashboard plugin orchestration demo3](../static/img/blog_img/2021-07-27-7.png)
 
 此外，还存在诸如开始元件只能有一个输出、条件判断元件只能有一个输入等情况。试想：如果系统不加限制地让用户操作，不合理的插件组合既无意义，又会产生无法预料的错误，因此不断丰富边界条件，也是在设计插件编排时需要着重考虑的问题。
 
