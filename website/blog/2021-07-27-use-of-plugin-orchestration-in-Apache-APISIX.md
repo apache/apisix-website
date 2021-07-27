@@ -71,7 +71,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 那么 Apache APISIX 是如何与低代码能力结合的呢？这需要数据面 Apache APISIX 与控制面 Apache APISIX Dashboard 共同配合完成。整体流程如下：
 
-![Apache APISIX flow](../static/img/blog_img/2021-07-27-2.png)
+![Apache APISIX plugin orchestration flow](../static/img/blog_img/2021-07-27-2.png)
 
 ### Apache APISIX
 
