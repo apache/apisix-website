@@ -39,7 +39,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
        "key": "remote_addr"
      }
    }
- }
+ }'
 ```
 
 调用成功后，当请求到达该 API 时将进行限速管控。
