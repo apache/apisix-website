@@ -4,9 +4,16 @@
         <title>Apache APISIX® Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® Blog</description>
-        <lastBuildDate>Fri, 16 Jul 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 27 Jul 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
+            <link>https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-Apache-APISIX</link>
+            <guid>插件编排在 Apache APISIX 中的应用与实践</guid>
+            <pubDate>Tue, 27 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@juzhiyuan, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[深度剖析 Apache APISIX Mesh Agent]]></title>
             <link>https://apisix.apache.org/blog/2021/07/16/Analyze-Apache-APISIX-Mesh-Agent-deeply</link>
