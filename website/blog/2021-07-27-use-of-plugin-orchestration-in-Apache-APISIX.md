@@ -143,7 +143,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 在编排实现过程中，我们抽象出了通用元件与插件元件的概念：通用元件是指开始节点、结束节点与条件判断节点，插件元件则是每一个可用的 Apache APISIX 插件，通过将这些元件拖拽到画板中来完成插件编排的流程。如图所示：
 
-!Apache APISIX dashboard](../static/img/blog_img/2021-07-27-5.png)
+![Apache APISIX dashboard plugin orchestration demo1](../static/img/blog_img/2021-07-27-5.png)
 
 在拖拽过程中，我们需要限制一系列的边界条件，这里有几个例子：
 
