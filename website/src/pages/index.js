@@ -259,20 +259,23 @@ const NewsletterSection = () => {
 };
 
 const Contributor200Poster = () => {
-  const [display, setDisplay] = useState(true);
+  const [display, setDisplay] = useState(false);
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     addEventListener('click', () => {
-      if (localStorage.getItem('theme') !== theme) {
-        setTheme(localStorage.getItem('theme'));
-      };
+      setTheme(localStorage.getItem('theme'));
     });
-  }, [theme]);
-
-  if (!display || (typeof window !== 'undefined' && localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY'))) {
-    return null;
-  }
+    if (localStorage.getItem("theme")) {
+      setTheme(localStorage.getItem('theme'));
+    };
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+    if (typeof window !== 'undefined' && !localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY')) {
+      setDisplay(true);
+    };
+  }, []);
 
   const onClose = () => {
     setDisplay(false);
@@ -280,6 +283,10 @@ const Contributor200Poster = () => {
       localStorage.setItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY', 'true');
     }
   };
+
+  if (!display) {
+    return null;
+  }
 
   return (
     <div className="pic-wrapper">
