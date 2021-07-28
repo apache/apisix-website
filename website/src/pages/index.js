@@ -272,7 +272,7 @@ const Contributor200Poster = () => {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setTheme('dark');
     }
-    if (typeof window !== 'undefined' && !localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY')) {
+    if (!localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY')) {
       setDisplay(true);
     };
   }, []);
