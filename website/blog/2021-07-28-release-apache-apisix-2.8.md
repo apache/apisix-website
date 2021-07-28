@@ -36,7 +36,7 @@ Upstream 的配置举例：
 ```JSON
 {
     "id": "backend",
-    "nodes": {"host:80": 100}, 
+    "nodes": {"host:80": 100},
     "type":"roundrobin",
     "keepalive_pool": {
         "size": 4,
@@ -54,7 +54,7 @@ ip-restriction 可以用来做 IP 黑白名单过滤，保证只有来自特定 
 
 limit-conn 可以用来限制特定路由上同时存在的连接个数，限制客户端的并发访问量。
 
-### 新插件：gzip 插件 
+### 新插件：gzip 插件
 
 2.8 版本中新增了 gzip 插件，使用 gzip 插件可以**动态设置路由级别的 gzip 参数**。
 
@@ -103,12 +103,9 @@ ua-restriction 配置举例：
 
 得益于 Apache APISIX 架构，许多功能都是通过插件的方式实现的。除了通过插件支持越来越多的功能，也让插件有了新玩法。**从 2.8 版本开始，支持使用插件的方式自定义 balancer 。**
 
-
-
 **什么场景下最适合使用插件的方式实现 balancer ？**
 
 1. 选择上游节点之后，访问上游之前
-
 2. 每次重试之前
 
 在 `_M.balancer` 方法内可以访问上游的 IP 和 Port
