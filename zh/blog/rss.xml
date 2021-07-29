@@ -4,9 +4,16 @@
         <title>Apache APISIX® Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® Blog</description>
-        <lastBuildDate>Tue, 27 Jul 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 28 Jul 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 2.8 正式发布，带来更多新功能！]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8</link>
+            <guid>Apache APISIX 2.8 正式发布，带来更多新功能！</guid>
+            <pubDate>Wed, 28 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/07/27/use-of-plugin-orchestration-in-Apache-APISIX</link>
