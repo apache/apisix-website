@@ -129,7 +129,7 @@ end
 ```JSON
 {
     "nodes": [
-        { host = "0.0.0.0", port = 1980, weight = 1, metadata = {b = 1} }
+        { host: "0.0.0.0", port: 1980, weight: 1, metadata: {b: 1} }
     ]
 }
 ```
