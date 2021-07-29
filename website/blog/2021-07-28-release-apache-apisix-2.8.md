@@ -82,7 +82,7 @@ gzip 配置举例：
 
 ### 新插件：ua-restriction
 
-ua-restriction 插件用于校验 User-Agent 是否处于黑白名单中，黑白名单是一个非常常见的需求，现在可以通过插件的方式启用了。
+`ua-restriction` 插件用于校验 User-Agent 是否处于黑白名单中，黑白名单是一个非常常见的需求，现在可以通过插件的方式启用了。
 
 ua-restriction 配置举例：
 
