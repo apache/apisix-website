@@ -48,7 +48,7 @@ Upstream 的配置举例：
 
 ### 新体验：stream 代理功能增强
 
-在 2.8 版本中，把 ip-restriction 和 limit-conn 两个插件从 HTTP 部分的移植到了 stream 部分，这么做的好处是丰富网关在 stream 代理的功能，增加对上游服务的安全性保障。
+在 2.8 版本中，把 [ip-restriction](http://apisix.apache.org/docs/apisix/plugins/ip-restriction/) 和 [limit-conn](http://apisix.apache.org/docs/apisix/plugins/limit-conn/) 两个插件从 HTTP 部分的移植到了 stream 部分，这么做的好处是丰富网关在 stream 代理的功能，增加对上游服务的安全性保障。
 
 ip-restriction 可以用来做 IP 黑白名单过滤，保证只有来自特定 IP 的请求才能访问到后端服务。
 
