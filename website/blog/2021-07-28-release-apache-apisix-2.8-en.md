@@ -45,7 +45,7 @@ An example of Upstream configuration:
 }
 ```
 
-### New experience: Enhance stream proxy 
+### New experience: Enhance stream proxy
 
 In version 2.8, the [ip-restriction](http://apisix.apache.org/docs/apisix/plugins/ip-restriction/) and [limit-conn](http://apisix.apache.org/docs /apisix/plugins/limit-conn/) had been duplicated from the HTTP section to the stream section. The benefit of this way is to enhance gateway capabilities in the stream proxy and to increase the security of the upstream services.
 
@@ -53,7 +53,7 @@ ip-restriction can be used to filter IP black and white list to ensure that only
 
 limit-conn can be used to limit the number of simultaneous connections on a route, limiting the number of concurrent client accesses.
 
-### New plug-in: gzip 
+### New plug-in: gzip
 
 Apache APISIX version 2.8 contains the gzip plug-in. Using the gzip plug-in, you can **dynamically set route-level gzip parameters**.
 
@@ -100,7 +100,7 @@ An example of `ua-restriction` configuration:
 
 ### New way to develop: Support for executing specific logic by plug-ins
 
-Based on Apache APISIX architecture, many features are implemented by plug-ins. Starting from version 2.8, **Apache APISIX supports executing specific logic by plug-ins after selecting an upstream node.**    
+Based on Apache APISIX architecture, many features are implemented by plug-ins. Starting from version 2.8, **Apache APISIX supports executing specific logic by plug-ins after selecting an upstream node.**
 
 Define the following method in the plug-in:
 
