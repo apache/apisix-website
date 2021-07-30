@@ -9,7 +9,6 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 <!--truncate-->
 
 Apache APISIX version 2.8 is released! 🎉 This version has 30+ developers participated, more than 100 PRs had been submitted, and supports **1 new feature, 1 new experience, 2 new plugins, and 2 new ways to develop**. Read and learn about the new features in version 2.8!
-
 👇👇👇
 
 ## Release Notes
