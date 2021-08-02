@@ -15,13 +15,13 @@ Apache APISIX version 2.8 is released! 🎉 This version has 30+ developers part
 
 ### New feature: Independent Keepalive connection pool
 
-Starting with [version 2.7](https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7), we have added Apache APISIX's own patches and the Nginx C module to enhance the native Nginx, allowing dynamic setup of increasing number of Nginx configurations. In the latest release, Apache APISIX already supports the configuration of independent Keepalive connection pools at the Upstream level.
+Starting with [version 2.7](https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7), we have added Apache APISIX's own patches and the Nginx C module to enhance the native Nginx, allowing dynamic setup of increasing number of Nginx configurations. In version 2.8, Apache APISIX supports the configuration of independent Keepalive connection pools at the Upstream level.
 
 The following features are currently included:
 
 - Dynamically set mTLS
 - Dynamically set client_max_body_size
-- Upstream keepalive （2.8 new feature）
+- Upstream Keepalive （2.8 new feature）
 - gzip （2.8 new Plug-in）
 
 In future releases, we will continue to allow the following Nginx configurations to be set dynamically:
@@ -112,7 +112,7 @@ end
 
 In this example, the log will output the IP and Port of the upstream.
 
-**Which scenario will use the above method?**
+**Which scenario does the above method apply to?**
 
 1. After selecting the upstream node and before accessing the upstream
 2. Before each retry
@@ -140,4 +140,4 @@ Usually a custom balancer requires node to provide data which is from other than
 Download Apache APISIX 2.8.0
 
 - Source code: please visit [download page](https://apisix.apache.org/downloads/)
-- Binary installation package: please visit [Installation Guide](https://apisix.apache.org/zh/docs/apisix/how-to-build/)
+- Binary installation package: please visit [Installation Guide](https://apisix.apache.org/docs/apisix/how-to-build/)
