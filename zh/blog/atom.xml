@@ -8,6 +8,13 @@
     <subtitle>Apache APISIX® Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
     <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.8.0]]></title>
+        <id>Release Apache APISIX 2.8.0</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8-en"/>
+        <updated>2021-07-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Apache APISIX 2.8 正式发布，带来更多新功能！]]></title>
         <id>Apache APISIX 2.8 正式发布，带来更多新功能！</id>
         <link href="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8"/>
