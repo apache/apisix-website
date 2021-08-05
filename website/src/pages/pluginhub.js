@@ -53,19 +53,19 @@ const PluginsContainer = styled.div`
 }
 `;
 const PluginCard = styled.a`
-border-radius: 0.75rem;
-border: 1px solid #eee;
-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-display: flex;
-flex-direction: column;
-align-items: left;
-justify-content: center;
-text-align: left;
-padding: 1rem;
-min-width: calc(180px + 5rem);
-cursor: pointer;
-height: 100%;
-&:hover {
+  border-radius: 0.75rem;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  text-align: left;
+  padding: 1rem;
+  min-width: calc(180px + 5rem);
+  cursor: pointer;
+  height: 100%;
+  &:hover {
   color: inherit;
   text-decoration: none;
 }
@@ -93,7 +93,6 @@ const SectionTitle = styled.h2`
   margin-top: 84px;
   text-transform: uppercase;
 `;
-
 
 
 function Plugins(props) {
