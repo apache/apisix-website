@@ -4,9 +4,16 @@
         <title>Apache APISIX® Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® Blog</description>
-        <lastBuildDate>Wed, 28 Jul 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 05 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Kong-To-APISIX 迁移工具]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/05/Kong-to-APISIX</link>
+            <guid>Kong-To-APISIX 迁移工具</guid>
+            <pubDate>Thu, 05 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Yiyiyimu, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.8.0]]></title>
             <link>https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8-en</link>
