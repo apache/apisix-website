@@ -110,13 +110,13 @@ curl -k -i -m 20 -o /dev/null -s -w %{http_code} http://127.0.0.1:9080/mock -H "
 
 ```shell
 httpbin_num=0
-mockbin_num=0for i in {1..8}; do    
-   body=$(curl -k -i -s http://127.0.0.1:9080/mock -H "apikey: apikey" -H "Host: mockbin.org")    
-   if [[ $body == *"httpbin"* ]]; then        
-      httpbin_num=$((httpbin_num+1))    
-   elif [[ $body == *"mockbin"* ]]; then        
-      mockbin_num=$((mockbin_num+1))    
-   fi    
+mockbin_num=0for i in {1..8}; do
+   body=$(curl -k -i -s http://127.0.0.1:9080/mock -H "apikey: apikey" -H "Host: mockbin.org")
+   if [[ $body == *"httpbin"* ]]; then 
+      httpbin_num=$((httpbin_num+1))
+   elif [[ $body == *"mockbin"* ]]; then
+      mockbin_num=$((mockbin_num+1))
+   fi
    sleep 1.5done
 echo "httpbin number: "${httpbin_num}", mockbin number: "${mockbin_num}
 # output:
