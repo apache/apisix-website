@@ -728,3 +728,13 @@ a:hover {
   padding-bottom: 2px;
   display: flex;
 }
+
+/*Sidebar Section*/
+
+.sidebar-link{
+  color: #d0312d;
+}
+
+.sidebar-link :hover {
+  color: #ffb3b3;
+}
