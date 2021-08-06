@@ -124,7 +124,7 @@ function Plugins(props) {
 
   return (
     <Page>
-      <PageTitle>APISIX®️ Plugin Hub</PageTitle>
+      <PageTitle>Apache APISIX®️ Plugin Hub</PageTitle>
       <PageSubtitle>Powerful Plugins and Easy Integrations</PageSubtitle>
       {plugins}
     </Page>
