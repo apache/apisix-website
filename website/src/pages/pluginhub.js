@@ -107,7 +107,7 @@ function Plugins(props) {
             </a>
             <PluginName>{plugin.name}</PluginName>
             <PluginDescription>{plugin.description}</PluginDescription>
-            <a className="read-more-link" href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`}>{'Read more>>'}</a>
+            <a className="read-more-link" href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`}>{'Read more >'}</a>
           </PluginCard>
         </div>
       );
