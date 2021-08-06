@@ -102,7 +102,7 @@ function Plugins(props) {
       return (
         <div key={plugin.name}>
           <PluginCard>
-            <a href={'https://apisix.apache.org/docs/apisix/plugins/' + plugin.name} target="_blank">
+            <a href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`} target="_blank">
               <img className="plugin-logo shadow" src={plugin.src} alt={plugin.name} />
             </a>
             <PluginName>{plugin.name}</PluginName>
