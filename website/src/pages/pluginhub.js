@@ -35,23 +35,50 @@ const PageSubtitle = styled.div`
   font-weight: 400;
 `;
 
+const Sidebaritem = styled.div`
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 3px; 
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: capitalize;
+  color: #d0312d;
+`;
+
 const Page = styled.div`
   max-width: var(--ifm-container-width);
   margin: 0 auto;
   padding: 2rem var(--ifm-spacing-horizontal);
   width: 100%;
   flex-wrap: wrap;
-  
+  gridTemplateAreas : "'SidebarContainer' 'PluginsContainer'";
 `;
 
 const PluginsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  margin-left: 200px; 
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 5px;
   @media (max-width: 812px) {
   grid-template-columns: repeat(2, 1fr);
 }
 `;
+
+const SidebarContainer = styled.div`
+  display: grid;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  overflow-x: hidden;
+  top: 300px;
+  padding-right: 10px;
+  border-style: solid;
+  border-color: #ffffff #efeff5 #ffffff #ffffff ;
+}
+`;
+
 const PluginCard = styled.a`
   border-radius: 0.75rem;
   border: 1px solid #eee;
@@ -89,6 +116,7 @@ const PluginDescription = styled.div`
 `;
 
 const SectionTitle = styled.h2`
+  margin-left: 200px; 
   margin-bottom: 24px;
   margin-top: 84px;
   text-transform: uppercase;
@@ -97,6 +125,12 @@ const SectionTitle = styled.h2`
 
 function Plugins(props) {
   const { siteConfig } = useDocusaurusContext();
+  const sidebar = siteConfig.customFields.plugins.map((section) => {
+    return (
+      <Sidebaritem><a className="sidebar-link" href={`#${section.groupName}`}><i>{section.groupName}</i></a></Sidebaritem>
+    );
+  });
+  
   const plugins = siteConfig.customFields.plugins.map((section) => {
     const pluginCards = section.plugins.map((plugin) => {
       return (
@@ -114,8 +148,8 @@ function Plugins(props) {
     });
     return (
       <div key={section.groupName}>
-        <SectionTitle>{section.groupName}</SectionTitle>
-        <PluginsContainer id={section.groupName}>
+        <SectionTitle id={section.groupName} >{section.groupName}</SectionTitle>
+        <PluginsContainer>
           {pluginCards}
         </PluginsContainer>
       </div>
@@ -126,6 +160,7 @@ function Plugins(props) {
     <Page>
       <PageTitle>Apache APISIX®️ Plugin Hub</PageTitle>
       <PageSubtitle>Powerful Plugins and Easy Integrations</PageSubtitle>
+      <SidebarContainer>{sidebar}</SidebarContainer>
       {plugins}
     </Page>
   );
