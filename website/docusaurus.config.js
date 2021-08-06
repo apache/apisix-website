@@ -464,7 +464,7 @@ module.exports = {
           items: [
             {
               to: "/hub",
-              label: "Pulgin Hub",
+              label: "Plugin Hub",
             },
             {
               to: "/events",
