@@ -107,6 +107,7 @@ const PluginName = styled.div`
   text-align: left;
   text-transform: capitalize;
 `;
+
 const PluginDescription = styled.div`
   font-size: 0.8rem;
   font-weight: 500;
@@ -148,7 +149,7 @@ function Plugins(props) {
     });
     return (
       <div key={section.groupName}>
-        <SectionTitle id={section.groupName} >{section.groupName}</SectionTitle>
+        <SectionTitle id={section.groupName}>{section.groupName}</SectionTitle>
         <PluginsContainer>
           {pluginCards}
         </PluginsContainer>
