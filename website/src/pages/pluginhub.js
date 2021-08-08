@@ -128,7 +128,7 @@ function Plugins(props) {
   const { siteConfig } = useDocusaurusContext();
   const sidebar = siteConfig.customFields.plugins.map((section) => {
     return (
-      <Sidebaritem><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></Sidebaritem>
+      <Sidebaritem key={xxx}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></Sidebaritem>
     );
   });
   
