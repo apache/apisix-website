@@ -4,9 +4,16 @@
         <title>Apache APISIX® Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® Blog</description>
-        <lastBuildDate>Thu, 05 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 09 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 在移动云的应用]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/09/Apache-APISIX-in-China-Mobile-Cloud</link>
+            <guid>Apache APISIX 在移动云的应用</guid>
+            <pubDate>Mon, 09 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[我们有幸采访了中国移动云能力中心的陈焱山，在采访中我们了解到中国移动公有云建设发展演进历程，了解了中国移动云为什么选择 Apache APISIX 作为负载均衡网关，并且知晓移动云后续的发展规划。]]></description>
+        </item>
         <item>
             <title><![CDATA[Kong-To-APISIX 迁移工具]]></title>
             <link>https://apisix.apache.org/blog/2021/08/05/Kong-to-APISIX</link>

@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® Blog</title>
-    <updated>2021-08-05T00:00:00.000Z</updated>
+    <updated>2021-08-09T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 在移动云的应用]]></title>
+        <id>Apache APISIX 在移动云的应用</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/09/Apache-APISIX-in-China-Mobile-Cloud"/>
+        <updated>2021-08-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[我们有幸采访了中国移动云能力中心的陈焱山，在采访中我们了解到中国移动公有云建设发展演进历程，了解了中国移动云为什么选择 Apache APISIX 作为负载均衡网关，并且知晓移动云后续的发展规划。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Kong-To-APISIX 迁移工具]]></title>
         <id>Kong-To-APISIX 迁移工具</id>
