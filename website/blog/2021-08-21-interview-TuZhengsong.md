@@ -15,7 +15,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
 
 ![Apache APISIX committer tzssangglass github](../static/img/blog_img/2021-08-11-1.webp)
 
-2021 年 7 月 22 日，屠正松因为深度参与了 Apache APISIX 的多语言支持计划合作、与社区合作开发了让 Apache APISIX 支持使用 Java 编写插件的项目的初始版本等贡献，被推选为 Apache APISIX committer。
+屠正松因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
 
 在一个平淡的下午，我们和正松连线聊了聊。因为疫情关系，居住在南京的他已经多日未外出。在没有和他聊天之前，我没有想到，胡子拉碴的他，竟然走过了这么曲折的路。
 
