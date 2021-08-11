@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.7",
-        releaseDate: "2021-06-25",
+        version: "2.8",
+        releaseDate: "2021-07-27",
         firstDocPath: "/getting-started",
       },
       {
@@ -103,9 +103,9 @@ module.exports = {
         color: "#e8433e",
         githubRepo: "apache/apisix",
         githubBranch: "master",
-        downloadPath: "apisix/2.7/apache-apisix-2.7-src",
-        version: "2.7",
-        releaseDate: "2021-06-25",
+        downloadPath: "apisix/2.8/apache-apisix-2.8-src",
+        version: "2.8",
+        releaseDate: "2021-07-27",
         firstDocPath: "/getting-started",
       },
       {
@@ -434,6 +434,10 @@ module.exports = {
             {
               label: "Apache APISIX® Ingress Controller",
               to: "/docs/ingress-controller/FAQ/",
+            },
+            {
+              label: "Apache APISIX® Helm Chart",
+              to: "/docs/helm-chart/FAQ/",
             },
           ]
         },
