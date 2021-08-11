@@ -312,7 +312,6 @@ const Index = (props) => {
       <Showcase />
       <ContributionSection />
       <NewsletterSection />
-      <Contributor200Poster />
     </Layout>
   );
 };
