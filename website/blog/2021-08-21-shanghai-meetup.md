@@ -40,7 +40,7 @@ API 网关已经成为微服务架构中不可或缺的一环。它既承担着�
 
 #### 分享嘉宾
 
-朱欣欣 / API7 工程师，Apache APISIX Committer
+朱欣欣 / api7.ai 工程师，Apache APISIX Committer
 
 #### 议题详情
 
