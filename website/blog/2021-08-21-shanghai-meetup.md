@@ -3,7 +3,7 @@ title: "8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！"
 ---
 
 <!--truncate-->
-本次 Meetup 由 [API7.AI](https://www.apiseven.com/) 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。
+本次 Meetup 由 [api7.ai](https://www.apiseven.com/) 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。
 
 #### 时间：2021 年 8 月 21 日 13:30
 
