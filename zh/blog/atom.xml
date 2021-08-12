@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® Blog</title>
-    <updated>2021-08-21T00:00:00.000Z</updated>
+    <updated>2021-08-11T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® Blog</subtitle>
@@ -10,8 +10,8 @@
     <entry>
         <title type="html"><![CDATA[从新手村出来，我在 Apache APISIX 社区发出了第一个 PR]]></title>
         <id>从新手村出来，我在 Apache APISIX 社区发出了第一个 PR</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/08/21/interview-TuZhengsong"/>
-        <updated>2021-08-21T00:00:00.000Z</updated>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/11/interview-TuZhengsong"/>
+        <updated>2021-08-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[当我看到那个 issue 后，就有种强烈的想要参与到社区的冲动。看了社区的新手指南后，我像从新手村出来的勇者，准备打怪。]]></summary>
     </entry>
     <entry>
