@@ -25,6 +25,7 @@ tips：疫情防控不放松，我们将会控制现场活动规模，名额有�
 ![Apache APISIX Meetup](../static/img/blog_img/2021-08-21-1.jpg)
 
 ## 周边福利
+
 参加 Meetup，与讲师互动，有机会获得 Apache APISIX 最新周边：超大鼠标垫、精致马克杯、Apache APISIX 徽章、定制雨伞。
 
 ![Apache APISIX Gift](../static/img/blog_img/2021-08-21-4.jpg)
@@ -42,6 +43,7 @@ tips：疫情防控不放松，我们将会控制现场活动规模，名额有�
 ![Apache APISIX Live](../static/img/blog_img/2021-08-21-2.png)
 
 ## 入群交流
+
 欢迎关注 Apache APISIX 公众号，在后台回复关键字“上海”，加入 Apache APISIX 上海交流群。
 
 ![Apache APISIX wechat](../static/img/blog_img/2021-08-21-3.png)
