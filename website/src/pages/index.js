@@ -258,22 +258,11 @@ const NewsletterSection = () => {
   );
 };
 
-// To be reused in the future
-const Contributor200Poster = () => {
+const EventPosterCard = () => {
   const [display, setDisplay] = useState(false);
-  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    addEventListener('click', () => {
-      setTheme(localStorage.getItem('theme'));
-    });
-    if (localStorage.getItem("theme")) {
-      setTheme(localStorage.getItem('theme'));
-    };
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-    }
-    if (!localStorage.getItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY')) {
+    if (!localStorage.getItem('SHOW_EVENT_ENTRY')) {
       setDisplay(true);
     };
   }, []);
@@ -281,7 +270,7 @@ const Contributor200Poster = () => {
   const onClose = () => {
     setDisplay(false);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('SHOW_200_CONTRIBUTOR_EVENT_ENTRY', 'true');
+      localStorage.setItem('SHOW_EVENT_ENTRY', 'true');
     }
   };
 
@@ -296,9 +285,8 @@ const Contributor200Poster = () => {
           <path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path>
         </svg>
       </button>
-      <a href="/blog/2021/07/06/celebrate-200-contributors" onClick={onClose}>
-        {theme === "light" && <img src="/img/200_mark_light.jpg" alt="" />}
-        {theme === "dark" && <img src="/img/200_mark_dark.jpg" alt="" />}
+      <a href="/events/2021/08/21/shanghai-meetup" onClick={onClose}>
+        <img src="/img/meetup-card.jpg" alt="" />
       </a>
     </div>
   )
@@ -313,6 +301,7 @@ const Index = (props) => {
       <Showcase />
       <ContributionSection />
       <NewsletterSection />
+      <EventPosterCard />
     </Layout>
   );
 };
