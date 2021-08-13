@@ -4,9 +4,16 @@
         <title>Apache APISIX® Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® Blog</description>
-        <lastBuildDate>Wed, 11 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 12 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/12/Chaos-Mesh-Helps-Apache-APISIX-Improve-System-Stability</link>
+            <guid>Chaos Mesh Helps Apache APISIX Improve System Stability</guid>
+            <pubDate>Thu, 12 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Yiyiyimu, Apache APISIX committer.]]></description>
+        </item>
         <item>
             <title><![CDATA[从新手村出来，我在 Apache APISIX 社区发出了第一个 PR]]></title>
             <link>https://apisix.apache.org/blog/2021/08/11/interview-TuZhengsong</link>
