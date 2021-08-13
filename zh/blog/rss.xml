@@ -103,7 +103,7 @@
             <link>https://apisix.apache.org/zh/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast</link>
             <guid>Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller</guid>
             <pubDate>Wed, 23 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[@tao12345666333, Apache APISIX commiter from Shenzhen Zhiliu Technology Co.]]></description>
+            <description><![CDATA[@tao12345666333, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
             <title><![CDATA[使用 Java 编写 Apache APISIX 插件]]></title>
@@ -117,7 +117,7 @@
             <link>https://apisix.apache.org/zh/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released</link>
             <guid>Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！</guid>
             <pubDate>Fri, 18 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[@tao12345666333, Apache APISIX commiter from Shenzhen Zhiliu Technology Co.]]></description>
+            <description><![CDATA[@tao12345666333, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX Dashboard 访问控制绕过漏洞公告（CVE-2021-33190）]]></title>
