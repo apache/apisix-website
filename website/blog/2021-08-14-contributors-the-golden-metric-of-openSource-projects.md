@@ -1,88 +1,86 @@
 ---
-title: "Contributors — The Golden Metric of OpenSource Projects"
-author: Lien
-authorURL: "https://medium.com/@lilien1010/about"
-authorImageURL: "https://miro.medium.com/fit/c/1360/1360/1*cNmhlRdcWxuom1cbm5ZS4g.jpeg"
+title: "贡献者，是衡量开源项目的金指标"
+author: Yiyiyimu
+authorURL: "https://github.com/Yiyiyimu"
+authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
 ---
-
+> [@Yiyiyimu](https://github.com/Yiyiyimu), Apache APISIX committer.
+>
 <!--truncate-->
 
 > Source:
 > https://github.com/api7/contributor-graph
 
-According to GitHub’s statistics in 2020, over 60 million new repositories were added, and more than 56 million developers worked on OpenSource projects. By 2025, the number of developers working on OpenSource projects on GitHub is expected to exceed 100 million.
+根据 GitHub 2020 年的统计显示，这一年新增了 6000 万个代码仓库，超过 5600 万的开发者参与到开源项目中。预计到 2025 年，在 GitHub 参与开源项目的开发者人数将会超过 1 亿。
 
-Behind these fast-growing numbers, open source maintainers did a lot of work on propaganda, article, media, Meetups, etc, to attract more developers for their projects, It’s a lot to take in.
+在这些快速增长的数字背后，隐藏的是开源项目为了赢得开发者而做出的各种宣传：硬核技术文章、社交活动、新媒体、周边礼物等，可以说是乱花渐欲迷人眼。那么对于开发者来说，如何能够在百花齐放的项目中，找出最适合自己公司的那一个呢？
 
-So for developers, how can they find out which one is the best fit for their company among the hundreds of projects on Github?
+这就会涉及到开源项目的各种指标：
 
-Various indicators of open source projects needs be considered.
+- Star 数：这是最直接的指标，它代表的是这个项目吸引了多少开发者的关注，可以体现这个项目的 marketing 水平。如果这个项目有商业公司资金的支持、强力的 PR 团队，或者是水军刷 Star，那么这个指标就很容易失真；
 
-Star number: This is the most direct indicator, it represents the project has attracted the attention of a number of developers, can reflect the level of marketing of the project. If the project has the financial support of commercial companies, a strong PR team, or a water army to paint Star, then this indicator can easily be distorted.
-
-Issue and PR counts: Also GitHub provides the Insights feature, shown in the following image.
+- Issue 和 PR 数：GitHub 提供了 Insights 功能，如下图所示：
 
 ![Apache APISIX GitHub Insights](../static/img/blog_img/2021-08-14-1.webp)
 
-You can select the number of new and closed issues and PRs for this open source project,can also filter by period.
+可以选择最近一周、最近一个月的时间内，这个开源项目的 Issue 和 PR 的新建和关闭数。上图是 Apache APISIX 最近一个月的数据。
 
-The above graph shows the data of Apache APISIX for the last month.
+GitHub insights 提供了一个非常棒的开发者视角，但还不够完美：Issue 和 PR 的质量如何？这些是没有办法量化的；
 
-GitHub insights provides a great developer perspective, but it’s not perfect: what about the quality of Issue and PR?
-
-The following graph shows the commit frequency statistics of Apache APISIX from it’s first day, which shows that Apache APISIX has maintained a very stable and continuous activities, but this metric is also a bit thin: you can’t see the data of which developers submitted these commits
+- Commit 频率和数据：下图是 Apache APISIX 从项目创建到现在的 Commit 频率统计，可以看出 Apache APISIX 保持了非常稳定和持续的开发，但这个指标也略显单薄：看不到提交这些 Commit 的开发者的数据；
 
 ![Apache APISIX commits](../static/img/blog_img/2021-08-14-2.webp)
 
-after reading so many indicators,still you can’t get your answer, Don’t you think that choosing an open source project is so complicated? Wait!
+看到这里，你是不是觉得选择一个开源项目好复杂，看了这么多指标都得不出答案。有没有一个“金指标”，一个通过 marketing 砸不出来的指标？一个能够体现“开发者为核心”的指标？
 
-Is there a “golden metric”, a metric that cannot be mocked by marketing? A core metric that can tell the truth of a porject?
-As maintainers and developers of open source projects, we also need such golden metrics to guide us. Therefore, we propose two dimensions, “Contributor Growth” and “Active Contributors”, and open source the statistics and analysis process: https://github.com/api7/contributor-graph, you can also search directly through https://www.apiseven.com/zh/contributor-graph. Here is an example from Apache APISIX.
+作为开源项目的维护者和开发者，我们也需要这样的金指标来指引我们。所以，我们提出了 “贡献者增长” 和 “活跃贡献者”这两个维度，并将统计和分析的过程开源出来：https://github.com/api7/contributor-graph，你也可以通过 https://www.apiseven.com/zh/contributor-graph 直接进行检索。下面是 Apache APISIX 的示例：
 
-## Contributor growth
+## 贡献者增长
 
 ![Apache APISIX contributor growth](../static/img/blog_img/2021-08-14-3.webp)
 
-## Monthly Active Contributors
+## 月度活跃贡献者
 
 ![Apache APISIX Monthly Active Contributors](../static/img/blog_img/2021-08-14-4.webp)
 
-As you can clearly see from the two tables above, Apache APISIX has seen a steady growth in contributors since its first day, with about 25 contributors participating each month.
+通过上面两个表格，你可以清晰的看到 Apache APISIX 从创办至今，贡献者都保持着稳定的增长，每个月都有 25 个左右的代码贡献者参与其中。
 
-## Comparison on Multi Repo
+## 多仓库对比
 
-Both the “Contributor Growth” and “Active Contributors” charts support comparisons across multiple repositories. What’s more, we pull the Github API to update the charts on a daily/monthly basis, so your repository can always display real-time contributor data by making a one-time copy using the link we provide.
+“贡献者增长” 和 “活跃贡献者”图表都支持在多仓库之间比较。更重要的是，我们会拉取 Github API 每日/每月定时更新图表，只要一次性的复制使用我们提供的链接，您的仓库就可以始终显示实时的贡献者数据。
 
-The contributor growth line plot is based on the date of the first commit by each contributor to the project. The contributor growth line chart allows us to see the growth of the community based on the total number of contributors shown on the Github homepage.
+贡献者增长曲线的数据来源是项目每个 contributor 首次提交 commit 的日期。通过贡献者增长曲线，我们可以在 Github 首页显示的贡献者总人数基础上观察贡献者增长情况，从而对社区的发展情况作出直观判断。
 
-By showing line plot for multiple repo in the same chart at the same time, we can also visually compare the development of different communities.
+通过同时展示同一领域中的多个仓库，我们也可以直观比较不同社区的发展情况。
 
 ![Apache APISIX compare the development of different communities](../static/img/blog_img/2021-08-14-5.webp)
 
-In the graph above, we can see that the number of contributors to Apache APISIX is growing at a very fast rate, and in just two years, the number of contributors has almost caught up with or even surpassed other open source API gateway projects.
+在上图中，我们可以看到 Apache APISIX 的贡献者人数以非常快的速度增长，仅仅用了两年时间，贡献者人数就基本赶上甚至超越了其他开源网关项目。
 
-The monthly contributor line plot is derived from the number of contributors committing each month.
+月度贡献者曲线数据则来自于每月提交 commit 的贡献者数量。
 
-Compared to the contributor growth line plot, the monthly contributors are a better measure of how the community has grown in a short period of time.
+相比贡献者增长曲线，月度贡献者可以更好衡量短时间内的社区发展情况。
 
 ![Apache APISIX monthly contributors compare](../static/img/blog_img/2021-08-14-6.webp)
 
-For example, in the graph above, we can see that Apache APISIX has the highest and most consistent number of monthly contributors of any open source API gateway project.
+例如在上图中，我们可以看到如今 Apache APISIX 是多个开源网关项目中的月度贡献者人数最多、最稳定的。
 
-This explains why Apache APISIX has been able to catch up with its friends in terms of total contributors in such a short period of time since it’s first day of open source.
+这也解释了为何 Apache APISIX 可以在开源后如此短的时间内在总贡献者人数上赶上友商们。
 
 ![Apache APISIX monthly contributors](../static/img/blog_img/2021-08-14-7.webp)
 
-The above graph is comparision of monthly contributors between different MQ community , which is also widely discussed on Twitter. With this chart, we can see that Apache Pulsar is catching up to Apache Kafka in terms of contributors of the month.
+上面这张比较开源消息中间件社区的月度贡献者的图，曾在推特引发热议。
 
-## Conclusion
+通过这张图，我们可以看到 Apache Pulsar 在月度贡献者上迎头赶上了 Apache Kafka。
 
-The contributor graph is currently used in Apache APISIX, Apache Skywalking, Apache DolphinScheduler, Apache Openwhisk, Apache ShardingSphere, awesome-docker, TiDB docs-dm, and many other open source projects.
+## 总结
 
-Also, we implemented more features, such as adding “anonymous” contributors, or adding SVN-side contributors after the project was moved from SVN to GitHub.
+目前贡献者图表已经在 Apache APISIX 、Apache Skywalking、Apache DolphinScheduler、Apache Openwhisk、Apache ShardingSphere、awesome-docker、TiDB docs-dm 等多个开源项目中使用。
 
-When we talked about the Contributor Graph, not only did we want to use this tool to produce a visual graph of how active the Apache APISIX community is, we also made this little tool open sourced in the hopes that it will help other open source projects.
+在用户使用并反馈的过程中，我们实现了更多的需求，比如添加“匿名”贡献者，或是项目由 SVN 迁至 GitHub 后添加 SVN 侧的贡献者等。
 
-You are welcome to use the Contributor Graph to track your community activity, and any requests or questions are welcome in the Contributor Graph GitHub repository.
+好程序都是起源于程序员要解决的切身之痛。当我们聊 Contributor Graph 时，我们不仅希望借助这个工具生产更加直观的展示 Apache APISIX 社区活跃度的图表，我们同时开源了这个小工具，希望这个工具可以帮助到其他的开源项目。
 
-You can visit the Contributor Graph [repository](https://github.com/api7/contributor-graph) by following the link below or by clicking on the original article.
+欢迎大家使用贡献者趋势图表来跟踪您的社区活跃度，任何需求和问题都欢迎到 Contributor Graph 的 GitHub 仓库中反馈。
+
+您可以通过以下链接或者点击阅读原文，访问 Contributor Graph [repository](https://github.com/api7/contributor-graph)。
