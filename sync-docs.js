@@ -169,9 +169,29 @@ const findReleaseVersions = (project) => {
   return versions;
 };
 
+const generateReleaseLogs = (project, list) => {
+  const releasePath = "./tmp/releases/";
+  if (!isFileExisted(releasePath)) {
+    removeFolder(releasePath);
+    fs.mkdirSync(releasePath);
+  }
+  list.forEach(item => {
+    const releaseTime = new Date(item.releaseTime);
+    const logName = `${releaseTime.getFullYear()}-${releaseTime.getMonth() + 1}-${releaseTime.getDate()}-release-apache-${project.name}-${item.version}.md`;
+    const humanProjectName = project.name.split("-").map(name => {
+      if (name === 'apisix') return name.toUpperCase();
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }).join(" ");
+    const header = `---
+title: Release Apache ${humanProjectName} ${item.version}
+---\n\n`;
+    fs.writeFileSync(`${releasePath}${logName}`, header + item.changelog);
+  });
+}
+
 const setUp = () => {
   log("Install dependencies");
-  childProcess.execSync("npm i --save replace-in-file");
+  childProcess.execSync("npm i --save replace-in-file axios");
   childProcess.execSync("npm install", { cwd: `./website` });
 
   removeFolder("tmp");
@@ -235,6 +255,40 @@ const main = () => {
     log("Replace elements inside MD files");
     replaceMDElements(projectName, [`./tmp/${projectName}/docs`], project.branch);
     copyAllDocs(project);
+  });
+
+  log("Fetch project releases");
+  projects.map(async (project) => {
+    if (!project.hasChangelog) return;
+
+    const axios = require('axios');
+    const releaseURL = `https://api.github.com/repos/apache/${project.name}/releases`;
+    const changelogURL = `https://raw.githubusercontent.com/apache/${project.name}/${project.branch}/CHANGELOG.md`;
+
+    let releaseResult;
+    try {
+      releaseResult = (await axios.get(releaseURL)).data;
+    } catch (e) {
+      log(`Fetch ${project.name} release list failed: ` + e)
+    }
+
+    let changelogResult = '';
+    try {
+      changelogResult = (await axios.get(changelogURL)).data;
+    } catch (e) {
+      log(`Fetch ${project.name} changelog failed: ` + e)
+    }
+
+    let changelogList = [];
+    releaseResult.forEach(item => {
+      if ("changelogExtractor" in project) {
+        let changelog = project.changelogExtractor(changelogResult, item);
+        if (changelog) changelogList.push(changelog);
+      }
+    });
+
+    generateReleaseLogs(project, changelogList);
+    copyFolder('./tmp/releases/', './website/releases');
   });
 
   cleanUp();
