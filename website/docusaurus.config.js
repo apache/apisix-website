@@ -164,6 +164,8 @@ module.exports = {
     ],
 
     team: require("./static/data/team.json"),
+    plugins: require("./static/data/plugin.json"),
+
     allRepos: [
       "apache/apisix",
       "apache/apisix-dashboard",
@@ -447,11 +449,6 @@ module.exports = {
           position: "right",
         },
         {
-          to: "/events",
-          label: "Events",
-          position: "right",
-        },
-        {
           to: "/downloads",
           label: "Downloads",
           position: "right",
@@ -462,9 +459,22 @@ module.exports = {
           position: "right",
         },
         {
-          to: "/help",
-          label: "Help",
+          label: "Resources",
           position: "right",
+          items: [
+            {
+              to: "/hub",
+              label: "Plugin Hub",
+            },
+            {
+              to: "/events",
+              label: "Events",
+            },
+            {
+              to: "/help",
+              label: "Help",
+            },
+          ]
         },
         {
           type: "localeDropdown",
