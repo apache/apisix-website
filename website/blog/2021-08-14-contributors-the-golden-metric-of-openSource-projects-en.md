@@ -1,8 +1,8 @@
 ---
 title: "Contributors — The Golden Metric of OpenSource Projects"
 author: Lien
-authorURL: "https://medium.com/@lilien1010/about"
-authorImageURL: "https://miro.medium.com/fit/c/1360/1360/1*cNmhlRdcWxuom1cbm5ZS4g.jpeg"
+authorURL: "https://github.com/lilien1010"
+authorImageURL: "https://avatars.githubusercontent.com/u/3814966?v=4"
 ---
 
 <!--truncate-->
