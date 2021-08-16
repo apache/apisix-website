@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "sync": "node sync-docs.js"
+  },
+  "devDependencies": {
+    "listr": "^0.14.3",
+    "axios": "^0.21.1",
+    "replace-in-file": "^6.2.0",
+    "simple-git": "^2.44.0"
+  }
+}

@@ -28,13 +28,13 @@ jobs:
         with:
           node-version: "12"
 
-      - name: Pull Docs
+      - name: Sync documents
         run: |
-          node sync-docs.js && git status
+          cd scripts && yarn install && yarn sync
 
       - name: Build
         run: |
-          cd website && yarn && yarn build
+          cd ../website && yarn && yarn build
           cp ../.asf.yaml ./build
 
       - name: Deploy
