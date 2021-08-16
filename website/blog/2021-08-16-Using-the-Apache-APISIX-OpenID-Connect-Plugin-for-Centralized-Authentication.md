@@ -39,12 +39,14 @@ First, the user initiates a request, then the gateway itself takes charge of the
 ![Centralized Identity Authentication work flow](../static/img/blog_img/2021-08-16-2.png)
 
 Compared with the traditional authentication mode, centralized identity mode has the following advantages:
+
 1. Centralized auth simplifies the application development process, and reduces the development application workload and maintenance costs by avoiding the need to repeat the development of authentication code for each application.
 2. Centralized authentication mode improves business security. At the gateway level, it can intercept unauthenticated requests in time to protect back-end applications.
 
 ## What is OpenID Connect
 
 OpenID Connect (OIDC) is a centralized identity authentication mode. The benefit of using OpenID Connect is that users only need to register and log in with one OpenID Connect identity provider's website and use one account’s password information to access different applications. [Okta](https://developer.okta.com/) is a common OpenID Connect identity provider, and the Apache APISIX OpenID Connect plugin supports OpenID.  As a result, the plugin can replace traditional authentication mode with centralized identity authentication.  In this case, we’re using Okta.
+
 ### OpenID Authentication Process
 
 ![OpenID Authentication Process](../static/img/blog_img/2021-08-16-3.png)
@@ -69,17 +71,18 @@ Have an Okta account ready for use.
 
 1. Log in to your Okta account and click "Create App Integration" to create an Okta application.
     ![Create App Integration](../static/img/blog_img/2021-08-16-4.png)
-2. Select "OIDC- OpenID Connect" for the Sign-in method, and select "Web Application" for the  Application type.
+2. Select "OIDC-OpenID Connect" for the Sign-in method, and select "Web Application" for the  Application type.
     ![Create a new App Integration](../static/img/blog_img/2021-08-16-5.png)
 3. Set the redirect URL for login and logout. The "Sign-in redirect URIs" are links a user can go to after a successful login, and the "Sign-out redirect URIs" are links a user goes to after a successful logout. In this example, we set both sign-in and sign-out redirect URIs to `http://127.0.0.1:9080/`.
     ![Set the redirect URL for login and logout](../static/img/blog_img/2021-08-16-6.png)
 4. After finishing the settings, click "Save" to save the changes.
     ![save the changes](../static/img/blog_img/2021-08-16-7.png)
 5. Visit the General page of the application to obtain the following configuration, which is required to configure Apache APISIX OpenID Connect.
-    - Client ID: OAuth client ID, the application ID, which corresponds to client_id and {YOUR_CLIENT_ID} below.
-    - Client secret: OAuth client secret, the application key, which corresponds to client_secret and {YOUR_CLIENT_SECRET} below.
-    - Okta domain: The domain name used by the application, corresponding to {YOUR_ISSUER} below.
-    ![obtain configuration](../static/img/blog_img/2021-08-16-8.png)
+
+- Client ID: OAuth client ID, the application ID, which corresponds to client_id and {YOUR_CLIENT_ID} below.
+- Client secret: OAuth client secret, the application key, which corresponds to client_secret and {YOUR_CLIENT_SECRET} below.
+- Okta domain: The domain name used by the application, corresponding to {YOUR_ISSUER} below.
+![obtain configuration](../static/img/blog_img/2021-08-16-8.png)
 
 
 ### Step 2: Install Apache APISIX
@@ -136,6 +139,7 @@ cd apisix-2.7
 # Create dependencies
 make deps
 ```
+
 #### Initializing Dependencies
 
 Run the following command to initialize the NGINX configuration file and etcd.
@@ -152,31 +156,32 @@ make init
 ```shell
 apisix start
 ```
+
 2. Create a route and configure the OpenID Connect plugin. The following code example creates a route through the Apache APISIX Admin API, setting the upstream path to httpbin.org, a simple backend service for receiving and responding to requests. The following will use the get page of httpbin.org. Please refer to [http bin get](http://httpbin.org/#/HTTP_Methods/get_get) for more information. For specific configuration items, please refer to the [Apache APISIX OpenID Connect Plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect/).
 
 The OpenID Connect configuration fields are listed below:
 
-|      Field              | Default Value | Description | 
+|Field|Default Value|Description| 
 | ----------------------- | ------------ | ------- |
-| client_id |    ""       |   OAuth client ID.   | 
-| client_secret |  ""         |  OAuth client secret.    | 
-| discovery |    ""       |  Service discovery endpoints for identity providers.    | 
-| scope |     openid      | Scope of resources to be accessed.     | 
-| relm |      apisix     |  Specify the WWW-Authenticate response header authentication information.    | 
-| bearer_only |    false       | Whether to check the token in the request header.     | 
-| logout_path |    /logout       |  Log out URI.    | 
-| redirect_uri |   request_uri        |  The URI that the identity provider redirects back to, defaulting to the request address.    | 
-| timeout |     3      |  Request timeout time, the unit is defined in seconds.    | 
-| ssl_verify |    false       |  Verify the identity provider's SSL certificate.    | 
-| introspection_endpoint |   ""        | The URL of the identity provider's token authentication endpoint, which will be extracted from the discovery, response if left blank.     | 
-| introspection_endpoint_auth_method |  client_secret_basic         |  Name of the authentication method for token introspection.    | 
-| public_key |     ""      |   Public key for an authentication token.   | 
-| token_signing_alg_values_expected | ""          |  Algorithm for authentication tokens.
-Whether to carry the access token in the request header.    | 
-| set_access_token_header |   true        |  Whether to carry the access token in the request header.    | 
-| access_token_in_authorization_header |    false       |  Whether to put an access token in the Authorization header. The access token is placed in the Authorization header when this value is set to true and in the X-Access-Token header when it is set to false.    | 
-| set_id_token_header |   true        |  Whether to carry the ID token in the X-ID-Token request header.    | 
-| set_userinfo_header |  true         |  Whether to carry user information in the X-Userinfo request header.    | 
+|client_id|""|OAuth client ID.| 
+|client_secret|""|OAuth client secret.| 
+|discovery|""|Service discovery endpoints for identity providers.| 
+|scope|openid|Scope of resources to be accessed.| 
+|relm|apisix|Specify the WWW-Authenticate response header authentication information.| 
+|bearer_only|false|Whether to check the token in the request header.| 
+|logout_path|/logout|Log out URI.| 
+|redirect_uri|request_uri|The URI that the identity provider redirects back to, defaulting to the request address.| 
+|timeout|3|Request timeout time, the unit is defined in seconds.| 
+|ssl_verify|false|Verify the identity provider's SSL certificate.| 
+|introspection_endpoint|""|The URL of the identity provider's token authentication endpoint, which will be extracted from the discovery, response if left blank.| 
+|introspection_endpoint_auth_method|client_secret_basic|Name of the authentication method for token introspection.| 
+|public_key|""|Public key for an authentication token.| 
+|token_signing_alg_values_expected|""|Algorithm for authentication tokens.
+Whether to carry the access token in the request header.| 
+|set_access_token_header|true|Whether to carry the access token in the request header.| 
+|access_token_in_authorization_header|false|Whether to put an access token in the Authorization header. The access token is placed in the Authorization header when this value is set to true and in the X-Access-Token header when it is set to false.| 
+|set_id_token_header|true|Whether to carry the ID token in the X-ID-Token request header.| 
+|set_userinfo_header|true|Whether to carry user information in the X-Userinfo request header.| 
 
 ```shell
 curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
