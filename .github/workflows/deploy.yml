@@ -28,13 +28,18 @@ jobs:
         with:
           node-version: "14"
 
+      - name: Install Dependencies
+        run: |
+          cd scripts && yarn install
+          cd ../website && yarn install
+
       - name: Sync documents
         run: |
-          cd scripts && yarn install && yarn sync
+          cd scripts && yarn sync
 
       - name: Build
         run: |
-          cd ../website && yarn && yarn build
+          cd website && yarn build
           cp ../.asf.yaml ./build
 
       - name: Deploy

@@ -116,7 +116,7 @@ const tasks = new listr([
   {
     title: "Extract next version documents",
     task: () => {
-      const nextVersionTasks = projects.map(async (project) => {
+      const nextVersionTasks = projectPaths.map((project) => {
         return {
           title: `Extract ${project.name} next version documents`,
           task: () => {
