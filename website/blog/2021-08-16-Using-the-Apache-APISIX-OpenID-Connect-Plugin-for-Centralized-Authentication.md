@@ -84,7 +84,6 @@ Have an Okta account ready for use.
 - Okta domain: The domain name used by the application, corresponding to {YOUR_ISSUER} below.
 ![obtain configuration](../static/img/blog_img/2021-08-16-8.png)
 
-
 ### Step 2: Install Apache APISIX
 
 #### Install dependencies
@@ -161,27 +160,27 @@ apisix start
 
 The OpenID Connect configuration fields are listed below:
 
-|Field|Default Value|Description| 
-| ----------------------- | ------------ | ------- |
-|client_id|""|OAuth client ID.| 
-|client_secret|""|OAuth client secret.| 
-|discovery|""|Service discovery endpoints for identity providers.| 
-|scope|openid|Scope of resources to be accessed.| 
-|relm|apisix|Specify the WWW-Authenticate response header authentication information.| 
-|bearer_only|false|Whether to check the token in the request header.| 
-|logout_path|/logout|Log out URI.| 
-|redirect_uri|request_uri|The URI that the identity provider redirects back to, defaulting to the request address.| 
-|timeout|3|Request timeout time, the unit is defined in seconds.| 
-|ssl_verify|false|Verify the identity provider's SSL certificate.| 
-|introspection_endpoint|""|The URL of the identity provider's token authentication endpoint, which will be extracted from the discovery, response if left blank.| 
-|introspection_endpoint_auth_method|client_secret_basic|Name of the authentication method for token introspection.| 
-|public_key|""|Public key for an authentication token.| 
+|Field|Default Value|Description|
+| -----------------------| ------------ | ------- |
+|client_id|""|OAuth client ID.|
+|client_secret|""|OAuth client secret.|
+|discovery|""|Service discovery endpoints for identity providers.|
+|scope|openid|Scope of resources to be accessed.|
+|relm|apisix|Specify the WWW-Authenticate response header authentication information.|
+|bearer_only|false|Whether to check the token in the request header.|
+|logout_path|/logout|Log out URI.|
+|redirect_uri|request_uri|The URI that the identity provider redirects back to, defaulting to the request address.|
+|timeout|3|Request timeout time, the unit is defined in seconds.|
+|ssl_verify|false|Verify the identity provider's SSL certificate.|
+|introspection_endpoint|""|The URL of the identity provider's token authentication endpoint, which will be extracted from the discovery, response if left blank.|
+|introspection_endpoint_auth_method|client_secret_basic|Name of the authentication method for token introspection.|
+|public_key|""|Public key for an authentication token.|
 |token_signing_alg_values_expected|""|Algorithm for authentication tokens.
-Whether to carry the access token in the request header.| 
-|set_access_token_header|true|Whether to carry the access token in the request header.| 
-|access_token_in_authorization_header|false|Whether to put an access token in the Authorization header. The access token is placed in the Authorization header when this value is set to true and in the X-Access-Token header when it is set to false.| 
-|set_id_token_header|true|Whether to carry the ID token in the X-ID-Token request header.| 
-|set_userinfo_header|true|Whether to carry user information in the X-Userinfo request header.| 
+Whether to carry the access token in the request header.|
+|set_access_token_header|true|Whether to carry the access token in the request header.|
+|access_token_in_authorization_header|false|Whether to put an access token in the Authorization header. The access token is placed in the Authorization header when this value is set to true and in the X-Access-Token header when it is set to false.|
+|set_id_token_header|true|Whether to carry the ID token in the X-ID-Token request header.|
+|set_userinfo_header|true|Whether to carry user information in the X-Userinfo request header.|
 
 ```shell
 curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
@@ -216,9 +215,9 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 
     ```
 
-    "X-Access-Token": "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.***TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb***.****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG-HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6-6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****", 
+    "X-Access-Token": "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.***TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb***.****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG-HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6-6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****",
 
-    "X-Id-Token": "******aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi*****", 
+    "X-Id-Token": "******aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi*****",
 
     "X-Userinfo": "*****lfbmFtZSI6IlpodSIsImxvY2FsZSI6ImVuLVVTIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsInVwZGF0ZWRfYXQiOjE2MjgwNzA1ODEsInpvbmVpbmZvIjoiQW1lcmljYVwvTG9zX0FuZ2VsZXMiLCJzdWIiOiIwMHVhMDVlY2RGZldLTEt1bzY5NSIsImdpdmVuX25hbWUiOiJQZXRlciIsIm5hbWUiOiJQZXRl****"
     ```
@@ -247,4 +246,3 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway. Apache APIS
 Hundreds of companies worldwide have used Apache APISIX, covering finance, internet, manufacturing, retail, operators, such as NASA, the European Union’s Digital Factory, TravelSky, Tencent, Huawei, Weibo,  China Mobile, Taikang, 360 , etc.
 Github:  https://github.com/apache/apisix
 Website: https://apisix.apache.org
-
