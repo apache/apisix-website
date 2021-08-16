@@ -14,15 +14,15 @@ authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 
 ## What Is Identity Authentication
 
-Identity Authentication verifies a user's identity by specific means. We obtain detailed user metadata from the Identity Provider (IdP) to determine whether a user has access to particular resources. 
+Identity Authentication verifies a user's identity by specific means. We obtain detailed user metadata from the Identity Provider (IdP) to determine whether a user has access to particular resources.
 
 ## Identity Authentication Modes
 
-There are two main categories of identity authentication: _traditional mode_ and _centralized mode_. 
+There are two main categories of identity authentication: _traditional mode_ and _centralized mode_.
 
 ### Traditional Authentication Mode
 
-In the traditional authentication mode, each application service needs to support authentication separately, such as accessing the login interface when the user is not logged in. The interface returns a 301 jump page. All application services need to develop the logic to maintain the session and interact with the identity provider for authentication. 
+In the traditional authentication mode, each application service needs to support authentication separately, such as accessing the login interface when the user is not logged in. The interface returns a 301 jump page. All application services need to develop the logic to maintain the session and interact with the identity provider for authentication.
 
 You can see the flow of traditional authentication in the figure below.
 
@@ -32,7 +32,7 @@ First, the user initiates a request, then the gateway receives the request and f
 
 ### Centralized Identity Authentication Mode
 
-Unlike traditional authentication, the centralized identity mode removes user authentication from the application services. Take Apache APISIX as an example; you can see the centralized identity authentication process in the figure below. 
+Unlike traditional authentication, the centralized identity mode removes user authentication from the application services. Take Apache APISIX as an example; you can see the centralized identity authentication process in the figure below.
 
 First, the user initiates a request, then the gateway itself takes charge of the user authentication process, interacting with the identity provider and sending them an authorization request. The identity provider returns user identity information (user info). After the gateway identifies the user, it forwards the user identity information (user info) to the services in a request header.
 
@@ -49,7 +49,7 @@ OpenID Connect (OIDC) is a centralized identity authentication mode. The benefit
 
 ![OpenID Authentication Process](../static/img/blog_img/2021-08-16-3.png)
 
-1. APISIX initiates an authentication request to the Identity Provider. 
+1. APISIX initiates an authentication request to the Identity Provider.
 2. The user logs in and authenticates on the Identity Provider.
 3. The Identity Provider returns to APISIX with the Authorization Code.
 4. APISIX requests the Identity Provider with the Code extracted from the request parameters.
@@ -152,9 +152,9 @@ make init
 ```shell
 apisix start
 ```
-2. Create a route and configure the OpenID Connect plugin. The following code example creates a route through the Apache APISIX Admin API, setting the upstream path to httpbin.org, a simple backend service for receiving and responding to requests. The following will use the get page of httpbin.org. Please refer to [http bin get](http://httpbin.org/#/HTTP_Methods/get_get) for more information. For specific configuration items, please refer to the [Apache APISIX OpenID Connect Plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect/). 
+2. Create a route and configure the OpenID Connect plugin. The following code example creates a route through the Apache APISIX Admin API, setting the upstream path to httpbin.org, a simple backend service for receiving and responding to requests. The following will use the get page of httpbin.org. Please refer to [http bin get](http://httpbin.org/#/HTTP_Methods/get_get) for more information. For specific configuration items, please refer to the [Apache APISIX OpenID Connect Plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect/).
 
-The OpenID Connect configuration fields are listed below: 
+The OpenID Connect configuration fields are listed below:
 
 |      Field              | Default Value | Description | 
 | ----------------------- | ------------ | ------- |
@@ -219,11 +219,13 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
     ```
 
 X-Access-Token: Apache APISIX puts the access token obtained from the user provider into the X-Access-Token request header, optionally via the access_token_in_authorization_header in the plugin configuration Authorization request header.
-![X-Access-Token](../static/img/blog_img/2021-08-16-10.png)
+    ![X-Access-Token](../static/img/blog_img/2021-08-16-10.png)
+
 X-Id-Token: Apache APISIX will get the Id token from the user provider through the base64 encoding into the X-Id-Token request header, you can choose whether to enable this function through the set_id_token_header in the plugin configuration, the default is enabled.
-![X-Id-Token](../static/img/blog_img/2021-08-16-11.png)
+    ![X-Id-Token](../static/img/blog_img/2021-08-16-11.png)
+
 X-Userinfo: Apache APISIX will get the user information from the user provider and put it into X-Userinfo after encoding it with Base64, you can choose whether to enable this feature through set_userinfo_header in the plugin configuration, it is set to be on by default.
-![X-Userinfo](../static/img/blog_img/2021-08-16-12.png)
+    ![X-Userinfo](../static/img/blog_img/2021-08-16-12.png)
 
 As you can see, Apache APISIX will carry the X-Access-Token, X-Id-Token, and X-Userinfo request headers to the upstream. The upstream can parse these headers to get the user IDid information and user metadata.
 
@@ -239,5 +241,5 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway. Apache APIS
 
 Hundreds of companies worldwide have used Apache APISIX, covering finance, internet, manufacturing, retail, operators, such as NASA, the European Union’s Digital Factory, TravelSky, Tencent, Huawei, Weibo,  China Mobile, Taikang, 360 , etc.
 Github:  https://github.com/apache/apisix
-Website：https://apisix.apache.org
+Website: https://apisix.apache.org
 
