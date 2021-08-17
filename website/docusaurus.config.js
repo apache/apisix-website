@@ -463,7 +463,7 @@ module.exports = {
           position: "right",
           items: [
             {
-              to: "/pluginhub",
+              to: "/plugins",
               label: "Plugin Hub",
             },
             {
