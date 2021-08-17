@@ -64,10 +64,8 @@ const tasks = new listr([
     task: (ctx) => {
       ctx.internalBrokenList = [];
       ctx.internalLinks.forEach((link) => {
-        let exist = true;
         if (!fs.existsSync(link.url)) {
           ctx.internalBrokenList.push(link);
-          exist = false;
         }
       });
     }
