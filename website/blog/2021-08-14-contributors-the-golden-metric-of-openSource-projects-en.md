@@ -85,4 +85,4 @@ When we talked about the Contributor Graph, not only did we want to use this too
 
 You are welcome to use the Contributor Graph to track your community activity, and any requests or questions are welcome in the Contributor Graph GitHub repository.
 
-You can visit the Contributor Graph [repository](https://github.com/api7/contributor-graph) by following the link below or by clicking on the original article.
+You can visit the Contributor Graph [repository](https://github.com/api7/contributor-graph).

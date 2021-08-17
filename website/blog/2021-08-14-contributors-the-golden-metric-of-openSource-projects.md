@@ -83,4 +83,4 @@ GitHub insights 提供了一个非常棒的开发者视角，但还不够完美�
 
 欢迎大家使用贡献者趋势图表来跟踪您的社区活跃度，任何需求和问题都欢迎到 Contributor Graph 的 GitHub 仓库中反馈。
 
-您可以通过以下链接或者点击阅读原文，访问 Contributor Graph [repository](https://github.com/api7/contributor-graph)。
+访问 Contributor Graph [repository](https://github.com/api7/contributor-graph)。
