@@ -12,11 +12,11 @@ authorImageURL: "https://avatars.githubusercontent.com/u/3814966?v=4"
 
 According to GitHub’s statistics in 2020, over 60 million new repositories were added, and more than 56 million developers worked on OpenSource projects. By 2025, the number of developers working on OpenSource projects on GitHub is expected to exceed 100 million.
 
-Behind these fast-growing numbers, open source maintainers did a lot of work on propaganda, article, media, Meetups, etc, to attract more developers for their projects, It’s a lot to take in.
+Behind these fast-growing numbers, open source maintainers did a lot of work on propaganda, article, media, Meetups, etc., to attract more developers for their projects, It’s a lot to take in.
 
-So for developers, how can they find out which one is the best fit for their company among the hundreds of projects on Github?
+So for developers, how can they find out which one is the best fit for their company among the hundreds of projects on GitHub?
 
-Various indicators of open source projects needs be considered.
+Various indicators of open source projects needs to be considered.
 
 Star number: This is the most direct indicator, it represents the project has attracted the attention of a number of developers, can reflect the level of marketing of the project. If the project has the financial support of commercial companies, a strong PR team, or a water army to paint Star, then this indicator can easily be distorted.
 
@@ -24,7 +24,7 @@ Issue and PR counts: Also GitHub provides the Insights feature, shown in the fol
 
 ![Apache APISIX GitHub Insights](../static/img/blog_img/2021-08-14-1.webp)
 
-You can select the number of new and closed issues and PRs for this open source project,can also filter by period.
+You can select the number of new and closed issues and PRs for this open source project, can also filter by period.
 
 The above graph shows the data of Apache APISIX for the last month.
 
@@ -34,9 +34,9 @@ The following graph shows the commit frequency statistics of Apache APISIX from 
 
 ![Apache APISIX commits](../static/img/blog_img/2021-08-14-2.webp)
 
-after reading so many indicators,still you can’t get your answer, Don’t you think that choosing an open source project is so complicated? Wait!
+after reading so many indicators, still you can’t get your answer, don’t you think that choosing an open source project is so complicated? Wait!
 
-Is there a “golden metric”, a metric that cannot be mocked by marketing? A core metric that can tell the truth of a porject?
+Is there a “golden metric”, a metric that cannot be mocked by marketing? A core metric that can tell the truth of a project?
 As maintainers and developers of open source projects, we also need such golden metrics to guide us. Therefore, we propose two dimensions, “Contributor Growth” and “Active Contributors”, and open source the statistics and analysis process: https://github.com/api7/contributor-graph, you can also search directly through https://www.apiseven.com/zh/contributor-graph. Here is an example from Apache APISIX.
 
 ## Contributor growth
@@ -51,9 +51,9 @@ As you can clearly see from the two tables above, Apache APISIX has seen a stead
 
 ## Comparison on Multi Repo
 
-Both the “Contributor Growth” and “Active Contributors” charts support comparisons across multiple repositories. What’s more, we pull the Github API to update the charts on a daily/monthly basis, so your repository can always display real-time contributor data by making a one-time copy using the link we provide.
+Both the “Contributor Growth” and “Active Contributors” charts support comparisons across multiple repositories. What’s more, we pull the GitHub API to update the charts on a daily/monthly basis, so your repository can always display real-time contributor data by making a one-time copy using the link we provide.
 
-The contributor growth line plot is based on the date of the first commit by each contributor to the project. The contributor growth line chart allows us to see the growth of the community based on the total number of contributors shown on the Github homepage.
+The contributor growth line plot is based on the date of the first commit by each contributor to the project. The contributor growth line chart allows us to see the growth of the community based on the total number of contributors shown on the GitHub homepage.
 
 By showing line plot for multiple repo in the same chart at the same time, we can also visually compare the development of different communities.
 
@@ -73,7 +73,7 @@ This explains why Apache APISIX has been able to catch up with its friends in te
 
 ![Apache APISIX monthly contributors](../static/img/blog_img/2021-08-14-7.webp)
 
-The above graph is comparision of monthly contributors between different MQ community , which is also widely discussed on Twitter. With this chart, we can see that Apache Pulsar is catching up to Apache Kafka in terms of contributors of the month.
+The above graph is comparison of monthly contributors between different MQ community, which is also widely discussed on Twitter. With this chart, we can see that Apache Pulsar is catching up to Apache Kafka in terms of contributors of the month.
 
 ## Conclusion
 
