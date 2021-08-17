@@ -1,7 +1,95 @@
 const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
+
+const listr = require("listr");
+
 const common = require("./common.js");
+const axios = require("axios");
+const {projects, languages, projectPaths} = common;
+
+const tasks = new listr([
+  {
+    title: "Start Link Checker",
+    task: () => {}
+  },
+  {
+    title: "Scan document files",
+    task: (ctx) => {
+      ctx.allDocuments = [];
+      const scanTasks = projectPaths.map(project => {
+        Object.values(project.latestDocs).forEach((path) => {
+          if (!fs.existsSync(path)) return;
+          ctx.allDocuments.push({
+            files: scanFolder(path),
+            path,
+            project: project.name,
+          })
+        });
+      });
+    }
+  },
+  {
+    title: "Scan all links",
+    task: (ctx) => {
+      ctx.externalLinks = []; // links to other sites
+      ctx.internalLinks = []; // links to other Markdown files or anchor
+
+      for (const documents of ctx.allDocuments) {
+        documents.files.forEach((file) => {
+          const scanResult = scanLinkInMDFile(file, documents.project);
+          ctx.externalLinks.push(...scanResult.links);
+          ctx.internalLinks.push(...scanResult.filteredLinks);
+        });
+      }
+
+      console.log(`[Link Scanner] Scan result: ${ctx.externalLinks.length} external links, ${ctx.internalLinks.length} internal links`);
+    }
+  },
+  {
+    title: "Start external link check",
+    task: async (ctx) => {
+      ctx.externalBrokenList = [];
+      let externalLinkCheckPromises = [];
+      ctx.externalLinks.forEach((link) => {
+        externalLinkCheckPromises.push(linkValidate(link));
+      });
+
+      let result = await Promise.all(externalLinkCheckPromises);
+      ctx.externalBrokenList.push(...result.filter((item) => item.status !== 200));
+    }
+  },
+  {
+    title: "Start internal link check",
+    task: (ctx) => {
+      ctx.internalBrokenList = [];
+      ctx.internalLinks.forEach((link) => {
+        let exist = true;
+        if (!fs.existsSync(link.url)) {
+          ctx.internalBrokenList.push(link);
+          exist = false;
+        }
+      });
+    }
+  },
+  {
+    title: "Write broken list to file",
+    task: (ctx) => {
+      fs.writeFileSync('./brokenLinks.json', JSON.stringify({
+        external: ctx.externalBrokenList,
+        internal: ctx.internalBrokenList,
+      }));
+    }
+  }
+]);
+
+tasks.run()
+    .then(() => {
+      console.log("[Finish] Link Checker finished");
+    })
+    .catch(err => {
+      console.error(err);
+    });
 
 const scanFolder = (tarDir) => {
   let filePaths = [];
@@ -98,7 +186,6 @@ const linkValidate = (link) => {
     const axios = require("axios");
     axios.get(link.url)
         .then((res) => {
-          console.log(`[Link Checker] check "${link.url}", result is ${res.statusText}`)
           resolve({
             ...link,
             status: res.status,
@@ -106,7 +193,6 @@ const linkValidate = (link) => {
           });
         })
         .catch((err) => {
-          console.log(`[Link Checker] check "${link.url}", result is FAIL`);
           resolve({
             ...link,
             status: 0,
@@ -115,66 +201,3 @@ const linkValidate = (link) => {
         });
   });
 }
-
-(async function main() {
-  console.log("Start link-checker.js");
-  console.log("Install dependencies");
-  childProcess.execSync("npm i --save axios");
-
-  console.log("[Document Scanner] Scan all documents");
-  let allDocuments = [];
-  common.projectPaths().map((projectInfo) => {
-    Object.values(projectInfo.paths).forEach((path) => {
-      if (!fs.existsSync(path)) return;
-      allDocuments.push({
-        files: scanFolder(path),
-        path,
-        project: projectInfo.project,
-      })
-    });
-  });
-
-  console.log("[Link Scanner] Scan all links");
-  let externalLinks = []; // links to other sites
-  let internalLinks = []; // links to other Markdown files or anchor
-  for (const documents of allDocuments) {
-    documents.files.forEach((file) => {
-      const scanResult = scanLinkInMDFile(file, documents.project);
-      externalLinks.push(...scanResult.links);
-      internalLinks.push(...scanResult.filteredLinks);
-    });
-  }
-
-  //console.log(`[Link Scanner] External Links\n`, externalLinks.map(item => item.url).join("\n"));
-  //console.log(`[Link Scanner] Internal Links\n`, internalLinks.map(item => item.url).join("\n"));
-  console.log(`[Link Scanner] Scan result: ${externalLinks.length} external links, ${internalLinks.length} internal links`)
-
-  console.log(`[Link Checker] Start external link check`);
-  let externalBrokenList = [];
-  let externalLinkCheckPromises = [];
-  externalLinks.forEach((link) => {
-    externalLinkCheckPromises.push(linkValidate(link));
-  });
-
-  let result = await Promise.all(externalLinkCheckPromises);
-  externalBrokenList.push(...result.filter((item) => item.status !== 200));
-  console.log(`[Link Checker] External link check finished`);
-
-  console.log(`[Link Checker] Start internal link check`);
-  let internalBrokenList = [];
-  internalLinks.forEach((link) => {
-    let exist = true;
-    if (!fs.existsSync(link.url)) {
-      internalBrokenList.push(link);
-      exist = false;
-    }
-    console.log(`[Link Checker] check "${link.url}", result is ${exist}`)
-  });
-  console.log(`[Link Checker] Internal link check finished`);
-
-  console.log("[Finish] Write broken list to file");
-  fs.writeFileSync('./brokenLinks.json', JSON.stringify({
-    external: externalBrokenList,
-    internal: internalBrokenList,
-  }));
-})();
