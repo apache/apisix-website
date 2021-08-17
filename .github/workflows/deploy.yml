@@ -35,7 +35,7 @@ jobs:
 
       - name: Sync documents
         run: |
-          cd scripts && yarn sync
+          cd scripts && yarn sync && git status
 
       - name: Build
         run: |

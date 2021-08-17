@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "sync": "node sync-docs.js"
+    "sync": "node sync-docs.js",
+    "link-checker": "node link-checker.js"
   },
   "devDependencies": {
     "listr": "^0.14.3",
