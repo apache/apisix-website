@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.7",
-        releaseDate: "2021-06-15",
+        version: "2.7.1",
+        releaseDate: "2021-08-15",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -117,9 +117,9 @@ module.exports = {
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
         githubBranch: "master",
-        downloadPath: "apisix/dashboard/2.7/apache-apisix-dashboard-2.7-src",
-        version: "2.7",
-        releaseDate: "2021-06-15",
+        downloadPath: "apisix/dashboard/2.7.1/apache-apisix-dashboard-2.7.1-src",
+        version: "2.7.1",
+        releaseDate: "2021-08-15",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -164,6 +164,8 @@ module.exports = {
     ],
 
     team: require("./static/data/team.json"),
+    plugins: require("./static/data/plugin.json"),
+
     allRepos: [
       "apache/apisix",
       "apache/apisix-dashboard",
@@ -447,11 +449,6 @@ module.exports = {
           position: "right",
         },
         {
-          to: "/events",
-          label: "Events",
-          position: "right",
-        },
-        {
           to: "/downloads",
           label: "Downloads",
           position: "right",
@@ -462,9 +459,22 @@ module.exports = {
           position: "right",
         },
         {
-          to: "/help",
-          label: "Help",
+          label: "Resources",
           position: "right",
+          items: [
+            {
+              to: "/hub",
+              label: "Plugin Hub",
+            },
+            {
+              to: "/events",
+              label: "Events",
+            },
+            {
+              to: "/help",
+              label: "Help",
+            },
+          ]
         },
         {
           type: "localeDropdown",

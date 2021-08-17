@@ -5,7 +5,7 @@ authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
 ---
 
-> [@tao12345666333](https://github.com/tao12345666333), Apache APISIX commiter from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
+> [@tao12345666333](https://github.com/tao12345666333), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 
 ### 关于 Apache APISIX Ingress Controller
 

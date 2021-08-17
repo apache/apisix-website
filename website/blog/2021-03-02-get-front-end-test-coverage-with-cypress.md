@@ -87,7 +87,7 @@ Under the coverage directory, a more detailed report page will be available, as 
 
 - Statements indicates whether each statement was executed
 
-- Branchs indicates whether each if block was executed
+- Branches indicates whether each if block was executed
 
 - Functions indicates whether each function is called
 
