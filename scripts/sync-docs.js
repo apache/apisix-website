@@ -250,7 +250,7 @@ tasks.run()
       console.error(err);
     });
 
-
+const log = (text) => {};
 
 const isFileExisted = (path) => {
   return fs.existsSync(path);
