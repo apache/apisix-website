@@ -579,6 +579,10 @@ module.exports = {
         content:
           "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
       },
+      {
+        name: "robots",
+        content: "index,follow"
+      }
     ],
     gtag: {
       trackingID: "G-WQLBQL6GY3",
