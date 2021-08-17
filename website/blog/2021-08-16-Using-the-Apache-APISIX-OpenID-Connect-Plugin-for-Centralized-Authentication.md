@@ -1,5 +1,5 @@
 ---
-title: "Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication"
+title: "Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication"
 author: Peter Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
@@ -11,6 +11,10 @@ authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 ## Introducing Apache APISIX
 
 [Apache APISIX](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API gateway, providing rich traffic management. The project offers load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and many useful plugins. In addition, the gateway supports dynamic plugin changes along with hot-plugging. The OpenID Connect plugin for Apache APISIX allows users to replace traditional authentication mode with centralized identity authentication mode via OpenID Connect.
+
+## Introducing Okta 
+
+Okta is a trusted platform to secure every identity. It is a customizable, secure, and drop-in solution to add authentication and authorization services to your applications. More than 10,650 organizations trust Okta’s software and APIs to sign in, authorize and manage users.
 
 ## What Is Identity Authentication
 
