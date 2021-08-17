@@ -4,7 +4,7 @@ author: Peter Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 ---
-> [@Peter Zhu](https://github.com/starsz), Apache APISIX committer.
+> [@Peter Zhu](https://github.com/starsz), Apache APISIX Committer from [Shenzhen Zhiliu Technology](https://www.apiseven.com/en).
 >
 <!--truncate-->
 
