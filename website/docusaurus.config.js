@@ -1,5 +1,5 @@
 module.exports = {
-  title: "Apache APISIX®",
+  title: "Apache APISIX® --  Cloud-Native API Gateway",
   tagline:
     "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
   url: "https://apisix.apache.org/",
@@ -192,7 +192,7 @@ module.exports = {
   },
   onBrokenLinks: "log",
   onBrokenMarkdownLinks: "log",
-  noIndex: true,
+  noIndex: false,
   presets: [
     [
       "@docusaurus/preset-classic",
