@@ -234,31 +234,23 @@ title: Release Apache ${humanProjectName} ${item.version}
       return new listr(fetchReleaseLogTasks);
     }
   },
-  /*{
+  {
     title: "Clean temporary files",
     task: () => {
       removeFolder(tempPath);
     }
-  }*/
-], {exitOnError: true});
+  }
+]);
 
 tasks.run()
     .then(() => {
-      /*process.stdout.write('\x1B[2J\x1B[0f')
-      console.log(`\n\n${results}`)
-      console.log(`${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`)
-      process.exit()*/
-      //console.log(projectReleases);
+      console.log("[Finish] Documents synchronize success");
     })
     .catch(err => {
       console.error(err);
-      /*process.exit(1)*/
     });
 
 
-const log = (text) => {
-  //console.log(` \u001b[32m${text}\u001b[0m`);
-};
 
 const isFileExisted = (path) => {
   return fs.existsSync(path);
