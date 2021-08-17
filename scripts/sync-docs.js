@@ -145,8 +145,6 @@ const tasks = new listr([
   {
     title: "Fetch project release logs",
     task: () => {
-      fs.mkdirSync(releaseTempPath);
-
       const fetchReleaseLogTasks = projects.map((project) => {
         if (!project.hasChangelog) {
           return {
@@ -154,7 +152,8 @@ const tasks = new listr([
             skip: () => {
               return `${project.name} has no changelog`;
             },
-            task: () => {}
+            task: () => {
+            }
           }
         }
 
@@ -196,6 +195,29 @@ const tasks = new listr([
                       let changelog = project.changelogExtractor(changelogResult, item);
                       if (changelog) changelogList.push(changelog);
                     }
+                  });
+                }
+              },
+              {
+                title: "Remove unsupport tags",
+                task: () => {
+                  const unsupportTags = {
+                    "<details>": "",
+                    "</details>": "",
+                    "<summary>": "",
+                    "</summary>": "",
+                    "<p>": "",
+                    "</p>": "",
+                  };
+
+                  changelogList = changelogList.map(item => {
+                    Object.keys(unsupportTags).forEach(tag => {
+                      if (item.changelog.includes(tag)) {
+                        item.changelog = item.changelog.replace(new RegExp(tag, "g"), unsupportTags[tag]);
+                      }
+                    });
+
+                    return item;
                   });
                 }
               },
@@ -250,7 +272,8 @@ tasks.run()
       console.error(err);
     });
 
-const log = (text) => {};
+const log = (text) => {
+};
 
 const isFileExisted = (path) => {
   return fs.existsSync(path);
