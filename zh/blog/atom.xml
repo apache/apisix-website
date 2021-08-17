@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® Blog</title>
-    <updated>2021-08-12T00:00:00.000Z</updated>
+    <updated>2021-08-16T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication]]></title>
+        <id>Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
+        <updated>2021-08-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@Peter Zhu, Apache APISIX committer.]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
         <id>Chaos Mesh Helps Apache APISIX Improve System Stability</id>
