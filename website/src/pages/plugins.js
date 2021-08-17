@@ -76,7 +76,6 @@ const SidebarContainer = styled.div`
   padding-right: 10px;
   border-style: solid;
   border-color: #ffffff #efeff5 #ffffff #ffffff ;
-}
 `;
 
 const PluginCard = styled.a`
