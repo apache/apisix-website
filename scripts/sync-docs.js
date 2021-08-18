@@ -237,6 +237,8 @@ const tasks = new listr([
                     }).join(" ");
                     const header = `---
 title: Release Apache ${humanProjectName} ${item.version}
+tags: 
+  - ${humanProjectName}
 ---\n\n`;
                     fs.writeFileSync(`${releaseTempPath}/${logName}`, header + item.changelog);
                   });
@@ -247,7 +249,7 @@ title: Release Apache ${humanProjectName} ${item.version}
                 task: () => {
                   copyFolder(releaseTempPath, `${websitePath}/releases`);
                 }
-              }
+              },
             ];
             return new listr(steps);
           }
