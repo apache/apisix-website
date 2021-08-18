@@ -373,6 +373,14 @@ module.exports = {
         },
       },
     ],
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'daily',
+        priority: 0.5,
+        trailingSlash: false,
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
