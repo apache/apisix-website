@@ -479,6 +479,10 @@ module.exports = {
               label: "Events",
             },
             {
+              to: "/releases",
+              label: "Releases",
+            },
+            {
               to: "/help",
               label: "Help",
             },
