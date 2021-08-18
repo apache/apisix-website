@@ -8,11 +8,11 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication]]></title>
+            <title><![CDATA[Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication]]></title>
             <link>https://apisix.apache.org/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication</link>
-            <guid>Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication</guid>
+            <guid>Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication</guid>
             <pubDate>Mon, 16 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[@Peter Zhu, Apache APISIX committer.]]></description>
+            <description><![CDATA[@Peter Zhu, Apache APISIX Committer from Shenzhen Zhiliu Technology.]]></description>
         </item>
         <item>
             <title><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>

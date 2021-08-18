@@ -8,11 +8,11 @@
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
     <entry>
-        <title type="html"><![CDATA[Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication]]></title>
-        <id>Using the Apache APISIX OpenID Connect Plugin for Centralized Authentication</id>
+        <title type="html"><![CDATA[Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication]]></title>
+        <id>Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
         <updated>2021-08-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[@Peter Zhu, Apache APISIX committer.]]></summary>
+        <summary type="html"><![CDATA[@Peter Zhu, Apache APISIX Committer from Shenzhen Zhiliu Technology.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
