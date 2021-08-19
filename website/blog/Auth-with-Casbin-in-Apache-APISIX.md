@@ -1,6 +1,15 @@
 ---
 title: "在 Apache APISIX 中使用 Casbin 进行授权"
 author: 作者：Casbin 社区 & Apache APISIX 社区
+keywords:
+- Casbin
+- Apahce APISIX
+- APISIX
+- apisix
+- APACHE APISIX
+- Authorization
+- Auth
+- 授权
 ---
 <!--truncate-->
 
