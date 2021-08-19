@@ -3,6 +3,10 @@ title: "Kong-To-APISIX 迁移工具"
 author: Yiyiyimu
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
+keywords: 
+- Kong
+- APISIX
+- APACHE
 ---
 > [@Yiyiyimu](https://github.com/Yiyiyimu), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
