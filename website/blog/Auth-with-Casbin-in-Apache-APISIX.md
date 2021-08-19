@@ -11,19 +11,19 @@ author: 作者：Casbin 社区 & Apache APISIX 社区
 ### Apache APISIX
 
 [Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关， 提供负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。你可以使用 Apache APISIX 来处理传统的南北向流量，以及服务间的东西向流量， 也可以当做 [k8s ingress controller](https://github.com/apache/apisix-ingress-controller) 来使用。
- 
+
 ### Casbin
 
 [Casbin](https://casbin.org/zh-CN/) 是一个强大的、高效的开源访问控制框架，其权限管理机制支持多种访问控制模型。
- 
+
 ### authz-casbin 插件介绍
 
 在 Apache APISIX 的使用中，路由匹配和请求授权之间有个隐含的矛盾点：为了更高细粒度的权限控制，需要配置更高细粒度的路由，来精准识别请求并对请求进行授权。在复杂的授权模型场景下，这将导致路由数量成倍增加，加剧了运维复杂度。
 authz-casbin 是一个基于 lua-casbin  的 Apache APISIX 插件，支持基于各种访问模型的强大授权。Casbin 是一个强大的、高效的开源访问控制框架，支持 ACL、RBAC、ABAC 等访问控制模型，lua-casbin 是 Lua 版本的授权访问模型。
 authz-casbin 插件可以把路由匹配和请求授权这两个功能很好地进行解耦，你可以将各种授权访问模型加载到 Apache APISIX 中，借助 lua-casbin 实现高效复杂的授权模式。
- 
+
 **注意**：如果你想要实现身份验证（authentication），你需要使用其他插件或者自己来配置完成验证用户身份。
- 
+
 ## authz-casbin 使用指南
 
 ### 创建一个模型
@@ -38,21 +38,22 @@ authz-casbin 插件使用三个参数来进行授权：subject、object 和 acti
 ```shell
 [request_definition]
 r = sub, obj, act
- 
+
 [policy_definition]
 p = sub, obj, act
- 
+
 [role_definition]
 g = _, _
- 
+
 [policy_effect]
 e = some(where (p.eft == allow))
- 
+
 [matchers]
 m = (g(r.sub, p.sub) || keyMatch(r.sub, p.sub)) && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act)
 ```
 
 ### 创建一条策略
+
 从上述的例子来看，策略应该像是这样的：
 
 ```shell
@@ -64,9 +65,9 @@ g, bob,admin
 
 模型里的 matcher 表明：
 
-1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`：请求里的 subject 和策略里的 subject 有着相同的角色或者请求里的 subject 和策略里的 subject 可以通过内置的方法 `keyMatch` 匹配。`keyMatch` 作为 Lua Casbin 的内置函数，相关的描述以及更多的函数可跳转 [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions.lua)。 
-2. `keyMatch(r.obj, p.obj)`：请求里的 object 和策略里的 object 可相互匹配（代指 URL 链接） 
-3. `keyMatch(r.act, p.act)`：请求里的 action 和策略里的 action 可相互匹配（代指 HTTP 请求方法） 
+1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`：请求里的 subject 和策略里的 subject 有着相同的角色或者请求里的 subject 和策略里的 subject 可以通过内置的方法 `keyMatch` 匹配。`keyMatch` 作为 Lua Casbin 的内置函数，相关的描述以及更多的函数可跳转 [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions.lua)。
+2. `keyMatch(r.obj, p.obj)`：请求里的 object 和策略里的 object 可相互匹配（代指 URL 链接）。
+3. `keyMatch(r.act, p.act)`：请求里的 action 和策略里的 action 可相互匹配（代指 HTTP 请求方法）。
 
 ### 在路由上使用插件
 
@@ -155,6 +156,7 @@ g, alice, admin
 g, bob, admin"
 }'
 ```
+
 然后，你需要使用 Admin API 来发送请求使得多个路由使用相同的模型/策略配置；
 
 ```shell
@@ -178,6 +180,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 这将会将插件的配置动态地添加到路由中。通过向插件的配置数据中发送更新模型和策略的请求，你可以轻松地更新插件的配置。
  
 ## 最后
+
 感谢 Casbin 和 Apache APISIX 社区的开发者们，从 Casbin 社区的开发者 rushitote 提出 issue，到提交 PR，以及 Apache APISIX 社区的开发者积极 review PR，这个跨社区的合作进行地友好而有序，响应 open source makes world better。
 
 来源：https://rushikeshtote.com/blog/apisix-casbin-authorization 
