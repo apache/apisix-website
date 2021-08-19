@@ -5,7 +5,9 @@ author: 陈军旭
 
 ### 视频
 
+<!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=674805891&bvid=BV19U4y177Vh&cid=388403877&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
+<!-- markdownlint-enable -->
 
 ### 文字稿
 
