@@ -71,7 +71,7 @@ g, bob,admin
 
 ### 在路由上使用插件
 
-一旦你创建了模型和策略，你可以使用 APISIX admin API 在路由上使用。若想使用，你可以模型和策略的文件路径：
+一旦你创建了模型和策略，你可以使用 APISIX Admin API 在路由上使用。若想使用，你可以模型和策略的文件路径：
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
