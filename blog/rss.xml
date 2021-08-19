@@ -15,18 +15,18 @@
             <description><![CDATA[@Peter Zhu, Apache APISIX Committer from Shenzhen Zhiliu Technology.]]></description>
         </item>
         <item>
-            <title><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
-            <link>https://apisix.apache.org/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en</link>
-            <guid>Contributors — The Golden Metric of OpenSource Projects</guid>
-            <pubDate>Sat, 14 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Source:]]></description>
-        </item>
-        <item>
             <title><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
             <link>https://apisix.apache.org/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects</link>
             <guid>贡献者，是衡量开源项目的金指标</guid>
             <pubDate>Sat, 14 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[@Yiyiyimu, Apache APISIX committer.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en</link>
+            <guid>Contributors — The Golden Metric of OpenSource Projects</guid>
+            <pubDate>Sat, 14 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Source:]]></description>
         </item>
         <item>
             <title><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
