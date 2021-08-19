@@ -1,0 +1,1 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[22],{3985:function(s){"use strict";s.exports=JSON.parse('{"allTagsPath":"/zh/releases/tags","slug":"apisix-ingress-controller","name":"apisix ingress controller","count":9,"permalink":"/zh/releases/tags/apisix-ingress-controller"}')}}]);
