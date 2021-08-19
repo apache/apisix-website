@@ -1,5 +1,22 @@
 ---
 title: Release Apache APISIX Dashboard 2.7
+keywords:
+- apisix
+- APISIX
+- api6
+- API gateway
+- API hosting
+- Security
+- Apache APISIX
+- apache apisix
+- apisix gateway
+- Ingress Controller
+- Service Mesh
+- Microservices
+- Release Notes
+- Apache APISIX Dashboard 2.7
+- APISIX Dashboard 2.7
+description: Apache APISIX Dashboard 2.7 is released on June 15th, 2021. This article is the release notes for Apache APISIX Dashboard 2.7, it contains core features updates, bug fixes, and test cases updates information of Apache APISIX Dashboard 2.7.
 ---
 
 <!--truncate-->

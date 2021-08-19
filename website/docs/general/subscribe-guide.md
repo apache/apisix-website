@@ -2,6 +2,21 @@
 id: subscribe-guide
 slug: /subscribe-guide
 title: Subscribe Guide
+keywords:
+- apisix
+- APISIX
+- api6
+- API gateway
+- API hosting
+- Security
+- Apache APISIX
+- apache apisix
+- apisix gateway
+- Ingress Controller
+- Service Mesh
+- Microservices
+- Subscribe Guide
+description: During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.
 ---
 
 During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.

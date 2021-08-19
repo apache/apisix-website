@@ -1,6 +1,25 @@
 ---
 id: committer-guide
 title: Committer Guide
+keywords:
+- apisix
+- APISIX
+- api6
+- API gateway
+- API hosting
+- Security
+- Apache APISIX
+- apache apisix
+- apisix gateway
+- Ingress Controller
+- Service Mesh
+- Microservices
+- FAQ
+- faq
+- frequently asked questions
+- committer guidelines
+- committer
+description: This article is a set of guidelines for Apache APISIX committers. It provides general guideline of contritions, and the way of promoting from contributors to commiter, and from committer to PMC.
 ---
 
 ## What can I contribute?
