@@ -2,14 +2,13 @@
 title: "在 Apache APISIX 中使用 Casbin 进行授权"
 author: 作者：Casbin 社区 & Apache APISIX 社区
 keywords:
-- Casbin
-- Apahce APISIX
-- APISIX
-- apisix
-- APACHE APISIX
-- Authorization
-- Auth
-- 授权
+- 网关 Casbin
+- APISIX Casbin 
+- Casbin 授权
+- Casbin 插件
+- 访问控制
+- 授权访问模型
+- authz-casbin 使用
 ---
 <!--truncate-->
 
