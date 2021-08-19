@@ -232,6 +232,14 @@ module.exports = {
       },
     ],
     [
+      "@docusaurus/plugin-content-blog",
+      {
+        id: "releases",
+        routeBasePath: "releases",
+        path: "releases",
+      },
+    ],
+    [
       "@docusaurus/plugin-content-docs",
       {
         id: "docs-apisix",
@@ -469,6 +477,10 @@ module.exports = {
             {
               to: "/events",
               label: "Events",
+            },
+            {
+              to: "/releases",
+              label: "Releases",
             },
             {
               to: "/help",
