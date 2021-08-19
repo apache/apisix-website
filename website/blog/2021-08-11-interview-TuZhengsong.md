@@ -3,6 +3,20 @@ title: "从新手村出来，我在 Apache APISIX 社区发出了第一个 PR"
 author: Peter Yang
 authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
+keywords:
+- apisix
+- APISIX
+- api6
+- API 网关
+- API 托管
+- 安全防护
+- Apache APISIX
+- apache apisix
+- apisix gateway
+- Ingress Controller
+- 服务网格
+- 微服务
+description: 本文讲述了 Apache APISIX 社区支持工程师屠正松从社区小白成长为 Apache APISIX 的 committer 的故事。他在职业生涯初期，接触到了开源社区和 Apache APISIX，提交了一个enhancement（功能增强）类型的 PR，这个 PR 让 Apache APISIX 支持了多端口监听。借由这个PR，他走进了 Apache APISIX 和深圳支流科技。历时 282 天，屠正松成长为 Apache APISIX 的 committer。
 ---
 
 <!--truncate-->
