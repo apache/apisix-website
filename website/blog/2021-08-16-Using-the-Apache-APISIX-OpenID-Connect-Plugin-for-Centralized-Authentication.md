@@ -5,7 +5,7 @@ authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords: 
 - APISIX
-- APACHE
+- Apache
 ---
 > [@Peter Zhu](https://github.com/starsz), Apache APISIX Committer from [Shenzhen Zhiliu Technology](https://www.apiseven.com/en).
 >
