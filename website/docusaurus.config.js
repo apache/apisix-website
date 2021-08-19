@@ -1,5 +1,5 @@
 module.exports = {
-  title: "Apache APISIX®",
+  title: "Apache APISIX® --  Cloud-Native API Gateway",
   tagline:
     "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
   url: "https://apisix.apache.org/",
@@ -45,8 +45,8 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "1.1.0",
-        releaseDate: "2021-07-13",
+        version: "1.2.0",
+        releaseDate: "2021-08-15",
         firstDocPath: "/getting-started",
       },
       {
@@ -130,9 +130,9 @@ module.exports = {
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
         githubBranch: "master",
-        downloadPath: "apisix/ingress-controller/1.1.0/apache-apisix-ingress-controller-1.1.0-src",
-        version: "1.1.0",
-        releaseDate: "2021-07-13",
+        downloadPath: "apisix/ingress-controller/1.2.0/apache-apisix-ingress-controller-1.2.0-src",
+        version: "1.2.0",
+        releaseDate: "2021-08-15",
         firstDocPath: "/getting-started",
       },
       {
@@ -164,6 +164,8 @@ module.exports = {
     ],
 
     team: require("./static/data/team.json"),
+    plugins: require("./static/data/plugin.json"),
+
     allRepos: [
       "apache/apisix",
       "apache/apisix-dashboard",
@@ -190,7 +192,7 @@ module.exports = {
   },
   onBrokenLinks: "log",
   onBrokenMarkdownLinks: "log",
-  noIndex: true,
+  noIndex: false,
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -227,6 +229,14 @@ module.exports = {
         id: "events",
         routeBasePath: "events",
         path: "events",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        id: "releases",
+        routeBasePath: "releases",
+        path: "releases",
       },
     ],
     [
@@ -447,11 +457,6 @@ module.exports = {
           position: "right",
         },
         {
-          to: "/events",
-          label: "Events",
-          position: "right",
-        },
-        {
           to: "/downloads",
           label: "Downloads",
           position: "right",
@@ -462,9 +467,26 @@ module.exports = {
           position: "right",
         },
         {
-          to: "/help",
-          label: "Help",
+          label: "Resources",
           position: "right",
+          items: [
+            {
+              to: "/plugins",
+              label: "Plugin Hub",
+            },
+            {
+              to: "/events",
+              label: "Events",
+            },
+            {
+              to: "/releases",
+              label: "Releases",
+            },
+            {
+              to: "/help",
+              label: "Help",
+            },
+          ]
         },
         {
           type: "localeDropdown",
@@ -569,6 +591,10 @@ module.exports = {
         content:
           "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
       },
+      {
+        name: "robots",
+        content: "index,follow"
+      }
     ],
     gtag: {
       trackingID: "G-WQLBQL6GY3",
