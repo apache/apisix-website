@@ -3,7 +3,6 @@ title: "贡献者，是衡量开源项目的金指标"
 author: Yiyiyimu
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
-keywords: APISIX
 ---
 > [@Yiyiyimu](https://github.com/Yiyiyimu), Apache APISIX committer.
 >
