@@ -4,14 +4,12 @@ author: Yiyiyimu
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
 keywords:
-- apisix
 - APISIX
 - api6
 - API gateway
 - API hosting
 - Security
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - Service Mesh

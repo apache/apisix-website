@@ -2,13 +2,11 @@
 title: "8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！"
 keywords:
 - apisix
-- APISIX
 - api6
 - API 网关
 - API 托管
 - 安全防护
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - 服务网格

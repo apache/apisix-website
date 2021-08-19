@@ -4,14 +4,12 @@ author: Peter Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords:
-- apisix
 - APISIX
 - api6
 - API gateway
 - API hosting
 - Security
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - Service Mesh

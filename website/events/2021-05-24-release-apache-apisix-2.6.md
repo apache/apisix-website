@@ -1,18 +1,17 @@
 ---
 title: Release Apache APISIX 2.6
 keywords:
-- apisix
 - APISIX
 - api6
 - API gateway
 - API hosting
 - Security
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - Service Mesh
 - Microservices
+- Subscribe Guide
 - Release Notes
 - Apache APISIX 2.6
 - APISIX 2.6

@@ -1,18 +1,17 @@
 ---
 title: Release Apache APISIX Dashboard 2.7
 keywords:
-- apisix
 - APISIX
 - api6
 - API gateway
 - API hosting
 - Security
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - Service Mesh
 - Microservices
+- Subscribe Guide
 - Release Notes
 - Apache APISIX Dashboard 2.7
 - APISIX Dashboard 2.7

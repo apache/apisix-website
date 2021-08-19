@@ -4,14 +4,12 @@ author: Lien
 authorURL: "https://github.com/lilien1010"
 authorImageURL: "https://avatars.githubusercontent.com/u/3814966?v=4"
 keywords:
-- apisix
 - APISIX
 - api6
 - API gateway
 - API hosting
 - Security
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - Service Mesh

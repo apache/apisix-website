@@ -3,14 +3,12 @@ id: subscribe-guide
 slug: /subscribe-guide
 title: Subscribe Guide
 keywords:
-- apisix
 - APISIX
 - api6
 - API gateway
 - API hosting
 - Security
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - Service Mesh

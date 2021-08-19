@@ -5,13 +5,11 @@ authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
 keywords:
 - apisix
-- APISIX
 - api6
 - API 网关
 - API 托管
 - 安全防护
 - Apache APISIX
-- apache apisix
 - apisix gateway
 - Ingress Controller
 - 服务网格
