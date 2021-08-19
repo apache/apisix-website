@@ -245,6 +245,8 @@ module.exports = {
         id: "articles",
         routeBasePath: "articles",
         path: "articles",
+        blogSidebarCount: 0,
+        blogTitle: "Article"
       },
     ],
     [
