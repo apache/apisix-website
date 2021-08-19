@@ -191,4 +191,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 感谢 Casbin 和 Apache APISIX 社区的开发者们，从 Casbin 社区的开发者 rushitote 提出 issue，到提交 PR，以及 Apache APISIX 社区的开发者积极 review PR，这个跨社区的合作进行地友好而有序，响应 open source makes world better。
 
-来源：https://medium.com/@rushitote/authorization-in-apisix-using-casbin-59b693669d6d
+来源：[authorization-in-apisix-using-casbin](https://medium.com/@rushitote/authorization-in-apisix-using-casbin-59b693669d6d)
