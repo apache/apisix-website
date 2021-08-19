@@ -55,7 +55,7 @@ func init() {
 }
 ```
 
-由于 `main.go` 导入了 plugins 包， 
+由于 `main.go` 导入了 plugins 包，
 
 ```go
 import (
@@ -170,7 +170,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
       "conf": [
         {"name":"say", "value":"{\"body\":\"hello\"}"}
       ]
-    } 
+    }
   },
   "upstream": {
         "type": "roundrobin",
@@ -223,5 +223,5 @@ Apache APISIX 会把 plugin runner 作为自己的一个子进程，管理它的
 点击访问 [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner).
 
 ## 相关阅读
-[如何用 Java 编写 Apache APISIX 插件](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)
 
+[如何用 Java 编写 Apache APISIX 插件](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)
