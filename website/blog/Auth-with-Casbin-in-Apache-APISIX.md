@@ -90,7 +90,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
         "type": "roundrobin"
     },
     "uri": "/*"
-}
+}'
 ```
 
 在这里，username 是传递到 subject 里的用户名。例如，你可以设置"username":"user"来把你定义的`user:alice`传递到 username ，让 username 成为 Alice。
