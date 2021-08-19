@@ -78,7 +78,7 @@ const SidebarContainer = styled.div`
   border-color: #ffffff #efeff5 #ffffff #ffffff ;
 `;
 
-const PluginCard = styled.a`
+const PluginCard = styled.div`
   border-radius: 0.75rem;
   border: 1px solid #eee;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
