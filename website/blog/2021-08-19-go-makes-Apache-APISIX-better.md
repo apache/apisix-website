@@ -3,19 +3,27 @@ title: "Go 让 Apache APISIX 如虎添翼"
 author: spacewander
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+keywords:
+- Go
+- APISIX 
+- APISIX Go 插件
+- APISIX Go plugin
+- apisix-go-plugin-runner
+- 日志
+
 ---
-> [@spacewander](https://github.com/spacewander), Apache APISIX Committer from [Shenzhen Zhiliu Technology](https://www.apiseven.com/en).
+> [@spacewander](https://github.com/spacewander), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/en).
 >
 <!--truncate-->
 
 ## 为什么是 Go
 
-Apache APISIX 允许用户通过插件的方式来拓展功能，如鉴权、限流、请求改写等核心功能都是通过插件的方式实现的。虽然 Apache APISIX 核心代码是使用 Lua 编写的，但是 Apache APISIX 支持多语言开发插件，比如 Go 、Java。
+[Apache APISIX](https://github.com/apache/apisix) 允许用户通过插件的方式来拓展功能，如鉴权、限流、请求改写等核心功能都是通过插件的方式实现的。虽然 Apache APISIX 核心代码是使用 Lua 编写的，但是 Apache APISIX 支持多语言开发插件，比如 Go 、Java。
 这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
 
 ## 安装
 
-采用库的方式来使用 Go Runner，apisix-go-plugin-runner 中的 `cmd/go-runner` 官方给出的例子，展示该如何使用 Go Runner SDK。未来也会支持通过 Go Plugin 的机制加载预先编译好的插件。
+采用库的方式来使用 Go Runner，[apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner) 中的 `cmd/go-runner` 官方给出的例子，展示该如何使用 Go Runner SDK。未来也会支持通过 Go Plugin 的机制加载预先编译好的插件。
 
 ## 开发
 
