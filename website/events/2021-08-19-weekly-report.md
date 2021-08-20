@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX 社区周报 ｜ 2021 8.9-8.15
+title: Apache APISIX 社区周报 ｜ 2021年8月9日～8月15日
 ---
 
 <!--truncate-->
