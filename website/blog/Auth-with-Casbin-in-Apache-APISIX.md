@@ -28,7 +28,7 @@ keywords:
 ### authz-casbin 插件介绍
 
 在 Apache APISIX 的使用中，路由匹配和请求授权之间有个隐含的矛盾点：为了更高细粒度的权限控制，需要配置更高细粒度的路由，来精准识别请求并对请求进行授权。在复杂的授权模型场景下，这将导致路由数量成倍增加，加剧了运维复杂度。
-authz-casbin 是一个基于 lua-casbin  的 Apache APISIX 插件，支持基于各种访问模型的强大授权。Casbin 是一个强大的、高效的开源访问控制框架，支持 ACL、RBAC、ABAC 等访问控制模型，lua-casbin 是 Lua 版本的授权访问模型。
+authz-casbin 是一个基于 lua-casbin 的 Apache APISIX 插件，支持基于各种访问模型的强大授权。Casbin 是一个强大的、高效的开源访问控制框架，支持 ACL、RBAC、ABAC 等访问控制模型，lua-casbin 是 Casbin 访问控制框架的 Lua 版本实现。
 authz-casbin 插件可以把路由匹配和请求授权这两个功能很好地进行解耦，你可以将各种授权访问模型加载到 Apache APISIX 中，借助 lua-casbin 实现高效复杂的授权模式。
 
 **注意**：如果你想要实现身份验证（authentication），你需要使用其他插件或者自己来配置完成验证用户身份。
