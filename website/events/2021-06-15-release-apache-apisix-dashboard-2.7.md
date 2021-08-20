@@ -11,7 +11,6 @@ keywords:
 - Ingress Controller
 - Service Mesh
 - Microservices
-- Subscribe Guide
 - Release Notes
 - Apache APISIX Dashboard 2.7
 - APISIX Dashboard 2.7
