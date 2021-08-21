@@ -28,6 +28,8 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
   } = versionMetadata;
 
   useEffect(() => {
+    document.querySelector(".react-toggle").style.display = "block";
+
     const currentPage = currentDocRoute.path.split("/")[2] || "";
     switch (currentPage) {
       case "general":
@@ -56,7 +58,7 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
         break;
     }
     return () => {
-      console.log('\u{1F680} documentation changed')
+      document.querySelector(".react-toggle").style.display = "none";
     }
   }, []);
 
