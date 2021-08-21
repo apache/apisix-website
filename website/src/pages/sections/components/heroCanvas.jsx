@@ -155,8 +155,8 @@ function HeroCanvas() {
 
         material = new THREE.ShaderMaterial({
           uniforms: uniforms,
-          vertexShader: vertex, // vertexShader,
-          fragmentShader: fragment, // fragmentShader,
+          vertexShader: vertex,
+          fragmentShader: fragment,
           wireframe: true,
           side: THREE.DoubleSide
         });
@@ -174,8 +174,7 @@ function HeroCanvas() {
         scene.add(mesh);
         scene.add(background);
         
-        // Tested and checked 
-        camera.position.set( 0.16430412417444037, -1.5202138879420155, 0.20892968987792318);
+        camera.position.set( 0.16430412417444037, -1.5202138879420155, 0.20892968987792318);  // Tested and checked 
         controls.update();
         
         renderer.setPixelRatio(window.devicePixelRatio);

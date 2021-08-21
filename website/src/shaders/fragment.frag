@@ -13,7 +13,6 @@
     vec2 st = gl_FragCoord.xy / u_resolution;
     vec2 mouse = u_fragMouse;
 
-    // This code section related to setting the mouse position and the circle size with accordance to the aspect ratio
     st.x *= (u_resolution.x / u_resolution.y);
     mouse.x *= (u_resolution.x / u_resolution.y); 
 
