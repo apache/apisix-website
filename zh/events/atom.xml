@@ -15,6 +15,13 @@
         <summary type="html"><![CDATA[本次 Meetup 由 api7.ai 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 2021年8月9日～8月15日]]></title>
+        <id>Apache APISIX 社区周报 ｜ 2021年8月9日～8月15日</id>
+        <link href="https://apisix.apache.org/zh/events/2021/08/19/weekly-report"/>
+        <updated>2021-08-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[导语]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.7]]></title>
         <id>Release Apache APISIX 2.7</id>
         <link href="https://apisix.apache.org/zh/events/2021/06/25/release-apache-apisix-2.7"/>
