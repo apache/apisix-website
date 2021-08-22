@@ -157,3 +157,4 @@
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos.xyz, 1.0);
     gl_PointSize = aSize*(1.0/-ecPosition.z);
   }
+  
