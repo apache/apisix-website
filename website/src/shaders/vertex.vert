@@ -127,8 +127,7 @@ float Gaussian_h = 0.1;
 float Gaussian_sd = 0.09;
 float radius = 1.5;
 
-void main() 
-{
+void main() {
   vUv = uv;
   vec3 pos = vec3(position);
   value = aSize;
@@ -156,4 +155,3 @@ void main()
   gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos.xyz, 1.0);
   gl_PointSize = aSize*(1.0/-ecPosition.z);
 }
- 
