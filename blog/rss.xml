@@ -4,14 +4,14 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Mon, 23 Aug 2021 01:28:02 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 23 Aug 2021 03:10:44 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[在 Apache APISIX 中使用 Casbin 进行授权]]></title>
             <link>https://apisix.apache.org/blog/Auth-with-Casbin-in-Apache-APISIX</link>
             <guid>在 Apache APISIX 中使用 Casbin 进行授权</guid>
-            <pubDate>Mon, 23 Aug 2021 01:28:02 GMT</pubDate>
+            <pubDate>Mon, 23 Aug 2021 03:10:44 GMT</pubDate>
             <description><![CDATA[当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。]]></description>
         </item>
         <item>
@@ -64,18 +64,18 @@
             <description><![CDATA[@Yiyiyimu, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
-            <title><![CDATA[Release Apache APISIX 2.8.0]]></title>
-            <link>https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8-en</link>
-            <guid>Release Apache APISIX 2.8.0</guid>
-            <pubDate>Wed, 28 Jul 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
-        </item>
-        <item>
             <title><![CDATA[Apache APISIX 2.8 正式发布，带来更多新功能！]]></title>
             <link>https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8</link>
             <guid>Apache APISIX 2.8 正式发布，带来更多新功能！</guid>
             <pubDate>Wed, 28 Jul 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX 2.8.0]]></title>
+            <link>https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8-en</link>
+            <guid>Release Apache APISIX 2.8.0</guid>
+            <pubDate>Wed, 28 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
             <title><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
