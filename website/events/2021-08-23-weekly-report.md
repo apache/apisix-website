@@ -43,6 +43,7 @@ title: Apache APISIX 社区周报 ｜ 2021年8月16日～8月22日
 更新文档 http://apisix.apache.org/docs/apisix/plugins/redirect
 
 ## 本周功能特性亮点
+
 - **gzip 插件支持特殊的 * 来匹配任何类型**
   **相关 PR**：https://github.com/apache/apisix/pull/4817
   **贡献者**：[RocFang](https://github.com/RocFang)
