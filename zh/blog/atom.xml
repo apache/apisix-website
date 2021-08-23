@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-08-22T05:04:06.391Z</updated>
+    <updated>2021-08-23T01:28:02.837Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
@@ -11,7 +11,7 @@
         <title type="html"><![CDATA[在 Apache APISIX 中使用 Casbin 进行授权]]></title>
         <id>在 Apache APISIX 中使用 Casbin 进行授权</id>
         <link href="https://apisix.apache.org/zh/blog/Auth-with-Casbin-in-Apache-APISIX"/>
-        <updated>2021-08-22T05:04:06.391Z</updated>
+        <updated>2021-08-23T01:28:02.837Z</updated>
         <summary type="html"><![CDATA[当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。]]></summary>
     </entry>
     <entry>
@@ -19,35 +19,35 @@
         <id>Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
         <updated>2021-08-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[@Peter Zhu, Apache APISIX Committer from Shenzhen Zhiliu Technology.]]></summary>
+        <summary type="html"><![CDATA[This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication. It begins conceptual introductions of Apache APISIX and Okta Centralized Authentication. Then it provides detailed step-by-step instructions of setting up Okta Centralized Authentication using Apache APISIX OpenID Connect Plugin.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
         <id>Contributors — The Golden Metric of OpenSource Projects</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en"/>
         <updated>2021-08-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Source:]]></summary>
+        <summary type="html"><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in Apache APISIX, Apache Skywalking, Apache DolphinScheduler, Apache Openwhisk, Apache ShardingSphere, awesome-docker, TiDB docs-dm, and many other used in open source projects.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
         <id>贡献者，是衡量开源项目的金指标</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects"/>
         <updated>2021-08-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[@Yiyiyimu, Apache APISIX committer.]]></summary>
+        <summary type="html"><![CDATA[本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，贡献者图表已经在 Apache APISIX 、Apache Skywalking、Apache DolphinScheduler、Apache Openwhisk、Apache ShardingSphere、awesome-docker、TiDB docs-dm 等多个开源项目中使用。]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
         <id>Chaos Mesh Helps Apache APISIX Improve System Stability</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/12/Chaos-Mesh-Helps-Apache-APISIX-Improve-System-Stability"/>
         <updated>2021-08-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[@Yiyiyimu, Apache APISIX committer.]]></summary>
+        <summary type="html"><![CDATA[This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[从新手村出来，我在 Apache APISIX 社区发出了第一个 PR]]></title>
         <id>从新手村出来，我在 Apache APISIX 社区发出了第一个 PR</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/11/interview-TuZhengsong"/>
         <updated>2021-08-11T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[当我看到那个 issue 后，就有种强烈的想要参与到社区的冲动。看了社区的新手指南后，我像从新手村出来的勇者，准备打怪。]]></summary>
+        <summary type="html"><![CDATA[这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。在一个平淡的下午，我们和正松连线聊了聊。因为疫情关系，居住在南京的他已经多日未外出。在没有和他聊天之前，我没有想到，胡子拉碴的他，竟然走过了这么曲折的路。]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 在移动云的应用]]></title>

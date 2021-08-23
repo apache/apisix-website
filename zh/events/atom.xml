@@ -12,7 +12,7 @@
         <id>8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！</id>
         <link href="https://apisix.apache.org/zh/events/2021/08/21/shanghai-meetup"/>
         <updated>2021-08-21T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本次 Meetup 由 api7.ai 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。]]></summary>
+        <summary type="html"><![CDATA[本次 Meetup 由 api7.ai https://www.apiseven.com/ 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 2021年8月9日～8月15日]]></title>
@@ -26,28 +26,28 @@
         <id>Release Apache APISIX 2.7</id>
         <link href="https://apisix.apache.org/zh/events/2021/06/25/release-apache-apisix-2.7"/>
         <updated>2021-06-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Change]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX 2.7 is released on June 25th, 2021. This article is the release notes for Apache APISIX 2.7, it contains changes, core feature updates, plugins updates and bug fixes information of Apache APISIX 2.7.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX Dashboard 2.7]]></title>
         <id>Release Apache APISIX Dashboard 2.7</id>
         <link href="https://apisix.apache.org/zh/events/2021/06/15/release-apache-apisix-dashboard-2.7"/>
         <updated>2021-06-15T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[This release mainly improves basic features, bugfix and adds test cases.]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX Dashboard 2.7 is released on June 15th, 2021. This article is the release notes for Apache APISIX Dashboard 2.7, it contains core features updates, bug fixes, and test cases updates information of Apache APISIX Dashboard 2.7.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX Dashboard 2.6.1]]></title>
         <id>Release Apache APISIX Dashboard 2.6.1</id>
         <link href="https://apisix.apache.org/zh/events/2021/05/27/release-apache-apisix-dashboard-2.6.1"/>
         <updated>2021-05-27T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[This release mainly contains bugfixes.]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX Dashboard 2.6.1 is released on May 27th, 2021. This article is the release notes for Apache APISIX Dashboard 2.6.1, it contains bug fixes information of Apache APISIX Dashboard 2.6.1.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.6]]></title>
         <id>Release Apache APISIX 2.6</id>
         <link href="https://apisix.apache.org/zh/events/2021/05/24/release-apache-apisix-2.6"/>
         <updated>2021-05-24T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Change]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX 2.6 is released on May 24th, 2021. This article is the release notes for Apache APISIX 2.6, it contains changes, core feature updates, plugins updates and bug fixes information of Apache APISIX 2.6.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX Dashboard 2.6]]></title>
