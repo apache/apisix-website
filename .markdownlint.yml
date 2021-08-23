@@ -14,6 +14,9 @@ MD026: false
 # MD029/ol-prefix Ordered list item prefix
 MD029: false
 
+# MD033/no-inline-html
+MD033: false
+
 # MD034/no-bare-urls
 MD034: false
 
