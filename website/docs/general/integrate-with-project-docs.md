@@ -1,6 +1,21 @@
 ---
 id: integrate-with-project-docs
 title: Integrate with Project documentations
+keywords:
+- APISIX
+- api6
+- API gateway
+- API hosting
+- Security
+- Apache APISIX
+- apisix gateway
+- Ingress Controller
+- Service Mesh
+- Microservices
+- faq
+- frequently asked questions
+- project documentations
+description: This article explains Apache APISIX documents' directory structure, the configuration file, and markdown formatting restrictions.
 ---
 
 ## Directory Structure

@@ -1,6 +1,19 @@
 ---
 id: security
 title: Security
+keywords:
+- APISIX
+- api6
+- API gateway
+- API hosting
+- Security
+- Apache APISIX
+- apisix gateway
+- Ingress Controller
+- Service Mesh
+- Microservices
+- Release Guide
+description: This article shows the process of reporting a security issue to Apache APISIX.
 ---
 
 The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache APISIX is also very concerned Security issues related to its features and functionality.

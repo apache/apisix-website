@@ -1,5 +1,20 @@
 ---
 title: Release Apache APISIX 2.6
+keywords:
+- APISIX
+- api6
+- API gateway
+- API hosting
+- Security
+- Apache APISIX
+- apisix gateway
+- Ingress Controller
+- Service Mesh
+- Microservices
+- Release Notes
+- Apache APISIX 2.6
+- APISIX 2.6
+description: Apache APISIX 2.6 is released on May 24th, 2021. This article is the release notes for Apache APISIX 2.6, it contains changes, core feature updates, plugins updates and bug fixes information of Apache APISIX 2.6.
 ---
 
 <!--truncate-->
