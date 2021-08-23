@@ -9,7 +9,7 @@ keywords:
 description: 通过以下方式分析了开源资源库的情况：1.贡献者增长曲线;2.每月的贡献者活动,来反映开源项目的健康状况，这里我们分享一些关于如何制作这两张图的经验和一些有趣的事情。
 ---
 
-<iframe src="//player.bilibili.com/player.html?aid=847253062&bvid=BV1fL4y1Y7rf&cid=388393914&page=1" frameborder="0" scrolling="no" style="display: block; min-width: 100%; width: 100%; height: 100%; border: none; overflow: auto;"></iframe>
+<iframe src="//player.bilibili.com/player.html?aid=847253062&bvid=BV1fL4y1Y7rf&cid=388393914&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
 
 ## 分享人简介
 

@@ -8,7 +8,7 @@ keywords:
 - 商业化
 ---
 
-<iframe src="//player.bilibili.com/player.html?aid=419965108&bvid=BV193411q7GW&cid=392832870&page=1" frameborder="0" scrolling="no" style="display: block; min-width: 100%; width: 100%; height: 100%; border: none; overflow: auto;"></iframe>
+<iframe src="//player.bilibili.com/player.html?aid=419965108&bvid=BV193411q7GW&cid=392832870&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
 
 ## 分享人简介
 
