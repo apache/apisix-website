@@ -15,13 +15,32 @@ title: Apache APISIX 社区周报 ｜ 2021年8月16日～8月22日
 
 ## 贡献者统计
 
-本周，有 23 位开发者为 Apache APISIX 提交了 98 个 commit 。感谢本周以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 变得更好！
-
-> juzhiyuan, spacewander, liuxiran, okaybase, bzp2010, shuaijinchao, nic-chen, wmdmomo, KishaniKandasamy, imjoey, Serendipity96, moonming, foolwc, tzssangglass, lingsamuel, tao12345666333, Baoyuantop, yzeng25, Yangxiamao, tokers, jbampton, 1502shivam-singh, RocFang
+![second_contributor_static](https://static.apiseven.com/202108/1629726394722-84d86d5a-1b62-4bbd-b681-c42b371c53ec.png)
 
 ## Good first issue
 
+#### Issue #4441
 
+链接：https://github.com/apache/apisix/issues/4441
+
+**问题描述**：现在 APISIX stream_routes 的参数 "remote_addr"只支持单个 ip，需要支持多个 ip 或者像 "192.168.0.0/16 "这样的匹配规则，就像 http 路由参数 "remote_addr"一样。
+
+**解决方案**：为 APISIX stream_routes 的 "remote_addr"参数支持多个 ip 地址或匹配规则，如 "192.168.0.0/16"
+
+相关系统参数：
+
+- apisix version (cmd: `apisix version`): 2.6
+- OS (cmd: `uname -a`): CentOS7
+
+#### Issue #3931
+
+链接：https://github.com/apache/apisix/issues/3931
+
+**问题描述**： 重定向插件中的 http_to_https 缺乏 curl 测试
+
+**解决方案**：为重定向插件中的 http_to_https 添加 curl 测试
+
+更新文档 http://apisix.apache.org/docs/apisix/plugins/redirect
 
 ## 本周功能特性亮点
 - **gzip 插件支持特殊的 * 来匹配任何类型**
