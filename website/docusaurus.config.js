@@ -219,6 +219,11 @@ module.exports = {
         theme: {
           customCss: "../src/css/customTheme.css",
         },
+        sitemap: {
+          changefreq: 'daily',
+          priority: 0.5,
+          trailingSlash: false,
+        },
       },
     ],
   ],
@@ -371,14 +376,6 @@ module.exports = {
         }) {
           return `https://github.com/apache/apisix-go-plugin-runner/edit/master/docs/en/latest/${docPath}`;
         },
-      },
-    ],
-    [
-      '@docusaurus/plugin-sitemap',
-      {
-        changefreq: 'daily',
-        priority: 0.5,
-        trailingSlash: false,
       },
     ],
   ],
