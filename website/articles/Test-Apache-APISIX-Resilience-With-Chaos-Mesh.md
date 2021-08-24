@@ -15,7 +15,7 @@ description: Apache APISIX 是领先的 API 网关 OSS 之一。APISIX 使用了
 
 ## 分享人简介
 
-Shuyang Wu: Shuyang 是 Apache APISIX 和 Chaos Mesh 的提交者，目前在 API7 担任实习软件工程师。他领导了 Chaos Mesh 与 Apache APISIX CI 的整合工作。
+吴舒旸，Apache APISIX 和 Chaos Mesh 的提交者，目前在 API7 担任实习软件工程师。他领导了 Chaos Mesh 与 Apache APISIX CI 的整合工作。
 
 ## 分享主题介绍
 
@@ -27,4 +27,4 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;">
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;"/>

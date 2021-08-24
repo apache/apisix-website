@@ -13,7 +13,7 @@ description: 本次分享将带来如何使用 Apache APISIX 来实现动态、�
 
 ## 分享人简介
 
-陈军旭: 互联网老兵，曾任职于新浪、迅雷、360 等知名互联网公司。 最近两年开始深度参与开源，热爱开源。目前从事开源商业化创业。
+陈军旭，互联网老兵，曾任职于新浪、迅雷、360 等知名互联网公司。 最近两年开始深度参与开源，热爱开源。目前从事开源商业化创业。
 
 ## 分享主题介绍
 
@@ -25,4 +25,4 @@ description: 本次分享将带来如何使用 Apache APISIX 来实现动态、�
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;">
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;"/>

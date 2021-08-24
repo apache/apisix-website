@@ -12,7 +12,7 @@ description: 认证和授权是 API 网关中非常必要的功能。这样一�
 
 ## 分享人简介
 
-Xinxin Zhu: Apache APISIX 的提交者，有多年的 CDN 工作经验，熟悉 API 网关。
+朱欣欣，Apache APISIX 的提交者，有多年的 CDN 工作经验，熟悉 API 网关。
 
 ## 分享主题介绍
 
@@ -22,4 +22,4 @@ Xinxin Zhu: Apache APISIX 的提交者，有多年的 CDN 工作经验，熟悉 
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;">
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;"/>
