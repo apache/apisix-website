@@ -44,22 +44,21 @@ title: Apache APISIX 社区周报 ｜ 2021年8月16日～8月22日
 
 ## 本周功能特性亮点
 
-- **gzip 插件支持特殊的 * 来匹配任何类型**
-  **相关 PR**：https://github.com/apache/apisix/pull/4817
-  **贡献者**：[RocFang](https://github.com/RocFang)
+- **gzip 插件支持特殊的 * 来匹配任何类型**  
+  **相关 PR**：https://github.com/apache/apisix/pull/4817  
+  **贡献者**：[RocFang](https://github.com/RocFang)  
 
-- **ext-plugin 插件支持 ExtraInfo**
-  **相关 PR**：https://github.com/apache/apisix/pull/4835
-  **贡献者**：[spacewander](https://github.com/spacewander)
+- **ext-plugin 插件支持 ExtraInfo**  
+  **相关 PR**：https://github.com/apache/apisix/pull/4835  
+  **贡献者**：[spacewander](https://github.com/spacewander)  
 
-- **real-ip 插件为 `X-Forwarded-For` 添加特殊处理**
-  **相关 PR**：https://github.com/apache/apisix/pull/4852
-  **贡献者**：[spacewander](https://github.com/spacewander)
+- **real-ip 插件为 `X-Forwarded-For` 添加特殊处理**  
+  **相关 PR**：https://github.com/apache/apisix/pull/4852  
+  **贡献者**：[spacewander](https://github.com/spacewander)  
 
-- **uri-blocker 插件支持自定义失败响应**  
-  **相关 PR**：https://github.com/apache/apisix/pull/4849
-  **贡献者**：[okaybase](https://github.com/okaybase)
-
+- **uri-blocker 插件支持自定义失败响应**    
+  **相关 PR**：https://github.com/apache/apisix/pull/4849  
+  **贡献者**：[okaybase](https://github.com/okaybase)  
 
 Apache APISIX 的[项目官网](https://apisix.apache.org/)和 Github 上的 [issue](https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。
 
