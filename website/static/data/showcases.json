@@ -367,7 +367,7 @@
   },
   {
     "caption": "VIVO",
-    "image": "",
+    "image": "showcase/vivo.svg",
     "infoLink": "https://www.vivo.com/hk/zh/",
     "pinned": true
   },
@@ -379,19 +379,19 @@
   },
   {
     "caption": "金山办公",
-    "image": "",
+    "image": "showcase/jinshan.png",
     "infoLink": "https://www.wps.cn/",
     "pinned": true
   },
   {
     "caption": "上海泽怡信息科技",
-    "image": "",
+    "image": "showcase/zeyikeji.png",
     "infoLink": "https://appadvice.com/app/e5-8c-bb-e6-82-a3-e5-ae-a2-e6-9c-8d/1502073770",
     "pinned": true
   },
   {
     "caption": "北京新片场传媒股份有限公司",
-    "image": "",
+    "image": "showcase/xinpianchang.svg",
     "infoLink": "https://www.xinpianchang.com",
     "pinned": true
   }
