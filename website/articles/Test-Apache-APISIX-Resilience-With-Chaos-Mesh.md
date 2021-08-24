@@ -6,12 +6,12 @@ keywords:
 - Chaos Mesh
 - 混沌工程
 - API 网关
-- Kubernetes
 - CI
 description: Apache APISIX 是领先的 API 网关 OSS 之一。APISIX 使用了不同种类的测试，包括单元、e2e 和模糊测试，当一些不正常但不可避免的情况发生时，例如网络故障、IO 压力或 pod 故障，APISIX 会如何表现。因此，在这里我们使用 Chaos Mesh，一个基于 Kubernetes 的混沌工程平台，可以顺利地注入不同种类的混沌，并将其整合到我们的 CI 管道中。在这个讲座的最后，听众会了解到混沌工程会在哪些方面给 API 网关带来好处，以及如何将混沌网整合到你自己的测试管道中。
 ---
 
 <!-- markdownlint-disable -->
+
 <iframe src="//player.bilibili.com/player.html?aid=334774886&bvid=BV1JA411w7w8&cid=388417850&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
 
 ## 分享人简介
