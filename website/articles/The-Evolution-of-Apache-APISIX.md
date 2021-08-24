@@ -9,6 +9,10 @@ keywords:
 description: Apache APISIX 是最受欢迎的 API 网关之一。我将介绍一下 APISIX 的发展，包括：1.我们所做的好决定，2.我们所做的不好的决定，3.我们的未来计划。
 ---
 
+<!-- markdownlint-disable -->
+<iframe src="//player.bilibili.com/player.html?aid=890054774&bvid=BV1xP4y1p7p8&cid=394697073&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
+<!-- markdownlint-enable -->
+
 ## 分享人简介
 
 罗泽轩，Apache APISIX Committer 和 OpenResty 的核心开发者.

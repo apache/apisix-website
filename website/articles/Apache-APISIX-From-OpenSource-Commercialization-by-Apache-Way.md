@@ -9,7 +9,9 @@ keywords:
 description: Apache Way 是被无数开源项目证实的社区成功之道，那么对于开源商业公司而言，Apache Way 是否可行呢？它在商业社会是否行得通？ 通过 2 年开源商业公司的经营，支流科技希望用公司的切身经历来回答这个问题。
 ---
 
+<!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=419965108&bvid=BV193411q7GW&cid=392832870&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
+<!-- markdownlint-enable -->
 
 ## 分享人简介
 

@@ -9,7 +9,9 @@ keywords:
 description: 本次分享将带来如何使用 Apache APISIX 来实现动态、精细化、分布式的限流限速，以及如何通过插件编排来实现更符合业务需求的限流限速。
 ---
 
+<!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=674805891&bvid=BV19U4y177Vh&cid=388403877&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
+<!-- markdownlint-enable -->
 
 ## 分享人简介
 
