@@ -10,7 +10,6 @@ description: 认证和授权是 API 网关中非常必要的功能。这样一�
 
 <!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=292326444&bvid=BV1hf4y137So&cid=388409219&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
-<!-- markdownlint-enable -->
 
 ## 分享人简介
 

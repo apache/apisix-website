@@ -12,7 +12,6 @@ description: Apache 软件基金会顶级项目 Apache APISIX 以及子项目，
 
 <!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=504930956&bvid=BV1tg41157TB&cid=392831471&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
-<!-- markdownlint-enable -->
 
 ## 分享人简介
 

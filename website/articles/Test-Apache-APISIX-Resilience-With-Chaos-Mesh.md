@@ -13,7 +13,6 @@ description: Apache APISIX 是领先的 API 网关 OSS 之一。APISIX 使用了
 
 <!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=334774886&bvid=BV1JA411w7w8&cid=388417850&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
-<!-- markdownlint-enable -->
 
 ## 分享人简介
 

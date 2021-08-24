@@ -9,6 +9,8 @@ keywords:
 description: Apache APISIX 的孵化过程。
 ---
 
+<!-- markdownlint-disable -->
+
 ## 分享人简介
 
 温铭，Apache Member，Apache APISIX PMC 主席，支流科技联合创始人。

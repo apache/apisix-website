@@ -12,7 +12,6 @@ description: 在这个主题中将介绍 apisix-mesh-agent 项目，它有一些
 ---
 <!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=932594160&bvid=BV16M4y1V7ZW&cid=394694138&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
-<!-- markdownlint-enable -->
 
 ## 分享人简介
 

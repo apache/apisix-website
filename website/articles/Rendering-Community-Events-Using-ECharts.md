@@ -11,7 +11,6 @@ description: 通过以下方式分析了开源资源库的情况：1.贡献者�
 
 <!-- markdownlint-disable -->
 <iframe src="//player.bilibili.com/player.html?aid=847253062&bvid=BV1fL4y1Y7rf&cid=388393914&page=1" frameborder="0" scrolling="no" allowfullscreen="true" style={{width:"100%", maxHeight: "calc(100vw / 5 * 3)", height: "calc(100vh / 5 * 3)"}}></iframe>
-<!-- markdownlint-enable -->
 
 ## 分享人简介
 
