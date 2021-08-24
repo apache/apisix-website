@@ -8,6 +8,13 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
+            <title><![CDATA[ApacheCon Asia 2021]]></title>
+            <link>https://apisix.apache.org/events/2021/08/23/ApacheCon-Asia-2021</link>
+            <guid>ApacheCon Asia 2021</guid>
+            <pubDate>Mon, 23 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 于 2021 年 8 月 6-8 日在线举办。Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.16-8.22]]></title>
             <link>https://apisix.apache.org/events/2021/08/23/weekly-report</link>
             <guid>Apache APISIX 社区周报 ｜ 2021 8.16-8.22</guid>
