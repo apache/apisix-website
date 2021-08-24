@@ -1,6 +1,12 @@
 ---
 id: committer-guide
 title: Committer Guide
+keywords:
+- API gateway
+- APISIX
+- Apache APISIX
+- committer guide
+description: This article is a set of guidelines for Apache APISIX committers. It provides general guideline of contritions, and the way of promoting from contributors to commiter, and from committer to PMC.
 ---
 
 ## What can I contribute?

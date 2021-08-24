@@ -1,6 +1,12 @@
 ---
 id: security
 title: Security
+keywords:
+- API gateway
+- APISIX
+- Apache APISIX
+- security
+description: If you have apprehensions regarding APISIX’s security or you discover vulnerability or potential threat, don’t hesitate to get in touch with the Apache Security Team by dropping a mail at security@apache.org.
 ---
 
 The Apache Software Foundation takes a rigorous stance on eliminating security issues in its software projects. Apache APISIX is also very concerned Security issues related to its features and functionality.

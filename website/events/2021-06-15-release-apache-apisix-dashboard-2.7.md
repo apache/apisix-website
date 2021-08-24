@@ -1,5 +1,12 @@
 ---
 title: Release Apache APISIX Dashboard 2.7
+keywords:
+- API 网关
+- APISIX
+- Apache APISIX
+- Release Notes
+- APISIX Dashboard 2.7
+description: Apache APISIX Dashboard 2.7 is released on June 15th, 2021. This article is the release notes for Apache APISIX Dashboard 2.7, it contains core features updates, bug fixes, and test cases updates information of Apache APISIX Dashboard 2.7.
 ---
 
 <!--truncate-->

@@ -1,6 +1,12 @@
 ---
 id: contributor-guide
 title: Contributor Guide
+keywords:
+- API gateway
+- APISIX
+- Apache APISIX
+- contributor guide
+description: This article is a set of guidelines for Apache APISIX contributors, including things that a contributor can do and how to do it well.
 ---
 
 Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
