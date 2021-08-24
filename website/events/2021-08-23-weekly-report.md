@@ -23,7 +23,7 @@ description: “独行者速，众行者远”。Apache APISIX 社区周报希�
 
 ## 贡献者统计
 
-![second_contributor_static](https://static.apiseven.com/202108/1629726394722-84d86d5a-1b62-4bbd-b681-c42b371c53ec.png)
+![weekly_contributor_static_20210823](https://static.apiseven.com/202108/1629726394722-84d86d5a-1b62-4bbd-b681-c42b371c53ec.png)
 
 ## Good first issue
 
