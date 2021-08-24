@@ -25,4 +25,4 @@ description: 通过以下方式分析了开源资源库的情况：1.贡献者�
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;"/>
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style={{width: "200px"}} />

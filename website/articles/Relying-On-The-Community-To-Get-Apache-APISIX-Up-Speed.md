@@ -26,4 +26,4 @@ description: 在过去的一年里，APISIX 已经成为全世界最活跃的 AP
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;"/>
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style={{width: "200px"}} />

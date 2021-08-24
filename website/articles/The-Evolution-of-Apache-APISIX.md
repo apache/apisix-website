@@ -25,4 +25,4 @@ Apache APISIX 是最受欢迎的 API 网关之一：https://github.com/apache/ap
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style="width: 200px;"/>
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style={{width: "200px"}} />
