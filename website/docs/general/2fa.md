@@ -1,21 +1,11 @@
 ---
 id: 2fa
-title: 2FA
+title: Two Factor Authentication
 keywords:
-- APISIX
-- api6
 - API gateway
-- API hosting
-- Security
+- APISIX
 - Apache APISIX
-- apisix gateway
-- Ingress Controller
-- Service Mesh
-- Microservices
-- faq
-- frequently asked questions
-- Two-factor authentication
-- authentication
+- two factor authentication
 description: This article provides information of how to enable Two-factor authentication(2FA) on GitHub. It consists of 3 parts, what is Two-factor authentication(2FA), how to enable 2FA on GitHub, and how to submit codes.
 ---
 

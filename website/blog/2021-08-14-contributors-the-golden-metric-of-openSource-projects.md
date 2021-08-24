@@ -4,19 +4,12 @@ author: Yiyiyimu
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
 keywords:
-- apisix
-- api6
 - API 网关
-- API 托管
-- 安全防护
+- APISIX
 - Apache APISIX
-- apisix gateway
-- Ingress Controller
-- 服务网格
-- 微服务
 - 贡献者图表
 - 开源项目
-description: 本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，贡献者图表已经在 Apache APISIX 、Apache Skywalking、Apache DolphinScheduler、Apache Openwhisk、Apache ShardingSphere、awesome-docker、TiDB docs-dm 等多个开源项目中使用。
+description: 本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，多个开源项目已经在使用贡献者图表。
 ---
 > [@Yiyiyimu](https://github.com/Yiyiyimu), Apache APISIX committer.
 >
