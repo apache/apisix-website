@@ -4,19 +4,12 @@ author: Peter Yang
 authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
 keywords:
-- apisix
-- api6
 - API 网关
-- API 托管
-- 安全防护
+- APISIX
 - Apache APISIX
-- apisix gateway
-- Ingress Controller
-- 服务网格
-- 微服务
 - 开源社区
 - 开源项目
-description: 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。在一个平淡的下午，我们和正松连线聊了聊。因为疫情关系，居住在南京的他已经多日未外出。在没有和他聊天之前，我没有想到，胡子拉碴的他，竟然走过了这么曲折的路。
+description: 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
 ---
 
 <!--truncate-->

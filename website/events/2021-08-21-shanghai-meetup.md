@@ -1,19 +1,11 @@
 ---
 title: "8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！"
 keywords:
-- apisix
-- api6
 - API 网关
-- API 托管
-- 安全防护
+- APISIX
 - Apache APISIX
-- apisix gateway
-- Ingress Controller
-- 服务网格
-- 微服务
-- Apache APISIX Meetup
+- Meetup
 description: 本次 Meetup 由 api7.ai https://www.apiseven.com/ 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。
-
 ---
 
 <!--truncate-->
