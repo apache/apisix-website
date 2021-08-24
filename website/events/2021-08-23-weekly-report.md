@@ -64,3 +64,11 @@ Apache APISIX 的[项目官网](https://apisix.apache.org/)和 Github 上的 [is
 
 ## 本周博文推荐
 
+- [Go 让 Apache APISIX 如虎添翼](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247486454&idx=1&sn=905ab375e0f33a173ba90a0f541995b7&chksm=e98160ebdef6e9fd58079446c1543c7d6f8fabac966acb4e4165d80bf42f6c64a8183583ff1a&token=1586118041&lang=zh_CN#rd)
+这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
+
+- [Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247486406&idx=1&sn=5d04353f3d8128f17fca138572667ddb&chksm=e98160dbdef6e9cd19ddeed4267554a15bcd1a10decfa2c16f2989575bd9a1c9c95349b0c0cc&token=1586118041&lang=zh_CN#rd)
+今天，我们为大家带来了本次参会嘉宾 Airwallex 空中云汇技术平台负责人李杨的专访，来听听空中云汇与 Apache APISIX 之间的故事。
+
+- [Apache APISIX 社区周报 ｜ 2021 8.9-8.15](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247486382&idx=1&sn=f041eb8c38dd528450e5bf4280b60b0f&chksm=e98160b3def6e9a5331f9485d8a478f9546475f949a31f8142c4188d9c104d39eec9a281bbf2&token=1586118041&lang=zh_CN#rd)
+“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
