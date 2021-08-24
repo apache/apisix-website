@@ -2,20 +2,10 @@
 id: contributor-guide
 title: Contributor Guide
 keywords:
-- APISIX
-- api6
 - API gateway
-- API hosting
-- Security
+- APISIX
 - Apache APISIX
-- apisix gateway
-- Ingress Controller
-- Service Mesh
-- Microservices
-- faq
-- frequently asked questions
-- contributor guidelines
-- contributor
+- contributor guide
 description: This article is a set of guidelines for Apache APISIX contributors, including things that a contributor can do and how to do it well.
 ---
 

@@ -1,18 +1,10 @@
 ---
 title: Release Apache APISIX 2.7
 keywords:
+- API 网关
 - APISIX
-- api6
-- API gateway
-- API hosting
-- Security
 - Apache APISIX
-- apisix gateway
-- Ingress Controller
-- Service Mesh
-- Microservices
 - Release Notes
-- Apache APISIX 2.7
 - APISIX 2.7
 description: Apache APISIX 2.7 is released on June 25th, 2021. This article is the release notes for Apache APISIX 2.7, it contains changes, core feature updates, plugins updates and bug fixes information of Apache APISIX 2.7.
 ---
