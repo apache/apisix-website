@@ -27,7 +27,7 @@ description: “独行者速，众行者远”。Apache APISIX 社区周报希�
 
 ## Good first issue
 
-#### Issue #4441
+### Issue #4441
 
 链接：https://github.com/apache/apisix/issues/4441
 
@@ -64,7 +64,7 @@ description: “独行者速，众行者远”。Apache APISIX 社区周报希�
   **相关 PR**：https://github.com/apache/apisix/pull/4852  
   **贡献者**：[spacewander](https://github.com/spacewander)  
 
-- **uri-blocker 插件支持自定义失败响应**    
+- **uri-blocker 插件支持自定义失败响应**
   **相关 PR**：https://github.com/apache/apisix/pull/4849  
   **贡献者**：[okaybase](https://github.com/okaybase)  
 
