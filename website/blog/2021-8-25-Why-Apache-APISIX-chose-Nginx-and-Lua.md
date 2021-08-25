@@ -50,7 +50,7 @@ LuaJIT 是 Lua 的一个 JIT 实现，性能比 Lua 好很多，而且额外添�
 这可不是我的一面之辞，Fasthttp，一个重新实现 Go 标准库里面的 HTTP 包的项目，就举了两个例子：
 
 1. 标准库的 HTTP Request 结构体没法复用
-2. headers 总是被提前解析好，存储成 map[string][]string，即使没有用到（原文见：https://github.com/valyala/fasthttp#faq）
+2. headers 总是被提前解析好，存储成 map[string][]string，即使没有用到（原文见：https://github.com/valyala/fasthttp#faq ）
 
 Fasthttp 文档里面还提到一些 bytes matter 的优化技巧，建议大家可以阅读下。
 
@@ -61,7 +61,7 @@ Fasthttp 文档里面还提到一些 bytes matter 的优化技巧，建议大家
 比如 lua-cjson 的 json 编解码，lua-resty-core 的 base64 编解码，实际上大头是用 C 实现的。
 而 Go 的库，当然是大部分用 Go 实现的。虽然有 CGO 这种东西，但是受限于 Go 的协程调度和工具链的限制，它在 Go 的生态圈里面只能处于从属的地位。
 
-关于 LuaJIT 和 Go 对于 C 的亲和力的比较，推荐 Hacker News 上的这篇文章：《Comparing the C FFI overhead in various programming languages》（链接 https://news.ycombinator.com/item?id=17161168）
+关于 LuaJIT 和 Go 对于 C 的亲和力的比较，推荐 Hacker News 上的这篇文章：《Comparing the C FFI overhead in various programming languages》（链接 https://news.ycombinator.com/item?id=17161168 ）
 
 于是我们比较 Lua 的某些功能，其实还是会回到 C 和 Go 的比较中。
 
@@ -136,7 +136,7 @@ func main() {
 
 你可能会问，在 Lua 里面做路由分发，会比 Nginx 的实现慢吗？
 
-就像前面提到过的一样，凡是对性能要求比较高的，我们会把核心代码用 C 改写。我们的路由分发模块就是这么干的。路由分发模块在匹配路由时，会采用一个前缀树来匹配。而这个前缀树是用 C 实现的。感兴趣的读者可以看下代码：https://github.com/api7/lua-resty-radixtree/。
+就像前面提到过的一样，凡是对性能要求比较高的，我们会把核心代码用 C 改写。我们的路由分发模块就是这么干的。路由分发模块在匹配路由时，会采用一个前缀树来匹配。而这个前缀树是用 C 实现的。感兴趣的读者可以看下代码：https://github.com/api7/lua-resty-radixtree/ 。
 
 完成了 C 层面上的前缀树匹配，接下来就该 Lua 发挥灵活性的时刻了。对于匹配同一前缀的各个路由，我们支持通过许多别的方式来进行下一级的匹配，其中就包含通过一个特定的表达式来匹配。尽管硬着头皮，也能在 C 层面上接入一个表达式引擎，但是纯 C 实现做不了非常灵活地自定义表达式里面的变量。
 
