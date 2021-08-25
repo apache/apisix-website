@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Thu, 19 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 25 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua</link>
+            <guid>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</guid>
+            <pubDate>Wed, 25 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。]]></description>
+        </item>
         <item>
             <title><![CDATA[Go 让 Apache APISIX 如虎添翼]]></title>
             <link>https://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better</link>
