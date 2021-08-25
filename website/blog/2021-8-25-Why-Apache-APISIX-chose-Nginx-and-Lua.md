@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Lua
 - Nginx
-description: 本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽煊撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。
+description: 本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。
 ---
 > [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
