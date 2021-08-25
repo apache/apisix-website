@@ -3,6 +3,11 @@ title: "为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？"
 author: spacewander
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+keywords:
+- API 网关
+- APISIX
+- Apache APISIX
+description: 本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽煊撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。
 ---
 > [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >
@@ -19,6 +24,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 事实上，APISIX 采用的技术栈并不是纯粹的 Lua，准确来说，应该是 Nginx + Lua。APISIX 以底下的 Nginx 为根基，以上层的 Lua 代码为枝叶。
 
 ## LuaJIT VS Go
+
 严谨认真的读者必然会指出，APISIX 并非基于 Nginx + Lua 的技术栈，而是 Nginx + LuaJIT （又称 OpenResty，以下为了避免混乱，会仅仅采用 Nginx + Lua 这样的称呼）。
 
 LuaJIT 是 Lua 的一个 JIT 实现，性能比 Lua 好很多，而且额外添加了 FFI 的功能，能方便高效地调用 C 代码。
@@ -48,7 +54,7 @@ Fasthttp 文档里面还提到一些 bytes matter 的优化技巧，建议大家
 
 事实上，即使不去比较作为网关核心的代理功能，用 LuaJIT 写的代码不一定比 Go 差多少。原因有二。
 
-**其一，拜 Lua 跟 C 良好的亲和力所赐，许多 Lua 的库核心其实是用 C 写的。 **
+**其一，拜 Lua 跟 C 良好的亲和力所赐，许多 Lua 的库核心其实是用 C 写的。**
 
 比如 lua-cjson 的 json 编解码，lua-resty-core 的 base64 编解码，实际上大头是用 C 实现的。
 而 Go 的库，当然是大部分用 Go 实现的。虽然有 CGO 这种东西，但是受限于 Go 的协程调度和工具链的限制，它在 Go 的生态圈里面只能处于从属的地位。
@@ -57,7 +63,7 @@ Fasthttp 文档里面还提到一些 bytes matter 的优化技巧，建议大家
 
 于是我们比较 Lua 的某些功能，其实还是会回到 C 和 Go 的比较中。
 
-**其二，LuaJIT 的 JIT 优化无出其右 **
+**其二，LuaJIT 的 JIT 优化无出其右**
 
 讨论动态语言的性能，可以把动态语言分成两类，带 JIT 和不带 JIT 的。JIT 优化能够把动态语言的代码在运行时编译成机器码，进而把原来的代码的性能提升一个数量级。
 
@@ -112,6 +118,7 @@ func main() {
 举这个例子并不是想证明 LuaJIT 比 Go 快 20 倍。我只想说明用 micro benchmark 证明某个语言比另一个语言快的意义不大，因为影响性能的因素很多。一个简单的 micro benchmark 很有可能过分强调某一个因素，导致出乎意料的结果。
 
 ## Nginx + Lua ：高性能 + 灵活
+
 让我们转回 APISIX 的 Nginx + Lua 的技术栈。Nginx + Lua 的技术栈给我们带来的，不仅仅是高性能。
 
 经常有人问我们，既然你们是基于 Nginx 开源版本，而 Nginx 并不支持动态配置，为什么 APISIX 声称自己可以实现动态配置？你们是不是改了点东西？
@@ -158,6 +165,8 @@ query repo {
 ```
 这里的 graphql_name 并非 Nginx 内置变量，而是通过 Lua 代码定义的。APISIX 一共定义了三个 GraphQL 相关的变量，连同解析 GraphQL body 在内不过 62 行 Lua 代码。如果要通过 Nginx C 模块来定义变量，62 行可能只不过是把相关方法的样板代码搭建起来，都还没有到真正的解析 GraphQL 的逻辑呢。
 
-**采用 Lua 代码来做路由还有一个好处：它减低了二次开发的门槛。 **如果在路由过程中需要有特殊的逻辑，用户可以实现成自定义的变量和运算符，比如通过 IP 库匹配到的地理位置来决定采用哪条路由。用户只需要写一些 Lua 代码，这要比修改 Nginx C module 的难度小多了。
+**采用 Lua 代码来做路由还有一个好处：它减低了二次开发的门槛。**
+
+如果在路由过程中需要有特殊的逻辑，用户可以实现成自定义的变量和运算符，比如通过 IP 库匹配到的地理位置来决定采用哪条路由。用户只需要写一些 Lua 代码，这要比修改 Nginx C module 的难度小多了。
 
 在 APISIX 里面，不仅仅路由是动态的，我们的 TLS 服务端证书和上游节点配置都是动态的，而且无需修改 Nginx —— 上述功能可以跑在官方的 Nginx + Lua 技术栈上。当然通过修改 Nginx，我们还实现了更多的高级功能，比如动态的 gzip 配置和动态的客户端请求大小限制。后续我们将推行自己的 Nginx 发行版，这样开源用户也能轻松用上这些高级功能。
