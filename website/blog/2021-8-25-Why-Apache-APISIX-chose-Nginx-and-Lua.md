@@ -163,6 +163,7 @@ query repo {
     }
 }
 ```
+
 这里的 graphql_name 并非 Nginx 内置变量，而是通过 Lua 代码定义的。APISIX 一共定义了三个 GraphQL 相关的变量，连同解析 GraphQL body 在内不过 62 行 Lua 代码。如果要通过 Nginx C 模块来定义变量，62 行可能只不过是把相关方法的样板代码搭建起来，都还没有到真正的解析 GraphQL 的逻辑呢。
 
 **采用 Lua 代码来做路由还有一个好处：它减低了二次开发的门槛。**
