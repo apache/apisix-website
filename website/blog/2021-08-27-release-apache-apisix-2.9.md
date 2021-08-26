@@ -10,7 +10,7 @@ keywords:
 - Lua
 - Nginx
 - APISIX 2.9
-description: Apache APISIX 2.9 版本正式发布！🎉 这个版本新增了 2 个新功能,进一步完善了对插件的支持，快来了解 Apache APISIX 2.9 版本的新特性吧！
+description: Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能,进一步完善了对插件的支持。
 ---
 
 <!--truncate-->
@@ -25,7 +25,7 @@ Casbin 社区向 APISIX 贡献了 authz-casbin 插件，在 APISIX 2.9 新版本
 
 Casbin 是一个开源的访问控制框架，支持通过配置来决定是否允许某个访问操作。通过 authz-casbin 插件，我们可以在一个路由里同时做多种角色的访问控制。
 
-这一控制既可以通过配置文件设置，也可以通过 APISIX CP 面配置；既可以针对给定路由生效，又可以设置全局的默认值。可以说非常地灵活。
+这一控制既可以通过配置文件设置，也可以通过 APISIX Control Plane 配置；既可以针对给定路由生效，又可以设置全局的默认值。可以说非常地灵活。
 
 如果您对这一插件感兴趣，欢迎您移步阅读 [在 Apache APISIX 中使用 Casbin 进行授权](https://apisix.apache.org/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX) 。
 
