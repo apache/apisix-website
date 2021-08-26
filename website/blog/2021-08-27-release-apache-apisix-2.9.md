@@ -1,14 +1,15 @@
 ---
 title: "Apache APISIX 2.9 正式发布，带来更多新功能！"
-author: Peter Yang
-authorURL: "https://github.com/Yangxiamao"
-authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
+author: spacewander
+authorURL: "https://github.com/spacewander"
+authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
 - API 网关
 - APISIX
-- Apache APISIX
+- Release
+- Lua
+- Nginx
 - APISIX 2.9
-- 开源项目
 description: Apache APISIX 2.9 版本正式发布！🎉 这个版本新增了 2 个新功能,进一步完善了对插件的支持，快来了解 Apache APISIX 2.9 版本的新特性吧！
 ---
 
@@ -18,22 +19,23 @@ Apache APISIX 2.9 版本正式发布！🎉 该版本有 30+ 开发者参与，�
 
 👇👇👇
 
-## 新功能：来自 casbin 社区的 authz-casbin 插件
+## 新功能：新增 authz-casbin 插件
 
-casbin 社区向 APISIX 贡献了 authz-casbin 插件，在 APISIX 2.9 新版本中，如今 APISIX 可以结合 casbin 做路由级别上的精细化权限管理。
+Casbin 社区向 APISIX 贡献了 authz-casbin 插件，在 APISIX 2.9 新版本中，APISIX 可以结合 Casbin 做路由级别上的精细化权限管理。
 
-casbin 是一个开源的访问控制框架，支持通过配置来决定是否允许某个访问操作。通过 authz-casbin 插件，我们可以在一个路由里同时做多种角色的访问控制。
+Casbin 是一个开源的访问控制框架，支持通过配置来决定是否允许某个访问操作。通过 authz-casbin 插件，我们可以在一个路由里同时做多种角色的访问控制。
 
 这一控制既可以通过配置文件设置，也可以通过 APISIX CP 面配置；既可以针对给定路由生效，又可以设置全局的默认值。可以说非常地灵活。
+
 如果您对这一插件感兴趣，欢迎您移步阅读 [在 Apache APISIX 中使用 Casbin 进行授权](https://apisix.apache.org/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX) 。
 
-## 新功能： 路由级别上 real ip 的动态配置
+## 新功能： 路由级别上 real-ip 的动态配置
 
-APISIX 2.9 版本现在支持在路由级别上动态配置 real ip 了！
+APISIX 2.9 版本现在支持在路由级别上动态配置 real-ip 了！
 
-新版本新增了 real-ip 插件，借用它，我们可以动态设置 real-ip 参数。
+新版本新增了 real-ip 插件，我们可以使用这个插件动态设置 real-ip 参数.
 
-```Nginx
+```
 {
     "plugins": {
         "real-ip": {
@@ -42,13 +44,6 @@ APISIX 2.9 版本现在支持在路由级别上动态配置 real ip 了！
         }
     }
 }
-```
-
-相当于这样的 Nginx 配置：
-
-```Nginx
-set_real_ip_from  127.0.0.0/24;
-real_ip_header    X-Forwarded-For;
 ```
 
 ## 完善：外部插件机制
