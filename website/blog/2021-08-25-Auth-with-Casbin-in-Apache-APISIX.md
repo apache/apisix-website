@@ -99,7 +99,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
         "type": "roundrobin"
     },
     "uri": "/*"
-}
+}'
 ```
 
 In this case, `username` is the username passed into the subject. For example, you can set `"username": "user"` to pass your defined `user:alice` to username, and modify username to Alice.
