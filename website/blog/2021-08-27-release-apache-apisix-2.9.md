@@ -52,7 +52,7 @@ APISIX 2.9 版本进一步完善了对外部插件的支持，做出了两个较
 
 1. 向 Plugin Runner 发送插件配置时，会发送一个唯一 key。由于 APISIX 是多进程架构，过去发送插件配置时会出现一个配置被发送几次的情况，导致 Plugin Runner 重复更新插件配置。如今，凭借这个唯一 key，Plugin Runner 可以识别重复的配置。这使得在 Plugin Runner 里面实现限流一类的插件变得可能！
 
-2. 增加了一套从 Plugin Runner 反向从 APISIX 获取信息的机制。除了 APISIX 向 Plugin Runner 发送的请求头、请求路径等信息外，Plugin Runner 也可以反向从 APISIX 查询信息。目前已经在 Go Plugin Runner 的实现中，借助这一机制实现了 Var API，可以得到请求的 request_time 等跟 Nginx 变量相关的信息。
+2. 增加从 Plugin Runner 反向获取 APISIX 信息的机制。除了 APISIX 向 Plugin Runner 发送的请求头、请求路径等信息外，Plugin Runner 也可以反向从 APISIX 查询信息。目前已经在 Go Plugin Runner 的实现中，借助这一机制实现了 Var API，可以得到请求的 request_time 等跟 Nginx 变量相关的信息。
 
 包含了这一改动的 Go Plugin Runner 将会在下周发布 0.2.0 版本，敬请期待！
 
@@ -68,5 +68,5 @@ APISIX 2.9 版本完善了现有插件的功能，做出了两个较大的改动
 
 您可以访问以下页面下载 Apache APISIX 2.9！
 
-源代码：
-二进制安装包：
+- 源代码：请访问[下载页面](https://apisix.apache.org/downloads/)
+- 二进制安装包：请访问[安装指南](https://apisix.apache.org/zh/docs/apisix/how-to-build/)
