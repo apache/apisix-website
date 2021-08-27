@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/releases</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 17 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 27 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Release Apache APISIX 2.9]]></title>
+            <link>https://apisix.apache.org/releases/2021/08/27/release-apache-apisix-2.9</link>
+            <guid>Release Apache APISIX 2.9</guid>
+            <pubDate>Fri, 27 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Change]]></description>
+        </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 1.2.0]]></title>
             <link>https://apisix.apache.org/releases/2021/08/17/release-apache-apisix-ingress-controller-1.2.0</link>

@@ -1,0 +1,1 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[65891],{79568:function(s){"use strict";s.exports=JSON.parse('{"allTagsPath":"/zh/releases/tags","slug":"apisix","name":"apisix","count":20,"permalink":"/zh/releases/tags/apisix"}')}}]);
