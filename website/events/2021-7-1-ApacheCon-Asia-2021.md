@@ -1,8 +1,8 @@
 ---
 title: "ApacheCon Asia 2021: Apache APISIX 技术议题一览"
-author: Peter Yang
-authorURL: "https://github.com/Yangxiamao"
-authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
+author: Serendipity96
+authorURL: "https://github.com/Serendipity96"
+authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - ApacheCon Asia 2021
 - APISIX
@@ -11,8 +11,10 @@ keywords:
 - ApacheCon
 description: 近期 ApacheCon Asia 2021 团队正式公布了大会日程，Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富，欢迎关注。
 ---
-
+> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
+>
 <!--truncate-->
+
 ## 关于 ApacheCon Asia 2021
 
 ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。
