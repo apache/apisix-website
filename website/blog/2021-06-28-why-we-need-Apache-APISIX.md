@@ -19,7 +19,6 @@ description: 本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和
 
 > Source: https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX
 
-
 大家好，非常开心给大家分享一个让我激动的主题《有了 NGINX 和 Kong，为什么还需要 Apache APISIX》。
 
 ![why we need APISIX](https://static.apiseven.com/202108/20210625001.png)
