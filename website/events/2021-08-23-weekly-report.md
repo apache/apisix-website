@@ -40,7 +40,7 @@ description: “独行者速，众行者远”。Apache APISIX 社区周报希�
 - apisix version (cmd: `apisix version`): 2.6
 - OS (cmd: `uname -a`): CentOS7
 
-#### Issue #3931
+### Issue #3931
 
 链接：https://github.com/apache/apisix/issues/3931
 
