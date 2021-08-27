@@ -8,6 +8,20 @@
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
     <entry>
+        <title type="html"><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
+        <id>Authorization with Casbin in Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
+        <id>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</id>
+        <link href="https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
         <id>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</id>
         <link href="https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>

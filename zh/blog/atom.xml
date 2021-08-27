@@ -8,6 +8,20 @@
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
     <entry>
+        <title type="html"><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
+        <id>Authorization with Casbin in Apache APISIX</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
+        <id>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
         <id>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>
@@ -36,18 +50,18 @@
         <summary type="html"><![CDATA[This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication.  This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
-        <id>Contributors — The Golden Metric of OpenSource Projects</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en"/>
-        <updated>2021-08-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
         <id>贡献者，是衡量开源项目的金指标</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects"/>
         <updated>2021-08-14T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，多个开源项目已经在使用贡献者图表。]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
+        <id>Contributors — The Golden Metric of OpenSource Projects</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en"/>
+        <updated>2021-08-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
