@@ -1,7 +1,7 @@
 ---
 title: "Apache APISIX PMC 王院生：一线奋斗快二十年，希望我的代码有价值且长寿"
 authorURL: "https://github.com/membphis"
-authorImageURL: "	https://avatars.githubusercontent.com/u/6814606?v=4"
+authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords:
 - 王院生
 - APISIX
