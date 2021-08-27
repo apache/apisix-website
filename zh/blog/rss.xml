@@ -8,13 +8,6 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX</link>
-            <guid>Authorization with Casbin in Apache APISIX</guid>
-            <pubDate>Wed, 25 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></description>
-        </item>
-        <item>
             <title><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication</link>
             <guid>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</guid>
@@ -50,18 +43,18 @@
             <description><![CDATA[This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication.  This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.]]></description>
         </item>
         <item>
-            <title><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects</link>
-            <guid>贡献者，是衡量开源项目的金指标</guid>
-            <pubDate>Sat, 14 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，多个开源项目已经在使用贡献者图表。]]></description>
-        </item>
-        <item>
             <title><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en</link>
             <guid>Contributors — The Golden Metric of OpenSource Projects</guid>
             <pubDate>Sat, 14 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects</link>
+            <guid>贡献者，是衡量开源项目的金指标</guid>
+            <pubDate>Sat, 14 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，多个开源项目已经在使用贡献者图表。]]></description>
         </item>
         <item>
             <title><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
