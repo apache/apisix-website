@@ -8,9 +8,9 @@ keywords:
 - Apache APISIX
 - PMC
 - Nginx
-description: 本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。
+description: 本文为 Apache APISIX Founder & PMC 成员王院生接受 ECUG 活动组采访所整理出来的文字稿。
 ---
-> [@YuanSheng Wang](https://github.com/membphis), Apache APISIX Founder && PMC
+> [@YuanSheng Wang](https://github.com/membphis), Apache APISIX Founder & PMC
 >
 <!--truncate-->
 
