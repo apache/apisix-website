@@ -129,7 +129,7 @@ Apache APISIX 是全球最活跃的开源 API 网关，本议题将介绍 Apache
 
 ![APISIX 的演变](https://static.apiseven.com/202108/1630046320240-e36e6839-de01-46ad-a704-2e19bffc623d.png)
 
-### 分享时间： 
+### 分享时间：  
 
 2021-08-07 14:10 GMT+8
 
@@ -137,7 +137,7 @@ Apache APISIX 是全球最活跃的开源 API 网关，本议题将介绍 Apache
 
 ### 议题简介：
 
-介绍基于 Apache APISIX 的 Kubernetes Ingress 的优势以及 Apache APISIX Ingress 的特点。
+介绍基于 Apache APISIX 的 Kubernetes。Ingress 的优势以及 Apache APISIX Ingress 的特点。
 
 - 什么是 Ingress
 - Apache APISIX Ingress的主要特点
@@ -148,7 +148,7 @@ Apache APISIX 是全球最活跃的开源 API 网关，本议题将介绍 Apache
 
 ### 分享嘉宾：
 
-![](https://static.apiseven.com/202108/1630046376306-511acb8e-654c-4ccb-853c-d073ba29635c.png)
+![Ingress的优势](https://static.apiseven.com/202108/1630046376306-511acb8e-654c-4ccb-853c-d073ba29635c.png)
 
 **分享时间：**
 
