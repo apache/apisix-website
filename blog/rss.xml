@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Wed, 25 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 27 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9</link>
+            <guid>Apache APISIX 2.9 正式发布，带来更多新功能！</guid>
+            <pubDate>Fri, 27 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能，进一步完善了对插件的支持。]]></description>
+        </item>
         <item>
             <title><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
             <link>https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX</link>
