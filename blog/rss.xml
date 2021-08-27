@@ -8,6 +8,13 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
+            <title><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX</link>
+            <guid>Authorization with Casbin in Apache APISIX</guid>
+            <pubDate>Wed, 25 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></description>
+        </item>
+        <item>
             <title><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
             <link>https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication</link>
             <guid>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</guid>
