@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.8",
-        releaseDate: "2021-07-27",
+        version: "2.9",
+        releaseDate: "2021-08-27",
         firstDocPath: "/getting-started",
       },
       {
@@ -103,9 +103,9 @@ module.exports = {
         color: "#e8433e",
         githubRepo: "apache/apisix",
         githubBranch: "master",
-        downloadPath: "apisix/2.8/apache-apisix-2.8-src",
-        version: "2.8",
-        releaseDate: "2021-07-27",
+        downloadPath: "apisix/2.9/apache-apisix-2.9-src",
+        version: "2.9",
+        releaseDate: "2021-08-27",
         firstDocPath: "/getting-started",
       },
       {
