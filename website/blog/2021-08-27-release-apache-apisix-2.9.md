@@ -56,7 +56,7 @@ APISIX 2.9 版本进一步完善了对外部插件的支持，做出了两个较
 
 2. 增加从 Plugin Runner 反向获取 APISIX 信息的机制。除了 APISIX 向 Plugin Runner 发送的请求头、请求路径等信息外，Plugin Runner 也可以反向从 APISIX 查询信息。目前已经在 Go Plugin Runner 的实现中，借助这一机制实现了 Var API，可以得到请求的 request_time 等跟 Nginx 变量相关的信息。
 
-包含了这一改动的 Go Plugin Runner 将会在下周发布 0.2.0 版本，敬请期待！
+包含了这一改动的 [Go Plugin Runner](https://github.com/apache/apisix-go-plugin-runner/tree/6f249010b83a124bc30e940635db7fa0838e2c4a) 将会在下周发布 0.2.0 版本，敬请期待！
 
 ## 完善：现有插件功能更为丰富
 
