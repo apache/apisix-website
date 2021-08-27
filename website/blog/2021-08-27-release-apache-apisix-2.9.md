@@ -21,7 +21,7 @@ Apache APISIX 2.9 版本正式发布！🎉 该版本有 30+ 开发者参与，�
 
 ## 新功能：新增 authz-casbin 插件
 
-Casbin 社区向 APISIX 贡献了 authz-casbin 插件，在 APISIX 2.9 新版本中，APISIX 可以结合 Casbin 做路由级别上的精细化权限管理。
+Casbin 社区向 APISIX 贡献了 [authz-casbin](https://github.com/apache/apisix/blob/d9b928321fcdd12eef024df8c7c410424c1e0c8b/docs/en/latest/plugins/authz-casbin.md) 插件，在 APISIX 2.9 新版本中，APISIX 可以结合 Casbin 做路由级别上的精细化权限管理。
 
 Casbin 是一个开源的访问控制框架，支持通过配置来决定是否允许某个访问操作。通过 authz-casbin 插件，我们可以在一个路由里同时做多种角色的访问控制。
 
@@ -33,7 +33,7 @@ Casbin 是一个开源的访问控制框架，支持通过配置来决定是否�
 
 APISIX 2.9 版本现在支持在路由级别上动态配置 real-ip 了！
 
-新版本新增了 real-ip 插件，这个插件需要 APISIX 运行在 APISIX-OpenResty 上。real-ip 插件可以动态地改变 APISIX 看到的客户端的 IP 和端口。
+新版本新增了 [real-ip](https://apisix.apache.org/zh/docs/apisix/plugins/real-ip/) 插件，real-ip 插件可以动态地改变 APISIX 看到的客户端的 IP 和端口。
 
 我们可以使用这个插件动态设置 real-ip 参数.
 
@@ -47,8 +47,6 @@ APISIX 2.9 版本现在支持在路由级别上动态配置 real-ip 了！
     }
 }
 ```
-
-如果您想获取更多信息，欢迎访问链接：https://apisix.apache.org/zh/docs/apisix/plugins/real-ip/
 
 ## 完善：外部插件机制
 
@@ -64,9 +62,9 @@ APISIX 2.9 版本进一步完善了对外部插件的支持，做出了两个较
 
 APISIX 2.9 版本完善了现有插件的功能，做出了两个较大的改动：
 
-1. request-id 插件支持通过 snowflake 算法生成 ID。snowflake ID 生成算法是一套分布式的 ID 生成机制，其生成的 ID 结合了 machine ID、时间戳和生成序列。我们通过 etcd 来保证每个 worker 都能分配到一个唯一的 machine ID。如果您想获取更多信息，欢迎访问链接：https://apisix.apache.org/zh/docs/apisix/plugins/request-id/
+1. [request-id](https://apisix.apache.org/zh/docs/apisix/plugins/request-id/) 插件支持通过 snowflake 算法生成 ID。snowflake ID 生成算法是一套分布式的 ID 生成机制，其生成的 ID 结合了 machine ID、时间戳和生成序列。我们通过 etcd 来保证每个 worker 都能分配到一个唯一的 machine ID。
 
-2. error-log-logger 插件支持上报 error log 给 skywalking，让 APISIX 的可观测性锦上添花。如果您想获取更多信息，欢迎访问链接：https://apisix.apache.org/zh/docs/apisix/plugins/error-log-logger/
+2. [error-log-logger](https://apisix.apache.org/zh/docs/apisix/plugins/error-log-logger/) 插件支持上报 error log 给 skywalking，让 APISIX 的可观测性锦上添花。
 
 ## 下载
 
