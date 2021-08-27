@@ -33,7 +33,9 @@ Casbin 是一个开源的访问控制框架，支持通过配置来决定是否�
 
 APISIX 2.9 版本现在支持在路由级别上动态配置 real-ip 了！
 
-新版本新增了 real-ip 插件，我们可以使用这个插件动态设置 real-ip 参数.
+新版本新增了 real-ip 插件，这个插件需要 APISIX 运行在 APISIX-OpenResty 上。real-ip 插件可以动态地改变 APISIX 看到的客户端的 IP 和端口。
+
+我们可以使用这个插件动态设置 real-ip 参数.
 
 ```
 {
@@ -45,6 +47,8 @@ APISIX 2.9 版本现在支持在路由级别上动态配置 real-ip 了！
     }
 }
 ```
+
+如果您想获取更多信息，欢迎访问链接获取：https://apisix.apache.org/zh/docs/apisix/plugins/real-ip/
 
 ## 完善：外部插件机制
 
@@ -60,9 +64,9 @@ APISIX 2.9 版本进一步完善了对外部插件的支持，做出了两个较
 
 APISIX 2.9 版本完善了现有插件的功能，做出了两个较大的改动：
 
-1. request-id 插件支持通过 snowflake 算法生成 ID。snowflake ID 生成算法是一套分布式的 ID 生成机制，其生成的 ID 结合了 machine ID、时间戳和生成序列。我们通过 etcd 来保证每个 worker 都能分配到一个唯一的 machine ID。
+1. request-id 插件支持通过 snowflake 算法生成 ID。snowflake ID 生成算法是一套分布式的 ID 生成机制，其生成的 ID 结合了 machine ID、时间戳和生成序列。我们通过 etcd 来保证每个 worker 都能分配到一个唯一的 machine ID。如果您想获取更多信息，欢迎访问链接获取：https://apisix.apache.org/zh/docs/apisix/plugins/request-id/
 
-2. error-log-logger 插件支持上报 error log 给 skywalking，让 APISIX 的可观测性锦上添花。
+2. error-log-logger 插件支持上报 error log 给 skywalking，让 APISIX 的可观测性锦上添花。如果您想获取更多信息，欢迎访问链接获取：https://apisix.apache.org/zh/docs/apisix/plugins/error-log-logger/
 
 ## 下载
 
