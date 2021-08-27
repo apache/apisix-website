@@ -2,18 +2,25 @@
 title: "Apache APISIX PMC 王院生：一线奋斗快二十年，希望我的代码有价值且长寿"
 authorURL: "https://github.com/membphis"
 authorImageURL: "	https://avatars.githubusercontent.com/u/6814606?v=4"
+keywords:
+- 王院生
+- APISIX
+- Apache APISIX
+- PMC
+- Nginx
+description: 本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。
 ---
 > [@YuanSheng Wang](https://github.com/membphis), Apache APISIX Founder && PMC
 >
 <!--truncate-->
 
-由 ECUG、七牛云和支流科技联合主办的 ECUG Meetup 第2期将于 7 月 17 日于北京 · 微软大厦举行，主题为「云原生基础设施落地实践」。 
+由 ECUG、七牛云和支流科技联合主办的 ECUG Meetup 第2期将于 7 月 17 日于北京 · 微软大厦举行，主题为「云原生基础设施落地实践」。
 
 本次活动中，Apache APISIX PMC 成员王院生将以**《云原生时代 API 网关 Apache APISIX 的技术落地实践》**为主题进行分享，站在社区角度介绍 Apache APISIX 落地实践的一些经验总结。点击阅读原文，报名参加活动。
 
 为帮助大家更好地了解活动与讲师详情，ECUG 活动组特对讲师进行了简单的采访，现将文字摘录如下：
 
-**1. 请您简单介绍一下自己和目前从事的工作**
+**1. 请您简单介绍一下自己和目前从事的工作。**
 
 ![王院生](https://static.apiseven.com/202108/1630047465710-ae94f310-606b-4723-8edf-e25809b9dfe2.png)
 
@@ -25,7 +32,7 @@ authorImageURL: "	https://avatars.githubusercontent.com/u/6814606?v=4"
 
 我认为每个人都有理想主义情节，只是有些人害羞没有表达出来。作为程序员，我在一线奋斗快到二十年，我认为程序员的技术理想都差不多：**希望我的代码可以被每个人用到。并且希望这些代码对社会、对世界是有价值并且长寿的。**
 
-**3. 请展开介绍一下您在本次活动中要分享的内容**
+**3. 请展开介绍一下您在本次活动中要分享的内容。**
 
 本次分享内容，会主要侧重在 Apache APISIX（以下简称 APISIX）落地实践的一些经验总结。我是站在社区角度，可以看到更多不同种类用户落地方案，介绍这些方案是如何满足当下企业用户需求的同时，也能对未来云原生、服务网格等架构做铺垫。
 
@@ -45,7 +52,7 @@ authorImageURL: "	https://avatars.githubusercontent.com/u/6814606?v=4"
 
 看过很多这类定义，我给个比较简单的版本：**支持容器化部署、支持弹性扩缩容。**
 
-**7. 请就云原生相关生态在国内的发展趋势发表一些您的观点和看法吧**
+**7. 请就云原生相关生态在国内的发展趋势发表一些您的观点和看法吧.**
 
 云原生相关生态在国内目前还是比较早期的阶段，基础设施这块整体来说国内还是追赶阶段。
 
