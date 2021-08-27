@@ -15,8 +15,6 @@ description: Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新�
 >
 <!--truncate-->
 
-副本：如何利用 Apache APISX 提升 Nginx 的可观测性
-
 "可观测性"是一种度量手段，方便掌握基础设施、系统平台或者应用程序的运行状况。常见的手段是收集 metrics、logging 和 tracing 及 events 数据，可以帮助开发/运维人员检测、调查、预警和纠正系统问题。
 
 本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。
@@ -79,7 +77,7 @@ Nginx 的开源版本没有提供非常好用的监控。虽然 Nginx 提供了�
 
 ### 2.1 Apache APISIX 与 Nginx 的关系
 
-![img](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=OWM3MzdmZjk3MDE5M2UwZmFjNDVkZDI2NWNlNDE5NWJfU2FLemltNlRqREFNelNwTFJ2RElpVUNEMjV3QzFhNnJfVG9rZW46Ym94Y25Fc3FrOFVxUWREVm0yR1Q3UkZjUnFnXzE2MzAwNTIyNzA6MTYzMDA1NTg3MF9WNA)
+![Apache APISIX 与 Nginx](https://static.apiseven.com/202108/1630052744312-5ac4b096-ea66-479a-a9f8-1fd37b5d313e.png)
 
 Apache APISIX 基于 Nginx 实现，但只依赖 Nginx 的网络库，在 Nginx 基础上，Apache APISIX 实现了自己的核心的代码，并预留了扩展机制。
 
@@ -94,9 +92,7 @@ Apache APISIX 基于 Nginx 实现，但只依赖 Nginx 的网络库，在 Nginx 
 - **插件编排**：按照业务需求，将多个插件按照逻辑编排，组合起来使用
 - **动态的证书管理**
 
-![img](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=YjI4ODQ1MjU0YmVmYmUyZWM0OWRmMDhiNzM0YWM5MmVfMTRKTEZ0TTlDMkZMRXJIbFphbkhHMVplSndtdHlsSHdfVG9rZW46Ym94Y241eEdrZDQ3eEV2b3R3RWxVSmVCeWpiXzE2MzAwNTIyNzA6MTYzMDA1NTg3MF9WNA)
-
-Apache APISIX 架构图
+![Apache APISIX 架构图](https://static.apiseven.com/202108/1630052787540-cd0c3945-f27a-4ec2-bdcb-cb98bbf9aadd.png)
 
 ### 2.2 Apache APISIX 简介
 
@@ -104,9 +100,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 ### 2.3 Apache APISIX 解决方案
 
-![img](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDQwOWQ0OGZkZjliMGFkNmNmYmIyNDNkZDMxZjBkYWZfMUtLWTB6Z1NPN0hYbzc5U3NzeUQ1bnlld1ZvR3dBbmVfVG9rZW46Ym94Y25IWW5RT3NiTXhBVU5vZ3NMVmhWNXJjXzE2MzAwNTIyNzA6MTYzMDA1NTg3MF9WNA)
-
-
+![Apache APISIX 解决方案](https://static.apiseven.com/202108/1630052818683-44f1e359-c059-41ae-8659-20c8e8b49c75.png)
 
 左图，从上往下是从**单体服务**到 **SOA（面向服务的架构）**到**微服务**的演进过程。
 
@@ -120,7 +114,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 **在 SOA 下有 Apache APISIX SLB 解决方案，在微服务架构下有 Apache APISIX Gateway，在 Kubernetes 部署有 Apache APISIX Ingress，在 Service Mesh 里部署有 Apache APISIX mesh。**
 
-![img](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=MDVkMzcwMjdiNGEyZDc3MjY1Y2Q3YzNkNWY5OTIxMjhfUXJ2RXY4T3BzT3ZpOGpxWXB0NzJNQlBSOWN3SWZERzlfVG9rZW46Ym94Y25pcTY0QkIyZ24wQTZJUG1rcEptTkNoXzE2MzAwNTIyNzA6MTYzMDA1NTg3MF9WNA)
+![全流量数据面](https://static.apiseven.com/202108/1630052844950-e40537c8-f558-414f-910b-02c41bf59db2.png)
 
 从业务请求的流量方面看，当客户端发起请求时会经过 LB，经过 Gateway，请求被分发到后端业务服务。红色的部分（LB / Gateway / Spring Cloud Gateway / K8s Ingress / Sidecar）都可以选择 Apache APISIX 作为解决方案。Apache APISIX 支持多语言开发插件，可以在 Java 体系下使用 Java 编写插件。
 
@@ -164,7 +158,7 @@ Apache APISIX 可以通过插件扩展自身的能力，上面提到的三种数
 
 Apache APISIX 最重要的一个优势是有一个活跃的社区，一个活跃的社区可以让产品快速迭代、变得越来越完善，让大家的需求得到满足。
 
-![img](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=YzRmN2Y0OWU2ZTFjNjBlMTdlOWUyMDlhOWI2MTVlOWRfTXdFRmRmVXV5NU5kQ25pbzdIbEpKZ1JsODQ3N3ZyOFNfVG9rZW46Ym94Y25LZkNrMkxjRTRMTDJqN2FmWkNjcGVmXzE2MzAwNTIyNzA6MTYzMDA1NTg3MF9WNA)
+![活跃的社区](https://static.apiseven.com/202108/1630052886380-e85d0f8c-da9a-4790-8d44-769d5e474e6c.png)
 
 上图展示的是 Apache APISIX（绿色）、Kong（浅蓝）、mosn（黄色）、bfe （深蓝）贡献者增长曲线，Apache APISX 增长趋势最快，曲线最为陡峭。 Apache APISIX 社区活跃度在同类型项目里面是最活跃的。
 
@@ -176,7 +170,7 @@ Apache APISIX 与 Apache SkyWalking 结合可以做哪些提升？除了 SkyWalk
 
 SkyWalking Satellite 由 Apache APISIX社区、Apache SkyWalking 社区、百度深度合作开发。
 
-![img](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=NzcxNjMzNjVhZGJlNzZmNjM3ZWZiMmIyNTQxMDE4YjdfZlFLam04N0M1N2xrSTQzZDRoVm55ZzNxMTFFRXNlTjFfVG9rZW46Ym94Y252SUdpZ1JmZ0o2NEZyc2hJS2NUa3pkXzE2MzAwNTIyNzA6MTYzMDA1NTg3MF9WNA)
+![SkyWalking Satellite](https://static.apiseven.com/202108/1630052913088-60305ad7-9f7f-4263-8295-d49c431e6e5b.png)
 
 SkyWalking Satellite 按照上图步骤采集数据，SkyWalking Satellite 可以部署到更靠近产生数据的前端，以 sidecar 的形式存在。
 
