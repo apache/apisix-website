@@ -14,11 +14,9 @@ description: 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性�
 
 > [@membphis](https://github.com/membphis), Apache APISIX PMC from [api7.ai](https://www.apiseven.com/)
 
-
 <!--truncate-->
 
 > Source: https://www.apiseven.com/zh/blog/Apache-APISIX-and-Envoy-performance-comparison
-
 
 在 CNCF 组织的一场技术分享会上，第一次听到了 Envoy 这么一个东西，分享的嘉宾巴拉巴拉讲了一大堆，啥都没记住，就记住了一个特别新颖的概念“通信总线”，后面 google 了下 Envoy 这个东西到底是什么，发现官网上如是描述：
 
