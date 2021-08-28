@@ -14,7 +14,7 @@ description: Apache APISIX two years old, thanks for all contributors.
 
 <!--truncate-->
 
-今天是 2021 年 6 月 6 日，在这个 666 的日子 Apache APISIX 开源 2 周年啦！🎉
+今天是 2021 年 6 月 6 日，在这个 666 的日子 [Apache APISIX](https://github.com/apache/apisix) 开源 2 周年啦！🎉
 
 Apache APISIX 于 2019 年 6 月 6 日开源，同年 10 月进入 Apache 孵化器，也是在这短短两年时间内，成为了 **Apache 顶级项目**！
 
