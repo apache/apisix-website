@@ -9,7 +9,7 @@ keywords:
 description: Apache APISIX two years old, thanks for all contributors.
 ---
 
-> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.aid](https://www.apiseven.com/)
+> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.ai](https://www.apiseven.com/)
 >
 
 <!--truncate-->
