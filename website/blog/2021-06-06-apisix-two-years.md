@@ -34,9 +34,8 @@ Apache APISIX 于 2019 年 6 月 6 日开源，同年 10 月进入 Apache 孵化
 
 Apache APISIX 的目标不只是做一个 API 网关，**Apache APISIX 希望做云原生时代四层和七层流量处理和连接者。**在 Apache APISIX 里所有的配置都是动态的，这对于云原生时代的弹性伸缩以及多云的部署是非常重要的。我们相信 Apache APISIX 是云原生时代最好的选择。欢迎大家加入 Apache APISIX 的开源社区，欢迎大家使用 Apache APISIX！
 
-Apache APISIX 的发展离不开社区里的每一个小伙伴，**特别感谢 Apache APISIX 社区的 contributor 和社区用户为 Apache APISIX 发展作出的贡献。** 
+Apache APISIX 的发展离不开社区里的每一个小伙伴，**特别感谢 Apache APISIX 社区的 contributor 和社区用户为 Apache APISIX 发展作出的贡献。**
 
 ![apisix contributors](../static/img/blog_img/2021-06-06-1.webp)
 
 Apache APISIX 2 周岁，生日快乐！
-
