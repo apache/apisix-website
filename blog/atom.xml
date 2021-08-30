@@ -15,13 +15,6 @@
         <summary type="html"><![CDATA[Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能，进一步完善了对插件的支持。]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
-        <id>Authorization with Casbin in Apache APISIX</id>
-        <link href="https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX"/>
-        <updated>2021-08-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
         <id>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</id>
         <link href="https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
@@ -34,6 +27,13 @@
         <link href="https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
+        <id>Authorization with Casbin in Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Go 让 Apache APISIX 如虎添翼]]></title>
