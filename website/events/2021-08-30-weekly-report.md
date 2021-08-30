@@ -1,5 +1,5 @@
 title: Apache APISIX 社区周报 ｜ 2021 8.23-8.29
- keywords:
+keywords:
 - 社区周报
 - 贡献者
 - APISIX
@@ -24,7 +24,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ![2021-8-29-new-contributor](https://static.apiseven.com/202108/1630313757596-4d60cf78-0997-4854-9732-814ae7395f2a.png)
 
-## Good first issue 
+## Good first issue  
 
 ### Issue #4241
 
@@ -90,3 +90,4 @@ Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰
   介绍 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和优势，指出“高性能 + 灵活”是 APISIX 能够从众多网关中脱颖而出的重要原因。
 - [Apache APISIX 2.9 正式发布，带来更多新功能！](http://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247486767&idx=1&sn=a12a4eb55d2c2fcb0edd097f9e6a1d44&chksm=e9816632def6ef24311b86a8c6c8c180f58c674280258fab9a8f3acdd718da35ee801684ec88&scene=21#wechat_redirect)
   Apache APISIX 2.9 版本正式发布！该版本有 30+ 开发者参与，共提交了 100+ PR，新增了 2 个新功能，进一步完善了对插件的支持，快来了解 Apache APISIX 2.9 版本的新特性吧！
+  
