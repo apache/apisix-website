@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX 和 Envoy 性能大比拼"
-author: "membphis"
+author: "王院生"
 authorURL: "https://github.com/membphis"
 authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords: 
