@@ -4,9 +4,9 @@ author: Serendipity96
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
-- committer
+- 开源之夏
 - APISIX
-- contributor
+- 经验分享
 description: 本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会
 ---
 > [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.ai](https://www.apiseven.com/)
