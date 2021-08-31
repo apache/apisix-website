@@ -443,6 +443,7 @@ module.exports = {
         },
       },
     ],
+    ['docusaurus-plugin-sass', {}]
   ],
   themeConfig: {
     navbar: {
