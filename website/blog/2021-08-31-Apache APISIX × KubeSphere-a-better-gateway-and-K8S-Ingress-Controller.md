@@ -38,12 +38,12 @@ description: 本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Hel
 ```shell
 ➜  ~ helm repo add apisix https://charts.apiseven.com
 "apisix" has been added to your repositories
-➜  ~ helm repo add bitnami https://charts.bitnami.com/bitnami 
+➜  ~ helm repo add bitnami https://charts.bitnami.com/bitnami
 "bitnami" has been added to your repositories
 ➜  ~ helm repo update
 ➜  ~ kubectl create ns apisix
 namespace/apisix created
-➜  ~ helm install apisix apisix/apisix --set gateway.type=NodePort --set ingress-controller.enabled=true --namespace apisix  
+➜  ~ helm install apisix apisix/apisix --set gateway.type=NodePort --set ingress-controller.enabled=true --namespace apisix
 W0827 18:19:58.504653  294386 warnings.go:70] apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
 NAME: apisix
 LAST DEPLOYED: Fri Aug 27 18:20:00 2021
@@ -61,7 +61,7 @@ NOTES:
 验证是否已经成功部署且运行：
 
 ```shell
-➜  ~ kubectl -n apisix get pods 
+➜  ~ kubectl -n apisix get pods
 NAME                                         READY   STATUS    RESTARTS   AGE
 apisix-77d7545d4d-cvdhs                      1/1     Running   0          4m7s
 apisix-etcd-0                                1/1     Running   0          4m7s
@@ -101,13 +101,13 @@ service/httpbin   ClusterIP   10.96.0.5    <none>        80/TCP    48s
 root@apisix:~$ kubectl -n apisix exec -it `kubectl -n apisix get pods -l app.kubernetes.io/name=apisix -o name` -- bash
 bash-5.1# curl httpbin.default/get
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.default", 
+    "Accept": "*/*",
+    "Host": "httpbin.default",
     "User-Agent": "curl/7.77.0"
-  }, 
-  "origin": "10.244.2.9", 
+  },
+  "origin": "10.244.2.9",
   "url": "http://httpbin.default/get"
 }
 ```
@@ -136,14 +136,14 @@ bash-5.1# curl "http://127.0.0.1:9180/apisix/admin/routes/1" -H "X-API-KEY: edd1
 ```shell
 bash-5.1# curl http://127.0.0.1:9080/get -H "HOST: httpbin.org"
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.77.0", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.77.0",
     "X-Forwarded-Host": "httpbin.org"
-  }, 
-  "origin": "127.0.0.1", 
+  },
+  "origin": "127.0.0.1",
   "url": "http://httpbin.org/get"
 }
 ```
@@ -160,16 +160,16 @@ apisix-gateway   NodePort    10.96.126.83   <none>        80:31441/TCP   22m
 在使用 Helm chart 部署的时候，默认会将 Apache APISIX 的端口通过 NodePort 的形式暴露出去。我们使用 Node IP + NodePort 的端口进行访问测试。
 
 ```shell
-root@apisix:~$ curl http://172.18.0.5:31441/get -H "HOST: httpbin.org" 
+root@apisix:~$ curl http://172.18.0.5:31441/get -H "HOST: httpbin.org"
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.76.1", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.76.1",
     "X-Forwarded-Host": "httpbin.org"
-  }, 
-  "origin": "10.244.2.1", 
+  },
+  "origin": "10.244.2.1",
   "url": "http://httpbin.org/get"
 }
 ```
