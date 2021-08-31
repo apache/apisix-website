@@ -1,0 +1,75 @@
+.showcase {
+    .header {
+        padding-top: 0;
+        width: 100vw;
+
+        .title {
+            color: var(--color-primary);
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .tips {
+            font-size: 18px;
+        }
+    }
+
+    .content {
+        width: 100%;
+        padding: 50px 50px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .item {
+            text-align: center;
+            padding: 20px;
+            width: 25%;
+
+            > {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    }
+
+    .user-card {
+        height: 200px;
+        padding: 30px 10px;
+        border: 1px solid #eee;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items:center;
+        box-sizing: border-box;
+        position: relative;
+
+        .logo {
+            width: 100px;
+            max-height: 40px;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 70px;
+            font-size: 18px;
+        }
+
+        .button {
+            position: absolute;
+            bottom: 25px;
+            line-height: 0.5;
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        .content > .item {
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 640px) and (max-width: 800px)  {
+        .content > .item {
+            width: 50%;
+        }
+    }
+}
