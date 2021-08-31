@@ -22,18 +22,18 @@
             <description><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></description>
         </item>
         <item>
-            <title><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
-            <link>https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua</link>
-            <guid>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</guid>
-            <pubDate>Wed, 25 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。]]></description>
-        </item>
-        <item>
             <title><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
             <link>https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication</link>
             <guid>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</guid>
             <pubDate>Wed, 25 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。]]></description>
+        </item>
+        <item>
+            <title><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua</link>
+            <guid>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</guid>
+            <pubDate>Wed, 25 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。]]></description>
         </item>
         <item>
             <title><![CDATA[Go 让 Apache APISIX 如虎添翼]]></title>
@@ -148,18 +148,18 @@
             <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 2.7.0-Release 正式发布]]></title>
-            <link>https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7</link>
-            <guid>Apache APISIX 2.7.0-Release 正式发布</guid>
-            <pubDate>Tue, 29 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
-        </item>
-        <item>
             <title><![CDATA[Release Apache APISIX 2.7.0]]></title>
             <link>https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7-en</link>
             <guid>Release Apache APISIX 2.7.0</guid>
             <pubDate>Tue, 29 Jun 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX 2.7.0-Release 正式发布]]></title>
+            <link>https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7</link>
+            <guid>Apache APISIX 2.7.0-Release 正式发布</guid>
+            <pubDate>Tue, 29 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
             <title><![CDATA[Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller]]></title>
