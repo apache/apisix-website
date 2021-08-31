@@ -3,6 +3,7 @@ title: "使用 Java 编写 Apache APISIX 插件"
 author: Zhengsong Tu
 authorURL: "https://github.com/tzssangglass"
 authorImageURL: "https://avatars.githubusercontent.com/u/30819887?v=4"
+tags: [technology]
 ---
 > [@tzssangglass](https://github.com/tzssangglass), Apache APISIX contributor from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

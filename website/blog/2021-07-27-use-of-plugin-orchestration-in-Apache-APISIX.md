@@ -3,6 +3,7 @@ title: "插件编排在 Apache APISIX 中的应用与实践"
 author: juzhiyuan
 authorURL: "https://github.com/juzhiyuan"
 authorImageURL: "https://avatars.githubusercontent.com/u/2106987?v=4"
+tags: [technology]
 ---
 > [@juzhiyuan](https://github.com/juzhiyuan), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 <!--truncate-->

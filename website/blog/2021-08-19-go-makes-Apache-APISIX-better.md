@@ -10,7 +10,7 @@ keywords:
 - APISIX Go plugin
 - apisix-go-plugin-runner
 - Golang
-
+tags: [technology]
 ---
 > [@spacewander](https://github.com/spacewander), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/en).
 >
