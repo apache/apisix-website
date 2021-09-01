@@ -15,6 +15,13 @@
             <description><![CDATA[本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller 。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress Controller 的数据面来承载业务流量。]]></description>
         </item>
         <item>
+            <title><![CDATA[社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/30/Ingress-Meeting</link>
+            <guid>社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散</guid>
+            <pubDate>Mon, 30 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/08/27/release-apache-apisix-2.9</link>
             <guid>Apache APISIX 2.9 正式发布，带来更多新功能！</guid>
