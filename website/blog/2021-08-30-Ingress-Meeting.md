@@ -6,7 +6,7 @@ keywords:
 - APISIX
 - Ingress
 description: Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。 
-tag: [news]
+tags: [news]
 ---
 
 <!--truncate-->
@@ -19,7 +19,7 @@ tag: [news]
 
 ### 会议地址
 
-[腾讯会议](https://meeting.tencent.com/s/eTvhm052verD)会议 ID：377 1555 2043
+[腾讯会议](https://meeting.tencent.com/s/eTvhm052verD) ID：377 1555 2043
 
 ### 会议周报
 
