@@ -6,6 +6,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - 开源之夏
 - APISIX
+- 开源社区
 - 经验分享
 description: 本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会
 tags: [technology]
