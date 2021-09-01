@@ -8,7 +8,7 @@ keywords:
 - APISIX
 - 经验分享
 description: 本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会
-tags: [technology, news]
+tags: [technology]
 ---
 > [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.ai](https://www.apiseven.com/)
 >
