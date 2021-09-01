@@ -67,9 +67,6 @@ div.inner {
 .more-users {
   padding-top: 75px;
 }
-.product-showcase-section {
-  color: var(--ifm-color-primary);
-}
 
 .post-header {
   padding-top: 50px;
@@ -161,9 +158,12 @@ header h2 {
 }
 
 /* showcase */
-.product-showcase-section {
+.product-showcase-title {
   color: var(--color-primary);
+  font-size: 60px;
+  font-weight: bold;
 }
+
 .showcase {
   padding-left: 0;
   padding-right: 0;

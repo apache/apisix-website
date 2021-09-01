@@ -26,7 +26,7 @@ const Header = (props) => {
           <a
               href="https://github.com/apache/apisix/blob/master/powered-by.md"
               target="_blank"
-              rel="noopener"
+              rel="noopener external nofollow"
           >
             <u>Add your company</u>
           </a>
