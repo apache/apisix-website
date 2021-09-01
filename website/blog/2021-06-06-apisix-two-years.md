@@ -37,6 +37,6 @@ Apache APISIX 的目标不只是做一个 API 网关，**Apache APISIX 希望做
 
 Apache APISIX 的发展离不开社区里的每一个小伙伴，**特别感谢 Apache APISIX 社区的 contributor 和社区用户为 Apache APISIX 发展作出的贡献。**
 
-![apisix contributors](../static/img/blog_img/2021-06-06-1.webp)
+![apisix contributors](https://static.apiseven.com/202108/1630468565074-c7e83b82-c40d-4c56-bc66-d1be2acc645b.jpeg)
 
 Apache APISIX 2 周岁，生日快乐！
