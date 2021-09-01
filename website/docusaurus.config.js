@@ -556,6 +556,11 @@ module.exports = {
           ]
         },
         {
+          to: "/showcase",
+          label: "Use cases",
+          position: "right",
+        },
+        {
           type: "localeDropdown",
           position: "right",
         },

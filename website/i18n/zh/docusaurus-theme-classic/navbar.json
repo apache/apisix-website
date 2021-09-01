@@ -23,6 +23,10 @@
     "message": "团队",
     "description": "Navbar item with label Team"
   },
+  "item.label.Use cases": {
+    "message": "使用案例",
+    "description": "Navbar item with label Team"
+  },
   "item.label.Help": {
     "message": "Help",
     "description": "Navbar item with label Help"

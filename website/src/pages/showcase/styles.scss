@@ -3,13 +3,13 @@
         padding-top: 0;
         width: 100%;
 
-        .title {
+        .headerTitle {
             color: var(--color-primary);
             font-size: 50px;
             font-weight: bold;
         }
 
-        .tips {
+        .headerTips {
             font-size: 18px;
         }
     }
@@ -20,7 +20,7 @@
         display: flex;
         flex-wrap: wrap;
 
-        .item {
+        .contentItem {
             text-align: center;
             padding: 20px;
             width: 25%;
@@ -32,7 +32,7 @@
         }
     }
 
-    .user-card {
+    .userCard {
         height: 200px;
         padding: 30px 10px;
         border: 1px solid #eee;
@@ -43,18 +43,18 @@
         box-sizing: border-box;
         position: relative;
 
-        .logo {
+        .userCardLogo {
             width: 100px;
             max-height: 40px;
         }
 
-        .caption {
+        .userCardCaption {
             position: absolute;
             bottom: 70px;
             font-size: 18px;
         }
 
-        .button {
+        .userCardButton {
             position: absolute;
             bottom: 25px;
             line-height: 0.5;
@@ -62,13 +62,13 @@
     }
 
     @media screen and (max-width: 640px) {
-        .content > .item {
+        .content > .contentItem {
             width: 100%;
         }
     }
 
     @media screen and (min-width: 640px) and (max-width: 800px)  {
-        .content > .item {
+        .content > .contentItem {
             width: 50%;
         }
     }
