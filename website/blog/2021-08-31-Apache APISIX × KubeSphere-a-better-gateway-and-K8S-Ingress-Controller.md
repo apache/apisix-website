@@ -31,7 +31,7 @@ description: 本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Hel
 
 ## 部署 Apache APISIX 和 Apache APISIX Ingress Controller
 
-我们可以参考 KubeSphere 的文档启用 KubeSphere 的 [AppStore](https://kubesphere.io/docs/pluggable-components/app-store/)，或者使用使用 Apache APISIX 的 [Helm 仓库](https://github.com/apache/apisix-helm-chart)来进行部署。这里，我们直接使用 Apache APISIX 的 Helm 仓库进行部署。
+我们可以参考 KubeSphere 的文档启用 KubeSphere 的 [AppStore](https://kubesphere.io/docs/pluggable-components/app-store/)，或者使用使用 Apache APISIX 的 [Helm 仓库](https://charts.apiseven.com)来进行部署。这里，我们直接使用 Apache APISIX 的 Helm 仓库进行部署。
 
 执行以下命令即可添加 Apache APISIX 的 Helm repo，并完成部署。
 
