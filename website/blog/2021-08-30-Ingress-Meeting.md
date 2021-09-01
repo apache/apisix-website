@@ -6,6 +6,7 @@ keywords:
 - APISIX
 - Ingress
 description: Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。 
+tag: [news]
 ---
 
 <!--truncate-->
