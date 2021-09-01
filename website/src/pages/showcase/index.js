@@ -26,7 +26,7 @@ const Header = (props) => {
           <a
               href="https://github.com/apache/apisix/blob/master/powered-by.md"
               target="_blank"
-              rel="noopener external nofollow"
+              rel="noopener"
           >
             <u>Add your company</u>
           </a>
@@ -62,7 +62,7 @@ const UserCard = (props) => {
       <div className="user-card">
         <img className="logo" src={props.image} alt={props.user}/>
         <div className="caption">{props.caption}</div>
-        <a className="button" href={props.infoLink}>Learn more</a>
+        <a className="button" href={props.infoLink} rel="external nofollow">Learn more</a>
       </div>
   );
 }
