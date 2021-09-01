@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-08-27T00:00:00.000Z</updated>
+    <updated>2021-08-31T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller]]></title>
+        <id>Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller</id>
+        <link href="https://apisix.apache.org/blog/2021/08/31/Apache APISIX × KubeSphere-a-better-gateway-and-K8S-Ingress-Controller"/>
+        <updated>2021-08-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller 。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress Controller 的数据面来承载业务流量。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>
         <id>Apache APISIX 2.9 正式发布，带来更多新功能！</id>
