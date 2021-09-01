@@ -9,10 +9,10 @@ keywords:
 - Apache APISIX
 - Nginx
 - 可观测性
-description: 最佳实践：本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。
+description: 最佳实践：本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。
 tags: [technology, practical case]
 ---
-> [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
+> [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC from [api7.ai](https://www.apiseven.com/)
 >
 <!--truncate-->
 
