@@ -6,6 +6,7 @@ keywords:
 - 贡献者
 - Good first issue
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
+tags: [technology]
 ---
 
 <!--truncate-->
@@ -45,21 +46,21 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Issue #4441
 
-**链接**：https://github.com/apache/apisix/issues/4441
+**链接**：[Issue #4441](https://github.com/apache/apisix/issues/4441)
 
 **问题描述**：现在 APISIX stream_routes 的参数 "remote_addr"只支持单个 ip，需要支持多个 ip 或者像 "192.168.0.0/16 "这样的匹配规则，就像 http 路由参数 "remote_addr"一样。
 
 ### Issue #3601
 
-**链接**：https://github.com/apache/apisix/issues/3601
+**链接**：[Issue #3601](https://github.com/apache/apisix/issues/3601)
 
 **问题描述**：目前 APISIX 只有请求-响应 gRPC 代理的单元测试，没有流式 gRPC 的相关测试。需要为其添加流式gRPC的测试用例。
 
 ### Issue #3931
 
-**链接**：https://github.com/apache/apisix/issues/3931
+**链接**：[Issue #3931](https://github.com/apache/apisix/issues/3931)
 
-**问题描述**：重定向插件中的 http_to_https 缺乏 curl 测试，需要为重定向插件中的 http_to_https 添加 curl 测试，并更新文档 http://apisix.apache.org/docs/apisix/plugins/redirect
+**问题描述**：重定向插件中的 http_to_https 缺乏 curl 测试，需要为重定向插件中的 http_to_https 添加 curl 测试，并更新文档 [Apache APISIX 重定向插件](http://apisix.apache.org/docs/apisix/plugins/redirect)。
 
 ## 本周功能特性亮点
 
@@ -81,12 +82,8 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 本周博文推荐
 
-- [在 Apche APISIX 中使用 Casbin 进行授权](https://mp.weixin.qq.com/s/llnla9-9TmEjMewGNz9Gxw)：当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
+- [使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证](https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication/)：Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。Apache APISIX 的 OpenID Connect 插件支持 OpenID，用户可以使用该插件将身份认证从传统认证模式替换为集中认证模式。
 
-- [Apache APISIX 社区周报 ｜ 2021 8.16-8.22](https://mp.weixin.qq.com/s/SSV7lwrhTQbsn6AvafG34A)：“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
+- [为什么 APISIX 选择 Nginx + Lua 这个技术栈？](https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua)：介绍 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和优势，指出“高性能 + 灵活”是 APISIX 能够从众多网关中脱颖而出的重要原因。
 
-- [Apache APISIX Meetup 上海站全程回顾](https://mp.weixin.qq.com/s/SaHn_PMiqJT29aAIpteeCA)：Apache APISIX Meetup 上海站已于 8.21 顺利举办！一起来回顾下大会中令人难忘的精彩演讲吧！
-
-- [为什么 APISIX 选择 Nginx + Lua 这个技术栈？](https://mp.weixin.qq.com/s/EBo_cUEPf0U59oyq7j61Zg)：介绍 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和优势，指出“高性能 + 灵活”是 APISIX 能够从众多网关中脱颖而出的重要原因。
-
-- [Apache APISIX 2.9 正式发布，带来更多新功能！](https://mp.weixin.qq.com/s/cz-e0BAef7WaLZUuoPsp4w)：Apache APISIX 2.9 版本正式发布！该版本有 30+ 开发者参与，共提交了 100+ PR，新增了 2 个新功能，进一步完善了对插件的支持，快来了解 Apache APISIX 2.9 版本的新特性吧！
+- [Apache APISIX 2.9 正式发布，带来更多新功能！](https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9/)：Apache APISIX 2.9 版本正式发布！该版本有 30+ 开发者参与，共提交了 100+ PR，新增了 2 个新功能，进一步完善了对插件的支持，快来了解 Apache APISIX 2.9 版本的新特性吧！
