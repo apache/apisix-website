@@ -6,9 +6,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords: 
 - APISIX
 - Envoy
-- API 网关
-- QPS
-- Latency
+- 性能
 description: 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务。
 ---
 
