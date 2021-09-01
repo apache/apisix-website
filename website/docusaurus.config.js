@@ -215,6 +215,7 @@ module.exports = {
         },
         blog: {
           path: "blog",
+          blogSidebarCount: 0,
         },
         theme: {
           customCss: "../src/css/customTheme.css",
