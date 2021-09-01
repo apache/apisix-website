@@ -169,6 +169,13 @@
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[有了 NGINX 和 Kong，为什么还需要 Apache APISIX]]></title>
+        <id>有了 NGINX 和 Kong，为什么还需要 Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/06/28/why-we-need-Apache-APISIX"/>
+        <updated>2021-06-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller]]></title>
         <id>Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller</id>
         <link href="https://apisix.apache.org/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast"/>
