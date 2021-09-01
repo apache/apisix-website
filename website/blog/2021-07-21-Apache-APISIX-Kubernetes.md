@@ -22,7 +22,7 @@ tags: [technology]
 
 ## 来不及看直播怎么办？
 
-Meetup 结束后，我们会在 Apache APISIX 的 bilibili 账号上传 Meetup 录播。欢迎大家关注Apache APISIX bilibili 账号 Apache-APISIX。
+Meetup 结束后，我们会在 Apache APISIX 的 bilibili 账号上传 Meetup 录播。欢迎大家关注 Apache APISIX bilibili 账号 [Apache-APISIX](https://space.bilibili.com/551921247)。
 
 ## 讲师介绍
 
@@ -39,5 +39,4 @@ Apache APISIX 是一个动态、实时、高性能的开源 API 网关，提供�
 
 200 余位贡献者，一同缔造了 Apache APISIX 这个世界上最活跃的开源网关项目。聪明的开发者们！快来加入这个活跃而多样化的社区，一起来给这个世界带来更多美好的东西吧！
 
-Apache APISIX 项目地址：https://github.com/apache/apisix
-Apache APISIX 官网：http://apisix.apache.org/zh/
+[Apache APISIX GitHub 项目地址](https://github.com/apache/apisix)
