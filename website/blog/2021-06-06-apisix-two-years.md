@@ -7,6 +7,7 @@ keywords:
 - APISIX
 - opensource
 description: Apache APISIX two years old, thanks for all contributors.
+tags: [news]
 ---
 
 > [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.ai](https://www.apiseven.com/)
