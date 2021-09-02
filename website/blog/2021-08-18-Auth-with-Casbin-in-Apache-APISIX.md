@@ -8,6 +8,7 @@ keywords:
 - Casbin
 - RBAC
 description: 当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
+tags: [technology, practical case]
 ---
 <!--truncate-->
 

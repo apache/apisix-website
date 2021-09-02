@@ -3,6 +3,7 @@ title: "Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingres
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
+tags: [technology]
 ---
 > [@tao12345666333](https://github.com/tao12345666333), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

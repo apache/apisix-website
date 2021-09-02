@@ -3,6 +3,7 @@ title: "差之毫厘：etcd 3 完美支持 HTTP 访问？"
 author: spacewander
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+tags: [technology]
 ---
 > [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

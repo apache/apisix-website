@@ -3,6 +3,7 @@ title: "深度剖析 Apache APISIX Mesh Agent"
 author: tokers
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
+tags: [technology]
 ---
 > [@tokers](https://github.com/tokers), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 <!--truncate-->

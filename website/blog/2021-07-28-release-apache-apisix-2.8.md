@@ -3,6 +3,7 @@ title: "Apache APISIX 2.8 正式发布，带来更多新功能！"
 author: spacewander
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+tags: [news]
 ---
 > [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

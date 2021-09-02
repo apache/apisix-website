@@ -3,6 +3,7 @@ title: "Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私�
 author: Ming Wen
 authorURL: "https://github.com/moonming"
 authorImageURL: "https://avatars.githubusercontent.com/u/26448043?v=4"
+tags: [security, news]
 ---
 > [@moonming](https://github.com/moonming), Apache APISIX PMC Chair from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

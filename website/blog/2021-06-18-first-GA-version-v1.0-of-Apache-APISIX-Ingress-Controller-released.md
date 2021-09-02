@@ -3,6 +3,7 @@ title: "Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！"
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
+tags: [news]
 ---
 
 > [@tao12345666333](https://github.com/tao12345666333), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)

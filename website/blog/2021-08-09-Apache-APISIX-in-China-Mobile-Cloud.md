@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 在移动云的应用"
+tags: [technology, practical case]
 ---
 
 <!--truncate-->

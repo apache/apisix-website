@@ -1,5 +1,6 @@
 ---
 title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
+tags: [technology, practical case]
 ---
 > **聂永，微博基础架构师，开源爱好者，爱折腾追求 Geek。**
 
