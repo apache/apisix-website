@@ -3,6 +3,7 @@ title: "Traffic Split in Apache APISIX Ingress Controller"
 author: "Chao Zhang"
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?s=460&u=f48ef50c5621a1616a3ede50221547e34270e061&v=4"
+tags: [technology, practical case]
 ---
 > [@tokers](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

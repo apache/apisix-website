@@ -3,6 +3,7 @@ title: "Stable Product Delivery with Cypress"
 author: Yi Sun
 authorURL: "https://github.com/LiteSun"
 authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4bb4db2be162c1fcac6d188f5b0f82f71920&v=4"
+tags: [technology]
 ---
 
 > [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
