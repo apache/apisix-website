@@ -225,6 +225,13 @@
         <summary type="html"><![CDATA[@Yiyiyimu,Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX 和 Envoy 性能大比拼]]></title>
+        <id>Apache APISIX 和 Envoy 性能大比拼</id>
+        <link href="https://apisix.apache.org/blog/2021/06/10/Apache-APISIX-and-Envoy-performance-comparison"/>
+        <updated>2021-06-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Apache APISIX not affected by NGINX CVE-2021-23017]]></title>
         <id>Apache APISIX not affected by NGINX CVE-2021-23017</id>
         <link href="https://apisix.apache.org/blog/2021/06/07/Apache-APISIX-not-affected-by-NGINX-CVE-2021-23017"/>
