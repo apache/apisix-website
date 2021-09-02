@@ -16,7 +16,7 @@ tags: [technology]
 
 ## 参与方式
 
-- 方式一：点击“阅读原文”跳转报名网页，注册报名。
+- 方式一：点击 [此处](https://www.meetup.com/Data-on-Kubernetes-community/events/278922486/) 跳转报名网页，注册报名。
 
 - 方式二：在直播开始时通过 Zoom 链接进入会议室聆听分享：[会议室直播间](https://zoom.us/webinar/tJYofuChrzktGtI3wr8SZHACRnNkxr5cWgny)。
 
