@@ -35,7 +35,7 @@ Apache APISIX 是 Apache 顶级项目，也是全球最活跃的开源网关项�
 
 ### 分享嘉宾
 
-![Yanshan Chen](../static/img/blog_img/2021-07-25-2.png)
+![陈焱山](../static/img/blog_img/2021-07-25-2.png)
 
 陈焱山 —  毕业后一直从事分布式存储软件开发及架构方案设计工作，深度参与了移动云建设过程，重点完成了对象存储相关的主要技术方案选型及落地开发建设工作。同时，在分布式对象存储领域拥有丰富的实战经验，目前正在思考基于APISIX七层网关实现对象存储流量治理工作，实现架构进一步升级。
 
@@ -53,9 +53,9 @@ Apache APISIX 是 Apache 顶级项目，也是全球最活跃的开源网关项�
 
 ### 分享嘉宾
 
-![Junxu Chen](../static/img/blog_img/2021-07-25-3.png)
+![陈军旭](../static/img/blog_img/2021-07-25-3.png)
 
-陈军旭 —  互联网老兵，曾任职于新浪、迅雷、360等知名互联网公司。
+陈军旭 —  互联网老兵，曾任职于新浪、迅雷、360等知名互联网公司，Apache APISIX Committer。
 
 ### 分享时间
 
@@ -71,9 +71,9 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 ### 分享嘉宾
 
-![Shuyang Wu](../static/img/blog_img/2021-07-25-4.png)
+![吴舒旸](../static/img/blog_img/2021-07-25-4.png)
 
-Shuyang Wu — Apache APISIX 和 Chaos Mesh 的提交者，他领导了Chaos Mesh 与 Apache APISIX CI 的整合工作。
+吴舒旸 — Apache APISIX 和 Chaos Mesh 的 Committer，他领导了Chaos Mesh 与 Apache APISIX CI 的整合工作。
 
 ### 分享时间
 
@@ -87,9 +87,9 @@ Shuyang Wu — Apache APISIX 和 Chaos Mesh 的提交者，他领导了Chaos Mes
 
 ### 分享嘉宾
 
-![Xinxin Zhu](../static/img/blog_img/2021-07-25-5.png)
+![朱欣欣](../static/img/blog_img/2021-07-25-5.png)
 
-Xinxin Zhu — Apache APISIX 的提交者，有多年CDN工作经验，熟悉网关。
+朱欣欣 — Apache APISIX Committer，有多年 CDN 工作经验，熟悉网关。
 
 ### 分享时间
 
@@ -105,7 +105,7 @@ Xinxin Zhu — Apache APISIX 的提交者，有多年CDN工作经验，熟悉网
 
 ![Yuansheng Wang](../static/img/blog_img/2021-07-25-6.png)
 
-Yuansheng Wang — 开源爱好者 Apache APISIX创始人和PMC成员
+Yuansheng Wang — 开源爱好者 Apache APISIX 创始人和 PMC 成员。
 
 ### 分享时间
 
@@ -119,9 +119,9 @@ Yuansheng Wang — 开源爱好者 Apache APISIX创始人和PMC成员
 
 ### 分享嘉宾
 
-![Chao Zhang](../static/img/blog_img/2021-07-25-7.png)
+![张超](../static/img/blog_img/2021-07-25-7.png)
 
-Chao Zhang — Apache APISIX PMC，OpenResty贡献者，开源爱好者，现在我正在研究 Service Mesh、Kubernetes 和API Gateway。
+张超 — Apache APISIX PMC，OpenResty贡献者，开源爱好者，现在正在研究 Service Mesh、Kubernetes 和 API Gateway。
 
 ### 分享时间
 
@@ -139,9 +139,9 @@ Apache APISIX是最受欢迎的API网关之一：https://github.com/apache/apisi
 
 ### 分享嘉宾
 
-![Zexuan Luo](../static/img/blog_img/2021-07-25-8.png)
+![罗泽轩](../static/img/blog_img/2021-07-25-8.png)
 
-Zexuan Luo —  Apache APISIX和OpenResty的核心开发者
+罗泽轩 —  Apache APISIX PMC，OpenResty 开发者。
 
 ### 分享时间
 
@@ -155,9 +155,9 @@ Zexuan Luo —  Apache APISIX和OpenResty的核心开发者
 
 ### 分享嘉宾
 
-![Wei Jin](../static/img/blog_img/2021-07-25-9.png)
+![金卫](../static/img/blog_img/2021-07-25-9.png)
 
-Wei Jin  — Apache APISIX PMC / Apache apisix-ingress-controller Founder / Apache Skywalking Committer
+金卫  — Apache APISIX PMC，Apache apisix-ingress-controller Founder，Apache Skywalking Committer。
 
 ### 分享时间
 
