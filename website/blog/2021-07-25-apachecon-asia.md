@@ -103,9 +103,9 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 ### 分享嘉宾
 
-![Yuansheng Wang](../static/img/blog_img/2021-07-25-6.png)
+![王院生](../static/img/blog_img/2021-07-25-6.png)
 
-Yuansheng Wang — 开源爱好者 Apache APISIX 创始人和 PMC 成员。
+王院生 — 开源爱好者 Apache APISIX 创始人和 PMC 成员。
 
 ### 分享时间
 
