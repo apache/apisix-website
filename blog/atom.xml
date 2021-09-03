@@ -50,6 +50,13 @@
         <summary type="html"><![CDATA[本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX Meetup 上海站全程回顾]]></title>
+        <id>Apache APISIX Meetup 上海站全程回顾</id>
+        <link href="https://apisix.apache.org/blog/2021/08/24/shanghai-meetup-recap"/>
+        <updated>2021-08-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Go 让 Apache APISIX 如虎添翼]]></title>
         <id>Go 让 Apache APISIX 如虎添翼</id>
         <link href="https://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better"/>
