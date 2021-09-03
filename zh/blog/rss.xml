@@ -246,6 +246,13 @@
             <description><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
+            <title><![CDATA[来自 Apache APISIX committer 的经验分享 —— 编程之夏专访]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/06/03/experience-share-from-Apache-APISIX-committer</link>
+            <guid>来自 Apache APISIX committer 的经验分享 —— 编程之夏专访</guid>
+            <pubDate>Thu, 03 Jun 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会]]></description>
+        </item>
+        <item>
             <title><![CDATA[基于 Apache APISIX 实现的服务网格项目正式开源]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/05/31/基于 Apache APISIX 实现的服务网格项目正式开源</link>
             <guid>基于 Apache APISIX 实现的服务网格项目正式开源</guid>
