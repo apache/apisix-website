@@ -1,6 +1,12 @@
 ---
 id: 2fa
-title: 2FA
+title: Two Factor Authentication
+keywords:
+- API gateway
+- APISIX
+- Apache APISIX
+- two factor authentication
+description: This article provides information of how to enable Two-factor authentication(2FA) on GitHub. It consists of 3 parts, what is Two-factor authentication(2FA), how to enable 2FA on GitHub, and how to submit codes.
 ---
 
 ## Two-factor authentication(2FA)

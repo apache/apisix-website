@@ -712,6 +712,10 @@ a:hover {
   transition: transform 0.5s ease;
 }
 
+.plugin-logo.default {
+  opacity: 0.2;
+}
+
 .overflow{
  overflow: hidden;
 }

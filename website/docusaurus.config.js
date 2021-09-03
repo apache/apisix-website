@@ -22,8 +22,8 @@ module.exports = {
         shape: "triangle",
         color: "#e8433e",
         githubRepo: "apache/apisix",
-        version: "2.8",
-        releaseDate: "2021-07-27",
+        version: "2.9",
+        releaseDate: "2021-08-27",
         firstDocPath: "/getting-started",
       },
       {
@@ -45,8 +45,8 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "1.1.0",
-        releaseDate: "2021-07-13",
+        version: "1.2.0",
+        releaseDate: "2021-08-15",
         firstDocPath: "/getting-started",
       },
       {
@@ -103,9 +103,9 @@ module.exports = {
         color: "#e8433e",
         githubRepo: "apache/apisix",
         githubBranch: "master",
-        downloadPath: "apisix/2.8/apache-apisix-2.8-src",
-        version: "2.8",
-        releaseDate: "2021-07-27",
+        downloadPath: "apisix/2.9/apache-apisix-2.9-src",
+        version: "2.9",
+        releaseDate: "2021-08-27",
         firstDocPath: "/getting-started",
       },
       {
@@ -130,9 +130,9 @@ module.exports = {
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
         githubBranch: "master",
-        downloadPath: "apisix/ingress-controller/1.1.0/apache-apisix-ingress-controller-1.1.0-src",
-        version: "1.1.0",
-        releaseDate: "2021-07-13",
+        downloadPath: "apisix/ingress-controller/1.2.0/apache-apisix-ingress-controller-1.2.0-src",
+        version: "1.2.0",
+        releaseDate: "2021-08-15",
         firstDocPath: "/getting-started",
       },
       {
@@ -215,9 +215,15 @@ module.exports = {
         },
         blog: {
           path: "blog",
+          blogSidebarCount: 0,
         },
         theme: {
           customCss: "../src/css/customTheme.css",
+        },
+        sitemap: {
+          changefreq: 'daily',
+          priority: 0.5,
+          trailingSlash: false,
         },
       },
     ],
@@ -229,6 +235,24 @@ module.exports = {
         id: "events",
         routeBasePath: "events",
         path: "events",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        id: "releases",
+        routeBasePath: "releases",
+        path: "releases",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        id: "articles",
+        routeBasePath: "articles",
+        path: "articles",
+        blogSidebarCount: 0,
+        blogTitle: "Article"
       },
     ],
     [
@@ -471,6 +495,10 @@ module.exports = {
               label: "Events",
             },
             {
+              to: "/releases",
+              label: "Releases",
+            },
+            {
               to: "/help",
               label: "Help",
             },
@@ -570,7 +598,7 @@ module.exports = {
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
-      respectPrefersColorScheme: true,
+      respectPrefersColorScheme: false,
     },
     image: 'img/favicon.png',
     metadatas: [

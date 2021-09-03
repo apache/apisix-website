@@ -1,6 +1,12 @@
 ---
 id: release-guide
 title: Release Guide
+keywords:
+- API gateway
+- APISIX
+- Apache APISIX
+- Release Guide
+description: This article explains Apache APISIX's release flow and GPG Settings.
 ---
 
 ## Release Flow

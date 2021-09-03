@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -78,7 +78,7 @@ const SidebarContainer = styled.div`
   border-color: #ffffff #efeff5 #ffffff #ffffff ;
 `;
 
-const PluginCard = styled.a`
+const PluginCard = styled.div`
   border-radius: 0.75rem;
   border: 1px solid #eee;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -124,20 +124,31 @@ const SectionTitle = styled.h2`
 
 
 function Plugins(props) {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = '/js/plugin-icon.js';
+    document.head.appendChild(script);
+  }, []);
   const { siteConfig } = useDocusaurusContext();
   const sidebar = siteConfig.customFields.plugins.map((section) => {
     return (
       <Sidebaritem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></Sidebaritem>
     );
   });
-  
+
   const plugins = siteConfig.customFields.plugins.map((section) => {
     const pluginCards = section.plugins.map((plugin) => {
       return (
         <div key={plugin.name}>
           <PluginCard>
             <a href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`} target="_blank">
-              <img className="plugin-logo shadow" src={plugin.src} alt={plugin.name} />
+              {plugin.useDefaultIcon ?
+                <img className="plugin-logo shadow default" src={'/img/plugin/default-icon.png'} alt={plugin.name} /> :
+                <svg className="plugin-logo shadow" aria-hidden="true">
+                  <use xlinkHref={`#icon${plugin.name}`} />
+                </svg>}
             </a>
             <PluginName>{plugin.name}</PluginName>
             <PluginDescription>{plugin.description}</PluginDescription>

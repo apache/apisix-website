@@ -3,6 +3,7 @@ title: "基于 Apache APISIX 实现的服务网格项目正式开源"
 author: tokers
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
+tags: [news, technology]
 ---
 > [@tokers](https://github.com/tokers), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

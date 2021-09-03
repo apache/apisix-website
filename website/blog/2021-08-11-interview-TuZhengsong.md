@@ -3,6 +3,14 @@ title: "从新手村出来，我在 Apache APISIX 社区发出了第一个 PR"
 author: Peter Yang
 authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
+keywords:
+- API 网关
+- APISIX
+- Apache APISIX
+- 开源社区
+- 开源项目
+description: 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
+tags: [technology]
 ---
 
 <!--truncate-->

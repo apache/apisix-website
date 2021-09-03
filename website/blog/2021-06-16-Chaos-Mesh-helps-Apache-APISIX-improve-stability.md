@@ -3,6 +3,7 @@ title: "Chaos Mesh 助力 Apache APISIX 提升稳定性"
 author: Yiyiyimu
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
+tags: [technology]
 ---
 > [@Yiyiyimu](https://github.com/Yiyiyimu),Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

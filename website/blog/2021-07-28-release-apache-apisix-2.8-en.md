@@ -3,6 +3,7 @@ title: "Release Apache APISIX 2.8.0"
 author: Serendipity96
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
+tags: [news]
 ---
 > [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
 >

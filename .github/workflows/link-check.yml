@@ -24,17 +24,21 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2.3.4
-      - uses: actions/setup-node@v2.3.2
+      - uses: actions/setup-node@v2.4.0
         with:
           node-version: "12"
 
+      - name: Install Dependencies
+        run: |
+          cd scripts && yarn install
+
       - name: Pull Docs
         run: |
-          node sync-docs.js && git status
+          cd scripts && yarn sync && git status
 
       - name: Check Links
         run: |
-          node link-checker.js && git status
+          cd scripts && yarn link-checker && git status
 
       - name: Archive Broken Links List
         uses: actions/upload-artifact@v2
