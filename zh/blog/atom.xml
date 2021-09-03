@@ -141,6 +141,13 @@
         <summary type="html"><![CDATA[@juzhiyuan, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX x Kubernetes：恰到好处｜直播预告]]></title>
+        <id>Apache APISIX x Kubernetes：恰到好处｜直播预告</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/07/21/Apache-APISIX-Kubernetes"/>
+        <updated>2021-07-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[直播预告：北京时间 2021 年 7 月 23 日星期五 00:00，Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[深度剖析 Apache APISIX Mesh Agent]]></title>
         <id>深度剖析 Apache APISIX Mesh Agent</id>
         <link href="https://apisix.apache.org/zh/blog/2021/07/16/Analyze-Apache-APISIX-Mesh-Agent-deeply"/>
