@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/events</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Mon, 23 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.23-8.29]]></title>
+            <link>https://apisix.apache.org/events/2021/08/30/weekly-report</link>
+            <guid>Apache APISIX 社区周报 ｜ 2021 8.23-8.29</guid>
+            <pubDate>Mon, 30 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+        </item>
         <item>
             <title><![CDATA[ApacheCon Asia 2021]]></title>
             <link>https://apisix.apache.org/events/2021/08/23/ApacheCon-Asia-2021</link>

@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/events</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-08-23T00:00:00.000Z</updated>
+    <updated>2021-08-30T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/events"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.23-8.29]]></title>
+        <id>Apache APISIX 社区周报 ｜ 2021 8.23-8.29</id>
+        <link href="https://apisix.apache.org/zh/events/2021/08/30/weekly-report"/>
+        <updated>2021-08-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ApacheCon Asia 2021]]></title>
         <id>ApacheCon Asia 2021</id>
