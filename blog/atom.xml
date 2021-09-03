@@ -176,18 +176,18 @@
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Release Apache APISIX 2.7.0]]></title>
-        <id>Release Apache APISIX 2.7.0</id>
-        <link href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7-en"/>
-        <updated>2021-06-29T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Apache APISIX 2.7.0-Release 正式发布]]></title>
         <id>Apache APISIX 2.7.0-Release 正式发布</id>
         <link href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7"/>
         <updated>2021-06-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.7.0]]></title>
+        <id>Release Apache APISIX 2.7.0</id>
+        <link href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7-en"/>
+        <updated>2021-06-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[有了 NGINX 和 Kong，为什么还需要 Apache APISIX]]></title>

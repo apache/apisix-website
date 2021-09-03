@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/releases</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Fri, 27 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 03 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Release Apache APISIX Go Plugin Runner 0.2.0]]></title>
+            <link>https://apisix.apache.org/zh/releases/2021/09/03/release-apache-apisix-go-plugin-runner-0.2.0</link>
+            <guid>Release Apache APISIX Go Plugin Runner 0.2.0</guid>
+            <pubDate>Fri, 03 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Feature]]></description>
+        </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.9]]></title>
             <link>https://apisix.apache.org/zh/releases/2021/08/27/release-apache-apisix-2.9</link>

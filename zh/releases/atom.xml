@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/releases</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-08-27T00:00:00.000Z</updated>
+    <updated>2021-09-03T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/releases"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX Go Plugin Runner 0.2.0]]></title>
+        <id>Release Apache APISIX Go Plugin Runner 0.2.0</id>
+        <link href="https://apisix.apache.org/zh/releases/2021/09/03/release-apache-apisix-go-plugin-runner-0.2.0"/>
+        <updated>2021-09-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Feature]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.9]]></title>
         <id>Release Apache APISIX 2.9</id>
