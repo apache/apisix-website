@@ -155,6 +155,13 @@
             <description><![CDATA[@juzhiyuan, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></description>
         </item>
         <item>
+            <title><![CDATA[ApacheCon Asia 2021：Apache APISIX 技术议题一览]]></title>
+            <link>https://apisix.apache.org/blog/2021/07/25/apachecon-asia</link>
+            <guid>ApacheCon Asia 2021：Apache APISIX 技术议题一览</guid>
+            <pubDate>Sun, 25 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Apache APISIX x Kubernetes：恰到好处｜直播预告]]></title>
             <link>https://apisix.apache.org/blog/2021/07/21/Apache-APISIX-Kubernetes</link>
             <guid>Apache APISIX x Kubernetes：恰到好处｜直播预告</guid>
