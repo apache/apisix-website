@@ -120,6 +120,13 @@
         <summary type="html"><![CDATA[我们有幸采访了中国移动云能力中心的陈焱山，在采访中我们了解到中国移动公有云建设发展演进历程，了解了中国移动云为什么选择 Apache APISIX 作为负载均衡网关，并且知晓移动云后续的发展规划。]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[如何利用 Apache APISX 提升 Nginx 的可观测性]]></title>
+        <id>如何利用 Apache APISX 提升 Nginx 的可观测性</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx"/>
+        <updated>2021-08-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[最佳实践：本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Kong-To-APISIX 迁移工具]]></title>
         <id>Kong-To-APISIX 迁移工具</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/05/Kong-to-APISIX"/>
