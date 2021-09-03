@@ -47,7 +47,7 @@
         <id>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文由 Core developer of OpenResty、Apache APISIX Committer、深圳支流科技工程师罗泽轩撰写，介绍了 APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。]]></summary>
+        <summary type="html"><![CDATA[本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Meetup 上海站全程回顾]]></title>
