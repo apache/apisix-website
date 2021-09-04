@@ -215,7 +215,8 @@ module.exports = {
         },
         blog: {
           path: "blog",
-          blogSidebarCount: 0,
+          // see https://github.com/facebook/docusaurus/issues/5353
+          postsPerPage: 10000,
         },
         theme: {
           customCss: "../src/css/customTheme.css",
