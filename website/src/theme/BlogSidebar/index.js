@@ -19,7 +19,11 @@ export default function BlogSidebar({count}) {
     if (path.length === 2) {
       setSelected('All');
     } else if (path.length === 4) {
-      setSelected(path[3]);
+      if (path[3].indexOf('-') !== -1) {
+        setSelected(path[3].replace('-', ' '));
+      } else {
+        setSelected(path[3]);
+      }
     } else {
       setSelected('All');
     }
