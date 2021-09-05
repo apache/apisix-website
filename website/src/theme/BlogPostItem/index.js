@@ -61,18 +61,21 @@ function BlogPostItem(props) {
           className={clsx('margin-bottom--sm', styles.blogPostTitle)}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="avatar margin-vert--md">
-          <div className="avatar__intro">
-            {author && (
-              <>
-                <h4 className="avatar__name">
-                  <Link href={authorURL} className={styles.authorName}>{`Author: ${author}`}</Link>
-                </h4>
-              </>
-            )}
-          </div>
-        </div>
         <div className={styles.postHeader}>
+          <div className="avatar margin-bottom--md">
+            <div className="avatar__intro">
+              {author && (
+                <>
+                  <h4 className="avatar__name">
+                    <Link href={authorURL} className={styles.authorName}>{`Author: ${author}`}</Link>
+                  </h4>
+                </>
+              )}
+            </div>
+          </div>
+          <div className={`margin-bottom--md ${styles.line}`}>
+            <div></div>
+          </div>
           <div className={`margin-bottom--md ${styles.headerDate}`}>
             <DateLogo />
             <time dateTime={date} className={styles.blogPostDate}>

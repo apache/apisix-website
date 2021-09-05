@@ -12,6 +12,7 @@
 .headerDate {
   display: flex;
   align-items: center;
+  margin-left: 16px;
 }
 
 .blogPostDate {
@@ -21,11 +22,13 @@
 
 .postHeader {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  color: #6A737D;
 }
 
 .authorName {
   font-weight: normal;
-  margin-right: 10px;
 }
 
 .headerTags {
@@ -42,5 +45,5 @@
 .line div {
   width: 1px;
   height: 12px;
-  background-color: var(--ifm-font-color-base);
+  background-color: #6A737D;
 }
