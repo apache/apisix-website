@@ -15,7 +15,7 @@
 
     .content {
         width: 100%;
-        padding: 50px 50px;
+        padding: 50px 200px;
         display: flex;
         flex-wrap: wrap;
     }
@@ -29,19 +29,13 @@
         }
     }
 
-    @media screen and (max-width: 640px) {
-        .content > .item {
-            width: 100%;
-        }
-    }
-
-    @media screen and (min-width: 640px) and (max-width: 800px)  {
-        .content > .item {
-            width: 50%;
-        }
-    }
-
     .row {
         margin: 0;
+    }
+
+    @media (max-width: 1200px) {
+        .content {
+            padding: 50px 50px;
+        }
     }
 }

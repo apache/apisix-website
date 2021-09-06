@@ -41,7 +41,7 @@ const Content = (props) => {
     return null;
   }
   const showcases = siteConfig.customFields.showcases.map((user) => (
-    <div className="col col--3 item" key={user.infoLink}>
+    <div className="col col--2 item" key={user.infoLink}>
       <UserCard
           image={'https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/static/img/' + user.image}
           caption={user.caption}
@@ -59,9 +59,9 @@ const Content = (props) => {
 
 const UserCard = (props) => {
   return (
-      <div className="user-card">
+      <a className="user-card" href={props.infoLink}>
         <img className="logo" src={props.image} alt={props.user}/>
-      </div>
+      </a>
   );
 }
 
