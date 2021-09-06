@@ -1,7 +1,6 @@
 .showcase {
     .header {
         padding-top: 0;
-        width: 100vw;
 
         .title {
             color: var(--color-primary);
@@ -19,45 +18,14 @@
         padding: 50px 50px;
         display: flex;
         flex-wrap: wrap;
-
-        .item {
-            text-align: center;
-            padding: 20px;
-            width: 25%;
-
-            > {
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
     }
 
     .user-card {
-        height: 200px;
         padding: 30px 10px;
-        border: 1px solid #eee;
-        border-radius: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-        box-sizing: border-box;
-        position: relative;
 
         .logo {
             max-width: 100px;
             max-height: 40px;
-        }
-
-        .caption {
-            position: absolute;
-            bottom: 70px;
-            font-size: 18px;
-        }
-
-        .button {
-            position: absolute;
-            bottom: 25px;
-            line-height: 0.5;
         }
     }
 
@@ -71,5 +39,9 @@
         .content > .item {
             width: 50%;
         }
+    }
+
+    .row {
+        margin: 0;
     }
 }
