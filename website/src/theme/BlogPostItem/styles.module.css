@@ -12,6 +12,9 @@
 .headerDate {
   display: flex;
   align-items: center;
+}
+
+.marginLeft {
   margin-left: 16px;
 }
 
