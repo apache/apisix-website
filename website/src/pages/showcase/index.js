@@ -59,9 +59,11 @@ const Content = (props) => {
 
 const UserCard = (props) => {
   return (
-      <a className="user-card" href={props.infoLink}>
-        <img className="logo" src={props.image} alt={props.user}/>
-      </a>
+      <div className="user-card">
+        <a href={props.infoLink}>
+          <img className="logo" src={props.image} alt={props.caption}/>
+        </a>
+      </div>
   );
 }
 
