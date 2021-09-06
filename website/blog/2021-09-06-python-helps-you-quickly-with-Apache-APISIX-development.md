@@ -73,7 +73,7 @@ keywords:
 ```bash
 $ git clone https://github.com/apache/apisix-python-plugin-runner.git
 $ cd apisix-python-plugin-runner
-$ make install 
+$ make install
 ```
 
 ### 配置 Python Runner
@@ -272,4 +272,3 @@ class Stop(Base):
 
 - [Go 让 Apache APISIX 如虎添翼](http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better)
 - [如何用 Java 编写 Apache APISIX 插件](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)
-
