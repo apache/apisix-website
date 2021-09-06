@@ -1,0 +1,68 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.sidebar {
+  display: inherit;
+  max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
+  overflow-y: auto;
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 2rem);
+}
+
+.sidebarItemTitle {
+  margin-bottom: 0.5rem;
+}
+
+.sidebarItemList {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.sidebarItem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: 1px solid var(--ifm-color-primary-dark);
+  border-radius: 4px;
+  height: 2rem;
+  line-height: 2rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  padding: 0 1rem;
+}
+
+.selected {
+  background-color: var(--ifm-color-primary);
+  border: 1px solid var(--color-border);
+  color: var(--ifm-color-primary-light);
+}
+
+.sidebarItem:hover {
+  background-color: var(--ifm-color-primary);
+  border: 1px solid var(--color-border);
+  color: var(--ifm-color-primary-light);
+  cursor: pointer;
+}
+
+.sidebarItem p {
+  margin: 0 0 0 0.5rem;
+  line-height: 2rem;
+}
+
+.sidebarItemLinkActive {
+  color: var(--ifm-color-primary);
+}
+
+@media only screen and (max-width: 996px) {
+  .sidebar {
+    display: none;
+  }
+}

@@ -89,8 +89,8 @@ module.exports = {
         shape: "octagon",
         color: "#3B14A7",
         githubRepo: "apache/apisix-go-plugin-runner",
-        version: "0.1.0",
-        releaseDate: "2021-07-15",
+        version: "0.2.0",
+        releaseDate: "2021-09-03",
         firstDocPath: "/getting-started",
       }
     ],
@@ -156,9 +156,9 @@ module.exports = {
         color: "#3B14A7",
         githubRepo: "apache/apisix-go-plugin-runner",
         githubBranch: "master",
-        downloadPath: "apisix/go-plugin-runner/0.1.0/apisix-go-plugin-runner-0.1.0-src",
-        version: "0.1.0",
-        releaseDate: "2021-07-15",
+        downloadPath: "apisix/go-plugin-runner/0.2.0/apisix-go-plugin-runner-0.2.0-src",
+        version: "0.2.0",
+        releaseDate: "2021-09-03",
         firstDocPath: "/getting-started",
       }
     ],
@@ -215,7 +215,8 @@ module.exports = {
         },
         blog: {
           path: "blog",
-          blogSidebarCount: 0,
+          // see https://github.com/facebook/docusaurus/issues/5353
+          postsPerPage: 10000,
         },
         theme: {
           customCss: "../src/css/customTheme.css",
