@@ -76,7 +76,7 @@ function BlogPostItem(props) {
           {author && <div className={`margin-bottom--md ${styles.line}`}>
             <div></div>
           </div>}
-          <div className={`margin-bottom--md ${styles.headerDate}`}>
+          <div className={`margin-bottom--md ${styles.headerDate} ${author && styles.marginLeft}`}>
             <DateLogo />
             <time dateTime={date} className={styles.blogPostDate}>
               {formattedDate}
