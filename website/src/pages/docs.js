@@ -11,6 +11,7 @@ import IconPentagon from "../assets/icons/pentagon.svg";
 import IconDiamond from "../assets/icons/diamond.svg";
 import IconStar from "../assets/icons/star-solid.svg";
 import IconOctagon from "../assets/icons/octagon.svg";
+import IconShield from "../assets/icons/shield.svg";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -127,6 +128,8 @@ const ProjectCard = (props) => {
       <IconHexagon />
     ) : shape === "star" ? (
       <IconStar />
+    ) : shape === "shield" ? (
+      <IconShield />
     ) : (
       <IconOctagon />
     );
