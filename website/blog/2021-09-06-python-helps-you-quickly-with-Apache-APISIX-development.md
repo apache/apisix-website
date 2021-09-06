@@ -1,5 +1,5 @@
 ---
-title: "Python 助你快速上手 Apache APISIX 开发"
+title: "Python 助你快速上手 Apache APISIX 插件开发"
 author: "shuaijinchao"
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
