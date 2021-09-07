@@ -4,7 +4,6 @@ author: "shuaijinchao"
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
 keywords:
-
 - Python
 - APISIX
 - APISIX Python 插件
@@ -17,28 +16,29 @@ tags: [technology]
 
 <!--truncate-->
 
-在 `Apache APISIX Python Runner` 之前社区中已经支持了 `Java` 和 `Golang` 语言的 `Runner` ，今天 `Python Runner`
+在 `Apache APISIX Python Runner` 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner)
+和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 `Runner` ，今天 `Python Runner`
 也来了，社区中的小伙伴们在开发 `Apache APISIX` 的插件时又多了一种新选择。
 
 ## 简介
 
 ### Apache APISIX
 
-`APISIX` 是一个高性能的云原生开源API网关，它可以对请求进行统一的拦截和治理（如：`鉴权`、`认证`、`缓存`、`版本`、`熔断`、`审计`
-等等）帮助开发人员轻松的对外提供安全可靠的服务，而开发人员通过 `Apache APISIX` 的加持只需要关注业务实现即可，省去了大量花费在通用能力上的开发与维护上的时间并且也降低了整体业务架构的复杂度。
+`Apache APISIX` 是一个高性能的云原生开源API网关，它可以对请求进行统一的拦截和治理（如：鉴权、认证、缓存、版本、熔断、审计 等等）帮助开发人员轻松的对外提供安全可靠的服务，而开发人员通过 `Apache APISIX`
+的加持只需要关注业务实现即可，省去了大量花费在通用能力上的开发与维护上的时间并且也降低了整体业务架构的复杂度。
 
 ### Python
 
 `Python` 语言作为一个解释型的高级编程语言，它 `语法简洁易上手`、`代码可读性好` ，在 `跨平台` 、`可移植性` 、`开发效率`
 上都有很好的表现，同时作为一个高级编程语言它的封装抽象程度比较高屏蔽了很多底层细节（例如：`GC`
-）让我们在开发的过程中可以更专注应用逻辑的开发，而且作为一个有30年历史的老牌开发语言生态以及各种模块已经非常完善，我们大部分的开发和应用场景都可以从社区中找到很成熟的模块或解决方案，`Python`
-其他的优点就不在一一赘述，`Python` 的缺点也比较明显作为一门解释性语言相较于 `C++` 、`Golang` 这样的编译型语言性能上的差距还是比较大的。
+）让我们在开发的过程中可以更专注应用逻辑的开发。`Python` 作为一个有30年历史的老牌开发语言，它的生态以及各种模块已经非常完善，我们大部分的开发和应用场景都可以从社区中找到很成熟的模块或解决方案。`Python`
+其他的优点就不再一一赘述。`Python` 的缺点也比较明显：`Python` 作为一门解释性语言，相较于 `C++` 和 `Go` 这样的编译型语言，在性能上的差距还是比较大的。
 
 ### Apache APISIX Python Runner
 
 [apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner) 这个项目可以理解为 `Apache APISIX`
 和 `Python`
-之间的一道桥梁，通过 `Python Runner` 可以把 `Python` 直接应用到 `APISIX` 的插件开发中，最重要的还是希望让更多对 `Apache APISIX` 和 API网关 感兴趣的 `Pythonista`
+之间的一道桥梁，通过 `Python Runner` 可以把 `Python` 直接应用到 `APISIX` 的插件开发中，最重要的还是希望让更多对 `Apache APISIX` 和 `API 网关` 感兴趣的 `Python开发者`
 通过这个项目更多的了解使用 `Apache APISIX`，以下为 `Apache APISIX` 多语言支持的架构图。
 
 ![Apache APISIX work flow](../static/img/blog_img/2021-09-06-1.png)
@@ -51,10 +51,12 @@ tags: [technology]
 
 如果你为一个给定的路由配置了 `ext-plugin-*` 插件，请求命中该路由时将触发 `Apache APISIX` 通过 `Unix Socket` 向 `Plugin Runner` 发起 `RPC` 调用。调用分为两个阶段：
 
-- `ext-plugin-pre-req` : 在执行 `Apache APISIX` 内置插件(Lua 语言插件)之前
-- `ext-plugin-post-req` : 在执行 `Apache APISIX` 内置插件(Lua 语言插件)之后
+- [ext-plugin-pre-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md)
+  ：在执行 `Apache APISIX` 内置插件（Lua 语言插件）之前
+- [ext-plugin-post-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md)
+  ：在执行 `Apache APISIX` 内置插件（Lua 语言插件）之后
 
-根据需要配置 `Plugin Runner` 的执行时机。
+大家可以根据需要选择并配置 `Plugin Runner` 的执行时机。
 
 `Plugin Runner` 会处理 `RPC` 调用，在其内部创建一个模拟请求，然后运行多语言编写的插件，并将结果返回给 Apache APISIX。
 
@@ -67,7 +69,9 @@ tags: [technology]
 - Apache APISIX 2.7
 - Python 3.6+
 
-`APISIX` 的安装部署本文不在过多赘述可以参照 [文档](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md) 进行部署。
+`Apache APISIX`
+的安装部署本文不在过多赘述，详情请参考 [Apache APISIX 官方文档：如何构建 Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md)
+进行部署。
 
 ### 下载安装 Python Runner
 
@@ -141,7 +145,7 @@ $ ./bin/apisix [ start | restart ]
 
 ### 测试 Python Runner
 
-#### 配置APISIX路由及插件信息
+#### 配置 Apache APISIX 路由及插件信息
 
 ```bash
 # 使用默认demo插件进行测试
@@ -262,8 +266,8 @@ class Stop(Base):
 
 ## 欢迎参与
 
-目前 `Apache APISIX` 各语言的 `Runner` 还处于早期开发阶段，我们会陆续完善其功能。成功的开源项目离不开大家的参与和贡献，欢迎各位参与到 `Apache APISIX Runner`
-的开发中来，让我们一起共建 `Apache APISIX` 和各语言的桥梁。
+目前 `Apache APISIX` 各语言的 `Runner` 还处于早期开发阶段，我们会陆续完善其功能。成功的开源项目离不开大家的参与和贡献，欢迎各位参与 `Apache APISIX Runner`
+的开发，让我们一起共建 `Apache APISIX` 与各语言的桥梁。
 
 - [apisix-python-plugin-runner](https://github.com/apache/apisix-python-plugin-runner)
 - [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner)
