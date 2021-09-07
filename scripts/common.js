@@ -48,6 +48,14 @@ const projects = [
     changelogExtractor: function (changelogs, targetRelease) {
       return changelogExtractor(changelogs, targetRelease, "##", true);
     }
+  },
+  {
+    name: "apisix-python-plugin-runner",
+    branch: "master",
+    hasChangelog: true,
+    changelogExtractor: function (changelogs, targetRelease) {
+      return changelogExtractor(changelogs, targetRelease, "##", true);
+    }
   }
 ];
 
