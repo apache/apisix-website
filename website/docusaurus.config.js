@@ -34,8 +34,8 @@ module.exports = {
         shape: "square",
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
-        version: "2.7.1",
-        releaseDate: "2021-08-15",
+        version: "2.8",
+        releaseDate: "2021-09-07",
         firstDocPath: "/USER_GUIDE",
       },
       {
@@ -128,9 +128,9 @@ module.exports = {
         color: "#10B981",
         githubRepo: "apache/apisix-dashboard",
         githubBranch: "master",
-        downloadPath: "apisix/dashboard/2.7.1/apache-apisix-dashboard-2.7.1-src",
-        version: "2.7.1",
-        releaseDate: "2021-08-15",
+        downloadPath: "apisix/dashboard/2.8.0/apache-apisix-dashboard-2.8.0-src",
+        version: "2.8",
+        releaseDate: "2021-09-07",
         firstDocPath: "/USER_GUIDE",
       },
       {
