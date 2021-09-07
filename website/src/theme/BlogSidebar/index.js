@@ -34,14 +34,13 @@ export default function BlogSidebar({count}) {
   }
 
   const handleTagClick = (tag) => {
-    setSelected(tag);
     if (tag === "All") {
-      history.push('/blog');
+      history.push(`/${path[1] || '/'}`);
     } else {
       if (tag.indexOf(' ') !== -1) {
         tag = tag.replace(' ', '-');
       }
-      history.push(`/blog/tags/${tag}`);
+      history.push(`/${path[1]}/tags/${tag}`);
     }
   };
 
