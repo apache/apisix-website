@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[4822],{70993:function(e){"use strict";e.exports=JSON.parse('{"pluginId":"docs-apisix-helm-chart","version":"current","label":"Next","isLast":true,"docsSidebars":{"docs":[]},"permalinkToSidebar":{}}')}}]);

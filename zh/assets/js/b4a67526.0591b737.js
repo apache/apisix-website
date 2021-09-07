@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[44385],{29677:function(e){"use strict";e.exports=JSON.parse('{"pluginId":"docs-apisix-ingress-controller","version":"current","label":"Next","isLast":true,"docsSidebars":{"docs":[]},"permalinkToSidebar":{}}')}}]);
