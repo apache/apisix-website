@@ -31,7 +31,7 @@ tags: [technology]
 
 ### 为什么放弃 Kong？
 
-![](https://static.apiseven.com/202108/1630995514489-6f7b382a-ed2d-46ad-8ded-4dda42ed3bc8.png)
+![Kong 的缺点](https://static.apiseven.com/202108/1630995514489-6f7b382a-ed2d-46ad-8ded-4dda42ed3bc8.png)
 
 Kong 使用 PostgreSQL 来存储它的信息，这显然不是一个好方式。 同时在调研过程中我们查看了 Apache APISIX 与 Kong 的性能的对比，在性能优化方面 Apache APISIX 比 Kong 提升了10 倍，这个指标是非常让人惊喜的。 同时我们也比较了一些主要的网关产品，Apache APISIX 的响应延迟比其它网关低 50% 以上，在 CPU 达到 70% 以上时 Apache APISIX 仍能稳定运转。
 
@@ -43,13 +43,13 @@ Kong 使用 PostgreSQL 来存储它的信息，这显然不是一个好方式。
 
 爱奇艺网关的总体架构如下图所示，包含域名、网关到服务实例和监控告警。DPVS 是公司内部基于 LVS 做的一个开源项目，Hubble 监控告警也是基于开源项目做的深度二次开发，Consul 这块做了些性能和高可用性方面的优化。
 
-![](https://static.apiseven.com/202108/1630995637366-b42e408b-53ea-47fb-b282-e68042f13090.png)
+![爱奇艺网关架构图](https://static.apiseven.com/202108/1630995637366-b42e408b-53ea-47fb-b282-e68042f13090.png)
 
 ### 应用场景一：微服务网关
 
 关于网关这块，简单从控制面和数据面介绍一下。
 
-![](https://static.apiseven.com/202108/1630995699492-bdc1c560-2c0a-4db0-82c9-2a5391941863.png)
+![网关细节图](https://static.apiseven.com/202108/1630995699492-bdc1c560-2c0a-4db0-82c9-2a5391941863.png)
 
  数据面主要面向前端用户，从 LB 到网关整个架构都是多地多链路灾备部署，以用户就近接入原则进行布点。
 
@@ -59,7 +59,7 @@ Kong 使用 PostgreSQL 来存储它的信息，这显然不是一个好方式。
 
 目前阶段，基于 Apache APISIX 调整后的 API 架构实现了一些基础功能，如限流、认证、报警、监控等。
 
-![](https://static.apiseven.com/202108/1630995732178-1717dd1a-3cdf-4f34-aea2-9a26df1c37c1.png)
+![微服务平台功能](https://static.apiseven.com/202108/1630995732178-1717dd1a-3cdf-4f34-aea2-9a26df1c37c1.png)
 
  首先是 HTTPS 部分，爱奇艺方面出于对安全性的考虑，证书和密钥是不会存放在网关机器上，会放在一个专门的远程服务器上。之前使用 Kong 时我们没有在这方面做相关支持，采用前置 Nginx 做 HTTPS Offload，此次迁移到 Apache APISIX 后，我们在 Apache APISIX 上实现了该功能，从链路上来说就少了一层转发。
 
@@ -71,13 +71,13 @@ Kong 使用 PostgreSQL 来存储它的信息，这显然不是一个好方式。
 
 关于前面提到的服务发现，主要是通过服务中心把服务注册到 Consul 集群，然后通过 DNS 服务发现的方式去做动态更新，其中 QAE 是我们公司内部的一个微服务平台。简单举例说明一下更新后端应用实例时的大体流程。
 
-![](https://static.apiseven.com/202108/1630995762178-b807f5fe-8851-4f10-acdc-fbf1c372b12f.png)
+![服务发现流程](https://static.apiseven.com/202108/1630995762178-b807f5fe-8851-4f10-acdc-fbf1c372b12f.png)
 
 实例变更时，首先会从 Consul 中注销对应节点，并通过 API 网关 Controller 向网关发送更新 DNS 缓存的请求。缓存更新成功后，Controller 再反馈 QAE 平台可以停止相关后端应用节点，避免业务流量再转发到已下线节点。
 
 ### 应用场景四：定向路由
 
-![](https://static.apiseven.com/202108/1630995803596-e8d73d5d-29e0-4f66-b3bd-976d650bafcb.png)
+![定向路由操作](https://static.apiseven.com/202108/1630995803596-e8d73d5d-29e0-4f66-b3bd-976d650bafcb.png)
 
 网关是多地部署的，事先搭建好一整套多地互备链路，同时建议用户后端服务也是多地就近部署。随后用户在 Skywalker 网关平台上创建一个 API 服务，Controller 会在全 DC 网关集群上都部署好 API 路由，同时业务域名默认 CNAME 到统一的网关域名上。
 
