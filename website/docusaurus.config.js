@@ -92,6 +92,17 @@ module.exports = {
         version: "0.2.0",
         releaseDate: "2021-09-03",
         firstDocPath: "/getting-started",
+      },
+      {
+        name: "APISIX® Python Plugin Runner",
+        nameInParamCase: "python-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Python. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "shield",
+        color: "#1296DB",
+        githubRepo: "apache/apisix-python-plugin-runner",
+        version: "0.1.0",
+        releaseDate: "2021-09-03",
+        firstDocPath: "/getting-started",
       }
     ],
     downloads: [
@@ -160,6 +171,19 @@ module.exports = {
         version: "0.2.0",
         releaseDate: "2021-09-03",
         firstDocPath: "/getting-started",
+      },
+      {
+        name: "APISIX® Python Plugin Runner",
+        nameInParamCase: "python-plugin-runner",
+        description: "Runs Apache APISIX plugins written in Python. Implemented as a sidecar that accompanies Apache APISIX.",
+        shape: "shield",
+        color: "#1296DB",
+        githubRepo: "apache/apisix-python-plugin-runner",
+        githubBranch: "master",
+        downloadPath: "apisix/python-plugin-runner/0.1.0/apisix-python-plugin-runner-0.1.0-src",
+        version: "0.1.0",
+        releaseDate: "2021-09-06",
+        firstDocPath: "/getting-started",
       }
     ],
 
@@ -175,7 +199,8 @@ module.exports = {
       "apache/apisix-helm-chart",
       "apache/apisix-control-plane",
       "apache/apisix-java-plugin-runner",
-      "apache/apisix-go-plugin-runner"
+      "apache/apisix-go-plugin-runner",
+      "apache/apisix-python-plugin-runner"
     ],
   },
   i18n: {
@@ -398,6 +423,26 @@ module.exports = {
         },
       },
     ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs-apisix-python-plugin-runner",
+        path: "docs/apisix-python-plugin-runner",
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+        routeBasePath: "/docs/python-plugin-runner",
+        sidebarPath: require.resolve("./docs/apisix-python-plugin-runner/sidebars.json"),
+        editUrl: function ({
+                             locale,
+                             version,
+                             versionDocsDirPath,
+                             docPath,
+                             permalink,
+                           }) {
+          return `https://github.com/apache/apisix-python-plugin-runner/edit/master/docs/en/latest/${docPath}`;
+        },
+      },
+    ],
   ],
   themeConfig: {
     navbar: {
@@ -439,6 +484,10 @@ module.exports = {
             {
               label: "Apache APISIX®️ Go Plugin Runner",
               to: "/docs/go-plugin-runner/getting-started/"
+            },
+            {
+              label: "Apache APISIX®️ Python Plugin Runner",
+              to: "/docs/python-plugin-runner/getting-started/"
             },
             {
               label: "General",

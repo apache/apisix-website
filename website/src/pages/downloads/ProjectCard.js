@@ -11,6 +11,7 @@ import IconSquare from "../../assets/icons/square.svg";
 import IconHexagon from "../../assets/icons/hexagon.svg";
 import IconStarSolid from "../../assets/icons/star-solid.svg";
 import IconOctagon from "../../assets/icons/octagon.svg";
+import IconShield from "../../assets/icons/shield.svg";
 
 const Dropdown = (props) => {
   const ref = useRef();
@@ -54,6 +55,8 @@ const ProjectCard = (props) => {
       <IconHexagon />
     ) : shape === "star" ? (
       <IconStarSolid />
+    ) : shape === "shield" ? (
+        <IconShield />
     ) : (
       <IconOctagon />
     );
