@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const childProcess = require("child_process");
+const process = require("process");
 
 const listr = require("listr");
 
@@ -87,6 +87,7 @@ tasks.run()
     })
     .catch(err => {
       console.error(err);
+      process.exit(1);
     });
 
 const scanFolder = (tarDir) => {
