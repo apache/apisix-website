@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[2234],{70340:function(a){"use strict";a.exports=JSON.parse('{"allTagsPath":"/zh/releases/tags","slug":"apisix-java-plugin-runner","name":"apisix java plugin runner","count":1,"permalink":"/zh/releases/tags/apisix-java-plugin-runner"}')}}]);

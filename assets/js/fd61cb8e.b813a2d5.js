@@ -1,0 +1,1 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[61449],{22639:function(e){"use strict";e.exports=JSON.parse('{"pluginId":"docs-apisix-python-plugin-runner","version":"current","label":"Next","isLast":true,"docsSidebars":{"docs":[]},"permalinkToSidebar":{}}')}}]);
