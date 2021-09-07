@@ -140,9 +140,9 @@ const scanLinkInMDFile = (filePath, project) => {
       } else if (url === "LICENSE" || url === 'logos/apache-apisix.png') {
         url = "https://github.com/apache/" + project + "/blob/master/" + url;
       } else if (!url.endsWith(".md")) { // not end with ".md"
-        console.log(filePath, link.url, filePath.startsWith("website\\docs"));
-        let lang = filePath.startsWith("website" + path.sep + "docs") ? "en" : filePath.split("i18n" + path.sep)[1].split(path.sep)[0];
-        let subPath = filePath.startsWith("website" + path.sep + "docs") ? path.dirname(filePath.split("docs" + path.sep + project + path.sep)[1]) : path.dirname(filePath.split("docs-" + project + path.sep + "current" + path.sep)[1]);
+        console.log(filePath, link.url, url,filePath.startsWith("website\\docs"));
+        let lang = !filePath.includes("i18n") ? "en" : filePath.split("i18n" + path.sep)[1].split(path.sep)[0];
+        let subPath = !filePath.includes("i18n") ? path.dirname(filePath.split("docs" + path.sep + project + path.sep)[1]) : path.dirname(filePath.split("docs-" + project + path.sep + "current" + path.sep)[1]);
         subPath = subPath !== "." ? subPath + path.sep : "";
         let originPath = path.normalize("docs" + path.sep + lang + path.sep + "latest" + path.sep + subPath + url).replace(/\\/g, '/');
 
