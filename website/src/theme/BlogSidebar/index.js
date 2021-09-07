@@ -20,7 +20,7 @@ export default function BlogSidebar({count}) {
       setSelected('All');
     } else if (path.length === 4) {
       if (path[3].indexOf('-') !== -1) {
-        setSelected(path[3].replace('-', ' '));
+        setSelected(path[3].replace(/-/g, ' '));
       } else {
         setSelected(path[3]);
       }
@@ -38,7 +38,7 @@ export default function BlogSidebar({count}) {
       history.push(`/${path[1] || '/'}`);
     } else {
       if (tag.indexOf(' ') !== -1) {
-        tag = tag.replace(' ', '-');
+        tag = tag.replace(/ /g, '-');
       }
       history.push(`/${path[1]}/tags/${tag}`);
     }
