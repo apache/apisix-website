@@ -557,7 +557,7 @@ module.exports = {
         },
         {
           to: "/showcase",
-          label: "Use cases",
+          label: "Showcase",
           position: "right",
         },
         {

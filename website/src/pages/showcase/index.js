@@ -17,7 +17,7 @@ const Header = (props) => {
   return (
       <div className="header">
         <div className="title">
-          Use cases
+          Showcase
         </div>
         <div className="tips">
           This project is used by all these folks
