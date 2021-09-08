@@ -35,7 +35,7 @@ const PageSubtitle = styled.div`
   font-weight: 400;
 `;
 
-const Sidebaritem = styled.div`
+const SidebarItem = styled.div`
   padding-top: 3px;
   padding-bottom: 3px;
   padding-right: 3px; 
@@ -60,9 +60,15 @@ const PluginsContainer = styled.div`
   margin-left: 200px; 
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 5px;
+  @media (max-width: 1200px) {
+    margin-left: 0;
+  }
   @media (max-width: 812px) {
-  grid-template-columns: repeat(2, 1fr);
-}
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 576px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const SidebarContainer = styled.div`
@@ -76,16 +82,18 @@ const SidebarContainer = styled.div`
   padding-right: 10px;
   border-style: solid;
   border-color: #ffffff #efeff5 #ffffff #ffffff ;
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;
 
-const PluginCard = styled.div`
+const PluginCard = styled.a`
   border-radius: 0.75rem;
   border: 1px solid #eee;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: left;
-  justify-content: center;
   text-align: left;
   padding: 1rem;
   min-width: calc(180px + 5rem);
@@ -96,6 +104,14 @@ const PluginCard = styled.div`
   text-decoration: none;
 }
 `;
+
+const PluginIcon = styled.div`
+  padding: 1rem;
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+  justify-content: center;
+`
 
 const PluginName = styled.div`
   font-size: 1rem;
@@ -120,6 +136,9 @@ const SectionTitle = styled.h2`
   margin-bottom: 24px;
   margin-top: 84px;
   text-transform: uppercase;
+  @media (max-width: 1200px) {
+    margin-left: 0;
+  }
 `;
 
 
@@ -134,7 +153,7 @@ function Plugins(props) {
   const { siteConfig } = useDocusaurusContext();
   const sidebar = siteConfig.customFields.plugins.map((section) => {
     return (
-      <Sidebaritem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></Sidebaritem>
+      <SidebarItem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></SidebarItem>
     );
   });
 
@@ -142,17 +161,17 @@ function Plugins(props) {
     const pluginCards = section.plugins.map((plugin) => {
       return (
         <div key={plugin.name}>
-          <PluginCard>
-            <a href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`} target="_blank">
+          <PluginCard href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`} target="_blank">
+            <PluginIcon>
               {plugin.useDefaultIcon ?
                 <img className="plugin-logo shadow default" src={'/img/plugin/default-icon.png'} alt={plugin.name} /> :
                 <svg className="plugin-logo shadow" aria-hidden="true">
                   <use xlinkHref={`#icon${plugin.name}`} />
                 </svg>}
-            </a>
+            </PluginIcon>
             <PluginName>{plugin.name}</PluginName>
             <PluginDescription>{plugin.description}</PluginDescription>
-            <a className="read-more-link" href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`}>{'Read more >'}</a>
+            <span className="read-more-link">{'Read more >'}</span>
           </PluginCard>
         </div>
       );
