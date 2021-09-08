@@ -3,10 +3,12 @@ const path = require("path");
 const process = require("process");
 
 const listr = require("listr");
+const axios = require("axios");
 
 const common = require("./common.js");
-const axios = require("axios");
 const {projects, languages, projectPaths} = common;
+
+axios.defaults.timeout = 5000;
 
 const tasks = new listr([
   {
@@ -182,7 +184,6 @@ const scanLinkInMDFile = (filePath, project) => {
 
 const linkValidate = (link) => {
   return new Promise((resolve) => {
-    const axios = require("axios");
     axios.get(link.url)
         .then((res) => {
           resolve({
