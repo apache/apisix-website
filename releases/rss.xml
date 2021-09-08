@@ -274,18 +274,18 @@
             <description><![CDATA[The 1.2 version brings many new features, including core and plugins.]]></description>
         </item>
         <item>
-            <title><![CDATA[Release Apache APISIX Dashboard 1.0]]></title>
-            <link>https://apisix.apache.org/releases/2020/02/24/release-apache-apisix-dashboard-1.0</link>
-            <guid>Release Apache APISIX Dashboard 1.0</guid>
-            <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[This release is mainly to build some basic panels and resolve License issue.]]></description>
-        </item>
-        <item>
             <title><![CDATA[Release Apache APISIX 1.1]]></title>
             <link>https://apisix.apache.org/releases/2020/02/24/release-apache-apisix-1.1</link>
             <guid>Release Apache APISIX 1.1</guid>
             <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[This release is mainly to strengthen the stability of the code and add more documentation.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX Dashboard 1.0]]></title>
+            <link>https://apisix.apache.org/releases/2020/02/24/release-apache-apisix-dashboard-1.0</link>
+            <guid>Release Apache APISIX Dashboard 1.0</guid>
+            <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[This release is mainly to build some basic panels and resolve License issue.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.0]]></title>

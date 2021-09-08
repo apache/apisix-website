@@ -8,6 +8,13 @@
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
     <entry>
+        <title type="html"><![CDATA[使用 Apache APISIX 进行集中式身份认证及进阶玩法]]></title>
+        <id>使用 Apache APISIX 进行集中式身份认证及进阶玩法</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/07/how-to-use-apisix-auth"/>
+        <updated>2021-09-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践]]></title>
         <id>基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践</id>
         <link href="https://apisix.apache.org/zh/blog/2021/09/07/iQIYI-usercase"/>
