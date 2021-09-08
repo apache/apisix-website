@@ -183,6 +183,7 @@ const scanLinkInMDFile = (filePath, project) => {
 }
 
 const linkValidate = (link) => {
+  console.log("checking external link: ", link.url);
   return new Promise((resolve) => {
     axios.get(link.url)
         .then((res) => {
