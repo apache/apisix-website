@@ -104,9 +104,9 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 应用携带 `username:foo` ,`password: bar` 访问 Apache APISIX。Apache APISIX 通过认证，并将请求 Authorization 请求头携带至上游 `httpbin.org` 。由于 `httpbin.org` 中 get 接口会将请求信息返回，因此我们可以在其中观察到请求头 `Authorization`。
 
-![](https://static.apiseven.com/202108/1631004973305-4b209f79-f7de-41a2-994e-8877a6624d99.png)
+![请求携带](https://static.apiseven.com/202108/1631004973305-4b209f79-f7de-41a2-994e-8877a6624d99.png)
 
-###  中级：进阶玩法
+### 中级：进阶玩法
 
 进阶模式下，是使用 Apache APISIX 与 OpenID-Connect 插件进行对接第三方认证服务。OpenID-Connect 是一种认证机制，可以采用该认证机制对接用户的用户管理系统或者用户管理服务，例如国内的 Authing 和腾讯云，国外的 Okta 和 Auth0 等。
 
