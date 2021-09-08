@@ -5,8 +5,7 @@ authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords: 
 - APISIX
-- 身份认证
-- 集中式
+- 集中式身份认证
 description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用
 tags: [technology]
 ---
@@ -156,5 +155,3 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 完成自定义代码片之后，我们创建路由，并将代码片配置到 Serverless 插件。后面再通过访问 Apache APISIX 获取相应的信息反馈，测试插件是否生效。
 
 ![配置上传](https://static.apiseven.com/202108/1631005184917-bc620c0b-d4c6-43f5-8450-4f5b2b9549e1.png)
-
- 
