@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-08-31T00:00:00.000Z</updated>
+    <updated>2021-09-06T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Python 助你快速上手 Apache APISIX 插件开发]]></title>
+        <id>Python 助你快速上手 Apache APISIX 插件开发</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development"/>
+        <updated>2021-09-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller]]></title>
         <id>Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller</id>
