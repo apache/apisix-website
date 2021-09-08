@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-09-06T00:00:00.000Z</updated>
+    <updated>2021-09-07T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践]]></title>
+        <id>基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/07/iQIYI-usercase"/>
+        <updated>2021-09-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Python 助你快速上手 Apache APISIX 插件开发]]></title>
         <id>Python 助你快速上手 Apache APISIX 插件开发</id>

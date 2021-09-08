@@ -165,7 +165,7 @@
             },
             {
                 "name": "proxy-mirror",
-                "description": "TThe proxy-mirror plugin provides the ability to mirror client requests"
+                "description": "The proxy-mirror plugin provides the ability to mirror client requests"
             },
             {
                 "name": "proxy-rewrite",
