@@ -100,8 +100,8 @@ div.inner {
 }
 .image {
   padding: 75px 10px 75px 75px;
-  height: 200;
-  width: 200;
+  height: 200px;
+  width: 200px;
 }
 .more-users {
   padding-top: 75px;
@@ -1015,13 +1015,17 @@ a:hover {
   transform: scale(1.2);
 }
 
-.read-more-link{
+.read-more-link {
   color: #d0312d;
   font-size: 0.8rem;
   font-weight: 500;
   text-align: left;
   padding-bottom: 2px;
   display: flex;
+}
+.read-more-link:hover {
+  color: var(--color-primary);
+  text-decoration: var(--ifm-link-hover-decoration);
 }
 
 /*Sidebar Section*/
