@@ -11,7 +11,7 @@ description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性�
 tags: [technology]
 ---
 
-> [@朱欣欣](https://github.com/starsz) 是[API7.AI](https://www.apiseven.com/zh)的系统工程师，也是 Apache APISIX 项目的 committer。开源爱好者，也是一个 Golang 开发者。现在他正在为 Apache APISIX 的 control plane 贡献代码并执行 code review。除此之外，他在 Apache APISIX 社区中非常活跃，乐于回答社区内的各种问题。
+> [@朱欣欣](https://github.com/starsz) ，Apache APISIX 项目 committer，开源爱好者，也是一个 Golang 开发者。现在他正在为 Apache APISIX 的 control plane 贡献代码并执行 code review。除此之外，他在 Apache APISIX 社区中非常活跃，乐于回答社区内的各种问题。
 >
 <!--truncate-->
 
