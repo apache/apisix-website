@@ -10,7 +10,7 @@ description: 本文将为大家介绍如何在服务网格方案中使用 Apache
 
 服务网格（Service Mesh）是处理服务间通信的基础设施层。它负责构成现代云原生应用程序的复杂服务拓扑来可靠地交付请求。通常会为每个服务实例提供一个“边车”（sidecar）代理实例。边车会处理服务间的通信、监控和安全相关的问题， 以及任何可以从各服务中抽象出来的逻辑。
 
-## Apache APISIX 简介 
+## Apache APISIX 简介
 
 Apache APISIX 是一个动态、实时、高性能的 API 网关， 提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。
 
@@ -44,7 +44,7 @@ Apache APISIX 是完全基于插件进行扩展的，二次开发难度比较低
 
 ### 活跃的社区
 
-![](https://static.apiseven.com/202108/1631065708334-74c2c1bb-adf9-49a4-9008-4e04a815b27b.png)
+![贡献者曲线](https://static.apiseven.com/202108/1631065708334-74c2c1bb-adf9-49a4-9008-4e04a815b27b.png)
 
 Apache APISIX 有一个活跃健康的社区，截止到目前（主仓库）已经有 200 多个贡献者，和 Apache APISIX 相关的项目贡献者有近 300 人。Apache APISIX 自从 2019 年 6 月份开源以来，截止目前一共收到了 2200 多个 PR；坚持每个月发布一个版本，至今已经发布了 27 个版本。
 
@@ -70,19 +70,19 @@ API 网关是 API 管理这个范畴的一个工具，除了把服务所提供�
 
 1. 大家对于服务网格的使用和落地在国内处于早期阶段（仅业务落地，同时也有大量基于虚拟机的应用并存）。
 2. 主要会使用到 HTTP 代理、灰度发布和蓝绿部署等功能 。
-3. 关注服务的可观测性。 
+3. 关注服务的可观测性。
 
 对于服务网格，大家关注的大多是上述比较基础的功能。但是服务网格的功能是十分强大的，而大家只看到了其中一小部分核心功能。
 
 Apache APISIX 已经支持：
 
-- HTTP 代理、gRPC 的代理 
-- TCP 、UDP 代理 
-- 流量切分（灰度发布、蓝绿部署） 
-- 负载均衡 
-- 健康检查 
-- 认证（mTLS、JWTToken） 
-- 可观测性 
+- HTTP 代理、gRPC 的代理
+- TCP 、UDP 代理
+- 流量切分（灰度发布、蓝绿部署）
+- 负载均衡
+- 健康检查
+- 认证（mTLS、JWTToken）
+- 可观测性
 
 Apache APISIX 能与 Apache SkyWalking、Prometheus、ZipKin 等组件的结合，获取 metrics 和 tracing、 logging 的数据实现可观测性。
 
@@ -98,7 +98,7 @@ Apache APISIX 能与 Apache SkyWalking、Prometheus、ZipKin 等组件的结合�
 
 一个完整的服务网格方案必须有数据面和控制面，Apache APISIX 可以作为数据面，控制面该怎么选呢？是选现有的服务网格产品，如：Istio / Kuma / OpenServiceMesh ，还是自研？
 
-- **问题三：对 Apache APISIX 的改造成本** 
+- **问题三：对 Apache APISIX 的改造成本**
 
 假设 Apache APISIX 需要做些修改才能在服务网格中使用，这些修改的范围有哪些？会不会太大？比如大到需要考虑 Lua 和 OpenResty 的生态。是否需要自研实现某些功能？自研过程中踩坑的成本有多大？
 
@@ -116,7 +116,7 @@ etcd Proxy 支持设置连接很多个客户端（比如一千或者更多），
 
 在服务网格场景下，数据面实例可能有很多，为保证在实例数特别多时配置变更下发延时较低，只能通过对 etcd Proxy 组件二次开发来及解决延时问题，保证及时获取配置的变更。
 
-**控制面的选型**
+#### 控制面的选型
 
 以下列出了现有的两类控制面：
 
@@ -126,7 +126,7 @@ etcd Proxy 支持设置连接很多个客户端（比如一千或者更多），
 
 除了采用现有的控制面，还有一个方案就是自研。如果自研控制面，需要考虑很多方面。如：如何设计 CRDs （CustomResourceDefinition），能让管理员和控制面交互？如何解决数据从控制面下发到数据面？自研控制面的成本也是非常大的。
 
-**对 Apache APISIX 的改造成本**
+#### 对 Apache APISIX 的改造成本
 
 对 Apache APISIX 的改造成本涉及到 Apache APISIX 技术栈的生态。
 
@@ -138,7 +138,7 @@ etcd Proxy 支持设置连接很多个客户端（比如一千或者更多），
 
 计算机科学有一句名言：计算机科学的任意一个问题都能通过引入一个额外的间接层来解决掉。
 
-如果只在数据面中使用 Apache APISIX，上面三个问题很难解决，而且使用起来可能有很多的问题。所以结论是：开发一个间接层。间接层是起名为 apisix-mesh-agent，现已经开源，点击跳转[项目地址](https://github.com/api7/apisix-mesh-agent)。 
+如果只在数据面中使用 Apache APISIX，上面三个问题很难解决，而且使用起来可能有很多的问题。所以结论是：开发一个间接层。间接层是起名为 apisix-mesh-agent，现已经开源，点击跳转[项目地址](https://github.com/api7/apisix-mesh-agent)。
 
 ## apisix-mesh-agent 的功能与优势
 
@@ -184,21 +184,21 @@ Apache APISIX 目前开源了 50 多个插件，使用 Apache APISIX 作为服�
 
 截止目前，apisix-mesh-agent 开源仅两个月时间，还有许多功能要完善，以下是对 Apache APISIX 服务网格未来的一些规划。
 
-**第一，对 xDS 协议做更多支持**
+#### 第一，对 xDS 协议做更多支持
 
 目前，apisix-mesh-agent 只支持了 xDS 协议中的 LDS、RDS、CDS 和 EDS，而且只使用 LDS 绑定RDS 需要的路由配置名称，直接获取路由；使用 CDS 和 EDS 直接获取服务集群的定义和服务集群的实例。
 
 未来我们计划：
 
-- 支持 Apache APISIX 更多数据类型的转换 
-- 支持请求改写，如：URI 改写 
-- 支持请求认证，如 JWT Token、mTLS 
-- 支持故障注入 
+- 支持 Apache APISIX 更多数据类型的转换
+- 支持请求改写，如：URI 改写
+- 支持请求认证，如 JWT Token、mTLS
+- 支持故障注入
 
-**第二，提升可观测性**
+#### 第二，提升可观测性
 
 在调研阶段发现，实际使用场景中大家十分重视服务的可观测性，未来支持对接更多可观测方面的组件，如：Apache SkyWalking、其他日志收集的服务器。
 
-**第三，自研控制面**
+#### 第三，自研控制面
 
 现在服务网格的控制面依托其他开源组件（如：Istio、Kuma），使得我们可以以较低的成本使用现有的功能，而如果未来遇到问题很难解决，也会考虑去落地实现一个专属 Apache APISIX 的服务网格控制面 ，使 Apache APISIX 的能力更好地发挥出来，服务网格在使用中也更加高效、简便。
