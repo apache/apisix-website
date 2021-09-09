@@ -443,6 +443,7 @@ module.exports = {
         },
       },
     ],
+    ['docusaurus-plugin-sass', {}]
   ],
   themeConfig: {
     navbar: {
@@ -553,6 +554,11 @@ module.exports = {
               label: "Help",
             },
           ]
+        },
+        {
+          to: "/showcase",
+          label: "Showcase",
+          position: "right",
         },
         {
           type: "localeDropdown",
