@@ -4,7 +4,12 @@ avatar: "https://avatars.githubusercontent.com/u/10428333?v=4"
 author: "张超"
 href: "https://github.com/tokers"
 date: 2021-08-20
-keywords: APISIX,服务网格,网关,控制面,架构
+keywords:
+  - APISIX
+  - 服务网格
+  - 网关
+  - 控制面
+  - 架构
 description: 本文将为大家介绍如何在服务网格方案中使用 Apache APISIX 作为数据面及其作为网格的 sidecar 的优势。
 ---
 
@@ -38,7 +43,7 @@ Apache APISIX 是完全基于插件进行扩展的，二次开发难度比较低
 
 ![Apache APISIX 的架构图](https://static.apiseven.com/202108/1631065632487-3e46ee68-c1fb-4546-a82f-0f81504ce560.png)
 
-这是 Apache APISIX 的架构图，左边是数据面（Data Plane），右边是管理面（Control Plane），配置中心选择了当下最成熟的基础设施：etcd，通过 watch etcd，拿到路由、上游等数据。
+这是 Apache APISIX 的架构图，左边是数据面（Data Plane），右边是管理面（Control Plane），配置中心选择了当下最成熟的基础设施：etcd。 Apache APISIX 通过 watch etcd，拿到路由、上游等数据。
 
 在这个架构里面，找不到一个单点，其中任何一个服务出现异常宕机等事故，都不会影响 APISIX 正常对外提供服务的能力。当整体架构中的每一个点都支持高可用时，用户生产系统的高稳定性就非常容易实现。
 
@@ -81,7 +86,7 @@ Apache APISIX 已经支持：
 - 流量切分（灰度发布、蓝绿部署）
 - 负载均衡
 - 健康检查
-- 认证（mTLS、JWTToken）
+- 认证（mTLS、JWT Token）
 - 可观测性
 
 Apache APISIX 能与 Apache SkyWalking、Prometheus、ZipKin 等组件的结合，获取 metrics 和 tracing、 logging 的数据实现可观测性。
@@ -96,7 +101,7 @@ Apache APISIX 能与 Apache SkyWalking、Prometheus、ZipKin 等组件的结合�
 
 - **问题二：控制面的选型**
 
-一个完整的服务网格方案必须有数据面和控制面，Apache APISIX 可以作为数据面，控制面该怎么选呢？是选现有的服务网格产品，如：Istio / Kuma / OpenServiceMesh ，还是自研？
+一个完整的服务网格方案必须有数据面和控制面，Apache APISIX 可以作为数据面，控制面该怎么选呢？是选现有的服务网格产品，如：如：Istio、Kuma、OpenServiceMesh，还是自研？
 
 - **问题三：对 Apache APISIX 的改造成本**
 
@@ -184,7 +189,7 @@ Apache APISIX 目前开源了 50 多个插件，使用 Apache APISIX 作为服�
 
 截止目前，apisix-mesh-agent 开源仅两个月时间，还有许多功能要完善，以下是对 Apache APISIX 服务网格未来的一些规划。
 
-### 第一，对 xDS 协议做更多支持
+### 对 xDS 协议做更多支持
 
 目前，apisix-mesh-agent 只支持了 xDS 协议中的 LDS、RDS、CDS 和 EDS，而且只使用 LDS 绑定RDS 需要的路由配置名称，直接获取路由；使用 CDS 和 EDS 直接获取服务集群的定义和服务集群的实例。
 
@@ -195,10 +200,10 @@ Apache APISIX 目前开源了 50 多个插件，使用 Apache APISIX 作为服�
 - 支持请求认证，如 JWT Token、mTLS
 - 支持故障注入
 
-### 第二，提升可观测性
+### 提升可观测性
 
 在调研阶段发现，实际使用场景中大家十分重视服务的可观测性，未来支持对接更多可观测方面的组件，如：Apache SkyWalking、其他日志收集的服务器。
 
-### 第三，自研控制面
+### 自研控制面
 
-现在服务网格的控制面依托其他开源组件（如：Istio、Kuma），使得我们可以以较低的成本使用现有的功能，而如果未来遇到问题很难解决，也会考虑去落地实现一个专属 Apache APISIX 的服务网格控制面 ，使 Apache APISIX 的能力更好地发挥出来，服务网格在使用中也更加高效、简便。
+现在服务网格的控制面依托其他开源组件（如：Istio 和 Kuma），使得我们可以以较低的成本使用现有的功能，而如果未来遇到问题很难解决，也会考虑去落地实现一个专属 Apache APISIX 的服务网格控制面 ，使 Apache APISIX 的能力更好地发挥出来，服务网格在使用中也更加高效、简便。
