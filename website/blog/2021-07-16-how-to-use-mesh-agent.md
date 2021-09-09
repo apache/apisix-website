@@ -7,7 +7,8 @@ keywords:
 - APISIX
 - 服务网格
 - Service Mesh
-- 开源,Sidecar
+- 开源
+- Sidecar
 description: 本文介绍了基于 Apache APISIX 的服务网格方案，将对 apisix-mesh-agent 进行分析，介绍其使用定位及其实现的功能
 tags: technology
 ---
