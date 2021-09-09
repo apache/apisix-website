@@ -47,11 +47,11 @@ Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动
 ```yaml
 etcd:
   host:  
-    - "http://127.0.0.1:2379"   
+    - "http://127.0.0.1:2379"
   prefix: /apisix                 # apisix configurations prefix
 ```
 
-而 `upstreams/1` 就等价于 nginx.conf 中的 `http { upstream 1 {} } ` 配置。类似关键字还有 `/apisix/services/`、`/apisix/routes/ `等。
+而 `upstreams/1` 就等价于 nginx.conf 中的 `http {upstream 1 {}} ` 配置。类似关键字还有 `/apisix/services/`、`/apisix/routes/ `等。
 
 那么，Nginx 是怎样通过 watch 机制获取到 etcd 配置数据变化的呢？有没有新启动一个 agent进程？它通过 HTTP/1.1 还是 gRPC 与 etcd 通讯的？
 
@@ -252,6 +252,7 @@ local function waitdir(etcd_cli, key, modified_index, timeout)
     end
 end
 ```
+
 这里实际与 etcd 通讯的是 [lua-resty-etcd](https://github.com/api7/lua-resty-etcd) 库。它提供的 watchdir 函数用于接收 etcd 发现 key 目录对应 value 变更后发出的通知。
 
 watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾导致的。etcd v3 已经支持高效的 gRPC 协议（底层为 HTTP2 协议）。你可能听说过，HTTP2 不但具备多路复用的能力，还支持服务器直接推送消息，关于 HTTP2 的细节可以参考[《深入剖析HTTP3协议》](https://www.taohui.pub/2021/02/04/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90HTTP3%E5%8D%8F%E8%AE%AE/)，从 HTTP3 协议对照理解 HTTP2 ：
@@ -328,7 +329,7 @@ APISIX 提供了这么一种机制：访问任意 1 个 Nginx 节点，通过其
 server {
     listen 9080 default_server reuseport;
 
-    location /apisix/admin { 
+    location/apisix/admin { 
         content_by_lua_block {
             apisix.http_admin()
         }
@@ -392,6 +393,7 @@ local uri_route = {
 ```yaml
 2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] init.lua:130: handler(): uri: ["","apisix","admin","upstreams","1"], client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
 ```
+
 这行日志实际是由 /apisix/admin/init.lua 中的 `run` 函数打印的，它的执行依据是上面的 uri_route 字典。我们看下 run 函数的内容：
 
 ```lua
