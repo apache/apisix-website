@@ -1,10 +1,12 @@
 ---
 title: "Apache APISIX 架构分析：如何动态管理 Nginx 集群？"
 keywords: 
-- APISIX
+- API 网关
+- Apache APISIX
 - Nginx
+- - Lua
 - 动态管理
-- Lua
+date: "2021-08-10"
 description: 本文转发自陶辉个人博客，主要介绍了基于APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
 tags: [technology]
 ---
@@ -12,7 +14,7 @@ tags: [technology]
 <!--truncate-->
 > 作者陶辉
 
-开源版 Nginx 最为人诟病的就是不具备动态配置、远程 API 及集群管理的能力，而 Apache APISIX 作为 CNCF 毕业的开源七层网关，基于 etcd 和 Lua 实现了对 Nginx 集群的动态管理。
+开源版 Nginx 最为人诟病的就是不具备动态配置、远程 API 及集群管理的能力，而 Apache APISIX 作为 Apache 基金会毕业的开源七层网关，基于 etcd 和 Lua 实现了对 Nginx 集群的动态管理。
 
 ![APISIX 架构图](https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png)
 
@@ -29,10 +31,10 @@ Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动
 管理集群必须依赖中心化的配置，etcd 就是这样一个数据库。Apache APISIX 没有选择关系型数据库作为配置中心，是因为 etcd 具有以下 2 个优点：
 
 * etcd 采用类 Paxos 的 Raft 协议保障了数据一致性，它是去中心化的分布式数据库，可靠性高于关系数据库
-* etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：
+* etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种 key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：
 ![基于 etcd 同步 nginx 配置](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
 
-因此，不同于 [Orange](https://github.com/orlabs/orange) 采用 MySQL、[Kong](https://konghq.com/) 采用 PostgreSQL 作为配置中心的方式（这二者同样是基于 OpenResty 实现的 API Gateway），Apache APISIX 采用了 etcd 作为中心化的配置组件。
+因此，不同于 [Orange](https://github.com/orlabs/orange)  和 [Kong](https://konghq.com/) ，Apache APISIX 采用了 etcd 作为中心化的配置组件。
 
 因此，你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：
 
@@ -53,11 +55,11 @@ etcd:
 
 而 upstreams/1 就等价于 nginx.conf 中的 http { upstream 1 {} } 配置。类似关键字还有 /apisix/services/、/apisix/routes/ 等。
 
-那么，Nginx 是怎样通过 watch 机制获取到 etcd 配置数据变化的呢？有没有新启动一个 agent进程？它通过 HTTP/1.1 还是 gRPC 与 etcd 通讯的？
+那么，Nginx 是怎样通过 watch 机制获取到 etcd 配置数据变化的呢？有没有新启动一个 agent 进程？它通过 HTTP/1.1 还是 gRPC 与 etcd 通讯的？
 
 ## ngx.timer.at 定时器
 
-Apache APISIX 并没有启动 Nginx 以外的进程与 etcd 通讯。实际上它是通过 `ngx.timer.at` 这个定时器实现了 watch 机制。为了方便对 OpenResty 不太了解的同学，我们先来看看 Nginx 中的定时器是如何实现的，它是 watch 机制实现的基础。
+Apache APISIX 并没有启动 Nginx 以外的进程与 etcd 通讯。实际上它是通过 `ngx.timer.at` 这个定时器实现了 watch 机制。为了方便对 OpenResty 不太了解的同学理解，我们先来看看 Nginx 中的定时器是如何实现的，它是 watch 机制实现的基础。
 
 ### Nginx 的红黑树定时器
 
@@ -127,7 +129,7 @@ Nginx 框架为 C 模块开发提供了许多钩子，而 OpenResty 将部分钩
 
 ![openresty 钩子](https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png)
 
-APISIX 仅使用了其中 8 个钩子（注意，APISIX 没有使用 `set_by_lua` 和 `rewrite_by_lua`，rewrite 阶段的插件其实是 APISIX 自定义的，与 Nginx 无关），包括：
+Apache APISIX 仅使用了其中 8 个钩子（注意，APISIX 没有使用 `set_by_lua` 和 `rewrite_by_lua`，rewrite 阶段的插件其实是 Apache APISIX 自定义的，与 Nginx 无关），包括：
 
 * init_by_lua：Master 进程启动时的初始化
 * init_worker_by_lua：每个 Worker 进程启动时的初始化（包括 privileged agent 进程的初始化，这是实现 Java 等多语言插件远程 RPC 调用的关键）
@@ -150,9 +152,9 @@ init_worker_by_lua_block {
 }
 ```
 
-关于 nginx.conf 配置语法，可以参考[《从通用规则中学习nginx模块的定制指令》](https://www.taohui.pub/2020/12/23/nginx/%E4%BB%8E%E9%80%9A%E7%94%A8%E8%A7%84%E5%88%99%E4%B8%AD%E5%AD%A6%E4%B9%A0nginx%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AE%9A%E5%88%B6%E6%8C%87%E4%BB%A4/)。你可能很好奇，下载 APISIX 源码后没有看到 nginx.conf，这段配置是哪来的？
+关于 nginx.conf 配置语法，可以参考[《从通用规则中学习nginx模块的定制指令》](https://www.taohui.pub/2020/12/23/nginx/%E4%BB%8E%E9%80%9A%E7%94%A8%E8%A7%84%E5%88%99%E4%B8%AD%E5%AD%A6%E4%B9%A0nginx%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AE%9A%E5%88%B6%E6%8C%87%E4%BB%A4/)。你可能很好奇，下载 Apache APISIX 源码后没有看到 nginx.conf，这段配置是哪来的？
 
-这里的 nginx.conf 实际是由 APISIX 的启动命令实时生成的。当你执行 make run 时，它会基于 Lua 模板 apisix/cli/ngx_tpl.lua 文件生成 nginx.conf。请注意，这里的模板规则是 OpenResty 自实现的，语法细节参见 [lua-resty-template](https://github.com/bungle/lua-resty-template)。生成 nginx.conf 的具体代码参见 apisix/cli/ops.lua 文件：
+这里的 nginx.conf 实际是由 Apache APISIX 的启动命令实时生成的。当你执行 make run 时，它会基于 Lua 模板 apisix/cli/ngx_tpl.lua 文件生成 nginx.conf。请注意，这里的模板规则是 OpenResty 自实现的，语法细节参见 [lua-resty-template](https://github.com/bungle/lua-resty-template)。生成 nginx.conf 的具体代码参见 apisix/cli/ops.lua 文件：
 
 ```lua
 local template = require("resty.template")
@@ -166,7 +168,7 @@ local function init(env)
                                     ngxconf)
 ```
 
-当然，APISIX 允许用户修改 nginx.conf 模板中的部分数据，具体方法是模仿 conf/config-default.yaml 的语法修改 conf/config.yaml 配置。其实现原理参见 `read_yaml_conf` 函数：
+当然，Apache APISIX 允许用户修改 nginx.conf 模板中的部分数据，具体方法是模仿 conf/config-default.yaml 的语法修改 conf/config.yaml 配置。其实现原理参见 `read_yaml_conf` 函数：
 
 ```conf
 function _M.read_yaml_conf(apisix_home)
@@ -183,9 +185,9 @@ end
 
 #### APISIX 获取 etcd 通知的方式
 
-APISIX 将需要监控的配置以不同的前缀存入了 etcd，目前包括以下 11 种：
+Apache APISIX 将需要监控的配置以不同的前缀存入了 etcd，目前包括以下 11 种：
 
-* /apisix/consumers/：APISIX 支持以 consumer 抽象上游种类
+* /apisix/consumers/：Apache APISIX 支持以 consumer 抽象上游种类
 * /apisix/global_rules/：全局通用的规则
 * /apisix/plugin_configs/：可以在不同 Router 间复用的 Plugin
 * /apisix/plugin_metadata/：部分插件的元数据
@@ -197,7 +199,7 @@ APISIX 将需要监控的配置以不同的前缀存入了 etcd，目前包括�
 * /apisix/stream_routes/：OSI 四层网关的路由匹配规则
 * /apisix/upstreams/：对一组上游 Server 主机的抽象
 
-这里每类配置对应的处理逻辑都不相同，因此 APISIX 抽象出 apisix/core/config_etcd.lua 文件，专注 etcd 上各类配置的更新维护。在 `http_init_worker` 函数中每类配置都会生成 1 个 config_etcd 对象：
+这里每类配置对应的处理逻辑都不相同，因此 Apache APISIX 抽象出 apisix/core/config_etcd.lua 文件，专注 etcd 上各类配置的更新维护。在 `http_init_worker` 函数中每类配置都会生成 1 个 config_etcd 对象：
 
 ```lua
 function _M.init_worker()
@@ -259,7 +261,7 @@ watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾
 
 ![http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
 
-然而，Lua 生态目前并不支持 HTTP2 协议！所以 lua-resty-etcd 库实际是通过低效的 HTTP/1.1 协议与 etcd 通讯的，因此接收 /watch 通知也是通过带有超时的 /v3/watch 请求完成的。这个现象其实是由 2 个原因造成的：
+然而，Lua 生态目前并不支持 HTTP2 协议，所以 lua-resty-etcd 库实际是通过低效的 HTTP/1.1 协议与 etcd 通讯的，因此接收 /watch 通知也是通过带有超时的 /v3/watch 请求完成的。这个现象其实是由 2 个原因造成的：
 
 1. Nginx 将自己定位为边缘负载均衡，因此上游必然是企业内网，时延低、带宽大，所以对上游协议不必支持 HTTP2 协议
 2. 当 Nginx 的 upstream 不能提供 HTTP2 机制给 Lua 时，Lua 只能基于 cosocket 自己实现了。HTTP2 协议非常复杂，目前还没有生产环境可用的 HTTP2 cosocket 库。
@@ -311,7 +313,7 @@ local function http_request_chunk(self, http_cli)
 end
 ```
 
-可见，APISIX 在每个 worker 进程中，**通过 `ngx.timer.at` 和 lua-resty-etcd 库反复请求 etcd，以此保证每个 Worker 进程中都含有最新的配置。**
+可见，Apache APISIX 在每个 worker 进程中，**通过 `ngx.timer.at` 和 lua-resty-etcd 库反复请求 etcd，以此保证每个 Worker 进程中都含有最新的配置。**
 
 ## APISIX 配置与插件的远程变更
 
@@ -321,11 +323,11 @@ end
 
 ### 通过 Nginx 的 /apisix/admin/ 接口修改配置
 
-APISIX 提供了这么一种机制：访问任意 1 个 Nginx 节点，通过其 Worker 进程中的 Lua 代码校验请求成功后，再由 /v3/dv/put 接口写入 etcd 中。下面我们来看看 APISIX 是怎么实现的。
+Apache APISIX 提供了这么一种机制：访问任意 1 个 Nginx 节点，通过其 Worker 进程中的 Lua 代码校验请求成功后，再由 /v3/dv/put 接口写入 etcd 中。下面我们来看看 Apache APISIX 是怎么实现的。
 
 首先，make run 生成的 nginx.conf 会自动监听 9080 端口（可通过 config.yaml 中 apisix.node_listen 配置修改），当 `apisix.enable_admin` 设置为 true 时，nginx.conf 就会生成以下配置：
 
-```conf
+```yaml
 server {
     listen 9080 default_server reuseport;
 
@@ -378,7 +380,7 @@ local uri_route = {
 比如，当通过 /apisix/admin/upstreams/1 和 PUT 方法创建 1 个 Upstream 上游时：
 
 ```shell
-# curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -X PUT -d '
+curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -X PUT -d '
 > {
 >   "type": "roundrobin",
 >   "nodes": {
@@ -471,7 +473,7 @@ end
 
 3. 在上述两个过程中，如果含有正则表达式，则基于数组顺序（在 nginx.conf 中出现的次序）依次匹配。
 
-上述过程虽然执行效率极高，却是写死在 find_config 阶段及 Nginx HTTP 框架中的，一旦变更必须在 nginx -s reload 后才能生效。因此，APISIX 索性完全抛弃了上述流程。
+上述过程虽然执行效率极高，却是写死在 find_config 阶段及 Nginx HTTP 框架中的，一旦变更必须在 nginx -s reload 后才能生效。因此，Apache APISIX 索性完全抛弃了上述流程。
 
 从 nginx.conf 中可以看到，访问任意域名、URI 的请求都会匹配到 `http_access_phase` 这个 lua函数：
 
@@ -507,6 +509,6 @@ end
 
 Nginx 集群的管理必须依赖中心化配置组件，而高可靠又具备 watch 推送机制的 etcd 无疑是最合适的选择！虽然当下 Resty 生态没有 gRPC 客户端，但每个 Worker 进程直接通过 HTTP/1.1 协议同步 etcd 配置仍不失为一个好的方案。
 
-动态修改 Nginx 配置的关键在于2点：Lua 语言的灵活度远高于 nginx.conf 语法，而且 Lua 代码可以通过 loadstring 从外部数据中导入！当然，为了保障路由匹配的执行效率，Apache APISIX 通过 C 语言实现了前缀基数树，基于 Host、Method、URI 进行请求匹配，在保障动态性的基础上提升了性能。
+动态修改 Nginx 配置的关键在于2点：Lua 语言的灵活度远高于 nginx.conf 语法，而且 Lua 代码可以通过 loadstring 从外部数据中导入。当然，为了保障路由匹配的执行效率，Apache APISIX 通过 C 语言实现了前缀基数树，基于 Host、Method、URI 进行请求匹配，在保障动态性的基础上提升了性能。
 
 Apache APISIX 拥有许多优秀的设计，本文仅讨论了 Nginx 集群的动态管理。
