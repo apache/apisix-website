@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[55365],{28527:function(e){"use strict";e.exports=JSON.parse('{"title":"Recent posts","items":[]}')}}]);

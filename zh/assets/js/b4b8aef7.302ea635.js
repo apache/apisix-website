@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[3908],{97228:function(e){e.exports=JSON.parse('{"allTagsPath":"/zh/releases/tags","slug":"apisix-go-plugin-runner","name":"apisix go plugin runner","count":2,"permalink":"/zh/releases/tags/apisix-go-plugin-runner"}')}}]);
