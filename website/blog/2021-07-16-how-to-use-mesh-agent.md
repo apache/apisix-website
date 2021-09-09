@@ -27,7 +27,6 @@ tags: [technology]
 
 ![apisix-mesh-agent](https://static.apiseven.com/202108/1630639686171-133e72d8-fcd1-4436-9be5-bc1d9b6ebb32.png)
 
-
 从图中可以看到，apisix-mesh-agent 负责和控制面交互（获取配置变更），Apache APISIX 负责实际的流量处理和转发。
 
 ## 获取配置变更
@@ -85,6 +84,7 @@ tags: [technology]
   "upstream_id": "90ba12b92e2d417f6802536696431724d59856ea"
 }
 ```
+
 转换后的配置将被缓存在 apisix-mesh-agent 的内存中。那么数据又该怎么传递给 Apache APISIX 呢？
 
 ## 模拟 ETCD
