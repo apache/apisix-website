@@ -233,7 +233,7 @@ end
 
 `sync_data` 函数将通过 etcd 的 watch 机制获取更新，它的实现机制我们接下来会详细分析。
 
-所以总结来看，APISIX 在每个 Nginx Worker 进程的启动过程中，通过 `ngx.timer.at` 函数将 `_automatic_fetch` 插入定时器。`_automatic_fetch` 函数执行时会通过 `sync_data` 函数，基于 watch 机制接收 etcd 中的配置变更通知，这样，每个 Nginx 节点、Worker 进程都将保持最新的配置。如此设计还有 1 个明显的优点：etcd 中的配置直接写入 Nginx Worker 进程中，这样处理请求时就能直接使用新配置，无须在进程间同步配置，这要比启动 1 个 agent 进程更简单！
+所以总结来看，Apache APISIX 在每个 Nginx Worker 进程的启动过程中，通过 `ngx.timer.at` 函数将 `_automatic_fetch` 插入定时器。`_automatic_fetch` 函数执行时会通过 `sync_data` 函数，基于 watch 机制接收 etcd 中的配置变更通知，这样，每个 Nginx 节点、Worker 进程都将保持最新的配置。如此设计还有 1 个明显的优点：etcd 中的配置直接写入 Nginx Worker 进程中，这样处理请求时就能直接使用新配置，无须在进程间同步配置，这要比启动 1 个 agent 进程更简单！
 
 ### lua-resty-etcd 库的 HTTP/1.1 协议
 
