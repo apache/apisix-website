@@ -7,7 +7,7 @@ keywords:
 - 开源项目
 - 贡献
 description: 本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。
-tags: [technology]
+tags: [community]
 ---
 
 >
