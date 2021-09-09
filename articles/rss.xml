@@ -4,21 +4,21 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/articles</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Thu, 09 Sep 2021 06:16:31 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 09 Sep 2021 10:02:17 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Apache APISIX 从开源项目到商业化之路]]></title>
             <link>https://apisix.apache.org/articles/Apache-APISIX-From-OpenSource-Commercialization</link>
             <guid>Apache APISIX 从开源项目到商业化之路</guid>
-            <pubDate>Thu, 09 Sep 2021 06:16:31 GMT</pubDate>
+            <pubDate>Thu, 09 Sep 2021 10:02:17 GMT</pubDate>
             <description><![CDATA[Apache APISIX 从开源项目到商业化之路.]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX 在移动云对象存储 EOS 的应用与实践]]></title>
             <link>https://apisix.apache.org/articles/Apache-APISIX-in-China-Mobile-Cloud</link>
             <guid>Apache APISIX 在移动云对象存储 EOS 的应用与实践</guid>
-            <pubDate>Thu, 09 Sep 2021 06:16:31 GMT</pubDate>
+            <pubDate>Thu, 09 Sep 2021 10:02:17 GMT</pubDate>
             <description><![CDATA[该演讲主题主要是讲述 Apache APISIX 在中国移动公有云对象存储 EOS 中的应用与实践经验分享。首先介绍了中国移动公有云建设规划及对象存储产品发展演进历程，然后阐述了我们为什么选择 APISIX 作为负载均衡网关，并对 EOS 流量治理架构演进三个阶段进行进行了详细介绍。同时，我们还分享了基于 APISIX 我们解决了哪些实际生产问题，做了哪些方案及开发工作，最后对我们未来的演进做了一些规划说明。]]></description>
         </item>
         <item>
