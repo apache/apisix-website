@@ -51,7 +51,7 @@ etcd:
   prefix: /apisix                 # apisix configurations prefix
 ```
 
-而 `upstreams/1` 就等价于 nginx.conf 中的 `http {upstream 1 {}} ` 配置。类似关键字还有 `/apisix/services/`、`/apisix/routes/ `等。
+而 `upstreams/1` 就等价于 nginx.conf 中的 `http {upstream 1 { } } ` 配置。类似关键字还有 `/apisix/services/`、`/apisix/routes/ `等。
 
 那么，Nginx 是怎样通过 watch 机制获取到 etcd 配置数据变化的呢？有没有新启动一个 agent进程？它通过 HTTP/1.1 还是 gRPC 与 etcd 通讯的？
 
@@ -329,7 +329,7 @@ APISIX 提供了这么一种机制：访问任意 1 个 Nginx 节点，通过其
 server {
     listen 9080 default_server reuseport;
 
-    location/apisix/admin { 
+    location/apisix/admin {
         content_by_lua_block {
             apisix.http_admin()
         }
