@@ -172,9 +172,9 @@ local _M = {
   "name": plugin_name,
   "schema": schema,
   # 新增的 result 字段，可存储插件运行结果，并传递到下个插件。
-  "result" = {
-    "code" = {
-      "type" = "int"
+  "result":  {
+    "code": {
+      "type": "int"
     }
   }
 }
