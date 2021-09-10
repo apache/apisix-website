@@ -24,9 +24,9 @@ tags: [technology]
 * Nginx 将自己定位于 ADC 边缘负载均衡，因此它对上游并不支持 HTTP2 协议。这增大了 OpenResty 生态实现 etcd gRPC 接口的难度，因此通过 watch 机制接收配置变更必然效率低下
 * 多进程架构增大了 Worker 进程间的数据同步难度，必须选择 1 个低成本的实现机制，保证每个 Nginx 节点、Worker 进程都持有最新的配置
 
-Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动态管理，本文将基于APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理。
+Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动态管理，本文将基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理。
 
-## 基于 ETCD watch 机制的配置同步方案
+## 基于 etcd watch 机制的配置同步方案
 
 管理集群必须依赖中心化的配置，etcd 就是这样一个数据库。Apache APISIX 没有选择关系型数据库作为配置中心，是因为 etcd 具有以下 2 个优点：
 
@@ -34,7 +34,7 @@ Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动
 * etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种 key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：
 ![基于 etcd 同步 nginx 配置](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
 
-因此，不同于 [Orange](https://github.com/orlabs/orange)  和 [Kong](https://konghq.com/) ，Apache APISIX 采用了 etcd 作为中心化的配置组件。
+因此，不同于 Orange 和 Kong，Apache APISIX 采用了 etcd 作为中心化的配置组件。
 
 因此，你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：
 
@@ -123,7 +123,7 @@ ngx_http_lua_ngx_timer_helper(lua_State *L, int every)
 
 下面我们来看看 Apache APISIX 是怎样使用 `ngx.timer.at` 的。
 
-### APISIX 基于定时器实现的 watch 机制
+### Apache APISIX 基于定时器实现的 watch 机制
 
 Nginx 框架为 C 模块开发提供了许多钩子，而 OpenResty 将部分钩子以 Lua 语言形式暴露了出来，如下图所示：
 
@@ -142,7 +142,7 @@ Apache APISIX 仅使用了其中 8 个钩子（注意，APISIX 没有使用 `set
 
 准备好上述知识后，我们就可以回答 Apache APISIX 是怎样接收 etcd 数据的更新了。
 
-#### nginx.conf的生成方式
+#### nginx.conf 的生成方式
 
 每个 Nginx Worker 进程都会在 `init_worker_by_lua` 阶段通过 `http_init_worker` 函数启动定时器：
 
@@ -152,7 +152,7 @@ init_worker_by_lua_block {
 }
 ```
 
-关于 nginx.conf 配置语法，可以参考[《从通用规则中学习nginx模块的定制指令》](https://www.taohui.pub/2020/12/23/nginx/%E4%BB%8E%E9%80%9A%E7%94%A8%E8%A7%84%E5%88%99%E4%B8%AD%E5%AD%A6%E4%B9%A0nginx%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AE%9A%E5%88%B6%E6%8C%87%E4%BB%A4/)。你可能很好奇，下载 Apache APISIX 源码后没有看到 nginx.conf，这段配置是哪来的？
+你可能很好奇，下载 Apache APISIX 源码后没有看到 nginx.conf，这段配置是哪来的？
 
 这里的 nginx.conf 实际是由 Apache APISIX 的启动命令实时生成的。当你执行 make run 时，它会基于 Lua 模板 apisix/cli/ngx_tpl.lua 文件生成 nginx.conf。请注意，这里的模板规则是 OpenResty 自实现的，语法细节参见 [lua-resty-template](https://github.com/bungle/lua-resty-template)。生成 nginx.conf 的具体代码参见 apisix/cli/ops.lua 文件：
 
@@ -183,7 +183,7 @@ end
 
 可见，ngx_tpl.lua 模板中仅部分数据可由 yaml 配置中替换，其中 conf/config-default.yaml 是官方提供的默认配置，而 conf/config.yaml 则是由用户自行覆盖的自定义配置。如果你觉得仅替换模板数据还不够，大可直接修改 ngx_tpl 模板。
 
-#### APISIX 获取 etcd 通知的方式
+#### Apache APISIX 获取 etcd 通知的方式
 
 Apache APISIX 将需要监控的配置以不同的前缀存入了 etcd，目前包括以下 11 种：
 
@@ -257,7 +257,7 @@ end
 
 这里实际与 etcd 通讯的是 [lua-resty-etcd](https://github.com/api7/lua-resty-etcd) 库。它提供的 watchdir 函数用于接收 etcd 发现 key 目录对应 value 变更后发出的通知。
 
-watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾导致的。etcd v3 已经支持高效的 gRPC 协议（底层为 HTTP2 协议）。你可能听说过，HTTP2 不但具备多路复用的能力，还支持服务器直接推送消息，关于 HTTP2 的细节可以参考[《深入剖析HTTP3协议》](https://www.taohui.pub/2021/02/04/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90HTTP3%E5%8D%8F%E8%AE%AE/)，从 HTTP3 协议对照理解 HTTP2 ：
+watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾导致的。etcd v3 已经支持高效的 gRPC 协议（底层为 HTTP2 协议）。你可能听说过，HTTP2 不但具备多路复用的能力，还支持服务器直接推送消息，从 HTTP3 协议对照理解 HTTP2 ：
 
 ![http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
 
@@ -466,8 +466,8 @@ end
 
 开源版 Nginx 的请求匹配是基于 3 种不同的容器进行的：
 
-1. 将静态哈希表中的 `server_name` 配置与请求的 `Host` 域名匹配，详见[《HTTP 请求是如何关联 Nginx server{} 块的？》](https://www.taohui.pub/2021/08/09/nginx/HTTP%E8%AF%B7%E6%B1%82%E6%98%AF%E5%A6%82%E4%BD%95%E5%85%B3%E8%81%94Nginx-server-%E5%9D%97%E7%9A%84%EF%BC%9F/)
-2. 其次将静态 Trie 前缀树中的 location 配置与请求的 URI 匹配，详见[《URL 是如何关联 Nginx location 配置块的？》](https://www.taohui.pub/2021/08/09/nginx/URL%E6%98%AF%E5%A6%82%E4%BD%95%E5%85%B3%E8%81%94location%E9%85%8D%E7%BD%AE%E5%9D%97%E7%9A%84%EF%BC%9F/)
+1. 将静态哈希表中的 `server_name` 配置与请求的 `Host` 域名匹配
+2. 其次将静态 Trie 前缀树中的 location 配置与请求的 URI 匹配
 
     ![location 前缀树的匹配流程 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
 
