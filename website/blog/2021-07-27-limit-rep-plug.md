@@ -166,15 +166,15 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 ```json
 local _M = {
-  version = 0.1,
-  priority = 2500,
-  type = 'auth',
-  name = plugin_name,
-  schema = schema,
+  "version": 0.1,
+  "priority": 2500,
+  "type": 'auth',
+  "name": plugin_name,
+  "schema": schema,
   # 新增的 result 字段，可存储插件运行结果，并传递到下个插件。
-  result = {
-    code = {
-      type = "int"
+  "result" = {
+    "code" = {
+      "type" = "int"
     }
   }
 }
