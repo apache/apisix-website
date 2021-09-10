@@ -512,3 +512,5 @@ Nginx 集群的管理必须依赖中心化配置组件，而高可靠又具备 w
 动态修改 Nginx 配置的关键在于2点：Lua 语言的灵活度远高于 nginx.conf 语法，而且 Lua 代码可以通过 loadstring 从外部数据中导入。当然，为了保障路由匹配的执行效率，Apache APISIX 通过 C 语言实现了前缀基数树，基于 Host、Method、URI 进行请求匹配，在保障动态性的基础上提升了性能。
 
 Apache APISIX 拥有许多优秀的设计，本文仅讨论了 Nginx 集群的动态管理。
+
+[点此查看原文链接](https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more)
