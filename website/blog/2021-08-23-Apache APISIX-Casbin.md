@@ -16,6 +16,7 @@ tags: [technology]
 当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
 
 ## 介绍
+
 ### Apache APISIX
 
 Apache APISIX 是一个动态、实时、高性能的 API 网关， 提供负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。你可以使用 Apache APISIX 来处理传统的南北向流量，以及服务间的东西向流量， 也可以当做 k8s ingress controller 来使用。
@@ -31,12 +32,12 @@ Casbin 是一个强大的、高效的开源访问控制框架，其权限管理�
 注意：如果你想要实现身份验证（authentication），你需要使用其他插件或者自己来配置完成验证用户身份，比如 jwt-auth 插件。
 
 ## authz-casbin 使用指南
+
 ### 创建一个模型
 
 authz-casbin 插件使用三个参数来进行授权：subject、object 和 action。subject 是用户名，代指请求中的用户；object 是将要被访问的 URL 链接也就是将被访问的资源；action 是请求授权的行为，比如读操作（read）或者是写操作（write）。假如，我们想要创建一个模型来访问三个资源：/，/res1，/res2，我们想要一个类似于这样的模型：
 
 ![authz-casbin model](https://static.apiseven.com/202108/1630655235372-ec729a09-10c3-4209-87c4-2b7455bfdf14.jpeg)
-
 
 在这个模型中，所有的用户，例如 Jack，可以访问主页面（/）。而像 Alice 和 Bob 具有管理员权限的用户则可以访问所有的页面和资源（/res1，/res2，/）。这样，我们就需要来限制没有管理员权限的用户只能使用 GET 请求方法访问特定的资源。所需要的模型如下：
 
@@ -170,6 +171,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
     "uri": "/*"
 }'
 ```
+
 这将会将插件的配置动态地添加到路由中。通过向插件的配置数据中发送更新模型和策略的请求，你可以轻松地更新插件的配置。
 
 ## 最后
