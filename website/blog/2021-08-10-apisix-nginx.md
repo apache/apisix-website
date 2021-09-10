@@ -34,9 +34,7 @@ Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动
 * etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种 key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：
 ![基于 etcd 同步 nginx 配置](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
 
-因此，不同于 Orange 和 Kong，Apache APISIX 采用了 etcd 作为中心化的配置组件。
-
-因此，你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：
+因此，不同于 Orange 和 Kong，Apache APISIX 采用了 etcd 作为中心化的配置组件。你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：
 
 ```yaml
 # etcdctl get  "/apisix/upstreams/1"
