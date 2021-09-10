@@ -241,7 +241,7 @@ module.exports = {
         blog: {
           path: "blog",
           // see https://github.com/facebook/docusaurus/issues/5353
-          postsPerPage: 10000,
+          postsPerPage: 'ALL',
         },
         theme: {
           customCss: "../src/css/customTheme.css",
