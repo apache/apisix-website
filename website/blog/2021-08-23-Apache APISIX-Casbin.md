@@ -2,9 +2,8 @@
 title: "在 Apache APISIX 中使用 Casbin 进行授权"
 keywords: 
 - Apache APISIX
-- Casbin
+- authz-casbin
 - 访问控制
-- 插件
 description: 本文主要描述了如何使用 Apache APISIX 内置的 Casbin 插件来实现基于角色的访问控制模型
 tags: [technology]
 ---
