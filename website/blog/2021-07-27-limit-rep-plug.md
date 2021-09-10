@@ -12,7 +12,7 @@ description: 本文将为大家介绍如何借助低代码 API 网关 Apache API
 tags: [technology]
 ---
 
-> [@juzhiyuan](https://github.com/juzhiyuan) ，Apache APISIX 项目 committer
+> [@juzhiyuan](https://github.com/juzhiyuan) ，Apache APISIX 项目 PMC
 >
 <!--truncate-->
 
@@ -54,7 +54,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 插件编排是低代码的一种表现形式，它可以帮助企业降低使用成本、增加运维效率，是企业数字化转型过程中不可或缺的能力。借助低代码 API 网关 Apache APISIX 中插件编排能力，我们可以轻松地将 50+ 插件通过“拖拽”的方式进行组合编排，被编排的插件也能够共享上下文信息，最终实现场景化需求。
 
-扩展上述 API 限速的场景：请求使用 `key-auth` 插件进行身份认证，若认证通过，将由 `kafka-logger `插件接管并进行日志记录；若认证失败（插件返回 401 状态码），将使用 `limit-req` 插件进行限速。
+扩展上述 API 限速的场景：请求使用 `key-auth` 插件进行身份认证，若认证通过，将由 `kafka-logger`插件接管并进行日志记录；若认证失败（插件返回 401 状态码），将使用 `limit-req` 插件进行限速。
 
 见如下操作视频：
 <iframe
