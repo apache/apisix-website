@@ -8,7 +8,7 @@ keywords:
 - API 网关
 - BaaS
 description:  本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。
-tags: [technology]
+tags: [technology,practical case]
 ---
 
 <!--truncate-->
@@ -40,7 +40,6 @@ BaaS（Blockchain as a Service），中文为“区块链即服务”，是指�
 ### 场景 1：在 BaaS 系统上的落地实践
 
 ![Apache APISIX 在 BaaS 系统上的应用](https://static.apiseven.com/202108/1630647327105-2943faa6-518f-4076-9223-b474600fd9d6.png)
-
 
 从这张图中可以看到，趣链科技 BaaS 平台的架构不仅是微服务化的，而且分为两层，分别是业务接入层和核心服务层。
 
@@ -196,20 +195,20 @@ Nginx 没有 Dashboard，而 Apache APISIX Dashboard 能让开发、运维人员
 
 ![未来规划](https://static.apiseven.com/202108/1630648997393-b5e6dd0e-3a2f-4dc7-94c1-cc892054ad09.png)
 
-**1.运用 Apache APISIX 提供或自研的日志插件**
+### 1.运用 Apache APISIX 提供或自研的日志插件
 
 Apache APISIX 官网已提供了不少日志插件，比如对 HTTP、UDP 的支持，包括 Kafka 等，但像趣链 BaaS 这样需要管控成千上万区块链网络的平台，当每次问题发生的时候，在日志中翻找故障痕迹都是一件非常头痛的事情。
 
 在不久的将来，趣链科技会在 BaaS 系统和区块链系统之间，基于 Apache APISIX 增加一些 APM 功能，提升多链场景下的运维管理效率。
 
-**2.开发监管插件，实现操作留痕及溯源**
+### 2.开发监管插件，实现操作留痕及溯源
 
 国内对于区块链的监管非常严格，一切操作都需要留痕和溯源。未来，趣链科技会基于 Apache APISIX 开发监管插件来提升监管能力，增加 VIP、白名单、回放等功能。
 
-**3.使用 APISIX Ingress Controller，代替 Kubernetes 默认的 Nginx-Ingress**
+### 3.使用 APISIX Ingress Controller，代替 Kubernetes 默认的 Nginx-Ingress
 
 在部署 Kubernetes 的时候，我们一般都会选择 Nginx-Ingress 来处理外网请求，但因为上面提到的一些 Nginx 的问题，趣链科技正在调研使用 APISIX Ingress Controller。
 
-**4.探索 Service Mesh**
+### 4.探索 Service Mesh
 
 趣链科技之前尝试过 traffic-mesh，未来会尝试使用 APISIX Mesh。
