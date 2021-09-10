@@ -134,6 +134,13 @@
         <summary type="html"><![CDATA[这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX 架构分析：如何动态管理 Nginx 集群？]]></title>
+        <id>Apache APISIX 架构分析：如何动态管理 Nginx 集群？</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/10/apisix-nginx"/>
+        <updated>2021-08-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文转发自陶辉个人博客，主要介绍了基于APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Apache APISIX 在移动云的应用]]></title>
         <id>Apache APISIX 在移动云的应用</id>
         <link href="https://apisix.apache.org/zh/blog/2021/08/09/Apache-APISIX-in-China-Mobile-Cloud"/>
