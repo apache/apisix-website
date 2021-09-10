@@ -133,7 +133,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 在一些情形中，你可能想要在多个路由中使用相同的模型和策略，你可以首先发送一个 PUT 请求将模型和策略的配置发送到插件的元数据：
 
 ```shell
-curl <http://127.0.0.1:9080/apisix/admin/plugin_metadata/authz-casbin> -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -i -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/authz-casbin -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -i -X PUT -d '
 {
 "model": "[request_definition]
 r = sub, obj, act
