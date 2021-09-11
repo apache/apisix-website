@@ -337,6 +337,13 @@
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯]]></title>
+        <id>支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/05/24/Tencent-Games"/>
+        <updated>2021-05-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[截止 2021 年 5 月，Apache APISIX 所在的 OTeam 在腾讯内部已为超过十个团队落地了 Apache APISIX，其中最大的业务日请求量已超过十亿，同时 OTeam 也为 Apache APISIX 开发了超过十个内部特性，其中包括内部的服务发现、RPC协议转换、打通监控平台等。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Traffic Split in Apache APISIX Ingress Controller]]></title>
         <id>Traffic Split in Apache APISIX Ingress Controller</id>
         <link href="https://apisix.apache.org/zh/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller"/>
