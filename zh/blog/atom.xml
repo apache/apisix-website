@@ -400,6 +400,13 @@
         <summary type="html"><![CDATA[@nic-chen, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[贝壳找房：如何基于 Apache APISIX 搭建网关]]></title>
+        <id>贝壳找房：如何基于 Apache APISIX 搭建网关</id>
+        <link href="https://apisix.apache.org/zh/blog/2020/12/11/beike-how-to-build-gateway-based-on-apache-apisix"/>
+        <updated>2020-12-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[贝壳找房使用 Apache APISIX 作为生产系统的 API 网关，每天处理过亿的生产流量，性能优异，而且很稳定。正好 Apache APISIX 刚刚加入 Apache 孵化器，除了恭喜之外，我想来分享下贝壳找房当初为什么选择 Apache APISIX，以及使用过程中的一些心得。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[New website for Apache APISIX]]></title>
         <id>New website for Apache APISIX</id>
         <link href="https://apisix.apache.org/zh/blog/2020/08/22/new-website"/>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[63179],{81557:function(a){a.exports=JSON.parse('{"allTagsPath":"/zh/blog/tags","slug":"practical-case","name":"practical case","count":13,"permalink":"/zh/blog/tags/practical-case"}')}}]);
