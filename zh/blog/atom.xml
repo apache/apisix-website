@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-09-07T00:00:00.000Z</updated>
+    <updated>2021-09-09T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
+        <id>不写代码，如何为开源项目做贡献？</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding"/>
+        <updated>2021-09-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[使用 Apache APISIX 进行集中式身份认证及进阶玩法]]></title>
         <id>使用 Apache APISIX 进行集中式身份认证及进阶玩法</id>

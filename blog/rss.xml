@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 07 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 09 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding</link>
+            <guid>不写代码，如何为开源项目做贡献？</guid>
+            <pubDate>Thu, 09 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。]]></description>
+        </item>
         <item>
             <title><![CDATA[使用 Apache APISIX 进行集中式身份认证及进阶玩法]]></title>
             <link>https://apisix.apache.org/blog/2021/09/07/how-to-use-apisix-auth</link>
