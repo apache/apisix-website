@@ -191,6 +191,13 @@
         </item>
         <item>
             <title><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
+            <link>https://apisix.apache.org/blog/2021/07/27/limit-rep-plug</link>
+            <guid>插件编排在 Apache APISIX 中的应用与实践</guid>
+            <pubDate>Tue, 27 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文将为大家介绍如何借助低代码 API 网关 Apache APISIX 中插件编排能力，将 50+ 插件通过“拖拽”的方式进行组合编排，最终实现场景化需求。]]></description>
+        </item>
+        <item>
+            <title><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
             <link>https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-Apache-APISIX</link>
             <guid>插件编排在 Apache APISIX 中的应用与实践</guid>
             <pubDate>Tue, 27 Jul 2021 00:00:00 GMT</pubDate>
