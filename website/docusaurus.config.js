@@ -240,7 +240,6 @@ module.exports = {
         },
         blog: {
           path: "blog",
-          // see https://github.com/facebook/docusaurus/issues/5353
           postsPerPage: 'ALL',
         },
         theme: {
