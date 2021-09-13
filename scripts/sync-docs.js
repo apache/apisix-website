@@ -1,6 +1,7 @@
 const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const process = require("process");
 const listr = require("listr");
 const simpleGit = require("simple-git");
 const axios = require("axios");
@@ -272,6 +273,7 @@ tasks.run()
     })
     .catch(err => {
       console.error(err);
+      process.exit(1);
     });
 
 const log = (text) => {

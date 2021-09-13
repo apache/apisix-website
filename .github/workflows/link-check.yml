@@ -31,6 +31,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd scripts && yarn install
+          cd ../website && yarn install
 
       - name: Pull Docs
         run: |
@@ -45,5 +46,5 @@ jobs:
         if: always()
         with:
           name: broken-links.json
-          path: brokenLinks.json
+          path: scripts/brokenLinks.json
           retention-days: 5
