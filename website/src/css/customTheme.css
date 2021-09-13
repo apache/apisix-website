@@ -490,7 +490,7 @@ a:hover {
 .i-text{
   font-family: MaisonNeue-Demi;
   font-size: 2rem;
-  top: 33%;
+  padding: 0 0 200px 0;
 }
 
 .text-div{

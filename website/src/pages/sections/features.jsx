@@ -152,7 +152,7 @@ function Features() {
 
                     <div ref={userfDiv} style={{position: "relative"}}>
                         <div className="text-div" style={{height: "100vh"}}>
-                            <h2 className="i-text add-left-margin-feat" style={{top: "34%"}}>User flexible</h2>
+                            <h2 className="i-text add-left-margin-feat">User flexible</h2>
                             <p className="i-text-desc add-left-margin-feat">
                             The Apache APISIX dashboard is flexible to User demand, providing option to create custom modules through code matching your requirements, alongside the existing no-code toolchain.                            
                             </p>
