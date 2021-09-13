@@ -90,19 +90,23 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden, docsPluginId}: 
   );
 }
 
-const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
+const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props & {docsPluginId: string}> = ({
   toggleSidebar,
   sidebar,
   path,
+  docsPluginId
 }) => {
   return (
-    <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-      <DocSidebarItems
-        items={sidebar}
-        activePath={path}
-        onItemClick={() => toggleSidebar()}
-      />
-    </ul>
+    <>
+      <DocsVersionWrapperMemo docsPluginId={docsPluginId} />
+      <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
+        <DocSidebarItems
+            items={sidebar}
+            activePath={path}
+            onItemClick={() => toggleSidebar()}
+        />
+      </ul>
+    </>
   );
 };
 

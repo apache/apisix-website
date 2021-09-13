@@ -123,3 +123,7 @@
 .sidebarVersionSwitch a {
   display: inline-block;
 }
+
+.sidebarVersionSwitch div {
+  display: inline-block !important;
+}
