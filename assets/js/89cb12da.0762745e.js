@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[41173],{20214:function(s){s.exports=JSON.parse('{"allTagsPath":"/releases/tags","slug":"/releases/tags/apisix-dashboard","name":"APISIX Dashboard","count":11,"permalink":"/releases/tags/apisix-dashboard"}')}}]);

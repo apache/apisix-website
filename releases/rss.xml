@@ -9,196 +9,196 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.8]]></title>
-            <link>https://apisix.apache.org/releases/2021/09/07/release-apache-apisix-dashboard-2.8</link>
+            <link>https://apisix.apache.org/releases/2021/9/7/release-apache-apisix-dashboard-2.8</link>
             <guid>Release Apache APISIX Dashboard 2.8</guid>
             <pubDate>Tue, 07 Sep 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release contains some features and bugfixes, and all the existing functionalities are compatible with Apache APISIX 2.9.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Python Plugin Runner 0.1.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/09/06/release-apache-apisix-python-plugin-runner-0.1.0</link>
+            <link>https://apisix.apache.org/releases/2021/9/6/release-apache-apisix-python-plugin-runner-0.1.0</link>
             <guid>Release Apache APISIX Python Plugin Runner 0.1.0</guid>
             <pubDate>Mon, 06 Sep 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly provides basic features and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Go Plugin Runner 0.2.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/09/03/release-apache-apisix-go-plugin-runner-0.2.0</link>
+            <link>https://apisix.apache.org/releases/2021/9/3/release-apache-apisix-go-plugin-runner-0.2.0</link>
             <guid>Release Apache APISIX Go Plugin Runner 0.2.0</guid>
             <pubDate>Fri, 03 Sep 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Feature]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.9]]></title>
-            <link>https://apisix.apache.org/releases/2021/08/27/release-apache-apisix-2.9</link>
+            <link>https://apisix.apache.org/releases/2021/8/27/release-apache-apisix-2.9</link>
             <guid>Release Apache APISIX 2.9</guid>
             <pubDate>Fri, 27 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 1.2.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/08/17/release-apache-apisix-ingress-controller-1.2.0</link>
+            <link>https://apisix.apache.org/releases/2021/8/17/release-apache-apisix-ingress-controller-1.2.0</link>
             <guid>Release Apache APISIX Ingress Controller 1.2.0</guid>
             <pubDate>Tue, 17 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Welcome to the 1.2.0 release of apisix-ingress-controller!]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.7.1]]></title>
-            <link>https://apisix.apache.org/releases/2021/08/10/release-apache-apisix-dashboard-2.7.1</link>
+            <link>https://apisix.apache.org/releases/2021/8/10/release-apache-apisix-dashboard-2.7.1</link>
             <guid>Release Apache APISIX Dashboard 2.7.1</guid>
             <pubDate>Tue, 10 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release contains some features and bugfixes, and all the existing functionalities are compatible with Apache APISIX 2.7.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.8]]></title>
-            <link>https://apisix.apache.org/releases/2021/07/27/release-apache-apisix-2.8</link>
+            <link>https://apisix.apache.org/releases/2021/7/27/release-apache-apisix-2.8</link>
             <guid>Release Apache APISIX 2.8</guid>
             <pubDate>Tue, 27 Jul 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Go Plugin Runner 0.1.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/07/15/release-apache-apisix-go-plugin-runner-0.1.0</link>
+            <link>https://apisix.apache.org/releases/2021/7/15/release-apache-apisix-go-plugin-runner-0.1.0</link>
             <guid>Release Apache APISIX Go Plugin Runner 0.1.0</guid>
             <pubDate>Thu, 15 Jul 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Feature]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 1.1.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/07/14/release-apache-apisix-ingress-controller-1.1.0</link>
+            <link>https://apisix.apache.org/releases/2021/7/14/release-apache-apisix-ingress-controller-1.1.0</link>
             <guid>Release Apache APISIX Ingress Controller 1.1.0</guid>
             <pubDate>Wed, 14 Jul 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Welcome to the 1.1.0 release of apisix-ingress-controller!]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Java Plugin Runner 0.1.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/07/09/release-apache-apisix-java-plugin-runner-0.1.0</link>
+            <link>https://apisix.apache.org/releases/2021/7/9/release-apache-apisix-java-plugin-runner-0.1.0</link>
             <guid>Release Apache APISIX Java Plugin Runner 0.1.0</guid>
             <pubDate>Fri, 09 Jul 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly provides basic features and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.7]]></title>
-            <link>https://apisix.apache.org/releases/2021/06/25/release-apache-apisix-2.7</link>
+            <link>https://apisix.apache.org/releases/2021/6/25/release-apache-apisix-2.7</link>
             <guid>Release Apache APISIX 2.7</guid>
             <pubDate>Fri, 25 Jun 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 1.0.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/06/16/release-apache-apisix-ingress-controller-1.0.0</link>
+            <link>https://apisix.apache.org/releases/2021/6/16/release-apache-apisix-ingress-controller-1.0.0</link>
             <guid>Release Apache APISIX Ingress Controller 1.0.0</guid>
             <pubDate>Wed, 16 Jun 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Welcome to the 1.0.0 release of apisix-ingress-controller!]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.7]]></title>
-            <link>https://apisix.apache.org/releases/2021/06/15/release-apache-apisix-dashboard-2.7</link>
+            <link>https://apisix.apache.org/releases/2021/6/15/release-apache-apisix-dashboard-2.7</link>
             <guid>Release Apache APISIX Dashboard 2.7</guid>
             <pubDate>Tue, 15 Jun 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improves basic features, bugfix and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.6.1]]></title>
-            <link>https://apisix.apache.org/releases/2021/05/27/release-apache-apisix-dashboard-2.6.1</link>
+            <link>https://apisix.apache.org/releases/2021/5/27/release-apache-apisix-dashboard-2.6.1</link>
             <guid>Release Apache APISIX Dashboard 2.6.1</guid>
             <pubDate>Thu, 27 May 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly contains bugfixes.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.6]]></title>
-            <link>https://apisix.apache.org/releases/2021/05/24/release-apache-apisix-2.6</link>
+            <link>https://apisix.apache.org/releases/2021/5/24/release-apache-apisix-2.6</link>
             <guid>Release Apache APISIX 2.6</guid>
             <pubDate>Mon, 24 May 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 0.6.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/05/13/release-apache-apisix-ingress-controller-0.6.0</link>
+            <link>https://apisix.apache.org/releases/2021/5/13/release-apache-apisix-ingress-controller-0.6.0</link>
             <guid>Release Apache APISIX Ingress Controller 0.6.0</guid>
             <pubDate>Thu, 13 May 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[We have added some new features, fixed some bugs, and made some optimizations to the internal code.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.6]]></title>
-            <link>https://apisix.apache.org/releases/2021/04/22/release-apache-apisix-dashboard-2.6</link>
+            <link>https://apisix.apache.org/releases/2021/4/22/release-apache-apisix-dashboard-2.6</link>
             <guid>Release Apache APISIX Dashboard 2.6</guid>
             <pubDate>Thu, 22 Apr 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improves UI and UE, bugfix and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 0.5.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/04/13/release-apache-apisix-ingress-controller-0.5.0</link>
+            <link>https://apisix.apache.org/releases/2021/4/13/release-apache-apisix-ingress-controller-0.5.0</link>
             <guid>Release Apache APISIX Ingress Controller 0.5.0</guid>
             <pubDate>Tue, 13 Apr 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[A lot of important features are supported in this release, it makes apisix-ingress-controller more powerful and flexible.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.5]]></title>
-            <link>https://apisix.apache.org/releases/2021/04/05/release-apache-apisix-2.5</link>
+            <link>https://apisix.apache.org/releases/2021/4/5/release-apache-apisix-2.5</link>
             <guid>Release Apache APISIX 2.5</guid>
             <pubDate>Mon, 05 Apr 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[The changes marked with are not backward compatible.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.5]]></title>
-            <link>https://apisix.apache.org/releases/2021/03/29/release-apache-apisix-dashboard-2.5</link>
+            <link>https://apisix.apache.org/releases/2021/3/29/release-apache-apisix-dashboard-2.5</link>
             <guid>Release Apache APISIX Dashboard 2.5</guid>
             <pubDate>Mon, 29 Mar 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improves basic features, bugfix and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 0.4.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/03/12/release-apache-apisix-ingress-controller-0.4.0</link>
+            <link>https://apisix.apache.org/releases/2021/3/12/release-apache-apisix-ingress-controller-0.4.0</link>
             <guid>Release Apache APISIX Ingress Controller 0.4.0</guid>
             <pubDate>Fri, 12 Mar 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improves the program robustness and adds some features.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.4]]></title>
-            <link>https://apisix.apache.org/releases/2021/03/05/release-apache-apisix-2.4</link>
+            <link>https://apisix.apache.org/releases/2021/3/5/release-apache-apisix-2.4</link>
             <guid>Release Apache APISIX 2.4</guid>
             <pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.4]]></title>
-            <link>https://apisix.apache.org/releases/2021/02/12/release-apache-apisix-dashboard-2.4</link>
+            <link>https://apisix.apache.org/releases/2021/2/12/release-apache-apisix-dashboard-2.4</link>
             <guid>Release Apache APISIX Dashboard 2.4</guid>
             <pubDate>Fri, 12 Feb 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improves basic features, bugfix and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 0.3.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/02/11/release-apache-apisix-ingress-controller-0.3.0</link>
+            <link>https://apisix.apache.org/releases/2021/2/11/release-apache-apisix-ingress-controller-0.3.0</link>
             <guid>Release Apache APISIX Ingress Controller 0.3.0</guid>
             <pubDate>Thu, 11 Feb 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improves the program robustness and adds some features.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.3]]></title>
-            <link>https://apisix.apache.org/releases/2021/02/09/release-apache-apisix-2.3</link>
+            <link>https://apisix.apache.org/releases/2021/2/9/release-apache-apisix-2.3</link>
             <guid>Release Apache APISIX 2.3</guid>
             <pubDate>Tue, 09 Feb 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Ingress Controller 0.2.0]]></title>
-            <link>https://apisix.apache.org/releases/2021/01/19/release-apache-apisix-ingress-controller-0.2.0</link>
+            <link>https://apisix.apache.org/releases/2021/1/19/release-apache-apisix-ingress-controller-0.2.0</link>
             <guid>Release Apache APISIX Ingress Controller 0.2.0</guid>
             <pubDate>Tue, 19 Jan 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly improve basic features, bugfix and adds test cases.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 2.3]]></title>
-            <link>https://apisix.apache.org/releases/2021/01/11/release-apache-apisix-dashboard-2.3</link>
+            <link>https://apisix.apache.org/releases/2021/1/11/release-apache-apisix-dashboard-2.3</link>
             <guid>Release Apache APISIX Dashboard 2.3</guid>
             <pubDate>Mon, 11 Jan 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Core]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.2]]></title>
-            <link>https://apisix.apache.org/releases/2021/01/08/release-apache-apisix-2.2</link>
+            <link>https://apisix.apache.org/releases/2021/1/8/release-apache-apisix-2.2</link>
             <guid>Release Apache APISIX 2.2</guid>
             <pubDate>Fri, 08 Jan 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Change]]></description>
@@ -219,7 +219,7 @@
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.1]]></title>
-            <link>https://apisix.apache.org/releases/2020/12/01/release-apache-apisix-2.1</link>
+            <link>https://apisix.apache.org/releases/2020/12/1/release-apache-apisix-2.1</link>
             <guid>Release Apache APISIX 2.1</guid>
             <pubDate>Tue, 01 Dec 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[Core]]></description>
@@ -233,63 +233,63 @@
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 1.5]]></title>
-            <link>https://apisix.apache.org/releases/2020/08/12/release-apache-apisix-dashboard-1.5</link>
+            <link>https://apisix.apache.org/releases/2020/8/12/release-apache-apisix-dashboard-1.5</link>
             <guid>Release Apache APISIX Dashboard 1.5</guid>
             <pubDate>Wed, 12 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[This release mainly refactors the dashboard.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.5]]></title>
-            <link>https://apisix.apache.org/releases/2020/08/06/release-apache-apisix-1.5</link>
+            <link>https://apisix.apache.org/releases/2020/8/6/release-apache-apisix-1.5</link>
             <guid>Release Apache APISIX 1.5</guid>
             <pubDate>Thu, 06 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[Core]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.4.1]]></title>
-            <link>https://apisix.apache.org/releases/2020/07/20/release-apache-apisix-1.4.1</link>
+            <link>https://apisix.apache.org/releases/2020/7/20/release-apache-apisix-1.4.1</link>
             <guid>Release Apache APISIX 1.4.1</guid>
             <pubDate>Mon, 20 Jul 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[Bugfix]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.4]]></title>
-            <link>https://apisix.apache.org/releases/2020/06/30/release-apache-apisix-1.4</link>
+            <link>https://apisix.apache.org/releases/2020/6/30/release-apache-apisix-1.4</link>
             <guid>Release Apache APISIX 1.4</guid>
             <pubDate>Tue, 30 Jun 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[Core]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.3]]></title>
-            <link>https://apisix.apache.org/releases/2020/05/26/release-apache-apisix-1.3</link>
+            <link>https://apisix.apache.org/releases/2020/5/26/release-apache-apisix-1.3</link>
             <guid>Release Apache APISIX 1.3</guid>
             <pubDate>Tue, 26 May 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[The 1.3 version is mainly for security update.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.2]]></title>
-            <link>https://apisix.apache.org/releases/2020/04/20/release-apache-apisix-1.2</link>
+            <link>https://apisix.apache.org/releases/2020/4/20/release-apache-apisix-1.2</link>
             <guid>Release Apache APISIX 1.2</guid>
             <pubDate>Mon, 20 Apr 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[The 1.2 version brings many new features, including core and plugins.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.1]]></title>
-            <link>https://apisix.apache.org/releases/2020/02/24/release-apache-apisix-1.1</link>
+            <link>https://apisix.apache.org/releases/2020/2/24/release-apache-apisix-1.1</link>
             <guid>Release Apache APISIX 1.1</guid>
             <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[This release is mainly to strengthen the stability of the code and add more documentation.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX Dashboard 1.0]]></title>
-            <link>https://apisix.apache.org/releases/2020/02/24/release-apache-apisix-dashboard-1.0</link>
+            <link>https://apisix.apache.org/releases/2020/2/24/release-apache-apisix-dashboard-1.0</link>
             <guid>Release Apache APISIX Dashboard 1.0</guid>
             <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[This release is mainly to build some basic panels and resolve License issue.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 1.0]]></title>
-            <link>https://apisix.apache.org/releases/2020/01/15/release-apache-apisix-1.0</link>
+            <link>https://apisix.apache.org/releases/2020/1/15/release-apache-apisix-1.0</link>
             <guid>Release Apache APISIX 1.0</guid>
             <pubDate>Wed, 15 Jan 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[This release is mainly to strengthen the stability of the code and add more documentation.]]></description>
@@ -303,14 +303,14 @@
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 0.8]]></title>
-            <link>https://apisix.apache.org/releases/2019/09/29/release-apache-apisix-0.8</link>
+            <link>https://apisix.apache.org/releases/2019/9/29/release-apache-apisix-0.8</link>
             <guid>Release Apache APISIX 0.8</guid>
             <pubDate>Sun, 29 Sep 2019 00:00:00 GMT</pubDate>
             <description><![CDATA[Released on 2019/09/30]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 0.7]]></title>
-            <link>https://apisix.apache.org/releases/2019/09/06/release-apache-apisix-0.7</link>
+            <link>https://apisix.apache.org/releases/2019/9/6/release-apache-apisix-0.7</link>
             <guid>Release Apache APISIX 0.7</guid>
             <pubDate>Fri, 06 Sep 2019 00:00:00 GMT</pubDate>
             <description><![CDATA[Released on 2019/09/06]]></description>

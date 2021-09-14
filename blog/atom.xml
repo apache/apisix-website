@@ -13,6 +13,10 @@
         <link href="https://apisix.apache.org/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding"/>
         <updated>2021-09-09T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。]]></summary>
+        <author>
+            <name>Serendipity96</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[使用 Apache APISIX 进行集中式身份认证及进阶玩法]]></title>
@@ -20,6 +24,10 @@
         <link href="https://apisix.apache.org/blog/2021/09/07/how-to-use-apisix-auth"/>
         <updated>2021-09-07T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用]]></summary>
+        <author>
+            <name>朱欣欣</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践]]></title>
@@ -34,6 +42,10 @@
         <link href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development"/>
         <updated>2021-09-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java]]></summary>
+        <author>
+            <name>shuaijinchao</name>
+            <uri>https://github.com/shuaijinchao</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller]]></title>
@@ -41,6 +53,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/31/Apache APISIX × KubeSphere-a-better-gateway-and-K8S-Ingress-Controller"/>
         <updated>2021-08-31T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller 。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress Controller 的数据面来承载业务流量。]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散]]></title>
@@ -48,6 +64,9 @@
         <link href="https://apisix.apache.org/blog/2021/08/30/Ingress-Meeting"/>
         <updated>2021-08-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。]]></summary>
+        <author>
+            <name>Apache APISIX 社区</name>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>
@@ -55,6 +74,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9"/>
         <updated>2021-08-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能，进一步完善了对插件的支持。]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
@@ -62,6 +85,9 @@
         <link href="https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
+        <author>
+            <name>Casbin Community &amp; Apache APISIX Community</name>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
@@ -69,6 +95,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。]]></summary>
+        <author>
+            <name>朱欣欣</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
@@ -76,6 +106,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Meetup 上海站全程回顾]]></title>
@@ -97,6 +131,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better"/>
         <updated>2021-08-19T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@spacewander, Apache APISIX Committer from API7.ai.]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[在 Apache APISIX 中使用 Casbin 进行授权]]></title>
@@ -104,6 +142,9 @@
         <link href="https://apisix.apache.org/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX"/>
         <updated>2021-08-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。]]></summary>
+        <author>
+            <name>作者：Casbin 社区 &amp; Apache APISIX 社区</name>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨]]></title>
@@ -118,6 +159,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
         <updated>2021-08-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication.  This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.]]></summary>
+        <author>
+            <name>Peter Zhu</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
@@ -125,6 +170,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en"/>
         <updated>2021-08-14T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.]]></summary>
+        <author>
+            <name>Lien</name>
+            <uri>https://github.com/lilien1010</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
@@ -132,6 +181,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects"/>
         <updated>2021-08-14T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，多个开源项目已经在使用贡献者图表。]]></summary>
+        <author>
+            <name>Yiyiyimu</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
@@ -139,6 +192,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/12/Chaos-Mesh-Helps-Apache-APISIX-Improve-System-Stability"/>
         <updated>2021-08-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.]]></summary>
+        <author>
+            <name>Yiyiyimu</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[从新手村出来，我在 Apache APISIX 社区发出了第一个 PR]]></title>
@@ -146,6 +203,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/11/interview-TuZhengsong"/>
         <updated>2021-08-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。]]></summary>
+        <author>
+            <name>Peter Yang</name>
+            <uri>https://github.com/Yangxiamao</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 架构分析：如何动态管理 Nginx 集群？]]></title>
@@ -167,6 +228,9 @@
         <link href="https://apisix.apache.org/blog/2021/08/09/Apache-APISIX-in-Quliankeji"/>
         <updated>2021-08-09T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。]]></summary>
+        <author>
+            <name>盛威锋</name>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[如何利用 Apache APISX 提升 Nginx 的可观测性]]></title>
@@ -174,6 +238,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx"/>
         <updated>2021-08-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[最佳实践：本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。]]></summary>
+        <author>
+            <name>gxthrj</name>
+            <uri>https://github.com/gxthrj</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Kong-To-APISIX 迁移工具]]></title>
@@ -181,6 +249,10 @@
         <link href="https://apisix.apache.org/blog/2021/08/05/Kong-to-APISIX"/>
         <updated>2021-08-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Yiyiyimu, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Yiyiyimu</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.8.0]]></title>
@@ -188,6 +260,10 @@
         <link href="https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8-en"/>
         <updated>2021-07-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Serendipity96</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 2.8 正式发布，带来更多新功能！]]></title>
@@ -195,6 +271,10 @@
         <link href="https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8"/>
         <updated>2021-07-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
@@ -202,6 +282,10 @@
         <link href="https://apisix.apache.org/blog/2021/07/27/limit-rep-plug"/>
         <updated>2021-07-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文将为大家介绍如何借助低代码 API 网关 Apache APISIX 中插件编排能力，将 50+ 插件通过“拖拽”的方式进行组合编排，最终实现场景化需求。]]></summary>
+        <author>
+            <name>琚致远</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
@@ -209,6 +293,10 @@
         <link href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-Apache-APISIX"/>
         <updated>2021-07-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@juzhiyuan, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>juzhiyuan</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[ApacheCon Asia 2021：Apache APISIX 技术议题一览]]></title>
@@ -230,6 +318,10 @@
         <link href="https://apisix.apache.org/blog/2021/07/16/Analyze-Apache-APISIX-Mesh-Agent-deeply"/>
         <updated>2021-07-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tokers, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>tokers</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[基于 Apache APISIX，新浪微博 API 网关的定制化开发之路]]></title>
@@ -244,6 +336,10 @@
         <link href="https://apisix.apache.org/blog/2021/07/06/celebrate-200-contributors"/>
         <updated>2021-07-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Serendipity96</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[差之毫厘：etcd 3 完美支持 HTTP 访问？]]></title>
@@ -251,6 +347,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly"/>
         <updated>2021-06-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.7.0]]></title>
@@ -258,6 +358,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7-en"/>
         <updated>2021-06-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Serendipity96</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 2.7.0-Release 正式发布]]></title>
@@ -265,6 +369,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7"/>
         <updated>2021-06-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[有了 NGINX 和 Kong，为什么还需要 Apache APISIX]]></title>
@@ -272,6 +380,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/28/why-we-need-Apache-APISIX"/>
         <updated>2021-06-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么。]]></summary>
+        <author>
+            <name>王院生</name>
+            <uri>https://github.com/membphis</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller]]></title>
@@ -279,6 +391,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast"/>
         <updated>2021-06-23T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tao12345666333, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[使用 Java 编写 Apache APISIX 插件]]></title>
@@ -286,6 +402,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins"/>
         <updated>2021-06-21T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tzssangglass, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Zhengsong Tu</name>
+            <uri>https://github.com/tzssangglass</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！]]></title>
@@ -293,6 +413,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released"/>
         <updated>2021-06-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tao12345666333, Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Dashboard 访问控制绕过漏洞公告（CVE-2021-33190）]]></title>
@@ -300,6 +424,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/17/Apache-APISIX-Dashboard-Access-Control-Bypass-Vulnerability-Announcement"/>
         <updated>2021-06-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@juzhiyuan, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Zhiyuan Ju</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Chaos Mesh 助力 Apache APISIX 提升稳定性]]></title>
@@ -307,6 +435,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/16/Chaos-Mesh-helps-Apache-APISIX-improve-stability"/>
         <updated>2021-06-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Yiyiyimu,Apache APISIX committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Yiyiyimu</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 和 Envoy 性能大比拼]]></title>
@@ -314,6 +446,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/10/Apache-APISIX-and-Envoy-performance-comparison"/>
         <updated>2021-06-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务。]]></summary>
+        <author>
+            <name>王院生</name>
+            <uri>https://github.com/membphis</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX not affected by NGINX CVE-2021-23017]]></title>
@@ -321,6 +457,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/07/Apache-APISIX-not-affected-by-NGINX-CVE-2021-23017"/>
         <updated>2021-06-07T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Serendipity96, Apache APISIX contributor from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 开源 2 周年！]]></title>
@@ -328,6 +468,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/06/apisix-two-years"/>
         <updated>2021-06-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Apache APISIX two years old, thanks for all contributors.]]></summary>
+        <author>
+            <name>Serendipity96</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[来自 Apache APISIX committer 的经验分享 —— 编程之夏专访]]></title>
@@ -335,6 +479,10 @@
         <link href="https://apisix.apache.org/blog/2021/06/03/experience-share-from-Apache-APISIX-committer"/>
         <updated>2021-06-03T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会]]></summary>
+        <author>
+            <name>Serendipity96</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[基于 Apache APISIX 实现的服务网格项目正式开源]]></title>
@@ -342,6 +490,10 @@
         <link href="https://apisix.apache.org/blog/2021/05/31/基于 Apache APISIX 实现的服务网格项目正式开源"/>
         <updated>2021-05-31T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tokers, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>tokers</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 2.6.0-Release 正式发布]]></title>
@@ -349,6 +501,10 @@
         <link href="https://apisix.apache.org/blog/2021/05/25/Apache APISIX 2.6.0-Release 正式发布"/>
         <updated>2021-05-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@spacewander, Core developer of Apache APISIX from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>spacewander</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯]]></title>
@@ -356,6 +512,9 @@
         <link href="https://apisix.apache.org/blog/2021/05/24/Tencent-Games"/>
         <updated>2021-05-24T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[截止 2021 年 5 月，Apache APISIX 所在的 OTeam 在腾讯内部已为超过十个团队落地了 Apache APISIX，其中最大的业务日请求量已超过十亿，同时 OTeam 也为 Apache APISIX 开发了超过十个内部特性，其中包括内部的服务发现、RPC协议转换、打通监控平台等。]]></summary>
+        <author>
+            <name>徐鑫</name>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Traffic Split in Apache APISIX Ingress Controller]]></title>
@@ -363,6 +522,10 @@
         <link href="https://apisix.apache.org/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller"/>
         <updated>2021-03-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tokers, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Get Front-End Test Coverage with Cypress]]></title>
@@ -370,6 +533,10 @@
         <link href="https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress"/>
         <updated>2021-03-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@LiteSun, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Yi Sun</name>
+            <uri>https://github.com/LiteSun</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Install Apache APISIX from Helm Charts]]></title>
@@ -377,6 +544,10 @@
         <link href="https://apisix.apache.org/blog/2021/02/26/install-apache-apisix-from-helm-charts"/>
         <updated>2021-02-26T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@tokers, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Stable Product Delivery with Cypress]]></title>
@@ -384,6 +555,10 @@
         <link href="https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress"/>
         <updated>2021-02-08T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@LiteSun, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Yi Sun</name>
+            <uri>https://github.com/LiteSun</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
@@ -391,6 +566,10 @@
         <link href="https://apisix.apache.org/blog/2021/01/21/run-ingress-apisix-on-amazon-eks"/>
         <updated>2021-01-21T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@Chao Zhang, Apache APISIX Committer from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚]]></title>
@@ -398,6 +577,10 @@
         <link href="https://apisix.apache.org/blog/2021/01/11/interview-Apache-APISIX-contributor-Wang-Pengcheng-Senior-Security-Advisor-of-PwC-South-China-Data-Security-and-Privacy-Protection-Team"/>
         <updated>2021-01-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@moonming, Apache APISIX PMC Chair from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Ming Wen</name>
+            <uri>https://github.com/moonming</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[初探 Kubernetes Service APIs]]></title>
@@ -405,6 +588,10 @@
         <link href="https://apisix.apache.org/blog/2020/12/18/a-first-look-at-kubernetes-service-api"/>
         <updated>2020-12-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@gxthrj, Apache APISIX PMC & Apache apisix-ingress-controller Founder from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>Wei Jin</name>
+            <uri>https://github.com/gxthrj</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Envoy and Apache APISIX: Another way to implement the Envoy filter]]></title>
@@ -412,6 +599,10 @@
         <link href="https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter"/>
         <updated>2020-12-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[@nic-chen, Apache APISIX PMC from Shenzhen Zhiliu Technology Co.]]></summary>
+        <author>
+            <name>nic-chen</name>
+            <uri>https://github.com/nic-chen</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[贝壳找房：如何基于 Apache APISIX 搭建网关]]></title>
@@ -419,6 +610,9 @@
         <link href="https://apisix.apache.org/blog/2020/12/11/beike-how-to-build-gateway-based-on-apache-apisix"/>
         <updated>2020-12-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[贝壳找房使用 Apache APISIX 作为生产系统的 API 网关，每天处理过亿的生产流量，性能优异，而且很稳定。正好 Apache APISIX 刚刚加入 Apache 孵化器，除了恭喜之外，我想来分享下贝壳找房当初为什么选择 Apache APISIX，以及使用过程中的一些心得。]]></summary>
+        <author>
+            <name>王辉</name>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[New website for Apache APISIX]]></title>
@@ -426,5 +620,9 @@
         <link href="https://apisix.apache.org/blog/2020/08/22/new-website"/>
         <updated>2020-08-22T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[We are just refactored out website for Apache APISIX by using docusaurus.]]></summary>
+        <author>
+            <name>juzhiyuan</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
     </entry>
 </feed>

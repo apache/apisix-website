@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[95609],{97246:function(e){e.exports=JSON.parse('{"/zh/events/tags/technology":{"allTagsPath":"/zh/events/tags","slug":"/zh/events/tags/technology","name":"technology","count":1,"permalink":"/zh/events/tags/technology"}}')}}]);

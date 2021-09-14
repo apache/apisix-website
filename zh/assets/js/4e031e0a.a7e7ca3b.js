@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[22],{73595:function(s){s.exports=JSON.parse('{"allTagsPath":"/zh/releases/tags","slug":"/zh/releases/tags/apisix-ingress-controller","name":"APISIX Ingress Controller","count":9,"permalink":"/zh/releases/tags/apisix-ingress-controller"}')}}]);

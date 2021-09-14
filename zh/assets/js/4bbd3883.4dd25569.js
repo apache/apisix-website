@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[10152],{60226:function(e){e.exports=JSON.parse('{"allTagsPath":"/zh/releases/tags","slug":"/zh/releases/tags/apisix-python-plugin-runner","name":"APISIX Python Plugin Runner","count":1,"permalink":"/zh/releases/tags/apisix-python-plugin-runner"}')}}]);

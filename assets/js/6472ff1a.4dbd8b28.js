@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[66196],{21122:function(e){e.exports=JSON.parse('{"allTagsPath":"/events/tags","slug":"technology","name":"technology","count":1,"permalink":"/events/tags/technology"}')}}]);
