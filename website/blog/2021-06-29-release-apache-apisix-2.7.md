@@ -3,10 +3,15 @@ title: "Apache APISIX 2.7.0-Release 正式发布"
 author: spacewander
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
-tags: [news]
+keywords:
+- Apache APISIX
+- Release Notes
+Description: Apache APISIX 2.7.0-Release 正式发布！
+tags: [News]
 ---
-> [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Apache APISIX 2.7.0-Release 正式发布！
+
 <!--truncate-->
 
 Apache APISIX 2.7.0-Release 正式发布！欢迎大家下载使用。

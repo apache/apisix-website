@@ -1,19 +1,19 @@
 ---
 title: "舍弃 Kong 和 Nginx，Apache APISIX 在趣链科技 BaaS 平台的落地实践"
 author: "盛威锋"
-keywords: 
+keywords:
 - APISIX
 - Kong
 - Nginx
 - API 网关
 - BaaS
 description:  本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。
-tags: [technology,practical case]
+tags: [Technology, Practical Case, User Case]
 ---
 
-<!--truncate-->
-
 > 本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。
+
+<!--truncate-->
 
 ## 业务背景
 

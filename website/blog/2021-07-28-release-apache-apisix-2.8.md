@@ -3,10 +3,16 @@ title: "Apache APISIX 2.8 正式发布，带来更多新功能！"
 author: spacewander
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
-tags: [news]
+keywords:
+- APISIX
+- Release Notes
+- Apache APISIX 
+description: Apache APISIX 2.8 版本正式发布！
+tags: [News]
 ---
-> [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Apache APISIX 2.8 版本正式发布！
+
 <!--truncate-->
 
 Apache APISIX 2.8 版本正式发布！🎉 这个版本有 30+ 开发者参与，共提交了 100+ PR，支持了 **1 个新功能、1 个新体验、2 个新插件、2 个新玩法**，快去阅读了解 2.8 版本的新特性吧！

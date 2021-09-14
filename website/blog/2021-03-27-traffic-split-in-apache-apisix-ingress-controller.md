@@ -3,10 +3,17 @@ title: "Traffic Split in Apache APISIX Ingress Controller"
 author: "Chao Zhang"
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?s=460&u=f48ef50c5621a1616a3ede50221547e34270e061&v=4"
-tags: [technology, practical case]
+keywords:
+- API Gateway
+- APISIX
+- Apache APISIX
+- Traffic Split
+- Ingress Controller
+description: Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway and Service Mesh are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.
+tags: [Technology, Practical Case]
 ---
-> [@tokers](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway and Service Mesh are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.
 
 <!--truncate-->
 

@@ -10,13 +10,12 @@ keywords:
 - Lua
 - Nginx
 description: 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
-tags: [technology]
+tags: [Technology]
 ---
-> [@spacewander](https://github.com/spacewander), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
-<!--truncate-->
 
-> 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 Apache APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
+> 本文介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。本文作者罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
+
+<!--truncate-->
 
 笔者在今年的 COSCUP 大会做分享时，曾有观众问这样的问题，为什么 Apache APISIX、Kong 和 3scale 这些网关都采用 Lua 来编写逻辑？
 

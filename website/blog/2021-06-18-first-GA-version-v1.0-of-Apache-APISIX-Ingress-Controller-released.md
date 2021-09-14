@@ -3,26 +3,31 @@ title: "Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！"
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
-tags: [news]
+keywords:
+- APISIX
+- Apache APISIX
+- Ingress Controller
+description: Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括ApisixRoute` 和 `ApisixUpstream` 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
+tags: [News]
 ---
 
-> [@tao12345666333](https://github.com/tao12345666333), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
-
-### 关于 Apache APISIX Ingress Controller
-
-Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面承载流量的云原生 Ingress Controller 实现，采用 CRD 的方式对 Kubernetes 进行了扩展。
+> Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 `ApisixRoute`、`ApisixUpstream` 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
 
 <!--truncate-->
+
+## 关于 Apache APISIX Ingress Controller
+
+Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面承载流量的云原生 Ingress Controller 实现，采用 CRD 的方式对 Kubernetes 进行了扩展。
 
 可支持使用包括 ApisixRoute、ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
 
 整体架构如下：
 
-![图片](../static/img/blog_img/2021-06-18-1.png)
+![Apache APISIX Ingress Controller 架构图](../static/img/blog_img/2021-06-18-1.png)
 
-### v1.0 最新特性
+## v1.0 最新特性
 
-#### 增加 ApisixConsumer 自定义资源使配置认证更方便
+### 增加 ApisixConsumer 自定义资源使配置认证更方便
 
 在之前的版本中，如果想要配置 keyAuth 或者 basicAuth 需要手动去调用 Apache APISIX 的 admin api 创建 consumer 配置。
 
@@ -57,7 +62,7 @@ spec:
      type: keyAuth
 ```
 
-#### 为 ApisixTls 增加 mTLS 支持
+### 为 ApisixTls 增加 mTLS 支持
 
 在 v1.0 版本中我们也为 ApisixTls 自定义资源增加了 mTLS 的支持，只需要在 ApisixTls 资源的配置中增加 client 配置即可，例如：
 
@@ -74,7 +79,7 @@ spec:
       namespace: default
 ```
 
-#### 为原生 Ingress 资源增加了更多 annotation 来丰富其功能
+### 为原生 Ingress 资源增加了更多 annotation 来丰富其功能
 
 - `k8s.apisix.apache.org/blocklist-source-range` 可对来源 IP 进行限制；
 - `k8s.apisix.apache.org/rewrite-target` 和 `k8s.apisix.apache.org/rewrite-target-regex` 可进行 target 的 rewrite 操作；
@@ -82,7 +87,7 @@ spec:
 
 更多特性变更请参考项目 [CHANGELOG](https://github.com/apache/apisix-ingress-controller/blob/master/CHANGELOG.md) 。
 
-### 为什么使用 APISIX Ingress Controller
+## 为什么使用 APISIX Ingress Controller
 
 Apache APISIX Ingress Controller 使用 Apache APISIX 作为其数据面承载业务流量，所以其从 Apache APISIX 继承了如下优势：
 

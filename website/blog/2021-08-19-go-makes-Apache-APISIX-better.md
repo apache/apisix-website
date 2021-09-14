@@ -10,15 +10,17 @@ keywords:
 - APISIX Go plugin
 - apisix-go-plugin-runner
 - Golang
-tags: [technology]
+description: 这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
+tags: [Technology]
 ---
-> [@spacewander](https://github.com/spacewander), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/en).
->
+> 这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
+
 <!--truncate-->
 
 ## 为什么是 Go
 
-[Apache APISIX](https://github.com/apache/apisix) 允许用户通过插件的方式来拓展功能，如鉴权、限流、请求改写等核心功能都是通过插件的方式实现的。虽然 Apache APISIX 核心代码是使用 Lua 编写的，但是 Apache APISIX 支持多语言开发插件，比如 Go 、Java。
+[Apache APISIX](https://github.com/apache/apisix) 允许用户通过插件的方式来拓展功能，如鉴权、限流、请求改写等核心功能都是通过插件的方式实现的。虽然 Apache APISIX 核心代码是使用 Lua 编写的，但是 Apache APISIX 支持多语言开发插件，比如 Go 和 Java。
+
 这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
 
 ## 安装

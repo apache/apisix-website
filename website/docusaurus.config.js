@@ -542,10 +542,6 @@ module.exports = {
               label: "Plugin Hub",
             },
             {
-              to: "/events",
-              label: "Events",
-            },
-            {
               to: "/releases",
               label: "Releases",
             },

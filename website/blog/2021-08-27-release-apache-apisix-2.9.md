@@ -11,8 +11,10 @@ keywords:
 - Nginx
 - APISIX 2.9
 description: Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能，进一步完善了对插件的支持。
-tags: [news]
+tags: [News]
 ---
+
+> Apache APISIX 2.9 版本正式发布！
 
 <!--truncate-->
 

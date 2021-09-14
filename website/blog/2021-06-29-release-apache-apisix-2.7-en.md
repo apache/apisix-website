@@ -3,10 +3,15 @@ title: "Release Apache APISIX 2.7.0"
 author: Serendipity96
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
-tags: [news]
+keywords:
+- Apache APISIX
+- Release Notes
+Description: Apache APISIX 2.7.0 has been released!
+tags: [News]
 ---
-> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Apache APISIX 2.7.0 has been released!
+
 <!--truncate-->
 
 Apache APISIX 2.7.0 has been released! Welcome to download and use it.

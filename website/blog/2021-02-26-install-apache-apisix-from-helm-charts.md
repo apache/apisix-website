@@ -3,11 +3,16 @@ title: "Install Apache APISIX from Helm Charts"
 author: Chao Zhang
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?s=400&u=f48ef50c5621a1616a3ede50221547e34270e061&v=4"
-tags: [technology, practical case]
+keywords:
+- API Gateway
+- APISIX
+- Apache APISIX
+- Helm Chart
+description: A few days ago, Zhiliu Inc released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).
+tags: [Technology, Practical Case]
 ---
 
-> [@tokers](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+> A few days ago, [Zhiliu Inc](https://www.apiseven.com/) released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).
 
 <!--truncate-->
 
@@ -15,8 +20,6 @@ tags: [technology, practical case]
 >
 > - https://github.com/apache/apisix
 > - https://github.com/apache/apisix-helm-chart
-
-A few days ago, [Zhiliu Inc](https://www.apiseven.com/) released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).
 
 ## How To Use
 

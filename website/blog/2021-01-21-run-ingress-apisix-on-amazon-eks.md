@@ -3,11 +3,17 @@ title: Run Ingress APISIX on Amazon EKS
 author: Chao Zhang
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars0.githubusercontent.com/u/10428333?s=60&v=4"
-tags: [technology, practical case]
+keywords:
+- API Gateway
+- APISIX
+- Apache APISIX
+- Ingress
+- Amazon EKS
+description: Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.
+tags: [Technology, Practical Case]
 ---
 
-> [@Chao Zhang](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+> Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.
 
 <!--truncate-->
 
@@ -18,8 +24,6 @@ tags: [technology, practical case]
 > - https://github.com/apache/apisix-ingress-controller
 
 This post is based on [Install Ingress APISIX on Amazon EKS](http://apisix.apache.org/docs/ingress-controller/deployments/aws/).
-
--
 
 Amazon Elastic Kubernetes Service ([Amazon EKS](https://amazonaws-china.com/eks/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&eks-blogs.sort-by=item.additionalFields.createdDate&eks-blogs.sort-order=desc)) gives you the flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.
 

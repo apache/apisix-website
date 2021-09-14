@@ -1,14 +1,16 @@
 ---
 title: "Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨"
-keywords: 
+keywords:
 - APISIX
 - Airwallex
 - 空中云汇
 - 金融
 - 数据主权
 description: 本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。
-tags: [technology]
+tags: [Technology, Interview]
 ---
+
+> 本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。
 
 <!--truncate-->
 

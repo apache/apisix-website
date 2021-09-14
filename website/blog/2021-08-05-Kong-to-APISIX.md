@@ -3,13 +3,18 @@ title: "Kong-To-APISIX 迁移工具"
 author: Yiyiyimu
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
-tags: [technology]
+keywords:
+- APISIX
+- Kong
+- 迁移工具
+- API 网关
+description: Apache APISIX 是一个生产可用的开源七层全流量处理平台，可作为 API 网关处理业务入口流量，具有极高性能、超低延迟，官方支持 dashboard 以及超过五十种插件。如果你正在使用 Kong，对 APISIX 感兴趣又苦于难以上手，不妨试试我们刚开源的迁移工具 Kong-To-APISIX，助你一键平滑迁移。
+tags: [Technology, Practical Case]
 ---
-> [@Yiyiyimu](https://github.com/Yiyiyimu), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
-<!--truncate-->
 
-Apache APISIX 是一个生产可用的开源七层全流量处理平台，可作为 API 网关处理业务入口流量，具有极高性能、超低延迟，官方支持 dashboard 以及超过五十种插件。如果你正在使用 Kong，对 APISIX 感兴趣又苦于难以上手，不妨试试我们刚开源的迁移工具 Kong-To-APISIX，助你一键平滑迁移。
+> Apache APISIX 是一个生产可用的开源七层全流量处理平台，可作为 API 网关处理业务入口流量，具有极高性能、超低延迟，官方支持 dashboard 以及超过五十种插件。如果你正在使用 Kong，对 APISIX 感兴趣又苦于难以上手，不妨试试我们刚开源的迁移工具 Kong-To-APISIX，助你一键平滑迁移。
+
+<!--truncate-->
 
 ## 工具能力
 

@@ -1,16 +1,17 @@
 ---
 title: "基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践"
-keywords: 
+author: "何聪"
+keywords:
 - APISIX
 - 爱奇艺
 - API 网关
 - 服务发现
 description: 本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
-tags: [technology]
+tags: [Technology, Practical Case, User Case]
 ---
 
-> 作者何聪，高级研发师，IIG 基础架构部-计算云，主要负责爱奇艺网关开发和运维工作
->
+> 本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
+
 <!--truncate-->
 
 ## 背景描述

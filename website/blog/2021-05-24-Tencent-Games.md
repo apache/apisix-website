@@ -7,8 +7,8 @@ keywords:
 - Apache APISIX
 - 腾讯游戏
 - 基础设施
-description: 截止 2021 年 5 月，Apache APISIX 所在的 OTeam 在腾讯内部已为超过十个团队落地了 Apache APISIX，其中最大的业务日请求量已超过十亿，同时 OTeam 也为 Apache APISIX 开发了超过十个内部特性，其中包括内部的服务发现、RPC协议转换、打通监控平台等。
-tags: [technology,practical case]
+description: 本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+tags: [Technology, Practical Case, User Case]
 ---
 
 > 本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。

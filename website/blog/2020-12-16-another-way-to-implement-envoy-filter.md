@@ -3,7 +3,13 @@ title: "Envoy and Apache APISIX: Another way to implement the Envoy filter"
 author: nic-chen
 authorURL: "https://github.com/nic-chen"
 authorImageURL: "https://avatars0.githubusercontent.com/u/33000667"
-tags: [technology]
+keywords:
+- API Gateway
+- APISIX
+- Apache APISIX
+- Envoy
+description: Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures. A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.
+tags: [Technology]
 ---
 
 > [@nic-chen](https://github.com/nic-chen), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)

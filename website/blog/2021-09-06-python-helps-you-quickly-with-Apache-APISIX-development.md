@@ -10,9 +10,12 @@ keywords:
 - APISIX Python plugin
 - apisix-python-plugin-runner
 - APISIX Python Plugin Runner 
-tags: [technology]
+description: 本文介绍了Apache APISIX 的全新插件：Python Runner，以及如何使用 Python Runner 基于 Python 开发 Apache APISIX 的插件。
+tags: [Technology]
 
 ---
+
+> 本文介绍了Apache APISIX 的全新插件：Python Runner，以及如何使用 Python Runner 基于 Python 开发 Apache APISIX 的插件。社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。
 
 <!--truncate-->
 

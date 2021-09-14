@@ -1,7 +1,7 @@
 ---
 title: "开源的魅力"
 date: 2021-08-07 14:10:00
-keywords: 
+keywords:
 - APISIX
 - 开源
 - 贡献者

@@ -6,9 +6,11 @@ keywords:
 - Meetup
 - 上海站
 - 回顾
-description: 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
-tags: [technology]
+description: Apache APISIX Meetup 上海站已于上周六（8月21日）顺利举办，一起来回顾下大会中令人难忘的精彩演讲吧！
+tags: [Events]
 ---
+
+> Apache APISIX Meetup 上海站已于上周六（8月21日）顺利举办，一起来回顾下大会中令人难忘的精彩演讲吧！
 
 <!--truncate-->
 
