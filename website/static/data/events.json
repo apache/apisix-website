@@ -1,51 +1,51 @@
 [
   {
-    "title": "8.21 Apache APISIX Meetup (Shanghai)",
-    "fileName": "../blog/2021-08-21-shanghai-meetup"
+    "title": "ApacheCon Asia 2021",
+    "fileName": "2021-08-23-ApacheCon-Asia-2021"
   },
   {
-    "title": "ApacheCon Asia 2021",
-    "fileName": "../blog/2021-08-23-ApacheCon-Asia-2021"
+    "title": "8.21 Apache APISIX Meetup (Shanghai)",
+    "fileName": "2021-08-21-shanghai-meetup"
   },
   {
     "title": "Release Apache APISIX Dashboard 2.7",
-    "fileName": "../blog/2021-06-15-release-apache-apisix-dashboard-2.7"
+    "fileName": "2021-06-15-release-apache-apisix-dashboard-2.7"
   },
   {
     "title": "Release Apache APISIX Dashboard 2.6.1",
-    "fileName": "../blog/2021-05-27-release-apache-apisix-dashboard-2.6.1"
+    "fileName": "2021-05-27-release-apache-apisix-dashboard-2.6.1"
   },
   {
     "title": "Release Apache APISIX 2.6",
-    "fileName": "../blog/2021-05-24-release-apache-apisix-2.6"
+    "fileName": "2021-05-24-release-apache-apisix-2.6"
   },
   {
     "title": "Release Apache APISIX Dashboard 2.6",
-    "fileName": "../blog/2021-04-22-release-apache-apisix-dashboard-2.6"
+    "fileName": "2021-04-22-release-apache-apisix-dashboard-2.6"
   },
   {
     "title": "Release Apache APISIX 2.5",
-    "fileName": "../blog/2021-04-05-release-apache-apisix-2.5"
+    "fileName": "2021-04-05-release-apache-apisix-2.5"
   },
   {
     "title": "Release Apache APISIX Ingress Controller 0.4.0",
-    "fileName": "../blog/2021-03-12-release-apache-apisix-ingress-controller-0.4.0"
+    "fileName": "2021-03-12-release-apache-apisix-ingress-controller-0.4.0"
   },
   {
     "title": "Release Apache APISIX 2.4",
-    "fileName": "../blog/2021-03-05-release-apache-apisix-2.4"
+    "fileName": "2021-03-05-release-apache-apisix-2.4"
   },
   {
     "title": "Release Apache APISIX Dashboard 2.4",
-    "fileName": "../blog/2021-02-12-release-apache-apisix-dashboard-2.4"
+    "fileName": "2021-02-12-release-apache-apisix-dashboard-2.4"
   },
   {
     "title": "Release Apache APISIX Ingress Controller 0.3.0",
-    "fileName": "../blog/2021-02-11-release-apache-apisix-ingress-controller-0.3.0"
+    "fileName": "2021-02-11-release-apache-apisix-ingress-controller-0.3.0"
   },
   {
     "title": "Release Apache APISIX 2.3",
-    "fileName": "../blog/2021-02-09-release-apache-apisix-2.3"
+    "fileName": "2021-02-09-release-apache-apisix-2.3"
   },
   {
     "title": "Release Apache APISIX Ingress Controller 0.2.0",
@@ -53,6 +53,6 @@
   },
   {
     "title": "Release Apache APISIX Ingress Controller 0.1.0",
-    "fileName": "../blog/2020-12-23-release-apache-apisix-ingress-controller-0.1.0"
+    "fileName": "2020-12-23-release-apache-apisix-ingress-controller-0.1.0"
   }
 ]
