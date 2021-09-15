@@ -6,10 +6,11 @@ keywords:
 - 有赞
 - 微服务治理
 - 云原生
+description: 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。
 tags: [User Case, Practical Case]
 ---
 
-> 本文主要描述了有赞云原生 PaaS 平台使用 Apache APISIX 的相关企业产品实践，从前期调研到后期使用 Apache APISIX 作为产品流量网关的具体实例。
+> 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。
 
 <!--truncate-->
 
@@ -117,7 +118,7 @@ Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所
 
 ### 升级运维自动化
 
-在使用 Apache APISIX 的过程中，我们也经历了几次版本变动。但每次升级，都或多或少出现因为兼容性而导致改造开发，完成后进行线上变更，运维效率效率较低。所以后续我们会尝试在存储面部署三机房 etcd 集群的同时，将 Apache APISIX 运行面容器化实现自动发布。
+在使用 Apache APISIX 的过程中，我们也经历了几次版本变动。但每次升级，都或多或少出现因为兼容性而导致改造开发，完成后进行线上变更，运维效率较低。所以后续我们会尝试在存储面部署三机房 etcd 集群的同时，将 Apache APISIX 运行面容器化实现自动发布。
 
 ### traffic split 插件使用
 
