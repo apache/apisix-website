@@ -10,7 +10,7 @@ keywords:
 - Ingress
 - Amazon EKS
 description: Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.
-tags: [Technology, Practical Case]
+tags: [Technology, Practical Cases]
 ---
 
 > Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.

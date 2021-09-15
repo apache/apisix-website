@@ -10,7 +10,7 @@ keywords:
 - Okta
 - Centralized Authentication
 description: This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication.  This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.
-tags: [Technology, Practical Case]
+tags: [Technology, Practical Cases]
 ---
 
 > This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication.  This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.

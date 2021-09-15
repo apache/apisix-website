@@ -9,7 +9,7 @@ keywords:
 - Chaos Mesh
 - 稳定性
 description: 本文描述了如何在多种场景下使用 Chaos Mesh，为 Apache APISIX 提升稳定性。
-tags: [Technology, Practical Case]
+tags: [Technology, Practical Cases]
 ---
 
 > 本文描述了如何在多种场景下使用 Chaos Mesh，为 Apache APISIX 提升稳定性。

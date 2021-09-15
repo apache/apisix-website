@@ -10,7 +10,7 @@ keywords:
 - Traffic Split
 - Ingress Controller
 description: Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway and Service Mesh are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.
-tags: [Technology, Practical Case]
+tags: [Technology, Practical Cases]
 ---
 
 > Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway and Service Mesh are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.
