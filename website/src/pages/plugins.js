@@ -159,9 +159,15 @@ function Plugins(props) {
 
   const plugins = siteConfig.customFields.plugins.map((section) => {
     const pluginCards = section.plugins.map((plugin) => {
+      let pluginUrl;
+      if (plugin.name.indexOf('serverless') !== -1) {
+        pluginUrl = 'serverless';
+      } else {
+        pluginUrl = plugin.name;
+      }
       return (
         <div key={plugin.name}>
-          <PluginCard href={`https://apisix.apache.org/docs/apisix/plugins/${plugin.name}`} target="_blank">
+          <PluginCard href={`https://apisix.apache.org/docs/apisix/plugins/${pluginUrl}`} target="_blank">
             <PluginIcon>
               {plugin.useDefaultIcon ?
                 <img className="plugin-logo shadow default" src={'/img/plugin/default-icon.png'} alt={plugin.name} /> :
