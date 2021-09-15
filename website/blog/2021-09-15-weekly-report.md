@@ -35,7 +35,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 问题描述：在启用主动健康检查功能时，用两个内部域名并增加 pass_host：node 进行测试 Apache APISIX 的负载均衡时，发现仍会路由到故障主机。
 
  ```Apache
- for i in $(seq 1 1000); do curl  -H "Host: httpbin.org" ${APISIX_GATEWAY_URL}  ; done 
+ for i in $(seq 1 1000); do curl  -H "Host: httpbin.org" ${APISIX_GATEWAY_URL}  ; done
 apple
 apple
 <html>
