@@ -5,7 +5,7 @@ keywords:
 - 移动云存储
 - Apache APISIX
 - 云服务
-- 网关
+- API 网关
 tags: [technology, User Case, Practical Case]
 ---
 
@@ -17,7 +17,7 @@ tags: [technology, User Case, Practical Case]
 
 ## 背景说明
 
-中国移动云能力中心作为中国移动云设施构建者、云服务提供者以及云生态汇聚者，承担了移动云的技术研发、规划建设、运营维护、 合作引入、销售支撑、支持上云六大工作职责。
+中国移动云能力中心作为中国移动云设施构建者、云服务提供者以及云生态汇聚者，承担了移动云的技术研发、规划建设、运营维护、合作引入、销售支撑、支持上云六大工作职责。
 
 截至 2020 年 10 月，全国共计建成 25 个公有云节点，省份覆盖率超过 80%。其中对象存储 EOS 作为底层基础设施能力之一，已在所有资源池中进行了部署建设，整体可用规模达到 EB 级。
 
@@ -76,7 +76,7 @@ Apache APISIX 的特性、功能插件、自定义开发功能，都可以在后
 
 limit-conn key 这个插件主要是支持 remote_addr、server_addr、X-Forwarded-For、X-Real-IP ，但不能对南北向网关的流量做全局限流。
 
-为了匹配我们的业务需求，通过自定义一个 constant 常量作为 imit-conn key 范围，上图右侧即是接入 Apache APISIX 后修改过的配置，通过 constant 常量 key 实现全局限流的功能。
+为了匹配我们的业务需求，通过自定义一个 constant 常量作为 limit-conn key 范围，上图右侧即是接入 Apache APISIX 后修改过的配置，通过 constant 常量 key 实现全局限流的功能。
 
 ![全局限流](https://static.apiseven.com/202108/1631500546238-9fd5ebcf-d205-4d99-a34d-236d5589a7e6.png)
 
