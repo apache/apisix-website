@@ -87,7 +87,7 @@ Apache APISIX 在存储依赖和路由规则这两方面做的非常好，很适
 1. API 网关在系统边界，负责处理南北向流量；Service Mesh 在集群内部，负责处理东西向流量。两者的功能不同，无法直接比较。
 2. 实践证明 Service Mesh 存在一些性能损耗。但是也有一种声音说，上云了，这点损耗可能并不是业务的性能瓶颈，所以这点是见仁见智的。
 3. 得益于 OpenResty 和 Lua 简单易上手的特性，Apache APISIX 的定制研发效率更高。 即使开发团队先前没有使用 OpenResty 或者 Lua 的开发经验，仍然能在很短的时间内完成了业务的定制开发需求。
-4. Apache APISIX 的交付成本要低于 Service Mesh。因为 Istio 社区非常活跃，版本迭代速度非常快，导致 Istio 的各个版本和 Kubernetes 的各个版本之间有不兼容的问题。在客户的生产环境中， 一些 Kubernetes 集群可能有版本差异，而这些 Kubernetes 集群无法共用一个版本的 Istio，这在实际交付的过程中是会造成一些困扰。 
+4. Apache APISIX 的交付成本要低于 Service Mesh。因为 Istio 社区非常活跃，版本迭代速度非常快，导致 Istio 的各个版本和 Kubernetes 的各个版本之间有不兼容的问题。在客户的生产环境中， 一些 Kubernetes 集群可能有版本差异，而这些 Kubernetes 集群无法共用一个版本的 Istio，这在实际交付的过程中是会造成一些困扰。
 
 ## 个人期望
 
