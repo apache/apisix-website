@@ -1,15 +1,20 @@
 ---
 title: "Apache APISIX 2.6.0-Release 正式发布"
-author: spacewander
+author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+keywords:
+- API 网关
+- APISIX
+- Apache APISIX
+- Release Notes
+description: Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
 tags: [news]
 ---
-> [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
 
 <!--truncate-->
-Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
 
 ## Release Notes
 

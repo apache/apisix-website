@@ -1,6 +1,6 @@
 ---
 title: "在 Apache APISIX 中使用 Casbin 进行授权"
-author: 作者：Casbin 社区 & Apache APISIX 社区
+author: "Casbin 社区 & Apache APISIX 社区"
 keywords:
 - API 网关
 - APISIX
@@ -10,9 +10,10 @@ keywords:
 description: 当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
 tags: [technology, practical case]
 ---
-<!--truncate-->
 
-当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
+> 当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
+
+<!--truncate-->
 
 ## 介绍
 

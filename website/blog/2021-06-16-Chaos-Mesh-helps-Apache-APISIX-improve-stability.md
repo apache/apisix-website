@@ -1,14 +1,21 @@
 ---
 title: "Chaos Mesh 助力 Apache APISIX 提升稳定性"
-author: Yiyiyimu
+author: "吴舒旸"
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
+keywords:
+- APISIX
+- Apache APISIX
+- Chaos Mesh
+- 稳定性
+description: 本文描述了如何在多种场景下使用 Chaos Mesh，为 Apache APISIX 提升稳定性。
 tags: [technology]
 ---
-> [@Yiyiyimu](https://github.com/Yiyiyimu),Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> 本文描述了如何在多种场景下使用 Chaos Mesh，为 Apache APISIX 提升稳定性。
 
 <!--truncate-->
+
 Apache APISIX 是 Apache 基金会下的顶级项目，目前在生产环境中已经通过每日几百亿次请求量的考验。随着社区的发展，Apache APISIX 的功能越来越多，需要与外部组件产生的交互也越来越多，随之而来的不确定性呈指数级增长。在社区中，我们也收到了用户反馈的一些问题，这里举两个例子。
 
 #### 场景一

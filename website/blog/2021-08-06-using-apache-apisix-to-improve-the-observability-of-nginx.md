@@ -1,6 +1,6 @@
 ---
 title: "如何利用 Apache APISX 提升 Nginx 的可观测性"
-author: gxthrj
+author: "金卫"
 authorURL: "https://github.com/gxthrj"
 authorImageURL: "https://avatars.githubusercontent.com/u/4413028?v=4"
 keywords:
@@ -12,8 +12,9 @@ keywords:
 description: 最佳实践：本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。
 tags: [technology, practical case]
 ---
-> [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC from [api7.ai](https://www.apiseven.com/)
->
+
+> 本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。
+
 <!--truncate-->
 
 ## 概述

@@ -1,17 +1,21 @@
 ---
 title: "Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚"
-author: Ming Wen
+author: "温铭"
 authorURL: "https://github.com/moonming"
 authorImageURL: "https://avatars.githubusercontent.com/u/26448043?v=4"
+keywords:
+- API Gateway
+- APISIX
+- Apache APISIX
+- 普华永道
+- 漏洞
+description: 近日，来自普华永道华南数据安全及隐私保护团队的高级安全顾问王鹏诚向国家信息安全漏洞共享平台（CNVD）和 Apache 软件基金会，报告了 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。
 tags: [security, news]
 ---
-> [@moonming](https://github.com/moonming), Apache APISIX PMC Chair from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> 近日，来自普华永道华南数据安全及隐私保护团队的高级安全顾问王鹏诚向国家信息安全漏洞共享平台（CNVD）和 Apache 软件基金会，报告了 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。
 
 <!--truncate-->
-## 背景介绍
-
-近日，来自普华永道华南数据安全及隐私保护团队的高级安全顾问王鹏诚向国家信息安全漏洞共享平台（CNVD）和 Apache 软件基金会，报告了 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。
 
 ## 贡献者简介
 

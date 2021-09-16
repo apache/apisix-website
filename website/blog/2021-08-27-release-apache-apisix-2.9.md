@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX 2.9 正式发布，带来更多新功能！"
-author: spacewander
+author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
@@ -13,6 +13,8 @@ keywords:
 description: Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能，进一步完善了对插件的支持。
 tags: [news]
 ---
+
+> Apache APISIX 2.9 版本正式发布！
 
 <!--truncate-->
 

@@ -1,12 +1,18 @@
 ---
 title: "基于 Apache APISIX 实现的服务网格项目正式开源"
-author: tokers
+author: "张超"
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
+keywords:
+- APISIX
+- Apache APISIX
+- 服务网格
+- Service Mesh
+description: 鉴于 Apache APISIX 的优秀设计，我们不仅可以将 Apache APISIX 用于南北向流量管理，也可以用它管理服务网格的东西向流量，我们通过引入 APISIX-Mesh-Agent 这一组件，配合 Apache APISIX 进行使用，从而使得 Apache APISIX 可以对接业内广泛使用的服务网格控制面，例如： Istio 和 Kuma 等。
 tags: [news, technology]
 ---
-> [@tokers](https://github.com/tokers), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> 鉴于 Apache APISIX 的优秀设计，我们不仅可以将 Apache APISIX 用于南北向流量管理，也可以用它管理服务网格的东西向流量，我们通过引入 APISIX-Mesh-Agent 这一组件，配合 Apache APISIX 进行使用，从而使得 Apache APISIX 可以对接业内广泛使用的服务网格控制面，例如： Istio 和 Kuma 等。
 
 <!--truncate-->
 基于 Apache APISIX 开发的服务网格项目正式开源！欢迎大家下载使用。

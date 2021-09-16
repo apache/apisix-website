@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX Meetup 上海站全程回顾"
+author: "Apache APISIX 社区"
 keywords:
 - API 网关
 - APISIX
@@ -9,6 +10,8 @@ keywords:
 description: 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
 tags: [technology]
 ---
+
+活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
 
 <!--truncate-->
 

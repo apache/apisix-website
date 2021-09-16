@@ -1,12 +1,17 @@
 ---
 title: "Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller"
-author: Jintao Zhang
+author: "张晋涛"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
+keywords:
+- APISIX
+- Rancher
+- Helm Chart
+- API 网关
+description: 你可以在 Rancher 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress controller。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress controller 的数据面来承载业务流量。
 tags: [technology]
 ---
-> [@tao12345666333](https://github.com/tao12345666333), Apache APISIX committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+> 你可以在 Rancher 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress controller。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress controller 的数据面来承载业务流量。
 
 <!--truncate-->
 ## Rancher 介绍
