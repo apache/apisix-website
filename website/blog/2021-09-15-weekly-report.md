@@ -24,9 +24,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 从 8.30 开始这两周有 33 位开发者为 Apache APISIX 提交了 130 个 commit。感谢以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 项目变得更好！
 
-
 ![contributor](https://static.apiseven.com/202108/1631754498946-7d655f8e-3881-4594-b029-a67189a63ffa.jpg)
-
 
 ![committer](https://static.apiseven.com/202108/1631676136968-13216876-e9f6-4852-95b4-6f73db5cb405.30-9)
 
