@@ -8,7 +8,7 @@ keywords:
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
 tags: [technology]
 ---
-> 从 8.30 开始这两周有 33 位开发者为 Apache APISIX 提交了 130 个 commit。感谢以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 8.30 开始这两周有 33 位开发者为 Apache APISIX 提交了 130 个 commits。感谢以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 <!--truncate-->
 
@@ -22,7 +22,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 贡献者统计
 
-从 8.30 开始这两周有 33 位开发者为 Apache APISIX 提交了 130 个 commit。感谢以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 项目变得更好！
+从 8.30-9.12 这两周有 33 位开发者为 Apache APISIX 提交了 130 个 commits。感谢以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 ![contributor](https://static.apiseven.com/202108/1631754498946-7d655f8e-3881-4594-b029-a67189a63ffa.jpg)
 
@@ -34,7 +34,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 问题描述：在启用主动健康检查功能时，用两个内部域名并增加 pass_host：node 进行测试 Apache APISIX 的负载均衡时，发现仍会路由到故障主机。
 
- ```Apache
+ ```Shell
  for i in $(seq 1 1000); do curl  -H "Host: httpbin.org" ${APISIX_GATEWAY_URL}  ; done
 apple
 apple
@@ -85,14 +85,14 @@ make: *** [deps] Error 1
 ## 近期功能特性亮点
 
 - [referer-restriction 支持配置 blacklist 和 message](https://github.com/apache/apisix/pull/4916)(贡献者：okaybase)
-- [node_listen 和 admin_listen 支持更丰富的配置形式](https://github.com/apache/apisix/pull/4856)(贡献者：wayne-cheng),[补充参考](https://github.com/apache/apisix/pull/4967)
+- [node_listen 和 admin_listen 支持更丰富的配置形式](https://github.com/apache/apisix/pull/4856)(贡献者：wayne-cheng)，[补充参考](https://github.com/apache/apisix/pull/4967)
 - [admin-api 支持返回 stream 类型的插件信息](https://github.com/apache/apisix/pull/4947)(贡献者：spacewander)
 - [支持配置后退 SNI](https://github.com/apache/apisix/pull/5000)(贡献者：spacewander)
 - [proxy-mirror 支持按比例镜像请求](https://github.com/apache/apisix/pull/4965)(贡献者：okaybase)
 - [Control API 新增 dump 路由配置](https://github.com/apache/apisix/pull/5011)(贡献者：Zheaoli)
-- [dashboard支持Service Discovery 配置](https://github.com/apache/apisix-dashboard/pull/2081)(贡献者： bzp2010)
-- [dashboard Route 高级配置条件中支持内置参数配置](https://github.com/apache/apisix-dashboard/pull/1984)(贡献者： lookbrook)
-- [dashboard  Upstream 支持 Keepalive Pool 配置](https://github.com/apache/apisix-dashboard/pull/2117)(贡献者： bzp2010)
+- [dashboard支持Service Discovery 配置](https://github.com/apache/apisix-dashboard/pull/2081)(贡献者：bzp2010)
+- [dashboard Route 高级配置条件中支持内置参数配置](https://github.com/apache/apisix-dashboard/pull/1984)(贡献者：lookbrook)
+- [dashboard  Upstream 支持 Keepalive Pool 配置](https://github.com/apache/apisix-dashboard/pull/2117)(贡献者：bzp2010)
 
 Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。
 
