@@ -85,7 +85,7 @@ make: *** [deps] Error 1
 ## 近期功能特性亮点
 
 - [referer-restriction 支持配置 blacklist 和 message](https://github.com/apache/apisix/pull/4916)(贡献者：okaybase)
-- [node_listen 和 admin_listen 支持更丰富的配置形式](https://github.com/apache/apisix/pull/4856)(贡献者：wayne-cheng),[补充参考](https://github.com/apache/apisix/pull/)4967
+- [node_listen 和 admin_listen 支持更丰富的配置形式](https://github.com/apache/apisix/pull/4856)(贡献者：wayne-cheng),[补充参考](https://github.com/apache/apisix/pull/4967)
 - [admin-api 支持返回 stream 类型的插件信息](https://github.com/apache/apisix/pull/4947)(贡献者：spacewander)
 - [支持配置后退 SNI](https://github.com/apache/apisix/pull/5000)(贡献者：spacewander)
 - [proxy-mirror 支持按比例镜像请求](https://github.com/apache/apisix/pull/4965)(贡献者：okaybase)
