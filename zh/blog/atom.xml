@@ -2,11 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-09-09T00:00:00.000Z</updated>
+    <updated>2021-09-14T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
+        <id>Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/14/youzan"/>
+        <updated>2021-09-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。]]></summary>
+        <author>
+            <name>戴诺璟</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
         <id>不写代码，如何为开源项目做贡献？</id>

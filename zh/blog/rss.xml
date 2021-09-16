@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Thu, 09 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 14 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/09/14/youzan</link>
+            <guid>Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理</guid>
+            <pubDate>Tue, 14 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。]]></description>
+        </item>
         <item>
             <title><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding</link>
