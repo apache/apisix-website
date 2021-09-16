@@ -15,6 +15,13 @@
             <description><![CDATA[本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。]]></description>
         </item>
         <item>
+            <title><![CDATA[纵观移动云对象存储发展历程，也少不了 Apache APISIX 的能力加持]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/13/china-mobile-cloud-usercase</link>
+            <guid>纵观移动云对象存储发展历程，也少不了 Apache APISIX 的能力加持</guid>
+            <pubDate>Mon, 13 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。]]></description>
+        </item>
+        <item>
             <title><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
             <link>https://apisix.apache.org/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding</link>
             <guid>不写代码，如何为开源项目做贡献？</guid>
