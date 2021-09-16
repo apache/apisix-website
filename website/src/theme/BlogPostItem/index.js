@@ -66,9 +66,7 @@ function BlogPostItem(props) {
             <div className="avatar__intro">
               {author && (
                 <>
-                  <h4 className="avatar__name">
-                    <Link href={authorURL} className={styles.authorName}>{`Author: ${author}`}</Link>
-                  </h4>
+                  <Link href={authorURL} className={styles.authorName}>{`Author: ${author}`}</Link>
                 </>
               )}
             </div>

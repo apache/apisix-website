@@ -59,11 +59,11 @@ body {
 div.inner {
   color: var(--ifm-color-primary);
 }
+
 .image {
   padding: 75px 10px 75px 75px;
-  height: 200px;
-  width: 200px;
 }
+
 .more-users {
   padding-top: 75px;
 }
