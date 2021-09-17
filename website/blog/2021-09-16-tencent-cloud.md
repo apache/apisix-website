@@ -44,7 +44,7 @@ tags: [Practical Case]
 
 因为 Envoy 的技术栈是 C++，需要定位问题时，很可能要去看 C++ 的源代码。这种定位问题可能会对我们造成一定的影响，所以 Envoy 这个方案否决得比较早。
 
-Kong 和 Apache APISIX 所使用的技术栈相同，都是 OpenResty。但是在存储依赖这一栏，Kong 依赖的是关系型数据库 PostgreSQL。在软件行业，数据库的高可用配置是非常复杂的。不仅需要配备专门的DBA，而且实施难度也非常大。关系型数据库太重了，我们并不需要使用关系型数据库来保证 ACID 和 MVCC。
+Kong 和 Apache APISIX 所使用的技术栈相同，都是 OpenResty。但是在存储依赖这一栏，Kong 依赖的是关系型数据库 PostgreSQL。在软件行业，数据库的高可用配置是非常复杂的。不仅需要配备专门的 DBA，而且实施难度也非常大。关系型数据库太重了，我们并不需要使用关系型数据库来保证 ACID 和 MVCC。
 
 ### 为什么选择了 Apache APISIX？
 
@@ -54,7 +54,7 @@ Apache APISIX 在存储依赖和路由规则这两方面做的非常好，很适
 
 接入 Apache APISIX 后，我们完成了智能钛机器学习平台网关方面的功能，解决了之前关于技术和业务层面的需求。
 
-从这张图可以看到， Apache APISIX 支持 http+pb、http+json、gRPC、WebSocket等流量。这些流量经过了 Apache APISIX 之后，会走向智能钛机器学习平台定制开发的一些组件。
+从这张图可以看到， Apache APISIX 支持 http+pb、http+json、gRPC、WebSocket 等流量。这些流量经过了 Apache APISIX 之后，会走向智能钛机器学习平台定制开发的一些组件。
 
 ![网关架构](https://static.apiseven.com/202108/1631781850656-4235a4e8-2792-48ae-9c98-b4d75628a476.jpg)
 
