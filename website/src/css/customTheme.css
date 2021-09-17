@@ -59,16 +59,13 @@ body {
 div.inner {
   color: var(--ifm-color-primary);
 }
+
 .image {
   padding: 75px 10px 75px 75px;
-  height: 200;
-  width: 200;
 }
+
 .more-users {
   padding-top: 75px;
-}
-.product-showcase-section {
-  color: var(--ifm-color-primary);
 }
 
 .post-header {
@@ -161,9 +158,12 @@ header h2 {
 }
 
 /* showcase */
-.product-showcase-section {
+.product-showcase-title {
   color: var(--color-primary);
+  font-size: 60px;
+  font-weight: bold;
 }
+
 .showcase {
   padding-left: 0;
   padding-right: 0;
@@ -724,13 +724,17 @@ a:hover {
   transform: scale(1.2);
 }
 
-.read-more-link{
+.read-more-link {
   color: #d0312d;
   font-size: 0.8rem;
   font-weight: 500;
   text-align: left;
   padding-bottom: 2px;
   display: flex;
+}
+.read-more-link:hover {
+  color: var(--color-primary);
+  text-decoration: var(--ifm-link-hover-decoration);
 }
 
 /*Sidebar Section*/
