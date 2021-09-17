@@ -250,6 +250,9 @@ module.exports = {
           priority: 0.5,
           trailingSlash: false,
         },
+        pages: {
+          exclude: ['**/downloads/ProjectCard.js']
+        }
       },
     ],
   ],
