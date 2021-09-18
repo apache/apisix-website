@@ -1,11 +1,19 @@
 ---
 title: "深度剖析 Apache APISIX Mesh Agent"
-author: tokers
+author: "张超"
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
+keywords:
+- Apache APISIX
+- Service Mesh
+- 服务网格
+- xDS
+description: 支流科技推出了基于Apache APISIX的服务网格方案，其中Apache APISIX作为服务网格的数据面，与支持xDS协议的控制面配合，进而托管服务间的流量。在该方案中有一个不可或缺的组件apisix-mesh-agent，它作为数据面与控制面的中间层，完成了很多适配性的工作，进而让 Apache APISIX 在接近零改造的情况下即可完美地工作在服务网格中。
 tags: [technology]
 ---
-> [@tokers](https://github.com/tokers), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
+
+> 本文将对 apisix-mesh-agent 进行分析，介绍其使用定位及其实现的功能。
+
 <!--truncate-->
 
 在今年 6 月，支流科技推出了[基于 Apache APISIX 的服务网格方案](https://mp.weixin.qq.com/s/t7oga6xP2JpdcraixwSwVg)，其中 Apache APISIX 将作为服务网格的数据面，与支持 [xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) 协议的控制面配合，进而托管服务间的流量。在该方案中有一个不可或缺的组件 [apisix-mesh-agent](https://github.com/api7/apisix-mesh-agent)，它作为数据面与控制面的中间层，完成了很多适配性的工作，进而让 Apache APISIX 在接近零改造的情况下即可完美地工作在服务网格中。

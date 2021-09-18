@@ -1,8 +1,16 @@
 ---
 title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
+author: "聂永"
+keywords:
+- Apache APISIX
+- 新浪微博
+- Weibo
+- API Gateway
+description: 微博之前的 HTTP API 网关基于 NGINX 搭建，所有路由规则存放在 NGINX conf 配置文件中，带来一系列问题：升级步骤长，对服务增、删、改或跟踪问题时，不够灵活且难以排查问题。经过一番调研之后，我们选择了最接近预期、基于云原生的微服务 API 网关：Apache APISIX，借助其动态、高效、稳定等特性以满足业务的快速响应要求。
 tags: [technology, practical case]
 ---
-> **聂永，微博基础架构师，开源爱好者，爱折腾追求 Geek。**
+
+> 新浪微博之前的 HTTP API 网关基于 NGINX 搭建，所有路由规则存放在 NGINX conf 配置文件中，带来一系列问题：升级步骤长，对服务增、删、改或跟踪问题时，不够灵活且难以排查问题。经过一番调研之后，我们选择了最接近预期、基于云原生的微服务 API 网关：Apache APISIX，借助其动态、高效、稳定等特性以满足业务的快速响应要求。
 
 <!--truncate-->
 

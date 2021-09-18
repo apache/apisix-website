@@ -1,6 +1,6 @@
 ---
 title: "使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证"
-author: 朱欣欣
+author: "朱欣欣"
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords:
@@ -12,8 +12,9 @@ keywords:
 description: 本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。
 tags: [technology, practical case]
 ---
-> [@朱欣欣](https://github.com/starsz) 是[API7.AI](https://www.apiseven.com/zh)的系统工程师，也是 Apache APISIX 项目的 committer。他是一个开源爱好者，也是一个 Golang 开发者。现在他正在为 Apache APISIX 的 control plane 贡献代码并执行 code review。除此之外，他在 Apache APISIX 社区中非常活跃，乐于回答社区内的各种问题。
->
+
+> 相比较传统认证模式，集中认证模式下有如下优点：第一，简化应用开发流程，降低开发应用工作量和维护成本，避免各个应用重复开发身份认证代码；第二，提高业务的安全性，集中身份认证模式在网关层面能够及时拦截未经身份认证的请求，保护后端的应用。
+
 <!--truncate-->
 
 ## 什么是 Apache APISIX？

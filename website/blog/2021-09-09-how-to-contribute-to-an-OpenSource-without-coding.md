@@ -1,6 +1,6 @@
 ---
 title: "不写代码，如何为开源项目做贡献？"
-author: "Serendipity96"
+author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords: 
@@ -10,9 +10,8 @@ description: 本文介绍了很多不写代码为开源项目贡献的方式，�
 tags: [community]
 ---
 
->
-> [@Serendipity96](https://github.com/Serendipity96) ，Apache APISIX contributor。
->
+> 本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。
+
 <!--truncate-->
 
 笔者为开源项目贡献过几个 PR，提交过几个 issue，直到现在还清晰记得几年前第一个 PR 被 merge 时的兴奋，体验到了参与开源的乐趣。但是只停留在了 contributor 阶段，没有下文了，因为笔者后来不做研发了，**认为不熟悉代码、不能修 bug 就没有贡献的机会了。**

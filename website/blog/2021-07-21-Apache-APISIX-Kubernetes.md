@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX x Kubernetes：恰到好处｜直播预告"
+author: "Apache APISIX 社区"
 keywords:
 - API 网关
 - APISIX
@@ -8,9 +9,10 @@ keywords:
 description: 直播预告：北京时间 2021 年 7 月 23 日星期五 00:00，Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。
 tags: [technology]
 ---
-<!--truncate-->
 
-北京时间 2021 年 7 月 23 日星期五 00:00， Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。
+> 北京时间 2021 年 7 月 23 日星期五 00:00， Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。
+
+<!--truncate-->
 
 张晋涛将在本次演讲中分享在 Kubernetes 上运行 Apache APISIX，以及如何将 Apache APISIX 作为 Ingress Controller 来使用的经验。感兴趣的小伙伴不要错过，赶紧报名约起来~
 

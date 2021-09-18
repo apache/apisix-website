@@ -1,12 +1,18 @@
 ---
 title: "使用 Java 编写 Apache APISIX 插件"
-author: Zhengsong Tu
+author: "屠正松"
 authorURL: "https://github.com/tzssangglass"
 authorImageURL: "https://avatars.githubusercontent.com/u/30819887?v=4"
+keywords:
+- APISIX
+- Apache APISIX
+- Java
+- 插件
+description: Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
 tags: [technology]
 ---
-> [@tzssangglass](https://github.com/tzssangglass), Apache APISIX contributor from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
 
 <!--truncate-->
 Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有**视频教程**。

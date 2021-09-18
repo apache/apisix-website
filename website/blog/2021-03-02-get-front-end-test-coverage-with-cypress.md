@@ -1,13 +1,12 @@
 ---
 title: "Get Front-End Test Coverage with Cypress"
-author: Yi Sun
+author: "Yi Sun"
 authorURL: "https://github.com/LiteSun"
 authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4bb4db2be162c1fcac6d188f5b0f82f71920&v=4"
 tags: [technology]
 ---
 
-> [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+> In the article ["Stable Product Delivery with Cypress"](/blog/2021/02/08/stable-product-delivery-with-cypress), we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient.This article will describe how to get APISIX Dashboard front-end E2E coverage using Cypress.
 
 <!--truncate-->
 
@@ -15,10 +14,6 @@ tags: [technology]
 >
 > - https://github.com/apache/apisix
 > - https://github.com/apache/apisix-dashboard
-
-## Background
-
-In the article ["Stable Product Delivery with Cypress"](/blog/2021/02/08/stable-product-delivery-with-cypress), we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient.This article will describe how to get APISIX Dashboard front-end E2E coverage using Cypress.
 
 ## What is code coverage?
 

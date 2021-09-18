@@ -1,12 +1,19 @@
 ---
 title: "差之毫厘：etcd 3 完美支持 HTTP 访问？"
-author: spacewander
+author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+keywords:
+- Apache APISIX
+- etcd
+- HTTP
+- gRPC
+Description: 从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。
 tags: [technology]
 ---
-> [@spacewander](https://github.com/spacewander), Core developer of Apache APISIX from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> 从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。
+
 <!--truncate-->
 
 etcd 升级到 3.x 版本后，其对外 API 的协议从普通的 HTTP1 切换到了 gRPC。为了兼顾那些不能使用 gRPC 的特殊群体，etcd 通过 gRPC-gateway 的方式代理 HTTP1 请求，以 gRPC 形式去访问新的 gRPC API。（由于 HTTP1 念起来太过拗口，以下将之简化成 HTTP，正好和 gRPC 能够对应。请不要纠结 gRPC 也是 HTTP 请求的这种问题。）

@@ -1,6 +1,6 @@
 ---
 title: "Chaos Mesh Helps Apache APISIX Improve System Stability"
-author: Yiyiyimu
+author: "Shuyang Wu"
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
 keywords:
@@ -12,8 +12,9 @@ keywords:
 description: This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.
 tags: [technology]
 ---
-> [@Yiyiyimu](https://github.com/Yiyiyimu), Apache APISIX committer.
->
+
+> This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.
+
 <!--truncate-->
 
 [Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scaling microservices API gateway. It is one of the Apache Software Foundation's top-level projects and serves hundreds of companies around the world, processing their mission-critical traffic, including finance, the Internet, manufacturing, retail, and operators. Our customers include NASA, the European Union’s digital factory, China Mobile, and Tencent.
