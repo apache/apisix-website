@@ -6,12 +6,12 @@ authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords: 
 - APISIX
 - 集中式身份认证
-description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用
+description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
 tags: [technology]
 ---
 
-> [@朱欣欣](https://github.com/starsz) ，Apache APISIX 项目 committer，开源爱好者，也是一个 Golang 开发者。现在他正在为 Apache APISIX 的 control plane 贡献代码并执行 code review。除此之外，他在 Apache APISIX 社区中非常活跃，乐于回答社区内的各种问题。
->
+> 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍。
+
 <!--truncate-->
 
 身份认证在日常生活当中是非常常见的一项功能，大家平时基本都会接触到。比如用支付宝消费时的人脸识别确认、公司上班下班时的指纹/面部打卡以及网站上进行账号密码登录操作等，其实都是身份认证的场景体现。

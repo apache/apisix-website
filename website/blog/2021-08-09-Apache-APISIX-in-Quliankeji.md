@@ -11,9 +11,9 @@ description:  本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落
 tags: [technology,practical case]
 ---
 
-<!--truncate-->
-
 > 本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。
+
+<!--truncate-->
 
 ## 业务背景
 

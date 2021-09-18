@@ -1,15 +1,19 @@
 ---
 title: "Apache APISIX has over 200 contributors in GitHub main repo! "
-author: Serendipity96
+author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
+keywords:
+- APISIX
+- Apache APISIX
+- News
+Description: Apache APISIX has over 200 contributors in GitHub main repo!
 tags: [news]
 ---
-> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
->
+
+> Apache APISIX has over 200 contributors in GitHub main repo!
 
 <!--truncate-->
-Apache APISIX has over 200 contributors in GitHub main repo!
 
 Before entering the Apache incubator, Apache APISIX had only more than 20 contributors. Today, there are more than 200 contributors to the main Apache APISIX repo. 200 contributors have submitted a total of 2386 PRs, making it the most active open source gateway project in the world.
 

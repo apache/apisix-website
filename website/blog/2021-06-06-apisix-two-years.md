@@ -1,17 +1,16 @@
 ---
 title: "Apache APISIX 开源 2 周年！"
-author: Serendipity96
+author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - APISIX
 - opensource
-description: Apache APISIX two years old, thanks for all contributors.
+description: Apache APISIX is now two years old, thanks for all contributors.
 tags: [news]
 ---
 
-> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.ai](https://www.apiseven.com/)
->
+> Apache APISIX 开源 2 周年啦！
 
 <!--truncate-->
 

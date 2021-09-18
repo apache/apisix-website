@@ -1,6 +1,6 @@
 ---
 title: "来自 Apache APISIX committer 的经验分享 —— 编程之夏专访"
-author: Serendipity96
+author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
@@ -11,14 +11,11 @@ keywords:
 description: 本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会
 tags: [technology]
 ---
-> [@Serendipity96](https://github.com/Serendipity96), Apache APISIX contributor from [api7.ai](https://www.apiseven.com/)
->
+> 本次采访邀请到了去年参加编程之夏的两位同学，两位同学现在都是 Apache APISIX 的 committer，也是今年社区项目的导师
 
 <!--truncate-->
 
-本次采访邀请到了去年参加编程之夏的两位同学，两位同学现在都是 Apache APISIX 的 committer，也是今年社区项目的导师，分享正式开始！
-
-### 分享嘉宾：吴舒旸
+## 分享嘉宾：吴舒旸
 
 ![yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd-06c0-4c71-848a-8ed0e1263a4e.png)
 
@@ -54,7 +51,7 @@ tags: [technology]
 
 **舒旸**：希望大家多多报名，不要有太多顾虑，多和社区交流，大家都非常友好的，好好享受这三个月的开发经历~
 
-### 分享嘉宾：白泽平
+## 分享嘉宾：白泽平
 
 ![Zeping Bai](https://static.apiseven.com/202108/1630546751119-8df77cd8-6be0-4f8e-af13-182e77462d73.png)
 

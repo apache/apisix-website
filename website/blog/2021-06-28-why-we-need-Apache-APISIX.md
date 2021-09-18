@@ -13,8 +13,7 @@ description: 本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和
 tags: [technology]
 ---
 
-> [@membphis](https://github.com/membphis), Apache APISIX PMC from [api7.ai](https://www.apiseven.com/)
->
+> 本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么。
 
 <!--truncate-->
 

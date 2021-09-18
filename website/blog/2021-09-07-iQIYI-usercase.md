@@ -1,5 +1,6 @@
 ---
 title: "基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践"
+author: "何聪"
 keywords: 
 - APISIX
 - 爱奇艺
@@ -9,8 +10,8 @@ description: 本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meet
 tags: [technology]
 ---
 
-> 作者何聪，高级研发师，IIG 基础架构部-计算云，主要负责爱奇艺网关开发和运维工作
->
+> 爱奇艺在之前有开发了一款网关——Skywalker，它是基于 Kong 做的二次开发，目前流量使用也是比较大的，网关存量业务日常峰值为百万级别 QPS，API 路由数量上万。但这款产品的不足随着使用也开始逐步体现。今年在交接到此项目后，我们根据上述问题和困境，开始对相关网关类产品做了一些调研，然后发现了 Apache APISIX。在选择 Apache APISIX 之前，爱奇艺平台已经在使用 Kong 了，但是后来 Kong 被放弃了。
+
 <!--truncate-->
 
 ## 背景描述

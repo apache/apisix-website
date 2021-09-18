@@ -1,6 +1,6 @@
 ---
 title: "Python 助你快速上手 Apache APISIX 插件开发"
-author: "shuaijinchao"
+author: "帅进超"
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
 keywords:
@@ -14,11 +14,11 @@ tags: [technology]
 
 ---
 
-<!--truncate-->
+> 在 Apache APISIX Python Runner 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner)
+和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 Runner，今天 Python Runner
+也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。
 
-在 `Apache APISIX Python Runner` 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner)
-和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 `Runner` ，今天 `Python Runner`
-也来了，社区中的小伙伴们在开发 `Apache APISIX` 的插件时又多了一种新选择。
+<!--truncate-->
 
 ## 简介
 

@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 架构分析：如何动态管理 Nginx 集群？"
+author: "陶辉"
 keywords: 
 - API 网关
 - Apache APISIX
@@ -11,8 +12,9 @@ description: 本文转发自陶辉个人博客，主要介绍了基于APISIX 2.8
 tags: [technology]
 ---
 
+> 本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
+
 <!--truncate-->
-> 作者陶辉
 
 开源版 Nginx 最为人诟病的就是不具备动态配置、远程 API 及集群管理的能力，而 Apache APISIX 作为 Apache 基金会毕业的开源七层网关，基于 etcd 和 Lua 实现了对 Nginx 集群的动态管理。
 
