@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 14 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 16 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 在腾讯云智能钛平台中的落地实践]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/16/tencent-cloud</link>
+            <guid>Apache APISIX 在腾讯云智能钛平台中的落地实践</guid>
+            <pubDate>Thu, 16 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
             <link>https://apisix.apache.org/blog/2021/09/14/youzan</link>
