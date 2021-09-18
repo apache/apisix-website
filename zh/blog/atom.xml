@@ -2,11 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-09-16T00:00:00.000Z</updated>
+    <updated>2021-09-18T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 助力便利充电创领者小电，实现云原生方案]]></title>
+        <id>Apache APISIX 助力便利充电创领者小电，实现云原生方案</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/18/xiaodian-usercase"/>
+        <updated>2021-09-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍]]></summary>
+        <author>
+            <name>孙冉</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 在腾讯云智能钛平台中的落地实践]]></title>
         <id>Apache APISIX 在腾讯云智能钛平台中的落地实践</id>

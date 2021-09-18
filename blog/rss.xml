@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Thu, 16 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 18 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 助力便利充电创领者小电，实现云原生方案]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/18/xiaodian-usercase</link>
+            <guid>Apache APISIX 助力便利充电创领者小电，实现云原生方案</guid>
+            <pubDate>Sat, 18 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX 在腾讯云智能钛平台中的落地实践]]></title>
             <link>https://apisix.apache.org/blog/2021/09/16/tencent-cloud</link>
