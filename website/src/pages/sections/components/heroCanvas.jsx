@@ -22,6 +22,7 @@ function HeroCanvas() {
       let fragMouse = {x: 0.5, y: 0.5};
 
       let camera, mesh, scene, renderer, material, geometry;
+      let backGeometry, bgMaterial;
 
       window.addEventListener('resize', onWindowResize, false);
   
@@ -163,8 +164,8 @@ function HeroCanvas() {
         
         mesh = new THREE.Points(geometry, material);
         
-        let backGeometry = new THREE.PlaneBufferGeometry(width / height, 1, 200, 200);
-        let bgMaterial = new THREE.MeshBasicMaterial({color: 0x121212, wireframe: false});
+        backGeometry = new THREE.PlaneBufferGeometry(width / height, 1, 200, 200);
+        bgMaterial = new THREE.MeshBasicMaterial({color: 0x121212, wireframe: false});
         let background = new THREE.Mesh(backGeometry, bgMaterial);
       
         backGeometry.scale(50,50,1);
@@ -201,7 +202,7 @@ function HeroCanvas() {
       }
 
       return ()=>{
-        renderer.dispose();
+        scene.remove.apply(scene, scene.children);
         canvasObserver.disconnect();
       }
     }, []);
