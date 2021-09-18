@@ -65,6 +65,7 @@
     bottom: 0;
     border-radius: 0;
     border: 1px solid var(--ifm-toc-border-color);
+    margin: 0;
   }
 
   .collapseSidebarButtonIcon {

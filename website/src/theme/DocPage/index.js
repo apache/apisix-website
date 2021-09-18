@@ -29,7 +29,6 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
 
   useEffect(() => {
     document.querySelector(".react-toggle").style.display = "block";
-
     const currentPage = currentDocRoute.path.split("/")[2] || "";
     switch (currentPage) {
       case "general":
@@ -58,7 +57,7 @@ function DocPageContent({ currentDocRoute, versionMetadata, children }) {
         break;
     }
     return () => {
-      document.querySelector(".react-toggle").style.display = "none";
+      document.querySelector(".react-toggle").style.display = "none !important";
     }
   }, []);
 

@@ -91,7 +91,7 @@ html[data-theme="dark"] {
   background: #555;
 }
 
-body{
+body, h1, h2, h3 {
   font-family: MaisonNeue-Medium, sans-serif;
 }
 
@@ -776,6 +776,7 @@ a:hover {
 .endcta-btns {
   display: flex;
   justify-content: center;
+  padding-bottom: 2rem;
 }
 
 .rocket {
@@ -785,8 +786,9 @@ a:hover {
 }
 
 /* footer */
-.footer {
-  margin-top: 2rem;
+.footer__title {
+  /* margin-top: 2rem; */
+  font-family: MaisonNeue-Medium !important;
 }
 .footer__links .footer__title {
   font-weight: 700;
