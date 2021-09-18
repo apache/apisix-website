@@ -11,7 +11,7 @@ description: 活动回顾：Apache APISIX Meetup 上海站议题分享及视频�
 tags: [technology]
 ---
 
-活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
+> 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
 
 <!--truncate-->
 
