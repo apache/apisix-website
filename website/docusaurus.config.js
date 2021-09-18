@@ -240,7 +240,6 @@ module.exports = {
         },
         blog: {
           path: "blog",
-          postsPerPage: 'ALL',
         },
         theme: {
           customCss: "../src/css/customTheme.css",
