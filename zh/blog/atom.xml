@@ -633,15 +633,4 @@
             <name>王辉</name>
         </author>
     </entry>
-    <entry>
-        <title type="html"><![CDATA[New website for Apache APISIX]]></title>
-        <id>New website for Apache APISIX</id>
-        <link href="https://apisix.apache.org/zh/blog/2020/08/22/new-website"/>
-        <updated>2020-08-22T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[We are just refactored out website for Apache APISIX by using docusaurus.]]></summary>
-        <author>
-            <name>juzhiyuan</name>
-            <uri>https://github.com/juzhiyuan</uri>
-        </author>
-    </entry>
 </feed>
