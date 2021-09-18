@@ -15,6 +15,13 @@
             <description><![CDATA[本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。]]></description>
         </item>
         <item>
+            <title><![CDATA[社区周报｜新晋 committer 两位，功能亮点更新进行中]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/15/weekly-report</link>
+            <guid>社区周报｜新晋 committer 两位，功能亮点更新进行中</guid>
+            <pubDate>Wed, 15 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
             <link>https://apisix.apache.org/blog/2021/09/14/youzan</link>
             <guid>Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理</guid>

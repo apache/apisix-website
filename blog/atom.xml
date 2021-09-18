@@ -18,6 +18,13 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[社区周报｜新晋 committer 两位，功能亮点更新进行中]]></title>
+        <id>社区周报｜新晋 committer 两位，功能亮点更新进行中</id>
+        <link href="https://apisix.apache.org/blog/2021/09/15/weekly-report"/>
+        <updated>2021-09-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
         <id>Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理</id>
         <link href="https://apisix.apache.org/blog/2021/09/14/youzan"/>
