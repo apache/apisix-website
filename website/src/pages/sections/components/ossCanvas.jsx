@@ -116,7 +116,7 @@ function OssCanvas() {
         ossCanvasObserver.observe(canvasRef.current);
 
         return () => {
-            renderer.dispose();
+            scene.remove.apply(scene, scene.children);
             ossCanvasObserver.disconnect();
         }
     }, []);

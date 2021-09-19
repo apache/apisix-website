@@ -201,7 +201,7 @@ function HeroCanvas() {
       }
 
       return ()=>{
-        renderer.dispose();
+        scene.remove.apply(scene, scene.children);
         canvasObserver.disconnect();
       }
     }, []);
