@@ -26,4 +26,4 @@ Apache 软件基金会顶级项目 Apache APISIX 以及子项目，在过去 30 
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style={{width: "200px"}} />
+<img src="../static/img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" width="200px" />
