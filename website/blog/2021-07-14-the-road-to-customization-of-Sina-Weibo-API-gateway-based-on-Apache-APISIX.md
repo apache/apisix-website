@@ -124,7 +124,7 @@ tags: [technology, practical case]
 
 除了在管理页面支持创建路由之外，很多运维同学还是比较习惯使用脚本导入。我们有大量的 HTTP API 服务，这些服务要是一个一个手动录入，会非常耗时。如果通过脚本导入，则能够降低很多服务迁移阻力。
 
-通过为管理后台暴露出 Go Impport HTTP API，运维同学可以在现成的 Bash Script 脚本文件中填写分配的 token、SaaS ID 以及相关的 UID 等，从而较为快速地导入服务到管理后台中。导入服务后续操作依然还是需要在管理后台 H5 界面上完成。
+通过为管理后台暴露出 Go Import HTTP API，运维同学可以在现成的 Bash Script 脚本文件中填写分配的 token、SaaS ID 以及相关的 UID 等，从而较为快速地导入服务到管理后台中。导入服务后续操作依然还是需要在管理后台 H5 界面上完成。
 
 ![xinlang13](https://user-images.githubusercontent.com/23514812/125597641-54bf1649-0238-4973-8501-48c1cead328e.png)
 
