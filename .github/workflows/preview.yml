@@ -25,9 +25,9 @@ jobs:
           cd scripts && yarn install
           cd ../website && yarn install
 
-      - name: Sync documents
-        run: |
-          cd scripts && yarn sync && git status
+      #- name: Sync documents
+      #  run: |
+      #    cd scripts && yarn sync && git status
 
       - name: Build
         run: |
@@ -45,6 +45,12 @@ jobs:
           name: artifact.zip
           path: artifact
           retention-days: 5
+
+      - name: Test
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: |
+          echo $VERCEL_ORG_ID
 
       - name: Deploy Preview
         uses: ./.github/actions/vercel-action
