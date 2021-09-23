@@ -1,0 +1,3 @@
+[submodule ".github/actions/vercel-action"]
+	path = .github/actions/vercel-action
+	url = https://github.com/amondnet/vercel-action
