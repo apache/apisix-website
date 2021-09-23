@@ -120,7 +120,7 @@ const EventsSection = () => {
     .map((event) => {
       const publishTime = event.fileName.slice(0, 10);
       const splittedFileName = event.fileName.split("-");
-      const url = `/events/${splittedFileName
+      const url = `/blog/${splittedFileName
         .slice(0, 3)
         .join("/")}/${splittedFileName.slice(3).join("-")}`;
       return (
@@ -142,7 +142,7 @@ const EventsSection = () => {
           <h1 className="color-primary">Events</h1>
         </div>
         <div className="events-view-all-button">
-          <a href="/events" target="_blank">
+          <a href="blog/tags/Events" target="_blank">
             <u>View All Events</u>
           </a>
         </div>

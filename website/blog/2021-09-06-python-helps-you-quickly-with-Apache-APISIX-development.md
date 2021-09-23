@@ -10,7 +10,7 @@ keywords:
 - APISIX Python plugin
 - apisix-python-plugin-runner
 - APISIX Python Plugin Runner 
-tags: [technology]
+tags: [Practical Case]
 
 ---
 

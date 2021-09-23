@@ -6,8 +6,12 @@ authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords: 
 - APISIX
 - Envoy
+- Apache APISIX
+- Service Mesh
+- API Gateway
 - 性能
 description: 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务。
+tags: [Technology]
 ---
 
 > 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 Apache APISIX 在响应延迟和 QPS 层面都略优于 Envoy，Apache APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；而且 Apache APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力。
@@ -20,7 +24,7 @@ description: 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性�
 
 “Envoy 是专为大型现代 SOA（面向服务架构）架构设计的 L7 代理和通信总线”
 
-也就是说， Envoy 是为了解决 Server Mesh 领域而诞生一款 L7 代理软件，这里我网上找了一张图，我理解的 Envoy 大概是如下的部署架构。（如果错了请大佬指教）
+也就是说， Envoy 是为了解决 Service Mesh 领域而诞生一款 L7 代理软件，这里我网上找了一张图，我理解的 Envoy 大概是如下的部署架构。（如果错了请大佬指教）
 
 ![Envoy arch](https://static.apiseven.com/202108/20210617001.png)
 

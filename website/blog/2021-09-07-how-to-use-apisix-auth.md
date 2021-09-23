@@ -7,7 +7,7 @@ keywords:
 - APISIX
 - 集中式身份认证
 description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
-tags: [technology]
+tags: [Practical Case]
 ---
 
 > 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍。

@@ -9,7 +9,7 @@ keywords:
 - 服务网格
 - xDS
 description: 支流科技推出了基于Apache APISIX的服务网格方案，其中Apache APISIX作为服务网格的数据面，与支持xDS协议的控制面配合，进而托管服务间的流量。在该方案中有一个不可或缺的组件apisix-mesh-agent，它作为数据面与控制面的中间层，完成了很多适配性的工作，进而让 Apache APISIX 在接近零改造的情况下即可完美地工作在服务网格中。
-tags: [technology]
+tags: [Technology]
 ---
 
 > 本文将对 apisix-mesh-agent 进行分析，介绍其使用定位及其实现的功能。
