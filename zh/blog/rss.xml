@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Sat, 18 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 24 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/09/24/youpaicloud-usercase</link>
+            <guid>Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？</guid>
+            <pubDate>Fri, 24 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文介绍了又拍云选择 Apache APISIX Ingress 后所带来公司内部网关架构的更新与调整，同时分享了在使用过程中的一些实践场景介绍。]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX 助力便利充电创领者小电，实现云原生方案]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/09/18/xiaodian-usercase</link>
