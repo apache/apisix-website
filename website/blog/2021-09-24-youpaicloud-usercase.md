@@ -39,7 +39,7 @@ Ingress-Nginx 的扩展能力主要通过 Annotations 去实现，配置文件�
 
 ## 调研阶段
 
-在替代 Ingress-Nginx 的选择中，我们主要考量了 Traefik 和 Apache APISIX-Ingress。
+在替代 Ingress-Nginx 的选择中，我们主要考量了 Traefik 和 Apache APISIX Ingress。
 
 ![Traefik](https://static.apiseven.com/202108/1632469875567-61dd6fbd-757f-419f-a769-99e6aaf46f0c.png)
 
