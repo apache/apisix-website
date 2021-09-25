@@ -7,7 +7,7 @@ keywords:
 - 云原生
 - 容器化
 description: 本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍
-tags: [Practical Case]
+tags: [User Case]
 ---
 
 > 本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍

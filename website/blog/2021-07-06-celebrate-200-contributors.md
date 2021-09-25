@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX has over 200 contributors in GitHub main repo! "
-author: "赵若妃"
+author: "Ruofei Zhao"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
@@ -8,7 +8,7 @@ keywords:
 - Apache APISIX
 - News
 Description: Apache APISIX has over 200 contributors in GitHub main repo!
-tags: [news]
+tags: [Release]
 ---
 
 > Apache APISIX has over 200 contributors in GitHub main repo!

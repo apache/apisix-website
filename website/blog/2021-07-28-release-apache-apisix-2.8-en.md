@@ -1,6 +1,6 @@
 ---
 title: "Release Apache APISIX 2.8.0"
-author: "赵若妃"
+author: "Ruofei Zhao"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
@@ -8,7 +8,7 @@ keywords:
 - Release Notes
 - Apache APISIX 
 description: Apache APISIX version 2.8 is released!
-tags: [news]
+tags: [Release]
 ---
 
 > Apache APISIX version 2.8 is released!

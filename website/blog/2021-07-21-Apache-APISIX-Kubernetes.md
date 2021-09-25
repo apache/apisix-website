@@ -7,7 +7,7 @@ keywords:
 - Kubernetes
 - 直播预告
 description: 直播预告：北京时间 2021 年 7 月 23 日星期五 00:00，Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。
-tags: [technology]
+tags: [Events]
 ---
 
 > 北京时间 2021 年 7 月 23 日星期五 00:00， Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。

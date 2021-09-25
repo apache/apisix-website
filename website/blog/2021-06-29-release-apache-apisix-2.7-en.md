@@ -1,13 +1,13 @@
 ---
 title: "Release Apache APISIX 2.7.0"
-author: "赵若妃"
+author: "Ruofei Zhao"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - Apache APISIX
 - Release Notes
 Description: Apache APISIX 2.7.0 has been released!
-tags: [news]
+tags: [Release]
 ---
 
 > Apache APISIX 2.7.0 has been released!

@@ -7,7 +7,7 @@ keywords:
 - APISIX
 - opensource
 description: Apache APISIX is now two years old, thanks for all contributors.
-tags: [news]
+tags: [Release]
 ---
 
 > Apache APISIX 开源 2 周年啦！

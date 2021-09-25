@@ -8,7 +8,7 @@ keywords:
 - 上海站
 - 回顾
 description: 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
-tags: [technology]
+tags: [Events]
 ---
 
 > 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
