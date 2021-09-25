@@ -1,11 +1,29 @@
 [
+  {"title": "社区周报｜新晋 committer 两位，功能亮点更新进行中",
+    "fileName": "2021-09-15-weekly-report"
+  },
+  {"title": "Apache APISIX 2.9 Release",
+    "fileName": "2021-08-27-release-apache-apisix-2.9"
+  },
+  {
+    "title": "ApacheCon Asia 2021 Recap",
+    "fileName": "2021-08-24-shanghai-meetup-recap"
+  },
+  {
+    "title": "ApacheCon Asia 2021",
+    "fileName": "2021-08-23-ApacheCon-Asia-2021"
+  },
+  {
+    "title": "ApacheCon Asia 2021",
+    "fileName": "2021-08-23-ApacheCon-Asia-2021"
+  },
   {
     "title": "8.21 Apache APISIX Meetup (Shanghai)",
     "fileName": "2021-08-21-shanghai-meetup"
   },
   {
-    "title": "ApacheCon Asia 2021",
-    "fileName": "2021-08-23-ApacheCon-Asia-2021"
+    "title": "ApacheCon Asia",
+    "fileName": "2021-07-25-apachecon-asia"
   },
   {
     "title": "Release Apache APISIX Dashboard 2.7",

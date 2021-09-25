@@ -92,6 +92,13 @@
             <description><![CDATA[Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.23-8.29]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/30/weekly-report</link>
+            <guid>Apache APISIX 社区周报 ｜ 2021 8.23-8.29</guid>
+            <pubDate>Mon, 30 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/08/27/release-apache-apisix-2.9</link>
             <guid>Apache APISIX 2.9 正式发布，带来更多新功能！</guid>
@@ -127,11 +134,39 @@
             <description><![CDATA[活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。]]></description>
         </item>
         <item>
+            <title><![CDATA[ApacheCon Asia 2021]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/23/ApacheCon-Asia-2021</link>
+            <guid>ApacheCon Asia 2021</guid>
+            <pubDate>Mon, 23 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 于 2021 年 8 月 6-8 日在线举办。Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富。]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.16-8.22]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/23/weekly-report</link>
+            <guid>Apache APISIX 社区周报 ｜ 2021 8.16-8.22</guid>
+            <pubDate>Mon, 23 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+        </item>
+        <item>
+            <title><![CDATA[8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/21/shanghai-meetup</link>
+            <guid>8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！</guid>
+            <pubDate>Sat, 21 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本次 Meetup 由 api7.ai https://www.apiseven.com/ 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Go 让 Apache APISIX 如虎添翼]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/08/19/go-makes-Apache-APISIX-better</link>
             <guid>Go 让 Apache APISIX 如虎添翼</guid>
             <pubDate>Thu, 19 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX 社区周报 ｜ 2021年8月9日～8月15日]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/08/19/weekly-report</link>
+            <guid>Apache APISIX 社区周报 ｜ 2021年8月9日～8月15日</guid>
+            <pubDate>Thu, 19 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
         </item>
         <item>
             <title><![CDATA[在 Apache APISIX 中使用 Casbin 进行授权]]></title>
@@ -253,13 +288,6 @@
             <description><![CDATA[直播预告：北京时间 2021 年 7 月 23 日星期五 00:00，Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。]]></description>
         </item>
         <item>
-            <title><![CDATA[深度剖析 Apache APISIX Mesh Agent]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/07/16/Analyze-Apache-APISIX-Mesh-Agent-deeply</link>
-            <guid>深度剖析 Apache APISIX Mesh Agent</guid>
-            <pubDate>Fri, 16 Jul 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[支流科技推出了基于Apache APISIX的服务网格方案，其中Apache APISIX作为服务网格的数据面，与支持xDS协议的控制面配合，进而托管服务间的流量。在该方案中有一个不可或缺的组件apisix-mesh-agent，它作为数据面与控制面的中间层，完成了很多适配性的工作，进而让 Apache APISIX 在接近零改造的情况下即可完美地工作在服务网格中。]]></description>
-        </item>
-        <item>
             <title><![CDATA[基于 Apache APISIX，新浪微博 API 网关的定制化开发之路]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/07/14/the-road-to-customization-of-Sina-Weibo-API-gateway-based-on-Apache-APISIX</link>
             <guid>基于 Apache APISIX，新浪微博 API 网关的定制化开发之路</guid>
@@ -365,13 +393,6 @@
             <description><![CDATA[本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会]]></description>
         </item>
         <item>
-            <title><![CDATA[基于 Apache APISIX 实现的服务网格项目正式开源]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/05/31/基于 Apache APISIX 实现的服务网格项目正式开源</link>
-            <guid>基于 Apache APISIX 实现的服务网格项目正式开源</guid>
-            <pubDate>Mon, 31 May 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[鉴于 Apache APISIX 的优秀设计，我们不仅可以将 Apache APISIX 用于南北向流量管理，也可以用它管理服务网格的东西向流量，我们通过引入 APISIX-Mesh-Agent 这一组件，配合 Apache APISIX 进行使用，从而使得 Apache APISIX 可以对接业内广泛使用的服务网格控制面，例如： Istio 和 Kuma 等。]]></description>
-        </item>
-        <item>
             <title><![CDATA[Apache APISIX 2.6.0-Release 正式发布]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/05/25/Apache APISIX 2.6.0-Release 正式发布</link>
             <guid>Apache APISIX 2.6.0-Release 正式发布</guid>
@@ -384,13 +405,6 @@
             <guid>支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯</guid>
             <pubDate>Mon, 24 May 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Traffic Split in Apache APISIX Ingress Controller]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/03/27/traffic-split-in-apache-apisix-ingress-controller</link>
-            <guid>Traffic Split in Apache APISIX Ingress Controller</guid>
-            <pubDate>Sat, 27 Mar 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Traffic Split is a feature that splits and deliveries traffic to multiple backend services. Solutions like API Gateway and Service Mesh are capable of doing traffic splitting and implement functionalities like Canary Release and Blue-Green Deployment.]]></description>
         </item>
         <item>
             <title><![CDATA[Get Front-End Test Coverage with Cypress]]></title>
