@@ -7,7 +7,7 @@ keywords:
 - 云原生
 - 容器化
 description: 本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍
-tags: [Practical Case]
+tags: [User Case]
 ---
 
 > 本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍
@@ -61,13 +61,13 @@ OpenShift 3.0 开始引入 OpenShift Route ，作用是通过 Ingress Operator �
 
 我们目前的产品架构与在 K8s 中使用 Apache APISIX 大体类似。主要是将 Apache APISIX 的 Service 以 LoadBalancer 类型暴露到外部。然后用户通过请求访问传输到 Apache APISIX，再将路由转发到上游的相关服务中。
 
-![整体架构](https://static.apiseven.com/202108/1631947181072-67a1d12a-0a6f-4818-86fb-216280683008.png)
+![整体架构](https://static.apiseven.com/202108/1632293465988-e166530d-c82c-4676-8d6c-3ccafd60e703.37)
 
 额外要提的一点是，为什么我们把 etcd 放在了技术栈外。一是因为早些版本解析域名时会出现偏差，二是因为在内部我们进行维护和备份的过程比较繁琐，所以就把 etcd 单独拿了出来。
 
 ### 业务模型
 
-![业务模型](https://static.apiseven.com/202108/1631947216744-f8343459-89fc-4627-840a-24daaed11fc3.png)
+![业务模型](https://static.apiseven.com/202108/1632293498420-77c63400-7afc-4774-97ee-540bd670f4fe.37)
 
 上图是接入 Apache APISIX 后的业务环境改造模型。每个开发或项目进行变更时，DNA 都会创建一个变更，同时转化为 k8s Namespace 资源。
 
@@ -81,11 +81,11 @@ OpenShift 3.0 开始引入 OpenShift Route ，作用是通过 Ingress Operator �
 
 在变更环境中我们有两种场景，一个是点对点模式，即一个域名对应一个应用。开发只需要启用域名，DNA 里就会利用 Apache APISIX 去生成对应路由，这种就是单一路径的路由规则。
 
-![单一路径](https://static.apiseven.com/202108/1631947255284-03febe4d-b49c-4129-adb7-5cfb2354edef.png)
+![单一路径](https://static.apiseven.com/202108/1632293545058-511768bc-b9b9-4f2d-ad58-73f206f1b7c2.38)
 
 另一种场景就是多级路径路由。在这种场景下我们基于 Apache APISIX 将项目变更中需要的多个 APP 路由指向到当前 Namespace 环境，其关联 APP 路由则指向到一套稳定的 Namespace 环境中（通常为 Stable 环境）。
 
-![多级路径](https://static.apiseven.com/202108/1631947299899-6a946318-941e-44be-a5cb-d62bb85c84fa.png)
+![多级路径](https://static.apiseven.com/202108/1632293571396-564db5f5-eef5-45d1-80d8-1d0dded8b9da.38)
 
 #### 功能二：自动化流程
 
@@ -93,11 +93,11 @@ OpenShift 3.0 开始引入 OpenShift Route ，作用是通过 Ingress Operator �
 
 比如某个新应用上线时，可以申请一条相应的路由规则，然后把规则加到控制中心中。需要请求路由时，就可以一键启用这条路由规则并自动同步到 Apache APISIX。
 
-![自动化流程](https://static.apiseven.com/202108/1631947333618-3d5fc33a-59bf-4863-ad25-538c9c565b1e.png)
+![自动化流程](https://static.apiseven.com/202108/1632294540198-e0a21138-b0ec-490d-966b-55d5bbddd33d.06)
 
 另外我们也提供了单一普通路由申请，包括线上环境和测试环境，或者一些对外公网的暴露与测试需求等，也可以调用 Apache APISIX 接口。
 
-![普通路由](https://static.apiseven.com/202108/1631947378912-22748f62-48c9-4222-8758-60f9a3d5ab6f.png)
+![普通路由](https://static.apiseven.com/202108/1632294623255-1a9762ab-59b4-4798-82b8-e9fc3e32f571.07)
 
 ## 基于 Apache APISIX 的具体实践
 
@@ -111,7 +111,7 @@ OpenShift 具有非常严格的 SCC 机制，在利用 OpenShift 去部署 Apach
 
 我们一开始使用的 Apache APISIX 为 1.5 版本，在更新到最新版本的过程中，我们经历了类似 etcd v2 版本性能下降、增加了 CORS 插件强校验等情况。
 
-![平滑处理](https://static.apiseven.com/202108/1631947410007-5158efd0-0607-47e6-9c6c-aa3081c6b6d5.png)
+![平滑处理](https://static.apiseven.com/202108/1632294589632-e113850d-57a6-4a82-be21-63ec8e78f842.png)
 
 基于此，我们采取了版本切流的方案，新版本启用并创建新的 Service 以及暴露相关 SLB 信息。通过 Service 的 Selector 属性，将 Gateway 切换到新版本的 Apache APISIX 中。另一方面我们也会将流量进行切分处理，将部分流量通过 DNS 解析到新版本 Apache APISIX SLB 地址，来实现版本更迭的平滑处理。
 

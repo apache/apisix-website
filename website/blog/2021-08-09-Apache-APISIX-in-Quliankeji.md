@@ -8,7 +8,7 @@ keywords:
 - API 网关
 - BaaS
 description:  本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。
-tags: [technology,practical case]
+tags: [User Case]
 ---
 
 > 本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。

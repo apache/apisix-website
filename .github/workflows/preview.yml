@@ -1,0 +1,52 @@
+name: Preview Pull Request
+
+on:
+  push:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: 14.x
+
+      - name: Install Dependencies
+        run: |
+          cd scripts && yarn install
+          cd ../website && yarn install
+
+      - name: Sync documents
+        run: |
+          cd scripts && yarn sync && git status
+
+      - name: Build
+        run: |
+          cd website && yarn build
+          cp ../.asf.yaml ./build
+
+      - name: Compress build artifacts
+        run: |
+          mkdir artifact && cd artifact
+          tar cvzf - ../website/build | split -d -b 90m - website
+
+      - name: Archive artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact.zip
+          path: artifact
+          retention-days: 5
+
+      - name: Deploy Preview
+        uses: amondnet/vercel-action@v20
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: artifact

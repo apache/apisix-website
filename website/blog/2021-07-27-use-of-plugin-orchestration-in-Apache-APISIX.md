@@ -9,7 +9,7 @@ keywords:
 - 插件编排
 - Apache APISIX Dashboard
 description: 通过阅读本文，您可以了解 Apache APISIX 与基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。本文作者琚致远，Apache APISIX PMC，在支流科技负责企业产品与大前端技术。
-tags: [technology]
+tags: [Practical Case]
 ---
 
 > 通过阅读本文，您可以了解 Apache APISIX 与基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。本文作者琚致远，Apache APISIX PMC，在支流科技负责企业产品与大前端技术。

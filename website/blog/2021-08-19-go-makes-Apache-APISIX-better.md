@@ -10,7 +10,7 @@ keywords:
 - APISIX Go plugin
 - apisix-go-plugin-runner
 - Golang
-tags: [technology]
+tags: [Practical Case]
 ---
 
 > 这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！

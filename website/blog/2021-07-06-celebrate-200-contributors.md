@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX has over 200 contributors in GitHub main repo! "
-author: "赵若妃"
+author: "Ruofei Zhao"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
@@ -8,7 +8,7 @@ keywords:
 - Apache APISIX
 - News
 Description: Apache APISIX has over 200 contributors in GitHub main repo!
-tags: [news]
+tags: [Release]
 ---
 
 > Apache APISIX has over 200 contributors in GitHub main repo!
@@ -26,7 +26,7 @@ Welcome to join the Apache APISIX community, welcome to use Apache APISIX!
 
 ## Contributors Say
 
-When reaching 200 contributors, the controbutors in the community sent their blessings to Apache APISIX. Here are what they want to say to Apache APISIX.
+When reaching 200 contributors, the contributors in the community sent their blessings to Apache APISIX. Here are what they want to say to Apache APISIX.
 
 [juzhiyuan](https://github.com/juzhiyuan): The Apache APISIX open source community is extremely active, and the monthly release rhythm always brings new features that are hotly discussed in the community. Bless Apache APISIX, and hope that more contributors will participate, learn the spirit of open source, and participate in open source projects.
 

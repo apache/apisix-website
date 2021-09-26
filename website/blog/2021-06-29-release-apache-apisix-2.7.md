@@ -7,7 +7,7 @@ keywords:
 - Apache APISIX
 - Release Notes
 Description: Apache APISIX 2.7.0-Release 正式发布！
-tags: [news]
+tags: [Release]
 ---
 
 > Apache APISIX 2.7.0-Release 正式发布！
