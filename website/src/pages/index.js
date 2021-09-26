@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import useThemeContext from '@theme/hooks/useThemeContext';
+
 import HeroSection from "./sections/heroSection";
 import Architecture from "./sections/architecture";
 import Features from "./sections/features";
@@ -12,7 +13,7 @@ import NewsSection from "./sections/newsSection";
 import EndCTA from "./sections/endcta";
 import EventPosterCard from "./sections/components/eventPosterCard";
 
-function useWindowSize() {
+const useWindowSize = () => {
   const [size, setSize] = useState([0, 0]);
   useLayoutEffect(() => {
     function updateSize() {
