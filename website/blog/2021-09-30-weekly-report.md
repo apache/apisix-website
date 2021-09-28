@@ -29,7 +29,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Issue [#5080](https://github.com/apache/apisix/issues/5080)
 
-问题描述：问题描述：之前上游服务使用 IP 认证，实际的客户端 IP 是从 x-forwarded-for 请求头中获取的。现在需要改成网关HMAC认证，所以需要通过网关屏蔽上游 IP 认证。尝试通过代理重写插件修改 x-forwarded-for，但是没有生效：
+问题描述：之前上游服务使用 IP 认证，实际的客户端 IP 是从 x-forwarded-for 请求头中获取的。现在需要改成网关HMAC认证，所以需要通过网关屏蔽上游 IP 认证。尝试通过代理重写插件修改 x-forwarded-for，但是没有生效：
 
 ![问题描述截图](https://static.apiseven.com/202108/1632799650125-14edb988-f2ad-434d-8d13-04ff3016eb5a.png)
 
@@ -105,13 +105,3 @@ property "price" is required
 - [基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488681&idx=1&sn=bec77fe4042eebf03d1d0118b800e24a&chksm=e9817fb4def6f6a28e29807fd818513230286ac7c40df1a687e16c08e2dd9f61588536d42860&token=434953675&lang=zh_CN#rd)
 
   本文介绍了基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
-
-## 关于 Apache APISIX
-
-Apache APISIX 是一个动态、实时、高性能的开源 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 可以帮忙企业快速、安全的处理 API 和微服务流量，包括网关、Kubernetes Ingress 和服务网格等。
-
-![](https://static.apiseven.com/202108/1632809996672-0d345992-1566-4340-80c0-8c665221e414.jpg)
-
-- [Apache APISIX GitHub](https://github.com/apache/apisix)
-- [Apache APISIX 官网](https://apisix.apache.org/)
-- [Apache APISIX 文档](https://apisix.apache.org/zh/docs/apisix/getting-started)
