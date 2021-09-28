@@ -63,7 +63,6 @@ curl http://127.0.0.1:9080/apisix/admin/routes/35 -H 'X-API-KEY: xxxxxxxxxxxxxxx
 
 使用以下命令对其进行测试时，
 
-
 ```
 curl http://127.0.0.1:9080/products/create -X POST -d '{"product-Name":"Laptop","pri-ce":12345.00}'
 ```
@@ -84,7 +83,9 @@ property "price" is required
 
 - [hmac-auth 支持校验请求体](https://github.com/apache/apisix/pull/5038)（贡献者：[arthur-zhang](https://github.com/arthur-zhang)）
 
-- [APISIX Ingress controller 集成了 cert-manager ，用户可以更方便的管理TLS证书，并与 APISIX Ingress 配合使用](https://github.com/apache/apisix-ingress-controller/pull/685)（贡献者：[lingsamuel](https://github.com/lingsamuel)  ）
+- [APISIX Ingress controller 集成了 cert-manager ，用户可以更方便的管理TLS证书，并与 APISIX Ingress 配合使用](https://github.com/apache/apisix-ingress-controller/pull/685)（贡献者：[lingsamuel](https://github.com/lingsamuel)）
+
+- [- APISIX Dashboard 支持多种配置文件](https://github.com/apache/apisix-dashboard/pull/1946)（贡献者：[bzp2010](https://github.com/bzp2010)）
 
 ## 本周博文推荐
 
