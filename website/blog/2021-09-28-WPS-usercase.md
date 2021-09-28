@@ -10,7 +10,7 @@ description: 本文介绍了金山办公如何使用 Apache APISIX 应对百万�
 tags: [User Case]
 ---
 
-> 本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
+> 本文由金山办公中台部门 SRE 网络负责人张强介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
 
 <!--truncate-->
 
