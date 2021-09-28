@@ -61,7 +61,7 @@ const Architecture = (props) => {
     <>
       <div className="arch">
         <div style={{position: "absolute", display: "flex", justifyContent: "center", alignItems: "center", height: "120vh"}}>
-          <Pattern style={{width: "100%", strokeWidth: "3", zIndex: "-10", opacity: "0.25", strokeDasharray: "10000"}}/>
+          <Pattern className="arch-scale-svg" style={{width: "100vw", strokeWidth: "3", zIndex: "-10", opacity: "0.25", strokeDasharray: "10000"}}/>
         </div>
         <div>
           <h3 className="arch-head">Building for large-scale, high value systems</h3>

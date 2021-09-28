@@ -386,6 +386,7 @@ a:hover {
   position: relative;
   z-index: 1;
   padding: 50px 0;
+  overflow: hidden;
 }
 
 .arch-card-caption{
@@ -638,6 +639,7 @@ a:hover {
   display: flex;
   padding: 100px 0;
   background: #fff8f6;
+  justify-content: center;
 }
 
 .docs-promo-text {
@@ -1109,6 +1111,10 @@ a:hover {
     left: 7%;
   }
   
+  .bottom-pos {
+    bottom: 34%;
+  }
+
   .feat-head {
     font-size: 2.13rem;
     width: 84%;
@@ -1232,4 +1238,27 @@ a:hover {
 
 .react-toggle {
   display: none;
+}
+
+.bottom-pos {
+  bottom: 34%;  
+}
+
+@media (min-width: 1600px) and (max-width: 2080px) {
+  .hero-title {
+    width: 40vw;
+    font-size: 5.2rem;
+  }
+  
+  .hero-subtitle {
+    width: 40vw;
+  }
+
+  .bottom-pos {
+    bottom: 38%;
+  }
+
+  .arch-scale-svg {
+    transform: scale(1.2);
+  }
 }
