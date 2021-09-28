@@ -89,11 +89,29 @@ property "price" is required
 
 ## 本周博文推荐
 
-- [最新！Apache APISIX 通过中国信通院 “可信开源项目” 认证](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488321&idx=1&sn=40925d9cacba9e30fcdcceebbdbbe266&chksm=e981785cdef6f14a29a0ec6e87b70b1cffadcbf3951a66709ef8f2a144054a748430e29d25ea&token=434953675&lang=zh_CN#rd)：2021 年 9 月 17 日，在中国信息通信研究院（简称“中国信通院”）主持召开的“云计算开源产业联盟（OSCAR）开源产业大会”上，Apache APISIX 荣获中国信通院颁发的可信开源项目评估证书。同时大会正式宣布了可信开源社区共同体（TWOS） 的成立，Apache APISIX 社区成为首批正式成员。
+- [最新！Apache APISIX 通过中国信通院 “可信开源项目” 认证](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488321&idx=1&sn=40925d9cacba9e30fcdcceebbdbbe266&chksm=e981785cdef6f14a29a0ec6e87b70b1cffadcbf3951a66709ef8f2a144054a748430e29d25ea&token=434953675&lang=zh_CN#rd)
 
-- [支持 10 亿日流量的基础设施：当 Apache APISIX 遇上腾讯](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488353&idx=1&sn=4dc9f8d16b323f8b672cca9b565e0001&chksm=e981787cdef6f16a64b8af8d9b76d351a7838254f34a3d75514d9df9392c8e272087297b278e&token=434953675&lang=zh_CN#rd)：本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站上的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+  2021 年 9 月 17 日，在中国信息通信研究院（简称“中国信通院”）主持召开的“云计算开源产业联盟（OSCAR）开源产业大会”上，Apache APISIX 荣获中国信通院颁发的可信开源项目评估证书。同时大会正式宣布了可信开源社区共同体（TWOS） 的成立，Apache APISIX 社区成为首批正式成员。
 
-- [使用 Apache APISIX 进行集中式身份认证及进阶玩法](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488648&idx=1&sn=e197e8b03dad3c3c4d0e6712c4400a24&chksm=e9817f95def6f683f01152bd92275276fb980a0974598a66e0a53f7f0d26a22d1d3332299131&token=434953675&lang=zh_CN#rd)：本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
+- [支持 10 亿日流量的基础设施：当 Apache APISIX 遇上腾讯](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488353&idx=1&sn=4dc9f8d16b323f8b672cca9b565e0001&chksm=e981787cdef6f16a64b8af8d9b76d351a7838254f34a3d75514d9df9392c8e272087297b278e&token=434953675&lang=zh_CN#rd)：
+
+  本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站上的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+
+- [使用 Apache APISIX 进行集中式身份认证及进阶玩法](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488648&idx=1&sn=e197e8b03dad3c3c4d0e6712c4400a24&chksm=e9817f95def6f683f01152bd92275276fb980a0974598a66e0a53f7f0d26a22d1d3332299131&token=434953675&lang=zh_CN#rd)
+
+  本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
 
 
-- [基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488681&idx=1&sn=bec77fe4042eebf03d1d0118b800e24a&chksm=e9817fb4def6f6a28e29807fd818513230286ac7c40df1a687e16c08e2dd9f61588536d42860&token=434953675&lang=zh_CN#rd)：本文介绍了基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
+- [基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488681&idx=1&sn=bec77fe4042eebf03d1d0118b800e24a&chksm=e9817fb4def6f6a28e29807fd818513230286ac7c40df1a687e16c08e2dd9f61588536d42860&token=434953675&lang=zh_CN#rd)
+
+  本文介绍了基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
+
+## 关于 Apache APISIX
+
+Apache APISIX 是一个动态、实时、高性能的开源 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 可以帮忙企业快速、安全的处理 API 和微服务流量，包括网关、Kubernetes Ingress 和服务网格等。
+
+![](https://static.apiseven.com/202108/1632809996672-0d345992-1566-4340-80c0-8c665221e414.jpg)
+
+- [Apache APISIX GitHub](https://github.com/apache/apisix)
+- [Apache APISIX 官网](https://apisix.apache.org/)
+- [Apache APISIX 文档](https://apisix.apache.org/zh/docs/apisix/getting-started)
