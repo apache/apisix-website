@@ -27,7 +27,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## Good first issue
 
-### Issue [#5080]https://github.com/apache/apisix/issues/5080
+### Issue [#5080](https://github.com/apache/apisix/issues/5080)
 
 问题描述：问题描述：之前上游服务使用 IP 认证，实际的客户端 IP 是从 x-forwarded-for 请求头中获取的。现在需要改成网关HMAC认证，所以需要通过网关屏蔽上游 IP 认证。尝试通过代理重写插件修改 x-forwarded-for，但是没有生效：
 
