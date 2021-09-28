@@ -1,16 +1,16 @@
 ---
 title: "百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验"
+author: 张强
 keywords: 
 - Apache APISIX
-- 金山办公
 - API 网关
-- 百万级 QPS
+- 金山办公
+- WPS
 description: 本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
 tags: [User Case]
 ---
 
 > 本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
-> 作者张强，金山办公中台部门 SRE 网络负责人。
 
 <!--truncate-->
 
@@ -37,7 +37,7 @@ tags: [User Case]
 
 进一步调研时，我们发现了 [Apache APISIX](https://github.com/apache/apisix)。首先 Apache APISIX 的性能比 Kong 强，在 Apache APISIX 的 GitHub Readme 中有个非常详细的对比图，列出了两者的[性能测试差距](https://gist.github.com/membphis/137db97a4bf64d3653aa42f3e016bd01)，这与我们自己测试下来的数据基本一致。
 
-![对比图](https://static.apiseven.com/202108/1632796929580-a6d7847c-bba6-4417-a7f0-9c127313264e.png)
+![Apache APISIX 与 Kong 性能对比图](https://static.apiseven.com/202108/1632796929580-a6d7847c-bba6-4417-a7f0-9c127313264e.png)
 
 在架构方面，Apache APISIX 的 etcd 配置对我们而言是一项更优的选择。
 
