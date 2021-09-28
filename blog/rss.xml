@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Fri, 24 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 28 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/28/WPS-usercase</link>
+            <guid>百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验</guid>
+            <pubDate>Tue, 28 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？]]></title>
             <link>https://apisix.apache.org/blog/2021/09/24/youpaicloud-usercase</link>

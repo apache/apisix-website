@@ -2,11 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-09-24T00:00:00.000Z</updated>
+    <updated>2021-09-28T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
+        <id>百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/28/WPS-usercase"/>
+        <updated>2021-09-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。]]></summary>
+        <author>
+            <name>张强</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？]]></title>
         <id>Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？</id>
