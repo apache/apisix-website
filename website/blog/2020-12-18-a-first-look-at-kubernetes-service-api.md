@@ -4,12 +4,13 @@ author: "金卫"
 authorURL: "https://github.com/gxthrj"
 authorImageURL: "https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6d2bf19c426da6498b8888edc96509be649&v=4"
 keywords:
-- API Gateway
-- APISIX
-- Apache APISIX
-- Kubernetes Service APIs
+  - API Gateway
+  - APISIX
+  - Apache APISIX
+  - Kubernetes Service APIs
 description: 本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。
 tags: [Technology]
+draft: true
 ---
 
 > 本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。

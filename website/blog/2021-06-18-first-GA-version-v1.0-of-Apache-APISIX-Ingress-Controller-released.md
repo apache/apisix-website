@@ -4,11 +4,12 @@ author: "张晋涛"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
 keywords:
-- APISIX
-- Apache APISIX
-- Ingress Controller
+  - APISIX
+  - Apache APISIX
+  - Ingress Controller
 description: Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
 tags: [Release]
+draft: true
 ---
 
 > Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 `ApisixRoute`、`ApisixUpstream` 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。

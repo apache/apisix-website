@@ -4,12 +4,13 @@ author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
-- API 网关
-- APISIX
-- Apache APISIX
-- Release Notes
+  - API 网关
+  - APISIX
+  - Apache APISIX
+  - Release Notes
 description: Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
 tags: [Release]
+draft: true
 ---
 
 > Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
@@ -74,4 +75,4 @@ APISIX 添加了对 Nacos 服务发现功能的支持。
 
 `https://apisix.apache.org/docs/apisix/getting-started/`
 
-更详细的内容可以参考 2.6 版本的 Changelog 和 GitHub 上 Apache APISIX  的提交记录。
+更详细的内容可以参考 2.6 版本的 Changelog 和 GitHub 上 Apache APISIX 的提交记录。

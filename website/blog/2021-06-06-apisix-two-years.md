@@ -4,10 +4,11 @@ author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
-- APISIX
-- opensource
+  - APISIX
+  - opensource
 description: Apache APISIX is now two years old, thanks for all contributors.
 tags: [Release]
+draft: true
 ---
 
 > Apache APISIX 开源 2 周年啦！
