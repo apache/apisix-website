@@ -24,6 +24,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 ![本周贡献者名单](https://static.apiseven.com/202108/1632907894918-c455f40e-a175-4944-8fac-11c590d43786.jpg)
 
 ![本周新晋贡献者](https://static.apiseven.com/202108/1632908362102-b0b665e2-f37f-4a82-b8a3-68914925b565.jpg)
+
 ## Good first issue
 
 ### Issue [#5080](https://github.com/apache/apisix/issues/5080)
@@ -99,7 +100,6 @@ property "price" is required
 - [使用 Apache APISIX 进行集中式身份认证及进阶玩法](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488648&idx=1&sn=e197e8b03dad3c3c4d0e6712c4400a24&chksm=e9817f95def6f683f01152bd92275276fb980a0974598a66e0a53f7f0d26a22d1d3332299131&token=434953675&lang=zh_CN#rd)
 
   本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
-
 
 - [基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488681&idx=1&sn=bec77fe4042eebf03d1d0118b800e24a&chksm=e9817fb4def6f6a28e29807fd818513230286ac7c40df1a687e16c08e2dd9f61588536d42860&token=434953675&lang=zh_CN#rd)
 
