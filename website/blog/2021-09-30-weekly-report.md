@@ -23,7 +23,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ![本周贡献者名单](https://static.apiseven.com/202108/1632907894918-c455f40e-a175-4944-8fac-11c590d43786.jpg)
 
-![本周新晋贡献者](https://static.apiseven.com/202108/1632908159933-6df0f7d9-830f-463d-9073-6046ea0a5266.jpg)
+![本周新晋贡献者](https://z3.ax1x.com/2021/09/29/45pmjg.jpg)](https://imgtu.com/i/45pmjg)
 ## Good first issue
 
 ### Issue [#5080](https://github.com/apache/apisix/issues/5080)
