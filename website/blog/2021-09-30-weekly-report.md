@@ -95,7 +95,7 @@ property "price" is required
 
 - [支持 10 亿日流量的基础设施：当 Apache APISIX 遇上腾讯](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488353&idx=1&sn=4dc9f8d16b323f8b672cca9b565e0001&chksm=e981787cdef6f16a64b8af8d9b76d351a7838254f34a3d75514d9df9392c8e272087297b278e&token=434953675&lang=zh_CN#rd)：
 
-  本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站上的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+  通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
 
 - [使用 Apache APISIX 进行集中式身份认证及进阶玩法](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488648&idx=1&sn=e197e8b03dad3c3c4d0e6712c4400a24&chksm=e9817f95def6f683f01152bd92275276fb980a0974598a66e0a53f7f0d26a22d1d3332299131&token=434953675&lang=zh_CN#rd)
 
@@ -104,4 +104,4 @@ property "price" is required
 
 - [基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247488681&idx=1&sn=bec77fe4042eebf03d1d0118b800e24a&chksm=e9817fb4def6f6a28e29807fd818513230286ac7c40df1a687e16c08e2dd9f61588536d42860&token=434953675&lang=zh_CN#rd)
 
-  本文介绍了基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
+  通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
