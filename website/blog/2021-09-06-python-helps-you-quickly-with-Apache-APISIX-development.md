@@ -11,6 +11,7 @@ keywords:
 - apisix-python-plugin-runner
 - APISIX Python Plugin Runner 
 tags: [Practical Case]
+draft: true
 
 ---
 

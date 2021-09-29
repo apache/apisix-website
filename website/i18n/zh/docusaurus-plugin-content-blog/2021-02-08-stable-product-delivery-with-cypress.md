@@ -10,6 +10,7 @@ keywords:
 - Helm Chart
 description: This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/), implements stable product delivery with Cypress.
 tags: [Technology]
+draft: true
 ---
 
 > This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), became Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/), implements stable product delivery with Cypress.

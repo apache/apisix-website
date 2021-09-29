@@ -9,6 +9,7 @@ keywords:
 - API Gateway
 - Cypress
 tags: [Technology]
+draft: true
 ---
 
 > In the article ["Stable Product Delivery with Cypress"](/blog/2021/02/08/stable-product-delivery-with-cypress), we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient.This article will describe how to get APISIX Dashboard front-end E2E coverage using Cypress.

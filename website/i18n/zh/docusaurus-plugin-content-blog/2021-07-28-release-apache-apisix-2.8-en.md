@@ -9,6 +9,7 @@ keywords:
 - Apache APISIX 
 description: Apache APISIX version 2.8 is released!
 tags: [Release]
+draft: true
 ---
 
 > Apache APISIX version 2.8 is released!

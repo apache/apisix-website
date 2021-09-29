@@ -8,6 +8,7 @@ keywords:
 - Nginx
 description: 本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。
 tags: [User Case]
+draft: true
 ---
 
 > 本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。

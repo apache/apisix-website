@@ -9,6 +9,7 @@ keywords:
 - News
 Description: Apache APISIX has over 200 contributors in GitHub main repo!
 tags: [Release]
+draft: true
 ---
 
 > Apache APISIX has over 200 contributors in GitHub main repo!

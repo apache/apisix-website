@@ -9,6 +9,7 @@ keywords:
 - Apache APISIX 
 description: Apache APISIX 2.8 版本正式发布！
 tags: [Events]
+draft: true
 ---
 
 > Apache APISIX 2.8 版本正式发布！

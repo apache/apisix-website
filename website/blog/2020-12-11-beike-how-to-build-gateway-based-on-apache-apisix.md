@@ -2,17 +2,17 @@
 title: "贝壳找房：如何基于 Apache APISIX 搭建网关"
 author: "王辉"
 keywords:
-  - API 网关
-  - APISIX
-  - Apache APISIX
-  - Kong
-  - Nginx
+- API 网关
+- APISIX
+- Apache APISIX
+- Kong
+- Nginx
 description: 贝壳找房使用 Apache APISIX 作为生产系统的 API 网关，每天处理过亿的生产流量，性能优异，而且很稳定。正好 Apache APISIX 刚刚加入 Apache 孵化器，除了恭喜之外，我想来分享下贝壳找房当初为什么选择 Apache APISIX，以及使用过程中的一些心得。
 tags: [User Case]
 draft: true
 ---
 
-> 本文讲述了贝壳找房当初为什么选择 Apache APISIX 作为 API 网关，以及使用过程中的一些心得。
+> 本文讲述了贝壳找房当初为什么选择 Apache APISIX 作为API 网关，以及使用过程中的一些心得。
 
 <!--truncate-->
 
@@ -38,10 +38,10 @@ draft: true
 
 最终选择了 Apache APISIX，我的理由如下：
 
-- 在都能满足项目需求的前提下，Apache APISIX 学习成本低
-- Kong 的代码量庞大，后期维护也会带来难度
-- Apache APISIX 作者经常活跃于 OpenResty 社区，代码质量有保证
-- 最重要的一点就是接触过作者，有什么问题都可以快速的沟通
++ 在都能满足项目需求的前提下，Apache APISIX 学习成本低
++ Kong 的代码量庞大，后期维护也会带来难度
++ Apache APISIX 作者经常活跃于 OpenResty 社区，代码质量有保证
++ 最重要的一点就是接触过作者，有什么问题都可以快速的沟通
 
 官网的理由如下图所示：
 
@@ -49,17 +49,17 @@ draft: true
 
 ## Apache APISIX 能提供哪些能力？
 
-- 热更新和热插件
-- 动态负载均衡
-- 主动和被动健康检测
-- 熔断器
-- 身份认证
-- 限流限速
-- gRPC 协议转换
-- 动态 TCP/UDP、gRPC、websocket、MQTT 代理
-- 控制台
-- 黑白名单
-- Serverless
++ 热更新和热插件
++ 动态负载均衡
++ 主动和被动健康检测
++ 熔断器
++ 身份认证
++ 限流限速
++ gRPC 协议转换
++ 动态 TCP/UDP、gRPC、websocket、MQTT 代理
++ 控制台
++ 黑白名单
++ Serverless
 
 Apache APISIX 已经发布了接近十个版本了，它所支持的功能远不止这些了。结合业务情况绘制了架构图，如下：
 
@@ -79,7 +79,7 @@ Apache APISIX 已经发布了接近十个版本了，它所支持的功能远不
 
 经过几周的观察线上服务很稳定，Apache APISIX 0.5 版本的很多功能都是得用通过 API 接口调用实现的，请求参数比较容易出现语法错误，没有页面来的直观方便，还有一点就是我的业务场景需要有对上游服务的探活功能。就是这么巧 Apache APISIX 0.7 版本发布了，0.7 版本支持了控制台和上游服务探活，真是个喜大普奔的好消息啊，升级。
 
-Apache APISIX 分支升级到 0.7 很方便，我咋合并代码呢？两个版本代码改动非常大，先尝试一下合并，我的天啊，这冲突太多了，搞死的节奏啊，普通的解决冲突的方法不现实了，这么多处手一抖还会出现一下隐藏的 bug，有没有啥高效的方法呢？搜索了一下找到了快捷方法 git checkout --ours 和 git checkout --theirs（没用过的自行搜索哈），几分钟完成 APISIX 0.5 到 0.7 的升级，很痛快。当然这也是得益于 APISIX 代码的健壮，我只需要添加业务插件即可，完全零耦合。
+Apache APISIX 分支升级到 0.7 很方便，我咋合并代码呢？两个版本代码改动非常大，先尝试一下合并，我的天啊，这冲突太多了，搞死的节奏啊，普通的解决冲突的方法不现实了，这么多处手一抖还会出现一下隐藏的 bug，有没有啥高效的方法呢？搜索了一下找到了快捷方法 git checkout --ours 和 git checkout --theirs（没用过的自行搜索哈），几分钟完成 APISIX  0.5 到 0.7 的升级，很痛快。当然这也是得益于 APISIX 代码的健壮，我只需要添加业务插件即可，完全零耦合。
 
 Apache APISIX 0.7 版本提供了控制台了，不用再拼 json 了，舒服。赶紧测试一下自己关心的健康检测吧，一开始没什么问题，能够清晰的感知上游服务的状态，但我观察上游服务的日志发现，经过几次启停，健康检测功能探活的频率好像变快了，应该是健康检测有 bug，简单的阅读一下相关的代码，发现创建的每个路由的 checker 不是全局唯一的，而是每个 work 创建了一个，发现问题就好办了，创建的 work 都用一个 name 就能保证全局唯一了，虽然改动很小，但还是赶紧提交了一个 PR。
 

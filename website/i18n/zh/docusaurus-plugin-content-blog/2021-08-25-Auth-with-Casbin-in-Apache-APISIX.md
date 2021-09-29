@@ -9,6 +9,7 @@ keywords:
 - RBAC
 description: When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.
 tags: [Practical Case]
+draft: true
 ---
 
 > Apache APISIX released authz-casbin plugin to integrate with Casbin.

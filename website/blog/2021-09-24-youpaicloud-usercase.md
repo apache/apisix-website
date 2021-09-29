@@ -8,6 +8,7 @@ keywords:
 - 容器网关
 description: 本文介绍了又拍云选择 Apache APISIX Ingress 后所带来公司内部网关架构的更新与调整，同时分享了在使用过程中的一些实践场景介绍。
 tags: [User Case]
+draft: true
 ---
 
 > 本文介绍了又拍云选择 Apache APISIX Ingress 后所带来公司内部网关架构的更新与调整，同时分享了在使用过程中的一些实践场景介绍。

@@ -4,15 +4,14 @@ author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
-  - 开源之夏
-  - APISIX
-  - 开源社区
-  - 经验分享
+- 开源之夏
+- APISIX
+- 开源社区
+- 经验分享
 description: 本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会
 tags: [Interview]
 draft: true
 ---
-
 > 本次采访邀请到了去年参加编程之夏的两位同学，两位同学现在都是 Apache APISIX 的 committer，也是今年社区项目的导师
 
 <!--truncate-->
@@ -71,7 +70,7 @@ draft: true
 
 **Q：泽平，今年你成为了社区项目的导师，关于这个角色的转变，有什么想和大家分享一下的吗？**
 
-**泽平**：去年作为学生参加编程之夏活动时，得到了不少指导与帮助，如果你今年选择参加 Apache APISIX 社区的项目，我同样也会为你提供帮助，让你更快的上手项目开发。
+**泽平**：去年作为学生参加编程之夏活动时，得到了不少指导与帮助，如果你今年选择参加 Apache  APISIX 社区的项目，我同样也会为你提供帮助，让你更快的上手项目开发。
 
 **Q：对想参加编程之夏 2021 的大学生，你有什么话想对各位同学说？**
 
