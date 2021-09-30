@@ -24,7 +24,7 @@ tags: [Interview]
 
 当前，我主要关注于对象存储在交互编排、流量治理等方面的能力，促进我们第四代对象存储产品进一步实现架构升级。同时，我们也希望能够基于 Ingress Controller 的能力，来实现统一流量访问入口，并包括灰度发布、流量管控等功能。这些是我们当前正在做的一些工作。
 
-![China-Mobile-ChenYanshan](../static/img/blog_img/2021-08-09-chenyanshan.png)
+![China-Mobile-ChenYanshan](../../../static/img/blog_img/2021-08-09-chenyanshan.png)
 
 **Q：您说的这些内容多少都与 Apache APISIX 有关联，您在今年 ApacheCon 亚洲大会上也有一场分享，想问下您会带来哪些精彩分享?**
 
