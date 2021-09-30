@@ -1,5 +1,5 @@
 ---
-title: "Release Apache APISIX 2.10"
+title: "Release Apache APISIX 2.10.0"
 author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
@@ -8,21 +8,21 @@ keywords:
 - API Gateway
 - Release Notes
 - APISIX 2.10
-description: Apache APISIX 2.10 is released!
+description: Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.
 tags: [Release]
 ---
 
-> Apache APISIX 2.10 is released!
+> Apache APISIX 2.10.0 is released!
 
 <!--truncate-->
 
-Apache APISIX 2.10 is officially released! 🎉 This is the first LTS release of Apache APISIX with support for 10+ new features and new plugins. Have a quick read to learn about the new features in version 2.10!
+Apache APISIX 2.10.0 is officially released! 🎉 This is the first LTS release of Apache APISIX with support for 10+ new features and new plugins. Have a quick read to learn about the new features in version 2.10.0!
 
 ## Milestone: The First LTS Release
 
-This 2.10 release is a milestone for Apache APISIX, as Apache APISIX 2.10 is our first LTS (Long Time Support) release.
+This 2.10.0 release is a milestone for Apache APISIX, as Apache APISIX 2.10.0 is our first LTS (Long Time Support) release.
 
-We will be releasing subsequent patch versions on top of Apache APISIX 2.10, i.e. 2.10.1, 2.10.2, etc. These releases will backport bugfixes from the main branch.
+We will be releasing subsequent patch versions on top of Apache APISIX 2.10.0, i.e. 2.10.1, 2.10.2, etc. These releases will backport bugfixes from the main branch.
 
 In October, we plan to release the first patch for the first LTS version, Apache APISIX 2.10.1.
 
@@ -30,9 +30,9 @@ We will then release alternating version lines 2.10.x (e.g. 2.10.2) and 2.x (e.g
 
 ## New Feature: Add Hosts Attribute to Service
 
-In Apache APISIX 2.10, we added the `hosts` property to `service`. Like the other fields in `service`, `route` can inherit the `hosts` attribute from `service`.
+In Apache APISIX 2.10.0, we added the `hosts` property to `service`. Like the other fields in `service`, `route` can inherit the `hosts` attribute from `service`.
 
-For example, the following configurations are equivalent in Apache APISIX 2.10:
+For example, the following configurations are equivalent in Apache APISIX 2.10.0:
 
 ```json
 # services/1
@@ -104,9 +104,9 @@ In addition to the Python Plugin Runner, our community partners are also develop
 
 ## Download
 
-In addition to the above new features and components, the Apache APISIX 2.10 release introduces more than a dozen new features and plugins, for details please see the [Change log](https://github.com/apache/apisix/blob/release/2.10/) corresponding to this release CHANGELOG.md#2100).
+In addition to the above new features and components, the Apache APISIX 2.10.0 release introduces more than a dozen new features and plugins, for details please see the [Change log](https://github.com/apache/apisix/blob/release/2.10/) corresponding to this release CHANGELOG.md#2100).
 
-Download Apache APISIX 2.10
+Download Apache APISIX 2.10.0
 
 - Source code: Please visit [Download page](https://apisix.apache.org/downloads/)
 - Binary installation package: Please visit [Installation Guide](https://apisix.apache.org/docs/apisix/how-to-build/)
