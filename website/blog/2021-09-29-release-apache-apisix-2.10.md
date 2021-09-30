@@ -72,7 +72,7 @@ Apache APISIX 2.10 版本正式发布！🎉 这是 Apache APISIX 首个 LTS 版
 
 ## 新功能：支持设置镜像请求的比例
 
-proxy-mirror 插件支持设置镜像请求的比例，是用户们一直在期待的功能，我们在 Apache APISIX 2.10上支持了这个功能。
+proxy-mirror 插件支持设置镜像请求的比例，是用户们一直在期待的功能，我们在 Apache APISIX 2.10 上支持了这个功能。
 
 通过设置 `sample_ratio`，可以控制被镜像到测试服务的请求数量。比如，下述的配置将 `sample_ratio` 设置为 0.5，会将一半的请求镜像到测试服务上：
 
