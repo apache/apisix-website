@@ -8,7 +8,7 @@ keywords:
 - Release Notes
 - Apache APISIX 
 description: Apache APISIX 2.8 版本正式发布！
-tags: [Events]
+tags: [Release]
 draft: true
 ---
 
