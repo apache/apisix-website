@@ -20,7 +20,7 @@ ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年�
 
 ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。
 
-![ApacheCon Asia 2021](../static/img/blog_img/2021-07-25-1.png)
+![ApacheCon Asia 2021](../../../static/img/blog_img/2021-07-25-1.png)
 
 近期 ApacheCon Asia 2021 团队正式公布了大会日程，Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富，欢迎关注。同时，ApacheCon Asia 2021 也为无法参加在线会议的各位开源爱好者提供了每个议题的回放和录播视频，详情请移步 [Apache Local Community 北京本地社区](https://space.bilibili.com/609014805)。
 
@@ -38,7 +38,7 @@ Apache APISIX 是 Apache 顶级项目，也是全球最活跃的开源网关项�
 
 ### 分享嘉宾
 
-![陈焱山](../static/img/blog_img/2021-07-25-2.png)
+![陈焱山](../../../static/img/blog_img/2021-07-25-2.png)
 
 陈焱山 —  毕业后一直从事分布式存储软件开发及架构方案设计工作，深度参与了移动云建设过程，重点完成了对象存储相关的主要技术方案选型及落地开发建设工作。同时，在分布式对象存储领域拥有丰富的实战经验，目前正在思考基于APISIX七层网关实现对象存储流量治理工作，实现架构进一步升级。
 
@@ -56,7 +56,7 @@ Apache APISIX 是 Apache 顶级项目，也是全球最活跃的开源网关项�
 
 ### 分享嘉宾
 
-![陈军旭](../static/img/blog_img/2021-07-25-3.png)
+![陈军旭](../../../static/img/blog_img/2021-07-25-3.png)
 
 陈军旭 —  互联网老兵，曾任职于新浪、迅雷、360等知名互联网公司，Apache APISIX Committer。
 
@@ -74,7 +74,7 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 ### 分享嘉宾
 
-![吴舒旸](../static/img/blog_img/2021-07-25-4.png)
+![吴舒旸](../../../static/img/blog_img/2021-07-25-4.png)
 
 吴舒旸 — Apache APISIX 和 Chaos Mesh 的 Committer，他领导了Chaos Mesh 与 Apache APISIX CI 的整合工作。
 
@@ -90,7 +90,7 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 ### 分享嘉宾
 
-![朱欣欣](../static/img/blog_img/2021-07-25-5.png)
+![朱欣欣](../../../static/img/blog_img/2021-07-25-5.png)
 
 朱欣欣 — Apache APISIX Committer，有多年 CDN 工作经验，熟悉网关。
 
@@ -106,7 +106,7 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 ### 分享嘉宾
 
-![王院生](../static/img/blog_img/2021-07-25-6.png)
+![王院生](../../../static/img/blog_img/2021-07-25-6.png)
 
 王院生 — 开源爱好者 Apache APISIX 创始人和 PMC 成员。
 
@@ -122,7 +122,7 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 ### 分享嘉宾
 
-![张超](../static/img/blog_img/2021-07-25-7.png)
+![张超](../../../static/img/blog_img/2021-07-25-7.png)
 
 张超 — Apache APISIX PMC，OpenResty贡献者，开源爱好者，现在正在研究 Service Mesh、Kubernetes 和 API Gateway。
 
@@ -142,7 +142,7 @@ Apache APISIX是最受欢迎的API网关之一：https://github.com/apache/apisi
 
 ### 分享嘉宾
 
-![罗泽轩](../static/img/blog_img/2021-07-25-8.png)
+![罗泽轩](../../../static/img/blog_img/2021-07-25-8.png)
 
 罗泽轩 —  Apache APISIX PMC，OpenResty 开发者。
 
@@ -158,7 +158,7 @@ Apache APISIX是最受欢迎的API网关之一：https://github.com/apache/apisi
 
 ### 分享嘉宾
 
-![金卫](../static/img/blog_img/2021-07-25-9.png)
+![金卫](../../../static/img/blog_img/2021-07-25-9.png)
 
 金卫  — Apache APISIX PMC，Apache apisix-ingress-controller Founder，Apache Skywalking Committer。
 
