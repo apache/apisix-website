@@ -70,7 +70,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/35 -H 'X-API-KEY: xxxxxxxxxxxxxxx
         "type":"roundrobin",
         "discovery_type":"eureka"
     }
-}’
+}'
 ```
 
 使用以下命令对其进行测试时，
