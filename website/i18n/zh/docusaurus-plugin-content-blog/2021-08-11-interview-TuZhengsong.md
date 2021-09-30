@@ -23,7 +23,7 @@ tags: [Interview]
 
 历时 282 天，屠正松（GitHub ID：tzssangglass）从开源社区的小白成长为了 Apache APISIX 的 committer。
 
-![Apache APISIX committer tzssangglass github](../static/img/blog_img/2021-08-11-1.webp)
+![Apache APISIX committer tzssangglass github](../../../static/img/blog_img/2021-08-11-1.webp)
 
 屠正松因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
 
@@ -80,7 +80,7 @@ tags: [Interview]
 
 当时正松内心非常的兴奋，马上按照那个新手指南的引导把 PR 提上去了。然后接受 Code Review 的意见，进一步修改代码。终于，在 10 月 18 号，PR 顺利地 merge 进了仓库。
 
-![Apache APISIX committer tzssangglass pr](../static/img/blog_img/2021-08-11-2.webp)
+![Apache APISIX committer tzssangglass pr](../../../static/img/blog_img/2021-08-11-2.webp)
 
 “当时我非常的激动，感觉自己终于实质性地参与到开源社区里面去了。我可以给 Apache 基金会的顶级项目提交代码了！作为一个技术工作者，这是一种技术上的自信。”
 
