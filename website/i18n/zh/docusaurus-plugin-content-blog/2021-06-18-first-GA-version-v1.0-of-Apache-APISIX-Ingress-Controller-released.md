@@ -25,7 +25,7 @@ Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面�
 
 整体架构如下：
 
-![Apache APISIX Ingress Controller 架构图](../static/img/blog_img/2021-06-18-1.png)
+![Apache APISIX Ingress Controller 架构图](../../../static/img/blog_img/2021-06-18-1.png)
 
 ## v1.0 最新特性
 
