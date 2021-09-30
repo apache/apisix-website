@@ -2,11 +2,33 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-09-28T00:00:00.000Z</updated>
+    <updated>2021-09-29T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.10.0]]></title>
+        <id>Release Apache APISIX 2.10.0</id>
+        <link href="https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10-en"/>
+        <updated>2021-09-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！]]></title>
+        <id>Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！</id>
+        <link href="https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10"/>
+        <updated>2021-09-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。]]></summary>
+        <author>
+            <name>罗泽轩</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
         <id>百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验</id>
@@ -144,6 +166,17 @@
         <link href="https://apisix.apache.org/blog/2021/08/30/weekly-report"/>
         <updated>2021-08-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.9]]></title>
+        <id>Release Apache APISIX 2.9</id>
+        <link href="https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9-en"/>
+        <updated>2021-08-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX version 2.9 is released!]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>

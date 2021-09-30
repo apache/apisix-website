@@ -4,9 +4,23 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 28 Sep 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 29 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Release Apache APISIX 2.10.0]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10-en</link>
+            <guid>Release Apache APISIX 2.10.0</guid>
+            <pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10</link>
+            <guid>Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！</guid>
+            <pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。]]></description>
+        </item>
         <item>
             <title><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
             <link>https://apisix.apache.org/blog/2021/09/28/WPS-usercase</link>
@@ -104,6 +118,13 @@
             <guid>Apache APISIX 社区周报 ｜ 2021 8.23-8.29</guid>
             <pubDate>Mon, 30 Aug 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Release Apache APISIX 2.9]]></title>
+            <link>https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9-en</link>
+            <guid>Release Apache APISIX 2.9</guid>
+            <pubDate>Fri, 27 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX version 2.9 is released!]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX 2.9 正式发布，带来更多新功能！]]></title>
