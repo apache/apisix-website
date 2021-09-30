@@ -71,13 +71,13 @@ OpenID 认证过程有以下 7 个步骤，如下图所示。
 ### 步骤一：配置 Okta
 
 1. 登录你的 Okta 账号，并创建一个 Okta 应用，选择 OIDC 登录模式以及 Web Application 应用类型。
-    ![创建一个 Okta 应用](../static/img/blog_img/2021-08-16-4.png)
-    ![选择 OIDC 登录模式以及 Web Application 应用类型](../static/img/blog_img/2021-08-16-5.png)
+    ![创建一个 Okta 应用](../../../static/img/blog_img/2021-08-16-4.png)
+    ![选择 OIDC 登录模式以及 Web Application 应用类型](../../../static/img/blog_img/2021-08-16-5.png)
 2. 设置登录和登出的跳转 URL。
 其中 “Sign-in redirect URIs” 为登录成功允许跳转的链接地址，“Sign-out redirect URIs” 表示登出之后跳转的链接地址。在这个示例中，我们将登录成功跳转和登出之后跳转的链接地址都设置为 `http://127.0.0.1:9080/`。
-    ![设置登录和登出的跳转 URL](../static/img/blog_img/2021-08-16-6.png)
+    ![设置登录和登出的跳转 URL](../../../static/img/blog_img/2021-08-16-6.png)
 3. 完成设置以后，单击“Save”保存修改。
-    ![保存修改](../static/img/blog_img/2021-08-16-7.png)
+    ![保存修改](../../../static/img/blog_img/2021-08-16-7.png)
 4. 访问应用的 General 页面，获取以下配置，配置 Apache APISIX OpenID Connect 时需要提供这些信息：
 
 - Client ID：OAuth client ID，即应用的 ID，与下文的 `client_id`  和 `{YOUR_CLIENT_ID}` 对应。
