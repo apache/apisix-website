@@ -20,9 +20,9 @@ Apache APISIX 2.10 版本正式发布！🎉 这是 Apache APISIX 首个 LTS 版
 
 ## 里程碑：第一个 LTS 版本
 
-对于 Apache APISIX 来说，本次发布的 2.10.0 是一个具有里程碑意义的版本，因为 Apache APISIX 2.10.0 是我们的第一个 LTS （Long Time Support）的版本。
+对于 Apache APISIX 来说，本次发布的 2.10 是一个具有里程碑意义的版本，因为 Apache APISIX 2.10 是我们的第一个 LTS （Long Time Support）的版本。
 
-我们会在 Apache APISIX 2.10.0 的基础上发布后续的 patch 版本，也就是 2.10.1、2.10.2 等版本。这些版本会从主分支上 backport bugfix。
+我们会在 Apache APISIX 2.10 的基础上发布后续的 patch 版本，也就是 2.10.1、2.10.2 等版本。这些版本会从主分支上 backport bugfix。
 
 按计划，10 月份我们会发布首个 LTS 版本的首个 patch 版本，也就是 Apache APISIX 2.10.1。
 
@@ -30,7 +30,7 @@ Apache APISIX 2.10 版本正式发布！🎉 这是 Apache APISIX 首个 LTS 版
 
 ## 新功能：service 增加 hosts 属性
 
-在 Apache APISIX 2.10.0 版本里面，我们给 `service` 加上了 `hosts` 属性。就像 `service` 里面其他字段一样，`route` 可以从 `service` 中继承 `hosts` 属性。
+在 Apache APISIX 2.10 版本里面，我们给 `service` 加上了 `hosts` 属性。就像 `service` 里面其他字段一样，`route` 可以从 `service` 中继承 `hosts` 属性。
 
 下面的配置：
 
@@ -106,7 +106,7 @@ Python 是一门有着深厚群众基础的编程语言，一直以容易上手�
 
 ## 下载
 
-除了上述新功能和组件外，Apache APISIX 2.10.0 版本还引入了十余个新功能和插件，详情请查看本次发布对应的 [Change log](https://github.com/apache/apisix/blob/release/2.10.0/CHANGELOG.md#2100)。
+除了上述新功能和组件外，Apache APISIX 2.10 版本还引入了十余个新功能和插件，详情请查看本次发布对应的 [Change log](https://github.com/apache/apisix/blob/release/2.10/CHANGELOG.md#2100)。
 
 下载 Apache APISIX 2.10
 
