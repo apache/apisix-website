@@ -17,11 +17,11 @@ tags: [Events]
 
 [罗泽轩](https://github.com/spacewander)，Apache APISIX PMC，OpenResty 的核心开发者，git-extras 项目的 Maintainer，擅长 C、Golang 和 Lua，撰写过多篇技术干货，推荐阅读《 [为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？](https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua)》《[差之毫厘：etcd 3 完美支持 HTTP 访问？](https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly)》。
 
-![罗泽轩](https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png width="30%")
+<img src="https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png" width = "50%" height = "50%" alt="泽轩" align=center />
 
 [温铭](https://github.com/moonming)，Apache Member，Apache APISIX PMC Chair，OpenResty 的核心开发者，前 360 开源技术委员会委员，十余年开发经验。著有极客时间专栏《[OpenResty从入门到实战](https://time.geekbang.org/column/intro/186)》。
 
-![温铭](https://static.apiseven.com/202108/1633068755501-b52403ee-c43a-4da7-9ca7-46bc457da6fa.png width="30%")
+<img src="https://static.apiseven.com/202108/1633068755501-b52403ee-c43a-4da7-9ca7-46bc457da6fa.png" width = "50%" height = "50%" alt="温铭" align=center />
 
 Apache APISIX 从开源第一天就以社区方式成长，Apache APISIX 的小伙伴不仅仅在本社区活跃，还积极参与到其他社区的开源项目中，这正是开源精神的体现，开源不仅仅是开放源代码，更是开放的社区、开放的心态，社区间合作互助，大家一起贡献更好用的开源产品。
 
