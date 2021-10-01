@@ -17,7 +17,7 @@ tags: [Events]
 
 [罗泽轩](https://github.com/spacewander)，Apache APISIX PMC，OpenResty 的核心开发者，git-extras 项目的 Maintainer，擅长 C、Golang 和 Lua，撰写过多篇技术干货，推荐阅读《 [为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？](https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua)》《[差之毫厘：etcd 3 完美支持 HTTP 访问？](https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly)》。
 
-<img src="https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png" alt="罗泽轩" style={{width: 200px"}} />
+<img src="https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png" alt="罗泽轩" style={{width: "200px"}} />
 
 [温铭](https://github.com/moonming)，Apache Member，Apache APISIX PMC Chair，OpenResty 的核心开发者，前 360 开源技术委员会委员，十余年开发经验。著有极客时间专栏《[OpenResty从入门到实战](https://time.geekbang.org/column/intro/186)》。
 
