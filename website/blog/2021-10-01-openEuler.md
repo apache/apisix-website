@@ -17,17 +17,17 @@ tags: [Events]
 
 [罗泽轩](https://github.com/spacewander)，Apache APISIX PMC，OpenResty 的核心开发者，git-extras 项目的 Maintainer，擅长 C、Golang 和 Lua，撰写过多篇技术干货，推荐阅读《 [为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？](https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua)》《[差之毫厘：etcd 3 完美支持 HTTP 访问？](https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly)》。
 
-![罗泽轩](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=OWIxMDkxNmZkMjFlYjU3NGQyNzU2MjI2MjZkZjc5MDZfMzlCRzdSUXJtbllNZXAwMTljaVljcGUxa0JUdTVrYUJfVG9rZW46Ym94Y25yNEFwV3pPMjBnemhGZjZDQkdqOTJiXzE2MzMwNjgzMDA6MTYzMzA3MTkwMF9WNA)
+![罗泽轩](https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png){:height="50%" width="50%"}
 
 [温铭](https://github.com/moonming)，Apache Member，Apache APISIX PMC Chair，OpenResty 的核心开发者，前 360 开源技术委员会委员，十余年开发经验。著有极客时间专栏《[OpenResty从入门到实战](https://time.geekbang.org/column/intro/186)》。
 
-![温铭](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=YzI2YzViZGFhOTk5NTU1MzY1Y2I5MzkxZTNmODMzZjFfSTlwODllU0dCMGdURlMxZnJ6b0I0ZzhhbEdqc1FLVG1fVG9rZW46Ym94Y25ISmJLZk1hUGRaUHdzUjd1c2hTMU1nXzE2MzMwNjgzMDA6MTYzMzA3MTkwMF9WNA)
+![温铭](https://static.apiseven.com/202108/1633068755501-b52403ee-c43a-4da7-9ca7-46bc457da6fa.png){:height="50%" width="50%"}
 
 Apache APISIX 从开源第一天就以社区方式成长，Apache APISIX 的小伙伴不仅仅在本社区活跃，还积极参与到其他社区的开源项目中，这正是开源精神的体现，开源不仅仅是开放源代码，更是开放的社区、开放的心态，社区间合作互助，大家一起贡献更好用的开源产品。
 
 除了两位社区成员，还要多介绍一下 Apache APISIX。 openEuler 第一个社区创新版（21.09）极大丰富了云原生相关的基础设施，[Apache APISIX ](https://github.com/apache/apisix)天然拥有云原生的优势，支持裸金属、虚拟机、Kubernetes、ARM64、公有云、混合云等多种部署模式，期待 Apache APISIX 在 openEuler 上应用于更多业务、更多场景。
 
-![Apache APISIX 生态](https://tfzcfxawmk.feishu.cn/space/api/box/stream/download/asynccode/?code=NzY5MWMxMzMyM2Y0MWM5NmI5MWQwOTUxNjllZTUwODJfN05BNGZLNnlGdWNmNTRLcE5VdTZnQkIxQ1ZQOXlxMkFfVG9rZW46Ym94Y25aM05LdmFBR2VSSE9qNUpDckc5U2JjXzE2MzMwNjgzMDA6MTYzMzA3MTkwMF9WNA)
+![Apache APISIX 生态](https://static.apiseven.com/202108/1633068859274-4db4d50e-2646-433b-94cf-b75727bf877e.png)
 
 ## 关于 OpenEuler
 
