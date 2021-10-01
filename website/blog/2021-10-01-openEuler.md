@@ -25,7 +25,7 @@ tags: [Events]
 
 Apache APISIX 从开源第一天就以社区方式成长，Apache APISIX 的小伙伴不仅仅在本社区活跃，还积极参与到其他社区的开源项目中，这正是开源精神的体现，开源不仅仅是开放源代码，更是开放的社区、开放的心态，社区间合作互助，大家一起贡献更好用的开源产品。
 
-除了两位社区成员，还要多介绍一下 Apache APISIX。 openEuler 第一个社区创新版（21.09）极大丰富了云原生相关的基础设施，[Apache APISIX ](https://github.com/apache/apisix)天然拥有云原生的优势，支持裸金属、虚拟机、Kubernetes、ARM64、公有云、混合云等多种部署模式，期待 Apache APISIX 在 openEuler 上应用于更多业务、更多场景。
+除了两位社区成员，还要多介绍一下 Apache APISIX。 openEuler 第一个社区创新版（21.09）极大丰富了云原生相关的基础设施，[Apache APISIX](https://github.com/apache/apisix)天然拥有云原生的优势，支持裸金属、虚拟机、Kubernetes、ARM64、公有云、混合云等多种部署模式，期待 Apache APISIX 在 openEuler 上应用于更多业务、更多场景。
 
 ![Apache APISIX 生态](https://static.apiseven.com/202108/1633068859274-4db4d50e-2646-433b-94cf-b75727bf877e.png)
 
