@@ -10,6 +10,7 @@ keywords:
 - 经验分享
 description: 本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会
 tags: [Interview]
+draft: true
 ---
 > 本次采访邀请到了去年参加编程之夏的两位同学，两位同学现在都是 Apache APISIX 的 committer，也是今年社区项目的导师
 

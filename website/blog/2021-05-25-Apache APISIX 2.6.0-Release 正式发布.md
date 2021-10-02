@@ -10,6 +10,7 @@ keywords:
 - Release Notes
 description: Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
 tags: [Release]
+draft: true
 ---
 
 > Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。

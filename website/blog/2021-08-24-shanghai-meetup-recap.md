@@ -9,6 +9,7 @@ keywords:
 - 回顾
 description: 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
 tags: [Events]
+draft: true
 ---
 
 > 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。

@@ -10,6 +10,7 @@ keywords:
 date: "2021-08-10"
 description: 本文转发自陶辉个人博客，主要介绍了基于APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
 tags: [Technology]
+draft: true
 ---
 
 > 本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。

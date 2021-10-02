@@ -8,6 +8,7 @@ keywords:
 - 服务发现
 description: 本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
 tags: [User Case]
+draft: true
 ---
 
 > 爱奇艺在之前有开发了一款网关——Skywalker，它是基于 Kong 做的二次开发，目前流量使用也是比较大的，网关存量业务日常峰值为百万级别 QPS，API 路由数量上万。但这款产品的不足随着使用也开始逐步体现。今年在交接到此项目后，我们根据上述问题和困境，开始对相关网关类产品做了一些调研，然后发现了 Apache APISIX。在选择 Apache APISIX 之前，爱奇艺平台已经在使用 Kong 了，但是后来 Kong 被放弃了。

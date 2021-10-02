@@ -11,6 +11,7 @@ keywords:
 - 集中认证
 description: 本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。
 tags: [Practical Case]
+draft: true
 ---
 
 > 相比较传统认证模式，集中认证模式下有如下优点：第一，简化应用开发流程，降低开发应用工作量和维护成本，避免各个应用重复开发身份认证代码；第二，提高业务的安全性，集中身份认证模式在网关层面能够及时拦截未经身份认证的请求，保护后端的应用。

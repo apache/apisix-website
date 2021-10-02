@@ -10,6 +10,7 @@ keywords:
 - 插件
 description: Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
 tags: [Practical Case]
+draft: true
 ---
 
 > Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
