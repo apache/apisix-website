@@ -10,7 +10,6 @@ keywords:
 - APISIX 2.10.0
 description: Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。
 tags: [Release]
-draft: true
 ---
 
 > Apache APISIX 2.10.0 版本正式发布！
