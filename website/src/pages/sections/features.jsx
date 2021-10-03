@@ -51,7 +51,7 @@ const Features = () => {
     let tl;
     let observers = [];
 
-    if(window.innerWidth > 1100) {
+    if(screenWidth > 1100) {
       tl = gsap.timeline({
         defaults: {
           ease: "linear" 
@@ -111,14 +111,7 @@ const Features = () => {
         it.observe(elems[index]);
       });
     }
-
-    return ()=>{
-      ScrollTrigger.getAll().forEach(t => t.kill());
-      if(window.innerWidth > 1100) {
-        tl.pause(0).kill(true);
-      }
-    }
-  }, []);
+  });
 
   return (
     <>

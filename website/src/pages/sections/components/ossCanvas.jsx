@@ -5,8 +5,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import "../../../css/customTheme.css";
  
 const OssCanvas = () => {
-  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' && window.innerWidth);
-  const [screenHeight, setScreenHeight] = useState(typeof window !== 'undefined' && window.innerWidth);
+  let screenWidth, screenHeight;
 
   const canvasRef = useRef(null);
 
@@ -15,12 +14,14 @@ const OssCanvas = () => {
   useEffect(() => {
     let camera, scene, renderer, material, mesh;
     
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight;
     window.addEventListener('resize', onWindowResize, false);
     
     let controls;
     let isLoaded = false, isRendering = false, animationFrame;
     
-    if (screenWidth > 800) {
+    if (screenWidth > 1100) {
       canvasHeight = 500;
       canvasWidth = screenWidth/2;
     } else {
@@ -29,8 +30,17 @@ const OssCanvas = () => {
     }
 
     function onWindowResize(event) {
-      setScreenHeight(window.innerHeight);
-      setScreenWidth(window.innerWidth);
+      screenHeight = window.innerHeight;
+      screenWidth = window.innerWidth;
+
+      if (screenWidth > 1100) {
+        canvasHeight = 500;
+        canvasWidth = screenWidth/2;
+      } else {
+        canvasHeight = 500
+        canvasWidth = screenWidth;
+      }
+  
       renderer.setSize(canvasWidth, canvasHeight);
     }
     

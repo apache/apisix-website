@@ -26,7 +26,7 @@ const HeroCanvas = () => {
 
     window.addEventListener('resize', onWindowResize, false);
   
-    if (screenWidth > 800) {
+    if (screenWidth > 1100) {
       canvasHeight = screenHeight;
       canvasWidth = screenWidth / 2;
     } else {
@@ -188,6 +188,14 @@ const HeroCanvas = () => {
       screenHeight = window.innerHeight;
       screenWidth = window.innerWidth;
 
+      if (screenWidth > 1100) {
+        canvasHeight = screenHeight;
+        canvasWidth = screenWidth / 2;
+      } else {
+        canvasHeight = screenHeight / 2;
+        canvasWidth = screenWidth;
+      }
+      
       renderer.setSize(canvasWidth, canvasHeight);
       material.uniforms.u_resolution.value.x = renderer.domElement.width;
       material.uniforms.u_resolution.value.y = renderer.domElement.height;

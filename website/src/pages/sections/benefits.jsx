@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import gsap from "gsap"
@@ -21,8 +21,24 @@ const Benefits = (props) => {
   const multiplatform = useRef(null);
 
   gsap.registerPlugin(ScrollTrigger);
-  
-  const screenWidth = props.screenWidth;
+
+  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' && window.innerWidth);
+  const [screenHeight, setScreenHeight] = useState(typeof window !== 'undefined' && window.innerWidth);
+
+  useEffect(()=>{
+    setScreenHeight(window.innerHeight);
+    setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', resizeEvent, false);
+
+    function resizeEvent(event) {
+      setScreenHeight(window.innerHeight);
+      setScreenWidth(window.innerWidth);
+    }
+
+    return () => {
+      window.removeEventListener('resize', resizeEvent);
+    }
+  }, [])
 
   useEffect(() => {
     let tweenTls = [];
@@ -232,54 +248,84 @@ const Benefits = (props) => {
   }, [])
 
   useEffect(() => {
-    let tl;
-    if(window.innerWidth <= 768)
-    {
-      tl = gsap.timeline({
-        defaults: {
-          ease: "linear" 
-        },
-        scrollTrigger: {
-          trigger: triggerDiv.current,
-          start: "top top",
-          pin: triggerDiv.current,
-          scrub: 1,
-          end: "+=500%"
-        }
-      });
-  
-      tl.to(performance.current,{
-        opacity: 0,
-      })
-      .to(security.current,{
-        opacity: 1,
-      })
-      .to(security.current,{
-        opacity: 0,
-      })
-      .to(scale.current,{
-        opacity: 1, 
-      })
-      .to(scale.current,{
-        opacity: 0, 
-      })
-      .to(dynamic.current,{
-        opacity: 1, 
-      })
-      .to(dynamic.current,{
-        opacity: 0, 
-      })
-      .to(multiplatform.current,{
-        opacity: 1, 
-      });
-    }
-    return () => {
-      if(window.innerWidth <= 768) {
-        tl.pause(0).kill(true);
-        ScrollTrigger.getAll().forEach(t => t.kill());
+    ScrollTrigger.saveStyles([
+      performance.current,
+      security.current,
+      scale.current,
+      dynamic.current,
+      multiplatform.current,
+    ]);
+
+    ScrollTrigger.matchMedia({
+      "(max-width: 1100px)": () => {
+        const tl = gsap.timeline({
+          defaults: {
+            ease: "linear" 
+          },
+          scrollTrigger: {
+            id: 'benefits-scrolltrigger',
+            trigger: triggerDiv.current,
+            start: "top top",
+            pin: triggerDiv.current,
+            scrub: 1,
+            end: "+=500%"
+          }
+        });
+        tl.fromTo(performance.current,{
+          opacity: 1,
+        },{
+          opacity: 0,
+        })
+        .fromTo(security.current,{
+          opacity: 0,
+        },{
+          opacity: 1,
+        })
+        .to(security.current,{
+          opacity: 0,
+        })
+        .fromTo(scale.current,{
+          opacity: 0, 
+        }, {
+          opacity: 1
+        })
+        .to(scale.current,{
+          opacity: 0, 
+        })
+        .fromTo(dynamic.current,{
+          opacity: 0, 
+        }, {
+          opacity: 1
+        })
+        .to(dynamic.current,{
+          opacity: 0, 
+        })
+        .fromTo(multiplatform.current,{
+          opacity: 0, 
+        }, {
+          opacity: 1,
+        });
+      },
+      "(min-width: 1101px)": () => {
+        const tl = gsap.timeline();
+        tl.to(performance.current,{
+          opacity: 1,
+        })
+        .to(security.current,{
+          opacity: 1,
+        })
+        .to(scale.current,{
+          opacity: 1,
+        })
+        .to(dynamic.current,{
+          opacity: 1,
+        })
+        .to(multiplatform.current,{
+          opacity: 1,
+        });
       }
-    }
-  },[])
+    });
+  },[]);
   
   return (
     <>

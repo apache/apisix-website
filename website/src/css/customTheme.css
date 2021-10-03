@@ -1039,7 +1039,7 @@ a:hover {
 }
 
 /* Mobile-phones and tablet styles */
-@media only screen and (min-device-width: 360px) and (max-device-width: 768px) {
+@media only screen and (min-width: 300px) and (max-width: 1050px) {
   .hero-sec-wrap{
     display: block;
     height: fit-content;
@@ -1062,7 +1062,7 @@ a:hover {
 
   .hero-title {
     width: 100vw;
-    font-size: 3.2rem;
+    font-size: 3.4rem;
   }
   
   .hero-subtitle {
@@ -1083,6 +1083,10 @@ a:hover {
 
   .hldesign-graphic{
     width: 100%;
+  }
+
+  .arch-scale-svg {
+    display: none;
   }
 
   .arch-card-border {
@@ -1229,7 +1233,7 @@ a:hover {
   }
 }
 
-@media only screen and (min-device-height: 500px) and (max-device-height: 670px) {
+@media only screen and (min-height: 500px) and (max-height: 670px) {
   .benefit-infograph {
     width: 70%;
     padding: 0 0 60px 0;
@@ -1242,6 +1246,34 @@ a:hover {
 
 .bottom-pos {
   bottom: 34%;  
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1100px) {
+  .feat-container-d {
+    display: none;
+  }
+  .feat-container-m {
+    display: block;
+  }
+}
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 359px) {
+  .hero-title {
+    font-size: 3.0rem;
+  }
+
+  .endcta-text {
+    font-size: 2.0rem;
+  }
+
+  .arch-head, .compare-head, .testimonials-head, .docs-promo-head, .oss-promo-head {
+    left: 7%;
+    width: 93%;
+  }
+
+  .benefit .feat-desc {
+    font-size: 0.85rem;
+  }
 }
 
 @media (min-width: 1600px) and (max-width: 2080px) {
