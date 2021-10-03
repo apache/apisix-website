@@ -226,7 +226,7 @@ const HeroCanvas = () => {
   }, [])
 
   return (
-    <div style={{position: "relative"}}>
+    <div className="hero-infograph" style={{position: "relative"}}>
       <canvas ref={canvasRef} className="homeCanvas"></canvas>
       <div ref={overlayRef} className="homeCanvas-overlay"></div>
     </div>  

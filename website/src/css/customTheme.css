@@ -1039,7 +1039,11 @@ a:hover {
 }
 
 /* Mobile-phones and tablet styles */
-@media only screen and (min-width: 300px) and (max-width: 1050px) {
+@media only screen and (min-width: 300px) and (max-width: 1100px) {
+  body {
+    overflow-x: hidden !important;
+  }
+
   .hero-sec-wrap{
     display: block;
     height: fit-content;
@@ -1257,22 +1261,30 @@ a:hover {
   }
 }
 
-@media only screen and (min-device-width: 300px) and (max-device-width: 359px) {
+@media only screen and (min-device-width: 300px) and (max-device-width: 360px) {
   .hero-title {
-    font-size: 3.0rem;
+    font-size: 2.95rem;
   }
 
+  .hero-infograph {
+    overflow: hidden;
+  }
+  
   .endcta-text {
     font-size: 2.0rem;
   }
-
+  
   .arch-head, .compare-head, .testimonials-head, .docs-promo-head, .oss-promo-head {
     left: 7%;
     width: 93%;
   }
-
+  
   .benefit .feat-desc {
     font-size: 0.85rem;
+  }
+
+  .oss-promo-infograph {
+    overflow: hidden;
   }
 }
 
