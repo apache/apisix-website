@@ -22,23 +22,7 @@ const Benefits = (props) => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' && window.innerWidth);
-  const [screenHeight, setScreenHeight] = useState(typeof window !== 'undefined' && window.innerWidth);
-
-  useEffect(()=>{
-    setScreenHeight(window.innerHeight);
-    setScreenWidth(window.innerWidth);
-    window.addEventListener('resize', resizeEvent, false);
-
-    function resizeEvent(event) {
-      setScreenHeight(window.innerHeight);
-      setScreenWidth(window.innerWidth);
-    }
-
-    return () => {
-      window.removeEventListener('resize', resizeEvent);
-    }
-  }, [])
+  const screenWidth = props.screenWidth;
 
   useEffect(() => {
     let tweenTls = [];
