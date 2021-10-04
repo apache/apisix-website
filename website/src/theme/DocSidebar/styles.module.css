@@ -59,6 +59,8 @@
 
   .collapseSidebarButton {
     display: block !important;
+    width: 100%;
+    margin: 0;
     background-color: var(--ifm-button-background-color);
     height: 40px;
     position: sticky;
