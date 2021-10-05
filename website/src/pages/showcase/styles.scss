@@ -1,41 +1,41 @@
 .showcase {
-    .header {
-        padding-top: 0;
+  .header {
+    padding-top: 0;
 
-        .title {
-            color: var(--color-primary);
-            font-size: 50px;
-            font-weight: bold;
-        }
-
-        .tips {
-            font-size: 18px;
-        }
+    .title {
+      color: var(--color-primary);
+      font-size: 50px;
+      font-weight: bold;
     }
 
+    .tips {
+      font-size: 18px;
+    }
+  }
+
+  .content {
+    width: 100%;
+    padding: 50px 200px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .user-card {
+    padding: 30px 10px;
+
+    .logo {
+      max-width: 100px;
+      max-height: 40px;
+    }
+  }
+
+  .row {
+    margin: 0;
+  }
+
+  @media (max-width: 1200px) {
     .content {
-        width: 100%;
-        padding: 50px 200px;
-        display: flex;
-        flex-wrap: wrap;
+      padding: 50px 50px;
     }
-
-    .user-card {
-        padding: 30px 10px;
-
-        .logo {
-            max-width: 100px;
-            max-height: 40px;
-        }
-    }
-
-    .row {
-        margin: 0;
-    }
-
-    @media (max-width: 1200px) {
-        .content {
-            padding: 50px 50px;
-        }
-    }
+  }
 }

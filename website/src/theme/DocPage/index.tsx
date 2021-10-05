@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useState, useCallback} from 'react';
+import React, {ReactNode, useState, useCallback, useEffect} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';
@@ -46,6 +46,41 @@ function DocPageContent({
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
+  
+  useEffect(() => {
+    document.querySelector(".react-toggle").style.display = "block";
+    const currentPage = currentDocRoute.path.split("/")[2] || "";
+    switch (currentPage) {
+      case "general":
+        document.querySelectorAll(".navbar__link")[0].innerText = "General";
+        break;
+      case "apisix":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX®";
+        break;
+      case "dashboard":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Dashboard";
+        break;
+      case "ingress-controller":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Ingress Controller";
+        break;
+      case "helm-chart":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Helm Chart";
+        break;
+      case "docker":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Docker";
+        break;
+      case "java-plugin-runner":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Java Plugin Runner";
+        break;
+      case "go-plugin-runner":
+        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Go Plugin Runner";
+        break;
+    }
+    return () => {
+      document.querySelector(".react-toggle").style.display = "none";
+    }
+  }, []);
+
   const toggleSidebar = useCallback(() => {
     if (hiddenSidebar) {
       setHiddenSidebar(false);
