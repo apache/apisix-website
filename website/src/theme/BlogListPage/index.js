@@ -15,7 +15,7 @@ import { ThemeClassNames } from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 
 function BlogListPage(props) {
-  const { metadata, items, sidebar } = props;
+  const { metadata, items } = props;
   const {
     siteConfig: { title: siteTitle },
   } = useDocusaurusContext();
@@ -37,7 +37,8 @@ function BlogListPage(props) {
     };
     totalTags.forEach(item => {
       tagsCount[item] = (tagsCount[item] || 0) + 1;
-    })
+    });
+    localStorage.setItem('tagsTotal', JSON.stringify(tagsCount));
     setTagsCount(tagsCount);
   }, []);
 

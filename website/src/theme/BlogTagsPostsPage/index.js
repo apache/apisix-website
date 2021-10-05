@@ -7,15 +7,14 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
-import Link from '@docusaurus/Link';
 import BlogSidebar from '@theme/BlogSidebar';
-import Translate, {translate} from '@docusaurus/Translate';
-import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common'; // Very simple pluralization: probably good enough for now
+import { ThemeClassNames } from '@docusaurus/theme-common'; // Very simple pluralization: probably good enough for now
 
 function BlogTagsPostPage(props) {
-  const {metadata, items, sidebar} = props;
-  const {allTagsPath, name: tagName, count} = metadata;
-  const [tagsCount, setTagsCount] = useState();
+  const { metadata, items } = props;
+  const { name: tagName } = metadata;
+  const [, setTagsCount] = useState();
+  const tagsTotal = JSON.parse(localStorage.getItem('tagsTotal'));
 
   useEffect(() => {
     let totalTags = [];
@@ -47,18 +46,18 @@ function BlogTagsPostPage(props) {
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--3">
-            <BlogSidebar count={tagsCount} />
+            <BlogSidebar count={tagsTotal} />
           </div>
           <main className="col col--9">
-              {items.map(({content: BlogPostContent}) => (
-                <BlogPostItem
-                  key={BlogPostContent.metadata.permalink}
-                  frontMatter={BlogPostContent.frontMatter}
-                  metadata={BlogPostContent.metadata}
-                  truncated>
-                  <BlogPostContent />
-                </BlogPostItem>
-              ))}
+            {items.map(({ content: BlogPostContent }) => (
+              <BlogPostItem
+                key={BlogPostContent.metadata.permalink}
+                frontMatter={BlogPostContent.frontMatter}
+                metadata={BlogPostContent.metadata}
+                truncated>
+                <BlogPostContent />
+              </BlogPostItem>
+            ))}
           </main>
         </div>
       </div>
