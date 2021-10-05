@@ -1,0 +1,18 @@
+.backgroundBox {
+  position: absolute;
+  width: 100%;
+  min-height: 150px;
+  z-index: -1;
+}
+
+.titleBox {
+  position: relative;
+  margin-bottom: 50px !important;
+}
+
+.titleBox h1 {
+  margin-top: 2rem;
+  font-size: 4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}

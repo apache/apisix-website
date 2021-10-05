@@ -50,3 +50,27 @@
   height: 12px;
   background-color: #6A737D;
 }
+
+.container {
+  margin-bottom: 3rem !important;
+}
+
+.markdown {
+  margin: 16px 0 16px;
+}
+
+.authorBox {
+  display: flex;
+  align-items: center;
+}
+
+.authorImageBox {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+}
+
+.authorImageBox img {
+  border-radius: 50%;
+}

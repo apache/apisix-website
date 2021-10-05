@@ -10,14 +10,16 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import BlogSidebar from '@theme/BlogSidebar';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import { ThemeClassNames } from '@docusaurus/theme-common';
+
+import styles from './styles.module.css';
 
 function BlogListPage(props) {
-  const {metadata, items, sidebar} = props;
+  const { metadata, items, sidebar } = props;
   const {
-    siteConfig: {title: siteTitle},
+    siteConfig: { title: siteTitle },
   } = useDocusaurusContext();
-  const {blogDescription, blogTitle, permalink} = metadata;
+  const { blogDescription, blogTitle, permalink } = metadata;
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
   const [tagsCount, setTagsCount] = useState();
@@ -49,13 +51,22 @@ function BlogListPage(props) {
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_posts_list',
       }}>
+      <div className={styles.backgroundBox}></div>
       <div className="container margin-vert--lg">
+        <div className={styles.titleBox}>
+          <div className="row">
+            <div className="col col--12">
+              <h1>Blog</h1>
+              <span>We love open source.</span>
+            </div>
+          </div>
+        </div>
         <div className="row">
           <div className="col col--3">
             <BlogSidebar count={tagsCount} />
           </div>
           <main className="col col--9">
-            {items.map(({content: BlogPostContent}) => (
+            {items.map(({ content: BlogPostContent }) => (
               <BlogPostItem
                 key={BlogPostContent.metadata.permalink}
                 frontMatter={BlogPostContent.frontMatter}
