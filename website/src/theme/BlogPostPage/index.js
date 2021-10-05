@@ -8,16 +8,16 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
-import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
 import EditThisPage from '@theme/EditThisPage';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import { ThemeClassNames } from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
 
 function BlogPostPage(props) {
-  const {content: BlogPostContents, sidebar} = props;
-  const {frontMatter, metadata} = BlogPostContents;
-  const {title, description, nextItem, prevItem, editUrl} = metadata;
-  const {hide_table_of_contents: hideTableOfContents} = frontMatter;
+  const { content: BlogPostContents } = props;
+  const { frontMatter, metadata } = BlogPostContents;
+  const { title, description, nextItem, prevItem, editUrl } = metadata;
+  const { hide_table_of_contents: hideTableOfContents } = frontMatter;
   return (
     <Layout
       title={title}
@@ -33,8 +33,9 @@ function BlogPostPage(props) {
                 frontMatter={frontMatter}
                 metadata={metadata}
                 isBlogPostPage>
-                <BlogPostContents />
+                <Link onClick={() => history.back()}></Link>
               </BlogPostItem>
+              <BlogPostContents />
               <div>{editUrl && <EditThisPage editUrl={editUrl} />}</div>
               {(nextItem || prevItem) && (
                 <div className="margin-vert--xl">
