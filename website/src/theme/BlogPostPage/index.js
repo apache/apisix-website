@@ -33,7 +33,9 @@ function BlogPostPage(props) {
                 frontMatter={frontMatter}
                 metadata={metadata}
                 isBlogPostPage>
-                <Link onClick={() => history.back()}></Link>
+                <Link onClick={() => history.back()}>
+                  Back All
+                </Link>
               </BlogPostItem>
               <BlogPostContents />
               <div>{editUrl && <EditThisPage editUrl={editUrl} />}</div>
