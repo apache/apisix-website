@@ -14,7 +14,7 @@ function BlogTagsPostPage(props) {
   const { metadata, items } = props;
   const { name: tagName } = metadata;
   const [, setTagsCount] = useState();
-  const tagsTotal = JSON.parse(localStorage.getItem('tagsTotal'));
+  const tagsTotal = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('tagsTotal'));
 
   useEffect(() => {
     let totalTags = [];
