@@ -13,7 +13,7 @@ import { ThemeClassNames } from '@docusaurus/theme-common'; // Very simple plura
 function BlogTagsPostPage(props) {
   const { metadata, items } = props;
   const { name: tagName } = metadata;
-  const [, setTagsCount] = useState();
+  const [tagsCount, setTagsCount] = useState();
   const tagsTotal = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('tagsTotal'));
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function BlogTagsPostPage(props) {
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--3">
-            <BlogSidebar count={tagsTotal} />
+            <BlogSidebar count={tagsTotal || tagsCount} />
           </div>
           <main className="col col--9">
             {items.map(({ content: BlogPostContent }) => (

@@ -42,7 +42,7 @@ function BlogPostPage(props) {
                 })}
               </nav>
             </aside>
-            <main className="col col--8">
+            <main className="col col--7">
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}
