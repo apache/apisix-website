@@ -33,17 +33,6 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！]]></title>
-        <id>Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/09/29/release-apache-apisix-2.10"/>
-        <updated>2021-09-29T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。]]></summary>
-        <author>
-            <name>罗泽轩</name>
-            <uri>https://github.com/spacewander</uri>
-        </author>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
         <id>百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验</id>
         <link href="https://apisix.apache.org/zh/blog/2021/09/28/WPS-usercase"/>
@@ -295,14 +284,14 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[贡献者，是衡量开源项目的金指标]]></title>
-        <id>贡献者，是衡量开源项目的金指标</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects"/>
+        <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
+        <id>Contributors — The Golden Metric of OpenSource Projects</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en"/>
         <updated>2021-08-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文讲述了为什么贡献者数量变化是衡量开源项目的金指标。虽然 GitHub 已有的指标数量很多，例如 Star 数、Issue 数量和 PR 数量，但是这些指标都不能直观地反映出一个开源项目在一段时间内的变化趋势和活跃度。所以笔者 Yiyiyimu 提出了新的指标：贡献者增长和月度活跃贡献者，并创造了一款开源工具，其名为“献者图表”，方便 GitHub 用户使用这些指标来确认项目的活跃度。目前，多个开源项目已经在使用贡献者图表。]]></summary>
+        <summary type="html"><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.]]></summary>
         <author>
-            <name>吴舒旸</name>
-            <uri>https://github.com/Yiyiyimu</uri>
+            <name>Lien</name>
+            <uri>https://github.com/lilien1010</uri>
         </author>
     </entry>
     <entry>
@@ -369,14 +358,14 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 2.8 正式发布，带来更多新功能！]]></title>
-        <id>Apache APISIX 2.8 正式发布，带来更多新功能！</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8"/>
+        <title type="html"><![CDATA[Release Apache APISIX 2.8.0]]></title>
+        <id>Release Apache APISIX 2.8.0</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8-en"/>
         <updated>2021-07-28T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Apache APISIX 2.8 版本正式发布！]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX version 2.8 is released!]]></summary>
         <author>
-            <name>罗泽轩</name>
-            <uri>https://github.com/spacewander</uri>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
         </author>
     </entry>
     <entry>
@@ -432,14 +421,14 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 2.7.0-Release 正式发布]]></title>
-        <id>Apache APISIX 2.7.0-Release 正式发布</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/06/29/release-apache-apisix-2.7"/>
+        <title type="html"><![CDATA[Release Apache APISIX 2.7.0]]></title>
+        <id>Release Apache APISIX 2.7.0</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/06/29/release-apache-apisix-2.7-en"/>
         <updated>2021-06-29T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Apache APISIX 2.7.0-Release 正式发布！]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX 2.7.0 has been released!]]></summary>
         <author>
-            <name>罗泽轩</name>
-            <uri>https://github.com/spacewander</uri>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
         </author>
     </entry>
     <entry>

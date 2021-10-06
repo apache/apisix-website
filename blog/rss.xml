@@ -4,36 +4,15 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Fri, 01 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 29 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <item>
-            <title><![CDATA[Apache APISIX 社区成员助力 openEuler 发布第一个社区创新版]]></title>
-            <link>https://apisix.apache.org/blog/2021/10/01/openEuler</link>
-            <guid>Apache APISIX 社区成员助力 openEuler 发布第一个社区创新版</guid>
-            <pubDate>Fri, 01 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[来自 Apache APISIX 社区的罗泽轩和温铭在 openEuler 9 月 30 日发布的第一个社区创新版（ openEuler 21.09）中，为 OpenResty 迁移工作中做了非常多的贡献，让 OpenResty 可以在欧拉开源操作系统上平稳高效的运行。]]></description>
-        </item>
-        <item>
-            <title><![CDATA[社区周报｜新晋 committer 一位，功能亮点更新进行中]]></title>
-            <link>https://apisix.apache.org/blog/2021/09/30/weekly-report</link>
-            <guid>社区周报｜新晋 committer 一位，功能亮点更新进行中</guid>
-            <pubDate>Thu, 30 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
-        </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.10.0]]></title>
             <link>https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10-en</link>
             <guid>Release Apache APISIX 2.10.0</guid>
             <pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！]]></title>
-            <link>https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10</link>
-            <guid>Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！</guid>
-            <pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.9]]></title>
