@@ -13,11 +13,14 @@ import EditThisPage from '@theme/EditThisPage';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 
+import styles from './styles.module.css';
+
 function BlogPostPage(props) {
-  const { content: BlogPostContents } = props;
+  const { content: BlogPostContents, sidebar } = props;
   const { frontMatter, metadata } = BlogPostContents;
   const { title, description, nextItem, prevItem, editUrl } = metadata;
   const { hide_table_of_contents: hideTableOfContents } = frontMatter;
+
   return (
     <Layout
       title={title}
@@ -27,7 +30,18 @@ function BlogPostPage(props) {
       {BlogPostContents && (
         <div className="container margin-vert--lg">
           <div className="row">
-            <div className="col col--2"></div>
+            <aside className="col col--3">
+              <nav className={styles.sidebar}>
+                <h3>{sidebar.title}</h3>
+                {sidebar.items.map((item) => {
+                  return (
+                    <Link key={item.title} href={item.permalink}>
+                      <p>{item.title}</p>
+                    </Link>
+                  )
+                })}
+              </nav>
+            </aside>
             <main className="col col--8">
               <BlogPostItem
                 frontMatter={frontMatter}
