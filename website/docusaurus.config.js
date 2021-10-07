@@ -604,7 +604,7 @@ module.exports = {
             },
             {
               label: "Slack",
-              to: "https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg",
+              to: "https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ",
             },
             {
               label: "Twitter",
@@ -636,7 +636,7 @@ module.exports = {
       backgroundColor: "#e8433e",
       textColor: 'white',
       content:
-        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-nggtva4i-hDCsW1S35MuZ2g_2DgVDGg">join #apisix channel</a>! ⭐️',
+        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ">join #apisix channel</a>! ⭐️',
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
