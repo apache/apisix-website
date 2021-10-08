@@ -15,6 +15,13 @@
             <description><![CDATA[Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！]]></title>
+            <link>https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10</link>
+            <guid>Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！</guid>
+            <pubDate>Wed, 29 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。]]></description>
+        </item>
+        <item>
             <title><![CDATA[Release Apache APISIX 2.9]]></title>
             <link>https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9-en</link>
             <guid>Release Apache APISIX 2.9</guid>

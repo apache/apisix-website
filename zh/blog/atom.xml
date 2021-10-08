@@ -33,6 +33,17 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！]]></title>
+        <id>Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/09/29/release-apache-apisix-2.10"/>
+        <updated>2021-09-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持 10+ 个新功能和新插件。]]></summary>
+        <author>
+            <name>罗泽轩</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
         <id>百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验</id>
         <link href="https://apisix.apache.org/zh/blog/2021/09/28/WPS-usercase"/>
