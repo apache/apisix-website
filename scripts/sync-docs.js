@@ -5,6 +5,7 @@ const process = require("process");
 const listr = require("listr");
 const simpleGit = require("simple-git");
 const axios = require("axios");
+const semver = require('semver');
 
 const common = require("./common.js");
 
@@ -49,7 +50,8 @@ const tasks = new listr([
             if (ret.all) {
               projectReleases[project.name] = ret.all
                   .filter(release => release.includes("remotes/origin/release/"))
-                  .map(release => release.replace("remotes/origin/release/", ""));
+                  .map(release => release.replace("remotes/origin/release/", ""))
+                  .sort((a, b) => semver.compare(semver.coerce(a).version, semver.coerce(b).version));
             }
           }
         }
