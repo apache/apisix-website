@@ -104,7 +104,7 @@ In addition to the Python Plugin Runner, our community partners are also develop
 
 ## Download
 
-In addition to the above new features and components, the Apache APISIX 2.10.0 release introduces more than a dozen new features and plugins, for details please see the [Change log](https://github.com/apache/apisix/blob/release/2.10/) corresponding to this release CHANGELOG.md#2100).
+In addition to the above new features and components, the Apache APISIX 2.10.0 release introduces more than a dozen new features and plugins, for details please see the [Change log](https://github.com/apache/apisix/releases/tag/2.10.0) corresponding to this release.
 
 Download Apache APISIX 2.10.0
 
