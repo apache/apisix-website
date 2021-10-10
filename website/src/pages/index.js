@@ -7,7 +7,7 @@ import Features from "./sections/features";
 import Benefits from "./sections/benefits";
 import Comparison from "./sections/comparison";
 import OpensourcePromo from "./sections/opensourcePromo";
-import NewsSection from "./sections/newsSection";
+import HomeEventsSection from "./sections/home-events-section";
 import EndCTA from "./sections/endcta";
 import EventPosterCard from "./sections/components/eventPosterCard";
 
@@ -24,19 +24,19 @@ const useWindowSize = () => {
   return size;
 }
 
-const Index = (props) => {
+const Index = () => {
 
   const [screenWidth, screenHeight] = useWindowSize();
 
   return (
     <Layout>
       <HeroSection />
-      <Architecture screenWidth={screenWidth} screenHeight={screenHeight}/>
-      <Features screenWidth={screenWidth} screenHeight={screenHeight}/>
-      <Benefits screenWidth={screenWidth} screenHeight={screenHeight}/>
+      <Architecture screenWidth={screenWidth} screenHeight={screenHeight} />
+      <Features screenWidth={screenWidth} screenHeight={screenHeight} />
+      <Benefits screenWidth={screenWidth} screenHeight={screenHeight} />
       <Comparison />
       <OpensourcePromo />
-      <NewsSection />
+      <HomeEventsSection />
       <EndCTA />
       <EventPosterCard />
     </Layout>
