@@ -40,7 +40,7 @@ authz-casbin 插件可以把路由匹配和请求授权这两个功能很好地�
 authz-casbin 插件使用三个参数来进行授权：subject、object 和 action。subject 是用户名，代指请求中的用户；object 是将要被访问的 URL 链接也就是将被访问的资源；action 是请求授权的行为，比如读操作（read）或者是写操作（write）。
 假如，我们想要创建一个模型来访问三个资源：/，/res1，/res2，我们想要一个类似于这样的模型：
 
-![authz-casbin example](../../../static/img/blog_img/2021-08-18-1.png)
+![authz-casbin example](/img/blog_img/2021-08-18-1.png)
 
 在这个模型中，所有的用户，例如 Jack，可以访问主页面（/）。而像 Alice 和 Bob 具有管理员权限的用户则可以访问所有的页面和资源（/res1，/res2，/）。这样，我们就需要来限制没有管理员权限的用户只能使用 GET 请求方法访问特定的资源。所需要的模型如下：
 

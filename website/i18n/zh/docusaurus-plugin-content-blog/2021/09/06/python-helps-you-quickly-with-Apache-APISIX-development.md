@@ -41,7 +41,7 @@ tags: [Practical Case]
 之间的一道桥梁，通过 `Python Runner` 可以把 `Python` 直接应用到 `APISIX` 的插件开发中，最重要的还是希望让更多对 `Apache APISIX` 和 `API 网关` 感兴趣的 `Python开发者`
 通过这个项目更多的了解使用 `Apache APISIX`，以下为 `Apache APISIX` 多语言支持的架构图。
 
-![Apache APISIX work flow](../../../static/img/blog_img/2021-09-06-1.png)
+![Apache APISIX work flow](/img/blog_img/2021-09-06-1.png)
 
 上图左边是 `Apache APISIX` 的工作流程，右边的 `Plugin Runner` 是各语言的插件运行器，本文介绍的 `apisix-python-plugin-runner` 就是支持 `Python`
 语言的 `Plugin Runner`。

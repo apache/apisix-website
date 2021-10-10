@@ -44,7 +44,7 @@ Apache APISIX 是 Apache 基金会下的顶级项目，目前在生产环境中�
 
 #### 场景一
 
-![2021-06-16-1](../../../static/img/blog_img/2021-06-16-1.png)
+![2021-06-16-1](/img/blog_img/2021-06-16-1.png)
 
 用一幅图来描述这个场景。对照上面的五个步骤，首先需要找到衡量 Apache APISIX 正常运行的可量化指标。在测试时最主要的方法是利用 Grafana 对 Apache APISIX 运行指标进行监测，找到可衡量的指标后，在 CI 中就可以从 Prometheus 中单独提取数据进行比较判断，这里使用了路由转发的 Request per Second（RPS）和 etcd 的可连接性 作为评价指标。另一点就是需要对日志进行分析，对于 Apache APISIX 就是查看 Nginx 的 error.log 判断是否有报错以及报错是否符合预期。
 
@@ -52,7 +52,7 @@ Apache APISIX 是 Apache 基金会下的顶级项目，目前在生产环境中�
 
 #### 场景二
 
-![2021-06-16-2](../../../static/img/blog_img/2021-06-16-2.png)
+![2021-06-16-2](/img/blog_img/2021-06-16-2.png)
 
 进行同样的对照组实验之后引入 pod-kill chaos，复现了预期的错误。在随机删除集群中少数 etcd 节点的情况下，etcd 可连接性表现出时有时无，日志则打印出了大量连接拒绝的报错。更加有趣的是，在删除 etcd 端点列表的第一个或第三个节点时，设置路由正常返回，而只有在删除 etcd 端点列表中的第二个节点时，设置路由会报错 “connection refused”。
 

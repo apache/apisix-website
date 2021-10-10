@@ -43,4 +43,4 @@ tags: [Interview]
 
 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。[安全漏洞详情](https://nvd.nist.gov/vuln/detail/CVE-2020-13945)
 
-![2021-01-11-1](../../../static/img/blog_img/2021-01-11-1.png)
+![2021-01-11-1](/img/blog_img/2021-01-11-1.png)

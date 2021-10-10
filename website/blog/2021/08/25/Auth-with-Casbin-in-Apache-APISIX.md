@@ -44,7 +44,7 @@ The authz-casbin plugin uses three parameters for authorization: `subject`, `obj
 
 For example, if you want to create a model to access three resources: main page`/`, resource1 `/res1`, and resource2 `/res2`, you will need a model that looks like the figure below:
 
-![Authentication model](../static/img/blog_img/2021-08-25-1.png)
+![Authentication model](/img/blog_img/2021-08-25-1.png)
 
 In this model, all users, including Jack, have access to the main page `/`. Users with administrator privileges, such as Alice and Bob, can access all pages and resources (main page `/`, resource1 `/res1`, and resource 2 `/res2`). Thus, you need to restrict users without administrator privileges to access specific resources using the GET request method. The required model is shown in the code block below:
 

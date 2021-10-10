@@ -30,7 +30,7 @@ tips：疫情防控不放松，我们将会控制现场活动规模，名额有�
 
 ## 活动安排
 
-![Apache APISIX Meetup](../../../static/img/blog_img/2021-08-21-1.jpg)
+![Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
 
 ## 议题介绍
 
@@ -78,7 +78,7 @@ Apache APISIX 从开源第一天就以社区方式成长，短短两年时间产
 
 参加 Meetup，与讲师互动，有机会获得 Apache APISIX 最新周边：超大鼠标垫、精致马克杯、Apache APISIX 徽章、定制雨伞。
 
-![Apache APISIX Gift](../../../static/img/blog_img/2021-08-21-4.jpg)
+![Apache APISIX Gift](/img/blog_img/2021-08-21-4.jpg)
 
 ## 参与方式
 
@@ -90,10 +90,10 @@ Apache APISIX 从开源第一天就以社区方式成长，短短两年时间产
 
 如果不能到现场参加 Meetup，关注 Apache APISIX 视频号观看直播。
 
-![Apache APISIX Live](../../../static/img/blog_img/2021-08-21-2.png)
+![Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
 
 ## 入群交流
 
 欢迎关注 Apache APISIX 公众号，在后台回复关键字“上海”，加入 Apache APISIX 上海交流群。
 
-![Apache APISIX wechat](../../../static/img/blog_img/2021-08-21-3.png)
+![Apache APISIX wechat](/img/blog_img/2021-08-21-3.png)

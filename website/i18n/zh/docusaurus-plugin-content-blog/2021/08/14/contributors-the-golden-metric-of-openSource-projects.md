@@ -28,7 +28,7 @@ tags: [Community]
 
 - Issue 和 PR 数：GitHub 提供了 Insights 功能，如下图所示：
 
-![Apache APISIX GitHub Insights](../../../static/img/blog_img/2021-08-14-1.webp)
+![Apache APISIX GitHub Insights](/img/blog_img/2021-08-14-1.webp)
 
 可以选择最近一周、最近一个月的时间内，这个开源项目的 Issue 和 PR 的新建和关闭数。上图是 Apache APISIX 最近一个月的数据。
 
@@ -36,7 +36,7 @@ GitHub insights 提供了一个非常棒的开发者视角，但还不够完美�
 
 - Commit 频率和数据：下图是 Apache APISIX 从项目创建到现在的 Commit 频率统计，可以看出 Apache APISIX 保持了非常稳定和持续的开发，但这个指标也略显单薄：看不到提交这些 Commit 的开发者的数据；
 
-![Apache APISIX commits](../../../static/img/blog_img/2021-08-14-2.webp)
+![Apache APISIX commits](/img/blog_img/2021-08-14-2.webp)
 
 看到这里，你是不是觉得选择一个开源项目好复杂，看了这么多指标都得不出答案。有没有一个“金指标”，一个通过 marketing 砸不出来的指标？一个能够体现“开发者为核心”的指标？
 
@@ -44,11 +44,11 @@ GitHub insights 提供了一个非常棒的开发者视角，但还不够完美�
 
 ## 贡献者增长
 
-![Apache APISIX contributor growth](../../../static/img/blog_img/2021-08-14-3.webp)
+![Apache APISIX contributor growth](/img/blog_img/2021-08-14-3.webp)
 
 ## 月度活跃贡献者
 
-![Apache APISIX Monthly Active Contributors](../../../static/img/blog_img/2021-08-14-4.webp)
+![Apache APISIX Monthly Active Contributors](/img/blog_img/2021-08-14-4.webp)
 
 通过上面两个表格，你可以清晰的看到 Apache APISIX 从创办至今，贡献者都保持着稳定的增长，每个月都有 25 个左右的代码贡献者参与其中。
 
@@ -60,7 +60,7 @@ GitHub insights 提供了一个非常棒的开发者视角，但还不够完美�
 
 通过同时展示同一领域中的多个仓库，我们也可以直观比较不同社区的发展情况。
 
-![Apache APISIX compare the development of different communities](../../../static/img/blog_img/2021-08-14-5.webp)
+![Apache APISIX compare the development of different communities](/img/blog_img/2021-08-14-5.webp)
 
 在上图中，我们可以看到 Apache APISIX 的贡献者人数以非常快的速度增长，仅仅用了两年时间，贡献者人数就基本赶上甚至超越了其他开源网关项目。
 
@@ -68,13 +68,13 @@ GitHub insights 提供了一个非常棒的开发者视角，但还不够完美�
 
 相比贡献者增长曲线，月度贡献者可以更好衡量短时间内的社区发展情况。
 
-![Apache APISIX monthly contributors compare](../../../static/img/blog_img/2021-08-14-6.webp)
+![Apache APISIX monthly contributors compare](/img/blog_img/2021-08-14-6.webp)
 
 例如在上图中，我们可以看到如今 Apache APISIX 是多个开源网关项目中的月度贡献者人数最多、最稳定的。
 
 这也解释了为何 Apache APISIX 可以在开源后如此短的时间内在总贡献者人数上赶上友商们。
 
-![Apache APISIX monthly contributors](../../../static/img/blog_img/2021-08-14-7.webp)
+![Apache APISIX monthly contributors](/img/blog_img/2021-08-14-7.webp)
 
 上面这张比较开源消息中间件社区的月度贡献者的图，曾在推特引发热议。
 

@@ -26,7 +26,7 @@ APISIX 现在支持通过 Lua 语言编写插件，在代理请求的过程中�
 
 从 2.6 版本开始，借助 plugin runner，APISIX 支持运行非 Lua 语言编写的插件。架构图如下：
 
-![2021-05-25-1](../../../static/img/blog_img/2021-05-25-1.png)
+![2021-05-25-1](/img/blog_img/2021-05-25-1.png)
 
 APISIX 会以 sidecar 的形式运行 plugin runner。
 

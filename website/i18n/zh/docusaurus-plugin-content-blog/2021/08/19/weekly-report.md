@@ -36,7 +36,7 @@ tags: [Events]
 
 链接：https://github.com/apache/apisix/issues/4800  
 **问题描述**：Admin API 中关于创建 Route 入参 (vars) 的描述有错误.
-![issue](../../../static/img/event_img/issue_photo.png)
+![issue](/img/event_img/issue_photo.png)
 **解决方案**：在 json 中，方括号表示数组，而花括号表示对象。这里明显是想表述是数组嵌套数组的方式，但是用两个花括号在 json 里面是错误的书写方式。所以这里应该是方括号。
 
 ```json
