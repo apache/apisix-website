@@ -6,6 +6,8 @@ import OssCanvas from "./components/ossCanvas"
 
 import "../../css/customTheme.css";
 import GitHub from "../../assets/icons/github-logo.svg";
+
+// TODO: Load Video from YouTube
 import YtPromo from "../../assets/videos/apisix.mp4";
 
 const OpensourcePromo = (props) => {
