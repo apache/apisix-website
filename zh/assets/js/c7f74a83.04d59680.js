@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[98082],{98161:function(s){s.exports=JSON.parse('{"allTagsPath":"/zh/blog/tags","slug":"/zh/blog/tags/events","name":"Events","count":15,"permalink":"/zh/blog/tags/events"}')}}]);
