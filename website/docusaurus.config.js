@@ -229,11 +229,7 @@ module.exports = {
           routeBasePath: "/docs/general",
           sidebarPath: require.resolve("./docs/general/sidebars.json"),
           editUrl: function ({
-            locale,
-            version,
-            versionDocsDirPath,
             docPath,
-            permalink,
           }) {
             return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
           },
@@ -293,11 +289,9 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
         editUrl: function ({
           locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
+          // TODO: support Edit on multiple versions/branches
           return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
         },
       },
@@ -312,11 +306,7 @@ module.exports = {
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
         editUrl: function ({
-          locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
           return `https://github.com/apache/apisix-dashboard/edit/master/docs/en/latest/${docPath}`;
         },
@@ -334,11 +324,7 @@ module.exports = {
           "./docs/apisix-ingress-controller/sidebars.json"
         ),
         editUrl: function ({
-          locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
           return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/${docPath}`;
         },
@@ -354,11 +340,7 @@ module.exports = {
         routeBasePath: "/docs/helm-chart",
         sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
         editUrl: function ({
-          locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
           return `https://github.com/apache/apisix-helm-chart/edit/master/docs/en/latest/${docPath}`;
         },
@@ -374,11 +356,7 @@ module.exports = {
         routeBasePath: "/docs/docker",
         sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
         editUrl: function ({
-          locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
           return `https://github.com/apache/apisix-docker/edit/master/docs/en/latest/${docPath}`;
         },
@@ -394,11 +372,7 @@ module.exports = {
         routeBasePath: "/docs/java-plugin-runner",
         sidebarPath: require.resolve("./docs/apisix-java-plugin-runner/sidebars.json"),
         editUrl: function ({
-          locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
           return `https://github.com/apache/apisix-java-plugin-runner/edit/main/docs/en/latest/${docPath}`;
         },
@@ -414,11 +388,7 @@ module.exports = {
         routeBasePath: "/docs/go-plugin-runner",
         sidebarPath: require.resolve("./docs/apisix-go-plugin-runner/sidebars.json"),
         editUrl: function ({
-          locale,
-          version,
-          versionDocsDirPath,
           docPath,
-          permalink,
         }) {
           return `https://github.com/apache/apisix-go-plugin-runner/edit/master/docs/en/latest/${docPath}`;
         },
@@ -434,12 +404,8 @@ module.exports = {
         routeBasePath: "/docs/python-plugin-runner",
         sidebarPath: require.resolve("./docs/apisix-python-plugin-runner/sidebars.json"),
         editUrl: function ({
-                             locale,
-                             version,
-                             versionDocsDirPath,
-                             docPath,
-                             permalink,
-                           }) {
+          docPath,
+        }) {
           return `https://github.com/apache/apisix-python-plugin-runner/edit/master/docs/en/latest/${docPath}`;
         },
       },
