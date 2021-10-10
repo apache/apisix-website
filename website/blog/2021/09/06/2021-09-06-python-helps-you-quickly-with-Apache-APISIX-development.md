@@ -32,7 +32,7 @@ draft: true
 
 `Python` 语言作为一个解释型的高级编程语言，它 `语法简洁易上手`、`代码可读性好` ，在 `跨平台` 、`可移植性` 、`开发效率`
 上都有很好的表现，同时作为一个高级编程语言它的封装抽象程度比较高屏蔽了很多底层细节（例如：`GC`
-）让我们在开发的过程中可以更专注应用逻辑的开发。`Python` 作为一个有30年历史的老牌开发语言，它的生态以及各种模块已经非常完善，我们大部分的开发和应用场景都可以从社区中找到很成熟的模块或解决方案。`Python`
+）让我们在开发的过程中可以更专注应用逻辑的开发。`Python` 作为一个有 30 年历史的老牌开发语言，它的生态以及各种模块已经非常完善，我们大部分的开发和应用场景都可以从社区中找到很成熟的模块或解决方案。`Python`
 其他的优点就不再一一赘述。`Python` 的缺点也比较明显：`Python` 作为一门解释性语言，相较于 `C++` 和 `Go` 这样的编译型语言，在性能上的差距还是比较大的。
 
 ### Apache APISIX Python Runner
@@ -86,14 +86,14 @@ $ make install
 
 #### 开发模式
 
-##### 运行Python Runner
+##### 运行 Python Runner
 
 ```bash
 $ cd /path/to/apisix-python-plugin-runner
 $ APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock python3 apisix/main.py start
 ```
 
-##### 修改APISIX配置文件
+##### 修改 APISIX 配置文件
 
 ```bash
 $ vim /path/to/apisix/conf/config.yaml
@@ -108,7 +108,7 @@ ext-plugin:
 
 #### 生产模式
 
-##### 修改APISIX配置文件
+##### 修改 APISIX 配置文件
 
 ```bash
 $ vim /path/to/apisix/conf/config.yaml
@@ -121,7 +121,7 @@ ext-plugin:
   cmd: [ "python3", "/path/to/apisix-python-plugin-runner/apisix/main.py", "start" ]
 ```
 
-#### Python Runner配置（可选）
+#### Python Runner 配置（可选）
 
 如果需要对 `Log Level` 或 `Unix Domain Socket` 环境变量调整可以修改 `Runner` 的配置文件
 

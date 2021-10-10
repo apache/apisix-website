@@ -36,7 +36,7 @@ draft: true
 
 ## 介绍
 
-### Kubernetes Service APIs 号称第二代 Ingress 技术，到底在哪些方面优于第一代？
+### Kubernetes Service APIs 号称第二代 Ingress 技术，到底在哪些方面优于第一代
 
 Kubernetes Service APIs 设计之初，目标并没有局限在 Ingress， 而是为了增强 service networking，着重通过以下几点来增强：表达性、扩展性、RBAC。
 
@@ -62,7 +62,7 @@ matches:
 
 3. 面向角色 RBAC：多层 API 的实现，其中一个思想就是从使用者的角度去设计资源对象。这些资源最终会与 Kubernetes 上运行应用程序的常见角色进行映射。
 
-## Kubernetes Service APIs 抽象出了哪些资源对象？
+## Kubernetes Service APIs 抽象出了哪些资源对象
 
 Kubernetes Service APIs 基于使用者角色，将定义了以下几种资源：
 
@@ -94,7 +94,7 @@ GatewayClass, Gateway, Route
 
 通过 BackendPolicy 对象，可以配置 TLS、健康检查 以及指定后端服务类型，比如 service 还是 pod。
 
-## Kubernetes Service APIs 的推行会带来哪些改变？
+## Kubernetes Service APIs 的推行会带来哪些改变
 
 Kubernetes Service APIs 作为一种实现标准，带来了以下改变：
 
@@ -108,11 +108,11 @@ Kubernetes Service APIs 作为一种实现标准，带来了以下改变：
 
 5. 跨命名空间引用：跨不同命名空间的路由可以绑定到 Gateway。允许跨命名空间的互相访问。同时也可以限制某个 Gateway 下的 Route 可以访问的命名空间范围。
 
-## 目前有哪些 ingress 实现了 Kubernetes Service APIs ？
+## 目前有哪些 ingress 实现了 Kubernetes Service APIs
 
 目前已知的从代码层面能看到对 Kubernetes Service APIs 资源对象支持的 Ingress 有 Contour, ingress-gce。
 
-## Kubernetes Service APIs 如何管理资源读写权限？
+## Kubernetes Service APIs 如何管理资源读写权限
 
 Kubernetes Service APIs 按照使用者的维度分为 3 个角色
 
@@ -134,7 +134,7 @@ RBAC（基于角色的访问控制）是用于 Kubernetes 授权的标准。允�
 | Cluster Operators       | No           | Yes     | Yes   |
 | Application Developers  | No           | No      | Yes   |
 
-## Kubernetes Service APIs 有哪些扩展点？
+## Kubernetes Service APIs 有哪些扩展点
 
 网关的需求非常丰富，同一个场景实现的方式多种多样，各有利弊。Kubernetes Service APIs 提炼出 多层 资源对象，同时也预留了一些扩展点。
 
