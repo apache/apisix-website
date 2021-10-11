@@ -11,7 +11,7 @@ const HomeEventsSection = () => {
     .map((event) => {
       const publishTime = event.fileName.slice(0, 10);
       const splittedFileName = event.fileName.split("-");
-      const url = `/events/${splittedFileName
+      const url = `/blog/${splittedFileName
         .slice(0, 3)
         .join("/")}/${splittedFileName.slice(3).join("-")}`;
       return (
