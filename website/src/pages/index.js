@@ -37,9 +37,7 @@ const ThemeResetComponent = () => {
     }    
   }, [])
 
-  return (
-    <></>
-  );
+  return (null);
 };
 
 const Index = () => {
