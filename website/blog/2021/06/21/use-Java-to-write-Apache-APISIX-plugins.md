@@ -1,91 +1,89 @@
 ---
-title: "使用 Java 编写 Apache APISIX 插件"
-author: "屠正松"
+title: "How to Write an Apache APISIX Plugin in Java"
+author: "Zhengsong Tu"
 authorURL: "https://github.com/tzssangglass"
 authorImageURL: "https://avatars.githubusercontent.com/u/30819887?v=4"
 keywords:
 - APISIX
 - Apache APISIX
 - Java
-- 插件
-description: Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
+- plugin
+description: Apache APISIX now supports writing plugins in Java! You can now write plugins in a programming language you are familiar with.
 tags: [Practical Case]
 ---
 
-> Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
+> Apache APISIX now supports writing plugins in Java! You can now write plugins in a programming language you are familiar with.
 
 <!--truncate-->
-Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有**视频教程**。
 
-## 1. 简介
+## Introduction
 
-### 1.1 为什么 Apache APISIX 要支持多语言编写插件
+### Why Apache APISIX Supports Writing Plugins in Multiple Programming Languages?
 
-在支持多语言编程插件前，Apache APISIX 只支持使用 Lua 语言编写插件，需要开发者掌握 Lua 和 OpenResty 相关的开发能力。然而相对于主流开发语言 Java、Go 来说，Lua 和 OpenResty 属于相对小众的技术，开发者很少。如果从头开始学习 Lua 和 OpenResty，需要付出相当多的时间和精力。
+Apache APISIX has been supporting customized plugins since the day it was born. But it only supported plugins written in Lua. As a result, developers need to have Lua and OpenResty-related development skills to actually write their own plugins. However, Lua and OpenResty are relatively less popular languages with fewer developers compared to Java and Go. Besides, learning Lua and OpenResty from scratch requires a lot of time and effort.
 
-开发团队在进行技术选型的时候，最重要的考量就是所选技术是否与本团队技术栈相匹配，然而小众的技术栈就限制了 Apache APISIX 在更广阔的场景下进行技术落地。
+During technological selection, the most important consideration for the development team is whether the chosen product matches the team's technology stack. The niche technology stack limits Apache APISIX to become the first choice of API Gateway product in many scenarios.
 
-现在 Apache APISIX 支持多语言开发插件，**更重要的是支持语言所在的开发生态圈，使用者可以使用自己熟悉的技术栈来开发 Apache APISIX**。以支持 Java 为例，使用者不仅可以使用 Java 语言编写插件，还可以融入 Spring Cloud 生态圈，广泛使用生态圈内的各种技术组件。
+Now, Apache APISIX supports multi-language development plugins. More importantly, the development ecosystem where the language is supported, so users can use their familiar technology stack to develop Apache APISIX. With Apache APISIX supporting plugins written in Java, for example, users can not only write plugins in Java but also integrate into the Spring Cloud ecosystem and use a wide range of technical components within the ecosystem.
 
-### 1.2 Apache APISIX 多语言支持架构图
+### Multiple Programming Languages Architecture Diagram
 
-![2021-06-21-1](/img/blog_img/2021-06-21-1.png)
+![Multiple Programming Languages Architecture Diagram](/img/blog_img/2021-06-21-1.png)
 
-上图左边是 Apache APISIX 的工作流程，右边的 plugin runner 是指插件运行器，泛指多语言支持的项目。本文档下面提到的 apisix-java-plugin-runner 项目就是支持 Java 语言的 plugin runner。
+The left side of the diagram shows the workflow of Apache APISIX. The right side of the diagram is the plugin runner, which is a generic term for projects with multiple programming languages support. The apisix-java-plugin-runner is a plugin runner that supports the Java language.
 
-当你在 Apache APISIX 中配置一个 plugin runner 时，Apache APISIX 会启动一个子进程运行 plugin runner，该子进程与 Apache APISIX 进程属于同一个用户。当我们重启或重新加载 Apache APISIX 时，plugin runner 也将被重启。
+When you configure a plugin runner in Apache APISIX, Apache APISIX starts a subprocess to run the plugin runner, which belongs to the same user as the Apache APISIX process. When we restart or reload Apache APISIX, the plugin runner will also be restarted.
 
-如果你为一个给定的路由配置了 ext-plugin-* 插件，命中该路由的请求将触发  Apache APISIX，通过 unix socket 向 plugin runner 执行 RPC 调用。调用细分为两个阶段：
+If you configure the ext-plugin-* plugin for a given route, a request hitting that route will trigger Apache APISIX to perform an RPC call to the plugin runner via a Unix socket. The call is broken down into two phases:
 
-- ext-plugin-pre-req: 在执行 Apache APISIX 内置插件(Lua 语言插件)之前
-- ext-plugin-post-req: 在执行 Apache APISIX 内置插件(Lua 语言插件)之后
+- ext-plugin-pre-req: Before executing the Apache APISIX built-in plugin (Lua plugin)
+- ext-plugin-post-req: After executing the Apache APISIX built-in plugin (Lua plugin)
 
-根据需要配置 plugin runner 的执行时机。
+Please configure the timing of the plugin runner execution as needed.
+The plugin runner processes the RPC call, creates a simulated request inside it, and then runs the multiple programming languages written a plugin and returns the result to Apache APISIX.
 
-plugin runner 会处理 RPC 调用，在其内部创建一个模拟请求，然后运行多语言编写的插件，并将结果返回给 Apache APISIX。
+The order of execution of multiple programming languages plugins is defined in the ext-plugin-* plugin configuration entry. Like other plugins, they can be enabled and redefined on the fly.
 
-多语言插件的执行顺序是在 ext-plugin-* 插件配置项中定义的。像其他插件一样，它们可以被启用并在运行中重新定义。
+## Building Development Environment
 
-## 2. 搭建开发环境
+First, you need to build the Apache APISIX runtime or development environment, please refer to [Build Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md), and [Build apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/development.md).
 
-首先需要搭建 Apache APISIX 的运行环境或者开发环境，参考 [构建 Apache APISIX](https://github.com/apache/apisix/blob/master/docs/zh/latest/how-to-build.md)，以及 Java 项目的开发环境，参考 [构建 apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/development.md)。
+Note: Apache APISIX and apisix-java-plugin-runner need to be located on the same instance.
 
-**注意**：Apache APISIX 和 apisix-java-plugin-runner 需要位于同一实例上。
+## Enabling Debug Mode
 
-## 3. 进入调试模式
+### Configuring Apache APISIX into Debug Mode
 
-### 3.1 设置 Apache APISIX 进入调试模式
-
-这里是指让 Apache APISIX 以调试的方式运行外部插件，在 `config.yaml` 中增加以下配置
+When Apache APISIX is configured into debug mode, it is allowed to run external plugins in a debugging manner. Add the following configuration to `config.yaml` to enable debug mode for Apache APISIX.
 
 ```text
 ext-plugin:
   path_for_test: /tmp/runner.sock
 ```
 
-这个配置的意思是，Apache APISIX  相当于 client 端，会监听位于 `/tmp/runner.sock` 位置上的 Unxi Domain Socket 链接。
+The configuration above means that Apache APISIX acts as the client and listens to the Unix Domain Socket link located at `/tmp/runner.sock`.
 
-### 3.2 设置 apisix-java-plugin-runner 进入调试模式
+### Setting apisix-java-plugin-runner to Debug Mode
 
-在启动 `Main class(org.apache.apisix.plugin.runner.PluginRunnerApplication)`之前，需要配置用户级的环境变量 `APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock` 和 `APISIX_CONF_EXPIRE_TIME=3600`。
+Before starting the `Mainclass(org.apache.apisix.plugin.runner.PluginRunnerApplication)`, you need to configure the user-level environment variables `APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock and APISIX_CONF_EXPIRE_TIME=3600`.
 
-如果你是使用 IDEA 进行开发，那么配置好的环境变量示意如下：
+If you are using IDEA for development, the configured environment variables are shown below.
 
-![2021-06-21-2](/img/blog_img/2021-06-21-2.png)
+![configured environment](/img/blog_img/2021-06-21-2.png)
 
-apisix-java-plugin-runner 相当于 server 端，在启动时会主动创建 `/tmp/runner.sock` 文件，并在这个文件上与 Apache APISIX 进行 Unix Domain Socket 通信。
+apisix-java-plugin-runner is equivalent to the server side and will actively create the `/tmp/runner.sock` file at startup and communicate with Apache APISIX on this file for Unix Domain Socket.
 
-## 4. 开发
+## How to Develop a Java Plugin for Apache APISIX?
 
-### 4.1 场景
+### Scenario
 
-我们以一个场景来代入开发过程：需要验证请求 header 中 token 的有效性，验证 token 的方式是用请求中携带 token 作为参数，访问 SSO 固定的接口，如果 token 验证通过则放行请求，验证失败则阻止请求。
+Let's say we have a scenario like this: we need to verify the validity of the token in the request header. The way to verify the token is to carry the token as a parameter in the request and access the SSO fixed interface.
 
-### 4.2 配置 Apache APISIX
+### Configuring Apache APISIX
 
-先给插件命名为 `TokenValidator`，然后设计属性，为了尽可能做到动态配置，属性设计如下
+First, name the plugin `TokenValidator`, and then design the properties. In order to achieve dynamic configuration as far as possible, the properties are designed as follows.
 
-```text
+```json
 {
   "validate_header": "token",
   "validate_url": "https://www.sso.foo.com/token/validate",
@@ -93,9 +91,9 @@ apisix-java-plugin-runner 相当于 server 端，在启动时会主动创建 `/t
 }
 ```
 
-启动 Apache APISIX，然后新增一条路由配置，指定该路由需要调用 apisix-java-plugin-runner 的 `TokenValidator` 插件，示例如下
+Start Apache APISIX, then add a new route configuration specifying that the route requires a call to apisix-java-plugin-runner's `TokenValidator` plugin, as shown in the following example.
 
-```text
+```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri":"/get",
@@ -118,13 +116,11 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }
 ```
 
-需要注意的是，`TokenValidator` 的属性需要经过 json 转义，作为 string 类型进行配置。
+Note that the properties of `TokenValidator` need to be escaped by json and configured as string type (the upstream address here is configured as httpbin.org to simplify the debugging process).
 
-（这里上游地址配置为 httpbin.org，方便调试）
+### Developing a Java Plugin
 
-### 4.3 开发 Java 插件
-
-在 runner-plugin/src/main/java/org/apache/apisix/plugin/runner/filter 目录下，新增 `TokenValidatr.java`，代码初始骨架如下
+Add `TokenValidatr.java` with the following initial code skeleton In the `runner-plugin/src/main/java/org/apache/apisix/plugin/runner/filter` directory.
 
 ```Java
 package org.apache.apisix.plugin.runner.filter;
@@ -150,11 +146,7 @@ public class TokenValidator implements PluginFilter {
 }
 ```
 
-需要继承 `PluginFilter`接口，重写 `name` 和 `filter`函数。
-
-重写 `name` 的返回值，和前面配置 APISIX 的路由属性中 "name" 保持一致。
-
-完整代码如下：
+This plugin inherits the `PluginFilter` interface and overrides the `name` and the `filter` function. Rewrite the return value of `name` to be consistent with "name" in the route attribute of APISIX configuration earlier. The complete code is as follows.
 
 ```Java
 package org.apache.apisix.plugin.runner.filter;
@@ -206,11 +198,11 @@ public class TokenValidator implements PluginFilter {
 }
 ```
 
-### 4.4 测试
+### Testing the Plugin
 
-在 Apache APISIX 上配置的上游服务是 httpbin.org，可以访问 Apache APISIX，触发路由，让 Apache APISIX 调用 apisix-java-plugin-runner 去执行 TokenValidator 插件，测试一下 Java 插件效果。
+The upstream service configured on Apache APISIX is httpbin.org, which allows you to access Apache APISIX, trigger the route, and have Apache APISIX call apisix-java-plugin-runner to execute the TokenValidator plugin and test the functionality of the Java plugin.
 
-```text
+```shell
 curl -H 'token: 123456' 127.0.0.1:9080/get
 {
  "args": {},
@@ -227,11 +219,11 @@ curl -H 'token: 123456' 127.0.0.1:9080/get
 }
 ```
 
-## 5. 部署
+## Deploying the Plugin
 
-插件开发完成后，部署操作可以参考 [部署 apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/how-it-works.md#run)。
+After the development of the plugin is completed, the deployment operation can be found in referred to [Deploying apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/how-it-works.md#run).
 
-## 6. 视频教程
+## Video Tutorial
 
 <iframe
     height="350"

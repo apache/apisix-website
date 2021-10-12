@@ -85,7 +85,7 @@ apisix-java-plugin-runner 相当于 server 端，在启动时会主动创建 `/t
 
 先给插件命名为 `TokenValidator`，然后设计属性，为了尽可能做到动态配置，属性设计如下
 
-```text
+```json
 {
   "validate_header": "token",
   "validate_url": "https://www.sso.foo.com/token/validate",
@@ -95,7 +95,7 @@ apisix-java-plugin-runner 相当于 server 端，在启动时会主动创建 `/t
 
 启动 Apache APISIX，然后新增一条路由配置，指定该路由需要调用 apisix-java-plugin-runner 的 `TokenValidator` 插件，示例如下
 
-```text
+```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "uri":"/get",
@@ -210,7 +210,7 @@ public class TokenValidator implements PluginFilter {
 
 在 Apache APISIX 上配置的上游服务是 httpbin.org，可以访问 Apache APISIX，触发路由，让 Apache APISIX 调用 apisix-java-plugin-runner 去执行 TokenValidator 插件，测试一下 Java 插件效果。
 
-```text
+```shell
 curl -H 'token: 123456' 127.0.0.1:9080/get
 {
  "args": {},
