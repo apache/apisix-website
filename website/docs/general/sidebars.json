@@ -2,11 +2,12 @@
   "docs": {
     "General": [
       "security",
+      "2fa",
       "subscribe-guide",
       "contributor-guide",
       "committer-guide",
-      "2fa",
       "release-guide",
+      "community",
       "integrate-with-project-docs"
     ]
   }

@@ -13,7 +13,7 @@ description: This article explains Apache APISIX documents' directory structure,
 
 Put all Markdown files into the latest directory
 
-```
+```text
 /docs
 ├── assets
 │   ├── images
