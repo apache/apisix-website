@@ -1,4 +1,5 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import useThemeContext from '@theme/hooks/useThemeContext';
 import Layout from "@theme/Layout";
 
 import HeroSection from "./sections/heroSection";
@@ -24,6 +25,23 @@ const useWindowSize = () => {
   return size;
 }
 
+const ThemeResetComponent = () => {
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+
+  useEffect(() => {    
+    const children = document.querySelector(".navbar__items--right").childElementCount;
+    document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none";
+
+    if(isDarkTheme) {
+      setLightTheme(true);
+    }    
+  }, [])
+
+  return (
+    <></>
+  );
+};
+
 const Index = () => {
 
   const [screenWidth, screenHeight] = useWindowSize();
@@ -39,6 +57,7 @@ const Index = () => {
       <HomeEventsSection />
       <EndCTA />
       <EventPosterCard />
+      <ThemeResetComponent/>
     </Layout>
   );
 };
