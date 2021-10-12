@@ -146,6 +146,7 @@ root@apisix:~$ curl http://172.18.0.2:32763/get -H "HOST: httpbin.org"
 保存后，可看到如下界面：
 
 ![2021-06-23-8](/img/blog_img/2021-06-23-8.png)
+
 在终端下测试是否代理成功：
 
 ```shell
