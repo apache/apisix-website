@@ -1,6 +1,6 @@
 ---
-title: "Apache APISIX 和 Envoy 性能大比拼"
-author: "王院生"
+title: "Apache APISIX v.s Envoy: Which Has the Better Performance?"
+author: "Yuansheng Wang"
 authorURL: "https://github.com/membphis"
 authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords: 
@@ -9,52 +9,46 @@ keywords:
 - Apache APISIX
 - Service Mesh
 - API Gateway
-- 性能
-description: 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务。
+- Performance
+description: This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.
 tags: [Technology]
 ---
 
-> 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 Apache APISIX 在响应延迟和 QPS 层面都略优于 Envoy，Apache APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；而且 Apache APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力。
+> This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.
 
 <!--truncate-->
 
-> Source: https://www.apiseven.com/zh/blog/Apache-APISIX-and-Envoy-performance-comparison
+I learned about Envoy at the CNCF technology sharing session and did performance tests on Apache APISIX and Envoy after the session.
 
-在 CNCF 组织的一场技术分享会上，第一次听到了 Envoy 这么一个东西，分享的嘉宾巴拉巴拉讲了一大堆，啥都没记住，就记住了一个特别新颖的概念“通信总线”，后面 google 了下 Envoy 这个东西到底是什么，发现官网上如是描述：
+At a technical sharing session organized by CNCF, I heard about Envoy for the first time, and the guest speaker talked a lot about it, but all I can recall is a particularly novel concept “communication bus”. This is how the official website describes it.
 
-“Envoy 是专为大型现代 SOA（面向服务架构）架构设计的 L7 代理和通信总线”
+“Envoy is an L7 proxy and communication bus designed for large modern SOA (Service Oriented Architecture) architectures”
 
-也就是说， Envoy 是为了解决 Service Mesh 领域而诞生一款 L7 代理软件，这里我网上找了一张图，我理解的 Envoy 大概是如下的部署架构。（如果错了请大佬指教）
+In other words, Envoy is to solve the Server Mesh field and the birth of L7 proxy software. I found a diagram online. My understanding of Envoy is probably the following deployment architecture (please correct me if I am wrong).
 
-![Envoy arch](https://static.apiseven.com/202108/20210617001.png)
+Since it is a proxy software for L7, as an experienced user in the OpenResty community for many years, naturally I can’t help but use it to engage in comparison.
 
-既然是 L7 的代理软件嘛，作为常年混迹 OpenResty 社区的老司机，自然忍不住把它拿来搞一搞，对比对比。
+The object we chose to test is Apache APISIX, which is an API gateway based on OpenResty implementation. (In fact, it is also an L7 proxy and then added routing, authentication, flow restriction, dynamic upstream, and other features)
 
-我们选择的比试对象是 Apache APISIX，它是基于 OpenResty 实现的 API 网关。（其实也就是 L7 代理然后加了路由、认证，限流、动态上游等等之类的功能）
+Why did I choose it? Because once I heard about the great routing implementation of this product during a community share. Since our business routing system is in a mess, I downloaded the source code of Apache APISIX and found that it is an awesome API gateway, beating all similar products I’ve seen, so I was impressed by it!
 
-为什么选择它呢，因为有一次社区分享的时候听说这货的路由实现非常棒，正好我们的现在业务的路由系统乱七八糟，扒拉了下 APISIX 的源码，发现确实是 6 到飞起，吊打我看到过的同类产品， 所以印象深刻，就它了！
+Here is a diagram from the Apache APISIX official website, a diagram explains things better than words, you can see how Apache APISIX works.
 
-这里附上一张在 APISIX 官网扒拉的图，真是一图胜千言，一看就知道这玩意儿是怎么工作的。
+![APISIX architechture](https://static.apiseven.com/202108/20210617002.png)
 
-![APISIX arch](https://static.apiseven.com/202108/20210617002.png)
+Let’s get started, first we go to the official website to find the most versions of two products: Apache APISIX 1.5 and Envoy 1.14 (the latest version at the time of writing this article).
 
-开搞吧，首先我们去官网找到两个产品的最版本：
+## Build Environment Preparation
 
-Apache APISIX 1.5 和 Envoy 1.14
+- Stress test client: wrk.
+- Testing main metrics including: gateway latency, QPS and whether it scales linearly.
+- Test environment: Microsoft Cloud Linux (ubuntu 18.04), Standard D13 v2 (8 vcpus, 56 GiB memory).
+- Test method 1: single-core run for side-by-side comparison (since they are both based on epoll IO model, single-core crush test is used to verify their processing power).
+- Test method 2: using multicore to run a side-by-side comparison, mainly to verify whether their overall processing power can grow linearly under the scenario of adding more (processes|threads).
 
-（笔者在写这篇文章时的最新版）
+## 测试场景
 
-#### 构建环境准备
-
-- 压力测试客户端：wrk；
-- 测试主要指标包括：网关延迟、QPS 和是否线性扩展；
-- 测试环境：微软云 Linux (ubuntu 18.04)， Standard D13 v2 (8 vcpus, 56 GiB memory)；
-- 测试方式 1：采用单核运行横向对比（因为它们都是基于 epoll 的 IO 模型，所以用单核压测验证它们的处理能力）；
-- 测试方式 2：采用多核运行横向对比，主要是为了验证两者在添加多（进程|线程）的场景下其整体处理能力是否能够线性增长；
-
-#### 测试场景
-
-这里我们用 NGINX 搭建了一个上游服务器，配置 2 个 worker，接收到请求直接应答 4k 内容，参考配置如下:
+We built an upstream server with NGINX, configured it with 2 workers, and received a request to directly answer 4k content, with the following reference configuration:
 
 ```text
 server {
@@ -67,13 +61,14 @@ server {
 }
 ```
 
-- 网络架构示意图如下：（绿色正常负载，未跑满。红色为高压负载，要把进程资源跑满，主要是 CPU）
+- The network architecture schematic is as follows: (green normal load, not run full. Red is a high pressure load, to run the process resources full, mainly CPU)
+是 CPU）
 
 ![test result](https://static.apiseven.com/202108/20210617003.png)
 
-#### 路由配置
+## Route Configuration
 
-首先我们找到 APISIX 的入门配置指南，我们添加一条到 /hello 的路由，配置如下：
+First we find the Apache APISIX Getting Started configuration guide and we add a route to /hello with the following configuration:
 
 ```text
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -X PUT -d '{、
@@ -86,9 +81,9 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -X PUT -d '{、
     }}'
 ```
 
-需要注意的是，这里没并没有开始 proxy_cache 和 proxy_mirror 插件，因为 Enovy 并没有类似的功能；
+Note that the proxy_cache and proxy_mirror plugins are not started here, as Envoy does not have similar functionality.
 
-然后我们参考 Envoy 官方压测指导 为 Envoy 添加一条路由：
+Then we add a route to Envoy by referring to the official Envoy pressure test guide:
 
 ```text
 static_resources:
@@ -136,28 +131,31 @@ static_resources:
         max_retries: 1000000000
 ```
 
-上面的 generate*request_id、dynamic_stats 和 circuit_breakers 部分，在 Envoy 内部是默认开启，但本次压测用不到，需要显式关闭或设置超大阈值从而提升性能。（谁能给我解释下为什么这玩意儿配置这么复杂 -*-!）
+The generate_request_id, dynamic_stats and circuit_breakers sections above are turned on by default inside Envoy, but they are not used in this compression test and need to be turned off explicitly or set to oversize thresholds to improve performance. (Can someone explain to me why this is so complicated to configure -_-!)
 
-#### 压测结果
+## Results
 
-单条路由，不开启任何插件。开启不同 CPU 数量，进行满载压力测试。说明：对于 NGINX 叫 worker 数量，Envoy 是 concurrent ，为了统一后面都叫 worker 数量。
+Single route without any plugins turned on. Turn on different CPU counts for full load stress test.
 
-| **进程数**    | **APISIX QPS** | **APISIX Latency** | **Envoy QPS** | **Envoy Latency** |
+Note: For NGINX called worker number, Envoy is concurrent, in order to unify the number of workers called after.
+
+| **Workers**    | **APISIX QPS** | **APISIX Latency** | **Envoy QPS** | **Envoy Latency** |
 | :------------ | :------------- | :----------------- | :------------ | :---------------- |
 | **1 worker**  | 18608.4        | 0.96               | 15625.56      | 1.02              |
 | **2 workers** | 34975.8        | 1.01               | 29058.135     | 1.09              |
 | **3 workers** | 52334.8        | 1.02               | 42561.125     | 1.12              |
 
-注：原始数据公开在 [gist](https://gist.github.com/aifeiasdf/9fc4585f6404e3a0a70c568c2a14b9c9) 预览。
+Note: The raw data is publicly available at [gist](https://gist.github.com/aifeiasdf/9fc4585f6404e3a0a70c568c2a14b9c9) preview.
 
 ![test result](https://static.apiseven.com/202108/20210617004.png)
 
-QPS：每秒钟完成的请求数，数量越多越好，数值越大代表单位时间内可以完成的请求数量越多。从 QPS 结果看，APISIX 性能是 Envoy 的 120% 左右，核心数越多 QPS 差距越大。
+QPS: The number of requests completed per second, the higher the number the better, the higher the value means the more requests can be completed per unit time. From the QPS results, Apache APISIX performance is about 120% of Envoy’s, and the higher the number of cores, the bigger the QPS difference.
 
-Latency：每请求的延迟时间，数值越小越好。它代表每请求从发出后需要经过多长时间可以接收到应答。对于反向代理场景，该数值越小，对请求的影响也就最小。从结果上看，Envoy 的每请求延迟要比 APISIX 多 6-10% ，核心数量越多延迟越大。
+Latency: Latency per request, the smaller the value the better. It represents how long it takes to receive an answer per request from the time it is sent. For reverse proxy scenarios, the smaller the value, the smaller the impact on the request will be. From the results, Envoy’s per-request latency is 6–10% more than Apache APISIX, and the higher the number of cores the higher the latency.
 
-可以看到两者在单工作线程|进程的模式下，QPS 和 Latency 两个指标差距不大，但是随着工作线程|进程的增加他们的差距逐渐放大，这里我分析可能有以下两方面的原因，NGINX 在高并发场景下用多 worker 和系统的 IO 模型进行交互是不是会更有优势，另外一方面，也可能是 NGINX 自身在实现上面对内存和 CPU 的使用比较“抠门”，这样累积起来的性能优势，以后详细评估评估。
+We can see that the difference between the two metrics in the single-worker thread|process mode, QPS and Latency is not large, but with the increase in the number of threads|processes their gap is gradually enlarged, here I analyze that there may be two reasons, NGINX in the high concurrency scenario with multiple workers and the system IO model for interaction is not more advantageous, on the other hand, also On the other hand, NGINX itself may be more “stingy” in terms of memory and CPU usage in its implementation, so that the cumulative performance advantage can be evaluated in detail later.
 
-#### 总结
+## 总结
 
-总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，得益于此，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；但是两者并不冲突， Envoy 的总线设计使它在处理东西向流量上有独特的优势， APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务才是正解。
+In general, Apache APISIX is slightly better than Envoy in terms of response latency and QPS, and due to NGINX’s multi-worker collaboration method, which is more advantageous in high concurrency scenarios, Apache APISIX’s performance improvement is more obvious than Envoy’s after opening multiple worker processes. The bus design of Envoy gives it a unique advantage in handling east-west traffic, while the performance and latency of Apache APISIX gives it a massive throughput capability in handling north-south traffic.
+Apache APISIX
