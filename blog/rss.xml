@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Sat, 09 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 13 Oct 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 社区新里程碑——全球贡献者突破 300 位！]]></title>
+            <link>https://apisix.apache.org/blog/2021/10/13/celebrating-300-contributors-of-apisix</link>
+            <guid>Apache APISIX 社区新里程碑——全球贡献者突破 300 位！</guid>
+            <pubDate>Wed, 13 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 社区达成新的里程碑，与 Apache APISIX 相关的项目全球贡献者突破 300 位！]]></description>
+        </item>
         <item>
             <title><![CDATA[保姆级教程，从概念到实践帮你快速上手 Apache APISIX Ingress]]></title>
             <link>https://apisix.apache.org/blog/2021/10/09/apisix-ingress-techblog</link>
