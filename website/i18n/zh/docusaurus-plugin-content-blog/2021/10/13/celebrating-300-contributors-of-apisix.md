@@ -24,6 +24,7 @@ ps：推荐阅读《[贡献者，是衡量开源项目的金指标](https://apis
 ![Apache APISIX contributors](https://static.apiseven.com/202108/1634110807125-883173f0-ddb2-4ad0-aafe-073a669bb7a0.jpg)
 
 ## 社区活动
+
 Apache APISIX 社区非常活跃，贡献者们每月都会组织活动，帮助大家更好地了解和应用 Apache APISIX。
 
 ### Apache APISIX Meetup
@@ -41,6 +42,7 @@ Apache APISIX Ingress 项目每两周举办一次线上讨论，大家一同讨�
 在 Apache APISIX 官网点击 Blog 选择 Events tag 即可查看双周 Weekly report。
 
 往期推荐：
+
 - [社区周报｜新晋 committer 两位，功能亮点更新进行中](https://apisix.apache.org/zh/blog/2021/09/15/weekly-report)
 - [Apache APISIX 社区周报 ｜ 2021 8.23-8.29](https://apisix.apache.org/zh/blog/2021/08/30/weekly-report)
 - [Apache APISIX 社区周报 ｜ 2021 8.16-8.22](https://apisix.apache.org/zh/blog/2021/08/23/weekly-report)
@@ -48,4 +50,3 @@ Apache APISIX Ingress 项目每两周举办一次线上讨论，大家一同讨�
 你希望 Apache APISIX 社区举办什么活动？或者想成为某个活动的组织者/志愿者，欢迎在[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)讨论！
 
 **社区大于代码**是 the Apache Way 中非常重要的准则，让我们一起秉承 the Apache Way，建设 Apache APISIX 以及 Apache APISIX 周边生态。Apache APISIX 社区，感恩有你；Apache APISIX 社区，也期待更多小伙伴加入。
-
