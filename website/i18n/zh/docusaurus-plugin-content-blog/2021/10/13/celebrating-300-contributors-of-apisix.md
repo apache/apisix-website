@@ -11,6 +11,7 @@ tags: [Events]
 ---
 
 >Apache APISIX 社区达成新的里程碑，与 Apache APISIX 相关的项目全球贡献者突破 300 位！ 距离 Apache APISIX 主库达到 [200 位贡献者里程碑](https://apisix.apache.org/blog/2021/07/06/celebrate-200-contributors/)，**仅仅间隔 3 个月**！感谢社区贡献者们在代码、文档、运营等方方面面做出的卓越贡献。
+
 <!--truncate-->
 
 ![Apache APISIX contributor graph](https://static.apiseven.com/202108/1634110612788-576eb5ea-d574-4d8e-891c-8f9fc90d955a.png)
