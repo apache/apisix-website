@@ -75,7 +75,7 @@ etcd uses the configured server-side certificate directly as the client-side cer
 
 A certificate that provides both authentication on the server side and identity on the client side doesn’t seem to be a problem. Unless server auth expansion is enabled on the certificate, but client auth is not enabled. Execute the following command on the faulty certificate:
 
-```text
+```shell
 openssl x509 -text -noout -in /tmp/bad.crt
 ```
 
@@ -99,4 +99,5 @@ There is also an issue about this problem on etcd’s repository: Issue [#9785](
 ## Summary
 
 Although we have listed a few minor issues above, etcd’s support for HTTP access is still a very useful feature.
+
 Thanks to the users of Apache APISIX, we have a large user base to find these details of etcd. As a large user of etcd, we will continue to communicate with the etcd developers for many years to come.
