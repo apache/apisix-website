@@ -1077,7 +1077,7 @@ a:hover {
   }
   
   .add-margin {
-    margin: 30px 0;
+    margin: 30px 0 0 0;
   }
 
   .homeCanvas{
@@ -1244,8 +1244,10 @@ a:hover {
   }
 }
 
-.react-toggle {
-  display: none;
+@media only screen and (min-width: 768px) {
+  .react-toggle {
+    display: none;
+  }
 }
 
 .bottom-pos {

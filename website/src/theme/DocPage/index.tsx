@@ -48,7 +48,13 @@ function DocPageContent({
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
   
   useEffect(() => {
-    document.querySelector(".react-toggle").style.display = "block";
+    const children = document.querySelector(".navbar__items--right").childElementCount;
+    if(window.innerWidth > 745) {
+      document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "block";
+    }
+    else {
+      document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none";
+    }
     const currentPage = currentDocRoute.path.split("/")[2] || "";
     switch (currentPage) {
       case "general":
@@ -77,7 +83,7 @@ function DocPageContent({
         break;
     }
     return () => {
-      document.querySelector(".react-toggle").style.display = "none";
+      document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none"
     }
   }, []);
 
