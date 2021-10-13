@@ -8,7 +8,7 @@ keywords:
 - Plugin Orchestration
 - Apache APISIX Dashboard
 - API Gateway
-description: 
+description: Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.
 tags: [Practical Case]
 ---
 

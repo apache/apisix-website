@@ -9,7 +9,6 @@ keywords:
 - Migration Tool
 - API Gateway
 description: Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.
-
 tags: [Technology]
 ---
 
@@ -29,17 +28,17 @@ Apache APISIX is a production-ready open source seven-layer full traffic process
 
 1. Download the repository and run the migration tool, which will generate the declarative configuration file `apisix.yaml` to be used.
 
-```shell
-git clone https://github.com/api7/kong-to-apisix
+      ```shell
+      git clone https://github.com/api7/kong-to-apisix
 
-cd kong-to-apisix
+      cd kong-to-apisix
 
-make build
+      make build
 
-./bin/kong-to-apisix migrate --input kong.yaml --output apisix.yaml
+      ./bin/kong-to-apisix migrate --input kong.yaml --output apisix.yaml
 
-# migrate succeed
-```
+      # migrate succeed
+      ```
 
 1. Use `apisix.yaml` to configure APISIX, refer to [Apache APISIX Official Document: Stand-alone mode](https://apisix.apache.org/docs/apisix/stand-alone).
 
@@ -47,13 +46,13 @@ make build
 
 1. Make sure docker is up and running, deploy the test environment, and use docker-compose to run APISIX and Kong.
 
-```shell
-git clone https://github.com/apache/apisix-docker
+   ```shell
+   git clone https://github.com/apache/apisix-docker
 
-cd kong-to-apisix
+   cd kong-to-apisix
 
-./tools/setup.sh
-```
+   ./tools/setup.sh
+   ```
 
 1. Add configuration to Kong and test it according to Kong's Getting Started Guide.
    1. Expose services via Service and Route for routing and forwarding
@@ -63,16 +62,16 @@ cd kong-to-apisix
 
 1. Export Kong's declarative configuration file to `kong.yaml`.
 
-```shell
-go run ./cmd/dumpkong/main.go
-```
+   ```shell
+   go run ./cmd/dumpkong/main.go
+   ```
 
 1. Run the migration tool, import `kong.yaml` and generate the APISIX configuration file `apisix.yaml` to docker volumes.
 
-```shell
-export EXPORT_PATH=./repos/apisix-docker/example/apisix_conf
-go run ./cmd/kong-to-apisix/main.go
-```
+   ```shell
+   export EXPORT_PATH=./repos/apisix-docker/example/apisix_conf
+   go run ./cmd/kong-to-apisix/main.go
+   ```
 
 1. Test whether the migrated routes, load balancing, plugins, etc. are working properly on Apache APISIX side.
 
@@ -125,4 +124,4 @@ go run ./cmd/kong-to-apisix/main.go
 
 ## Conclusion
 
-Subsequent development plans for the migration tool are presented in the Roadmap on Kong-To-APISIX's [GitHub repository](https://github.com/api7/kong-to-apisix). Feel free to test and use Kong-To-APISIX, and discuss any questions you may have in the Issues section of the repository. Anyone who is interested in this project is welcome to contribute to it!
+Subsequent development plans for the migration tool are presented in the Roadmap on Kong-To-APISIX's [GitHub repository](https://github.com/api7/kong-to-apisixc). Feel free to test and use Kong-To-APISIX, and discuss any questions you may have in the Issues section of the repository. Anyone who is interested in this project is welcome to contribute to it!
