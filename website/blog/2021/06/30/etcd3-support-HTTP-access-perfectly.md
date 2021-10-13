@@ -1,6 +1,6 @@
 ---
-title: "差之毫厘：etcd 3 完美支持 HTTP 访问？"
-author: "罗泽轩"
+title: "Does etcd 3 Support HTTP Access Perfectly?"
+author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
@@ -8,80 +8,78 @@ keywords:
 - etcd
 - HTTP
 - gRPC
-Description: 从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。
+Description: It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd's HTTP API that interoperate with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.
 tags: [Technology]
 ---
 
-> 从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。
+> It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd's HTTP API that interoperate with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.
 
 <!--truncate-->
 
-etcd 升级到 3.x 版本后，其对外 API 的协议从普通的 HTTP1 切换到了 gRPC。为了兼顾那些不能使用 gRPC 的特殊群体，etcd 通过 gRPC-gateway 的方式代理 HTTP1 请求，以 gRPC 形式去访问新的 gRPC API。（由于 HTTP1 念起来太过拗口，以下将之简化成 HTTP，正好和 gRPC 能够对应。请不要纠结 gRPC 也是 HTTP 请求的这种问题。）
+After etcd was upgraded to version 3.x, the protocol of its external API was switched from normal HTTP1 to gRPC. etcd proxied HTTP1 requests through gRPC-gateway to access the new gRPC API in the form of gRPC for those special groups that cannot use gRPC. (Since HTTP1 is too awkward to pronounce, the following is simplified to HTTP, which corresponds to gRPC. Please don’t get hung up on the fact that gRPC is also an HTTP request.)
 
-Apache APISIX 开始用 etcd 的时候，用的是 etcd v2 的 API。从 Apache APISIX 2.0 版本起，我们把依赖的 etcd 版本升级到 3.x。由于 Lua 生态圈里面没有 gRPC 库，所以 etcd 对 HTTP 的兼容帮了我们很大的忙，这样就不用花很大心思去补这个短板了。
+When Apache APISIX started using etcd, we used the etcd v2 API, and since Apache APISIX version 2.0, we have upgraded our dependency on etcd to 3.x. Since there is no gRPC library in the Lua ecosystem, etcd’s HTTP compatibility has helped us a lot, so we don’t have to go through a lot of effort to patch This was a big help, so we didn’t have to go to a lot of trouble to fill in the gaps.
 
-从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。
+It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd’s HTTP API that interoperates with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.
 
-### 打破 gRPC 的默认限制
+## Breaking the Default Restrictions of gRPC
 
-就在几天前，etcd 发布了 v3.5.0 版本。这个版本的发布，了却困扰我们很长时间的一个问题。
+Just a few days ago, etcd released version v3.5.0. This release solves a problem that has been bothering us for a long time.
 
-跟 HTTP 不同的是，gRPC 默认限制了一次请求可以读取的数据大小。这个限制叫做 “MaxCallRecvMsgSize”，默认是 4MiB。当 Apache APISIX 全量同步 etcd 数据时，假如配置够多，就会触发这一上限，报错 “grpc: received message larger than max”。
+Unlike HTTP, gRPC limits the size of data that can be read in one request by default. This limit is called “MaxCallRecvMsgSize” and defaults to 4MiB. When Apache APISIX fully synchronizes etcd data, this limit can be triggered if configured enough and the error “grpc: received message larger than max”.
 
-神奇的是，如果你用 etcdctl 去访问，这时候却不会有任何问题。这是因为这个限制是可以在跟 gRPC server 建立连接时动态设置的，etcdctl 给这个限制设置了一个很大的整数，相当于去掉了这一限制。
+Miraculously, if you use etcdctl to access it, there is no problem at all. This is because this limit can be set dynamically when establishing a connection with the gRPC server. etcdctl sets this limit to a large integer, which is equivalent to removing this limit.
 
-由于不少用户碰到过同样的问题，我们曾经讨论过对策。
+Since many users have encountered the same problem, we have discussed countermeasures.
+One idea was to use incremental synchronization to simulate full synchronization, which has two drawbacks.
 
-一个想法是用增量同步模拟全量同步，这么做有两个弊端：
+1. It is complicated to implement and requires a lot of code changes.
+2. It would extend the time required for synchronization.
 
-1. 实现起来复杂，要改不少代码
-2. 会延长同步所需的时间
-
-另一个想法是修改 etcd。既然能够在 etcdctl 里面去除限制，为什么不对 gRPC-gateway 一视同仁呢？同样的改动可以作用在 gRPC-gateway 上。
-
-我们采用了第二种方案，给 etcd 提了个 PR：https://github.com/etcd-io/etcd/pull/13077
+Another idea is to modify etcd. If you can remove the restrictions in etcdctl, why not treat gRPC-gateway the same way? The same change can be made to gRPC-gateway.
+We’ve adopted the second option, and have given etcd a PR: [PR #13077](https://github.com/etcd-io/etcd/pull/13077).
 
 ![2021-06-30-1](/img/blog_img/2021-06-30-1.png)
 
-最新发布的 v3.5.0 版本就包含了我们贡献的这个改动。如果你遇到 “grpc: received message larger than max”，不妨试一下这个版本。这一改动也被 etcd 开发者 backport 到 3.4 分支上了。3.4 分支的下一个发布，也会带上这个改动。
+The latest release of v3.5.0 includes this change that we contributed. If you encounter “grpc: received message larger than max”, you may want to try this version. This change has also been back-ported to the 3.4 branch by the etcd developers, and the next release of the 3.4 branch will carry this change as well.
 
-这件事也说明 gRPC-gateway 并非百试百灵。即使用了它，也不能保证 HTTP 访问能够跟 gRPC 访问有一样的体验。
+This incident also shows that gRPC-gateway is not foolproof. Even with it, there is no guarantee that HTTP access will have the same experience as gRPC access.
 
-### 对服务端证书的有趣用法
+## Interesting Usage of Server-side Certificates
 
-Apache APISIX 增加了对 etcd mTLS 的支持后，有用户反馈一直没法完成校验，而用 etcdctl 访问则是成功的。在跟用户交流后，我决定拿他的证书来复现下。
+After Apache APISIX added support for etcd mTLS, some users reported that they have been unable to complete the checksum, while accessing with etcdctl was successful. After talking to the user, I decided to take his certificate and reproduce it.
 
-在复现过程中，我注意到 etcd 日志里面有这样的报错：
+During the replication process, I noticed this error in the etcd log:
 
 ``` text
 2021-06-09 11:10:13.022735 I | embed: rejected connection from "127.0.0.1:50898" (error "tls: failed to verify client's certificate: x509: certificate specifies an incompatible key usage", ServerName "")
 WARNING: 2021/06/09 11:10:13 grpc: addrConn.createTransport failed to connect to {127.0.0.1:12379 0 }. Err :connection error: desc = "transport: authentication handshake failed: remote error: tls: bad certificate". Reconnecting...
 ```
 
-“bad certificate” 错误信息，初看像是因为我们发给 etcd 的客户端证书不对。但仔细瞧瞧，会发现这个报错是在 gRPC server 里面报的。
+The “bad certificate” error message looks at first glance like it is because we sent the wrong client certificate to etcd. But if you look closely, you will see that this error is reported inside the gRPC server.
 
-gRPC-gateway 在 etcd 里面起到一个代理的作用，把外面的 HTTP 请求变成 gRPC server 能处理的 gRPC 请求。
+The gRPC-gateway acts as a proxy inside etcd, turning outside HTTP requests into gRPC requests that the gRPC server can handle.
 
-大体架构如下：
+The general architecture is as follows:
 
 ```text
 etcdctl ----> gRPC server
 Apache APISIX ---> gRPC-gateway ---> gRPC server
 ```
 
-为什么 etcdctl 直连 gRPC server 能通，而中间加一层 gRPC-gateway 就不行？
+Why does etcdctl connect directly to the gRPC server, but not with a gRPC-gateway in between?
 
-原来当 etcd 启用了客户端证书校验之后，用 gRPC-gateway 连接 gRPC server 就需要提供一个客户端证书。猜猜这个证书从哪来？
+It turns out that when etcd enables client-side certificate validation, a client-side certificate is required to connect to the gRPC server using the gRPC-gateway. Guess where this certificate comes from?
 
-etcd 把配置的服务端证书直接作为这里的客户端证书用了。
+etcd uses the configured server-side certificate directly as the client-side certificate here.
 
-一个证书既在服务端上提供验证，又在客户端上表明身份，看上去也没什么问题。除非……
+A certificate that provides both authentication on the server side and identity on the client side doesn’t seem to be a problem. Unless server auth expansion is enabled on the certificate, but client auth is not enabled. Execute the following command on the faulty certificate:
 
-除非证书上启用了 server auth 的拓展，但是没有启用 client auth。
+```text
+openssl x509 -text -noout -in /tmp/bad.crt
+```
 
-对有问题的证书执行`openssl x509 -text -noout -in /tmp/bad.crt`
-
-会看到这样的输出：
+You will see output like this:
 
 ```text
 X509v3 extensions:
@@ -91,14 +89,14 @@ X509v3 Extended Key Usage:
 TLS Web Server Authentication
 ```
 
-注意这里的 “TLS Web Server Authentication”，如果我们把它改成 “TLS Web Server Authentication, TLS Web Client Authentication”，抑或不加这个拓展，就没有问题了。
+Note the “TLS Web Server Authentication” here, if we change it to “TLS Web Server Authentication, TLS Web Client Authentication” or without this extension, there will be no problem.
 
-etcd 上也有关于这个问题的 issue：https://github.com/etcd-io/etcd/issues/9785
+There is also an issue about this problem on etcd’s repository: Issue [#9785](https://github.com/etcd-io/etcd/issues/9785
+).
 
 ![2021-06-30-2](/img/blog_img/2021-06-30-2.png)
 
-### 结语
+## Summary
 
-虽然我们在上文列出了几点小问题，但是瑕不掩瑜，etcd 对 HTTP 访问的支持还是一个非常有用的特性。
-
-感谢 Apache APISIX 的用户们，正是因为我们有着广阔的用户群，才能发现 etcd 的这些细节上的问题。我们作为 etcd 的一大用户，在之后的日子里也将一如既往地跟 etcd 的开发者多多交流。
+Although we have listed a few minor issues above, etcd’s support for HTTP access is still a very useful feature.
+Thanks to the users of Apache APISIX, we have a large user base to find these details of etcd. As a large user of etcd, we will continue to communicate with the etcd developers for many years to come.
