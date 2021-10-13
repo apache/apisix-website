@@ -1,127 +1,127 @@
 ---
-title: "纵观移动云对象存储发展历程，也少不了 Apache APISIX 的能力加持"
-author: "陈焱山"
+title: "How Apache APISIX is implemented in China Mobile Cloud"
+author: "Yanshan Chen"
 keywords: 
-- 移动云存储
 - Apache APISIX
-- 云服务
-- API 网关
-description: 本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。
+- China Mobile
+- User Case
+- API Gateway
+description: This article is compiled from a presentation given by Yanshan Chen from China Mobile Cloud Competence Center at ApacheCon 2021 Asia. By reading this article, you can learn how China Mobile Cloud is developing and improving and updating its products based on Apache APISIX to create a better mobile cloud object storage.
 tags: [User Case]
 ---
 
-> 本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。
+> This article is compiled from a presentation given by Yanshan Chen from China Mobile Cloud Competence Center at ApacheCon 2021 Asia. By reading this article, you can learn how China Mobile Cloud is developing and improving and updating its products based on Apache APISIX to create a better mobile cloud object storage.
 
 <!--truncate-->
 
-作者陈焱山，来自中国移动云能力中心。从事分布式存储软件开发及架构方案设计工作，深度参与移动云的建设，在分布式对象存储领域有丰富的实战经验。
+## Background Information
 
-## 背景说明
+As the builder of China Mobile’s cloud facilities, provider of cloud services and aggregator of cloud ecology, China Mobile’s Cloud Competence Center has assumed six major responsibilities for mobile cloud: technology research and development, planning and construction, operation and maintenance, cooperation and introduction, sales support, and support for cloud deployment.
 
-中国移动云能力中心作为中国移动云设施构建者、云服务提供者以及云生态汇聚者，承担了移动云的技术研发、规划建设、运营维护、合作引入、销售支撑、支持上云六大工作职责。
+As of October 2020, a total of 25 public cloud nodes have been built nationwide, with a provincial coverage rate of over 80%. Among them, object storage EOS, as one of the underlying infrastructure capabilities, has been deployed in all resource pools, and the overall available scale has reached EB level.
 
-截至 2020 年 10 月，全国共计建成 25 个公有云节点，省份覆盖率超过 80%。其中对象存储 EOS 作为底层基础设施能力之一，已在所有资源池中进行了部署建设，整体可用规模达到 EB 级。
+Mobile cloud object storage has gone through four generations of development history changes. Starting from self-research and development, through functional expansion, deep customization, performance improvement to the latest generation has a cross-regional global correction and deletion architecture, to achieve the effect of off-site multi-live disaster recovery. Throughout the years, it can be said that the progress is rapid.
 
-移动云对象存储至今已经历了四代发展历程变迁。从自研开发起手，通过功能扩展、深度定制、性能提升到最新一代拥有跨区域全局纠删架构，实现了异地多活容灾效果。纵观下来，可谓是进步飞速。
+In the early stage of cloud object storage technology selection, we investigated many API gateways, including Nginx, Apache APISIX, etc., and finally chose Apache APISIX, which can not only meet the current business requirements, but also provide more ideas and choices for our products in terms of system availability and maintainability, which is similar to that of Apache APISIX. The overall product evolution plan and technology stack are more compatible.
 
-在云对象存储技术选型初期，我们调研过很多的 API 网关，包括 Nginx、Apache APISIX 等，最终还是选择了 Apache APISIX。Apache APISIX 不仅能够满足当前的业务要求，同时还能在系统可用性、可维护性上为我们产品提供比较多的思路和选择，与后续整体产品演进规划和技术栈比较吻合。
+## Why Did We Choose Apache APISIX as a Gateway?
 
-## 为什么选择 Apache APISIX 作为网关
+### Why Did We Abandon Nginx?
 
-### 为什么抛弃 Nginx
+#### Reason 1: Lack of Overall Capabilities
 
-#### 理由一：综合能力欠缺
+Apache APISIX as a microservice gateway, compared with other API gateways, its upstream routing plugins are fully dynamic, and no restart is required to modify the configuration. The plugin also supports hot-loading, so you can plug and unplug and modify the plugin at any time. These capabilities are not available in Nginx, especially in scenarios with very high business continuity requirements.
 
-Apache APISIX 作为一个微服务网关，与其他 API 网关相比，它的上游路由插件是全动态的，修改配置不需要重启。同时插件支持热加载，可以随时插拔、修改插件。尤其是业务连续性要求非常高的场景，这些能力都是 Nginx 不具备的。
+#### Reason 2: Inflexible Configuration
 
-#### 理由二：配置不灵活
+Apache APISIX supports all-platform, multi-protocol, fully dynamic, fine-grained routing, security protection, and is O&M friendly, and can be docked to Prometheus, SkyWalking, etc., with highly scalable These are the capabilities that are needed in real production.
 
-众所周知，像 Nginx 所有的功能都是基于配置文件来实现的，因而像 Proxy 存在路由上游的证书不能动态加载。Apache APISIX 支持全平台、多协议、全动态、精细化路由、安全防护，而且运维友好，可以对接 Prometheus、SkyWalking 等，有高度扩展能力，这些都是实际生产中需要的能力。
+### Why Did We Choose Apache APISIX?
 
-### 在技术选型时，为什么我们最终选择 Apache APISIX
+#### Reason 1: Based on the Need for Product Architecture
 
-#### 理由一：基于产品架构的需要
+As mentioned earlier, object storage has now gone through four generations of development. With the richness of the product features, the scale of the entire architecture cluster becomes larger, there is a need for more control surface policies, including traffic governance, service governance and other policies to ensure the stable operation of the entire system.
 
-前边提到过目前对象存储已经经历了四代发展历程。随着产品功能的丰富、整个架构集群规模变大，就需要有更多控制面策略，包括流量治理、服务治理等策略来保证整个系统的稳定运行。
+#### Reason 2: Implementation of Fine-grained Business Functions
 
-#### 理由二：细粒度业务功能的实现
+Apache APISIX features, functional plugins, and custom development capabilities are available to meet our business needs during subsequent development.
 
-Apache APISIX 的特性、功能插件、自定义开发功能，都可以在后续的开发过程中满足我们的业务需求。
+#### Reason 3: SLA Service Level Guarantee
 
-#### 理由三：SLA 服务等级保障
+The general SLA service level availability emphasizes two metrics: system mean time to failure and system mean time to repair failure. How to effectively lengthen the system mean time to failure? How to effectively reduce the system mean time to repair? These two questions are our key considerations. Apache APISIX has good traffic management and service management related capabilities in both fault isolation and self-healing.
 
-一般 SLA 服务等级的可用性强调两个指标：系统平均无故障时间和系统平均故障修复时间。如何有效拉长系统平均无故障时间？如何有效缩小系统平均故障修复时间？这两个问题是我们重点考虑的。而 Apache APISIX 在故障隔离和自愈方面都有着不错的流量治理和服务治理相关能力。
+![SLA Service Level](https://static.apiseven.com/202108/1631500451210-60ba58d6-1fc4-4db6-b658-5e0066bb1c9b.png)
 
-![SLA 服务等级](https://static.apiseven.com/202108/1631500451210-60ba58d6-1fc4-4db6-b658-5e0066bb1c9b.png)
+## What Did We Change in Apache APISIX Data Plane?
 
-## 在 Apache APISIX 的数据面，我们改了些什么
+### Improvement 1: Separate Access for Internal and External Network Requests
 
-### 改进一：内外网请求分离访问
+Currently our business model has two domains, the intranet domain and the extranet domain. The intranet domain name access is the east-west access of the resource pool, such as the internal virtual machine of the resource pool, application platform class products, etc. The extranet domain name is equivalent to pure public network access, such as: public cloud, toC and toB customers in the public network, accessing object storage via satellite or physical private line.
 
-目前我们的业务模型有两个域名，内网域名和外网域名。内网域名的访问是资源池东西向的访问，如资源池内部虚拟机、应用平台类的产品等。外网域名，相当于是纯公网的访问，比如：公网的公有云、toC 和 toB 的客户，通过 satellite 或者物理专线访问对象存储。
-我们通过接入 Apache APISIX 实现了内外网域名的多域名证书配置，并提供了加密访问功能，同时实现了 SSL 证书动态加载的功能实现。对于 24 小时不间断的业务，能够动态更新 SSL 证书是非常重要的。
+By accessing Apache APISIX, we realize multi-domain certificate configuration for internal and external domain names, and provide encrypted access function, and realize the function of dynamic loading of SSL certificate. For 24-hour uninterrupted business, it is very important to be able to dynamically update SSL certificate.
 
-### 改进二：请求熔断保护
+### Improvement 2: Request for Fuse Protection
 
-在这里首先给大家简单描述一下目前接入 Apache APISIX 后的对象存储 EOS 节点管理。整个对象存储分为数据平面和控制平面。数据平面主要承载整个业务的 I/O 流。业务数据是从 Apache APISIX 的 7 层流量治理模块作为入口，通过 APISIX 后端上游的 Accesser，实现业务接口处理的主要模块。
+Here we first give you a brief description of the current Object Storage EOS node management after accessing Apache APISIX. The entire object store is divided into a data plane and a control plane. The data plane mainly carries the I/O flow of the whole business. The business data is processed from APISIX’s Layer 7 traffic governance module as the entry point, through the APISIX back-end upstream Accesser, which is the main module for business interface processing.
 
-![熔断保护](https://static.apiseven.com/202108/1631500499020-4297de78-f9e3-45a5-8f57-2a55280bf7b0.png)
+![Fuse Protection](https://static.apiseven.com/202108/1631500499020-4297de78-f9e3-45a5-8f57-2a55280bf7b0.png)
 
-控制平面主要有几大服务，包括自动驾驶服务 Manager、可观测系统 Observer 和混沌工程故障注入模块 Checker。还有额外的整体交互编排系统 Orchestrator 和灰度发布平台 Publisher。
+The control plane has several main services, including the autopilot service Manager, the observable system Observer, and the chaos engineering fault injection module Checker. there is also an additional overall interaction orchestration system Orchestrator and a grayscale publishing platform Publisher.
 
-![控制平面服务](https://static.apiseven.com/202108/1631500520579-1e40b538-377b-4356-b0f2-1038c0a798e4.png)
+![Control Plane Services](https://static.apiseven.com/202108/1631500520579-1e40b538-377b-4356-b0f2-1038c0a798e4.png)
 
-为了实现请求熔断保护，数据面在接入 Apache APISIX 后就实现了请求介入的处理能力。而控制面端的可观测系统主要是基于 Prometheus 搭建的，进行指标收集与告警，最终实现后端整体的熔断保护。
+In order to achieve request fusion protection, the data plane is connected to Apache APISIX to achieve the processing capability of request intervention. The observable system at the control plane is mainly built based on Prometheus, which collects indicators and alerts, and finally realizes the overall fusion protection at the back-end.
 
-### 改进三：自定义 constant key 实现全局限流
+### Improvement 3: Customize Constant Key to Achieve Global Flow-limit
 
-limit-conn key 这个插件主要是支持 remote_addr、server_addr、X-Forwarded-For、X-Real-IP ，但不能对南北向网关的流量做全局限流。
+limit-conn key This plugin mainly supports remote_addr, server_addr, X-Forwarded-For, X-Real-IP, but cannot do full limit flow for north-south gateway traffic.
+In order to match our business requirements, we customize a constant constant as the range of imit-conn key. The right side of the above figure is the modified configuration after accessing Apache APISIX, and the constant constant constant key is used to achieve the function of global flow-limit.
 
-为了匹配我们的业务需求，通过自定义一个 constant 常量作为 limit-conn key 范围，上图右侧即是接入 Apache APISIX 后修改过的配置，通过 constant 常量 key 实现全局限流的功能。
+![Global Flow-limit](https://static.apiseven.com/202108/1631500546238-9fd5ebcf-d205-4d99-a34d-236d5589a7e6.png)
 
-![全局限流](https://static.apiseven.com/202108/1631500546238-9fd5ebcf-d205-4d99-a34d-236d5589a7e6.png)
+### Improvement 4: New Function Feature Switches
 
-### 改进四：新增功能特性开关
+#### Switch 1: Temporarily Turn off an Object Storage Function
 
-#### 开关 1：临时关闭某个对象存储功能
+In the gateway layer by accessing Apache APISIX, it is compatible with the S3 interface specification to avoid wasting resources on the access layer and persistence layer of the back-end service.
 
-在网关层通过接入 Apache APISIX，兼容了 S3 接口规范，避免对后端服务的接入层、持久化层的资源浪费。
+#### Switch 2: Support the Highest Priority for GET Requests
 
-#### 开关 2：支持 GET 请求优先级最高
+With the support of GET request priority, GET requests have the highest priority when retrieving user data, higher than PUT, DELETE and other requests.
 
-实现了在支持 GET 请求优先的情况下，在取回用户数据时 GET 请求优先级最高，高于 PUT 、DELETE 等请求。
+#### Switch 3: Return 501 Not Implemented for Ordered List Requests
 
-#### 开关 3：对 Ordered List 请求返回 501 Not Implemented
+In the object storage will generally have a bucket of Ordered List feature requirements. The third and fourth generation of mobile cloud object storage for tens of billions of file objects, if still using Ordered List, on the one hand, request access to the back-end response time will be particularly long, on the other hand, will take up more resources, the stability of the back-end a greater challenge.
 
-在对象存储中一般会有对桶的 Ordered List 的功能需求。第三、四代移动云对象存储面向的都是百亿文件对象，如果依旧使用 Ordered List，一方面请求访问后端响应的时间会特别长，另一方面会占用较多资源，对后端的稳定性提出较大的挑战。
+Therefore, after accessing Apache APISIX, the request will be rejected directly at the gateway level, and the status code of 501 Not Implemented will be returned.
 
-所以接入 Apache APISIX 后将直接在网关层面进行拒绝请求，并返回 501 Not Implemented 的状态码。
+### Improvement 5: Transparent Upgrade/Expansion/Configuration Change
 
-### 改进五：实现透明升级/扩容/配置变更
+Combined with the Apache APISIX Layer 7 governance capabilities, we perform upgrades, scaling and configuration changes to key components upstream and across the I/O path to control back-end weighting through dynamic scaling and dynamic upgrade operations for subsequent request processing.
 
-结合 Apache APISIX 7 层治理能力，我们对上游组件和整个 I/O 路径上关键组件进行了升级、扩容和配置变更，通过动态扩容、动态升级等操作来控制后端权重，进行后续请求处理。
+### Improvement 6: Request Log Tracking Analysis Based on Request-id
 
-### 改进六：基于 request-id 实现请求日志跟踪分析
+Based on access.log, we have implemented a centralized log collection management method to collect APISIX logs and logs of other processes, and then perform a comprehensive analysis.
 
-基于 access.log 实现了日志集中收集的管理方式，把 APISIX 的 log 和其他进程的 log 都收集起来，然后进行综合的分析。
+![Log Tracking](https://static.apiseven.com/202108/1631500588620-9200d098-b4ac-4b9d-99f4-509f9fada70f.png)
 
-![日志跟踪](https://static.apiseven.com/202108/1631500588620-9200d098-b4ac-4b9d-99f4-509f9fada70f.png)
+The configuration item on the right side of the image above uses the request-id plugin of Apache APISIX. Each request is assigned a request-id when it passes through APISIX, which is used in the business logic processing layer (Accesser) and the data persistence layer, which in turn filters out the log timestamps of the different components in the official Loki panel and helps to automate some analysis using AI later.
 
-上图右侧的配置项是使用了 Apache APISIX 的 request-id 插件。每个请求在经过 APISIX 时都会被分配一个 request-id，被用于业务逻辑处理层（Accesser）和数据持久化层，进而在 Loki 官方面板上过滤出不同组件的日志时间戳，有助于后续使用 AI 实现一些自动化的分析。
+### Improvement 7: Cross Available Zones Request Scheduling Feature
 
-### 改进七：跨 AZ 请求调度功能
+The backend of the current load balancing is a seven-layer traffic governance layer based on APISIX implementation, which achieves multi-live capability by equal ECMP + BGP routing. We define three traffic types, each APISIX node receives service traffic and only hits the upstream service of this node to process (level0, purple line), similar to SideCar mode.
+If a node has a problem upstream, it will be forwarded to other upstream nodes in the same AZ for processing (green line). If all upstream nodes hang, the ability to invoke requests across AZs (level2, red line) is implemented based on Apache APISIX, which writes the requests to other AZs and finally achieves request scheduling across AZs.
 
-目前负载均衡的后端是基于 APISIX 实现的七层流量治理层，通过等 ECMP + BGP 路由实现多活的能力。我们定义了三种流量类型，每个 APISIX 节点收到业务流量时只打到本节点的上游服务去处理（level0，紫线），类似 SideCar 模式。
+![Cross Available Zones Request Scheduling](https://static.apiseven.com/202108/1631500626933-473fdd62-dcee-42cc-93c2-93d83acd796c.png)
 
-![AZ 调度](https://static.apiseven.com/202108/1631500626933-473fdd62-dcee-42cc-93c2-93d83acd796c.png)
+## Future Plans
 
-如果一个节点的上游出现问题，就会被转发到同 AZ 的其他上游节点进行处理（绿线）。如果所有上游节点全部挂掉，则会基于 Apache APISIX 实现请求跨 AZ 的调用能力（level2，红线），把请求写入到其他 AZ 中，最终实现跨 AZ 的请求调度。
+The future of mobile cloud object storage will fully embrace cloud-native, and gradually achieve the following plans:
 
-## 未来规划
+1. Integrate data surface functions, and eventually achieve a comprehensive containerized deployment orchestration.
 
-未来移动云对象存储将会全面拥抱云原生，并逐步实现以下计划：
+1. Successively access the APISIX-based Ingress Controller, through APISIX to unify access portal.
 
-1. 整合数据面功能，最终实现全面的容器化部署编排
-2. 陆续接入基于 APISIX 的 Ingress Controller，通过 APISIX 来统一访问入口
-3. 加强与自动驾驶 Manager、可观测性系统 Observer 子系统的融合能力，进一步实现故障的隔离与自愈
-4. 将对象存储 S3 方面的认证能力移入到接口层。更好地实现统一鉴权认证以及安全访问，达到保护后端的效果
+1. Strengthen the integration capability with Autopilot Manager and Observer subsystem to further achieve fault isolation and self-healing.
+
+1. Move the authentication capability of object storage S3 to the interface layer. Better achieve unified authentication and security access to protect the back-end effect.
