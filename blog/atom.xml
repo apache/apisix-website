@@ -101,13 +101,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[纵观移动云对象存储发展历程，也少不了 Apache APISIX 的能力加持]]></title>
-        <id>纵观移动云对象存储发展历程，也少不了 Apache APISIX 的能力加持</id>
+        <title type="html"><![CDATA[How Apache APISIX is implemented in China Mobile Cloud]]></title>
+        <id>How Apache APISIX is implemented in China Mobile Cloud</id>
         <link href="https://apisix.apache.org/blog/2021/09/13/china-mobile-cloud-usercase"/>
         <updated>2021-09-13T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。]]></summary>
+        <summary type="html"><![CDATA[This article is compiled from a presentation given by Yanshan Chen from China Mobile Cloud Competence Center at ApacheCon 2021 Asia. By reading this article, you can learn how China Mobile Cloud is developing and improving and updating its products based on Apache APISIX to create a better mobile cloud object storage.]]></summary>
         <author>
-            <name>陈焱山</name>
+            <name>Yanshan Chen</name>
         </author>
     </entry>
     <entry>
@@ -486,24 +486,24 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller]]></title>
-        <id>Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller</id>
+        <title type="html"><![CDATA[Deploy Apache APISIX and Apache APISIX Ingress Controller on Rancher]]></title>
+        <id>Deploy Apache APISIX and Apache APISIX Ingress Controller on Rancher</id>
         <link href="https://apisix.apache.org/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast"/>
         <updated>2021-06-23T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[你可以在 Rancher 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress controller。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress controller 的数据面来承载业务流量。]]></summary>
+        <summary type="html"><![CDATA[This article shows the procedure of installing and deploying Apache APISIX and Apache APISIX Ingress Controller in the Rancher App Store (Catalog), and how to proxy Kubernetes services through them.]]></summary>
         <author>
-            <name>张晋涛</name>
+            <name>Jintao Zhang</name>
             <uri>https://github.com/tao12345666333</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[使用 Java 编写 Apache APISIX 插件]]></title>
-        <id>使用 Java 编写 Apache APISIX 插件</id>
+        <title type="html"><![CDATA[How to Write an Apache APISIX Plugin in Java]]></title>
+        <id>How to Write an Apache APISIX Plugin in Java</id>
         <link href="https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins"/>
         <updated>2021-06-21T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX now supports writing plugins in Java! You can now write plugins in a programming language you are familiar with.]]></summary>
         <author>
-            <name>屠正松</name>
+            <name>Zhengsong Tu</name>
             <uri>https://github.com/tzssangglass</uri>
         </author>
     </entry>
