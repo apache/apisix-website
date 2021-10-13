@@ -47,7 +47,7 @@ In the actual business situation, we cannot use Apache APISIX directly for the f
 
 None of these requirements are currently supported built-in by Apache APISIX, so custom development is the only way to make Apache APISIX truly usable within Weibo.
 
-## What Did We Change in the Data Plane of Apache APISIX?
+## What Did We Change in the Control Plane of Apache APISIX?
 
 For our custom development, we used Apache APISIX version 1.5, and Apache APISIX Dashboard compatible with Apache APISIX version 1.5.
 
