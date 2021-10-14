@@ -224,13 +224,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？]]></title>
-        <id>为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？</id>
+        <title type="html"><![CDATA[Why Apache APISIX chose Nginx and Lua to build API Gateway]]></title>
+        <id>Why Apache APISIX chose Nginx and Lua to build API Gateway</id>
         <link href="https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。]]></summary>
+        <summary type="html"><![CDATA[Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language. So why do Apache APISIX and other well-known gateways choose Lua?]]></summary>
         <author>
-            <name>罗泽轩</name>
+            <name>Zexuan Luo</name>
             <uri>https://github.com/spacewander</uri>
         </author>
     </entry>
@@ -389,11 +389,11 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Kong-To-APISIX 迁移工具]]></title>
-        <id>Kong-To-APISIX 迁移工具</id>
+        <title type="html"><![CDATA[Kong-To-APISIX Migration Tool]]></title>
+        <id>Kong-To-APISIX Migration Tool</id>
         <link href="https://apisix.apache.org/blog/2021/08/05/Kong-to-APISIX"/>
         <updated>2021-08-05T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Apache APISIX 是一个生产可用的开源七层全流量处理平台，可作为 API 网关处理业务入口流量，具有极高性能、超低延迟，官方支持 dashboard 以及超过五十种插件。如果你正在使用 Kong，对 APISIX 感兴趣又苦于难以上手，不妨试试我们刚开源的迁移工具 Kong-To-APISIX，助你一键平滑迁移。]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.]]></summary>
         <author>
             <name>吴舒旸</name>
             <uri>https://github.com/Yiyiyimu</uri>
@@ -411,13 +411,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[插件编排在 Apache APISIX 中的应用与实践]]></title>
-        <id>插件编排在 Apache APISIX 中的应用与实践</id>
+        <title type="html"><![CDATA[Applying Plugin Orchestration in Apache APISIX]]></title>
+        <id>Applying Plugin Orchestration in Apache APISIX</id>
         <link href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-Apache-APISIX"/>
         <updated>2021-07-27T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[通过阅读本文，您可以了解 Apache APISIX 与基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。本文作者琚致远，Apache APISIX PMC，在支流科技负责企业产品与大前端技术。]]></summary>
+        <summary type="html"><![CDATA[Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.]]></summary>
         <author>
-            <name>琚致远</name>
+            <name>Zhiyuan Ju</name>
             <uri>https://github.com/juzhiyuan</uri>
         </author>
     </entry>
@@ -442,13 +442,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[基于 Apache APISIX，新浪微博 API 网关的定制化开发之路]]></title>
-        <id>基于 Apache APISIX，新浪微博 API 网关的定制化开发之路</id>
+        <title type="html"><![CDATA[The Road to Customized Development of Sina Weibo API Gateway]]></title>
+        <id>The Road to Customized Development of Sina Weibo API Gateway</id>
         <link href="https://apisix.apache.org/blog/2021/07/14/the-road-to-customization-of-Sina-Weibo-API-gateway-based-on-Apache-APISIX"/>
         <updated>2021-07-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[微博之前的 HTTP API 网关基于 NGINX 搭建，所有路由规则存放在 NGINX conf 配置文件中，带来一系列问题：升级步骤长，对服务增、删、改或跟踪问题时，不够灵活且难以排查问题。经过一番调研之后，我们选择了最接近预期、基于云原生的微服务 API 网关：Apache APISIX，借助其动态、高效、稳定等特性以满足业务的快速响应要求。]]></summary>
+        <summary type="html"><![CDATA[Sina Weibo’s previous HTTP API gateway was built based on Nginx, which brought up a series of problems. After some research, we chose Apache APISIX, which is dynamic, efficient and stable to meet the fast response requirements of the business.]]></summary>
         <author>
-            <name>聂永</name>
+            <name>Yong Nie</name>
         </author>
     </entry>
     <entry>
@@ -463,13 +463,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[差之毫厘：etcd 3 完美支持 HTTP 访问？]]></title>
-        <id>差之毫厘：etcd 3 完美支持 HTTP 访问？</id>
+        <title type="html"><![CDATA[Does etcd 3 Support HTTP Access Perfectly?]]></title>
+        <id>Does etcd 3 Support HTTP Access Perfectly?</id>
         <link href="https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly"/>
         <updated>2021-06-30T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。]]></summary>
+        <summary type="html"><![CDATA[It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd's HTTP API that interoperate with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.]]></summary>
         <author>
-            <name>罗泽轩</name>
+            <name>Zexuan Luo</name>
             <uri>https://github.com/spacewander</uri>
         </author>
     </entry>
@@ -551,13 +551,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 和 Envoy 性能大比拼]]></title>
-        <id>Apache APISIX 和 Envoy 性能大比拼</id>
+        <title type="html"><![CDATA[Apache APISIX v.s Envoy: Which Has the Better Performance?]]></title>
+        <id>Apache APISIX v.s Envoy: Which Has the Better Performance?</id>
         <link href="https://apisix.apache.org/blog/2021/06/10/Apache-APISIX-and-Envoy-performance-comparison"/>
         <updated>2021-06-10T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 APISIX 在响应延迟和 QPS 层面都略优于 Envoy， 由于 NGINX 的多 worker 的协作方式在高并发场景下更有优势，APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力，根据自己的业务场景来选择合理的组件配合插件构建自己的服务。]]></summary>
+        <summary type="html"><![CDATA[This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.]]></summary>
         <author>
-            <name>王院生</name>
+            <name>Yuansheng Wang</name>
             <uri>https://github.com/membphis</uri>
         </author>
     </entry>
