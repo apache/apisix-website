@@ -1,81 +1,77 @@
 ---
-title: "为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？"
-author: "罗泽轩"
+title: "Why Apache APISIX chose Nginx and Lua to build API Gateway"
+author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
-- API 网关
 - APISIX
 - Apache APISIX
 - Lua
 - Nginx
-description: 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
+- API Gateway
+description: Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language. So why do Apache APISIX and other well-known gateways choose Lua?
 tags: [Technology]
 ---
 
-> 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 Apache APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
+> Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language. So why do Apache APISIX and other well-known gateways choose Lua?
 
 <!--truncate-->
 
-笔者在今年的 COSCUP 大会做分享时，曾有观众问这样的问题，为什么 Apache APISIX、Kong 和 3scale 这些网关都采用 Lua 来编写逻辑？
+When I was at this year’s COSCUP conference, some visitors asked me why did Apache APISIX, Kong, and 3scale API Gateways all choose Lua to build the program?
 
-是啊，Lua 并不是一门广为人知的语言，离“主流编程语言”的圈子大概还差个十万八千里吧。甚至有一次，我在跟别人交流的时候，对方在说到 Lua 之前，先停顿了片刻，随后终于打定主意，以"L U A"逐个字母发音的方式表达了对这一罕见之物的称呼。
+Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language.
 
-所以，为什么 Apache APISIX 和其他知名的网关会选择用 Lua 呢？
+So why do Apache APISIX and other well-known gateways choose Lua?
 
-事实上，Apache APISIX 采用的技术栈并不是纯粹的 Lua，准确来说，应该是 Nginx + Lua。Apache APISIX 以底下的 Nginx 为根基，以上层的 Lua 代码为枝叶。
+The technology stack used by Apache APISIX is not only Lua. To be precise, it should be Nginx with Lua. Apache APISIX is based on Nginx and uses Lua to build plugins or other features.
 
 ## LuaJIT VS Go
 
-严谨认真的读者必然会指出，Apache APISIX 并非基于 Nginx + Lua 的技术栈，而是 Nginx + LuaJIT （又称 OpenResty，以下为了避免混乱，会仅仅采用 Nginx + Lua 这样的称呼）。
+Serious readers may point out that Apache APISIX is not based on the Nginx + Lua stack, but Nginx + LuaJIT (also known as OpenResty). LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language, its performance is much better than Lua. LuaJIT adds FFI functions to make it easy and efficient to call C code.
 
-LuaJIT 是 Lua 的一个 JIT 实现，性能比 Lua 好很多，而且额外添加了 FFI 的功能，能方便高效地调用 C 代码。
-由于现行的主流 API 网关，如果不是基于 OpenResty 实现，就是使用 Go 编写，所以时不时会看到各种 Go 和 Lua 谁的性能更好的比较。  
+Since the current popular API gateways are either based on OpenResty or Go, developers are having hot debates about the performances of Lua and Go.
 
-**就我个人观点看，脱离场景比较语言的性能，是没有意义的。**
+**From my point of view, it is meaningless to compare the performance of languages without scenes.**
 
-首先明确一点，Apache APISIX 是基于 Nginx + Lua 的技术栈，只是外层代码用的是 Lua。所以如果要论证哪种网关性能更好，正确的比较对象是 C + LuaJIT 跟 Go 的比较。网关的性能的大头，在于代理 HTTP 请求和响应，这一块的工作主要是 Nginx 在做。
+First of all, to be clear, Apache APISIX is based on Nginx and Lua, and only the outer layer codes use Lua. So if you want to know which gateway performs better, the correct comparison object is to compare C with LuaJIT and Go. The bulk of the performance of the gateway lies in proxy HTTP requests and responses, and Nginx mainly does this piece of work.
 
-**所以倘若要比试比试性能，不妨比较 Nginx 和 Go 标准库的 HTTP 实现。**
+**The best way to test gateways’ performances is to compare the HTTP implementation of the Nginx and Go standard libraries.**
 
-众所周知，Nginx 是一个 bytes matter 的高性能服务器实现，对内存使用非常抠门。举两个例子：
+As we all know, Nginx is a high-performance server, which is very strict with memory usage. Here are two examples:
 
-1. Nginx 里面的 request header 在大多数时候都只是指向原始的 HTTP 请求数据的一个指针，只有在修改的时候才会创建副本。
-2. Nginx 代理上游响应时对 buffer 的复用逻辑非常复杂，是我读过的最为烧脑的代码之一。
+The request header in Nginx is usually just a pointer to the original HTTP request data, and a copy is created only when it is modified.
 
-凭借这种抠门，Nginx 得以屹立在高性能服务器之巅。
+When Nginx proxy upstream server’s response, It is very complicated to reuse Buffer.
 
-相反的，Go 标准库的 HTTP 实现，是一个滥用内存的典型反例。
+With those strict rules, Nginx is one of the most popular and high-performance servers.
 
-这可不是我的一面之辞，Fasthttp，一个重新实现 Go 标准库里面的 HTTP 包的项目，就举了两个例子：
+In contrast, the HTTP implementation in Go standard library is typical of memory abuse. Fasthttp, a project that re-implements HTTP packages in the Go standard library, gives us two examples:
 
-1. 标准库的 HTTP Request 结构体没法复用
-2. headers 总是被提前解析好，存储成 map[string][]string，即使没有用到（原文见：https://github.com/valyala/fasthttp#faq ）
+We cannot reuse the standard library’s HTTP Request structure;
+Headers are always parsed in advance and stored as a `map [string][]string`, even if they are not used (see: [Fasthttp FAQ](https://github.com/valyala/fasthttp#faq)).
 
-Fasthttp 文档里面还提到一些 bytes matter 的优化技巧，建议大家可以阅读下。
+The Fasthttp document also mentions some optimization skills for bytes matter, I would suggest that you take a look.
 
-事实上，即使不去比较作为网关核心的代理功能，用 LuaJIT 写的代码不一定比 Go 差多少。原因有二。
+Actually, codes written in LuaJIT are not necessarily much worse than those written in Go. Here are two reasons:
 
-**其一，拜 Lua 跟 C 良好的亲和力所赐，许多 Lua 的库核心其实是用 C 写的。**
+**First, most of Lua’s library cores are written in C.**
 
-比如 lua-cjson 的 json 编解码，lua-resty-core 的 base64 编解码，实际上大头是用 C 实现的。
-而 Go 的库，当然是大部分用 Go 实现的。虽然有 CGO 这种东西，但是受限于 Go 的协程调度和工具链的限制，它在 Go 的生态圈里面只能处于从属的地位。
+For example, lua-cjson and lua-resty-core are implemented with C, but the Go libraries, of course, are mainly implemented with Go. Although there is such a thing called CGO, it is limited by Go's coroutine scheduling and toolchain, and it can only be in a subordinate position in the Go ecosystem.
 
-关于 LuaJIT 和 Go 对于 C 的亲和力的比较，推荐 Hacker News 上的这篇文章：《Comparing the C FFI overhead in various programming languages》（链接 https://news.ycombinator.com/item?id=17161168 ）
+For the comparison of LuaJIT and Go’s affinity with C, here has one post from Hacker News: [Comparing the C FFI overhead in various programming languages](https://news.ycombinator.com/item?id=17161168).
 
-于是我们比较 Lua 的某些功能，其实还是会回到 C 和 Go 的比较中。
+So when we compare some of Lua’s features, we are actually comparing C and Go.
+Second, LuaJIT’s JIT optimization is unparalleled.
 
-**其二，LuaJIT 的 JIT 优化无出其右。**
+**Secondly, LuaJIT has one of the best JIT Opitimizations.**
 
-讨论动态语言的性能，可以把动态语言分成两类，带 JIT 和不带 JIT 的。JIT 优化能够把动态语言的代码在运行时编译成机器码，进而把原来的代码的性能提升一个数量级。
+We could divide dynamic languages into two cases, with or without JIT. JIT optimization can compile dynamic language code into machine code at runtime, thus improving the performance of the original code by order of magnitude.
 
-带 JIT 的语言还可以分成两类，能充分 JIT 的和只支持部分 JIT 的。而 LuaJIT 属于前者。
+Languages with JIT can also be divided into two cases, those that fully support JIT (e.g LuaJIT) and those that only support part of JIT.
 
-**人所皆知，Lua 是一门非常简单的语言。相对鲜为人知的是，LuaJIT 的作者 Mike Pall 是一个非常厉害的程序员。这两者的结合，诞生了 LuaJIT 这种能跟 V8 比肩的作品。**
+The debate about who is faster, LuaJIT or V8, has been a hot topic for a long time. In short, the performance of LuaJIT is not much different from that of the pre-compiled Go program.
 
-关于 LuaJIT 和 V8 到底谁更快，一直是长盛不衰的争论话题。展开讲 LuaJIT 的 JIT 已经超过了本文想要讨论的范畴。简单来说，JIT 加持的 LuaJIT 跟预先编译好的 Go 性能差别并不大。
-
-至于谁比谁慢，慢多少，那就是个见仁见智的问题了。这里我举个例子：
+As for which one is slower and slower by how much, that is a matter of opinion. Here is an example:
 
 ```Lua
 local text = {"The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog", "at", "a", "restaurant", "near", "the", "lake", "of", "a", "new", "era"}
@@ -113,34 +109,35 @@ func main() {
 }
 ```
 
-上面两段代码是等价的。你猜是第一个 Lua 版本的快，还是第二个 Go 版本的快？
+The above two code snippets are equivalent. Can you guess whether the first Lua version is faster or the second Go version is shorter?
 
-在我的机器上，第一个用时不到 1 秒，第二个花了 23 秒多。
+The first took less than 1 second on my machine, and the second took more than 23 seconds.
 
-举这个例子并不是想证明 LuaJIT 比 Go 快 20 倍。我只想说明用 micro benchmark 证明某个语言比另一个语言快的意义不大，因为影响性能的因素很多。一个简单的 micro benchmark 很有可能过分强调某一个因素，导致出乎意料的结果。
+This example is not to prove that LuaJIT is 20 times faster than Go. I want to show that using a microbenchmark to prove that one language is shorter than another does not make much sense because many factors affect performance. A simple microbenchmark is likely to overemphasize one factor and lead to unexpected results.
 
-## Nginx + Lua ：高性能 + 灵活
+## Nginx with Lua: High Performance + Flexibility
 
-让我们转回 Apache APISIX 的 Nginx + Lua 的技术栈。Nginx + Lua 的技术栈给我们带来的，不仅仅是高性能。
+Let’s go back to Apache APISIX’s Nginx and Lua stack. The Nginx + Lua stack brings us more than just high performance.
 
-经常有人问我们，既然你们是基于 Nginx 开源版本，而 Nginx 并不支持动态配置，为什么 Apache APISIX 声称自己可以实现动态配置？你们是不是改了点东西？
+People often ask us, since Apache APISIX is based on the open-sourced Nginx, and Nginx does not support dynamic configuration, why Apache APISIX claims that it supports dynamic configuration? Has it changed anything?
 
-是的，我们确实有在维护自己的 Nginx 发行版，不过 Apache APISIX 的大部分功能在官方的 Nginx 上就能使用。我们之所以能做到动态配置，全靠把配置放到 Lua 代码里面来实现。
+Yes, we do maintain our own Nginx distribution, but most features of Apache APISIX are available on the official Nginx. The reason why we can do dynamic configuration is to put the configuration into Lua code.
 
-举路由系统作为一个例子，Nginx 的路由需要在配置文件里面进行配置，每次更改路由，都需要 reload 之后才能生效。这是因为 Nginx 的路由分发只支持静态配置，不能动态增减路由。
+Take the Route system as an example. Nginx’s routes need to be configured in the configuration file, and every time the route is changed, it needs to be reloaded before it can take effect. Nginx’s route distribution only supports static configuration and cannot dynamically increase or decrease routes.
 
-**为了实现路由动态配置，Apache APISIX 做了两件事：**
+**To support dynamic routing configuration, Apache APISIX does two things:**
 
-1. 在 Nginx 配置文件里面配置单个 server，这个 server 里面只有一个 location。我们把这个 location 作为主入口，这样所有的请求都会走到这个地方上来。
-2. 我们用 Lua 完成路由分发的工作。Apache APISIX 的路由分发模块，支持在运行时增减路由，这样就能动态配置路由了。
+1. Configure a single server in the Nginx configuration file. There is only one location on this server. We use this location as the main entrance so that all requests will come to this place.
 
-你可能会问，在 Lua 里面做路由分发，会比 Nginx 的实现慢吗？
+1. We use Lua to complete the route distribution work. Apache APISIX’s route distribution module supports increasing or decreasing routes at run time to configure routes dynamically.
 
-就像前面提到过的一样，凡是对性能要求比较高的，我们会把核心代码用 C 改写。我们的路由分发模块就是这么干的。路由分发模块在匹配路由时，会采用一个前缀树来匹配。而这个前缀树是用 C 实现的。感兴趣的读者可以看下代码：https://github.com/api7/lua-resty-radixtree/ 。
+You may want to ask, is routing distribution in Lua slower than Nginx implementation?
 
-完成了 C 层面上的前缀树匹配，接下来就该 Lua 发挥灵活性的时刻了。对于匹配同一前缀的各个路由，我们支持通过许多别的方式来进行下一级的匹配，其中就包含通过一个特定的表达式来匹配。尽管硬着头皮，也能在 C 层面上接入一个表达式引擎，但是纯 C 实现做不了非常灵活地自定义表达式里面的变量。
+As mentioned earlier, we rewrite the core code in C for those with high-performance requirements. We did the same thing our route distribution module does. The module uses a radix-tree to match a route. We use C to implement the radix-tree. Please feel free to take a look at the code in [lua-resty-radixtree](https://github.com/api7/lua-resty-radixtree/).
 
-举个例子，下面是 Apache APISIX 用来匹配 GraphQL 请求的 route 配置：
+After completing the radix-tree matching, it is time for Lua to show its flexibility. We support matching at the next level in many other ways for each the same prefix route, including checking through a specific expression. Although it is tough to access an expression engine using C, a pure C implementation cannot flexibly customize the variables inside the expression.
+
+For example, here is the route configuration that Apache APISIX uses to match GraphQL requests:
 
 ```json
 {
@@ -156,9 +153,9 @@ func main() {
 }
 ```
 
-它会匹配这样的 GraphQL 请求：
+It matches a GraphQL request like this:
 
-```Nginx
+```SQL
 query repo {
     owner {
         name
@@ -166,10 +163,10 @@ query repo {
 }
 ```
 
-这里的 graphql_name 并非 Nginx 内置变量，而是通过 Lua 代码定义的。Apache APISIX 一共定义了三个 GraphQL 相关的变量，连同解析 GraphQL body 在内不过 62 行 Lua 代码。如果要通过 Nginx C 模块来定义变量，62 行可能只不过是把相关方法的样板代码搭建起来，都还没有到真正的解析 GraphQL 的逻辑呢。
+The graphql_name here is not an Nginx built-in variable, but is defined through Lua code. Apache APISIX defines three GraphQL-related variables, and there are only 62 lines of Lua codes (including parsing the GraphQL body). If you want to define variables through the Nginx C module, 62 lines may just be building up the boilerplate code of related methods, and there is no real logic to parse GraphQL yet.
 
-**采用 Lua 代码来做路由还有一个好处：它减低了二次开发的门槛。**
+**Using Lua for routing has another advantage: it reduces the threshold of development.**
 
-如果在路由过程中需要有特殊的逻辑，用户可以实现成自定义的变量和运算符，比如通过 IP 库匹配到的地理位置来决定采用哪条路由。用户只需要写一些 Lua 代码，这要比修改 Nginx C module 的难度小多了。
+Suppose we need particular logic in the routing process, users can implement custom variables and operators, such as determining which route to use by matching the geographic location of the IP library. Users only need to write some Lua code, which is much less complicated than modifying the Nginx C module.
 
-在 Apache APISIX 里面，不仅仅路由是动态的，我们的 TLS 服务端证书和上游节点配置都是动态的，而且无需修改 Nginx —— 上述功能可以跑在官方的 Nginx + Lua 技术栈上。当然通过修改 Nginx，我们还实现了更多的高级功能，比如动态的 gzip 配置和动态的客户端请求大小限制。后续我们将推行自己的 Nginx 发行版，这样开源用户也能轻松用上这些高级功能。
+In Apache APISIX, the routing system is dynamic. Our TLS server-side certificates and upstream node configurations are dynamic. There is no need to modify Nginx — the above functions can run on the official Nginx and Lua stack. Of course, by modifying Nginx, we have also implemented more advanced features, such as dynamic gzip configuration and dynamic client request size limit. We will implement our own Nginx distribution later so that open source users can easily use these advanced functions.
