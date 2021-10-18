@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[9695],{62058:function(e){e.exports=JSON.parse('{"permalink":"/zh/releases","page":1,"postsPerPage":10,"totalPages":5,"totalCount":45,"previousPage":null,"nextPage":"/zh/releases/page/2","blogDescription":"Blog","blogTitle":"Blog"}')}}]);
