@@ -19,11 +19,11 @@ tags: [Events]
 
 #### 分享嘉宾
 
-庄浩潮，Apache APISIX contributor，Apache SkyWalking committer & PMC member
+庄浩潮，Apache APISIX Contributor，Apache SkyWalking Committer & PMC 成员。
 
 #### 议题详情
 
-Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 Apache APISIX 已经监控手段和能力。以及与 SkyWalking 集成之后，有哪些功能的增强，将来还会带哪些新特性。一起期待红蓝（APISIX X SkyWalking）组合能带来哪些火花。
+Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 Apache APISIX 已有的监控手段和能力。以及与 Apache SkyWalking 集成之后，有哪些功能的增强，将来还会带哪些新特性。一起期待红蓝（APISIX X SkyWalking）组合能带来哪些火花。
 
 ### 利用 Apache SkyWalking Infra E2E 进行端到端测试
 
@@ -33,13 +33,13 @@ Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 A
 
 #### 议题详情
 
-现在越来越多的项目开始利用端到端测试来完成自动化功能检测，本次分享着重讲解 SkyWalking-Infra-E2E 框架与其在 Apache SkyWalking 中的落地
+现在越来越多的项目开始利用端到端测试来完成自动化功能检测，本次分享着重讲解 SkyWalking-Infra-E2E 框架与其在 Apache SkyWalking 中的落地。
 
 ### Apache APISIX Ingress Controller 如何在社区中成长
 
 #### 分享嘉宾
 
-金卫，Apache APISIX PMC，Apache skywalking committer
+金卫，Apache APISIX PMC，Apache SkyWalking Committer
 
 #### 议题详情
 
