@@ -11,7 +11,7 @@ tags: [Events]
 > 10 月 23 日，Apache APISIX 社区联合 Apache SkyWalking 社区为大家带来线上分享，快来看看有哪些精彩的议题吧。
 <!--truncate-->
 
-![Apache APISIX × Apache SkyWalking Meetup](https://static.apiseven.com/202108/1634529473247-e7a3dc4f-06af-44aa-9d86-9fc0cb106d85.jpg)
+![Apache APISIX × Apache SkyWalking Meetup](https://static.apiseven.com/202108/1634546302841-e4678f26-5fa7-4c48-af15-f85ce1ac2fbb.jpg)
 
 ## 分享议题
 
