@@ -23,7 +23,7 @@ tags: [Events]
 
 #### 议题详情
 
-Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 Apache APISIX 已经监控手段和能力。以及与 SkyWalking 集成之后，有哪些功能的增强，将来还会带哪些新特性。一起期待红蓝（APISIX X SkyWalking）组合能带来哪些火花。 
+Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 Apache APISIX 已经监控手段和能力。以及与 SkyWalking 集成之后，有哪些功能的增强，将来还会带哪些新特性。一起期待红蓝（APISIX X SkyWalking）组合能带来哪些火花。
 
 ### 利用 Apache SkyWalking Infra E2E 进行端到端测试
 
