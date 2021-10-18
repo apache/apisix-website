@@ -13,10 +13,9 @@ tags: [Events]
 
 ![Apache APISIX × Apache SkyWalking Meetup](https://static.apiseven.com/202108/1634529473247-e7a3dc4f-06af-44aa-9d86-9fc0cb106d85.jpg)
 
+## 分享议题
 
-## 分享议题 
-
-### Apache APISIX 可观测性介绍 
+### Apache APISIX 可观测性介绍
 
 #### 分享嘉宾
 
@@ -24,7 +23,7 @@ tags: [Events]
 
 #### 议题详情
 
-Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 Apache APISIX 已经监控手段和能力。以及与 SkyWalking 集成之后，有哪些功能的增强，将来还会带哪些新特性。一起期待红蓝（APISIX X SkyWalking）组合能带来哪些火花。 
+Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 Apache APISIX 已经监控手段和能力。以及与 SkyWalking 集成之后，有哪些功能的增强，将来还会带哪些新特性。一起期待红蓝（APISIX X SkyWalking）组合能带来哪些火花。
 
 ### 利用 Apache SkyWalking Infra E2E 进行端到端测试
 
@@ -44,10 +43,10 @@ Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 A
 
 #### 议题详情
 
-1. 介绍 Apache APISIX Ingress Controller 项目 
-2. 加入 Apache 社区后带来新的活力 
-3. Apache APISIX Ingress Controller 在社区中的运作方式 
-4. 欢迎加入 Apache APISIX 社区 
+1. 介绍 Apache APISIX Ingress Controller 项目
+2. 加入 Apache 社区后带来新的活力
+3. Apache APISIX Ingress Controller 在社区中的运作方式
+4. 欢迎加入 Apache APISIX 社区
 
 ### License Eye - 开源软件协议利器
 
