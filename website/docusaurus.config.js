@@ -45,8 +45,8 @@ module.exports = {
         shape: "hexagon",
         color: "#2563EB",
         githubRepo: "apache/apisix-ingress-controller",
-        version: "1.2.0",
-        releaseDate: "2021-08-15",
+        version: "1.3.0",
+        releaseDate: "2021-10-17",
         firstDocPath: "/getting-started",
       },
       {
@@ -142,8 +142,8 @@ module.exports = {
         githubRepo: "apache/apisix-ingress-controller",
         githubBranch: "master",
         downloadPath: "apisix/ingress-controller/1.2.0/apache-apisix-ingress-controller-1.2.0-src",
-        version: "1.2.0",
-        releaseDate: "2021-08-15",
+        version: "1.3.0",
+        releaseDate: "2021-10-17",
         firstDocPath: "/getting-started",
       },
       {
