@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-10-14T00:00:00.000Z</updated>
+    <updated>2021-10-18T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[直播预告 | Apache APISIX × Apache SkyWalking 线上分享]]></title>
+        <id>直播预告 | Apache APISIX × Apache SkyWalking 线上分享</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/10/18/meetup"/>
+        <updated>2021-10-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[10 月 23 日，Apache APISIX 社区联合 Apache SkyWalking 社区为大家带来线上分享。]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[社区周报｜10.1-10.14 功能亮点更新进行中]]></title>
         <id>社区周报｜10.1-10.14 功能亮点更新进行中</id>
