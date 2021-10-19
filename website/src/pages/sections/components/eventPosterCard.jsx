@@ -49,7 +49,7 @@ const EventPosterCard = () => {
       </svg>
     </button>
     <a href="/blog/2021/10/18/meetup" onClick={onClose}>
-      <img src="/img/meetup-card.png" alt="" />
+      <img src="https://static.apiseven.com/202108/meetup-card.png" alt="" />
     </a>
     </div>
   );
