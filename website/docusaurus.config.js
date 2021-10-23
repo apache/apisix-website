@@ -1,8 +1,10 @@
+const { ssrTemplate } = require('./config/ssrTemplate');
+
 module.exports = {
   title: "Apache APISIX® --  Cloud-Native API Gateway",
   tagline:
     "Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.",
-  url: "https://apisix.apache.org/",
+  url: "https://apisix.apache.org",
   baseUrl: "/",
   organizationName: "Apache",
   projectName: "apisix-website",
@@ -640,4 +642,9 @@ module.exports = {
   stylesheets: [
     "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
   ],
+  /**
+   * We need to check if we build site for preview env, or preview site will load static assets from the asf-site branch.
+   * See ssrTemplate -> jsDelivr
+  */
+   ssrTemplate
 };
