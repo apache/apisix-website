@@ -54,27 +54,27 @@ html[data-theme="dark"] {
 
 @font-face {
   font-family: 'MaisonNeue-Medium';
-  src: local('MaisonNeue-Medium'), url(../fonts/MaisonNeue-Medium.otf) format('opentype');
+  src: local('MaisonNeue-Medium'), url(https://static.apiseven.com/apisix-website/fonts/MaisonNeue-Medium.otf) format('opentype');
   font-display: swap;
 }
 @font-face {
   font-family: 'MaisonNeue-Bold';
-  src: local('MaisonNeue-Bold'), url(../fonts/MaisonNeue-Bold.otf) format('opentype');
+  src: local('MaisonNeue-Bold'), url(https://static.apiseven.com/apisix-website/fonts/MaisonNeue-Bold.otf) format('opentype');
   font-display: swap;
 }
 @font-face {
   font-family: 'MaisonNeue-Light';
-  src: local('MaisonNeue-Light'), url(../fonts/MaisonNeue-Light.otf) format('opentype');
+  src: local('MaisonNeue-Light'), url(https://static.apiseven.com/apisix-website/fonts/MaisonNeue-Light.otf) format('opentype');
   font-display: swap;
 }
 @font-face {
   font-family: 'MaisonNeue-Demi';
-  src: local('MaisonNeue-Demi'), url(../fonts/MaisonNeue-Demi.otf) format('opentype');
+  src: local('MaisonNeue-Demi'), url(https://static.apiseven.com/apisix-website/fonts/MaisonNeue-Demi.otf) format('opentype');
   font-display: swap;
 }
 @font-face {
   font-family: 'MaisonNeue-ExtraBold';
-  src: local('MaisonNeue-ExtraBold'), url(../fonts/MaisonNeue-ExtraBold.otf) format('opentype');
+  src: local('MaisonNeue-ExtraBold'), url(https://static.apiseven.com/apisix-website/fonts/MaisonNeue-ExtraBold.otf) format('opentype');
   font-display: swap;
 }
 
