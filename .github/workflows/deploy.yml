@@ -42,7 +42,7 @@ jobs:
           cd website && yarn build
           cp ../.asf.yaml ./build
           # NOTE: Use jsDelivr to load JS files from the asf-site branch
-          sed -i '' 's/return"assets\/js\/"/return"https:\/\/cdn.jsdelivr.net\/gh\/apache\/apisix-website@asf-site\/assets\/js\/"/g' ./build/assets/js/runtime~main.**.js
+          sed -i 's/return"assets\/js\/"/return"https:\/\/cdn.jsdelivr.net\/gh\/apache\/apisix-website@asf-site\/assets\/js\/"/g' ./build/assets/js/runtime~main.**.js
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0
