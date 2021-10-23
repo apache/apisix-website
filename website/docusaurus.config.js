@@ -8,7 +8,7 @@ module.exports = {
   baseUrl: "/",
   organizationName: "Apache",
   projectName: "apisix-website",
-  favicon: "img/favicon.png",
+  favicon: "https://cdn.jsdelivr.net/gh/apache/apisix-website@asf-site/img/favicon.png",
   customFields: {
     tagline2:
       "Apache APISIX software provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.",
@@ -421,7 +421,7 @@ module.exports = {
       hideOnScroll: true,
       title: "Apache APISIX®",
       logo: {
-        src: "img/logo2.svg",
+        src: "https://cdn.jsdelivr.net/gh/apache/apisix-website@asf-site/img/logo2.svg",
       },
       items: [
         {
@@ -594,7 +594,7 @@ module.exports = {
       ],
       logo: {
         alt: "Apache Software Foundation",
-        src: "img/asf_logo_wide_small.png",
+        src: "https://cdn.jsdelivr.net/gh/apache/apisix-website@asf-site/img/asf_logo_wide_small.png",
         href: "https://www.apache.org/",
       },
 
@@ -623,7 +623,7 @@ module.exports = {
       disableSwitch: false,
       respectPrefersColorScheme: false,
     },
-    image: 'img/favicon.png',
+    image: 'https://cdn.jsdelivr.net/gh/apache/apisix-website@asf-site/img/favicon.png',
     metadatas: [
       {
         name: "description",
