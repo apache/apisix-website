@@ -7,9 +7,6 @@ import OssCanvas from "./components/ossCanvas"
 import "../../css/customTheme.css";
 import GitHub from "../../assets/icons/github-logo.svg";
 
-// TODO: Load Video from YouTube
-import YtPromo from "../../assets/videos/apisix.mp4";
-
 const OpensourcePromo = (props) => {
   return (
     <>
@@ -23,7 +20,7 @@ const OpensourcePromo = (props) => {
             </div>
           </div>
           <div className="docs-promo-video">
-            <video preload="none" src={YtPromo} loading="lazy" autoPlay={true} poster="" muted={true} loop={true} width="70%" height="auto" controls></video>
+            <video preload="none" src="https://static.apiseven.com/apisix-website/videos/apisix.mp4" loading="lazy" autoPlay={true} poster="" muted={true} loop={true} width="70%" height="auto" controls></video>
           </div>
         </div>
       
