@@ -24,6 +24,12 @@
     "pinned": true
   },
   {
+    "caption": "开创云",
+    "image": "showcase/ctrl.jpg",
+    "infoLink": "https://www.ctrl.cn/",
+    "pinned": true
+  },
+  {
     "caption": "DaoCloud",
     "image": "showcase/daocloud.png",
     "infoLink": "https://www.daocloud.io/",
