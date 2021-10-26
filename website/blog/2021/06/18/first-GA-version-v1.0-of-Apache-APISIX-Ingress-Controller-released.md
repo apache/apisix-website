@@ -1,41 +1,41 @@
 ---
-title: "Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！"
-author: "张晋涛"
+title: The first GA release of Apache APISIX Ingress Controller v1.0 is now available!
+author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
 keywords:
 - APISIX
 - Apache APISIX
 - Ingress Controller
-description: Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
+description: Apache APISIX Ingress Controller v1.0 has been released, supporting the use of custom resources including ApisixRoute and ApisixUpstream, as well as Kubernetes native Ingress resources to control external traffic access to services deployed in Kubernetes.
 tags: [Release]
 ---
 
-> Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 `ApisixRoute`、`ApisixUpstream` 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
+> Apache APISIX Ingress Controller v1.0 has been released, supporting the use of custom resources including `ApisixRoute`, `ApisixUpstream`, and Kubernetes native Ingress resources to control external traffic access to services deployed in Kubernetes. services deployed in Kubernetes.
 
-<!--truncate-->
+<! --truncate -->
 
-## 关于 Apache APISIX Ingress Controller
+## About Apache APISIX Ingress Controller
 
-Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面承载流量的云原生 Ingress Controller 实现，采用 CRD 的方式对 Kubernetes 进行了扩展。
+The Apache APISIX Ingress Controller is a cloud-native Ingress Controller implementation that uses Apache APISIX as a data plane to carry traffic and extends Kubernetes using CRD.
 
-<!--truncate-->
+<! --truncate -->
 
-可支持使用包括 ApisixRoute、ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
+Supports controlling external traffic access to services deployed in Kubernetes using custom resources including ApisixRoute, ApisixUpstream, and Kubernetes-native Ingress resources.
 
-整体架构如下：
+The overall architecture is as follows.
 
-![Apache APISIX Ingress Controller 架构图](/img/blog_img/2021-06-18-1.png)
+! [Apache APISIX Ingress Controller Architecture Diagram](/img/blog_img/2021-06-18-1.png)
 
-## v1.0 最新特性
+## v1.0 latest features
 
-### 增加 ApisixConsumer 自定义资源使配置认证更方便
+### Add ApisixConsumer custom resource to make configuration authentication more convenient
 
-在之前的版本中，如果想要配置 keyAuth 或者 basicAuth 需要手动去调用 Apache APISIX 的 admin api 创建 consumer 配置。
+In the previous version, if you want to configure keyAuth or basicAuth, you need to manually call Apache APISIX admin api to create consumer configuration.
 
-在 v1.0 版本中，我们增加了 `ApisixConsumer` 资源，用户可以使用更原生的方式来定义 consumer 资源及为 ApisixRoute 配置认证。
+In v1.0, we added the `ApisixConsumer` resource, which allows users to define consumer resources and configure authentication for ApisixRoute in a more native way.
 
-例如通过以下配置定义一个 keyAuth 资源：
+For example, a keyAuth resource is defined with the following configuration.
 
 ```yaml
 apiVersion: apisix.apache.org/v2alpha1
@@ -49,7 +49,7 @@ spec:
         key: API
 ```
 
-在 ApisixRoute 中只需要增加对应类型的 `authentication` 配置即可。
+In ApisixRoute you only need to add the corresponding type of `authentication` configuration.
 
 ```yaml
 apiVersion: apisix.apache.org/v2alpha1
@@ -64,9 +64,9 @@ spec:
      type: keyAuth
 ```
 
-### 为 ApisixTls 增加 mTLS 支持
+### Adding mTLS support to ApisixTls
 
-在 v1.0 版本中我们也为 ApisixTls 自定义资源增加了 mTLS 的支持，只需要在 ApisixTls 资源的配置中增加 client 配置即可，例如：
+In v1.0 we also added mTLS support for ApisixTls custom resources, just add the client configuration to the ApisixTls resource configuration, e.g.
 
 ```yaml
 apiVersion: apisix.apache.org/v1
@@ -76,29 +76,29 @@ metadata:
 spec:
   ...
   client:
-    caSecret:
+    ... client: caSecret:
       name: client-ca-secret
       namespace: default
-```
+````
 
-### 为原生 Ingress 资源增加了更多 annotation 来丰富其功能
+### Added more annotations to the native Ingress resource to enrich its functionality
 
-- `k8s.apisix.apache.org/blocklist-source-range` 可对来源 IP 进行限制；
-- `k8s.apisix.apache.org/rewrite-target` 和 `k8s.apisix.apache.org/rewrite-target-regex` 可进行 target 的 rewrite 操作；
-- `k8s.apisix.apache.org/http-to-https` 可进行 HTTP 到 HTTPS 的强制重定向；
+- `k8s.apisix.apache.org/blocklist-source-range` to restrict the source IP.
+- `k8s.apisix.apache.org/rewrite-target` and `k8s.apisix.apache.org/rewrite-target-regex` to perform target rewrite operations.
+- `k8s.apisix.apache.org/http-to-https` to perform HTTP to HTTPS forced redirects.
 
-更多特性变更请参考项目 [CHANGELOG](https://github.com/apache/apisix-ingress-controller/blob/master/CHANGELOG.md) 。
+See the project [CHANGELOG](https://github.com/apache/apisix-ingress-controller/blob/master/CHANGELOG.md) for more feature changes.
 
-## 为什么使用 APISIX Ingress Controller
+## Why use APISIX Ingress Controller
 
-Apache APISIX Ingress Controller 使用 Apache APISIX 作为其数据面承载业务流量，所以其从 Apache APISIX 继承了如下优势：
+Apache APISIX Ingress Controller uses Apache APISIX as its data plane to carry business traffic, so it inherits the following advantages from Apache APISIX.
 
-- **高性能 & 稳定性**：Apache APISIX 是一款云原生高性能动态 API 网关，已在众多企业大规模流量场景下使用，其性能及稳定性久经考验。
-- **生态丰富**：Apache APISIX 是当前最活跃的开源网关项目，作为 Apache 顶级项目，无论是社区活跃度还是其插件生态都非常丰富，可满足用户的多种使用场景和需求；
+- **High Performance & Stability**: Apache APISIX is a cloud-native high-performance dynamic API gateway that has been used in many enterprise large-scale traffic scenarios, and its performance and stability have been tested for a long time.
+- **Rich ecology**: Apache APISIX is currently the most active open source gateway project, as the top project of Apache, both the community activity and its plug-in ecology are very rich, can meet the user's multiple use scenarios and needs.
 
-此外，由于 APISIX Ingress Controller 还具备如下独有的优势：
+In addition, because APISIX Ingress Controller also has the following unique advantages.
 
-- **兼容性好**：支持多个 Ingress 资源版本，在不同的 Kubernetes 版本中均可正常工作；
-- **动态更新**：无论是 Ingress 资源或是证书等配置的更新，均已实现热加载，无需 reload，保障业务平稳运行；
-- **扩容灵活**：由于 APISIX Ingress Controller 采用控制面和数据面分离的架构，所以在扩容时，可以单独扩容 Apache APISIX 这个数据面集群，而无须对 Apache APISIX Ingress Controller 进行扩容；
-- **运维友好**：在当前架构下，用户可按实际情况选择将数据面 Apache APISIX 集群部署在 Kubernetes 集群中，或是部署在物理机环境。且 Apache APISIX Ingress Controller 故障不会对业务流量造成任何影响。
+- **Good compatibility**: supports multiple Ingress resource versions and works fine in different Kubernetes versions.
+- **Dynamic updates**: Both Ingress resources and configuration updates such as certificates are hot loaded without reload, ensuring smooth business operation.
+- **Flexible Scalability**: Since APISIX Ingress Controller adopts the architecture of separate control plane and data plane, the data plane cluster of Apache APISIX can be scaled up separately without scaling up Apache APISIX Ingress Controller.
+- **Operation and Maintenance Friendly**: Under the current architecture, users can choose to deploy the dataplane Apache APISIX cluster in a Kubernetes cluster or in a physical machine environment as the case may be. And Apache APISIX Ingress Controller failure will not have any impact on business traffic.
