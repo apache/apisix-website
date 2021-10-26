@@ -1,108 +1,108 @@
 ---
-title: "不写代码，如何为开源项目做贡献？"
-author: "赵若妃"
+title: How can I contribute to an open source project without writing code?
+author: Ruofei Zhao
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords: 
-- 开源项目
-- 贡献
-description: 本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。
+- Open Source
+- Contribution
+description: This article introduces many ways to contribute to open source projects without writing code. You can participate in open source projects by writing articles, making videos, sharing them externally, building local communities, and actively participating in community discussions.
 tags: [Community]
 ---
 
-> 本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。
+> This article describes many ways to contribute to open source projects without writing code. You can get involved in open source projects by writing articles, making videos, sharing them externally, building local communities, and participating actively in community discussions.
 
-<!--truncate-->
+<! --truncate -->
 
-笔者为开源项目贡献过几个 PR，提交过几个 issue，直到现在还清晰记得几年前第一个 PR 被 merge 时的兴奋，体验到了参与开源的乐趣。但是只停留在了 contributor 阶段，没有下文了，因为笔者后来不做研发了，**认为不熟悉代码、不能修 bug 就没有贡献的机会了。**
+I have contributed several PRs and submitted several issues to open source projects, and I still remember clearly the excitement when my first PR was merged a few years ago, and I experienced the fun of participating in open source. But only in the contributor stage, no more, because I later do not do R & D, **think not familiar with the code, can not fix the bug will not have the opportunity to contribute.**
 
-这里是有一个误区的，并非只有贡献代码、修复 bug 才是为项目做贡献。成为贡献者只能通过贡献代码的方式吗？**如果我不会写代码，并非开发者，怎样才能成为一个开源项目的贡献者，甚至晋升为 committer 呢？**
+There is a misunderstanding here, not only contributing code and fixing bugs are contributions to the project. Is the only way to become a contributor is to contribute code? **If I can't write code and I'm not a developer, how can I become a contributor to an open source project and even get promoted to committer?** If I don't know how to write code and am not a developer, how can I become a contributor to an open source project or even be promoted to committer?
 
-笔者梳理之后，发现有非常多的方式，在这里分享给大家，无论是不是开发者，都可以实践。（笔者也在实践的路上）
+After I sorted it out, I found that there are many ways to become a contributor, so I'll share them here. (The author is also on the way to practice)
 
-## 非代码方式
+## Non-code way
 
-### 写文章
+### Writing articles
 
-写文章是一个很容易被忽略的方式，我们可以通过文章来宣传、布道某个技术。比如撰写某个项目的上手指南、踩坑记录、架构设计分析、实现原理等等。
+Writing articles is an easily overlooked way to promote and evangelize a technology. For example, writing a project's induction guide, a pit-stop record, an architectural design analysis, implementation principles, etc.
 
-如果开始写文章比较困难，可以先从翻译做起，无论是中译英还是英译中，只要是对这个项目有意义的内容，都是在为它做贡献。
+If it is difficult to start writing articles, you can start with translation, either from Chinese to English or from English to Chinese, as long as the content is meaningful to the project, you are contributing to it.
 
-亦或是你观看了别人的技术实战分享，把别人的分享整理成文字版，分享到社区中，帮助更多人了解项目。
+Or if you have watched others' technical practical sharing, organize others' sharing into a text version and share it to the community to help more people understand the project.
 
-笔者还注意到，有些贡献者把文章整理成一本开发小册、或者一本专业书籍，系统地向其他人介绍某项技术。
+I have also noticed that some contributors have put together a development booklet, or a professional book, to systematically introduce a technology to others.
 
-### 制作视频
+### Making videos
 
-制作视频也是一个不错的方式。我们可以把文字的方式转换成视频，用视频的方式介绍某个开源项目，录制上手指南、踩坑记录、架构设计分析、实现原理等等。笔者也看到了很多项目采用视频的方式介绍，视频可能是动画的形式，也可能是真人讲解，无论哪一种，视频在呈现上会比文字更生动有趣一些。
+Making videos is also a good way to do this. We can convert the text into a video, introduce an open source project in a video way, record a guide, step in the record, architecture design analysis, implementation principles and so on. I also saw a lot of projects using video presentation, the video may be the form of animation, may also be a real person to explain, no matter which, the video presentation will be more vivid and interesting than the text some.
 
-不过前期剪辑视频对于新手来说工作量可能比较大。
+However, the pre-editing video for newcomers to the workload may be relatively large.
 
-### 大会分享
+### Conference sharing
 
-如果你不害羞、喜欢外分享，那么去技术大会上分享、布道开源项目也是一个很不错的选择。这对了解项目的新手可能有难度，假以时日，当我们从小白进阶成熟悉者时，去分享就比较容易达成了。分享可以锻炼自己的表达能力、逻辑思维能力，还可以锻炼自己的胆量~（也可能收获到橄榄枝）
+If you are not shy and like to share outside, then going to technical conferences to share and preach open source projects is also a very good choice. This may be difficult for newcomers who understand the project, with time, when we progress from the little white to familiar, go to share is easier to reach. Sharing can exercise their own expression skills, logical thinking skills, but also exercise their own guts ~ (may also harvest the olive branch)
 
-### 完善文档
+### Improve the documentation
 
-大多数开发者并不喜欢写文档，但是文档是其他人了解项目、上手项目的重要途径。笔者曾经的开发经历中，如果遇到一份清晰详细的文档，感觉是非常幸运的事情，上手项目会快很多。文档内容不限于启动说明，如果有架构设计、原理介绍再好不过了。
+Most developers do not like to write documentation, but documentation is an important way for other people to understand the project and get started with the project. I once in the development experience, if you encounter a clear and detailed documentation, I feel very lucky thing, get started on the project will be much faster. Documentation is not limited to start-up instructions, if there is an architectural design, the principle of the introduction is even better.
 
-我们可以为感兴趣的开源项目提交文档，甚至是修复文档，比如：
+We can submit documentation for open source projects of interest, or even fix the documentation, for example
 
-- 代码更新，文档没有同步更新
-- 修复错误的下载链接、文档链接
-- 优化文档，修改文档描述，使其更易理解
-- 提交架构设计、原理介绍文档
+- code updates, the documentation is not updated at the same time
+- fix the wrong download links, documentation links
+- Optimize the documentation, modify the description of the documentation to make it easier to understand
+- Submit architecture design, schematic documentation
 
-### 建设本地社区，组织/参与活动
+### Build local community, organize/participate in events
 
-如果你对一个项目很感兴趣，参与到本地的社区中，和志同道合的人交流、组织当地的活动，为项目发展做贡献。
+If you are interested in a project, get involved in the local community, communicate with like-minded people, organize local events, and contribute to the development of the project.
 
-如果没有本地社区，你可以作为发起人建设本地社区。笔者了解到 Apache 软件基金会鼓励大家建设 Local Community，比如 ALC Beijing。像其他的技术社区，如：KubeSphere、云原生社区都在积极发展本地社区。
+If there is no local community, you can build one as an initiator. I know that the Apache Software Foundation encourages people to build Local Communities, such as ALC Beijing, and other technical communities such as KubeSphere and Cloud Native Community are actively developing local communities.
 
-### 积极参与社区讨论
+### Actively participate in community discussions
 
-#### 活跃在 Apache mail list
+#### is active on the Apache mailing list
 
-Apache 文化鼓励大家通过邮件列表的形式讨论问题、做决策，所有的事项都要有所记录。每一个 Apache 项目都有自己专属的邮件列表，如果对项目有什么想法，社区非常鼓励大家到邮件列表讨论。
+The Apache culture encourages discussion and decision making through mailing lists, where everything is documented. Each Apache project has its own mailing list, and if you have an idea for a project, the community strongly encourages you to discuss it on the mailing list.
 
-我们可以：
+We can.
 
-- 为项目发版投票
-- 回复其他人发起的讨论，表达自己的观点
-- 发起一次讨论
+- Post a poll for a project
+- Reply to discussions started by others to express our own views
+- Start a discussion
 
-为什么是邮件列表？
+Why a mailing list?
 
-邮件列表给我的感觉很古老，笔者去了解了 Apache 软件基金会发展历史，最初基金会的创始人是通过邮件列表的方式讨论问题，难道是古老文化的保留？
+Mailing lists give me a very old-fashioned feeling. I went to learn about the history of the Apache Software Foundation, and initially the founders of the foundation discussed issues by way of mailing lists, is it a preservation of the old culture?
 
-虽然互联网发展迅速，但是世界上仍有接收图片困难、使用其他软件的困难，尽管是我们熟知的 wechat、Twitter 使用者也没有覆盖全球，但是使用邮件能够以最小门槛的方式与他人建立联系，保障全世界各地的人都能参加到社区讨论中，这就是 Apache 软件基金会保留邮件列表方式的初衷。
+Although the Internet is developing rapidly, but the world still has difficulties in receiving pictures, difficulties in using other software, although wechat, Twitter users we know also do not cover the world, but the use of mail can be the smallest threshold to establish contact with others, to ensure that people around the world can participate in community discussions, this is the original intention of the Apache Software Foundation to retain the mailing list approach.
 
-#### 活跃在 Github
+#### is active on Github
 
-Github 是开发者最常逛的网站了，大多数的开源项目都托管在 Github 上。我可以在感兴趣的项目下
+Github is the most common site for developers, and most open source projects are hosted on Github. I can
 
-- 提 issue 说出我的想法，项目的改进方向
-- 提交一个 bug report
-- review 其他小伙伴提交的 pr
+- raise an issue with my thoughts on how to improve the project
+- submit a bug report
+- review pr submitted by other partners
 
-这些都是为开源项目做贡献的方式。
+These are all ways to contribute to open source projects.
 
 #### Apache mail list vs Github
 
-有 Github 为什么还要使用邮件列表？代码托管在 Github ，看起来社区的协作工作好像都是在 Github 上完成的呀？
+Why use a mailing list when you have Github? The code is hosted on Github, and it seems like all the community collaboration is done on Github?
 
-在邮件列表里讨论问题，如果大家没有提出反对意见，可以默许为大家通过提议。如果有反对意见，大家会充分讨论，最终达成一致或搁置。
+If there are no objections to discussing an issue on the mailing list, the proposal will be approved by default. If there are objections, they will be fully discussed and eventually agreed or set aside.
 
-使用邮件列表的方式讨论，也是对 Apache 文化的认同。遵循 Apache 规则的项目，邮件列表是是社区的首要阵地，Github 是一个方便的协同工具。
+The use of mailing lists for discussion is also a way to identify with the Apache culture. For projects that follow Apache rules, the mailing list is the primary place for the community, and Github is a convenient collaborative tool.
 
-## 代码方式
+## Code approach
 
-### 贡献功能、修复 bug
+### Contribute features, fix bugs
 
-当然了，开源项目肯定是离不开代码的。如果开源项目的技术栈你很熟悉，很快就能上手贡献代码，和社区小伙伴们一起完善相关功能、修复 bug，持续贡献，成为项目 contributor，进一步提名成为 committer、PMC 是很容易的事情。大多数的贡献者都是通过提交代码的方式成为 committer 的，但是作为像笔者这样不熟悉代码的小伙伴，这一条就不适合了。
+Of course, open source projects are inseparable from the code. If you are familiar with the technology stack of an open source project, you will soon be able to contribute code, work with community partners to improve the relevant features, fix bugs, and continue to contribute, becoming a project contributor, and further nominated to become a committer, PMC is very easy to do. Most of the contributors become committer by submitting code, but as a small partner like me who is not familiar with code, this one is not suitable.
 
-这里需要注意一点，committer 是对贡献者过往贡献的肯定，不会因为未来不再贡献而去除 committer 身份，也不会因为是 committer 而有更大的权利，社区中人人平等。
+It is important to note that a committer is an affirmation of a contributor's past contributions and will not be removed as a committer because he or she will no longer contribute in the future, nor will they have greater rights because they are a committer.
 
-## 总结
+## Summary
 
-本文介绍了很多成为开源项贡献的途径，如果你有很感兴趣的开源项目却不熟悉代码，又想参与到开源社区中，写文章、做视频、对外分享、建立本地社区、积极参与社区讨论都是很不错方式哦，欢迎实践。
+If you are interested in open source projects but not familiar with the code, and want to participate in the open source community, writing articles, making videos, sharing with the public, building local communities, and actively participating in community discussions are all very good ways, welcome to practice.
