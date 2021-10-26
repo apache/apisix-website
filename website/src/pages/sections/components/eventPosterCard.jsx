@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import gsap from "gsap"
 
 import "../../../css/customTheme.css";
 
+
 const EventPosterCard = () => {
+  const { siteConfig } = useDocusaurusContext();
   const [display, setDisplay] = useState(true);
   const picRef = useRef(null);
 
@@ -11,7 +14,7 @@ const EventPosterCard = () => {
     gsap.fromTo(picRef.current, {
       x: 500,
       opacity: 0
-      }, {
+    }, {
       x: 0,
       opacity: 1,
       delay: 3.0,
@@ -21,38 +24,50 @@ const EventPosterCard = () => {
   useEffect(() => {
     if (!localStorage.getItem('SHOW_EVENT_ENTRY')) {
       setDisplay(true);
-    };
+    }
+
+    if (!siteConfig.customFields.eventPosterCard.show) {
+      setDisplay(false);
+    } else {
+      const expire = siteConfig.customFields.eventPosterCard.expire;
+      const expireTimestamp = new Date(expire).getTime();
+      if (expireTimestamp <= new Date().getTime()) {
+        setDisplay(false);
+      }
+    }
   }, []);
-  
+
   const onClose = () => {
     gsap.to(picRef.current, {
       x: 500,
       opacity: 0,
       onComplete: ()=>{
-      setDisplay(false);
+        setDisplay(false);
       }
     });
     if (typeof window !== 'undefined') {
       localStorage.setItem('SHOW_EVENT_ENTRY', 'true');
     }
   };
-  
+
   if (!display) {
     return null;
   }
-  
+
   return (
-    <div ref={picRef} className="pic-wrapper">
-    <button className="pic-wrapper-close" onClick={onClose}>
-      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" className="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512">
-      <path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path>
-      </svg>
-    </button>
-    <a href="/blog/2021/10/18/meetup" onClick={onClose}>
-      <img src="https://static.apiseven.com/202108/meetup-card.png" alt="" />
-    </a>
-    </div>
+      <div ref={picRef} className="pic-wrapper">
+        <button className="pic-wrapper-close" onClick={onClose}>
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times"
+               className="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 352 512">
+            <path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path>
+          </svg>
+        </button>
+        <a href={siteConfig.customFields.eventPosterCard.link} onClick={onClose}>
+          <img src={siteConfig.customFields.eventPosterCard.image} alt=""/>
+        </a>
+      </div>
   );
 }
-  
+
 export default EventPosterCard;
