@@ -18,7 +18,7 @@ tags: [Release]
 
 ## Release Notes
 
-**New feature: APISIX now supports writing custom plugins in other languages**
+### New feature: APISIX now supports writing custom plugins in other languages
 
 APISIX now supports writing plug-ins in Lua to perform custom logic during proxy requests, such as calling webhook to notify external systems, performing special forensic logic, and so on. However, there are cases where developers may want to write plugins in languages other than Lua.
 
@@ -38,7 +38,7 @@ Assuming we have ext-plugin-pre-req enabled for some requests, and the plugin ru
 
 The plugin runner for Java and Go is already in development. The Java version of the plugin runner is expected to be available within this week, and the Go version of the plugin runner will be completed in June.
 
-**Security enhancement: change the Prometheus default port to no longer expose the port to the data plane**
+### Security enhancement: change the Prometheus default port to no longer expose the port to the data plane
 
 Previously, by default, Prometheus data would be exposed to the port on the data plane, and although you could restrict IP access by configuring the plugin interceptor, there was still the problem of insecurity by default. So starting with 2.6, a new port is dedicated to exposing metrics and by default only listens to 127.0.0.1 .
 
@@ -46,7 +46,7 @@ Prior to 2.6, Prometheus collected APISIX metrics on the data side of the port (
 
 The new port is port 9091 and only listens to 127.0.0.1. You need to change the listening address to your server's intranet address and add a firewall rule to ensure that only Prometheus can access it.
 
-**Support: Ecological full support for Nacos service discovery**
+### Support: Ecological full support for Nacos service discovery
 
 APISIX adds support for the Nacos service discovery feature.
 
@@ -58,7 +58,7 @@ Currently, the following external services are supported by APISIX built-in serv
 3. Eureka
 4. Nacos
 
-**Support: Configuring DNS resolver for IPv6**
+### Support: Configuring DNS resolver for IPv6
 
 Previously, when configuring DNS resolver for APISIX, only IPv4 servers could be configured. Since version 2.6, we have added support for IPv6 DNS servers.
 
