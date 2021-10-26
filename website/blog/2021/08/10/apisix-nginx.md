@@ -1,81 +1,81 @@
 ---
-title: "Apache APISIX 架构分析：如何动态管理 Nginx 集群？"
-author: "陶辉"
+title: "Apache APISIX Architecture Analysis: How to Dynamically Manage Nginx Clustering?"
+author: Hui Tao
 keywords: 
-- API 网关
+- API Gateway
 - Apache APISIX
 - Nginx
 - Lua
-- 动态管理
+- Dynamic Management
 date: "2021-08-10"
-description: 本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
+description: This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3 to implement a REST API for remote control of Nginx clusters.
 tags: [Technology]
 ---
 
-> 本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
+> This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX for REST API remote control of Nginx clusters based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3.
 
-<!--truncate-->
+<! --truncate -->
 
-开源版 Nginx 最为人诟病的就是不具备动态配置、远程 API 及集群管理的能力，而 Apache APISIX 作为 Apache 基金会毕业的开源七层网关，基于 etcd 和 Lua 实现了对 Nginx 集群的动态管理。
+One of the most criticized aspects of the open source version of Nginx is that it does not have dynamic configuration, remote API, and cluster management capabilities. Apache APISIX, the open source seven-tier gateway graduated from the Apache Foundation, implements dynamic management of Nginx clusters based on etcd and Lua.
 
-![APISIX 架构图](https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png)
+! [APISIX architecture diagram](https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png)
 
-让 Nginx 具备动态、集群管理能力并不容易，因为这将面临以下问题：
+Making Nginx dynamically, cluster-managed is not easy, as it would face the following problems.
 
-* 微服务架构使得上游服务种类多、数量大，这导致路由规则、上游 Server 的变更极为频率。而 Nginx 的路由匹配是基于静态的 Trie 前缀树、哈希表、正则数组实现的，一旦`server_name`、`location` 变动，不执行 reload 就无法实现配置的动态变更
-* Nginx 将自己定位于 ADC 边缘负载均衡，因此它对上游并不支持 HTTP2 协议。这增大了 OpenResty 生态实现 etcd gRPC 接口的难度，因此通过 watch 机制接收配置变更必然效率低下
-* 多进程架构增大了 Worker 进程间的数据同步难度，必须选择 1 个低成本的实现机制，保证每个 Nginx 节点、Worker 进程都持有最新的配置
+* The microservices architecture makes for a large variety and number of upstream services, which leads to extremely frequent changes to routing rules, and upstream Servers. Nginx's route matching is based on static Trie prefix trees, hash tables, and regular arrays, so once `server_name` and `location` change, it is impossible to dynamically change the configuration without performing a reload.
+* Nginx positions itself as an ADC edge load balancer, so it does not support the HTTP2 protocol upstream. This makes it more difficult for the OpenResty ecosystem to implement the etcd gRPC interface, so receiving configuration changes through the watch mechanism is inefficient
+* Multi-process architecture makes it harder to synchronize data between worker processes, so you must choose a low-cost implementation mechanism to ensure that each Nginx node and worker process has the latest configuration
 
-Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动态管理，本文将基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理。
+Apache APISIX is based on the Lua timer and the lua-resty-etcd module for dynamic configuration management. The principle of Nginx clustering.
 
-## 基于 etcd watch 机制的配置同步方案
+## Configuration synchronization scheme based on etcd watch mechanism
 
-管理集群必须依赖中心化的配置，etcd 就是这样一个数据库。Apache APISIX 没有选择关系型数据库作为配置中心，是因为 etcd 具有以下 2 个优点：
+Managing a cluster must rely on a centralized configuration, and etcd is one such database. etcd was not chosen as the configuration center for Apache APISIX because it has two advantages.
 
-* etcd 采用类 Paxos 的 Raft 协议保障了数据一致性，它是去中心化的分布式数据库，可靠性高于关系数据库
-* etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种 key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：
-![基于 etcd 同步 nginx 配置](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
+* etcd uses the Paxos-like Raft protocol to guarantee data consistency, and it is a decentralized, distributed database that is more reliable than relational databases
+* etcd's watch mechanism allows clients to monitor changes to a key, i.e., if the value of a key like /nginx/http/upstream changes, the watch client will be notified immediately, as shown in the following figure.
+! [etcd-based synchronization of nginx configuration](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
 
-因此，不同于 Orange 和 Kong，Apache APISIX 采用了 etcd 作为中心化的配置组件。你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：
+Therefore, unlike Orange and Kong, Apache APISIX uses etcd as the centralized configuration component. You can see a similar configuration in a production environment of Apache APISIX via etcdctl as follows.
 
 ```yaml
-# etcdctl get  "/apisix/upstreams/1"
+# etcdctl get "/apisix/upstreams/1"
 /apisix/upstreams/1
-{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}
+{"hash_on": "vars", "nodes":{"httpbin.org:80":1}, "create_time":1627982128, "update_time":1627982128, "scheme": "http", "type":" roundrobin", "pass_host": "pass", "id": "1"}
 ```
 
-其中，/apisix 这个前缀可以在 conf/config.yaml 中修改，比如：
+Where the prefix /apisix can be changed in conf/config.yaml, e.g.
 
 ```yaml
 etcd:
   host:  
     - "http://127.0.0.1:2379"
-  prefix: /apisix                 # apisix configurations prefix
+  prefix: /apisix # apisix configurations prefix
 ```
 
-而 upstreams/1 就等价于 nginx.conf 中的 http { upstream 1 {} } 配置。类似关键字还有 /apisix/services/、/apisix/routes/ 等。
+and upstreams/1 is equivalent to http { upstream 1 {} } in nginx.conf. Similar keywords are used in /apisix/services/, /apisix/routes/, and so on.
 
-那么，Nginx 是怎样通过 watch 机制获取到 etcd 配置数据变化的呢？有没有新启动一个 agent 进程？它通过 HTTP/1.1 还是 gRPC 与 etcd 通讯的？
+So, how does Nginx get the etcd configuration data changes through the watch mechanism? Does it start a new agent process? Does it communicate with etcd via HTTP/1.1 or gRPC?
 
-## ngx.timer.at 定时器
+## ngx.timer.at timer
 
-Apache APISIX 并没有启动 Nginx 以外的进程与 etcd 通讯。实际上它是通过 `ngx.timer.at` 这个定时器实现了 watch 机制。为了方便对 OpenResty 不太了解的同学理解，我们先来看看 Nginx 中的定时器是如何实现的，它是 watch 机制实现的基础。
+Apache APISIX does not start a process other than Nginx to communicate with etcd. It actually implements the watch mechanism through the `ngx.timer.at` timer. For those who are not familiar with OpenResty, let's take a look at how the timer is implemented in Nginx, which is the basis for the watch mechanism.
 
-### Nginx 的红黑树定时器
+### Nginx's red-black tree timer
 
-Nginx 采用了 epoll + nonblock socket 这种多路复用机制实现事件处理模型，其中每个 worker 进程会循环处理网络 IO 及定时器事件：
+Nginx uses an epoll + nonblock socket multiplexing mechanism to implement an event handling model in which each worker process cycles through network IO and timer events.
 
 ```c
-//参见 Nginx 的 src/os/unix/ngx_process_cycle.c 文件
+//see the src/os/unix/ngx_process_cycle.c file for Nginx
 static void
 ngx_worker_process_cycle(ngx_cycle_t *cycle, void *data)
 {
-    for ( ;; ) {
+    for (;; ) {
         ngx_process_events_and_timers(cycle);
     }
 }
 
-// 参见 ngx_proc.c 文件
+// See the ngx_proc.c file
 void
 ngx_process_events_and_timers(ngx_cycle_t *cycle)
 {
@@ -87,18 +87,18 @@ ngx_process_events_and_timers(ngx_cycle_t *cycle)
 }
 ```
 
-`ngx_event_expire_timers` 函数会调用所有超时事件的 handler 方法。事实上，定时器是由[红黑树](https://zh.wikipedia.org/zh-hans/%E7%BA%A2%E9%BB%91%E6%A0%91)（一种平衡有序二叉树）实现的，其中 key 是每个事件的绝对过期时间。这样，只要将最小节点与当前时间做比较，就能快速找到过期事件。
+The `ngx_event_expire_timers` function calls the handler method of all timeout events. In fact, the timer is implemented by a [red-black tree](https://zh.wikipedia.org/zh-hans/%E7%BA%A2%E9%BB%91%E6%A0%91) (a balanced ordered binary tree), where the key is the absolute expiration time of each event. This way, expired events can be found quickly by comparing the minimum node with the current time.
 
-### OpenResty 的 Lua 定时器
+Lua timer for ### OpenResty
 
-当然，以上 C 函数开发效率很低。因此，OpenResty 封装了 Lua 接口，通过 [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat) 将 `ngx_timer_add` 这个 C 函数暴露给了 Lua 语言：
+Of course, the above C functions are very inefficient to develop. Therefore, OpenResty wraps the Lua interface and exposes the C function `ngx_timer_add` to the Lua language via [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat).
 
 ```c
-//参见 OpenResty /ngx_lua-0.10.19/src/ngx_http_lua_timer.c 文件
+//see OpenResty /ngx_lua-0.10.19/src/ngx_http_lua_timer.c file
 void
 ngx_http_lua_inject_timer_api(lua_State *L)
 {
-    lua_createtable(L, 0 /* narr */, 4 /* nrec */);    /* ngx.timer. */
+    lua_createtable(L, 0 /* narr */, 4 /* nrec */); /* ngx.timer. */
 
     lua_pushcfunction(L, ngx_http_lua_ngx_timer_at);
     lua_setfield(L, -2, "at");
@@ -113,38 +113,38 @@ ngx_http_lua_ngx_timer_at(lua_State *L)
 static int
 ngx_http_lua_ngx_timer_helper(lua_State *L, int every)
 {
-    ngx_event_t             *ev = NULL;
+    ngx_event_t *ev = NULL;
     ev->handler = ngx_http_lua_timer_handler;
     ngx_add_timer(ev, delay);
 }
 ```
 
-因此，当我们调用 `ngx.timer.at`  Lua 定时器时，就是在 Nginx 的红黑树定时器里加入了 `ngx_http_lua_timer_handler` 回调函数，这个函数不会阻塞 Nginx。
+So when we call `ngx.timer.at` Lua timer, we are adding the `ngx_http_lua_timer_handler` callback function to Nginx's red-black tree timer, which does not block Nginx.
 
-下面我们来看看 Apache APISIX 是怎样使用 `ngx.timer.at` 的。
+Let's see how Apache APISIX uses `ngx.timer.at`.
 
-### Apache APISIX 基于定时器实现的 watch 机制
+### Apache APISIX timer-based watch mechanism
 
-Nginx 框架为 C 模块开发提供了许多钩子，而 OpenResty 将部分钩子以 Lua 语言形式暴露了出来，如下图所示：
+The Nginx framework provides a number of hooks for C module development, and OpenResty exposes some of them as Lua, as shown in the following image.
 
-![openresty 钩子](https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png)
+! [openresty hooks](https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png)
 
-Apache APISIX 仅使用了其中 8 个钩子（注意，APISIX 没有使用 `set_by_lua` 和 `rewrite_by_lua`，rewrite 阶段的插件其实是 Apache APISIX 自定义的，与 Nginx 无关），包括：
+Apache APISIX uses only eight of these hooks (note that APISIX does not use `set_by_lua` and `rewrite_by_lua`; the rewrite phase of the plugin is actually self-defined by Apache APISIX and is not related to Nginx), including
 
-* init_by_lua：Master 进程启动时的初始化
-* init_worker_by_lua：每个 Worker 进程启动时的初始化（包括 privileged agent 进程的初始化，这是实现 Java 等多语言插件远程 RPC 调用的关键）
-* ssl_certificate_by_lua：在处理 TLS 握手时，openssl 提供了一个钩子，OpenResty 通过修改 Nginx 源码以 Lua 方式暴露了该钩子
-* access_by_lua：接收到下游的 HTTP 请求头部后，在此匹配 Host 域名、URI、Method 等路由规则，并选择 Service、Upstream 中的插件及上游 Server
-* balancer_by_lua：在 content 阶段执行的所有反向代理模块，在选择上游 Server 时都会回调 `init_upstream` 钩子函数，OpenResty 将其命名为 `balancer_by_lua`
-* header_filter_by_lua：将 HTTP 响应头部发送给下游前执行的钩子
-* body_filter_by_lua：将 HTTP 响应包体发送给下游前执行的钩子
-* log_by_lua：记录 access 日志时的钩子
+* init_by_lua: initialization of the Master process when it starts
+* init_worker_by_lua: initialization of each worker process at startup (including initialization of privileged agent processes, which are key to implementing remote RPC calls from multilingual plugins such as Java)
+* ssl_certificate_by_lua: openssl provides a hook when handling the TLS handshake, which OpenResty exposes as Lua by modifying the Nginx source code
+* access_by_lua: After receiving the downstream HTTP request header, it matches the routing rules such as Host domain, URI, Method, etc., and selects the Service, plugins in Upstream and upstream Server.
+* balancer_by_lua: All reverse proxy modules executed in the content phase call back the `init_upstream` hook function, named `balancer_by_lua` by OpenResty, when the upstream Server is selected.
+* header_filter_by_lua: hook to be executed before sending HTTP response headers downstream
+* body_filter_by_lua: hook to be executed before sending the HTTP response packet body downstream
+* log_by_lua: hook for logging access logs
 
-准备好上述知识后，我们就可以回答 Apache APISIX 是怎样接收 etcd 数据的更新了。
+Once we have the above knowledge ready, we can answer how Apache APISIX receives updates to etcd data.
 
-#### nginx.conf 的生成方式
+How #### nginx.conf is generated
 
-每个 Nginx Worker 进程都会在 `init_worker_by_lua` 阶段通过 `http_init_worker` 函数启动定时器：
+Each Nginx worker process starts a timer in the ``init_worker_by_lua`` phase with the ``http_init_worker`` function.
 
 ```lua
 init_worker_by_lua_block {
@@ -152,9 +152,9 @@ init_worker_by_lua_block {
 }
 ```
 
-你可能很好奇，下载 Apache APISIX 源码后没有看到 nginx.conf，这段配置是哪来的？
+You may be curious to know that you don't see nginx.conf after downloading the Apache APISIX source code, where did this configuration come from?
 
-这里的 nginx.conf 实际是由 Apache APISIX 的启动命令实时生成的。当你执行 make run 时，它会基于 Lua 模板 apisix/cli/ngx_tpl.lua 文件生成 nginx.conf。请注意，这里的模板规则是 OpenResty 自实现的，语法细节参见 [lua-resty-template](https://github.com/bungle/lua-resty-template)。生成 nginx.conf 的具体代码参见 apisix/cli/ops.lua 文件：
+The nginx.conf here is actually generated in real time by the Apache APISIX startup command. When you execute make run, it generates nginx.conf based on the Lua template apisix/cli/ngx_tpl.lua file. Note that the template rules here are self-implemented by OpenResty; see [lua-resty-template](https://github.com) for syntax details. /bungle/lua-resty-template). See the apisix/cli/ops.lua file for the specific code that generates nginx.conf.
 
 ```lua
 local template = require("resty.template")
@@ -164,11 +164,11 @@ local function init(env)
     local conf_render = template.compile(ngx_tpl)
     local ngxconf = conf_render(sys_conf)
 
-    local ok, err = util.write_file(env.apisix_home .. "/conf/nginx.conf",
+    local ok, err = util.write_file(env.apisix_home . "/conf/nginx.conf",
                                     ngxconf)
 ```
 
-当然，Apache APISIX 允许用户修改 nginx.conf 模板中的部分数据，具体方法是模仿 conf/config-default.yaml 的语法修改 conf/config.yaml 配置。其实现原理参见 `read_yaml_conf` 函数：
+Of course, Apache APISIX allows you to modify some of the data in the nginx.conf template by modifying the conf/config.yaml configuration in a way that mimics the syntax of conf/config-default.yaml. See the *read_yaml_conf* function for an example of how to do this.
 
 ```conf
 function _M.read_yaml_conf(apisix_home)
@@ -181,25 +181,25 @@ function _M.read_yaml_conf(apisix_home)
 end
 ```
 
-可见，ngx_tpl.lua 模板中仅部分数据可由 yaml 配置中替换，其中 conf/config-default.yaml 是官方提供的默认配置，而 conf/config.yaml 则是由用户自行覆盖的自定义配置。如果你觉得仅替换模板数据还不够，大可直接修改 ngx_tpl 模板。
+As you can see, only some of the data in the ngx_tpl.lua template can be replaced by the yaml configuration, where conf/config-default.yaml is the official default configuration, and conf/config.yaml is a custom configuration overridden by the user. If you feel that replacing the template data is not enough, you can modify the ngx_tpl template directly.
 
-#### Apache APISIX 获取 etcd 通知的方式
+#### How Apache APISIX gets etcd notifications
 
-Apache APISIX 将需要监控的配置以不同的前缀存入了 etcd，目前包括以下 11 种：
+Apache APISIX stores the configurations to be monitored in etcd with different prefixes, which currently include the following 11 types.
 
-* /apisix/consumers/：Apache APISIX 支持以 consumer 抽象上游种类
-* /apisix/global_rules/：全局通用的规则
-* /apisix/plugin_configs/：可以在不同 Router 间复用的 Plugin
-* /apisix/plugin_metadata/：部分插件的元数据
-* /apisix/plugins/：所有 Plugin 插件的列表
-* /apisix/proto/：当透传 gRPC 协议时，部分插件需要转换协议内容，该配置存储 protobuf 消息定义
-* /apisix/routes/：路由信息，是 HTTP 请求匹配的入口，可以直接指定上游 Server，也可以挂载 services 或者 upstream
-* /apisix/services/：可以将相似的 router 中的共性部分抽象为 services，再挂载 plugin
-* /apisix/ssl/：SSL 证书公、私钥及相关匹配规则
-* /apisix/stream_routes/：OSI 四层网关的路由匹配规则
-* /apisix/upstreams/：对一组上游 Server 主机的抽象
+* /apisix/consumers/: Apache APISIX supports the consumer abstraction upstream category
+* /apisix/global_rules/: global generic rules
+* /apisix/plugin_configs/: Plugin that can be reused across Router
+* /apisix/plugin_metadata/: metadata of some plugins
+* /apisix/plugins/: list of all Plugin plugins
+* /apisix/proto/: When passing the gRPC protocol, some plugins need to convert the protocol content, this configuration stores the protobuf message definition
+* /apisix/routes/: Routing information, which is the entry point for HTTP request matching, you can specify the upstream Server directly, or mount services or upstream
+* /apisix/services/: you can abstract the common parts of similar router as services and mount the plugin
+* /apisix/ssl/: SSL certificate public and private keys and related matching rules
+* /apisix/stream_routes/: route matching rules for OSI Layer 4 gateways
+* /apisix/upstreams/: abstraction of a set of upstream Server hosts
 
-这里每类配置对应的处理逻辑都不相同，因此 Apache APISIX 抽象出 apisix/core/config_etcd.lua 文件，专注 etcd 上各类配置的更新维护。在 `http_init_worker` 函数中每类配置都会生成 1 个 config_etcd 对象：
+Each type of configuration here has a different processing logic, so Apache APISIX abstracts the apisix/core/config_etcd.lua file to focus on the update maintenance of each type of configuration on etcd. Each type of configuration in the `http_init_worker` function generates 1 config_etcd object.
 
 ```lua
 function _M.init_worker()
@@ -212,7 +212,7 @@ function _M.init_worker()
 end
 ```
 
-而在 `config_etcd` 的 new 函数中，则会循环注册 `_automatic_fetch` 定时器:
+And in the new function of `config_etcd`, the `_automatic_fetch` timer will be registered recursively:
 
 ```lua
 function _M.new(key, opts)
@@ -220,7 +220,7 @@ function _M.new(key, opts)
 end
 ```
 
-`_automatic_fetch` 函数会反复执行 `sync_data` 函数（包装到 xpcall 之下是为了捕获异常）：
+The `_automatic_fetch` function iterates the `sync_data` function (wrapped under xpcall to catch exceptions).
 
 ```lua
 local function _automatic_fetch(premature, self)
@@ -231,16 +231,16 @@ local function _automatic_fetch(premature, self)
 end
 ```
 
-`sync_data` 函数将通过 etcd 的 watch 机制获取更新，它的实现机制我们接下来会详细分析。
+The `sync_data` function will get updates through etcd's watch mechanism, which we will analyze in detail next.
 
-所以总结来看，Apache APISIX 在每个 Nginx Worker 进程的启动过程中，通过 `ngx.timer.at` 函数将 `_automatic_fetch` 插入定时器。`_automatic_fetch` 函数执行时会通过 `sync_data` 函数，基于 watch 机制接收 etcd 中的配置变更通知，这样，每个 Nginx 节点、Worker 进程都将保持最新的配置。如此设计还有 1 个明显的优点：etcd 中的配置直接写入 Nginx Worker 进程中，这样处理请求时就能直接使用新配置，无须在进程间同步配置，这要比启动 1 个 agent 进程更简单！
+So to summarize, Apache APISIX inserts `_automatic_fetch` into the timer via the `ngx.timer.at` function during the startup of each Nginx worker process. The `_automatic_fetch` function receives notifications of configuration changes in etcd through the `sync_data` function, based on a watch mechanism, so that each Nginx node and worker process will be kept up to date with the latest configuration. This design also has one obvious advantage: the configuration in etcd is written directly to the Nginx worker process, so that the new configuration can be used directly when processing requests, without having to synchronize the configuration between processes, which is easier than starting an agent process!
 
-### lua-resty-etcd 库的 HTTP/1.1 协议
+### HTTP/1.1 protocol for the lua-resty-etcd library
 
-`sync_data` 函数到底是怎样获取 etcd 的配置变更消息的呢？先看下 `sync_data` 源码：
+How exactly does the `sync_data` function get the configuration change messages from etcd? Let's look at the `sync_data` source code.
 
 ```lua
-local etcd         = require("resty.etcd")
+local etcd = require("resty.etcd")
 etcd_cli, err = etcd.new(etcd_conf)
 
 local function sync_data(self)
@@ -255,22 +255,22 @@ local function waitdir(etcd_cli, key, modified_index, timeout)
 end
 ```
 
-这里实际与 etcd 通讯的是 [lua-resty-etcd](https://github.com/api7/lua-resty-etcd) 库。它提供的 watchdir 函数用于接收 etcd 发现 key 目录对应 value 变更后发出的通知。
+The actual communication with etcd here is the [lua-resty-etcd](https://github.com/api7/lua-resty-etcd) library. It provides the watchdir function to receive notifications from etcd when it finds a change in the value of the key directory.
 
-watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾导致的。etcd v3 已经支持高效的 gRPC 协议（底层为 HTTP2 协议）。你可能听说过，HTTP2 不但具备多路复用的能力，还支持服务器直接推送消息，从 HTTP3 协议对照理解 HTTP2 ：
+And what does the watchcancel function do? This is actually the result of a deficiency in the OpenResty ecosystem. etcd v3 already supports the efficient gRPC protocol (the underlying HTTP2 protocol). As you may have heard, HTTP2 not only has the ability to multiplex, but also supports direct server pushing of messages from the HTTP3 protocol against HTTP2: !
 
-![http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
+! [http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
 
-然而，Lua 生态目前并不支持 HTTP2 协议，所以 lua-resty-etcd 库实际是通过低效的 HTTP/1.1 协议与 etcd 通讯的，因此接收 /watch 通知也是通过带有超时的 /v3/watch 请求完成的。这个现象其实是由 2 个原因造成的：
+However, Lua Eco does not currently support the HTTP2 protocol, so the lua-resty-etcd library actually communicates with etcd via the inefficient HTTP/1.1 protocol, and therefore receives /watch notifications via /v3/watch requests with timeouts. This phenomenon is actually caused by two things.
 
-1. Nginx 将自己定位为边缘负载均衡，因此上游必然是企业内网，时延低、带宽大，所以对上游协议不必支持 HTTP2 协议
-2. 当 Nginx 的 upstream 不能提供 HTTP2 机制给 Lua 时，Lua 只能基于 cosocket 自己实现了。HTTP2 协议非常复杂，目前还没有生产环境可用的 HTTP2 cosocket 库。
+1. Nginx positions itself as an edge load balancer, so the upstream must be the corporate intranet, which has low latency and high bandwidth, so it does not need to support the HTTP2 protocol for the upstream protocol
+The HTTP2 protocol is very complex, and there is no HTTP2 cosocket library available for production environments.
 
-使用 HTTP/1.1 的 lua-resty-etcd 库其实很低效，如果你在 APISIX 上抓包，会看到频繁的 POST 报文，其中 URI 为 /v3/watch，而 Body 是 Base64 编码的 watch 目录：
+The lua-resty-etcd library using HTTP/1.1 is actually very inefficient, and if you capture packets on APISIX, you will see frequent POST messages with a URI of /v3/watch and a Base64-encoded watch directory with a body of
 
-![APISIX 与 etcd 通过 HTTP1 通讯](https://static.apiseven.com/202108/1631170602368-d105d014-efe4-48c7-93b8-be5447c76a70.jpeg)
+! [APISIX communicates with etcd over HTTP1](https://static.apiseven.com/202108/1631170602368-d105d014-efe4-48c7-93b8-be5447c76a70.jpeg)
 
-我们可以验证下 `watchdir` 函数的实现细节：
+We can verify the implementation details of the `watchdir` function.
 
 ```lua
 -- lib/resty/etcd/v3.lua 文件
@@ -313,19 +313,19 @@ local function http_request_chunk(self, http_cli)
 end
 ```
 
-可见，Apache APISIX 在每个 worker 进程中，**通过 `ngx.timer.at` 和 lua-resty-etcd 库反复请求 etcd，以此保证每个 Worker 进程中都含有最新的配置。**
+As you can see, Apache APISIX makes sure that each worker process contains the latest configuration by **repeatedly requesting etcd through the `ngx.timer.at` and lua-resty-etcd libraries in each worker process.**
 
-## APISIX 配置与插件的远程变更
+## APISIX configuration and plugin remote changes
 
-接下来，我们看看怎样远程修改 etcd 中的配置。
+Next, let's look at how to remotely modify the configuration in etcd.
 
-我们当然可以直接通过 gRPC 接口修改 etcd 中相应 key 的内容，再基于上述的 watch 机制使得 Nginx 集群自动更新配置。然而，这样做的风险很大，因为配置请求没有经过校验，进面导致配置数据与 Nginx 集群不匹配。
+We can of course modify the contents of the corresponding key in etcd directly through the gRPC interface, and then make the Nginx cluster automatically update its configuration based on the watch mechanism described above. However, this is risky because the configuration request is not verified, and the configuration data does not match the Nginx cluster.
 
-### 通过 Nginx 的 /apisix/admin/ 接口修改配置
+### Modifying configuration via Nginx's /apisix/admin/ interface
 
-Apache APISIX 提供了这么一种机制：访问任意 1 个 Nginx 节点，通过其 Worker 进程中的 Lua 代码校验请求成功后，再由 /v3/dv/put 接口写入 etcd 中。下面我们来看看 Apache APISIX 是怎么实现的。
+Apache APISIX provides a mechanism to access any one Nginx node, verify the request with Lua code in its worker process, and then write it to etcd through the /v3/dv/put interface. Let's take a look at how Apache APISIX does this.
 
-首先，make run 生成的 nginx.conf 会自动监听 9080 端口（可通过 config.yaml 中 apisix.node_listen 配置修改），当 `apisix.enable_admin` 设置为 true 时，nginx.conf 就会生成以下配置：
+First, the nginx.conf generated by make run automatically listens on port 9080 (as modified by the apisix.node_listen configuration in config.yaml), and when ``apisix.enable_admin`` is set to true, nginx.conf will generate the following configuration.
 
 ```yaml
 server {
@@ -340,28 +340,28 @@ server {
 
 ```
 
-这样，Nginx 接收到的 /apisix/admin 请求将被 `http_admin` 函数处理：
+Thus, the /apisix/admin requests received by Nginx will be processed by the `http_admin` function.
 
 ```lua
--- /apisix/init.lua 文件
+-- /apisix/init.lua file
 function _M.http_admin()
     local ok = router:dispatch(get_var("uri"), {method = get_method()})
 end
 ```
 
-admin 接口能够处理的 API 参见 [GitHub](https://github.com/apache/apisix/blob/release/2.8/docs/zh/latest/admin-api.md) 文档，其中，当 method 方法与 URI 不同时，dispatch 会执行不同的处理函数，其依据如下：
+See the [GitHub](https://github.com/apache/apisix/blob/release/2.8/docs/zh/latest/admin-api.md) documentation for APIs that the admin interface can handle, where when the method method differs from the URI, the dispatch performs different handler functions based on the following.
 
 ```lua
--- /apisix/admin/init.lua 文件
+-- /apisix/admin/init.lua file
 local uri_route = {
     {
         paths = [[/apisix/admin/*]],
-        methods = {"GET", "PUT", "POST", "DELETE", "PATCH"},
+        methods = { "GET", "PUT", "POST", "DELETE", "PATCH"},
         handler = run,
     },
     {
         paths = [[/apisix/admin/stream_routes/*]],
-        methods = {"GET", "PUT", "POST", "DELETE", "PATCH"},
+        methods = {"GET", "PUT", "POST", "DELETE", "PATCH"}, { paths = [[/apisix/admin/stream_routes/*]], { methods = {"GET", "PUT", "POST", "DELETE", "PATCH"},
         handler = run_stream,
     },
     {
@@ -377,26 +377,26 @@ local uri_route = {
 }
 ```
 
-比如，当通过 /apisix/admin/upstreams/1 和 PUT 方法创建 1 个 Upstream 上游时：
+For example, when creating 1 Upstream via /apisix/admin/upstreams/1 and the PUT method.
 
 ```shell
 curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -X PUT -d '
 > {
->   "type": "roundrobin",
->   "nodes": {
->     "httpbin.org:80": 1
->   }
+> "type": "roundrobin",
+> "nodes": {
+> "httpbin.org:80": 1
+> }
 > }'
-{"action":"set","node":{"key":"\/apisix\/upstreams\/1","value":{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}}}
+{ "action": "set", "node":{"key":"\/apisix\/upstreams\/1", "value":{"hash_on": "vars", "nodes":{"httpbin.org:80":1}, "create_time": 1627982128, "update_time":1627982128, "scheme": "http", "type": "roundrobin", "pass_host": "pass", "id": "1"}}}
 ```
 
-你会在 error.log 中会看到如下日志（想看到这行日志，必须将 config.yaml 中的 nginx_config.error_log_level 设为 INFO）：
+You will see the following log in error.log (to see this line, you must set the nginx_config.error_log_level in config.yaml to INFO)
 
 ```yaml
-2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] init.lua:130: handler(): uri: ["","apisix","admin","upstreams","1"], client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
+2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] init.lua:130: handler(): uri: ["", "apisix", "admin", "upstreams", "1"], client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
 ```
 
-这行日志实际是由 /apisix/admin/init.lua 中的 `run` 函数打印的，它的执行依据是上面的 uri_route 字典。我们看下 run 函数的内容：
+This line is actually printed by the `run` function in /apisix/admin/init.lua, which is executed based on the uri_route dictionary above. Let's look at the contents of the run function.
 
 ```lua
 -- /apisix/admin/init.lua文件
@@ -433,49 +433,49 @@ local resources = {
 }
 ```
 
-因此，上面的 curl 请求将被 /apisix/admin/upstreams.lua 文件的 `put` 函数处理，看下 `put` 函数的实现：
+Therefore, the above curl request will be processed by the ``put`` function in the /apisix/admin/upstreams.lua file, see the implementation of the ``put`` function as follows
 
 ```lua
--- /apisix/admin/upstreams.lua文件
+-- /apisix/admin/upstreams.lua file
 function _M.put(id, conf)
-    -- 校验请求数据的合法性
+    -- check the legitimacy of the requested data
     local id, err = check_conf(id, conf, true)
-    local key = "/upstreams/" .. id
+    local key = "/upstreams/" ... id
     core.log.info("key: ", key)
-    -- 生成etcd中的配置数据
+    -- Generate configuration data in etcd
     local ok, err = utils.inject_conf_with_prev_conf("upstream", key, conf)
-    -- 写入etcd
+    -- write to etcd
     local res, err = core.etcd.set(key, conf)
 end
 
 -- /apisix/core/etcd.lua
 local function set(key, value, ttl)
-    local res, err = etcd_cli:set(prefix .. key, value, {prev_kv = true, lease = data.body.ID})
+    local res, err = etcd_cli:set(prefix ... key, value, {prev_kv = true, lease = data.body.ID})
 end
 ```
 
-最终新配置被写入 etcd 中。可见，Nginx 会校验数据再写入 etcd，这样其他 Worker 进程、Nginx 节点都将通过 watch 机制接收到正确的配置。上述流程你可以通过 error.log 中的日志验证：
+The new configuration is eventually written to etcd. As you can see, Nginx verifies the data before writing it to etcd, so that other worker processes and Nginx nodes will receive the correct configuration through the watch mechanism. You can verify this process with the logs in error.log.
 
 ```yaml
-2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] upstreams.lua:72: key: /upstreams/1, client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
+2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] upstreams.lua:72: key: /upstreams/1, client: 127.0.0.1, server: _, request: "PUT /apisix/ admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
 ```
 
-### 为什么新配置不 reload 就可以生效
+### Why the new configuration works without reload
 
-我们再来看 admin 请求执行完 Nginx Worker 进程可以立刻生效的原理。
+Let's look at how the Nginx worker process takes effect immediately after the admin request is executed.
 
-开源版 Nginx 的请求匹配是基于 3 种不同的容器进行的：
+The open source version of Nginx matches requests based on three different containers.
 
-1. 将静态哈希表中的 `server_name` 配置与请求的 `Host` 域名匹配
-2. 其次将静态 Trie 前缀树中的 location 配置与请求的 URI 匹配
+1. the `server_name` configuration in the static hash table is matched to the requested `Host` domain name
+2. Next, the location in the static Trie prefix tree is configured to match the requested URI
 
-    ![location 前缀树的匹配流程 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
+    ! [Matching process for location prefix tree 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
 
-3. 在上述两个过程中，如果含有正则表达式，则基于数组顺序（在 nginx.conf 中出现的次序）依次匹配。
+3. In both of these processes, if there are regular expressions, they are matched in order based on the order of the arrays (the order they appear in nginx.conf).
 
-上述过程虽然执行效率极高，却是写死在 find_config 阶段及 Nginx HTTP 框架中的，一旦变更必须在 nginx -s reload 后才能生效。因此，Apache APISIX 索性完全抛弃了上述流程。
+Although these procedures are very efficient, they are written to die in the find_config phase and in the Nginx HTTP framework, and changes must be made after nginx -s reload to take effect. For this reason, Apache APISIX has abandoned this process altogether.
 
-从 nginx.conf 中可以看到，访问任意域名、URI 的请求都会匹配到 `http_access_phase` 这个 lua 函数：
+As you can see in nginx.conf, requests to any domain name, URI, or domain name will match the `http_access_phase` lua function.
 
 ```conf
 server {
@@ -483,13 +483,13 @@ server {
     location / {
         access_by_lua_block {
             apisix.http_access_phase()
-        }
-        proxy_pass      $upstream_scheme://apisix_backend$upstream_uri;
+        access_by_lua_block { apisix.http_access_phase() }
+        proxy_pass $upstream_scheme://apisix_backend$upstream_uri;
     }
 }
 ```
 
-而在 `http_access_phase` 函数中，将会基于 1 个用 C 语言实现的基数前缀树匹配 Method、域名和 URI（仅支持通配符，不支持正则表达式），这个库就是 [lua-resty-radixtree](https://github.com/api7/lua-resty-radixtree)。每当路由规则发生变化，Lua 代码就会重建这棵基数树：
+The `http_access_phase` function will match Method, domain and URI based on a base prefix tree implemented in C (only wildcards are supported, no regular expressions), the library is [lua-resty-radixtree](https://github.com/api7/lua -resty-radixtree). Whenever the routing rules change, the Lua code rebuilds this base tree: the
 
 ```lua
 function _M.match(api_ctx)
@@ -501,16 +501,16 @@ function _M.match(api_ctx)
 end
 ```
 
-这样，路由变化后就可以不 reload 而使其生效。Plugin 启用、参数及顺序调整的规则与此类似。
+The rules for Plugin enablement, parameter and order adjustment are similar.
 
-最后再提下 Script，它与 Plugin 是互斥的。之前的动态调整改的只是配置，事实上 Lua JIT 的及时编译还提供了另外一个杀手锏 loadstring，它可以将字符串转换为 Lua 代码。因此，在 etcd 中存储 Lua 代码并设置为 Script 后，就可以将其传送到 Nginx 上处理请求了。
+Finally, Script is mutually exclusive with Plugin. In fact, Lua JIT's just-in-time compilation provides another killer feature, loadstring, which converts strings to Lua code. So, after storing Lua code in etcd and setting it to Script, you can pass it to Nginx to process requests.
 
-## 总结
+## Summary
 
-Nginx 集群的管理必须依赖中心化配置组件，而高可靠又具备 watch 推送机制的 etcd 无疑是最合适的选择！虽然当下 Resty 生态没有 gRPC 客户端，但每个 Worker 进程直接通过 HTTP/1.1 协议同步 etcd 配置仍不失为一个好的方案。
+Nginx cluster management must rely on a centralized configuration component, and etcd, which is highly reliable and has a watch push mechanism, is the perfect choice! Although the Resty ecosystem does not have a gRPC client, it is still a good idea for each worker process to synchronize etcd configuration directly via the HTTP/1.1 protocol.
 
-动态修改 Nginx 配置的关键在于 2 点：Lua 语言的灵活度远高于 nginx.conf 语法，而且 Lua 代码可以通过 loadstring 从外部数据中导入。当然，为了保障路由匹配的执行效率，Apache APISIX 通过 C 语言实现了前缀基数树，基于 Host、Method、URI 进行请求匹配，在保障动态性的基础上提升了性能。
+The key to dynamically modifying the Nginx configuration is 2 things: the Lua language is much more flexible than the nginx.conf syntax, and Lua code can be imported from external data via loadstring. Of course, to ensure efficient execution of route matching, Apache APISIX implements a prefix base tree in C to match requests based on Host, Method, and URI, improving performance while maintaining dynamism.
 
-Apache APISIX 拥有许多优秀的设计，本文仅讨论了 Nginx 集群的动态管理。
+Apache APISIX has many good designs, and this article only discusses the dynamic management of Nginx clusters.
 
-[点此查看原文链接](https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more)
+[click here for the link to the original article](https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more )

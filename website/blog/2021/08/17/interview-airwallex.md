@@ -1,86 +1,85 @@
 ---
-title: "Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨"
-author: "Apache APISIX 社区"
+title: Apache APISIX in Airwallex | Interview with Yang Li, Head of Airwallex Technology Platform
+author: Apache APISIX
 keywords: 
 - APISIX
 - Airwallex
-- 空中云汇
-- 金融
-- 数据主权
-description: 本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。
+- Financial
+- Data Sovereignty
+description: In this article, we interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. In the interview, he introduced in detail why Airwallex chose Apache APISIX when making technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in production environment. 
 tags: [Interview]
 ---
 
-> 本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。
+> This article interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. The interview details why Airwallex chose Apache APISIX when making the technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in the production environment.
 
-<!--truncate-->
+<! --truncate -->
 
-我们有幸采访到了 Airwallex 的技术平台负责人李杨，在采访中，李杨谈到了为什么在技术选型时选择 Apache APISIX，以及 Apache APISIX 在 Airwallex 的应用。
+We had a chance to interview Yang Li, the technical platform leader of Airwallex. In the interview, Yang Li talked about why he chose Apache APISIX in the technology selection, and the application of Apache APISIX in Airwallex.
 
-**Q：李博士，您好，请简单介绍一下自己和目前从事的工作。**
+**Q: Hello Dr. Li, please briefly introduce yourself and the work you are currently engaged in.**
 
-**李杨：** 你好，我叫李杨（Jan Li），哲学博士，Apache APISIX Committer，Airwallex 空中云汇 Technical Platform Lead，负责公司技术平台的演进。在加入 Airwallex 之前，曾在万向区块链领导运链盟。在万向区块链之前，曾在花旗集团领导 OTC 衍生品风控平台。
+**Jan Li:** Hi, my name is Jan Li, PhD, Apache APISIX Committer, Airwallex Technical Platform Lead, responsible for the evolution of the company's technology platform. Prior to joining Airwallex, I led the Ops Chain Alliance at Wanxiang Blockchain. Prior to Wanxiang Blockchain, he led the OTC derivatives risk control platform at Citigroup.
 
-Airwallex 空中云汇是一家全球金融科技公司，赋能各类规模的企业跨境运营，以此助力全球经济发展。以技术为核心，Airwallex（空中云汇）构建了专有的全球金融基础设施平台，全球支付网络已覆盖 130 多个国家和地区的 50 余种货币，为各类规模的企业提供数字化的金融科技产品，在全球互联的信息化时代，以更高效、安全的方式帮助企业在全世界高速发展。自 2015 年成立以来，Airwallex 空中云汇已获得来自顶级投资机构超 5 亿美元融资，目前在全球共有 12 个办公室及超过 900 名员工。
+Airwallex is a global financial technology company that empowers businesses of all sizes to operate across borders, thereby helping to grow the global economy. With technology at its core, Airwallex has built a proprietary global financial infrastructure platform with a global payment network covering more than 50 currencies in over 130 countries and regions, providing digital fintech products for businesses of all sizes to help them grow at high speed around the world in a more efficient and secure way in the globally connected information age. Since its inception in 2015, Airwallex has received over $500 million in funding from top-tier investors and now has 12 offices and over 900 employees worldwide.
 
-![Airwallex LiYang](https://static.apiseven.com/202108/20210816001.png)
+! [Airwallex LiYang](https://static.apiseven.com/202108/20210816001.png)
 
-**Q：在做技术选型的时候，是什么原因让您/您的技术团队选择使用 Apache APISIX？**
+**Q: What made you/your technical team choose to use Apache APISIX when making the technology selection?**
 
-**李杨**：API 网关是极其重要的基础技术组件，在技术选型时我们主要从 6 个维度比较了主要的网关产品：
+**LiYang**: API gateway is an extremely important basic technology component, and we compared the main gateway products in 6 main dimensions during the technology selection.
 
-- **稳定性**：API 网关的稳定性至关重要，在世界排名前 1000 的网站中，有 62.1% 是 Nginx 系的，这说明 Nginx 系 web server 是经过了生产环境复杂多样场景考验的；Apache APISIX 全动态的设计也使得它能够在修改路由时不必 reload，client 的长链接也得以保持；我们也对 Apache APISIX 进行了压力测试，在 CPU 达到 70% 以上时 Apache APISIX 仍能稳定运转。
+- **Stability**: The stability of the API gateway is critical. 62.1% of the top 1000 websites in the world are Nginx-based, which means that the Nginx-based web server has been tested in complex and diverse scenarios in production environments; Apache APISIX's fully dynamic design also allows it to modify routes without having to reload, and the client's long links are maintained. The fully dynamic design of Apache APISIX also allows it to maintain long links to clients without having to reload when modifying routes; we also stress-tested Apache APISIX and found it to be stable when the CPU reached over 70%.
 
-- **性能**：每个 API 请求都会经过 API 网关，减小网关性能损耗能大大降低公司 API 整体响应时间。在 PoC 中我们比较了主要的网关产品，Apache APISIX 的响应延迟比其它网关低 50% 以上；Apache APISIX 数据面的设计也使集群中的每一个实例都相互独立，这也使得它天生支持水平扩展。
+- **Performance**: Every API request passes through the API gateway, and reducing gateway performance loss can greatly reduce the overall response time of the company's API. In our PoC comparison of the major gateway products, Apache APISIX has more than 50% lower response latency than other gateways; the design of the Apache APISIX data plane also makes each instance in the cluster independent of each other, which also makes it inherently support horizontal scaling.
 
-- **可扩展性**： API 网关模式是非常重要的微服务架构模式，符合 API 网关模式的 API 网关必须支持企业复杂的鉴权、权限控制、服务发现、限流、降级、负载均衡、白名单、动态路由等功能，所以支持怎样的定制是选择 API 网关时非常关键的考量。
+- **Scalability**: The API gateway model is a very important microservice architecture model, and API gateways that conform to the API gateway model must support complex enterprise features such as authentication, permission control, service discovery, flow restriction, degradation, load balancing, whitelisting, dynamic routing, etc. So what kind of customization is supported is a very critical consideration when choosing an API gateway.
 
-- **社区活跃度**：新的技术与需求层出不穷，一个活跃的社区是 API 网关跟上技术演进步伐的关键。早在 Apache APISIX 还是 Apache 孵化项目时，其社区就已经非常活跃，从 contributor 数量、issue 响应时间、Pull Request 数量三个指标来看都是非常活跃的社区。
+- **Community Activity**: New technologies and requirements are emerging all the time, and an active community is key for API gateways to keep pace with the evolution of technology. As early as when Apache APISIX was an Apache incubation project, its community was already very active, in terms of contributor count, issue response time, and Pull Request count.
 
-- **私有部署**：API 网关作为企业核心技术架构组件，企业应该把它部署在自己的私有网络边缘。Apache APISIX 具有良好的环境适应性，能够被轻易地部署在包括云计算平台在内的各种环境上。
+- **Private Deployment**: As a core technology architecture component, API gateways should be deployed at the edge of an enterprise's private network. Apache APISIX has good environmental adaptability and can be easily deployed on various environments, including cloud computing platforms.
 
-- **开源协议**：Apache 2.0 赋予了定制 APISIX 的企业相当大的技术自由度。
+- **Open Source Protocol**: Apache 2.0 gives considerable technical freedom to enterprises that customize APISIX.
 
-**Q：Apache APISIX 用在了哪些场景？解决了哪些问题？**
+**Q: What scenarios is Apache APISIX used in? What problems have been solved?**
 
-**李杨**：我们把 Apache APISIX 用作微服务网关模式的核心组件，它被部署在网络边缘，为所有进入 Airwallex 的流量提供通用网关功能，解决的问题包括：
+**Yang Lee**: We use Apache APISIX as a core component of our microservice gateway model, which is deployed at the edge of the network to provide common gateway functionality for all traffic coming into Airwallex, solving problems such as
 
-- 数据主权问题：对于跨国运营的金融基础设施，数据主权是非常关键的监管要求。为此，我们利用 Apache APISIX 动态上游选择的功能开发了符合监管的动态路由插件。动态路由能够根据用户请求的特征智能选择上游来进行请求分发，将复杂的多数据中心协同问题从服务层抽象到网关层。动态路由实质是要回答两个问题：如何对上游进行分组？如何匹配请求与分组。
+- Data sovereignty issues: Data sovereignty is a very critical regulatory requirement for financial infrastructures that operate across borders. To this end, we developed a regulatory compliant dynamic routing plug-in using the Apache APISIX dynamic upstream selection feature. Dynamic routing can intelligently select upstreams for request distribution based on the characteristics of user requests, abstracting the complex multi-data center collaboration problem from the service layer to the gateway layer. Dynamic routing essentially has to answer two questions: How to group upstreams? How to match requests with groupings.
 
-- 微服务隔离：Airwallex 希望各微服务的工程团队能够自主控制自己的服务，有效降低沟通协调的成本，提高工程效能。这一架构理念要求被各团队共享的基础架构组件，比如： API Gateway 都能支持多租户隔离。在保证整个系统的强壮性和成本可控的同时，允许业务团队根据自身的需要对网关功能进行配置和扩展，保持微服务团队与服务的独立性。
+- Microservice Isolation: Airwallex wants the engineering teams of each microservice to have autonomous control over their own services, effectively reducing the cost of communication and coordination and improving engineering effectiveness. This architectural concept requires that infrastructure components shared by teams, such as API Gateway, support multi-tenant isolation. While ensuring the robustness and cost control of the whole system, it allows business teams to configure and extend the gateway functions according to their own needs, maintaining the independence of microservice teams and services.
 
-- 租户级限流：在多租户环境中，每个租户的流量特征是不同的。对不同的租户进行同样的限流无法满足商业上的需求，租户级限流能够根据用户特征做更恰当的限流。
+- Tenant-level flow restriction: In a multi-tenant environment, the traffic characteristics of each tenant are different. The same flow restriction for different tenants cannot meet the business needs, and tenant-level flow restriction can do more appropriate flow restriction based on user characteristics.
 
-- 租户级白名单：在多租户环境中，每个租户的访问 IP 是不同的。单一的白名单控制无法满足租户级安全管理的需要，租户级白名单使得每个租户可以控制自己的白名单，也不用担心白名单中的其它用户访问自己的资源。
+- Tenant-level whitelisting: In a multi-tenant environment, each tenant's access IP is different. Single whitelist control cannot meet the needs of tenant-level security management. Tenant-level whitelisting allows each tenant to control its own whitelist and not worry about other users in the whitelist accessing its own resources.
 
-- Authentication：API 网关不仅要支持请求 authentication，还需要支持动态更新密钥，经常更新密钥是保证用户资源安全的关键一环。
+- Authentication: API gateways should not only support request authentication, but also support dynamic key update, which is a key part of ensuring the security of user resources.
 
-- Authorization：企业级应用的权限管理是非常复杂的，不同的应用场景有着截然不同的权限管理模型。API 网关可以根据路由配置验证请求用户是否有足够的权限访问接口，第一时间拦截非法的流量。
+- The API gateway can verify whether the requesting user has sufficient authority to access the interface according to the routing configuration and intercept illegal traffic in the first place.
 
-![Airwallex arch](https://static.apiseven.com/202108/20210816002.png)
+! [Airwallex arch](https://static.apiseven.com/202108/20210816002.png)
 
-内容比较多简化一下，可以更清楚：
+It's a bit more involved and can be simplified to make it clearer: !
 
-![Airwallex arch](https://static.apiseven.com/202108/20210816003.png)
+! [Airwallex arch](https://static.apiseven.com/202108/20210816003.png)
 
-**Q:在 Apache APISIX 升级过程中是否顺利？分享一下升级过程中的感受或者故事。**
+**Q:Did you have a smooth upgrade process in Apache APISIX? Share your feelings or stories about the upgrade process.**
 
-为了能够随时升级到新版本的 Apache APISIX，我们把主要的功能都实现为定制化插件。这意味着我们的代码库不可能与 Apache APISIX 主 Repo 核心代码产生冲突，这帮助我们避免了可能遇到的代码冲突。但有时我们也需要修改核心代码，此时我们会尽量在开源社区实现这些功能。在开源社区讨论这些功能的时候，社区的小伙伴们非常热心参与讨论，在大多数情况下都能很快解决我们的问题。
+In order to be able to upgrade to new versions of Apache APISIX at any time, we implemented the main features as custom plugins. This means that our code base is unlikely to conflict with the core Apache APISIX main Repo code, which helps us avoid code conflicts we might encounter. However, there are times when we need to modify the core code, at which point we try to implement these features in the open source community. When we discuss these features in the open source community, the community partners are very eager to participate in the discussion and in most cases solve our problems quickly.
 
-**Q:Apache APISIX 在生产环境运行多久了？在线上表现如何？**
+**Q: How long has Apache APISIX been running in a production environment? How does it perform online?**
 
-**李杨**：生产环境运行了 15 个月了，在开启动态路由、租户级限流、租户级白名单、Authentication、Authorization 等功能的情况下 99% 响应延迟在 23ms 以内，整体表现非常稳定。得益于 Apache APISIX 优秀的插件机制，可以保障我们在几乎不修改它核心代码情况下，增加符合业务需求的私有插件。完备的测试体系也进一步保障了软件质量，可以放心增加插件个性化要求的同时，保证不破坏原有核心逻辑。
+**Yang Li**: The production environment has been running for 15 months, and 99% of the response latency is within 23ms with dynamic routing, tenant-level flow restriction, tenant-level whitelisting, Authentication, Authorization, etc. The overall performance is very stable. Thanks to the excellent plug-in mechanism of Apache APISIX, we can add private plug-ins that meet business requirements with little modification to its core code. The complete testing system also further guarantees the quality of the software and allows us to add plug-ins for personalized requirements without breaking the original core logic.
 
-**Q：Apache APISIX 有哪些不足，希望社区一起建设完善？**
+**Q: What are the shortcomings of Apache APISIX and what do you hope the community will build together to improve?**
 
-**李杨**：Apache APISIX 的数据面设计为它带来了无损的水平扩展和极致的性能，但这也使得路由配置很难做到向前兼容，为新版本的发布带来了一些协调上的困难。
+**LI Yang**: Apache APISIX's data-plane design brings it lossless horizontal scaling and extreme performance, but it also makes the routing configuration difficult to achieve forward compatibility, which brings some coordination difficulties for the release of new versions.
 
-**Q：后续有什么计划？**
+**Q: What are the follow-up plans?**
 
-**李杨**：后续计划主要包括三个方面：
+**Yang Li**: The follow-up plan includes three main areas.
 
-1. 用多层网络将不同的网关逻辑拆分到不同的分层中，比如根据数据主权分发流量与其它网关逻辑属于不同的网络分层；
-2. 易读易用的路由管理对 API 网关的成败非常关键，虽然网关的功能会不断迭代与增加，但路由管理需要对开发者友好，让开发者能够轻易理解网关能为他做什么、该怎么配置、怎么发布。
-3. 用请求染色帮助实现生产环境测试。用 API 网关请求染色实现生产环境测试能为我们带来灵活性与易用性。
+1. using multi-layer networks to split different gateway logic into different tiers, such as distributing traffic based on data sovereignty with other gateway logic belonging to a different network tier.
+2. easy-to-read and easy-to-use route management is critical to the success or failure of the API gateway, although the gateway features will continue to iterate and increase, but the route management needs to be developer-friendly so that developers can easily understand what the gateway can do for him, how to configure and how to publish.
+3. Use request staining to help implement production environment testing. Implementing production environment testing with API gateway request staining can bring us flexibility and ease of use.
 
-**Q：感谢李博士，期待 Apache APISIX 在 Airwallex 有更多的使用场景，发挥的更多作用。**
+Thank you, Dr. Li, and we look forward to more use cases and roles for Apache APISIX in Airwallex.

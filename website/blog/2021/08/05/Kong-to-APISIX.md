@@ -18,11 +18,11 @@ tags: [Technology]
 
 Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.
 
-## What is Kong-To-APISIX?
+## What is Kong-To-APISIX
 
 [Kong-To-APISIX](https://github.com/api7/kong-to-apisix) leverages the declarative configuration files of Kong and APISIX to migrate configuration data, and adapts to the architecture and functionality of both sides. Currently, we support the migration of configuration data for Route, Service, Upstream, Target, Consumer and three plugins Rate Limiting, Proxy Caching and Key Authentication on one side of Kong, and we have completed a minimal demo using Kong’s Getting Started Guide as an example . We have completed a minimal demo.
 
-## How to Migrate?
+## How to migrate configuration
 
 1. To export a Kong declarative configuration file using Deck, refer to the following steps: [Kong Official Document: Backup and Restore of Kong’s Configuration](https://docs.konghq.com/deck/1.7.x/guides/backup-restore/)
 

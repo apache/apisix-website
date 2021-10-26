@@ -1,48 +1,48 @@
 ---
-title: "在 Apache APISIX 中使用 Casbin 进行授权"
-author: "Casbin 社区 & Apache APISIX 社区"
+title: Licensing with Casbin in Apache APISIX
+author: Casbin & Apache APISIX
 keywords:
-- API 网关
+- API Gateway
 - APISIX
 - Apache APISIX
 - Casbin
 - RBAC
-description: 当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
+description: When we are using Apache APISIX, we may want to add complex authorization logic to our application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.
 tags: [Practical Case]
 ---
 
-> 当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。
+> When we are using Apache APISIX, we may want to add complex authorization logic to our application. In this post, we will use the built-in Casbin plugin (authz-casbin) for Apache APISIX to implement a role-based access control (RBAC) model.
 
-<!--truncate-->
+<! --truncate-->
 
-## 介绍
+## Introduction
 
 ### Apache APISIX
 
-[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关， 提供负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。你可以使用 Apache APISIX 来处理传统的南北向流量，以及服务间的东西向流量， 也可以当做 [k8s ingress controller](https://github.com/apache/apisix-ingress-controller) 来使用。
+[Apache APISIX](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, fine-grained routing, flow and speed limiting, service degradation, service meltdown, authentication, observability, and hundreds of other features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [k8s ingress controller](https://github.com/apache/apisix-ingress-controller).
 
 ### Casbin
 
-[Casbin](https://casbin.org/zh-CN/) 是一个强大的、高效的开源访问控制框架，其权限管理机制支持多种访问控制模型。
+[Casbin](https://casbin.org/zh-CN/) is a powerful and efficient open source access control framework with a permission management mechanism that supports multiple access control models.
 
-### authz-casbin 插件介绍
+### authz-casbin plugin introduction
 
-在 Apache APISIX 的使用中，路由匹配和请求授权之间有个隐含的矛盾点：为了更高细粒度的权限控制，需要配置更高细粒度的路由，来精准识别请求并对请求进行授权。在复杂的授权模型场景下，这将导致路由数量成倍增加，加剧了运维复杂度。
-[authz-casbin](https://github.com/apache/apisix/blob/d9b928321fcdd12eef024df8c7c410424c1e0c8b/docs/en/latest/plugins/authz-casbin.md) 是一个基于 lua-casbin 的 Apache APISIX 插件，支持基于各种访问模型的强大授权。Casbin 是一个强大的、高效的开源访问控制框架，支持 ACL、RBAC、ABAC 等访问控制模型，lua-casbin 是 Casbin 访问控制框架的 Lua 版本实现。
-authz-casbin 插件可以把路由匹配和请求授权这两个功能很好地进行解耦，你可以将各种授权访问模型加载到 Apache APISIX 中，借助 lua-casbin 实现高效复杂的授权模式。
+In the use of Apache APISIX, there is an implicit tension between route matching and request authorization: for higher granularity access control, higher granularity routes need to be configured to accurately identify requests and authorize them. In complex authorization model scenarios, this leads to an exponential increase in the number of routes, which increases the complexity of operations and maintenance.
+[authz-casbin](https://github.com/apache/apisix/blob/d9b928321fcdd12eef024df8c7c410424c1e0c8b/docs/en/latest/plugins/authz-casbin. md) is a lua-casbin based Apache APISIX plugin that supports powerful authorization based on various access models. casbin is a powerful and efficient open source access control framework that supports ACL, RBAC, ABAC and other access control models. lua-casbin is a Lua version implementation of the Casbin access control framework.
+The authz-casbin plugin can decouple the two functions of route matching and request authorization very well. You can load various authorization access models into Apache APISIX and implement efficient and complex authorization models with the help of lua-casbin.
 
-**注意**：如果你想要实现身份验证（authentication），你需要使用其他插件或者自己来配置完成验证用户身份，比如 [jwt-auth](https://github.com/apache/apisix/blob/master/docs/zh/latest/plugins/jwt-auth.md) 插件。
+**Note**: If you want to implement authentication, you need to use other plugins or configure yourself to complete the authentication of the user's identity, for example [jwt-auth](https://github.com/apache/apisix/blob/master/docs/zh/ latest/plugins/jwt-auth.md) plugin.
 
-## authz-casbin 使用指南
+## authz-casbin Usage Guide
 
-### 创建一个模型
+### Create a model
 
-authz-casbin 插件使用三个参数来进行授权：subject、object 和 action。subject 是用户名，代指请求中的用户；object 是将要被访问的 URL 链接也就是将被访问的资源；action 是请求授权的行为，比如读操作（read）或者是写操作（write）。
-假如，我们想要创建一个模型来访问三个资源：/，/res1，/res2，我们想要一个类似于这样的模型：
+The authz-casbin plugin uses three parameters for authorization: subject, object and action. subject is the user name, which refers to the user in the request; object is the URL link that will be accessed, i.e. the resource that will be accessed; action is the action that is requested for authorization, such as read or write. (write).
+If we want to create a model to access three resources: /, /res1, /res2, we want a model like this
 
-![authz-casbin example](/img/blog_img/2021-08-18-1.png)
+! [authz-casbin example](/img/blog_img/2021-08-18-1.png)
 
-在这个模型中，所有的用户，例如 Jack，可以访问主页面（/）。而像 Alice 和 Bob 具有管理员权限的用户则可以访问所有的页面和资源（/res1，/res2，/）。这样，我们就需要来限制没有管理员权限的用户只能使用 GET 请求方法访问特定的资源。所需要的模型如下：
+In this model, all users, such as Jack, have access to the main page (/). And users like Alice and Bob with admin rights have access to all pages and resources (/res1, /res2, /). Thus, we need to restrict users without administrator privileges to access specific resources using the GET request method. The required model is as follows.
 
 ```shell
 [request_definition]
@@ -61,9 +61,9 @@ e = some(where (p.eft == allow))
 m = (g(r.sub, p.sub) || keyMatch(r.sub, p.sub)) && keyMatch(r.obj, p.obj) && keyMatch(r.act, p.act)
 ```
 
-### 创建一条策略
+### Create a policy
 
-从上述的例子来看，策略应该像是这样的：
+From the above example, the policy should look like this.
 
 ```shell
 p, *, /, GET
@@ -72,15 +72,15 @@ g, alice, admin
 g, bob,admin
 ```
 
-模型里的 matcher 表明：
+The matcher in the model indicates that.
 
-1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`：请求里的 subject 和策略里的 subject 有着相同的角色或者请求里的 subject 和策略里的 subject 可以通过内置的方法 `keyMatch` 匹配。`keyMatch` 作为 Lua Casbin 的内置函数，相关的描述以及更多的函数可跳转 [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions.lua)。
-2. `keyMatch(r.obj, p.obj)`：请求里的 object 和策略里的 object 可相互匹配（代指 URL 链接）。
-3. `keyMatch(r.act, p.act)`：请求里的 action 和策略里的 action 可相互匹配（代指 HTTP 请求方法）。
+1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`: The subject in the request and the subject in the policy have the same role or the subject in the request and the subject in the policy can be matched by the built-in method `keyMatch`. `keyMatch` is a built-in function of Lua Casbin, a description of which and more can be found at [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions. lua). 2.
+2. `keyMatch(r.obj, p.obj)`: the object in the request and the object in the policy can match each other (proxy for URL links). 3.
+3. `keyMatch(r.act, p.act)`: the action in the request and the action in the policy match each other (proxy for the HTTP request method).
 
-### 在路由上使用插件
+### Using plugins on routes
 
-一旦你创建了模型和策略，你可以使用 APISIX Admin API 在路由上使用。若想使用，你可以模型和策略的文件路径：
+Once you have created a model and a policy, you can use it on a route using the APISIX Admin API. To use it, you can model and policy file paths to.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -102,8 +102,8 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 
-在这里，username 是传递到 subject 里的用户名。例如，你可以设置`"username":"user"`来把你定义的`"user":"alice"`传递到 username ，让 username 成为 Alice。
-同样，你可以将模型和策略直接放到里面：
+In this case, username is the username passed into the subject. For example, you can set `"username": "user"` to pass the `"user": "alice"` you defined to the username, making the username Alice.
+Similarly, you can put models and policies directly into
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -142,9 +142,9 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 
-### 利用全局模型/策略使用插件
+### Using plugins with global models/policies
 
-在一些情形中，你可能想要在多个路由中使用相同的模型和策略，你可以首先发送一个 PUT 请求将模型和策略的配置发送到插件的元数据：
+In some cases where you may want to use the same model and policy in multiple routes, you can first send a PUT request to send the model and policy configuration to the plugin's metadata at
 
 ```shell
 curl <http://127.0.0.1:9080/apisix/admin/plugin_metadata/authz-casbin> -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -i -X PUT -d '
@@ -166,7 +166,7 @@ g, bob, admin"
 }'
 ```
 
-然后，你需要使用 Admin API 来发送请求使得多个路由使用相同的模型/策略配置；
+You then need to use the Admin API to send a request to make multiple routes use the same model/policy configuration; the
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -186,10 +186,10 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 
-这将会将插件的配置动态地添加到路由中。通过向插件的配置数据中发送更新模型和策略的请求，你可以轻松地更新插件的配置。
+This will add the plugin's configuration to the route dynamically. You can easily update the plugin's configuration by sending a request to update the model and policy in the plugin's configuration data.
 
-## 最后
+## Finally
 
-感谢 Casbin 和 Apache APISIX 社区的开发者们，从 Casbin 社区的开发者 rushitote 提出 issue，提交 PR，到 Apache APISIX 社区的开发者们积极地 review PR，这个跨社区的合作友好而有序地向前推进，响应 open source makes world better。
+Thanks to the developers of Casbin and Apache APISIX communities, from the Casbin community developers rushitote to raise issues and submit PRs, to the Apache APISIX community developers to actively review PRs, this cross-community collaboration is moving forward in a friendly and orderly way, responding to open source makes the world better.
 
-来源：[authorization-in-apisix-using-casbin](https://medium.com/@rushitote/authorization-in-apisix-using-casbin-59b693669d6d)
+Source: [authorization-in-apisix-using-casbin](https://medium.com/@rushitote/authorization-in-apisix-using-casbin-59b693669d6d)

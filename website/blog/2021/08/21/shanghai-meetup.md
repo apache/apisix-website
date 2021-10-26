@@ -1,99 +1,99 @@
 ---
-title: "8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！"
+title: August 21 Apache APISIX Meetup Shanghai, welcome to register!
 keywords:
-- API 网关
+- API Gateway
 - APISIX
 - Apache APISIX
 - Meetup
-description: 本次 Meetup 由 api7.ai https://www.apiseven.com/ 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。
+description: This Meetup was initiated by api7.ai https://www.apiseven.com/, and invited partners such as Aiki and Air CloudHub to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics. 
 tags: [Events]
 ---
 
-> 本次 Meetup 由 [api7.ai](https://www.apiseven.com/) 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。
+> This Meetup is initiated by [api7.ai](https://www.apiseven.com/), and invited partners such as Aiki and Air CloudHub to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.
 
-<!--truncate-->
+<! --truncate-->
 
-#### 时间：2021 年 8 月 21 日 13:30
+#### Time: August 21, 2021, 13:30
 
-#### 地点：上海市黄浦区中区广场 6 楼静和岛二期
+#### Location: Jinghe Island II, 6th Floor, Central Plaza, Huangpu District, Shanghai
 
-#### 参加本次 Meetup，你可以
+#### By attending this Meetup, you can
 
-- 共同探讨 Apache APISIX 社区的前世今生
-- 听爱奇艺科学家讲述，爱奇艺是如何使用 Apache APISIX 支撑起千万级调用量的服务
-- 空中云汇是如何在使用 Apache APISIX 时兼顾用户体验、整洁架构与数据主权
-- 了解集中式身份认证的优点以及如何在 APISIX 上进行集中式身份认证
+- Discuss the past and present of the Apache APISIX community
+- Hear from Akiyo scientists about how Akiyo uses Apache APISIX to support a service with 10 million calls
+- How AirCloudHub uses Apache APISIX to balance user experience, clean architecture and data sovereignty
+- Learn about the benefits of centralized authentication and how to do it on APISIX
 
-如果你感兴趣的话，千万不要错过，**扫描活动海报二维码报名吧！**
+If you're interested, don't miss it, **scan the event poster for QR code to register!**
 
-tips：疫情防控不放松，我们将会控制现场活动规模，名额有限，报名从速！
+Tips: We will control the size of the event as the epidemic is not relaxed, so registration is limited.
 
-## 活动安排
+## Event Schedule
 
-![Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
+The event schedule! [Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
 
-## 议题介绍
+## Introduction to the topic
 
-### 基于 Apache APISIX，爱奇艺 API 网关的落地实践
+### Apache APISIX based, Aiki API gateway implementation practice
 
-#### 分享嘉宾
+#### Sharing Guests
 
-蒋文杰 / 爱奇艺科学家
+Wenjie Jiang / Scientist, Aiki
 
-#### 议题详情
+#### Topic Details
 
-API 网关已经成为微服务架构中不可或缺的一环。它既承担着服务对外的唯一门户，又需要满足许多应用的共性功能。爱奇艺作为一家在线视频公司，每天需要承载千万级的调用量，并且对数据的安全、用户请求响应时效、系统的稳定都有着极其严格的要求，因此公司需要打造一个高性能、高可用的 API 网关。本文简单介绍爱奇艺 API 网关的架构以及实现的功能，包括请求分发、条件路由、API 管理、限流熔断、安全三防、监控报警以及全链路追踪等。
+API gateway has become an indispensable part of microservice architecture. It is the only portal for services to the outside world, but also needs to meet the common functions of many applications. As an online video company, Aqiyi needs to carry tens of millions of calls every day and has extremely strict requirements for data security, user request response time, and system stability, so the company needs to build a high-performance and highly available API gateway. This article briefly introduces the architecture of Aiki API gateway and the functions implemented, including request distribution, conditional routing, API management, flow-limiting fusion, security triple prevention, monitoring and alarming, and full-link tracking.
 
-### 如何使用 Apache APISIX 进行集中式身份认证
+### How to use Apache APISIX for centralized authentication
 
-#### 分享嘉宾
+#### Sharing Guests
 
-朱欣欣 / api7.ai 工程师，Apache APISIX Committer
+Xinxin Zhu / api7.ai Engineer, Apache APISIX Committer
 
-#### 议题详情
+#### Topic Details
 
-身份认证是零信任架构中非常重要的一环。通过身份认证可以有效保护服务，避免未经授权的恶意访问，数据泄漏以及黑客攻击。APISIX 作为一个动态、实时、高性能的 API 网关，支持丰富的身份认证插件，本次分享将介绍集中式身份认证的优点和如何在 APISIX 上进行集中式身份认证。
+Authentication is a very important part of zero-trust architecture. APISIX is a dynamic, real-time, high-performance API gateway that supports a rich set of authentication plugins.
 
-### 数据主权与 Apache APISIX 网关落地实践
+### Data Sovereignty and Apache APISIX Gateway Landing Practice
 
-#### 分享嘉宾
+#### Sharing Guests
 
-李杨 / 空中云汇技术平台负责人
+Yang Li / Head of AirCloudHub Technology Platform
 
-#### 议题详情
+#### Topic Details
 
-数据无处不在，每时每刻都有海量数据在世界各地被处理、传输、存储。然而数据世界不是法外之地，数据的收集与处理必须遵照各国法律执行。这为企业的技术架构提出了巨大的挑战，如何兼顾用户体验、整洁架构与数据主权？API 网关在企业架构中具有特殊地位，也因此能在数据主权场景下起到特殊重要的作用。
+Data is everywhere, and massive amounts of data are being processed, transmitted, and stored all over the world every moment. However, the world of data is not a place outside the law, and the collection and processing of data must comply with the laws of each country. The API gateway has a special position in the enterprise architecture and therefore plays a special role in the data sovereignty scenario.
 
-### 独行者速，众行者远，Apache APISIX 感恩有你
+### The One Who Walks Alone Goes Fast, The Many Who Walk Far, Apache APISIX Thanks to You
 
-#### 分享嘉宾
+#### Sharing Guests
 
-王院生 / api7.ai 联合创始人 & CTO
+Yansheng Wang / Co-founder & CTO of api7.ai
 
-#### 议题详情
+#### Topic Details
 
-Apache APISIX 从开源第一天就以社区方式成长，短短两年时间产品多项技术指标包揽第一，迅速成为全世界最活跃 API 网关项目，并确定了专属于 Apache APISIX 的道路：统一 7 层流量处理。一个人可能走的很快，一群人才能走的更远，Apache APISIX 成长之路感恩有你。
+Apache APISIX has been growing as a community since the first day of open source. In just two years, the product has won the first place in many technical indicators and quickly become the most active API gateway project in the world, and has defined the path that belongs to Apache APISIX: unified 7-layer traffic processing. One person can go fast, but a group of people can go farther, and we are grateful to you for the growth of Apache APISIX.
 
-## 周边福利
+## Peripheral Benefits
 
-参加 Meetup，与讲师互动，有机会获得 Apache APISIX 最新周边：超大鼠标垫、精致马克杯、Apache APISIX 徽章、定制雨伞。
+Join the Meetup, interact with the instructors, and get a chance to win the latest Apache APISIX peripherals: oversized mouse pads, delicate mugs, Apache APISIX badges, and custom umbrellas.
 
-![Apache APISIX Gift](/img/blog_img/2021-08-21-4.jpg)
+! [Apache APISIX Gift](/img/blog_img/2021-08-21-4.jpg)
 
-## 参与方式
+## How to participate
 
-### 现场报名
+### On-site registration
 
-扫描上方活动海报二维码即可报名！
+Scan the event poster QR code above to sign up!
 
-### 线上直播
+### Online Live Streaming
 
-如果不能到现场参加 Meetup，关注 Apache APISIX 视频号观看直播。
+If you can't make it to the Meetup, follow the Apache APISIX video to watch the live stream.
 
-![Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
+Live! [Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
 
-## 入群交流
+## Join the group to communicate
 
-欢迎关注 Apache APISIX 公众号，在后台回复关键字“上海”，加入 Apache APISIX 上海交流群。
+Follow the Apache APISIX public page and reply with the keyword "Shanghai" in the background to join the Apache APISIX Shanghai group.
 
-![Apache APISIX wechat](/img/blog_img/2021-08-21-3.png)
+! [Apache APISIX wechat](/img/blog_img/2021-08-21-3.png)

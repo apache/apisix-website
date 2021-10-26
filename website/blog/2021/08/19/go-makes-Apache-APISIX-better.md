@@ -1,35 +1,35 @@
 ---
-title: "Go 让 Apache APISIX 如虎添翼"
-author: "罗泽轩"
+title: Go gives Apache APISIX a run for its money
+author: Zexuan Luo
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
 - Go
 - APISIX 
-- APISIX Go 插件
+- Go Plugin
 - APISIX Go plugin
 - apisix-go-plugin-runner
 - Golang
 tags: [Practical Case]
 ---
 
-> 这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
+> This article will explain in detail how to use Go to develop Apache APISIX plugins. By embracing the Go ecosystem and breaking new ground for Apache APISIX, we hope that Go will make Apache APISIX even better!
 
-<!--truncate-->
+<! --truncate-->
 
-## 为什么是 Go
+## Why Go
 
-[Apache APISIX](https://github.com/apache/apisix) 允许用户通过插件的方式来拓展功能，如鉴权、限流、请求改写等核心功能都是通过插件的方式实现的。虽然 Apache APISIX 核心代码是使用 Lua 编写的，但是 Apache APISIX 支持多语言开发插件，比如 Go 、Java。
+[Apache APISIX](https://github.com/apache/apisix) allows users to extend functionality by way of plugins. Core features such as forensics, flow restriction, request rewriting, etc. are implemented by way of plugins. Although the core code of Apache APISIX is written in Lua, Apache APISIX supports multi-language development of plugins, such as Go, Java.
 
-这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！
+This article will explain in detail how to develop Apache APISIX plugins in Go. By embracing the Go ecosystem, we are breaking new ground for Apache APISIX, and we hope that Go will make Apache APISIX even better!
 
-## 安装
+## Installation
 
-采用库的方式来使用 Go Runner，[apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner) 中的 `cmd/go-runner` 官方给出的例子，展示该如何使用 Go Runner SDK。未来也会支持通过 Go Plugin 的机制加载预先编译好的插件。
+To use Go Runner as a library, the official `cmd/go-runner` example in [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner) shows how to use the Go Runner SDK. The Go Runner SDK will also support loading pre-compiled plugins via the Go Plugin mechanism in the future.
 
-## 开发
+## Development
 
-### 使用 Go Runner SDK 进行开发
+### Developing with the Go Runner SDK
 
 ```bash
 $ tree cmd/go-runner
@@ -37,12 +37,12 @@ cmd/go-runner
 ├── main.go
 ├── main_test.go
 ├── plugins
-│   ├── say.go
-│   └── say_test.go
+│ ├── say.go
+│ └── say_test.go
 └── version.go
-```
+ðŸ™' ðŸ™'
 
-上面是官方示例的目录结构。`main.go` 是入口，其中最关键的部分在于：
+Above is the directory structure of the official example. ``main.go`` is the entry point, where the most critical part is.
 
 ```go
 cfg := runner.RunnerConfig{}
@@ -50,22 +50,22 @@ cfg := runner.RunnerConfig{}
 runner.Run(cfg)
 ```
 
-`RunnerConfig` 可以用来控制日志等级和日志输出位置。
+`RunnerConfig` can be used to control the log level and log output location.
 
-`runner.Run` 会让应用监听目标位置，接收请求并执行注册好的插件。应用会一直处于这一状态直到退出。
+`runner.Run` will make the application listen to the target location, receive requests and execute the registered plugins. The application will remain in this state until it exits.
 
-打开 `plugins/say.go`：
+Open `plugins/say.go`.
 
 ```go
 func init() {
   err := plugin.RegisterPlugin(&Say{})
-  if err != nil {
+  if err ! = nil {
     log.Fatalf("failed to register plugin say: %s", err)
   }
 }
 ```
 
-由于 `main.go` 导入了 plugins 包，
+Since `main.go` imports the plugins package, the
 
 ```go
 import (
@@ -75,11 +75,11 @@ import (
 )
 ```
 
-这样就在执行 `runner.Run` 之前通过 `plugin.RegisterPlugin` 注册了 `Say`。
+This registers `Say` with `plugin.RegisterPlugin` before executing `runner.Run`.
 
-`Say` 需要实现以下方法：
+`Say` needs to implement the following methods.
 
-`Name` 方法返回插件名。
+The `Name` method returns the plugin name.
 
 ```go
 func (p *Say) Name() string {
@@ -87,7 +87,7 @@ func (p *Say) Name() string {
 }
 ```
 
-`ParseConf` 会在插件配置变化的时候调用，解析配置并返回插件特定的配置上下文。
+ParseConf will be called when the plugin configuration changes, parsing the configuration and returning a plugin-specific configuration context.
 
 ```go
 func (p *Say) ParseConf(in []byte) (interface{}, error) {
@@ -97,79 +97,79 @@ func (p *Say) ParseConf(in []byte) (interface{}, error) {
 }
 ```
 
-该插件的上下文是这样的：
+The context of the plugin looks like this.
 
 ```go
 type SayConf struct {
-  Body string `json:"body"`
+  Body string `json: "body"`
 }
 ```
 
-`Filter` 会在每个配置了 say 插件的请求中执行。
+Filter is executed on every request with the say plugin configured.
 
 ```go
 func (p *Say) Filter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
-  body := conf.(SayConf).Body
+  body := conf.(SayConf).
   if len(body) == 0 {
     return
   }
 
   w.Header().Add("X-Resp-A6-Runner", "Go")
   _, err := w.Write([]byte(body))
-  if err != nil {
+  if err ! = nil {
     log.Errorf("failed to write: %s", err)
   }
 }
 ```
 
-可以看到 Filter 把配置里面的 body 的值作为响应体。如果在插件中直接进行响应，就会中断请求。
+You can see that Filter takes the value of the body inside the configuration as the response body. If the response is made directly in the plugin, it will break the request.
 
-Go Runner SDK  API 文档：https://pkg.go.dev/github.com/apache/apisix-go-plugin-runner
+Go Runner SDK API documentation: https://pkg.go.dev/github.com/apache/apisix-go-plugin-runner
 
-把应用构建起来后（在示例里面是 `make build`），在运行时需要设置两个环境变量：
+After building the application (`make build` in the example), you need to set two environment variables at runtime.
 
 1. `APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock`
 2. `APISIX_CONF_EXPIRE_TIME=3600`
 
-像这样：
+Like this.
 
 ```go
-APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock APISIX_CONF_EXPIRE_TIME=3600 ./go-runner run
+APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock APISIX_CONF_EXPIRE_TIME=3600 . /go-runner run
 ```
 
-应用运行时会去监听 `/tmp/runner.sock`。
+The application will listen to `/tmp/runner.sock` when it runs.
 
-### 设置 Apache APISIX （开发）
+### Setting up Apache APISIX (development)
 
-首先要安装 Apache APISIX，需要和 Go Runner 位于同一实例上。
+The first step is to install Apache APISIX, which needs to be on the same instance as Go Runner.
 
-![Apache APISIX work flow](/img/blog_img/2021-08-19-1.png)
+! [Apache APISIX work flow](/img/blog_img/2021-08-19-1.png)
 
-上图左边是 Apache APISIX 的工作流程，右边的 plugin runner 负责运行不同语言编写的外部插件。apisix-go-plugin-runner 就是这样支持 Go 语言的 runner。
+The above diagram shows the workflow of Apache APISIX on the left, and the plugin runner on the right is responsible for running external plugins written in different languages. apisix-go-plugin-runner is such a runner that supports the Go language.
 
-当你在 Apache  APISIX 中配置一个 plugin runner 时，Apache  APISIX 会把 plugin runner 作为自己的一个子进程，该子进程与 Apache  APISIX 进程属于同一个用户，当我们重启或重新加载 Apache APISIX 时，plugin runner 也将被重启。
+When you configure a plugin runner in Apache APISIX, Apache APISIX treats the plugin runner as a child of itself, which belongs to the same user as the Apache APISIX process, and when we restart or reload Apache APISIX, the plugin runner will be restarted as well.
 
-如果为一个给定的路由配置了 ext-plugin-* 插件，击中该路由的请求将触发 Apache APISIX 通过 unix socket 向 plugin runner 执行 RPC 调用。调用细分为两个阶段：
+If the ext-plugin-* plugin is configured for a given route, a request to hit that route will trigger Apache APISIX to make an RPC call to the plugin runner over a unix socket. The call is broken down into two phases.
 
-- ext-plugin-pre-req: 在执行绝大部分 Apache APISIX 内置插件(Lua 语言插件)之前
-- ext-plugin-post-req: 在执行 Apache APISIX 内置插件(Lua 语言插件)之后
+- ext-plugin-pre-req: before executing most of the Apache APISIX built-in plugins (Lua language plugins)
+- ext-plugin-post-req: after the execution of the Apache APISIX built-in plugins (Lua language plugins)
 
-根据需要配置 plugin runner 的执行时机。
+Configure the timing of plugin runner execution as needed.
 
-plugin runner 会处理 RPC 调用，在其内部创建一个模拟请求，然后运行其他语言编写的插件，并将结果返回给 Apache APISIX。
+The plugin runner processes the RPC call, creates a simulated request inside it, then runs the plugins written in other languages and returns the results to Apache APISIX.
 
-这些插件的执行顺序是在 ext-plugin-* 插件配置项中定义的。像其他插件一样，它们可以被启用并在运行中重新定义。
+The order of execution of these plugins is defined in the ext-plugin-* plugin configuration entry. Like other plugins, they can be enabled and redefined on the fly.
 
-为了展示如何开发 Go 插件，我们先设置 Apache  APISIX 进入开发模式。在 config.yaml 中增加以下配置：
+To show how to develop Go plugins, we first set up Apache APISIX to enter development mode. Add the following configuration to config.yaml.
 
 ```shell
 ext-plugin:
   path_for_test: /tmp/runner.sock
 ```
 
-这个配置的意思是，命中路由规则后，Apache APISIX 会向 /tmp/runner.sock 发起 RPC 请求。
+This configuration means that after the routing rule is hit, Apache APISIX will make an RPC request to /tmp/runner.sock.
 
-接下来设置路由规则：
+Next, set up the routing rules.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -178,7 +178,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
   "plugins": {
     "ext-plugin-pre-req": {
       "conf": [
-        {"name":"say", "value":"{\"body\":\"hello\"}"}
+        { "name": "say", "value":"{\"body\":\"hello\"}"}
       ]
     }
   },
@@ -192,11 +192,11 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 '
 ```
 
-注意插件名称配置在 `name` 里面，插件配置（经 JSON 序列化后）放在 `value` 里面。
+Note that the plugin name is configured in `name` and the plugin configuration (after JSON serialization) is placed in `value`.
 
-如果在开发过程中看到 Apache  APISIX 端有 `refresh cache and try again` 的 warning 和 Runner 端有 `key not found` 的 warning，这是因为配置缓存不一致导致的。因为开发状态下，Runner 不是由 Apache  APISIX 管理的，所以内部状态会有可能不一致。不用担心，Apache  APISIX 会重试。
+If you see `refresh cache and try again` warning on Apache APISIX side and `key not found` warning on Runner side during development, this is due to configuration cache inconsistency. Since the Runner is not managed by Apache APISIX in the development state, the internal state may be inconsistent. Don't worry, Apache APISIX will retry.
 
-然后我们请求一下：curl 127.0.0.1:9080/get
+Then we request: curl 127.0.0.1:9080/get
 
 ```shell
 $ curl http://127.0.0.1:9080/get
@@ -211,11 +211,11 @@ Server: APISIX/2.7
 hello
 ```
 
-可以看到接口返回 hello 而且没有访问到任何上游。
+You can see that the interface returns hello and does not access any upstream.
 
-### 设置 Apache APISIX （运行）
+### Setting up Apache APISIX (run)
 
-这里以 go-runner 为例，只需把运行命令行配置在 ext-plugin 里就可以运行了：
+Here is an example of go-runner, which can be run by simply configuring the run command line in ext-plugin: the
 
 ```shell
 ext-plugin:
@@ -223,15 +223,15 @@ ext-plugin:
   cmd: ["/path/to/apisix-go-plugin-runner/go-runner", "run"]
 ```
 
-Apache APISIX 会把 plugin runner 作为自己的一个子进程，管理它的整个生命周期。
+Apache APISIX will treat the plugin runner as a child process of its own, managing its entire lifecycle.
 
-注意：这时就不要配置 path_for_test 了。Apache APISIX 在启动 runner 时会自动分配一个 unix socket 地址供 runner 监听。APISIX_LISTEN_ADDRESS 和 APISIX_CONF_EXPIRE_TIME 这两个环境变量也不用手动设置。
+Note: Do not configure path_for_test at this point. Apache APISIX automatically assigns a unix socket address for the runner to listen to when it starts. You don't need to set them manually.
 
-## 总结
+## Summary
 
-目前 Go Plugin Runner 还处于早期开发阶段，我们会陆续完善其功能。成功的开源项目离不开大家的贡献，欢迎各位参与到 apisix-go-plugin-runner 的开发中来，让我们一起共建 Apache  APISIX 和 Go 的桥梁！
-点击访问 [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner).
+Go Plugin Runner is still in the early stages of development, we will continue to improve its functionality. We welcome you to participate in the development of apisix-go-plugin-runner, and let's build a bridge between Apache APISIX and Go together!
+Click to visit [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner).
 
-## 相关阅读
+## Related reading
 
-[如何用 Java 编写 Apache APISIX 插件](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)
+[How to write Apache APISIX plugins in Java](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)

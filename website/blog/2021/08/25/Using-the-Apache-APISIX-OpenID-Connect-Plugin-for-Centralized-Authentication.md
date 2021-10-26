@@ -1,207 +1,207 @@
 ---
-title: "使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证"
-author: "朱欣欣"
+title: Centralized authentication using the OpenID Connect plug-in for Apache APISIX
+author: Xinxin Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords:
-- API 网关
+- API Gateway
 - APISIX
 - Apache APISIX
 - Okta
-- 集中认证
-description: 本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对 Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。
+- Authorization
+description: This article demonstrates the process of centralized Okta authentication using the Apache APISIX OpenID Connect Plugin. This article contains a conceptual introduction to Apache APISIX and Okta centralized authentication, showing the process of establishing centralized authentication from Okta directly in Apache APISIX. This centralized authentication approach reduces learning and maintenance costs for developers and provides a secure and streamlined user experience.
 tags: [Practical Case]
 ---
 
-> 相比较传统认证模式，集中认证模式下有如下优点：第一，简化应用开发流程，降低开发应用工作量和维护成本，避免各个应用重复开发身份认证代码；第二，提高业务的安全性，集中身份认证模式在网关层面能够及时拦截未经身份认证的请求，保护后端的应用。
+> Compared with the traditional authentication mode, the centralized authentication mode has the following advantages: first, it simplifies the application development process, reduces the development application workload and maintenance costs, and avoids repeated development of authentication code for each application; second, it improves business security, and the centralized authentication mode can intercept unauthenticated requests at the gateway level in time to protect back-end applications.
 
-<!--truncate-->
+<! --truncate -->
 
-## 什么是 Apache APISIX
+## What is Apache APISIX
 
-[Apache APISIX](https://apisix.apache.org/) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。Apache APISIX 的 OpenID Connect 插件支持 OpenID，用户可以使用该插件将身份认证从传统认证模式替换为集中认证模式。
+[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more. Apache APISIX's OpenID Connect plug-in supports OpenID, which allows users to replace authentication from traditional authentication mode to centralized authentication mode.
 
-## 什么是身份认证
+## What is authentication
 
-身份认证是指通过一定的手段，对用户的身份进行验证。应用通过身份认证识别用户身份，并根据用户身份 ID 从身份提供方（Identity Provider）获取详细的用户元数据，并以此判断用户是否拥有访问指定资源的权限。身份认证模式分为两大类：**传统认证模式**和**集中认证模式**。
+Authentication refers to the verification of a user's identity through certain means. The application identifies the user through authentication and obtains detailed user metadata from the Identity Provider based on the user identity ID, and uses it to determine whether the user has access to the specified resources. Authentication modes are divided into two categories: **Traditional Authentication Mode** and **Centralized Authentication Mode**.
 
-### 传统认证模式
+### Traditional authentication mode
 
-在传统认证模式下，各个应用服务需要单独支持身份认证，例如当用户未登录时访问登录接口，接口返回 301 跳转页面。应用需要开发维护 Session 以及和身份提供商的认证交互等逻辑。传统认证模式的流程如下图所示：首先由用户发起请求（request），然后由网关接收请求并将其转发至对应的应用服务，最后由应用服务与身份提供方对接，完成身份认证（authorization）。
+In traditional authentication mode, each application service needs to support authentication separately, such as accessing the login interface when the user is not logged in, and the interface returns a 301 jump page. The application needs to develop the logic for maintaining the Session and the authentication interaction with the identity provider. The flow of the traditional authentication model is shown in the figure below: first, the user initiates a request, then the gateway receives the request and forwards it to the corresponding application service, and finally the application service interfaces with the identity provider to complete the authentication.
 
-![传统认证模式流程图](/img/blog_img/2021-08-16-1.png)
+! [Flowchart of traditional authentication mode](/img/blog_img/2021-08-16-1.png)
 
-### 集中认证模式
+### Centralized authentication mode
 
-与传统认证模式不同，集中身份认证模式把用户认证从应用服务中抽离了出来，以 Apache APISIX 为例，集中认证的流程如下图所示：首先由用户发起请求（request），然后由前置的网关负责用户认证流程，与身份提供方对接，向身份提供方发送身份认证（authorization）请求。身份提供方返回用户身份信息（user info）。网关完成用户身份识别后，将用户身份信息通过请求头的形式转发至后端应用。
+Unlike the traditional authentication model, the centralized authentication model takes user authentication out of the application service. Take Apache APISIX as an example, the centralized authentication process is shown in the following diagram: first, the user initiates a request, and then the front gateway is responsible for the user authentication process, interfacing with the identity provider and sending the identity provider an authorization) request to the identity provider. The identity provider returns user info. After the gateway identifies the user, it forwards the user identity information to the back-end application in the form of a request header.
 
-![集中认证模式流程图](/img/blog_img/2021-08-16-2.png)
+! [Flow chart of centralized authentication mode](/img/blog_img/2021-08-16-2.png)
 
-相比较传统认证模式，集中认证模式下有如下优点：
+Compared with the traditional authentication mode, the centralized authentication mode has the following advantages.
 
-1. 简化应用开发流程，降低开发应用工作量和维护成本，避免各个应用重复开发身份认证代码。
-2. 提高业务的安全性，集中身份认证模式在网关层面能够及时拦截未经身份认证的请求，保护后端的应用。
+1. simplify the application development process, reduce the development of application workload and maintenance costs, to avoid the repeated development of each application authentication code.
+2. improve business security, centralized authentication mode at the gateway level to intercept unauthenticated requests in time to protect the back-end applications.
 
-## 什么是 OpenID
+## What is OpenID
 
-OpenID 是一种集中认证模式，它是一个去中心化的身份认证系统。使用 OpenID 的好处是，用户只需要在一个 OpenID 身份提供方的网站上注册和登录，使用一份账户密码信息即可访问不同应用。Okta 是一个常见的 OpenID 身份提供方，Apache APISIX OpenID Connect 插件支持 OpenID，所以用户可以使用该插件将传统认证模式替换为集中认证模式。
+OpenID is a centralized authentication model, which is a decentralized identity system. The benefit of using OpenID is that users only need to register and log in with one OpenID identity provider's website and use one account password information to access different applications. okta is a common OpenID identity provider and the Apache APISIX OpenID Connect plugin supports OpenID so users can use the plugin to to replace the traditional authentication model with a centralized authentication model.
 
-### OpenID 认证过程
+### OpenID Authentication Process
 
-OpenID 认证过程有以下 7 个步骤，如下图所示。
+The OpenID authentication process has the following 7 steps, as shown in the figure below. 1.
 
-1. APISIX 向 Identity Provider 发起认证请求。
-2. 用户在 Identity Provider 上登录并认证身份。
-3. Identity Provider 携带 Authorization Code 返回 APISIX。
-4. APISIX 使用从请求参数中提取到的 Code 请求 Identity Provider。
-5. Identity Provider 向 APISIX 发送应答消息，里面包含了 ID Token 和 Access Token。
-6. APISIX 将 Access Token 发送到 Identity Provider 的 User Endpoint，以进行获取用户身份。
-7. 通过认证后，User Endpoint 将 User info 发送到 APISIX，完成身份验证。
+1. APISIX initiates an authentication request to Identity Provider. 2.
+2. The user logs in and authenticates on the Identity Provider. 3.
+3. The Identity Provider returns to APISIX with the Authorization Code. 4.
+4. APISIX requests the Identity Provider with the Code extracted from the request parameters. 5.
+5. The Identity Provider sends an answer message to APISIX containing the ID Token and Access Token. 6.
+6. APISIX sends the Access Token to the Identity Provider's User Endpoint to obtain the user's identity.
+7. After authentication, the User Endpoint sends the User info to APISIX to complete the authentication.
 
-![OpenID 认证流程图](/img/blog_img/2021-08-16-3.png)
+! [OpenID Authentication Flowchart](/img/blog_img/2021-08-16-3.png)
 
-## 如何使用 Apache APISIX 的 OpenID Connect 插件配置 Okta 认证
+## How to configure Okta authentication using the OpenID Connect plugin for Apache APISIX
 
-使用 Apache APISIX OpenID Connect 插件配置 Okta 认证的过程非常简单，只需三步即可完成 Okta 配置 ，从传统身份认证模式切换到集中身份认证模式。下文讲述了使用 Apache APISIX 的 OpenID Connect 插件配置 Okta 认证的操作步骤。
+Configuring Okta authentication using the Apache APISIX OpenID Connect plug-in is a simple three-step process that allows you to switch from traditional to centralized authentication mode. The following section describes the steps to configure Okta authentication using the OpenID Connect plug-in for Apache APISIX.
 
-### 前提条件
+### Prerequisites
 
-已有 Okta 账号。
+An Okta account already exists.
 
-### 步骤一：配置 Okta
+### Step 1: Configure Okta
 
-1. 登录你的 Okta 账号，并创建一个 Okta 应用，选择 OIDC 登录模式以及 Web Application 应用类型。
-    ![创建一个 Okta 应用](/img/blog_img/2021-08-16-4.png)
-    ![选择 OIDC 登录模式以及 Web Application 应用类型](/img/blog_img/2021-08-16-5.png)
-2. 设置登录和登出的跳转 URL。
-其中 “Sign-in redirect URIs” 为登录成功允许跳转的链接地址，“Sign-out redirect URIs” 表示登出之后跳转的链接地址。在这个示例中，我们将登录成功跳转和登出之后跳转的链接地址都设置为 `http://127.0.0.1:9080/`。
-    ![设置登录和登出的跳转 URL](/img/blog_img/2021-08-16-6.png)
-3. 完成设置以后，单击“Save”保存修改。
-    ![保存修改](/img/blog_img/2021-08-16-7.png)
-4. 访问应用的 General 页面，获取以下配置，配置 Apache APISIX OpenID Connect 时需要提供这些信息：
+Login to your Okta account and create an Okta application, select the OIDC login mode and the Web Application application type.
+    ! [Create an Okta application](/img/blog_img/2021-08-16-4.png)
+    ! [Select OIDC login mode and Web Application application type](/img/blog_img/2021-08-16-5.png) 2.
+Set the login and logout jump URLs.
+The "Sign-in redirect URIs" are the links that are allowed to be redirected after successful login, and the "Sign-out redirect URIs" are the links that are redirected after logging out. In this example, we set both the sign-in redirect and sign-out redirect URLs to `http://127.0.0.1:9080/`.
+    ! [Set the login and logout URL](/img/blog_img/2021-08-16-6.png)
+3. Click "Save" to save the changes after finishing the settings.
+    ! [Save Changes](/img/blog_img/2021-08-16-7.png)
+Visit the General page of the application to get the following configuration, which is required to configure Apache APISIX OpenID Connect.
 
-- Client ID：OAuth client ID，即应用的 ID，与下文的 `client_id`  和 `{YOUR_CLIENT_ID}` 对应。
-- Client secret：OAuth client secret，即应用密钥，与下文的 `client_secret`  和 `{YOUR_CLIENT_SECRET}` 对应。
-- Okta domain：应用使用的域名，与下文的 discovery  中的 `{YOUR_ISSUER}` 对应。
+- Client ID: OAuth client ID, which is the ID of the application, corresponding to `client_id` and `{YOUR_CLIENT_ID}` below.
+- Client secret: OAuth client secret, i.e. application key, corresponds to `client_secret` and `{YOUR_CLIENT_SECRET}` below.
+- Okta domain: The domain name used by the application, corresponds to `{YOUR_ISSUER}` in discovery below.
 
-![获取配置信息](/img/blog_img/2021-08-16-8.png)
+! [Get configuration info](/img/blog_img/2021-08-16-8.png)
 
-### 安装 Apache APISIX
+### Installing Apache APISIX
 
-你可以通过源码包、Docker、Helm Chart 等多种方式来安装 Apache APISIX。
+You can install Apache APISIX in a variety of ways such as through source packages, Docker, Helm Chart, etc.
 
-#### 安装依赖
+#### Installing dependencies
 
-Apache APISIX 的运行环境需要依赖 NGINX 和 etcd，所以在安装 Apache APISIX 前，请根据您使用的操作系统安装对应的依赖。我们提供了 CentOS7、Fedora 31 & 32 、Ubuntu 16.04 & 18.04、 Debian 9 & 10 和 MacOS 上的依赖安装操作步骤，详情请参考[安装依赖](https://apisix.apache.org/zh/docs/apisix/install-dependencies/)。
+The Apache APISIX runtime environment requires dependencies on NGINX and etcd, so before installing Apache APISIX, please install the corresponding dependencies according to the operating system you are using. We have provided steps for installing dependencies on CentOS7, Fedora 31 & 32, Ubuntu 16.04 & 18.04, Debian 9 & 10 and MacOS, please refer to [Installing dependencies](https://apisix.apache.org/zh/docs/apisix/install) for details. -dependencies/).
 
-通过 Docker 或 Helm Chart 安装 Apache APISIX 时，已经包含了所需的 NGINX 和 etcd，请参照各自对应的文档。
+When installing Apache APISIX via Docker or Helm Chart, the required NGINX and etcd are already included, please refer to the respective documentation.
 
-#### 通过 RPM 包安装（CentOS 7）
+#### Installation via RPM package (CentOS 7)
 
-这种安装方式适用于 CentOS 7 操作系统，请运行以下命令安装 Apache APISIX。
+This installation method is available for CentOS 7 operating system, please run the following command to install Apache APISIX.
 
 ```shell
 sudo yum install -y https://github.com/apache/apisix/releases/download/2.7/apisix-2.7-0.x86_64.rpm
 ```
 
-#### 通过 Docker 安装
+#### Installation via Docker
 
-详情请参考：[使用 Docker 安装 Apache APISIX](https://hub.docker.com/r/apache/apisix)。
+For details, please refer to: [Installing Apache APISIX with Docker](https://hub.docker.com/r/apache/apisix).
 
-#### 通过 Helm Chart 安装
+#### Installation via Helm Chart
 
-详情请参考：[使用 Helm Chart 安装 Apache APISIX](https://github.com/apache/apisix-helm-chart)。
+For details, please refer to: [Installing Apache APISIX with Helm Chart](https://github.com/apache/apisix-helm-chart).
 
-#### 通过源码包安装
+#### Installation via source package
 
-1. 创建一个名为 `apisix-2.7` 的目录：
+1. Create a directory named ``apisix-2.7``.
   
   ```shell
   mkdir apisix-2.7
   ```
 
-2. 下载 Apache APISIX Release 源码包：
+2. Download the Apache APISIX Release source package.
   
   ```shell
   wget https://downloads.apache.org/apisix/2.7/apache-apisix-2.7-src.tgz
   ```
 
-  您也可以通过 Apache APISIX 官网下载 Apache APISIX Release 源码包。 Apache APISIX 官网也提供了 Apache APISIX、APISIX Dashboard 和 APISIX Ingress Controller 的源码包，详情请参考 [Apache APISIX 官网-下载页](https://apisix.apache.org/zh/downloads)。
+  You can also download the Apache APISIX Release source package from the Apache APISIX official website. The Apache APISIX official website also provides source packages for Apache APISIX, APISIX Dashboard, and APISIX Ingress Controller, see [Apache APISIX official website - download page](https://apisix.apache.org/zh/ For details, please refer to the [Apache APISIX official-downloads page](https://apisix.apache.org/downloads).
 
-3. 解压 Apache APISIX Release 源码包：
+3. Unpack the Apache APISIX Release source package.
   
   ```shell
   tar zxvf apache-apisix-2.7-src.tgz -C apisix-2.7
   ```
 
-4. 安装运行时依赖的 Lua 库：
+4. install the runtime dependencies of the Lua library:
 
   ```shell
-  # 切换到 apisix-2.7 目录
+  # Switch to the apisix-2.7 directory
   cd apisix-2.7
-  # 创建依赖
+  # Create dependencies
   make deps
   ```
 
-#### 初始化依赖
+#### Initializing dependencies
 
-运行以下命令初始化 NGINX 配置文件和 etcd。
+Run the following command to initialize the NGINX configuration file and etcd.
 
 ```shell
 # initialize NGINX config file and etcd
 make init
 ```
 
-### 启动 Apache APISIX 并配置对应的路由
+### Start Apache APISIX and configure the corresponding routes
 
-1. 运行以下命令，启动 Apache APISIX。
+1. Run the following command to start Apache APISIX. 2.
 
-2. 创建路由并配置 OpenID Connect 插件。
+2. Create routes and configure the OpenID Connect plug-in.
 
-OpenID Connect 配置列表如下：
+The OpenID Connect configuration list is as follows.
 
-|字段|默认值|描述|
+|fields|default|description|
 | :------| :------------ | :------- |
-|client_id|""|OAuth 客户端 ID|
-|client_secret|""|OAuth 客户端密钥|
-|discovery|""|身份提供商的服务发现端点|
-|scope|openid|需要访问资源范围|
-|relm|apisix|指定 WWW-Authenticate 响应头验证信息|
-|bearer_only|false|是否检查请求头中的 token|
-|logout_path|/logout|登出的 URI|
-|redirect_uri|request_uri|身份提供商跳转回来的 URI，默认为请求地址|
-|timeout|3|请求超时时间，单位为秒|
-|ssl_verify|false|是否身份提供商的校验 ssl 证书|
-|introspection_endpoint|""|身份提供商的令牌验证端点的 URL，不填则将从 discovery 响应中提取|
-|introspection_endpoint_auth_method|client_secret_basic|令牌自省的认证方法名称|
-|public_key|""|验证令牌的公钥|
-|token_signing_alg_values_expected|""|验证令牌的算法|
-|set_access_token_header|true|是否在请求头中携带 access token|
-|access_token_in_authorization_header|false|true 时将 access token 放置在 Authorization 头中，false 时将 access token 放置在 X-Access-Token 头中|
-|set_id_token_header|true|是否将 ID token 携带至 X-ID-Token 请求头|
-|set_userinfo_header|true|是否将用户信息携带至 X-Userinfo 请求头|
+|client_id|""|OAuth client ID|
+|client_secret|""|OAuth client key|
+|discovery|""|the identity provider's service discovery endpoint|
+|scope|openid|scope of resources to be accessed|
+|relm|apisix|specifies the WWW-Authenticate response header authentication information|
+|bearer_only|false|whether to check the token in the request header|
+|logout_path|/logout|logout URI|
+|redirect_uri|request_uri|The URI that the identity provider jumped back to, defaulting to the request address|
+|timeout|3|The request timeout in seconds|
+|ssl_verify|false|whether the identity provider verifies the ssl certificate|
+|introspection_endpoint|""|the URL of the identity provider's token verification endpoint, which will be extracted from the discovery response if not filled|
+|introspection_endpoint_auth_method|client_secret_basic|the name of the token's default authentication method|
+|public_key|""|public key of the authentication token|
+|token_signing_alg_values_expected|""|the algorithm for authenticating tokens|
+|set_access_token_header|true|whether to carry the access token in the request header|
+|access_token_in_authorization_header|false|Place the access token in the Authorization header if true, or in the X-Access-Token header if false|
+|set_id_token_header|true|whether to carry the ID token in the X-ID-Token request header|
+|set_userinfo_header|true|whether to carry user information in the X-Userinfo request header|
 
-以下代码示例通过 Apache APISIX Admin API 进行创建路由，设置路由的上游为 httpbin.org。httpbin.org 是一个简单的用于接收请求和响应请求的后端服务，下文将使用 httpbin.org 的 get 页面，参考 [http bin get](http://httpbin.org/#/HTTP_Methods/get_get)。
+The following code example creates a route through the Apache APISIX Admin API, setting the route upstream to httpbin.org. httpbin.org is a simple backend service for receiving and responding to requests, and the get page of httpbin.org is used below, see [http bin get]( http://httpbin.org/#/HTTP_Methods/get_get).
 
-具体配置项请参考 [Apache APISIX OpenID Connect Plugin](https://apisix.apache.org/zh/docs/apisix/plugins/openid-connect/)。
+Please refer to [Apache APISIX OpenID Connect Plugin](https://apisix.apache.org/zh/docs/apisix/plugins/openid-connect/) for specific configuration items.
 
 ```shell
-curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
+curl -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/*",
     "plugins":{
         "openid-connect":{
             "client_id":"{YOUR_CLIENT_ID}",
             "client_secret":"{YOUR_CLIENT_SECRET}",
-            "discovery":"https://{YOUR_ISSUER}/.well-known/openid-configuration",
-            "scope":"openid profile",
+            "discovery": "https://{YOUR_ISSUER}/.well known/openid-configuration",
+            "scope": "openid profile",
             "bearer_only":false,
-            "realm":"master",
-            "introspection_endpoint_auth_method":"client_secret_post",
-            "redirect_uri":"http://127.0.0.1:9080/"
+            "realm": "master",
+            "introspection_endpoint_auth_method": "client_secret_post",
+            "redirect_uri": "http://127.0.0.1:9080/"
         }
     },
     "upstream":{
-        "type":"roundrobin",
+        "type": "roundrobin",
         "nodes":{
             "httpbin.org:80":1
         }
@@ -209,50 +209,50 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 }'
 ```
 
-### 步骤四：访问 Apache APISIX
+### Step 4: Accessing Apache APISIX
 
-1. 访问 http://127.0.0.1:9080/get ，因为开启了 OpenID Connect 插件，所以页面被重定向到 Okta 登录页面。
+1. Visit http://127.0.0.1:9080/get and the page is redirected to the Okta login page because the OpenID Connect plugin is turned on.
   
-![visit Okta login page](/img/blog_img/2021-08-16-9.png)
+! [visit Okta login page](/img/blog_img/2021-08-16-9.png)
   
-2. 输入用户在 Okta 注册的账号密码，单击“Sign in”，登录 Okta 账户。
+2. Enter the password you registered with Okta and click "Sign in" to log in to your Okta account. 3.
 
-3. 登录成功之后，能成功访问到 httpbin.org 中的 get 页面。该 httpbin.org/get 页面将返回请求的数据如下：
+3. After successful login, you can successfully access the get page in httpbin.org. The httpbin.org/get page will return the requested data as follows.
 
   ```sh
-  "X-Access-Token": "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.***TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb***.****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG-HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6-6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****",
-  "X-Id-Token": "******aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi*****",
-  "X-Userinfo": "*****lfbmFtZSI6IlpodSIsImxvY2FsZSI6ImVuLVVTIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsInVwZGF0ZWRfYXQiOjE2MjgwNzA1ODEsInpvbmVpbmZvIjoiQW1lcmljYVwvTG9zX0FuZ2VsZXMiLCJzdWIiOiIwMHVhMDVlY2RGZldLTEt1bzY5NSIsImdpdmVuX25hbWUiOiJQZXRlciIsIm5hbWUiOiJQZXRl****"
+  "X-Access-Token": "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.*** TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb ***. ****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG- HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6- 6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****",
+  "X-Id-Token": "****** aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi *****",
+  "X-Userinfo": "***** lfbmFtZSI6IlpodSIsImxvY2FsZSI6ImVuLVVTIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsInVwZGF0ZWRfYXQiOjE2MjgwNzA1ODEsInpvbmVpbmZvIjoiQW1lcmljYVwvTG9zX0FuZ2VsZXMiLCJzdWIiOiIwMHVhMDVlY2RGZldLTEt1bzY5NSIsImdpdmVuX25hbWUiOiJQZXRlciIsIm5hbWUiOiJQZXRl ****"
   ```
 
-其中：
+where.
 
-**X-Access-Token**：Apache APISIX 将从用户提供商获取到的 access token 放入 X-Access-Token 请求头，可以通过插件配置中的 access_token_in_authorization_header 来选择是否放入 Authorization 请求头中。
+**X-Access-Token**: Apache APISIX puts the access token obtained from the user provider into the X-Access-Token request header, which can be optionally put into the Authorization request header via access_token_in_authorization_header in the plugin configuration.
 
-![X-Access-Token](/img/blog_img/2021-08-16-10.png)
+! [X-Access-Token](/img/blog_img/2021-08-16-10.png)
 
-**X-Id-Token**：Apache APISIX 将从用户提供商获取到的 ID token 通过 base64 编码之后放入 X-Id-Token 请求头，可以通过插件配置中的 set_id_token_header 来选择是否开启该功能，默认为为开启状态。
+**X-Id-Token**: Apache APISIX will put the ID token obtained from the user provider into the X-Id-Token request header after base64 encoding, you can choose whether to enable this feature by using the set_id_token_header in the plugin configuration.
 
-![X-Id-Token](/img/blog_img/2021-08-16-11.png)
+! [X-Id-Token](/img/blog_img/2021-08-16-11.png)
 
-**X-Userinfo**：  Apache APISIX 将从用户提供商获取到的用户信息，通过 base64 编码之后放入 X-Userinfo，你可以通过插件配置中的 set_userinfo_header 来选择是否开启该功能，默认为开启状态。
+**X-Userinfo**: Apache APISIX will get the user information from the user provider and put it into X-Userinfo after base64 encoding, you can choose whether to turn it on or not by using set_userinfo_header in the plugin configuration, the default is on.
 
-![X-Userinfo](/img/blog_img/2021-08-16-12.png)
+! [X-Userinfo](/img/blog_img/2021-08-16-12.png)
 
-由此可以看到，Apache APISIX 将会携带 X-Access-Token,X-Id-Token,X-Userinfo 三个请求头传递至上游。上游可以通过解析这几个头部，从而获取到用户 ID 信息和用户的元数据。
+As you can see, Apache APISIX will carry the X-Access-Token, X-Id-Token, and X-Userinfo request headers to the upstream. The upstream can parse these headers to get the user ID information and user metadata.
 
-我们展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。只要注册一个免费的 Okta 开发者账户就可以轻松开始了。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。
+We show the process of setting up centralized authentication from Okta directly in Apache APISIX. It is easy to get started by signing up for a free Okta developer account. This centralized approach to authentication reduces learning and maintenance costs for developers and provides a secure and streamlined user experience.
 
-## 关于 Okta
+## About Okta
 
-Okta 是一个可定制的、安全的集中身份认证解决方案。Okta 可以为您的应用程序添加认证和授权。不需要自己编写代码，即可在您的应用程序中直接获得可扩展的认证。您可以将应用程序连接到 Okta，并定义用户的登录方式。每次用户尝试认证时，Okta 都会验证他们的身份，并将所需信息发回给您的应用程序。
+Okta is a customizable, secure centralized authentication solution. Okta can add authentication and authorization to your application. Get scalable authentication directly in your application without writing your own code. You can connect your application to Okta and define how users log in. Each time a user tries to authenticate, Okta verifies their identity and sends the required information back to your application.
 
-## 关于 Apache APISIX
+## About Apache APISIX
 
-Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。你可以使用 Apache APISIX 处理传统的南北向流量，以及服务间的东西向流量，也可以当做 [Kubernetes Ingress Controller](https://github.com/apache/apisix-ingress-controller) 来使用。
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and other rich traffic management features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [Kubernetes Ingress Controller](https://github.com/apache/apisix-ingress-controller) .
 
-全球已有数百家企业使用 Apache APISIX 处理关键业务流量，涵盖金融、互联网、制造、零售、运营商等等，比如美国航空航天局（NASA）、欧盟的数字工厂、中国航信、中国移动、腾讯、华为、微博、网易、贝壳找房、360、泰康、奈雪的茶等等。
+Hundreds of enterprises worldwide have used Apache APISIX to handle business-critical traffic, covering finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the EU's Digital Factory, China Airlines, China Mobile, Tencent, Huawei, Weibo, NetEase, Shell Housing, 360, Taikang, Nespresso's Tea, and more.
 
-Github：https://github.com/apache/apisix
+Github: https://github.com/apache/apisix
 
-官网：https://apisix.apache.org
+Official website: https://apisix.apache.org

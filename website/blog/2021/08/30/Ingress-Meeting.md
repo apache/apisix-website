@@ -1,46 +1,46 @@
 ---
-title: "社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散"
+title: Webinar｜ See you at the Apache APISIX Ingress Community Meeting on Wednesday at 2pm!
 author: "Apache APISIX 社区"
 keywords:
 - API 网关
 - APISIX
 - Ingress
-description: Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。 
+description: Apache APISIX Ingress community meetings to establish a channel of communication with community users and developers and to help everyone understand the direction and development plans for Apache APISIX Ingress.
 tags: [Events]
 ---
 
-> 随着 [Apache APISIX Ingress Controller 1.0 版本](https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released) 发布，越来越多的开发者开始关注 Apache APISIX Ingress 方案，Apache APISIX 社区希望能够建立与社区用户和开发者们更直接的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划，希望每一位用户、每一位开发者的声音都可以被听见。 因此，Apache APISIX 社区开始组织每两周线上社区会议。
+> With the release of [Apache APISIX Ingress Controller version 1.0](https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress- Controller-released), more and more developers have started to pay attention to the Apache APISIX Ingress solution. The Apache APISIX community hopes to establish a more direct communication channel with users and developers in the community to help them understand the development direction and development plans of Apache APISIX Ingress. We hope that every user and developer's voice will be heard. Therefore, the Apache APISIX community has started to organize bi-weekly online community meetings.
 
-<!--truncate-->
+<! --truncate-->
 
-## 会议时间
+## Meeting times
 
-每两周 (周三)下午 2 点，每次会议约 1 小时。
+Every two weeks (Wednesdays) at 2pm, each meeting is about 1 hour.
 
-## 会议地址
+## Meeting address
 
-[腾讯会议](https://meeting.tencent.com/s/eTvhm052verD) ID：377 1555 2043
+[Tencent Conference](https://meeting.tencent.com/s/eTvhm052verD) ID: 377 1555 2043
 
-## 会议周报
+## Weekly Meeting Report
 
-可以[此文档](https://docs.qq.com/doc/DSEhMeGJ0UXdydFJy)提前留下你想讨论的议题
+You can [this document](https://docs.qq.com/doc/DSEhMeGJ0UXdydFJy) to leave the topics you want to discuss in advance
 
-## 每期会议的议题可能是
+## Topics for each session may be
 
-- 某些新功能需求的讨论
-- 技术架构设计的分享
-- Bug 的反馈
-- 自己或所在团队使用 Apache APISIX Ingress Controller 过程中的经验分享和踩坑
-- 对 Apache APISIX Ingress Controller 的肯定或吐槽
+- Discussion of some new feature requirements
+- Sharing of technical architecture design
+- Feedback on bugs
+- Experiences and pitfalls in using Apache APISIX Ingress Controller by yourself or your team
+- Testimonials or complaints about Apache APISIX Ingress Controller
 
-当然也十分欢迎大家对 Apache APISIX 社区的建设提出中肯意见或贡献各种奇思妙想，如果大家对会议有建议、有想法，欢迎到此 [issue](https://github.com/apache/apisix-ingress-controller/issues/614) 下回复哦~
+Of course, you are also very welcome to give your opinions or contribute your ideas to the construction of the Apache APISIX community, if you have suggestions and ideas for the meeting, please feel free to [issue](https://github.com/apache/apisix-ingress-controller/issues/) 614) and reply to it!
 
-欢迎大家参与会议，一同探讨 Apache APISIX Ingress 方案，更欢迎小伙伴们加入社区开发者的队伍中，一起打造一款更好用的 Apache APISIX Ingress Controller。
+We welcome you to join us to discuss the Apache APISIX Ingress solution, and we welcome you to join the community of developers to build a better Apache APISIX Ingress Controller.
 
-如果你对 Apache APISIX 的技术方向感兴趣，希望一同开发，或者有其他建议或意见，可以通过以下渠道参与：
+If you are interested in the technical direction of Apache APISIX, want to develop it together, or have other suggestions or comments, you can participate through the following channels: 1.
 
-1. 订阅并发送邮件至 dev@apisix.apache.org‍
-以 Apache Way 的方式参与社区，订阅方式见官网[订阅指南](https://apisix.apache.org/docs/general/subscribe-guide)。邮件列表是 Apache 社区最常用的沟通方式，社区会积极回复邮件列表中的问题。
+1. subscribe and send an email to dev@apisix.apache.org
+Participate in the community the Apache Way way by subscribing to the [Subscription Guide](https://apisix.apache.org/docs/general/subscribe-guide). The mailing list is the most common way for the Apache community to communicate, and the community will actively respond to questions on the mailing list.
 
-2. 在 Apache APISIX Github discussion 发起讨论
-欢迎大家在 GitHub discussion 讨论，[discussion](https://github.com/apache/apisix/discussions) 区非常活跃哦。我们也会不定期的将一些常见问题在 discussion 中进行汇总和答复，方便大家查找。
+2. Start a discussion in the Apache APISIX Github discussion
+The [discussion](https://github.com/apache/apisix/discussions) area is very active. From time to time, we'll also include a summary of frequently asked questions in the discussion to make them easier to find.
