@@ -188,6 +188,7 @@ Server: APISIX/2.7
 
 Hello, Python Runner of APISIX
 ```
+
 ## Plugin Development
 
 ### Plugin directory
