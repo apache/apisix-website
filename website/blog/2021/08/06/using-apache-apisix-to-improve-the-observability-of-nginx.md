@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Nginx
 - observability
-description: Best Practices: This article shares solutions and practices for observability in the context of Nginx observability, the relationship between Apache APISIX and Nginx, Apache APISIX observability, and further enhancing observability with Apache SkyWalking.
+description: "Best Practices: This article shares solutions and practices for observability in the context of Nginx observability, the relationship between Apache APISIX and Nginx, Apache APISIX observability, and further enhancing observability with Apache SkyWalking."
 tags: [Practical Case]
 ---
 
