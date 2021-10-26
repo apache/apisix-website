@@ -48,7 +48,7 @@ Yanshan Chen - After graduation, he has been working on distributed storage soft
 
 ## Using Apache APISIX to implement flow limiting and speed limiting
 
-### Introduction to the topic
+**Introduction to the topic**
 
 When it comes to speed limiting, Nginx is the first thing that comes to mind, but Nginx is implemented through a configuration file that requires reloads for each change, making it extremely cumbersome to run and maintain. On the other hand, speed limiting conditions are limited to Nginx variables, making it difficult to achieve fine-grained speed limiting for business purposes.
 
@@ -66,7 +66,7 @@ Junxu Chen - Internet veteran, worked in Sina, Xunlei, 360 and other well-known 
 
 ## Testing Apache APISIX recovery with Chaos.com
 
-### Introduction to the topic
+**Introduction to the topic**
 
 Apache APISIX is one of the leading API gateways OSS. To ensure that everything goes as planned, APISIX uses different kinds of tests, including unit, e2e and fuzzy tests. However, we are still not sure how APISIX will behave when some abnormal but unavoidable circumstances occur, such as network failure, IO stress or pod failure.
 
@@ -84,7 +84,7 @@ Yang Wu - Committer for Apache APISIX and Chaos Mesh, he leads the integration o
 
 ## Authentication and Authorization with Apache APISIX
 
-### Introduction to the topic
+**Introduction to the topic**
 
 Authentication and authorization are very necessary features in API gateways. This way, the services located behind the gateway are protected from unauthorized or malicious access, data leakage, and hacking. Apache APISIX is a dynamic, real-time, high-performance API gateway. And it provides many plug-ins, including authentication and authorization like key-auth, Open-ID, wolf-RBAC, etc. This proposal describes how to use Apache APISIX for authentication and authorization.
 
@@ -100,7 +100,7 @@ Xinxin Zhu - Apache APISIX Committer, with years of CDN experience and familiar 
 
 ## Relying on the community to make Apache APISIX grow fast
 
-### Introduction to the topic
+**Introduction to the topic**
 
 In the past year, Apahce APISIX has become the most active API gateway project in the world, not only because of its advanced technology, but also because of the highly active community. As of today, there are 225 contributors from all over the world, and the number is still growing rapidly. This session will introduce APISIX's experience in practicing "community over code". As an idealistic startup, how to combine with Apache culture to make the startup grow fast.
 
@@ -116,7 +116,7 @@ Yansheng Wang - Founder and PMC member of open source enthusiast Apache APISIX.
 
 ## How to extend Apache APISIX as a side car for a service grid
 
-### Introduction to the topic
+**Introduction to the topic**
 
 In this topic I will introduce the apisix-mesh-agent project, which has some capabilities to extend Apache APISIX as a sidecar in a service grid scenario, and more importantly, it uses the xDS protocol to get configurations from control planes like Istio, Kuma, etc. Afterwards, I will present future plans and expectations regarding the use of Apache APISIX in service grids.
 
@@ -132,7 +132,7 @@ Chao Zhang - Apache APISIX PMC, OpenResty contributor, open source enthusiast, n
 
 ### Evolution of Apache APISIX
 
-### Introduction to the topic
+**Introduction to the topic**
 
 Apache APISIX is one of the most popular API gateways: https://github.com/apache/apisix I will describe the evolution of Apache APISIX, including.
 
@@ -152,7 +152,7 @@ Zexuan Luo - Apache APISIX PMC, OpenResty developer.
 
 ### Apache APISIX-based implementation of KUBERNETES INGRESS
 
-### Introduction to the topic
+**Introduction to the topic**
 
 Introducing the benefits of Apache APISIX-based Kubernetes Ingress and the features of Apache APISIX Ingress.
 
