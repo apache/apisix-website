@@ -25,6 +25,7 @@ tags: [technology]
 APISIX Ingress 则是基于 Apache APISIX 的 Ingress Controller 实现，实现了对 Kubernetes 的扩展，同时也支持 Ingress resource 的原生资源定义。
 
 ![APISIX Ingress 架构](https://static.apiseven.com/202108/1635304156040-50b7a2ae-ed0c-42ac-8517-edd0715e0082.png)
+
 通过上图可以看到，APISIX Ingress 是在 Kubernetes 集群中部署，并代理 Kubernetes 外部集群的请求。然后将这些请求反向代理到 Kubernetes 集群 Service，同时也支持直接将服务推送到 Service Pod。
 
 ### 什么是 Apache APISIX
