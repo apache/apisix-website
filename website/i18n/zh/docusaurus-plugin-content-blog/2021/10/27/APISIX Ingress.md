@@ -101,6 +101,7 @@ Apache APISIX Ingress Controller 采用声明式的配置，经过内部处理�
 ### 完善了更多细节功能
 
 这些贡献大都来源于社区小伙伴们平时在使用 APISIX Ingress 当中遇到的一些问题，或者场景上的一些完善，比如：
+
 - Admission Hook
 - Ingress 本身的 Prometheus Metrics
 - mTLs
@@ -166,4 +167,3 @@ Apache APISIX Ingress 在不断迭代的过程中，也收到了很多社区小�
 更多未来规划以及特性相关内容[点此查阅](https://github.com/apache/apisix-ingress-controller/milestones)。
 
 社区的发展是永无止境的，很感谢一路以来各位用户对 Apache APISIX Ingress Controller 的支持。希望大家在后续使用过程中，可以积极地参与和反馈关于 Apache APISIX Ingress Controller 项目的任何问题，让产品变得更优秀。
- 
