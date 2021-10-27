@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Mon, 18 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 22 Oct 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书]]></title>
+            <link>https://apisix.apache.org/blog/2021/10/22/cert-manager-in-ingress</link>
+            <guid>教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书</guid>
+            <pubDate>Fri, 22 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。]]></description>
+        </item>
         <item>
             <title><![CDATA[直播预告 | Apache APISIX × Apache SkyWalking 线上分享]]></title>
             <link>https://apisix.apache.org/blog/2021/10/18/meetup</link>

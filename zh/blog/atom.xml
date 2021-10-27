@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-10-18T00:00:00.000Z</updated>
+    <updated>2021-10-22T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书]]></title>
+        <id>教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/10/22/cert-manager-in-ingress"/>
+        <updated>2021-10-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。]]></summary>
+        <author>
+            <name>张超</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[直播预告 | Apache APISIX × Apache SkyWalking 线上分享]]></title>
         <id>直播预告 | Apache APISIX × Apache SkyWalking 线上分享</id>
