@@ -66,7 +66,7 @@ Yang **Shu**: Last year, I had time to stay home with my parents because of the 
 
 **Zephyr**: In the project application, mainly describe your idea about the current project proposal or the related technical route, and also briefly describe the process of achieving the project goals (starting from each small module to achieve the project goals step by step) and the approximate time required. The rest of the information needed such as a personal introduction, etc. The above can help us to get a quick idea of your capabilities and project proposal, which will help the project application. You can also contact the project supervisor in advance to get more comprehensive information about the project.
 
-**Q: Zephyr, you became a mentor for the community program this year, is there anything you would like to share with us about this change in role?**
+**Q: Zeping, you became a mentor for the community program this year, is there anything you would like to share with us about this change in role?**
 
 **Zeping**: I received a lot of guidance and help when I participated in the programming summer as a student last year, and if you choose to participate in the Apache APISIX community project this year, I will likewise provide you with help to get started with project development faster.
 
