@@ -72,4 +72,4 @@ Yang **Shu**: Last year, I had time to stay home with my parents because of the 
 
 **Q: What would you like to say to all the students who want to participate in Summer of Programming 2021?**
 
-**Zephyr**: Programming Summer can sharpen your skills and also help you get started faster in collaborating and participating in open source projects. There are many opportunities to apply for the program while the submissions are not difficult, so I hope you won't hesitate to participate!
+**Zeping**: Programming Summer can sharpen your skills and also help you get started faster in collaborating and participating in open source projects. There are many opportunities to apply for the program while the submissions are not difficult, so I hope you won't hesitate to participate!
