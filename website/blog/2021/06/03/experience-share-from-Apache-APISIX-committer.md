@@ -48,7 +48,7 @@ tags: [Interview]
 
 **Q: What would you like to say to the students who want to participate in Summer of Programming 2021?**
 
-**Shuyang Wu**: I hope you'll sign up, don't have too many worries, talk to the community more, everyone is very friendly, and enjoy the three-month development experience.
+**Shuyang**: I hope you'll sign up, don't have too many worries, talk to the community more, everyone is very friendly, and enjoy the three-month development experience.
 
 ## Sharing Guest: Zeping Bai
 
