@@ -179,4 +179,4 @@ Unification itself is not the goal, but the benefits after unification is the lo
 
 Last but not least is the APISIX [Slack channel](https://apisix.apache.org/docs/general/community#slack), any questions can be left here or on [Github issue](https://github.com/apache/apisix/issues), there will be someone to respond quickly, thanks again.
 
-Click to watch the [video](https://www.bilibili.com/video/BV1w54y1V73Z?p=1&share_medium=android&share_plat=android&share_source=COPY&share_tag=s_i&) timestamp=1621812452&unique_k=PEusrt)
+Click to watch the [video](https://www.bilibili.com/video/BV1w54y1V73Z?p=1&share_medium=android&share_plat=android&share_source=COPY&share_tag=s_i&timestamp=1621812452&unique_k=PEusrt)
