@@ -442,11 +442,11 @@
             <description><![CDATA[本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 2.6.0-Release 正式发布]]></title>
+            <title><![CDATA[Apache APISIX 2.6.0-Release Officially Released]]></title>
             <link>https://apisix.apache.org/blog/2021/05/25/Apache APISIX 2.6.0-Release</link>
-            <guid>Apache APISIX 2.6.0-Release 正式发布</guid>
+            <guid>Apache APISIX 2.6.0-Release Officially Released</guid>
             <pubDate>Tue, 25 May 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。]]></description>
+            <description><![CDATA[Apache APISIX 2.6.0-Release is officially released! You are welcome to download and use it.]]></description>
         </item>
         <item>
             <title><![CDATA[支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯]]></title>
@@ -484,18 +484,18 @@
             <description><![CDATA[Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚]]></title>
+            <title><![CDATA[Apache APISIX Contributor Interview | Pengcheng Wang, Senior Security Consultant, PricewaterhouseCoopers China Data Security & Privacy Team]]></title>
             <link>https://apisix.apache.org/blog/2021/01/11/interview-Apache-APISIX-contributor-Wang-Pengcheng-Senior-Security-Advisor-of-PwC-South-China-Data-Security-and-Privacy-Protection-Team</link>
-            <guid>Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚</guid>
+            <guid>Apache APISIX Contributor Interview | Pengcheng Wang, Senior Security Consultant, PricewaterhouseCoopers China Data Security &amp; Privacy Team</guid>
             <pubDate>Mon, 11 Jan 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[近日，来自普华永道华南数据安全及隐私保护团队的高级安全顾问王鹏诚向国家信息安全漏洞共享平台（CNVD）和 Apache 软件基金会，报告了 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。]]></description>
+            <description><![CDATA[Recently, Pengcheng Wang, a senior security consultant from PwC's South China Data Security and Privacy team, reported the first CVE for Apache APISIX to the National Information Security Vulnerability Sharing Platform (CNVD) and the Apache Software Foundation: Apache APISIX Admin API Default Token Vulnerability (CVE-2020- 13945). To thank Pengcheng for his contribution to the Apache APISIX community, we also conducted an interview with Pengcheng.]]></description>
         </item>
         <item>
-            <title><![CDATA[初探 Kubernetes Service APIs]]></title>
+            <title><![CDATA[A First Look at Kubernetes Service APIs]]></title>
             <link>https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api</link>
-            <guid>初探 Kubernetes Service APIs</guid>
+            <guid>A First Look at Kubernetes Service APIs</guid>
             <pubDate>Fri, 18 Dec 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。]]></description>
+            <description><![CDATA[This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine many ingress best practices, such as the enhanced expressiveness, which actually extends the capabilities of Route, and the BackendPolicy objects, which can specify almost any Kubernetes backend resource for upstream.]]></description>
         </item>
         <item>
             <title><![CDATA[Envoy and Apache APISIX: Another way to implement the Envoy filter]]></title>
