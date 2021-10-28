@@ -155,7 +155,7 @@ Because APISIX is currently an Apache Foundation project, it is no longer the pr
 
 The default configuration center for the open source version of APISIX is etcd, and while it is still the best choice, we still often hear about support for other configuration centers when we talk to users, more often than not because etcd is so new that it is not on the list of supported products in the company's existing operations and maintenance products. So we plan to make APISIX work with other configuration centers.
 
-! [APISIX data plane](https://static.apiseven.com/202108/20210625025.png)
+![APISIX data plane](https://static.apiseven.com/202108/20210625025.png)
 
 APISIX is already on the road to full traffic data plane, and I believe we all ask questions such as: Why do we need to unify traffic forwarding? Does unification bring value to the enterprise? What are the benefits to the technical staff? With these questions in mind, let's look at the following diagram.
 
