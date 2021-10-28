@@ -41,4 +41,4 @@ Apache APISIX has been used by hundreds of enterprises worldwide to handle busin
 
 More than 200 contributors have come together to create Apache APISIX, the world's most active open source gateway project. Smart developers! Come join this active and diverse community and come together to bring more good things to the world!
 
-[Apache APISIX GitHub project address](https://github.com/apache/apisix)
+[Apache APISIX GitHub project](https://github.com/apache/apisix)
