@@ -60,7 +60,7 @@ Yang **Shu**: Last year, I had time to stay home with my parents because of the 
 
 **Q: Why did you choose to participate in Summer of Programming last year and choose the Apache APISIX project?**
 
-**Zephyr**: When I was using the Apache APISIX gateway control panel, I found some features that were not supported, so I submitted some code to improve the functionality of this piece. I applied for GSoC for other community projects before the Summer of Programming event started last year, but was not selected, and then when I saw the Summer of Programming 2020 event advertised, I signed up for it.
+**Zeping**: When I was using the Apache APISIX gateway control panel, I found some features that were not supported, so I submitted some code to improve the functionality of this piece. I applied for GSoC for other community projects before the Summer of Programming event started last year, but was not selected, and then when I saw the Summer of Programming 2020 event advertised, I signed up for it.
 
 **Q: This year you became an Apache APISIX project mentor, what tips can you give to people about applying for the project?**
 
