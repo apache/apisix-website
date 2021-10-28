@@ -24,7 +24,7 @@ Shuyang Wu! [yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd
 
 **Q: Why did you choose to participate in Programming Summer last year?**
 
-Yang **Shu**: Last year, I had time to stay home with my parents because of the epidemic, so I thought I would try to find a project where I could intern remotely, and I was lucky enough to find an open source community event (here is an advertisement for our company, we work completely remotely). Compared to GSOC and Community Bridge, Summer of Programming has a very high selection rate because there are many projects and each project is guaranteed to have its own slot. **Last year's numbers were: 397 projects, 219 applications, and 185 wins. If you include the three projects you can sign up for, the winning rate is more than 99%, so I, a person with an all-white Github Contribution Graph, can also be selected.**
+**Shuyang**: Last year, I had time to stay home with my parents because of the epidemic, so I thought I would try to find a project where I could intern remotely, and I was lucky enough to find an open source community event (here is an advertisement for our company, we work completely remotely). Compared to GSOC and Community Bridge, Summer of Programming has a very high selection rate because there are many projects and each project is guaranteed to have its own slot. **Last year's numbers were: 397 projects, 219 applications, and 185 wins. If you include the three projects you can sign up for, the winning rate is more than 99%, so I, a person with an all-white Github Contribution Graph, can also be selected.**
 
 **Q: Why did Shuyang Wu choose the Apache APISIX project last year?** Q: Why did Shuyang Wu choose the Apache APISIX project last year?
 
