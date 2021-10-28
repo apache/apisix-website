@@ -15,7 +15,7 @@ tags: [Technology]
 
 > This article describes the history of the evolution of the Apache APISIX architecture and compares what the advantages of the two frameworks, Apache APISIX and Nginx, are.
 
-<! --truncate -->
+<!--truncate-->
 
 > Source: https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX
 
