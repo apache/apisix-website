@@ -11,7 +11,7 @@ tags: [Events]
 
 > On Friday, July 23rd, 2021 at 00:00 GMT, Apache APISIX committer Jintao Zhang will share the topic "Run Apache APISIX in Kubernetes" at the Data on Kubernetes Community Meetup for developers around the world.
 
-<! --truncate-->
+<!--truncate-->
 
 In this talk, Jintao Zhang will share his experience of running Apache APISIX on Kubernetes and how to use Apache APISIX as an Ingress Controller. If you're interested, don't miss it, sign up now!
 
