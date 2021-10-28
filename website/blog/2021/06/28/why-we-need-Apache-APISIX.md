@@ -147,7 +147,7 @@ Service mesh, it is necessary to talk to you about it. In the next five or ten y
 
 The diagram on the right shows the internal architecture of APISIX Mesh.
 
-! [APISIX goal](https://static.apiseven.com/202108/20210625024.png)
+![APISIX goal](https://static.apiseven.com/202108/20210625024.png)
 
 After talking so much about the present of APISIX, let's also talk about the future of APISIX.
 
