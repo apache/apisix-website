@@ -64,7 +64,7 @@ Yang **Shu**: Last year, I had time to stay home with my parents because of the 
 
 **Q: This year you became an Apache APISIX project mentor, what tips can you give to people about applying for the project?**
 
-**Zephyr**: In the project application, mainly describe your idea about the current project proposal or the related technical route, and also briefly describe the process of achieving the project goals (starting from each small module to achieve the project goals step by step) and the approximate time required. The rest of the information needed such as a personal introduction, etc. The above can help us to get a quick idea of your capabilities and project proposal, which will help the project application. You can also contact the project supervisor in advance to get more comprehensive information about the project.
+**Zeping**: In the project application, mainly describe your idea about the current project proposal or the related technical route, and also briefly describe the process of achieving the project goals (starting from each small module to achieve the project goals step by step) and the approximate time required. The rest of the information needed such as a personal introduction, etc. The above can help us to get a quick idea of your capabilities and project proposal, which will help the project application. You can also contact the project supervisor in advance to get more comprehensive information about the project.
 
 **Q: Zeping, you became a mentor for the community program this year, is there anything you would like to share with us about this change in role?**
 
