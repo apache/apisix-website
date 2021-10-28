@@ -42,7 +42,8 @@ This is our team, we mainly collaborate remotely, and it's harder to get everyon
 
 As a technology-driven business company, technology has a very big say in our company, and respect for technology starts with respect for technical talents. There is no 996, no punching in and out, remote office, welcome interested students to contact us, look forward to dreaming and ideal you to join our company.
 
-We are looking forward to your dream and ideal to join us. [APISIX architecture](https://static.apiseven.com/202108/20210625005.png)
+We are looking forward to your dream and ideal to join us. 
+![APISIX architecture](https://static.apiseven.com/202108/20210625005.png)
 
 The topic of this talk needs some background, so let's start with the history of back-end architecture evolution. First, let's review this diagram, the right part from top to bottom it is not a specific data flow diagram, it is the history of our backend architecture evolution. Spring Cloud architecture mainly serves JAVA language developers, Kubernetes is a container orchestration to support any language, as well as the recent community hot topic service grid.
 
