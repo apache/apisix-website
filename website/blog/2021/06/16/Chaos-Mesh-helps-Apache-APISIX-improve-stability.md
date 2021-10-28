@@ -43,7 +43,7 @@ The next two user feedback scenarios are used as examples to introduce the proce
 
 #### Scenario 1
 
-! [2021-06-16-1](/img/blog_img/2021-06-16-1.png)
+![2021-06-16-1](/img/blog_img/2021-06-16-1.png)
 
 Describe this scenario in a diagram. Against the five steps above, you first need to find quantifiable metrics that measure the proper functioning of Apache APISIX. The primary method of testing is to use Grafana to monitor Apache APISIX performance metrics. Once measurable metrics are found, the data can be extracted separately from Prometheus in the CI for comparison. Another point is that the logs need to be analyzed. Another point is the need to analyze logs, which for Apache APISIX is to look at Nginx error.log to determine whether errors are reported and whether they are expected.
 
@@ -51,7 +51,7 @@ In the control group, before Chaos was introduced, we tested that set/get route 
 
 #### Scenario 2
 
-! [2021-06-16-2](/img/blog_img/2021-06-16-2.png)
+![2021-06-16-2](/img/blog_img/2021-06-16-2.png)
 
 Introducing pod-kill chaos after performing the same control group experiment reproduces the expected error. In the case of randomly deleting a few etcd nodes in the cluster, etcd connectivity exhibited sporadic behavior, and the logs printed a large number of connection denied errors. More interestingly, the setup route returned normally when deleting the first or third node in the etcd endpoint list, and only when deleting the second node in the etcd endpoint list did the setup route report the error "connection refused".
 

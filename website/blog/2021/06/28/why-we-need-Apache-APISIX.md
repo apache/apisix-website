@@ -21,7 +21,7 @@ tags: [Technology]
 
 Hello everyone, I'm happy to share a topic that I'm excited about, "Why do you need Apache APISIX when you have NGINX and Kong".
 
-! [why we need APISIX](https://static.apiseven.com/202108/20210625001.png)
+![why we need APISIX](https://static.apiseven.com/202108/20210625001.png)
 
 The reason why we are doing a replacement project for NGINX and Kong is actually related to the background of our backend architecture evolution, and I will start by sharing with you the backend architecture evolution process, which is very important.
 
@@ -45,7 +45,7 @@ The topic of this talk needs some background, so let's start with the history of
 
 I often say to colleagues, let's look at the next five years, or even ten years later, which architecture is the ultimate solution? From the current information, the service grid will probably win. Even if it still has many problems, I believe they can be solved.
 
-! [APISIX architecture](https://static.apiseven.com/202108/20210625006.png)
+![APISIX architecture](https://static.apiseven.com/202108/20210625006.png)
 
 At the beginning of the venture, it was particularly interesting to go through this diagram in my head. We were able to see that as we gradually iterated on the back-end architecture, we introduced a variety of different components. For example, when we got to SOA, which is a service-oriented architecture, we introduced reverse proxy components, usually NGINX and HAProxy, and when we iterated to microservice architecture, we usually chose some more modern API gateway products, such as Kong and Traefik, and of course, some users would continue to use NGINX because of their habitual habits. Although it has weaknesses such as weaknesses and inconveniences, but it is stable and reliable. On a side note, from a global market share perspective, NGINX became the most dominant Web Server in April 2019.
 
@@ -55,13 +55,13 @@ Let's look at the left side of the more interesting JAVA, Spring Cloud built-in 
 
 Finally, the bottom right part of the service grid, for the service grid has formed a choice istio (CP) + envoy (DP). Later we see the Alibaba open source mosn, in a nutshell: Golang version of envoy.
 
-! [APISIX architecture](https://static.apiseven.com/202108/20210625007.png)
+![APISIX architecture](https://static.apiseven.com/202108/20210625007.png)
 
 Reviewing the previous architecture evolution diagram, I believe many students have found out where the problem is. From top to bottom, from left to right, for different scenarios, we finally "reasonably" introduced various components to solve our problems, the architect's rule of survival: choose the most suitable at the moment.
 
 When we have few tools at hand, we always have to compromise between functionality, dynamics, performance, etc. We have long been accustomed to and even numb to the rapid development of IT technology, are they still the most appropriate solution today?
 
-! [Nginx](https://static.apiseven.com/202108/20210625008.png)
+![Nginx](https://static.apiseven.com/202108/20210625008.png)
 
 As you can see, these are NGINX drawbacks, such as NGINX's low activity community. While we could invest more resources at the corporate level, his community is really unfriendly, and how unfriendly is it? As you can see in the picture above, the NGINX repository in Github is only a mirror, the issue function is closed, it is impossible to submit an issue, and even if you submit a PR the official will not merge it.
 
@@ -69,11 +69,13 @@ In addition, NGINX is weak in its own routing, for example, I want to do graysca
 
 Finally, the NGINX cluster management, almost every Internet vendor has its own NGINX configuration management system, although the system is similar but there is no unified solution, more than a decade has been blank.
 
-The system is similar but there is no unified solution, which has been blank for more than ten years. [Kong](https://static.apiseven.com/202108/20210625009.png)
+The system is similar but there is no unified solution, which has been blank for more than ten years. ![Kong](https://static.apiseven.com/202108/20210625009.png)
 
 Before talking further about Kong, I would like to talk to you about what is cloud-native. This term has been around for a long time, but there is no unified and clear definition until now. I synthesize several cloud vendors' definitions and outline two main cloud-native features: first, it should support containers, and second, it should support elastic and scalable deployment. I think Kong does not fully meet the second, the official main PostgreSQL relational database is a single point, can not support elastic expansion and contraction of capacity, is its architecture selection hard.
 
-The architecture is hard to choose. [Nginx Kong](https://static.apiseven.com/202108/20210625010.png)
+The architecture is hard to choose.
+
+![Nginx Kong](https://static.apiseven.com/202108/20210625010.png)
 
 Finally, a brief summary of the problems with NGINX and Kong.
 
@@ -85,35 +87,35 @@ Finally, a brief summary of the problems with NGINX and Kong.
 
 Before introducing APISIX, it is necessary to thank the two predecessors for thinking on the shoulders of giants, which really gives us a higher starting point from the beginning.
 
-! [APISIX architecture](https://static.apiseven.com/202108/20210625011.png)
+![APISIX architecture](https://static.apiseven.com/202108/20210625011.png)
 
-The left and right of this diagram are DP (Date Plane) and CP (Control Plane), which are the same as the familiar backend service system. APISIX did not try to build something new by itself from the first day of the architecture, so we chose the most mature etcd for the configuration center.
+The left and right of this diagram are DP (Data Plane) and CP (Control Plane), which are the same as the familiar backend service system. APISIX did not try to build something new by itself from the first day of the architecture, so we chose the most mature etcd for the configuration center.
 
 In this architecture, you can't find a single point. Any abnormal downtime of any of the services here will not affect APISIX's ability to provide services to the public. When every point in the overall architecture supports high availability, the high stability of the user's production system is very easy to achieve.
 
-! [APISIX eco](https://static.apiseven.com/202108/20210625012.png)
+![APISIX eco](https://static.apiseven.com/202108/20210625012.png)
 
 This is a diagram of the APISIX eco, from which you can see exactly what peripheral ecologies are currently supported. On the left side are the supported protocols, you can see the common Layer 7 protocols such as HTTP(S), HTTP2, Dubbo, QUIC and IoT protocol MQTT, and the Layer 4 protocols such as TCP/UDP. On the right are some open source or SaaS services such as SkyWalking, Prometheus, Vault, etc. Below are some of the more common OS environments, cloud vendors and hardware environments. As a global company, we also support richer platforms such as ARM64.
 
-! [APISIX Advantages](https://static.apiseven.com/202108/20210625013.png)
+![APISIX Advantages](https://static.apiseven.com/202108/20210625013.png)
 
 To give you a brief report on the current state of APISIX, APISIX has become the most active open source API gateway project in the world in the two years since it became open source, and this state has been going on for more than a year. Remember the bottom sentence, APISIX has been **production available, with better features, performance, and architecture across the board than Kong**. In September 2019 Shell has already used the APISIX project in production environments.
 
-APISIX Community [APISIX Community](https://static.apiseven.com/202108/20210625014.png)
+![APISIX Community](https://static.apiseven.com/202108/20210625014.png)
 
 To briefly explain this graph, you can call it a contributor growth curve. The horizontal coordinate is the timeline and the vertical coordinate is the total number of contributors. We can see that APISIX and Kong are two relatively more active projects. APISIX has been growing at a very good rate since the first day of open source, and is growing at nearly twice the rate of Kong, which shows how popular APISIX is. Of course there are many other ways to evaluate the activity of a project, such as checking monthly active issues, PR totals, etc. I'm happy to say that APISIX is still number one in terms of activity in these ways.
 
-APISIX is still number one in these ways! [APISIX Advantages](https://static.apiseven.com/202108/20210625015.png)
+APISIX is still number one in these ways![APISIX Advantages](https://static.apiseven.com/202108/20210625015.png)
 
 After our actual customer visits, the feature of supporting multiple languages is very necessary. After all, for many companies, they have their own familiar technology stacks, and many companies are blank for NGINX C and Lua. APISIX has officially announced multilingual support a few days ago, and currently supports Java, and will gradually support Golang, Rust, NodeJS and other languages.
 
 APISIX's full dynamic and high performance is actually inseparable from the high quality of the surrounding ecology. Other peripheral libraries such as jsonschema, ipmatcher, etc. are several orders of magnitude better than similar open source projects.
 
-! [APISIX arch](https://static.apiseven.com/202108/20210625016.png)
+![APISIX arch](https://static.apiseven.com/202108/20210625016.png)
 
 APISIX support for multi-language features have been put into the open source project, interested students are welcome to follow and participate at any time. The advantage of this implementation is that it is simple and universal, and everyone can natively use their familiar language.
 
-! [Apache APISIX](https://static.apiseven.com/202108/20210625017.png)
+![Apache APISIX](https://static.apiseven.com/202108/20210625017.png)
 
 After all this talk, what are the advantages of APISIX for you? See the image above.
 
@@ -123,27 +125,27 @@ High performance, dynamics, and an active community are the trump cards of APISI
 
 If one sentence sums up the pride of APISIX, I think it is:**APISIX, the most active API gateway project in the world**. With this consensus, we tilt more resources to the community, and we believe the community will make APISIX grow soundly and healthily.
 
-! [APISIX goal](https://static.apiseven.com/202108/20210625018.png)
+![APISIX goal](https://static.apiseven.com/202108/20210625018.png)
 
 The APISIX goal: **Unified Proxy Infrastructure**.
 
 You may be wondering if APISIX is going to support so many scenarios. Here I will explain briefly that the core of APISIX is a high-performance proxy service that does not bind any environment properties itself. When it evolves into Ingress, Service Grid, etc., it is the external service that works with APISIX, and it is the external program that changes rather than APISIX itself, and we will explain how APISIX supports these scenarios step by step.
 
-! [API gateway](https://static.apiseven.com/202108/20210625019.png)
+![API gateway](https://static.apiseven.com/202108/20210625019.png)
 
 For traditional LB and API Gateway scenarios, APISIX has the advantage of going from static to all dynamic, no more reloads, as many tech companies start with a half hour NGINX reload. The aforementioned grayscale scenario of moduloing based on request id can be easily done in APISIX using fine-grained routing.
 
-! [API gateway](https://static.apiseven.com/202108/20210625020.png)
+![API gateway](https://static.apiseven.com/202108/20210625020.png)
 
-! [APISIX Ingress Controller](https://static.apiseven.com/202108/20210625021.png)
+![APISIX Ingress Controller](https://static.apiseven.com/202108/20210625021.png)
 
 APISIX Ingress Controller solves all the problems mentioned above, and inherits all the advantages of APISIX, in addition to supporting native k8s CRD for easy migration.
 
-! [service mesh](https://static.apiseven.com/202108/20210625022.png)
+![service mesh](https://static.apiseven.com/202108/20210625022.png)
 
 Service mesh, it is necessary to talk to you about it. In the next five or ten years, what is the most likely mainstream server-side architecture? If I were to answer, I would choose the service mesh.
 
-! [APISIX Mesh](https://static.apiseven.com/202108/20210625023.png)
+![APISIX Mesh](https://static.apiseven.com/202108/20210625023.png)
 
 The diagram on the right shows the internal architecture of APISIX Mesh.
 
@@ -159,7 +161,7 @@ The default configuration center for the open source version of APISIX is etcd, 
 
 APISIX is already on the road to full traffic data plane, and I believe we all ask questions such as: Why do we need to unify traffic forwarding? Does unification bring value to the enterprise? What are the benefits to the technical staff? With these questions in mind, let's look at the following diagram.
 
-! [APISIX goal](https://static.apiseven.com/202108/20210625026.png)
+![APISIX goal](https://static.apiseven.com/202108/20210625026.png)
 
 Unification itself is not the goal, but the benefits after unification is the logic behind our pursuit, and several different perspectives are given below to elaborate separately.
 
@@ -171,6 +173,6 @@ Unification itself is not the goal, but the benefits after unification is the lo
 
 ![connect APISIX](https://static.apiseven.com/202108/20210625027.png)
 
-Last but not least is the APISIX QQ group, any questions can be left here or on [Github issue](https://github.com/apache/apisix/issues), there will be someone to respond quickly, thanks again.
+Last but not least is the APISIX [Slack channel](https://apisix.apache.org/docs/general/community#slack), any questions can be left here or on [Github issue](https://github.com/apache/apisix/issues), there will be someone to respond quickly, thanks again.
 
 Click to watch the [video](https://www.bilibili.com/video/BV1w54y1V73Z?p=1&share_medium=android&share_plat=android&share_source=COPY&share_tag=s_i&) timestamp=1621812452&unique_k=PEusrt)

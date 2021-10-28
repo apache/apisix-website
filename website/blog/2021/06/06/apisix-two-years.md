@@ -38,4 +38,4 @@ The development of Apache APISIX cannot be achieved without each and every one o
 
 ![apisix contributors](https://static.apiseven.com/202108/1630468565074-c7e83b82-c40d-4c56-bc66-d1be2acc645b.jpeg)
 
-Apache APISIX turns 2, happy birthday!
+Apache APISIX is 2 years old now, happy birthday!

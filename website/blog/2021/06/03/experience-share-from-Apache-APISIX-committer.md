@@ -16,7 +16,7 @@ tags: [Interview]
 
 ## Guest speaker: Shuyang Wu
 
-Shuyang Wu! [yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd-06c0-4c71-848a-8ed0e1263a4e.png)
+[yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd-06c0-4c71-848a-8ed0e1263a4e.png)
 
 **Q: Shuyang Wu, please briefly introduce yourself.**
 
@@ -30,11 +30,11 @@ Shuyang Wu! [yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd
 
 **Shuyang Wu**: I took a screenshot of the PPT from last year's conference. For those who have a clear goal of interest, naturally you don't need to think about how to choose a project. But if you're like me last year, you don't really understand what you're doing when you look at a project. At this point, you may choose a project with a high star count, but in fact **star count only indicates the popularity of the project, not the "community activity" indicator of how much help you can get from the community. An active community will benefit you at both stages, providing enough help to get started and enough feedback to maintain the community later.**!
 
-! [github introduction](https://static.apiseven.com/202108/1630546653087-23ff48eb-8e13-464c-874e-c4225cc32336.png)
+![github introduction](https://static.apiseven.com/202108/1630546653087-23ff48eb-8e13-464c-874e-c4225cc32336.png)
 
 **Shuyang Wu**: **The metrics I chose at the time were issue response (whether you can get a timely response when you get started), good first issue (whether there is a good issue to start with, both to increase your understanding of the project and to brush up on your face), and insights (the overall activity of the community).** This year we also wrote a small tool to check the [contributors](https://github.com/api7/contributor-graph) situation in our company, so you can see more intuitively the growth of the community contributors and how many monthly active contributors, which is also a good choice of metrics.
 
-! [join opensource](https://static.apiseven.com/202108/1630546703021-d63457b1-4068-45da-8bde-aa9c708c6793.png)
+![join opensource](https://static.apiseven.com/202108/1630546703021-d63457b1-4068-45da-8bde-aa9c708c6793.png)
 
 **Shuyang Wu**: Before I got involved with APISIX last year, I had no knowledge of the technology stack required for the project, including Lua/Openresty/etcd and even API gateways, but I actually got up to speed very quickly. I was able to run a few demos with the help of the documentation, and I was able to get started with Lua in half a day. Here we recommend the APISIX PMC moonming big brother's two Openresty must-haves, the free Openresty e-book and the paid Openresty Geek Time course, from which we gained a lot at that time.
 
@@ -48,11 +48,11 @@ Shuyang Wu! [yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd
 
 **Q: What would you like to say to the students who want to participate in Summer of Programming 2021?**
 
-**Shuyang Wu**: I hope you'll sign up, don't have too many worries, talk to the community more, everyone is very friendly, and enjoy the three-month development experience~.
+**Shuyang Wu**: I hope you'll sign up, don't have too many worries, talk to the community more, everyone is very friendly, and enjoy the three-month development experience.
 
 ## Sharing Guest: Zeping Bai
 
-! [Zeping Bai](https://static.apiseven.com/202108/1630546751119-8df77cd8-6be0-4f8e-af13-182e77462d73.png)
+![Zeping Bai](https://static.apiseven.com/202108/1630546751119-8df77cd8-6be0-4f8e-af13-182e77462d73.png)
 
 **Q: Hi Zeping, please do a brief introduction of yourself.**
 
