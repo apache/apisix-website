@@ -38,7 +38,7 @@ This talk is about the application and practice of Apache APISIX in China Mobile
 
 ### Sharing Guests
 
-! Yanshan [Chen](/img/blog_img/2021-07-25-2.png)
+![Yanshan Chen](/img/blog_img/2021-07-25-2.png)
 
 Yanshan Chen - After graduation, he has been working on distributed storage software development and architecture design, and has been deeply involved in the construction process of mobile cloud, focusing on the selection of major technology solutions and landing development and construction work related to object storage. At the same time, he has rich practical experience in the field of distributed object storage, and is currently thinking about implementing object storage traffic governance based on APISIX seven-tier gateway to achieve further architectural upgrade.
 
