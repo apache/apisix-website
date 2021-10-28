@@ -33,7 +33,8 @@ I've been a teacher and eventually a community leader. [api7.ai](https://static.
 
 In 2019, I founded Shenzhen Tributary Technology Company with my partner Ming Wen, which is an open source-based commercialization company. This company carries a lot of personal ideals for both of us, and we can also say that we are doing the ideals of every ordinary programmer, not wanting to be mediocre 996, I often say to others that my dream is to "engrave my name into the history books", the sad thing is that human beings no longer need the history books.
 
-The sad thing is that mankind doesn't need a history anymore. [api7.ai team](https://static.apiseven.com/202108/20210625004.png)
+The sad thing is that mankind doesn't need a history anymore.
+![api7.ai team](https://static.apiseven.com/202108/20210625004.png)
 
 This is our team, we mainly collaborate remotely, and it's harder to get everyone together. When there were only five or six people in the early stages of the company, it was relatively easy to get the team together, but it hasn't been together since this year, and this is the most together we've had so far this year (but there are still a few students who didn't make it together).
 
