@@ -163,7 +163,7 @@ APISIX is already on the road to full traffic data plane, and I believe we all a
 
 Unification itself is not the goal, but the benefits after unification is the logic behind our pursuit, and several different perspectives are given below to elaborate separately.
 
-- Operation and maintenance role: use the same operation and maintenance tools to collect logs, Metric metrics, etc., and reuse existing accumulations.
+- Operation and maintenance role: use the same operation and maintenance tools to collect logs, metrics, etc., and reuse existing accumulations.
 
 - Development role: based on standardized APISIX plug-in development, the capabilities can be easily reused, and the accumulated experience can be applied to different product lines such as LB, API Gateway, K8s Ingress, etc.
 
