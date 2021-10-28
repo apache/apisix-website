@@ -330,18 +330,18 @@
             <description><![CDATA[Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.]]></description>
         </item>
         <item>
-            <title><![CDATA[ApacheCon Asia 2021：Apache APISIX 技术议题一览]]></title>
+            <title><![CDATA[ApacheCon Asia 2021: Apache APISIX Technical Topics]]></title>
             <link>https://apisix.apache.org/blog/2021/07/25/apachecon-asia</link>
-            <guid>ApacheCon Asia 2021：Apache APISIX 技术议题一览</guid>
+            <guid>ApacheCon Asia 2021: Apache APISIX Technical Topics</guid>
             <pubDate>Sun, 25 Jul 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。]]></description>
+            <description><![CDATA[ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore "tomorrow's technologies" across more than 350 Apache projects and their diverse communities. ApacheCon Asia is the ApacheCon organizing committee's online conference for the Asia-Pacific region. ApacheCon Asia is an online ApacheCon conference organized by the ApacheCon organizing committee for the Asia-Pacific region with the primary goal of better serving the rapidly growing number of Apache users and contributors in the Asia-Pacific region. ApacheCon Asia 2021 will be held online from August 6-8 this year.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX x Kubernetes：恰到好处｜直播预告]]></title>
+            <title><![CDATA[Apache APISIX x Kubernetes: Just Right｜Live]]></title>
             <link>https://apisix.apache.org/blog/2021/07/21/Apache-APISIX-Kubernetes</link>
-            <guid>Apache APISIX x Kubernetes：恰到好处｜直播预告</guid>
+            <guid>Apache APISIX x Kubernetes: Just Right｜Live</guid>
             <pubDate>Wed, 21 Jul 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[直播预告：北京时间 2021 年 7 月 23 日星期五 00:00，Apache APISIX committer 张晋涛将在 Data on Kubernetes Community 的 Meetup 上，面向全球开发者做主题为《Run Apache APISIX in Kubernetes》的分享。]]></description>
+            <description><![CDATA[Live Preview: On Friday, July 23rd, 2021 at 00:00 GMT, Apache APISIX committer Jintao Zhang will present "Run Apache APISIX in Kubernetes" at the Data on Kubernetes Community Meetup for global developers. The topic will be "Run Apache APISIX in Kubernetes".]]></description>
         </item>
         <item>
             <title><![CDATA[The Road to Customized Development of Sina Weibo API Gateway]]></title>
@@ -372,11 +372,11 @@
             <description><![CDATA[Apache APISIX 2.7.0 has been released!]]></description>
         </item>
         <item>
-            <title><![CDATA[有了 NGINX 和 Kong，为什么还需要 Apache APISIX]]></title>
+            <title><![CDATA[Why do you need Apache APISIX when you have NGINX and Kong?]]></title>
             <link>https://apisix.apache.org/blog/2021/06/28/why-we-need-Apache-APISIX</link>
-            <guid>有了 NGINX 和 Kong，为什么还需要 Apache APISIX</guid>
+            <guid>Why do you need Apache APISIX when you have NGINX and Kong?</guid>
             <pubDate>Mon, 28 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么。]]></description>
+            <description><![CDATA[This article describes the evolution of the Apache APISIX architecture and compares what the advantages of the two frameworks, Apache APISIX and Nginx, are.]]></description>
         </item>
         <item>
             <title><![CDATA[Deploy Apache APISIX and Apache APISIX Ingress Controller on Rancher]]></title>
@@ -393,25 +393,25 @@
             <description><![CDATA[Apache APISIX now supports writing plugins in Java! You can now write plugins in a programming language you are familiar with.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！]]></title>
+            <title><![CDATA[The first GA release of Apache APISIX Ingress Controller v1.0 is now available!]]></title>
             <link>https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released</link>
-            <guid>Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！</guid>
+            <guid>The first GA release of Apache APISIX Ingress Controller v1.0 is now available!</guid>
             <pubDate>Fri, 18 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。]]></description>
+            <description><![CDATA[Apache APISIX Ingress Controller v1.0 has been released, supporting the use of custom resources including ApisixRoute and ApisixUpstream, as well as Kubernetes native Ingress resources to control external traffic access to services deployed in Kubernetes.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX Dashboard 访问控制绕过漏洞公告（CVE-2021-33190）]]></title>
+            <title><![CDATA[Apache APISIX Dashboard Access Control Bypass Vulnerability Advisory (CVE-2021-33190)]]></title>
             <link>https://apisix.apache.org/blog/2021/06/17/Apache-APISIX-Dashboard-Access-Control-Bypass-Vulnerability-Announcement</link>
-            <guid>Apache APISIX Dashboard 访问控制绕过漏洞公告（CVE-2021-33190）</guid>
+            <guid>Apache APISIX Dashboard Access Control Bypass Vulnerability Advisory (CVE-2021-33190)</guid>
             <pubDate>Thu, 17 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Apache APISIX Dashboard 访问控制绕过漏洞公告]]></description>
+            <description><![CDATA[Apache APISIX Dashboard Access Control Bypass Vulnerability Bulletin]]></description>
         </item>
         <item>
-            <title><![CDATA[Chaos Mesh 助力 Apache APISIX 提升稳定性]]></title>
+            <title><![CDATA[Chaos Mesh Helps Apache APISIX Improve Stability]]></title>
             <link>https://apisix.apache.org/blog/2021/06/16/Chaos-Mesh-helps-Apache-APISIX-improve-stability</link>
-            <guid>Chaos Mesh 助力 Apache APISIX 提升稳定性</guid>
+            <guid>Chaos Mesh Helps Apache APISIX Improve Stability</guid>
             <pubDate>Wed, 16 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文描述了如何在多种场景下使用 Chaos Mesh，为 Apache APISIX 提升稳定性。]]></description>
+            <description><![CDATA[This article describes how to use Chaos Mesh in a variety of scenarios to improve stability for Apache APISIX.]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX v.s Envoy: Which Has the Better Performance?]]></title>
@@ -428,18 +428,18 @@
             <description><![CDATA[On May 26, NGINX issued a security announcement that fixed a DNS resolver vulnerability (CVE -2021-23017) in the NGINX resolver.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 开源 2 周年！]]></title>
+            <title><![CDATA[Apache APISIX Open Source 2 Year Anniversary!]]></title>
             <link>https://apisix.apache.org/blog/2021/06/06/apisix-two-years</link>
-            <guid>Apache APISIX 开源 2 周年！</guid>
+            <guid>Apache APISIX Open Source 2 Year Anniversary!</guid>
             <pubDate>Sun, 06 Jun 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Apache APISIX is now two years old, thanks for all contributors.]]></description>
         </item>
         <item>
-            <title><![CDATA[来自 Apache APISIX committer 的经验分享 —— 编程之夏专访]]></title>
+            <title><![CDATA[Experience sharing from Apache APISIX committer - Interview with Summer of Programming]]></title>
             <link>https://apisix.apache.org/blog/2021/06/03/experience-share-from-Apache-APISIX-committer</link>
-            <guid>来自 Apache APISIX committer 的经验分享 —— 编程之夏专访</guid>
+            <guid>Experience sharing from Apache APISIX committer - Interview with Summer of Programming</guid>
             <pubDate>Thu, 03 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本次采访邀请到了 Apache APISIX 的 committer，分享参与开源项目的心得体会]]></description>
+            <description><![CDATA[In this interview, we invited Apache APISIX committer to share his experience of participating in open source projects.]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX 2.6.0-Release Officially Released]]></title>
