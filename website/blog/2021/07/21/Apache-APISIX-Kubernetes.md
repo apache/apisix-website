@@ -30,7 +30,8 @@ After the Meetup, we will upload the Meetup recording on Apache APISIX's bilibil
 Jintao Zhang is a cloud native technologist at Tributary Technology, Apache APISIX committer, Kubernetes ingress-nginx reviewer, and contributor to many open source projects such as containerd/Docker/Helm/Kubernetes/KIND. He is also active in the open source community as a contributor, and is one of the maintainers of the K8S Weekly Eco Report.
 With 7 years in the industry, Jintao Zhang has a lot of practice and deep source code research on containerization technologies such as Docker and Kubernetes, and is one of the core organizers of PyCon China. He is also the author of "Kubernetes Hands-on" and "Docker Core Knowledge Must Know". He runs the public number: MoeLove.
 
-He is also the author of Kubernetes Hands-on and Docker Core Knowledge. [Lecturer-Jintao Zhang](https://static.apiseven.com/202108/1630382172445-cf20986b-c939-497e-86a4-92da7064ae97.PNG)
+He is also the author of Kubernetes Hands-on and Docker Core Knowledge. 
+![Lecturer-Jintao Zhang](https://static.apiseven.com/202108/1630382172445-cf20986b-c939-497e-86a4-92da7064ae97.PNG)
 
 ## About Apache APISIX
 
