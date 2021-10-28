@@ -98,7 +98,7 @@ In the past year, Apahce APISIX has become the most active API gateway project i
 
 ### Guest Speakers
 
-Wang Yansheng [Yansheng Wang](/img/blog_img/2021-07-25-6.png)
+![Yuansheng Wang](/img/blog_img/2021-07-25-6.png)
 
 Yansheng Wang - Founder and PMC member of open source enthusiast Apache APISIX.
 
