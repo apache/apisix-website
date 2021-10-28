@@ -29,7 +29,8 @@ I'll start by sharing with you the evolution of the backend architecture, which 
 
 First of all, I would like to introduce myself, my name is Wang Yansheng. I wrote an e-book called "OpenResty Best Practices" in 2015 and formed a community of over 10,000 people through this book. Since that time, I have become more and more interested in open source itself. Before 2015, I was basically mainly a user of open source software, then slowly became a co-organizer of the community, and then later became a community leader. Simple, because the book is written by you, others encounter a variety of problems, there are advanced and more common, ask more I gradually became a teacher and eventually became a community leader, like the famous saying "walk more people, also become the road.
 
-I've been a teacher and eventually a community leader. [api7.ai](https://static.apiseven.com/202108/20210625003.png)
+![api7.ai](https://static.apiseven.com/202108/20210625003.png)
+I've been a teacher and eventually a community leader. 
 
 In 2019, I founded Shenzhen Tributary Technology Company with my partner Ming Wen, which is an open source-based commercialization company. This company carries a lot of personal ideals for both of us, and we can also say that we are doing the ideals of every ordinary programmer, not wanting to be mediocre 996, I often say to others that my dream is to "engrave my name into the history books", the sad thing is that human beings no longer need the history books.
 
