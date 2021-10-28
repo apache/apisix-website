@@ -25,15 +25,14 @@ Hello everyone, I'm happy to share a topic that I'm excited about, "Why do you n
 
 The reason why we are doing a replacement project for NGINX and Kong is actually related to the background of our backend architecture evolution, and I will start by sharing with you the backend architecture evolution process, which is very important.
 
-I'll start by sharing with you the evolution of the backend architecture, which is very important. 
+I'll start by sharing with you the evolution of the backend architecture, which is very important.
 ![membphis](https://static.apiseven.com/202108/20210625002.png)
 
 First of all, I would like to introduce myself, my name is Yuansheng Wang. I wrote an e-book called "OpenResty Best Practices" in 2015 and formed a community of over 10,000 people through this book. Since that time, I have become more and more interested in open source itself. Before 2015, I was basically mainly a user of open source software, then slowly became a co-organizer of the community, and then later became a community leader. Simple, because the book is written by you, others encounter a variety of problems, there are advanced and more common, ask more I gradually became a teacher and eventually became a community leader, like the famous saying "walk more people, also become the road.
 
 ![api7.ai](https://static.apiseven.com/202108/20210625003.png)
-I've been a teacher and eventually a community leader. 
 
-In 2019, I founded Shenzhen Tributary Technology Company with my partner Ming Wen, which is an open source-based commercialization company. This company carries a lot of personal ideals for both of us, and we can also say that we are doing the ideals of every ordinary programmer, not wanting to be mediocre 996, I often say to others that my dream is to "engrave my name into the history books", the sad thing is that human beings no longer need the history books.
+I've been a teacher and eventually a community leader. In 2019, I founded Shenzhen Tributary Technology Company with my partner Ming Wen, which is an open source-based commercialization company. This company carries a lot of personal ideals for both of us, and we can also say that we are doing the ideals of every ordinary programmer, not wanting to be mediocre 996, I often say to others that my dream is to "engrave my name into the history books", the sad thing is that human beings no longer need the history books.
 
 The sad thing is that mankind doesn't need a history anymore.
 ![api7.ai team](https://static.apiseven.com/202108/20210625004.png)
@@ -42,7 +41,7 @@ This is our team, we mainly collaborate remotely, and it's harder to get everyon
 
 As a technology-driven business company, technology has a very big say in our company, and respect for technology starts with respect for technical talents. There is no 996, no punching in and out, remote office, welcome interested students to contact us, look forward to dreaming and ideal you to join our company.
 
-We are looking forward to your dream and ideal to join us. 
+We are looking forward to your dream and ideal to join us.
 ![APISIX architecture](https://static.apiseven.com/202108/20210625005.png)
 
 The topic of this talk needs some background, so let's start with the history of back-end architecture evolution. First, let's review this diagram, the right part from top to bottom it is not a specific data flow diagram, it is the history of our backend architecture evolution. Spring Cloud architecture mainly serves JAVA language developers, Kubernetes is a container orchestration to support any language, as well as the recent community hot topic service grid.
