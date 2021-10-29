@@ -14,7 +14,7 @@ tags: [Technology]
 
 > This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine many ingress best practices, such as expression enhancements that actually extend the capabilities of Route, and BackendPolicy objects that can specify almost any Kubernetes backend resource for upstream.
 
-<! --truncate -->
+<!--truncate-->
 
 > Source:
 >

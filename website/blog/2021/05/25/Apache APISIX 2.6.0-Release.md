@@ -14,7 +14,7 @@ tags: [Release]
 
 > Apache APISIX 2.6.0-Release is officially released! Welcome to download and use.
 
-<! --truncate -->
+<!--truncate-->
 
 ## Release Notes
 
