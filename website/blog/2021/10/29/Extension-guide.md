@@ -1,6 +1,6 @@
 ---
-title: "Apache APISIX 扩展指南"
-author: "罗泽轩"
+title: "Apache APISIX Extensions Guide"
+author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords: 
@@ -8,29 +8,29 @@ keywords:
 - Plugin
 - HTTP
 - Apache
-description: 本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。
+description: This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.
 tags: [technology]
 ---
 
-> 本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。
+> This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.
 
 <!--truncate-->
 
-Apache APISIX 提供了 50 多个插件、常用的几个负载均衡选择器，以及对主流服务发现（如 Nacos 和 DNS）的支持。API 网关和企业内部的业务紧密相关，为了满足企业的业务需求，用户通常需要在 Apache APISIX 的基础上添加一些代码，以实现业务所需的功能。如何拓展 Apache APISIX 成了许多用户的共同痛点：在保证 Apache APISIX 平稳运行的前提下，如何添加业务代码，满足实际需求？
+Apache APISIX provides more than 50 plugins, several commonly used load balancing selectors, and support for mainstream service discovery (such as Nacos and DNS). The API gateway is closely related to the internal business of the enterprise. In order to meet the business needs of the enterprise, users usually need to add some code on the basis of Apache APISIX to realize the functions required by the business. How to expand Apache APISIX has become a common pain point for many users: on the premise of ensuring the smooth operation of Apache APISIX, how to add business code to meet actual needs?
 
-本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。由于 Apache APISIX 处于高速发展阶段，版本迭代的频率比较高，所以本文会以 Apache APISIX 的首个 LTS 版本 v2.10.0 为基础进行说明。如果你使用的 Apache APISIX 版本低于 2.10.0，可能需要结合实际情况做一些变通。另外，虽然本文只讲解了 HTTP 相关的逻辑，但是 TCP 相关的部分，大体上也较为相似。
+This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX. Since Apache APISIX is in a stage of rapid development and the frequency of version iterations is relatively high, this article will be based on the first LTS version v2.10.0 of Apache APISIX. If your Apache APISIX version is lower than 2.10.0, you may need to make some modifications based on actual conditions. In addition, although this article only explains the HTTP-related logic, the TCP-related parts are generally similar.
 
-## 扩展方向1：Rewrite 还是 Access？
+## Expansion Direction 1: Rewrite or Access?
 
-我们从请求的生命周期说起：当一个请求进入到 Apache APISIX 时，首先会由 `http_access_phase` 这个方法进行处理。熟悉 OpenResty phases 概念的读者可能会有些疑惑：OpenResty 一共有 6 个 phases，按照执行的先后顺序排列，分别是： `rewrite`、 `access`、 `before_proxy`、 `header_filter`、 `body_filter` 和 `log`，为什么一上来就是 `access`，`rewrite` 怎么不见了？
+Let's start with the life cycle of the request: when a request enters Apache APISIX, it will first be processed by the method `http_access_phase`. Readers who are familiar with the concept of OpenResty phases may be a little confused: OpenResty has a total of 6 phases, which are arranged in order of execution: `rewrite`, `access`, `before_proxy`, `header_filter`, `body_filter` and `log `, why is `access` when it comes up, and why is `rewrite` missing?
 
-Apache APISIX 插件的 phases 概念和 OpenResty 的 phases 概念略有不同。为了提升 Apache APISIX 的性能，APISIX 插件的 rewrite 方法会在 OpenResty 的 access 阶段中运行。用户依然能够在插件层面自定义 `rewrite` 的逻辑，但是在代码层面，`rewrite` 实际上也是在 `access` 里面执行。
+The phases concept of the Apache APISIX plug-in is slightly different from the OpenResty phases concept. In order to improve the performance of Apache APISIX, the rewrite method of the APISIX plugin will run in the access phase of OpenResty. Users can still customize the logic of `rewrite` at the plugin level, but at the code level, `rewrite` is actually executed in `access`.
 
-虽然说 `rewrite` 的逻辑和 `access` 的逻辑都在 access phase 里面运行，但是 `rewrite` 的逻辑还是会比 `access` 的逻辑先执行。为了避免后续插件执行 `rewrite` 失败后，没有继续执行 `access`，导致 trace 遗漏的问题，必须在`rewrite`里面添加 trace 的逻辑。
+Although both the logic of `rewrite` and the logic of `access` run in the access phase, the logic of `rewrite` will still be executed before the logic of `access`. In order to avoid the failure of subsequent plugins to execute `rewrite` and fail to execute `access`, which will cause trace omissions, trace logic must be added to `rewrite`.
 
-除了执行的先后顺序外，`rewrite` 和 `access` 之间还有一个差别，就是它们之间有一个处理 `consumer` 的逻辑：
+In addition to the order of execution, there is another difference between `rewrite` and `access`, that is, there is a logic for processing `consumer` between them:
 
-```
+```Lua
  plugin.run_plugin("rewrite", plugins, api_ctx)
         if api_ctx.consumer then
             ...
@@ -38,11 +38,11 @@ Apache APISIX 插件的 phases 概念和 OpenResty 的 phases 概念略有不同
         plugin.run_plugin("access", plugins, api_ctx)
 ```
 
-`consumer` 代表一种身份。你可以针对不同的 `consumer` 进行权限控制，比如使用 `consumer-restriction` 这个插件实现基于角色的权限控制，也就是大家所说的 RBAC。另外，你也可以给不同的 `consumer` 设置对应的限流策略。
+`consumer` represents an identity. You can control permissions for different consumers. For example, use the plugin `consumer-restriction` to implement role-based permission control, which is what everyone calls RBAC. In addition, you can also set corresponding current limiting strategies for different `consumer`.
 
-Apache APISIX 里面的鉴权插件（在插件定义里面有 `type = "auth"`），需要在 `rewrite` 阶段选好 `consumer`。这里我们用 `key-auth` 插件举个例子：
+The authentication plugin in Apache APISIX (with `type = "auth"` in the plugin definition), you need to select the `consumer` in the `rewrite` stage. Here we use the `key-auth` plugin as an example:
 
-```
+```Lua
 local _M = {
     version = 0.1,
     priority = 2500,
@@ -72,19 +72,19 @@ function _M.rewrite(conf, ctx)
 end
 ```
 
-鉴权插件的执行逻辑都是相似的：首先从用户输入中获取某组参数，然后根据参数查找对应的 `consumer`，最后连同该插件对应的 `consumer_conf` 附加到 `ctx` 中。
+The execution logic of the authentication plugins is similar: first obtain a certain set of parameters from the input of the users, then find the corresponding `consumer` according to the parameters, and finally append the `consumer_conf` corresponding to the plugin to `ctx`.
 
 综上，对于无需在请求早期阶段执行，且不需要查找 `consumer` 的插件，建议把逻辑写到 `access` 里面。
 
-## 扩展方向2：配置服务发现
+## Extension Direction 2: Configure Service Discovery
 
-在执行完 `access` 之后，我们就要跟上游（Upstream）打交道了。通常情况下，上游节点是写死在 Upstream 配置上的。不过也可以从服务发现上获取节点来实现 discovery。
+After executing the `access`, we are about to deal with the Upstream. Normally, the Upstream node is hard-coded on the Upstream configuration. However, it is also possible to obtain nodes from the service discovery to implement discovery.
 
-接下来我们会以 Nacos 为例，讲讲怎么实现。
+Next, we will take Nacos as an example to talk about how to implement it.
 
-一个动态获取 Nacos 管理的节点的 Upstream 配置如下：
+An Upstream configuration that dynamically acquires a node managed by Nacos is as follows.
 
-```
+```JSON
 {
     "service_name": "APISIX-NACOS",
     "type": "roundrobin",
@@ -96,17 +96,17 @@ end
 }
 ```
 
-我们可以看到其中三个重要的变量：
+We can see three of these important variables:
 
-1. `discovery_type`: 服务发现的类型，`"discovery_type": "nacos"`表示使用 Nacos 实现服务发现。
-2. `service_name`: 服务名称。
-3. `discovery_args`: 不同的 discovery 特定的参数，Nacos 的特定参数包括：`namespace_id` 和  `group_name`。
+1. `discovery_type`: Types of Service Discovery,`"discovery_type": "nacos"` indicates service discovery using Nacos.
+2. `service_name`: Service Name。
+3. `discovery_args`: different discovery-specific parameters, specific parameters of Nacos include: `namespace_id` and `group_name`.
 
-Nacos discovery 对应的 Lua 代码位于 `discovery/nacos.lua`。打开`nacos.lua`这个文件，我们可以看到它里面实现了几个所需的方法。
+The Lua code corresponding to Nacos discovery is located in `discovery/nacos.lua`. Open the file `nacos.lua`, we can see that several required methods are implemented in it.
 
-一个 discovery 需要实现至少两个方法：`nodes` 和 `init_worker` 。
+A discovery needs to implement at least two methods: `nodes` and `init_worker`.
 
-```
+```Lua
 function _M.nodes(service_name, discovery_args)
     local namespace_id = discovery_args and
             discovery_args.namespace_id or default_namespace_id
@@ -121,9 +121,9 @@ function _M.init_worker()
 end
 ```
 
-其中`nodes` 的函数签名已经明了地展示获取新节点所用的查询参数：`service_name` 和 `discovery_args`。每次请求时，Apache APISIX 都会用这一组查询最新的节点。该方法返回的是一个数组：
+The function signature of `nodes` has already explicitly shown the query parameters used to get new nodes: `service_name` and `discovery_args`. For each request, Apache APISIX will use this set to query for the latest node. The method returns an array:
 
-```
+```Bash
 {
     {host = "xxx", port = 12100, weight = 100, priority = 0, metadata = ...},
     # priority 和 metadata 是可选的
@@ -131,30 +131,26 @@ end
 }
 ```
 
-而 `init_worker` 负责在后台启动一个 timer，确保本地的节点数据能跟服务发现的数据保持一致。
+And `init_worker` is responsible for starting a timer in the background to ensure that the local node data is consistent with the data discovered by the service.
 
-## 扩展方向3：配置负载均衡
+## Expansion Direction 3: Configure Load Balancing
 
-获取到一组节点后，我们要按照负载均衡的规则来决定接下来要先尝试哪个节点。如果常用的几种负载均衡算法满足不了需求，你也可以自己实现一个负载均衡。
+After obtaining a set of nodes, we have to decide which node to try first in accordance with the rules of load balancing. If several commonly used load balancing algorithms cannot meet your needs, you can also implement a load balancing by yourself.
 
-让我们以最少连接数负载均衡为例。对应的 Lua 代码位于 `balancer/least_conn.lua`。打开`least_conn.lua` 这个文件，我们可以看到它里面实现了几个所需的方法：`new`、`get`、`after_balance` 和 `before_retry_next_priority`。
+Let's take load balancing with the least number of connections as an example. The corresponding Lua code is located in `balancer/least_conn.lua`. Open the file `least_conn.lua`, we can see that it implements several required methods: `new`, `get`, `after_balance` and `before_retry_next_priority`.
 
-- `new` 负责做一些初始化工作。
+- `new` is responsible for doing some initialization work.
 
-- `get` 负责执行选中节点的逻辑。
+- `get` is responsible for executing the logic of the selected node.
 
-- ```
-  after_balance
-  ```
+- `after_balance` will run in the following two situations:
 
-   在下面两种情况下会运行：
+  - Before each retry (when before_retry is true)
+  - After the last try
 
-  - 每次重试之前（此时 before_retry 为 true）
-  - 最后一次尝试之后
+- `before_retry_next_priority` runs before preparing to try the next set of nodes with the same priority, while the current set has been tried.
 
-- `before_retry_next_priority` 则是在每次尝试完当前一组同 priority 的节点，准备尝试下一组之前运行。
-
-```
+```Lua
 function _M.new(up_nodes, upstream)
     ...
 
@@ -190,26 +186,26 @@ function _M.new(up_nodes, upstream)
 end
 ```
 
-如果没有内部状态需要维护，可以直接借用固定的模板代码（上述代码中，位于省略号以外的内容）来填充 `after_balance` 和 `before_retry_next_priority` 这两个方法。
+If there is no internal state to maintain, you can directly borrow the fixed template code (in the above code, outside the ellipsis) to fill in the two methods of `after_balance` and `before_retry_next_priority`.
 
-选中节点之后，我们也可以通过插件的形式添加额外的逻辑。插件可以实现 `before_proxy`方法。该方法会在选中节点之后调用，我们可以在该方法里面记录当前选中的节点信息，这在 trace 里面会有用。
+After selecting the node, we can also add additional logic in the form of a plugin. The plugin can implement the `before_proxy` method. This method will be called after the node is selected, and we can record the information of the currently selected node in this method, which will be useful in trace.
 
-## 扩展方向4：处理响应
+## Extension Direction 4: Handling Response
 
-我们可以通过 `response-rewrite` 插件，在`header_filter` 和 `body_filter`处理上游返回的响应。前一个方法是修改响应头，后一个方法修改响应体。注意 Apache APISIX 的响应处理是流式的，如果`header_filter`里面没有修改响应头，响应头就会被先发送出去，到了`body_filter`就没办法修改响应体了。
+We can process the responses returned from upstream in `header_filter` and `body_filter` through the `response-rewrite` plugin. The former method modifies the response header, the latter modifies the response body. Note that Apache APISIX response processing is streaming, so if the response header is not modified inside `header_filter`, the response header will be sent out first and there will be no way to modify the response body when it reaches `body_filter`.
 
-这意味着如果你后续想要修改body，但是 header 里面又有 Content-Length 之类跟 body 相关的响应头，那么就要提前在 `header_filter` 里面把这些头改掉。我们提供了一个辅助方法：`core.response.clear_header_as_body_modified`，只需要在 `header_filter` 调用它就行。
+This means that if you want to modify the body later, but there are body-related response headers like Content-Length in the header, you have to change those headers in the `header_filter` in advance. We provide a helper method: `core.response.clear_header_as_body_modified`, which can be called in `header_filter`.
 
-`body_filter` 也是流式的，而且还会被多次调用。所以如果你想要获取完整的响应体，你需要把每次 `body_filter` 提供的部分响应体给拼起来。在 Apache APISIX master 分支上，我们提供了一个叫做 `core.response.hold_body_chunk` 的方法来简化操作，感兴趣的读者可以看看代码。
+The `body_filter` is also streaming and will be called multiple times. So if you want to get the full response body, you need to put together the partial response body provided by each `body_filter`. On the Apache APISIX master branch, we provide a method called `core.response.hold_body_chunk` to simplify the operation. Interested readers can take a look at the code.
 
-## 扩展方向5：上报日志和监控参数
+## Extension Direction 5: Reporting Logs and Monitoring Parameters
 
-在请求结束之后，我们还可以通过 `log` 方法来做一些清场工作。这一类工作可以分成两类：
+After the request is finished, we can also do some cleanup work with the `log` method. This type of work can be divided into two categories:
 
-1. 记录 metrics 指标，比如 `prometheus` 插件。
-2. 记录 access log，然后定期上报，比如 `http-logger` 插件。
+1. Record metrics, such as the `prometheus` plugin.
+2. Record the access log, and then report it regularly, such as the `http-logger` plugin.
 
-如果你感兴趣的话，可以看看这两个插件的 `log` 方法是怎么实现的：
+If you are interested, you can take a look at how the `log` method of these two plugins is implemented:
 
-- `prometheus`插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
-- `http-logger`插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/
+- `prometheus` plugin documentation：https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
+- `http-logger` plugin documentation：https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/
