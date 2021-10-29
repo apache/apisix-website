@@ -70,7 +70,7 @@ Therefore, here we use Chaos Mesh, a Kubernetes-based chaos engineering platform
 
 ### Sharing Guests
 
-! Yang [Shu Yang Wu](/img/blog_img/2021-07-25-4.png)
+![Shuyang Wu](/img/blog_img/2021-07-25-4.png)
 
 Yang Wu - Committer for Apache APISIX and Chaos Mesh, he leads the integration of Chaos Mesh with Apache APISIX CI.
 

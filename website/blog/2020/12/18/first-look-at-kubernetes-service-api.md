@@ -14,7 +14,7 @@ tags: [Technology]
 
 > This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine many ingress best practices, such as expression enhancements that actually extend the capabilities of Route, and BackendPolicy objects that can specify almost any Kubernetes backend resource for upstream.
 
-<! --truncate -->
+<!--truncate-->
 
 > Source:
 >
@@ -53,9 +53,9 @@ matches:
         version: "2"
   - path:
       value: "/v2/foo"
-```` 2.
+```
 
-The Service APIs propose the concept of multi-layer APIs, each layer exposes its interface independently to facilitate other custom resources to interface with the APIs and achieve finer granularity (API granularity) control.
+2. The Service APIs propose the concept of multi-layer APIs, each layer exposes its interface independently to facilitate other custom resources to interface with the APIs and achieve finer granularity (API granularity) control.
 
 ! [api-model](https://gateway-api.sigs.k8s.io/images/api-model.png)
 
@@ -150,8 +150,6 @@ Currently, the Kubernetes Service APIs are focused on Route.
 ## Summary
 
 This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine a lot of ingress best practices, such as the enhancement of expression capabilities, which actually extends the capabilities of the Route, and the BackendPolicy object The Kubernetes Service APIs as a whole refine a lot of ingress best practices, such as the enhanced expressiveness, which actually extends the capabilities of Route, and the BackendPolicy object, which can specify almost all Kubernetes backend resources for upstream. Of course, there are also shortcomings in the early stage of the project. Although the Kubernetes Service APIs have specified the resource objects at a broad level, there are still a lot of details within the resource objects that need to be discussed and then determined to prevent possible conflict scenarios, and there are certain variables in the structure.
-
----
 
 Reference:
 

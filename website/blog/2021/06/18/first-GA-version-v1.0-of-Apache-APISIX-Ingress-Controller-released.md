@@ -13,13 +13,13 @@ tags: [Release]
 
 > Apache APISIX Ingress Controller v1.0 has been released, supporting the use of custom resources including `ApisixRoute`, `ApisixUpstream`, and Kubernetes native Ingress resources to control external traffic access to services deployed in Kubernetes. services deployed in Kubernetes.
 
-<! --truncate -->
+<!--truncate-->
 
 ## About Apache APISIX Ingress Controller
 
 The Apache APISIX Ingress Controller is a cloud-native Ingress Controller implementation that uses Apache APISIX as a data plane to carry traffic and extends Kubernetes using CRD.
 
-<! --truncate -->
+<!--truncate-->
 
 Supports controlling external traffic access to services deployed in Kubernetes using custom resources including ApisixRoute, ApisixUpstream, and Kubernetes-native Ingress resources.
 

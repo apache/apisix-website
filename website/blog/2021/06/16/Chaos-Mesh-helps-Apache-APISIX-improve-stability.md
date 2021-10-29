@@ -13,7 +13,7 @@ tags: [Practical Case]
 
 > This article describes how to use Chaos Mesh in a variety of scenarios to improve stability for Apache APISIX.
 
-<! --truncate -->
+<!--truncate-->
 
 Apache APISIX is a top-level project under the Apache Foundation and has been tested in production environments with tens of billions of requests per day. As the community has grown, Apache APISIX has become more and more powerful, requiring more and more interactions with external components, and the uncertainty that comes with it has grown exponentially. We have received some feedback from users in the community, and here are two examples.
 
