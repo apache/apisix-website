@@ -12,7 +12,7 @@ tags: [Interview]
 
 > This article interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. The interview details why Airwallex chose Apache APISIX when making the technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in the production environment.
 
-<! --truncate -->
+<!--truncate -->
 
 We had a chance to interview Yang Li, the technical platform leader of Airwallex. In the interview, Yang Li talked about why he chose Apache APISIX in the technology selection, and the application of Apache APISIX in Airwallex.
 

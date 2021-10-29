@@ -15,7 +15,7 @@ tags: [Interview]
 
 > This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community.
 
-<! --truncate -->
+<!--truncate -->
 
 > When I saw that issue, I had a strong urge to get involved in the community. After reading the community's newbie guide, I was like a brave man coming out of the newbie village, ready to fight.
 >

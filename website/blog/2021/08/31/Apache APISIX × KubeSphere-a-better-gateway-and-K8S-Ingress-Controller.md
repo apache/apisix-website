@@ -14,7 +14,7 @@ tags: [Practical Case]
 
 > This article describes the direct deployment of Apache APISIX and APISIX Ingress Controller in KubeSphere using the official Apache APISIX Helm repository. And Apache APISIX can be used as a gateway or a data plane for APISIX Ingress Controller to carry business traffic.
 
-<! --truncate -->
+<!--truncate -->
 
 ## Introduction to KubeSphere
 
