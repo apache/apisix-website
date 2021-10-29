@@ -13,7 +13,7 @@ tags: [Events]
 
 <! --truncate-->
 
-## Meeting times
+## Meeting Schedule
 
 Every two weeks (Wednesdays) at 2pm, each meeting is about 1 hour.
 
@@ -33,7 +33,7 @@ You can [this document](https://docs.qq.com/doc/DSEhMeGJ0UXdydFJy) to leave the 
 - Experiences and pitfalls in using Apache APISIX Ingress Controller by yourself or your team
 - Testimonials or complaints about Apache APISIX Ingress Controller
 
-Of course, you are also very welcome to give your opinions or contribute your ideas to the construction of the Apache APISIX community, if you have suggestions and ideas for the meeting, please feel free to [issue](https://github.com/apache/apisix-ingress-controller/issues/) 614) and reply to it!
+Of course, you are also very welcome to give your opinions or contribute your ideas to the construction of the Apache APISIX community, if you have suggestions and ideas for the meeting, please feel free to [issue](https://github.com/apache/apisix-ingress-controller/issues/614) and reply to it!
 
 We welcome you to join us to discuss the Apache APISIX Ingress solution, and we welcome you to join the community of developers to build a better Apache APISIX Ingress Controller.
 

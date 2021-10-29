@@ -155,7 +155,7 @@ Latency: Latency per request, the smaller the value the better. It represents ho
 
 We can see that the difference between the two metrics in the single-worker thread|process mode, QPS and Latency is not large, but with the increase in the number of threads|processes their gap is gradually enlarged, here I analyze that there may be two reasons, NGINX in the high concurrency scenario with multiple workers and the system IO model for interaction is not more advantageous, on the other hand, also On the other hand, NGINX itself may be more “stingy” in terms of memory and CPU usage in its implementation, so that the cumulative performance advantage can be evaluated in detail later.
 
-## 总结
+## Summary
 
 In general, Apache APISIX is slightly better than Envoy in terms of response latency and QPS, and due to NGINX’s multi-worker collaboration method, which is more advantageous in high concurrency scenarios, Apache APISIX’s performance improvement is more obvious than Envoy’s after opening multiple worker processes. The bus design of Envoy gives it a unique advantage in handling east-west traffic, while the performance and latency of Apache APISIX gives it a massive throughput capability in handling north-south traffic.
 Apache APISIX

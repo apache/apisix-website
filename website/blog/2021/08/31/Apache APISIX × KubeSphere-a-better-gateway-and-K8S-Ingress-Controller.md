@@ -52,8 +52,8 @@ NAMESPACE: apisix
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
-NOTES. 1:
-Get the application URL by running these commands:
+NOTES.
+1: Get the application URL by running these commands:
   export NODE_PORT=$(kubectl get --namespace apisix -o jsonpath="{.spec.ports[0].nodePort}" services apisix-gateway)
   export NODE_IP=$(kubectl get nodes --namespace apisix -o jsonpath="{.items[0].status.addresses[0].address}")
   echo http://$NODE_IP:$NODE_PORT
@@ -86,12 +86,12 @@ Just select Services - Stateless Services and create it.
 You can see the successful deployment in KubeSphere's Services and Loads interface, or you can check directly in the terminal to see if the deployment has succeeded.
 
 ```shell
-➜ ~ kubectl get pods,svc -l app=httpbin
-NAME READY STATUS RESTARTS AGE
-pod/httpbin-v1-7d6dc7d5f-5lcmg 1/1 Running 0 48s
+~ kubectl get pods,svc -l app=httpbin
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/httpbin-v1-7d6dc7d5f-5lcmg   1/1     Running   0          48s
 
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-service/httpbin ClusterIP 10.96.0.5 <none> 80/TCP 48s
+NAME              TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/httpbin   ClusterIP   10.96.0.5    <none>        80/TCP    48s
 ```
 
 ## Using Apache APISIX as a Gateway Proxy
@@ -99,7 +99,7 @@ service/httpbin ClusterIP 10.96.0.5 <none> 80/TCP 48s
 We start by demonstrating how to use Apache APISIX as a gateway to proxy services in a Kubernetes cluster.
 
 ```shell
-root@apisix:~$ kubectl -n apisix exec -it ``kubectl -n apisix get pods -l app.kubernetes.io/name=apisix -o name` -- bash
+root@apisix:~$ kubectl -n apisix exec -it `kubectl -n apisix get pods -l app.kubernetes.io/name=apisix -o name` -- bash
 bash-5.1# curl httpbin.default/get
 {
   "args": {},
@@ -129,7 +129,7 @@ bash-5.1# curl "http://127.0.0.1:9180/apisix/admin/routes/1" -H "X-API-KEY: edd1
     }
   }
 }'
-{"node":{"key":"\/apisix\/routes\/1", "value":{"host": "httpbin.org", "update_time":1630060883, "uri":"\/*", "create_time":1630060883," priority":0, "upstream":{"type": "roundrobin", "pass_host": "pass", "nodes":{"httpbin.default:80":1}, "hash_on": "vars", "scheme": "http"}, "id": "1", "status":1}}, "action": "set"}
+{"node":{"key":"\/apisix\/routes\/1","value":{"host":"httpbin.org","update_time":1630060883,"uri":"\/*","create_time":1630060883,"priority":0,"upstream":{"type":"roundrobin","pass_host":"pass","nodes":{"httpbin.default:80":1},"hash_on":"vars","scheme":"http"},"id":"1","status":1}},"action":"set"}
 ```
 
 You'll get output similar to the above, next verify that the proxy is successful:
@@ -152,10 +152,10 @@ bash-5.1# curl http://127.0.0.1:9080/get -H "HOST: httpbin.org"
 The above output shows that the traffic of the example project has been proxied through Apache APISIX. Next, let's try to access the sample project outside the cluster via Apache APISIX.
 
 ```shell
-root@apisix:~$ kubectl -n apisix get svc -l app.kubernetes.io/name=apisix
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-apisix-admin ClusterIP 10.96.33.97 <none> 9180/TCP 22m
-apisix-gateway NodePort 10.96.126.83 <none> 80:31441/TCP 22m
+root@apisix:~$ kubectl  -n apisix get svc -l app.kubernetes.io/name=apisix
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+apisix-admin     ClusterIP   10.96.33.97    <none>        9180/TCP       22m
+apisix-gateway   NodePort    10.96.126.83   <none>        80:31441/TCP   22m
 ```
 
 When deployed using Helm chart, the Apache APISIX port is exposed by default as a NodePort. We use the Node IP + NodePort port for access testing.
@@ -194,7 +194,7 @@ After saving, you can see the following screen.
 Test if the proxy is successful under the terminal.
 
 ```shell
-root@apisix:~$ curl http://172.18.0.5:31441/get -H "HOST: http-ing.org" { "args": {}, "headers": { "Accept": "*/*", "Host": "http-ing.org", "User -Agent": "curl/7.76.1", "X-Forwarded-Host": "http-ing.org" }, "origin": "10.244.2.1", "url": "http://http-ing.org/get"}
+root@apisix:~$ curl http://172.18.0.5:31441/get -H "HOST: http-ing.org"  {  "args": {},   "headers": {    "Accept": "*/*",     "Host": "http-ing.org",     "User-Agent": "curl/7.76.1",     "X-Forwarded-Host": "http-ing.org"  },   "origin": "10.244.2.1",   "url": "http://http-ing.org/get"}
 ```
 
 You can see that it is also proxied properly.

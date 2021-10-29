@@ -40,9 +40,9 @@ cmd/go-runner
 │ ├── say.go
 │ └── say_test.go
 └── version.go
-ðŸ™' ðŸ™'
+```
 
-Above is the directory structure of the official example. ``main.go`` is the entry point, where the most critical part is.
+Above is the directory structure of the official example. `main.go` is the entry point, where the most critical part is.
 
 ```go
 cfg := runner.RunnerConfig{}
@@ -59,7 +59,7 @@ Open `plugins/say.go`.
 ```go
 func init() {
   err := plugin.RegisterPlugin(&Say{})
-  if err ! = nil {
+  if err != nil {
     log.Fatalf("failed to register plugin say: %s", err)
   }
 }
@@ -87,7 +87,7 @@ func (p *Say) Name() string {
 }
 ```
 
-ParseConf will be called when the plugin configuration changes, parsing the configuration and returning a plugin-specific configuration context.
+`ParseConf` will be called when the plugin configuration changes, parsing the configuration and returning a plugin-specific configuration context.
 
 ```go
 func (p *Say) ParseConf(in []byte) (interface{}, error) {
@@ -105,7 +105,7 @@ type SayConf struct {
 }
 ```
 
-Filter is executed on every request with the say plugin configured.
+`Filter` is executed on every request with the say plugin configured.
 
 ```go
 func (p *Say) Filter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
@@ -116,7 +116,7 @@ func (p *Say) Filter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request)
 
   w.Header().Add("X-Resp-A6-Runner", "Go")
   _, err := w.Write([]byte(body))
-  if err ! = nil {
+  if err != nil {
     log.Errorf("failed to write: %s", err)
   }
 }
@@ -131,10 +131,10 @@ After building the application (`make build` in the example), you need to set tw
 1. `APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock`
 2. `APISIX_CONF_EXPIRE_TIME=3600`
 
-Like this.
+Like this:
 
 ```go
-APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock APISIX_CONF_EXPIRE_TIME=3600 . /go-runner run
+APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock APISIX_CONF_EXPIRE_TIME=3600 ./go-runner run
 ```
 
 The application will listen to `/tmp/runner.sock` when it runs.
@@ -178,7 +178,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
   "plugins": {
     "ext-plugin-pre-req": {
       "conf": [
-        { "name": "say", "value":"{\"body\":\"hello\"}"}
+        {"name": "say", "value":"{\"body\":\"hello\"}"}
       ]
     }
   },

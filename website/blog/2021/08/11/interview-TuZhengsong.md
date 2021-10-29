@@ -33,9 +33,9 @@ On an uneventful afternoon, we chatted with Zhengsong by phone. Because of the e
 
 > When I was in college, I studied communication engineering, and the happiest thing I did every day was to play soccer. Now sometimes I think that it would be nice to go back to my college days with the memories I have now.
 
-Zhengsong actually didn't have much contact with programming during his college years, he actually had a C programming class, but he failed it because he was too busy playing soccer. However, he failed a make-up exam after failing the class, resulting in a retake. The most embarrassing thing is that he failed the retake as well, so what did he do afterwards? There was a graduation clearing exam before graduation. This can not be failed again, so Masatsu went to the library to borrow a C language book to read.
+Zhengsong actually didn't have much contact with programming during his college years, he actually had a C programming class, but he failed it because he was too busy playing soccer. However, he failed a make-up exam after failing the class, resulting in a retake. The most embarrassing thing is that he failed the retake as well, so what did he do afterwards? There was a graduation clearing exam before graduation. This can not be failed again, so Zhengsong went to the library to borrow a C language book to read.
 
-"I was thinking, "Is C really that hard?" Masamatsu said.
+"I was thinking, "Is C really that hard?" Zhengsong said.
 
 Then he kept reading and reading and reading, and suddenly he realized that programming seemed to have some meaning, and he understood it! He finally passed the exam before graduating. After graduation, he found a job as a programmer.
 
@@ -47,7 +47,7 @@ At that time, he probably wouldn't have thought that today he would be the devel
 
 > In industry, the real business scenario is very different from what you learn in school.
 
-Masatsu's first job was at a wearable device startup, working on the development of smart bracelets. Masamatsu and his former colleagues had to process various sensor data from the smart bracelet to monitor the user's heart rate, exercise, blood pressure and so on.
+Zhengsong's first job was at a wearable device startup, working on the development of smart bracelets. Zhengsong and his former colleagues had to process various sensor data from the smart bracelet to monitor the user's heart rate, exercise, blood pressure and so on.
 
 "It was fun because in industry, the real business scenario is very different from what you learn in school, and a lot of things have to be learned from scratch," Masatsu said.
 
@@ -59,7 +59,7 @@ Then, Masatsu went to another company to engage in back-end business development
 
 "In this big company, I did a little bit far from the business, more technically oriented. "Masatsu said.
 
-Masatsu's contact with Apache APISIX was in September 2020, when his team was using Kong, but Kong was not fully meeting their needs, so they redid the technical selection of the gateway to try to find a better solution. Masatsu was in charge of this technical selection, so he came across the Apache Foundation's top project, Apache APISIX, and was introduced to the Apache APISIX community.
+Zhengsong's contact with Apache APISIX was in September 2020, when his team was using Kong, but Kong was not fully meeting their needs, so they redid the technical selection of the gateway to try to find a better solution. Masatsu was in charge of this technical selection, so he came across the Apache Foundation's top project, Apache APISIX, and was introduced to the Apache APISIX community.
 
 At that time, he had already graduated more than three years ago.
 
@@ -67,12 +67,12 @@ At that time, he had already graduated more than three years ago.
 
 > I can submit code to the Apache Foundation's top projects! As a technical worker, that's a lot of technical confidence.
 
-Masatsu's first PR in the open source community was an enhancement type PR, which enabled Apache APISIX to support multi-port listening.
+Zhengsong's first PR in the open source community was an enhancement type PR, which enabled Apache APISIX to support multi-port listening.
 
 - issue: https://github.com/apache/apisix/issues/1195
 - PR: https://github.com/apache/apisix/pull/2409
 
-This feature is needed by Masatsu and has been mentioned in the issue area for a long time, but for some reason it has been unclaimed. Before that, Masamatsu happened to know something about this, so he thought, "I can propose a PR to Apache APISIX to fix this problem. "So he volunteered to have the issue assigned to him in the issue.
+This feature is needed by Masatsu and has been mentioned in the issue area for a long time, but for some reason it has been unclaimed. Before that, Zhengsong happened to know something about this, so he thought, "I can propose a PR to Apache APISIX to fix this problem. "So he volunteered to have the issue assigned to him in the issue.
 
 He says, "I had a strong urge to get involved in the community, and then I looked at the Apache APISIX community's Beginner's Guide and was as excited to get involved as if I were coming out of the Beginner's Village with a weapon."
 
@@ -84,7 +84,7 @@ Masatsu was very excited and immediately followed the guide to bring up the PR. 
 
 "I was very excited and felt like I was finally substantially involved in the open source community. I could submit code to the Apache Foundation's top projects! As a technical worker, it was a technical confidence."
 
-**This is Masatsu's first PR in the open source world.**
+**This is Zhengsong's first PR in the open source world.**
 
 ## Things that impressed me in the community
 
@@ -102,13 +102,13 @@ In April this year, one of our partners submitted a PR to etcd, which finally so
 
 > We're all working together differently, but we're all contributing to open source.
 
-Masamatsu says that when he first started participating in the community, he went through most of the APISIX documentation he could see at the time. So when he was working in his company, his colleagues asked him questions, and although he was not very clear, he knew the distribution of the project's documentation, so he could look it up directly and know roughly what the problem was. He believes that reading the documentation is an appropriate way to get familiar with the project.
+Zhengsong says that when he first started participating in the community, he went through most of the APISIX documentation he could see at the time. So when he was working in his company, his colleagues asked him questions, and although he was not very clear, he knew the distribution of the project's documentation, so he could look it up directly and know roughly what the problem was. He believes that reading the documentation is an appropriate way to get familiar with the project.
 
 The Apache APISIX project website has a good guide for newcomers, including how to raise PR. If you want to participate in the community, you can first read the main documentation on the website and Github to get a basic understanding of the project and the distribution of the project's documentation, and then index the documentation as needed.
 
 If you want to contribute to the code, or participate in the design, some knowledge of Ngnix or OpenResty is necessary. This includes looking at their official documentation and code, and learning about their implementation of relevant features.
 
-Masamatsu said, "I think this step is impossible to skip."
+Zhengsong said, "I think this step is impossible to skip."
 
 Of course, you can get involved in the community as a user. For example, if you think there is something wrong with the documentation, or if you follow the documentation and find that it is not the case, you can also raise some issues to point out these problems.
 

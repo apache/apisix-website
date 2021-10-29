@@ -22,11 +22,11 @@ We had a chance to interview Yang Li, the technical platform leader of Airwallex
 
 Airwallex is a global financial technology company that empowers businesses of all sizes to operate across borders, thereby helping to grow the global economy. With technology at its core, Airwallex has built a proprietary global financial infrastructure platform with a global payment network covering more than 50 currencies in over 130 countries and regions, providing digital fintech products for businesses of all sizes to help them grow at high speed around the world in a more efficient and secure way in the globally connected information age. Since its inception in 2015, Airwallex has received over $500 million in funding from top-tier investors and now has 12 offices and over 900 employees worldwide.
 
-![Airwallex LiYang](https://static.apiseven.com/202108/20210816001.png)
+![Airwallex Li Yang](https://static.apiseven.com/202108/20210816001.png)
 
 **Q: What made you/your technical team choose to use Apache APISIX when making the technology selection?**
 
-**LiYang**: API gateway is an extremely important basic technology component, and we compared the main gateway products in 6 main dimensions during the technology selection.
+**Yang**: API gateway is an extremely important basic technology component, and we compared the main gateway products in 6 main dimensions during the technology selection.
 
 - **Stability**: The stability of the API gateway is critical. 62.1% of the top 1000 websites in the world are Nginx-based, which means that the Nginx-based web server has been tested in complex and diverse scenarios in production environments; Apache APISIX's fully dynamic design also allows it to modify routes without having to reload, and the client's long links are maintained. The fully dynamic design of Apache APISIX also allows it to maintain long links to clients without having to reload when modifying routes; we also stress-tested Apache APISIX and found it to be stable when the CPU reached over 70%.
 
@@ -42,13 +42,13 @@ Airwallex is a global financial technology company that empowers businesses of a
 
 **Q: What scenarios is Apache APISIX used in? What problems have been solved?**
 
-**Yang Lee**: We use Apache APISIX as a core component of our microservice gateway model, which is deployed at the edge of the network to provide common gateway functionality for all traffic coming into Airwallex, solving problems such as
+**Yang**: We use Apache APISIX as a core component of our microservice gateway model, which is deployed at the edge of the network to provide common gateway functionality for all traffic coming into Airwallex, solving problems such as
 
 - Data sovereignty issues: Data sovereignty is a very critical regulatory requirement for financial infrastructures that operate across borders. To this end, we developed a regulatory compliant dynamic routing plug-in using the Apache APISIX dynamic upstream selection feature. Dynamic routing can intelligently select upstreams for request distribution based on the characteristics of user requests, abstracting the complex multi-data center collaboration problem from the service layer to the gateway layer. Dynamic routing essentially has to answer two questions: How to group upstreams? How to match requests with groupings.
 
 - Microservice Isolation: Airwallex wants the engineering teams of each microservice to have autonomous control over their own services, effectively reducing the cost of communication and coordination and improving engineering effectiveness. This architectural concept requires that infrastructure components shared by teams, such as API Gateway, support multi-tenant isolation. While ensuring the robustness and cost control of the whole system, it allows business teams to configure and extend the gateway functions according to their own needs, maintaining the independence of microservice teams and services.
 
-- Tenant-level flow restriction: In a multi-tenant environment, the traffic characteristics of each tenant are different. The same flow restriction for different tenants cannot meet the business needs, and tenant-level flow restriction can do more appropriate flow restriction based on user characteristics.
+- Tenant-level flow limit: In a multi-tenant environment, the traffic characteristics of each tenant are different. The same flow restriction for different tenants cannot meet the business needs, and tenant-level flow restriction can do more appropriate flow restriction based on user characteristics.
 
 - Tenant-level whitelisting: In a multi-tenant environment, each tenant's access IP is different. Single whitelist control cannot meet the needs of tenant-level security management. Tenant-level whitelisting allows each tenant to control its own whitelist and not worry about other users in the whitelist accessing its own resources.
 

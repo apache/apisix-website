@@ -5,11 +5,11 @@ keywords:
 - APISIX
 - Apache APISIX
 - Meetup
-description: This Meetup was initiated by api7.ai https://www.apiseven.com/, and invited partners such as Aiki and Air CloudHub to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics. 
+description: This Meetup was initiated by api7.ai https://www.apiseven.com/, and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics. 
 tags: [Events]
 ---
 
-> This Meetup is initiated by [api7.ai](https://www.apiseven.com/), and invited partners such as Aiki and Air CloudHub to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.
+> This Meetup is initiated by [api7.ai](https://www.apiseven.com/), and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.
 
 <! --truncate-->
 
@@ -21,7 +21,7 @@ tags: [Events]
 
 - Discuss the past and present of the Apache APISIX community
 - Hear from Akiyo scientists about how Akiyo uses Apache APISIX to support a service with 10 million calls
-- How AirCloudHub uses Apache APISIX to balance user experience, clean architecture and data sovereignty
+- How Airwallex uses Apache APISIX to balance user experience, clean architecture and data sovereignty
 - Learn about the benefits of centralized authentication and how to do it on APISIX
 
 If you're interested, don't miss it, **scan the event poster for QR code to register!**
@@ -34,11 +34,11 @@ The event schedule![Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
 
 ## Introduction to the topic
 
-### Apache APISIX based, Aiki API gateway implementation practice
+### Apache APISIX based, iQiYi API gateway implementation practice
 
 #### Sharing Guests
 
-Wenjie Jiang / Scientist, Aiki
+Wenjie Jiang / Scientist, iQiYi
 
 #### Topic Details
 
@@ -58,7 +58,7 @@ Authentication is a very important part of zero-trust architecture. APISIX is a 
 
 #### Sharing Guests
 
-Yang Li / Head of AirCloudHub Technology Platform
+Yang Li / Head of Airwallex Technology Platform
 
 #### Topic Details
 
@@ -76,7 +76,7 @@ Apache APISIX has been growing as a community since the first day of open source
 
 ## Peripheral Benefits
 
-Join the Meetup, interact with the instructors, and get a chance to win the latest Apache APISIX peripherals: oversized mouse pads, delicate mugs, Apache APISIX badges, and custom umbrellas.
+Join the Meetup, interact with the instructors, and get a chance to win the latest Apache APISIX gifts: mouse pads, coffee mugs, Apache APISIX badges, and umbrellas.
 
 ![Apache APISIX Gift](/img/blog_img/2021-08-21-4.jpg)
 

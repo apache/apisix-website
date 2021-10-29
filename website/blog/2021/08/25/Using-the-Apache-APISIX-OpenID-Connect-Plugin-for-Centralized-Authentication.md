@@ -70,10 +70,10 @@ An Okta account already exists.
 
 ### Step 1: Configure Okta
 
-Login to your Okta account and create an Okta application, select the OIDC login mode and the Web Application application type.
+1. Login to your Okta account and create an Okta application, select the OIDC login mode and the Web Application application type.
     ![Create an Okta application](/img/blog_img/2021-08-16-4.png)
     ![Select OIDC login mode and Web Application application type](/img/blog_img/2021-08-16-5.png) 2.
-Set the login and logout jump URLs.
+2. Set the login and logout jump URLs.
 The "Sign-in redirect URIs" are the links that are allowed to be redirected after successful login, and the "Sign-out redirect URIs" are the links that are redirected after logging out. In this example, we set both the sign-in redirect and sign-out redirect URLs to `http://127.0.0.1:9080/`.
     ![Set the login and logout URL](/img/blog_img/2021-08-16-6.png)
 3. Click "Save" to save the changes after finishing the settings.
@@ -192,11 +192,11 @@ curl -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f
         "openid-connect":{
             "client_id":"{YOUR_CLIENT_ID}",
             "client_secret":"{YOUR_CLIENT_SECRET}",
-            "discovery": "https://{YOUR_ISSUER}/.well known/openid-configuration",
-            "scope": "openid profile",
+            "discovery":"https://{YOUR_ISSUER}/.well-known/openid-configuration",
+            "scope":"openid profile",
             "bearer_only":false,
-            "realm": "master",
-            "introspection_endpoint_auth_method": "client_secret_post",
+            "realm":"master",
+            "introspection_endpoint_auth_method":"client_secret_post",
             "redirect_uri": "http://127.0.0.1:9080/"
         }
     },
@@ -220,12 +220,12 @@ curl -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f
 3. After successful login, you can successfully access the get page in httpbin.org. The httpbin.org/get page will return the requested data as follows.
 
   ```sh
-  "X-Access-Token": "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.*** TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb ***. ****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG- HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6- 6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****",
-  "X-Id-Token": "****** aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi *****",
-  "X-Userinfo": "***** lfbmFtZSI6IlpodSIsImxvY2FsZSI6ImVuLVVTIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsInVwZGF0ZWRfYXQiOjE2MjgwNzA1ODEsInpvbmVpbmZvIjoiQW1lcmljYVwvTG9zX0FuZ2VsZXMiLCJzdWIiOiIwMHVhMDVlY2RGZldLTEt1bzY5NSIsImdpdmVuX25hbWUiOiJQZXRlciIsIm5hbWUiOiJQZXRl ****"
+  "X-Access-Token": "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.***TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb***.****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG-HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6-6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****",
+  "X-Id-Token": "******aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi*****",
+  "X-Userinfo": "*****lfbmFtZSI6IlpodSIsImxvY2FsZSI6ImVuLVVTIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsInVwZGF0ZWRfYXQiOjE2MjgwNzA1ODEsInpvbmVpbmZvIjoiQW1lcmljYVwvTG9zX0FuZ2VsZXMiLCJzdWIiOiIwMHVhMDVlY2RGZldLTEt1bzY5NSIsImdpdmVuX25hbWUiOiJQZXRlciIsIm5hbWUiOiJQZXRl****"
   ```
 
-where.
+In which:
 
 **X-Access-Token**: Apache APISIX puts the access token obtained from the user provider into the X-Access-Token request header, which can be optionally put into the Authorization request header via access_token_in_authorization_header in the plugin configuration.
 
@@ -249,9 +249,9 @@ Okta is a customizable, secure centralized authentication solution. Okta can add
 
 ## About Apache APISIX
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and other rich traffic management features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [Kubernetes Ingress Controller](https://github.com/apache/apisix-ingress-controller) .
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and other rich traffic management features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [Kubernetes Ingress Controller](https://github.com/apache/apisix-ingress-controller).
 
-Hundreds of enterprises worldwide have used Apache APISIX to handle business-critical traffic, covering finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the EU's Digital Factory, China Airlines, China Mobile, Tencent, Huawei, Weibo, NetEase, Shell Housing, 360, Taikang, Nespresso's Tea, and more.
+Hundreds of enterprises worldwide have used Apache APISIX to handle business-critical traffic, covering finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the EU's Digital Factory, China Airlines, China Mobile, Tencent, Huawei, Sina Weibo, NetEase, Ke, 360, Taikang, Nayuki, and more.
 
 Github: https://github.com/apache/apisix
 

@@ -170,7 +170,7 @@ local function init(env)
 
 当然，Apache APISIX 允许用户修改 nginx.conf 模板中的部分数据，具体方法是模仿 conf/config-default.yaml 的语法修改 conf/config.yaml 配置。其实现原理参见 `read_yaml_conf` 函数：
 
-```conf
+```lua
 function _M.read_yaml_conf(apisix_home)
     local local_conf_path = profile:yaml_path("config-default")
     local default_conf_yaml, err = util.read_file(local_conf_path)
@@ -477,7 +477,7 @@ end
 
 从 nginx.conf 中可以看到，访问任意域名、URI 的请求都会匹配到 `http_access_phase` 这个 lua 函数：
 
-```conf
+```lua
 server {
     server_name _;
     location / {

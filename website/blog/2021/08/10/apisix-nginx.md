@@ -89,7 +89,7 @@ ngx_process_events_and_timers(ngx_cycle_t *cycle)
 
 The `ngx_event_expire_timers` function calls the handler method of all timeout events. In fact, the timer is implemented by a [red-black tree](https://zh.wikipedia.org/zh-hans/%E7%BA%A2%E9%BB%91%E6%A0%91) (a balanced ordered binary tree), where the key is the absolute expiration time of each event. This way, expired events can be found quickly by comparing the minimum node with the current time.
 
-Lua timer for ### OpenResty
+### Lua timer for OpenResty
 
 Of course, the above C functions are very inefficient to develop. Therefore, OpenResty wraps the Lua interface and exposes the C function `ngx_timer_add` to the Lua language via [ngx.timer.at](https://github.com/openresty/lua-nginx-module#ngxtimerat).
 
@@ -142,7 +142,7 @@ Apache APISIX uses only eight of these hooks (note that APISIX does not use `set
 
 Once we have the above knowledge ready, we can answer how Apache APISIX receives updates to etcd data.
 
-How #### nginx.conf is generated
+#### How nginx.conf is generated
 
 Each Nginx worker process starts a timer in the ``init_worker_by_lua`` phase with the ``http_init_worker`` function.
 
@@ -168,9 +168,9 @@ local function init(env)
                                     ngxconf)
 ```
 
-Of course, Apache APISIX allows you to modify some of the data in the nginx.conf template by modifying the conf/config.yaml configuration in a way that mimics the syntax of conf/config-default.yaml. See the *read_yaml_conf* function for an example of how to do this.
+Of course, Apache APISIX allows you to modify some of the data in the nginx.conf template by modifying the conf/config.yaml configuration in a way that mimics the syntax of conf/config-default.yaml. See the `read_yaml_conf` function for an example of how to do this.
 
-```conf
+```lua
 function _M.read_yaml_conf(apisix_home)
     local local_conf_path = profile:yaml_path("config-default")
     local default_conf_yaml, err = util.read_file(local_conf_path)
@@ -386,8 +386,8 @@ curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f0343
 > "nodes": {
 > "httpbin.org:80": 1
 > }
-> }'
-{ "action": "set", "node":{"key":"\/apisix\/upstreams\/1", "value":{"hash_on": "vars", "nodes":{"httpbin.org:80":1}, "create_time": 1627982128, "update_time":1627982128, "scheme": "http", "type": "roundrobin", "pass_host": "pass", "id": "1"}}}
+> }
+{"action":"set","node":{"key":"\/apisix\/upstreams\/1","value":{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}}}'
 ```
 
 You will see the following log in error.log (to see this line, you must set the nginx_config.error_log_level in config.yaml to INFO)
@@ -433,14 +433,14 @@ local resources = {
 }
 ```
 
-Therefore, the above curl request will be processed by the ``put`` function in the /apisix/admin/upstreams.lua file, see the implementation of the ``put`` function as follows
+Therefore, the above curl request will be processed by the ``put`` function in the /apisix/admin/upstreams.lua file, see the implementation of the ``put`` function as follows:
 
 ```lua
 -- /apisix/admin/upstreams.lua file
 function _M.put(id, conf)
     -- check the legitimacy of the requested data
     local id, err = check_conf(id, conf, true)
-    local key = "/upstreams/" ... id
+    local key = "/upstreams/" .. id
     core.log.info("key: ", key)
     -- Generate configuration data in etcd
     local ok, err = utils.inject_conf_with_prev_conf("upstream", key, conf)
@@ -466,7 +466,7 @@ Let's look at how the Nginx worker process takes effect immediately after the ad
 
 The open source version of Nginx matches requests based on three different containers.
 
-1. the `server_name` configuration in the static hash table is matched to the requested `Host` domain name
+1. The `server_name` configuration in the static hash table is matched to the requested `Host` domain name
 2. Next, the location in the static Trie prefix tree is configured to match the requested URI
 
     ![Matching process for location prefix tree 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
@@ -477,14 +477,14 @@ Although these procedures are very efficient, they are written to die in the fin
 
 As you can see in nginx.conf, requests to any domain name, URI, or domain name will match the `http_access_phase` lua function.
 
-```conf
+```lua
 server {
     server_name _;
     location / {
         access_by_lua_block {
             apisix.http_access_phase()
-        access_by_lua_block { apisix.http_access_phase() }
-        proxy_pass $upstream_scheme://apisix_backend$upstream_uri;
+        }
+        proxy_pass      $upstream_scheme://apisix_backend$upstream_uri;
     }
 }
 ```
@@ -513,4 +513,4 @@ The key to dynamically modifying the Nginx configuration is 2 things: the Lua la
 
 Apache APISIX has many good designs, and this article only discusses the dynamic management of Nginx clusters.
 
-[click here for the link to the original article](https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more )
+[click here for the link to the original article](https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more)
