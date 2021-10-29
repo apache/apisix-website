@@ -8,11 +8,11 @@ keywords:
 - APISIX Ingress Controller
 - Kubernetes
 - Apache
-description: 本文通过从代码创始人角度，为大家描述了 APISIX Ingress 的成长历程，以及加入社区后的功能提升与社区帮助等多方面细节收获。
+description: 本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。
 tags: [technology]
 ---
 
-> 本文通过从代码创始人角度，为大家描述了 APISIX Ingress 的成长历程，以及加入社区后的功能提升与社区帮助等多方面细节收获。
+> 本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。
 
 <!--truncate-->
 
@@ -109,7 +109,7 @@ Apache APISIX Ingress Controller 采用声明式的配置，经过内部处理�
 - 灰度功能的完善
 - 产品使用文档的补充
 
-更多特性[点此查看](https://github.com/apache/apisix-ingress-controller/pulls?q=is%253Apr)。
+更多特性[点此查看](https://github.com/apache/apisix-ingress-controller/#readme)。
 
 同时借助社区的反馈，我们也顺应大家的需求支持了[多平台集成功能](https://github.com/apache/apisix-ingress-controller/blob/master/install.md#installation)。
 
