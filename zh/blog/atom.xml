@@ -21,9 +21,9 @@
     <entry>
         <title type="html"><![CDATA[从 0 到 1，APISIX Ingress 加入社区后的发展与收获]]></title>
         <id>从 0 到 1，APISIX Ingress 加入社区后的发展与收获</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/10/27/APISIX Ingress"/>
+        <link href="https://apisix.apache.org/zh/blog/2021/10/27/APISIX-Ingress"/>
         <updated>2021-10-27T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文通过从代码创始人角度，为大家描述了 APISIX Ingress 的成长历程，以及加入社区后的功能提升与社区帮助等多方面细节收获。]]></summary>
+        <summary type="html"><![CDATA[本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。]]></summary>
         <author>
             <name>金卫</name>
             <uri>https://github.com/gxthrj</uri>
