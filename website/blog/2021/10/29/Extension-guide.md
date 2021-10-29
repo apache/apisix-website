@@ -22,7 +22,7 @@ This article provides an extension guide for Apache APISIX, aiming to provide us
 
 ## Expansion Direction 1: Rewrite or Access?
 
-Let's start with the life cycle of the request: when a request enters Apache APISIX, it will first be processed by the method `http_access_phase`. Readers who are familiar with the concept of OpenResty phases may be a little confused: OpenResty has a total of 6 phases, which are arranged in order of execution: `rewrite`, `access`, `before_proxy`, `header_filter`, `body_filter` and `log `, why is `access` when it comes up, and why is `rewrite` missing?
+Let's start with the life cycle of the request: when a request enters Apache APISIX, it will first be processed by the method `http_access_phase`. Readers who are familiar with the concept of OpenResty phases may be a little confused: OpenResty has a total of 6 phases, which are arranged in order of execution: `rewrite`, `access`, `before_proxy`, `header_filter`, `body_filter` and `log`, why is `access` at the beginning, and where is `rewrite`?
 
 The phases concept of the Apache APISIX plug-in is slightly different from the OpenResty phases concept. In order to improve the performance of Apache APISIX, the rewrite method of the APISIX plugin will run in the access phase of OpenResty. Users can still customize the logic of `rewrite` at the plugin level, but at the code level, `rewrite` is actually executed in `access`.
 
@@ -74,7 +74,7 @@ end
 
 The execution logic of the authentication plugins is similar: first obtain a certain set of parameters from the input of the users, then find the corresponding `consumer` according to the parameters, and finally append the `consumer_conf` corresponding to the plugin to `ctx`.
 
-综上，对于无需在请求早期阶段执行，且不需要查找 `consumer` 的插件，建议把逻辑写到 `access` 里面。
+In summary, for plugins that do not need to be executed in the early stage of the request and do not need to find the `consumer`, it is recommended to write the logic in the `access`.
 
 ## Extension Direction 2: Configure Service Discovery
 
