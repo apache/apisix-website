@@ -129,13 +129,12 @@ The above deployment scenario is to integrate APISIX Ingress Controller inside K
 
 #### Scenario 2: Deploying Apache APISIX Ingress Across Clusters
 
-苏州思必驰公司的用户为我们提供了关于跨集群使用场景，大体流程如下所示。
-
+Speech.ai, a company based in Suzhou, have provided us with a cross-cluster usage scenario, and the general flow is shown below.
 ![Deploying Apache APISIX Ingress Across Clusters](https://static.apiseven.com/202108/1635304156072-ae9a3943-e686-4629-a5b7-0b5c38301139.png)
 
-在上图架构中有两个集群，即云主机正式集群和物理机集群。Apache APISIX Ingress Controller 在每一个集群内都有部署，在与 Kubernetes API server 交互的同时，通过 Apache APISIX Admin API 将配置同步到 Apache APISIX 集群。
+There are two clusters in the above architecture, the formal cloud host cluster and the physical machine cluster. Apache APISIX Ingress Controller is deployed within each cluster, interacting with the Kubernetes API server while synchronizing the configuration to the Apache APISIX Admin API. APISIX clusters.
 
-在跨集群场景时，主要是通过 Apache APISIX 来打通集群之间的互相访问。通常集群之间的访问分为专线和公网，借助 Apache APISIX 的健康检查功能，可以做到当专线或公网传输失败时自动将流量切换到其他正常通道上，保证了业务的稳定与高可用。
+In cross-cluster scenarios, access between clusters is mainly through Apache APISIX. Usually, the access between clusters is divided into private line and public network. With the health check function of Apache APISIX, the traffic can be automatically switched to other normal channels when the private line or public network transmission fails, which ensures the stability and high availability of business.
 
 #### Scenario 3: Manage Mutiple Kubernetes Clusters with one Apache APISIX Cluster
 
