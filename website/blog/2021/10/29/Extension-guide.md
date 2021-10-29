@@ -126,7 +126,7 @@ The function signature of `nodes` has already explicitly shown the query paramet
 ```Bash
 {
     {host = "xxx", port = 12100, weight = 100, priority = 0, metadata = ...},
-    # priority 和 metadata 是可选的
+    # priority and metadata are optional
     ...
 }
 ```
@@ -207,5 +207,5 @@ After the request is finished, we can also do some cleanup work with the `log` m
 
 If you are interested, you can take a look at how the `log` method of these two plugins is implemented:
 
-- `prometheus` plugin documentation：https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
-- `http-logger` plugin documentation：https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/
+- [`prometheus` plugin documentation](https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/)
+- [`http-logger` plugin documentation](https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/)
