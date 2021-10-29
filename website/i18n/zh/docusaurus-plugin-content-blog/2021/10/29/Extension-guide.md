@@ -102,7 +102,7 @@ end
 2. `service_name`: 服务名称。
 3. `discovery_args`: 不同的 discovery 特定的参数，Nacos 的特定参数包括：`namespace_id` 和  `group_name`。
 
-Nacos discovery 对应的 Lua 代码位于 `discovery/nacos.lua`。打开`nacos.lua`这个文件，我们可以看到它里面实现了几个所需的方法。
+Nacos discovery 对应的 Lua 代码位于 `discovery/nacos.lua`。打开 `nacos.lua` 这个文件，我们可以看到它里面实现了几个所需的方法。
 
 一个 discovery 需要实现至少两个方法：`nodes` 和 `init_worker` 。
 
@@ -121,7 +121,7 @@ function _M.init_worker()
 end
 ```
 
-其中`nodes` 的函数签名已经明了地展示获取新节点所用的查询参数：`service_name` 和 `discovery_args`。每次请求时，Apache APISIX 都会用这一组查询最新的节点。该方法返回的是一个数组：
+其中 `nodes` 的函数签名已经明了地展示获取新节点所用的查询参数：`service_name` 和 `discovery_args`。每次请求时，Apache APISIX 都会用这一组查询最新的节点。该方法返回的是一个数组：
 
 ```
 {
@@ -143,11 +143,7 @@ end
 
 - `get` 负责执行选中节点的逻辑。
 
-- ```
-  after_balance
-  ```
-
-   在下面两种情况下会运行：
+- `after_balance` 在下面两种情况下会运行：
 
   - 每次重试之前（此时 before_retry 为 true）
   - 最后一次尝试之后
@@ -192,11 +188,11 @@ end
 
 如果没有内部状态需要维护，可以直接借用固定的模板代码（上述代码中，位于省略号以外的内容）来填充 `after_balance` 和 `before_retry_next_priority` 这两个方法。
 
-选中节点之后，我们也可以通过插件的形式添加额外的逻辑。插件可以实现 `before_proxy`方法。该方法会在选中节点之后调用，我们可以在该方法里面记录当前选中的节点信息，这在 trace 里面会有用。
+选中节点之后，我们也可以通过插件的形式添加额外的逻辑。插件可以实现 `before_proxy` 方法。该方法会在选中节点之后调用，我们可以在该方法里面记录当前选中的节点信息，这在 trace 里面会有用。
 
 ## 扩展方向4：处理响应
 
-我们可以通过 `response-rewrite` 插件，在`header_filter` 和 `body_filter`处理上游返回的响应。前一个方法是修改响应头，后一个方法修改响应体。注意 Apache APISIX 的响应处理是流式的，如果`header_filter`里面没有修改响应头，响应头就会被先发送出去，到了`body_filter`就没办法修改响应体了。
+我们可以通过 `response-rewrite` 插件，在 `header_filter` 和 `body_filter` 处理上游返回的响应。前一个方法是修改响应头，后一个方法修改响应体。注意 Apache APISIX 的响应处理是流式的，如果`header_filter`里面没有修改响应头，响应头就会被先发送出去，到了`body_filter`就没办法修改响应体了。
 
 这意味着如果你后续想要修改body，但是 header 里面又有 Content-Length 之类跟 body 相关的响应头，那么就要提前在 `header_filter` 里面把这些头改掉。我们提供了一个辅助方法：`core.response.clear_header_as_body_modified`，只需要在 `header_filter` 调用它就行。
 
@@ -211,5 +207,5 @@ end
 
 如果你感兴趣的话，可以看看这两个插件的 `log` 方法是怎么实现的：
 
-- `prometheus` 插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
-- `http-logger` 插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/
+- [`prometheus` 插件文档](https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/)
+- [`http-logger` 插件文档](https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/)
