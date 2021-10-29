@@ -211,5 +211,5 @@ end
 
 如果你感兴趣的话，可以看看这两个插件的 `log` 方法是怎么实现的：
 
-- `prometheus`插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
-- `http-logger`插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/
+- `prometheus` 插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
+- `http-logger` 插件文档：https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/
