@@ -40,7 +40,7 @@ The authz-casbin plugin can decouple the two functions of route matching and req
 The authz-casbin plugin uses three parameters for authorization: subject, object and action. subject is the user name, which refers to the user in the request; object is the URL link that will be accessed, i.e. the resource that will be accessed; action is the action that is requested for authorization, such as read or write. (write).
 If we want to create a model to access three resources: /, /res1, /res2, we want a model like this
 
-! [authz-casbin example](/img/blog_img/2021-08-18-1.png)
+![authz-casbin example](/img/blog_img/2021-08-18-1.png)
 
 In this model, all users, such as Jack, have access to the main page (/). And users like Alice and Bob with admin rights have access to all pages and resources (/res1, /res2, /). Thus, we need to restrict users without administrator privileges to access specific resources using the GET request method. The required model is as follows.
 

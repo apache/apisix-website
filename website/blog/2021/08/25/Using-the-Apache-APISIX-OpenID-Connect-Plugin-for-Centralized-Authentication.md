@@ -29,13 +29,13 @@ Authentication refers to the verification of a user's identity through certain m
 
 In traditional authentication mode, each application service needs to support authentication separately, such as accessing the login interface when the user is not logged in, and the interface returns a 301 jump page. The application needs to develop the logic for maintaining the Session and the authentication interaction with the identity provider. The flow of the traditional authentication model is shown in the figure below: first, the user initiates a request, then the gateway receives the request and forwards it to the corresponding application service, and finally the application service interfaces with the identity provider to complete the authentication.
 
-! [Flowchart of traditional authentication mode](/img/blog_img/2021-08-16-1.png)
+![Flowchart of traditional authentication mode](/img/blog_img/2021-08-16-1.png)
 
 ### Centralized authentication mode
 
 Unlike the traditional authentication model, the centralized authentication model takes user authentication out of the application service. Take Apache APISIX as an example, the centralized authentication process is shown in the following diagram: first, the user initiates a request, and then the front gateway is responsible for the user authentication process, interfacing with the identity provider and sending the identity provider an authorization) request to the identity provider. The identity provider returns user info. After the gateway identifies the user, it forwards the user identity information to the back-end application in the form of a request header.
 
-! [Flow chart of centralized authentication mode](/img/blog_img/2021-08-16-2.png)
+![Flow chart of centralized authentication mode](/img/blog_img/2021-08-16-2.png)
 
 Compared with the traditional authentication mode, the centralized authentication mode has the following advantages.
 
@@ -58,7 +58,7 @@ The OpenID authentication process has the following 7 steps, as shown in the fig
 6. APISIX sends the Access Token to the Identity Provider's User Endpoint to obtain the user's identity.
 7. After authentication, the User Endpoint sends the User info to APISIX to complete the authentication.
 
-! [OpenID Authentication Flowchart](/img/blog_img/2021-08-16-3.png)
+![OpenID Authentication Flowchart](/img/blog_img/2021-08-16-3.png)
 
 ## How to configure Okta authentication using the OpenID Connect plugin for Apache APISIX
 
@@ -71,20 +71,20 @@ An Okta account already exists.
 ### Step 1: Configure Okta
 
 Login to your Okta account and create an Okta application, select the OIDC login mode and the Web Application application type.
-    ! [Create an Okta application](/img/blog_img/2021-08-16-4.png)
-    ! [Select OIDC login mode and Web Application application type](/img/blog_img/2021-08-16-5.png) 2.
+    ![Create an Okta application](/img/blog_img/2021-08-16-4.png)
+    ![Select OIDC login mode and Web Application application type](/img/blog_img/2021-08-16-5.png) 2.
 Set the login and logout jump URLs.
 The "Sign-in redirect URIs" are the links that are allowed to be redirected after successful login, and the "Sign-out redirect URIs" are the links that are redirected after logging out. In this example, we set both the sign-in redirect and sign-out redirect URLs to `http://127.0.0.1:9080/`.
-    ! [Set the login and logout URL](/img/blog_img/2021-08-16-6.png)
+    ![Set the login and logout URL](/img/blog_img/2021-08-16-6.png)
 3. Click "Save" to save the changes after finishing the settings.
-    ! [Save Changes](/img/blog_img/2021-08-16-7.png)
+    ![Save Changes](/img/blog_img/2021-08-16-7.png)
 Visit the General page of the application to get the following configuration, which is required to configure Apache APISIX OpenID Connect.
 
 - Client ID: OAuth client ID, which is the ID of the application, corresponding to `client_id` and `{YOUR_CLIENT_ID}` below.
 - Client secret: OAuth client secret, i.e. application key, corresponds to `client_secret` and `{YOUR_CLIENT_SECRET}` below.
 - Okta domain: The domain name used by the application, corresponds to `{YOUR_ISSUER}` in discovery below.
 
-! [Get configuration info](/img/blog_img/2021-08-16-8.png)
+![Get configuration info](/img/blog_img/2021-08-16-8.png)
 
 ### Installing Apache APISIX
 
@@ -213,7 +213,7 @@ curl -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136f
 
 1. Visit http://127.0.0.1:9080/get and the page is redirected to the Okta login page because the OpenID Connect plugin is turned on.
   
-! [visit Okta login page](/img/blog_img/2021-08-16-9.png)
+![visit Okta login page](/img/blog_img/2021-08-16-9.png)
   
 2. Enter the password you registered with Okta and click "Sign in" to log in to your Okta account. 3.
 
@@ -229,15 +229,15 @@ where.
 
 **X-Access-Token**: Apache APISIX puts the access token obtained from the user provider into the X-Access-Token request header, which can be optionally put into the Authorization request header via access_token_in_authorization_header in the plugin configuration.
 
-! [X-Access-Token](/img/blog_img/2021-08-16-10.png)
+![X-Access-Token](/img/blog_img/2021-08-16-10.png)
 
 **X-Id-Token**: Apache APISIX will put the ID token obtained from the user provider into the X-Id-Token request header after base64 encoding, you can choose whether to enable this feature by using the set_id_token_header in the plugin configuration.
 
-! [X-Id-Token](/img/blog_img/2021-08-16-11.png)
+![X-Id-Token](/img/blog_img/2021-08-16-11.png)
 
 **X-Userinfo**: Apache APISIX will get the user information from the user provider and put it into X-Userinfo after base64 encoding, you can choose whether to turn it on or not by using set_userinfo_header in the plugin configuration, the default is on.
 
-! [X-Userinfo](/img/blog_img/2021-08-16-12.png)
+![X-Userinfo](/img/blog_img/2021-08-16-12.png)
 
 As you can see, Apache APISIX will carry the X-Access-Token, X-Id-Token, and X-Userinfo request headers to the upstream. The upstream can parse these headers to get the user ID information and user metadata.
 

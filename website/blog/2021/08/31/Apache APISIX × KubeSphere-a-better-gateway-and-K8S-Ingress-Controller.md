@@ -79,9 +79,9 @@ We use `kennethreitz/httpbin` as a sample project for demonstration purposes. Th
 
 Just select Services - Stateless Services and create it.
 
-! [KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404138226-5475c163-d372-414e-af74-5c5a86f19629.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404138226-5475c163-d372-414e-af74-5c5a86f19629.png)
 
-! [KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404173444-9bb73e0d-5bee-428e-a257-4685500344ef.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404173444-9bb73e0d-5bee-428e-a257-4685500344ef.png)
 
 You can see the successful deployment in KubeSphere's Services and Loads interface, or you can check directly in the terminal to see if the deployment has succeeded.
 
@@ -181,15 +181,15 @@ As you can see, **it is already possible to proxy services within the Kubernetes
 
 We can add application routes (Ingress) directly in KubeSphere and Apache APISIX Ingress Controller will automatically sync the routing rules to Apache APISIX to complete the proxy for the service.
 
-! [KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404265190-585b9b09-72d5-4320-b0fe-9cf8a73c55ea.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404265190-585b9b09-72d5-4320-b0fe-9cf8a73c55ea.png)
 
-! [KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404325747-b92928dc-2c6b-4574-a49d-32b6bcb187f9.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404325747-b92928dc-2c6b-4574-a49d-32b6bcb187f9.png)
 
 **Note** We added the annotation configuration of `kubernetes.io/ingress.class: apisix` to support multiple ingress-controller scenarios in the cluster.
 
 After saving, you can see the following screen.
 
-! [KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404366474-dfe8ae08-f16d-417f-8ef3-3495ebda0f7d.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404366474-dfe8ae08-f16d-417f-8ef3-3495ebda0f7d.png)
 
 Test if the proxy is successful under the terminal.
 

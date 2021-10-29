@@ -57,7 +57,7 @@ matches:
 
 2. The Service APIs propose the concept of multi-layer APIs, each layer exposes its interface independently to facilitate other custom resources to interface with the APIs and achieve finer granularity (API granularity) control.
 
-! [api-model](https://gateway-api.sigs.k8s.io/images/api-model.png)
+![api-model](https://gateway-api.sigs.k8s.io/images/api-model.png)
 
 3. Role-oriented RBAC: One of the ideas behind the multi-tier API implementation is to design resource objects from the user's perspective. These resources are ultimately mapped to common roles for running applications on Kubernetes.
 
@@ -87,7 +87,7 @@ Gateway requests a point at which traffic can be converted to services within th
 
 3. the Route describes how traffic passing through the gateway is mapped to a service.
 
-! [schema-uml](https://gateway-api.sigs.k8s.io/images/schema-uml.svg)
+![schema-uml](https://gateway-api.sigs.k8s.io/images/schema-uml.svg)
 
 In addition, the Kubernetes Service APIs define a BackendPolicy resource object in order to enable flexible configuration of backend services.
 

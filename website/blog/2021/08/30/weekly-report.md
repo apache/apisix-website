@@ -21,9 +21,9 @@ We've also put together some issues for those new to the community! If you are i
 
 ## Contributor statistics
 
-! [Number of new contributors](https://static.apiseven.com/202108/1630393952402-4965d35c-6b05-4f71-9966-2fea7f7939d3.JPG)
+![Number of new contributors](https://static.apiseven.com/202108/1630393952402-4965d35c-6b05-4f71-9966-2fea7f7939d3.JPG)
 
-! [New contributors this week](https://static.apiseven.com/202108/1630393952406-9f61c39b-ea9e-4451-bd26-ab845a32a222.JPG)
+![New contributors this week](https://static.apiseven.com/202108/1630393952406-9f61c39b-ea9e-4451-bd26-ab845a32a222.JPG)
 
 ## Good first issue
 
@@ -42,7 +42,7 @@ We've also put together some issues for those new to the community! If you are i
 }
 ```
 
-! [Screenshot of issue description](https://static.apiseven.com/202108/1630393952407-b6a26364-6c36-47f6-82c2-81514c31f20b.PNG)
+![Screenshot of issue description](https://static.apiseven.com/202108/1630393952407-b6a26364-6c36-47f6-82c2-81514c31f20b.PNG)
 
 ### Issue #4441
 

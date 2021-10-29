@@ -22,7 +22,7 @@ We had a chance to interview Yang Li, the technical platform leader of Airwallex
 
 Airwallex is a global financial technology company that empowers businesses of all sizes to operate across borders, thereby helping to grow the global economy. With technology at its core, Airwallex has built a proprietary global financial infrastructure platform with a global payment network covering more than 50 currencies in over 130 countries and regions, providing digital fintech products for businesses of all sizes to help them grow at high speed around the world in a more efficient and secure way in the globally connected information age. Since its inception in 2015, Airwallex has received over $500 million in funding from top-tier investors and now has 12 offices and over 900 employees worldwide.
 
-! [Airwallex LiYang](https://static.apiseven.com/202108/20210816001.png)
+![Airwallex LiYang](https://static.apiseven.com/202108/20210816001.png)
 
 **Q: What made you/your technical team choose to use Apache APISIX when making the technology selection?**
 
@@ -56,11 +56,11 @@ Airwallex is a global financial technology company that empowers businesses of a
 
 - The API gateway can verify whether the requesting user has sufficient authority to access the interface according to the routing configuration and intercept illegal traffic in the first place.
 
-! [Airwallex arch](https://static.apiseven.com/202108/20210816002.png)
+![Airwallex arch](https://static.apiseven.com/202108/20210816002.png)
 
 It's a bit more involved and can be simplified to make it clearer: !
 
-! [Airwallex arch](https://static.apiseven.com/202108/20210816003.png)
+![Airwallex arch](https://static.apiseven.com/202108/20210816003.png)
 
 **Q:Did you have a smooth upgrade process in Apache APISIX? Share your feelings or stories about the upgrade process.**
 

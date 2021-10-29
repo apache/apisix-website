@@ -89,7 +89,7 @@ The table shows a comparison of Apache APISIX and Nginx features. Apache APISIX 
 - **Plugin orchestration**: Multiple plugins are logically orchestrated and combined for use according to business requirements.
 - **Certificate Management**: Apache APISIX supports dynamic certificate management.
 
-! [Apache APISIX Architecture Diagram](https://static.apiseven.com/202108/1630651158643-ecc67e12-2076-41e5-88d8-baa14144f35d.png)
+![Apache APISIX Architecture Diagram](https://static.apiseven.com/202108/1630651158643-ecc67e12-2076-41e5-88d8-baa14144f35d.png)
 
 ### Apache APISIX Introduction
 
@@ -97,7 +97,7 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway that provide
 
 ### Apache APISIX Solution
 
-! [Apache APISIX Full Traffic Solution](https://static.apiseven.com/202108/1630651158645-83c22975-ebf1-4861-8b61-38639a28875a.png)
+![Apache APISIX Full Traffic Solution](https://static.apiseven.com/202108/1630651158645-83c22975-ebf1-4861-8b61-38639a28875a.png)
 
 On the left side of the diagram above, the evolution from top to bottom is from monolithic services to SOA (Service Oriented Architecture) to microservices.
 
@@ -109,7 +109,7 @@ Simply put, the parts in red in the diagram on the left (Nginx / HAProxy / Kong 
 
 **In SOA there is Apache APISIX SLB solution, in microservice architecture there is Apache APISIX Gateway, in Kubernetes deployment there is Apache APISIX Ingress, in Service Mesh deployment there is Apache APISIX mesh**.
 
-! [Apache APISIX Full Traffic Data Surface](https://static.apiseven.com/202108/1630651158648-dffd59dd-15c2-4f76-832e-5ed3763b18e5.png)
+![Apache APISIX Full Traffic Data Surface](https://static.apiseven.com/202108/1630651158648-dffd59dd-15c2-4f76-832e-5ed3763b18e5.png)
 
 In terms of service request traffic, when a client initiates a request, it passes through the LB, passes through the Gateway, and the request is distributed to the back-end business service. The parts in red (LB / Gateway / Spring Cloud Gateway / K8s Ingress / Sidecar) can all choose Apache APISIX as the solution. Apache APISIX supports multi-language development plug-ins and can be written in Java under the Java architecture.
 
@@ -149,7 +149,7 @@ The third flexible configuration capability is in the Apache APISIX implementati
 
 One of the most important advantages of Apache APISIX is that there is an active community, and an active community allows the product to iterate quickly, get better and better, and get everyone's needs met.
 
-! [Apache APISIX Community Activity Comparison Chart](https://static.apiseven.com/202108/1630651158650-2c4a287f-45a3-4c49-94d1-5be3914e5f69.png)
+![Apache APISIX Community Activity Comparison Chart](https://static.apiseven.com/202108/1630651158650-2c4a287f-45a3-4c49-94d1-5be3914e5f69.png)
 
 The graph above shows the growth curves of Apache APISIX (green), Kong (light blue), mosn (yellow), and bfe (dark blue) contributors, with Apache APISX showing the fastest growth trend and the steepest curve. Apache APISIX community activity is the most active within its category.
 
@@ -161,7 +161,7 @@ What enhancements can be made by combining Apache APISIX with Apache SkyWalking?
 
 SkyWalking Satellite is developed by the Apache APISIX community, the Apache SkyWalking community, and Baidu in deep cooperation.
 
-! [Apache APISIX SkyWalking Satellite](https://static.apiseven.com/202108/1630651158652-130e62e1-32dd-4705-9f24-ceffd039560a.png)
+![Apache APISIX SkyWalking Satellite](https://static.apiseven.com/202108/1630651158652-130e62e1-32dd-4705-9f24-ceffd039560a.png)
 
 SkyWalking Satellite follows the steps in the above diagram to collect data. SkyWalking Satellite can be deployed closer to the front-end where the data is generated, in the form of a sidecar.
 
@@ -210,4 +210,4 @@ For example, if you have a service called ABC, you can have various route defini
 
 Wei Jin, Apache APISIX PMC and Apache SkyWalking committer.
 
-! [Jin Wei's profile](https://static.apiseven.com/202108/1630651158654-2e028970-9e09-4d52-bf72-ab53aa98706b.png)
+![Jin Wei's profile](https://static.apiseven.com/202108/1630651158654-2e028970-9e09-4d52-bf72-ab53aa98706b.png)

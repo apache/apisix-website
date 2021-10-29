@@ -18,7 +18,7 @@ tags: [Technology]
 
 One of the most criticized aspects of the open source version of Nginx is that it does not have dynamic configuration, remote API, and cluster management capabilities. Apache APISIX, the open source seven-tier gateway graduated from the Apache Foundation, implements dynamic management of Nginx clusters based on etcd and Lua.
 
-! [APISIX architecture diagram](https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png)
+![APISIX architecture diagram](https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png)
 
 Making Nginx dynamically, cluster-managed is not easy, as it would face the following problems.
 
@@ -34,7 +34,7 @@ Managing a cluster must rely on a centralized configuration, and etcd is one suc
 
 * etcd uses the Paxos-like Raft protocol to guarantee data consistency, and it is a decentralized, distributed database that is more reliable than relational databases
 * etcd's watch mechanism allows clients to monitor changes to a key, i.e., if the value of a key like /nginx/http/upstream changes, the watch client will be notified immediately, as shown in the following figure.
-! [etcd-based synchronization of nginx configuration](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
+![etcd-based synchronization of nginx configuration](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
 
 Therefore, unlike Orange and Kong, Apache APISIX uses etcd as the centralized configuration component. You can see a similar configuration in a production environment of Apache APISIX via etcdctl as follows.
 
@@ -127,7 +127,7 @@ Let's see how Apache APISIX uses `ngx.timer.at`.
 
 The Nginx framework provides a number of hooks for C module development, and OpenResty exposes some of them as Lua, as shown in the following image.
 
-! [openresty hooks](https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png)
+![openresty hooks](https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png)
 
 Apache APISIX uses only eight of these hooks (note that APISIX does not use `set_by_lua` and `rewrite_by_lua`; the rewrite phase of the plugin is actually self-defined by Apache APISIX and is not related to Nginx), including
 
@@ -259,7 +259,7 @@ The actual communication with etcd here is the [lua-resty-etcd](https://github.c
 
 And what does the watchcancel function do? This is actually the result of a deficiency in the OpenResty ecosystem. etcd v3 already supports the efficient gRPC protocol (the underlying HTTP2 protocol). As you may have heard, HTTP2 not only has the ability to multiplex, but also supports direct server pushing of messages from the HTTP3 protocol against HTTP2: !
 
-! [http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
+![http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
 
 However, Lua Eco does not currently support the HTTP2 protocol, so the lua-resty-etcd library actually communicates with etcd via the inefficient HTTP/1.1 protocol, and therefore receives /watch notifications via /v3/watch requests with timeouts. This phenomenon is actually caused by two things.
 
@@ -268,7 +268,7 @@ The HTTP2 protocol is very complex, and there is no HTTP2 cosocket library avail
 
 The lua-resty-etcd library using HTTP/1.1 is actually very inefficient, and if you capture packets on APISIX, you will see frequent POST messages with a URI of /v3/watch and a Base64-encoded watch directory with a body of
 
-! [APISIX communicates with etcd over HTTP1](https://static.apiseven.com/202108/1631170602368-d105d014-efe4-48c7-93b8-be5447c76a70.jpeg)
+![APISIX communicates with etcd over HTTP1](https://static.apiseven.com/202108/1631170602368-d105d014-efe4-48c7-93b8-be5447c76a70.jpeg)
 
 We can verify the implementation details of the `watchdir` function.
 
@@ -469,7 +469,7 @@ The open source version of Nginx matches requests based on three different conta
 1. the `server_name` configuration in the static hash table is matched to the requested `Host` domain name
 2. Next, the location in the static Trie prefix tree is configured to match the requested URI
 
-    ! [Matching process for location prefix tree 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
+    ![Matching process for location prefix tree 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
 
 3. In both of these processes, if there are regular expressions, they are matched in order based on the order of the arrays (the order they appear in nginx.conf).
 

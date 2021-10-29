@@ -30,7 +30,7 @@ Tips: We will control the size of the event as the epidemic is not relaxed, so r
 
 ## Event Schedule
 
-The event schedule! [Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
+The event schedule![Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
 
 ## Introduction to the topic
 
@@ -78,7 +78,7 @@ Apache APISIX has been growing as a community since the first day of open source
 
 Join the Meetup, interact with the instructors, and get a chance to win the latest Apache APISIX peripherals: oversized mouse pads, delicate mugs, Apache APISIX badges, and custom umbrellas.
 
-! [Apache APISIX Gift](/img/blog_img/2021-08-21-4.jpg)
+![Apache APISIX Gift](/img/blog_img/2021-08-21-4.jpg)
 
 ## How to participate
 
@@ -90,10 +90,10 @@ Scan the event poster QR code above to sign up!
 
 If you can't make it to the Meetup, follow the Apache APISIX video to watch the live stream.
 
-Live! [Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
+Live![Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
 
 ## Join the group to communicate
 
 Follow the Apache APISIX public page and reply with the keyword "Shanghai" in the background to join the Apache APISIX Shanghai group.
 
-! [Apache APISIX wechat](/img/blog_img/2021-08-21-3.png)
+![Apache APISIX wechat](/img/blog_img/2021-08-21-3.png)

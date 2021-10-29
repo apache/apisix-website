@@ -143,7 +143,7 @@ The application will listen to `/tmp/runner.sock` when it runs.
 
 The first step is to install Apache APISIX, which needs to be on the same instance as Go Runner.
 
-! [Apache APISIX work flow](/img/blog_img/2021-08-19-1.png)
+![Apache APISIX work flow](/img/blog_img/2021-08-19-1.png)
 
 The above diagram shows the workflow of Apache APISIX on the left, and the plugin runner on the right is responsible for running external plugins written in different languages. apisix-go-plugin-runner is such a runner that supports the Go language.
 
