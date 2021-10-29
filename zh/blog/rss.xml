@@ -4,15 +4,22 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Wed, 27 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 29 Oct 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
+            <title><![CDATA[Apache APISIX 扩展指南]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/10/29/Extension-guide</link>
+            <guid>Apache APISIX 扩展指南</guid>
+            <pubDate>Fri, 29 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。]]></description>
+        </item>
+        <item>
             <title><![CDATA[从 0 到 1，APISIX Ingress 加入社区后的发展与收获]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/10/27/APISIX Ingress</link>
+            <link>https://apisix.apache.org/zh/blog/2021/10/26/APISIX-Ingress</link>
             <guid>从 0 到 1，APISIX Ingress 加入社区后的发展与收获</guid>
-            <pubDate>Wed, 27 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文通过从代码创始人角度，为大家描述了 APISIX Ingress 的成长历程，以及加入社区后的功能提升与社区帮助等多方面细节收获。]]></description>
+            <pubDate>Tue, 26 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。]]></description>
         </item>
         <item>
             <title><![CDATA[教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书]]></title>
