@@ -125,7 +125,7 @@ end
 
 ```
 {
-    {host = "xxx", port = 12100, weight = 100, priority = 0, metadata = ...}, 
+    {host = "xxx", port = 12100, weight = 100, priority = 0, metadata = ...},
     # priority 和 metadata 是可选的
     ...
 }
