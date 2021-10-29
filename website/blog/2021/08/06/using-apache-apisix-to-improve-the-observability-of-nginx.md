@@ -56,7 +56,7 @@ In addition, because Nginx Amplify SaaS is a SaaS service, you need to transfer 
 
 Also, the Nginx Amplify SaaS community is not active and has been down for 2 years.
 
-### Nginx's flaws
+### Nginx's pitfalls
 
 Nginx has its own flaws in Events collection, two of which are listed here.
 
