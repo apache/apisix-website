@@ -14,7 +14,7 @@ tags: [Technology]
 
 > This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX for REST API remote control of Nginx clusters based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3.
 
-<!--truncate -->
+<!--truncate-->
 
 One of the most criticized aspects of the open source version of Nginx is that it does not have dynamic configuration, remote API, and cluster management capabilities. Apache APISIX, the open source seven-tier gateway graduated from the Apache Foundation, implements dynamic management of Nginx clusters based on etcd and Lua.
 
