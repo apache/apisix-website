@@ -15,7 +15,7 @@ tags: [Practical Case]
 
 > This article shares solutions and practices for observability in the context of Nginx observability, the relationship between Apache APISIX and Nginx, Apache APISIX observability, and further enhancing observability in conjunction with Apache SkyWalking.
 
-<! --truncate-->
+<!--truncate-->
 
 ## Overview
 
