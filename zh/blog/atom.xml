@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-10-27T00:00:00.000Z</updated>
+    <updated>2021-10-29T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 扩展指南]]></title>
+        <id>Apache APISIX 扩展指南</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/10/29/Extension-guide"/>
+        <updated>2021-10-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。]]></summary>
+        <author>
+            <name>罗泽轩</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[从 0 到 1，APISIX Ingress 加入社区后的发展与收获]]></title>
         <id>从 0 到 1，APISIX Ingress 加入社区后的发展与收获</id>

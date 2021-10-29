@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Wed, 27 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 29 Oct 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 扩展指南]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/10/29/Extension-guide</link>
+            <guid>Apache APISIX 扩展指南</guid>
+            <pubDate>Fri, 29 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。]]></description>
+        </item>
         <item>
             <title><![CDATA[从 0 到 1，APISIX Ingress 加入社区后的发展与收获]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/10/27/APISIX Ingress</link>
