@@ -28,7 +28,7 @@ Apache APISIX 插件的 phases 概念和 OpenResty 的 phases 概念略有不同
 
 虽然说 `rewrite` 的逻辑和 `access` 的逻辑都在 access phase 里面运行，但是 `rewrite` 的逻辑还是会比 `access` 的逻辑先执行。为了避免后续插件执行 `rewrite` 失败后，没有继续执行 `access`，导致 trace 遗漏的问题，必须在`rewrite`里面添加 trace 的逻辑。
 
-除了执行的先后顺序外，`rewrite`和`access`之间还有一个差别，就是它们之间有一个处理 `consumer` 的逻辑：
+除了执行的先后顺序外，`rewrite` 和 `access` 之间还有一个差别，就是它们之间有一个处理 `consumer` 的逻辑：
 
 ```
  plugin.run_plugin("rewrite", plugins, api_ctx)
