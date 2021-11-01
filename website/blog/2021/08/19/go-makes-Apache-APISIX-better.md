@@ -15,7 +15,7 @@ tags: [Practical Case]
 
 > This article will explain in detail how to use Go to develop Apache APISIX plugins. By embracing the Go ecosystem and breaking new ground for Apache APISIX, we hope that Go will make Apache APISIX even better!
 
-<! --truncate-->
+<!--truncate-->
 
 ## Why Go
 
@@ -37,8 +37,8 @@ cmd/go-runner
 ├── main.go
 ├── main_test.go
 ├── plugins
-│ ├── say.go
-│ └── say_test.go
+│   ├── say.go
+│   └── say_test.go
 └── version.go
 ```
 
@@ -101,7 +101,7 @@ The context of the plugin looks like this.
 
 ```go
 type SayConf struct {
-  Body string `json: "body"`
+  Body string `json:"body"`
 }
 ```
 
@@ -109,7 +109,7 @@ type SayConf struct {
 
 ```go
 func (p *Say) Filter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
-  body := conf.(SayConf).
+  body := conf.(SayConf).Body
   if len(body) == 0 {
     return
   }
@@ -178,7 +178,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
   "plugins": {
     "ext-plugin-pre-req": {
       "conf": [
-        {"name": "say", "value":"{\"body\":\"hello\"}"}
+        {"name":"say", "value":"{\"body\":\"hello\"}"}
       ]
     }
   },

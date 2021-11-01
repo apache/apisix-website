@@ -52,7 +52,7 @@ NAMESPACE: apisix
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
-NOTES.
+NOTES:
 1: Get the application URL by running these commands:
   export NODE_PORT=$(kubectl get --namespace apisix -o jsonpath="{.spec.ports[0].nodePort}" services apisix-gateway)
   export NODE_IP=$(kubectl get nodes --namespace apisix -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -63,12 +63,12 @@ Verify that it has been successfully deployed and is running.
 
 ```shell
 ➜ ~ kubectl -n apisix get pods
-NAME READY STATUS RESTARTS AGE
-apisix-77d7545d4d-cvdhs 1/1 Running 0 4m7s
-apisix-etcd-0 1/1 Running 0 4m7s
-apisix-etcd-1 1/1 Running 0 4m7s
-apisix-etcd-2 1/1 Running 0 4m7s
-apisix-ingress-controller-74c6b5fbdd-94ngk 1/1 Running 0 4m7s
+NAME                                         READY   STATUS    RESTARTS   AGE
+apisix-77d7545d4d-cvdhs                      1/1     Running   0          4m7s
+apisix-etcd-0                                1/1     Running   0          4m7s
+apisix-etcd-1                                1/1     Running   0          4m7s
+apisix-etcd-2                                1/1     Running   0          4m7s
+apisix-ingress-controller-74c6b5fbdd-94ngk   1/1     Running   0          4m7s
 ```
 
 You can see that the related Pods are running properly.

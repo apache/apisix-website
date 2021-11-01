@@ -164,7 +164,7 @@ local function init(env)
     local conf_render = template.compile(ngx_tpl)
     local ngxconf = conf_render(sys_conf)
 
-    local ok, err = util.write_file(env.apisix_home . "/conf/nginx.conf",
+    local ok, err = util.write_file(env.apisix_home .. "/conf/nginx.conf",
                                     ngxconf)
 ```
 
@@ -382,10 +382,10 @@ For example, when creating 1 Upstream via /apisix/admin/upstreams/1 and the PUT 
 ```shell
 curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -X PUT -d '
 > {
-> "type": "roundrobin",
-> "nodes": {
-> "httpbin.org:80": 1
-> }
+>   "type": "roundrobin",
+>   "nodes": {
+>     "httpbin.org:80": 1
+>   }
 > }
 {"action":"set","node":{"key":"\/apisix\/upstreams\/1","value":{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}}}'
 ```
@@ -393,7 +393,7 @@ curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f0343
 You will see the following log in error.log (to see this line, you must set the nginx_config.error_log_level in config.yaml to INFO)
 
 ```yaml
-2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] init.lua:130: handler(): uri: ["", "apisix", "admin", "upstreams", "1"], client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
+2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] init.lua:130: handler(): uri: ["","apisix","admin","upstreams","1"], client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
 ```
 
 This line is actually printed by the `run` function in /apisix/admin/init.lua, which is executed based on the uri_route dictionary above. Let's look at the contents of the run function.
@@ -433,7 +433,7 @@ local resources = {
 }
 ```
 
-Therefore, the above curl request will be processed by the ``put`` function in the /apisix/admin/upstreams.lua file, see the implementation of the ``put`` function as follows:
+Therefore, the above curl request will be processed by the `put` function in the /apisix/admin/upstreams.lua file, see the implementation of the `put` function as follows:
 
 ```lua
 -- /apisix/admin/upstreams.lua file
@@ -457,7 +457,7 @@ end
 The new configuration is eventually written to etcd. As you can see, Nginx verifies the data before writing it to etcd, so that other worker processes and Nginx nodes will receive the correct configuration through the watch mechanism. You can verify this process with the logs in error.log.
 
 ```yaml
-2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] upstreams.lua:72: key: /upstreams/1, client: 127.0.0.1, server: _, request: "PUT /apisix/ admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
+2021/08/03 17:15:28 [info] 16437#16437: *23572 [lua] upstreams.lua:72: key: /upstreams/1, client: 127.0.0.1, server: _, request: "PUT /apisix/admin/upstreams/1 HTTP/1.1", host: "127.0.0.1:9080"
 ```
 
 ### Why the new configuration works without reload

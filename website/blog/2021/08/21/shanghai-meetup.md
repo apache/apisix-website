@@ -11,7 +11,7 @@ tags: [Events]
 
 > This Meetup is initiated by [api7.ai](https://www.apiseven.com/), and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.
 
-<! --truncate-->
+<!--truncate-->
 
 #### Time: August 21, 2021, 13:30
 
@@ -30,7 +30,7 @@ Tips: We will control the size of the event as the epidemic is not relaxed, so r
 
 ## Event Schedule
 
-The event schedule![Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
+![Apache APISIX Meetup](/img/blog_img/2021-08-21-1.jpg)
 
 ## Introduction to the topic
 
@@ -90,7 +90,7 @@ Scan the event poster QR code above to sign up!
 
 If you can't make it to the Meetup, follow the Apache APISIX video to watch the live stream.
 
-Live![Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
+![Apache APISIX Live](/img/blog_img/2021-08-21-2.png)
 
 ## Join the group to communicate
 

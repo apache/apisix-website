@@ -72,7 +72,7 @@ In order to be able to upgrade to new versions of Apache APISIX at any time, we 
 
 **Q: What are the shortcomings of Apache APISIX and what do you hope the community will build together to improve?**
 
-**LI Yang**: Apache APISIX's data-plane design brings it lossless horizontal scaling and extreme performance, but it also makes the routing configuration difficult to achieve forward compatibility, which brings some coordination difficulties for the release of new versions.
+**Yang Li**: Apache APISIX's data-plane design brings it lossless horizontal scaling and extreme performance, but it also makes the routing configuration difficult to achieve forward compatibility, which brings some coordination difficulties for the release of new versions.
 
 **Q: What are the follow-up plans?**
 

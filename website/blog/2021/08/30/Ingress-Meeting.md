@@ -9,9 +9,9 @@ description: Apache APISIX Ingress community meetings to establish a channel of 
 tags: [Events]
 ---
 
-> With the release of [Apache APISIX Ingress Controller version 1.0](https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress- Controller-released), more and more developers have started to pay attention to the Apache APISIX Ingress solution. The Apache APISIX community hopes to establish a more direct communication channel with users and developers in the community to help them understand the development direction and development plans of Apache APISIX Ingress. We hope that every user and developer's voice will be heard. Therefore, the Apache APISIX community has started to organize bi-weekly online community meetings.
+> With the release of [Apache APISIX Ingress Controller version 1.0](https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released), more and more developers have started to pay attention to the Apache APISIX Ingress solution. The Apache APISIX community hopes to establish a more direct communication channel with users and developers in the community to help them understand the development direction and development plans of Apache APISIX Ingress. We hope that every user and developer's voice will be heard. Therefore, the Apache APISIX community has started to organize bi-weekly online community meetings.
 
-<! --truncate-->
+<!--truncate-->
 
 ## Meeting Schedule
 

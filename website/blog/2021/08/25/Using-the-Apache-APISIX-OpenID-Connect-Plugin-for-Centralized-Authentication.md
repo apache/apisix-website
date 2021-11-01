@@ -4,11 +4,11 @@ author: Xinxin Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords:
-- API Gateway
-- APISIX
-- Apache APISIX
-- Okta
-- Authorization
+  - API Gateway
+  - APISIX
+  - Apache APISIX
+  - Okta
+  - Authorization
 description: This article demonstrates the process of centralized Okta authentication using the Apache APISIX OpenID Connect Plugin. This article contains a conceptual introduction to Apache APISIX and Okta centralized authentication, showing the process of establishing centralized authentication from Okta directly in Apache APISIX. This centralized authentication approach reduces learning and maintenance costs for developers and provides a secure and streamlined user experience.
 tags: [Practical Case]
 ---

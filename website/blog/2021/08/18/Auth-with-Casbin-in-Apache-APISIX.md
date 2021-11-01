@@ -13,7 +13,7 @@ tags: [Practical Case]
 
 > When we are using Apache APISIX, we may want to add complex authorization logic to our application. In this post, we will use the built-in Casbin plugin (authz-casbin) for Apache APISIX to implement a role-based access control (RBAC) model.
 
-<! --truncate-->
+<!--truncate-->
 
 ## Introduction
 
@@ -28,10 +28,10 @@ tags: [Practical Case]
 ### authz-casbin plugin introduction
 
 In the use of Apache APISIX, there is an implicit tension between route matching and request authorization: for higher granularity access control, higher granularity routes need to be configured to accurately identify requests and authorize them. In complex authorization model scenarios, this leads to an exponential increase in the number of routes, which increases the complexity of operations and maintenance.
-[authz-casbin](https://github.com/apache/apisix/blob/d9b928321fcdd12eef024df8c7c410424c1e0c8b/docs/en/latest/plugins/authz-casbin. md) is a lua-casbin based Apache APISIX plugin that supports powerful authorization based on various access models. casbin is a powerful and efficient open source access control framework that supports ACL, RBAC, ABAC and other access control models. lua-casbin is a Lua version implementation of the Casbin access control framework.
+[authz-casbin](https://github.com/apache/apisix/blob/d9b928321fcdd12eef024df8c7c410424c1e0c8b/docs/en/latest/plugins/authz-casbin.md) is a lua-casbin based Apache APISIX plugin that supports powerful authorization based on various access models. casbin is a powerful and efficient open source access control framework that supports ACL, RBAC, ABAC and other access control models. lua-casbin is a Lua version implementation of the Casbin access control framework.
 The authz-casbin plugin can decouple the two functions of route matching and request authorization very well. You can load various authorization access models into Apache APISIX and implement efficient and complex authorization models with the help of lua-casbin.
 
-**Note**: If you want to implement authentication, you need to use other plugins or configure yourself to complete the authentication of the user's identity, for example [jwt-auth](https://github.com/apache/apisix/blob/master/docs/zh/ latest/plugins/jwt-auth.md) plugin.
+**Note**: If you want to implement authentication, you need to use other plugins or configure yourself to complete the authentication of the user's identity, for example [jwt-auth](https://github.com/apache/apisix/blob/master/docs/zh/latest/plugins/jwt-auth.md) plugin.
 
 ## authz-casbin Usage Guide
 
@@ -74,8 +74,8 @@ g, bob,admin
 
 The matcher in the model indicates that.
 
-1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`: The subject in the request and the subject in the policy have the same role or the subject in the request and the subject in the policy can be matched by the built-in method `keyMatch`. `keyMatch` is a built-in function of Lua Casbin, a description of which and more can be found at [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions. lua). 2.
-2. `keyMatch(r.obj, p.obj)`: the object in the request and the object in the policy can match each other (proxy for URL links). 3.
+1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`: The subject in the request and the subject in the policy have the same role or the subject in the request and the subject in the policy can be matched by the built-in method `keyMatch`. `keyMatch` is a built-in function of Lua Casbin, a description of which and more can be found at [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions. lua).
+2. `keyMatch(r.obj, p.obj)`: the object in the request and the object in the policy can match each other (proxy for URL links).
 3. `keyMatch(r.act, p.act)`: the action in the request and the action in the policy match each other (proxy for the HTTP request method).
 
 ### Using plugins on routes

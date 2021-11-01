@@ -74,7 +74,7 @@ In addition, the Nginx community is stagnant, resulting in slow iterations of Ng
 
 ### Apache APISIX in relation to Nginx
 
-! Relationship between [Apache APISIX and Nginx](https://static.apiseven.com/202108/1630651158638-aba4e627-d2d6-4bf5-b431-61eb3913a296.png)
+![Relationship between Apache APISIX and Nginx](https://static.apiseven.com/202108/1630651158638-aba4e627-d2d6-4bf5-b431-61eb3913a296.png)
 
 Apache APISIX is based on the Nginx implementation, but relies only on the Nginx network libraries. On top of Nginx, Apache APISIX implements its own core code, with extension mechanisms reserved.
 
