@@ -1,46 +1,46 @@
 ---
-title: "Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚"
-author: "温铭"
+title: Apache APISIX Contributor Interview | Pengcheng Wang, Senior Security Consultant, PricewaterhouseCoopers China Data Security & Privacy Team
+author: Ming Wen
 authorURL: "https://github.com/moonming"
 authorImageURL: "https://avatars.githubusercontent.com/u/26448043?v=4"
 keywords:
 - API Gateway
 - APISIX
 - Apache APISIX
-- 普华永道
-- 漏洞
-description: 近日，来自普华永道华南数据安全及隐私保护团队的高级安全顾问王鹏诚向国家信息安全漏洞共享平台（CNVD）和 Apache 软件基金会，报告了 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。
+- PricewaterhouseCoopers 
+- CVE
+description: "Recently, Pengcheng Wang, a senior security consultant from PwC's South China Data Security and Privacy team, reported the first CVE for Apache APISIX to the National Information Security Vulnerability Sharing Platform (CNVD) and the Apache Software Foundation: Apache APISIX Admin API Default Token Vulnerability (CVE-2020- 13945). To thank Pengcheng for his contribution to the Apache APISIX community, we also conducted an interview with Pengcheng."
 tags: [Interview]
 ---
 
-> 近日，来自普华永道华南数据安全及隐私保护团队的高级安全顾问王鹏诚向国家信息安全漏洞共享平台（CNVD）和 Apache 软件基金会，报告了 Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。
+> Recently, Pengcheng Wang, a senior security consultant from PwC's South China Data Security and Privacy team, reported the first CVE for Apache APISIX to the National Information Security Vulnerability Sharing Platform (CNVD) and the Apache Software Foundation: Apache APISIX Admin API Default Token Vulnerability (CVE-2020- 13945). To thank Pengcheng for his contribution to the Apache APISIX community, we also had an interview with Pengcheng.
 
-<!--truncate-->
+<! --truncate-->
 
-## 贡献者简介
+## Contributor Profile
 
-王鹏诚，普华永道华南数据安全及隐私保护团队担任高级安全顾问，为多家龙头企业提供数据安全与隐私合规咨询、红蓝对抗、安全运营等技术服务，目前拥有 cisp/cisp-pte/cisp-dsg/CEH/iso27701/ccsk 等多项安全认证。
+Pengcheng Wang is a senior security consultant in PwC South China data security and privacy team. He provides data security and privacy compliance consulting, red-blue confrontation, security operations and other technical services for many leading companies, and currently holds many security certifications such as cisp/cisp-pte/cisp-dsg/CEH/iso27701/ccsk.
 
-## 专访正文
+## Interview Text
 
-**小编**：恭喜鹏诚！也感谢鹏诚为 Apache APISIX 社区做的贡献！能简单介绍下您和您的团队嘛？
+**Editor**: Congratulations to Pengcheng! And thank you for your contribution to the Apache APISIX community! Can you tell us a little bit about yourself and your team?
 
-**鹏诚**：大家好，我是王鹏诚，来自普华永道广州数据安全及隐私保护团队，为普华永道的客户提供数据安全和隐私保护的专业咨询服务。做为一名安全咨询顾问和开源技术爱好者，帮助团队拿到第一枚 CVE 同时也为 Apache APISIX 做了一点贡献，还是蛮激动的。
+**I'm Pengcheng Wang, from the PwC Guangzhou Data Security and Privacy team, providing data security and privacy consulting services to PwC clients. As a security consultant and open source technology enthusiast, I am quite excited to help the team get the first CVE and also make a little contribution to Apache APISIX.
 
-**小编**：普华永道在大部分人的印象中是会计师事务所，没想到还提供专业的安全服务。请问你们是如何了解到 Apache APISIX 的呢？
+**Editor**: PricewaterhouseCoopers is an accounting firm in most people's mind, but I didn't expect that it also provides professional security services. How did you learn about Apache APISIX?
 
-**鹏诚**：普华永道不仅提供传统的财务审计服务，现在还提供安全运营、企业安全咨询、数据安全与合规、隐私咨询、车联网、物联网等一系列的安全测试与隐私合规咨询服务。2020 年中，我们在对几个客户做渗透测试的时候，发现他们都使用了 Apache APISIX 这个开源产品作为 API 网关。虽然这对于我们而言是一个新的产品，但是已经被这么多优质客户使用，我们决定对 Apache APISIX 进行安全方面的研究，看看其是否可靠，是否有安全漏洞。然后我们发现其存在固定 token 的问题，该问题将会导致恶意攻击者可直接控制 API 网关而影响到正常业务开展。**但是在 Apache APISIX 的默认配置下，并不会产生这个安全问题，只有在用户修改了默认的控制平面的 IP 限制而没有修改默认 token，才会把自己暴露在风险之中。**
+**Pengcheng**: PwC not only provides traditional financial audit services, but now also provides a series of security testing and privacy compliance consulting services such as security operations, enterprise security consulting, data security and compliance, privacy consulting, Internet of Vehicles, Internet of Things, etc. In the middle of 2020, when we did penetration testing on several clients, we found that they all used Apache APISIX, an open source product as an API gateway. Although this was a new product for us, it was already being used by so many quality customers that we decided to look into the security aspects of Apache APISIX to see if it was reliable and if there were any security vulnerabilities. Then we discovered that there was a fixed token issue that would allow a malicious attacker to take direct control of the API gateway and affect normal business operations. **But in the default configuration of Apache APISIX, this security issue does not arise, and it is only when users change the default control plane IP restrictions without changing the default token that they expose themselves to risk.**
 
-**小编**：我们团队也有来自安全背景的同事，我们了解安全对于一个产品而言是多么重要。请问在你们的安全测试中，是否还发现了 Apache APISIX 的其他问题呢？
+**Editor**: Our team also has colleagues from a security background, and we understand how important security is for a product. Are there any other issues with Apache APISIX that you have found in your security testing?
 
-**鹏诚**：暂时还没有。之前的测试只是站在黑盒角度并且比较浅的一次安全测试，后续会尝试白盒审计相关代码，从安全的角度看看是否会有其他的漏洞。如果发现的话，也会第一时间向 Apache 软件基金会的安全部门报告，来为开源社区贡献自己的力量。
+**Pengcheng**: Not yet. The previous test was just a shallow security test from a black-box perspective, and we will try to white-box audit the code to see if there are other vulnerabilities from a security perspective. If found, will also be the first time to report to the Apache Software Foundation security department, to contribute to the open source community.
 
-**小编**：非常感谢鹏诚和普华永道广州数据安全及隐私保护团队的同事！对于开源项目而言，不仅代码和文档是贡献，报告安全问题也一样是非常重要的贡献！请问后续有什么相应的计划吗？
+**Editor**: Thank you very much to Pengcheng and PwC Guangzhou data security and privacy protection team colleagues! For open source projects, not only is code and documentation a contribution, but reporting on security issues is also a very important contribution! Do you have any plans for follow-up?
 
-**鹏诚**：我们团队后面也会积极参与到 Apache APISIX 的社区中来，帮助社区预防和尽早发现安全隐患，让大家用上安全可靠的 API 网关。
+**Pengcheng**: Our team will actively participate in the Apache APISIX community to help the community prevent and discover security risks as early as possible, so that everyone can use a safe and secure API gateway.
 
-## Apache APISIX 的第一个 CVE
+## First CVE for Apache APISIX
 
-Apache APISIX 的第一个 CVE：Apache APISIX Admin API 默认 Token 漏洞（CVE-2020-13945）。[安全漏洞详情](https://nvd.nist.gov/vuln/detail/CVE-2020-13945)
+The first CVE for Apache APISIX: Apache APISIX Admin API Default Token Vulnerability (CVE-2020-13945). [Security Vulnerability Details](https://nvd.nist.gov/vuln/detail/CVE-2020-13945)
 
-![2021-01-11-1](/img/blog_img/2021-01-11-1.png)
+! [2021-01-11-1](/img/blog_img/2021-01-11-1.png)

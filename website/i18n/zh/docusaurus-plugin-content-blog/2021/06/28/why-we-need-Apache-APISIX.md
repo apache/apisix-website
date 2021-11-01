@@ -87,7 +87,7 @@ tags: [Technology]
 
 ![APISIX architecture](https://static.apiseven.com/202108/20210625011.png)
 
-这张图的左右分别是 DP（Date Plane）和 CP（Control Plane），跟大家所熟悉的后端服务体系一样。APISIX 从架构第一天就没有想去自己造新东西，所以关于配置中心选择了当下最成熟的 etcd。
+这张图的左右分别是 DP（Data Plane）和 CP（Control Plane），跟大家所熟悉的后端服务体系一样。APISIX 从架构第一天就没有想去自己造新东西，所以关于配置中心选择了当下最成熟的 etcd。
 
 在这个架构里面，你找不到一个单点。这里的任何一个服务出现异常宕机等事故，都不会影响 APISIX 正常对外提供服务的能力。当整体架构中的每一个点都支持高可用时，用户生产系统的高稳定性就非常容易实现。
 
