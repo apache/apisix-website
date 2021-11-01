@@ -696,7 +696,7 @@
         <id>Stable Product Delivery with Cypress</id>
         <link href="https://apisix.apache.org/zh/blog/2021/02/08/stable-product-delivery-with-cypress"/>
         <updated>2021-02-08T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/), implements stable product delivery with Cypress.]]></summary>
+        <summary type="html"><![CDATA[This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/), implements stable product delivery with Cypress.]]></summary>
         <author>
             <name>Yi Sun</name>
             <uri>https://github.com/LiteSun</uri>
