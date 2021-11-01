@@ -36,39 +36,39 @@
             <description><![CDATA[This article shows how to create a certificate and pair it with Apache APISIX Ingress Controller via the Cert Manager.]]></description>
         </item>
         <item>
-            <title><![CDATA[直播预告 | Apache APISIX × Apache SkyWalking 线上分享]]></title>
+            <title><![CDATA[Webinar | Apache APISIX × Apache SkyWalking Online Meetup]]></title>
             <link>https://apisix.apache.org/blog/2021/10/18/meetup</link>
-            <guid>直播预告 | Apache APISIX × Apache SkyWalking 线上分享</guid>
+            <guid>Webinar | Apache APISIX × Apache SkyWalking Online Meetup</guid>
             <pubDate>Mon, 18 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[10 月 23 日，Apache APISIX 社区联合 Apache SkyWalking 社区为大家带来线上分享。]]></description>
+            <description><![CDATA[On October 23rd, the Apache APISIX community is joining forces with the Apache SkyWalking community to bring you an online sharing session.]]></description>
         </item>
         <item>
-            <title><![CDATA[社区周报｜10.1-10.14 功能亮点更新进行中]]></title>
+            <title><![CDATA[Community Weekly｜10.1-10.14 Feature Highlight Updates in Progress]]></title>
             <link>https://apisix.apache.org/blog/2021/10/14/weekly-report-1014</link>
-            <guid>社区周报｜10.1-10.14 功能亮点更新进行中</guid>
+            <guid>Community Weekly｜10.1-10.14 Feature Highlight Updates in Progress</guid>
             <pubDate>Thu, 14 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+            <description><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 社区新里程碑——全球贡献者突破 300 位！]]></title>
+            <title><![CDATA[New milestone for the Apache APISIX community - over 300 contributors worldwide!]]></title>
             <link>https://apisix.apache.org/blog/2021/10/13/celebrating-300-contributors-of-apisix</link>
-            <guid>Apache APISIX 社区新里程碑——全球贡献者突破 300 位！</guid>
+            <guid>New milestone for the Apache APISIX community - over 300 contributors worldwide!</guid>
             <pubDate>Wed, 13 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Apache APISIX 社区达成新的里程碑，与 Apache APISIX 相关的项目全球贡献者突破 300 位！]]></description>
+            <description><![CDATA[The Apache APISIX community has reached a new milestone, surpassing 300 contributors worldwide to projects related to Apache APISIX!]]></description>
         </item>
         <item>
-            <title><![CDATA[保姆级教程，从概念到实践帮你快速上手 Apache APISIX Ingress]]></title>
+            <title><![CDATA[A thoughtful tutorial to get started with Apache APISIX Ingress from concept to practice]]></title>
             <link>https://apisix.apache.org/blog/2021/10/09/apisix-ingress-techblog</link>
-            <guid>保姆级教程，从概念到实践帮你快速上手 Apache APISIX Ingress</guid>
+            <guid>A thoughtful tutorial to get started with Apache APISIX Ingress from concept to practice</guid>
             <pubDate>Sat, 09 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文从理论和实践两个角度，对 Apache APISIX Ingress 进行了详细的描述与讲解]]></description>
+            <description><![CDATA[This article describes and explains Apache APISIX Ingress in detail from both theoretical and practical perspectives.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 社区成员助力 openEuler 发布第一个社区创新版]]></title>
+            <title><![CDATA[Apache APISIX community members help openEuler release first community innovation version]]></title>
             <link>https://apisix.apache.org/blog/2021/10/01/openEuler</link>
-            <guid>Apache APISIX 社区成员助力 openEuler 发布第一个社区创新版</guid>
+            <guid>Apache APISIX community members help openEuler release first community innovation version</guid>
             <pubDate>Fri, 01 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[来自 Apache APISIX 社区的罗泽轩和温铭在 openEuler 9 月 30 日发布的第一个社区创新版（ openEuler 21.09）中，为 OpenResty 迁移工作中做了非常多的贡献，让 OpenResty 可以在欧拉开源操作系统上平稳高效的运行。]]></description>
+            <description><![CDATA[Zexuan Luo and Ming Wen from the Apache APISIX community did a lot of work in the first community innovation release of openEuler on September 30 (openEuler 21.09) to migrate OpenResty to run smoothly and efficiently on the Euler open source OS.]]></description>
         </item>
         <item>
             <title><![CDATA[社区周报｜新晋 committer 一位，功能亮点更新进行中]]></title>
