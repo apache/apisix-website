@@ -35,7 +35,7 @@ Follow [Apache APISIX bilibili](https://space.bilibili.com/551921247) for past r
 
 ### Apache APISIX Ingress Online Discussion
 
-The Apache APISIX Ingress project hosts bi-weekly online discussions to discuss PRs, issues, share best practices, insights and design ideas for Ingress, see [issues](https://github.com/apache/apisix-ingress-) Controller/issues/614) for the online meeting address, and [bilibili video link](https://space.bilibili.com/551921247) for a recap of past issues.
+The Apache APISIX Ingress project hosts bi-weekly online discussions to discuss PRs, issues, share best practices, insights and design ideas for Ingress, see [issues](https://github.com/apache/apisix-ingress-controller/issues/614) for the online meeting address, and [bilibili video link](https://space.bilibili.com/551921247) for a recap of past issues.
 
 ### Weekly Report
 
