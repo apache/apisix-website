@@ -26,7 +26,7 @@ Apache APISIX has been growing as a community since the first day of open source
 
 In addition to the two community members, I would like to introduce Apache APISIX. openEuler's first community innovation version (21.09) greatly enriches the cloud-native related infrastructure, [Apache APISIX](https://github.com/apache/apisix) naturally has the advantages of cloud-native, supporting Bare metal, virtual machine, Kubernetes, ARM64, public cloud, hybrid cloud and many other deployment modes. We expect Apache APISIX to be applied to more businesses and more scenarios on openEuler.
 
-! [Apache APISIX Eco](https://static.apiseven.com/202108/1633068859274-4db4d50e-2646-433b-94cf-b75727bf877e.png)
+![Apache APISIX Eco](https://static.apiseven.com/202108/1633068859274-4db4d50e-2646-433b-94cf-b75727bf877e.png)
 
 ## About OpenEuler
 

@@ -14,7 +14,7 @@ tags: [Events]
 
 <! --truncate -->
 
-! [Apache APISIX contributor graph](https://static.apiseven.com/202108/1634110612788-576eb5ea-d574-4d8e-891c-8f9fc90d955a.png)
+![Apache APISIX contributor graph](https://static.apiseven.com/202108/1634110612788-576eb5ea-d574-4d8e-891c-8f9fc90d955a.png)
 
 PS: Recommend reading "[Contributors, the golden metric of open source projects](https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en), [Contributor trends graph](https://github.com/api7/contributor-graph)
 
@@ -22,7 +22,7 @@ In January 2020 Apache APISIX released version 1.0, the first production version
 
 There is no barrier to becoming an Apache APISIX contributor, and the Apache APISIX community includes not only contributions of code, but also documentation, testing, design, making videos, and more. Raising PRs or issues on Github, participating in discussions on mailing lists, sharing via live streams, helping people solve problems in networking groups, and attending Meetups are all ways to get involved in the community. Welcome to the Apache APISIX community!
 
-! [Apache APISIX contributors](https://static.apiseven.com/202108/1634110807125-883173f0-ddb2-4ad0-aafe-073a669bb7a0.jpg)
+![Apache APISIX contributors](https://static.apiseven.com/202108/1634110807125-883173f0-ddb2-4ad0-aafe-073a669bb7a0.jpg)
 
 ## Community Events
 

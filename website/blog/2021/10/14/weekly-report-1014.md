@@ -22,9 +22,9 @@ We've also put together some issues for those new to the community!
 
 ## Contributor statistics
 
-! [This week's contributor list](https://static.apiseven.com/202108/1634183939241-a87516e5-cb52-4532-87e2-306c09155a70.png)
+![This week's contributor list](https://static.apiseven.com/202108/1634183939241-a87516e5-cb52-4532-87e2-306c09155a70.png)
 
-! [New contributors this week](https://static.apiseven.com/202108/1634183019951-bcf250cd-e5b5-443e-afc4-3cfdef0d6eab.jpg)
+![New contributors this week](https://static.apiseven.com/202108/1634183019951-bcf250cd-e5b5-443e-afc4-3cfdef0d6eab.jpg)
 
 ## Good first issue
 
