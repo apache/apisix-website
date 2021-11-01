@@ -31,6 +31,12 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ## Good first issue
 
+### Issue #686
+
+**Link**: https://github.com/apache/apisix-website/issues/686
+
+**Issue description**: In order to speed up the loading speed of pictures/images on the Apache APISIX official website, we need to migrate all pictures/images to CDN.
+
 ### Issue #5305
 
 **Link**: https://github.com/apache/apisix/issues/5305
