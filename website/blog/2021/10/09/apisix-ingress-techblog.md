@@ -1,5 +1,5 @@
 ---
-title: A nanny-level tutorial to help you get started with Apache APISIX Ingress from concept to practice
+title: A thoughtful tutorial to get started with Apache APISIX Ingress from concept to practice
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
@@ -12,7 +12,7 @@ description: This article describes and explains Apache APISIX Ingress in detail
 tags: [technology]
 ---
 
-> Jintao Zhang, author of Apache APISIX Committer, Kubernetes Ingress Nginx Reviewer, and contributor to several cloud-native open source projects.
+> Jintao Zhang, Apache APISIX Committer, Kubernetes Ingress Nginx Reviewer, and contributor to several cloud-native open source projects.
 
 <!--truncate-->
 
@@ -116,9 +116,9 @@ APISIX TLS is mainly for certificate management. As the example shows, users can
 
 ![APISIX TLS](https://static.apiseven.com/202108/1633765614989-88b363c2-3805-4159-abfc-bac1b055559b.png)
 
-Also APISIX TLS comes with `spec.client` for configuring mTLS two-way authentication.
+Apache APISIX TLS also comes with `spec.client` for configuring mTLS two-way authentication.
 
-#### APISIX Config Related
+#### APISIX Config
 
 The Config types supported by custom resources are described in two ways.
 
@@ -149,7 +149,7 @@ Configure `subset` and `weight` in `backends` to split the incoming user request
 ![Configure APISIX Route](https://static.apiseven.com/202108/1633765771090-1e51e66c-0979-43b4-852b-28f2284a5d4e.png)
 
 With the above two steps, it is very easy to slice and dice traffic proportionally to achieve scenarios like grayscale publishing.
-For more details, please refer to: [Traffic Segmentation in Apache APISIX Ingress Controller](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress- controller).
+For more details, please refer to: [Traffic Segmentation in Apache APISIX Ingress Controller](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress-controller).
 
 ### Practice Scenario 2: Configuring Authentication
 
@@ -177,15 +177,15 @@ As we mentioned at the beginning, APISIX Ingress supports not only custom resour
 
 The image above shows the K8s Ingress resource. Normally if you want to do rewrite on a resource, you can add annotation configuration attributes. This way when the user carries the `httpbin.org` request, it can be redirected to /ip via the path /sample.
 
-When the above requirement uses APISIX Ingress, simply add a `kubernetes.io/ingress.class: apisix` to Ingress to specify the APISIX Ingress Controller to listen to this resource, and configure `k8s.apisix. apache.org/rewrite-target:"/ip"` to complete the redirection to the /ip path.
+When the above requirement uses APISIX Ingress, simply add a `kubernetes.io/ingress.class: apisix` to Ingress to specify the APISIX Ingress Controller to listen to this resource, and configure `k8s.apisix.apache.org/rewrite-target: "/ip"` to complete the redirection to the /ip path.
 
 ![APISIX Ingress Resources](https://static.apiseven.com/202108/1633765888876-d2d252ee-706c-49f3-b630-03a7e72a0620.png)
 
-The above example is just one of the ways APISIX Ingress currently supports native K8s Ingress, for more examples you can check the [specific documentation](https://apisix.apache.org/docs/ingress-controller/practices/proxy-the-) httpbin-service-with-ingress) for reference and use.
+The above example is just one of the ways APISIX Ingress currently supports native K8s Ingress, for more examples you can check the [specific documentation](https://apisix.apache.org/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress) for reference and use.
 
 ## Future Plans
 
-APISIX Ingress will continue to be updated in terms of functionality and ecology, and the current phase has been completed [APISIX Ingress and Cert-manager integration](https://github.com/apache/apisix-ingress-controller/blob/) master/docs/en/latest/practices/manage-certificates-with-cert-manager.md), and the following goals will be achieved step by step.
+APISIX Ingress will continue to be updated in terms of functionality and ecology, and the current phase has been completed [APISIX Ingress and Cert-manager integration](https://github.com/apache/apisix-ingress-controller/blob/master/docs/en/latest/practices/manage-certificates-with-cert-manager.md), and the following goals will be achieved step by step.
 
 1. complete Kubernetes V1.22+ and CRD V1 version adaptation support (completed, soon to be released in APISIX Ingress V1.3 version)
 2. support for Gateway API (expected in Q4)
