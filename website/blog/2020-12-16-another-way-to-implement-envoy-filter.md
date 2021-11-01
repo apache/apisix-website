@@ -2,7 +2,7 @@
 title: "Envoy and Apache APISIX: Another way to implement the Envoy filter"
 author: nic-chen
 authorURL: "https://github.com/nic-chen"
-authorImageURL: "https://avatars0.githubusercontent.com/u/33000667"
+authorImageURL: "https://static.apiseven.com/202108/1635774639571-6c4377b6-df96-4030-af0a-f67591cbd7f3.jpeg"
 ---
 
 > [@nic-chen](https://github.com/nic-chen), Apache APISIX PMC from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
@@ -16,7 +16,7 @@ authorImageURL: "https://avatars0.githubusercontent.com/u/33000667"
 Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures.
 A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.
 
-![Envoy filter](https://static.apiseven.com/filters.png)
+![Envoy filter](https://static.apiseven.com/202108/1635777073513-5aa2a2fe-b77b-4522-bee2-9f2b992bed26.png)
 
 ### Expansion method
 
@@ -108,11 +108,11 @@ We don't need to make major changes to Envoy, only some optimizations that are s
 
 We shield platform differences for the plugin layer. All interfaces that need to be used are abstracted in the underlying framework, which we call apisix.core, so that all plugins can run on Envoy and Apache APISIX at the same time.
 
-![Architecture diagram](https://static.apiseven.com/main.png)
+![Architecture diagram](https://static.apiseven.com/202108/1635776971469-6f3318c8-9359-497a-8ac5-54f42c4794fe.png)
 
 We use the previous example to show how the plugin runs:
 
-![Plugin workflow](https://static.apiseven.com/workflow.png)
+![Plugin workflow](https://static.apiseven.com/202108/1635777143797-e305c42a-8bb4-4bde-a10f-1b447784ea19.png)
 
 #### First step, read configuration
 

@@ -107,7 +107,7 @@ const LearnHow = () => (
           <div className="col">
             <img
               className="image"
-              src="https://github.com/apache/apisix/blob/master/docs/assets/images/apisix.png?raw=true"
+              src="https://static.apiseven.com/202108/1635777333099-37201d66-9127-43db-957a-500abdcfa8a0.png)?raw=true"
               align="right"
               alt="apisix-description"
             />

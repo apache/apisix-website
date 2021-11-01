@@ -2,7 +2,7 @@
 title: "Get Front-End Test Coverage with Cypress"
 author: Yi Sun
 authorURL: "https://github.com/LiteSun"
-authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4bb4db2be162c1fcac6d188f5b0f82f71920&v=4"
+authorImageURL: "https://static.apiseven.com/202108/1635774907188-09be4395-4a77-4e0a-b05a-351a7e8840cd.jpeg"
 ---
 
 > [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
@@ -68,7 +68,7 @@ import '@cypress/code-coverage/support';
 
 After the configuration is done, we need to run the test case. After the test case is run, Cypress will generate `coverage` and `.nyc_output` folders, which contain the test coverage reports.
 
-![1.png](https://lh4.googleusercontent.com/o-tyQagmCjprpNkuTjMFLaALZKtW4pyC9nj-GcPx4MM3xK0zrMED9Nndk5ZmZkZsQ5SIJPEovcrHyjWP2YXtEcYYDpLL49aV_97N83doTkOuMXlFsVjGu53A9FdlxOCr6i3aIDTA)
+![1.png](https://static.apiseven.com/202108/1635775020690-26b10a81-63d5-4a90-870a-b63e46f3af93.png)
 
 The test coverage information will appear in the console after executing the following command.
 
@@ -76,11 +76,11 @@ The test coverage information will appear in the console after executing the fol
 npx nyc report --reporter=text-summary
 ```
 
-![2.png](https://lh4.googleusercontent.com/n0CON1WF64wEnh3IYEc3wwwOJ2Ft_WmMLfkhOPKIKxoW0NP6Eq8VplJ87EepL5zIWOeyfJhlDmhc3ImE0ivgRlXWe1RuW2x7vL_JEri7Mz6b3tOY0it8bVvUe83CAHNgeoyXZnsy)
+![2.png](https://static.apiseven.com/202108/1635775083279-c8eeeac4-a882-4d92-8078-a160ec51740b.png)
 
 Under the coverage directory, a more detailed report page will be available, as shown here.
 
-![3.png](https://lh4.googleusercontent.com/skjR9YUcbmeytfoYnR0it7Vfc7mheCJDt7PSUsp549IbOdfqskTrIOqUXw01e0fnuNwpGoo3GtqAER3eQjNoTIdmU7HY6hc_sZ5NYc3h-MyxqmVz_NaC3AM-J4rWJFy-9IoTWjpn)
+![3.png](https://static.apiseven.com/202108/1635775133014-489206ff-e425-4975-9e8d-802236784c50.png))
 
 - Statements indicates whether each statement was executed
 

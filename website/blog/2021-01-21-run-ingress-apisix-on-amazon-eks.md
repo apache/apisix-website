@@ -2,7 +2,7 @@
 title: Run Ingress APISIX on Amazon EKS
 author: Chao Zhang
 authorURL: "https://github.com/tokers"
-authorImageURL: "https://avatars0.githubusercontent.com/u/10428333?s=60&v=4"
+authorImageURL: "https://static.apiseven.com/202108/1635775630595-4ad27bf4-6b00-4ff5-959d-0cb1332ac635.jpeg"
 ---
 
 > [@Chao Zhang](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)

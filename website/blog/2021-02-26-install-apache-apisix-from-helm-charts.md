@@ -2,7 +2,7 @@
 title: "Install Apache APISIX from Helm Charts"
 author: Chao Zhang
 authorURL: "https://github.com/tokers"
-authorImageURL: "https://avatars.githubusercontent.com/u/10428333?s=400&u=f48ef50c5621a1616a3ede50221547e34270e061&v=4"
+authorImageURL: "https://static.apiseven.com/202108/1635775290967-75d1bf41-d009-49ce-b808-a71e0ecc9044.jpeg"
 ---
 
 > [@tokers](https://github.com/tokers), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)

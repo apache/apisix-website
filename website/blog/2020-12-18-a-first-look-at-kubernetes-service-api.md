@@ -2,7 +2,7 @@
 title: "初探 Kubernetes Service APIs"
 author: Wei Jin
 authorURL: "https://github.com/gxthrj"
-authorImageURL: "https://avatars2.githubusercontent.com/u/4413028?s=400&u=e140a6d2bf19c426da6498b8888edc96509be649&v=4"
+authorImageURL: "https://static.apiseven.com/202108/1635774714605-d75c4bc9-7b1d-492c-ba06-eda978881d50.png"
 ---
 
 > [@gxthrj](https://github.com/gxthrj), Apache APISIX PMC & Apache apisix-ingress-controller Founder from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/)
@@ -48,7 +48,7 @@ matches:
 
 2. 增强了扩展能力，Service APIs 提出多层 API 的概念，各层独立暴露接口，方便其他自定义资源与 API 对接，做到更细粒度（API 粒度）的控制。
 
-![api-model](https://gateway-api.sigs.k8s.io/images/api-model.png)
+![api-model](https://static.apiseven.com/202108/1635775818342-0d27eff5-850f-41ae-981b-dcf002cd58dd.png)
 
 3. 面向角色 RBAC：多层 API 的实现，其中一个思想就是从使用者的角度去设计资源对象。这些资源最终会与 Kubernetes 上运行应用程序的常见角色进行映射。
 
@@ -78,7 +78,7 @@ GatewayClass, Gateway, Route
 
 3. Route 描述了通过网关的流量如何映射到服务。
 
-![schema-uml](https://gateway-api.sigs.k8s.io/images/schema-uml.svg)
+![schema-uml](https://static.apiseven.com/202108/1635776130931-0077dad9-7253-47de-b1c5-ad9210f5bfe0.png)
 
 另外，Kubernetes Service APIs 为了能够灵活的配置后端服务，特地定义了一个 BackendPolicy 资源对象。
 

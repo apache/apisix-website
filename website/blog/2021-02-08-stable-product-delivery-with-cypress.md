@@ -61,7 +61,7 @@ There are currently 49 test cases written for the APISIX Dashboard. We configure
 
 ![image](https://static.apiseven.com/202102/apisix-dashboard-e2e.gif)
 
-![image](https://static.apiseven.com/202102/image.png)
+![image](https://static.apiseven.com/202108/1635775530320-b1672284-9f77-4b87-8156-878a4074f4cb.png)
 
 1. Commonly used functions are encapsulated into commands.
 
