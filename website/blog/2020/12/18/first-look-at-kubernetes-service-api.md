@@ -16,11 +16,6 @@ tags: [Technology]
 
 <!--truncate-->
 
-> Source:
->
-> - https://github.com/apache/apisix
-> - https://github.com/apache/apisix-ingress-controller
-
 ## Preface
 
 The author is an Apache APISIX PMC and Apache APISIX Ingress Controller Founder. Through research and community communication, I plan to gradually support Kubernetes Service APIs in later versions of Apache APISIX Ingress Controller.
@@ -73,9 +68,9 @@ GatewayClass, Gateway, Route
 
 - A GatewayClass defines a set of gateways that share the same configuration and behavior. Each GatewayClass will be handled by a single controller, and controllers have a one-to-many relationship with GatewayClass.
 
-- A GatewayClass is a cluster resource. At least one GatewayClass must be defined to have a functional gateway. 2.
+- A GatewayClass is a cluster resource. At least one GatewayClass must be defined to have a functional gateway.
 
-Gateway requests a point at which traffic can be converted to services within the cluster.
+2. Gateway requests a point at which traffic can be converted to services within the cluster.
 
 - Role: Bringing traffic from outside the cluster inside the cluster. This is the true ingress entity.
 
@@ -83,7 +78,7 @@ Gateway requests a point at which traffic can be converted to services within th
 
 - Gateway resources can be created either directly by the operator or by the controller handling the GatewayClass.
 
-- (b) Gateway and Route are in a many-to-many relationship.
+- Gateway and Route are in a many-to-many relationship.
 
 3. the Route describes how traffic passing through the gateway is mapped to a service.
 
@@ -97,11 +92,11 @@ The BackendPolicy object allows you to configure TLS, health checks, and specify
 
 Kubernetes Service APIs, as an implementation standard, brings the following changes.
 
-1. generality: there can be multiple implementations, just like there are multiple implementations of ingress. ingress controllers can be customized based on the characteristics of the gateway, but they all have a consistent configuration structure. A data structure, you can configure a variety of ingress controller. 2.
+1. generality: there can be multiple implementations, just like there are multiple implementations of ingress. ingress controllers can be customized based on the characteristics of the gateway, but they all have a consistent configuration structure. A data structure, you can configure a variety of ingress controller.
 
-Class concept: GatewayClasses can be configured for different types of load balancing implementations. These class classes allow the user to easily and explicitly understand what functionality can be used as the resource model itself. 3.
+2. Class concept: GatewayClasses can be configured for different types of load balancing implementations. These class classes allow the user to easily and explicitly understand what functionality can be used as the resource model itself.
 
-By allowing independent routing resources HTTPRoute to be bound to the same GatewayClass, they can share load balancers and VIPs. layered by user, this allows teams to safely share infrastructure without having to care about the specific implementation of the lower level Gateway. 4.
+3. By allowing independent routing resources HTTPRoute to be bound to the same GatewayClass, they can share load balancers and VIPs. layered by user, this allows teams to safely share infrastructure without having to care about the specific implementation of the lower level Gateway. 4.
 
 4. backend references with types: With backend references with types, routes can reference Kubernetes Services, or any type of Kubernetes resource designed as a gateway backend, such as a pod, or a statefulset such as a DB, or even an accessible cluster external resource.
 
@@ -155,3 +150,5 @@ Reference:
 
 - https://gateway-api.sigs.k8s.io/
 - https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api
+- https://github.com/apache/apisix
+- https://github.com/apache/apisix-ingress-controller
