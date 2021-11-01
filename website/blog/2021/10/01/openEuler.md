@@ -6,7 +6,6 @@ keywords:
 - APISIX
 - API Gateway
 - OpenResty
-- 欧拉
 description: Zexuan Luo and Ming Wen from the Apache APISIX community did a lot of work in the first community innovation release of openEuler on September 30 (openEuler 21.09) to migrate OpenResty to run smoothly and efficiently on the Euler open source OS.
 tags: [Events]
 ---
