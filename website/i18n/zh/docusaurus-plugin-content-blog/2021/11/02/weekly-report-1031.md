@@ -30,6 +30,12 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## Good first issue
 
+### Issue #686
+
+**链接**: https://github.com/apache/apisix-website/issues/686
+
+**问题描述**：为了加快 Apache APISIX 官网图片的加载速度，需要将所有图片迁移到CDN。
+
 ### Issue #5305
 
 **链接**: https://github.com/apache/apisix/issues/5305
