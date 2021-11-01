@@ -7,7 +7,7 @@ keywords:
 - APISIX
 - API Gateway
 - Apache
-description: If you want to go fast, go alone.If you want to go far, go together. The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
+description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
 tags: [Events]
 ---
 
