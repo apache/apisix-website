@@ -69,7 +69,7 @@ But when I test the proxy-mirror plugin in apisix dashboard, it prompts a messag
 
 To do this, you need to specify the key of the route's corresponding limit-count in lrucache so that the same limit object is shared across multiple routes. lrucache keys (hereafter called groups to distinguish them from limit keys) are currently generated automatically, ensuring that each route's group is independent. For this change, we need to be able to specify the group in the limit-count.
 
-```
+```yaml
 "limit-count": {
         "group": "group_id_blah"
         "count": 2,
