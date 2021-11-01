@@ -16,7 +16,7 @@ tags: [Interview]
 
 ## Guest speaker: Shuyang Wu
 
-[yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd-06c0-4c71-848a-8ed0e1263a4e.png)
+![yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd-06c0-4c71-848a-8ed0e1263a4e.png)
 
 **Q: Shuyang, please briefly introduce yourself.**
 

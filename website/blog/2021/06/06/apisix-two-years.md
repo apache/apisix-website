@@ -20,7 +20,7 @@ Apache APISIX was open sourced on June 6, 2019, and entered the Apache Incubator
 
 Before entering the Apache Incubator, Apache APISIX had just over 20 contributors, and now there are 249 contributors to projects related to Apache APISIX, a 10-fold increase in **contributors** in a year and a half! The Apache APISIX community is also very active, with **249 contributors submitting 2303 PRs as of today, and a new release every month**.
 
-![2019.6.6 ~ 2021.6.6 contributor growth curve](https://static.apiseven.com/202108/1630116210945-cdf0888f-c823-4eae-b404-3b1d6cb1b1e6. png)
+![2019.6.6 ~ 2021.6.6 contributor growth curve](https://static.apiseven.com/202108/1630116210945-cdf0888f-c823-4eae-b404-3b1d6cb1b1e6.png)
 
 In life, when you go to buy airline tickets, swipe Weibo, or buy milk tea, the critical traffic behind it is handled by Apache APISIX. In the past two years, Apache APISIX has been widely used by many enterprises, covering finance, Internet, manufacturing, retail, operators, etc., such as NASA in the US, Digital Factory in the EU, China Airlines, Tencent, Huawei, Weibo, Shell House, China Mobile, Taikang, 360, Nespresso Tea, etc. Click to view [list of users of Apache APISIX](https://github.com/apache/apisix).
 

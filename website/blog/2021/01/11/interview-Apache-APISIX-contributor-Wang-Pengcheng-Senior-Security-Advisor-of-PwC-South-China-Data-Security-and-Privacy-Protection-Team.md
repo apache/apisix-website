@@ -25,7 +25,7 @@ Pengcheng Wang is a senior security consultant in PwC South China data security 
 
 **Editor**: Congratulations to Pengcheng! And thank you for your contribution to the Apache APISIX community! Can you tell us a little bit about yourself and your team?
 
-**I'm Pengcheng Wang, from the PwC Guangzhou Data Security and Privacy team, providing data security and privacy consulting services to PwC clients. As a security consultant and open source technology enthusiast, I am quite excited to help the team get the first CVE and also make a little contribution to Apache APISIX.
+**Pengcheng**: I'm Pengcheng Wang, from the PwC Guangzhou Data Security and Privacy team, providing data security and privacy consulting services to PwC clients. As a security consultant and open source technology enthusiast, I am quite excited to help the team get the first CVE and also make a little contribution to Apache APISIX.
 
 **Editor**: PricewaterhouseCoopers is an accounting firm in most people's mind, but I didn't expect that it also provides professional security services. How did you learn about Apache APISIX?
 
@@ -41,6 +41,6 @@ Pengcheng Wang is a senior security consultant in PwC South China data security 
 
 ## First CVE for Apache APISIX
 
-The first CVE for Apache APISIX: Apache APISIX Admin API Default Token Vulnerability (CVE-2020-13945). [Security Vulnerability Details](https://nvd.nist.gov/vuln/detail/CVE-2020-13945)
+The first CVE for Apache APISIX: Apache APISIX Admin API Default Token Vulnerability (CVE-2020-13945), see [Security Vulnerability Details](https://nvd.nist.gov/vuln/detail/CVE-2020-13945) for detail.
 
 ![2021-01-11-1](/img/blog_img/2021-01-11-1.png)
