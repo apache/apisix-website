@@ -15,7 +15,7 @@ tags: [Interview]
 
 > Recently, Pengcheng Wang, a senior security consultant from PwC's South China Data Security and Privacy team, reported the first CVE for Apache APISIX to the National Information Security Vulnerability Sharing Platform (CNVD) and the Apache Software Foundation: Apache APISIX Admin API Default Token Vulnerability (CVE-2020- 13945). To thank Pengcheng for his contribution to the Apache APISIX community, we also had an interview with Pengcheng.
 
-<! --truncate-->
+<!--truncate-->
 
 ## Contributor Profile
 

@@ -12,7 +12,7 @@ tags: [Release]
 
 > Apache APISIX is open for 2 years!
 
-<! --truncate-->
+<!--truncate-->
 
 Today is June 6, 2021, and on this 666th day [Apache APISIX](https://github.com/apache/apisix) is 2 years old! 🎉
 

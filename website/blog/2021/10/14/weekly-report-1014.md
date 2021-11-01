@@ -10,7 +10,7 @@ description: The Apache APISIX Community Weekly Newsletter hopes to help communi
 tags: [Events]
 ---
 > From 10.1 to 10.14, 27 developers have committed 67 commits to Apache APISIX. Thank you to these folks for making the Apache APISIX project better with your selfless efforts!
-<! --truncate-->
+<!--truncate-->
 
 ## Introduction
 

@@ -12,7 +12,7 @@ tags: [Interview]
 
 > This interview features two students who participated in last year's programming summer, both of whom are now Apache APISIX committers and mentors for this year's community project
 
-<! --truncate-->
+<!--truncate-->
 
 ## Guest speaker: Shuyang Wu
 
