@@ -45,7 +45,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 Currently I has test the proxy-mirror plugin in apisix, but I find that the feature of this plugin is different from the ngx_http_mirror_module in nginx. The mirror moudle of nginx can add the uri behind the host in "proxy_pass" directive, for example:
 
-```
+```Groovy
 location / {
 mirror /mirror;
 proxy_pass http://backend;
