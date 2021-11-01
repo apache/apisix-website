@@ -74,7 +74,7 @@ proxy_pass http://test_backend$request_uri;
 }
 ```
 
-N注意，同一 group 的配置需要相同，目前需要调用者保证，否则 group 获得的限制对象将与配置不同。
+注意，同一 group 的配置需要相同，目前需要调用者保证，否则 group 获得的限制对象将与配置不同。
 
 ### Issue #5342
 
