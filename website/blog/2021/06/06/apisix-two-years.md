@@ -22,9 +22,7 @@ Before entering the Apache Incubator, Apache APISIX had just over 20 contributor
 
 ![2019.6.6 ~ 2021.6.6 contributor growth curve](https://static.apiseven.com/202108/1630116210945-cdf0888f-c823-4eae-b404-3b1d6cb1b1e6.png)
 
-In life, when you go to buy airline tickets, swipe Weibo, or buy milk tea, the critical traffic behind it is handled by Apache APISIX. In the past two years, Apache APISIX has been widely used by many enterprises, covering finance, Internet, manufacturing, retail, operators, etc., such as NASA in the US, Digital Factory in the EU, China Airlines, Tencent, Huawei, Weibo, Shell House, China Mobile, Taikang, 360, Nespresso Tea, etc. Click to view 
-
-[list of users of Apache APISIX](https://github.com/apache/apisix).
+In life, when you go to buy airline tickets, swipe Weibo, or buy milk tea, the critical traffic behind it is handled by Apache APISIX. In the past two years, Apache APISIX has been widely used by many enterprises, covering finance, Internet, manufacturing, retail, operators, etc., such as NASA in the US, Digital Factory in the EU, China Airlines, Tencent, Huawei, Weibo, Shell House, China Mobile, Taikang, 360, Nespresso Tea, etc. Click to view [list of users of Apache APISIX](https://github.com/apache/apisix).
 
 **In August 2019, Apache APISIX released its first version 0.6.0**. This release brought many new features: health checks, service fusion, debug mode, distributed tracing, JWT authentication, etc., and a built-in dashboard.
 

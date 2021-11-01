@@ -131,7 +131,7 @@ static_resources:
         max_retries: 1000000000
 ```
 
-The `generate_request_id`, `dynamic_stats` and `circuit_breakers` sections above are turned on by default inside Envoy, but they are not used in this compression test and need to be turned off explicitly or set to oversize thresholds to improve performance (Can someone explain to me why this is so complicated to configure...). 
+The `generate_request_id`, `dynamic_stats` and `circuit_breakers` sections above are turned on by default inside Envoy, but they are not used in this compression test and need to be turned off explicitly or set to oversize thresholds to improve performance (Can someone explain to me why this is so complicated to configure...).
 
 ## Results
 

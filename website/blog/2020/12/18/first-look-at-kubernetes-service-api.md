@@ -68,7 +68,7 @@ GatewayClass, Gateway, Route
 
 - A GatewayClass defines a set of gateways that share the same configuration and behavior. Each GatewayClass will be handled by a single controller, and controllers have a one-to-many relationship with GatewayClass.
 
-- A GatewayClass is a cluster resource. At least one GatewayClass must be defined to have a functional gateway. 
+- A GatewayClass is a cluster resource. At least one GatewayClass must be defined to have a functional gateway.
 
 2. Gateway requests a point at which traffic can be converted to services within the cluster.
 
@@ -92,7 +92,7 @@ The BackendPolicy object allows you to configure TLS, health checks, and specify
 
 Kubernetes Service APIs, as an implementation standard, brings the following changes.
 
-1. generality: there can be multiple implementations, just like there are multiple implementations of ingress. ingress controllers can be customized based on the characteristics of the gateway, but they all have a consistent configuration structure. A data structure, you can configure a variety of ingress controller. 
+1. generality: there can be multiple implementations, just like there are multiple implementations of ingress. ingress controllers can be customized based on the characteristics of the gateway, but they all have a consistent configuration structure. A data structure, you can configure a variety of ingress controller.
 
 2. Class concept: GatewayClasses can be configured for different types of load balancing implementations. These class classes allow the user to easily and explicitly understand what functionality can be used as the resource model itself.
 
