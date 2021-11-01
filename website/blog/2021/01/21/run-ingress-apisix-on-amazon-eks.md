@@ -17,12 +17,6 @@ tags: [Practical Case]
 
 <!--truncate-->
 
-> Source:
->
-> - https://github.com/apache/apisix
-> - https://github.com/apache/apisix-helm-chart
-> - https://github.com/apache/apisix-ingress-controller
-
 This post is based on [Install Ingress APISIX on Amazon EKS](http://apisix.apache.org/docs/ingress-controller/deployments/aws/).
 
 Amazon Elastic Kubernetes Service ([Amazon EKS](https://amazonaws-china.com/eks/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&eks-blogs.sort-by=item.additionalFields.createdDate&eks-blogs.sort-order=desc)) gives you the flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.
@@ -153,3 +147,6 @@ If the Service type is `ClusterIP,` you have to login to a pod in the EKS cluste
 
 - https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api
 - https://www.apiseven.com/zh/blog/another-way-to-implement-envoy-filter
+- https://github.com/apache/apisix
+- https://github.com/apache/apisix-helm-chart
+- https://github.com/apache/apisix-ingress-controller
