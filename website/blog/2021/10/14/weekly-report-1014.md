@@ -32,7 +32,7 @@ We've also put together some issues for those new to the community!
 
 **Link**: https://github.com/apache/apisix/issues/5165
 
-**problem description**.
+**Problem Description**:
 
 - When a browser publishes across domains and then displays a CORS error, the login for the `wolf-rbac` plugin `url/apisix/plugin/wolf-rbac/login` returns `json` format, but the `header` gives a content type of `text/plain`, please change the content type to `application/json` after the plugin login.
 
