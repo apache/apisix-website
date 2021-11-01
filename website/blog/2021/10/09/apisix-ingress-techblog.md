@@ -14,7 +14,7 @@ tags: [technology]
 
 > Jintao Zhang, author of Apache APISIX Committer, Kubernetes Ingress Nginx Reviewer, and contributor to several cloud-native open source projects.
 
-<! --truncate -->
+<!--truncate-->
 
 ## Apache APISIX Ingress Overview
 

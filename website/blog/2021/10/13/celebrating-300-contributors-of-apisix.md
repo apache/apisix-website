@@ -12,7 +12,7 @@ tags: [Events]
 
 > The Apache APISIX community has reached a new milestone of 300 contributors worldwide to projects related to Apache APISIX! Only 3 months have passed since the Apache APISIX main repository reached the [200 contributor milestone](https://apisix.apache.org/blog/2021/07/06/celebrate-200-contributors/)! Thank you to the community contributors for their outstanding contributions in all aspects of code, documentation, operations, and more.
 
-<! --truncate -->
+<!--truncate-->
 
 ![Apache APISIX contributor graph](https://static.apiseven.com/202108/1634110612788-576eb5ea-d574-4d8e-891c-8f9fc90d955a.png)
 
