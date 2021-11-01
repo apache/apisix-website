@@ -50,4 +50,4 @@ Past recommendations.
 
 What kind of events do you want the Apache APISIX community to organize? Or want to be an organizer/volunteer for an event, feel free to discuss it on the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide)!
 
-**The Apache APISIX community is thankful to have you, and we are looking forward to more people joining the Apache APISIX community. The Apache APISIX community is grateful to have you.
+Apache APISIX community is thankful to have you, and we are looking forward to more people joining the Apache APISIX community. The Apache APISIX community is grateful to have you.
