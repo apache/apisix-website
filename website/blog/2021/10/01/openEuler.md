@@ -18,7 +18,7 @@ Let's get to know these two community members!
 
 <img src="https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png" alt="罗泽轩" style={{width: "200px"}} />
 
-Ming [Wen](https://github.com/moonming), Apache Member, Apache APISIX PMC Chair, core developer of OpenResty, former member of 360 Open Source Technical Committee, he has more than ten years development experience. He is the author of the Geek Time column "[OpenResty from Introduction to Practice](https://time.geekbang.org/column/intro/186)".
+[Ming Wen](https://github.com/moonming), Apache Member, Apache APISIX PMC Chair, core developer of OpenResty, former member of 360 Open Source Technical Committee, he has more than ten years development experience. He is the author of the Geek Time column "[OpenResty from Introduction to Practice](https://time.geekbang.org/column/intro/186)".
 
 <img src="https://static.apiseven.com/202108/1633068755501-b52403ee-c43a-4da7-9ca7-46bc457da6fa.png" alt="温铭" style={{width: "300px"}} />
 
