@@ -34,17 +34,15 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **链接**: https://github.com/apache/apisix-website/issues/686
 
-**问题描述**：为了加快 Apache APISIX 官网图片的加载速度，需要将所有图片迁移到CDN。
+**问题描述**：为了加快 Apache APISIX 官网图片的加载速度，需要将所有图片迁移到 CDN。
 
 ### Issue #5305
 
 **链接**: https://github.com/apache/apisix/issues/5305
 
-**问题描述**：
+**问题描述**：测试 APISIX 中的 proxy-mirror 插件时，发现这个插件的特性与 nginx 中的 ngx_http_mirror_module 不同。 nginx 的镜像模块可以在 “proxy_pass” 指令中添加主机后面的 uri，例如：
 
-测试 APISIX 中的 proxy-mirror 插件时，发现这个插件的特性与 nginx 中的 ngx_http_mirror_module 不同。 nginx 的镜像模块可以在 “proxy_pass” 指令中添加主机后面的 uri，例如：
-
-```
+```Groovy
 location / {
 mirror /mirror;
 proxy_pass http://backend;
@@ -66,7 +64,7 @@ proxy_pass http://test_backend$request_uri;
 
 **问题描述**: 路由之间的限制计数器：需要在 lrucache 中指定路由对应的 limit-count 的 key，这样同一个limit对象就可以在多个路由中共享。lrucache 的key（以下称为 group，以区别于limit key）目前是自动生成的，确保每个路由的 group 是独立的。对于这一变化，我们需要能够在 limit-count 中指定组：
 
-```
+```yaml
 "limit-count": {
             "group": "group_id_blah"
             "count": 2,
@@ -84,7 +82,7 @@ N注意，同一 group 的配置需要相同，目前需要调用者保证，否
 
 **问题描述**: 在模式中添加一个 request_body 开关，每个主体可以被 expr 用来决定是否记录。如果没有这个开关，主体就不会被记录。
 
-```
+```json
 "kafka-logger": {
    "broker_list":{
        "127.0.0.1":9092
