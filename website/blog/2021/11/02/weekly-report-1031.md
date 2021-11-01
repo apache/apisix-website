@@ -71,11 +71,11 @@ To do this, you need to specify the key of the route's corresponding limit-count
 
 ```
 "limit-count": {
-            "group": "group_id_blah"
-            "count": 2,
-            "time_window": 60,
-            "rejected_code": 503,
-            "key": "remote_addr"
+        "group": "group_id_blah"
+        "count": 2,
+        "time_window": 60,
+        "rejected_code": 503,
+        "key": "remote_addr"
 }
 ```
 
