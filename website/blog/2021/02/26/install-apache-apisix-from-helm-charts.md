@@ -12,14 +12,9 @@ description: A few days ago, Zhiliu Inc released an online Helm Charts repositor
 tags: [Practical Case]
 ---
 
-> A few days ago, [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/) released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).
+> A few days ago, [API7.ai](https://www.apiseven.com/) released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).
 
 <!--truncate-->
-
-> Source:
->
-> - https://github.com/apache/apisix
-> - https://github.com/apache/apisix-helm-chart
 
 ## How To Use
 
@@ -60,6 +55,7 @@ Just a few steps to install Apache APISIX
      echo http://$NODE_IP:$NODE_PORT
    ```
 
-## See Also
+## Reference
 
 - https://github.com/apache/apisix-helm-chart
+- https://github.com/apache/apisix

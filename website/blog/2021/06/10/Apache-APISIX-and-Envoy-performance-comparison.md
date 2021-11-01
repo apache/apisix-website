@@ -46,7 +46,7 @@ Let’s get started, first we go to the official website to find the most versio
 - Test method 1: single-core run for side-by-side comparison (since they are both based on epoll IO model, single-core crush test is used to verify their processing power).
 - Test method 2: using multicore to run a side-by-side comparison, mainly to verify whether their overall processing power can grow linearly under the scenario of adding more (processes|threads).
 
-## 测试场景
+## Test Scenarios
 
 We built an upstream server with NGINX, configured it with 2 workers, and received a request to directly answer 4k content, with the following reference configuration:
 
@@ -131,7 +131,7 @@ static_resources:
         max_retries: 1000000000
 ```
 
-The generate_request_id, dynamic_stats and circuit_breakers sections above are turned on by default inside Envoy, but they are not used in this compression test and need to be turned off explicitly or set to oversize thresholds to improve performance. (Can someone explain to me why this is so complicated to configure -_-!)
+The `generate_request_id`, `dynamic_stats` and `circuit_breakers` sections above are turned on by default inside Envoy, but they are not used in this compression test and need to be turned off explicitly or set to oversize thresholds to improve performance (Can someone explain to me why this is so complicated to configure...). 
 
 ## Results
 
@@ -155,7 +155,7 @@ Latency: Latency per request, the smaller the value the better. It represents ho
 
 We can see that the difference between the two metrics in the single-worker thread|process mode, QPS and Latency is not large, but with the increase in the number of threads|processes their gap is gradually enlarged, here I analyze that there may be two reasons, NGINX in the high concurrency scenario with multiple workers and the system IO model for interaction is not more advantageous, on the other hand, also On the other hand, NGINX itself may be more “stingy” in terms of memory and CPU usage in its implementation, so that the cumulative performance advantage can be evaluated in detail later.
 
-## 总结
+## Conclusion
 
 In general, Apache APISIX is slightly better than Envoy in terms of response latency and QPS, and due to NGINX’s multi-worker collaboration method, which is more advantageous in high concurrency scenarios, Apache APISIX’s performance improvement is more obvious than Envoy’s after opening multiple worker processes. The bus design of Envoy gives it a unique advantage in handling east-west traffic, while the performance and latency of Apache APISIX gives it a massive throughput capability in handling north-south traffic.
 Apache APISIX
