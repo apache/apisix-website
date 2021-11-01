@@ -34,7 +34,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **链接**: https://github.com/apache/apisix/issues/5305
 
-**问题描述**: 
+**问题描述**：
 
 测试 APISIX 中的 proxy-mirror 插件时，发现这个插件的特性与 nginx 中的 ngx_http_mirror_module 不同。 nginx 的镜像模块可以在 “proxy_pass” 指令中添加主机后面的 uri，例如：
 
