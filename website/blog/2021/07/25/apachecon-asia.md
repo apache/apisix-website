@@ -20,7 +20,7 @@ ApacheCon is the official global conference series of the Apache Software Founda
 
 ApacheCon Asia is the ApacheCon organizing committee's online ApacheCon conference for the Asia-Pacific region, with the primary goal of better serving the rapidly growing number of Apache users and contributors in the region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
 
-![ApacheCon Asia 2021](/img/blog_img/2021-07-25-1.png)
+![ApacheCon Asia 2021](https://static.apiseven.com/202108/1635750552467-1d0013df-9caa-43a3-bed2-b914d856c413.png)
 
 The ApacheCon Asia 2021 team has recently announced the conference program. The Apache APISIX community is actively involved in this annual open source event, and has proposed a total of 8 API/microservices technology-related topics, which are rich in content and welcome your attention. For those who cannot attend the online conference, ApacheCon Asia 2021 also provides a replay and recorded video of each topic, please visit [Apache Local Community](https://space.bilibili.com/609014805).
 
@@ -72,7 +72,7 @@ Therefore, here we use Chaos Mesh, a Kubernetes-based chaos engineering platform
 
 ![Shuyang Wu](/img/blog_img/2021-07-25-4.png)
 
-Yang Wu - Committer for Apache APISIX and Chaos Mesh, he leads the integration of Chaos Mesh with Apache APISIX CI.
+Shuyang Wu - Committer for Apache APISIX and Chaos Mesh, he leads the integration of Chaos Mesh with Apache APISIX CI.
 
 ### Share Time
 
@@ -100,7 +100,7 @@ In the past year, Apahce APISIX has become the most active API gateway project i
 
 ![Yuansheng Wang](/img/blog_img/2021-07-25-6.png)
 
-Yansheng Wang - Founder and PMC member of open source enthusiast Apache APISIX.
+Yuansheng Wang - Founder and PMC member of open source enthusiast Apache APISIX.
 
 ### Share time
 
@@ -146,7 +146,7 @@ Introducing the benefits of Apache APISIX-based Kubernetes Ingress and the featu
 
 ![Jin Wei](/img/blog_img/2021-07-25-9.png)
 
-Jin Wei - Apache APISIX PMC, Apache apisix-ingress-controller Founder, Apache Skywalking Committer.
+Wei Jin - Apache APISIX PMC, Apache apisix-ingress-controller Founder, Apache Skywalking Committer.
 
 ### Share time
 
