@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Fri, 29 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 02 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Weekly Report｜10.15-10.31 Feature Highlights Update in Progress]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/02/weekly-report-1031</link>
+            <guid>Weekly Report｜10.15-10.31 Feature Highlights Update in Progress</guid>
+            <pubDate>Tue, 02 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX Extensions Guide]]></title>
             <link>https://apisix.apache.org/blog/2021/10/29/Extension-guide</link>

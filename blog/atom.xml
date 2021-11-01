@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-10-29T00:00:00.000Z</updated>
+    <updated>2021-11-02T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Weekly Report｜10.15-10.31 Feature Highlights Update in Progress]]></title>
+        <id>Weekly Report｜10.15-10.31 Feature Highlights Update in Progress</id>
+        <link href="https://apisix.apache.org/blog/2021/11/02/weekly-report-1031"/>
+        <updated>2021-11-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Extensions Guide]]></title>
         <id>Apache APISIX Extensions Guide</id>
