@@ -20,7 +20,7 @@ Let's get to know these two community members!
 
 Ming [Wen](https://github.com/moonming), Apache Member, Apache APISIX PMC Chair, core developer of OpenResty, former member of 360 Open Source Technical Committee, he has more than ten years development experience. He is the author of the Geek Time column "[OpenResty from Introduction to Practice](https://time.geekbang.org/column/intro/186)".
 
-<img src="https://static.apiseven.com/202108/1633068755501-b52403ee-c43a-4da7-9ca7-46bc457da6fa.png" alt="溫铭" style={{width: "300px"}} />
+<img src="https://static.apiseven.com/202108/1633068755501-b52403ee-c43a-4da7-9ca7-46bc457da6fa.png" alt="温铭" style={{width: "300px"}} />
 
 Apache APISIX has been growing as a community since the first day of open source. Apache APISIX partners are not only active in this community, but also actively participate in open source projects in other communities, which is the embodiment of the open source spirit, open source is not only open source code, but also open community, open mind, cooperation and mutual assistance between communities, and we contribute together to better open source products.
 
