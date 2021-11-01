@@ -87,7 +87,7 @@ Note that the configuration of the same group needs to be the same, which curren
 
 **Issue description**: Add a request_body switch to the schema, and each body can be used by expr to decide whether to log or not. Without this switch, the body is not logged.
 
-```
+```json
 "kafka-logger": {
    "broker_list":{
        "127.0.0.1":9092
