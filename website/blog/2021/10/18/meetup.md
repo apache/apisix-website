@@ -60,6 +60,6 @@ This session will take Apache SkyWalking as an example, summarize the protocol i
 ## How to participate
 
 👇👇👇👇 Scan the code to follow the video number and book this live broadcast.
-! [Apache APISIX wechat](https://apisix.apache.org/assets/images/2021-08-21-2-e9610756c89fec849caeb66361bce002.png)
+![Apache APISIX wechat](https://apisix.apache.org/assets/images/2021-08-21-2-e9610756c89fec849caeb66361bce002.png)
 
 See you live on Saturday, October 23rd at 14:00!
