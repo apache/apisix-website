@@ -1,77 +1,77 @@
 ---
-title: "Apache APISIX 2.6.0-Release 正式发布"
-author: "罗泽轩"
+title: Apache APISIX 2.6.0-Release Officially Released
+author: Zexuan Luo
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
-- API 网关
+- API gateway
 - APISIX
 - Apache APISIX
 - Release Notes
-description: Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
+description: Apache APISIX 2.6.0-Release is officially released! You are welcome to download and use it.
 tags: [Release]
 ---
 
-> Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
+> Apache APISIX 2.6.0-Release is officially released! Welcome to download and use.
 
 <!--truncate-->
 
 ## Release Notes
 
-▌**新功能：APISIX 现在支持使用其他语言编写自定义插件**
+### New feature: APISIX now supports writing custom plugins in other languages
 
-APISIX 现在支持通过 Lua 语言编写插件，在代理请求的过程中执行自定义的逻辑，诸如调用 webhook 通知外部系统、执行特殊的鉴权逻辑等等。但是有些情况下开发者可能会想要采用 Lua 以外的语言来编写插件。
+APISIX now supports writing plug-ins in Lua to perform custom logic during proxy requests, such as calling webhook to notify external systems, performing special forensic logic, and so on. However, there are cases where developers may want to write plugins in languages other than Lua.
 
-比如开发者不熟悉 Lua，想要用自己熟悉的语言来编写插件；或者第三方团队只提供了 Java SDK，没有办法在 Lua 插件里面使用。
+For example, developers are not familiar with Lua and want to write plugins in a language they are familiar with, or third-party teams only provide the Java SDK and there is no way to use it inside Lua plugins.
 
-从 2.6 版本开始，借助 plugin runner，APISIX 支持运行非 Lua 语言编写的插件。架构图如下：
+Starting from version 2.6, APISIX supports running plugins written in languages other than Lua with the help of plugin runner. The architecture diagram is as follows.
 
 ![2021-05-25-1](/img/blog_img/2021-05-25-1.png)
 
-APISIX 会以 sidecar 的形式运行 plugin runner。
+APISIX will run the plugin runner as a sidecar.
 
-它们两者之间采用 RPC 进行通讯，APISIX 负责发送请求数据和配置，plugin runner 负责加载用户的自定义插件，处理这些数据并告诉 APISIX 怎么处理这些请求。目前支持在代理请求到上游之前，执行非 Lua 语言编写的逻辑。后续将会支持用非 Lua 语言改写响应。
+They communicate with each other using RPC, with APISIX sending the request data and configuration and plugin runner loading the user's custom plugin, processing that data and telling APISIX what to do with the requests. Currently, it supports executing logic written in non-Lua languages before the proxy request goes upstream. Later on there will be support for rewriting responses in non-Lua languages.
 
-APISIX 现在放置了两个入口给 plugin runner 发送 RPC。一个是 ext-plugin-pre-req，另一个是 ext-plugin-post-req。前者会在执行 Lua 插件逻辑前运行，后者会在执行完 Lua 插件且在代理请求到上游之前运行。这两个入口都是可以在路由级别上动态开关的。
+APISIX now places two entry points for the plugin runner to send RPCs: ext-plugin-pre-req, which runs before the Lua plugin logic is executed, and ext-plugin-post-req, which runs after the Lua plugin is executed and before the proxy request goes upstream. Both entries can be dynamically switched on and off at the route level.
 
-假设我们对于某些请求开启了 ext-plugin-pre-req，且 plugin runner 里面加载了 validator 和 rewrite 两个插件，那么每个匹配的请求，它都会触发对 plugin runner 的 RPC 调用，先执行 plugin runner 里面的 validator 和 rewrite，然后把执行的结果返回给 APISIX。APISIX 可以根据结果来判断是否要继续执行请求，还是拒绝掉请求。如果继续执行，会运行 APISIX 内置的 Lua 插件，比如限流限速等等。如果开启的是 ext-plugin-post-req，则正好相反。
+Assuming we have ext-plugin-pre-req enabled for some requests, and the plugin runner has the validator and rewrite plugins loaded, then for each matching request, it will trigger an RPC call to the plugin runner, first executing the Based on the result, APISIX can determine whether to continue executing the request or reject it. If the request continues, it will run the Lua plugins built into APISIX, such as the flow and speed limiting plugins. If ext-plugin-post-req is enabled, the opposite is true.
 
-Java 和 Go 的 plugin runner 已在开发中。预计本周内 Java 版的 plugin runner 将会可用，Go 版的 plugin runner 将于六月份完成。
+The plugin runner for Java and Go is already in development. The Java version of the plugin runner is expected to be available within this week, and the Go version of the plugin runner will be completed in June.
 
-▌**安全提升：修改 Prometheus 默认端口，不再暴露到数据面的端口上**
+### Security enhancement: change the Prometheus default port to no longer expose the port to the data plane
 
-之前默认情况下 Prometheus 的数据会暴露在数据面的端口上，虽然可以通过配置 plugin interceptor 来限制 IP 访问，但是还是存在默认不安全的问题。所以从 2.6 开始，专门采用一个新端口来暴露指标，而且默认只监听 127.0.0.1 .
+Previously, by default, Prometheus data would be exposed to the port on the data plane, and although you could restrict IP access by configuring the plugin interceptor, there was still the problem of insecurity by default. So starting with 2.6, a new port is dedicated to exposing metrics and by default only listens to 127.0.0.1 .
 
-在 2.6 之前，Prometheus 采集 APISIX 的指标时访问的是数据面的端口（默认 9080 端口）。
+Prior to 2.6, Prometheus collected APISIX metrics on the data side of the port (default port 9080).
 
-新端口是 9091 端口，且只监听 127.0.0.1，你需要修改监听地址为你的服务器的内网地址，并加上防火墙规则确保只有 Prometheus 才能访问。
+The new port is port 9091 and only listens to 127.0.0.1. You need to change the listening address to your server's intranet address and add a firewall rule to ensure that only Prometheus can access it.
 
-▌**支持:生态完整支持 Nacos 服务发现**
+### Support: Ecological full support for Nacos service discovery
 
-APISIX 添加了对 Nacos 服务发现功能的支持。
+APISIX adds support for the Nacos service discovery feature.
 
-用户只需开启 Nacos 服务发现功能，并在上游配置中设置服务名称，APISIX 就会在后台定期根据服务名称获取 Nacos 中对应服务的实例地址。这样一来，无需在 APISIX 里面配置具体的上游节点地址，只需要在 Nacos 里面配置即可。
-目前 APISIX 内置的服务发现功能已支持下列外部服务：
+Users only need to enable the Nacos service discovery function and set the service name in the upstream configuration, and APISIX will periodically get the instance address of the corresponding service in Nacos based on the service name in the background. In this way, there is no need to configure the specific upstream node address inside APISIX, only inside Nacos.
+Currently, the following external services are supported by APISIX built-in service discovery function.
 
 1. DNS
 2. Consul KV mode
 3. Eureka
 4. Nacos
 
-▌**支持:配置 IPv6 的 DNS resolver**
+### Support: Configuring DNS resolver for IPv6
 
-之前配置 APISIX 的 DNS resolver 时，只能配置 IPv4 服务器。从 2.6 版本之后，我们加上了对 IPv6 DNS 服务器的支持。
+Previously, when configuring DNS resolver for APISIX, only IPv4 servers could be configured. Since version 2.6, we have added support for IPv6 DNS servers.
 
-现在配置 DNS resolver 的时候，可以写上 IPv6 的服务器地址了。
+Now when configuring DNS resolver, you can write IPv6 server address.
 
-## 下载
+## Download
 
-下载 Apache APISIX 2.6.0-Release 源代码及二进制安装包，请访问下载页面: `https://apisix.apache.org/downloads/`。
+To download the Apache APISIX 2.6.0-Release source code and binary installation package, please visit the download page: `https://apisix.apache.org/downloads/`.
 
-## 文档更新
+## Documentation Update
 
-在本次发布过程中，我们也在持续更新和发布新的使用文档，欢迎大家提出宝贵的意见。
+During this release, we are also continuously updating and releasing new documentation for use, and welcome your valuable comments.
 
 `https://apisix.apache.org/docs/apisix/getting-started/`
 
-更详细的内容可以参考 2.6 版本的 Changelog 和 GitHub 上 Apache APISIX  的提交记录。
+For more details, see the Changelog for version 2.6 and the Apache APISIX commits on GitHub.

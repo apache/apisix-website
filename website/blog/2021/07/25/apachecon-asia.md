@@ -1,167 +1,153 @@
 ---
-title: "ApacheCon Asia 2021：Apache APISIX 技术议题一览"
-author: "Apache APISIX 社区"
+title: "ApacheCon Asia 2021: Apache APISIX Technical Topics"
+author: Apache APISIX
 keywords:
-- API 网关
+- API Gateway
 - APISIX
 - Apache APISIX
 - ApacheCon
-description: ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。
+description: ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore "tomorrow's technologies" across more than 350 Apache projects and their diverse communities. ApacheCon Asia is the ApacheCon organizing committee's online conference for the Asia-Pacific region. ApacheCon Asia is an online ApacheCon conference organized by the ApacheCon organizing committee for the Asia-Pacific region with the primary goal of better serving the rapidly growing number of Apache users and contributors in the Asia-Pacific region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
 tags: [Events]
 ---
 
-> ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。
+> ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore the "technologies of tomorrow" across more than 350 Apache projects and their diverse communities. ApacheCon Asia is the ApacheCon organizing committee's online conference for the Asia-Pacific region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
 
 <!--truncate-->
 
-## 关于 ApacheCon Asia 2021
+## About ApacheCon Asia 2021
 
-ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。
+ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore the "technologies of tomorrow" across more than 350 Apache projects and their diverse communities.
 
-ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。
+ApacheCon Asia is the ApacheCon organizing committee's online ApacheCon conference for the Asia-Pacific region, with the primary goal of better serving the rapidly growing number of Apache users and contributors in the region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
 
-![ApacheCon Asia 2021](/img/blog_img/2021-07-25-1.png)
+![ApacheCon Asia 2021](https://static.apiseven.com/202108/1635750552467-1d0013df-9caa-43a3-bed2-b914d856c413.png)
 
-近期 ApacheCon Asia 2021 团队正式公布了大会日程，Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富，欢迎关注。同时，ApacheCon Asia 2021 也为无法参加在线会议的各位开源爱好者提供了每个议题的回放和录播视频，详情请移步 [Apache Local Community 北京本地社区](https://space.bilibili.com/609014805)。
+The ApacheCon Asia 2021 team has recently announced the conference program. The Apache APISIX community is actively involved in this annual open source event, and has proposed a total of 8 API/microservices technology-related topics, which are rich in content and welcome your attention. For those who cannot attend the online conference, ApacheCon Asia 2021 also provides a replay and recorded video of each topic, please visit [Apache Local Community](https://space.bilibili.com/609014805).
 
-## 关于 API / 微服务技术议题
+## About API / Microservices Technology Topics
 
-API 是服务连接的基石，通过 API 我们可以将各种服务进行搭建，并提供给用户使用；随着应用的复杂度越来越高，单体应用逐渐被拆分为微服务，产品可以快速迭代的同时也带来安全、维护和可观测性方面的技术挑战。
+APIs are the cornerstone of service connectivity, allowing us to build services and make them available to users; as applications become more complex, monolithic applications are gradually being split into microservices, allowing for rapid iteration of products while also creating technical challenges in security, maintenance, and observability.
 
-Apache APISIX 是 Apache 顶级项目，也是全球最活跃的开源网关项目。在这个专题中，大家不仅可以了解 Apache APISIX 设计理念，也会学习到 Apache APISIX 项目的最佳实践。
+Apache APISIX is the top project of Apache and the most active open source gateway project in the world. In this topic, you will not only learn about the Apache APISIX design philosophy, but also learn about the best practices of the Apache APISIX project.
 
-## Apache APISIX 在移动云对象存储 EOS 的应用与实践
+## Application and Practice of Apache APISIX in Mobile Cloud Object Storage EOS
 
-### 议题简介
+### Session Description
 
-该演讲主题主要是讲述 Apache APISIX 在中国移动公有云对象存储 EOS 中的应用与实践经验分享。首先介绍了中国移动公有云建设规划及对象存储产品发展演进历程，然后阐述了我们为什么选择 Apache APISIX 作为负载均衡网关，并对 EOS 流量治理架构演进三个阶段进行进行了详细介绍。同时，我们还分享了基于 Apache APISIX 我们解决了哪些实际生产问题，做了哪些方案及开发工作，最后对我们未来的演进做了一些规划说明。
+This talk is about the application and practice of Apache APISIX in China Mobile's public cloud object storage EOS. First, we introduce the construction plan of China Mobile's public cloud and the evolution of object storage products, then we explain why we chose Apache APISIX as the load balancing gateway, and introduce the three stages of EOS traffic management architecture evolution. At the same time, we also shared what practical production problems we solved based on Apache APISIX, what solutions and development work we did, and finally, we explained some of our future evolution plans.
 
-### 分享嘉宾
+### Sharing Guests
 
-![陈焱山](/img/blog_img/2021-07-25-2.png)
+![Yanshan Chen](/img/blog_img/2021-07-25-2.png)
 
-陈焱山 —  毕业后一直从事分布式存储软件开发及架构方案设计工作，深度参与了移动云建设过程，重点完成了对象存储相关的主要技术方案选型及落地开发建设工作。同时，在分布式对象存储领域拥有丰富的实战经验，目前正在思考基于 APISIX 七层网关实现对象存储流量治理工作，实现架构进一步升级。
+Yanshan Chen - After graduation, he has been working on distributed storage software development and architecture design, and has been deeply involved in the construction process of mobile cloud, focusing on the selection of major technology solutions and landing development and construction work related to object storage. At the same time, he has rich practical experience in the field of distributed object storage, and is currently thinking about implementing object storage traffic governance based on APISIX seven-tier gateway to achieve further architectural upgrade.
 
-### 分享时间
+### Share Time
 
 2021-08-07 15:30 GMT+8
 
-## 使用 Apache APISIX 实现限流限速
+## Using Apache APISIX to implement flow limiting and speed limiting
 
-### 议题简介
+When it comes to speed limiting, Nginx is the first thing that comes to mind, but Nginx is implemented through a configuration file that requires reloads for each change, making it extremely cumbersome to run and maintain. On the other hand, speed limiting conditions are limited to Nginx variables, making it difficult to achieve fine-grained speed limiting for business purposes.
 
-谈到限流限速，人们往往最先想到的是 Nginx。然而 Nginx 通过配置文件的方式实现，每次变更都需要 reload，这让运维工作极其繁杂。另一方面，限速的条件被限制在 Nginx 的变量范围内，使得 Nginx 难以实现业务上精细化的限流限速需求。
+This session will show how to use Apache APISIX to achieve dynamic, fine-grained, and distributed reload limiting, and how to use plug-in orchestration to achieve reload limiting that better meets business needs.
 
-本次分享将带来如何使用 Apache APISIX 来实现动态、精细化、分布式的限流限速，以及如何通过插件编排来实现更符合业务需求的限流限速。
+### Guest Speakers
 
-### 分享嘉宾
+![Junxu Chen](/img/blog_img/2021-07-25-3.png)
 
-![陈军旭](/img/blog_img/2021-07-25-3.png)
+Junxu Chen - Internet veteran, worked in Sina, Xunlei, 360 and other well-known Internet companies, Apache APISIX Committer.
 
-陈军旭 —  互联网老兵，曾任职于新浪、迅雷、360 等知名互联网公司，Apache APISIX Committer。
-
-### 分享时间
+### Share time
 
 2021-08-06 13:30 GMT+8
 
-## 用混沌网测试 Apache APISIX 的恢复能力
+## Testing Apache APISIX recovery with Chaos.com
 
-### 议题简介
+Apache APISIX is one of the leading API gateways OSS. To ensure that everything goes as planned, APISIX uses different kinds of tests, including unit, e2e and fuzzy tests. However, we are still not sure how APISIX will behave when some abnormal but unavoidable circumstances occur, such as network failure, IO stress or pod failure.
 
-Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划进行，APISIX 使用了不同种类的测试，包括单元、e2e 和模糊测试。然而，我们仍然不确定，当一些不正常但不可避免的情况发生时，例如网络故障、IO 压力或 pod 故障，APISIX 会如何表现。
+Therefore, here we use Chaos Mesh, a Kubernetes-based chaos engineering platform that can smoothly inject different kinds of chaos and integrate them into our CI pipeline. At the end of this talk, the audience will learn where Chaos Engineering will benefit the API gateway and how to integrate Chaos Mesh into your own test pipeline.
 
-因此，在这里我们使用 Chaos Mesh，一个基于 Kubernetes 的混沌工程平台，可以顺利地注入不同种类的混沌，并将其整合到我们的 CI 管道中。在这个讲座的最后，听众会了解到混沌工程会在哪些方面给 API 网关带来好处，以及如何将混沌网整合到你自己的测试管道中。
+### Sharing Guests
 
-### 分享嘉宾
+![Shuyang Wu](/img/blog_img/2021-07-25-4.png)
 
-![吴舒旸](/img/blog_img/2021-07-25-4.png)
+Shuyang Wu - Committer for Apache APISIX and Chaos Mesh, he leads the integration of Chaos Mesh with Apache APISIX CI.
 
-吴舒旸 — Apache APISIX 和 Chaos Mesh 的 Committer，他领导了 Chaos Mesh 与 Apache APISIX CI 的整合工作。
-
-### 分享时间
+### Share Time
 
 2021-08-06 14:50 GMT+8
 
-## 使用 Apache APISIX 进行认证和授权
+## Authentication and Authorization with Apache APISIX
 
-### 议题简介
+Authentication and authorization are very necessary features in API gateways. This way, the services located behind the gateway are protected from unauthorized or malicious access, data leakage, and hacking. Apache APISIX is a dynamic, real-time, high-performance API gateway. And it provides many plug-ins, including authentication and authorization like key-auth, Open-ID, wolf-RBAC, etc. This proposal describes how to use Apache APISIX for authentication and authorization.
 
-认证和授权是 API 网关中非常必要的功能。这样一来，位于网关后面的服务就可以得到保护，避免未经授权或恶意的访问、数据泄露和黑客攻击。Apache APISIX 是一个动态、实时、高性能的 API 网关。而且它提供了许多插件，包括像 key-auth、Open-ID、wolf-RBAC 等认证和授权。本提案介绍了如何使用 Apache APISIX 来进行认证和授权。
+### Sharing Guests
 
-### 分享嘉宾
+![Xinxin Zhu](/img/blog_img/2021-07-25-5.png)
 
-![朱欣欣](/img/blog_img/2021-07-25-5.png)
+Xinxin Zhu - Apache APISIX Committer, with years of CDN experience and familiar with gateways.
 
-朱欣欣 — Apache APISIX Committer，有多年 CDN 工作经验，熟悉网关。
-
-### 分享时间
+### Share time
 
 2021-08-06 15:30 GMT+8
 
-## 依托社区让 Apache APISIX 高速发展
+## Relying on the community to make Apache APISIX grow fast
 
-### 议题简介
+In the past year, Apahce APISIX has become the most active API gateway project in the world, not only because of its advanced technology, but also because of the highly active community. As of today, there are 225 contributors from all over the world, and the number is still growing rapidly. This session will introduce APISIX's experience in practicing "community over code". As an idealistic startup, how to combine with Apache culture to make the startup grow fast.
 
-在过去的一年里，Apahce APISIX 已经成为全世界最活跃的 API 网关项目，除了自身技术先进外，更得益于社区的高度活跃。截止目前，已经有来自世界各地 225 位贡献者参与贡献，并且还在保持高速增长。本次分享会介绍 APISIX 在践行“社区重于代码”过程的一些心得。作为一个理想主义创业者，又是如何与 Apache 文化结合，让创业公司也能高速发展。
+### Guest Speakers
 
-### 分享嘉宾
+![Yuansheng Wang](/img/blog_img/2021-07-25-6.png)
 
-![王院生](/img/blog_img/2021-07-25-6.png)
+Yuansheng Wang - Founder and PMC member of open source enthusiast Apache APISIX.
 
-王院生 — 开源爱好者 Apache APISIX 创始人和 PMC 成员。
-
-### 分享时间
+### Share time
 
 2021-08-06 16:10 GMT+8
 
-## 如何将 Apache APISIX 扩展为一个服务网格的边车
+## How to extend Apache APISIX as a side car for a service grid
 
-### 议题简介
+In this topic I will introduce the apisix-mesh-agent project, which has some capabilities to extend Apache APISIX as a sidecar in a service grid scenario, and more importantly, it uses the xDS protocol to get configurations from control planes like Istio, Kuma, etc. Afterwards, I will present future plans and expectations regarding the use of Apache APISIX in service grids.
 
-在这个议题中将介绍 apisix-mesh-agent 项目，它有一些能力将 Apache APISIX 扩展为服务网格场景中的边车程序，更重要的是，它使用 xDS 协议从 Istio、Kuma 等控制平面获取配置。之后，我将介绍关于在服务网中使用 Apache APISIX 的未来计划和期望。
+### Sharing Guests
 
-### 分享嘉宾
+![Chao Zhang](/img/blog_img/2021-07-25-7.png)
 
-![张超](/img/blog_img/2021-07-25-7.png)
+Chao Zhang - Apache APISIX PMC, OpenResty contributor, open source enthusiast, now working on Service Mesh, Kubernetes and API Gateway.
 
-张超 — Apache APISIX PMC，OpenResty 贡献者，开源爱好者，现在正在研究 Service Mesh、Kubernetes 和 API Gateway。
-
-### 分享时间
+### Share time
 
 2021-08-07 13:30 GMT+8
 
-## Apache APISIX 的演变
+### Evolution of Apache APISIX
 
-### 议题简介
+Apache APISIX is one of the most popular API gateways: https://github.com/apache/apisix I will describe the evolution of Apache APISIX, including.
 
-Apache APISIX 是最受欢迎的 API 网关之一：https://github.com/apache/apisix，我将介绍一下 Apache APISIX 的发展，包括：
+1. the good decisions we've made
+2. the bad decisions we've made
+3. our future plans
 
-1. 我们所做的好决定
-2. 我们所做的不好的决定
-3. 我们的未来计划
+### Sharing Guests
 
-### 分享嘉宾
+![Zexuan Luo](/img/blog_img/2021-07-25-8.png)
 
-![罗泽轩](/img/blog_img/2021-07-25-8.png)
+Zexuan Luo - Apache APISIX PMC, OpenResty developer.
 
-罗泽轩 —  Apache APISIX PMC，OpenResty 开发者。
-
-### 分享时间
+### Share time
 
 2021-08-07 14:10 GMT+8
 
-## 基于 Apache APISIX 的 KUBERNETES INGRESS 的实现
+### Apache APISIX-based implementation of KUBERNETES INGRESS
 
-### 议题简介
+Introducing the benefits of Apache APISIX-based Kubernetes Ingress and the features of Apache APISIX Ingress.
 
-介绍基于 Apache APISIX 的 Kubernetes Ingress 的优势以及 Apache APISIX Ingress 的特点。
+### Sharing Guests
 
-### 分享嘉宾
+![Jin Wei](/img/blog_img/2021-07-25-9.png)
 
-![金卫](/img/blog_img/2021-07-25-9.png)
+Wei Jin - Apache APISIX PMC, Apache apisix-ingress-controller Founder, Apache Skywalking Committer.
 
-金卫  — Apache APISIX PMC，Apache apisix-ingress-controller Founder，Apache Skywalking Committer。
-
-### 分享时间
+### Share time
 
 2021-08-07 14:50 GMT+8

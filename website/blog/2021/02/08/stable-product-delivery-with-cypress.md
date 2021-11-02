@@ -8,11 +8,11 @@ keywords:
   - APISIX
   - Apache APISIX
   - Helm Chart
-description: This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/), implements stable product delivery with Cypress.
+description: This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/), implements stable product delivery with Cypress.
 tags: [Technology]
 ---
 
-> This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), became Apache APISIX Committer from [Shenzhen Zhiliu Technology Co.](https://www.apiseven.com/), implements stable product delivery with Cypress.
+> This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), became Apache APISIX Committer from [API7.ai](https://www.apiseven.com/), implements stable product delivery with Cypress.
 
 <!--truncate-->
 
@@ -68,35 +68,33 @@ Cypress's documentation structure is clearer and more comprehensive. In the earl
 
 There are currently 49 test cases written for the APISIX Dashboard. We configured the corresponding CI in GitHub Action to ensure that the code passes before each merge to ensure code quality. We share the use of Cypress in APISIX Dashboard with you by referring to Cypress best practices and combining them with our project.
 
-![image](https://static.apiseven.com/202102/apisix-dashboard-e2e.gif)
-
 ![image](https://static.apiseven.com/202102/image.png)
 
 1. Commonly used functions are encapsulated into commands.
 
-Take login as an example, login is an essential part of entering the system, so we encapsulate it as a command, so that the login command can be called before each case run.
+  Take login as an example, login is an essential part of entering the system, so we encapsulate it as a command, so that the login command can be called before each case run.
 
-```javaScript
-Cypress.Commands.add("login", () => {
-  cy.request(
-    "POST",
-    'http://127.0.0.1/apisix/admin/user/login',
-    {
-      username: "user",
-      password: "user",
-    }
-  ).then((res) => {
-    expect(res.body.code).to.equal(0);
-    localStorage.setItem("token", res.body.data.token);
+  ```javaScript
+  Cypress.Commands.add("login", () => {
+    cy.request(
+      "POST",
+      'http://127.0.0.1/apisix/admin/user/login',
+      {
+        username: "user",
+        password: "user",
+      }
+    ).then((res) => {
+      expect(res.body.code).to.equal(0);
+      localStorage.setItem("token", res.body.data.token);
+    });
   });
-});
-```
+  ```
 
-```javaScript
-beforeEach(() => {
-   // init login
-   cy.login();
-})
+  ```javaScript
+  beforeEach(() => {
+    // init login
+    cy.login();
+  })
 ```
 
 2. Extract the selector and data as public variables.
@@ -133,4 +131,4 @@ At present, APISIX Dashboard has written 49 test cases. In the future, we will c
 
 Welcome to join us to polish the world-class gateway product.
 
-Project address: [https://github.com/apache/apisix-dashboard](https://github.com/apache/apisix-dashboard)
+Project repository: [https://github.com/apache/apisix-dashboard](https://github.com/apache/apisix-dashboard)
