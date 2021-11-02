@@ -90,11 +90,11 @@
         <summary type="html"><![CDATA[Zexuan Luo and Ming Wen from the Apache APISIX community did a lot of work in the first community innovation release of openEuler on September 30 (openEuler 21.09) to migrate OpenResty to run smoothly and efficiently on the Euler open source OS.]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[社区周报｜新晋 committer 一位，功能亮点更新进行中]]></title>
-        <id>社区周报｜新晋 committer 一位，功能亮点更新进行中</id>
+        <title type="html"><![CDATA[Community Weekly｜New committer, feature highlight update in progress]]></title>
+        <id>Community Weekly｜New committer, feature highlight update in progress</id>
         <link href="https://apisix.apache.org/blog/2021/09/30/weekly-report"/>
         <updated>2021-09-30T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.10.0]]></title>
@@ -148,11 +148,11 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[社区周报｜新晋 committer 两位，功能亮点更新进行中]]></title>
-        <id>社区周报｜新晋 committer 两位，功能亮点更新进行中</id>
+        <title type="html"><![CDATA[Community Weekly｜Two new committers, feature highlight updates in progress]]></title>
+        <id>Community Weekly｜Two new committers, feature highlight updates in progress</id>
         <link href="https://apisix.apache.org/blog/2021/09/15/weekly-report"/>
         <updated>2021-09-15T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
@@ -175,24 +175,24 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
-        <id>不写代码，如何为开源项目做贡献？</id>
+        <title type="html"><![CDATA[How can I contribute to an open source project without writing code?]]></title>
+        <id>How can I contribute to an open source project without writing code?</id>
         <link href="https://apisix.apache.org/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding"/>
         <updated>2021-09-09T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。]]></summary>
+        <summary type="html"><![CDATA[This article introduces many ways to contribute to open source projects without writing code. You can participate in open source projects by writing articles, making videos, sharing them externally, building local communities, and actively participating in community discussions.]]></summary>
         <author>
-            <name>赵若妃</name>
+            <name>Ruofei Zhao</name>
             <uri>https://github.com/Serendipity96</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[使用 Apache APISIX 进行集中式身份认证及进阶玩法]]></title>
-        <id>使用 Apache APISIX 进行集中式身份认证及进阶玩法</id>
+        <title type="html"><![CDATA[Centralized Authentication with Apache APISIX and Advanced Tricks]]></title>
+        <id>Centralized Authentication with Apache APISIX and Advanced Tricks</id>
         <link href="https://apisix.apache.org/blog/2021/09/07/how-to-use-apisix-auth"/>
         <updated>2021-09-07T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。]]></summary>
+        <summary type="html"><![CDATA[This article introduces the authentication feature of Apache APISIX, in terms of importance and playful use, with detailed descriptions and details on its use.]]></summary>
         <author>
-            <name>朱欣欣</name>
+            <name>Xinxin Zhu</name>
             <uri>https://github.com/starsz</uri>
         </author>
     </entry>
@@ -207,13 +207,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Python 助你快速上手 Apache APISIX 插件开发]]></title>
-        <id>Python 助你快速上手 Apache APISIX 插件开发</id>
+        <title type="html"><![CDATA[Python helps you develop Apache APISIX plugin]]></title>
+        <id>Python helps you develop Apache APISIX plugin</id>
         <link href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development"/>
         <updated>2021-09-06T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java]]></summary>
+        <summary type="html"><![CDATA[The Java Plugin and Go Plugin languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.]]></summary>
         <author>
-            <name>帅进超</name>
+            <name>Jinchao Shuai</name>
             <uri>https://github.com/shuaijinchao</uri>
         </author>
     </entry>

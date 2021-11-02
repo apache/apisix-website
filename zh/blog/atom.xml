@@ -211,7 +211,7 @@
         <id>Python 助你快速上手 Apache APISIX 插件开发</id>
         <link href="https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development"/>
         <updated>2021-09-06T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java]]></summary>
+        <summary type="html"><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java 和 Go 语言的 Runner，今天 Python Runner 也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。]]></summary>
         <author>
             <name>帅进超</name>
             <uri>https://github.com/shuaijinchao</uri>

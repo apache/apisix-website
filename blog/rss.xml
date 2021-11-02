@@ -71,11 +71,11 @@
             <description><![CDATA[Zexuan Luo and Ming Wen from the Apache APISIX community did a lot of work in the first community innovation release of openEuler on September 30 (openEuler 21.09) to migrate OpenResty to run smoothly and efficiently on the Euler open source OS.]]></description>
         </item>
         <item>
-            <title><![CDATA[社区周报｜新晋 committer 一位，功能亮点更新进行中]]></title>
+            <title><![CDATA[Community Weekly｜New committer, feature highlight update in progress]]></title>
             <link>https://apisix.apache.org/blog/2021/09/30/weekly-report</link>
-            <guid>社区周报｜新晋 committer 一位，功能亮点更新进行中</guid>
+            <guid>Community Weekly｜New committer, feature highlight update in progress</guid>
             <pubDate>Thu, 30 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+            <description><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></description>
         </item>
         <item>
             <title><![CDATA[Release Apache APISIX 2.10.0]]></title>
@@ -113,11 +113,11 @@
             <description><![CDATA[本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。]]></description>
         </item>
         <item>
-            <title><![CDATA[社区周报｜新晋 committer 两位，功能亮点更新进行中]]></title>
+            <title><![CDATA[Community Weekly｜Two new committers, feature highlight updates in progress]]></title>
             <link>https://apisix.apache.org/blog/2021/09/15/weekly-report</link>
-            <guid>社区周报｜新晋 committer 两位，功能亮点更新进行中</guid>
+            <guid>Community Weekly｜Two new committers, feature highlight updates in progress</guid>
             <pubDate>Wed, 15 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+            <description><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
@@ -134,18 +134,18 @@
             <description><![CDATA[This article is compiled from a presentation given by Yanshan Chen from China Mobile Cloud Competence Center at ApacheCon 2021 Asia. By reading this article, you can learn how China Mobile Cloud is developing and improving and updating its products based on Apache APISIX to create a better mobile cloud object storage.]]></description>
         </item>
         <item>
-            <title><![CDATA[不写代码，如何为开源项目做贡献？]]></title>
+            <title><![CDATA[How can I contribute to an open source project without writing code?]]></title>
             <link>https://apisix.apache.org/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding</link>
-            <guid>不写代码，如何为开源项目做贡献？</guid>
+            <guid>How can I contribute to an open source project without writing code?</guid>
             <pubDate>Thu, 09 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了很多不写代码为开源项目贡献的方式，可以通过写文章、做视频、对外分享、建立本地社区、积极参与社区讨论等方式参与到开源项目中。]]></description>
+            <description><![CDATA[This article introduces many ways to contribute to open source projects without writing code. You can participate in open source projects by writing articles, making videos, sharing them externally, building local communities, and actively participating in community discussions.]]></description>
         </item>
         <item>
-            <title><![CDATA[使用 Apache APISIX 进行集中式身份认证及进阶玩法]]></title>
+            <title><![CDATA[Centralized Authentication with Apache APISIX and Advanced Tricks]]></title>
             <link>https://apisix.apache.org/blog/2021/09/07/how-to-use-apisix-auth</link>
-            <guid>使用 Apache APISIX 进行集中式身份认证及进阶玩法</guid>
+            <guid>Centralized Authentication with Apache APISIX and Advanced Tricks</guid>
             <pubDate>Tue, 07 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。]]></description>
+            <description><![CDATA[This article introduces the authentication feature of Apache APISIX, in terms of importance and playful use, with detailed descriptions and details on its use.]]></description>
         </item>
         <item>
             <title><![CDATA[基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践]]></title>
@@ -155,11 +155,11 @@
             <description><![CDATA[本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。]]></description>
         </item>
         <item>
-            <title><![CDATA[Python 助你快速上手 Apache APISIX 插件开发]]></title>
+            <title><![CDATA[Python helps you develop Apache APISIX plugin]]></title>
             <link>https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development</link>
-            <guid>Python 助你快速上手 Apache APISIX 插件开发</guid>
+            <guid>Python helps you develop Apache APISIX plugin</guid>
             <pubDate>Mon, 06 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java]]></description>
+            <description><![CDATA[The Java Plugin and Go Plugin languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX × KubeSphere: Providing a better gateway and K8S Ingress Controller]]></title>

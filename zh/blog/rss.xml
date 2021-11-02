@@ -159,7 +159,7 @@
             <link>https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development</link>
             <guid>Python 助你快速上手 Apache APISIX 插件开发</guid>
             <pubDate>Mon, 06 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java]]></description>
+            <description><![CDATA[在 Apache APISIX Python Runner 之前社区中已经支持了 Java 和 Go 语言的 Runner，今天 Python Runner 也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller]]></title>
