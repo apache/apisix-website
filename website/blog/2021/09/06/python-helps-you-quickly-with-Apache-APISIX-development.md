@@ -1,79 +1,70 @@
 ---
-title: "Python 助你快速上手 Apache APISIX 插件开发"
-author: "帅进超"
+title: Python helps you develop Apache APISIX plugin
+author: Jinchao Shuai
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
 keywords:
 - Python
 - APISIX
-- APISIX Python 插件
-- APISIX Python plugin
+- Python plugin
 - apisix-python-plugin-runner
-- APISIX Python Plugin Runner 
+- APISIX Python Plugin Runner
 tags: [Practical Case]
 
 ---
 
-> 在 Apache APISIX Python Runner 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner)
-和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 Runner，今天 Python Runner
-也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。
+> The [Java Plugin](https://github.com/apache/apisix-java-plugin-runner) and [Go Plugin](https://github.com/apache/apisix-java-plugin-runner) languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.
 
 <!--truncate-->
 
-## 简介
+## Introduction
 
 ### Apache APISIX
 
-`Apache APISIX` 是一个高性能的云原生开源 API 网关，它可以对请求进行统一的拦截和治理（如：鉴权、认证、缓存、版本、熔断、审计 等等）帮助开发人员轻松的对外提供安全可靠的服务，而开发人员通过 `Apache APISIX`
-的加持只需要关注业务实现即可，省去了大量花费在通用能力上的开发与维护上的时间并且也降低了整体业务架构的复杂度。
+`Apache APISIX` is a high-performance cloud-native open-source API gateway that provides unified request interception and governance (e.g., authentication, caching, versioning, fusing, auditing, etc.) to help developers easily provide secure and reliable services to the outside world, while developers only need to focus on business implementation with `Apache APISIX`, which saves a lot of time in developing and maintaining generic capabilities and reduces the complexity of the overall business architecture.
 
 ### Python
 
-`Python` 语言作为一个解释型的高级编程语言，它 `语法简洁易上手`、`代码可读性好` ，在 `跨平台` 、`可移植性` 、`开发效率`
-上都有很好的表现，同时作为一个高级编程语言它的封装抽象程度比较高屏蔽了很多底层细节（例如：`GC`
-）让我们在开发的过程中可以更专注应用逻辑的开发。`Python` 作为一个有 30 年历史的老牌开发语言，它的生态以及各种模块已经非常完善，我们大部分的开发和应用场景都可以从社区中找到很成熟的模块或解决方案。`Python`
-其他的优点就不再一一赘述。`Python` 的缺点也比较明显：`Python` 作为一门解释性语言，相较于 `C++` 和 `Go` 这样的编译型语言，在性能上的差距还是比较大的。
+Python is an interpreted high-level programming language with a simple syntax, good code readability, cross-platform, portability, and development efficiency.
+As a high-level programming language, it has a high degree of abstraction and shields a lot of underlying details (e.g., `GC`).
+) allows us to focus more on the development of application logic in the development process. As a 30-year old development language, Python has a well-developed ecology and various modules, and most of our development and application scenarios can be found in mature modules or solutions from the community. `Python`
+We won't go into all the other advantages. The disadvantages of `Python` are also obvious: `Python`, as an interpreted language, has a relatively large performance gap compared to compiled languages like `C++` and `Go`.
 
 ### Apache APISIX Python Runner
 
-[apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner) 这个项目可以理解为 `Apache APISIX`
-和 `Python`
-之间的一道桥梁，通过 `Python Runner` 可以把 `Python` 直接应用到 `APISIX` 的插件开发中，最重要的还是希望让更多对 `Apache APISIX` 和 `API 网关` 感兴趣的 `Python开发者`
-通过这个项目更多的了解使用 `Apache APISIX`，以下为 `Apache APISIX` 多语言支持的架构图。
+[apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner) This project can be interpreted as `Apache APISIX`
+and `Python`.
+The most important thing is to let more `Python developers` who are interested in `Apache APISIX` and `API gateways` to learn more about the use of `Apache APISIX` and `API gateways` through this project.
+The following is a diagram of the architecture of `Apache APISIX` multi-language support.
 
 ![Apache APISIX work flow](/img/blog_img/2021-09-06-1.png)
 
-上图左边是 `Apache APISIX` 的工作流程，右边的 `Plugin Runner` 是各语言的插件运行器，本文介绍的 `apisix-python-plugin-runner` 就是支持 `Python`
-语言的 `Plugin Runner`。
+The above diagram shows the workflow of `Apache APISIX` on the left, and the `Plugin Runner` on the right is the plug-in runner for each language, the `apisix-python-plugin-runner` introduced in this article is the one that supports `Python`.
+language.
 
-当你在 `Apache APISIX` 中配置一个 `Plugin Runner` 时，`Apache APISIX` 会启动一个子进程运行 `Plugin Runner`，该子进程与 `Apache APISIX`
-进程属于同一个用户，当我们重启或重新加载 `Apache APISIX` 时，`Plugin Runner` 也将被重启。
+When you configure a `Plugin Runner` in `Apache APISIX`, `Apache APISIX` will start a child process to run the `Plugin Runner` that belongs to the same user as the `Apache APISIX` process belongs to the same user, and when we restart or reload `Apache APISIX`, `Plugin Runner` will also be restarted.
 
-如果你为一个给定的路由配置了 `ext-plugin-*` 插件，请求命中该路由时将触发 `Apache APISIX` 通过 `Unix Socket` 向 `Plugin Runner` 发起 `RPC` 调用。调用分为两个阶段：
+If you configure the `ext-plugin-*` plugin for a given route, a request to hit that route will trigger an `Apache APISIX` `RPC` call to the `Plugin Runner` via the `Unix Socket`. The call is split into two phases.
 
-- [ext-plugin-pre-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md)
-  ：在执行 `Apache APISIX` 内置插件（Lua 语言插件）之前
-- [ext-plugin-post-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md)
-  ：在执行 `Apache APISIX` 内置插件（Lua 语言插件）之后
+- [ext-plugin-pre-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md): Before executing the `Apache APISIX` built-in plugin (Lua language plugin).
+- [ext-plugin-post-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md): after executing the `Apache APISIX` plug-in (Lua language plug-in).
 
-大家可以根据需要选择并配置 `Plugin Runner` 的执行时机。
+You can choose and configure the execution timing of `Plugin Runner` as needed.
 
-`Plugin Runner` 会处理 `RPC` 调用，在其内部创建一个模拟请求，然后运行多语言编写的插件，并将结果返回给 Apache APISIX。
+The `Plugin Runner` handles the `RPC` call, creates a simulated request inside it, and then runs the multilingual plugin and returns the result to Apache APISIX.
 
-多语言插件的执行顺序是在 `ext-plugin-*` 插件配置项中定义的，像其他插件一样，它们可以被启用并在运行中重新定义。
+The execution order of multilingual plugins is defined in the `ext-plugin-*` plugin configuration entry, and like other plugins, they can be enabled and redefined on the fly.
 
-## 部署测试
+## Deploy test
 
-### 基础运行环境
+### Base runtime environment
 
 - Apache APISIX 2.7
 - Python 3.6+
 
-`Apache APISIX`
-的安装部署本文不在过多赘述，详情请参考 [Apache APISIX 官方文档：如何构建 Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md)
-进行部署。
+To deploy Apache APISIX, please refer to the [Apache APISIX official documentation: How to build Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md) for details.
 
-### 下载安装 Python Runner
+### Download and install Python Runner
 
 ```bash
 $ git clone https://github.com/apache/apisix-python-plugin-runner.git
@@ -81,18 +72,18 @@ $ cd apisix-python-plugin-runner
 $ make install
 ```
 
-### 配置 Python Runner
+### Configuring Python Runner
 
-#### 开发模式
+#### development mode
 
-##### 运行 Python Runner
+##### Run Python Runner
 
 ```bash
 $ cd /path/to/apisix-python-plugin-runner
 $ APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock python3 apisix/main.py start
 ```
 
-##### 修改 APISIX 配置文件
+##### Modify APISIX configuration file
 
 ```bash
 $ vim /path/to/apisix/conf/config.yaml
@@ -105,9 +96,9 @@ ext-plugin:
   path_for_test: /tmp/runner.sock
 ```
 
-#### 生产模式
+#### Production mode
 
-##### 修改 APISIX 配置文件
+##### Modify APISIX configuration file
 
 ```bash
 $ vim /path/to/apisix/conf/config.yaml
@@ -120,9 +111,9 @@ ext-plugin:
   cmd: [ "python3", "/path/to/apisix-python-plugin-runner/apisix/main.py", "start" ]
 ```
 
-#### Python Runner 配置（可选）
+#### Python Runner configuration (optional)
 
-如果需要对 `Log Level` 或 `Unix Domain Socket` 环境变量调整可以修改 `Runner` 的配置文件
+If you need to adjust the ``Log Level`` or ``Unix Domain Socket`` environment variables, you can modify the `Runner` configuration file
 
 ```bash
 $ vim /path/to/apisix-python-plugin-runner/apisix/config.yaml
@@ -131,9 +122,10 @@ socket:
 
 logging:
   level: debug # error warn info debug
+debug
 ```
 
-### 启动 Python Runner
+### Start Python Runner
 
 ```bash
 $ cd /path/to/apisix
@@ -141,14 +133,14 @@ $ cd /path/to/apisix
 $ ./bin/apisix [ start | restart ]
 ```
 
-启动或重启 `APISIX` 即可，此时 `APISIX` 和 `Python Runner` 已经完成配置并启动。
+Start or restart `APISIX`, when `APISIX` and `Python Runner` have been configured and started.
 
-### 测试 Python Runner
+### Testing Python Runner
 
-#### 配置 Apache APISIX 路由及插件信息
+#### Configuring Apache APISIX Routing and Plugin Information
 
 ```bash
-# 使用默认demo插件进行测试
+# Test with the default demo plugin
 $ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "uri": "/get",
@@ -168,11 +160,11 @@ $ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f
 }'
 ```
 
-- `plugins.ext-plugin-pre-req.conf` 为 `Runner` 插件配置，`conf` 为数组格式可以同时设置多个插件。
-- 插件配置对象中 `name` 为插件名称，该名称需要与插件代码文件和对象名称一直。
-- 插件配置对象中 `value` 为插件配置，可以为 `JSON` 字符串。
+- `plugins.ext-plugin-pre-req.conf` is the `Runner` plugin configuration, `conf` is an array format to set multiple plugins at the same time.
+- The `name` in the plugin configuration object is the name of the plugin, which should be the same as the plugin code file and object name.
+- `value` in the plugin configuration object is the plugin configuration, which can be a `JSON` string.
 
-#### 访问验证
+#### access verification
 
 ```bash
 $ curl http://127.0.0.1:9080/get -i
@@ -190,24 +182,24 @@ Server: APISIX/2.7
 Hello, Python Runner of APISIX
 ```
 
-## 插件开发
+## Plugin Development
 
-### 插件目录
+### Plugin directory
 
 ```bash
 /path/to/apisix-python-plugin-runner/apisix/plugins
 ```
 
-此目录中的 `.py` 文件将会被自动加载。
+The `.py` files in this directory will be loaded automatically.
 
-### 插件示例
+### Plugin example
 
 ```bash
 /path/to/apisix-python-plugin-runner/apisix/plugins/stop.py
 /path/to/apisix-python-plugin-runner/apisix/plugins/rewrite.py
 ```
 
-### 插件格式
+### Plugin format
 
 ```python
 from apisix.runner.plugin.base import Base
@@ -222,7 +214,7 @@ class Stop(Base):
             This type of plugin can customize response `body`, `header`, `http_code`
             This type of plugin will interrupt the request
         """
-        super(Stop, self).__init__(self.__class__.__name__)
+        super(Stop, self). __init__(self.__class__. __name__)
 
     def filter(self, request: Request, response: Response):
         """
@@ -233,47 +225,49 @@ class Stop(Base):
             response parameters and information
         :return:
         """
-        # 在插件中可以通过 `self.config` 获取配置信息，如果插件配置为JSON将自动转换为字典结构
+        # In the plugin you can get the configuration information through `self.config`,
+        # if the plugin configuration is JSON it will be automatically converted to
+        # a dictionary structure
         # print(self.config)
 
-        # 设置响应头信息
+        # set the response headers
         headers = request.headers
         headers["X-Resp-A6-Runner"] = "Python"
         response.headers = headers
 
-        # 设置响应体信息
+        # Set the response body information
         response.body = "Hello, Python Runner of APISIX"
 
-        # 设置响应状态码
+        # Set the response status code
         response.status_code = 201
 
-        # 通过调用 `self.stop()` 中断请求流程，此时将立即响应请求给客户端
-        # 如果未显示调用 `self.stop()` 或 显示调用 `self.rewrite()`将继续将请求
-        # 默认为 `self.rewrite()`
+        # Interrupt the request process by calling `self.stop()`, which will immediately respond to the client
+        # If `self.stop()` is not shown or if `self.rewrite()` is shown, the request will continue
+        # Default is `self.rewrite()`
         self.stop()
 ```
 
-### 插件规范及注意事项
+### Plugin specifications and considerations
 
-- 实现插件对象必须继承 `Base` 类
-- 插件必须实现 `filter` 函数
-- `filter` 函数参数只能包含 `Request` 和 `Response` 类对象作为参数
-- `Request` 对象参数可以获取请求信息
-- `Response` 对象参数可以设置响应信息
-- `self.config` 可以获取插件配置信息
-- `filter` 函数中调用 `self.stop()` 时将马上中断请求，响应数据。
-- `filter` 函数中调用 `self.rewrite()` 时，将会继续请求。
+- Plugin object implementation must inherit from the `Base` class
+- The plugin must implement the `filter` function
+- `filter` function parameters can only contain `Request` and `Response` class objects as parameters
+- `Request` object parameter can get request information
+- `Response` object parameter can set the response information
+- `self.config` can get the plugin configuration information
+- Calling `self.stop()` in the `filter` function will immediately break the request and respond to the data.
+- When `self.rewrite()` is called in the `filter` function, the request will continue.
 
-## 欢迎参与
+## Welcome to participate
 
-目前 `Apache APISIX` 各语言的 `Runner` 还处于早期开发阶段，我们会陆续完善其功能。成功的开源项目离不开大家的参与和贡献，欢迎各位参与 `Apache APISIX Runner`
-的开发，让我们一起共建 `Apache APISIX` 与各语言的桥梁。
+The `Runner` for `Apache APISIX` languages is still in the early stages of development, and we will continue to improve its functionality. A successful open source project cannot be achieved without everyone's participation and contribution, welcome to participate in `Apache APISIX Runner`.
+Let's build a bridge between `Apache APISIX` and other languages together.
 
 - [apisix-python-plugin-runner](https://github.com/apache/apisix-python-plugin-runner)
 - [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner)
 - [apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner)
 
-## 相关阅读
+## Related Reading
 
-- [Go 让 Apache APISIX 如虎添翼](http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better)
-- [如何用 Java 编写 Apache APISIX 插件](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)
+- [Go gives Apache APISIX a run for its money](http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better)
+- [How to write Apache APISIX plugins in Java](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)

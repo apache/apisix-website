@@ -1,157 +1,159 @@
 ---
-title: "使用 Apache APISIX 进行集中式身份认证及进阶玩法"
-author: "朱欣欣"
+title: Centralized Authentication with Apache APISIX and Advanced Tricks
+author: Xinxin Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords: 
 - APISIX
-- 集中式身份认证
-description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
+- Casbin
+- Authorization
+- Practical Case
+description: This article introduces the authentication feature of Apache APISIX, in terms of importance and playful use, with detailed descriptions and details on its use.
 tags: [Practical Case]
 ---
 
-> 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍。
+> This article describes the authentication features of Apache APISIX, in terms of importance and usage.
 
 <!--truncate-->
 
-身份认证在日常生活当中是非常常见的一项功能，大家平时基本都会接触到。比如用支付宝消费时的人脸识别确认、公司上班下班时的指纹/面部打卡以及网站上进行账号密码登录操作等，其实都是身份认证的场景体现。
+Authentication is a very common feature in daily life, and we all come across it in our daily lives. For example, face recognition when using Alipay, fingerprint/face clocking in and out of work, and password login on websites are all scenarios of authentication.
 
-![概念理解](https://static.apiseven.com/202108/1631004418593-0a46f949-72aa-4cd4-8f38-1988327c92d6.png)
+![Authentication Concepts](https://static.apiseven.com/202108/1631004418593-0a46f949-72aa-4cd4-8f38-1988327c92d6.png)
 
-如上图，Jack 通过账号密码请求服务端应用，服务端应用中需要有一个专门用做身份认证的模块来处理这部分的逻辑。请求处理完毕之后，如果使用 JWT Token 认证方式，服务器会反馈一个 Token 去标识这个用户为 Jack。如果登录过程中账号密码输入错误，就会导致身份认证失败。这个场景大家肯定都非常熟悉，这里就不做展开举例了。
+As shown above, Jack requests a server-side application with an account password, and the server-side application needs a module dedicated to authentication to handle this part of the logic. After the request is processed, if the JWT Token authentication method is used, the server will provide a Token to identify the user as Jack. If the account password is entered incorrectly during the login process, it will lead to authentication failure. This scenario must be very familiar to everyone, so we won't expand the example here.
 
-## 网络身份认证的意义在哪里
+## What is the significance of network authentication
 
-### 安全性
+### Security
 
-身份认证确保了后端服务的安全性，避免了未经授权的访问，从而确保数据的安全性。比如防止某些黑客攻击，以及一些恶意调用，这些都可以通过身份认证进行阻拦。
+Authentication ensures the security of back-end services and avoids unauthorized access, thus ensuring the security of data. For example, it prevents certain hacking attacks, and some malicious calls, which can be blocked by authentication.
 
-### 实用性
+### Practicality
 
-从实用性的角度考虑，它可以更方便地记录操作者或调用方。比如上班打卡其实就是通过记录「谁进行了这项操作」来统计员工上班信息。
+From the perspective of practicality, it can be more convenient to record the operator or caller. For example, clocking in at work is actually a way to record "who performed this operation" to count employees' work information.
 
-其次它可以记录访问频率及访问频次。例如记录某用户在最近几分钟中发起请求的频率和频次，可以判断这个用户活跃程度，也可以判断是否为恶意攻击等。
+Secondly, it can record the access frequency and frequency of access. For example, it can record the frequency and frequency of requests initiated by a user in the last few minutes, which can determine how active the user is, and also whether it is a malicious attack, etc.
 
-### 功能性
+### Functionality
 
-在功能层面，它通过识别身份可以对不同的身份进行不同权限的操作处理。比如在公司里，你的身份权限无法使用某些页面或服务。再细致一点，对不同身份或者不同的 API 接口调用方做一些相关技术上的限制策略，如限流限速等，以此来达到根据不同的用户（调用方）采取不同的功能限制。
+At the functional level, it can handle operations with different privileges for different identities by identifying them. For example, in a company, you cannot use certain pages or services with your identity authority. To be more detailed, it can do some related technical restriction policies for different identities or different API interface callers, such as limiting the flow and speed, etc., so as to achieve different functional restrictions according to different users (callers).
 
-## 使用 Apache APISIX 进行集中式身份认证优点
+## Benefits of centralized authentication with Apache APISIX
 
-### 从传统到新模式
+### From traditional to new model
 
-如下图所示，左侧的图为我们展示了一种比较常见的传统身份认证方法。每一个应用服务模块去开发一个单独的身份认证模块，用来支持身份认证的一套流程处理。但当服务量多了之后，就会发现这些模块的开发工作量都是非常巨大且重复的。
+As shown in the figure below, the diagram on the left shows us a more common traditional authentication approach. Each application service module goes to develop a separate authentication module that is used to support a set of process handling for authentication. But when the volume of services increases, it becomes clear that the development workload of these modules is huge and repetitive.
 
-![Apache APISIX 身份认证](https://static.apiseven.com/202108/1631004492221-0721d933-705d-4875-b956-e94a11a45135.png)
+![Apache APISIX Authentication](https://static.apiseven.com/202108/1631004492221-0721d933-705d-4875-b956-e94a11a45135.png)
 
-这种时候，我们可以通过把这部分的开发逻辑放置到 Apache APISIX 的网关来实现统一，减少开发量。
+At such times, we can achieve unification and reduce the amount of development by placing this part of the development logic in the Apache APISIX gateway.
 
-图右所示，用户或应用方直接去请求 Apache APISIX，然后 Apache APISIX 通过识别并认证通过后，会将鉴别的身份信息传递到上游应用服务。之后上游应用服务就可以从请求头中读到这部分信息，然后进行后续相关工作的处理。
+As shown in the figure on the right, the user or application party goes directly to request Apache APISIX, and then Apache APISIX passes the authenticated identity information to the upstream application service after it has been identified and authenticated. After that, the upstream application service can read this information from the request header and then process the subsequent related work.
 
-讲完了大概流程，我们来详细罗列下。
+After the general process, let's list it in detail.
 
-### 优点一：配置收敛，统一管理
+### Benefit 1: Configuration convergence, unified management
 
 ![Dashboard](https://static.apiseven.com/202108/1631004574541-87b607eb-2971-4c1d-a1d6-74cf4a5fdd42.png)
 
-如上图是一张 APISIX-Dashboard 的界面截图，可以看到路由、Consumer 等数据信息。这里的 Consumer 可以理解为一个应用方，比如可以为应用专门去创建一个 Consumer 并配置相关的认证插件，例如 JWT、Basic-Auth 等插件。当有新的服务出现时，我们需要再创建一个 Consumer，然后将这部分配置信息给配置到第二个应用服务上。
+The screenshot above is a screenshot of the APISIX-Dashboard interface, you can see the routing, Consumer and other data information. The Consumer here can be understood as an application party, for example, you can create a Consumer specifically for the application and configure related authentication plugins, such as JWT, Basic-Auth, etc. When there is a new service, we need to create another Consumer, and then configure this part of the configuration information to the second application service.
 
-通过集中式身份认证，可以将客户配置进行收敛并统一管理，达到降低运维成本的效果。
+Through centralized authentication, we can converge and unify the customer configuration and achieve the effect of reducing the operation and maintenance cost.
 
-### 优点二：插件丰富，减少开发
+### Benefit 2: Rich plug-ins, reduced development
 
-Apache APISIX 作为一个 API 网关，目前已开启与各种插件功能的适配合作，插件库也比较丰富。目前已经可与大量身份认证相关的插件进行搭配处理，如下图所示。
+Apache APISIX, as an API gateway, is now open to cooperation with various plug-in functions for adaptation, and the plug-in library is relatively rich. At present, it can already work with a large number of authentication-related plug-ins, as shown in the following figure.
 
-![API 网关认证插件](https://static.apiseven.com/202108/1631004738218-586e84af-a5ab-4714-845d-4d71b7ba79e3.png)
+![API Gateway Authentication Plugin](https://static.apiseven.com/202108/1631004738218-586e84af-a5ab-4714-845d-4d71b7ba79e3.png)
 
-基础认证插件比如 Key-Auth、Basic-Auth，他们是通过账号密码的方式进行认证。
+Basic authentication plug-ins such as Key-Auth, Basic-Auth, they are authenticated by way of account password.
 
-复杂一些的认证插件如 Hmac-Auth、JWT-Auth。如 Hmac-Auth 通过对请求信息做一些加密，生成一个签名。当 API 调用方将这个签名携带到 Apache APISIX 的网关 Apache APISIX 会以相同的算法计算签名，只有当签名方和应用调用方认证相同时才予以通过。
+More complex authentication plugins such as Hmac-Auth, JWT-Auth. e.g. Hmac-Auth generates a signature by doing some encryption on the request information. When the API caller carries this signature to the Apache APISIX gateway Apache APISIX calculates the signature with the same algorithm and passes it only if the signer and the application caller are authenticated the same.
 
-Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开发的一个项目，它的应用原理是按照 Casbin 的规则，去处理一些基于角色的权限管控 (RBAC)，进行 ACL 相关操作。
+The Authz-casbin plugin is a project currently being developed by Apche APISIX in collaboration with the Casbin community. The principle of the application is to handle role-based authority control (RBAC) and ACL-related operations according to Casbin rules.
 
-其他则是一些通用认证协议和联合第三方组件进行合作的认证协议，例如 OpenID-Connect 身份认证机制，以及 LDAP 认证等。
+Others are generic authentication protocols and collaborative authentication protocols with third-party components, such as OpenID-Connect authentication mechanism, and LDAP authentication.
 
-### 优点三：配置灵活，功能强大
+### Benefit 3: Flexible and powerful configuration
 
-功能强大该如何理解，就是 Apache APISIX 中可以针对每一个 Consumer （即调用方应用）去做不同级别的插件配置。
+How to understand powerful is that Apache APISIX can do different levels of plug-in configuration for each Consumer (i.e., caller application).
 
-![配置灵活](https://static.apiseven.com/202108/1631004783828-3dd0056c-a6aa-4ab9-b902-7bd2ca545ffe.png)
+![Configuration flexibility](https://static.apiseven.com/202108/1631004783828-3dd0056c-a6aa-4ab9-b902-7bd2ca545ffe.png)
 
-如上图，我们创建了两个消费者 Consumer A，Consumer B。我们将 Consumer A 应用到`应用1`，则后续`应用1`的访问将会开启 Consumer A 的这部分插件，例如 IP 黑白名单，限制并发数量等。将 Consumer B 应用到`应用2` ，由于开启了 http-log 插件，则`应用2`的访问日志将会通过 HTTP 的方式发送到日志系统进行收集。
+As shown above, we have created two consumers Consumer A and Consumer B. If we apply Consumer A to `Application 1`, subsequent accesses to `Application 1` will enable this part of Consumer A's plugins, such as IP blacklisting, limiting the number of concurrency, etc. If we apply Consumer B to `Application 2`, the access log of `Application 2` will be sent to the logging system for collection via HTTP since the http-log plugin is enabled.
 
-## Apache APISIX 中身份认证的玩法
+## How to play with authentication in Apache APISIX
 
-关于 Apache APISIX 身份认证的玩法，这里为大家提供三个阶段的玩法推荐，大家仅作参考，也可以在这些基础上，进行更深度的使用和应用。
+Regarding the play of Apache APISIX authentication, here is a recommendation of three stages of play for your reference only, or you can use and apply them in more depth on the basis of these.
 
-### 初级：普通玩法
+### Primary: General play
 
-普通玩法推荐大家基于 Key-Auth、Basic-Auth、JWT- Auth 和 Hmac-Auth 进行，这些插件的使用需要与 Consumer 进行关联使用。
+Ordinary play is recommended based on Key-Auth, Basic-Auth, JWT-Auth and Hmac-Auth, the use of these plug-ins need to be associated with the use of Consumer.
 
-#### 步骤一：创建路由，配置身份认证插件
+#### Step 1: Create a route and configure the authentication plugin
 
-创建路由，配置上游为 `httpbin.org`，同时开启 `basic-auth` 插件。
+Create a route, configure the upstream as `httpbin.org` and enable the `basic-auth` plugin.
 
-![创建路由](https://static.apiseven.com/202108/1631004892467-71c93f8f-dc0e-47fe-a88f-943adb9edbff.png)
+![Create route](https://static.apiseven.com/202108/1631004892467-71c93f8f-dc0e-47fe-a88f-943adb9edbff.png)
 
-#### 步骤二：创建消费者，配置身份信息
+#### Step 2: Create consumer and configure identity information
 
-创建消费者 foo。在消费者中，我们需要配置用户的认证信息，例如 `username` 为 foo，`password` 为 `bar`。
+Create the consumer foo. In the consumer, we need to configure the user authentication information, e.g. `username` for foo and `password` for `bar`.
 
-![创建消费者](https://static.apiseven.com/202108/1631004937828-15ac5d8f-0e45-4c3d-94e8-2b180266b379.png)
+![Create consumer](https://static.apiseven.com/202108/1631004937828-15ac5d8f-0e45-4c3d-94e8-2b180266b379.png)
 
-#### 步骤三：应用服务携带认证信息进行访问
+#### Step 3: Application service carries authentication information for access
 
-应用携带 `username:foo` ,`password: bar` 访问 Apache APISIX。Apache APISIX 通过认证，并将请求 Authorization 请求头携带至上游 `httpbin.org` 。由于 `httpbin.org` 中 get 接口会将请求信息返回，因此我们可以在其中观察到请求头 `Authorization`。
+The application accesses Apache APISIX with `username:foo`,`password: bar`. Apache APISIX is authenticated and carries the request Authorization request header upstream to `httpbin.org`. Since the get interface in `httpbin.org` returns the request information, we can observe the request header `Authorization` in it.
 
-![请求携带](https://static.apiseven.com/202108/1631004973305-4b209f79-f7de-41a2-994e-8877a6624d99.png)
+![Request Carry](https://static.apiseven.com/202108/1631004973305-4b209f79-f7de-41a2-994e-8877a6624d99.png)
 
-### 中级：进阶玩法
+### Intermediate usages of authentication
 
-进阶模式下，是使用 Apache APISIX 与 OpenID-Connect 插件进行对接第三方认证服务。OpenID-Connect 是一种认证机制，可以采用该认证机制对接用户的用户管理系统或者用户管理服务，例如国内的 Authing 和腾讯云，国外的 Okta 和 Auth0 等。
+The intermediate mode is to use Apache APISIX with the OpenID-Connect plugin to interface to third-party authentication services. openID-Connect is an authentication mechanism that can be used to interface to a user's user management system or user management services, such as Authing and Tencent Cloud in China, Okta and Auth0, etc.
 
-![第三方认证模式](https://static.apiseven.com/202108/1631005002268-7393b40e-1733-4e66-bc09-742be221efae.png)
+![Third-party authentication mode](https://static.apiseven.com/202108/1631005002268-7393b40e-1733-4e66-bc09-742be221efae.png)
 
-具体操作如下，这里使用 Okta 云服务举例：
+The details are as follows, using Okta cloud service as an example.
 
-#### 步骤一：创建 OpenID-Connect 应用
+#### Step 1: Create an OpenID-Connect application
 
-在 Okta 控制台页面创建一个支持 OpenID-Connect 的应用。
+Create an application that supports OpenID-Connect from the Okta console page.
 
-![创建](https://static.apiseven.com/202108/1631005022640-1e931b14-8175-47f3-bfb8-46e09cec616b.png)
+![Create](https://static.apiseven.com/202108/1631005022640-1e931b14-8175-47f3-bfb8-46e09cec616b.png)
 
-#### 步骤二：创建路由，配置 OpenID-Connect 插件
+#### Step 2: Create a route and configure the OpenID-Connect plug-in
 
-创建路由，配置访问的上游地址为 httpbin.org，同时开启 openid-connect 插件，将 Okta 应用的配置填写到 openid-connect 插件中。
+Create a route, configure the upstream address to httpbin.org, and enable the openid-connect plug-in, and fill in the configuration of the Okta application into the openid-connect plug-in.
 
-![配置插件](https://static.apiseven.com/202108/1631005045489-b637ef9a-c71c-440f-ae58-a93398a4c9dd.png)
+![Configure the plugin](https://static.apiseven.com/202108/1631005045489-b637ef9a-c71c-440f-ae58-a93398a4c9dd.png)
 
-#### 步骤三：用户访问时，会跳转至登录页面。登录完成后，上游应用获取用户信息
+#### Step 3: When the user visits, it will jump to the login page. After the login is complete, the upstream application gets the user information
 
-此时，当用户访问 Apache APISIX 时，会先重定向到 Okta 登录页面。此时需要在该页面填写 Okta 中已经存在的用户的账号密码。登陆完成之后，Apache APISIX 会将本次认证的 Access-Token，ID-Token 携带至上游，同时将本次认证的用户信息以 base64 的方式编码至 Userinfo 请求头，传递至上游。
+At this point, when the user accesses Apache APISIX, they will first be redirected to the Okta login page. At this point, you need to fill in the account password of the user that already exists in Okta. After login is completed, Apache APISIX will carry the Access-Token and ID-Token to the upstream, and encode the authenticated user information in base64 in the Userinfo request header and pass it to the upstream.
 
-![APISIX 页面](https://static.apiseven.com/202108/1631005077846-0f877a03-ddcd-46f6-a38d-f046b4700058.png)
+![APISIX Page](https://static.apiseven.com/202108/1631005077846-0f877a03-ddcd-46f6-a38d-f046b4700058.png)
 
-## 高级：DIY 玩法
+## Advanced: upload your own code snippets through the Serverless plug-in
 
-这里提供的 DIY 玩法是利用了 Serverless 插件，这款插件功能丰富，玩法也非常多。大家如果有自己的使用玩法，也欢迎在社区内进行交流。
+The DIY gameplay provided here makes use of the Serverless plugin, which is feature-rich and has a lot of ways to play. If you have your own use of play, you are also welcome to communicate in the community.
 
-具体操作流程就是将自己的代码片段通过 Serverless 插件上传到 Apache APISIX，这个过程中 Serverless 插件支持动态配置和热更新。
+The specific operation process is to upload their own code snippets through the Serverless plug-in to Apache APISIX, the process of Serverless plug-in support dynamic configuration and hot updates.
 
-### 方式一：自定义判断逻辑
+### Method 1: Custom judgment logic
 
-![判断逻辑](https://static.apiseven.com/202108/1631005112469-c04868b8-388e-4b81-abcc-d37b6a8951f5.png)
+![Judgment Logic](https://static.apiseven.com/202108/1631005112469-c04868b8-388e-4b81-abcc-d37b6a8951f5.png)
 
-通过请求头、参数等相关信息，来进行一些判断。通过这种做法，我们可以去实现自己的一些规则，比如说结合企业内部的一些认证，或者去写一些自己的业务逻辑。
+Some judgments are made by request headers, parameters and other related information. By this approach, we can go to implement some of our own rules, such as combining some internal authentication of the enterprise, or go to write some of our own business logic.
 
-### 方式二：发起认证鉴权请求
+### Method 2: Initiate authentication request
 
-![鉴权请求](https://static.apiseven.com/202108/1631005141578-f90cf948-4913-45cd-a28e-9e697ad197fe.png)
+![Authentication Request](https://static.apiseven.com/202108/1631005141578-f90cf948-4913-45cd-a28e-9e697ad197fe.png)
 
-通过 HTTP 库发起一个 HTTP 请求，我们可以利用第三方服务做一些认证、鉴权相关事情，然后解析返回结果。通过这种方式，我们可以做的事情就可以扩展很多。比如对接 Redis 或数据库，只要是通过 TCP 或 UDP 这种形式的，都可以通过 Serverless 插件进行尝试。
+By initiating an HTTP request through the HTTP library, we can use a third-party service to do some authentication and forensics related things and then parse the returned results. In this way, we can do a lot of things that can be extended. For example, interfacing to Redis or a database, as long as it's over TCP or UDP, can be attempted with the Serverless plugin.
 
-### 配置上传
+### Upload Configurations
 
-完成自定义代码片之后，我们创建路由，并将代码片配置到 Serverless 插件。后面再通过访问 Apache APISIX 获取相应的信息反馈，测试插件是否生效。
+After completing the custom code snippet, we create the route and configure the snippet to the Serverless plugin. Later, we will test if the plugin is working by accessing Apache APISIX and getting the appropriate feedback.
 
-![配置上传](https://static.apiseven.com/202108/1631005184917-bc620c0b-d4c6-43f5-8450-4f5b2b9549e1.png)
+![Configure Upload](https://static.apiseven.com/202108/1631005184917-bc620c0b-d4c6-43f5-8450-4f5b2b9549e1.png)

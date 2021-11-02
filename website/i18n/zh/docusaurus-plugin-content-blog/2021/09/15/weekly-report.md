@@ -1,13 +1,14 @@
 ---
 title: "社区周报｜新晋 committer 两位，功能亮点更新进行中"
-keywords: 
-- Apache APISIX
-- API 网关
-- contributor
-- Good first issue
+keywords:
+  - Apache APISIX
+  - API 网关
+  - contributor
+  - Good first issue
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
 tags: [Events]
 ---
+
 > 从 8.30 开始这两周有 33 位开发者为 Apache APISIX 提交了 130 个 commits。感谢以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 <!--truncate-->
@@ -34,8 +35,8 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 问题描述：在启用主动健康检查功能时，用两个内部域名并增加 pass_host：node 进行测试 Apache APISIX 的负载均衡时，发现仍会路由到故障主机。
 
- ```Shell
- for i in $(seq 1 1000); do curl  -H "Host: httpbin.org" ${APISIX_GATEWAY_URL}  ; done
+```Shell
+for i in $(seq 1 1000); do curl  -H "Host: httpbin.org" ${APISIX_GATEWAY_URL}  ; done
 apple
 apple
 <html>
@@ -92,7 +93,7 @@ make: *** [deps] Error 1
 - [Control API 新增 dump 路由配置](https://github.com/apache/apisix/pull/5011)(贡献者：Zheaoli)
 - [dashboard 支持 Service Discovery 配置](https://github.com/apache/apisix-dashboard/pull/2081)(贡献者：bzp2010)
 - [dashboard Route 高级配置条件中支持内置参数配置](https://github.com/apache/apisix-dashboard/pull/1984)(贡献者：lookbrook)
-- [dashboard  Upstream 支持 Keepalive Pool 配置](https://github.com/apache/apisix-dashboard/pull/2117)(贡献者：bzp2010)
+- [dashboard Upstream 支持 Keepalive Pool 配置](https://github.com/apache/apisix-dashboard/pull/2117)(贡献者：bzp2010)
 
 Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。
 
@@ -100,19 +101,19 @@ Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰
 
 - [Apache APISIX 社区周报 ｜ 2021 8.23-8.29](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247486808&idx=1&sn=16ff09d4172dc61e0aa864f7a4fd40fd&chksm=e9816645def6ef53c5e41d84e70e16256a1953c177c52d960331c7ecd836cf8eeedf83bee5e4&token=733405538&lang=zh_CN%23rd)
 
-    “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
+  “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
 
 - [Apache APISIX 为 KubeSphere 提供更好用的网关及 K8S Ingress Controller](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247487079&idx=1&sn=136417f538c1d2d96150cfd3de66b93b&chksm=e981657adef6ec6c31ea990ec3f8887b22530dc44e6cf011c990449aea492cc3d8379668e1d6&token=733405538&lang=zh_CN%23rd)
 
-    本文介绍了如何在 KubeSphere 中直接部署 APISIX 和 APISIX Ingress Controller 。APISIX 可通过作为网关，或 APISIX Ingress Controller 的数据面来承载业务流量。
+  本文介绍了如何在 KubeSphere 中直接部署 APISIX 和 APISIX Ingress Controller 。APISIX 可通过作为网关，或 APISIX Ingress Controller 的数据面来承载业务流量。
 
 - [听说你对 Apache APISIX 有话说？现在机会来了](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247487094&idx=1&sn=c86ff723205b6073811a4d9016e81bca&chksm=e981656bdef6ec7dffb2d11639af944f0a4ebc9db051c0dd940d8e7f1b8b6ae42fb8690859c0&token=733405538&lang=zh_CN%23rd)
 
-    诚邀您参与 Apache APISIX 用户调研，您的反馈会直接影响我们的未来发展。我们会随机抽取 多位 幸运星，将有机会获得 Apache APISIX 社区精美小礼物哦～
+  诚邀您参与 Apache APISIX 用户调研，您的反馈会直接影响我们的未来发展。我们会随机抽取 多位 幸运星，将有机会获得 Apache APISIX 社区精美小礼物哦～
 
 - [使用 Apache APISIX 和 Okta 来实现身份认证](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247487572&idx=1&sn=4aebd05282442a7e067496e1ff4be7bd&chksm=e9817b49def6f25fee8a1308666c56878697c5ec02bb8a63d1a6ce0ba749d29a4135cdf927f0&token=733405538&lang=zh_CN%23rd)
 
-    文章介绍如何使用 Apache APISIX 配置 Okta 认证，从传统身份认证模式切换到集中身份认证模式，摆脱多账户、多密码、重复验证等众多开发者所面临的痛点。
+  文章介绍如何使用 Apache APISIX 配置 Okta 认证，从传统身份认证模式切换到集中身份认证模式，摆脱多账户、多密码、重复验证等众多开发者所面临的痛点。
 
 ## 关于 Apache APISIX
 

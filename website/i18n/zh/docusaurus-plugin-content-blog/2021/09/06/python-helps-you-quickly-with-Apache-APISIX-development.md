@@ -14,9 +14,7 @@ tags: [Practical Case]
 
 ---
 
-> 在 Apache APISIX Python Runner 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner)
-和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 Runner，今天 Python Runner
-也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。
+> 在 Apache APISIX Python Runner 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner) 和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 Runner，今天 Python Runner 也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。
 
 <!--truncate-->
 
@@ -69,8 +67,7 @@ tags: [Practical Case]
 - Apache APISIX 2.7
 - Python 3.6+
 
-`Apache APISIX`
-的安装部署本文不在过多赘述，详情请参考 [Apache APISIX 官方文档：如何构建 Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md)
+`Apache APISIX` 的安装部署本文不在过多赘述，详情请参考 [Apache APISIX 官方文档：如何构建 Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md)
 进行部署。
 
 ### 下载安装 Python Runner
