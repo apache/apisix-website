@@ -81,9 +81,9 @@ To do this, you need to specify the key of the route's corresponding limit-count
 
 Note that the configuration of the same group needs to be the same, which currently needs to be guaranteed by the caller, otherwise the limit object obtained by the group will be different from the configuration.
 
-### Issue #5342
+### Issue #5343
 
-**Link**: https://github.com/apache/apisix/issues/5342
+**Link**: https://github.com/apache/apisix/issues/5343
 
 **Issue description**: Add a request_body switch to the schema, and each body can be used by expr to decide whether to log or not. Without this switch, the body is not logged.
 
