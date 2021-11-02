@@ -170,7 +170,7 @@ local function init(env)
 
 当然，Apache APISIX 允许用户修改 nginx.conf 模板中的部分数据，具体方法是模仿 conf/config-default.yaml 的语法修改 conf/config.yaml 配置。其实现原理参见 `read_yaml_conf` 函数：
 
-```conf
+```lua
 function _M.read_yaml_conf(apisix_home)
     local local_conf_path = profile:yaml_path("config-default")
     local default_conf_yaml, err = util.read_file(local_conf_path)
@@ -386,8 +386,8 @@ curl "http://127.0.0.1:9080/apisix/admin/upstreams/1" -H "X-API-KEY: edd1c9f0343
 >   "nodes": {
 >     "httpbin.org:80": 1
 >   }
-> }'
-{"action":"set","node":{"key":"\/apisix\/upstreams\/1","value":{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}}}
+> }
+{"action":"set","node":{"key":"\/apisix\/upstreams\/1","value":{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}}}'
 ```
 
 你会在 error.log 中会看到如下日志（想看到这行日志，必须将 config.yaml 中的 nginx_config.error_log_level 设为 INFO）：
@@ -477,7 +477,7 @@ end
 
 从 nginx.conf 中可以看到，访问任意域名、URI 的请求都会匹配到 `http_access_phase` 这个 lua 函数：
 
-```conf
+```lua
 server {
     server_name _;
     location / {

@@ -1,145 +1,145 @@
 ---
-title: "从新手村出来，我在 Apache APISIX 社区发出了第一个 PR"
-author: "Apache APISIX 社区"
+title: I issued my first PR in the Apache APISIX community
+author: Apache APISIX
 authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
 keywords:
-- API 网关
+- API Gateway
 - APISIX
 - Apache APISIX
-- 开源社区
-- 开源项目
-description: 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
+- Community
+- Open Source
+description: "This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community."
 tags: [Interview]
 ---
 
-> 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
+> This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community.
 
 <!--truncate-->
 
-> 当我看到那个 issue 后，就有种强烈的想要参与到社区的冲动。看了社区的新手指南后，我像从新手村出来的勇者，准备打怪。
+> When I saw that issue, I had a strong urge to get involved in the community. After reading the community's newbie guide, I was like a brave man coming out of the newbie village, ready to fight.
 >
-> —— Apache APISIX committer 屠正松
+> -- Zhengsong Tu, Apache APISIX committer
 
-历时 282 天，屠正松（GitHub ID：tzssangglass）从开源社区的小白成长为了 Apache APISIX 的 committer。
+In 282 days, Zhengsong Tu (GitHub ID: tzssangglass) has grown from an open source community nerd to an Apache APISIX committer.
 
 ![Apache APISIX committer tzssangglass github](/img/blog_img/2021-08-11-1.webp)
 
-屠正松因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
+Zhengsong Tu was elected as Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and many contributions in the community.
 
-在一个平淡的下午，我们和正松连线聊了聊。因为疫情关系，居住在南京的他已经多日未外出。在没有和他聊天之前，我没有想到，胡子拉碴的他，竟然走过了这么曲折的路。
+On an uneventful afternoon, we chatted with Zhengsong by phone. Because of the epidemic, he has not been out for many days in Nanjing. Before I talked to him, I didn't expect that the bearded man had traveled such a winding road.
 
-## 大学，我的大学
+## University, my university
 
-> 我大学的时候学的是通信工程，每天最开心的事就是踢球。现在有时候会想，如果能带着现在的记忆回到大学时光就好了。
+> When I was in college, I studied communication engineering, and the happiest thing I did every day was to play soccer. Now sometimes I think that it would be nice to go back to my college days with the memories I have now.
 
-正松在大学期间里面其实没怎么接触过编程，他当年其实有 C 语言的编程课，但是因为忙着踢球，挂科了。可是，他挂科之后的补考也没过，导致重修。最尴尬的是，他重修也没过，后来怎么办呢？毕业之前还有毕业清考。这可不能再挂了，于是正松就去图书馆去借了一本 C 语言的书来看。
+Zhengsong actually didn't have much contact with programming during his college years, he actually had a C programming class, but he failed it because he was too busy playing soccer. However, he failed a make-up exam after failing the class, resulting in a retake. The most embarrassing thing is that he failed the retake as well, so what did he do afterwards? There was a graduation clearing exam before graduation. This can not be failed again, so Zhengsong went to the library to borrow a C language book to read.
 
-“我当时心想，C 语言真的这么难吗？”正松说。
+"I was thinking, "Is C really that hard?" Zhengsong said.
 
-然后他就一直看一直看，看着看着就突然发现编程好像有那么点意思，他看懂了！最后他在毕业前顺利通过了考试。在毕业之后，找到了一份做程序员的工作。
+Then he kept reading and reading and reading, and suddenly he realized that programming seemed to have some meaning, and he understood it! He finally passed the exam before graduating. After graduation, he found a job as a programmer.
 
-“我本来都准备毕业回家找个厂上班了。”，他半开玩笑地说。
+"I was ready to graduate and go home and find a factory to work." , he said half-jokingly.
 
-彼时，他可能不会想到如今的他会成为数个知名开源项目的 developer，参与一些支撑着千万级并发流量的基础设施的开发。
+At that time, he probably wouldn't have thought that today he would be the developer of several well-known open source projects, and involved in the development of some infrastructure that supports millions of concurrent traffic.
 
-## 出象牙塔记
+## Out of the Ivory Tower
 
-> 在工业界，真实的业务场景和学校里学的很不一样的
+> In industry, the real business scenario is very different from what you learn in school.
 
-正松的第一份工作就职于一家做穿戴设备的创业公司，从事智能手环的研发工作。正松和他的前同事们需要通过处理从智能手环上的获取的各种传感器数据，来完成对用户的心率、运动量、血压等的监测。
+Zhengsong's first job was at a wearable device startup, working on the development of smart bracelets. Zhengsong and his former colleagues had to process various sensor data from the smart bracelet to monitor the user's heart rate, exercise, blood pressure and so on.
 
-“工作蛮好玩的，因为在工业界，真实的业务场景和学校里学的很不一样的，很多东西都得从头开始学”，正松说。
+"It was fun because in industry, the real business scenario is very different from what you learn in school, and a lot of things have to be learned from scratch," Zhengsong said.
 
-有一天下班之后，这家公司的老板娘突然发了一条信息，说公司的员工暂时休假，什么时候上班等通知。
+One day after work, the owner of this company suddenly sent a message saying that the company's employees were on temporary leave and that they would wait to be notified when to work.
 
-正松当时就觉得不对劲，怎么好好的上着班，突然就休假了？然后他立马打开招聘软件，开始找新的工作。后来才知道，公司的老板跟供应商有合同纠纷，公司短暂停摆了。
+Zhengsong felt something was wrong at that time, how to work well, suddenly on vacation? Then he immediately opened the recruitment software and started looking for a new job. Later, he found out that the owner of the company had a contract dispute with the supplier, and the company was briefly shut down.
 
-然后，正松便到另外一家公司从事后端业务开发的工作，学习业界规范、进一步增进技术。过了快一年，因为正松比较喜欢 Nginx、OpenResty、Netty 这类简洁和高性能的技术，他进入一家大公司的开发团队，从事中间件相关开发工作。
+Then, Zhengsong went to another company to engage in back-end business development work, to learn the industry norms and further improve technology. After almost a year, he joined the development team of a large company to work on middleware-related development because he liked the simplicity and high performance of technologies like Nginx, OpenResty, and Netty.
 
-“在这家大公司，我做的离业务稍微远那么一点点，更偏向技术一些。“正松说。
+"In this big company, I did a little bit far from the business, more technically oriented. "Zhengsong said.
 
-正松接触 Apache APISIX 的时间是 2020 年 9 月份，那时候，他所在的团队使用的是 Kong，但是当时 Kong 无法完全满足他们的需求，于是他们便重新做网关的技术选型，试图寻找更好的方案。正松担任本次技术选型的负责人，于是他关注到了 Apache 基金会的顶级项目 Apache APISIX，进而接触了 Apache APISIX 的社区。
+Zhengsong's contact with Apache APISIX was in September 2020, when his team was using Kong, but Kong was not fully meeting their needs, so they redid the technical selection of the gateway to try to find a better solution. Zhengsong was in charge of this technical selection, so he came across the Apache Foundation's top project, Apache APISIX, and was introduced to the Apache APISIX community.
 
-彼时的他，已经毕业三年多了。
+At that time, he had already graduated more than three years ago.
 
-## 出新手村
+## Out of the newbie village
 
-> 我可以给 Apache 基金会的顶级项目提交代码了！作为一个技术工作者，这是一种技术上的自信。
+> I can submit code to the Apache Foundation's top projects! As a technical worker, that's a lot of technical confidence.
 
-正松在开源社区的第一个 PR 是一个 enhancement（功能增强）类型的 PR，这个 PR 让 Apache APISIX 支持了多端口监听。
+Zhengsong's first PR in the open source community was an enhancement type PR, which enabled Apache APISIX to support multi-port listening.
 
-- issue：https://github.com/apache/apisix/issues/1195
-- PR：https://github.com/apache/apisix/pull/2409
+- issue: https://github.com/apache/apisix/issues/1195
+- PR: https://github.com/apache/apisix/pull/2409
 
-这个功能是正松公司需要的，在 issue 区也早有人提到，但是不知为何一直无人认领。之前，正松正好对这方面的知识有所了解，于是他想：”我可以给 Apache APISIX 提个 PR 来 fix 这个问题。“所以他在 issue 里主动要求把这个问题指派给他。
+This feature is needed by Zhengsong and has been mentioned in the issue area for a long time, but for some reason it has been unclaimed. Before that, Zhengsong happened to know something about this, so he thought, "I can propose a PR to Apache APISIX to fix this problem. "So he volunteered to have the issue assigned to him in the issue.
 
-他说：“当时我有一种强烈的参与社区的冲动，然后我看了一下 Apache APISIX 社区的新手指南，然后就像拿着武器从新手村出来一样，兴致冲冲的准备参与。”
+He says, "I had a strong urge to get involved in the community, and then I looked at the Apache APISIX community's Beginner's Guide and was as excited to get involved as if I were coming out of the Beginner's Village with a weapon."
 
-选择了这个 issue 之后，正松开始在 GitHub 上面开始跟社区的伙伴讨论细节上的问题，像是配置端口的 style、实现的思路等。在讨论完之后，他开始动手实现。每天晚上下班之后去翻看 Apache APISIX 的代码，测试相关用例。在经历了三四个晚上的奋斗后，测试第一次跑通了！
+After choosing this issue, Zhengsong started discussing details with his community partners on GitHub, such as the style of the configuration port, the idea of the implementation, and so on. After the discussion, he started to implement it. Every night after work, he went through the Apache APISIX code and tested the use cases. After three or four nights of struggling, the test ran for the first time!
 
-当时正松内心非常的兴奋，马上按照那个新手指南的引导把 PR 提上去了。然后接受 Code Review 的意见，进一步修改代码。终于，在 10 月 18 号，PR 顺利地 merge 进了仓库。
+Zhengsong was very excited and immediately followed the guide to bring up the PR. Then he accepted the comments from Code Review and further modified the code. Finally, on October 18, the PR was successfully merged into the repository.
 
 ![Apache APISIX committer tzssangglass pr](/img/blog_img/2021-08-11-2.webp)
 
-“当时我非常的激动，感觉自己终于实质性地参与到开源社区里面去了。我可以给 Apache 基金会的顶级项目提交代码了！作为一个技术工作者，这是一种技术上的自信。”
+"I was very excited and felt like I was finally substantially involved in the open source community. I could submit code to the Apache Foundation's top projects! As a technical worker, it was a technical confidence."
 
-**这是正松在开源世界的第一个 PR。**
+**This is Zhengsong's first PR in the open source world.**
 
-## 在社区印象深刻的事
+## Things that impressed me in the community
 
-> 因为 etcd 有 MaxCallRecvMsgSize 的限制，就从 etcd 的源头去解决，这是最优雅，也是最适合的。
+> Because etcd has a MaxCallRecvMsgSize limit, it was most elegant and appropriate to go to the source of etcd.
 
-当我们问到，正松在社区印象最深刻的事情是什么的时候，正松想了想说，可能是一个和 bug 有关的问题：etcd 的 MaxCallRecvMsgSize 限制。
+When we asked what was the thing that impressed Zhengsong most in the community, Zhengsong thought about it and said it was probably a bug-related issue: etcd's MaxCallRecvMsgSize limitation.
 
-正松曾经被 etcd 限制返回体大小的问题折磨过，社区内也多次反映、讨论过这个问题，但在 Apache APISIX 上无论怎么处理都不是很优雅。
+Zhengsong had been tormented by etcd's return size limitation problem, and the community had reflected and discussed this problem many times, but it was not very elegant on Apache APISIX no matter how it was handled.
 
-直到今年 4 月份，支流科技的一位小伙伴给 etcd 提交了 PR，最终解决了这个问题。正松听说这个消息时，感到非常的震撼，当时他没有想过这个事情会以这样的方式去解决。但是现在来看的话，这个方法确实是最适合的。
+In April this year, one of our partners submitted a PR to etcd, which finally solved the problem. When Zhengsong heard about this, he was very shocked, he didn't think it would be solved in such a way. But in hindsight, this was the way to go.
 
-“因为 etcd 有 MaxCallRecvMsgSize 的限制，就从 etcd 的源头去解决，这是最优雅，也是最适合的。这是很棒的跨社区合作的示例”，正松说。
+"Because etcd has a MaxCallRecvMsgSize limit, it's most elegant and appropriate to go to the source of etcd. This is great example of cross-community collaboration," says Zhengsong.
 
 ## Sir, this way
 
-> 大家分工合作不同，但是都是在为开源做贡献。
+> We're all working together differently, but we're all contributing to open source.
 
-正松说，他刚开始参与社区的时候，把当时能看到的 APISIX 文档大部分都过了一遍。所以当时在所在公司工作的时候，同事问他问题，他虽然并不是很清楚，但是他清楚项目的文档分布情况，直接把文档找出来看一下，就大概知道是什么问题了。他认为看文档是熟悉项目的一个合适的方式。
+Zhengsong says that when he first started participating in the community, he went through most of the APISIX documentation he could see at the time. So when he was working in his company, his colleagues asked him questions, and although he was not very clear, he knew the distribution of the project's documentation, so he could look it up directly and know roughly what the problem was. He believes that reading the documentation is an appropriate way to get familiar with the project.
 
-Apache APISIX 的项目官网上，有完善的包括如何提 PR 的新手指南。如果想参与社区的话，可以先把官网和 Github 上的主要的文档都看一下，对项目有基本的了解，也清楚项目的文档分布情况，后面再按需索引文档。
+The Apache APISIX project website has a good guide for newcomers, including how to raise PR. If you want to participate in the community, you can first read the main documentation on the website and Github to get a basic understanding of the project and the distribution of the project's documentation, and then index the documentation as needed.
 
-如果想在代码方面做贡献，或者参与设计的话，一些 Ngnix 或者 OpenResty 方面的知识的储备是必要的。包括看他们官方的文档及和代码，学习他们对于相关 feature 的实现等。
+If you want to contribute to the code, or participate in the design, some knowledge of Ngnix or OpenResty is necessary. This includes looking at their official documentation and code, and learning about their implementation of relevant features.
 
-正松说：“我觉得这一步是无法跳过的。”
+Zhengsong said, "I think this step is impossible to skip."
 
-当然，你可以以使用者的身份，去参与到社区里。比如说你觉得文档有问题，或者说你按照文档去实践的时候，发现并不是那样，你也可以去提一些 issue 指出这些问题。
+Of course, you can get involved in the community as a user. For example, if you think there is something wrong with the documentation, or if you follow the documentation and find that it is not the case, you can also raise some issues to point out these problems.
 
-大家分工合作不同，但是都是在为开源做贡献。
+We are all working together, but we are all contributing to open source.
 
-## 社区欢迎所有人
+## Everyone is welcome in the community
 
-> 但这样做更好
+> But it's better this way
 
-正松说，大家都在开源社区，首先要注意的就是要遵守社区的一些规矩，和社区的小伙伴平等交流。
+Zhengsong said, we are all in the open source community, the first thing to pay attention to is to comply with some of the community rules, and the community of partners to communicate on an equal footing.
 
-交流时要注意的点可以分成两种。
+The points to note when communicating can be divided into two kinds.
 
-第一种是，假如你遇到了一些问题，那你应该尽量准确地描述问题，提供可复现的用例。这个其实是最受欢迎的，或者说最能提高沟通效率的一个方式。如果你能把一个问题描述的很清晰，那大家回答问题的效率自然会非常高。
+The first is that if you encounter some problems, then you should try to accurately describe the problem and provide reproducible use cases. This is actually the most popular, or one of the most effective ways to improve communication. If you can describe a problem very clearly, then people will naturally answer the question very high efficiency.
 
-第二种是，如果是提出想法，解决问题等，在动手做之前，对于有歧义的点，需要在公开的场合，比如 issue ，邮件列表等上面讨论，在社区内达成一致，取得共识之后，再开始做。
+The second is that if you are proposing ideas, solving problems, etc., before you do it, for points of ambiguity, you need to discuss them in a public forum, such as issue, mailing lists, etc., to reach agreement in the community, and then start doing it after you have achieved consensus.
 
-## 关于 Apache Way
+## About Apache Way
 
-> 共识也会更新，它是社区推动项目前进的一种力量。
+> Consensus will also be updated, and it is a force for the community to move the project forward.
 
-正松理解的 Apache Way，是社区大于代码。
+The Apache Way, as Zhengsong understands it, is about community over code.
 
-他认为，社区本质上是人与人之间的合作，大家分工合作，各司其职。但是在合作和各司其职之前，大家是需要形成一些共识。
+He believes that the community is essentially a collaboration between people, where everyone divides up the work and does their own job. But before we cooperate and do our own work, we need to form some consensus.
 
-共识是一点点积累起来的。社区参与者们抛出一个个问题，社区内会讨论，辩驳，验证，直至最后解决这些问题。在这个过程中，共识在社区内慢慢形成，共识可能是规范，也可能是边界，或者其他的形式。共识也会更新，它是社区推动项目前进的一种力量。这个过程带有一些理想主义色彩。
+Consensus is built up little by little. The community participants throw out a problem, and the community will discuss, argue, verify, and finally solve these problems. In this process, consensus is slowly formed in the community, and it may be a norm, a boundary, or some other form of consensus. Consensus is also updated, and it is a force for the community to move the project forward. This process has some idealistic overtones.
 
-社区的共识其实比你做代码贡献更重要，因为有了共识之后，后面去回溯某一个改动的点的时候，会更加清晰，知道这个改动的起源和当时的视角。
+Community consensus is actually more important than you making code contributions, because with consensus, when you go back to a point of change later, it will be clearer to know the origin of the change and the perspective at that time.
 
-## 最后
+## Finally
 
-最后在关麦之前，我们请正松给我们推荐一些东西。正松想了想，说：“我推荐了一部德国电影，跟社会工程学相关的《我是谁：没有绝对安全的系统》，和一本书，孔飞力老师的《叫魂：1768 年中国妖术大恐慌》。希望大家在忙碌的工作中，也不要忘了充实自己的精神生活。“
+Finally, before we shut down the mike, we asked Zhengsong to recommend something to us. After thinking about it, Zhengsong said, "I recommend a German film related to social engineering, Who Am I: No Absolutely Safe System, and a book by Fei-Li Kong, Calling the Spirits: The Great Chinese Demon Panic of 1768. I hope you will not forget to enrich your spiritual life even in the midst of your busy work. "
 
-这就是这次的采访啦！下回，我们会采访哪位社区的小伙伴呢？快来 Apache APISIX 社区瞧一瞧吧！没准，下一位 committer 就是你！
+That's it for this interview! Which community member will we interview next time? Check out the Apache APISIX community and find out! Maybe you'll be the next committer!
