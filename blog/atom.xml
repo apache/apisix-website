@@ -218,32 +218,32 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller]]></title>
-        <id>Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller</id>
+        <title type="html"><![CDATA[Apache APISIX × KubeSphere: Providing a better gateway and K8S Ingress Controller]]></title>
+        <id>Apache APISIX × KubeSphere: Providing a better gateway and K8S Ingress Controller</id>
         <link href="https://apisix.apache.org/blog/2021/08/31/Apache APISIX × KubeSphere-a-better-gateway-and-K8S-Ingress-Controller"/>
         <updated>2021-08-31T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller 。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress Controller 的数据面来承载业务流量。]]></summary>
+        <summary type="html"><![CDATA[This article describes the direct deployment of Apache APISIX and APISIX Ingress Controller in KubeSphere using the official Apache APISIX Helm repository. And Apache APISIX can be used as a gateway or as a data plane for APISIX Ingress Controller to carry business traffic.]]></summary>
         <author>
-            <name>张晋涛</name>
+            <name>Jintao Zhang</name>
             <uri>https://github.com/tao12345666333</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散]]></title>
-        <id>社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散</id>
+        <title type="html"><![CDATA[Webinar｜ See you at the Apache APISIX Ingress Community Meeting on Wednesday at 2pm!]]></title>
+        <id>Webinar｜ See you at the Apache APISIX Ingress Community Meeting on Wednesday at 2pm!</id>
         <link href="https://apisix.apache.org/blog/2021/08/30/Ingress-Meeting"/>
         <updated>2021-08-30T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。]]></summary>
+        <summary type="html"><![CDATA[Apache APISIX Ingress community meetings to establish a channel of communication with community users and developers and to help everyone understand the direction and development plans for Apache APISIX Ingress.]]></summary>
         <author>
             <name>Apache APISIX 社区</name>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.23-8.29]]></title>
-        <id>Apache APISIX 社区周报 ｜ 2021 8.23-8.29</id>
+        <title type="html"><![CDATA[Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29]]></title>
+        <id>Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29</id>
         <link href="https://apisix.apache.org/blog/2021/08/30/weekly-report"/>
         <updated>2021-08-30T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Release Apache APISIX 2.9]]></title>
@@ -267,13 +267,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证]]></title>
-        <id>使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证</id>
+        <title type="html"><![CDATA[Centralized authentication using the OpenID Connect plug-in for Apache APISIX]]></title>
+        <id>Centralized authentication using the OpenID Connect plug-in for Apache APISIX</id>
         <link href="https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
         <updated>2021-08-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文展示了使用 Apache APISIX OpenID Connect Plugin 进行 Okta 集中认证的过程。 本文包含了对 Apache APISIX 和 Okta 集中认证的概念介绍，展示了在 Apache APISIX 中直接建立来自 Okta 的集中式身份认证的过程。这种集中认证的方法减少了开发者的学习和维护成本，提供了安全和精简的用户体验。]]></summary>
+        <summary type="html"><![CDATA[This article demonstrates the process of centralized Okta authentication using the Apache APISIX OpenID Connect Plugin. This article contains a conceptual introduction to Apache APISIX and Okta centralized authentication, showing the process of establishing centralized authentication from Okta directly in Apache APISIX. This centralized authentication approach reduces learning and maintenance costs for developers and provides a secure and streamlined user experience.]]></summary>
         <author>
-            <name>朱欣欣</name>
+            <name>Xinxin Zhu</name>
             <uri>https://github.com/starsz</uri>
         </author>
     </entry>
@@ -289,13 +289,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX Meetup 上海站全程回顾]]></title>
-        <id>Apache APISIX Meetup 上海站全程回顾</id>
+        <title type="html"><![CDATA[Apache APISIX Meetup in Shanghai]]></title>
+        <id>Apache APISIX Meetup in Shanghai</id>
         <link href="https://apisix.apache.org/blog/2021/08/24/shanghai-meetup-recap"/>
         <updated>2021-08-24T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。]]></summary>
+        <summary type="html"><![CDATA[Event Review: Apache APISIX Meetup Shanghai Topic Sharing and Video Review.]]></summary>
         <author>
-            <name>Apache APISIX 社区</name>
+            <name>Apache APISIX</name>
         </author>
     </entry>
     <entry>
@@ -303,7 +303,7 @@
         <id>ApacheCon Asia 2021</id>
         <link href="https://apisix.apache.org/blog/2021/08/23/ApacheCon-Asia-2021"/>
         <updated>2021-08-23T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 于 2021 年 8 月 6-8 日在线举办。Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富。]]></summary>
+        <summary type="html"><![CDATA[ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore the "technologies of tomorrow" across more than 350 Apache projects and their diverse communities. ApacheCon Asia 2021 was held online from August 6-8, 2021. The Apache APISIX community actively participated in this annual open source event, presenting a total of eight API/microservices technology-related topics. The content was rich.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.16-8.22]]></title>
@@ -313,20 +313,20 @@
         <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！]]></title>
-        <id>8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！</id>
+        <title type="html"><![CDATA[August 21 Apache APISIX Meetup Shanghai, welcome to register!]]></title>
+        <id>August 21 Apache APISIX Meetup Shanghai, welcome to register!</id>
         <link href="https://apisix.apache.org/blog/2021/08/21/shanghai-meetup"/>
         <updated>2021-08-21T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本次 Meetup 由 api7.ai https://www.apiseven.com/ 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。]]></summary>
+        <summary type="html"><![CDATA[This Meetup was initiated by api7.ai https://www.apiseven.com/, and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Go 让 Apache APISIX 如虎添翼]]></title>
-        <id>Go 让 Apache APISIX 如虎添翼</id>
+        <title type="html"><![CDATA[Go gives Apache APISIX a run for its money]]></title>
+        <id>Go gives Apache APISIX a run for its money</id>
         <link href="https://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better"/>
         <updated>2021-08-19T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！]]></summary>
+        <summary type="html"><![CDATA[This article will explain in detail how to use Go to develop Apache APISIX plugins. By embracing the Go ecosystem and breaking new ground for Apache APISIX, we hope that Go will make Apache APISIX even better!]]></summary>
         <author>
-            <name>罗泽轩</name>
+            <name>Zexuan Luo</name>
             <uri>https://github.com/spacewander</uri>
         </author>
     </entry>
@@ -338,23 +338,23 @@
         <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[在 Apache APISIX 中使用 Casbin 进行授权]]></title>
-        <id>在 Apache APISIX 中使用 Casbin 进行授权</id>
+        <title type="html"><![CDATA[Licensing with Casbin in Apache APISIX]]></title>
+        <id>Licensing with Casbin in Apache APISIX</id>
         <link href="https://apisix.apache.org/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX"/>
         <updated>2021-08-18T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[当我们在使用 Apache APISIX 时，可能想要在应用里添加复杂的授权逻辑。在此篇文章中，我们将使用 Apache APISIX 的内置 Casbin 插件（authz-casbin）来实现基于角色的访问控制（RBAC）模型。]]></summary>
+        <summary type="html"><![CDATA[When we are using Apache APISIX, we may want to add complex authorization logic to our application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
         <author>
-            <name>Casbin 社区 &amp; Apache APISIX 社区</name>
+            <name>Casbin &amp; Apache APISIX</name>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨]]></title>
-        <id>Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨</id>
+        <title type="html"><![CDATA[Apache APISIX in Airwallex | Interview with Yang Li, Head of Airwallex Technology Platform]]></title>
+        <id>Apache APISIX in Airwallex | Interview with Yang Li, Head of Airwallex Technology Platform</id>
         <link href="https://apisix.apache.org/blog/2021/08/17/interview-airwallex"/>
         <updated>2021-08-17T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。]]></summary>
+        <summary type="html"><![CDATA[In this article, we interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. In the interview, he introduced in detail why Airwallex chose Apache APISIX when making technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in production environment.]]></summary>
         <author>
-            <name>Apache APISIX 社区</name>
+            <name>Apache APISIX</name>
         </author>
     </entry>
     <entry>
@@ -391,24 +391,24 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[从新手村出来，我在 Apache APISIX 社区发出了第一个 PR]]></title>
-        <id>从新手村出来，我在 Apache APISIX 社区发出了第一个 PR</id>
+        <title type="html"><![CDATA[I issued my first PR in the Apache APISIX community]]></title>
+        <id>I issued my first PR in the Apache APISIX community</id>
         <link href="https://apisix.apache.org/blog/2021/08/11/interview-TuZhengsong"/>
         <updated>2021-08-11T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。]]></summary>
+        <summary type="html"><![CDATA[This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community.]]></summary>
         <author>
-            <name>Apache APISIX 社区</name>
+            <name>Apache APISIX</name>
             <uri>https://github.com/Yangxiamao</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 架构分析：如何动态管理 Nginx 集群？]]></title>
-        <id>Apache APISIX 架构分析：如何动态管理 Nginx 集群？</id>
+        <title type="html"><![CDATA[Apache APISIX Architecture Analysis: How to Dynamically Manage Nginx Clustering?]]></title>
+        <id>Apache APISIX Architecture Analysis: How to Dynamically Manage Nginx Clustering?</id>
         <link href="https://apisix.apache.org/blog/2021/08/10/apisix-nginx"/>
         <updated>2021-08-10T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。]]></summary>
+        <summary type="html"><![CDATA[This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3 to implement a REST API for remote control of Nginx clusters.]]></summary>
         <author>
-            <name>陶辉</name>
+            <name>Hui Tao</name>
         </author>
     </entry>
     <entry>
@@ -432,13 +432,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[如何利用 Apache APISX 提升 Nginx 的可观测性]]></title>
-        <id>如何利用 Apache APISX 提升 Nginx 的可观测性</id>
+        <title type="html"><![CDATA[How to Improve the Observability of Nginx with Apache APISX]]></title>
+        <id>How to Improve the Observability of Nginx with Apache APISX</id>
         <link href="https://apisix.apache.org/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx"/>
         <updated>2021-08-06T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[最佳实践：本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。]]></summary>
+        <summary type="html"><![CDATA[Best Practices: This article shares solutions and practices for observability in the context of Nginx observability, the relationship between Apache APISIX and Nginx, Apache APISIX observability, and further enhancing observability with Apache SkyWalking.]]></summary>
         <author>
-            <name>金卫</name>
+            <name>Wei Jin</name>
             <uri>https://github.com/gxthrj</uri>
         </author>
     </entry>
