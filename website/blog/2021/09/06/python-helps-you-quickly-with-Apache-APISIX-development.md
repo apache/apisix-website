@@ -1,5 +1,5 @@
 ---
-title: Python helps you get up to speed with Apache APISIX plug-in development
+title: Python helps you develop Apache APISIX plugin
 author: Jinchao Shuai
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
@@ -13,18 +13,15 @@ tags: [Practical Case]
 
 ---
 
-> The [Java](https://github.com/apache/apisix-java-plugin-runner) and [Go](https://github.com/apache/apisix-java-plugin-runner) languages have been supported in the community before the Apache APISIX Python Runner.
-and [Go](https://github.com/apache/apisix-go-plugin-runner) languages, today Python Runner
-is now available, giving the community another option for developing plugins for Apache APISIX.
+> The [Java Plugin](https://github.com/apache/apisix-java-plugin-runner) and [Go Plugin](https://github.com/apache/apisix-java-plugin-runner) languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.
 
-<! --truncate -->
+<!--truncate-->
 
 ## Introduction
 
 ### Apache APISIX
 
-`Apache APISIX` is a high-performance cloud-native open-source API gateway that provides unified request interception and governance (e.g., authentication, caching, versioning, fusing, auditing, etc.) to help developers easily provide secure and reliable services to the outside world, while developers only need to focus on business implementation with `Apache APISIX`.
-saves a lot of time in developing and maintaining generic capabilities and reduces the complexity of the overall business architecture.
+`Apache APISIX` is a high-performance cloud-native open-source API gateway that provides unified request interception and governance (e.g., authentication, caching, versioning, fusing, auditing, etc.) to help developers easily provide secure and reliable services to the outside world, while developers only need to focus on business implementation with `Apache APISIX`, which saves a lot of time in developing and maintaining generic capabilities and reduces the complexity of the overall business architecture.
 
 ### Python
 
@@ -40,20 +37,17 @@ and `Python`.
 The most important thing is to let more `Python developers` who are interested in `Apache APISIX` and `API gateways` to learn more about the use of `Apache APISIX` and `API gateways` through this project.
 The following is a diagram of the architecture of `Apache APISIX` multi-language support.
 
-! [Apache APISIX work flow](/img/blog_img/2021-09-06-1.png)
+![Apache APISIX work flow](/img/blog_img/2021-09-06-1.png)
 
 The above diagram shows the workflow of `Apache APISIX` on the left, and the `Plugin Runner` on the right is the plug-in runner for each language, the `apisix-python-plugin-runner` introduced in this article is the one that supports `Python`.
 language.
 
-When you configure a `Plugin Runner` in `Apache APISIX`, `Apache APISIX` will start a child process to run the `Plugin Runner` that belongs to the same user as the `Apache APISIX`
-process belongs to the same user, and when we restart or reload `Apache APISIX`, `Plugin Runner` will also be restarted.
+When you configure a `Plugin Runner` in `Apache APISIX`, `Apache APISIX` will start a child process to run the `Plugin Runner` that belongs to the same user as the `Apache APISIX` process belongs to the same user, and when we restart or reload `Apache APISIX`, `Plugin Runner` will also be restarted.
 
 If you configure the `ext-plugin-*` plugin for a given route, a request to hit that route will trigger an `Apache APISIX` `RPC` call to the `Plugin Runner` via the `Unix Socket`. The call is split into two phases.
 
-- [ext-plugin-pre-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md)
-  : Before executing the `Apache APISIX` built-in plugin (Lua language plugin)
-- [ext-plugin-post-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md)
-  : after executing the `Apache APISIX` plug-in (Lua language plug-in)
+- [ext-plugin-pre-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md): Before executing the `Apache APISIX` built-in plugin (Lua language plugin).
+- [ext-plugin-post-req](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md): after executing the `Apache APISIX` plug-in (Lua language plug-in).
 
 You can choose and configure the execution timing of `Plugin Runner` as needed.
 
@@ -61,16 +55,14 @@ The `Plugin Runner` handles the `RPC` call, creates a simulated request inside i
 
 The execution order of multilingual plugins is defined in the `ext-plugin-*` plugin configuration entry, and like other plugins, they can be enabled and redefined on the fly.
 
-## Deployment testing
+## Deploy test
 
 ### Base runtime environment
 
 - Apache APISIX 2.7
 - Python 3.6+
 
-`Apache APISIX`
-Please refer to the [Apache APISIX official documentation: How to build Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md) for details. )
-To deploy.
+To deploy Apache APISIX, please refer to the [Apache APISIX official documentation: How to build Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md) for details.
 
 ### Download and install Python Runner
 
@@ -131,13 +123,14 @@ socket:
 logging:
   level: debug # error warn info debug
 debug
+```
 
 ### Start Python Runner
 
 ```bash
 $ cd /path/to/apisix
 # Start or Restart
-$ . /bin/apisix [ start | restart ]
+$ ./bin/apisix [ start | restart ]
 ```
 
 Start or restart `APISIX`, when `APISIX` and `Python Runner` have been configured and started.
@@ -147,7 +140,7 @@ Start or restart `APISIX`, when `APISIX` and `Python Runner` have been configure
 #### Configuring Apache APISIX Routing and Plugin Information
 
 ```bash
-### Test with the default demo plugin
+# Test with the default demo plugin
 $ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "uri": "/get",
@@ -232,7 +225,9 @@ class Stop(Base):
             response parameters and information
         :return:
         """
-        # In the plugin you can get the configuration information through `self.config`, if the plugin configuration is JSON it will be automatically converted to a dictionary structure
+        # In the plugin you can get the configuration information through `self.config`,
+        # if the plugin configuration is JSON it will be automatically converted to
+        # a dictionary structure
         # print(self.config)
 
         # set the response headers
@@ -274,5 +269,5 @@ Let's build a bridge between `Apache APISIX` and other languages together.
 
 ## Related Reading
 
-- [Go makes Apache APISIX like a tiger](http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better)
+- [Go gives Apache APISIX a run for its money](http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better)
 - [How to write Apache APISIX plugins in Java](https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins)

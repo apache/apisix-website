@@ -11,7 +11,7 @@ tags: [Events]
 
 > 33 developers have committed 130 commits to Apache APISIX in the last two weeks since 8.30. Thank you to the following people for adding to Apache APISIX (in no particular order), your selfless work makes the Apache APISIX project better!
 
-<! --truncate-->
+<!--truncate-->
 
 ## Introduction
 

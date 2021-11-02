@@ -11,7 +11,8 @@ tags: [Events]
 ---
 
 > From 9.13 to 9.30, 32 developers have committed 93 commits to Apache APISIX. Thank you to these folks for making the Apache APISIX project better with your selfless efforts!
-> <! --truncate-->
+
+<!--truncate-->
 
 ## Introduction
 
@@ -23,9 +24,9 @@ We've also put together some issues for those new to the community!
 
 ## Contributor statistics
 
-! [This week's contributor list](https://static.apiseven.com/202108/1632907894918-c455f40e-a175-4944-8fac-11c590d43786.jpg)
+![This week's contributor list](https://static.apiseven.com/202108/1632907894918-c455f40e-a175-4944-8fac-11c590d43786.jpg)
 
-! [New contributors this week](https://static.apiseven.com/202108/1632908362102-b0b665e2-f37f-4a82-b8a3-68914925b565.jpg)
+![New contributors this week](https://static.apiseven.com/202108/1632908362102-b0b665e2-f37f-4a82-b8a3-68914925b565.jpg)
 
 ## Good first issue
 
@@ -35,7 +36,7 @@ We've also put together some issues for those new to the community!
 
 **Problem Description**: Previously the upstream service used IP authentication and the actual client IP was obtained from the x-forwarded-for request header. Now I need to change to gateway HMAC authentication, so I need to block upstream IP authentication through the gateway. Tried to modify x-forwarded-for via the proxy rewrite plugin, but it did not work: !
 
-! [Screenshot of problem description](https://static.apiseven.com/202108/1632799650125-14edb988-f2ad-434d-8d13-04ff3016eb5a.png)
+![Screenshot of problem description](https://static.apiseven.com/202108/1632799650125-14edb988-f2ad-434d-8d13-04ff3016eb5a.png)
 
 ### Issue #5108
 
@@ -74,10 +75,10 @@ curl http://127.0.0.1:9080/apisix/admin/routes/35 -H 'X-API-KEY: xxxxxxxxxxxxxxx
 }'
 ```
 
-When testing it with the following command, the
+Test it with the following command:
 
 ```shell
-curl http://127.0.0.1:9080/products/create -X POST -d '{"product-Name": "Laptop", "pri-ce":12345.00}'
+$ curl http://127.0.0.1:9080/products/create -X POST -d '{"product-Name":"Laptop","pri-ce":12345.00}'
 ```
 
 Get the following default message.
@@ -110,6 +111,6 @@ property "price" is required
 
   This article introduces the authentication function of Apache APISIX, in terms of importance and playful usage, with detailed introduction and detailed usage.
 
-- [Apache APISIX-based, Aiki API gateway update and landing practice](http://apisix.apache.org/blog/2021/09/07/iQIYI-usercase)
+- [Apache APISIX-based, iQiyi API gateway update and landing practice](http://apisix.apache.org/blog/2021/09/07/iQIYI-usercase)
 
-  By reading this article, you can learn how based on Apache APISIX gateway, the Aikii technical team has updated and integrated the company's architecture to create a new gateway service.
+  By reading this article, you can learn how based on Apache APISIX gateway, the iQiYi technical team has updated and integrated the company's architecture to create a new gateway service.

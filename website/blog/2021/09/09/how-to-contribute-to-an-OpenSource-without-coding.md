@@ -12,15 +12,15 @@ tags: [Community]
 
 > This article describes many ways to contribute to open source projects without writing code. You can get involved in open source projects by writing articles, making videos, sharing them externally, building local communities, and participating actively in community discussions.
 
-<! --truncate -->
+<!--truncate-->
 
-I have contributed several PRs and submitted several issues to open source projects, and I still remember clearly the excitement when my first PR was merged a few years ago, and I experienced the fun of participating in open source. But only in the contributor stage, no more, because I later do not do R & D, **think not familiar with the code, can not fix the bug will not have the opportunity to contribute.**
+I have contributed several PRs and submitted several issues to open source projects, and I still remember clearly the excitement when my first PR was merged a few years ago, and I experienced the fun of participating in open source. But my experience remains in the contributor stage with no further progress, because I changed my position from front-end developer to marketing. I am afraid that I would be less familiar with the code,  and I can not fix the bug, which will result in no contribution to the project.
 
 There is a misunderstanding here, not only contributing code and fixing bugs are contributions to the project. Is the only way to become a contributor is to contribute code? **If I can't write code and I'm not a developer, how can I become a contributor to an open source project and even get promoted to committer?** If I don't know how to write code and am not a developer, how can I become a contributor to an open source project or even be promoted to committer?
 
 After I sorted it out, I found that there are many ways to become a contributor, so I'll share them here. (The author is also on the way to practice)
 
-## Non-code way
+## Contributing without Coding
 
 ### Writing articles
 
@@ -95,7 +95,7 @@ If there are no objections to discussing an issue on the mailing list, the propo
 
 The use of mailing lists for discussion is also a way to identify with the Apache culture. For projects that follow Apache rules, the mailing list is the primary place for the community, and Github is a convenient collaborative tool.
 
-## Code approach
+## Contributing with Coding
 
 ### Contribute features, fix bugs
 
