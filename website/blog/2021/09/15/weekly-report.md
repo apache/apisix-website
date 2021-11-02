@@ -31,9 +31,11 @@ From 8.30-9.12, 33 developers submitted 130 commits to Apache APISIX, and we tha
 
 ## Good first issue
 
-### Issue [#4906](https://github.com/apache/apisix/issues/4906)
+### Issue #4906
 
-Problem Description: When testing Apache APISIX load balancing with two internal domains and adding pass_host: node with active health check enabled, I found that it still routes to the faulty host.
+**Link**: [#4906](https://github.com/apache/apisix/issues/4906)
+
+**Problem Description**: When testing Apache APISIX load balancing with two internal domains and adding pass_host: node with active health check enabled, I found that it still routes to the faulty host.
 
 ```Shell
 for i in $(seq 1 1000); do curl  -H "Host: httpbin.org" ${APISIX_GATEWAY_URL}  ; done
@@ -63,9 +65,11 @@ apple
 apple
 ```
 
-### Issue [#4945](https://github.com/apache/apisix/issues/4945)
+### Issue #4945
 
-Problem Description: I am having problems trying to download Apache APISIX version 2.9 on a Macbook with M1 system according to the related guide article. The prompt is as follows.
+**Link**: [#4945](https://github.com/apache/apisix/issues/4945)
+
+**Problem Description**: I am having problems trying to download Apache APISIX version 2.9 on a Macbook with M1 system according to the related guide article. The prompt is as follows.
 
 ```Apache
 lualogging 1.5.2-1 depends on luasocket (3.0rc1-2 installed)
@@ -86,7 +90,7 @@ make: *** [deps] Error 1
 ## Recent feature highlights
 
 - [referer-restriction support for configuring blacklist and message](https://github.com/apache/apisix/pull/4916)(contributor: okaybase)
-- [node_listen and admin_listen support richer configuration forms](https://github.com/apache/apisix/pull/4856)(contributor: wayne-cheng), [additional reference](https://github.com/) apache/apisix/pull/4967)
+- [node_listen and admin_listen support richer configuration forms](https://github.com/apache/apisix/pull/4856)(contributor: wayne-cheng), [additional reference](https://github.com/apache/apisix/pull/4967)
 - [admin-api support for returning stream type plugin information](https://github.com/apache/apisix/pull/4947)(Contributor: spacewander)
 - [Support for configuring fallback SNI](https://github.com/apache/apisix/pull/5000)(Contributed by spacewander)
 - [proxy-mirror support for scaled mirror requests](https://github.com/apache/apisix/pull/4965)(Contributor: okaybase)
@@ -99,19 +103,19 @@ The Apache APISIX project website and the issue on Github have accumulated a wea
 
 ## Recent Blog Posts Recommended
 
-- [Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247486808&idx=1&sn= 16ff09d4172dc61e0aa864f7a4fd40fd&chksm=e9816645def6ef53c5e41d84e70e16256a1953c177c52d960331c7ecd836cf8eeedf83bee5e4&token= 733405538&lang=zh_CN%23rd)
+- [Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29](https://apisix.apache.org/blog/2021/08/30/weekly-report/)
 
   "The Apache APISIX Community Weekly Report hopes to help community members better grasp the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.
 
-- [Apache APISIX Delivers a Better Gateway and K8S Ingress Controller for KubeSphere](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247487079&idx=1&sn= 136417f538c1d2d96150cfd3de66b93b&chksm=e981657adef6ec6c31ea990ec3f8887b22530dc44e6cf011c990449aea492cc3d8379668e1d6&token= 733405538&lang=zh_CN%23rd)
+- [Apache APISIX Delivers a Better Gateway and K8S Ingress Controller for KubeSphere](https://apisix.apache.org/blog/2021/08/31/Apache%20APISIX%20%C3%97%20KubeSphere-a-better-gateway-and-K8S-Ingress-Controller/)
 
   This article describes how to deploy APISIX and APISIX Ingress Controller directly in KubeSphere. APISIX can be used to carry business traffic by acting as a gateway, or a data plane for APISIX Ingress Controller.
 
-- [Heard you have something to say about Apache APISIX? Here's your chance](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247487094&idx=1&sn=c86ff723205b6073811a4d9016e81bca&chksm= e981656bdef6ec7dffb2d11639af944f0a4ebc9db051c0dd940d8e7f1b8b6ae42fb8690859c0&token=733405538&lang=zh_CN%23rd)
+- [Heard you have something to say about Apache APISIX? Here's your chance](https://apisix.apache.org/blog/2021/09/15/weekly-report/)
 
   We invite you to participate in the Apache APISIX User Survey, and your feedback will directly influence our future development. We will randomly select a number of lucky stars who will have a chance to win a small gift from the Apache APISIX community!
 
-- [Using Apache APISIX and Okta for Authentication](https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&mid=2247487572&idx=1&sn= 4aebd05282442a7e067496e1ff4be7bd&chksm=e9817b49def6f25fee8a1308666c56878697c5ec02bb8a63d1a6ce0ba749d29a4135cdf927f0&token= 733405538&lang=zh_CN%23rd)
+- [Using Apache APISIX and Okta for Authentication](https://apisix.apache.org/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication/)
 
   This article describes how to use Apache APISIX to configure Okta authentication to switch from traditional authentication mode to centralized authentication mode, getting rid of multiple accounts, multiple passwords, duplicate authentication and other pain points faced by many developers.
 

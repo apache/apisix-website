@@ -19,13 +19,13 @@ The Meetup was initiated by [API7.AI](https://www.apiseven.com/zh), and invited 
 
 Let's take a look back at some of the most memorable talks from the conference!
 
-## Apache APISIX-based Aiki API Gateway Implementation Practice
+## Apache APISIX-based iQiYi API Gateway Implementation Practice
 
 **Instructor**: Cong He
 
 **Personal Introduction**: Senior R&D Engineer, IIG Infrastructure Department - Compute Cloud, mainly responsible for iQiYi Gateway development and operation and maintenance.
 
-**Detail of Topic**: API gateway has become an indispensable part of the microservice architecture. It bears the sole gateway for services to the outside world, but also needs to meet the common functions of many applications. As an online video company, Aikiy has to carry tens of millions of calls every day, and has extremely strict requirements for data security, user request response time, and system stability, so the company needs to build a high-performance, highly available API gateway. This sharing briefly introduces the architecture of Aiki API gateway and the functions implemented, including request distribution, conditional routing, Api management, flow restriction and fusion, security triple prevention, monitoring and alarming, and full link tracking.
+**Detail of Topic**: API gateway has become an indispensable part of the microservice architecture. It bears the sole gateway for services to the outside world, but also needs to meet the common functions of many applications. As an online video company, iQiYi has to carry tens of millions of calls every day, and has extremely strict requirements for data security, user request response time, and system stability, so the company needs to build a high-performance, highly available API gateway. This sharing briefly introduces the architecture of iQiYi API gateway and the functions implemented, including request distribution, conditional routing, Api management, flow restriction and fusion, security triple prevention, monitoring and alarming, and full link tracking.
 
 **Video Review**: [Akiyoshi's Apache APISIX-based API Gateway Implementation Practice](https://www.bilibili.com/video/BV1Qq4y1M7bK)
 
