@@ -46,7 +46,7 @@ We've also put together some issues for those new to the community!
 
 ## Feature highlights of the week
 
-- [Dashboard support for configuring the host field in Service to provide routing defaults](https://github.com/apache/apisix-dashboard/pull/2149) (Contributor: [bzp2010](https://github.com/ bzp2010))
+- [Dashboard support for configuring the host field in Service to provide routing defaults](https://github.com/apache/apisix-dashboard/pull/2149) (Contributor: [bzp2010](https://github.com/bzp2010))
 
 - [APISIX support test profile](https://github.com/apache/apisix/pull/5171) (Contributor: [nic-chen](https://github.com/nic-chen))
 
@@ -54,7 +54,7 @@ We've also put together some issues for those new to the community!
 
 ## Recommended blog posts for this week
 
-- [New milestone for the Apache APISIX community - topping 300 contributors worldwide!] (https://apisix.apache.org/zh/blog/2021/10/13/celebrating-300-contributors-of-apisix).
+- [New milestone for the Apache APISIX community - topping 300 contributors worldwide!](https://apisix.apache.org/zh/blog/2021/10/13/celebrating-300-contributors-of-apisix).
 
   The Apache APISIX community has reached a new milestone, surpassing 300 global contributors to projects related to Apache APISIX! Just 3 months after the Apache APISIX main repository reached the 200 contributor milestone! Thank you to our community contributors for their outstanding contributions in all aspects of code, documentation, operations, and more.
 
@@ -62,6 +62,6 @@ We've also put together some issues for those new to the community!
 
   Zexuan Luo and Ming Wen from the Apache APISIX community contributed to the first community innovation release of openEuler (openEuler 21.09) on September 30, which allowed OpenResty to run smoothly and efficiently on the Euler open source operating system. The stable operation of OpenResty also means that Apache APISIX can run smoothly on the openEuler system, and the underlying Apache APISIX is based on OpenResty for some development.
 
-- [Apache APISIX 2.10.0 is released, bringing the first LTS version!] (https://apisix.apache.org/zh/blog/2021/09/29/release-apache-apisix-2.10)
+- [Apache APISIX 2.10.0 is released, bringing the first LTS version!](https://apisix.apache.org/zh/blog/2021/09/29/release-apache-apisix-2.10)
 
   Apache APISIX version 2.10 is officially released! 🎉 This is the first LTS release of Apache APISIX, with support for 10+ new features and new plugins. Have a quick read about the new features in version 2.10!

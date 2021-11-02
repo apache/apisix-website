@@ -207,5 +207,5 @@ After the request is finished, we can also do some cleanup work with the `log` m
 
 If you are interested, you can take a look at how the `log` method of these two plugins is implemented:
 
-- [`prometheus` plugin documentation](https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/)
-- [`http-logger` plugin documentation](https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/)
+- [`prometheus` plugin documentation](https://apisix.apache.org/docs/apisix/plugins/prometheus/)
+- [`http-logger` plugin documentation](https://apisix.apache.org/docs/apisix/plugins/http-logger/)
