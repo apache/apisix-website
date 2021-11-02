@@ -76,9 +76,9 @@ proxy_pass http://test_backend$request_uri;
 
 注意，同一 group 的配置需要相同，目前需要调用者保证，否则 group 获得的限制对象将与配置不同。
 
-### Issue #5342
+### Issue #5343
 
-**链接**: https://github.com/apache/apisix/issues/5342
+**链接**: https://github.com/apache/apisix/issues/5343
 
 **问题描述**: 在模式中添加一个 request_body 开关，每个主体可以被 expr 用来决定是否记录。如果没有这个开关，主体就不会被记录。
 
