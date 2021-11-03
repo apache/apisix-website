@@ -80,7 +80,8 @@ const tasks = new listr([
                     {
                       title: "Replace elements inside MD files",
                       task: () => {
-                        replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], project.branch);
+                        const branchName = `release/${version}`;
+                        replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], branchName);
                         copyAllDocs(project);
                       }
                     },
@@ -117,6 +118,7 @@ const tasks = new listr([
     }
   },
   {
+    // NOTE: Extract docs from the master branch
     title: "Extract next version documents",
     task: () => {
       const nextVersionTasks = projectPaths.map((project) => {
