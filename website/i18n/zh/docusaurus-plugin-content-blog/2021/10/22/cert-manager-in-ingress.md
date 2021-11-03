@@ -9,7 +9,7 @@ keywords:
 - Cert Manager
 - Kubernetes
 description: 本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。
-tags: [technology]
+tags: [Technology]
 ---
 
 > 本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。

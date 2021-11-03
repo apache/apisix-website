@@ -9,7 +9,7 @@ keywords:
 - Kubernetes
 - Apache
 description: 本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。
-tags: [technology]
+tags: [Technology]
 ---
 
 > 本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。

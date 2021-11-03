@@ -9,7 +9,7 @@ keywords:
 - Kubernetes
 - Apache
 description: This article describes the growth of APISIX Ingress and the details of the enhancements and community help that APISIX Ingress has received since joining the community.
-tags: [technology]
+tags: [Technology]
 ---
 
 > This article describes the growth of APISIX Ingress and the details of the enhancements and community help that APISIX Ingress has received since joining the community.

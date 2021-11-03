@@ -9,7 +9,7 @@ keywords:
 - Ingress
 - Kubernetes
 description: This article describes and explains Apache APISIX Ingress in detail from both theoretical and practical perspectives.
-tags: [technology]
+tags: [Technology]
 ---
 
 > Jintao Zhang, Apache APISIX Committer, Kubernetes Ingress Nginx Reviewer, and contributor to several cloud-native open source projects.
