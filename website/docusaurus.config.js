@@ -1,5 +1,16 @@
 const { ssrTemplate } = require('./config/ssrTemplate');
 
+const getEditUrl = ({
+  projectName,
+  version,
+  locale,
+  docPath,
+  defaultBranch = "master"
+}) => {
+  const branch = version === 'current' ? defaultBranch : `release/${version}`;
+  return `https://github.com/apache/${projectName}/edit/${branch}/docs/${locale}/latest/${docPath}`;
+}
+
 module.exports = {
   title: "Apache APISIX® --  Cloud-Native API Gateway",
   tagline:
@@ -293,11 +304,16 @@ module.exports = {
         routeBasePath: "/docs/apisix",
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
         editUrl: function ({
-          locale,
           docPath,
+          version,
+          locale
         }) {
-          // TODO: support Edit on multiple versions/branches
-          return `https://github.com/apache/apisix/edit/master/docs/${locale}/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix",
+            locale,
+            docPath,
+            version
+          })
         },
       },
     ],
@@ -312,8 +328,15 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-dashboard/edit/master/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-dashboard",
+            locale,
+            docPath,
+            version
+          })
         },
       },
     ],
@@ -330,8 +353,15 @@ module.exports = {
         ),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-ingress-controller",
+            locale,
+            docPath,
+            version
+          })
         },
       },
     ],
@@ -346,8 +376,15 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-helm-chart/edit/master/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-helm-chart",
+            locale,
+            docPath,
+            version
+          })
         },
       },
     ],
@@ -362,8 +399,15 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-docker/edit/master/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-docker",
+            locale,
+            docPath,
+            version
+          })
         },
       },
     ],
@@ -378,8 +422,16 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix-java-plugin-runner/sidebars.json"),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-java-plugin-runner/edit/main/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-java-plugin-runner",
+            locale,
+            docPath,
+            version,
+            defaultBranch: "main"
+          })
         },
       },
     ],
@@ -394,8 +446,15 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix-go-plugin-runner/sidebars.json"),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-go-plugin-runner/edit/master/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-go-plugin-runner",
+            locale,
+            docPath,
+            version,
+          })
         },
       },
     ],
@@ -410,8 +469,15 @@ module.exports = {
         sidebarPath: require.resolve("./docs/apisix-python-plugin-runner/sidebars.json"),
         editUrl: function ({
           docPath,
+          version,
+          locale
         }) {
-          return `https://github.com/apache/apisix-python-plugin-runner/edit/master/docs/en/latest/${docPath}`;
+          return getEditUrl({
+            projectName: "apisix-python-plugin-runner",
+            locale,
+            docPath,
+            version,
+          })
         },
       },
     ],
@@ -647,5 +713,5 @@ module.exports = {
    * We need to check if we build site for preview env, or preview site will load static assets from the asf-site branch.
    * See ssrTemplate -> jsDelivr
   */
-   ssrTemplate
+  ssrTemplate
 };
