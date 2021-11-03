@@ -9,7 +9,7 @@ keywords:
 - HTTP
 - Apache
 description: 本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。
-tags: [technology]
+tags: [Technology]
 ---
 
 > 本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。

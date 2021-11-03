@@ -9,7 +9,7 @@ keywords:
 - Cert Manager
 - Kubernetes
 description: This article shows how to create a certificate and pair it with Apache APISIX Ingress Controller via the Cert Manager.
-tags: [technology]
+tags: [Technology]
 ---
 
 > This article shows how to create a certificate and pair it with Apache APISIX Ingress Controller via the Cert Manager.

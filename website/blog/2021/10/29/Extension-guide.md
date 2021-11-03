@@ -9,7 +9,7 @@ keywords:
 - HTTP
 - Apache
 description: This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.
-tags: [technology]
+tags: [Technology]
 ---
 
 > This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.
