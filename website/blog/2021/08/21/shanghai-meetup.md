@@ -42,7 +42,7 @@ Wenjie Jiang / Scientist, iQiYi
 
 #### Topic Details
 
-API gateway has become an indispensable part of microservice architecture. It is the only portal for services to the outside world, but also needs to meet the common functions of many applications. As an online video company, Aqiyi needs to carry tens of millions of calls every day and has extremely strict requirements for data security, user request response time, and system stability, so the company needs to build a high-performance and highly available API gateway. This article briefly introduces the architecture of Aiki API gateway and the functions implemented, including request distribution, conditional routing, API management, flow-limiting fusion, security triple prevention, monitoring and alarming, and full-link tracking.
+API gateway has become an indispensable part of microservice architecture. It is the only portal for services to the outside world, but also needs to meet the common functions of many applications. As an online video company, Aqiyi needs to carry tens of millions of calls every day and has extremely strict requirements for data security, user request response time, and system stability, so the company needs to build a high-performance and highly available API gateway. This article briefly introduces the architecture of iQiYi API gateway and the functions implemented, including request distribution, conditional routing, API management, flow-limiting fusion, security triple prevention, monitoring and alarming, and full-link tracking.
 
 ### How to use Apache APISIX for centralized authentication
 

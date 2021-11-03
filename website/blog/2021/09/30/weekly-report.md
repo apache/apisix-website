@@ -97,7 +97,7 @@ property "price" is required
 
 - [hmac-auth support for checksum request bodies](https://github.com/apache/apisix/pull/5038) (Contributed by [arthur-zhang](https://github.com/arthur-zhang))
 
-- [APISIX Ingress controller integrates with cert-manager, so users can manage TLS certificates more easily and use it with APISIX Ingress](https://github.com/apache/apisix-ingress-controller/) pull/685) (Contributed by [lingsamuel](https://github.com/lingsamuel))
+- [APISIX Ingress controller integrates with cert-manager, so users can manage TLS certificates more easily and use it with APISIX Ingress](https://github.com/apache/apisix-ingress-controller/pull/685) (Contributed by [lingsamuel](https://github.com/lingsamuel))
 
 - [- APISIX Dashboard supports multiple profiles](https://github.com/apache/apisix-dashboard/pull/1946) (contributor: [bzp2010](https://github.com/bzp2010))
 

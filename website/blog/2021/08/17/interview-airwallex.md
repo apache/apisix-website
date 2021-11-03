@@ -18,7 +18,7 @@ We had a chance to interview Yang Li, the technical platform leader of Airwallex
 
 **Q: Hello Dr. Li, please briefly introduce yourself and the work you are currently engaged in.**
 
-**Jan Li:** Hi, my name is Jan Li, PhD, Apache APISIX Committer, Airwallex Technical Platform Lead, responsible for the evolution of the company's technology platform. Prior to joining Airwallex, I led the Ops Chain Alliance at Wanxiang Blockchain. Prior to Wanxiang Blockchain, he led the OTC derivatives risk control platform at Citigroup.
+**Yang**: Hi, my name is Yang Li, PhD, Apache APISIX Committer, Airwallex Technical Platform Lead, responsible for the evolution of the company's technology platform. Prior to joining Airwallex, I led the Ops Chain Alliance at Wanxiang Blockchain. Prior to Wanxiang Blockchain, he led the OTC derivatives risk control platform at Citigroup.
 
 Airwallex is a global financial technology company that empowers businesses of all sizes to operate across borders, thereby helping to grow the global economy. With technology at its core, Airwallex has built a proprietary global financial infrastructure platform with a global payment network covering more than 50 currencies in over 130 countries and regions, providing digital fintech products for businesses of all sizes to help them grow at high speed around the world in a more efficient and secure way in the globally connected information age. Since its inception in 2015, Airwallex has received over $500 million in funding from top-tier investors and now has 12 offices and over 900 employees worldwide.
 
@@ -68,15 +68,15 @@ In order to be able to upgrade to new versions of Apache APISIX at any time, we 
 
 **Q: How long has Apache APISIX been running in a production environment? How does it perform online?**
 
-**Yang Li**: The production environment has been running for 15 months, and 99% of the response latency is within 23ms with dynamic routing, tenant-level flow restriction, tenant-level whitelisting, Authentication, Authorization, etc. The overall performance is very stable. Thanks to the excellent plug-in mechanism of Apache APISIX, we can add private plug-ins that meet business requirements with little modification to its core code. The complete testing system also further guarantees the quality of the software and allows us to add plug-ins for personalized requirements without breaking the original core logic.
+**Yang**: The production environment has been running for 15 months, and 99% of the response latency is within 23ms with dynamic routing, tenant-level flow restriction, tenant-level whitelisting, Authentication, Authorization, etc. The overall performance is very stable. Thanks to the excellent plug-in mechanism of Apache APISIX, we can add private plug-ins that meet business requirements with little modification to its core code. The complete testing system also further guarantees the quality of the software and allows us to add plug-ins for personalized requirements without breaking the original core logic.
 
 **Q: What are the shortcomings of Apache APISIX and what do you hope the community will build together to improve?**
 
-**Yang Li**: Apache APISIX's data-plane design brings it lossless horizontal scaling and extreme performance, but it also makes the routing configuration difficult to achieve forward compatibility, which brings some coordination difficulties for the release of new versions.
+**Yang**: Apache APISIX's data-plane design brings it lossless horizontal scaling and extreme performance, but it also makes the routing configuration difficult to achieve forward compatibility, which brings some coordination difficulties for the release of new versions.
 
 **Q: What are the follow-up plans?**
 
-**Yang Li**: The follow-up plan includes three main areas.
+**Yang**: The follow-up plan includes three main areas.
 
 1. using multi-layer networks to split different gateway logic into different tiers, such as distributing traffic based on data sovereignty with other gateway logic belonging to a different network tier.
 2. easy-to-read and easy-to-use route management is critical to the success or failure of the API gateway, although the gateway features will continue to iterate and increase, but the route management needs to be developer-friendly so that developers can easily understand what the gateway can do for him, how to configure and how to publish.

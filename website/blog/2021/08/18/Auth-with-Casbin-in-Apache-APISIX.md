@@ -74,7 +74,7 @@ g, bob,admin
 
 The matcher in the model indicates that.
 
-1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`: The subject in the request and the subject in the policy have the same role or the subject in the request and the subject in the policy can be matched by the built-in method `keyMatch`. `keyMatch` is a built-in function of Lua Casbin, a description of which and more can be found at [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions. lua).
+1. `(g(r.sub, p.sub) || keyMatch(r.sub, p.sub))`: The subject in the request and the subject in the policy have the same role or the subject in the request and the subject in the policy can be matched by the built-in method `keyMatch`. `keyMatch` is a built-in function of Lua Casbin, a description of which and more can be found at [lua-casbin](https://github.com/casbin/lua-casbin/blob/master/src/util/BuiltInFunctions.lua).
 2. `keyMatch(r.obj, p.obj)`: the object in the request and the object in the policy can match each other (proxy for URL links).
 3. `keyMatch(r.act, p.act)`: the action in the request and the action in the policy match each other (proxy for the HTTP request method).
 

@@ -14,7 +14,7 @@ tags: [Events]
 
 Let's get to know these two community members!
 
-[Zexuan Luo](https://github.com/spacewander), Apache APISIX PMC, core developer of OpenResty, Maintainer of git-extras project, good at C, Golang and Lua, has written many technical articles, recommend reading [Why Why did Apache APISIX choose Nginx + Lua as the technology stack?] (https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua), "[What's the difference: does etcd 3 support HTTP access perfectly?] (https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly)".
+[Zexuan Luo](https://github.com/spacewander), Apache APISIX PMC, core developer of OpenResty, Maintainer of git-extras project, good at C, Golang and Lua, has written many technical articles, recommend reading [Why Why did Apache APISIX choose Nginx + Lua as the technology stack?](https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua), "[What's the difference: does etcd 3 support HTTP access perfectly?](https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly)".
 
 <img src="https://static.apiseven.com/202108/1633068755509-66b85782-ecca-43cc-bbcc-5a7b11cee0f4.png" alt="罗泽轩" style={{width: "200px"}} />
 
