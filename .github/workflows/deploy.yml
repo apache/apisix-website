@@ -41,7 +41,7 @@ jobs:
         run: |
           cd website && yarn build
           cp ../.asf.yaml ./build
-      
+
       - name: Update sitemap.xml
         run: |
           cd scripts && node update-sitemap-loc.js && git status
