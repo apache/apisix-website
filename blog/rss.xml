@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Wed, 03 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 04 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[The observability of Apache APISIX]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/04/skywalking</link>
+            <guid>The observability of Apache APISIX</guid>
+            <pubDate>Thu, 04 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.]]></description>
+        </item>
         <item>
             <title><![CDATA[How Apache APISIX protects Airwallex data sovereignty through the gateway layer]]></title>
             <link>https://apisix.apache.org/blog/2021/11/03/airwallex-usercase</link>
