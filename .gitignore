@@ -29,3 +29,5 @@ tmp/*
 
 # Local Netlify folder
 .netlify
+
+scripts/yarn.lock
