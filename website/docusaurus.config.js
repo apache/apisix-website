@@ -681,7 +681,8 @@ module.exports = {
       defaultLanguage: 'bash',
     },
     algolia: {
-      apiKey: "287206c9872faf0e77b7c5228d4c3789",
+      appId: '38VC84A2WJ',
+      apiKey: '73248b6e5908d49bb7986c4aef5fd30d',
       indexName: "apache_apisix",
       contextualSearch: true,
     },
