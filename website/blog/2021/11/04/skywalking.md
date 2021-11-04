@@ -57,7 +57,7 @@ Apache APISIX supports querying node status. When enabled, information about the
 
 ![Node Status](https://static.apiseven.com/202108/1635993774170-ca3bf15d-9f55-42ac-9a2f-2d8955f74c5c.png)
 
-### Fly in the Ointment
+### Pitfalls
 
 As mentioned above, Apache APISIX has a well-established observability capability to collect information such as Metrics, Logging, and Tracing. Although the built-in plug-in of Apache APISIX and Grafana Dashboard can solve the problems of monitoring data collection and indicator visualization, all kinds of data are scattered on various platforms. It is expected that an observability analysis platform can integrate Metrics, Logging, and Tracing information and link all data together.
 
