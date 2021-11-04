@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 02 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 03 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[How Apache APISIX protects Airwallex data sovereignty through the gateway layer]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/03/airwallex-usercase</link>
+            <guid>How Apache APISIX protects Airwallex data sovereignty through the gateway layer</guid>
+            <pubDate>Wed, 03 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.]]></description>
+        </item>
         <item>
             <title><![CDATA[Weekly Report｜10.15-10.31 Feature Highlights Update in Progress]]></title>
             <link>https://apisix.apache.org/blog/2021/11/02/weekly-report-1031</link>

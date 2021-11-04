@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 02 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 03 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 如何通过网关层为 Airwallex 数据主权保驾护航]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/11/03/airwallex-usercase</link>
+            <guid>Apache APISIX 如何通过网关层为 Airwallex 数据主权保驾护航</guid>
+            <pubDate>Wed, 03 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文将为大家带来关于 Airwallex 空中云汇是如何使用 Apache APISIX 进行网关层部署来加固数据主权方面的建设。]]></description>
+        </item>
         <item>
             <title><![CDATA[社区周报｜10.15-10.31 功能亮点更新进行中]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/02/weekly-report-1031</link>

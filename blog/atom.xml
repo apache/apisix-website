@@ -2,11 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-11-02T00:00:00.000Z</updated>
+    <updated>2021-11-03T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[How Apache APISIX protects Airwallex data sovereignty through the gateway layer]]></title>
+        <id>How Apache APISIX protects Airwallex data sovereignty through the gateway layer</id>
+        <link href="https://apisix.apache.org/blog/2021/11/03/airwallex-usercase"/>
+        <updated>2021-11-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.]]></summary>
+        <author>
+            <name>Yang Li</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Weekly Report｜10.15-10.31 Feature Highlights Update in Progress]]></title>
         <id>Weekly Report｜10.15-10.31 Feature Highlights Update in Progress</id>
