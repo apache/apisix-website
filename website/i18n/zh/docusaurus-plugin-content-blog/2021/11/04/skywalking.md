@@ -1,8 +1,8 @@
 ---
 title: "浅谈 Apache APISIX 的可观测性"
 author: "庄浩潮"
-authorURL: "https://github.com/spacewander"
-authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
+authorURL: "https://github.com/dmsolr"
+authorImageURL: "https://avatars.githubusercontent.com/u/29735230?v=4"
 keywords: 
 - Apache APISIX
 - 可观测性
