@@ -1,126 +1,124 @@
 ---
-title: "基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践"
-author: "何聪"
+title: "Based on Apache APISIX, iQIYI API Gateway Update and landing practice"
+author: "Cong He"
 keywords: 
-- APISIX
-- 爱奇艺
-- API 网关
-- 服务发现
-description: 本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。
+- Apache APISIX
+- iQIYI
+- API Gateway
+- Service discovery
+description: In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.
 tags: [User Case]
 ---
 
-> 爱奇艺在之前有开发了一款网关——Skywalker，它是基于 Kong 做的二次开发，目前流量使用也是比较大的，网关存量业务日常峰值为百万级别 QPS，API 路由数量上万。但这款产品的不足随着使用也开始逐步体现。今年在交接到此项目后，我们根据上述问题和困境，开始对相关网关类产品做了一些调研，然后发现了 Apache APISIX。在选择 Apache APISIX 之前，爱奇艺平台已经在使用 Kong 了，但是后来 Kong 被放弃了。
+> In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.
 
 <!--truncate-->
 
-## 背景描述
+## Background
 
-爱奇艺在之前有开发了一款网关——Skywalker，它是基于 Kong 做的二次开发，目前流量使用也是比较大的，网关存量业务**日常峰值为百万级别 QPS，API 路由数量上万**。但这款产品的不足随着使用也开始逐步体现。
+iQIYI has developed a gateway-skywalker, it is based on the secondary development of Kong, the current traffic is also relatively large, the daily peak of the gateway stock business million QPS, the number of API routes tens of thousands. But the product’s shortcomings began to show up in the wake of its use.
 
-1. 性能差强人意，因为业务量大，每天收到很多 CPU IDLE 过低的告警
+1. Performance is not satisfactory, because the volume of business, every day received a lot of CPU IDLE too low alert
+2. The components of the system architecture depend on many
+3. The development cost of operation and maintenance is high
 
-2. 系统架构的组件依赖多
+After taking over the project this year, we started to do some research on gateway products in the light of the problems and dilemmas mentioned above, and then we found Apache APISIX.
 
-3. 运维开发成本较高
+## Apache APISIX Advantage
 
-今年在交接到此项目后，我们根据上述问题和困境，开始对相关网关类产品做了一些调研，然后发现了 Apache APISIX。
+Before choosing Apache APISIX, the iqiyi platform was already using Kong, but it was later abandoned.
 
-## Apache APISIX 优势
+### Why Give Up Kong
 
-在选择 Apache APISIX 之前，爱奇艺平台已经在使用 Kong 了，但是后来 Kong 被放弃了。
+![Kong's disadvantage](https://static.apiseven.com/202108/1630995514489-6f7b382a-ed2d-46ad-8ded-4dda42ed3bc8.png)
 
-### 为什么放弃 Kong
+Kong uses PostgreSQL to store its information, which is obviously not a good way. We also looked at the performance of Apache APISIX compared to Kong in the course of our research, and it’s amazing that Apache Apisix is 10 times better than Kong in terms of performance optimization. We also compared some of the major gateway products, Apache APISIX’s response latency is more than 50% lower than other gateways, and Apache APISIX can still run stably when the CPU reaches more than 70% .
 
-![Kong 的缺点](https://static.apiseven.com/202108/1630995514489-6f7b382a-ed2d-46ad-8ded-4dda42ed3bc8.png)
+We also found out that Apache APISIX, like Kong, is based on the OpenResty technology, so the cost of technology migration is relatively low. And Apache APISIX is very adaptable and can be easily deployed in a variety of environments, including cloud computing platforms.
 
-Kong 使用 PostgreSQL 来存储它的信息，这显然不是一个好方式。 同时在调研过程中我们查看了 Apache APISIX 与 Kong 的性能的对比，在性能优化方面 Apache APISIX 比 Kong 提升了 10 倍，这个指标是非常让人惊喜的。 同时我们也比较了一些主要的网关产品，Apache APISIX 的响应延迟比其它网关低 50% 以上，在 CPU 达到 70% 以上时 Apache APISIX 仍能稳定运转。
+We also saw that Apache APISIX was very active throughout the open source project, handled the issues very quickly, and the cloud native architecture of the project was in line with our follow up plans, so we chose Apache APISIX.
 
-我们也发现 Apache APISIX 其实和 Kong 一样，都是基于 OpenResty 技术层面做的开发，所以在技术层面的迁移成本就比较低。而且 Apache APISIX 具有良好的环境适应性，能够被轻易地部署在包括云计算平台在内的各种环境上。
+## Architecture Based on Apache APISIX
 
-同时也看到 Apache APISIX 整个开源项目的活跃度非常高，对问题的处理非常迅速，并且项目的云原生架构也符合我司后续规划，所以我们选择了 Apache APISIX。
+The overall architecture of iQIYI Gateway is shown below, including domain name, gateway to service instance and monitoring alarm. DPVS is an open source project within the company based on LVS, Hubble monitoring alerts is also a deep secondary development based on an open source project, and the Consul area has been optimized for performance and high availability.
 
-## 基于 Apache APISIX 下的爱奇艺网关架构
+![iQIYI Gateway architecture](https://static.apiseven.com/202108/1630995637366-b42e408b-53ea-47fb-b282-e68042f13090.png)
 
-爱奇艺网关的总体架构如下图所示，包含域名、网关到服务实例和监控告警。DPVS 是公司内部基于 LVS 做的一个开源项目，Hubble 监控告警也是基于开源项目做的深度二次开发，Consul 这块做了些性能和高可用性方面的优化。
+### Scenario 1: Microservice Gateway
 
-![爱奇艺网关架构图](https://static.apiseven.com/202108/1630995637366-b42e408b-53ea-47fb-b282-e68042f13090.png)
+About the gateway this piece, simple from the control surface and the data surface introduce.
 
-### 应用场景一：微服务网关
+![Gateway details](https://static.apiseven.com/202108/1630995699492-bdc1c560-2c0a-4db0-82c9-2a5391941863.png)
 
-关于网关这块，简单从控制面和数据面介绍一下。
+The data plane is mainly oriented to the front-end users, and the whole architecture from LB to Gateway is multi-location and multi-link disaster deployment.
 
-![网关细节图](https://static.apiseven.com/202108/1630995699492-bdc1c560-2c0a-4db0-82c9-2a5391941863.png)
+From the perspective of control surface, because of the multi-cluster composition, there will be a micro-service platform to do cluster management and service management. Microservice platforms allow users to experience services as one-stop-shops that expose them to immediate use without having to submit a work order. The back end of the control panel will have Gateway Controller, which controls the creation of all apis, plug-ins, and related configurations, and Service Controller, which controls Service registration and health checks.
 
-数据面主要面向前端用户，从 LB 到网关整个架构都是多地多链路灾备部署，以用户就近接入原则进行布点。
+### Scenario 2: Basic Functions
 
-从控制面的角度来说，因为多集群构成，会存在一个微服务平台，去做集群管理和服务管理。微服务平台可以让用户体验服务暴露的一站式服务，立即使用，无需提交工单。控制面后端会有 Gateway Controller 和 Service Controller，前者主要控制所有的 API 的创建、插件等相关配置，后者则是控制服务注册注销和健康检查。
+At present, the API architecture based on Apache APISIX has realized some basic functions, such as current limiting, authentication, alarm, monitoring and so on.
 
-### 应用场景二：基础功能
+![Micro service platform function](https://static.apiseven.com/202108/1630995732178-1717dd1a-3cdf-4f34-aea2-9a26df1c37c1.png)
 
-目前阶段，基于 Apache APISIX 调整后的 API 架构实现了一些基础功能，如限流、认证、报警、监控等。
+First is the HTTPS section, iQIYI for security reasons, certificates and keys are not stored on the gateway machine, will be placed on a dedicated remote server. We didn’t support this when we used Kong, we used the prefix Nginx to do HTTPS Offload, and after the migration to Apache APISIX, we implemented this feature on Apache APISIX, which is a layer less forwarding over the link.
 
-![微服务平台功能](https://static.apiseven.com/202108/1630995732178-1717dd1a-3cdf-4f34-aea2-9a26df1c37c1.png)
+In the current limiting function, in addition to the basic current limiting, but also added a precise current limiting and user-specific granularity of the current limiting. Authentication function, in addition to the basic API Key authentication, for specialized services also provide the relevant Passport authentication. For black product filtering, access to the company’s WAF Security Cloud.
 
-首先是 HTTPS 部分，爱奇艺方面出于对安全性的考虑，证书和密钥是不会存放在网关机器上，会放在一个专门的远程服务器上。之前使用 Kong 时我们没有在这方面做相关支持，采用前置 Nginx 做 HTTPS Offload，此次迁移到 Apache APISIX 后，我们在 Apache APISIX 上实现了该功能，从链路上来说就少了一层转发。
+The monitoring feature is currently implemented using the Apache APISIX plug-in Prometheus, and the metrics data will interface directly with the company’s monitoring system. Logging and call chain analysis is also supported through Apache APISIX.
 
-在限流功能上，除了基础的限流，还添加了精准限流以及针对用户粒度的限流。认证功能上，除了基本的 API Key 等认证，针对专门业务也提供了相关的 Passport 认证。对于黑产的过滤，则接入了公司的 WAF 安全云。
+### Scenario 3: Serviece Discovery
 
-监控功能的实现目前是使用了 Apache APISIX 自带插件——Prometheus，指标数据会直接对接公司的监控系统。日志和调用链分析也通过 Apache APISIX 得到了相关功能支持。
+With regard to the above-mentioned service discovery, it is mainly through the service center to register the service to the Consul cluster, and then through the DNS service discovery to do dynamic updates, qae is a micro-service platform in our company. A simple example illustrates the general flow of updating a backend application instance.
 
-### 应用场景三：服务发现
+![Service discovery process](https://static.apiseven.com/202108/1630995762178-b807f5fe-8851-4f10-acdc-fbf1c372b12f.png)
 
-关于前面提到的服务发现，主要是通过服务中心把服务注册到 Consul 集群，然后通过 DNS 服务发现的方式去做动态更新，其中 QAE 是我们公司内部的一个微服务平台。简单举例说明一下更新后端应用实例时的大体流程。
+When the instance changes, the corresponding node is first unlogged from Consul and a request to update the DNS cache is sent to the gateway through the API Gateway Controller. After the cache update is successful, the Controller then feeds back to the QAE platform to stop the associated back-end application node and avoid reforwarding traffic to the offline node.
 
-![服务发现流程](https://static.apiseven.com/202108/1630995762178-b807f5fe-8851-4f10-acdc-fbf1c372b12f.png)
+### Scenario 4: Directional Route
 
-实例变更时，首先会从 Consul 中注销对应节点，并通过 API 网关 Controller 向网关发送更新 DNS 缓存的请求。缓存更新成功后，Controller 再反馈 QAE 平台可以停止相关后端应用节点，避免业务流量再转发到已下线节点。
+![Directional route](https://static.apiseven.com/202108/1630995803596-e8d73d5d-29e0-4f66-b3bd-976d650bafcb.png)
 
-### 应用场景四：定向路由
+The gateway is multi-location deployment, build a set of multi-location backup link in advance, at the same time suggest the user back-end service is also multi-location deployment nearby. Then the user creates an API service on the Skywalker Gateway platform, the Controller deploys the API routing on the entire DC gateway cluster, and the business domain defaults to CNAME on the unified gateway domain name.
 
-![定向路由操作](https://static.apiseven.com/202108/1630995803596-e8d73d5d-29e0-4f66-b3bd-976d650bafcb.png)
+It provides multi-local access, disaster preparedness and handoff capability for business directly, and also supports user-defined resolution routing. For the user’s own fault-cut flow, blue-green deployment, gray-scale publishing needs, users can use the uuid domain name to customize the resolution of routing configuration, but also to support the back-end service discovery custom scheduling.
 
-网关是多地部署的，事先搭建好一整套多地互备链路，同时建议用户后端服务也是多地就近部署。随后用户在 Skywalker 网关平台上创建一个 API 服务，Controller 会在全 DC 网关集群上都部署好 API 路由，同时业务域名默认 CNAME 到统一的网关域名上。
+### Scenario 5: Multi-site Multi-level Disaster Tolerance
 
-直接为业务提供多地就近接入、故障灾备切换能力，同时也支持用户自定义解析路由。针对用户自身的故障切流、蓝绿部署、灰度发布等需求，用户可以通过采用 uuid 域名来自定义解析路由配置，同时也支持后端服务发现的自定义调度。
+As we mentioned earlier, at the business level we have business proximity and disaster preparedness requirements for large volumes of traffic, large clusters, and a wide audience of clients.
 
-### 应用场景五：多地多级容灾
+For disaster preparedness, in addition to multi-link backup, but also consider multi-level multi-node problem, fault node closer to the client, the greater the impact of business and traffic.
 
-前边我们也提到过，针对业务量大、集群多，还有客户端受众广的情况，在业务层面我们会有业务就近接入和灾备的需求。
+1. If it is the farthest back-end service node failure, depending on the health check mechanism of the gateway and the service center, it can realize the fuse of the fault single node or the switch of the fault DC, and the influence scope is limited to the specified service, the user is not aware.
+2. If it is a gateway level fault, we need to rely on the health check mechanism of L4 DPVS, fusing the fault gateway node, the influence range is small, the user is not aware.
+3. If the fault points can not be repaired by the above-mentioned fusing measures, it is necessary to rely on the multi-point availability dialing of the domain name granularity to realize the automatic fault switching at the domain name resolution level, which is a relatively slow way to repair the fault, affect the business much, the user can feel.
 
-针对灾备，除了要多地多链路互备，还要考虑多级多节点问题，故障节点越向客户端靠近，受影响的业务和流量越大。
+## Problems Encountered during Migration
 
-1. 如果是最远的后端服务节点故障，依靠网关和服务中心的健康检查机制，可以实现故障单节点的熔断或者故障 DC 的切换，影响范围限制在指定业务上，用户无感知。
-2. 如果是网关级别故障，需要依靠 L4 DPVS 的健康检查机制，熔断故障网关节点，影响范围小，用户无感知。
-3. 如果故障点并非上述述熔断措施所能修复，就需要依靠域名粒度的外网多点可用性拨测，实现域名解析级别的故障自动切换，这种方式故障修复速度相对较慢，影响业务多，用户可感知。
+During our migration practice from Kong to Apache APISIX, we addressed and optimized some known architectural issues, but also encountered some new ones.
 
-## 迁移过程中遇到的问题
+### Result 1: SNI Compatibility Issues Not Supported in The Front End Were Resolved
 
-在我们从 Kong 到 Apache APISIX 的迁移实践过程中，我们解决、优化了一些架构存在的已知问题，但同时也遇到了一些新的问题。
+Most of the frontend is now supported for SNI, but you’ll also encounter a few frontend that won’t pass the hostname during SSL. At present, we have done a compatibility for this situation, using port matching method to obtain the relevant certificates.
 
-### 成果一：解决了前端不支持 SNI 的兼容问题
+### Result 2: A Large Number of API Routing Matching Problems Have Been Optimized
 
-现在大部分前端都是支持 SNI 的，但也会碰到有一些前端在 SSL 过程中无法传递 hostname。目前我们针对这种情况做了一个兼容，采取端口匹配的方式进行相关证书获取。
+As I said before, we currently have more than 9,000 API services running directly online, and may increase in the future. In order to solve this problem, we made some performance optimization, according to the API to decide whether to match the domain name or the path first.
 
-### 成果二：优化了大量 API 路由匹配问题
+### Result 3: The Limitation of ETCD Interface Is Solved
 
-前边也说过，目前我们线上直接运行的 API 业务数量就有 9000 多个，后续可能还会增加。针对这一问题我们进行了相关性能上的优化，根据 API 来决定优先匹配域名还是路径。
+After accessing Apache APISIX, the ETCD interface limitation has also been resolved and the 4M limit has now been lifted.
 
-### 成果三：解决了 ETCD 接口限制问题
+### Result 4: Performance Issues Optimized for The Number of ETCD Connections
 
-在接入 Apache APISIX 后，ETCD 接口的限制问题也已经解决，目前已经解除了 4M 的限制。
+Currently, every worker at Apache APISIX is connected to the ETCD, and every listening directory is going to make a connection. For example, a physical machine is 80core, with 10 listening directories and 800 connections on a single gateway server. With a gateway cluster of 10,8,000 connections is a lot of pressure on the ETCD. The optimization is to take one worker and listen to a limited set of necessary directories and share the information with the rest of the workers.
 
-### 成果四：优化了 ETCD 连接数量的性能问题
+### To Be Optimized
 
-目前是 Apache APISIX 的每个 worker 都会跟 ETCD 连接，每一个监听目录都会去建一个连接。比如一台物理机是 80 core，监听目录有 10 个，单台网关服务器就有 800 个连接。一个网关集群 10 台的话，8000 个连接对 ETCD 压力蛮大的。我们做的优化是只拿一个 worker 去监听有限的必要目录，和其余 worker 之间共享信息。
+In addition to the above problems, there are also a number of issues are being optimized.
 
-### 待优化
+1. A number of API issues, even if APISIX is supported, we need to consider other component-dependent bottlenecks. Such as the ETCD, Prometheus Monitoring and logging services described above. So in the future, we may adopt the two ways of large cluster sharing and small cluster independence to mix the deployment of business, for example, some important business we will deploy in small clusters.
+2. With respect to the Prometheus monitoring metric, we will continue to scale down and optimize the DNS service to find more.
 
-除了上述问题，还有一些问题也正在努力优化中。
+## Expectations for Apache APISIX
 
-1. 大量 API 的问题，即使 APISIX 能够支持，我们也要考虑其他依赖组件的瓶颈。比如上述的 ETCD、Prometheus 监控和日志服务。所以后续我们可能会采取大集群共享和小集群独立这两种方式来混合部署业务，比如一些重要业务我们会以小集群方式进行部署。
-2. 关于 Prometheus 监控指标，后续我们也会进行相应的缩减和优化，对 DNS 服务发现这块做更多的优化。
-
-## 对 Apache APISIX 的期望
-
-我们希望 Apache APISIX 能在后续的开发更新中，除了支持更多的功能，也可以一直保持性能的高效和稳定。
+We hope that in future development updates Apache APISIX will not only support more functionality, but also maintain performance efficiency and stability over time.

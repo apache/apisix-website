@@ -1,160 +1,159 @@
 ---
-title: "Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？"
-author: "陈卓"
+title: "Why is Apache APISIX Ingress a new option for building container gateways into the UPYUN?"
+author: "Zhuo Chen"
 keywords: 
 - Apache APISIX
 - Apache APISIX Ingress
-- 又拍云
-- 容器网关
-description: 本文介绍了又拍云选择 Apache APISIX Ingress 后所带来公司内部网关架构的更新与调整，同时分享了在使用过程中的一些实践场景介绍。
+- UPYUN
+- Container gateway
+description: This article describes the update and adjustment of UPYUN's internal gateway architecture after you selected Apache Apisix Ingress, and shares some of the practice scenarios in use.
 tags: [User Case]
 ---
 
-> 本文介绍了又拍云选择 Apache APISIX Ingress 后所带来公司内部网关架构的更新与调整，同时分享了在使用过程中的一些实践场景介绍。
-> 作者陈卓，又拍云开发工程师，负责云存储、云处理和网关应用开发。
+> This article describes the update and adjustment of UPYUN's internal gateway architecture after you selected Apache Apisix Ingress, and shares some of the practice scenarios in use. Chen Zhuo, a cloud development engineer, is responsible for cloud storage, cloud processing, and gateway application development.
 
 <!--truncate-->
 
-## 项目背景介绍
+## Background
 
-目前市面上可执行 Ingress 的产品项目逐渐丰富了起来，可选择的范围也扩大了很多。这些产品按照架构大概可分为两类，一类像 k8s Ingress、Apache APISIX Ingress，他们是基于 Nginx、OpenResty 等传统代理器，使用 k8s-Client 和 Golang 去做 Controller。还有一类新兴的用 Golang 语言去实现代理和控制器功能，比如 Traefik。
+The range of Ingress products on the market has grown and the range of options has expanded considerably. These products fall into roughly two architectural categories. One, like K8s Ingress and Apache APISIX Ingress, are based on traditional agents such as Nginx and OpenResty, and use k8s-Client and Golang to do Controller. There is also an emerging class of agents and controllers using the Golang language, such as Traefik.
 
-又拍云最开始包括现在的大部分业务仍在使用 Ingress-Nginx，整体架构如下。
+Ingress-Nginx is still used by most businesses in UPYUN, and the overall architecture is as follows.
 
-![Ingress-Nginx 架构](https://static.apiseven.com/202108/1632469775377-8303128c-e8a6-4594-a87b-ac6942f4895e.png)
+![Ingress-Nginx architecture](https://static.apiseven.com/202108/1632469775377-8303128c-e8a6-4594-a87b-ac6942f4895e.png)
 
-下层为数据面 OpenResty。上层 Controller 主要是监听 APIServer 的资源变化，并生成 nginx.conf 配置文件，然后 Reload OpenResty。如果 POD IP 发生变化，可直接通过 HTTP 接口传输给 OpenResty Lua 代码去实现上游 Upstream node 替换。
+The lower layer is data plane OpenResty. The upper Controller listens primarily for resource changes from APIServer and generates `nginx.conf` configuration file, and then Reload OpenResty. If the POD IP changes, the Upstream Upstream node replacement can be transmitted directly to the OpenResty Lua code via the HTTP interface.
 
-Ingress-Nginx 的扩展能力主要通过 Annotations 去实现，配置文件本身的语法和路由规则都比较简单。可以按照需求进行相关指令配置，同时也支持可拓展 Lua 插件，提高了定制化功能的可操作性。
+The extensibility of Ingress-Nginx is achieved mainly through Annotations, and the configuration file itself has simple syntax and routing rules. Lua can be configured on demand, and the extension of the Lua plug in improves Operability of customization.
 
-![Ingress-Nginx 扩展能力实现](https://static.apiseven.com/202108/1632469835090-20c409f6-0416-4b2f-9ad7-4c836638f892.png)
+![Ingress-Nginx extensibility](https://static.apiseven.com/202108/1632469835090-20c409f6-0416-4b2f-9ad7-4c836638f892.png)
 
-但 Ingress-Nginx 它也有一些缺点，比如：
+But Ingress-Nginx has some drawbacks, such as:
 
-- 开发插件时组件依赖复杂，移植性差
-- 语义能力弱
-- 任何一条 Ingress 的修改都需要 Reload，对长链接不友好
+- The development of plug-ins depends on complex components, poor portability
+- Weak semantic ability
+- Any change to Ingress requires Reload, which is unfriendly to long links
 
-在维护现有逻辑时，上述问题造成了一定程度的困扰，所以我们开始寻找相关容器网关替代品。
+These issues caused some confusion in maintaining the existing logic, so we started looking for alternatives to the relevant container gateways.
 
-## 调研阶段
+## Research Phase
 
-在替代 Ingress-Nginx 的选择中，我们主要考量了 Traefik 和 Apache APISIX Ingress。
+In choosing an alternative to Ingress-Nginx, we focused on Traefik and Apache APISIX Ingress.
 
 ![Traefik](https://static.apiseven.com/202108/1632469875567-61dd6fbd-757f-419f-a769-99e6aaf46f0c.png)
 
-Traefik 是云原生模式，配置文件极其简单，采用分布式配置，同时支持多种自动配置发现。不仅支持 k8s、etcd，Golang 的生态语言支持比较好，且开发成本较低，迭代和测试能力较好。但是在其他层面略显不足，比如：
+Traefik is cloud-native, with extremely simple configuration files, a distributed configuration, and support for a variety of automated configuration discovery. Not only support K8s, ETCD, Golang eco-language support is better, and the development cost is lower, iteration and testing ability is better. But it falls short at other levels, such as:
 
-- 扩展能力弱
-- 不支持 Reload
-- 性能和功能上不如 Nginx（虽然消耗也较低）
+- Weak expansibility
+- Reload is not supported
+- Not as good as Nginx in terms of performance and functionality (though it’s also less expensive)
 
-它不像 Nginx 有丰富的插件和指令，通过增加一条指令即可解决一个问题，在线上部署时，可能还需在 Traefik 前搭配一个 Nginx。
+Unlike Nginx, which is rich in plugins and instructions, you can solve a problem by adding an instruction, and you may need to pair an Nginx with Traefik when you deploy online.
 
-综上所述，虽然在操作性上 Traefik 优势尽显，但在扩展能力和运维效率上有所顾虑，最终没有选择 Traefik。
+In summary, although Traefik has advantages on operations, we are worried about its drawbacks on extension and operational efficiency concerns, so we did not choose Traefik.
 
-## 为什么选择 Apache APISIX Ingress
+## Why Apache APISIX Ingress
 
-### 内部原因
+### Internal Cause
 
-在公司内部的多个数据中心上目前都存有 Apache APISIX 的网关集群，这些是之前从 Kong 上替换过来的。后来基于 Apache APISIX 的插件系统我们开发了一些内部插件，比如内部权限系统校验、精准速率限制等。
+Apache APISIX’s cluster of gateways, which were previously replaced from Kong, is currently hosted in multiple data centers within the company. Later, based on the Apache APISIX plug-in system, we developed some internal plug-in, such as internal permission system check, precision rate limit and so on.
 
-### 效率维护层面
+### Efficiency of Maintenance
 
-同时我们也有一些 k8s 集群，这些容器内的集群网关使用的是 Ingress Nginx。在之前不支持插件系统时，我们就在 Ingress Nginx 上定制了一些插件。所以在内部数据中心和容器的网关上，Apache APISIX 和 Nginx 的功能其实有一大部分都是重合的。
+We also have some K8s clusters, and the cluster gateway in these containers is using Ingress Nginx. When the plug-in system wasn’t supported before, we customized some of the plug-ins on Ingress Nginx. So Apache APISIX and Nginx have a lot of overlap in their internal data center and container gateways.
 
-为了避免后续的重复开发和运维，我们想把之前使用的 Ingress Nginx 容器内网关全部替换为 Apache APISIX Ingress，实现网关层面的组件统一。
+To avoid subsequent development and maintenance, we want to replace all of the Ingress Nginx container internal gateways with Apache APISIX Ingress to achieve component unification at the gateway level.
 
-## 基于 Apache APISIX Ingress 的调整更新
+## Tuning Update Based on Apache APISIX Ingress
 
-目前 Apache APISIX Ingress 在又拍云是处于初期（线上测试）阶段。因为 Apache APISIX Ingress 的快速迭代，我们目前还没有将其运用到一些重要业务上，只是在新集群中尝试使用。
+Currently Apache APISIX Ingress is in the early stages of UPYUN. Because of the rapid iteration of Apache APISIX Ingress, we haven’t yet applied it to some important businesses, just to try it out in a new cluster.
 
-### 架构调整
+### Restructuring
 
-使用 Apache APISIX Ingress 之后，内部架构如下图所示。
+With Apache APISIX Ingress, the internal architecture looks like this.
 
-![应用 APISIX Ingress 架构](https://static.apiseven.com/202108/1632469909488-3685d104-e458-4145-8ccb-6cecbd383161.png)
+![After using APISIX Ingress architecture](https://static.apiseven.com/202108/1632469909488-3685d104-e458-4145-8ccb-6cecbd383161.png)
 
-跟前面提到的 Ingress-Nginx 架构不一样，底层数据面替换成了 Apache APISIX 集群。上层 Controller 监听 APIServer 变化，然后再通过 etcd 将配置资源分发到整个 Apache APISIX 集群的所有节点。
+Unlike the aforementioned Ingress-Nginx architecture, the underlying data surface has been replaced with the Apache APISIX cluster. The upper Controller listens for APIServer changes and then distributes the configuration resources through the ETCD to all nodes in the entire Apache APISIX cluster.
 
-![配置文件对比](https://static.apiseven.com/202108/1632469956257-b9cb6a91-a082-437c-9395-d62ffb75280f.png)
+![Profile comparison](https://static.apiseven.com/202108/1632469956257-b9cb6a91-a082-437c-9395-d62ffb75280f.png)
 
-由于 Apache APISIX 是支持动态路由修改，与右边的 Ingress-Nginx 不同。在 Apache APISIX 中，当有业务流量进入时走的都是同一个 Location，然后在 Lua 代码中实现路由选择，代码部署简洁易操作。而右侧 Ingress-Nginx 相比，其 nginx.conf 配置文件复杂，每次 Ingress 变更都需要 Reload。
+Because Apache APISIX supports dynamic routing changes, it is different from Ingress-Nginx on the right. In Apache APISIX, the same Location is used when traffic enters, and routing is done in Lua Code, which is easy to deploy. And the right Ingress-Nginx compared to its `nginx.conf` configuration file is complex and requires a Reload for every Ingress change.
 
 ### Apache APISIX Ingress Controller
 
-Apache APISIX Ingress Controller 依赖于 Apache APISIX 的动态路由能力进行功能实现。它主要监控 APIServer 的资源变化，进行数据结构转换、数据校验和计算 DIFF，最后应用到 Apache APISIX Admin API 中。
+Apache APISIX Ingress Controller relies on Apache APISIX’s dynamic routing capabilities for its functional implementation. It monitors resource changes at APIServer, performs data structure conversion, data validation, and DIFF computation, and finally applies it to the Apache APISIX Admin API.
 
-同时 Apache APISIX Ingress Controller 也有高可用方案，直接通过 k8s 的 leader-election 机制实现，不需要再引入外部其他组件。
+Apache APISIX Ingress Controller also has a highly available scheme, implemented directly through the leader-election mechanism of K8s, without the need to introduce additional external components.
 
-#### 声明式配置
+#### Declarative Configuration
 
-目前 Apache APISIX Ingress Controller 支持两种声明式配置，Ingress Resource 和 CRD Resource。前者比较适合从 Ingress-Nginx 替换过来的网关控件，在转换成本上是最具性价比的。但是它的缺点也比较明显，比如语义化能力太弱、没有特别细致的规范等，同时能力拓展也只能通过 Annotation 去实现。
+Currently Apache APISIX Ingress Controller supports two declarative configurations, Ingress Resource and CRD Resource. The former is more suitable for the replacement of gateway controls from Ingress-Nginx and is the most cost-effective in terms of conversion costs. However, its shortcomings are obvious, such as too weak semantic ability, no specific specifications, and capacity development can only be achieved through annotations.
 
 ![Ingress Resource](https://static.apiseven.com/202108/1632469994485-209d3a21-d761-4b2c-a974-c913b443b0d2.png)
 
-又拍云内部选择的是第二种声明配置——语义化更强的 CRD Resource。结构化数据通过这种方式配置的话，只要 Apache APISIX 支持的能力，都可以进行实现。
+UPYUN selected the second declarative configuration, the more semantic CRD Resource. Structured data can be configured this way, with the capabilities that Apache APISIX supports.
 
 ![CRD Resource](https://static.apiseven.com/202108/1632470033850-b619da2f-5926-44ca-95bb-69ee1cdaf209.png)
 
-如果你想了解更多关于 Apache APISIX Ingress Controller 的细节干货，可以参考 Apache APISIX PMC 张超在 Meetup 上的[分享视频](https://www.bilibili.com/video/BV1eB4y1u7i1?spm_id_from=333.999.0.0)。
+If you want to learn more about Apache APISIX Ingress Controller dry goods, see Apache Apisix PMC Zhang Chao’s [sharing video](https://www.bilibili.com/video/BV1eB4y1u7i1?spm_id_from=333.999.0.0) on Meetup.
 
-### 功能提升
+### Functional Enhancement
 
-#### 效果一：日志层面效率提高
+#### Effect 1: Log Level Efficiency
 
-目前我们内部有多个 Apache APISIX 集群，包括数据中心网关和容器网关都统一开始使用了 Apache APISIX，这样在后续相关日志的处理/消费程序时可以统一到一套逻辑。
+We currently have multiple Apache APISIX clusters in our company, including the data center gateway and the container gateway that all started using Apache APISIX uniformly so that they can be consolidated into a set of logic for subsequent processing/consumption of related logs.
 
-![日志层面](https://static.apiseven.com/202108/1632470075980-46d13ac7-babb-40a5-b105-73f1105d16e7.png)
+![Log level](https://static.apiseven.com/202108/1632470075980-46d13ac7-babb-40a5-b105-73f1105d16e7.png)
 
-当然 Apache APISIX 的日志插件支持功能也非常丰富。我们内部使用的是 Kafka-Logger，它可以进行自定义日志格式。像下图中其他的日志插件可能有些因为使用人数的原因，还尚未支持自定义化格式，欢迎有相关需求的小伙伴进行使用并提交 PR 来扩展当前的日志插件功能。
+Of course, Apache APISIX’s logging plug-in support is also very rich. Internally we use Kafka-Logger, which allows you to customize the log format. Like the other log plug-ins in the figure below, custom formats may not yet be supported due to the number of users, partners with relevant needs are welcome to use and submit PR to extend the current logging plug-in functionality.
 
-![插件一览](https://static.apiseven.com/202108/1632470099306-ffc74dfb-384b-4014-a0b4-14267dcf7bce.png)
+![Plug-in list](https://static.apiseven.com/202108/1632470099306-ffc74dfb-384b-4014-a0b4-14267dcf7bce.png)
 
-#### 效果二：完善监控与健康检查
+#### Effect Two: Improve the Monitoring and Health Check
 
-在监控层面，Apache APISIX 也支持 Prometheus、SkyWalking 等，我们内部使用的是 Prometheus。
+At the monitoring level, Apache APISIX also supports Prometheus, SkyWalking, and so on, and we use Prometheus internally.
 
-Apache APISIX 作为一个基本代理器，可以实现 APP 状态码的监控和请求等需求。但 Apache APISIX 的自身健康检查力度不是很好控制。目前我们采用的是在 k8s 里面部署一个服务并生成多个 POD，将这个服务同时应用于 Apache APISIX Ingress，然后通过检查整个链路来确定 Apache APISIX 是否健康。
+Apache APISIX is a basic proxy for the monitoring and request of APP status codes. But Apache APISIX’s own health checks are not well controlled. What we’re doing now is deploying a service inside K8s and generating multiple pods, applying that service to Apache APISIX Ingress, and then checking the entire link to see if Apache APISIX is healthy.
 
-![健康检查](https://static.apiseven.com/202108/1632470120106-3e577e2e-ea43-4f50-8e3c-066b5f1e7238.png)
+![Health check](https://static.apiseven.com/202108/1632470120106-3e577e2e-ea43-4f50-8e3c-066b5f1e7238.png)
 
-## 使用 Apache APISIX Ingress 实践解决方案
+## Practice the Solution Using Apache APISIX Ingress
 
-### 场景一：k8s 应用变更
+### Scenario 1: K8s Application Changes
 
-在使用 k8s 搭配 Apache APISIX Ingress 的过程中，需要做到以下几点：
+In using K8s with Apache APISIX Ingress, you need to do the following:
 
-- 更新策略的选用建议使用滚动更新，保证大部分 POD 可用，同时还需要考虑稳定负载的问题
-- 应对 POD 启动 k8s 内部健康检查，保证 POD 的业务可用性，避免请求过来后 POD 仍处于不能提供正常服务的状态
-- 保证 Apache APISIX Upstream 里的大部分 Endpoint 可用
+- The selection of update strategy suggests using rolling update to ensure that most of the POD is available, but also need to consider the problem of stable load
+- We should start K8s internal health check for POD to ensure the business availability of POD and avoid the POD being unable to provide the normal service after the request
+- Make most endpoints available on Apache APISIX Upstream
 
-在实践过程中，我们也遇到了传输延时的问题。POD 更新路径如下所示，POD Ready 后通过层层步骤依次进行信息传递，中间某些链路就可能会出现延时问题。正常情况下一般是 1 秒内同步完成，某些极端情况下部分链路时间可能会增加几秒进而出现 Endpoint 更新不及时的问题。
+In practice, we also encounter the problem of transmission delay. The POD update path is shown below, after the POD Ready through the layer-by-layer steps of information transfer, some of the links in the middle may appear delay problems. In some extreme cases, the link time may be increased by a few seconds and the Endpoint update may not be up to date.
 
-![链路问题](https://static.apiseven.com/202108/1632470165257-cb16e489-b546-4451-917a-6c72648769d8.png)
+![Link issue](https://static.apiseven.com/202108/1632470165257-cb16e489-b546-4451-917a-6c72648769d8.png)
 
-这种情况下的解决方案是，当更新时前一批 POD 变成 Ready 状态后，等待几秒钟再继续更新下一批。这样做的目的是保证 Apache APISIX Upstream 里的大部分 Endpoint 是可用的。
+The solution in this case is to wait a few seconds after the first batch of POD becomes Ready before continuing with the next batch when the update occurs. The goal is to ensure that most endpoints in the Apache APISIX Upstream are available.
 
-### 场景二：上游健康检查问题
+### Scenario 2: Upstream Health Screening Problem
 
-由于 APIServer 面向状态的设计，在与 Apache APISIX 进行同步时也会出现延时问题，可能会遇到更新过程中「502 错误状态警告」。像这类问题，就需要在网关层面对 Upstream Endpoint 进行健康检查来解决。
+Due to APIServer’s state-oriented design, there are also latency issues when synchronizing with Apache APISIX, which can result in “502 error status warnings”during the update process. Problems like this require a health check at the gateway level for the Upstream Endpoint.
 
-首先 Upstream Endpoint 主动健康检查不太现实，因为 Endpoint 太耗时费力。而 HTTP 层的监控检查由于不能确定状态码所以也不适合进行相关操作。
+First of all, an Upstream Endpoint health check is not practical because Endpoint is too time consuming. The monitoring check at the HTTP layer is not suitable for the operation because the status code can not be determined.
 
-最合适的方法就是在网关层面基于 TCP 做被动健康检查，比如你的网络连接超时不可达，就可以认为 POD 出现了问题，需要做降级处理。这样只需在 TCP 层面进行检查，不需要触及其他业务部分，可达到独立操控。
+The best way to do this is to do a passive health check based on TCP at the gateway level. If your network connection time out is not reachable, consider the POD as a problem that needs to be degraded. This allows for independent control without touching other parts of the business, as long as you check at the TCP level.
 
-### 场景三：mTLS 连接 etcd
+### Scenario：mTLS Connecting to ETCD
 
-由于 Apache APISIX 集群默认使用单向验证的机制，作为容器网关使用 Apache APISIX 时，可能会在与 k8s 连接同一个 etcd 集群（k8s etcd 中使用双向验证）时默认开启双向认证，进而导致出现如下证书问题：
+Because the Apache APISIX cluster uses one-way authentication by default, using Apache APISIX as a container gateway might turn on two-way authentication by default when connecting to the same ETCD cluster with K8s (which uses two-way authentication in K8s ETCD) , this in turn led to the following certificate issues:
 
-![证书问题](https://static.apiseven.com/202108/1632470191228-5c2a3666-8d21-4b19-a5be-e09e7db4d488.png)
+![Certificate issues](https://static.apiseven.com/202108/1632470191228-5c2a3666-8d21-4b19-a5be-e09e7db4d488.png)
 
-Apache APISIX 不是通过 gRPC 直接连接 etcd，而是通过 HTTP 协议先连接到 etcd 内部的 gRPC-gateway，再去连接真正的 gRPC Server。这中间多了一个组件，所以就会多一次双向验证。
+Instead of connecting directly to the ETCD via gRPC, Apache APISIX first connects to the gRPC-gateway inside the ETCD via the HTTP protocol, and then to the real gRPC Server. There’s an extra component in the middle, so there’s an extra two-way validation.
 
-gRPC-gateway 去连接 gRPC Server 的时候需要一个客户端证书，etcd 没有提供这个证书的配置项，而是直接使用 gRPC server 的服务端证书。相当于一个证书同时作为客户端和服务端的校验。如果你的 gRPC server 服务端证书开启了扩展（表明这个证书只能用于服务端校验），那么需要去掉这个扩展，或者再加上也可用于客户端校验的扩展。
+A client certificate is required when the gRPC-gateway connects to the gRPC Server. The ETCD does not provide a configuration for this certificate, but uses the Server certificate of the gRPC Server directly. This is equivalent to a certificate being validated both on the client and the server. If your gRPC server server-side certificate has an extension enabled (indicating that the certificate can only be used for server-side validation) , remove the extension, or add an extension that can also be used for client-side validation.
 
-同时 OpenResty 底层是不支持 mTLS 的，当你需要通过 mTLS 连接上游服务或 etcd 时，需要使用基于 apisix-nginx-module 去构建打过 patch 的 Openresty。apisix-build-tools 可以找到相关构建脚本。
+At the same time, the bottom layer of OpenResty does not support mTLS. When you need to connect to an upstream service or ETCD via mTLS, you need to use apisix-nginx-module to build an OpenResty after patch. Apisix-build-tools can find related build scripts.
 
-## 未来期望
+## Future Expectations
 
-虽然目前我们还只是在测试阶段应用 Apache APISIX Ingress，但相信在不久之后，经过应用的迭代功能更新和内部架构迁移调整，Apache APISIX Ingress 会统一应用到又拍云的所有容器网关内。
+While we are currently only using Apache APISIX Ingress in the testing phase, we believe that in the near future, with the application of an iterative feature update and internal architecture migration, apache APISIX Ingress will be applied uniformly to all container gateways to UPYUN.
