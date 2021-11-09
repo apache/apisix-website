@@ -7,7 +7,7 @@ import "../../../css/customTheme.css";
 
 const EventPosterCard = () => {
   const { siteConfig } = useDocusaurusContext();
-  const [display, setDisplay] = useState(true);
+  const [display, setDisplay] = useState(false);
   const picRef = useRef(null);
 
   useEffect(() => {
