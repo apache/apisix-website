@@ -1,5 +1,5 @@
 ---
-title: "In Mega QPS business, WPS has teamed up with Apache APISIX to create a new gateway experience"
+title: "WPS has teamed up with Apache APISIX to create a new gateway experience"
 author: Qiang Zhang
 keywords: 
 - Apache APISIX
@@ -33,7 +33,7 @@ In fact, when the research on gateway products began in late 2019, Kong was one 
 
 However, subsequent tests showed that Kong’s performance was not quite up to our expectations, and we didn’t think that Kong’s architecture was very good: its configuration center used PostgreSQL, so Kong can only use the non-event driver to update the route, relying on each node to refresh the route.
 
-On further investigation, we discovered [Apache APISIX](https://github.com/apache/apisix). First of all, Apache APISIX performs better than Kong, and there’s a very detailed graph in Apache APISIX’s GitHub Readme that shows the [performance test gaps](https://gist.github.com/membphis/137db97a4bf64d3653aa42f3e016bd01), which are basically consistent with the data we’ve tested ourselves.
+On further investigation, we discovered [Apache APISIX](https://github.com/apache/apisix). First of all, Apache APISIX performs better than Kong, and there’s a very detailed graph in Apache APISIX’s GitHub Readme that shows the [performance of Apache APISIX Compared to Kong](https://gist.github.com/membphis/137db97a4bf64d3653aa42f3e016bd01), which are basically consistent with the data we’ve tested ourselves.
 
 ![Performance comparison between Apache APISIX and Kong](https://static.apiseven.com/202108/1632796929580-a6d7847c-bba6-4417-a7f0-9c127313264e.png)
 
@@ -49,7 +49,7 @@ When most of my friends started working with Apache APISIX, they used the CLI to
 
 The main reason is that Apache APISIX does some Phase in OpenResty, such as initializing the init, init_worker, HTTP, and Upstream related phases.
 
-Corresponding to the Apache APISIX configuration, we found that these can be separated from the CLI and exist.
+Corresponding to the Apache APISIX configuration, we found that these can be migrated from the CLI smoothly.
 
 So for these reasons, we ended up doing the following smooth migration:
 
@@ -60,7 +60,7 @@ So for these reasons, we ended up doing the following smooth migration:
 
 Of course, in addition to the above, we recommend a “Light-mixing mode” that uses static configuration with Apache APISIX as Location, with some of the Phase or Lua code mentioned earlier. Doing so allows you to introduce special configurations into your static configuration, make it dynamic, etc. .
 
-## Shared State Improvement Based on Apache APISIX
+## Shared State Improvements Based on Apache APISIX
 
 First of all, in my opinion, “The Shared State is the biggest factor in the stability of the feed, which is definitely not an issue.”Why?
 
@@ -68,7 +68,7 @@ Because forwarding efficiency can be addressed by scaling laterally, the Shared 
 
 So after using Apache APISIX, we made a few tweaks and optimizations to focus on the Shared State layer.
 
-### Optimization 1: Optimization of ETCD Architecture with Multiple Machines Listening
+### Improvement 1: Optimize ETCD Architecture with Multiple Machines Listening
 
 In a typical corporate gateway architecture, multiple machines are involved, some as many as a few hundred, and each machine has to take into account the number of workers. So when multiple machines monitor the same Key, the pressure on the ETCD is greater, because one of the ETCD mechanisms is to ensure data consistency, requiring all events to be returned to the listening request before new requests can be processed, the request is discarded when the send buffer is full. So when multiple machines listen at the same time will cause the ETCD to run overtime, Overload error, and so on.
 
@@ -78,7 +78,7 @@ To solve the above problem, we use our own ETCD Proxy. The previous connection b
 
 Since we are listening to the same Key, we make a proxy to do a uniform listening and return the results to Apache APISIX when there is feedback. As shown on the right side of the image above, the ETCD Proxy component is placed between Apache APISIX and ETCD to monitor changes in Key values.
 
-### Optimization 2: Solving the Performance Problem During Routing Validation
+### Improvement 2: Solve the Performance Problem During Routing Validation
 
 As companies grow in size, so will the number of routes. In practice, Apache APISIX reconstructs the prefix tree used to match the route each time the route is updated. This is mainly due to poor sort performance of `table.sort`.
 

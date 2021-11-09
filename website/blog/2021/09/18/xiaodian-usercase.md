@@ -19,7 +19,7 @@ tags: [User Case]
 As a domestic service platform for sharing chargers, DIAN is still in its initial stage. From the aspects of operation and maintenance system, test environment and so on, the business of the current product mainly faces the following problems:
 
 - Traditional VM mode deployment, low utilization and not easy to expand
-Development test resource preemption
+- Sharing resources among Developers and QAs are difficult
 - Multiple independent test environments (K8s) that repeat maintenance steps for each deployment are inefficient
 - Using Nginx configuration management, operating costs are extremely high
 

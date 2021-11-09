@@ -18,11 +18,11 @@ tags: [User Case]
 
 The range of Ingress products on the market has grown and the range of options has expanded considerably. These products fall into roughly two architectural categories. One, like K8s Ingress and Apache APISIX Ingress, are based on traditional agents such as Nginx and OpenResty, and use k8s-Client and Golang to do Controller. There is also an emerging class of agents and controllers using the Golang language, such as Traefik.
 
-Ingress-Nginx is still used by most businesses in UPYUN, including today’s, and the overall architecture is as follows.
+Ingress-Nginx is still used by most businesses in UPYUN, and the overall architecture is as follows.
 
 ![Ingress-Nginx architecture](https://static.apiseven.com/202108/1632469775377-8303128c-e8a6-4594-a87b-ac6942f4895e.png)
 
-The lower layer is data surface OpenResty. The upper Controller listens primarily for resource changes from APIServer and generates `nginx.conf` configuration file, and then Reload OpenResty. If the POD IP changes, the Upstream Upstream node replacement can be transmitted directly to the OpenResty Lua code via the HTTP interface.
+The lower layer is data plane OpenResty. The upper Controller listens primarily for resource changes from APIServer and generates `nginx.conf` configuration file, and then Reload OpenResty. If the POD IP changes, the Upstream Upstream node replacement can be transmitted directly to the OpenResty Lua code via the HTTP interface.
 
 The extensibility of Ingress-Nginx is achieved mainly through Annotations, and the configuration file itself has simple syntax and routing rules. Lua can be configured on demand, and the extension of the Lua plug in improves Operability of customization.
 
@@ -42,7 +42,7 @@ In choosing an alternative to Ingress-Nginx, we focused on Traefik and Apache AP
 
 ![Traefik](https://static.apiseven.com/202108/1632469875567-61dd6fbd-757f-419f-a769-99e6aaf46f0c.png)
 
-Traefik is native to the cloud, with extremely simple configuration files, a distributed configuration, and support for a variety of automated configuration discovery. Not only support K8s, ETCD, Golang eco-language support is better, and the development cost is lower, iteration and testing ability is better. But it falls short at other levels, such as:
+Traefik is cloud-native, with extremely simple configuration files, a distributed configuration, and support for a variety of automated configuration discovery. Not only support K8s, ETCD, Golang eco-language support is better, and the development cost is lower, iteration and testing ability is better. But it falls short at other levels, such as:
 
 - Weak expansibility
 - Reload is not supported
@@ -50,7 +50,7 @@ Traefik is native to the cloud, with extremely simple configuration files, a dis
 
 Unlike Nginx, which is rich in plugins and instructions, you can solve a problem by adding an instruction, and you may need to pair an Nginx with Traefik when you deploy online.
 
-In summary, although the operational advantages of Traefik, but in the expansion of capacity and operational efficiency concerns, and ultimately did not choose Traefik.
+In summary, although Traefik has advantages on operations, we are worried about its drawbacks on extension and operational efficiency concerns, so we did not choose Traefik.
 
 ## Why Apache APISIX Ingress
 
@@ -58,7 +58,7 @@ In summary, although the operational advantages of Traefik, but in the expansion
 
 Apache APISIX’s cluster of gateways, which were previously replaced from Kong, is currently hosted in multiple data centers within the company. Later, based on the Apache APISIX plug-in system, we developed some internal plug-in, such as internal permission system check, precision rate limit and so on.
 
-### Efficiency Maintenance Level
+### Efficiency of Maintenance
 
 We also have some K8s clusters, and the cluster gateway in these containers is using Ingress Nginx. When the plug-in system wasn’t supported before, we customized some of the plug-ins on Ingress Nginx. So Apache APISIX and Nginx have a lot of overlap in their internal data center and container gateways.
 
