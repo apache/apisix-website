@@ -47,16 +47,16 @@ The main reason, of course, is that we feel that community is also important. If
 
 When most of my friends started working with Apache APISIX, they used the CLI to generate configurations and instances. However, during our smooth migration, we did not use the CLI to generate the configuration.
 
-The main reason is that Apache APISIX does some Phase in OpenResty, such as initializing the init, init_worker, HTTP, and Upstream related phases. 
+The main reason is that Apache APISIX does some Phase in OpenResty, such as initializing the init, init_worker, HTTP, and Upstream related phases.
 
 Corresponding to the Apache APISIX configuration, we found that these can be separated from the CLI and exist.
 
 So for these reasons, we ended up doing the following smooth migration:
 
-* CLI generation configuration without Apache APISIX
-* Introduce a Package Path for Apache APISIX and make Apache APISIX the Default Server
-* KEEP domain names in other static configurations, and because the new domain name is not in the static configuration, Fallback to Apache APISIX
-* Eventually the static configuration was migrated gradually to Apache APISIX
+- CLI generation configuration without Apache APISIX
+- Introduce a Package Path for Apache APISIX and make Apache APISIX the Default Server
+- KEEP domain names in other static configurations, and because the new domain name is not in the static configuration, Fallback to Apache APISIX
+- Eventually the static configuration was migrated gradually to Apache APISIX
 
 Of course, in addition to the above, we recommend a “Light-mixing mode” that uses static configuration with Apache APISIX as Location, with some of the Phase or Lua code mentioned earlier. Doing so allows you to introduce special configurations into your static configuration, make it dynamic, etc. .
 
@@ -88,7 +88,7 @@ In the process of practice, we observe that the CPU of the gateway increases and
 
 In terms of CPU ramp-up, it is clear from the flame diagram that the majority of CPU time is allocated to the `auxsort`, which is triggered by FUNCC. The FUNCC trigger also points to the problem of proving that the data did not pass through Luajit and that only the rightmost part of the graph processed normal requests.
 
-The main reason for this is LuaJIT’s `table.sort` doesn’t rely entirely on the JIT mode, as you can see in the [Luajit wiki](http://wiki.luajit.org/NYI), so it works in the Lua code environment with low efficiency. 
+The main reason for this is LuaJIT’s `table.sort` doesn’t rely entirely on the JIT mode, as you can see in the [Luajit wiki](http://wiki.luajit.org/NYI), so it works in the Lua code environment with low efficiency.
 
 ![LuaJIT Wiki](https://static.apiseven.com/202108/1632797702785-9afdc28d-6c7a-4643-8cac-72b41fee8e2b.png)
 
