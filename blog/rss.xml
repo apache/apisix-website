@@ -99,25 +99,25 @@
             <description><![CDATA[Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.]]></description>
         </item>
         <item>
-            <title><![CDATA[百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验]]></title>
+            <title><![CDATA[WPS has teamed up with Apache APISIX to create a new gateway experience]]></title>
             <link>https://apisix.apache.org/blog/2021/09/28/WPS-usercase</link>
-            <guid>百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验</guid>
+            <guid>WPS has teamed up with Apache APISIX to create a new gateway experience</guid>
             <pubDate>Tue, 28 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。]]></description>
+            <description><![CDATA[In this article, Zhang Qiang, head of SRE network in WPS, explains how WPS can use Apache APISIX to handle Mega QPS, and update and improve gateway practices based on Apache APISIX.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？]]></title>
+            <title><![CDATA[Why is Apache APISIX Ingress a new option for building container gateways into the UPYUN?]]></title>
             <link>https://apisix.apache.org/blog/2021/09/24/youpaicloud-usercase</link>
-            <guid>Apache APISIX Ingress 为何成为又拍云打造容器网关的新选择？</guid>
+            <guid>Why is Apache APISIX Ingress a new option for building container gateways into the UPYUN?</guid>
             <pubDate>Fri, 24 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了又拍云选择 Apache APISIX Ingress 后所带来公司内部网关架构的更新与调整，同时分享了在使用过程中的一些实践场景介绍。]]></description>
+            <description><![CDATA[This article describes the update and adjustment of UPYUN's internal gateway architecture after you selected Apache Apisix Ingress, and shares some of the practice scenarios in use.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 助力便利充电创领者小电，实现云原生方案]]></title>
+            <title><![CDATA[Apache APISIX helps DIAN to facilitate cloud native solution]]></title>
             <link>https://apisix.apache.org/blog/2021/09/18/xiaodian-usercase</link>
-            <guid>Apache APISIX 助力便利充电创领者小电，实现云原生方案</guid>
+            <guid>Apache APISIX helps DIAN to facilitate cloud native solution</guid>
             <pubDate>Sat, 18 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍]]></description>
+            <description><![CDATA[This article introduces the background and practice of using Apache APISIX to build the cloud native project in DIAN.]]></description>
         </item>
         <item>
             <title><![CDATA[Implementing Apache APISIX in Tencent Cloud TI-ONE Platform]]></title>
@@ -134,11 +134,11 @@
             <description><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理]]></title>
+            <title><![CDATA[Apache APISIX powers the Youzanyun native PaaS platform for comprehensive micro-service governance]]></title>
             <link>https://apisix.apache.org/blog/2021/09/14/youzan</link>
-            <guid>Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理</guid>
+            <guid>Apache APISIX powers the Youzanyun native PaaS platform for comprehensive micro-service governance</guid>
             <pubDate>Tue, 14 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。]]></description>
+            <description><![CDATA[This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.]]></description>
         </item>
         <item>
             <title><![CDATA[How Apache APISIX is implemented in China Mobile Cloud]]></title>
@@ -162,11 +162,11 @@
             <description><![CDATA[This article introduces the authentication feature of Apache APISIX, in terms of importance and playful use, with detailed descriptions and details on its use.]]></description>
         </item>
         <item>
-            <title><![CDATA[基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践]]></title>
+            <title><![CDATA[Based on Apache APISIX, iQIYI API Gateway Update and landing practice]]></title>
             <link>https://apisix.apache.org/blog/2021/09/07/iQIYI-usercase</link>
-            <guid>基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践</guid>
+            <guid>Based on Apache APISIX, iQIYI API Gateway Update and landing practice</guid>
             <pubDate>Tue, 07 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文整理自爱奇艺高级研发师何聪在 Apache APISIX Meetup 上海站的演讲，通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。]]></description>
+            <description><![CDATA[In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.]]></description>
         </item>
         <item>
             <title><![CDATA[Python helps you develop Apache APISIX plugin]]></title>
