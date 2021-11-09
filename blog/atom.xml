@@ -159,13 +159,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX 在腾讯云智能钛平台中的落地实践]]></title>
-        <id>Apache APISIX 在腾讯云智能钛平台中的落地实践</id>
+        <title type="html"><![CDATA[Implementing Apache APISIX in Tencent Cloud TI-ONE Platform]]></title>
+        <id>Implementing Apache APISIX in Tencent Cloud TI-ONE Platform</id>
         <link href="https://apisix.apache.org/blog/2021/09/16/tencent-cloud"/>
         <updated>2021-09-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。]]></summary>
+        <summary type="html"><![CDATA[This article is a practical case of implementing Apache APISIX in Tencent Cloud’s production environment.]]></summary>
         <author>
-            <name>刁寿钧</name>
+            <name>Shoujun Diao</name>
         </author>
     </entry>
     <entry>

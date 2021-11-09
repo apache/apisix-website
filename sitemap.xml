@@ -3986,6 +3986,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/docs/apisix/next/plugins/datadog/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/docs/apisix/next/plugins/dubbo-proxy/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>

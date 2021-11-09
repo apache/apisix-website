@@ -120,11 +120,11 @@
             <description><![CDATA[本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍]]></description>
         </item>
         <item>
-            <title><![CDATA[Apache APISIX 在腾讯云智能钛平台中的落地实践]]></title>
+            <title><![CDATA[Implementing Apache APISIX in Tencent Cloud TI-ONE Platform]]></title>
             <link>https://apisix.apache.org/blog/2021/09/16/tencent-cloud</link>
-            <guid>Apache APISIX 在腾讯云智能钛平台中的落地实践</guid>
+            <guid>Implementing Apache APISIX in Tencent Cloud TI-ONE Platform</guid>
             <pubDate>Thu, 16 Sep 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。]]></description>
+            <description><![CDATA[This article is a practical case of implementing Apache APISIX in Tencent Cloud’s production environment.]]></description>
         </item>
         <item>
             <title><![CDATA[Community Weekly｜Two new committers, feature highlight updates in progress]]></title>
