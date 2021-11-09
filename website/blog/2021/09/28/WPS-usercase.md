@@ -1,122 +1,122 @@
 ---
-title: "百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验"
-author: 张强
+title: "In Mega QPS business, WPS has teamed up with Apache APISIX to create a new gateway experience"
+author: Qiang Zhang
 keywords: 
 - Apache APISIX
-- API 网关
-- 金山办公
+- API Gateway
 - WPS
-description: 本文介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
+description: In this article, Zhang Qiang, head of SRE network in WPS, explains how WPS can use Apache APISIX to handle Mega QPS, and update and improve gateway practices based on Apache APISIX.
 tags: [User Case]
 ---
 
-> 本文由金山办公中台部门 SRE 网络负责人张强介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
+> In this article, Zhang Qiang, head of SRE network in WPS, explains how WPS can use Apache APISIX to handle Mega QPS, and update and improve gateway practices based on Apache APISIX.
 
 <!--truncate-->
 
-## 背景介绍
+## Background
 
-金山办公是目前国内最大的办公软件厂商，旗下产品涉及 WPS、金山文档、稻壳等。在业务层面上由数千个业务以容器化部署在内部云原生平台，目前 [Apache APISIX](https://apisix.apache.org/) 在金山办公主要负责为中台部门业务（百万级 QPS ）提供相关网关服务。
+WPS is currently the largest domestic office software manufacturers, its products include WPS Office, Kdocs, Docer and so on. At the business level, deployed by thousands of businesses in a container on an internal cloud native platform, [Apache APISIX](https://apisix.apache.org/) at WPS is currently responsible for providing gateway services to the mid-stage business (Mega QPS) .
 
-## 金山办公的网关演进
+## Gateway Evolution in WPS
 
-在 1.0 阶段时，我们对于 API Gateway 的特性没有什么强需求，只是想解决运维问题，所以基于 OpenResty 与 Lua 进行了自研，实现了动态 Upstream、黑名单、waf 等功能。
-虽然自研成功，但在功能上却遗留了一些问题，比如：
+In phase 1.0, we didn’t have a strong requirement for API Gateway features, we just wanted to solve the operations problem, so we did our own research based on OpenResty and Lua to implement dynamic Upstream, blacklist, WAF and so on. Although self-developed, but left some problems in the function, such as:
 
-- 动态化只做到到 Upstream 维度
-- 需要 Reload 才能带出新域名
-- 底层设计简单，功能扩展能力不强
+- It’s only as dynamic as the Upstream dimension
+- Need to Reload to bring out the new domain name
+- The bottom design is simple, the function expansion ability is not strong
 
-后续我们对 API Gateway 功能有了强需求后，开始去调研相关的开源网关产品。
+Following the strong demand for API Gateway functionality, we began to investigate the related open source Gateway products.
 
-## 为什么选择了 Apache APISIX
+## Why Apache APISIX？
 
-实际上 2019 年年底开始调研网关产品时，Kong 算是一个比较流行的选择。
+In fact, when the research on gateway products began in late 2019, Kong was one of the more popular choices.
 
-但后续经过测试发现，Kong 的性能不太能满足我们的需求，同时我们认为 Kong 的架构不是很优秀：因为其配置中心选用 PostgreSQL，所以 Kong 只能利用非事件驱动去更新路由，依赖每个节点去刷新路由。
+However, subsequent tests showed that Kong’s performance was not quite up to our expectations, and we didn’t think that Kong’s architecture was very good: its configuration center used PostgreSQL, so Kong can only use the non-event driver to update the route, relying on each node to refresh the route.
 
-进一步调研时，我们发现了 [Apache APISIX](https://github.com/apache/apisix)。首先 Apache APISIX 的性能比 Kong 强，在 Apache APISIX 的 GitHub Readme 中有个非常详细的对比图，列出了两者的[性能测试差距](https://gist.github.com/membphis/137db97a4bf64d3653aa42f3e016bd01)，这与我们自己测试下来的数据基本一致。
+On further investigation, we discovered [Apache APISIX](https://github.com/apache/apisix). First of all, Apache APISIX performs better than Kong, and there’s a very detailed graph in Apache APISIX’s GitHub Readme that shows the [performance test gaps](https://gist.github.com/membphis/137db97a4bf64d3653aa42f3e016bd01), which are basically consistent with the data we’ve tested ourselves.
 
-![Apache APISIX 与 Kong 性能对比图](https://static.apiseven.com/202108/1632796929580-a6d7847c-bba6-4417-a7f0-9c127313264e.png)
+![Performance comparison between Apache APISIX and Kong](https://static.apiseven.com/202108/1632796929580-a6d7847c-bba6-4417-a7f0-9c127313264e.png)
 
-在架构方面，Apache APISIX 的 etcd 配置对我们而言是一项更优的选择。
+In terms of architecture, Apache APISIX’s ETCD configuration is a better choice for us.
 
-![Apache APISIX 架构](https://static.apiseven.com/202108/1632796952262-b814e37d-cbc5-43f5-b504-ab1751a9aa83.png)
+![Apache APISIX architecture](https://static.apiseven.com/202108/1632796952262-b814e37d-cbc5-43f5-b504-ab1751a9aa83.png)
 
-当然，最主要的原因是我们觉得社区也很重要。社区如果活跃，在版本更新迭代、问题解决和功能优化上的速度就会很快。从 GitHub 和平时的邮件反馈中我们看到了 Apache APISIX 社区的活跃，为产品功能和稳定性提供了强有力的保证。
+The main reason, of course, is that we feel that community is also important. If the community is active, it will be able to update iterations, troubleshoot problems, and optimize functionality quickly. From GitHub and regular email feedback we can see that the Apache APISIX community is active, providing a strong guarantee of product functionality and stability.
 
-## 网关平滑迁移经验分享
+## Experience of Gateway Smooth Migration
 
-大部分朋友在开始接触 Apache APISIX 时，都会用 CLI 去生成配置并起实例。但在我们做平滑迁移的过程中，并没有使用 CLI 去生成配置。
+When most of my friends started working with Apache APISIX, they used the CLI to generate configurations and instances. However, during our smooth migration, we did not use the CLI to generate the configuration.
 
-主要原因是 Apache APISIX 在 OpenResty 中会生效一些 Phase，比如初始化 init、init_worker、HTTP 和 Upstream 相关 Phase 等。对应到 Apache APISIX 的配置后我们发现，这些都可以脱离 CLI 而存在。
+The main reason is that Apache APISIX does some Phase in OpenResty, such as initializing the init, init_worker, HTTP, and Upstream related phases. 
 
-所以基于上述原因，我们最终采取了如下行动进行平滑迁移：
+Corresponding to the Apache APISIX configuration, we found that these can be separated from the CLI and exist.
 
-- 不使用 Apache APISIX 的 CLI 生成配置
-- 引入 Apache APISIX 的 Package Path 并将 Apache APISIX 作为 Default Server
-- 保留其它静态配置中的域名，由于新域名未在静态配置中，将 Fallback 到 Apache APISIX
-- 最终将静态配置逐渐迁移到 Apache APISIX 中
+So for these reasons, we ended up doing the following smooth migration:
 
-当然，除了上述方法，我们也给大家推荐一种「轻混模式」，即使用静态配置配合 Apache APISIX 作为 Location，引入前边提到的一些 Phase 或 Lua 代码进行配置即可。这样做可以在静态配置中引入一些特殊配置，实现动态化等效果。
+* CLI generation configuration without Apache APISIX
+* Introduce a Package Path for Apache APISIX and make Apache APISIX the Default Server
+* KEEP domain names in other static configurations, and because the new domain name is not in the static configuration, Fallback to Apache APISIX
+* Eventually the static configuration was migrated gradually to Apache APISIX
 
-## 基于 Apache APISIX 的 Shared State 改进
+Of course, in addition to the above, we recommend a “Light-mixing mode” that uses static configuration with Apache APISIX as Location, with some of the Phase or Lua code mentioned earlier. Doing so allows you to introduce special configurations into your static configuration, make it dynamic, etc. .
 
-首先在我个人看来，「转发效率一定不是问题，而 Shared State 是影响稳定性的最大因素」，为什么这么说？
+## Shared State Improvement Based on Apache APISIX
 
-因为转发效率可以通过横向扩容去解决，但 Shared State 是所有的节点共享的，所以是至关重要的模块。
+First of all, in my opinion, “The Shared State is the biggest factor in the stability of the feed, which is definitely not an issue.”Why?
 
-所以在使用 Apache APISIX 后，我们主要针对 Shared State 层面进行了一些调整与优化。
+Because forwarding efficiency can be addressed by scaling laterally, the Shared State is a critical module because it is Shared by all nodes.
 
-### 优化一：多台机器监听下的 etcd 架构优化
+So after using Apache APISIX, we made a few tweaks and optimizations to focus on the Shared State layer.
 
-一般公司网关架构中，都会涉及多台机器，有的可能多至几百台，同时每台机器还要顾及 worker 数量。所以当多台机器监控相同 Key 时，etcd 的压力就会比较大，因为 etcd 的其中一个机制是为了保证数据一致性，需要所有事件返回给监听请求后才能处理新请求，当发送缓冲满了后就会丢弃请求。所以当多台机器同时监听时就会导致 etcd 超时运行，提示 Overload 报错等状况。
+### Optimization 1: Optimization of ETCD Architecture with Multiple Machines Listening
 
-针对上述问题，我们使用了自研的 etcd Proxy。之前 Apache APISIX 与 etcd 的连接关系如下图左侧所示，每个节点均与 etcd 连接。所以作为一个大规模入口时，连接数量会特别大，对 etcd 造成压力。
+In a typical corporate gateway architecture, multiple machines are involved, some as many as a few hundred, and each machine has to take into account the number of workers. So when multiple machines monitor the same Key, the pressure on the ETCD is greater, because one of the ETCD mechanisms is to ensure data consistency, requiring all events to be returned to the listening request before new requests can be processed, the request is discarded when the send buffer is full. So when multiple machines listen at the same time will cause the ETCD to run overtime, Overload error, and so on.
+
+To solve the above problem, we use our own ETCD Proxy. The previous connection between Apache APISIX and ETCD is shown on the left side of the figure below, with each node connected to the ETCD. So as a large-scale entry, the number of connections can be particularly large, putting pressure on the ETCD.
 
 ![etcd Proxy](https://static.apiseven.com/202108/1632796985052-c2453a37-edc1-4102-bbb7-8e03627765d5.png)
 
-既然是监听相同的 Key，我们做了一个代理来进行统一监听，当有结果反馈时，再返回给 Apache APISIX。具体架构如上图右侧所示，在 Apache APISIX 和 etcd 中间放置了 etcd Proxy 组件来监控 Key 值的变化。
+Since we are listening to the same Key, we make a proxy to do a uniform listening and return the results to Apache APISIX when there is feedback. As shown on the right side of the image above, the ETCD Proxy component is placed between Apache APISIX and ETCD to monitor changes in Key values.
 
-### 优化二：解决路由生效过程中的性能问题
+### Optimization 2: Solving the Performance Problem During Routing Validation
 
-随着公司规模提升，路由数量的增长也会随之而来。我们在实践过程中发现在每次路由更新时，Apache APISIX 都会重建用来匹配路由的前缀树。这个主要是由于 `table.sort` 性能不足所导致的。
+As companies grow in size, so will the number of routes. In practice, Apache APISIX reconstructs the prefix tree used to match the route each time the route is updated. This is mainly due to poor sort performance of `table.sort`.
 
-在实践过程中，我们观察到路由频繁更新时，网关 CPU 升高、丢包率升高，进一步排查后发现丢包率升高的主要原因为 Listen overflow 所造成。
+In the process of practice, we observe that the CPU of the gateway increases and the packet loss rate increases when the route is updated frequently.
 
-![CPU 火焰图](https://static.apiseven.com/202108/1632797671795-141a410b-0dd5-4873-b3dc-56f892aa2f07.png)
+![CPU Flame Diagram](https://static.apiseven.com/202108/1632797671795-141a410b-0dd5-4873-b3dc-56f892aa2f07.png)
 
-在 CPU 升高现象上，通过火焰图可以明显看到大部分 CPU 的时间都是划在 `auxsort` 上，它是由 FUNCC 触发。而 FUNCC 的触发也指明了一个问题，就是证明相关数据没有经过 LuaJIT，只有图中最右侧的一小部分处理了正常请求。
+In terms of CPU ramp-up, it is clear from the flame diagram that the majority of CPU time is allocated to the `auxsort`, which is triggered by FUNCC. The FUNCC trigger also points to the problem of proving that the data did not pass through Luajit and that only the rightmost part of the graph processed normal requests.
 
-出现这种现象的原因主要是 LuaJIT 的 `table.sort` 不是完全依靠 JIT 模式，这点可以在 [LuaJIT 官网 wiki](http://wiki.luajit.org/NYI) 中看到相关说明，所以在 Lua 代码环境中使用 `table.sort` 效率是比较低的。
+The main reason for this is LuaJIT’s `table.sort` doesn’t rely entirely on the JIT mode, as you can see in the [Luajit wiki](http://wiki.luajit.org/NYI), so it works in the Lua code environment with low efficiency. 
 
 ![LuaJIT Wiki](https://static.apiseven.com/202108/1632797702785-9afdc28d-6c7a-4643-8cac-72b41fee8e2b.png)
 
-针对这个问题，我们自己使用纯 Lua 代码实现了针对上述场景的 sort 配置进行了解决，但其实 Apache APISIX 在之后的版本更新中已经修复了这项问题，具体思路也跟我们理解的类似。
+We solved this problem ourselves using pure Lua code to implement the sort configuration for the above scenario, but Apache APISIX has since fixed the problem, the idea is similar to what we understand.
 
-### 更多 Shared State 使用经验
+### More Experience with Shared State
 
-1. 在修改 Apache APISIX 或者自己进行插件开发时，确保做好 Schema 校验，包含判空，尤其是在匹配部分。因为在匹配部分出问题的话，会造成整体性的影响。
-2. 做好业务拆分规划。根据业务量去规划好相关 etcd Prefix 和 IP 数量，部署更稳固的集群，把系统性风险降到最低
+1. When you modify Apache APISIX or do your own plug-in development, make sure you do Schema validation, including nulls, especially in the matching section. Because if something goes wrong in the matching section, it can have an impact on the whole.
+2. Do a good job of business split planning. Plan your ETCD Prefix and IP numbers according to your traffic, and deploy more robust clusters to minimize systemic risks.
 
-## 开源话题讨论
+## Open Source Discussion
 
-### 稳定性与功能层面的取舍
+### The Trade-off Between Stability and Function
 
-目前金山办公使用 Apache APISIX 已经快两年了，作为产品用户，我认为 Apache APISIX 确实是一款稳定可信的开源产品，在绝大多数情况下，都会及时地与社区最新版本保持一致。
+WPS has been using Apache APISIX for almost two years now, and as a product user, I think Apache APISIX is really a stable and reliable open source product, keep up to date with the latest community releases.
 
-但是一般接触并应用过开源产品的公司应该都有体会，升级版本会有一些新功能的出现，但同时也会带来一些稳定性上的问题，所以在升级版本和稳定性中我们应该如何取舍。
+But as anyone who has ever used an open source product will know, there will be some new features in the updated version, but there will also be some stability issues, so how do we choose between the updated version and the stability.
 
-这个问题肯定没有统一的答案，但是我个人觉得针对 Apache APISIX 这项产品，尽量与官网版本保持一致。
+There is no universal answer to this question, but I personally feel that for Apache APISIX, try to keep up with the official version.
 
-就金山办公而言，我们目前因为大规模使用到 Apache APISIX，所以对稳定性有极致追求。之前跟不上官方更新进度时也对我们的使用造成了一定程度的影响，所以推荐大家尽量与官方版本保持一致。
+As far as the Jinshan District Office is concerned, we currently have a very high level of stability due to the large-scale use of Apache APISIX. We’ve had some trouble keeping up with the official updates, so we recommend keeping up with the official version as much as possible.
 
-如果说你像我们一样，有时候可能跟不上官方版本，至少也应该做到每周查阅 [GitHub](https://github.com/apache/apisix) 的 Master Change Log 等相关文档，时刻关注产品变化。
+If you’re like the rest of us, you may not always be able to keep up with the official version, but you should at least be able to check out GitHub’s [Master Change Log](https://github.com/apache/apisix) and other documentation on a weekly basis and keep an eye on product changes.
 
-### 基于 Apache APISIX 产品化经验
+### Based on Apache APISIX Production Experience
 
-我们基于 Apache APISIX 包装了很多产品化功能，比如多机房应用比例切量、一键封禁路由等。在实践应用过程中，我们认识到 Apache APISIX 是一个极其灵活强大的产品，所以在进行产品化改造时我们就应该明白一个点：强大 = 避免不了的复杂和危险。
+Based on Apache APISIX, we have packaged a number of product features, such as multi-room application scaling, one-click blocking routing, and so on. In practical application, we realize that Apache APISIX is a very flexible and powerful product, so we should understand one point when we make the transition to production: powerful = unavoidable complexity and danger.
 
-这点在 Apache APISIX 本身的代码设计上也有很多的体现，比如一些插件的改造可能就需要自己去编译，因为毕竟各自应用起来时场景没有办法做到统一。
+Apache APISIX itself has a lot of code design, for example, some plug-ins may need to be modified to compile their own, because after all, the respective application scenario can not be unified.
 
-最后，基于我们前边提到的实践经验，也建议大家在进行 Apache APISIX 项目产品化时，提前规划好网关共享的颗粒度，减少后续使用问题。
+Finally, based on the practical experience mentioned above, it is also recommended that the granularity of gateway sharing should be planned well in advance to reduce the problems of subsequent use.

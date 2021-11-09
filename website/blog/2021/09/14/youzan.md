@@ -1,149 +1,147 @@
 ---
-title: "Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理"
-author: "戴诺璟"
+title: "Apache APISIX powers the Youzanyun native PaaS platform for comprehensive micro-service governance"
+author: "Nuojing Dai"
 keywords: 
 - Apache APISIX
-- 有赞
-- 微服务治理
-- 云原生
-description: 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。
+- Youzan
+- Micro-service
+- Cloud native
+description: This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.
 tags: [User Case]
 ---
 
-> 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。
+> This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.
 
 <!--truncate-->
 
-作者戴诺璟，来自有赞技术中台，运维平台开发工程师
+Youzan is a major retail technology SaaS provider that helps businesses open online stores, engage in social marketing, improve retention and repurchase, and expand new retail across all channels. This year, youzan Technologies is beginning to design and implement a new cloud native PaaS platform with a common model for release management and micro-service related governance of various applications. Apache APISIX played a key role.
 
-有赞是一家主要从事零售科技 SaaS 服务的企业，帮助商家进行网上开店、社交营销、提高留存复购，拓展全渠道新零售业务。在今年，有赞技术中台开始设计实现新的云原生 PaaS 平台，希望通过一套通用模型来进行各种应用的发布管理和微服务相关治理。而 Apache APISIX 在其中起到了非常关键的作用。
+## Why Need a Traffic Gateway
 
-## 为什么需要流量网关
+### Youzan OPS Platform
 
-### 有赞 OPS 平台
+Youzan OPS platform is based on FLASK in the early single application, mainly to support business-oriented. It gradually went online and deployed a lot of business-side code into the containerization phase. At that time, the gateway was only a part of the function of the internal flash application, and there was no clear concept of the gateway, only as the traffic forwarding function of business application. The following illustration shows the current Gateway 1.0 business structure.
 
-有赞 OPS 平台是前期基于 FLASK 的单体应用，主要以支持业务为主。后来逐渐上线了很多业务，部署了很多业务端代码，进入容器化阶段。网关在当时只是内部 FLASK 应用的一部分功能，且没有一个明确的网关概念，仅作为业务应用的流量转发功能使用。下图展示的就是当时的网关 1.0 业务结构。
+![1.0 business structure](https://static.apiseven.com/202108/1631607246260-65fa3794-befc-4e84-beee-e5526085c719.png)
 
-![1.0 业务结构](https://static.apiseven.com/202108/1631607246260-65fa3794-befc-4e84-beee-e5526085c719.png)
+As the entire system in the early days mainly focused on the direction of the business, so did not generate too much momentum to carry out the transformation. From 2018 onwards, through internal communication, we found that if there is not a good gateway layer governance, the subsequent product function and business access will bring more and more obvious bottlenecks.
 
-由于前期整个体系主要着重于业务方向，所以没有产生太多的动力去进行改造。从 2018 年开始，通过内部交流我们发现，如果没有一个很好的网关层治理，对后续产品功能的实现和业务接入度上会带来越来越明显的瓶颈。
+### Issues with no-gateway Layer Governance
 
-### 没有网关层治理出现的问题
+#### Performance
 
-#### 问题一：性能方面
+1. Every time you add a back-end service, you need to make a coding change
+2. The traffic forwarding code is implemented simply in Python and is not designed as a “Gateway”
+3. The performance limitations of the FLASK framework are limited to 120-150 QPS per machine
+4. Repeat the wheel: each of the different business requirements produces a set of corresponding entrances
+5. It’s messy. It’s complicated
 
-1. 每次新增后端服务，都需要进行编码变更
-2. 流量转发的代码用 Python 简单实现，未按“网关”要求进行设计
-3. Flask 框架的性能限制，单机 QPS 范围局限在 120-150
-4. 重复造轮子：不同的业务需求都生产一套对应入口
-5. 管理麻烦，运维复杂
+Based on this problem, our action direction is: the professional work to the professional system to do.
 
-基于这个问题，我们的行动方向是：专业的工作交给专业的系统去做。
+#### Internal Operational Aspects
 
-#### 问题二：内部业务方面
+![Internal problems](https://static.apiseven.com/202108/1631607280492-f3e9abbe-5017-497a-a8b8-80dd079f5a98.png)
 
-![内部业务问题](https://static.apiseven.com/202108/1631607280492-f3e9abbe-5017-497a-a8b8-80dd079f5a98.png)
+1. The number of internal services to manage is very high (hundreds)
+2. Some services do not dock with CAS implementation authentication
+3. The cost of new service docking CAS exists, and the repeated development is time-consuming and labor-consuming
+4. All services are configured directly at the access layer, with no internal service specifications or best practices
 
-1. 需要管理的内部服务数量非常多（上百）
-2. 部分服务未对接 CAS 实现鉴权
-3. 新的服务对接 CAS 存在对接成本，重复开发耗时耗力
-4. 所有服务直接配置在接入层，没有内部服务的规范及最佳实践
+With these two aspects of the problem, we began to gateway products related research.
 
-带着以上这两方面问题，我们就开始对网关类产品进行了相关的调研。
+## Why Apache APISIX
 
-## 为什么选择了 Apache APISIX
+We also initially investigated a number of gateway systems, such as Apache APISIX, Kong, Traefik and MOSN, as well as two related projects within our company, YZ7 and Tether.
 
-最早我们也调研了很多的网关系统，比如 Apache APISIX、Kong、traefik 和 MOSN，还有我们公司内部的两个相关项目 YZ7 和 Tether。
+![Gateway pre-section](https://static.apiseven.com/202108/1631607308093-b2135819-6d17-41d4-b2fb-10cbefa3c27b.png)
 
-![网关系统预选](https://static.apiseven.com/202108/1631607308093-b2135819-6d17-41d4-b2fb-10cbefa3c27b.png)
+Considering the maturity and extensibility of the product, we finally made a choice between Kong and Apache APISIX.
 
-考虑到产品成熟度和可拓展性，最终我们在 Kong 和 Apache APISIX 中进行对比选择。
+![Multi-dimensional comparison](https://static.apiseven.com/202108/1631607325400-45aba773-ef63-4168-8c01-5cfa69bb4021.png)
 
-![多维度对比](https://static.apiseven.com/202108/1631607325400-45aba773-ef63-4168-8c01-5cfa69bb4021.png)
+As you can see from the image above, the two are basically the same in many ways, so the storage side has become a key consideration. Because etcd is mature in our company’s internal operation and maintenance system, Apache APISIX is a little better than Kong.
 
-从上图对比中可以发现，两者在很多方面基本不相上下，所以存储端成为我们重点考虑的一点。因为 etcd 在我们公司内部的运维体系上已经比较成熟，所以 Apache APISIX 相较 Kong 则略胜一筹。
+At the same time, considering the open source project level, Apache APISIX’s domestic communication and follow-up processing speed is very good, the project’s plug-in system is rich and comprehensive, for each phase of the use of the type are relatively consistent.
 
-同时考虑到在开源项目层面，Apache APISIX 的国内交流与跟进处理速度上都非常优秀，项目的插件体系比较丰富全面，对各个阶段的使用类型都比较契合。
+So after research in 2020, [Apache APISIX](https://github.com/apache/apisix)  was finally chosen as the gateway for the upcoming cloud native PaaS platform in Youzan.
 
-所以在 2020 年调研之后，最终选择了 [Apache APISIX](https://github.com/apache/apisix) 作为有赞即将推出云原生 PaaS 平台的流量网关。
+## After Using Apache APISIX
 
-## 使用 Apache APISIX 后的产品新貌
+When we started accessing Apache APISIX, the two problems mentioned above were solved one by one.
 
-当我们开始接入 Apache APISIX 后，前文提到的两方面问题逐一得到了解决。
+### Effect 1: Optimized Architecture Performance
 
-### 效果一：优化了架构性能
+Apache APISIX is deployed as an entry point to gateway at the edge of the internal service area, through which all requests to the front end pass. At the same time, we use the plug-in function of Apache APISIX to connect with the company’s internal CAS single sign-on system. At the same time in the front end we provide a responsible for authentication SDK Apache APISIX authentication interface docking, to achieve a complete and automated process system.
 
-Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所有请求都会经过它。同时我们通过 Apache APISIX 的插件功能实现了与公司内部 CAS 单点登录系统的对接，之前负责流量转发的账号变为纯业务系统。同时在前端我们提供了一个负责鉴权的 SDK 与 Apache APISIX 鉴权接口进行对接，达成一套完整又自动化的流程体系。
+![Optimized architecture](https://static.apiseven.com/202108/1631607354934-f951c4f5-8d45-458e-83a6-de20fd206540.png)
 
-![优化架构](https://static.apiseven.com/202108/1631607354934-f951c4f5-8d45-458e-83a6-de20fd206540.png)
+So the problem was solved:
 
-于是问题得到了解决：
+1. Each time you add a new back-end service, you simply call the Apache APISIX interface and write the new service configuration
+2. Traffic forwarding is done through Apache APISIX, which is excellent at what the gateway does
+3. The gateway is no longer a performance bottleneck in the architecture
+4. For different business requirements, you can use the same gateway to achieve uniformity; business details vary, you can achieve through plug-ins
 
-1. 每次增加新的后端服务，只需调用 Apache APISIX 接口，将新的服务配置写入
-2. 流量转发通过 Apache APISIX 完成，在网关该做的事情上，它完成得十分优秀
-3. 网关不再是架构中的性能瓶颈
-4. 对不同的业务需求，可以统一使用同一个网关来实现；业务细节有差异，可以通过插件实现
+### Effect 2: Internal Service Access Standardization
 
-### 效果二：内部服务接入标准化
+After accessing Apache APISIX, the company’s new internal service will have its own authentication function, access costs are very low, business can directly start to develop business code. At the same time when the new service access, according to the norms of internal services for the relevant routing configuration, back-end services can be unified access authentication after the user identity, save time and effort.
 
-接入 Apache APISIX 后，公司新的内部服务接入时将自带鉴权功能，接入成本极低，业务方可以直接开始开发业务代码。同时在新服务接入时，按内部服务的规范进行相关路由配置，后端服务可以统一拿到鉴权后的用户身份，省时省力。
+Some of the fine-tuning details of the in-house service are briefly described here.
 
-具体关于内部服务的一些调整细节这里简单介绍一下。
+#### Authentication Plugin OPS-JWT-Auth
 
-#### 鉴权插件 OPS-JWT-Auth
+The authentication plug-in is developed based on JWT-Auth protocol. When a user accesses the front end, the front end calls the SDK first to get the available JWT-Token locally. Then through the following path to get the user’s valid information, placed in the front-end of a storage, complete login authentication.
 
-鉴权插件是基于 JWT-Auth 协议去开发的，用户访问前端时，前端会先去调用 SDK，去前端本地获取可用的 JWT-Token。然后通过下图的路径获得用户有效信息，放在前端的某个存储里，完成登录鉴权。
+![Login authentication](https://static.apiseven.com/202108/1631607385027-4cf6381d-d0ea-4e5e-a8c9-ffc599e6e69c.png)
 
-![登录鉴权](https://static.apiseven.com/202108/1631607385027-4cf6381d-d0ea-4e5e-a8c9-ffc599e6e69c.png)
+#### Deployment Configuration Upgrade
 
-#### 部署配置升级
+At the deployment level, we implemented the current multi-cluster configuration deployment after three iterations from the simpler version.
 
-在部署层面，我们从简单版本经历三次迭代后实现了目前的多集群配置部署。
+- Version 1: Double Room 4 independent nodes, the hypervisor is written to each node’s etcd
+- Version 2: Double Room 4 independent nodes, the main room three nodes etcd cluster
+- Version 3: Three Rooms 6 independent nodes, three rooms etcd cluster
 
-* 版本一：双机房 4 个独立节点，管理程序分别写入每个节点的 etcd
-* 版本二: 双机房 4 个独立节点，主机房三节点 etcd 集群
-* 版本三: 三机房 6 个独立节点，三机房 etcd 集群
+For now we’re going to mix computing with storage deployment, and then we’re going to deploy a really high availability ETCD cluster that can be isolated from the governance plane Apache APISIX runtime, deploy in stateless mode.
 
-目前我们还是计算与存储混合部署在一起，后续我们会去部署一个真正高可用的 etcd 集群，这样在管控平面 Apache APISIX 运行时就可以分离出来，以无状态模式部署。
+#### New Authentication Plugin PAT-Auth
 
-#### 新增鉴权插件 PAT-Auth
+This year we added the Person Access Token (Pat) authentication plug-in, which, like calling the Open API on GitHub, generates a personal Token that can call the Open API as a Person.
 
-在今年我们又新增了 Person Access Token（PAT）的鉴权插件，这个功能类似于在 GitHub 上去调用 Open API 一样，会生成一个个人 Token，可以以个人身份去调用 Open API。
+Because our own operating platform also has some such requirements, for example, some local development plug-ins need to personally access the interface on the cloud platform, in this case the personal way Token is more convenient, allow developers to license themselves.
 
-因为我们自己的运维平台也有一些这样的需求，比如本地的一些开发插件需要以个人身份去访问云平台上的接口时，这种情况下个人 Token 方式就比较方便，允许开发自己给自己授权。
+While multiple Auth plug-ins have been supported since Apache APISIX 2.2, one Consumer can now run multiple Auth plug-in scenario implementations.
 
-目前 Apache APISIX 2.2 版本后已支持多个 Auth 插件使用，现在可以支持一个 Consumer 运行多个 Auth 插件的场景实现。
+## More Plans to Explore
 
-## 更多玩法待开发
+### Upgrade Operations Automation
 
-### 升级运维自动化
+We also experienced a few version changes during our use of Apache APISIX. But each upgrade, more or less because of compatibility and lead to the transformation of development, after the completion of the online changes, operating efficiency is low. So in the future we will try to deploy a three-room etcd cluster on the storage surface at the same time as Apache APISIX runs the surface containerization implementation for automatic distribution.
 
-在使用 Apache APISIX 的过程中，我们也经历了几次版本变动。但每次升级，都或多或少出现因为兼容性而导致改造开发，完成后进行线上变更，运维效率较低。所以后续我们会尝试在存储面部署三机房 etcd 集群的同时，将 Apache APISIX 运行面容器化实现自动发布。
+### Use the Traffic Split Plugin
 
-### traffic split 插件使用
-
-[traffic split](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/traffic-split.md) 是 Apache APISIX 在最近几个版本中引入的插件，主要功能是进行流量分离。有了这个插件后，我们可以根据一些流量头上的特征，利用它去自动完成相关操作。
+[traffic split](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/traffic-split.md) is a plug-in that Apache APISIX has introduced in recent releases with the primary function of traffic separation. With this plug-in, we can according to some of the traffic head characteristics, use it to complete the relevant operations automatically.
 
 ![traffic split](https://static.apiseven.com/202108/1631607412159-bc84d447-ef28-4726-8ee1-b960415ac5ce.png)
 
-如上图在路由配置上引入 traffic split 插件，如果当有 Region=Region1 的情况，便将其路由到 Upstream1。通过这样的规则配置，完成流量管控的操作。
+As shown above, a traffic split plug-in is introduced in the routing configuration, and when region = Region1 is present, it is routed to Upstream1. Through such a rule configuration, the operation of traffic control is completed.
 
-### 东西向流量管理
+### East-west Flow Management
 
-我们的使用场景中更多是涉及到在内网多个服务之间去做服务，调用鉴权时可以依靠 Apache APISIX 做流量管理。服务 A、服务 B 都可以通过它去调用服务 C，中间还可以加入鉴权的插件，设定其调用对象范围、环境范围或者速率和熔断限流等，做出类似这样的流量管控。
+In our usage scenario, we are more involved in multi-service of intranet, and we can rely on Apache APISIX for traffic management when calling authentication. Both service A and service B can use it to call service C, with the addition of an authenticated plug-in to set its call object scope, environment scope, or rate, and fuse limit, etc. , to do something like this.
 
-![流量管理](https://static.apiseven.com/202108/1631607435661-c22c61c4-396b-4412-9643-b6ccb16cfb1c.png)
+![Flow management](https://static.apiseven.com/202108/1631607435661-c22c61c4-396b-4412-9643-b6ccb16cfb1c.png)
 
-### 内部权限系统对接
+### With the Internal Access System
 
-之后我们也打算将公司的权限系统与 Apache APISIX 进行对接，鉴权通过后，判定用户是否有权限去访问后端的某个资源，权限的管理员只需在管控平面上做统一配置即可。
+Then we’re going to Dock Apache Apisix with the company’s permission system, and after authentication, determine if the user has access to a resource on the back end, the administrator of the permissions only needs to make a uniform configuration on the administration plane.
 
-![系统对接](https://static.apiseven.com/202108/1631607457290-e1f379c5-a23e-46a6-9cea-93cb6f5916ba.png)
+![System docking](https://static.apiseven.com/202108/1631607457290-e1f379c5-a23e-46a6-9cea-93cb6f5916ba.png)
 
-这样带来的一个好处就是后端的所有服务不需要各自去实现权限管控，因为当下所有流量都是经过网关层处理。
+One of the benefits of this is that all back-end services do not need to be individually managed, since all current traffic is handled through the gateway layer.
 
-### Go Plugin 开发
+### Go Plugin Development
 
-目前 Apache APISIX 在计算语言层面已支持多计算语言，比如 Java、Go 以及 Python。刚好我们最近实现的云原生 PaaS 平台，也开始把技术栈从 Python 往 Go 上转移。
+Apache APISIX currently supports multiple computing languages at the computing language level, such as Java, Go, and Python. It just so happens that our recently implemented cloud native PaaS platform is also starting to move the technology stack from Python to Go.
 
-希望后续在使用 Apache APISIX 的过程中，可以用 Go 去更新一些我们已经实现了的插件，期待在后续的迭代中给有赞产品带来更多的好处。
+Hopefully we will be able to update some of the plug-ins we have implemented with Go in the future with Apache APISIX, hopefully bringing more benefits to the like product in subsequent iterations.
