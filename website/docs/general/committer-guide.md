@@ -31,7 +31,7 @@ All forms of contributions are accepted, for example:
 
 If you would like to contribute, please send an email to dev@apisix.apache.org to let us know!
 
-## How to become a APISIX committer?
+## How to become an APISIX committer?
 
 Anyone can be a contributor to an Apache project. Being a contributor simply means that you take an interest in the project and contribute in some way, ranging from asking sensible questions (which documents the project and provides feedback to developers) through to providing new features as patches.
 
@@ -71,8 +71,8 @@ Processes are:
 
 8. Guide new contributors join community.
 
-## How to become a APISIX PMC?
+## How to become an APISIX PMC?
 
-In APISIX community, if a committer who have earned even more merit, can be invited to be a part of the Project Management Committee (PMC).
+In APISIX community, a committer who has earned even more merits can be invited to be a part of the Project Management Committee (PMC).
 
 One thing that is sometimes hard to understand when you are new to the open development process used at the ASF, is that we value the community more than the code. A strong and healthy community will be respectful and be a fun and rewarding place. More importantly, a diverse and healthy community can continue to support the code over the longer term, even as individual companies come and go from the field.
