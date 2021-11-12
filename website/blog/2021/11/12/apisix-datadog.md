@@ -52,7 +52,7 @@ The metrics will be sent to the DogStatsD agent with the following tags. If ther
 |response_status|HTTP response status code.|
 |scheme|Scheme that has been used to make requests, such as HTTP, gRPC, gRPCs etc.|
 
-The plugin maintains a buffer with a timer. When the timer expires,  APISIX-Datadog plugin flashes the buffered metrics as a batch to the locally run dogstatsd server. This approach is less resource-hungry (though it might be insignificant as UDP sockets are very lightweight) by reusing the same UDP socket and doesn't overload the network all the time as the timer can be configured.
+The plugin maintains a buffer with a timer. When the timer expires, APISIX-Datadog plugin flashes the buffered metrics as a batch to the locally run dogstatsd server. This approach is less resource-hungry (though it might be insignificant as UDP sockets are very lightweight) by reusing the same UDP socket and doesn't overload the network all the time as the timer can be configured.
 
 ## Steps to Run Datadog Agent
 
@@ -87,16 +87,16 @@ The following is an example on how to activate the datadog plugin for a specific
 ```shell
 # enable plugin for a specific route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{      
-    "plugins": {            
-        "datadog": {}       
-    },      
+{
+    "plugins": {
+        "datadog": {} 
+    },
     "upstream": {
         "type": "roundrobin",
-        "nodes": {              
+        "nodes": {
             "127.0.0.1:1980": 1
-        }      
-    },      
+        }
+    },
     "uri": "/hello"
 }'
 ```
@@ -123,11 +123,11 @@ Make a request to /apisix/admin/plugin_metadata endpoint with the updated metada
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "host": "127.0.0.1",    
-    "port": 8125,    
+    "host": "127.0.0.1",
+    "port": 8125,
     "constant_tags": [
-        "source:apisix",        
-        "service:custom"    
+        "source:apisix",
+        "service:custom"
     ],
     "namespace": "apisix"
 }'
@@ -165,13 +165,13 @@ Now, to deactivate the plugin, simply remove the corresponding json configuratio
 # disable plugin for a route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 { 
-    "uri": "/hello",    
-    "plugins": {},    
-    "upstream": {        
-        "type": "roundrobin",        
-        "nodes": {            
-            "127.0.0.1:1980": 1        
-        }    
+    "uri": "/hello",
+    "plugins": {},
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:1980": 1
+        }
     }
 }'
 ```

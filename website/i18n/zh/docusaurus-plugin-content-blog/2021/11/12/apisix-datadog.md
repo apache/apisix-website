@@ -73,7 +73,7 @@ APISIX-Datadog 插件维护了一个带有 timer 的 buffer。当 timer 失效�
 # pull the latest image
 docker pull datadog/dogstatsd:latest
 # run a detached container
-docker run -d --name dogstatsd-agent -e DD_API_KEY=<Your API Key from step 2> -p 8125:8125/udp  datadog/dogstatsd
+docker run -d --name dogstatsd-agent -e DD_API_KEY=<Your API Key from step 2> -p 8125:8125/udp datadog/dogstatsd
 ```
 
 如果你在生产环境中使用 Kubernetes，你可以将 `dogstatsd` 作为一个 `Daemonset` 或 `Multi-Container Pod` 与 Apache APISIX agent 一起部署。
@@ -88,15 +88,15 @@ docker run -d --name dogstatsd-agent -e DD_API_KEY=<Your API Key from step 2> -p
 # enable plugin for a specific route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {      
-    "plugins": {            
-        "datadog": {}       
-    },      
+    "plugins": {
+        "datadog": {}
+    },
     "upstream": {
         "type": "roundrobin",
-        "nodes": {              
+        "nodes": {
             "127.0.0.1:1980": 1
-        }      
-    },      
+        }
+    },
     "uri": "/hello"
 }'
 ```
@@ -113,7 +113,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 |----|----|---------------|-------|-----------|
 |hosts|string|否|"127.0.0.1"|DogStatsD server 的主机地址|
 |port|integer|否|8125|DogStatsD server的主机端口|
-|namespace|string|否|"apisix"|由 APISIX  agent发送的所有自定义参数的前缀。对寻找指标图的实体很有帮助，例如：(apisix.request.counter)。|
+|namespace|string|否|"apisix"|由 APISIX agent发送的所有自定义参数的前缀。对寻找指标图的实体很有帮助，例如：(apisix.request.counter)。|
 |constant_tags|array|否|["source:apisix"]|静态标签嵌入到生成的指标中。对某些信号的 metrics 进行分组很有用。|
 
 要了解更多关于如何有效地编写标签，请访问[这里](https://docs.datadoghq.com/getting_started/tagging/#defining-tags)。
@@ -123,11 +123,11 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "host": "127.0.0.1",    
-    "port": 8125,    
+    "host": "127.0.0.1",
+    "port": 8125,
     "constant_tags": [
-        "source:apisix",        
-        "service:custom"    
+        "source:apisix",
+        "service:custom"
     ],
     "namespace": "apisix"
 }'
@@ -165,13 +165,13 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog -H 'X-API-KEY: e
 # disable plugin for a route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 { 
-    "uri": "/hello",    
-    "plugins": {},    
-    "upstream": {        
-        "type": "roundrobin",        
-        "nodes": {            
-            "127.0.0.1:1980": 1        
-        }    
+    "uri": "/hello",
+    "plugins": {},
+    "upstream": {
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:1980": 1
+        }
     }
 }'
 ```
