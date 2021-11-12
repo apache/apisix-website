@@ -28,7 +28,7 @@ tags: [User Case]
 
 目前公司是以「拥抱云原生」的态度来进行后续业务的方案选择，主要看重云原生模式下的微服务改造、DevOps、持续交付以及最重要的容器化特性。
 
-![为什么选择云原生](https://static.apiseven.com/202108/1631946996654-5cb0668b-bd15-42f8-9446-06ba11449367.png)
+![为什么选择云原生](https://static.apiseven.com/202108/1636725807160-a0354950-3585-44c9-95d2-b1dd8df5ba6a.png)
 
 ## 为什么需要 Apache APISIX
 
@@ -111,7 +111,7 @@ OpenShift 具有非常严格的 SCC 机制，在利用 OpenShift 去部署 Apach
 
 我们一开始使用的 Apache APISIX 为 1.5 版本，在更新到最新版本的过程中，我们经历了类似 etcd v2 版本性能下降、增加了 CORS 插件强校验等情况。
 
-![平滑处理](https://static.apiseven.com/202108/1632294589632-e113850d-57a6-4a82-be21-63ec8e78f842.png)
+![平滑处理](https://static.apiseven.com/202108/1636725839986-ccb8bcda-b16c-4622-ab73-d4fce5ee8d2b.png)
 
 基于此，我们采取了版本切流的方案，新版本启用并创建新的 Service 以及暴露相关 SLB 信息。通过 Service 的 Selector 属性，将 Gateway 切换到新版本的 Apache APISIX 中。另一方面我们也会将流量进行切分处理，将部分流量通过 DNS 解析到新版本 Apache APISIX SLB 地址，来实现版本更迭的平滑处理。
 

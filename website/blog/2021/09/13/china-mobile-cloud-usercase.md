@@ -50,7 +50,7 @@ Apache APISIX features, functional plugins, and custom development capabilities 
 
 The general SLA service level availability emphasizes two metrics: system mean time to failure and system mean time to repair failure. How to effectively lengthen the system mean time to failure? How to effectively reduce the system mean time to repair? These two questions are our key considerations. Apache APISIX has good traffic management and service management related capabilities in both fault isolation and self-healing.
 
-![SLA Service Level](https://static.apiseven.com/202108/1631500451210-60ba58d6-1fc4-4db6-b658-5e0066bb1c9b.png)
+![SLA Service Level](https://static.apiseven.com/202108/1636725196336-a2764f7c-f396-48a7-96c1-0a535b17b476.png)
 
 ## What Did We Change in Apache APISIX Data Plane?
 
@@ -64,11 +64,11 @@ By accessing Apache APISIX, we realize multi-domain certificate configuration fo
 
 Here we first give you a brief description of the current Object Storage EOS node management after accessing Apache APISIX. The entire object store is divided into a data plane and a control plane. The data plane mainly carries the I/O flow of the whole business. The business data is processed from APISIX’s Layer 7 traffic governance module as the entry point, through the APISIX back-end upstream Accesser, which is the main module for business interface processing.
 
-![Fuse Protection](https://static.apiseven.com/202108/1631500499020-4297de78-f9e3-45a5-8f57-2a55280bf7b0.png)
+![Fuse Protection](https://static.apiseven.com/202108/1636725240231-15d3ab58-acfb-4406-83d5-212fa73b74dc.png)
 
 The control plane has several main services, including the autopilot service Manager, the observable system Observer, and the chaos engineering fault injection module Checker. there is also an additional overall interaction orchestration system Orchestrator and a grayscale publishing platform Publisher.
 
-![Control Plane Services](https://static.apiseven.com/202108/1631500520579-1e40b538-377b-4356-b0f2-1038c0a798e4.png)
+![Control Plane Services](https://static.apiseven.com/202108/1636725303947-5abf20eb-0089-468e-a455-4def438c7576.png)
 
 In order to achieve request fusion protection, the data plane is connected to Apache APISIX to achieve the processing capability of request intervention. The observable system at the control plane is mainly built based on Prometheus, which collects indicators and alerts, and finally realizes the overall fusion protection at the back-end.
 
@@ -77,7 +77,7 @@ In order to achieve request fusion protection, the data plane is connected to Ap
 limit-conn key This plugin mainly supports remote_addr, server_addr, X-Forwarded-For, X-Real-IP, but cannot do full limit flow for north-south gateway traffic.
 In order to match our business requirements, we customize a constant constant as the range of imit-conn key. The right side of the above figure is the modified configuration after accessing Apache APISIX, and the constant constant constant key is used to achieve the function of global flow-limit.
 
-![Global Flow-limit](https://static.apiseven.com/202108/1631500546238-9fd5ebcf-d205-4d99-a34d-236d5589a7e6.png)
+![Global Flow-limit](https://static.apiseven.com/202108/1636725345469-6670e87f-446b-45b1-bade-6ffb6ef62852.png)
 
 ### Improvement 4: New Function Feature Switches
 
@@ -103,7 +103,7 @@ Combined with the Apache APISIX Layer 7 governance capabilities, we perform upgr
 
 Based on access.log, we have implemented a centralized log collection management method to collect APISIX logs and logs of other processes, and then perform a comprehensive analysis.
 
-![Log Tracking](https://static.apiseven.com/202108/1631500588620-9200d098-b4ac-4b9d-99f4-509f9fada70f.png)
+![Log Tracking](https://static.apiseven.com/202108/1636725376895-00b17857-066a-4cc7-95b0-c4aa22d9bf76.png)
 
 The configuration item on the right side of the image above uses the request-id plugin of Apache APISIX. Each request is assigned a request-id when it passes through APISIX, which is used in the business logic processing layer (Accesser) and the data persistence layer, which in turn filters out the log timestamps of the different components in the official Loki panel and helps to automate some analysis using AI later.
 
@@ -112,7 +112,7 @@ The configuration item on the right side of the image above uses the request-id 
 The backend of the current load balancing is a seven-layer traffic governance layer based on APISIX implementation, which achieves multi-live capability by equal ECMP + BGP routing. We define three traffic types, each APISIX node receives service traffic and only hits the upstream service of this node to process (level0, purple line), similar to SideCar mode.
 If a node has a problem upstream, it will be forwarded to other upstream nodes in the same AZ for processing (green line). If all upstream nodes hang, the ability to invoke requests across AZs (level2, red line) is implemented based on Apache APISIX, which writes the requests to other AZs and finally achieves request scheduling across AZs.
 
-![Cross Available Zones Request Scheduling](https://static.apiseven.com/202108/1631500626933-473fdd62-dcee-42cc-93c2-93d83acd796c.png)
+![Cross Available Zones Request Scheduling](https://static.apiseven.com/202108/1636725410316-94f9a70a-acf5-4df9-a166-da6c96cd1878.png)
 
 ## Future Plans
 
