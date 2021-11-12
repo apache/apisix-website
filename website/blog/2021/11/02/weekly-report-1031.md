@@ -25,7 +25,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ## Contributor Statistics
 
-![Contributors List](https://static.apiseven.com/202108/1635733917401-732f84d0-24a1-4c31-acea-4e45f5e56816.png)
+![Contributors List](https://static.apiseven.com/202108/1636726702375-478a5202-2d5f-4940-a5f7-d636dd9e4814.png)
 
 ![New Contributors](https://static.apiseven.com/202108/1635735281818-c6cb23ce-4242-44ee-a569-38a46b607253.31eng)
 
@@ -59,7 +59,7 @@ proxy_pass http://test_backend$request_uri;
 
 But when I test the proxy-mirror plugin in apisix dashboard, it prompts a message that the blank cannot be filled with URI. Will the proxy-mirror plugin be optimized to support the URI?
 
-![Issue Screenshot](https://static.apiseven.com/202108/1635734126653-8fe4c1e7-5b9a-4e78-b747-fb30cbae7f36.png)
+![Issue Screenshot](https://static.apiseven.com/202108/1636726734266-8ec5179f-3843-4d45-bf45-39a1d89570f8.png)
 
 ### Issue #5342
 
