@@ -145,6 +145,10 @@
             {
                 "name": "zipkin",
                 "description": "Zipkin is a OpenTracing plugin"
+            },
+            {
+                "name": "datadog",
+                "description": "Datadog is a monitoring plugin built into Apache APISIX for seamless integration with Datadog"
             }
         ]
     },
