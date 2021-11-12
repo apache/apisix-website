@@ -26,7 +26,7 @@ tags: [Events]
 
 ## 贡献者统计
 
-![weekly_contributor_static_20210823](https://static.apiseven.com/202108/1629726394722-84d86d5a-1b62-4bbd-b681-c42b371c53ec.png)
+![weekly_contributor_static_20210823](https://static.apiseven.com/202108/1636723441739-3e960231-4504-45fb-a697-c7be2d118586.png)
 
 ## Good first issue
 

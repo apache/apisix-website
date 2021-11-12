@@ -42,7 +42,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 }
 ```
 
-![问题描述截图](https://static.apiseven.com/202108/1630393952407-b6a26364-6c36-47f6-82c2-81514c31f20b.PNG)
+![问题描述截图](https://static.apiseven.com/202108/1636723523096-122618f2-d368-4698-8ffa-8b5a3eb7baf1.png)
 
 ### Issue #4441
 
