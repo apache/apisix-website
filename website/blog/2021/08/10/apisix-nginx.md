@@ -18,7 +18,7 @@ tags: [Technology]
 
 开源版 Nginx 最为人诟病的就是不具备动态配置、远程 API 及集群管理的能力，而 Apache APISIX 作为 Apache 基金会毕业的开源七层网关，基于 etcd 和 Lua 实现了对 Nginx 集群的动态管理。
 
-![APISIX 架构图](https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png)
+![APISIX 架构图](https://static.apiseven.com/202108/1636723116014-4e2d4ba2-41d7-4921-97a8-00329b7b275d.png)
 
 让 Nginx 具备动态、集群管理能力并不容易，因为这将面临以下问题：
 
@@ -127,7 +127,7 @@ ngx_http_lua_ngx_timer_helper(lua_State *L, int every)
 
 Nginx 框架为 C 模块开发提供了许多钩子，而 OpenResty 将部分钩子以 Lua 语言形式暴露了出来，如下图所示：
 
-![openresty 钩子](https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png)
+![openresty 钩子](https://static.apiseven.com/202108/1636723149413-a3e1dfe9-1e25-4086-8b1f-1869b323dbe6.png)
 
 Apache APISIX 仅使用了其中 8 个钩子（注意，APISIX 没有使用 `set_by_lua` 和 `rewrite_by_lua`，rewrite 阶段的插件其实是 Apache APISIX 自定义的，与 Nginx 无关），包括：
 
@@ -259,7 +259,7 @@ end
 
 watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾导致的。etcd v3 已经支持高效的 gRPC 协议（底层为 HTTP2 协议）。你可能听说过，HTTP2 不但具备多路复用的能力，还支持服务器直接推送消息，从 HTTP3 协议对照理解 HTTP2 ：
 
-![http2_stream_frame_conn](https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png)
+![http2_stream_frame_conn](https://static.apiseven.com/202108/1636723182646-3768ca2f-91d1-42f3-9946-254d4dc2577d.png)
 
 然而，Lua 生态目前并不支持 HTTP2 协议，所以 lua-resty-etcd 库实际是通过低效的 HTTP/1.1 协议与 etcd 通讯的，因此接收 /watch 通知也是通过带有超时的 /v3/watch 请求完成的。这个现象其实是由 2 个原因造成的：
 
@@ -469,7 +469,7 @@ end
 1. 将静态哈希表中的 `server_name` 配置与请求的 `Host` 域名匹配
 2. 其次将静态 Trie 前缀树中的 location 配置与请求的 URI 匹配
 
-    ![location 前缀树的匹配流程 2](https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png)
+    ![location 前缀树的匹配流程 2](https://static.apiseven.com/202108/1636723213223-62db4e72-65eb-4603-82df-beee81835c64.png)
 
 3. 在上述两个过程中，如果含有正则表达式，则基于数组顺序（在 nginx.conf 中出现的次序）依次匹配。
 
