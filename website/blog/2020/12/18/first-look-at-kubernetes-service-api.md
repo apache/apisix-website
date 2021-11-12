@@ -52,7 +52,7 @@ matches:
 
 2. The Service APIs propose the concept of multi-layer APIs, each layer exposes its interface independently to facilitate other custom resources to interface with the APIs and achieve finer granularity (API granularity) control.
 
-![api-model](https://gateway-api.sigs.k8s.io/images/api-model.png)
+![api-model](https://static.apiseven.com/202108/1636562883820-c6ebe4c1-53f5-44ea-8586-66e767104d1f.png)
 
 3. Role-oriented RBAC: One of the ideas behind the multi-tier API implementation is to design resource objects from the user's perspective. These resources are ultimately mapped to common roles for running applications on Kubernetes.
 
