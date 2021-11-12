@@ -72,7 +72,7 @@ import '@cypress/code-coverage/support';
 
 After the configuration is done, we need to run the test case. After the test case is run, Cypress will generate `coverage` and `.nyc_output` folders, which contain the test coverage reports.
 
-![1.png](https://lh4.googleusercontent.com/o-tyQagmCjprpNkuTjMFLaALZKtW4pyC9nj-GcPx4MM3xK0zrMED9Nndk5ZmZkZsQ5SIJPEovcrHyjWP2YXtEcYYDpLL49aV_97N83doTkOuMXlFsVjGu53A9FdlxOCr6i3aIDTA)
+![1.png](https://static.apiseven.com/202108/1636563401275-3c420979-7671-4e7b-af38-2c0676c643b5.png)
 
 The test coverage information will appear in the console after executing the following command.
 
@@ -80,11 +80,11 @@ The test coverage information will appear in the console after executing the fol
 npx nyc report --reporter=text-summary
 ```
 
-![2.png](https://lh4.googleusercontent.com/n0CON1WF64wEnh3IYEc3wwwOJ2Ft_WmMLfkhOPKIKxoW0NP6Eq8VplJ87EepL5zIWOeyfJhlDmhc3ImE0ivgRlXWe1RuW2x7vL_JEri7Mz6b3tOY0it8bVvUe83CAHNgeoyXZnsy)
+![2.png](https://static.apiseven.com/202108/1636563455685-ecdf3abb-e0d2-4069-8145-7421a347db97.png)
 
 Under the coverage directory, a more detailed report page will be available, as shown here.
 
-![3.png](https://lh4.googleusercontent.com/skjR9YUcbmeytfoYnR0it7Vfc7mheCJDt7PSUsp549IbOdfqskTrIOqUXw01e0fnuNwpGoo3GtqAER3eQjNoTIdmU7HY6hc_sZ5NYc3h-MyxqmVz_NaC3AM-J4rWJFy-9IoTWjpn)
+![3.png](https://static.apiseven.com/202108/1636563505982-731c4e8d-8e64-4108-998d-70bc6873a682.png)
 
 - Statements indicates whether each statement was executed
 
