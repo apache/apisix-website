@@ -87,7 +87,7 @@ docker run -d --name dogstatsd-agent -e DD_API_KEY=<Your API Key from step 2> -p
 ```shell
 # enable plugin for a specific route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{      
+{
     "plugins": {
         "datadog": {}
     },
@@ -151,7 +151,7 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog -H 'X-API-KEY: e
 ...
 "plugins": {
     "datadog": {
-        "batch_max_size": 10 
+        "batch_max_size": 10
     }
 }
 ... }'
@@ -164,7 +164,7 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog -H 'X-API-KEY: e
 ```shell
 # disable plugin for a route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{ 
+{
     "uri": "/hello",
     "plugins": {},
     "upstream": {

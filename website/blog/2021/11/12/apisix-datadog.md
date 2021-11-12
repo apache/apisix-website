@@ -89,7 +89,7 @@ The following is an example on how to activate the datadog plugin for a specific
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins": {
-        "datadog": {} 
+        "datadog": {}
     },
     "upstream": {
         "type": "roundrobin",
@@ -151,7 +151,7 @@ As all the fields are optional and if no attributes are set, the datadog plugin 
 ...
 "plugins": {
     "datadog": {
-        "batch_max_size": 10 
+        "batch_max_size": 10
     }
 }
 ... }'
@@ -164,7 +164,7 @@ Now, to deactivate the plugin, simply remove the corresponding json configuratio
 ```shell
 # disable plugin for a route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{ 
+{
     "uri": "/hello",
     "plugins": {},
     "upstream": {
