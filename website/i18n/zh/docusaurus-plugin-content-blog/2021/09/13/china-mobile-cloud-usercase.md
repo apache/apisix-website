@@ -52,7 +52,7 @@ Apache APISIX 的特性、功能插件、自定义开发功能，都可以在后
 
 一般 SLA 服务等级的可用性强调两个指标：系统平均无故障时间和系统平均故障修复时间。如何有效拉长系统平均无故障时间？如何有效缩小系统平均故障修复时间？这两个问题是我们重点考虑的。而 Apache APISIX 在故障隔离和自愈方面都有着不错的流量治理和服务治理相关能力。
 
-![SLA 服务等级](https://static.apiseven.com/202108/1631500451210-60ba58d6-1fc4-4db6-b658-5e0066bb1c9b.png)
+![SLA 服务等级](https://static.apiseven.com/202108/1636725196336-a2764f7c-f396-48a7-96c1-0a535b17b476.png)
 
 ## 在 Apache APISIX 的数据面，我们改了些什么
 
@@ -65,11 +65,11 @@ Apache APISIX 的特性、功能插件、自定义开发功能，都可以在后
 
 在这里首先给大家简单描述一下目前接入 Apache APISIX 后的对象存储 EOS 节点管理。整个对象存储分为数据平面和控制平面。数据平面主要承载整个业务的 I/O 流。业务数据是从 Apache APISIX 的 7 层流量治理模块作为入口，通过 APISIX 后端上游的 Accesser，实现业务接口处理的主要模块。
 
-![熔断保护](https://static.apiseven.com/202108/1631500499020-4297de78-f9e3-45a5-8f57-2a55280bf7b0.png)
+![熔断保护](https://static.apiseven.com/202108/1636725240231-15d3ab58-acfb-4406-83d5-212fa73b74dc.png)
 
 控制平面主要有几大服务，包括自动驾驶服务 Manager、可观测系统 Observer 和混沌工程故障注入模块 Checker。还有额外的整体交互编排系统 Orchestrator 和灰度发布平台 Publisher。
 
-![控制平面服务](https://static.apiseven.com/202108/1631500520579-1e40b538-377b-4356-b0f2-1038c0a798e4.png)
+![控制平面服务](https://static.apiseven.com/202108/1636725303947-5abf20eb-0089-468e-a455-4def438c7576.png)
 
 为了实现请求熔断保护，数据面在接入 Apache APISIX 后就实现了请求介入的处理能力。而控制面端的可观测系统主要是基于 Prometheus 搭建的，进行指标收集与告警，最终实现后端整体的熔断保护。
 
@@ -79,7 +79,7 @@ limit-conn key 这个插件主要是支持 remote_addr、server_addr、X-Forward
 
 为了匹配我们的业务需求，通过自定义一个 constant 常量作为 limit-conn key 范围，上图右侧即是接入 Apache APISIX 后修改过的配置，通过 constant 常量 key 实现全局限流的功能。
 
-![全局限流](https://static.apiseven.com/202108/1631500546238-9fd5ebcf-d205-4d99-a34d-236d5589a7e6.png)
+![全局限流](https://static.apiseven.com/202108/1636725345469-6670e87f-446b-45b1-bade-6ffb6ef62852.png)
 
 ### 改进四：新增功能特性开关
 
@@ -105,7 +105,7 @@ limit-conn key 这个插件主要是支持 remote_addr、server_addr、X-Forward
 
 基于 access.log 实现了日志集中收集的管理方式，把 APISIX 的 log 和其他进程的 log 都收集起来，然后进行综合的分析。
 
-![日志跟踪](https://static.apiseven.com/202108/1631500588620-9200d098-b4ac-4b9d-99f4-509f9fada70f.png)
+![日志跟踪](https://static.apiseven.com/202108/1636725376895-00b17857-066a-4cc7-95b0-c4aa22d9bf76.png)
 
 上图右侧的配置项是使用了 Apache APISIX 的 request-id 插件。每个请求在经过 APISIX 时都会被分配一个 request-id，被用于业务逻辑处理层（Accesser）和数据持久化层，进而在 Loki 官方面板上过滤出不同组件的日志时间戳，有助于后续使用 AI 实现一些自动化的分析。
 
@@ -113,7 +113,7 @@ limit-conn key 这个插件主要是支持 remote_addr、server_addr、X-Forward
 
 目前负载均衡的后端是基于 APISIX 实现的七层流量治理层，通过等 ECMP + BGP 路由实现多活的能力。我们定义了三种流量类型，每个 APISIX 节点收到业务流量时只打到本节点的上游服务去处理（level0，紫线），类似 SideCar 模式。
 
-![AZ 调度](https://static.apiseven.com/202108/1631500626933-473fdd62-dcee-42cc-93c2-93d83acd796c.png)
+![AZ 调度](https://static.apiseven.com/202108/1636725410316-94f9a70a-acf5-4df9-a166-da6c96cd1878.png)
 
 如果一个节点的上游出现问题，就会被转发到同 AZ 的其他上游节点进行处理（绿线）。如果所有上游节点全部挂掉，则会基于 Apache APISIX 实现请求跨 AZ 的调用能力（level2，红线），把请求写入到其他 AZ 中，最终实现跨 AZ 的请求调度。
 

@@ -21,13 +21,13 @@ tags: [User Case]
 
 又拍云最开始包括现在的大部分业务仍在使用 Ingress-Nginx，整体架构如下。
 
-![Ingress-Nginx 架构](https://static.apiseven.com/202108/1632469775377-8303128c-e8a6-4594-a87b-ac6942f4895e.png)
+![Ingress-Nginx 架构](https://static.apiseven.com/202108/1636725877249-1fafb615-87b3-4f91-a7a8-abe006a67574.png)
 
 下层为数据面 OpenResty。上层 Controller 主要是监听 APIServer 的资源变化，并生成 nginx.conf 配置文件，然后 Reload OpenResty。如果 POD IP 发生变化，可直接通过 HTTP 接口传输给 OpenResty Lua 代码去实现上游 Upstream node 替换。
 
 Ingress-Nginx 的扩展能力主要通过 Annotations 去实现，配置文件本身的语法和路由规则都比较简单。可以按照需求进行相关指令配置，同时也支持可拓展 Lua 插件，提高了定制化功能的可操作性。
 
-![Ingress-Nginx 扩展能力实现](https://static.apiseven.com/202108/1632469835090-20c409f6-0416-4b2f-9ad7-4c836638f892.png)
+![Ingress-Nginx 扩展能力实现](https://static.apiseven.com/202108/1636725907909-44a64322-f554-47a6-873c-fe1430af3d7a.png)
 
 但 Ingress-Nginx 它也有一些缺点，比如：
 
@@ -41,7 +41,7 @@ Ingress-Nginx 的扩展能力主要通过 Annotations 去实现，配置文件�
 
 在替代 Ingress-Nginx 的选择中，我们主要考量了 Traefik 和 Apache APISIX Ingress。
 
-![Traefik](https://static.apiseven.com/202108/1632469875567-61dd6fbd-757f-419f-a769-99e6aaf46f0c.png)
+![Traefik](https://static.apiseven.com/202108/1636725938063-eaa3b14a-b9fd-4d8b-b57a-70859e5edb37.png)
 
 Traefik 是云原生模式，配置文件极其简单，采用分布式配置，同时支持多种自动配置发现。不仅支持 k8s、etcd，Golang 的生态语言支持比较好，且开发成本较低，迭代和测试能力较好。但是在其他层面略显不足，比如：
 
@@ -73,11 +73,11 @@ Traefik 是云原生模式，配置文件极其简单，采用分布式配置，
 
 使用 Apache APISIX Ingress 之后，内部架构如下图所示。
 
-![应用 APISIX Ingress 架构](https://static.apiseven.com/202108/1632469909488-3685d104-e458-4145-8ccb-6cecbd383161.png)
+![应用 APISIX Ingress 架构](https://static.apiseven.com/202108/1636725971480-4314b6d9-205f-4316-b65f-f53ac244c9ce.png)
 
 跟前面提到的 Ingress-Nginx 架构不一样，底层数据面替换成了 Apache APISIX 集群。上层 Controller 监听 APIServer 变化，然后再通过 etcd 将配置资源分发到整个 Apache APISIX 集群的所有节点。
 
-![配置文件对比](https://static.apiseven.com/202108/1632469956257-b9cb6a91-a082-437c-9395-d62ffb75280f.png)
+![配置文件对比](https://static.apiseven.com/202108/1636726005073-eacca283-429c-4a6b-a643-99f5077f3dcc.png)
 
 由于 Apache APISIX 是支持动态路由修改，与右边的 Ingress-Nginx 不同。在 Apache APISIX 中，当有业务流量进入时走的都是同一个 Location，然后在 Lua 代码中实现路由选择，代码部署简洁易操作。而右侧 Ingress-Nginx 相比，其 nginx.conf 配置文件复杂，每次 Ingress 变更都需要 Reload。
 
@@ -91,11 +91,11 @@ Apache APISIX Ingress Controller 依赖于 Apache APISIX 的动态路由能力�
 
 目前 Apache APISIX Ingress Controller 支持两种声明式配置，Ingress Resource 和 CRD Resource。前者比较适合从 Ingress-Nginx 替换过来的网关控件，在转换成本上是最具性价比的。但是它的缺点也比较明显，比如语义化能力太弱、没有特别细致的规范等，同时能力拓展也只能通过 Annotation 去实现。
 
-![Ingress Resource](https://static.apiseven.com/202108/1632469994485-209d3a21-d761-4b2c-a974-c913b443b0d2.png)
+![Ingress Resource](https://static.apiseven.com/202108/1636726037268-dbeafac5-59cb-47a4-b84f-77d7848dcd21.png)
 
 又拍云内部选择的是第二种声明配置——语义化更强的 CRD Resource。结构化数据通过这种方式配置的话，只要 Apache APISIX 支持的能力，都可以进行实现。
 
-![CRD Resource](https://static.apiseven.com/202108/1632470033850-b619da2f-5926-44ca-95bb-69ee1cdaf209.png)
+![CRD Resource](https://static.apiseven.com/202108/1636726067801-7a781956-7f90-4595-bbd1-5a245bff6cbb.png)
 
 如果你想了解更多关于 Apache APISIX Ingress Controller 的细节干货，可以参考 Apache APISIX PMC 张超在 Meetup 上的[分享视频](https://www.bilibili.com/video/BV1eB4y1u7i1?spm_id_from=333.999.0.0)。
 
@@ -105,11 +105,11 @@ Apache APISIX Ingress Controller 依赖于 Apache APISIX 的动态路由能力�
 
 目前我们内部有多个 Apache APISIX 集群，包括数据中心网关和容器网关都统一开始使用了 Apache APISIX，这样在后续相关日志的处理/消费程序时可以统一到一套逻辑。
 
-![日志层面](https://static.apiseven.com/202108/1632470075980-46d13ac7-babb-40a5-b105-73f1105d16e7.png)
+![日志层面](https://static.apiseven.com/202108/1636726098799-62ccf864-e79f-491e-b8e2-cfcd0e65d7f8.png)
 
 当然 Apache APISIX 的日志插件支持功能也非常丰富。我们内部使用的是 Kafka-Logger，它可以进行自定义日志格式。像下图中其他的日志插件可能有些因为使用人数的原因，还尚未支持自定义化格式，欢迎有相关需求的小伙伴进行使用并提交 PR 来扩展当前的日志插件功能。
 
-![插件一览](https://static.apiseven.com/202108/1632470099306-ffc74dfb-384b-4014-a0b4-14267dcf7bce.png)
+![插件一览](https://static.apiseven.com/202108/1636726132921-a2f9f4ee-490a-41df-9256-296891fe74ab.png)
 
 #### 效果二：完善监控与健康检查
 
@@ -117,7 +117,7 @@ Apache APISIX Ingress Controller 依赖于 Apache APISIX 的动态路由能力�
 
 Apache APISIX 作为一个基本代理器，可以实现 APP 状态码的监控和请求等需求。但 Apache APISIX 的自身健康检查力度不是很好控制。目前我们采用的是在 k8s 里面部署一个服务并生成多个 POD，将这个服务同时应用于 Apache APISIX Ingress，然后通过检查整个链路来确定 Apache APISIX 是否健康。
 
-![健康检查](https://static.apiseven.com/202108/1632470120106-3e577e2e-ea43-4f50-8e3c-066b5f1e7238.png)
+![健康检查](https://static.apiseven.com/202108/1636726177152-1093c550-106e-4c0e-bec7-d7be2c334e0d.png)
 
 ## 使用 Apache APISIX Ingress 实践解决方案
 
@@ -131,7 +131,7 @@ Apache APISIX 作为一个基本代理器，可以实现 APP 状态码的监控�
 
 在实践过程中，我们也遇到了传输延时的问题。POD 更新路径如下所示，POD Ready 后通过层层步骤依次进行信息传递，中间某些链路就可能会出现延时问题。正常情况下一般是 1 秒内同步完成，某些极端情况下部分链路时间可能会增加几秒进而出现 Endpoint 更新不及时的问题。
 
-![链路问题](https://static.apiseven.com/202108/1632470165257-cb16e489-b546-4451-917a-6c72648769d8.png)
+![链路问题](https://static.apiseven.com/202108/1636726212297-941bf259-b807-4223-8e88-f08e44f94889.png)
 
 这种情况下的解决方案是，当更新时前一批 POD 变成 Ready 状态后，等待几秒钟再继续更新下一批。这样做的目的是保证 Apache APISIX Upstream 里的大部分 Endpoint 是可用的。
 
@@ -147,7 +147,7 @@ Apache APISIX 作为一个基本代理器，可以实现 APP 状态码的监控�
 
 由于 Apache APISIX 集群默认使用单向验证的机制，作为容器网关使用 Apache APISIX 时，可能会在与 k8s 连接同一个 etcd 集群（k8s etcd 中使用双向验证）时默认开启双向认证，进而导致出现如下证书问题：
 
-![证书问题](https://static.apiseven.com/202108/1632470191228-5c2a3666-8d21-4b19-a5be-e09e7db4d488.png)
+![证书问题](https://static.apiseven.com/202108/1636726243956-c3d1bea6-0cf7-45b6-a535-fd60bf52edd8.png)
 
 Apache APISIX 不是通过 gRPC 直接连接 etcd，而是通过 HTTP 协议先连接到 etcd 内部的 gRPC-gateway，再去连接真正的 gRPC Server。这中间多了一个组件，所以就会多一次双向验证。
 
