@@ -26,7 +26,7 @@ Apache APISIX 最近发布了一个新的插件：APISIX-Datadog，以提供与 
 
 ## APISIX-Datadog plugin 工作原理
 
-![APISIX-Datadog 插件架构图](https://static.apiseven.com/202108/1636685752757-d02d8305-2a68-4b3e-b2cc-9e5410c8bf11.png) 
+![APISIX-Datadog 插件架构图](https://static.apiseven.com/202108/1636685752757-d02d8305-2a68-4b3e-b2cc-9e5410c8bf11.png)
 
 APISIX-Datadog 插件将其自定义指标推送到 DogStatsD server。而 DogStatsD server 通过 UDP 连接与 Datadog agent 捆绑在一起。DogStatsD 是 StatsD 协议的一个实现。它为 Apache APISIX agent 收集自定义指标，将其聚合成一个数据点，并将其发送到配置的 Datadog server。要了解更多关于 DogStatsD 的信息，请访问 DogStatsD 文档。
 
