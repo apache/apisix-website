@@ -34,7 +34,7 @@ Why did I choose it? Because once I heard about the great routing implementation
 
 Here is a diagram from the Apache APISIX official website, a diagram explains things better than words, you can see how Apache APISIX works.
 
-![APISIX architechture](https://static.apiseven.com/202108/20210617002.png)
+![APISIX architechture](https://static.apiseven.com/202108/1636564276183-b29608f2-adab-446c-8d02-c9406c76a4c6.png)
 
 Let’s get started, first we go to the official website to find the most versions of two products: Apache APISIX 1.5 and Envoy 1.14 (the latest version at the time of writing this article).
 
@@ -64,7 +64,7 @@ server {
 - The network architecture schematic is as follows: (green normal load, not run full. Red is a high pressure load, to run the process resources full, mainly CPU)
 是 CPU）
 
-![test result](https://static.apiseven.com/202108/20210617003.png)
+![test result](https://static.apiseven.com/202108/1636564331945-fef4a15a-24b8-4d52-b469-e1c3357b4aa4.png)
 
 ## Route Configuration
 
@@ -147,7 +147,7 @@ Note: For NGINX called worker number, Envoy is concurrent, in order to unify the
 
 Note: The raw data is publicly available at [gist](https://gist.github.com/aifeiasdf/9fc4585f6404e3a0a70c568c2a14b9c9) preview.
 
-![test result](https://static.apiseven.com/202108/20210617004.png)
+![test result](https://static.apiseven.com/202108/1636564385428-1f5be8de-d637-44ef-8b12-dd3438fa27a1.png)
 
 QPS: The number of requests completed per second, the higher the number the better, the higher the value means the more requests can be completed per unit time. From the QPS results, Apache APISIX performance is about 120% of Envoy’s, and the higher the number of cores, the bigger the QPS difference.
 
