@@ -167,7 +167,7 @@ function Plugins(props) {
       }
       return (
         <div key={plugin.name}>
-          <PluginCard href={`https://apisix.apache.org/docs/apisix/plugins/${pluginUrl}`} target="_blank">
+          <PluginCard href={`https://apisix.apache.org/docs/apisix/next/plugins/${pluginUrl}`} target="_blank">
             <PluginIcon>
               {plugin.useDefaultIcon ?
                 <img className="plugin-logo shadow default" src={'/img/plugin/default-icon.png'} alt={plugin.name} /> :
