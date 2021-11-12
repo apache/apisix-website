@@ -31,7 +31,7 @@ Jintao Zhang is a cloud native technologist at Tributary Technology, Apache APIS
 With 7 years in the industry, Jintao Zhang has a lot of practice and deep source code research on containerization technologies such as Docker and Kubernetes, and is one of the core organizers of PyCon China. He is also the author of "Kubernetes Hands-on" and "Docker Core Knowledge Must Know". He runs the public number: MoeLove.
 
 He is also the author of Kubernetes Hands-on and Docker Core Knowledge.
-![Lecturer-Jintao Zhang](https://static.apiseven.com/202108/1630382172445-cf20986b-c939-497e-86a4-92da7064ae97.PNG)
+![Lecturer-Jintao Zhang](https://static.apiseven.com/202108/1636564595081-60af655a-4c5c-4344-9737-49fe2c23734a.png)
 
 ## About Apache APISIX
 
