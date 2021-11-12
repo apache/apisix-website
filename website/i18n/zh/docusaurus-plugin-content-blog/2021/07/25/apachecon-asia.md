@@ -20,7 +20,7 @@ ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年�
 
 ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。
 
-![ApacheCon Asia 2021](https://static.apiseven.com/202108/1635750552467-1d0013df-9caa-43a3-bed2-b914d856c413.png)
+![ApacheCon Asia 2021](https://static.apiseven.com/202108/1636721255735-4396ab77-d75c-478e-880b-6124baf1bf81.png)
 
 近期 ApacheCon Asia 2021 团队正式公布了大会日程，Apache APISIX 社区积极参与本次年度开源盛会，共提报了 8 个 API/微服务技术相关的议题，内容丰富，欢迎关注。同时，ApacheCon Asia 2021 也为无法参加在线会议的各位开源爱好者提供了每个议题的回放和录播视频，详情请移步 [Apache Local Community 北京本地社区](https://space.bilibili.com/609014805)。
 
