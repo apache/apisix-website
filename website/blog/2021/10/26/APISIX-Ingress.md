@@ -24,7 +24,7 @@ In the K8s ecosystem, Ingress is a resource that represents the entry point for 
 
 APISIX Ingress is based on the Apache APISIX Ingress Controller implementation, which extends Kubernetes and also supports the native resource definition of Ingress resource.
 
-![APISIX Ingress Architechture](https://static.apiseven.com/202108/1635304156040-50b7a2ae-ed0c-42ac-8517-edd0715e0082.png)
+![APISIX Ingress Architechture](https://static.apiseven.com/202108/1636727613376-9b18e227-b390-47f6-9c94-2d7bc3f0b15c.png)
 
 As you can see in the figure above, APISIX Ingress is deployed in a Kubernetes cluster and proxies requests from a Kubernetes external cluster. These requests are then reverse proxied to the Kubernetes cluster Service, which also supports pushing services directly to the Service Pod.
 
@@ -34,7 +34,7 @@ We mentioned earlier that APISIX Ingress uses Apache APISIX as the actual data p
 
 Apache APISIX is the top open source project of the Apache Foundation and the most active open source gateway project, and is currently certified as a trusted open source project by the China Academy of Information and Communications Technology. As a dynamic, real-time, high-performance open source API gateway, Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more.
 
-![Apache APISIX Architechture](https://static.apiseven.com/202108/1635304156053-68751f2e-40e7-4932-99a4-5b9cc8f60628.png)
+![Apache APISIX Architechture](https://static.apiseven.com/202108/1636727648919-88230419-b704-4d15-8c19-d896021a0e68.png)
 
 As you can see from the figure above, Apache APISIX is divided into two parts, data plane on the left side is used to handle the reverse proxy of traffic, and control plane on the right side is responsible for the distribution of configuration.
 
@@ -50,7 +50,7 @@ Most of the previous sessions have mentioned a lot about the usage scenarios or 
 
 I provided the first lines of code for the APISIX Ingress Controller project in 2019 and the project was officially added to the Apache community in December 2020. In terms of product updates, we released the first GA version in June this year, as well as 1.3 this past October, and expect to release 1.4 in November this year to keep the project up to date.
 
-![Contributors Growth](https://static.apiseven.com/202108/1635304156111-d0b82a61-b304-42ce-8d3a-2b959d3cb271.png)
+![Contributors Growth](https://static.apiseven.com/202108/1636727687521-fd950aaa-c45d-4090-937e-ac14d020aa27.png)
 
 The graph above shows the contributor growth curve for Apache APISIX Ingress Controller. Combined with the timeline, we can see that the number of contributors has been increasing at a high and steady rate since we joined the Apache community in December 2020. This reflects that Apache APISIX Ingress is gaining more and more attention from partners and is gradually being used in enterprise production environments.
 
@@ -62,8 +62,8 @@ Starting with a personal project or a project incubated within a company and joi
 
 After becoming an Apache Software Foundation project, the Apache APISIX Ingress Controller project became more open. For example, every feature added or modified to the product has to be discussed publicly, usually through a mailing list and a GitHub Issue.
 
-![Mail List](https://static.apiseven.com/202108/1635304156102-8877f3da-a43d-4b94-9a84-a95743546112.png)
-![GitHub Issue](https://static.apiseven.com/202108/1635304156096-c0eeb189-54f8-4ebe-b019-f41001869186.png)
+![Mail List](https://static.apiseven.com/202108/1636727718968-763e4862-bf73-4c19-bbe9-9206e291f5f6.png)
+![GitHub Issue](https://static.apiseven.com/202108/1636727751287-d47cc92b-a1ef-4738-a733-41f4dadb68b9.png)
 
 At present, the two discussions are initiated at the same time, so that as many people as possible can judge the reasonableness of the features from their own use scenarios and use perspectives. This is no longer a personal project, but a community project, a collaborative effort involving multiple people.
 
@@ -111,7 +111,7 @@ More features [click here to view](https://github.com/apache/apisix-ingress-cont
 
 Also with feedback from the community, we have supported [multi-platform integration features](https://github.com/apache/apisix-ingress-controller/blob/master/install.md#installation) in response to popular demand.
 
-![multi-platform integration](https://static.apiseven.com/202108/1635304156088-035cb0b0-8138-4e93-af5c-8e6ee8371f81.png)
+![multi-platform integration](https://static.apiseven.com/202108/1636727784845-03886111-0336-425e-b58f-1df4d009383d.png)
 
 ### Enriched library of usage scenarios
 
@@ -121,7 +121,7 @@ While the community was enriched with features, it was also enriched with scenar
 
 One of the most typical ways is to deploy within a Kubernetes cluster, and the following diagram illustrates a typical usage scenario.
 
-![Deploying Apache APISIX Ingress inside a Kubernetes cluster](https://static.apiseven.com/202108/1635304156077-ced688eb-9dbf-4895-b7a2-acb2f4a288b2.png)
+![Deploying Apache APISIX Ingress inside a Kubernetes cluster](https://static.apiseven.com/202108/1636727813460-30b7f2c1-4ed6-4f1a-81c7-22e82cb4b02b.png)
 
 After the client passes through the external LB, it is processed by Apache APISIX, which acts as a gateway and a reverse proxy and can also be deployed inside and outside the Kubernetes cluster.
 
@@ -130,7 +130,7 @@ The above deployment scenario is to integrate APISIX Ingress Controller inside K
 #### Scenario 2: Deploying Apache APISIX Ingress Across Clusters
 
 Speech.ai, a company based in Suzhou, have provided us with a cross-cluster usage scenario, and the general flow is shown below.
-![Deploying Apache APISIX Ingress Across Clusters](https://static.apiseven.com/202108/1635304156072-ae9a3943-e686-4629-a5b7-0b5c38301139.png)
+![Deploying Apache APISIX Ingress Across Clusters](https://static.apiseven.com/202108/1636727847114-eab2b6b3-14e4-4548-9ca3-855695beb245.png)
 
 There are two clusters in the above architecture, the formal cloud host cluster and the physical machine cluster. Apache APISIX Ingress Controller is deployed within each cluster, interacting with the Kubernetes API server while synchronizing the configuration to the Apache APISIX Admin API. APISIX clusters.
 
@@ -138,7 +138,7 @@ In cross-cluster scenarios, access between clusters is mainly through Apache API
 
 #### Scenario 3: Manage Mutiple Kubernetes Clusters with one Apache APISIX Cluster
 
-![Manage Mutiple Kubernetes Clusters with one Apache APISIX Cluster](https://static.apiseven.com/202108/1635304156063-c7d879c6-8dfb-4ead-a88d-b5bdc9e453d6.png)
+![Manage Mutiple Kubernetes Clusters with one Apache APISIX Cluster](https://static.apiseven.com/202108/1636727879107-6248deb1-5d7a-4b1f-b895-fc50b33640ca.png)
 
 This usage scenario deploys the APISIX Ingress Controller inside a Kubernetes cluster, unlike Scenario 1 where there are multiple Kubernetes clusters. However, the corresponding Apache APISIX is actually deployed outside of all the Kubernetes clusters, and the configuration of each cluster is then synchronized to the overall Apache APISIX cluster via the Apache APISIX Ingress Controller.
 
