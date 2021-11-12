@@ -36,12 +36,6 @@ const HomeEventsSection = () => {
         >
           Stay updated about APISIX
         </h3>
-        <p
-          className="docs-promo-subtitle"
-          style={{ width: "100%", textAlign: "center", left: "0" }}
-        >
-          Some Recent events
-        </p>
         <div className="event-card-container">{events}</div>
       </div>
       <div className="newsletter">

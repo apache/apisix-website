@@ -24,7 +24,6 @@ module.exports = {
     tagline2:
       "Apache APISIX software provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.",
     showcases: require("./static/data/showcases.json"),
-    events: require("./static/data/events.json"),
     eventPosterCard: require("./static/data/event-poster-card.json"),
     repoUrl: "https://github.com/apache/apisix",
     docsUrl: "",
