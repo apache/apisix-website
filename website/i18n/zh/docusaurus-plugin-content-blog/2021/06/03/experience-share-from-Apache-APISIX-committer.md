@@ -17,7 +17,7 @@ tags: [Interview]
 
 ## 分享嘉宾：吴舒旸
 
-![yiyiyimu](https://static.apiseven.com/202108/1630546588578-2d8386cd-06c0-4c71-848a-8ed0e1263a4e.png)
+![yiyiyimu](https://static.apiseven.com/202108/1636563944342-16238919-1fd0-4596-8078-0f6db398f983.png)
 
 **Q：舒旸，请简单介绍一下自己。**
 
@@ -31,11 +31,11 @@ tags: [Interview]
 
 **舒旸**：我把去年会议上讲的 PPT 截出来了，对于有明确兴趣目标的同学，自然不需要考虑如何选择项目的问题。但如果像去年的我自己一样，看一圈项目下来发现都不怎么看得懂该怎么办呢。这个时候大家可能会去选择 star 数多的项目，但实际上 **star 数多只表明了这个项目的受欢迎程度，而不是能从社区中获得多少帮助的“社区活跃度”指标。活跃的社区在你两个阶段都会有所裨益，在入门时提供足够的帮助，也在后面维护社区时提供足够的反馈。**
 
-![github introduction](https://static.apiseven.com/202108/1630546653087-23ff48eb-8e13-464c-874e-c4225cc32336.png)
+![github introduction](https://static.apiseven.com/202108/1636564013455-11826950-4712-40b1-903b-5cfb2cb19536.png)
 
 **舒旸**：**我当时选择的指标主要是 issue 回复情况（入门时碰到问题能否及时得到回复）、good first issue 数量（有没有好入手的 issue，既增加对项目的了解也可以多刷脸）以及 insights 指标（社区整体的活跃度）。** 今年我们在公司也写了一个查看[贡献者](https://github.com/api7/contributor-graph)情况的小工具，可以更直观的看到社区贡献者增长情况以及月度活跃贡献者多少，也是一个不错的选择指标。
 
-![join opensource](https://static.apiseven.com/202108/1630546703021-d63457b1-4068-45da-8bde-aa9c708c6793.png)
+![join opensource](hhttps://static.apiseven.com/202108/1636564080145-87aa11ea-6f0c-4b91-b1fc-db958e160c9d.png)
 
 **舒旸**：去年参与 APISIX 之前我对于项目需要的技术栈包括 Lua/Openresty/etcd 甚至 API 网关都完全没有任何了解，但其实上手速度很快。借助文档把程序跑起来运行几个 demo 很快就可以完成，Lua 也半天就可以上手。这里再推荐一下 APISIX PMC moonming 大佬的两份 Openresty 入门必备，免费的 Openresty 电子书和付费的 Openresty 极客时间课程，当时入门从其中收获颇丰。
 
@@ -53,7 +53,7 @@ tags: [Interview]
 
 ## 分享嘉宾：白泽平
 
-![Zeping Bai](https://static.apiseven.com/202108/1630546751119-8df77cd8-6be0-4f8e-af13-182e77462d73.png)
+![Zeping Bai](hhttps://static.apiseven.com/202108/1636564137662-f5369dfc-03e8-4c74-86c1-2ed392883a38.png)
 
 **Q：泽平，你好，请做个简单的自我介绍吧。**
 
