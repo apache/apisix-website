@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-11-04T00:00:00.000Z</updated>
+    <updated>2021-11-12T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[APISIX-Datadog 插件发布，助力用户提高系统的可观测性]]></title>
+        <id>APISIX-Datadog 插件发布，助力用户提高系统的可观测性</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog"/>
+        <updated>2021-11-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 最近发布了一个新的插件：APISIX-Datadog，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。]]></summary>
+        <author>
+            <name>Bisakh Mondal</name>
+            <uri>https://github.com/bisakhmondal</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[浅谈 Apache APISIX 的可观测性]]></title>
         <id>浅谈 Apache APISIX 的可观测性</id>

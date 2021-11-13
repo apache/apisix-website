@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Thu, 04 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 12 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Cloud Monitoring with Datadog in Apache APISIX]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/12/apisix-datadog</link>
+            <guid>Cloud Monitoring with Datadog in Apache APISIX</guid>
+            <pubDate>Fri, 12 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX recently released a new plugin APISIX-Datadog, to provide a deeper integration with Datadog. This article introduces the APISIX-Datadog Plugin and its capabilities.]]></description>
+        </item>
         <item>
             <title><![CDATA[The observability of Apache APISIX]]></title>
             <link>https://apisix.apache.org/blog/2021/11/04/skywalking</link>
