@@ -74,7 +74,7 @@ Nginx 的开源版本没有提供非常好用的监控。虽然 Nginx 提供了�
 
 ### Apache APISIX 与 Nginx 的关系
 
-![Apache APISIX 与 Nginx 的关系](https://static.apiseven.com/202108/1630651158638-aba4e627-d2d6-4bf5-b431-61eb3913a296.png)
+![Apache APISIX 与 Nginx 的关系](https://static.apiseven.com/202108/1636721439286-30d61b3b-f4df-44ec-a042-03bd05205ff2.png)
 
 Apache APISIX 基于 Nginx 实现，但只依赖 Nginx 的网络库，在 Nginx 基础上，Apache APISIX 实现了自己的核心的代码，并预留了扩展机制。
 
@@ -89,7 +89,7 @@ Apache APISIX 基于 Nginx 实现，但只依赖 Nginx 的网络库，在 Nginx 
 - **插件编排**：按照业务需求，将多个插件按照逻辑编排，组合起来使用。
 - **证书管理**：Apache APISIX 支持动态的证书管理。
 
-![Apache APISIX 架构图](https://static.apiseven.com/202108/1630651158643-ecc67e12-2076-41e5-88d8-baa14144f35d.png)
+![Apache APISIX 架构图](https://static.apiseven.com/202108/1636721485444-77bbd4ed-1e43-4e49-b24c-121f0398dd28.png)
 
 ### Apache APISIX 简介
 
@@ -97,7 +97,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 ### Apache APISIX 解决方案
 
-![Apache APISIX 全流量解决方案](https://static.apiseven.com/202108/1630651158645-83c22975-ebf1-4861-8b61-38639a28875a.png)
+![Apache APISIX 全流量解决方案](https://static.apiseven.com/202108/1636721527880-83fa0cb5-5b61-46c1-a3df-52737d9e7dcc.png)
 
 上图左边，从上往下是从单体服务到 SOA（面向服务的架构）到微服务的演进过程。
 
@@ -109,7 +109,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 **在 SOA 下有 Apache APISIX SLB 解决方案，在微服务架构下有 Apache APISIX Gateway，在 Kubernetes 部署有 Apache APISIX Ingress，在 Service Mesh 里部署有 Apache APISIX mesh**。
 
-![Apache APISIX 全流量数据面](https://static.apiseven.com/202108/1630651158648-dffd59dd-15c2-4f76-832e-5ed3763b18e5.png)
+![Apache APISIX 全流量数据面](https://static.apiseven.com/202108/1636721587420-fe41790b-65eb-404c-bfa8-7f81c383c97e.png)
 
 从业务请求的流量方面看，当客户端发起请求时会经过 LB，经过 Gateway，请求被分发到后端业务服务。红色的部分（LB / Gateway / Spring Cloud Gateway / K8s Ingress / Sidecar）都可以选择 Apache APISIX 作为解决方案。Apache APISIX 支持多语言开发插件，可以在 Java 体系下使用 Java 编写插件。
 
@@ -149,7 +149,7 @@ Apache APISIX 是一个网关类的产品，可以替代 Nginx 或者其他的�
 
 Apache APISIX 最重要的一个优势是有一个活跃的社区，一个活跃的社区可以让产品快速迭代、变得越来越完善，让大家的需求得到满足。
 
-![Apache APISIX 社区活跃度对比图](https://static.apiseven.com/202108/1630651158650-2c4a287f-45a3-4c49-94d1-5be3914e5f69.png)
+![Apache APISIX 社区活跃度对比图](https://static.apiseven.com/202108/1636721630716-d7efebbe-87a7-4a88-b398-bf113887416b.png)
 
 上图展示的是 Apache APISIX（绿色）、Kong（浅蓝）、mosn（黄色）、bfe （深蓝）贡献者增长曲线，Apache APISX 增长趋势最快，曲线最为陡峭。 Apache APISIX 社区活跃度在同类型项目里面是最活跃的。
 
@@ -161,7 +161,7 @@ Apache APISIX 与 Apache SkyWalking 结合可以做哪些提升？除了 SkyWalk
 
 SkyWalking Satellite 由 Apache APISIX 社区、Apache SkyWalking 社区、百度深度合作开发。
 
-![Apache APISIX SkyWalking Satellite](https://static.apiseven.com/202108/1630651158652-130e62e1-32dd-4705-9f24-ceffd039560a.png)
+![Apache APISIX SkyWalking Satellite](https://static.apiseven.com/202108/1636721669899-7c665f39-f5a5-4bd3-b814-cc050b7b2936.png)
 
 SkyWalking Satellite 按照上图步骤采集数据，SkyWalking Satellite 可以部署到更靠近产生数据的前端，以 sidecar 的形式存在。
 
@@ -210,4 +210,4 @@ ALS 方案最大的好处是可以直接通过 access log 方式分析和聚合�
 
 金卫，Apache APISIX PMC 和 Apache SkyWalking committer。
 
-![金卫个人介绍](https://static.apiseven.com/202108/1630651158654-2e028970-9e09-4d52-bf72-ab53aa98706b.png)
+![金卫个人介绍](https://static.apiseven.com/202108/1636721737569-f9edbec4-1ff3-46e1-9f20-63362a9d8e6e.png)
