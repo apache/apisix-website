@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Fri, 12 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 16 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[社区周报｜11.1-11.14 功能亮点更新进行中]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/11/16/weekly-report-1114</link>
+            <guid>社区周报｜11.1-11.14 功能亮点更新进行中</guid>
+            <pubDate>Tue, 16 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
+        </item>
         <item>
             <title><![CDATA[APISIX-Datadog 插件发布，助力用户提高系统的可观测性]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog</link>
