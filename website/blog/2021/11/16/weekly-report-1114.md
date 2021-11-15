@@ -27,7 +27,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ![Contributors List](https://static.apiseven.com/202108/1636940255460-0c2ab16c-93f9-490a-ab89-89f057b2fa1c.png)
 
-![New Contributors](https://static.apiseven.com/202108/1636940503842-fc52a349-443e-4f4b-9787-f743299870f3.png)
+![New Contributors](https://static.apiseven.com/202108/1636942793677-0f64e00c-248c-4fd1-9cb4-ba059591e205.png)
 
 ## Good first issue
 
