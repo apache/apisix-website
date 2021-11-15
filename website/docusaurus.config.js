@@ -595,6 +595,11 @@ module.exports = {
           position: "right",
         },
         {
+          to: "/contribute",
+          label: "Contribute",
+          position: "right",
+        },
+        {
           type: "localeDropdown",
           position: "right",
         },
