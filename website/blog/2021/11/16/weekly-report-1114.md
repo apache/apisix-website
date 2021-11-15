@@ -46,9 +46,9 @@ We have also compiled some issues suitable for newcomers to the community to par
 Currently, Apache APISIX will generate an id while initializing if the user doesn't specify one, and it relies on the [lua-resty-jit-uuid](https://github.com/thibaultcha/lua-resty-jit-uuid) library but without an explicit seed.
 
 ```Lua
-uuid.seed() 
- apisix_uid = uuid.generate_v4() 
- log.notice("not found apisix uid, generate a new one: ", apisix_uid) 
+uuid.seed()
+ apisix_uid = uuid.generate_v4()
+ log.notice("not found apisix uid, generate a new one: ", apisix_uid)
 ```
 
 While the jit-uuid library creates the seed by the process id and the time in ngx_lua context.
