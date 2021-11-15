@@ -16,7 +16,7 @@ tags: [Technology]
 
 <!--truncate-->
 
-![cover picture](https://static.apiseven.com/202108/1636684696018-960c797e-67b8-4daa-ba64-1957a07bc5e2.png)
+![cover picture](https://static.apiseven.com/202108/1636955062917-28911d71-0d56-48ec-85e5-a7908195da2f.png)
 
 As the complexity of IT products and consumer-facing application development increases, monitoring becomes an integral part of any application delivery. Additionally, to meet the endless demand of rapid upgrade cycles while ensuring stability, streamlined performance and keeping a perfect balance between service level indicators (SLI) with Service-level objectives (SLO) and Service-level agreement (SLA) - effective monitoring is immensely important.
 
@@ -82,7 +82,7 @@ If you are using Kubernetes in your production environment, you can deploy `dogs
 
 ### Activate the APISIX-Datadog plugin
 
-The following is an example on how to activate the datadog plugin for a specific route. We are assumming your `dogstatsd` agent is already up an running.
+The following is an example on how to activate the datadog plugin for a specific route. We are assuming your `dogstatsd` agent is already up an running.
 
 ```shell
 # enable plugin for a specific route
