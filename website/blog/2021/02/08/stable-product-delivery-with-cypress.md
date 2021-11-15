@@ -68,7 +68,7 @@ Cypress's documentation structure is clearer and more comprehensive. In the earl
 
 There are currently 49 test cases written for the APISIX Dashboard. We configured the corresponding CI in GitHub Action to ensure that the code passes before each merge to ensure code quality. We share the use of Cypress in APISIX Dashboard with you by referring to Cypress best practices and combining them with our project.
 
-![image](https://static.apiseven.com/202102/image.png)
+![image](https://static.apiseven.com/202108/1636563279430-a3e16b92-8ff1-4d88-bd76-706cff97e06d.png)
 
 1. Commonly used functions are encapsulated into commands.
 
