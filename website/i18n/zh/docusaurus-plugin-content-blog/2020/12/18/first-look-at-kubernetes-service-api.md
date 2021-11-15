@@ -57,7 +57,7 @@ matches:
 
 2. 增强了扩展能力，Service APIs 提出多层 API 的概念，各层独立暴露接口，方便其他自定义资源与 API 对接，做到更细粒度（API 粒度）的控制。
 
-![api-model](https://gateway-api.sigs.k8s.io/images/api-model.png)
+![api-model](https://static.apiseven.com/202108/1636562883820-c6ebe4c1-53f5-44ea-8586-66e767104d1f.png)
 
 3. 面向角色 RBAC：多层 API 的实现，其中一个思想就是从使用者的角度去设计资源对象。这些资源最终会与 Kubernetes 上运行应用程序的常见角色进行映射。
 

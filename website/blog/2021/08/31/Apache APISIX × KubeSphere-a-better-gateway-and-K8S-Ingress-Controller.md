@@ -79,9 +79,9 @@ apisix-ingress-controller-74c6b5fbdd-94ngk   1/1     Running   0          4m7s
 
 选择服务 -- 无状态服务，创建即可。
 
-![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404138226-5475c163-d372-414e-af74-5c5a86f19629.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1636723575923-8f90abe1-e1a5-424d-baa9-808243f1c43d.png)
 
-![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404173444-9bb73e0d-5bee-428e-a257-4685500344ef.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1636723612739-cde6c122-ebee-4ab1-9df6-350af36e9cfd.png)
 
 在 KubeSphere 的服务和负载界面即可看到部署成功，也可以直接在终端下查看是否已经部署成功。
 
@@ -181,15 +181,15 @@ root@apisix:~$ curl http://172.18.0.5:31441/get -H "HOST: httpbin.org"
 
 我们可以直接在 KubeSphere 中添加应用路由（Ingress） ，Apache APISIX Ingress Controller 会自动将路由规则同步至 Apache APISIX 中，完成服务的代理。
 
-![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404265190-585b9b09-72d5-4320-b0fe-9cf8a73c55ea.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1636723647096-d801d1c1-fc83-42c1-9d05-d7efc356e6fe.png)
 
-![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404325747-b92928dc-2c6b-4574-a49d-32b6bcb187f9.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1636723689625-95619077-18b1-497f-907e-005ef096f00e.png)
 
 **注意**我们添加了 `kubernetes.io/ingress.class: apisix` 的 annotation 配置，用于支持集群内多 ingress-controller 的场景。
 
 保存后，可看到如下界面：
 
-![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404366474-dfe8ae08-f16d-417f-8ef3-3495ebda0f7d.png)
+![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1636723733452-44500215-b90c-4be6-bf25-335537e45f4e.png)
 
 在终端下测试是否代理成功：
 
