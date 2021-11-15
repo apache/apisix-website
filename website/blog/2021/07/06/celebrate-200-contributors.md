@@ -47,6 +47,6 @@ Sincerely invite you to join the Apache APISIX open source community, let us wor
 
 There is no barrier to becoming an Apache APISIX contributor. In the Apache APISIX community, it not only includes code contributions, but also documentation, testing, design, and video production. Posting pr or issue on Github, sharing cases through live broadcast, helping you solve problems in exchange groups, and participating in offline Meetup are all ways to participate in the community.Participating communities can also get exclusive peripherals of Apache APISIX, cool T-shirts, stickers, etc.
 
-![img](https://user-images.githubusercontent.com/23514812/124587334-1723b000-de8a-11eb-8a8f-c10dfd9aa0a2.png)
+![img](https://static.apiseven.com/202108/1636564533543-7f500281-8bc1-45d1-9dc4-95121f0fb4fa.png)
 
 Looks forward to your joining!

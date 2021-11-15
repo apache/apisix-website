@@ -23,7 +23,7 @@ In Sina Weibo, if an operation engineer wants to create an API service, he/she n
 
 The whole process is long and inefficient, and cannot meet the trend of low-code DevOps operation and maintenance. Therefore, we expect to have a management backend portal, where operation engineer can operate all the http api routing and other configurations in the UI interface.
 
-![Sina Weibo Publish Process](https://user-images.githubusercontent.com/23514812/125594900-d4c01fb7-3af4-4e8c-8779-f3f16b7f0bca.png)
+![Sina Weibo Publish Process](https://static.apiseven.com/202108/1636719963657-67a4149e-1ba9-4855-9275-e8741a640e29.png)
 
 After some research, we chose the closest to the expected cloud-based micro-services API gateway: Apache APISIX.
 
@@ -34,7 +34,7 @@ After some research, we chose the closest to the expected cloud-based micro-serv
 1. Good scalability, support Consul kv.
 1. Good performance.
 
-![Apache APISIX Architecture](https://user-images.githubusercontent.com/23514812/125596483-aee21ac7-a902-4e44-abc4-8bfda4f51f82.png)
+![Apache APISIX Architecture](https://static.apiseven.com/202108/1636719999259-cd82b711-0b4a-4700-9124-d37ef2bf6c81.png)
 
 ## Why Did We Choose Custom Development?
 
@@ -61,7 +61,7 @@ A complete database of product lines and business lines is available at the ente
 
 Users, roles and the actual product line of operation are then associated with the following correspondence.
 
-![Users, roles and product association](https://user-images.githubusercontent.com/23514812/125596630-15444f25-0bcb-4f2f-8fd2-7bef6faf6f4e.png)
+![Users, roles and product association](https://static.apiseven.com/202108/1636720033189-e8bb0eb8-4de3-43a5-af70-e5a78daa5ffe.png)
 
 A user can be assigned to undertake different operations and maintenance roles to manage and maintain different product lines of services.
 
@@ -69,23 +69,23 @@ The administrator role is very easy to understand, the core role of operation an
 
 ### Add Audit Function
 
-![Audit Function1](https://user-images.githubusercontent.com/23514812/125596773-6ebbb1f2-1287-418b-a5f0-1fc85c9e8e9f.png)
+![Audit Function1](https://static.apiseven.com/202108/1636720072101-eb803e24-1f36-49bb-9c23-b27ab4f6eea4.png)
 
 In the open source version, a route can be published directly after it is created or modified.
 
 In our custom version, after a route is created or modified, it needs to go through an audit workflow before it can be published, which lengthens the process, but we think it is more credible to publish after the authorization is reviewed at the enterprise level.
 
-![Audit Function2](https://user-images.githubusercontent.com/23514812/125596844-7e3f057e-1dc4-4c3e-8d91-2b2c3d8e780f.png)
+![Audit Function2](https://static.apiseven.com/202108/1636720107415-1aa6c879-22b1-4ca2-8e10-3f022f71dd93.png)
 
 When creating routing rules, they must be reviewed by default. To take into account efficiency, when entering new services, you can choose the no-review, fast-publishing channel and click the publish button directly.
 
-![Audit Function3](https://user-images.githubusercontent.com/23514812/125596916-e3a7c3e6-7201-4b37-89b5-bacbbb6f4a9d.png)
+![Audit Function3](https://static.apiseven.com/202108/1636720170721-f3a8616f-fe91-49ed-9dc4-5b1a4afee8c1.png)
 
 When an important API route has problems after a certain adjustment rule release goes live, you can select the previous version of the routing rule for a quick roll back, with the granularity of a single route roll back that will not affect other routing rules.
 
 The internal processing flow of a single route roll back is shown in the following figure.
 
-![Audit Function4](https://user-images.githubusercontent.com/23514812/125596979-74aa252c-3a84-44e5-a62a-6d9e254de859.png)
+![Audit Function4](https://static.apiseven.com/202108/1636720202445-2f0605d3-3229-454e-8dec-d09f36bc54ca.png)
 
 We need to create version database storage for each release of a single route. This way, when we do a full release after the audit, each release will generate a version number and the corresponding full configuration data; then the version list grows. When we need to roll back, go to the version list and select a corresponding version to rollback; in a sense, the roll back is actually a special form of full release.
 
@@ -95,30 +95,30 @@ Our custom-developed grayscale release feature is different from what the commun
 
 Although grayscale release is a low-frequency behavior, there is still a state transition between it and full volume release.
 
-![Support Grayscale Release1](https://user-images.githubusercontent.com/23514812/125597330-b3dde9ba-28f3-4899-9f4f-53b89131e653.png)
+![Support Grayscale Release1](https://static.apiseven.com/202108/1636720238117-414f04b8-47ef-44d5-aad2-3e84669ec679.png)
 
 When the percentage of gray release decreases to 0%, it is the state of full release; when the gray release rises to 100%, it is the next full release, and this is its state transition.
 The full grayscale publishing feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
 
-![Support Grayscale Release2](https://user-images.githubusercontent.com/23514812/125598577-bcf2b13d-031a-440c-9480-c68d41d5ca9c.png)
+![Support Grayscale Release2](https://static.apiseven.com/202108/1636720277129-d9a06a0c-b41b-4d84-905e-45b6802e377c.png)
 
 The above screenshot shows the screenshot when operating Grayscale Publishing to select a specific gateway instance.
 
 The full grayscale publishing feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
 
-![Support Grayscale Release3](https://user-images.githubusercontent.com/23514812/125597285-cf3c9145-adc6-4fa4-979e-124ea8f376b5.png)
+![Support Grayscale Release3](https://static.apiseven.com/202108/1636720321636-958db749-22ae-4c7e-8bbb-fcf1756383db.png)
 
 Grayscale publishing API fixed URI, the unified path is /admin/services/gray/{SAAS_ID}/ routes. Different HTTP Method presents different business meanings, POST means create, DELETE means to stop grayscale, GET means to view.
 
 #### Activation Process
 
-![Activation Process](https://user-images.githubusercontent.com/23514812/125597454-e4ad004e-9f04-495d-bb93-33c4b9942d4d.png)
+![Activation Process](https://static.apiseven.com/202108/1636720355470-5c76078c-43be-49d1-afb4-bb3d58705581.png)
 
 An API is published from the gateway level, and after receiving the data the worker process checks the legitimacy of the data sent, and the legitimate data is broadcast to all worker processes via events. Then the grayscale publishing API is called and the grayscale rules are added and take effect when the next request is processed.
 
 #### Deactivation Process
 
-![Deactivation Process](https://user-images.githubusercontent.com/23514812/125597537-99270698-992a-4f58-91b4-06067f4d44d2.png)
+![Deactivation Process](https://static.apiseven.com/202108/1636720390597-338d0bda-a6e0-41cc-852c-015a282ab8d2.png)
 
 The deactivation process is basically the same as the grayscale distribution process. The API for grayscale distribution is called by the DELETE method and broadcasted to all work processes. If it exists in the route table, delete it and try to restore it from the ETCD. If the grayscale is deactivated, make sure that the original ETCD can be restored without affecting the normal service.
 
@@ -128,35 +128,35 @@ In addition to supporting the creation of routes on the management page, many op
 
 By exposing the Go Import HTTP API for the management backend, the operation engineer can fill in the assigned token, SaaS ID and related UIDs in the ready-made Bash Script file to import the services into the management backend more quickly. The subsequent operation of importing services still needs to be done in the management backend H5 interface.
 
-![Fast Import](https://user-images.githubusercontent.com/23514812/125597641-54bf1649-0238-4973-8501-48c1cead328e.png)
+![Fast Import](https://static.apiseven.com/202108/1636720556950-b9583035-e4ac-4539-b14a-b4cf85ef1549.png)
 
 ## What Did We Change in the Data Plane of Apache APISIX?
 
 Custom development based on the Apache APISIX data surface requires a number of code path rules to be followed. In particular, the code for the Apache APISIX gateway and the custom code are stored in separate paths, and the two work together and can each be iterated independently.
 
-![Changes in the Data Plane](https://user-images.githubusercontent.com/23514812/125597706-33f97c9a-1e82-43c5-9ed7-e13b051ad9a0.png)
+![Changes in the Data Plane](https://static.apiseven.com/202108/1636720590689-bdd1bfa3-7aa3-4b87-97d6-72795365a814.png)
 
 ### Modification of Installation Package
 
 So when packaging, not only custom code, but also dependencies, configuration, etc. all need to be packaged together for distribution. As for the output format, you can either choose Docker or type it into a tarball, as required.
 
-![Modification of Installation Package](https://user-images.githubusercontent.com/23514812/125597788-24829253-d6f2-4f65-9799-3fc840a7c970.png)
+![Modification of Installation Package](https://static.apiseven.com/202108/1636720627527-47543c4a-49ce-4af7-8e31-698b2b7723e2.png)
 
 ### Custom Development of Code
 
 Some custom modules need to be loaded first when they are initialized, so that the code intrusion into Apache APISIX becomes minimal, requiring only modifications to the Nginx.conf file.
 
-![Custom Development of Code1](https://user-images.githubusercontent.com/23514812/125597856-6020f223-dfeb-44a1-8a80-896a24a3d8fb.png)
+![Custom Development of Code1](https://static.apiseven.com/202108/1636720661745-67ce45bc-02b6-4c17-857f-9563a5c744cc.png)
 
 For example, if you need to stuff an upstream object with a saas_id attribute field, you can call the following method at initialize time.
 
-![Custom Development of Code2](https://user-images.githubusercontent.com/23514812/125598009-75d4aaf7-10b7-476b-af22-97a0630d878c.png)
+![Custom Development of Code2](https://static.apiseven.com/202108/1636720695702-8c19b9a9-1ddd-464b-ad2b-6249c94d8137.png)
 
 You need to be called in the initworker_by_lua* phase to complete the initialization for similar modifications.
 
 Another scenario: how to directly rewrite the implementation of a currently existing module. For example, if you have a debug module and now you need to refactor its initialization logic, i.e. rewrite the init_worker function.
 
-![Custom Development of Code3](https://user-images.githubusercontent.com/23514812/125598066-fd0da722-7fb0-44a2-99cd-15bf07fd1ad6.png)
+![Custom Development of Code3](https://static.apiseven.com/202108/1636720731536-132f9118-7095-44a9-bf88-04926c978b05.png)
 
 The advantage of this approach is that it not only keeps the original physical API files intact, but also adds custom API-specific logic rewrites, thus reducing the cost of later code management and bringing great convenience for subsequent upgrades.
 
@@ -166,15 +166,15 @@ If you have similar needs in a production environment, you can refer to the abov
 
 Currently, most of Weibo services use Consul KV as a service registration and discovery mechanism. Previously, Apache APISIX did not support the Consul KV method of service discovery mechanism, so a `consul_kv.lua` module needs to be added to the gateway layer, and a UI interface needs to be provided in the management backend as follows.
 
-![Support Consul KV1](https://user-images.githubusercontent.com/23514812/125598115-d72321e4-b886-4e0d-965f-50c06f0f3104.png)
+![Support Consul KV1](https://static.apiseven.com/202108/1636720815488-38b18fd3-78b7-4be1-9abd-6ea8089af78a.png)
 
 In the upstream list in the console, everything is filled in at a glance, and the metadata of all registered nodes is automatically presented when the mouse is moved over the registered service address, which greatly facilitates the daily operation of our operation engineers.
 
-![Support Consul KV2](https://user-images.githubusercontent.com/23514812/125598173-0b456929-5c41-4ddc-9675-a80f5129621f.png)
+![Support Consul KV2](https://static.apiseven.com/202108/1636720854243-9309c023-6f0a-4ba0-b025-c0d446cab2fe.png)
 
 The `consul_kv.lua` module is relatively simple to configure at the gateway level, supporting multiple connections to different Consul clusters at the same time, but this is also due to the requirements of the actual environment.
 
-![Support Consul KV3](https://user-images.githubusercontent.com/23514812/125598228-bd02e3ab-3c70-4f2c-8860-3ddee4bb9dcc.png)
+![Support Consul KV3](https://static.apiseven.com/202108/1636720938403-0899bef5-8572-4508-881a-b694a989ff88.png)
 
 This code has now been merged into the APISIX master branch and is included in version 2.4.
 
@@ -190,7 +190,7 @@ Any new thing appeared, used to replace the existing foundation, will not be a s
 
 For example, during the migration process, you need to import various upstream and routing rules from the Nginx.conf file into the gateway system administration backend one by one, which is a very tedious and manual process.
 
-![High Costs for Migration](https://user-images.githubusercontent.com/23514812/125598279-1fa93710-e5a0-4dc4-b42b-46b02f66f6a8.png)
+![High Costs for Migration](https://static.apiseven.com/202108/1636720986651-c768158e-672c-41a3-ae5e-1f31068e457a.png)
 
 At the same time, we will also encounter Nginx various complex variable judgment statements, at present, we mainly find one to solve one, and continue to accumulate experience.
 

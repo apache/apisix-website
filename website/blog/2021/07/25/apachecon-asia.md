@@ -20,7 +20,7 @@ ApacheCon is the official global conference series of the Apache Software Founda
 
 ApacheCon Asia is the ApacheCon organizing committee's online ApacheCon conference for the Asia-Pacific region, with the primary goal of better serving the rapidly growing number of Apache users and contributors in the region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
 
-![ApacheCon Asia 2021](https://static.apiseven.com/202108/1635750552467-1d0013df-9caa-43a3-bed2-b914d856c413.png)
+![ApacheCon Asia 2021](https://static.apiseven.com/202108/1636721255735-4396ab77-d75c-478e-880b-6124baf1bf81.png)
 
 The ApacheCon Asia 2021 team has recently announced the conference program. The Apache APISIX community is actively involved in this annual open source event, and has proposed a total of 8 API/microservices technology-related topics, which are rich in content and welcome your attention. For those who cannot attend the online conference, ApacheCon Asia 2021 also provides a replay and recorded video of each topic, please visit [Apache Local Community](https://space.bilibili.com/609014805).
 
