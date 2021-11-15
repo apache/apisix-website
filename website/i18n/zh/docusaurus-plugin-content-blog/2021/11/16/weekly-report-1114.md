@@ -43,9 +43,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 **问题描述**：目前，如果用户没有指定一个 ID，Apache APISIX 会在初始化时生成一个 ID，它依赖于 [lua-resty-jit-uuid](https://github.com/thibaultcha/lua-resty-jit-uuid) 库，但没有一个明确的 seed。[如下](https://github.com/apache/apisix/blob/4dafab5afa3293b3d72007517246e01da385f8ef/apisix/core/id.lua#L76-L78)：
 
 ```Lua
-uuid.seed() 
- apisix_uid = uuid.generate_v4() 
- log.notice("not found apisix uid, generate a new one: ", apisix_uid) 
+uuid.seed()
+ apisix_uid = uuid.generate_v4()
+ log.notice("not found apisix uid, generate a new one: ", apisix_uid)
 ```
 
 而 jit-uuid 库通过 ngx_lua 环境中的进程 ID 和时间创建 seed，[如下](https://github.com/thibaultcha/lua-resty-jit-uuid/blob/82538049040ae85ff880b79886f21d8593140c7d/lib/resty/jit-uuid.lua#L53-L54):
