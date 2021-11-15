@@ -24,7 +24,7 @@ tags: [User Case]
 
 有赞 OPS 平台是前期基于 FLASK 的单体应用，主要以支持业务为主。后来逐渐上线了很多业务，部署了很多业务端代码，进入容器化阶段。网关在当时只是内部 FLASK 应用的一部分功能，且没有一个明确的网关概念，仅作为业务应用的流量转发功能使用。下图展示的就是当时的网关 1.0 业务结构。
 
-![1.0 业务结构](https://static.apiseven.com/202108/1631607246260-65fa3794-befc-4e84-beee-e5526085c719.png)
+![1.0 业务结构](https://static.apiseven.com/202108/1636725478496-44c72127-0f5e-4cbe-a31e-60e5dbe95545.png)
 
 由于前期整个体系主要着重于业务方向，所以没有产生太多的动力去进行改造。从 2018 年开始，通过内部交流我们发现，如果没有一个很好的网关层治理，对后续产品功能的实现和业务接入度上会带来越来越明显的瓶颈。
 
@@ -42,7 +42,7 @@ tags: [User Case]
 
 #### 问题二：内部业务方面
 
-![内部业务问题](https://static.apiseven.com/202108/1631607280492-f3e9abbe-5017-497a-a8b8-80dd079f5a98.png)
+![内部业务问题](https://static.apiseven.com/202108/1636725519351-5382c900-d02d-4243-bfa5-6f8007995039.png)
 
 1. 需要管理的内部服务数量非常多（上百）
 2. 部分服务未对接 CAS 实现鉴权
@@ -55,11 +55,11 @@ tags: [User Case]
 
 最早我们也调研了很多的网关系统，比如 Apache APISIX、Kong、traefik 和 MOSN，还有我们公司内部的两个相关项目 YZ7 和 Tether。
 
-![网关系统预选](https://static.apiseven.com/202108/1631607308093-b2135819-6d17-41d4-b2fb-10cbefa3c27b.png)
+![网关系统预选](https://static.apiseven.com/202108/1636725550605-1226b45a-8a09-4a46-a18e-bc24399b0ad2.png)
 
 考虑到产品成熟度和可拓展性，最终我们在 Kong 和 Apache APISIX 中进行对比选择。
 
-![多维度对比](https://static.apiseven.com/202108/1631607325400-45aba773-ef63-4168-8c01-5cfa69bb4021.png)
+![多维度对比](https://static.apiseven.com/202108/1636725580846-bcf32f4b-a14d-41fa-83aa-9737ca2849d5.png)
 
 从上图对比中可以发现，两者在很多方面基本不相上下，所以存储端成为我们重点考虑的一点。因为 etcd 在我们公司内部的运维体系上已经比较成熟，所以 Apache APISIX 相较 Kong 则略胜一筹。
 
@@ -75,7 +75,7 @@ tags: [User Case]
 
 Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所有请求都会经过它。同时我们通过 Apache APISIX 的插件功能实现了与公司内部 CAS 单点登录系统的对接，之前负责流量转发的账号变为纯业务系统。同时在前端我们提供了一个负责鉴权的 SDK 与 Apache APISIX 鉴权接口进行对接，达成一套完整又自动化的流程体系。
 
-![优化架构](https://static.apiseven.com/202108/1631607354934-f951c4f5-8d45-458e-83a6-de20fd206540.png)
+![优化架构](https://static.apiseven.com/202108/1636725610540-7899232e-a791-4acf-8790-d0885fb3e072.png)
 
 于是问题得到了解决：
 
@@ -94,7 +94,7 @@ Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所
 
 鉴权插件是基于 JWT-Auth 协议去开发的，用户访问前端时，前端会先去调用 SDK，去前端本地获取可用的 JWT-Token。然后通过下图的路径获得用户有效信息，放在前端的某个存储里，完成登录鉴权。
 
-![登录鉴权](https://static.apiseven.com/202108/1631607385027-4cf6381d-d0ea-4e5e-a8c9-ffc599e6e69c.png)
+![登录鉴权](https://static.apiseven.com/202108/1636725639936-be9bb0f7-aa44-4480-8d80-b8083d3dca97.png)
 
 #### 部署配置升级
 
@@ -124,7 +124,7 @@ Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所
 
 [traffic split](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/traffic-split.md) 是 Apache APISIX 在最近几个版本中引入的插件，主要功能是进行流量分离。有了这个插件后，我们可以根据一些流量头上的特征，利用它去自动完成相关操作。
 
-![traffic split](https://static.apiseven.com/202108/1631607412159-bc84d447-ef28-4726-8ee1-b960415ac5ce.png)
+![traffic split](https://static.apiseven.com/202108/1636725689711-f0b87f0d-84ca-44fb-95b8-94bd26f9bd6b.png)
 
 如上图在路由配置上引入 traffic split 插件，如果当有 Region=Region1 的情况，便将其路由到 Upstream1。通过这样的规则配置，完成流量管控的操作。
 
@@ -132,13 +132,13 @@ Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所
 
 我们的使用场景中更多是涉及到在内网多个服务之间去做服务，调用鉴权时可以依靠 Apache APISIX 做流量管理。服务 A、服务 B 都可以通过它去调用服务 C，中间还可以加入鉴权的插件，设定其调用对象范围、环境范围或者速率和熔断限流等，做出类似这样的流量管控。
 
-![流量管理](https://static.apiseven.com/202108/1631607435661-c22c61c4-396b-4412-9643-b6ccb16cfb1c.png)
+![流量管理](https://static.apiseven.com/202108/1636725734769-422a72ad-e7eb-4573-93ac-965fa7870525.png)
 
 ### 内部权限系统对接
 
 之后我们也打算将公司的权限系统与 Apache APISIX 进行对接，鉴权通过后，判定用户是否有权限去访问后端的某个资源，权限的管理员只需在管控平面上做统一配置即可。
 
-![系统对接](https://static.apiseven.com/202108/1631607457290-e1f379c5-a23e-46a6-9cea-93cb6f5916ba.png)
+![系统对接](https://static.apiseven.com/202108/1636725767180-3ee24829-51cf-4dfb-8bfc-fdecb1a45860.png)
 
 这样带来的一个好处就是后端的所有服务不需要各自去实现权限管控，因为当下所有流量都是经过网关层处理。
 

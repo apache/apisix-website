@@ -37,11 +37,11 @@ tags: [User Case]
 
 进一步调研时，我们发现了 [Apache APISIX](https://github.com/apache/apisix)。首先 Apache APISIX 的性能比 Kong 强，在 Apache APISIX 的 GitHub Readme 中有个非常详细的对比图，列出了两者的[性能测试差距](https://gist.github.com/membphis/137db97a4bf64d3653aa42f3e016bd01)，这与我们自己测试下来的数据基本一致。
 
-![Apache APISIX 与 Kong 性能对比图](https://static.apiseven.com/202108/1632796929580-a6d7847c-bba6-4417-a7f0-9c127313264e.png)
+![Apache APISIX 与 Kong 性能对比图](https://static.apiseven.com/202108/1636726319995-b9e321ff-248c-4fe2-813d-6d69db060be5.png)
 
 在架构方面，Apache APISIX 的 etcd 配置对我们而言是一项更优的选择。
 
-![Apache APISIX 架构](https://static.apiseven.com/202108/1632796952262-b814e37d-cbc5-43f5-b504-ab1751a9aa83.png)
+![Apache APISIX 架构](https://static.apiseven.com/202108/1636726349926-202197c9-dd96-4c66-939f-c4cf15a6e91a.png)
 
 当然，最主要的原因是我们觉得社区也很重要。社区如果活跃，在版本更新迭代、问题解决和功能优化上的速度就会很快。从 GitHub 和平时的邮件反馈中我们看到了 Apache APISIX 社区的活跃，为产品功能和稳定性提供了强有力的保证。
 
@@ -74,7 +74,7 @@ tags: [User Case]
 
 针对上述问题，我们使用了自研的 etcd Proxy。之前 Apache APISIX 与 etcd 的连接关系如下图左侧所示，每个节点均与 etcd 连接。所以作为一个大规模入口时，连接数量会特别大，对 etcd 造成压力。
 
-![etcd Proxy](https://static.apiseven.com/202108/1632796985052-c2453a37-edc1-4102-bbb7-8e03627765d5.png)
+![etcd Proxy](https://static.apiseven.com/202108/1636726403296-72c80533-1af8-4d75-88e4-6c41445213cd.png)
 
 既然是监听相同的 Key，我们做了一个代理来进行统一监听，当有结果反馈时，再返回给 Apache APISIX。具体架构如上图右侧所示，在 Apache APISIX 和 etcd 中间放置了 etcd Proxy 组件来监控 Key 值的变化。
 
@@ -84,13 +84,13 @@ tags: [User Case]
 
 在实践过程中，我们观察到路由频繁更新时，网关 CPU 升高、丢包率升高，进一步排查后发现丢包率升高的主要原因为 Listen overflow 所造成。
 
-![CPU 火焰图](https://static.apiseven.com/202108/1632797671795-141a410b-0dd5-4873-b3dc-56f892aa2f07.png)
+![CPU 火焰图](https://static.apiseven.com/202108/1636726433815-b1b2913b-3a3a-497a-9242-379d2d2eaa1e.png)
 
 在 CPU 升高现象上，通过火焰图可以明显看到大部分 CPU 的时间都是划在 `auxsort` 上，它是由 FUNCC 触发。而 FUNCC 的触发也指明了一个问题，就是证明相关数据没有经过 LuaJIT，只有图中最右侧的一小部分处理了正常请求。
 
 出现这种现象的原因主要是 LuaJIT 的 `table.sort` 不是完全依靠 JIT 模式，这点可以在 [LuaJIT 官网 wiki](http://wiki.luajit.org/NYI) 中看到相关说明，所以在 Lua 代码环境中使用 `table.sort` 效率是比较低的。
 
-![LuaJIT Wiki](https://static.apiseven.com/202108/1632797702785-9afdc28d-6c7a-4643-8cac-72b41fee8e2b.png)
+![LuaJIT Wiki](https://static.apiseven.com/202108/1636726465820-b457e823-388b-4fe8-b8ec-9e8650235060.png)
 
 针对这个问题，我们自己使用纯 Lua 代码实现了针对上述场景的 sort 配置进行了解决，但其实 Apache APISIX 在之后的版本更新中已经修复了这项问题，具体思路也跟我们理解的类似。
 
