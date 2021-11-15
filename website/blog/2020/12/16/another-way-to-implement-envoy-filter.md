@@ -26,7 +26,7 @@ tags: [Technology]
 Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures.
 A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.
 
-![Envoy filter](https://static.apiseven.com/filters.png)
+![Envoy filter](https://static.apiseven.com/202108/1636562627686-d6485ddf-4e12-4719-811b-a435ce334033.png)
 
 ### Expansion method
 
@@ -118,11 +118,11 @@ We don't need to make major changes to Envoy, only some optimizations that are s
 
 We shield platform differences for the plugin layer. All interfaces that need to be used are abstracted in the underlying framework, which we call apisix.core, so that all plugins can run on Envoy and Apache APISIX at the same time.
 
-![Architecture diagram](https://static.apiseven.com/main.png)
+![Architecture diagram](https://static.apiseven.com/202108/1636562714108-ba80be0b-0228-40f0-8720-d9e0fda3f029.png)
 
 We use the previous example to show how the plugin runs:
 
-![Plugin workflow](https://static.apiseven.com/workflow.png)
+![Plugin workflow](https://static.apiseven.com/202108/1636562795944-9d5ee929-1d19-4199-8dab-52eb0120c9bc.png)
 
 #### First step, read configuration
 
