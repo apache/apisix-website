@@ -61,6 +61,6 @@ Apache APISIX 相对原生 Nginx 有比较完善可观测性能力，将介绍 A
 ## 参与方式
 
 👇👇👇 扫码关注视频号，预约本次直播。
-![Apache APISIX wechat](https://apisix.apache.org/assets/images/2021-08-21-2-e9610756c89fec849caeb66361bce002.png)
+![Apache APISIX wechat](https://static.apiseven.com/202108/1636726781199-365062a9-d0aa-4604-81dc-20e2ace1e20e.png)
 
 10 月 23 日（周六）14:00，我们直播见！

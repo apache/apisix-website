@@ -25,7 +25,7 @@ tags: [technology]
 
 而 APISIX Ingress 则是另一种 Ingress Controller 的实现。跟 Kubernetes Ingress Nginx 的区别主要在于 APISIX Ingress 是以 Apache APISIX 作为实际承载业务流量的数据面。如下图所示，当用户请求到具体的某一个服务/API/网页时，通过外部代理将整个业务流量/用户请求传输到 K8s 集群，然后经过 APISIX Ingress 进行后续处理。
 
-![APISIX Ingress 架构](https://static.apiseven.com/202108/1633765366863-8964a75c-0c16-4683-ad9b-c8c83ac64ec6.png)
+![APISIX Ingress 架构](hhttps://static.apiseven.com/202108/1636726995544-071e2348-3f13-45b7-9ada-b3b522f252ca.png)
 
 从上图可以看到，APISIX Ingress 分成了两部分。一部分是 APISIX Ingress Controller，作为控制面它将完成配置管理与分发。另一部分 APISIX Proxy Pod 负责承载业务流量，它是通过 CRD(Custom Resource Definitions) 的方式实现的。Apache APISIX Ingress 除了支持自定义资源外，还支持原生的 K8s Ingress 资源。
 
@@ -33,7 +33,7 @@ tags: [technology]
 
 前边我们提到了 APISIX Ingress 是采用 Apache APISIX 作为实际承载业务流量的数据面，那么 Apache APISIX 项目又是做什么的呢？
 
-![Apache APISIX 架构](https://static.apiseven.com/202108/1633765402660-6b20dd1c-bef6-4dcb-974e-fa80334e0623.png)
+![Apache APISIX 架构](ttps://static.apiseven.com/202108/1636727035666-b2772401-eba2-41fc-bda6-7136c8905056.png)
 
 Apache APISIX 是 Apache 基金会旗下的顶级开源项目，也是当前最活跃的开源网关项目。作为一个动态、实时、高性能的开源 API 网关，Apache APISIX 提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。
 
@@ -77,7 +77,7 @@ APISIX Ingress 采用了数据面与控制面的分离架构，所以用户可�
 
 在前面的介绍中我们提到了 CRD，那么 APISIX Ingress 是如何使用 CRD 扩展的？
 
-![CRD 扩展](https://static.apiseven.com/202108/1633765449155-0e25f1d0-e62a-4c4f-ab9a-019f609ed5fb.png)
+![CRD 扩展](https://static.apiseven.com/202108/1636727073073-a8c84ed6-450d-4b61-84c9-1eeef4dd2d40.png)
 
 从用户层面来看，当 Client 发起请求，到达 Apache APISIX 后，会直接把相应的业务流量传输到后端（如 Service Pod），从而完成转发过程。此过程不需要经过 Ingress Controller，这样做可以保证一旦有问题出现，或者是进行变更、扩缩容或者迁移处理等，都不会影响到用户和业务流量。
 
@@ -91,7 +91,7 @@ APISIX Ingress 目前已经支持的自定义资源主要是以下 5 类，涉�
 
 自定义资源 APISIX Route 中 `spec` 属性的顶级配置是 `http`。但其实 `spec` 是同时支持两种配置的，一种是下图示例的 `spec.http`，主要用于 7 层代理；另一种是 `spec.stream`，用于 4 层代理。在配置文件中，我们首先为其自定义了一项规则，即 match 下的相关参数。
 
-![APISIX Route](https://static.apiseven.com/202108/1633765501091-e64ff6e5-5e3e-4b0f-adcc-7ff418edb52c.png)
+![APISIX Route](https://static.apiseven.com/202108/1636727122153-0bb0f6d5-6950-477f-9782-64f162c21315.png)
 
 如上图后端配置示例使用了同一个 Service，实际使用中大家根据场景进行调整即可。需要注意的是，`weight` 属性是用来配置相关 Service 权重。通过以上配置，从而实现一套完整的路由自定义资源。
 
@@ -99,7 +99,7 @@ APISIX Ingress 目前已经支持的自定义资源主要是以下 5 类，涉�
 
 在配置 APISIX Upstream 时，需要注意 `name` 的内容要与 K8s 集群的 Service 保持一致，这样可以保证后续 APISIX Ingress Controller 准确匹配其相应流量。
 
-![APISIX Upstream](https://static.apiseven.com/202108/1633765534667-3ce978ae-2d85-4de7-8a57-3c5be5f57604.png)
+![APISIX Upstream](hhttps://static.apiseven.com/202108/1636727168233-9a64a2fb-e1f4-4920-9b8c-c93d57fd1c6f.png)
 
 在配置文件中，`spec.loadbalancer` 主要负责负载均衡策略的设置，有多种策略模式可供选择。`spec.schem`e 则是协议类型的配置，目前只支持 HTTP 和 gRPC 协议。`spec.healthCheck` 主要是对健康检查功能进行设置，比如设置其活跃状态、生效协议与路径和最终反馈等参数配置。
 
@@ -107,7 +107,7 @@ APISIX Ingress 目前已经支持的自定义资源主要是以下 5 类，涉�
 
 在 APISIX Consumer 配置中，主要是增加了认证相关的功能，比如 `spec.authParameter`，目前该配置参数支持 `BasicAuth` 与 `KeyAuth` 这两种比较常见的认证类型。
 
-![APISIX Consumer](https://static.apiseven.com/202108/1633765580844-9d17d699-fa45-4b43-9ed9-f8ea9c9cab48.png)
+![APISIX Consumer](https://static.apiseven.com/202108/1636727198010-e3afef47-f62c-4bab-843e-5fe292baf96e.png)
 
 通过 `value` 可直接去配置相关的 `username` 和 `password`，或者直接使用 `secret` 进行配置，相比前者的明文配置会更安全一些。
 
@@ -115,7 +115,7 @@ APISIX Ingress 目前已经支持的自定义资源主要是以下 5 类，涉�
 
 APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以通过 `hosts` 来配置多个域名，`secret` 下的参数就是对应的配置证书。
 
-![APISIX TLS](https://static.apiseven.com/202108/1633765614989-88b363c2-3805-4159-abfc-bac1b055559b.png)
+![APISIX TLS](https://static.apiseven.com/202108/1636727238605-2f468ea9-c8eb-459f-95ef-4c62e2801def.png)
 
 同时 APISIX TLS 还配有 `spec.client`，用于进行 mTLS 双向认证的配置。
 
@@ -123,7 +123,7 @@ APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以
 
 关于自定义资源支持的 Config 类型我们会从两个方面进行描述。
 
-![APISIX Cluster Config](https://static.apiseven.com/202108/1633765647605-6ad1ba44-06fd-475d-a6ae-925b3cc9c1ce.png)
+![APISIX Cluster Config](https://static.apiseven.com/202108/1636727270170-9f796ddd-5f64-4d53-aa4a-2872953bf380.png)
 
 一种是 APISIX Cluster Config，它主要用于一些通用配置。目前支持在 K8s 或者 Apache APISIX 中全局使用 Prometheus 插件/全局配置 SkyWalking，后续开发中也会去增加一些其他的通用配置。
 
@@ -133,7 +133,7 @@ APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以
 
 目前大家可以通过 [Helm Charts](https://github.com/apache/apisix-helm-chart) 的方式来进行 APISIX Ingress 的部署。通过一条命令，就可以同时把 Apache APISIX 以及 APISIX Ingress，包括 Apache APISIX 所需要用到的 etcd 全部部署好，步骤非常简单。
 
-![安装步骤](https://static.apiseven.com/202108/1633765686788-156b0641-aa78-4de8-833d-a187772470a5.png)
+![安装步骤](https://static.apiseven.com/202108/1636727303060-7f783d80-271c-49a2-9255-0b40026057f5.png)
 
 ### 实践场景一：流量切分
 
@@ -141,13 +141,13 @@ APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以
 
 #### 步骤一：配置 APISIX Upstream
 
-![配置 APISIX Upstream](https://static.apiseven.com/202108/1633765722480-edf8b1ec-98a4-4c18-bd3d-843c73f132bc.png)
+![配置 APISIX Upstream](https://static.apiseven.com/202108/1636727344030-149b5257-10e1-4136-9896-de724f00b754.png)
 
 #### 步骤二：配置 APISIX Route
 
 通过在 `backends` 中去配置 `subset` 和 `weight`，来实现用户请求流量进入时的分流。如下图示例就是 90% 的流量会进入到 v1 中，10% 的流量进入到 v2 中。
 
-![配置 APISIX Route](https://static.apiseven.com/202108/1633765771090-1e51e66c-0979-43b4-852b-28f2284a5d4e.png)
+![配置 APISIX Route](https://static.apiseven.com/202108/1636727381638-f51a5403-2715-4309-8967-cb47ce7eeeb3.png)
 
 通过以上两步，就可以十分方便地按比例进行流量切分，实现类似灰度发布等场景需求。
 更多具体操作细节也可参考：[Apache APISIX Ingress Controller 中的流量切分](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress-controller)。
@@ -160,13 +160,13 @@ APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以
 
 如前文所提到的，可以在 APISIX Consumer 配置中增加 `basicAuth`，并为其指定用户名和密码。
 
-![创建资源](https://static.apiseven.com/202108/1633765803898-7a30c663-7ba8-4064-8772-a19c56cef191.png)
+![创建资源](https://static.apiseven.com/202108/1636727418621-5235ee37-7220-4f8f-8796-0c7c06f02bbf.png)
 
 #### 步骤二：配置 APISIX Route，增加认证相关参数
 
 在自定义资源 APISIX Route 中，通过在后端添加 `authenticatio`n，将其开启并指定认证类型即可。
 
-![增加认证参数](https://static.apiseven.com/202108/1633765828596-9a0f0142-f201-4004-b85d-a34de4ee13dc.png)
+![增加认证参数](https://static.apiseven.com/202108/1636727456956-c9b74ea6-b568-4586-8ca4-395a57114386.png)
 
 通过以上步骤，就可以实现使用 Consumer 去完成相关配置认证。
 
@@ -174,13 +174,13 @@ APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以
 
 正如我们在开头提到过的，APISIX Ingress 不仅支持自定义资源，还同时支持 K8s 原生的 Ingress 资源。
 
-![K8s 原生资源](https://static.apiseven.com/202108/1633765859904-bc48dcc5-cd7a-4875-b248-5c4c64a2d7c5.png)
+![K8s 原生资源](https://static.apiseven.com/202108/1636727492287-53002467-7829-4830-93b2-0748fd16a52d.png)
 
 如上图是 K8s Ingress 资源。通常情况下如果想要在资源上做 rewrite，可以通过增加 annotation 配置属性。这样当用户携带 `httpbin.org` 请求时，就可以通过路径 /sample 将它重定向到 /ip。
 
 当上述需求使用 APISIX Ingress 时，只需在 Ingress 增加一个 `kubernetes.io/ingress.class: apisix`，去指定 APISIX Ingress Controller 去监听这个资源，同时通过配置  `k8s.apisix.apache.org/rewrite-target: "/ip"`，就可以完成重定向到 /ip 路径。
 
-![APISIX Ingress 资源](https://static.apiseven.com/202108/1633765888876-d2d252ee-706c-49f3-b630-03a7e72a0620.png)
+![APISIX Ingress 资源](https://static.apiseven.com/202108/1636727529043-734a07a4-646b-4519-8dba-70cd3fd82df9.png)
 
 以上示例只是目前 APISIX Ingress 对于原生 K8s Ingress 支持的一种方式，更多示例大家可以查看[具体文档](https://apisix.apache.org/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress)进行参考使用。
 

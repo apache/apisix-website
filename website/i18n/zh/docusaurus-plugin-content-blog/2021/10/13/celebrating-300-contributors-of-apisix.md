@@ -14,7 +14,7 @@ tags: [Events]
 
 <!--truncate-->
 
-![Apache APISIX contributor graph](https://static.apiseven.com/202108/1634110612788-576eb5ea-d574-4d8e-891c-8f9fc90d955a.png)
+![Apache APISIX contributor graph](https://static.apiseven.com/202108/1636726854016-da397af1-282b-47a3-a143-51634e1ae7f6.png)
 
 ps：推荐阅读《[贡献者，是衡量开源项目的金指标](https://apisix.apache.org/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en)》，[贡献者趋势图](https://github.com/api7/contributor-graph)
 
