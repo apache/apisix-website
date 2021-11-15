@@ -24,7 +24,7 @@ In the K8s ecosystem, Ingress is a resource that represents the entry point for 
 
 APISIX Ingress is another implementation of the Ingress Controller. The main difference with Kubernetes Ingress Nginx is that APISIX Ingress uses Apache APISIX as the actual data plane that carries business traffic. As shown in the figure below, when a user requests a specific service/API/web page, the entire business traffic/user request is transferred to the K8s cluster through an external proxy and then processed by APISIX Ingress.
 
-![APISIX Ingress Architecture](https://static.apiseven.com/202108/1633765366863-8964a75c-0c16-4683-ad9b-c8c83ac64ec6.png)
+![APISIX Ingress Architecture](https://static.apiseven.com/202108/1636726995544-071e2348-3f13-45b7-9ada-b3b522f252ca.png)
 
 As you can see from the above diagram, APISIX Ingress is divided into two parts. One part is the APISIX Ingress Controller, which is the control plane that will do the configuration management and distribution. The other part is the APISIX Proxy Pod, which is responsible for carrying business traffic and is implemented by means of CRD (Custom Resource Definitions).
 
@@ -32,7 +32,7 @@ As you can see from the above diagram, APISIX Ingress is divided into two parts.
 
 We mentioned earlier that APISIX Ingress uses Apache APISIX as the data surface that actually carries business traffic, so what does the Apache APISIX project do?
 
-![Apache APISIX Architecture](https://static.apiseven.com/202108/1633765402660-6b20dd1c-bef6-4dcb-974e-fa80334e0623.png)
+![Apache APISIX Architecture](https://static.apiseven.com/202108/1636727035666-b2772401-eba2-41fc-bda6-7136c8905056.png)
 
 Apache APISIX is the top open source project of the Apache Foundation and is currently the most active open source gateway project. As a dynamic, real-time, high-performance open source API gateway, Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more.
 
@@ -76,7 +76,7 @@ The following is a detailed introduction to CRD and custom resources.
 
 We mentioned CRD in the previous introduction, but how does APISIX Ingress use CRD extensions?
 
-![CRD Extensions](https://static.apiseven.com/202108/1633765449155-0e25f1d0-e62a-4c4f-ab9a-019f609ed5fb.png)
+![CRD Extensions](https://static.apiseven.com/202108/1636727073073-a8c84ed6-450d-4b61-84c9-1eeef4dd2d40.png)
 
 At the user level, when a request is made by a Client and arrives at Apache APISIX, the corresponding service traffic is directly transferred to the backend (e.g., Service Pod), thus completing the forwarding process. This process does not need to go through the Ingress Controller, which can ensure that if there are problems, or changes, expansion and contraction or migration processing, it will not affect the users and business traffic.
 
@@ -90,7 +90,7 @@ APISIX Ingress currently supports the following 5 categories of custom resources
 
 The top-level configuration for the `spec` attribute in the custom resource APISIX Route is `http`. But actually `spec` supports both configurations, `spec.http` as in the example below, which is mainly used for Layer 7 proxies, and `spec.stream`, which is used for Layer 4 proxies. In the configuration file, we first customize a rule for it, namely the relevant parameter under match.
 
-![APISIX Route](https://static.apiseven.com/202108/1633765501091-e64ff6e5-5e3e-4b0f-adcc-7ff418edb52c.png)
+![APISIX Route](https://static.apiseven.com/202108/1636727122153-0bb0f6d5-6950-477f-9782-64f162c21315.png)
 
 As the above back-end configuration example uses the same Service, you can adjust it according to the scenario in actual use. Note that the `weight` attribute is used to configure the relevant service weight. With the above configuration, a complete set of routing customization resources can be implemented.
 
@@ -98,7 +98,7 @@ As the above back-end configuration example uses the same Service, you can adjus
 
 When configuring APISIX Upstream, you need to pay attention to the content of `name` to be consistent with the Service of K8s cluster, so as to ensure that the subsequent APISIX Ingress Controller can accurately match its corresponding traffic.
 
-![APISIX Upstream](https://static.apiseven.com/202108/1633765534667-3ce978ae-2d85-4de7-8a57-3c5be5f57604.png)
+![APISIX Upstream](https://static.apiseven.com/202108/1636727168233-9a64a2fb-e1f4-4920-9b8c-c93d57fd1c6f.png)
 
 In the configuration file, `spec.loadbalancer` is mainly responsible for setting the load balancing policy, and there are various policy modes to choose from. `spec.schem`e is for the protocol type configuration, currently only HTTP and gRPC protocols are supported. `spec.healthCheck` is mainly for setting the health check function, such as setting its active status, effective protocol and path and final feedback and other parameters configuration.
 
@@ -106,7 +106,7 @@ In the configuration file, `spec.loadbalancer` is mainly responsible for setting
 
 The APISIX Consumer configuration mainly adds authentication-related features, such as `spec.authParameter`, which currently supports `BasicAuth` and `KeyAuth`, the two more common types of authentication.
 
-![APISIX Consumer](https://static.apiseven.com/202108/1633765580844-9d17d699-fa45-4b43-9ed9-f8ea9c9cab48.png)
+![APISIX Consumer](https://static.apiseven.com/202108/1636727198010-e3afef47-f62c-4bab-843e-5fe292baf96e.png)
 
 You can configure the associated `username` and `password` directly with `value`, or directly with `secret`, which is more secure than the plaintext configuration of the former.
 
@@ -114,7 +114,7 @@ You can configure the associated `username` and `password` directly with `value`
 
 APISIX TLS is mainly for certificate management. As the example shows, users can configure multiple domains via `hosts`, and the parameters under `secret` are the corresponding configuration certificates.
 
-![APISIX TLS](https://static.apiseven.com/202108/1633765614989-88b363c2-3805-4159-abfc-bac1b055559b.png)
+![APISIX TLS](https://static.apiseven.com/202108/1636727238605-2f468ea9-c8eb-459f-95ef-4c62e2801def.png)
 
 Apache APISIX TLS also comes with `spec.client` for configuring mTLS two-way authentication.
 
@@ -122,7 +122,7 @@ Apache APISIX TLS also comes with `spec.client` for configuring mTLS two-way aut
 
 The Config types supported by custom resources are described in two ways.
 
-![APISIX Cluster Config](https://static.apiseven.com/202108/1633765647605-6ad1ba44-06fd-475d-a6ae-925b3cc9c1ce.png)
+![APISIX Cluster Config](https://static.apiseven.com/202108/1636727270170-9f796ddd-5f64-4d53-aa4a-2872953bf380.png)
 
 One type is APISIX Cluster Config, which is mainly used for some generic configurations. Currently it supports global use of Prometheus plug-in/global configuration SkyWalking in K8s or Apache APISIX, and we will add some other generic configurations in subsequent development.
 
@@ -132,7 +132,7 @@ Another one is the [APISIX Plugin Config](https://github.com/apache/apisix-ingre
 
 Currently, you can deploy APISIX Ingress via [Helm Charts](https://github.com/apache/apisix-helm-chart). You can deploy both Apache APISIX and APISIX Ingress, including the etcd required for Apache APISIX, with a single command, which is very simple.
 
-![Installation Steps](https://static.apiseven.com/202108/1633765686788-156b0641-aa78-4de8-833d-a187772470a5.png)
+![Installation Steps](https://static.apiseven.com/202108/1636727303060-7f783d80-271c-49a2-9255-0b40026057f5.png)
 
 ### Practice Scenario 1: Traffic Segmentation
 
@@ -140,13 +140,13 @@ By using APISIX Ingress, you can achieve the effect of proportional traffic slic
 
 #### Step 1: Configure APISIX Upstream
 
-![Configure APISIX Upstream](https://static.apiseven.com/202108/1633765722480-edf8b1ec-98a4-4c18-bd3d-843c73f132bc.png)
+![Configure APISIX Upstream](https://static.apiseven.com/202108/1636727344030-149b5257-10e1-4136-9896-de724f00b754.png)
 
 #### Step 2: Configure APISIX Route
 
 Configure `subset` and `weight` in `backends` to split the incoming user request traffic. The example below shows that 90% of the traffic will go to v1 and 10% of the traffic will go to v2.
 
-![Configure APISIX Route](https://static.apiseven.com/202108/1633765771090-1e51e66c-0979-43b4-852b-28f2284a5d4e.png)
+![Configure APISIX Route](https://static.apiseven.com/202108/1636727381638-f51a5403-2715-4309-8967-cb47ce7eeeb3.png)
 
 With the above two steps, it is very easy to slice and dice traffic proportionally to achieve scenarios like grayscale publishing.
 For more details, please refer to: [Traffic Segmentation in Apache APISIX Ingress Controller](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress-controller).
@@ -159,13 +159,13 @@ If you want to configure Basic Auth for certain routes in APISIX Ingress, you ca
 
 As mentioned earlier, you can add `basicAuth` to the APISIX Consumer configuration and specify a username and password for it.
 
-![Create Resource](https://static.apiseven.com/202108/1633765803898-7a30c663-7ba8-4064-8772-a19c56cef191.png)
+![Create Resource](https://static.apiseven.com/202108/1636727418621-5235ee37-7220-4f8f-8796-0c7c06f02bbf.png)
 
 #### Step 2: Configure the APISIX Route and add authentication-related parameters
 
 In the custom resource APISIX Route, simply turn it on and specify the authentication type by adding `authenticatio`n to the backend.
 
-![Add authentication parameters](https://static.apiseven.com/202108/1633765828596-9a0f0142-f201-4004-b85d-a34de4ee13dc.png)
+![Add authentication parameters](https://static.apiseven.com/202108/1636727456956-c9b74ea6-b568-4586-8ca4-395a57114386.png)
 
 With the above steps, it is possible to use Consumer to complete the relevant configuration authentication.
 
@@ -173,13 +173,13 @@ With the above steps, it is possible to use Consumer to complete the relevant co
 
 As we mentioned at the beginning, APISIX Ingress supports not only custom resources, but also K8s native Ingress resources.
 
-![K8s native resources](https://static.apiseven.com/202108/1633765859904-bc48dcc5-cd7a-4875-b248-5c4c64a2d7c5.png)
+![K8s native resources](https://static.apiseven.com/202108/1636727492287-53002467-7829-4830-93b2-0748fd16a52d.png)
 
 The image above shows the K8s Ingress resource. Normally if you want to do rewrite on a resource, you can add annotation configuration attributes. This way when the user carries the `httpbin.org` request, it can be redirected to /ip via the path /sample.
 
 When the above requirement uses APISIX Ingress, simply add a `kubernetes.io/ingress.class: apisix` to Ingress to specify the APISIX Ingress Controller to listen to this resource, and configure `k8s.apisix.apache.org/rewrite-target: "/ip"` to complete the redirection to the /ip path.
 
-![APISIX Ingress Resources](https://static.apiseven.com/202108/1633765888876-d2d252ee-706c-49f3-b630-03a7e72a0620.png)
+![APISIX Ingress Resources](https://static.apiseven.com/202108/1636727529043-734a07a4-646b-4519-8dba-70cd3fd82df9.png)
 
 The above example is just one of the ways APISIX Ingress currently supports native K8s Ingress, for more examples you can check the [specific documentation](https://apisix.apache.org/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress) for reference and use.
 
