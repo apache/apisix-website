@@ -24,7 +24,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 贡献者统计
 
-![本周贡献者名单](https://static.apiseven.com/202108/1636940255460-0c2ab16c-93f9-490a-ab89-89f057b2fa1c.png)
+![本周贡献者名单](https://static.apiseven.com/202108/1636942852485-0effd8be-552e-4871-ba3e-356772016a18.png)
 
 ![本周新晋贡献者](https://static.apiseven.com/202108/1636940503842-fc52a349-443e-4f4b-9787-f743299870f3.png)
 
