@@ -26,7 +26,7 @@ tags: [Technology]
 
 也就是说， Envoy 是为了解决 Service Mesh 领域而诞生一款 L7 代理软件，这里我网上找了一张图，我理解的 Envoy 大概是如下的部署架构。（如果错了请大佬指教）
 
-![Envoy arch](https://static.apiseven.com/202108/20210617001.png)
+![Envoy arch](https://static.apiseven.com/202108/1636729198741-268e2d3a-7cf0-4262-9d93-6b396eeee153.png)
 
 既然是 L7 的代理软件嘛，作为常年混迹 OpenResty 社区的老司机，自然忍不住把它拿来搞一搞，对比对比。
 
@@ -36,7 +36,7 @@ tags: [Technology]
 
 这里附上一张在 APISIX 官网扒拉的图，真是一图胜千言，一看就知道这玩意儿是怎么工作的。
 
-![APISIX arch](https://static.apiseven.com/202108/20210617002.png)
+![APISIX arch](https://static.apiseven.com/202108/1636564276183-b29608f2-adab-446c-8d02-c9406c76a4c6.png)
 
 开搞吧，首先我们去官网找到两个产品的最版本：
 
@@ -69,7 +69,7 @@ server {
 
 - 网络架构示意图如下：（绿色正常负载，未跑满。红色为高压负载，要把进程资源跑满，主要是 CPU）
 
-![test result](https://static.apiseven.com/202108/20210617003.png)
+![test result](https://static.apiseven.com/202108/1636564331945-fef4a15a-24b8-4d52-b469-e1c3357b4aa4.png)
 
 #### 路由配置
 
@@ -150,7 +150,7 @@ static_resources:
 
 注：原始数据公开在 [gist](https://gist.github.com/aifeiasdf/9fc4585f6404e3a0a70c568c2a14b9c9) 预览。
 
-![test result](https://static.apiseven.com/202108/20210617004.png)
+![test result](https://static.apiseven.com/202108/1636564385428-1f5be8de-d637-44ef-8b12-dd3438fa27a1.png)
 
 QPS：每秒钟完成的请求数，数量越多越好，数值越大代表单位时间内可以完成的请求数量越多。从 QPS 结果看，APISIX 性能是 Envoy 的 120% 左右，核心数越多 QPS 差距越大。
 

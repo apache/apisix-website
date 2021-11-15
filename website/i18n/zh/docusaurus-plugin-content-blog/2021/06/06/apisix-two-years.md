@@ -20,7 +20,7 @@ Apache APISIX 于 2019 年 6 月 6 日开源，同年 10 月进入 Apache 孵化
 
 在进入 Apache 孵化器之前，Apache APISIX 仅有 20 多个 contributor，现在和 Apache APISIX 有关的项目共有 249 个 contributor，在一年半的时间，**contributor 数量增长了 10 倍**！ Apache APISIX 的社区也非常活跃，截止到今天 **249 位 contributor 共提交了 2303 个 PR ，每个月都会发布一个新版本**。
 
-![2019.6.6 ~ 2021.6.6 contributor growth curve](https://static.apiseven.com/202108/1630116210945-cdf0888f-c823-4eae-b404-3b1d6cb1b1e6.png)
+![2019.6.6 ~ 2021.6.6 contributor growth curve](https://static.apiseven.com/202108/1636564210822-55090290-e19e-4c3f-bd70-a5a287be11c1.png)
 
 生活中，当你去买机票、刷微博、买奶茶的时候，背后的关键流量都是由 Apache APISIX 来处理的。在这两年里， Apache APISIX 已经被非常多的企业广泛使用，涵盖金融、互联网、制造、零售、运营商等等，比如美国的航空航天局（NASA)、欧盟的数字工厂、中国航信、腾讯、华为、微博、贝壳找房、中国移动、泰康、360、奈雪的茶等等。点击查看 [Apache APISIX 的用户列表](https://github.com/apache/apisix)。
 
