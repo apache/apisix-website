@@ -35,7 +35,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 **Link**: https://github.com/apache/apisix/issues/5400
 
-**Issue description**: The http logs for Layer 7 are stored in acccess.log, so how does the Layer 4 proxy stream route enable logging and customize the log path? Traditionally, openresty can be implemented.
+**Issue description**: The HTTP logs for Layer 7 are stored in acccess.log, so how does the Layer 4 proxy stream route enable logging and customize the log path? Traditionally, OpenResty can be implemented.
 
 ### Issue #5417
 
