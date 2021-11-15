@@ -16,7 +16,7 @@ tags: [Practical Case]
 
 身份认证在日常生活当中是非常常见的一项功能，大家平时基本都会接触到。比如用支付宝消费时的人脸识别确认、公司上班下班时的指纹/面部打卡以及网站上进行账号密码登录操作等，其实都是身份认证的场景体现。
 
-![概念理解](https://static.apiseven.com/202108/1631004418593-0a46f949-72aa-4cd4-8f38-1988327c92d6.png)
+![概念理解](https://static.apiseven.com/202108/1636724102237-61251450-2f3a-4ea7-8000-f38244943a20.png)
 
 如上图，Jack 通过账号密码请求服务端应用，服务端应用中需要有一个专门用做身份认证的模块来处理这部分的逻辑。请求处理完毕之后，如果使用 JWT Token 认证方式，服务器会反馈一个 Token 去标识这个用户为 Jack。如果登录过程中账号密码输入错误，就会导致身份认证失败。这个场景大家肯定都非常熟悉，这里就不做展开举例了。
 
@@ -42,7 +42,7 @@ tags: [Practical Case]
 
 如下图所示，左侧的图为我们展示了一种比较常见的传统身份认证方法。每一个应用服务模块去开发一个单独的身份认证模块，用来支持身份认证的一套流程处理。但当服务量多了之后，就会发现这些模块的开发工作量都是非常巨大且重复的。
 
-![Apache APISIX 身份认证](https://static.apiseven.com/202108/1631004492221-0721d933-705d-4875-b956-e94a11a45135.png)
+![Apache APISIX 身份认证](https://static.apiseven.com/202108/1636724138661-974559de-b3e6-4a80-8b2b-1d76ed72e5a8.png)
 
 这种时候，我们可以通过把这部分的开发逻辑放置到 Apache APISIX 的网关来实现统一，减少开发量。
 
@@ -52,7 +52,7 @@ tags: [Practical Case]
 
 ### 优点一：配置收敛，统一管理
 
-![Dashboard](https://static.apiseven.com/202108/1631004574541-87b607eb-2971-4c1d-a1d6-74cf4a5fdd42.png)
+![Dashboard](https://static.apiseven.com/202108/1636724182430-c382aa98-c505-4a0c-aef6-fb418f66be61.png)
 
 如上图是一张 APISIX-Dashboard 的界面截图，可以看到路由、Consumer 等数据信息。这里的 Consumer 可以理解为一个应用方，比如可以为应用专门去创建一个 Consumer 并配置相关的认证插件，例如 JWT、Basic-Auth 等插件。当有新的服务出现时，我们需要再创建一个 Consumer，然后将这部分配置信息给配置到第二个应用服务上。
 
@@ -62,7 +62,7 @@ tags: [Practical Case]
 
 Apache APISIX 作为一个 API 网关，目前已开启与各种插件功能的适配合作，插件库也比较丰富。目前已经可与大量身份认证相关的插件进行搭配处理，如下图所示。
 
-![API 网关认证插件](https://static.apiseven.com/202108/1631004738218-586e84af-a5ab-4714-845d-4d71b7ba79e3.png)
+![API 网关认证插件](https://static.apiseven.com/202108/1636724224725-174336eb-2ed4-41bd-b2d6-f7db716a6615.png)
 
 基础认证插件比如 Key-Auth、Basic-Auth，他们是通过账号密码的方式进行认证。
 
@@ -76,7 +76,7 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 功能强大该如何理解，就是 Apache APISIX 中可以针对每一个 Consumer （即调用方应用）去做不同级别的插件配置。
 
-![配置灵活](https://static.apiseven.com/202108/1631004783828-3dd0056c-a6aa-4ab9-b902-7bd2ca545ffe.png)
+![配置灵活](https://static.apiseven.com/202108/1636724259306-9445bc6e-57cc-494c-bf62-8f64fee3bfe5.png)
 
 如上图，我们创建了两个消费者 Consumer A，Consumer B。我们将 Consumer A 应用到`应用1`，则后续`应用1`的访问将会开启 Consumer A 的这部分插件，例如 IP 黑白名单，限制并发数量等。将 Consumer B 应用到`应用2` ，由于开启了 http-log 插件，则`应用2`的访问日志将会通过 HTTP 的方式发送到日志系统进行收集。
 
@@ -92,25 +92,25 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 创建路由，配置上游为 `httpbin.org`，同时开启 `basic-auth` 插件。
 
-![创建路由](https://static.apiseven.com/202108/1631004892467-71c93f8f-dc0e-47fe-a88f-943adb9edbff.png)
+![创建路由](https://static.apiseven.com/202108/1636724295220-2c0dbc80-dffa-40fc-93da-7406588b1f8f.png)
 
 #### 步骤二：创建消费者，配置身份信息
 
 创建消费者 foo。在消费者中，我们需要配置用户的认证信息，例如 `username` 为 foo，`password` 为 `bar`。
 
-![创建消费者](https://static.apiseven.com/202108/1631004937828-15ac5d8f-0e45-4c3d-94e8-2b180266b379.png)
+![创建消费者](https://static.apiseven.com/202108/1636724333976-b9b7d6f5-e31e-4c1e-860f-3d34f810f65e.png)
 
 #### 步骤三：应用服务携带认证信息进行访问
 
 应用携带 `username:foo` ,`password: bar` 访问 Apache APISIX。Apache APISIX 通过认证，并将请求 Authorization 请求头携带至上游 `httpbin.org` 。由于 `httpbin.org` 中 get 接口会将请求信息返回，因此我们可以在其中观察到请求头 `Authorization`。
 
-![请求携带](https://static.apiseven.com/202108/1631004973305-4b209f79-f7de-41a2-994e-8877a6624d99.png)
+![请求携带](https://static.apiseven.com/202108/1636724540228-501fa2fb-5d55-41bd-8c71-5e992ded9964.png)
 
 ### 中级：进阶玩法
 
 进阶模式下，是使用 Apache APISIX 与 OpenID-Connect 插件进行对接第三方认证服务。OpenID-Connect 是一种认证机制，可以采用该认证机制对接用户的用户管理系统或者用户管理服务，例如国内的 Authing 和腾讯云，国外的 Okta 和 Auth0 等。
 
-![第三方认证模式](https://static.apiseven.com/202108/1631005002268-7393b40e-1733-4e66-bc09-742be221efae.png)
+![第三方认证模式](https://static.apiseven.com/202108/1636724570439-dacecf6b-1579-4a1a-911e-b23628b91f25.png)
 
 具体操作如下，这里使用 Okta 云服务举例：
 
@@ -118,19 +118,19 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 在 Okta 控制台页面创建一个支持 OpenID-Connect 的应用。
 
-![创建](https://static.apiseven.com/202108/1631005022640-1e931b14-8175-47f3-bfb8-46e09cec616b.png)
+![创建](https://static.apiseven.com/202108/1636724607752-633a622f-b6d2-45cb-931c-04c790faef3f.png)
 
 #### 步骤二：创建路由，配置 OpenID-Connect 插件
 
 创建路由，配置访问的上游地址为 httpbin.org，同时开启 openid-connect 插件，将 Okta 应用的配置填写到 openid-connect 插件中。
 
-![配置插件](https://static.apiseven.com/202108/1631005045489-b637ef9a-c71c-440f-ae58-a93398a4c9dd.png)
+![配置插件](https://static.apiseven.com/202108/1636724646085-b83d585e-aacb-47f5-9f84-da363059f4c8.png)
 
 #### 步骤三：用户访问时，会跳转至登录页面。登录完成后，上游应用获取用户信息
 
 此时，当用户访问 Apache APISIX 时，会先重定向到 Okta 登录页面。此时需要在该页面填写 Okta 中已经存在的用户的账号密码。登陆完成之后，Apache APISIX 会将本次认证的 Access-Token，ID-Token 携带至上游，同时将本次认证的用户信息以 base64 的方式编码至 Userinfo 请求头，传递至上游。
 
-![APISIX 页面](https://static.apiseven.com/202108/1631005077846-0f877a03-ddcd-46f6-a38d-f046b4700058.png)
+![APISIX 页面](https://static.apiseven.com/202108/1636724684086-28cd8396-9176-40e9-b3f4-a1de6fcad90a.png)
 
 ## 高级：DIY 玩法
 
@@ -140,13 +140,13 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 ### 方式一：自定义判断逻辑
 
-![判断逻辑](https://static.apiseven.com/202108/1631005112469-c04868b8-388e-4b81-abcc-d37b6a8951f5.png)
+![判断逻辑](https://static.apiseven.com/202108/1636724727061-05e3892e-9396-4d90-b157-2e9293a05564.png)
 
 通过请求头、参数等相关信息，来进行一些判断。通过这种做法，我们可以去实现自己的一些规则，比如说结合企业内部的一些认证，或者去写一些自己的业务逻辑。
 
 ### 方式二：发起认证鉴权请求
 
-![鉴权请求](https://static.apiseven.com/202108/1631005141578-f90cf948-4913-45cd-a28e-9e697ad197fe.png)
+![鉴权请求](https://static.apiseven.com/202108/1636724758815-f6c948ae-0c22-49b8-9be0-b94d9e93b5a3.png)
 
 通过 HTTP 库发起一个 HTTP 请求，我们可以利用第三方服务做一些认证、鉴权相关事情，然后解析返回结果。通过这种方式，我们可以做的事情就可以扩展很多。比如对接 Redis 或数据库，只要是通过 TCP 或 UDP 这种形式的，都可以通过 Serverless 插件进行尝试。
 
@@ -154,4 +154,4 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 完成自定义代码片之后，我们创建路由，并将代码片配置到 Serverless 插件。后面再通过访问 Apache APISIX 获取相应的信息反馈，测试插件是否生效。
 
-![配置上传](https://static.apiseven.com/202108/1631005184917-bc620c0b-d4c6-43f5-8450-4f5b2b9549e1.png)
+![配置上传](https://static.apiseven.com/202108/1636724791422-fbcced8f-67b7-47c4-a856-d1f90fab83c5.png)
