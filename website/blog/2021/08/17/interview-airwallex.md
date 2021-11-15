@@ -23,7 +23,7 @@ tags: [Interview]
 
 Airwallex 空中云汇是一家全球金融科技公司，赋能各类规模的企业跨境运营，以此助力全球经济发展。以技术为核心，Airwallex（空中云汇）构建了专有的全球金融基础设施平台，全球支付网络已覆盖 130 多个国家和地区的 50 余种货币，为各类规模的企业提供数字化的金融科技产品，在全球互联的信息化时代，以更高效、安全的方式帮助企业在全世界高速发展。自 2015 年成立以来，Airwallex 空中云汇已获得来自顶级投资机构超 5 亿美元融资，目前在全球共有 12 个办公室及超过 900 名员工。
 
-![Airwallex LiYang](https://static.apiseven.com/202108/20210816001.png)
+![Airwallex LiYang](https://static.apiseven.com/202108/1636723303836-9df61b58-88f6-4154-8f9e-b5d539599fbd.png)
 
 **Q：在做技术选型的时候，是什么原因让您/您的技术团队选择使用 Apache APISIX？**
 
@@ -57,11 +57,11 @@ Airwallex 空中云汇是一家全球金融科技公司，赋能各类规模的�
 
 - Authorization：企业级应用的权限管理是非常复杂的，不同的应用场景有着截然不同的权限管理模型。API 网关可以根据路由配置验证请求用户是否有足够的权限访问接口，第一时间拦截非法的流量。
 
-![Airwallex arch](https://static.apiseven.com/202108/20210816002.png)
+![Airwallex arch](https://static.apiseven.com/202108/1636723338141-7a78193f-5aa8-43a4-b632-83f5e4635fe9.png)
 
 内容比较多简化一下，可以更清楚：
 
-![Airwallex arch](https://static.apiseven.com/202108/20210816003.png)
+![Airwallex arch](https://static.apiseven.com/202108/1636723370123-77cf022d-67aa-4c28-977f-4e57e17a6bb1.png)
 
 **Q:在 Apache APISIX 升级过程中是否顺利？分享一下升级过程中的感受或者故事。**
 
