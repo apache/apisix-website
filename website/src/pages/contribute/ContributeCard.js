@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 
@@ -15,6 +15,7 @@ const Card = styled.div`
             color: rgb(232, 67, 62);
         }
     }
+    background-color: ${(props) => (props.isShow ? "rgb(255,241,240,0.2)" : "")}
 `;
 
 const ProjectTitle = styled.div`
@@ -27,7 +28,9 @@ const ProjectTitle = styled.div`
 const Title = styled.a`
   display: block;
   font-size: 1.5rem;
+  color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")}
 `;
+
 const Issue = styled.div`
     border: 1px solid rgb(232, 67, 62);
     border-radius: 50px;
@@ -39,20 +42,28 @@ const IssueNum = styled.span`
 
 const ProjectIntro = styled.div`
 `;
+
 const ProjectDesc = styled.div`
+    color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")}
+`;
+const List = styled.div`
+    display: ${(props) => (props.isShow ? "block" : "none")};
 `;
 
 
+
 const ContributeCard = () => {
+    const [isShow,setIsShow] = useState(false);
 
     return (
-        <Card>
+        <Card onClick={()=> setIsShow(!isShow)} isShow={isShow}>
             <ProjectTitle>
-                <Title>apache/apisix</Title>
-                <Issue><IssueNum>18</IssueNum> issues</Issue>
+                <Title isShow={isShow}>apache/apisix</Title>
+                <Issue isShow={isShow}><IssueNum>18</IssueNum> issues</Issue>
             </ProjectTitle>
             <ProjectIntro>The Cloud-Native API Gateway</ProjectIntro>
-            <ProjectDesc>lang: Lua stars: 7.4k</ProjectDesc>
+            <ProjectDesc isShow={isShow}>lang: Lua stars: 7.4k</ProjectDesc>
+            <List isShow={isShow}>test list</List>
         </Card>
     );
 };
