@@ -39,7 +39,7 @@ BaaS（Blockchain as a Service），中文为“区块链即服务”，是指�
 
 ### 场景 1：在 BaaS 系统上的落地实践
 
-![Apache APISIX 在 BaaS 系统上的应用](https://static.apiseven.com/202108/1630647327105-2943faa6-518f-4076-9223-b474600fd9d6.png)
+![Apache APISIX 在 BaaS 系统上的应用](https://static.apiseven.com/202108/1637027614625-f3ca4571-19d1-4aab-95e8-e524db104968.png)
 
 从这张图中可以看到，趣链科技 BaaS 平台的架构不仅是微服务化的，而且分为两层，分别是业务接入层和核心服务层。
 
