@@ -17,7 +17,7 @@ tags: [User Case]
 
 ## Background Information
 
-BaaS , which is also known as “Blockchain as a Service”, is an open platform that embeds blockchain framework into cloud computing platform and provides convenient and high performance blockchain ecological environment and ecological support services for developers by taking advantage of the deployment and management of cloud service infrastructure to support their business expansion and operation. It is an open blockchain platform that supports developers’ business expansion and operation support.
+BaaS, which is also known as “Blockchain as a Service”, is an open platform that embeds blockchain framework into cloud computing platform and provides convenient and high performance blockchain ecological environment and ecological support services for developers by taking advantage of the deployment and management of cloud service infrastructure to support their business expansion and operation. It is an open blockchain platform that supports developers’ business expansion and operation support.
 
 Typically, a complete BaaS solution includes four main components: device access, access control, service monitoring and blockchain platform.
 
