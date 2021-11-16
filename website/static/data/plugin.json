@@ -148,7 +148,8 @@
             },
             {
                 "name": "datadog",
-                "description": "Datadog is a monitoring plugin built into Apache APISIX for seamless integration with Datadog"
+                "description": "Datadog is a monitoring plugin built into Apache APISIX to push metrics of different services into DatadogHQ via a locally run Datadog agent.",
+                "beta": true
             }
         ]
     },
