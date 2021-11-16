@@ -337,11 +337,11 @@
             <description><![CDATA[我们有幸采访了中国移动云能力中心的陈焱山，在采访中我们了解到中国移动公有云建设发展演进历程，了解了中国移动云为什么选择 Apache APISIX 作为负载均衡网关，并且知晓移动云后续的发展规划。]]></description>
         </item>
         <item>
-            <title><![CDATA[舍弃 Kong 和 Nginx，Apache APISIX 在趣链科技 BaaS 平台的落地实践]]></title>
+            <title><![CDATA[Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform]]></title>
             <link>https://apisix.apache.org/blog/2021/08/09/Apache-APISIX-in-Quliankeji</link>
-            <guid>舍弃 Kong 和 Nginx，Apache APISIX 在趣链科技 BaaS 平台的落地实践</guid>
+            <guid>Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform</guid>
             <pubDate>Mon, 09 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。]]></description>
+            <description><![CDATA[This article introduces the landing practice of Apache APISIX in Hyperchain Blockchain BaaS platform, and explains why Hyperchain Technology has chosen Apache APISIX among many gateway applications.]]></description>
         </item>
         <item>
             <title><![CDATA[How to Improve the Observability of Nginx with Apache APISX]]></title>

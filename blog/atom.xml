@@ -461,13 +461,13 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[舍弃 Kong 和 Nginx，Apache APISIX 在趣链科技 BaaS 平台的落地实践]]></title>
-        <id>舍弃 Kong 和 Nginx，Apache APISIX 在趣链科技 BaaS 平台的落地实践</id>
+        <title type="html"><![CDATA[Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform]]></title>
+        <id>Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform</id>
         <link href="https://apisix.apache.org/blog/2021/08/09/Apache-APISIX-in-Quliankeji"/>
         <updated>2021-08-09T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。]]></summary>
+        <summary type="html"><![CDATA[This article introduces the landing practice of Apache APISIX in Hyperchain Blockchain BaaS platform, and explains why Hyperchain Technology has chosen Apache APISIX among many gateway applications.]]></summary>
         <author>
-            <name>盛威锋</name>
+            <name>Weifeng Sheng</name>
         </author>
     </entry>
     <entry>
