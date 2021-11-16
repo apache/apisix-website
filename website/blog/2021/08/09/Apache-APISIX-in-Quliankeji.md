@@ -39,7 +39,7 @@ Now that we have a preliminary understanding of Baas platform, let’s take a lo
 
 ### Scenario 1: Practice on BaaS system
 
-![Apache APISIX applied on BaaS system](https://static.apiseven.com/202108/1630647327105-2943faa6-518f-4076-9223-b474600fd9d6.png)
+![Apache APISIX applied on BaaS system](https://static.apiseven.com/202108/1637027614625-f3ca4571-19d1-4aab-95e8-e524db104968.png)
 
 The architecture of Hyperchain’s BaaS platform is not only microservices-based, but also divided into two layers, which are business access layer and core service layer.
 
