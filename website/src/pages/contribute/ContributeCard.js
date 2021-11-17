@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 
@@ -53,18 +53,54 @@ const List = styled.div`
 
 
 const ContributeCard = () => {
-    const [isShow,setIsShow] = useState(false);
+    const [isShow, setIsShow] = useState(false);
+    const [repoList, setRepoList] = useState([]);
+
+    useEffect(() => {
+        getGitHubRepoInfo('apache/apisix').then((result) => {
+            const goodFisrtIssues = []
+            for (let i = 0; i < result.length; i++) {
+                let res = result[i];
+                let labels = res.labels
+                if (labels.length > 0) {
+                    for (let j = 0; j < labels.length; j++) {
+                        if (labels[j].name === 'good first issue') {
+                            goodFisrtIssues.push(res)
+                        }
+                    }
+                }
+            }
+            setRepoList(goodFisrtIssues)
+        });
+    }, []);
 
     return (
-        <Card onClick={()=> setIsShow(!isShow)} isShow={isShow}>
-            <ProjectTitle>
-                <Title isShow={isShow}>apache/apisix</Title>
-                <Issue isShow={isShow}><IssueNum>18</IssueNum> issues</Issue>
-            </ProjectTitle>
-            <ProjectIntro>The Cloud-Native API Gateway</ProjectIntro>
-            <ProjectDesc isShow={isShow}>lang: Lua stars: 7.4k</ProjectDesc>
-            <List isShow={isShow}>test list</List>
+        <Card >
+            <div onClick={() => setIsShow(!isShow)} isShow={isShow}>
+                <ProjectTitle>
+                    <Title isShow={isShow}>apache/apisix</Title>
+                    <Issue isShow={isShow}><IssueNum>18</IssueNum> issues</Issue>
+                </ProjectTitle>
+                <ProjectIntro>The Cloud-Native API Gateway</ProjectIntro>
+                <ProjectDesc isShow={isShow}>lang: Lua stars: 7.4k</ProjectDesc>
+            </div>
+            <List isShow={isShow}>
+                <ul>
+                    {repoList.map(item => (
+                        <li key={item.number}>#{item.number} {item.title}</li>
+                    ))}
+                </ul></List>
         </Card>
+    );
+};
+
+const getGitHubRepoInfo = (repo) => {
+    return fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=100`, {
+        headers: {
+            "content-type": "application/json",
+            Accept: "application / vnd.github.v3 + json",
+        },
+    }).then((response) => response.json()
     );
 };
 
