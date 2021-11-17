@@ -115,7 +115,7 @@ dapr.io/config: ingress-apisix-config
 
 gateway:
   type: LoadBalancer
- 
+
 ingress-controller:
   enabled: true
 
@@ -163,7 +163,6 @@ helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 
 ![配置服务](https://static.apiseven.com/202108/1637119221115-ae7c847a-99a3-4ee6-b36f-4269fd067198.png)
 
-
 ```
 {
   "name": "apisix-gateway-dapr",
@@ -196,6 +195,7 @@ kubectl apply -f 03.svc.yaml
 最后可以通过访问：http://20.195.90.43/httpbin/get 来查看代理是否成功。
 
 ![检查是否代理成功](https://static.apiseven.com/202108/1637119221100-13997340-dfb6-45fb-abba-4215e0318238.png)
+
 ## 额外补充说明
 
 当然，在进行部署的过程中，也可以在 Kubernetes 中使用 Apache APISIX 官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller。这样可以直接将 Apache APISIX 作为网关，进行 APISIX Ingress Controller 的数据面来承载业务流量。
@@ -209,5 +209,3 @@ kubectl apply -f 03.svc.yaml
 ```
 helm delete apisix -n ingress-apisix
 ```
-
-

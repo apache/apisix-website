@@ -115,7 +115,7 @@ dapr.io/config: ingress-apisix-config
 
 gateway:
   type: LoadBalancer
- 
+
 ingress-controller:
   enabled: true
 
