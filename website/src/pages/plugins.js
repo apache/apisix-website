@@ -114,6 +114,8 @@ const PluginIcon = styled.div`
 `
 
 const PluginName = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 1rem;
   font-weight: 600;
   margin-top: 12px;
@@ -141,6 +143,50 @@ const SectionTitle = styled.h2`
   }
 `;
 
+const SBeta = styled.div`
+  padding: 0.1rem 0.5rem 0.1rem 0.3rem;
+  margin: 0 0.5rem;
+  font-size: 90%;
+  font-weight: 300;
+  border: 1px solid #dadde1;
+  border-right: 0;
+  position: relative;
+  transition: all 0.2s;
+  ::before {
+    content: "";
+    left: 100%;
+    transform: translate(-50%,-50%) rotate(45deg);
+    border-left: 0 !important;
+    border-bottom: 0 !important;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 1px solid var(--docusaurus-tag-list-border);
+    position: absolute;
+    top: 50%;
+    transition: inherit;
+  }
+  ::after {
+    content: '';
+    right: 0;
+    border-radius: 50%;
+    height: 0.4rem;
+    width: 0.4rem;
+    left: 90%;
+    transform: translateY(-50%);
+    border: 1px solid var(--docusaurus-tag-list-border);
+    content: "";
+    position: absolute;
+    top: 50%;
+    transition: inherit;
+  }
+  :hover {
+    color: #e8433e;
+    border-color: #e8433e;
+    ::before, ::after {
+      border-color: #e8433e;
+    }
+  }
+`
 
 function Plugins(props) {
   useEffect(() => {
@@ -167,7 +213,7 @@ function Plugins(props) {
       }
       return (
         <div key={plugin.name}>
-          <PluginCard href={`https://apisix.apache.org/docs/apisix/plugins/${pluginUrl}`} target="_blank">
+          <PluginCard href={plugin.beta ? `https://apisix.apache.org/docs/apisix/next/plugins/${pluginUrl}` : `https://apisix.apache.org/docs/apisix/plugins/${pluginUrl}`} target="_blank">
             <PluginIcon>
               {plugin.useDefaultIcon ?
                 <img className="plugin-logo shadow default" src={'/img/plugin/default-icon.png'} alt={plugin.name} /> :
@@ -175,7 +221,10 @@ function Plugins(props) {
                   <use xlinkHref={`#icon${plugin.name}`} />
                 </svg>}
             </PluginIcon>
-            <PluginName>{plugin.name}</PluginName>
+            <PluginName>
+              {plugin.name}
+              {plugin.beta && <SBeta title='This plugin will be supported in the next version of Apache APISIX'>Beta</SBeta>}
+            </PluginName>
             <PluginDescription>{plugin.description}</PluginDescription>
             <span className="read-more-link">{'Read more >'}</span>
           </PluginCard>
