@@ -17,8 +17,6 @@ tags: [Technology]
 
 <!--truncate-->
 
-This article will show you how to create an Apache APISIX controller by integrating Dapr, which will openly enable DAPR applications in the Kubernetes cluster.
-
 Essentially, the Apache APISIX controller will configure the same standard DAPR annotations to inject DAPRD sidecar. Exposing this sidecar allows external applications to communicate with applications in the cluster that have Dapr enabled.
 
 The following diagram shows the architectural flow of the actual project:
@@ -69,16 +67,16 @@ In addition, Dapr is platform agnostic, which means users can run applications n
 
 Add the latest helm chart repo for the Apache APISIX controller by running the following command.
 
-```
-$ helm repo add apisix https://charts.apiseven.com
-$ helm repo update
+```shell
+helm repo add apisix https://charts.apiseven.com
+helm repo update
 ```
 
 ### Step 2: Create the Apache APISIX Ingerss namespace
 
 Ensure that the current kubectl context points to the correct Kubernetes cluster, and then run the following command.
 
-```
+```shell
 kubectl create namespace ingress-apisix
 ```
 
@@ -86,7 +84,7 @@ kubectl create namespace ingress-apisix
 
 Use the following to create a file called dapr-annotations.yaml to set up annotations on the Apache APISIX Proxy Pod.
 
-```
+```yaml
 apisix:
   podAnnotations:
     dapr.io/enabled: "true"
@@ -102,7 +100,7 @@ dapr.io/config: ingress-apisix-config
 
 Here is a sample dapr-annotations.yaml from my personal installation on AKS.
 
-```
+```yaml
  apisix:
   podAnnotations:
     dapr.io/app-id: apisix-gateway
@@ -125,7 +123,7 @@ dashboard:
 
 Next, run the following command (referencing the above file).
 
-```
+```shell
 helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 ```
 
@@ -137,7 +135,7 @@ First, configure Apache APISIX upstream-apisix-dapr.
 
 Fill in the hostname here: apisix-gateway-dapr and the port number 3500.
 
-```
+```json
 {
   "nodes": [
     {
@@ -163,7 +161,7 @@ Then configure the Apache APISIX service apisix-gateway-dapr, and select apisix-
 
 ![Configuration service](https://static.apiseven.com/202108/1637119221115-ae7c847a-99a3-4ee6-b36f-4269fd067198.png)
 
-```
+```json
 {
   "name": "apisix-gateway-dapr",
   "upstream_id": "376187148778341098"
@@ -174,7 +172,7 @@ Then configure the Apache APISIX service apisix-gateway-dapr, and select apisix-
 
 [HTTPBin](https://httpbin.org/) is a tool written in Python+Flask that covers various HTTP scenarios and returns to each interface. Next, we'll use kennethreitz/httpbin as a sample project for demonstration purposes.
 
-```
+```shell
 kubectl apply -f 01.namespace.yaml
 kubectl apply -f 02.deployment.yaml
 kubectl apply -f 03.svc.yaml
@@ -206,6 +204,6 @@ Finally, Dapr is injected into the Apache APISIX Proxy Pod via Sidecar annotatio
 
 If you want to delete the Apache APISIX controller at the end of the project, you can follow the command below (remember not to forget to delete the namespace ingress-apisix created before).
 
-```
+```shell
 helm delete apisix -n ingress-apisix
 ```

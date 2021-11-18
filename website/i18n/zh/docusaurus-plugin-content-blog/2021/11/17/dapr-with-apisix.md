@@ -17,8 +17,6 @@ tags: [Technology]
 
 <!--truncate-->
 
-本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器，该控制器在 Kubernetes 集群中会公开启用 Dapr 的应用程序。
-
 本质上，Apache APISIX 控制器将配置相同标准 Dapr annotations 以注入 daprd sidecar。通过公开这个 sidecar，将允许外部应用程序与集群中启用 Dapr 的应用程序进行通信。
 
 下图为实际项目中的架构流程：
@@ -41,7 +39,7 @@ tags: [Technology]
 
 ### Dapr
 
-Dapr 是一个可移植、事件驱动的运行时。它使开发人员简单地去构建运行在云和 edge上弹性、无状态和有状态的应用，并且包含多种语言和开发人员框架。
+Dapr 是一个可移植、事件驱动的运行时。它使开发人员简单地去构建运行在云和 edge 上弹性、无状态和有状态的应用，并且包含多种语言和开发人员框架。
 
 ![Dapr 生态图](https://static.apiseven.com/202108/1637119221120-15a5be20-17a2-4c18-a82e-91e1ff3709f0.png)
 
@@ -69,16 +67,16 @@ Dapr 可以将构建微服务应用程序的最佳实践编入开放、独立的
 
 通过运行以下命令为 Apache APISIX 控制器添加最新的 helm chart repo：
 
-```
-$ helm repo add apisix https://charts.apiseven.com
-$ helm repo update
+```shell
+helm repo add apisix https://charts.apiseven.com
+helm repo update
 ```
 
 ### 步骤二：创建 Apache APISIX Ingerss 命名空间
 
 确保当前 kubectl 上下文指向正确的 Kubernetes 集群，然后运行以下命令：
 
-```
+```shell
 kubectl create namespace ingress-apisix
 ```
 
@@ -86,7 +84,7 @@ kubectl create namespace ingress-apisix
 
 使用以下内容创建一个名为 dapr-annotations.yaml 的文件，以在 Apache APISIX Proxy Pod 上设置注释。
 
-```
+```yaml
 apisix:
   podAnnotations:
     dapr.io/enabled: "true"
@@ -102,7 +100,7 @@ dapr.io/config: ingress-apisix-config
 
 下面以我个人在 AKS 上安装的示例 dapr-annotations.yaml 进行展示。
 
-```
+```yaml
  apisix:
   podAnnotations:
     dapr.io/app-id: apisix-gateway
@@ -125,7 +123,7 @@ dashboard:
 
 接下来运行以下命令（引用上述文件）：
 
-```
+```shell
 helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 ```
 
@@ -137,7 +135,7 @@ helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 
 在这里主机名填写：apisix-gateway-dapr，端口号填写 3500。
 
-```
+```json
 {
   "nodes": [
     {
@@ -163,7 +161,7 @@ helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 
 ![配置服务](https://static.apiseven.com/202108/1637119221115-ae7c847a-99a3-4ee6-b36f-4269fd067198.png)
 
-```
+```json
 {
   "name": "apisix-gateway-dapr",
   "upstream_id": "376187148778341098"
@@ -174,7 +172,7 @@ helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 
 [HTTPBin](https://httpbin.org/) 是以 Python+Flask 写的一款工具，这款工具涵盖了各类 HTTP 场景，且每个接口都有返回。接下来，我们使用 kennethreitz/httpbin 作为示例项目进行演示。
 
-```
+```shell
 kubectl apply -f 01.namespace.yaml
 kubectl apply -f 02.deployment.yaml
 kubectl apply -f 03.svc.yaml
@@ -206,6 +204,6 @@ kubectl apply -f 03.svc.yaml
 
 如项目结束，想要删除 Apache APISIX 控制器，可按下方命令操作（记得不要忘记删除之前创建的命名空间 ingress-apisix）。
 
-```
+```shell
 helm delete apisix -n ingress-apisix
 ```
