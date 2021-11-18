@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
+        <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/releases</link>
-        <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
+        <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
         <lastBuildDate>Sun, 17 Oct 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
