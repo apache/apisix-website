@@ -37,7 +37,7 @@ As you can see from the above diagram, APISIX Ingress is divided into two parts.
 
 [Click here](https://www.apiseven.com/zh/blog/apisix-ingress-details) for more details.
 
-## Dapr
+### Dapr
 
 Dapr is a portable, event-driven runtime. It makes it simple for developers to build elastic, stateless and stateful applications running on the cloud and edge, and includes multiple languages and developer frameworks.
 
