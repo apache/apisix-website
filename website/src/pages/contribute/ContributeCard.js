@@ -3,15 +3,16 @@ import styled from "styled-components";
 
 
 const Card = styled.div`
-    width: 50%;
+    width: 80%;
     border: 1px solid rgb(232, 67, 62);
     border-radius: 5px;
+    margin-bottom: 1rem;
     padding: 0.75rem 1.25rem;
 
     &:hover {
         background-color: rgb(255,241,240,0.2);
         cursor: pointer;
-        a{
+        p{
             color: rgb(232, 67, 62);
         }
     }
@@ -25,8 +26,7 @@ const ProjectTitle = styled.div`
     margin-left: 1.25 rem;
     margin-right: 1.25 rem;
 `;
-const Title = styled.a`
-  display: block;
+const Title = styled.p`
   font-size: 1.5rem;
   color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")}
 `;
@@ -49,53 +49,41 @@ const ProjectDesc = styled.div`
 const List = styled.div`
     display: ${(props) => (props.isShow ? "block" : "none")};
 `;
+const ListItem = styled.li`
+    list-style: none;
+`;
 
 
-
-const ContributeCard = () => {
-    const [isShow, setIsShow] = useState(false);
-    const [repoList, setRepoList] = useState([]);
+const ContributeCard = (props) => {
+    const { repoName } = props;
+    const [isShow, setisShow] = useState(false);
+    const [issues, setIssues] = useState([]);
 
     useEffect(() => {
-        getGitHubRepoInfo('apache/apisix').then((result) => {
-            const goodFisrtIssues = []
-            for (let i = 0; i < result.length; i++) {
-                let res = result[i];
-                let labels = res.labels
-                if (labels.length > 0) {
-                    for (let j = 0; j < labels.length; j++) {
-                        if (labels[j].name === 'good first issue') {
-                            goodFisrtIssues.push(res)
-                        }
-                    }
-                }
-            }
-            setRepoList(goodFisrtIssues)
+        getGitHubIssuesInfo(repoName).then((result) => {
+            setIssues(result)
         });
     }, []);
-
     return (
-        <Card >
-            <div onClick={() => setIsShow(!isShow)} isShow={isShow}>
-                <ProjectTitle>
-                    <Title isShow={isShow}>apache/apisix</Title>
-                    <Issue isShow={isShow}><IssueNum>18</IssueNum> issues</Issue>
-                </ProjectTitle>
-                <ProjectIntro>The Cloud-Native API Gateway</ProjectIntro>
-                <ProjectDesc isShow={isShow}>lang: Lua stars: 7.4k</ProjectDesc>
-            </div>
+        <Card onClick={() => setisShow(!isShow)} isShow={isShow}>
+            <ProjectTitle>
+                <Title isShow={isShow}>{repoName}</Title>
+                <Issue isShow={isShow}><IssueNum>{issues.length}</IssueNum> issues</Issue>
+            </ProjectTitle>
+            <ProjectIntro>The Cloud-Native API Gateway</ProjectIntro>
+            <ProjectDesc isShow={isShow}>lang: Lua  stars: 7.4k </ProjectDesc>
             <List isShow={isShow}>
-                <ul>
-                    {repoList.map(item => (
-                        <li key={item.number}>#{item.number} {item.title}</li>
+                <ul style={{ paddingLeft: 0 }}>
+                    {issues.map(item => (
+                        <ListItem key={item.number}>#{item.number} <a target="_blank" href={item.html_url} style={{ textDecoration: 'none' }}>{item.title} </a></ListItem>
                     ))}
                 </ul></List>
         </Card>
     );
 };
 
-const getGitHubRepoInfo = (repo) => {
-    return fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=100`, {
+const getGitHubIssuesInfo = (repo) => {
+    return fetch(`https://api.github.com/repos/${repo}/issues?state=open&labels=good%20first%20issue`, {
         headers: {
             "content-type": "application/json",
             Accept: "application / vnd.github.v3 + json",

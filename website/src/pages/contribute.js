@@ -25,17 +25,22 @@ const PageDesc = styled.div`
 `;
 
 const Contribute = () => {
+  const repoList = [{ repoName: 'apache/apisix' }, { repoName: 'apache/apisix-dashboard' }, { repoName: 'apache/apisix-website' }, { repoName: 'apache/apisix-ingress-controller' }]
 
-    return (
-        <Layout>
-            <Page>
-                <PageTitle>good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
-                <PageDesc>这里是一些描述文字</PageDesc>
-                <ContributeCard></ContributeCard>
-            </Page>
-        </Layout>
+  const repos = repoList.map((repo) => {
+    return <ContributeCard key={repo.repoName} {...repo} />;
+  });
 
-    );
+  return (
+    <Layout>
+      <Page>
+        <PageTitle>good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
+        <PageDesc>这里是一些描述文字</PageDesc>
+        {repos}
+      </Page>
+    </Layout>
+
+  );
 };
 
 export default Contribute;
