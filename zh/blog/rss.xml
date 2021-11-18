@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 16 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 17 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[如何与 Dapr 集成打造 Apache APISIX 网关控制器]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/11/17/dapr-with-apisix</link>
+            <guid>如何与 Dapr 集成打造 Apache APISIX 网关控制器</guid>
+            <pubDate>Wed, 17 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器。包括项目概念以及具体操作步骤。]]></description>
+        </item>
         <item>
             <title><![CDATA[社区周报｜11.1-11.14 功能亮点更新进行中]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/16/weekly-report-1114</link>

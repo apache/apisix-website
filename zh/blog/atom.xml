@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
-    <updated>2021-11-16T00:00:00.000Z</updated>
+    <updated>2021-11-17T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® --  Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[如何与 Dapr 集成打造 Apache APISIX 网关控制器]]></title>
+        <id>如何与 Dapr 集成打造 Apache APISIX 网关控制器</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/11/17/dapr-with-apisix"/>
+        <updated>2021-11-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器。包括项目概念以及具体操作步骤。]]></summary>
+        <author>
+            <name>张善友</name>
+            <uri>https://github.com/geffzhang</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[社区周报｜11.1-11.14 功能亮点更新进行中]]></title>
         <id>社区周报｜11.1-11.14 功能亮点更新进行中</id>

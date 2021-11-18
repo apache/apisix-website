@@ -4,9 +4,16 @@
         <title>Apache APISIX® --  Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® --  Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 16 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 17 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[How to integrate with Dapr to build Apache APISIX Gateway Controller]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/17/dapr-with-apisix</link>
+            <guid>How to integrate with Dapr to build Apache APISIX Gateway Controller</guid>
+            <pubDate>Wed, 17 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This article will show you how to create an Apache APISIX controller by integrating Dapr, includes the concept of the project and the specific operation steps.]]></description>
+        </item>
         <item>
             <title><![CDATA[Weekly Report｜11.1-11.4 Feature Highlights Update in Progress]]></title>
             <link>https://apisix.apache.org/blog/2021/11/16/weekly-report-1114</link>
