@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Layout from "@theme/Layout";
-import ContributeCard from "./contribute/ContributeCard";
+import ContributeCard from "./ContributeCard";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -35,7 +35,7 @@ const Contribute = () => {
     <Layout>
       <Page>
         <PageTitle>good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
-        <PageDesc>这里是一些描述文字</PageDesc>
+        <PageDesc>Help new partners to Apache APISIX Community and make first contribution.</PageDesc>
         {repos}
       </Page>
     </Layout>

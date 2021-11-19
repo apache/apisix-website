@@ -3,6 +3,9 @@ import styled from "styled-components";
 import IconComment from "../../assets/icons/comment.svg";
 
 const Card = styled.div`
+    @media (max-width: 700px) {
+        width: 100%;
+    }
     width: 80%;
     border: 1px solid rgb(232, 67, 62);
     border-radius: 5px;
@@ -33,6 +36,9 @@ const Title = styled.p`
 `;
 
 const Issue = styled.div`
+    @media (max-width: 700px) {
+        min-width: 5rem;
+    }
     border: 1px solid rgb(232, 67, 62);
     border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
@@ -70,7 +76,7 @@ const ContributeCard = (props) => {
         <Card onClick={() => setisShow(!isShow)} isShow={isShow}>
             <ProjectTitle>
                 <Title isShow={isShow}>{repoName}</Title>
-                <Issue isShow={isShow}><span>{issues.length}</span> issues</Issue>
+                <Issue isShow={isShow}>{issues.length} issues</Issue>
             </ProjectTitle>
             <div>{repoInfo.description}</div>
             <ProjectDesc isShow={isShow}>
@@ -82,7 +88,7 @@ const ContributeCard = (props) => {
                     {issues.map(item => (
                         <ListItem key={item.number}>
                             <div style={{ minWidth: '4rem' }}>#{item.number}</div>
-                            <a target="_blank" href={item.html_url} style={{ flex: '1 1 auto', textDecoration: 'none' }}>{item.title} </a>
+                            <a target="_blank" href={item.html_url} style={{ flex: '1 1 auto', textDecoration: 'none',overflow: 'hidden' }}>{item.title} </a>
                             {item.comments > 0 ? <div style={{display: "flex", justifyContent: 'center',alignItems: 'center'}}><IconComment></IconComment><div style={{marginLeft:'0.25rem', fontSize:'0.5rem', color:'#333'}}>{item.comments}</div></div> : ''}
                         </ListItem>
                     ))}
