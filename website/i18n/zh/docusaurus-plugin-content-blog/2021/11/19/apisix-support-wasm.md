@@ -9,11 +9,11 @@ keywords:
 - WebAssembly
 - 生态
 - 插件
-description: 在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从0到1部署这项功能的支持与开发。
+description: 在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从 0 到 1 部署这项功能的支持与开发。
 tags: [Technology]
 ---
 
-> 在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从0到1部署这项功能的支持与开发。
+> 在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从 0 到 1 部署这项功能的支持与开发。
 
 <!--truncate-->
 
@@ -68,7 +68,7 @@ Apache APISIX 目前已初步支持 WASM，可以使用 WASM 来编写 fault-inj
 tinygo build -o ./fault-injection/main.go.wasm -scheduler=none -target=wasi ./fault-injection/main.go
 ```
 
-### 步骤三：在 Apache APISIX 的 `config.yaml` 引用该文件
+### 步骤三：在 Apache APISIX 的 config.yaml 引用该文件
 
 ```yaml
 apisix:
@@ -149,7 +149,7 @@ uri: /fault-injection
 
 ### 步骤二：实际压测
 
-接下来试着用 wrk 压一下，具体数据对比如下：
+接下来试着用 wrk 进行压测，具体数据对比如下：
 
 ![压测结果对比](https://static.apiseven.com/202108/1637289637162-6d2ef1d6-9de8-410c-8ca6-e264205c1be1.png)
 
