@@ -9,7 +9,7 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[重磅功能！Apache APISIX 拥抱 WASM 生态]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/11/19/apisix-support-wasm</link>
+            <link>https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm</link>
             <guid>重磅功能！Apache APISIX 拥抱 WASM 生态</guid>
             <pubDate>Fri, 19 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从 0 到 1 部署这项功能的支持与开发。]]></description>

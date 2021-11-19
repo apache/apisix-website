@@ -486,7 +486,7 @@
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://apisix.apache.org/blog/2021/11/19/apisix-support-wasm/</loc>
+        <loc>https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>

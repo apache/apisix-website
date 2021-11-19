@@ -10,7 +10,7 @@
     <entry>
         <title type="html"><![CDATA[Apache APISIX embraces the WASM ecosystem]]></title>
         <id>Apache APISIX embraces the WASM ecosystem</id>
-        <link href="https://apisix.apache.org/blog/2021/11/19/apisix-support-wasm"/>
+        <link href="https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm"/>
         <updated>2021-11-19T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Support for WASM will be added in the upcoming Apache APISIX version (2.11.0)! By reading this article you will learn how Apache APISIX deploys the support and development of this feature from 0 to 1.]]></summary>
         <author>
