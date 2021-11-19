@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
+import IconComment from "../../assets/icons/comment.svg";
 
 const Card = styled.div`
     width: 80%;
@@ -27,23 +27,20 @@ const ProjectTitle = styled.div`
     margin-right: 1.25 rem;
 `;
 const Title = styled.p`
+  margin: 0;
   font-size: 1.5rem;
   color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")}
 `;
 
 const Issue = styled.div`
     border: 1px solid rgb(232, 67, 62);
-    border-radius: 50px;
+    border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
     font-size: .875rem;
 `;
-const IssueNum = styled.span`
-`;
-
-const ProjectIntro = styled.div`
-`;
 
 const ProjectDesc = styled.div`
+    display: flex;
     color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")}
 `;
 const List = styled.div`
@@ -51,31 +48,43 @@ const List = styled.div`
 `;
 const ListItem = styled.li`
     list-style: none;
+    display: flex;
 `;
 
 
 const ContributeCard = (props) => {
     const { repoName } = props;
     const [isShow, setisShow] = useState(false);
+    const [repoInfo, setRepoInfo] = useState({ description: '', lang: '', stars: '' });
     const [issues, setIssues] = useState([]);
 
     useEffect(() => {
         getGitHubIssuesInfo(repoName).then((result) => {
-            setIssues(result)
+            setIssues(result);
         });
+        getGitHubRepoInfo(repoName).then((result) => {
+            setRepoInfo({ description: result.description, lang: result.language, stars: result.stargazers_count })
+        })
     }, []);
     return (
         <Card onClick={() => setisShow(!isShow)} isShow={isShow}>
             <ProjectTitle>
                 <Title isShow={isShow}>{repoName}</Title>
-                <Issue isShow={isShow}><IssueNum>{issues.length}</IssueNum> issues</Issue>
+                <Issue isShow={isShow}><span>{issues.length}</span> issues</Issue>
             </ProjectTitle>
-            <ProjectIntro>The Cloud-Native API Gateway</ProjectIntro>
-            <ProjectDesc isShow={isShow}>lang: Lua  stars: 7.4k </ProjectDesc>
+            <div>{repoInfo.description}</div>
+            <ProjectDesc isShow={isShow}>
+                <div style={{ marginRight: '1rem' }}>lang: {repoInfo.lang}</div>
+                <div style={{ marginRight: '1rem' }}>stars: {repoInfo.stars}</div>
+            </ProjectDesc>
             <List isShow={isShow}>
                 <ul style={{ paddingLeft: 0 }}>
                     {issues.map(item => (
-                        <ListItem key={item.number}>#{item.number} <a target="_blank" href={item.html_url} style={{ textDecoration: 'none' }}>{item.title} </a></ListItem>
+                        <ListItem key={item.number}>
+                            <div style={{ minWidth: '4rem' }}>#{item.number}</div>
+                            <a target="_blank" href={item.html_url} style={{ flex: '1 1 auto', textDecoration: 'none' }}>{item.title} </a>
+                            {item.comments > 0 ? <div style={{display: "flex", justifyContent: 'center',alignItems: 'center'}}><IconComment></IconComment><div style={{marginLeft:'0.25rem', fontSize:'0.5rem', color:'#333'}}>{item.comments}</div></div> : ''}
+                        </ListItem>
                     ))}
                 </ul></List>
         </Card>
@@ -90,6 +99,15 @@ const getGitHubIssuesInfo = (repo) => {
         },
     }).then((response) => response.json()
     );
+};
+
+const getGitHubRepoInfo = (repo) => {
+    return fetch(`https://api.github.com/repos/${repo}`, {
+        headers: {
+            "content-type": "application/json",
+            Accept: "application / vnd.github.v3 + json",
+        },
+    }).then((response) => response.json());
 };
 
 export default ContributeCard;
