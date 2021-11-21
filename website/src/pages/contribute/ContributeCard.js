@@ -61,7 +61,7 @@ const ListItem = styled.li`
 const ContributeCard = (props) => {
     const { repoName } = props;
     const [isShow, setisShow] = useState(false);
-    const [repoInfo, setRepoInfo] = useState({ description: '', lang: '', stars: '' });
+    const [repoInfo, setRepoInfo] = useState({ description: '', Star: '', Watch: '', Fork: ''});
     const [issues, setIssues] = useState([]);
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const ContributeCard = (props) => {
             setIssues(result);
         });
         getGitHubRepoInfo(repoName).then((result) => {
-            setRepoInfo({ description: result.description, lang: result.language, stars: result.stargazers_count })
+            setRepoInfo({ description: result.description, Star: result.stargazers_count, Watch: result.subscribers_count, Fork: result.forks_count })
         })
     }, []);
     return (
@@ -80,8 +80,9 @@ const ContributeCard = (props) => {
             </ProjectTitle>
             <div>{repoInfo.description}</div>
             <ProjectDesc isShow={isShow}>
-                <div style={{ marginRight: '1rem' }}>lang: {repoInfo.lang}</div>
-                <div style={{ marginRight: '1rem' }}>stars: {repoInfo.stars}</div>
+                <div style={{ marginRight: '1rem' }}>Star: {repoInfo.Star}</div>
+                <div style={{ marginRight: '1rem' }}>Watch: {repoInfo.Watch}</div>
+                <div style={{ marginRight: '1rem' }}>Fork: {repoInfo.Fork}</div>
             </ProjectDesc>
             <List isShow={isShow}>
                 <ul style={{ paddingLeft: 0 }}>

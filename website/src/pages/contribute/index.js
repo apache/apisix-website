@@ -34,7 +34,7 @@ const Contribute = () => {
   return (
     <Layout>
       <Page>
-        <PageTitle>good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
+        <PageTitle>Good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
         <PageDesc>Help new partners to Apache APISIX Community and make first contribution.</PageDesc>
         {repos}
       </Page>
