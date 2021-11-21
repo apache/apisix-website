@@ -134,7 +134,7 @@ header h2 {
   color: var(--color-primary);
 }
 
-.navbar__title {
+.navbar__title{
   font-size: 18px;
   height: 30px;
 }
@@ -732,7 +732,8 @@ a:hover {
 }
 .event-card-time {
   position: absolute;
-  top: 50%;
+  top: 55%;
+  color: #6a6a6a;
 }
 .event-card-read {
   position: absolute;

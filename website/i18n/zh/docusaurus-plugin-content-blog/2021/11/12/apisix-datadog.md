@@ -16,7 +16,7 @@ tags: [Technology]
 
 <!--truncate-->
 
-![APISIX-Datadog 插件封面图](https://static.apiseven.com/202108/1636684696018-960c797e-67b8-4daa-ba64-1957a07bc5e2.png)
+![APISIX-Datadog 插件封面图](https://static.apiseven.com/202108/1636955062917-28911d71-0d56-48ec-85e5-a7908195da2f.png)
 
 随着应用开发的复杂度增加，监控成为了应用的一个重要组成部分。及时、准确的监控既能满足快速迭代的周期性需求，又能够确保应用的稳定性和流畅性。如何选择一个适合的监控，以提升应用的可观测性，成为了每个开发者都必须面临的一道难题。
 

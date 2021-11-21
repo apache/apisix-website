@@ -20,6 +20,15 @@ github:
   labels:
     - apisix
     - website
+    - kubernetes
+    - docker
+    - serverless
+    - microservice
+    - api-management
+    - luajit
+    - cloud-native
+    - nginx
+    - service-mesh
   features:
     issues: true
     projects: true
