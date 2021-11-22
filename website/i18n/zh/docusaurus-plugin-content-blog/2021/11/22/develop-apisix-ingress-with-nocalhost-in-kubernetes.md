@@ -1,5 +1,5 @@
 ---
-title: "如何使用 Nocalhost 来开发和调试 Kubernetes 集群中的 Apache APISIX Ingress Controller"
+title: "如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller"
 author: "Garry Chen"
 authorURL: "https://github.com/neaped"
 authorImageURL: "https://avatars.githubusercontent.com/u/3713305?v=4"
