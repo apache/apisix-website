@@ -27,11 +27,11 @@ tags: [Technology]
 
 ## Deploy Apache APISIX Ingress Controller
 
-I'm going to deploy Apache APISIX Ingress Controller by Nocalhost within GoLand: 
+I'm going to deploy Apache APISIX Ingress Controller by Nocalhost within GoLand:
 
 1. Open the Nocalhost plugin within GoLand
 2. Use the cluster inspector to select the namespace that you want to deploy.
-3. Right-click the selected namespace, choose **`Deploy Application`**, and select **`Helm Repo`** as installation method. 
+3. Right-click the selected namespace, choose **`Deploy Application`**, and select **`Helm Repo`** as installation method.
 4. In the following dialog box, input
     1.`apisix-ingress-controller` as `Name`
     2. `https://charts.apiseven.com` as `Chart URL`
@@ -66,7 +66,7 @@ After the `apisix-ingress-controller` has started, access the service by visitin
 
 ### Step 2: Change code and check result
 
-Now I will make some code changes and check the result. 
+Now I will make some code changes and check the result.
 
 1. Stop the `apisix-ingress-controller` process
 2. Search `healthz` and find the `router.go` file. Change the `healthzResponse` status code from `ok` to `Hello Nocalhost`
@@ -85,13 +85,13 @@ Nocalhost will make `apisix-ingress-controller` end development mode, and reset 
 
 ![End DevMode](https://static.apiseven.com/202108/1637131766524-dba7b756-ae0b-42d1-8ff0-6ac14059ce11.gif)
 
-**Code Change**: All code changes in development mode will **only take effect** in the development container. 
+**Code Change**: All code changes in development mode will **only take effect** in the development container.
 
 After exiting the development mode, Nocalhost will reset the remote container to its original state (before the code is modified). In this way, after exiting the development mode, the modification of the code will **not** cause any changes or impact on the original environment.
 
 ## Debugging
 
-Debugging an application is not easy, and debugging an application in the Kubernetes cluster is even more difficult. Nocalhost is here to help by providing the same debugging experience you're used in the IDE when debugging in the remote Kubernetes cluster. 
+Debugging an application is not easy, and debugging an application in the Kubernetes cluster is even more difficult. Nocalhost is here to help by providing the same debugging experience you're used in the IDE when debugging in the remote Kubernetes cluster.
 
 ### Step 1: Start remote debugging
 
@@ -126,4 +126,3 @@ Now every time you make code changes, Nocalhost will automatically trigger the r
 ## Conclusion
 
 We’ve learned how to use Nocalhost to develop and debug the APISIX Ingress Controller in Kubernetes. Now, instead of waiting for slow local development processes, we can iterate quickly with an instant feedback loop and a productive cloud-native development environment.
-

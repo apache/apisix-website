@@ -88,7 +88,7 @@ Nocalhost 将使 `apisix-ingress-controller` 结束 DevMode, 并重置 `apisix-i
 
 注意：在代码修改 DevMode 模式下，所有代码更改都只在**开发容器**中生效。
 
-退出 DevMode 后，Nocalhost 将会将远程容器重置为原始状态(进入 DevMode 之前的版本)。这样，在退出 DevMode 后，对代码进行修改不会对原始环境造成任何更改或影响。 
+退出 DevMode 后，Nocalhost 将会将远程容器重置为原始状态(进入 DevMode 之前的版本)。这样，在退出 DevMode 后，对代码进行修改不会对原始环境造成任何更改或影响。
 
 ## 调试
 
@@ -126,4 +126,4 @@ Nocalhost 不仅仅可以远程调试，还为我们在 Kubernetes 集群中运�
 
 ## 总结
 
-通过本文，我们为大家展示了如何使用 Nocalhost 来开发和调试 Kubernetes 集群中的 APISX Ingress Controller。借助 Nocalhost 的能力，我们不再需要等待缓慢的本地开发过程，而是可以通过即时反馈和高效的云本地开发环境进行快速部署与迭代。
+通过本文，我们为大家展示了如何使用 Nocalhost 来开发和调试 Kubernetes 集群中的 APISX Ingress Controller。借助 Nocalhost 的能力，我们不再需要等待缓慢的本地开发过程，而是可以通过即时反馈和高效的云本地开发环境进行快速部署与迭代.
