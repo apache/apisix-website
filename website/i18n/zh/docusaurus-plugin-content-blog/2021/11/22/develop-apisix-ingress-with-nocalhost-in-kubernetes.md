@@ -1,5 +1,5 @@
 ---
-title: "使用 Nocalhost 开发 Kubernetes 集群中 Apache APISIX Controller"
+title: "如何使用 Nocalhost 来开发和调试 Kubernetes 集群中的 Apache APISIX Ingress Controller"
 author: "Garry Chen"
 authorURL: "https://github.com/neaped"
 authorImageURL: "https://avatars.githubusercontent.com/u/3713305?v=4"
@@ -127,4 +127,4 @@ Nocalhost 不仅仅可以远程调试，还为我们在 Kubernetes 集群中运�
 
 ## 总结
 
-通过本文，我们为大家展示了如何使用 Nocalhost 来开发和调试 Kubernetes 集群中的 APISX Ingress Controller。借助 Nocalhost 的能力，我们不再需要等待缓慢的本地开发过程，而是可以通过即时反馈和高效的云本地开发环境进行快速部署与迭代.
+通过本文，我们为大家展示了如何使用 Nocalhost 来开发和调试 Kubernetes 集群中的 Apache APISIX Ingress Controller。借助 Nocalhost 的能力，我们不再需要等待缓慢的本地开发过程，而是可以通过即时反馈和高效的云本地开发环境进行快速部署与迭代.
