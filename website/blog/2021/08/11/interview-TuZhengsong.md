@@ -106,7 +106,7 @@ Zhengsong says that when he first started participating in the community, he wen
 
 The Apache APISIX project website has a good guide for newcomers, including how to raise PR. If you want to participate in the community, you can first read the main documentation on the website and Github to get a basic understanding of the project and the distribution of the project's documentation, and then index the documentation as needed.
 
-If you want to contribute to the code, or participate in the design, some knowledge of Ngnix or OpenResty is necessary. This includes looking at their official documentation and code, and learning about their implementation of relevant features.
+If you want to contribute to the code, or participate in the design, some knowledge of Nginx or OpenResty is necessary. This includes looking at their official documentation and code, and learning about their implementation of relevant features.
 
 Zhengsong said, "I think this step is impossible to skip."
 
