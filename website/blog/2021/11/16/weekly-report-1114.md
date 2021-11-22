@@ -1,5 +1,5 @@
 ---
-title: Weekly Report｜11.1-11.4 Feature Highlights Update in Progress
+title: Weekly Report｜11.1-11.14 Feature Highlights Update in Progress
 keywords:
 - Apache APISIX
 - Weekly Report
