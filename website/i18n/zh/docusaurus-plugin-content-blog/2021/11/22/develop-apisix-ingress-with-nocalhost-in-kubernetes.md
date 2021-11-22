@@ -34,6 +34,7 @@ tags: [Technology]
 2. 选择将要部署 APISIX Ingress Controller 的命名空间
 3. 右键点击选定的命名空间, 选择 **`Deploy Application`**, 然后选择 **`Helm Repo`** 作为安装方法
 4. 在下面的对话框中：
+
     1. 在 `Name` 中输入：`apisix-ingress-controller`
     2. 在 `Chart URL` 中输入：`https://charts.apiseven.com`
 
@@ -49,7 +50,7 @@ tags: [Technology]
 
 ## 开发
 
-### 步骤一：进入 DevMode
+### 步骤一：进入开发模式
 
 1. 右键点击 `apisix-ingress-controller` 工作负载，选择 **`Start DevMode`**
 2. 如果您已经将源码克隆到本地，请选择您的源代码目录。否则通过输入仓库地址 https://github.com/apache/apisix-ingress-controller.git 来让 Nocalhost 克隆你的源代码到本地
@@ -77,16 +78,16 @@ go run main.go ingress --config-path conf/config-default.yaml
 
 ### 步骤三：结束开发模式
 
-现在关闭开发窗口并结束 DevMode：
+现在关闭开发窗口并退出开发模式：
 
 1. 右键点击 `apisix-ingress-controller`
 2. 选择 **`End DevMode`**
 
-Nocalhost 将使 `apisix-ingress-controller` 结束 DevMode, 并重置 `apisix-ingress-controller` 到其原始版本。启用端口转发来看看结束 DevMode 后的结果。
+Nocalhost 将使 `apisix-ingress-controller` 结束 DevMode, 并重置 `apisix-ingress-controller` 到其原始版本。启用端口转发来看看退出开发模式后的结果。
 
 ![结束 DevMode](https://static.apiseven.com/202108/1637131766524-dba7b756-ae0b-42d1-8ff0-6ac14059ce11.gif)
 
-注意：在代码修改 DevMode 模式下，所有代码更改都只在**开发容器**中生效。
+注意：在开发模式下修改代码时，所有代码更改都只在**开发容器**中生效。
 
 退出 DevMode 后，Nocalhost 将会将远程容器重置为原始状态(进入 DevMode 之前的版本)。这样，在退出 DevMode 后，对代码进行修改不会对原始环境造成任何更改或影响。
 

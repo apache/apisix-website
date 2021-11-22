@@ -32,8 +32,9 @@ I'm going to deploy Apache APISIX Ingress Controller by Nocalhost within GoLand:
 1. Open the Nocalhost plugin within GoLand
 2. Use the cluster inspector to select the namespace that you want to deploy.
 3. Right-click the selected namespace, choose **`Deploy Application`**, and select **`Helm Repo`** as installation method.
-4. In the following dialog box, input
-    1.`apisix-ingress-controller` as `Name`
+4. In the following dialog box, input:
+
+    1. `apisix-ingress-controller` as `Name`
     2. `https://charts.apiseven.com` as `Chart URL`
 
 ![Deploy APISIX ingress controller](https://static.apiseven.com/202108/1637131316244-f1a58c88-8628-4918-a4c4-1ad287742fd0.gif)
