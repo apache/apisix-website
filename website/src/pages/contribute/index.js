@@ -25,7 +25,7 @@ const PageDesc = styled.div`
 `;
 
 const Contribute = () => {
-  const repoList = [{ repoName: 'apache/apisix' }, { repoName: 'apache/apisix-dashboard' }, { repoName: 'apache/apisix-website' }, { repoName: 'apache/apisix-ingress-controller' }]
+  const repoList = require("../../../config/docs").map(item => ({ repoName: item.githubRepo }));
 
   const repos = repoList.map((repo) => {
     return <ContributeCard key={repo.repoName} {...repo} />;
