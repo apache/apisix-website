@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-11-22T00:00:00.000Z</updated>
+    <updated>2021-11-23T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
+        <id>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/11/23/cve-2021-43557-research-report"/>
+        <updated>2021-11-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></summary>
+        <author>
+            <name>Marcin Niemiec</name>
+            <uri>https://github.com/xvnpw</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller]]></title>
         <id>如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller</id>

@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Mon, 22 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 23 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/11/23/cve-2021-43557-research-report</link>
+            <guid>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</guid>
+            <pubDate>Tue, 23 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></description>
+        </item>
         <item>
             <title><![CDATA[如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes</link>
