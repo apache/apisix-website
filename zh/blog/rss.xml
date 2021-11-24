@@ -8,11 +8,11 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
+            <title><![CDATA[Apache APISIX request_uri 变量控制不当，存在路径穿透风险]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/23/cve-2021-43557-research-report</link>
-            <guid>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</guid>
+            <guid>Apache APISIX request_uri 变量控制不当，存在路径穿透风险</guid>
             <pubDate>Tue, 23 Nov 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></description>
+            <description><![CDATA[在这篇文章中，将介绍我对 Apache APISIX Ingress Controller 中`$request_uri` 变量不安全使用的问题研究。]]></description>
         </item>
         <item>
             <title><![CDATA[如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller]]></title>

@@ -8,11 +8,11 @@
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
-        <id>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</id>
+        <title type="html"><![CDATA[Apache APISIX request_uri 变量控制不当，存在路径穿透风险]]></title>
+        <id>Apache APISIX request_uri 变量控制不当，存在路径穿透风险</id>
         <link href="https://apisix.apache.org/zh/blog/2021/11/23/cve-2021-43557-research-report"/>
         <updated>2021-11-23T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></summary>
+        <summary type="html"><![CDATA[在这篇文章中，将介绍我对 Apache APISIX Ingress Controller 中`$request_uri` 变量不安全使用的问题研究。]]></summary>
         <author>
             <name>Marcin Niemiec</name>
             <uri>https://github.com/xvnpw</uri>
