@@ -15,6 +15,13 @@
             <description><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/23/cve-2021-43557</link>
+            <guid>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</guid>
+            <pubDate>Tue, 23 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[In versions prior to Apache APISIX 2.10.2, there was a problem of "bypassing partial restrictions" that caused the risk of path penetration by using the $request_uri variable in Apache APISIX Ingress Controller.]]></description>
+        </item>
+        <item>
             <title><![CDATA[Developing APISIX Ingress Controller with Nocalhost in Kubernetes]]></title>
             <link>https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes</link>
             <guid>Developing APISIX Ingress Controller with Nocalhost in Kubernetes</guid>

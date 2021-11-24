@@ -15,6 +15,13 @@
             <description><![CDATA[在这篇文章中，将介绍我对 Apache APISIX Ingress Controller 中`$request_uri` 变量不安全使用的问题研究。]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX request_uri 变量控制不当，存在路径遍历风险公告(CVE-2021-43557)]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/11/23/cve-2021-43557</link>
+            <guid>Apache APISIX request_uri 变量控制不当，存在路径遍历风险公告(CVE-2021-43557)</guid>
+            <pubDate>Tue, 23 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[在 Apache APISIX 2.10.2 之前的版本中，使用 Apache APISIX Ingress Controller 中$request_uri 变量存在「绕过部分限制」导致路径穿透风险的处理公告。]]></description>
+        </item>
+        <item>
             <title><![CDATA[如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes</link>
             <guid>如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller</guid>

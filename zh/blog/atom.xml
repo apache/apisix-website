@@ -19,6 +19,17 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX request_uri 变量控制不当，存在路径遍历风险公告(CVE-2021-43557)]]></title>
+        <id>Apache APISIX request_uri 变量控制不当，存在路径遍历风险公告(CVE-2021-43557)</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/11/23/cve-2021-43557"/>
+        <updated>2021-11-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[在 Apache APISIX 2.10.2 之前的版本中，使用 Apache APISIX Ingress Controller 中$request_uri 变量存在「绕过部分限制」导致路径穿透风险的处理公告。]]></summary>
+        <author>
+            <name>苏钰</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller]]></title>
         <id>如何在 Kubernetes 集群中使用 Nocalhost 开发 Apache APISIX Ingress Controller</id>
         <link href="https://apisix.apache.org/zh/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes"/>
