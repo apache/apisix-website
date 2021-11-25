@@ -8,9 +8,9 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
+            <title><![CDATA[Apache APISIX request_uri variable is not properly controlled, with risk of path penetration]]></title>
             <link>https://apisix.apache.org/blog/2021/11/23/cve-2021-43557-research-report</link>
-            <guid>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</guid>
+            <guid>Apache APISIX request_uri variable is not properly controlled, with risk of path penetration</guid>
             <pubDate>Tue, 23 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></description>
         </item>

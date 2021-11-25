@@ -8,8 +8,8 @@
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
     <entry>
-        <title type="html"><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
-        <id>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</id>
+        <title type="html"><![CDATA[Apache APISIX request_uri variable is not properly controlled, with risk of path penetration]]></title>
+        <id>Apache APISIX request_uri variable is not properly controlled, with risk of path penetration</id>
         <link href="https://apisix.apache.org/blog/2021/11/23/cve-2021-43557-research-report"/>
         <updated>2021-11-23T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></summary>
