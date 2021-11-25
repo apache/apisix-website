@@ -240,6 +240,12 @@ module.exports = [
         "username": "wang-yeliang",
         "githubUsername": "wang-yeliang",
         "avatarUrl": "https://avatars.githubusercontent.com/u/19886745?v=4"
+      },
+      {
+        "name": "Shivam Singh",
+        "username": "singhsh",
+        "githubUsername": "1502shivam-singh",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/57267960?v=4"
       }
     ]
   }
