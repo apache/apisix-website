@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-11-23T00:00:00.000Z</updated>
+    <updated>2021-11-26T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Contributer to Committer journey @Apache APISIX]]></title>
+        <id>Contributer to Committer journey @Apache APISIX</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/11/26/apache-apisix-committer-experience"/>
+        <updated>2021-11-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article, Shivam Singh ([@1502shivam-singh](https://github.com/1502shivam-singh)) gives a brief of his journey from starting out in the Apache APISIX community, from a contributor to an Apache member and APISIX committer. His journey can help other people looking to startup in the Apache APISIX community or Open Source in general.]]></summary>
+        <author>
+            <name>Shivam Singh</name>
+            <uri>https://github.com/1502shivam-singh</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX request_uri 变量控制不当，存在路径穿透风险]]></title>
         <id>Apache APISIX request_uri 变量控制不当，存在路径穿透风险</id>

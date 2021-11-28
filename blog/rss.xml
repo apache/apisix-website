@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 23 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 26 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Contributer to Committer journey @Apache APISIX]]></title>
+            <link>https://apisix.apache.org/blog/2021/11/26/apache-apisix-committer-experience</link>
+            <guid>Contributer to Committer journey @Apache APISIX</guid>
+            <pubDate>Fri, 26 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[In this article, Shivam Singh ([@1502shivam-singh](https://github.com/1502shivam-singh)) gives a brief of his journey from starting out in the Apache APISIX community, from a contributor to an Apache member and APISIX committer. His journey can help other people looking to startup in the Apache APISIX community or Open Source in general.]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX request_uri variable is not properly controlled, with risk of path penetration]]></title>
             <link>https://apisix.apache.org/blog/2021/11/23/cve-2021-43557-research-report</link>
