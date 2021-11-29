@@ -412,7 +412,7 @@ module.exports = {
       disableSwitch: false,
       respectPrefersColorScheme: false,
     },
-    image: 'img/favicon.png',
+    image: 'img/apache-apisix.png',
     metadatas: [
       {
         name: "description",
@@ -422,6 +422,10 @@ module.exports = {
       {
         name: "robots",
         content: "index,follow"
+      },
+      {
+        name: "twitter:card",
+        content: "summary",
       }
     ],
     gtag: {
