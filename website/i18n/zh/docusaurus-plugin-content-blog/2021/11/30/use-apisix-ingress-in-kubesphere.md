@@ -122,7 +122,7 @@ Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳支
 
 将应用命名为 `apisix` 以避免多个组件（Gateway, Dashboard, Ingress Controller）的工作负载及服务名称产生不匹配的情况；在安装步骤中编辑的「应用设置」的部分，请参照以下配置进行填写（请特别注意带有【注意】标记的注释部分的说明，其余可以按需自行编辑修改）。
 
-```shell
+```yaml
 global:
   imagePullSecrets: []
   
@@ -324,7 +324,9 @@ ingress-controller:
 
 ![工作状态运行展示](https://static.apiseven.com/202108/1638241694605-7d88f095-fef5-43f4-9752-8dc5a2f9abc4.png)
 
->💡 Apache APISIX 项目另有的两个 Helm Chart 对应的默认配置参数可以分别参考：[Dashboard](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml) 和 Ingress Controller 的 values.yaml。
+:::note
+Apache APISIX 项目另有的两个 Helm Chart 对应的默认配置参数可以分别参考：[Dashboard](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml) 和 Ingress Controller 的 values.yaml。
+:::
 
 ### Dashboard 妙用
 
@@ -378,7 +380,7 @@ Apache APISIX 应用部署完成后，可通过 Apache APISIX Dashboard 来检�
 
 由于 KubeSphere 是通过 [Prometheus Operator](https://github.com/prometheus-operator/prometheus-operator) 来维护内部 Prometheus 系统，所以最快捷的方式自然是直接创建 ServiceMonitor 资源来实现指标接口的接入。
 
-```shell
+```yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:

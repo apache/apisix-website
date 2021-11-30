@@ -56,7 +56,7 @@ Following the `httpbin` service project deployed above, open the Gateway Setting
 
 ![Project setting](https://static.apiseven.com/202108/1638256005754-d1e8bf9a-0ecc-4c6e-8ceb-0c25b04fef20.png)
 
-After OK, go back to the Gateway page, wait for a moment and refresh the page, you can get the deployment completion status as shown below, where you can see that NodePort is given two node ports by default. Next, we use the "Manage" button in the upper right corner to "View Details".
+After complete the above operation, go back to the Gateway page, wait for a moment and refresh the page, you can get the deployment completion status as shown below, where you can see that NodePort is given two node ports by default. Next, we use the "Manage" button in the upper right corner to "View Details".
 
 ![Deployment complete](https://static.apiseven.com/202108/1638256011357-960f6852-31b3-4702-8911-17d07ec19d7b.png)
 
@@ -122,7 +122,7 @@ This is because the Apache APISIX Ingress Controller is currently strongly assoc
 
 Name the application apisix to avoid mismatches between workloads and service names of multiple components (Gateway, Dashboard, Ingress Controller); in the "Application Settings" section edited in the installation steps, please fill in the following configuration (please pay special attention to the notes marked with [Note], the rest (The rest can be edited and modified by yourself as needed).
 
-```shell
+```yaml
 global:
   imagePullSecrets: []
   
@@ -324,7 +324,9 @@ After successful deployment, click the application name to enter the details pag
 
 ![Resource status](https://static.apiseven.com/202108/1638241694605-7d88f095-fef5-43f4-9752-8dc5a2f9abc4.png)
 
->💡 The default configuration parameters for the other two Helm Charts of the Apache APISIX project can be found in [Dashboard](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml) and [Ingress Controller](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-ingress-controller/values.yaml) `values.yaml`.
+:::note
+The default configuration parameters for the other two Helm Charts of the Apache APISIX project can be found in [Dashboard](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml) and [Ingress Controller](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-ingress-controller/values.yaml) `values.yaml`.
+:::
 
 ### Dashboard Usage
 
@@ -378,7 +380,7 @@ Next, we need to connect the exposed metrics interface to KubeSphere's own Prome
 
 Since KubeSphere maintains the internal Prometheus system through the [Prometheus Operator](https://github.com/prometheus-operator/prometheus-operator), the quickest way to access the metrics is to create a ServiceMonitor resource directly.
 
-```shell
+```yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
