@@ -143,7 +143,7 @@ apisix:
   affinity: {}
   podAntiAffinity:
     enabled: false
-    
+
 nameOverride: ''
 fullnameOverride: ''
 
@@ -174,7 +174,7 @@ gateway:
       - host: apisix.local
         paths: []
     tls: []
-    
+
 admin:
   enabled: true
   type: ClusterIP
@@ -188,7 +188,7 @@ admin:
   allow:
     ipList:
       - 0.0.0.0/0
-      
+
 plugins:
   - api-breaker
   - authz-keycloak
