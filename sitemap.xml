@@ -511,6 +511,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/blog/archive/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>

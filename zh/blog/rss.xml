@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Fri, 26 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 30 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere</link>
+            <guid>在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控</guid>
+            <pubDate>Tue, 30 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。]]></description>
+        </item>
         <item>
             <title><![CDATA[Contributer to Committer journey @Apache APISIX]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/26/apache-apisix-committer-experience</link>

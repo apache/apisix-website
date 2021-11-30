@@ -2,11 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-11-26T00:00:00.000Z</updated>
+    <updated>2021-11-30T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控]]></title>
+        <id>在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere"/>
+        <updated>2021-11-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。]]></summary>
+        <author>
+            <name>张海立</name>
+            <uri>https://github.com/webup</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Contributer to Committer journey @Apache APISIX]]></title>
         <id>Contributer to Committer journey @Apache APISIX</id>
