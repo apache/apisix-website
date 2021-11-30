@@ -324,7 +324,7 @@ ingress-controller:
 
 ![工作状态运行展示](https://static.apiseven.com/202108/1638241694605-7d88f095-fef5-43f4-9752-8dc5a2f9abc4.png)
 
-:::note
+:::note 额外补充
 Apache APISIX 项目另有的两个 Helm Chart 对应的默认配置参数可以分别参考：[Dashboard](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml) 和 Ingress Controller 的 values.yaml。
 :::
 
