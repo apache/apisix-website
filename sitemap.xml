@@ -6021,6 +6021,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/docs/general/blog/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/docs/general/committer-guide/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
