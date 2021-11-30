@@ -1,6 +1,9 @@
+
 # Apache APISIX® Website
 
-The website of [Apache APISIX®](https://github.com/apache/apisix), a cloud-native microservices api gateway.
+[<img align="right" width="150" src="https://firstcontributions.github.io/assets/Readme/join-slack-team.png">](https://apisix.apache.org/docs/general/community)
+
+The website of [Apache APISIX®](https://apisix.apache.org/), a cloud-native microservices api gateway.
 
 ## Usage
 
