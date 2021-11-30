@@ -711,6 +711,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/docs/docker/apisix-2.10.2/tags/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/docs/docker/apisix-2.9.0/tags/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
@@ -5272,6 +5277,26 @@
     </url>
     <url>
         <loc>https://apisix.apache.org/docs/docker/apisix-2.10.1/manual/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://apisix.apache.org/docs/docker/apisix-2.10.2/build/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://apisix.apache.org/docs/docker/apisix-2.10.2/example/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://apisix.apache.org/docs/docker/apisix-2.10.2/IGNORE_DOC/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://apisix.apache.org/docs/docker/apisix-2.10.2/manual/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
     </url>
