@@ -22,6 +22,7 @@ In early November, KubeSphere released version 3.2.0, which added a full set of 
 To help users better understand how to deploy and use third-party Ingress Controllers in the new version of KubeSphere, this article will use the [Apache APISIX Ingress Controller](https://apisix.apache.org/docs/ingress-controller/getting-started/) as an example to show you how to quickly use different types of gateways for Kubernetes clusters with KubeSphere and perform status monitoring.
 
 ## Preparation
+
 ### Installing KubeSphere
 
 There are two ways to install KubeSphere.
@@ -69,11 +70,11 @@ Go to the Application Routing page from Application Load and start "creating" th
 
 After skipping the advanced settings in the next step, the route creation is completed and you can get the `httpbin` application route entry as shown in the figure below.
 
-![](https://static.apiseven.com/202108/1638256382273-109728eb-4d19-4c2b-ab92-9a2909c3eff8.png)
+![Route creation](https://static.apiseven.com/202108/1638256382273-109728eb-4d19-4c2b-ab92-9a2909c3eff8.png)
 
 Next, we can access the httpbin application service through the NodePort address of the project gateway and the specified domain name (e.g., http://httpbin.ui:32516 here), refresh or manipulate the request generation function of the page at will, and then enter the details page of the gateway, you can see that the "Monitoring" panel has appeared some built-in monitoring indicators.
 
-![](https://static.apiseven.com/202108/1638256419345-48476f01-b293-401b-9e4f-8bf64a9fab90.png)
+![Generation function](https://static.apiseven.com/202108/1638256419345-48476f01-b293-401b-9e4f-8bf64a9fab90.png)
 
 #### Specifying the NodePort Node Port
 
@@ -81,7 +82,7 @@ For public cloud environments that use NodePort to expose access to the outside 
 
 Since the gateway is managed by KubeSphere, to modify the NodePort of the gateway service, you need to have access to the `kubesphere-controls-system` project. Once inside the project, you can find the gateway service named `kubesphere-router-<project-namespace>` on the "Services" page under "Application Load", and the NodePort is open for external access.
 
-![](https://static.apiseven.com/202108/1638256523468-408ee36f-aac7-4bb4-9cd3-2473a95a52f4.png)
+![Application Load](https://static.apiseven.com/202108/1638256523468-408ee36f-aac7-4bb4-9cd3-2473a95a52f4.png)
 
 ## Getting Started with Clustered Gateways
 
@@ -89,7 +90,7 @@ Since the gateway is managed by KubeSphere, to modify the NodePort of the gatewa
 
 If you are using KubeSphere version 3.2.0, we recommend using the cluster gateway feature to unify the application routing across the cluster. To enable the cluster gateway, it's very simple: use an account with cluster management privileges to access one of the clusters you can manage (e.g. default cluster here), and under "Gateway Settings" in "Cluster Settings", you can "Enable Gateway" and view the "Project Gateway".
 
-![](https://static.apiseven.com/202108/1638256574546-920473f3-e8ac-4cf9-932b-4202888e7a54.png)
+![Project gateway](https://static.apiseven.com/202108/1638256574546-920473f3-e8ac-4cf9-932b-4202888e7a54.png)
 
 The way the cluster gateway is opened and the modification of the aligned NodePort access port are basically the same as the previous project gateway, so we won't go into details here.
 
@@ -97,7 +98,7 @@ However, there is one point that needs special attention: after the cluster gate
 
 The following figure shows the overview of all gateways in the "Gateway Settings" page for projects that have already created gateways, after having both project and cluster gateways.
 
-![](https://static.apiseven.com/202108/1638256658706-ac5107fe-2fd7-4521-b830-9ae1fdf762e1.png)
+![Gateway setting](https://static.apiseven.com/202108/1638256658706-ac5107fe-2fd7-4521-b830-9ae1fdf762e1.png)
 
 ## A Quick Look at Apache APISIX Ingress Controller
 
@@ -107,17 +108,17 @@ Apache APISIX is an open source, high-performance, dynamic cloud-native gateway 
 
 First add the Apache APISIX Helm Chart repository. After that, select an enterprise space and add the following [Apache APISIX repository](https://charts.apiseven.com) via "Application Repository" under "Application Management".
 
-![](https://static.apiseven.com/202108/1638256788584-dca2d21b-3ffc-4bb4-bd73-56dedb6d005a.png)
+![Application repository](https://static.apiseven.com/202108/1638256788584-dca2d21b-3ffc-4bb4-bd73-56dedb6d005a.png)
 
 Next, create a project named `apisix-system`. Once you are on the project page, select the Create an Application in Application Load method to deploy Apache APISIX, and select the `apisix` application template to start the deployment.
 
-![](https://static.apiseven.com/202108/1638241691528-80090ab6-85de-401f-96d7-58118b3cbd88.png)
+![start the deployment](https://static.apiseven.com/202108/1638241691528-80090ab6-85de-401f-96d7-58118b3cbd88.png)
 
 >Why deploy the Apache APISIX application Helm Chart directly instead of deploying the Apache APISIX Ingress Controller directly?
 
 This is because the Apache APISIX Ingress Controller is currently strongly associated with the Apache APISIX Gateway (as shown in the figure below), and it is currently most convenient to deploy Apache APISIX Gateway + Dashboard + Ingress Controller through Apache APISIX Helm Charts at the same time. Ingress Controller is the most convenient, so this article recommends using Apache APISIX Helm Charts directly for the deployment of the whole set of components.
 
-![](https://static.apiseven.com/202108/1638241693072-9b3146f5-bcc6-4441-b002-f1a07603a8c4.png)
+![Why use APISIX gateway](https://static.apiseven.com/202108/1638241693072-9b3146f5-bcc6-4441-b002-f1a07603a8c4.png)
 
 Name the application apisix to avoid mismatches between workloads and service names of multiple components (Gateway, Dashboard, Ingress Controller); in the "Application Settings" section edited in the installation steps, please fill in the following configuration (please pay special attention to the notes marked with [Note], the rest (The rest can be edited and modified by yourself as needed).
 
@@ -321,7 +322,7 @@ ingress-controller:
 
 After successful deployment, click the application name to enter the details page, and you can see the following service deployment and working status operation status display under the "Resource Status" tab.
 
-![](https://static.apiseven.com/202108/1638241694605-7d88f095-fef5-43f4-9752-8dc5a2f9abc4.png)
+![Resource status](https://static.apiseven.com/202108/1638241694605-7d88f095-fef5-43f4-9752-8dc5a2f9abc4.png)
 
 >💡 The default configuration parameters for the other two Helm Charts of the Apache APISIX project can be found in [Dashboard](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml) and [Ingress Controller](https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-ingress-controller/values.yaml) `values.yaml`.
 
@@ -331,29 +332,29 @@ After the Apache APISIX application is deployed, you can check the current statu
 
 You can find the `apisix-dashboard` service from the application load-services page. Since we have enabled NodePort for Dashboard in the application configuration, you can access Dashboard directly through the NodePort port here.
 
-![](https://static.apiseven.com/202108/1638241699353-8d54dfe9-8439-4085-8e7d-02583a1d0d9e.png)
+![Dahboard view](https://static.apiseven.com/202108/1638241699353-8d54dfe9-8439-4085-8e7d-02583a1d0d9e.png)
 
 Log in to the Apache APISIX Dashboard with the default user name and password `admin`, and you can enter the System Information page to view the information of Apache APISIX nodes currently connected to management.
 
-![](https://static.apiseven.com/202108/1638241703083-0915a427-9aab-41e6-8c76-be60d70fc135.png)
+![Enter name and password](https://static.apiseven.com/202108/1638241703083-0915a427-9aab-41e6-8c76-be60d70fc135.png)
 
 ### How to use
 
 Next, let's go back to the "Apply Routes" page, create another route (e.g. `apisix-httpbin`), set the path to `/*` `httpbin` `80` and add the key `kubernetes.io/ingress.class`: `apisix` to it.
 
-![](https://static.apiseven.com/202108/1638241705123-6fe3ba11-bc08-4fb2-a8b1-73066ce73679.png)
+![Create route](https://static.apiseven.com/202108/1638241705123-6fe3ba11-bc08-4fb2-a8b1-73066ce73679.png)
 
-![](https://static.apiseven.com/202108/1638241706790-3989c06d-c803-4c16-869a-6fa000b5744b.png)
+![Setting details](https://static.apiseven.com/202108/1638241706790-3989c06d-c803-4c16-869a-6fa000b5744b.png)
 
 #### Verify that the application route is effective
 
 Go back to the Apache APISIX Dashboard and enter the "Routes" page. You can see that the newly created application route has been recognized by the Apache APISIX Ingress Controller and automatically added to the Apache APISIX gateway, and you can also see an automatically created upstream entry in the "Upstream" page.
 
-![](https://static.apiseven.com/202108/1638241712811-db1f93dd-2963-4034-b461-26733d173bae.png)
+![Verify route is effective](https://static.apiseven.com/202108/1638241712811-db1f93dd-2963-4034-b461-26733d173bae.png)
 
 Next, go back to the `apisix-system` project "Services" page, find the port corresponding to the `apisix-gateway` service, and access `<apisix-httpbin application routing domain name>:<apisix-gateway external access port>` (for example, `httpbin.ui:30408` here) to access the backend service associated with the `apisix-httpbin` application route.
 
-![](https://static.apiseven.com/202108/1638241716159-134e6bd8-9e08-46de-8d46-39142c439b8f.png)
+![Service page](https://static.apiseven.com/202108/1638241716159-134e6bd8-9e08-46de-8d46-39142c439b8f.png)
 
 ## Custom Monitoring of Apache APISIX Gateways
 
@@ -365,11 +366,11 @@ Since we have already enabled the [Prometheus plugin](https://apisix.apache.org/
 
 Go to the `apisix-system` project, find apisix on the "Workloads" page and go to the deployment details page, then select "Edit Settings" from "More Actions" in the left action panel.
 
-![](https://static.apiseven.com/202108/1638241718162-86d110b6-2c40-461c-9cf4-a13b73cf5768.png)
+![APISIX workloads page](https://static.apiseven.com/202108/1638241718162-86d110b6-2c40-461c-9cf4-a13b73cf5768.png)
 
 In the pop-up panel, go to the `apisix` container editing interface, find "Port Settings", add a new port named `prom` to map to port `9091` of the container, save it and the `apisix` workload will restart.
 
-![](https://static.apiseven.com/202108/1638241721050-c3e9409c-4ec8-4ff1-bcf8-045ea57ec179.png)
+![APISIX container](https://static.apiseven.com/202108/1638241721050-c3e9409c-4ec8-4ff1-bcf8-045ea57ec179.png)
 
 ### Creating a ServiceMonitor for monitoring metrics
 
@@ -403,35 +404,35 @@ spec:
 
 Create the ServiceMonitor resource using `kubectl apply -f your_service_monitor.yaml`. Once created, you can also search for the ServiceMonitor resource in the cluster's CRD management page and find a custom resource named `apisix`, if you have cluster management privileges, and make subsequent YAML changes here.
 
-![](https://static.apiseven.com/202108/1638241723331-64cb363e-b6af-4af4-93f3-29a79c9a5e77.png)
+![Create ServiceMonitor](https://static.apiseven.com/202108/1638241723331-64cb363e-b6af-4af4-93f3-29a79c9a5e77.png)
 
 ### Indicator access to custom monitoring panel
 
 Find "Custom Monitoring" under "Monitoring Alarms" in the menu list on the left side of the project, and start to "create" custom monitoring panels.
 
-![](https://static.apiseven.com/202108/1638241724906-d9531809-4682-49b3-b90b-d7f3a03e70e3.png)
+![Create monitor panels](https://static.apiseven.com/202108/1638241724906-d9531809-4682-49b3-b90b-d7f3a03e70e3.png)
 
 Fill in "Name" in the pop-up window, select "Custom" monitoring template, and go to "Next" to create the monitoring panel.
 
-![](https://static.apiseven.com/202108/1638241727938-cd3843f9-0e22-4316-91d2-84b56cd66f21.png)
+![Setting details](https://static.apiseven.com/202108/1638241727938-cd3843f9-0e22-4316-91d2-84b56cd66f21.png)
 
 After entering the edit page now click on the `+` area on the left side and configure the Prometheus monitoring metrics in the "Data" area on the right side. For example, here we can use `sum(apisix_nginx_http_current_connections)` to count the total number of connections to the Apache APISIX gateway in real time.
 
-![](https://static.apiseven.com/202108/1638241729416-3d2024f1-9586-44ac-ad6c-7472c8924fc8.png)
+![Connect to APISIX gateway](https://static.apiseven.com/202108/1638241729416-3d2024f1-9586-44ac-ad6c-7472c8924fc8.png)
 
 After saving, find "+ Add monitoring item" in the bottom-right corner of the page and select "Line Chart" to create the Nginx connection state metric: use `sum(apisix_nginx_http_current_connections) by (state)` as the metric, `{{state}}` as the legend name, and "Legend type" as the stacked graph to get a result similar to the one below. Save the template and get your first custom monitoring panel!
 
-![](https://static.apiseven.com/202108/1638241730747-298fe17e-fb34-4da6-ac9d-8b1efde4521c.png)
+![Get custom monitoring panel](https://static.apiseven.com/202108/1638241730747-298fe17e-fb34-4da6-ac9d-8b1efde4521c.png)
 
 >The Prometheus metrics currently provided by the Apache APISIX gateway can be found in the [available metrics section](https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/#%25E5%258F%25AF%25E6%259C%2589%25E7%259A%2584%25E6%258C%2587%25E6%25A0%2587) of the official documentation.
 
 Since the metrics configuration process is a bit tricky, it is recommended to import the [Apache APISIX Grafana template](https://grafana.com/grafana/dashboards/11719) directly from the cluster-level "Custom Monitoring" (download the JSON and import it via "Local Upload").
 
-![](https://static.apiseven.com/202108/1638241733535-168ce86b-6654-4278-941d-23fb44003c90.png)
+![Import Grafana template](https://static.apiseven.com/202108/1638241733535-168ce86b-6654-4278-941d-23fb44003c90.png)
 
 KubeSphere is also [actively working](https://github.com/kubesphere/kubesphere/issues/4433) on introducing the Grafana template import into the project's custom monitoring capabilities, so stay tuned!
 
-![](https://static.apiseven.com/202108/1638241735167-4c6d3a9a-8190-41b5-9e89-7f09384c7113.png)
+![Finish work](https://static.apiseven.com/202108/1638241735167-4c6d3a9a-8190-41b5-9e89-7f09384c7113.png)
 
 ## Summary
 
