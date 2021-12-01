@@ -49,9 +49,9 @@ subs_filter a.example.com s.example.com;
 subs_filter http://$host https://$host;
 ```
 
-但是 APISIX 的 response-rewrite 插件文档，好像只能支持完整替换，相当于直接将所有响应都换成插件设置的返回，并不支持部分内容替换:
+但是 APISIX 的 response-rewrite 插件文档，好像只能支持完整替换，相当于直接将所有响应都换成插件设置的返回，并不支持部分内容替换：
 
-```Bash
+```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
@@ -90,66 +90,19 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 ![问题截图](https://static.apiseven.com/202108/1638346839201-3efb9807-13a7-4106-968a-5198b22d1a67.png)
 
-### Issue #5649
-
-**链接**: https://github.com/apache/apisix/issues/5649
-
-**问题描述**：问题描述：目前，README 文件声称 WASM 扩展是现代方式。但它还是一个实验性的功能。
-
-需要进行修复：
-
-```SQL
-diff --git README.md README.md
-index d14aae9c..8e11456c 100644
---- README.md
-+++ README.md
-@@ -146,10 +146,10 @@ A/B testing, canary release, blue-green deployment, limit rate, defense against
-   - Custom routing: Support users to implement routing algorithms themselves.
-
- - **Multi-Language support**
--  - Apache APISIX is a multi-language gateway for plugin development and provides support via `WASM` and `RPC`.
-+  - Apache APISIX is a multi-language gateway for plugin development and provides support via `RPC` and `WASM`.
-   ![Multi Language Support into Apache APISIX](docs/assets/images/apisix-multi-lang-support.png)
--  - The WASM or WebAssembly, is the modern way. APISIX can load and run WASM bytecode via APISIX [wasm plugin](https://github.com/apache/apisix/blob/master/docs/en/latest/wasm.md) written with the [Proxy WASM SDK](https://github.com/proxy-wasm/spec#sdks). Developers only need to write the code according to the SDK and then compile it into a WASM bytecode that runs on WASM VM with APISIX.
--  - The RPC way, is a traditional way. Developers can choose the language according to their needs and after starting an independent process with the RPC, it exchanges data with APISIX through local RPC communication. Till this moment, APISIX has support for [Java](https://github.com/apache/apisix-java-plugin-runner), [Golang](https://github.com/apache/apisix-go-plugin-runner), [Python](https://github.com/apache/apisix-python-plugin-runner) and Node.js.
-+  - The RPC way, is the current way. Developers can choose the language according to their needs and after starting an independent process with the RPC, it exchanges data with APISIX through local RPC communication. Till this moment, APISIX has support for [Java](https://github.com/apache/apisix-java-plugin-runner), [Golang](https://github.com/apache/apisix-go-plugin-runner), [Python](https://github.com/apache/apisix-python-plugin-runner) and Node.js.
-+  - The WASM or WebAssembly, is an experimental way. APISIX can load and run WASM bytecode via APISIX [wasm plugin](https://github.com/apache/apisix/blob/master/docs/en/latest/wasm.md) written with the [Proxy WASM SDK](https://github.com/proxy-wasm/spec#sdks). Developers only need to write the code according to the SDK and then compile it into a WASM bytecode that runs on WASM VM with APISIX.
-
- - **Serverless**
-   - [Lua functions](docs/en/latest/plugins/serverless.md): Invoke functions in each phase in APISIX.
-diff --git docs/zh/latest/README.md docs/zh/latest/README.md
-index 7f8a1e24..f50b8b5b 100644
---- docs/zh/latest/README.md
-+++ docs/zh/latest/README.md
-@@ -145,10 +145,10 @@ A/B 测试、金丝雀发布(灰度发布)、蓝绿部署、限流限速、抵
-   - 自定义路由: 支持用户自己实现路由算法。
-
- - **多语言支持**
--  - Apache APISIX 是一个通过 `WASM` 和 `RPC` 支持不同语言来进行插件开发的网关.
-+  - Apache APISIX 是一个通过 `RPC` 和 `WASM` 支持不同语言来进行插件开发的网关.
-   ![Multi Language Support into Apache APISIX](../../../docs/assets/images/apisix-multi-lang-support.png)
--  - WASM 或 WebAssembly 是比较现代的开发方式。 APISIX 能加载运行使用[Proxy WASM SDK](https://github.com/proxy-wasm/spec#sdks)编译的 WASM 字节码。开发者仅需要使用该 SDK 编写代码，然后编译成 WASM 字节码，即可运行在 APISIX 中的 WASM 虚拟机中。
--  - RPC 是一种比较传统的开发方式。开发者可以使用他们需要的语言来进行 RPC 服务的开发，该 RPC 通过本地通讯来跟 APISIX 进行数据交换。到目前为止，APISIX 已支持[Java](https://github.com/apache/apisix-java-plugin-runner), [Golang](https://github.com/apache/apisix-go-plugin-runner), [Python](https://github.com/apache/apisix-python-plugin-runner) and Node.js.
-+  - RPC 是当前采用的开发方式。开发者可以使用他们需要的语言来进行 RPC 服务的开发，该 RPC 通过本地通讯来跟 APISIX 进行数据交换。到目前为止，APISIX 已支持[Java](https://github.com/apache/apisix-java-plugin-runner), [Golang](https://github.com/apache/apisix-go-plugin-runner), [Python](https://github.com/apache/apisix-python-plugin-runner) and Node.js.
-+  - WASM 或 WebAssembly 是实验性的开发方式。 APISIX 能加载运行使用[Proxy WASM SDK](https://github.com/proxy-wasm/spec#sdks)编译的 WASM 字节码。开发者仅需要使用该 SDK 编写代码，然后编译成 WASM 字节码，即可运行在 APISIX 中的 WASM 虚拟机中。
-
- - **Serverless**
-   - [Lua functions](plugins/serverless.md): 能在 APISIX 每个阶段调用 lua 函数.
-```
-
 ## 近期功能特性亮点
 
-- [kafka-logger 支持记录请求体](https://github.com/apache/apisix/pull/5501)（贡献者: [windyrjc](https://github.com/windyrjc)）
+- [kafka-logger 支持记录请求体](https://github.com/apache/apisix/pull/5501)（贡献者：[windyrjc](https://github.com/windyrjc)）
 
 - [新增 azure-functions 插件，与 Azure Serverless Function 无缝集成](https://github.com/apache/apisix/pull/5479)（贡献者: [bisakhmondal](https://github.com/bisakhmondal)）
 
-- [WASM 插件支持在 header_filter 阶段运行](https://github.com/apache/apisix/pull/5544)（贡献者: [spacewander](https://github.com/spacewander)）
+- [WASM 插件支持在 header_filter 阶段运行](https://github.com/apache/apisix/pull/5544)（贡献者：[spacewander](https://github.com/spacewander)）
 
-- [新增 google-cloud-logging 插件，用于推送日志到 Google Cloud logging Service](https://github.com/apache/apisix/pull/5538)（贡献者: [shuaijinchao](https://github.com/shuaijinchao)）
+- [新增 google-cloud-logging 插件，用于推送日志到 Google Cloud logging Service](https://github.com/apache/apisix/pull/5538)（贡献者：[shuaijinchao](https://github.com/shuaijinchao)）
 
-- [新增 openwhisk 插件，与 Apache OpenWhisk serverless 平台集成](https://github.com/apache/apisix/pull/5518)（贡献者: [bzp2010](https://github.com/bzp2010)）
+- [新增 openwhisk 插件，与 Apache OpenWhisk serverless 平台集成](https://github.com/apache/apisix/pull/5518)（贡献者：[bzp2010](https://github.com/bzp2010)）
 
-- [kafka-logger 和 http 支持记录响应体](https://github.com/apache/apisix/pull/5550)（贡献者: [dmsolr](https://github.com/dmsolr)）
+- [kafka-logger 和 http 支持记录响应体](https://github.com/apache/apisix/pull/5550)（贡献者：[dmsolr](https://github.com/dmsolr)）
 
 - [在 APISIX Ingress 中对于 HTTPS 和 gRPCs 类型的 upstream 丰富了 mTLS 的支持](https://github.com/apache/apisix-ingress-controller/pull/755)（贡献者: [nic-6443](https://github.com/nic-6443)）
 
