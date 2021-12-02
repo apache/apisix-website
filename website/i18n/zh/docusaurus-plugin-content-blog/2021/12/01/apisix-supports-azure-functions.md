@@ -8,15 +8,15 @@ keywords:
 - Azure Functions
 - Microsoft
 - Serverless
-description: 本文介绍了最近增加的一个新插件`azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。
+description: 本文介绍了最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。
 tags: [Technology]
 ---
 
-> 本文介绍了 Apache APISIX 最近增加的一个新插件`azure-functions`，并详细说明了如何将 Azure Functions 集成到 Apache APISIX 中。
+> 本文介绍了 Apache APISIX 最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions 集成到 Apache APISIX 中。
 
 <!--truncate-->
 
-Apache APISIX 为 Microsoft Azure Functions 提供了对 serverless 框架的支持。Apache APISIX 建议定义一个启用了无服务器插件的路由，而不是在应用程序中硬编码函数URL。它使开发者能够灵活地热更新函数 URI。此外，因为 Apache APISIX 有非常强大的认证支持，这种方法还可以减轻应用逻辑中的授权和认证问题，可以用来识别和授权客户消费者访问带有 FAAS 的特定路由。本文介绍了 Apache APISIX 最近增加的一个新插件`azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。
+Apache APISIX 为 Microsoft Azure Functions 提供了对 serverless 框架的支持。Apache APISIX 建议定义一个启用了无服务器插件的路由，而不是在应用程序中采用硬编码函数 URL。它使开发者能够灵活地热更新函数 URI。此外，因为 Apache APISIX 有非常强大的认证支持，这种方法还可以减轻应用逻辑中的授权和认证问题，可以用来识别和授权客户消费者访问带有 FAAS 的特定路由。本文介绍了 Apache APISIX 最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。
 
 ## azure-functions 插件工作原理
 
@@ -28,7 +28,7 @@ Apache APISIX 为 Microsoft Azure Functions 提供了对 serverless 框架的支
 
 该插件的主要目标是将路由配置中指定的网关路由代理到 azure function URI 上。本节为您介绍如何在 azure 云上配置和创建 serverless HTTP Trigger。
 
-1. 首先进入 Azure 并设置一个试用计划，最多可免费调用100万次。要了解更多关于定价的情况，请访问[这里](https://azure.microsoft.com/en-us/services/functions/#pricing)。
+1. 首先进入 Azure 并设置一个试用计划，最多可免费调用 100 万次。要了解更多关于定价的情况，请访问[这里](https://azure.microsoft.com/en-us/services/functions/#pricing)。
 
 1. 访问[Azure Portal](https://portal.azure.com/#home)。
     1. 首先，创建一个资源组，为 FAAS 创建逻辑分区。
@@ -64,7 +64,7 @@ Apache APISIX 为 Microsoft Azure Functions 提供了对 serverless 框架的支
 
 ### 启用 azure-functions 插件
 
-下面是一个例子，说明如何为一个特定的路由启用 azure-functions 插件。我们假设你的 HTTP Trigger 已经部署并准备好提供服务。
+下面我们将通过一个示例为大家说明如何为一个特定的路由启用 `azure-functions` 插件。我们假设你的 HTTP Trigger 已经部署并准备好提供服务。
 
 ```shell
 # enable plugin for a specific route
@@ -112,7 +112,7 @@ Hello, Bisakh
 
 ### 停用 azure-functions 插件
 
-如果你要停用 azure-functions 该插件，只需在插件配置中删除相应的 JSON 配置，禁用`azure-functions`插件，并添加合适的上游配置。Apache APISIX 插件是热加载的，因此不需要重新启动 Apache APISIX。
+如果需要停用 azure-functions 该插件，只需在插件配置中删除相应的 JSON 配置，禁用`azure-functions`插件，并添加合适的上游配置。Apache APISIX 插件是热加载的，因此不需要重新启动 Apache APISIX。
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -179,4 +179,4 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/azure-functions \
 
 ## 总结
 
-`azure-functions` 插件是 Apache APISIX 为 serverless 设计的第二个插件。我们正在开发其他 serverless 插件，并将在即将发布的 Apache APISIX 版本中介绍这些插件。如果你有兴趣，请[提交 Issue](https://github.com/apache/apisix/issues/new/choose)来分享你的意见。你也可以在我们的[邮件列表](https://apisix.apache.org/docs/general/community)中分享开发新插件的建议!
+`azure-functions` 插件是 Apache APISIX 为 serverless 设计的第二个插件。我们正在开发其他 serverless 插件，并会在即将发布的 Apache APISIX 版本中介绍这些插件。如果大家感兴趣，请[提交 Issue](https://github.com/apache/apisix/issues/new/choose)来分享你的意见，也可以在我们的[邮件列表](https://apisix.apache.org/docs/general/community)中分享开发新插件的建议!

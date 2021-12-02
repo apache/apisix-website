@@ -20,7 +20,7 @@ Apache APISIX provides support for serverless frameworks for popular cloud vendo
 
 ## How azure-functions plugin works
 
-The `azure-functions` plugin lets the users define an upstream to the azure `HTTP Trigger` serverless function for a gateway URI. If enabled, this plugin terminates the ongoing request to that particular URI and initiates a new request to the azure faas (the new upstream) on behalf of the client with the suitable authorization details set by the users, request headers, request body, params(all these three components are passed from the original request) and returns the response body, status code and the headers back to the original client that has invoked the request to the APISIX agent.
+The `azure-functions` plugin lets the users define an upstream to the azure `HTTP Trigger` serverless function for a gateway URI. If enabled, this plugin terminates the ongoing request to that particular URI and initiates a new request to the azure faas (the new upstream) on behalf of the client with the suitable authorization details set by the users, request headers, request body, params(all these three components are passed from the original request) and returns the response body, status code and the headers back to the original client that has invoked the request to the Apache APISIX agent.
 
 The plugin supports authorization to azure faas service via API keys and azure active directory.
 
@@ -82,7 +82,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 
-Now any requests (HTTP/1.1, HTTPS, HTTP2) to URI `/azure` on the APISIX gateway will trigger an HTTP invocation to the aforesaid function URI and response body along with the response headers and response code will be proxied back to the client. For example ( here azure cloud function just take the `name` query param and returns `Hello $name`):
+Now any requests (HTTP/1.1, HTTPS, HTTP2) to URI `/azure` on the Apache APISIX gateway will trigger an HTTP invocation to the aforesaid function URI and response body along with the response headers and response code will be proxied back to the client. For example ( here azure cloud function just take the `name` query param and returns `Hello $name`):
 
 ```shell
 curl -i -XGET http://localhost:9080/azure\?name=Bisakh
@@ -97,7 +97,7 @@ Server: APISIX/2.10.2
 Hello, Bisakh
 ```
 
-Considering, APISIX is also running with `enable_http2: true` on APISIX [config-default.yaml](https://github.com/apache/apisix/blob/master/conf/config-default.yaml#L26) for port 9081 (say), any `HTTP/2` communication between client and APISIX agent will be proxied to the azure faas similar to HTTP/1.1 and responses will be proxied back to the client with proper headers. For example:
+Considering, Apache APISIX is also running with `enable_http2: true` on [config-default.yaml](https://github.com/apache/apisix/blob/master/conf/config-default.yaml#L26) for port 9081 (say), any `HTTP/2` communication between client and APISIX agent will be proxied to the azure faas similar to HTTP/1.1 and responses will be proxied back to the client with proper headers. For example:
 
 ```shell
 curl -i -XGET --http2 --http2-prior-knowledge http://localhost:9081/azure\?name=Bisakh
@@ -112,7 +112,7 @@ Hello, Bisakh
 
 ### Deactivate the azure-functions plugin
 
-Now, to disable the plugin simply remove the corresponding JSON configuration in the plugin configuration to disable the `azure-functions` plugin and add the suitable upstream configuration. APISIX plugins are hot-reloaded, therefore is no need to restart APISIX.
+Now, to disable the plugin simply remove the corresponding JSON configuration in the plugin configuration to disable the `azure-functions` plugin and add the suitable upstream configuration. Apache APISIX plugins are hot-reloaded, therefore is no need to restart Apache APISIX.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -161,11 +161,11 @@ Metadata for `azure-functions` plugin provides the functionality for authorizati
 
 The relative priority ordering is as follows:
 
-- First, the plugin looks for `x-functions-key` or `x-functions-clientid` keys inside the request header to the APISIX agent.
+- First, the plugin looks for `x-functions-key` or `x-functions-clientid` keys inside the request header to the Apache APISIX agent.
 
 - If they are not found, the azure-functions plugin checks for the authorization details inside plugin attributes. If present, it adds the respective header to the request sent to the Azure cloud function.
 
-- If no authorization details are found inside plugin attributes, APISIX fetches the metadata config for this plugin and uses the master keys.
+- If no authorization details are found inside plugin attributes, Apache APISIX fetches the metadata config for this plugin and uses the master keys.
 
 To add a new Master APIKEY, make a request to /apisix/admin/plugin_metadata endpoint with the updated metadata as follows:
 
