@@ -15,6 +15,17 @@
         <summary type="html"><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></summary>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX's intergration with Azure Serverless]]></title>
+        <id>Apache APISIX's intergration with Azure Serverless</id>
+        <link href="https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions"/>
+        <updated>2021-12-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.]]></summary>
+        <author>
+            <name>Bisakh Mondal</name>
+            <uri>https://github.com/bisakhmondal</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere]]></title>
         <id>Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere</id>
         <link href="https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere"/>

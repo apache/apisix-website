@@ -516,6 +516,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/blog/2021/12/02/weekly-report-1130/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>

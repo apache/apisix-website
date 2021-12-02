@@ -15,6 +15,13 @@
             <description><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></description>
         </item>
         <item>
+            <title><![CDATA[azure-functions 插件发布，Apache APISIX 支持 Azure Functions 集成]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/12/01/apisix-supports-azure-functions</link>
+            <guid>azure-functions 插件发布，Apache APISIX 支持 Azure Functions 集成</guid>
+            <pubDate>Wed, 01 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文介绍了最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。]]></description>
+        </item>
+        <item>
             <title><![CDATA[在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere</link>
             <guid>在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控</guid>
