@@ -2,26 +2,17 @@ const projects = [
   {
     name: "apisix-ingress-controller",
     branch: "master",
-    hasChangelog: true,
-    changelogExtractor: function (changelogs, targetRelease) {
-      return changelogExtractor(changelogs, targetRelease, "#", true);
-    }
+    hasChangelog: true
   },
   {
     name: "apisix",
     branch: "master",
-    hasChangelog: true,
-    changelogExtractor: function (changelogs, targetRelease) {
-      return changelogExtractor(changelogs, targetRelease, "##", false);
-    }
+    hasChangelog: true
   },
   {
     name: "apisix-dashboard",
     branch: "master",
-    hasChangelog: true,
-    changelogExtractor: function (changelogs, targetRelease) {
-      return changelogExtractor(changelogs, targetRelease, "#", false);
-    }
+    hasChangelog: true
   },
   {
     name: "apisix-docker",
@@ -36,26 +27,17 @@ const projects = [
   {
     name: "apisix-java-plugin-runner",
     branch: "main",
-    hasChangelog: true,
-    changelogExtractor: function (changelogs, targetRelease) {
-      return changelogExtractor(changelogs, targetRelease, "##", true);
-    }
+    hasChangelog: true
   },
   {
     name: "apisix-go-plugin-runner",
     branch: "master",
-    hasChangelog: true,
-    changelogExtractor: function (changelogs, targetRelease) {
-      return changelogExtractor(changelogs, targetRelease, "##", true);
-    }
+    hasChangelog: true
   },
   {
     name: "apisix-python-plugin-runner",
     branch: "master",
-    hasChangelog: true,
-    changelogExtractor: function (changelogs, targetRelease) {
-      return changelogExtractor(changelogs, targetRelease, "##", true);
-    }
+    hasChangelog: true
   }
 ];
 
