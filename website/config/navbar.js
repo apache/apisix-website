@@ -43,28 +43,6 @@ module.exports = [
     ],
   },
   {
-    label: "FAQ",
-    position: "right",
-    items: [
-      {
-        label: "Apache APISIX®",
-        to: "/docs/apisix/FAQ/",
-      },
-      {
-        label: "Apache APISIX® Dashboard",
-        to: "/docs/dashboard/FAQ/",
-      },
-      {
-        label: "Apache APISIX® Ingress Controller",
-        to: "/docs/ingress-controller/FAQ/",
-      },
-      {
-        label: "Apache APISIX® Helm Chart",
-        to: "/docs/helm-chart/FAQ/",
-      },
-    ]
-  },
-  {
     to: "/blog",
     label: "Blog",
     position: "right",
@@ -75,41 +53,38 @@ module.exports = [
     position: "right",
   },
   {
-    to: "/team",
-    label: "Team",
-    position: "right",
+    to: "https://github.com/apache/apisix/discussions",
+    label: "Discussions"
   },
   {
     label: "Resources",
     position: "right",
     items: [
       {
-        to: "/docs/general/community",
-        label: "Community"
+        to: "/showcase",
+        label: "Showcase"
       },
       {
         to: "/plugins",
         label: "Plugin Hub",
       },
       {
-        to: "/releases",
-        label: "Releases",
+        to: "/docs/general/community",
+        label: "Community"
+      },
+      {
+        to: "/contribute",
+        label: "Contribute"
+      },
+      {
+        to: "/team",
+        label: "Team"
       },
       {
         to: "/help",
         label: "Help",
       },
     ]
-  },
-  {
-    to: "/showcase",
-    label: "Showcase",
-    position: "right",
-  },
-  {
-    to: "/contribute",
-    label: "Contribute",
-    position: "right",
   },
   {
     type: "localeDropdown",
