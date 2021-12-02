@@ -4,7 +4,6 @@ const path = require("path");
 const process = require("process");
 const listr = require("listr");
 const simpleGit = require("simple-git");
-const axios = require("axios");
 const semver = require('semver');
 
 const common = require("./common.js");
@@ -296,26 +295,4 @@ const copyAllDocs = (project) => {
       project.name,
       "zh"
   );
-};
-
-const setup = () => {
-  log("Install dependencies");
-  childProcess.execSync("npm i --save replace-in-file listr");
-  //childProcess.execSync("npm install", {cwd: `./website`});
-
-  removeFolder("tmp");
-  fs.mkdirSync("tmp");
-};
-
-const clean = () => {
-  log("Delete tmp folder");
-  removeFolder("tmp");
-
-  log("Delete npm related files");
-  removeFolder("node_modules");
-  ["package.json", "package-lock.json"].forEach((file) => {
-    if (fs.existsSync(file)) {
-      fs.unlinkSync(file);
-    }
-  });
 };
