@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 30 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 02 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Biweekly Report｜11.15-11.30 Feature Highlights Update in Progress]]></title>
+            <link>https://apisix.apache.org/blog/2021/12/02/weekly-report-1130</link>
+            <guid>Biweekly Report｜11.15-11.30 Feature Highlights Update in Progress</guid>
+            <pubDate>Thu, 02 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></description>
+        </item>
         <item>
             <title><![CDATA[Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere]]></title>
             <link>https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere</link>
