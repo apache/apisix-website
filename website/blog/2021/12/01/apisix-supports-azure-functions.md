@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX intergration with Azure Serverless"
+title: "Apache APISIX's intergration with Azure Serverless"
 author: "Bisakh Mondal"
 authorURL: "https://github.com/bisakhmondal"
 authorImageURL: "https://avatars.githubusercontent.com/u/41498427?v=4"
@@ -15,6 +15,8 @@ tags: [Technology]
 > This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.
 
 <!--truncate-->
+
+![Apache APISIX's intergration with Azure Serverless](https://static.apiseven.com/202108/1638431191799-e1202fc7-d3b5-48db-a222-0c70a8b70da0.png)
 
 Apache APISIX provides support for serverless frameworks for popular cloud vendors (more coming on the way). Instead of hardcoding the function URL into the application, Apache APISIX suggests defining a route with the serverless plugin enabled. It gives the developers the flexibility to hot update the function URI along with completely changing the faas vendor to a different cloud provider with zero hassle. Also, this approach mitigates authorization and authentication concerns from application logic as Apache APISIX has very strong authentication support that could be used to identify and authorize client consumers to access the particular route with the faas. This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.
 

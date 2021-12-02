@@ -16,6 +16,8 @@ tags: [Technology]
 
 <!--truncate-->
 
+![Apache APISIX 支持 Azure Functions 集成](https://static.apiseven.com/202108/1638431191799-e1202fc7-d3b5-48db-a222-0c70a8b70da0.png)
+
 Apache APISIX 为 Microsoft Azure Functions 提供了对 serverless 框架的支持。Apache APISIX 建议定义一个启用了无服务器插件的路由，而不是在应用程序中采用硬编码函数 URL。它使开发者能够灵活地热更新函数 URI。此外，因为 Apache APISIX 有非常强大的认证支持，这种方法还可以减轻应用逻辑中的授权和认证问题，可以用来识别和授权客户消费者访问带有 FAAS 的特定路由。本文介绍了 Apache APISIX 最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。
 
 ## azure-functions 插件工作原理
