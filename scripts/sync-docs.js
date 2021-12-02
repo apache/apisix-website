@@ -4,7 +4,6 @@ const path = require("path");
 const process = require("process");
 const listr = require("listr");
 const simpleGit = require("simple-git");
-const axios = require("axios");
 const semver = require('semver');
 
 const common = require("./common.js");
@@ -13,7 +12,6 @@ const common = require("./common.js");
 const git = simpleGit();
 const {projects, languages, projectPaths} = common;
 const tempPath = "./tmp";
-const releaseTempPath = `${tempPath}/releases`;
 const websitePath = "../website";
 
 const projectReleases = {};
@@ -145,122 +143,6 @@ const tasks = new listr([
         }
       });
       return new listr(nextVersionTasks);
-    }
-  },
-  {
-    title: "Fetch project release logs",
-    task: () => {
-      const fetchReleaseLogTasks = projects.map((project) => {
-        if (!project.hasChangelog) {
-          return {
-            title: `Fetch ${project.name} release logs`,
-            skip: () => {
-              return `${project.name} has no changelog`;
-            },
-            task: () => {
-            }
-          }
-        }
-
-        const releaseURL = `https://api.github.com/repos/apache/${project.name}/releases`;
-        const changelogURL = `https://raw.githubusercontent.com/apache/${project.name}/${project.branch}/CHANGELOG.md`;
-
-        return {
-          title: `Fetch ${project.name} release logs`,
-          task: () => {
-            let releaseResult;
-            let changelogResult = '';
-            let changelogList = [];
-            const steps = [
-              {
-                title: `Fetch ${project.name}'s release list`,
-                task: async () => {
-                  try {
-                    releaseResult = (await axios.get(releaseURL)).data;
-                  } catch (e) {
-                    log(`Fetch ${project.name} release list failed: ` + e)
-                  }
-                }
-              },
-              {
-                title: `Fetch ${project.name}'s CHANGELOG.md`,
-                task: async () => {
-                  try {
-                    changelogResult = (await axios.get(changelogURL)).data;
-                  } catch (e) {
-                    log(`Fetch ${project.name} changelog failed: ` + e)
-                  }
-                }
-              },
-              {
-                title: "Extract changelog in CHANGELOG.md",
-                task: () => {
-                  releaseResult.forEach(item => {
-                    if ("changelogExtractor" in project) {
-                      let changelog = project.changelogExtractor(changelogResult, item);
-                      if (changelog) changelogList.push(changelog);
-                    }
-                  });
-                }
-              },
-              {
-                title: "Remove unsupport tags",
-                task: () => {
-                  const unsupportTags = {
-                    "<details>": "",
-                    "</details>": "",
-                    "<summary>": "",
-                    "</summary>": "",
-                    "<p>": "",
-                    "</p>": "",
-                  };
-
-                  changelogList = changelogList.map(item => {
-                    Object.keys(unsupportTags).forEach(tag => {
-                      if (item.changelog.includes(tag)) {
-                        item.changelog = item.changelog.replace(new RegExp(tag, "g"), unsupportTags[tag]);
-                      }
-                    });
-
-                    return item;
-                  });
-                }
-              },
-              {
-                title: "Generate Release Logs",
-                task: () => {
-                  if (!isFileExisted(releaseTempPath)) {
-                    removeFolder(releaseTempPath);
-                    fs.mkdirSync(releaseTempPath);
-                  }
-                  changelogList.forEach(item => {
-                    const releaseTime = new Date(item.releaseTime);
-                    const logName = `${releaseTime.getFullYear()}-${releaseTime.getMonth() + 1}-${releaseTime.getDate()}-release-apache-${project.name}-${item.version}.md`;
-                    const humanProjectName = project.name.split("-").map(name => {
-                      if (name === 'apisix') return name.toUpperCase();
-                      return name.charAt(0).toUpperCase() + name.slice(1);
-                    }).join(" ");
-                    const header = `---
-title: Release Apache ${humanProjectName} ${item.version}
-tags: 
-  - ${humanProjectName}
----\n\n`;
-                    fs.writeFileSync(`${releaseTempPath}/${logName}`, header + item.changelog);
-                  });
-                }
-              },
-              {
-                title: "Copy Release Logs to website",
-                task: () => {
-                  copyFolder(releaseTempPath, `${websitePath}/releases`);
-                }
-              },
-            ];
-            return new listr(steps);
-          }
-        }
-      });
-      return new listr(fetchReleaseLogTasks);
     }
   },
   {
@@ -413,26 +295,4 @@ const copyAllDocs = (project) => {
       project.name,
       "zh"
   );
-};
-
-const setup = () => {
-  log("Install dependencies");
-  childProcess.execSync("npm i --save replace-in-file listr");
-  //childProcess.execSync("npm install", {cwd: `./website`});
-
-  removeFolder("tmp");
-  fs.mkdirSync("tmp");
-};
-
-const clean = () => {
-  log("Delete tmp folder");
-  removeFolder("tmp");
-
-  log("Delete npm related files");
-  removeFolder("node_modules");
-  ["package.json", "package-lock.json"].forEach((file) => {
-    if (fs.existsSync(file)) {
-      fs.unlinkSync(file);
-    }
-  });
 };
