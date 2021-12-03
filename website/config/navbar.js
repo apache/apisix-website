@@ -54,7 +54,8 @@ module.exports = [
   },
   {
     to: "https://github.com/apache/apisix/discussions",
-    label: "Discussions"
+    label: "Discussions",
+    position: "right"
   },
   {
     label: "Resources",
