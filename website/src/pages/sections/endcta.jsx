@@ -4,14 +4,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 import "../../css/customTheme.css";
 import ArrowAnim from "./components/arrowAnim";
-import Rocket from "../../assets/images/rocket.gif";
 
 const EndCTA = () => {
   return (
     <>
       <div className="endcta" style={{padding: "50px 0", background: "#FF90A3", margin: "0 0 -32px 0"}}>
         <div className="endcta-text">
-          <p style={{display: "flex", justifyContent: "center", alignItems: "center", whiteSpace: "pre"}}>Try <span style={{color: "#E8433E"}}>APISIX</span> today <img className="rocket" src={Rocket} alt="Rocket"/></p>
+          <p style={{display: "flex", justifyContent: "center", alignItems: "center", whiteSpace: "pre"}}>Try <span style={{color: "#E8433E"}}>APISIX</span> today <img className="rocket" src="https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/assets/images/rocket.gif" alt="Rocket"/></p>
         </div>
         <div className="endcta-btns">
           <div className="hero-ctas">
