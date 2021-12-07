@@ -59,7 +59,7 @@ Then you can use the SkyWalking Tracing plug-in to get the tracing data directly
 
 Next, create a route and bind the SkyWalking Tracing plugin and the SkyWalking Logging plugin. More details of the plugin configuration can be found in the [official Apache APISIX documentation](https://apisix.apache.org/docs/apisix/plugins/skywalking-logger).
 
-```bash
+```shell
 curl -X PUT 'http://192.168.0.108:9080/apisix/admin/routes/1001' \
 -H 'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1' \
 -H 'Content-Type: application/json' \
@@ -166,7 +166,7 @@ It is important to note that the Error Log message body is in text format. If yo
 
 Tags can also be used to optimize the display and retrieval for subsequent metrics calculations using SkyWalking MAL.
 
-```fortran
+```json
 rules:
   - name: apisix-errlog
     dsl: |

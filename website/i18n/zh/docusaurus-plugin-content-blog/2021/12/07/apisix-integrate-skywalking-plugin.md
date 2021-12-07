@@ -26,7 +26,7 @@ Apache APISIX 早在 1.4 版本就已经集成 Apache SkyWaling Tracing 能力�
 
 访问日志记录着每个请求的详细信息，属于**请求范围**内产生的日志，因此可以直接与 Tracing 关联。而错误日志则是 Apache APISIX **运行时**产出日志信息，是整个应用级别日志，但无法确保能百分百关联到请求上。
 
-目前 Apache APISIX 提供了非常丰富的日志处理插件，包括 TCP/HTTP/Kafka 等收集上报插件，但它们与 Tracing 关联都比较弱。以 Apache SkyWalking 为例，提取 Apache APISIX 端日志记录中的 SkyWalking Tracing Conetxt Header 并输出到文件系统，之后利用日志处理框架(fluentbit) 将日志转成 SkyWalking 可接受的日志格式。后续从中解析提取 Tracing Context，从而获得 Tracing ID 进而与 Trace 建立联系。
+目前 Apache APISIX 提供了非常丰富的日志处理插件，包括 TCP/HTTP/Kafka 等收集上报插件，但它们与 Tracing 关联都比较弱。以 Apache SkyWalking 为例，提取 Apache APISIX 端日志记录中的 SkyWalking Tracing Conetxt Header 并输出到文件系统，之后利用日志处理框架（fluentbit）将日志转成 SkyWalking 可接受的日志格式。后续从中解析提取 Tracing Context，从而获得 Tracing ID 进而与 Trace 建立联系。
 
 显然，上述方式处理流程比较繁琐复杂，还需要额外转换日志格式。为此，在 [PR#5500](https://github.com/apache/apisix/pull/5550) 中我们实现了将 Apache SkyWalking 访问日志接入 Apache APISIX 插件生态，方便用户在使用 Apache APISIX 中更方便地利用 Apache SkyWalking 进行收集和处理相关日志。
 
@@ -59,7 +59,7 @@ plugins:
 
 接下来创建一个路由，并绑定 SkyWalking Tracing 插件和 SkyWalking Logging 插件。关于插件具体配置细节可以参考 [Apache APISIX 官方文档](https://apisix.apache.org/docs/apisix/plugins/skywalking-logger)，这里不再赘述。
 
-```bash
+```shell
 curl -X PUT 'http://192.168.0.108:9080/apisix/admin/routes/1001' \
 -H 'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1' \
 -H 'Content-Type: application/json' \
@@ -84,7 +84,7 @@ curl -X PUT 'http://192.168.0.108:9080/apisix/admin/routes/1001' \
 
 ##### 步骤二：日志处理
 
-在 Apache SkyWalking 侧，可以使用 LAL(Logger Analysis Language）脚本进行日志处理，比如 Tag 提取、SkyWalking 元数据修正等。
+在 Apache SkyWalking 侧，可以使用 LAL（Logger Analysis Language）脚本进行日志处理，比如 Tag 提取、SkyWalking 元数据修正等。
 
 这里进行 Tag 提取主要是为了后续检索方便，以及在 Metrics 统计时添加相关依赖。可使用如下代码进行 SkyWalking LAL 脚本配置来完成 Tag 提取，更多关于 SkyWalking LAL 脚本使用方法可以参考 [Apache SkyWalking 官方文档](https://skywalking.apache.org/docs/main/latest/en/concepts-and-designs/lal/)。
 
@@ -166,7 +166,7 @@ curl -X PUT 'http://192.168.0.108:9080/apisix/admin/plugin_metadata/error-log-lo
 
 同时也可以利用 Tags 来优化显示效果与检索，方便后续使用 SkyWalking MAL 进行 Metrics 计算。
 
-```fortran
+```json
 rules:
   - name: apisix-errlog
     dsl: |
