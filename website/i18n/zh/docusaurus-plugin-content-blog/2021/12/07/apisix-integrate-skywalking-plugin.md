@@ -143,7 +143,7 @@ plugins:
 
 启用之后，需要将插件绑定到路由或者 `global rules` 上，这里我们以「绑定路由」为例。
 
-```bash
+```shell
 curl -X PUT 'http://192.168.0.108:9080/apisix/admin/plugin_metadata/error-log-logger' \
 -H 'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1' \
 -H 'Content-Type: application/json' \

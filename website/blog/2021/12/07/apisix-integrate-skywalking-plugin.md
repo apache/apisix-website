@@ -143,7 +143,7 @@ plugins:
 
 After enabling, you need to bind the plugin to routes or global rules. Here we take "bind routes" as an example.
 
-```bash
+```shell
 curl -X PUT 'http://192.168.0.108:9080/apisix/admin/plugin_metadata/error-log-logger' \
 -H 'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1' \
 -H 'Content-Type: application/json' \
