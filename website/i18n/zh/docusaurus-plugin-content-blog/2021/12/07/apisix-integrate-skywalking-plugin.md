@@ -194,5 +194,3 @@ rules:
 ## 总结
 
 本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。希望通过本篇内容，大家可以对新功能有了更充分的理解，后续可以更方便地利用 Apache APISIX 进行可观测数据的集中管理。
-
-
