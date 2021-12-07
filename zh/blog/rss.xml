@@ -4,16 +4,9 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 07 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 02 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <item>
-            <title><![CDATA[强强联合！APISIX 集成 SkyWalking 打造全方位日志处理]]></title>
-            <link>https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin</link>
-            <guid>强强联合！APISIX 集成 SkyWalking 打造全方位日志处理</guid>
-            <pubDate>Tue, 07 Dec 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。]]></description>
-        </item>
         <item>
             <title><![CDATA[社区双周报｜11.15-11.30 功能亮点更新进行中]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/12/02/weekly-report-1130</link>

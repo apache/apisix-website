@@ -2,22 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-12-07T00:00:00.000Z</updated>
+    <updated>2021-12-02T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
-    <entry>
-        <title type="html"><![CDATA[强强联合！APISIX 集成 SkyWalking 打造全方位日志处理]]></title>
-        <id>强强联合！APISIX 集成 SkyWalking 打造全方位日志处理</id>
-        <link href="https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin"/>
-        <updated>2021-12-07T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。]]></summary>
-        <author>
-            <name>庄浩潮</name>
-            <uri>https://github.com/dmsolr</uri>
-        </author>
-    </entry>
     <entry>
         <title type="html"><![CDATA[社区双周报｜11.15-11.30 功能亮点更新进行中]]></title>
         <id>社区双周报｜11.15-11.30 功能亮点更新进行中</id>

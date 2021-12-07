@@ -4,16 +4,9 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 07 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 02 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <item>
-            <title><![CDATA[Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing]]></title>
-            <link>https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin</link>
-            <guid>Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing</guid>
-            <pubDate>Tue, 07 Dec 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[This paper mainly introduces two Apache APISIX integrated SkyWalking log plug-ins to provide a more convenient operation and environment for log processing in Apache APISIX.]]></description>
-        </item>
         <item>
             <title><![CDATA[Biweekly Report｜11.15-11.30 Feature Highlights Update in Progress]]></title>
             <link>https://apisix.apache.org/blog/2021/12/02/weekly-report-1130</link>
