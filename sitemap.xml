@@ -4451,6 +4451,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/docs/apisix/next/plugins/rocketmq-logger/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/docs/apisix/next/plugins/server-info/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>
