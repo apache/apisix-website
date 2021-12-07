@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Thu, 02 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[强强联合！APISIX 集成 SkyWalking 打造全方位日志处理]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin</link>
+            <guid>强强联合！APISIX 集成 SkyWalking 打造全方位日志处理</guid>
+            <pubDate>Tue, 07 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。]]></description>
+        </item>
         <item>
             <title><![CDATA[社区双周报｜11.15-11.30 功能亮点更新进行中]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/12/02/weekly-report-1130</link>
@@ -29,11 +36,11 @@
             <description><![CDATA[本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。]]></description>
         </item>
         <item>
-            <title><![CDATA[Contributer to Committer journey @Apache APISIX]]></title>
+            <title><![CDATA[成为 Apache APISIX Committer 让我体会到了知识转换价值的意义]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/26/apache-apisix-committer-experience</link>
-            <guid>Contributer to Committer journey @Apache APISIX</guid>
+            <guid>成为 Apache APISIX Committer 让我体会到了知识转换价值的意义</guid>
             <pubDate>Fri, 26 Nov 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[In this article, Shivam Singh ([@1502shivam-singh](https://github.com/1502shivam-singh)) gives a brief of his journey from starting out in the Apache APISIX community, from a contributor to an Apache member and APISIX committer. His journey can help other people looking to startup in the Apache APISIX community or Open Source in general.]]></description>
+            <description><![CDATA[本文将从 Shivam Singh（@1502shivam-singh）个人角度，简要描述了他是如何在 Apache APISIX 社区中从贡献者成长为 Apache Committer。希望他的个人参与历程可以帮助到那些希望在 Apache APISIX 社区或其他开源社区进行项目贡献的朋友。]]></description>
         </item>
         <item>
             <title><![CDATA[Apache APISIX request_uri 变量控制不当，存在路径穿透风险]]></title>
