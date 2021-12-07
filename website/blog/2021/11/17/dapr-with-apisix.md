@@ -21,7 +21,7 @@ Essentially, the Apache APISIX controller will configure the same standard DAPR 
 
 The following diagram shows the architectural flow of the actual project:
 
-![Overview](https://static.apiseven.com/202108/1637119221118-75dab9f1-4092-4684-ad23-34932d8a7eac.png)
+![Overview](https://static.apiseven.com/202108/1638855752235-121756ab-f5b7-489f-af42-0c3f962b3036.png)
 
 ## Overview
 
@@ -131,7 +131,7 @@ helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 
 First, configure Apache APISIX upstream-apisix-dapr.
 
-![Create the Dapr Sidecar](https://static.apiseven.com/202108/1637119221106-e57ae8b8-38ed-46ea-b219-401619fadbe3.png)
+![Create the Dapr Sidecar](https://static.apiseven.com/202108/1638855797186-a9b940e2-4d56-4a6d-a621-ea615ddba0dd.png)
 
 Fill in the hostname here: apisix-gateway-dapr and the port number 3500.
 
@@ -159,7 +159,7 @@ Fill in the hostname here: apisix-gateway-dapr and the port number 3500.
 
 Then configure the Apache APISIX service apisix-gateway-dapr, and select apisix-dapr for the upstream service.
 
-![Configuration service](https://static.apiseven.com/202108/1637119221115-ae7c847a-99a3-4ee6-b36f-4269fd067198.png)
+![Configuration service](https://static.apiseven.com/202108/1638855804018-094559fd-a1df-4184-becd-9bfbf0018339.png)
 
 ```json
 {
@@ -178,7 +178,7 @@ kubectl apply -f 02.deployment.yaml
 kubectl apply -f 03.svc.yaml
 ```
 
-![Project configuration](https://static.apiseven.com/202108/1637119221110-9b901451-6ca6-4d15-b591-69f7c5d57ce1.png)
+![Project configuration](https://static.apiseven.com/202108/1638855818560-9ae75e39-9ed2-4796-a9eb-ebf66b07c1e5.png)
 
 The image above shows a hypothetical microservice running with the Dapr app-id kennethreitz-httpbin.
 
@@ -186,7 +186,7 @@ The image above shows a hypothetical microservice running with the Dapr app-id k
 
 Here we add some settings related to path matching. For example, if the request gateway is /httpbin/, the backend receive path should be /, with httpbin acting as a service name identifier.
 
-![Interpretation](https://static.apiseven.com/202108/1637119221114-90c1ef58-6743-419c-be87-9cdc8503aa30.png)
+![Interpretation](https://static.apiseven.com/202108/1638855827906-2aafa04c-a00c-4d41-aeb2-663c1f999dcd.png)
 
 On hosted platforms that support namespaces, the Dapr application ID is in a valid FQDN format, which includes the target namespace. For example, the following string contains the application ID (svc-kennethreitz-httpbin) and the namespace the application is running in (kind-test).
 
