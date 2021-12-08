@@ -97,7 +97,7 @@ The first thing you can do is to adjust the relevant log format in the form of a
 
 | Name             |  Default Value |  Description                                             |
 | ---------------- |  ------------- | ------------------------------------------------ |
-| log_format       |  {"host": "$host", "@timestamp": "$time_iso8601", "client_ip": "$remote_addr"} |    Declare the log format as a key-value pair in JSON format. For the value section, only strings are supported. If it starts with `$`, it indicates that you want to get the _ _ APISIX__ variable or [Nginx built-in variable](http://nginx.org/en/docs/varindex.html). In particular, **this setting takes effect globally**, which means that when log_format is specified, it will take effect on all Route or Service bound to http-logger. |
+| log_format       |  {"host": "$host", "@timestamp": "$time_iso8601", "client_ip": "$remote_addr"} |    Declare the log format as a key-value pair in JSON format. For the value section, only strings are supported. If it starts with `$`, it indicates that you want to get the __APISIX__ variable or [Nginx built-in variable](http://nginx.org/en/docs/varindex.html). In particular, **this setting takes effect globally**, which means that when log_format is specified, it will take effect on all Route or Service bound to http-logger. |
 
 Once the log format is adjusted, you need to send a request to the `/apisix/admin/plugin_metadata` endpoint to update the metadata, as described in the code below.
 
