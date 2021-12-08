@@ -117,7 +117,7 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/rocketmq-logger -H 'X-AP
 If you no longer use the plugin, you can disable the `rocketmq-logger` plugin by removing the appropriate JSON configuration from the plugin configuration. This process does not require a restart of the service and will take effect immediately by entering the code below.
 
 ```shell
-$ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/hello",

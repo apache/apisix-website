@@ -117,7 +117,7 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/rocketmq-logger -H 'X-AP
 如果您不再使用该插件，可通过在插件配置中删除相应的 JSON 配置来禁用 `rocketmq-logger` 插件。该过程无需重新启动服务，输入下方代码即可立即生效。
 
 ```shell
-$ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/hello",
