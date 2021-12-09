@@ -48,6 +48,8 @@ To add a new blog, please perform the following steps:
 
 #### Blog's header information
 
+##### Single author template
+
 Our blogs start with a header sections containing fields such as `title`, `author`, `authorURL`, `authorImageURL`, `keywords`, `description`, and `tags`.
 
 While `title` and `author` are starightforward, the other fields might be a bit confusing for first-time contributors. Explanations of each field is shown below. Please note that these fields could change over time.
@@ -67,13 +69,36 @@ description: description of this blog
 tags: [tag1]
 ```
 
+##### Co-author template
+
+[Co-author](https://docusaurus.io/docs/next/blog#blog-post-authors) feature is added, since translating and editing articles is also time-consuming, we would like to give credit to translators and technical writers as well.
+
+```markdown
+title: "blog's title"
+authors:
+  - name: "Author's Name"
+    url: "Author's GitHub"
+    image_url: "Author's Image URL"
+  - name: "Translator/Technical Writer's name"
+    url: "Translator/Technical Writer's GitHub"
+    image_url: "ranslator/Technical Writer's Image URL"
+keywords:
+- keywords 1
+- keywords 2
+- keywords 3
+- keywords 4
+- keywords 5
+description: description of this blog
+tags: [tag1]
+```
+
 ##### title
 
-Required field, the title of the article, the standard expression in the form of `title: "title"`.
+Required field for single author template, the title of the article, the standard expression in the form of `title: "title"`.
 
 ##### author
 
-Required field, the article's author name, the standard form of expression for `author: "author"`.
+Required field for single author template, the article's author name, the standard form of expression for `author: "author"`.
 
 1. Community author: if you are willing to provide your real name, use your real name, if not, use your GitHub account name.
 
@@ -86,6 +111,14 @@ For business users or business cases, you can leave this item blank. Because Git
 ##### authorImageURL
 
 The author's GitHub avatar, it is related with `authorURL`. For the same reason described  above, this is an optional field. See below for how to get the avatar.
+
+#### authors
+
+Required field for co-author template. When a blog is co-authored by 2 people, please use `authors` instead of `author` to give credits to both authors. `authors` consists of the following fields: `authors.name`, `authors. url`, and `authors.image_url.`
+
+- `authors.name`: authors' names in plain text, for example: `name: "John Doe"`.
+- `authors. url`: authors' GitHub pages, for example: `url: "www.google.com"`.
+- `authors.image_url`: author's GitHub avatar.
 
 ##### keywords
 
