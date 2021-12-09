@@ -2,11 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-12-07T00:00:00.000Z</updated>
+    <updated>2021-12-08T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities]]></title>
+        <id>Apache APISIX &amp; RocketMQ Helps User API Log Monitoring Capabilities</id>
+        <link href="https://apisix.apache.org/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin"/>
+        <updated>2021-12-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.]]></summary>
+        <author>
+            <name>Zhou Yu</name>
+            <uri>https://github.com/yuz10</uri>
+        </author>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing]]></title>
         <id>Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing</id>

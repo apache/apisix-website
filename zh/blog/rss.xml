@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/zh/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 07 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 08 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin</link>
+            <guid>Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城</guid>
+            <pubDate>Wed, 08 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[本文将为大家介绍 Apache APISIX 与 Apache RocketMQ 最新集成的 rocketmq-logger 插件功能与使用介绍。借助该插件，可以帮助您在使用 APISIX 中更方便的与 RocketMQ 集群连接。]]></description>
+        </item>
         <item>
             <title><![CDATA[强强联合！APISIX 集成 SkyWalking 打造全方位日志处理]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin</link>

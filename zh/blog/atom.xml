@@ -2,11 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-12-07T00:00:00.000Z</updated>
+    <updated>2021-12-08T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城]]></title>
+        <id>Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin"/>
+        <updated>2021-12-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文将为大家介绍 Apache APISIX 与 Apache RocketMQ 最新集成的 rocketmq-logger 插件功能与使用介绍。借助该插件，可以帮助您在使用 APISIX 中更方便的与 RocketMQ 集群连接。]]></summary>
+        <author>
+            <name>余洲</name>
+            <uri>https://github.com/yuz10</uri>
+        </author>
+        <author>
+            <name>苏钰</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[强强联合！APISIX 集成 SkyWalking 打造全方位日志处理]]></title>
         <id>强强联合！APISIX 集成 SkyWalking 打造全方位日志处理</id>

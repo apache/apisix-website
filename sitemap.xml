@@ -531,6 +531,11 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://apisix.apache.org/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://apisix.apache.org/blog/archive/</loc>
         <changefreq>daily</changefreq>
         <priority>0.5</priority>

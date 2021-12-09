@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Tue, 07 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 08 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities]]></title>
+            <link>https://apisix.apache.org/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin</link>
+            <guid>Apache APISIX &amp; RocketMQ Helps User API Log Monitoring Capabilities</guid>
+            <pubDate>Wed, 08 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing]]></title>
             <link>https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin</link>
