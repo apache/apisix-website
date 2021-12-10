@@ -111,7 +111,7 @@ For business users or business cases, you can leave this item blank. Because Git
 
 ##### authorImageURL
 
-The author's GitHub avatar, it is related with `authorURL`. For the same reason described  above, this is an optional field. See below for how to get the avatar.
+The author's GitHub avatar, it is related with `authorURL`. For the same reason described above, this is an optional field. See below for how to get the avatar.
 
 #### authors
 
