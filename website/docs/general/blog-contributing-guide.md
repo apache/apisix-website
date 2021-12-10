@@ -52,7 +52,7 @@ To add a new blog, please perform the following steps:
 
 Our blogs start with a header sections containing fields such as `title`, `author`, `authorURL`, `authorImageURL`, `keywords`, `description`, and `tags`.
 
-While `title` and `author` are starightforward, the other fields might be a bit confusing for first-time contributors. Explanations of each field is shown below. Please note that these fields could change over time.
+While `title` and `author` are starightforward, the other fields might be a bit confusing for first-time contributors. Explanation of each field is mentioned below. Please note that these fields could change over time.
 
 ```markdown
 title: "blog's title"
