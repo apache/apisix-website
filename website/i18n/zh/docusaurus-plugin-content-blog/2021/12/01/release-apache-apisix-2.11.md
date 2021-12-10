@@ -69,7 +69,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 运行结果就像这样：
 
 ```shell
-$ curl -i -uuser01:password1 http://127.0.0.1:9080/hello
+curl -i -uuser01:password1 http://127.0.0.1:9080/hello
 HTTP/1.1 200 OK
 ...
 hello, world
@@ -131,7 +131,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 接下来我们将通过下方示例来展示如何把 Azure 上配置好的函数，跟 Apache APISIX 上 `/azure_HttpTrigger` 路由连接起来。
 
 ```shell
-$ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins":{
         "azure-functions":{

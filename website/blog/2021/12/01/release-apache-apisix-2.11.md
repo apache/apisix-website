@@ -69,7 +69,7 @@ In the above configuration, we have bound `user01` to `route 1`. This way we can
 The result looks like this.
 
 ```shell
-$ curl -i -uuser01:password1 http://127.0.0.1:9080/hello
+curl -i -uuser01:password1 http://127.0.0.1:9080/hello
 HTTP/1.1 200 OK
 ...
 hello, world
@@ -131,7 +131,7 @@ Now with the `azure-functions` plugin, you can use HTTP requests to trigger func
 The following example shows how to connect a configured function on Azure to the `/azure_HttpTrigger` route on Apache APISIX.
 
 ```shell
-$ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins":{
         "azure-functions":{
