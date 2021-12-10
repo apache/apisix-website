@@ -22,6 +22,8 @@ tags: [Technology]
 
 <!--truncate-->
 
+![Keycloak-APISIX 集成](https://static.apiseven.com/202108/1639129658486-393e8a3a-ccf2-496d-9b46-4db741bd6e55.png)
+
 ## 什么是 Keycloak
 
 [Keycloak](https://www.keycloak.org/) 是一个针对现代应用程序和服务的开源身份和访问管理解决方案。Keycloak 支持单点登录（Single-Sign On），因此服务可以通过 OpenID Connect、OAuth 2.0 等协议对接 Keycloak。同时 Keycloak 也支持集成不同的身份认证服务，例如 Github、Google 和 Facebook 等。
