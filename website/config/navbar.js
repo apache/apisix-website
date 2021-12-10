@@ -53,8 +53,13 @@ module.exports = [
     position: "right",
   },
   {
-    to: "https://github.com/apache/apisix/discussions",
-    label: "Discussions",
+    to: "/help",
+    label: "Help",
+    position: "right"
+  },
+  {
+    to: "team",
+    label: "Team",
     position: "right"
   },
   {
@@ -76,15 +81,7 @@ module.exports = [
       {
         to: "/contribute",
         label: "Contribute"
-      },
-      {
-        to: "/team",
-        label: "Team"
-      },
-      {
-        to: "/help",
-        label: "Help",
-      },
+      }
     ]
   },
   {
