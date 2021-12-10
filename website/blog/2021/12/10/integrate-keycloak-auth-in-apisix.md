@@ -20,7 +20,7 @@ tags: [Technology]
 
 > This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in Apache APISIX through detailed steps.
 
-<!--truncate--> 
+<!--truncate-->
 
 [Keycloak](https://www.keycloak.org/) is an open source identity and access management solution for modern applications and services. Keycloak supports Single-Sign On, which enables services to interface with Keycloak through protocols such as OpenID Connect, OAuth 2.0, etc. Keycloak also supports integrations with different authentication services, such as Github, Google and Facebook.
 
@@ -67,7 +67,7 @@ services:
 ```
 
 ```shell
-docker-compose up 
+docker-compose up
 ```
 
 After execution, you need to verify that Keycloak and postgres have started successfully.
@@ -95,7 +95,7 @@ The realm in Keycloak is divided into two categories: one is the `master realm`,
 The next step is to create the `OpenID Connect Client`. In Keycloak, Client means a client that is allowed to initiate authentication to Keycloak.
 
  In this example scenario, `Apache APISIX` is equivalent to a client that is responsible for initiating authentication requests to Keycloak, so we create a Client with the name `apisix`. More details about the Client can be found in [Keycloak OIDC Clients](https://www.keycloak.org/docs/latest/server_admin/#_oidc_clients).
- 
+
 ![Create OpenID Client](https://static.apiseven.com/202108/1639101288379-9a46b92a-294e-4b40-ac7e-408284a3d0ad.png)
 
 ![Creat Client title](https://static.apiseven.com/202108/1639101327347-c8ab463a-1cb0-4eb0-a26f-17d7c0c54846.png)
@@ -106,9 +106,9 @@ After the Client is created, you need to configure the Apache APISIX access type
 
 In Keycloak, there are three types of Access Type:
 
-1.  **C****onfidential****:** which is used for applications that need to perform browser login, and the client will get the `access token` through `client secret`, mostly used in web systems rendered by the server.
-2.  **P****ublic****:** for applications that need to perform browser login, mostly used in front-end projects implemented using vue and react.
-3.  **B****earer-only****:** for applications that don't need to perform browser login, only allow access with `bearer token`, mostly used in RESTful API scenarios.
+1. **C****onfidential****:** which is used for applications that need to perform browser login, and the client will get the `access token` through `client secret`, mostly used in web systems rendered by the server.
+2. **P****ublic****:** for applications that need to perform browser login, mostly used in front-end projects implemented using vue and react.
+3. **B****earer-only****:** for applications that don't need to perform browser login, only allow access with `bearer token`, mostly used in RESTful API scenarios.
 
 For more details about Client settings, please refer to [Keycloak OIDC Clients Advanced Settings](https://www.keycloak.org/docs/latest/server_admin/#advanced-settings).
 

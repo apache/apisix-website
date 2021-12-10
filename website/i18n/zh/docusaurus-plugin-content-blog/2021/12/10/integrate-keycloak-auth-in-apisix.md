@@ -69,7 +69,7 @@ services:
 ```
 
 ```shell
-docker-compose up 
+docker-compose up
 ```
 
 执行完毕后需要确认 Keycloak 和 PostgreSQL 是否已成功启动。
@@ -98,7 +98,6 @@ Keycloak 中 `realm` 分为两类 : 一类是 `master realm`，由 Keycloak 刚�
 
 在本示例场景中，`Apache APISIX` 相当于一个客户端，负责向 Keycloak 发起身份认证请求，因此我们创建一个名称为 `apisix` 的 Client。关于 Client 更多细节可参考 [Keycloak OIDC Clients](https://www.keycloak.org/docs/latest/server_admin/#_oidc_clients)。
 
-
 ![创建 OpenID Client](https://static.apiseven.com/202108/1639101288379-9a46b92a-294e-4b40-ac7e-408284a3d0ad.png)
 
 ![创建 Client 名称](https://static.apiseven.com/202108/1639101327347-c8ab463a-1cb0-4eb0-a26f-17d7c0c54846.png)
@@ -109,9 +108,9 @@ Client 创建完成后，需要为 Client 配置 Apache APISIX 的访问类型�
 
  在 Keycloak 中 `Access Type` 分为三类：
 
-1.  confidential。适用于需要执行浏览器登录的应用，客户端会通过 `client secret` 来获取 `access token` , 多运用于服务端渲染的 web 系统。
-2.  public。适用于需要执行浏览器登录的应用，多运用于使用 vue 和 react 实现的前端项目。
-3.  bearer-only。适用于不需要执行浏览器登录的应用，只允许携带 `bearer token` 访问，多运用于 RESTful API 的使用场景。
+1. confidential。适用于需要执行浏览器登录的应用，客户端会通过 `client secret` 来获取 `access token` , 多运用于服务端渲染的 web 系统。
+2. public。适用于需要执行浏览器登录的应用，多运用于使用 vue 和 react 实现的前端项目。
+3. bearer-only。适用于不需要执行浏览器登录的应用，只允许携带 `bearer token` 访问，多运用于 RESTful API 的使用场景。
 
 更多关于 Client 设置细节可参考 [Keycloak OIDC Clients 高级设置](https://www.keycloak.org/docs/latest/server_admin/#advanced-settings)。
 
@@ -141,8 +140,8 @@ Keycloak 配置完成后，需要在 Apache APISIX 中创建路由并开启 `Ope
 
 上图配置中：
 
-*   `client_id` 为之前创建 Client 时使用的名称，即 `apisix`
-*   `client_secret` 则需要进入 Clients-apisix-Credentials 中获取，例如：`d5c42c50-3e71-4bbe-aa9e-31083ab29da4`。
+* `client_id` 为之前创建 Client 时使用的名称，即 `apisix`
+* `client_secret` 则需要进入 Clients-apisix-Credentials 中获取，例如：`d5c42c50-3e71-4bbe-aa9e-31083ab29da4`。
 
 #### 获取 discovery 配置项
 
