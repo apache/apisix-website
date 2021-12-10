@@ -86,7 +86,7 @@ Keycloak 启动完成之后，使用浏览器访问 "http://127.0.0.1:8080/auth/
 
 首先，创建一个名称为 `apisix_test_realm`的 `realm`。在 Keycloak 中，`realm` 是一个专门用来管理项目的工作区，不同 `realm`之间的资源是相互隔离的。
 
-Keycloak 中 `realm` 分为两类 : 一类是 `master realm`，由 Keycloak 刚启动时创建，用于管理 admin 账号以及创建其他的 `realm`。第二类是 `other realm`, 由 `master realm` 中的 admin 创建，可以在该 `realm` 中进行用户和应用的创建并进行管理和使用。更多细节可参考 [Keycloak 中 realm 和 users](https://www.keycloak.org/docs/latest/getting_started/index.html#realms-and-users) 相关内容。
+Keycloak 中 `realm` 分为两类：一类是 `master realm`，由 Keycloak 刚启动时创建，用于管理 admin 账号以及创建其他的 `realm`。第二类是 `other realm`，由 `master realm` 中的 admin 创建，可以在该 `realm` 中进行用户和应用的创建并进行管理和使用。更多细节可参考 [Keycloak 中 realm 和 users](https://www.keycloak.org/docs/latest/getting_started/index.html#realms-and-users) 相关内容。
 
 ![创建 realm](https://static.apiseven.com/202108/1639101202459-72803240-b358-4c69-a9ca-4b6751a8547d.png)
 
@@ -140,7 +140,7 @@ Keycloak 配置完成后，需要在 Apache APISIX 中创建路由并开启 `Ope
 
 上图配置中：
 
-* `client_id` 为之前创建 Client 时使用的名称，即 `apisix`
+* `client_id` 为之前创建 Client 时使用的名称，即 `apisix`；
 * `client_secret` 则需要进入 Clients-apisix-Credentials 中获取，例如：`d5c42c50-3e71-4bbe-aa9e-31083ab29da4`。
 
 #### 获取 discovery 配置项
@@ -189,7 +189,7 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 
 由于开启了 OpenID-Connect 插件，并且设置了 `bearer-only` 为 `false` 。因此第一次访问该路径时， Apache APISIX 将重定向到 Keycloak 中 `apisix_test_realm` 中配置的登录界面，进行用户登录请求。
 
-![登陆页面](https://static.apiseven.com/202108/1639101623370-cc668e0f-0c2c-469c-9a3e-3118c271d63f.png)
+![登录页面](https://static.apiseven.com/202108/1639101623370-cc668e0f-0c2c-469c-9a3e-3118c271d63f.png)
 
 输入之前配置 Keycloak 时创建的 User peter，即可完成用户登录。
 

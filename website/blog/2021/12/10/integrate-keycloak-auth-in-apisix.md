@@ -1,7 +1,7 @@
 ---
 title: "How to Integrate Keycloak for Authentication with Apache APISIX"
 authors:
-  - name: "Peter"
+  - name: "Xinxin Zhu"
     title: "Author"
     url: "https://github.com/starsz"
     image_url: "https://avatars.githubusercontent.com/u/25628854?v=4"
