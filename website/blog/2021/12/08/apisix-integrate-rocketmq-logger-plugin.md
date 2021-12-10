@@ -1,10 +1,12 @@
 ---
 title: "Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities"
 authors: 
-  - name: Zhou Yu
+  - name: "Zhou Yu"
+    title: "Author"
     url: "https://github.com/yuz10"
     image_url: "https://avatars.githubusercontent.com/u/14816818?v=4"
   - name: "Sylvia"
+    title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 

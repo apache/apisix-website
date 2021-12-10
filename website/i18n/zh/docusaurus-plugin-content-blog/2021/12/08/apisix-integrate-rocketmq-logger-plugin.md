@@ -1,10 +1,12 @@
 ---
 title: "Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城"
 authors: 
-  - name: 余洲
+  - name: "余洲"
+    title: "Author"
     url: "https://github.com/yuz10"
     image_url: "https://avatars.githubusercontent.com/u/14816818?v=4"
-  - name: 苏钰
+  - name: "苏钰"
+    title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
