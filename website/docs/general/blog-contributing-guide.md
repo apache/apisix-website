@@ -115,7 +115,7 @@ The author's GitHub avatar, it is related with `authorURL`. For the same reason 
 
 #### authors
 
-The required field for co-author template. When a blog is co-authored by 2 people, please use `authors` instead of `author` to give credits to both authors. `authors` consists of the following fields: `authors.name`, `authors.url`, and `authors.image_url`.
+The required field for co-author template. When a blog is co-authored by 2 people, please use `authors` instead of `author` to give credits to both authors. `authors` consists of the following fields: `authors.name`, `authors.url`, `authors.title` and `authors.image_url`.
 
 - `authors.name`: authors' names in plain text, for example: `name: "John Doe"`.
 - `authors.title`: author's title in plain text, for example: `title: "Technical Writer"`.
