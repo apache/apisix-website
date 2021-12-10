@@ -77,6 +77,7 @@ tags: [tag1]
 title: "blog's title"
 authors:
   - name: "Author's Name"
+    title: "Author's title"
     url: "Author's GitHub"
     image_url: "Author's Image URL"
   - name: "Translator/Technical Writer's name"
@@ -114,11 +115,12 @@ The author's GitHub avatar, it is related with `authorURL`. For the same reason 
 
 #### authors
 
-Required field for co-author template. When a blog is co-authored by 2 people, please use `authors` instead of `author` to give credits to both authors. `authors` consists of the following fields: `authors.name`, `authors. url`, and `authors.image_url.`
+The required field for co-author template. When a blog is co-authored by 2 people, please use `authors` instead of `author` to give credits to both authors. `authors` consists of the following fields: `authors.name`, `authors.url`, and `authors.image_url.`
 
 - `authors.name`: authors' names in plain text, for example: `name: "John Doe"`.
-- `authors. url`: authors' GitHub pages, for example: `url: "www.google.com"`.
-- `authors.image_url`: author's GitHub avatar.
+- `authors.title`: author's title in plain text, for example: `title: "Technical Writer"`.
+- `authors.url`: authors' GitHub pages, for example: `url: "https://github.com/yzeng25"`.
+- `authors.image_url`: author's GitHub avatar, for example: `authors.image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"`.
 
 ##### keywords
 
@@ -143,7 +145,7 @@ Required field, tag, which is used to categorize the blog. Each post has and can
 
 We can help authors to use a better category once a pull request is submitted.
 
-#### How to get the authorImageURL
+#### How to get the authorImageURL or authors.image_url
 
 1. Open Chrome or your preffered browser.
 2. Enter the author's GitHub address to access the author's GitHub home page.
