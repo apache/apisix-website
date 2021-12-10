@@ -2,11 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://apisix.apache.org/zh/blog</id>
     <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
-    <updated>2021-12-08T00:00:00.000Z</updated>
+    <updated>2021-12-10T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://apisix.apache.org/zh/blog"/>
     <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
     <icon>https://apisix.apache.org/zh/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[如何在 Apache APISIX 中集成 Keycloak 实现身份认证]]></title>
+        <id>如何在 Apache APISIX 中集成 Keycloak 实现身份认证</id>
+        <link href="https://apisix.apache.org/zh/blog/2021/12/10/integrate-keycloak-auth-in-apisix"/>
+        <updated>2021-12-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文通过详细的步骤为大家展示了如何在 Apache APISIX 使用 OpenID-Connect 协议和 Keycloak 进行身份认证。通过对接 Keycloak，Apache APISIX 仅需通过配置即可实现对使用者和应用服务进行认证与鉴权，从而大大减少了相关开发工作。]]></summary>
+        <author>
+            <name>朱欣欣</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
+        <author>
+            <name>苏钰</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城]]></title>
         <id>Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城</id>
@@ -31,6 +46,10 @@
         <author>
             <name>庄浩潮</name>
             <uri>https://github.com/dmsolr</uri>
+        </author>
+        <author>
+            <name>苏钰</name>
+            <uri>https://github.com/SylviaBABY</uri>
         </author>
     </entry>
     <entry>

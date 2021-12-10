@@ -4,9 +4,16 @@
         <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
         <link>https://apisix.apache.org/blog</link>
         <description>Apache APISIX® -- Cloud-Native API Gateway Blog</description>
-        <lastBuildDate>Wed, 08 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 10 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[How to Integrate Keycloak for Authentication with Apache APISIX]]></title>
+            <link>https://apisix.apache.org/blog/2021/12/10/integrate-keycloak-auth-in-apisix</link>
+            <guid>How to Integrate Keycloak for Authentication with Apache APISIX</guid>
+            <pubDate>Fri, 10 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in Apache APISIX through detailed steps.]]></description>
+        </item>
         <item>
             <title><![CDATA[Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities]]></title>
             <link>https://apisix.apache.org/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin</link>
