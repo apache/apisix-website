@@ -147,7 +147,7 @@ We can help authors to use a better category once a pull request is submitted.
 
 #### How to get the authorImageURL or authors.image_url
 
-1. Open Chrome or your preffered browser.
+1. Open Chrome or your preferred browser.
 2. Enter the author's GitHub address to access the author's GitHub home page.
 3. Right click on the author's avatar, and click "copy image address".
 4. Paste image address to the authorImageURL field.
