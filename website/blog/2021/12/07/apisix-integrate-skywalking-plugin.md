@@ -1,8 +1,14 @@
 ---
 title: "Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing"
-author: "Haochao Zhuang"
-authorURL: "https://github.com/dmsolr"
-authorImageURL: "https://avatars.githubusercontent.com/u/29735230?v=4"
+authors: 
+  - name: "Haochao Zhuang"
+    title: "Author"
+    url: "https://github.com/dmsolr"
+    image_url: "https://avatars.githubusercontent.com/u/29735230?v=4"
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
 - Apache SkyWalking

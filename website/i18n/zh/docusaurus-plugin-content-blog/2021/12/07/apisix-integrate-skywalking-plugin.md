@@ -1,8 +1,14 @@
 ---
 title: "强强联合！APISIX 集成 SkyWalking 打造全方位日志处理"
-author: "庄浩潮"
-authorURL: "https://github.com/dmsolr"
-authorImageURL: "https://avatars.githubusercontent.com/u/29735230?v=4"
+authors: 
+  - name: "庄浩潮"
+    title: "Author"
+    url: "https://github.com/dmsolr"
+    image_url: "https://avatars.githubusercontent.com/u/29735230?v=4"
+  - name: "苏钰"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
 - Apache SkyWalking
