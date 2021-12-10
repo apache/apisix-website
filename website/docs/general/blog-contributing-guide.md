@@ -82,7 +82,7 @@ authors:
     image_url: "Author's Image URL"
   - name: "Translator/Technical Writer's name"
     url: "Translator/Technical Writer's GitHub"
-    image_url: "ranslator/Technical Writer's Image URL"
+    image_url: "Translator/Technical Writer's Image URL"
 keywords:
 - keywords 1
 - keywords 2
