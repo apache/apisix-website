@@ -71,6 +71,21 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Apache APISIX 2.11.0 is officially released with more new features]]></title>
+        <id>Apache APISIX 2.11.0 is officially released with more new features</id>
+        <link href="https://apisix.apache.org/blog/2021/12/01/release-apache-apisix-2.11"/>
+        <updated>2021-12-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.11.0 is officially released, which is the first version with new features after 2.10.0 LTS.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere]]></title>
         <id>Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere</id>
         <link href="https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere"/>

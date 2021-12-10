@@ -43,6 +43,13 @@
             <description><![CDATA[This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX 2.11.0 is officially released with more new features]]></title>
+            <link>https://apisix.apache.org/blog/2021/12/01/release-apache-apisix-2.11</link>
+            <guid>Apache APISIX 2.11.0 is officially released with more new features</guid>
+            <pubDate>Wed, 01 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 2.11.0 is officially released, which is the first version with new features after 2.10.0 LTS.]]></description>
+        </item>
+        <item>
             <title><![CDATA[Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere]]></title>
             <link>https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere</link>
             <guid>Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere</guid>

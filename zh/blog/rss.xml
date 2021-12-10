@@ -43,6 +43,13 @@
             <description><![CDATA[本文介绍了最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。]]></description>
         </item>
         <item>
+            <title><![CDATA[Apache APISIX 2.11.0 正式发布，蓄力两月带来更多新功能]]></title>
+            <link>https://apisix.apache.org/zh/blog/2021/12/01/release-apache-apisix-2.11</link>
+            <guid>Apache APISIX 2.11.0 正式发布，蓄力两月带来更多新功能</guid>
+            <pubDate>Wed, 01 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Apache APISIX 2.11.0 版本正式发布，这是继 2.10.0 LTS 版本后第一版带有新功能的版本。]]></description>
+        </item>
+        <item>
             <title><![CDATA[在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控]]></title>
             <link>https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere</link>
             <guid>在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控</guid>
