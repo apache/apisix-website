@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://apisix.apache.org/blog</id>
+    <title>Apache APISIX® -- Cloud-Native API Gateway Blog</title>
+    <updated>2021-12-10T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://apisix.apache.org/blog"/>
+    <subtitle>Apache APISIX® -- Cloud-Native API Gateway Blog</subtitle>
+    <icon>https://apisix.apache.org/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[How to Integrate Keycloak for Authentication with Apache APISIX]]></title>
+        <id>How to Integrate Keycloak for Authentication with Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/12/10/integrate-keycloak-auth-in-apisix"/>
+        <updated>2021-12-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in Apache APISIX through detailed steps.]]></summary>
+        <author>
+            <name>Xinxin Zhu</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities]]></title>
+        <id>Apache APISIX &amp; RocketMQ Helps User API Log Monitoring Capabilities</id>
+        <link href="https://apisix.apache.org/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin"/>
+        <updated>2021-12-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.]]></summary>
+        <author>
+            <name>Zhou Yu</name>
+            <uri>https://github.com/yuz10</uri>
+        </author>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing]]></title>
+        <id>Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing</id>
+        <link href="https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin"/>
+        <updated>2021-12-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This paper mainly introduces two Apache APISIX integrated SkyWalking log plug-ins to provide a more convenient operation and environment for log processing in Apache APISIX.]]></summary>
+        <author>
+            <name>Haochao Zhuang</name>
+            <uri>https://github.com/dmsolr</uri>
+        </author>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Biweekly Report｜11.15-11.30 Feature Highlights Update in Progress]]></title>
+        <id>Biweekly Report｜11.15-11.30 Feature Highlights Update in Progress</id>
+        <link href="https://apisix.apache.org/blog/2021/12/02/weekly-report-1130"/>
+        <updated>2021-12-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX's intergration with Azure Serverless]]></title>
+        <id>Apache APISIX's intergration with Azure Serverless</id>
+        <link href="https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions"/>
+        <updated>2021-12-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.]]></summary>
+        <author>
+            <name>Bisakh Mondal</name>
+            <uri>https://github.com/bisakhmondal</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 2.11.0 is officially released with more new features]]></title>
+        <id>Apache APISIX 2.11.0 is officially released with more new features</id>
+        <link href="https://apisix.apache.org/blog/2021/12/01/release-apache-apisix-2.11"/>
+        <updated>2021-12-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.11.0 is officially released, which is the first version with new features after 2.10.0 LTS.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere]]></title>
+        <id>Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere</id>
+        <link href="https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere"/>
+        <updated>2021-11-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will take Apache APISIX Ingress Controller as an example to show you in detail how to quickly use different types of gateways and status monitoring for Kubernetes clusters through KubeSphere.]]></summary>
+        <author>
+            <name>Haili Zhang</name>
+            <uri>https://github.com/webup</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Contributer to Committer journey @Apache APISIX]]></title>
+        <id>Contributer to Committer journey @Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/11/26/apache-apisix-committer-experience"/>
+        <updated>2021-11-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article, Shivam Singh ([@1502shivam-singh](https://github.com/1502shivam-singh)) gives a brief of his journey from starting out in the Apache APISIX community, from a contributor to an Apache member and APISIX committer. His journey can help other people looking to startup in the Apache APISIX community or Open Source in general.]]></summary>
+        <author>
+            <name>Shivam Singh</name>
+            <uri>https://github.com/1502shivam-singh</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX request_uri variable is not properly controlled, with risk of path penetration]]></title>
+        <id>Apache APISIX request_uri variable is not properly controlled, with risk of path penetration</id>
+        <link href="https://apisix.apache.org/blog/2021/11/23/cve-2021-43557-research-report"/>
+        <updated>2021-11-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Research report about Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></summary>
+        <author>
+            <name>Marcin Niemiec</name>
+            <uri>https://github.com/xvnpw</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)]]></title>
+        <id>Apache APISIX Path traversal in request_uri variable(CVE-2021-43557)</id>
+        <link href="https://apisix.apache.org/blog/2021/11/23/cve-2021-43557"/>
+        <updated>2021-11-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In versions prior to Apache APISIX 2.10.2, there was a problem of "bypassing partial restrictions" that caused the risk of path penetration by using the $request_uri variable in Apache APISIX Ingress Controller.]]></summary>
+        <author>
+            <name>Sylvia</name>
+            <uri>https://github.com/SylviaBABY</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Developing APISIX Ingress Controller with Nocalhost in Kubernetes]]></title>
+        <id>Developing APISIX Ingress Controller with Nocalhost in Kubernetes</id>
+        <link href="https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes"/>
+        <updated>2021-11-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article walks you through using Nocalhost to seamlessly connect your local development machine to a remote Kubernetes cluster, allowing you to use IDE to develop and debug Apache APISIX Ingress Controller. Giving you the ability to comfortably develop and debug your remote apps with your existing skills.]]></summary>
+        <author>
+            <name>Garry Chen</name>
+            <uri>https://github.com/neaped</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX embraces the WASM ecosystem]]></title>
+        <id>Apache APISIX embraces the WASM ecosystem</id>
+        <link href="https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm"/>
+        <updated>2021-11-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Support for WASM will be added in the upcoming Apache APISIX version (2.11.0)! By reading this article you will learn how Apache APISIX deploys the support and development of this feature from 0 to 1.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to integrate with Dapr to build Apache APISIX Gateway Controller]]></title>
+        <id>How to integrate with Dapr to build Apache APISIX Gateway Controller</id>
+        <link href="https://apisix.apache.org/blog/2021/11/17/dapr-with-apisix"/>
+        <updated>2021-11-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will show you how to create an Apache APISIX controller by integrating Dapr, includes the concept of the project and the specific operation steps.]]></summary>
+        <author>
+            <name>Shanyou Zhang</name>
+            <uri>https://github.com/geffzhang</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Weekly Report｜11.1-11.14 Feature Highlights Update in Progress]]></title>
+        <id>Weekly Report｜11.1-11.14 Feature Highlights Update in Progress</id>
+        <link href="https://apisix.apache.org/blog/2021/11/16/weekly-report-1114"/>
+        <updated>2021-11-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cloud Monitoring with Datadog in Apache APISIX]]></title>
+        <id>Cloud Monitoring with Datadog in Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/11/12/apisix-datadog"/>
+        <updated>2021-11-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX recently released a new plugin APISIX-Datadog, to provide a deeper integration with Datadog. This article introduces the APISIX-Datadog Plugin and its capabilities.]]></summary>
+        <author>
+            <name>Bisakh Mondal</name>
+            <uri>https://github.com/bisakhmondal</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The observability of Apache APISIX]]></title>
+        <id>The observability of Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/11/04/skywalking"/>
+        <updated>2021-11-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.]]></summary>
+        <author>
+            <name>Haochao Zhuang</name>
+            <uri>https://github.com/dmsolr</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Apache APISIX protects Airwallex data sovereignty through the gateway layer]]></title>
+        <id>How Apache APISIX protects Airwallex data sovereignty through the gateway layer</id>
+        <link href="https://apisix.apache.org/blog/2021/11/03/airwallex-usercase"/>
+        <updated>2021-11-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.]]></summary>
+        <author>
+            <name>Yang Li</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Weekly Report｜10.15-10.31 Feature Highlights Update in Progress]]></title>
+        <id>Weekly Report｜10.15-10.31 Feature Highlights Update in Progress</id>
+        <link href="https://apisix.apache.org/blog/2021/11/02/weekly-report-1031"/>
+        <updated>2021-11-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Extensions Guide]]></title>
+        <id>Apache APISIX Extensions Guide</id>
+        <link href="https://apisix.apache.org/blog/2021/10/29/Extension-guide"/>
+        <updated>2021-10-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From 0 to 1, How APISIX Ingress Has Grown and Gained Since Joining The Community]]></title>
+        <id>From 0 to 1, How APISIX Ingress Has Grown and Gained Since Joining The Community</id>
+        <link href="https://apisix.apache.org/blog/2021/10/26/APISIX-Ingress"/>
+        <updated>2021-10-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article describes the growth of APISIX Ingress and the details of the enhancements and community help that APISIX Ingress has received since joining the community.]]></summary>
+        <author>
+            <name>Wei Jin</name>
+            <uri>https://github.com/gxthrj</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tutorial: How to use Cert Manager to manage certificates in Apache APISIX Ingress Controller]]></title>
+        <id>Tutorial: How to use Cert Manager to manage certificates in Apache APISIX Ingress Controller</id>
+        <link href="https://apisix.apache.org/blog/2021/10/22/cert-manager-in-ingress"/>
+        <updated>2021-10-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article shows how to create a certificate and pair it with Apache APISIX Ingress Controller via the Cert Manager.]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Webinar | Apache APISIX × Apache SkyWalking Online Meetup]]></title>
+        <id>Webinar | Apache APISIX × Apache SkyWalking Online Meetup</id>
+        <link href="https://apisix.apache.org/blog/2021/10/18/meetup"/>
+        <updated>2021-10-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[On October 23rd, the Apache APISIX community is joining forces with the Apache SkyWalking community to bring you an online sharing session.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Community Weekly｜10.1-10.14 Feature Highlight Updates in Progress]]></title>
+        <id>Community Weekly｜10.1-10.14 Feature Highlight Updates in Progress</id>
+        <link href="https://apisix.apache.org/blog/2021/10/14/weekly-report-1014"/>
+        <updated>2021-10-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[New milestone for the Apache APISIX community - over 300 contributors worldwide!]]></title>
+        <id>New milestone for the Apache APISIX community - over 300 contributors worldwide!</id>
+        <link href="https://apisix.apache.org/blog/2021/10/13/celebrating-300-contributors-of-apisix"/>
+        <updated>2021-10-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX community has reached a new milestone, surpassing 300 contributors worldwide to projects related to Apache APISIX!]]></summary>
+        <author>
+            <name>Apache APISIX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A thoughtful tutorial to get started with Apache APISIX Ingress from concept to practice]]></title>
+        <id>A thoughtful tutorial to get started with Apache APISIX Ingress from concept to practice</id>
+        <link href="https://apisix.apache.org/blog/2021/10/09/apisix-ingress-techblog"/>
+        <updated>2021-10-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article describes and explains Apache APISIX Ingress in detail from both theoretical and practical perspectives.]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX community members help openEuler release first community innovation version]]></title>
+        <id>Apache APISIX community members help openEuler release first community innovation version</id>
+        <link href="https://apisix.apache.org/blog/2021/10/01/openEuler"/>
+        <updated>2021-10-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Zexuan Luo and Ming Wen from the Apache APISIX community did a lot of work in the first community innovation release of openEuler on September 30 (openEuler 21.09) to migrate OpenResty to run smoothly and efficiently on the Euler open source OS.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Community Weekly｜New committer, feature highlight update in progress]]></title>
+        <id>Community Weekly｜New committer, feature highlight update in progress</id>
+        <link href="https://apisix.apache.org/blog/2021/09/30/weekly-report"/>
+        <updated>2021-09-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.10.0]]></title>
+        <id>Release Apache APISIX 2.10.0</id>
+        <link href="https://apisix.apache.org/blog/2021/09/29/release-apache-apisix-2.10"/>
+        <updated>2021-09-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WPS has teamed up with Apache APISIX to create a new gateway experience]]></title>
+        <id>WPS has teamed up with Apache APISIX to create a new gateway experience</id>
+        <link href="https://apisix.apache.org/blog/2021/09/28/WPS-usercase"/>
+        <updated>2021-09-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article, Zhang Qiang, head of SRE network in WPS, explains how WPS can use Apache APISIX to handle Mega QPS, and update and improve gateway practices based on Apache APISIX.]]></summary>
+        <author>
+            <name>Qiang Zhang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why is Apache APISIX Ingress a new option for building container gateways into the UPYUN?]]></title>
+        <id>Why is Apache APISIX Ingress a new option for building container gateways into the UPYUN?</id>
+        <link href="https://apisix.apache.org/blog/2021/09/24/youpaicloud-usercase"/>
+        <updated>2021-09-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article describes the update and adjustment of UPYUN's internal gateway architecture after you selected Apache Apisix Ingress, and shares some of the practice scenarios in use.]]></summary>
+        <author>
+            <name>Zhuo Chen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX helps DIAN to facilitate cloud native solution]]></title>
+        <id>Apache APISIX helps DIAN to facilitate cloud native solution</id>
+        <link href="https://apisix.apache.org/blog/2021/09/18/xiaodian-usercase"/>
+        <updated>2021-09-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article introduces the background and practice of using Apache APISIX to build the cloud native project in DIAN.]]></summary>
+        <author>
+            <name>Ran Sun</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Implementing Apache APISIX in Tencent Cloud TI-ONE Platform]]></title>
+        <id>Implementing Apache APISIX in Tencent Cloud TI-ONE Platform</id>
+        <link href="https://apisix.apache.org/blog/2021/09/16/tencent-cloud"/>
+        <updated>2021-09-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article is a practical case of implementing Apache APISIX in Tencent Cloud’s production environment.]]></summary>
+        <author>
+            <name>Shoujun Diao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Community Weekly｜Two new committers, feature highlight updates in progress]]></title>
+        <id>Community Weekly｜Two new committers, feature highlight updates in progress</id>
+        <link href="https://apisix.apache.org/blog/2021/09/15/weekly-report"/>
+        <updated>2021-09-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX powers the Youzanyun native PaaS platform for comprehensive micro-service governance]]></title>
+        <id>Apache APISIX powers the Youzanyun native PaaS platform for comprehensive micro-service governance</id>
+        <link href="https://apisix.apache.org/blog/2021/09/14/youzan"/>
+        <updated>2021-09-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.]]></summary>
+        <author>
+            <name>Nuojing Dai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Apache APISIX is implemented in China Mobile Cloud]]></title>
+        <id>How Apache APISIX is implemented in China Mobile Cloud</id>
+        <link href="https://apisix.apache.org/blog/2021/09/13/china-mobile-cloud-usercase"/>
+        <updated>2021-09-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article is compiled from a presentation given by Yanshan Chen from China Mobile Cloud Competence Center at ApacheCon 2021 Asia. By reading this article, you can learn how China Mobile Cloud is developing and improving and updating its products based on Apache APISIX to create a better mobile cloud object storage.]]></summary>
+        <author>
+            <name>Yanshan Chen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How can I contribute to an open source project without writing code?]]></title>
+        <id>How can I contribute to an open source project without writing code?</id>
+        <link href="https://apisix.apache.org/blog/2021/09/09/how-to-contribute-to-an-OpenSource-without-coding"/>
+        <updated>2021-09-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article introduces many ways to contribute to open source projects without writing code. You can participate in open source projects by writing articles, making videos, sharing them externally, building local communities, and actively participating in community discussions.]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centralized Authentication with Apache APISIX and Advanced Tricks]]></title>
+        <id>Centralized Authentication with Apache APISIX and Advanced Tricks</id>
+        <link href="https://apisix.apache.org/blog/2021/09/07/how-to-use-apisix-auth"/>
+        <updated>2021-09-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article introduces the authentication feature of Apache APISIX, in terms of importance and playful use, with detailed descriptions and details on its use.]]></summary>
+        <author>
+            <name>Xinxin Zhu</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Based on Apache APISIX, iQIYI API Gateway Update and landing practice]]></title>
+        <id>Based on Apache APISIX, iQIYI API Gateway Update and landing practice</id>
+        <link href="https://apisix.apache.org/blog/2021/09/07/iQIYI-usercase"/>
+        <updated>2021-09-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.]]></summary>
+        <author>
+            <name>Cong He</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python helps you develop Apache APISIX plugin]]></title>
+        <id>Python helps you develop Apache APISIX plugin</id>
+        <link href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development"/>
+        <updated>2021-09-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Java Plugin and Go Plugin languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.]]></summary>
+        <author>
+            <name>Jinchao Shuai</name>
+            <uri>https://github.com/shuaijinchao</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX × KubeSphere: Providing a better gateway and K8S Ingress Controller]]></title>
+        <id>Apache APISIX × KubeSphere: Providing a better gateway and K8S Ingress Controller</id>
+        <link href="https://apisix.apache.org/blog/2021/08/31/Apache APISIX × KubeSphere-a-better-gateway-and-K8S-Ingress-Controller"/>
+        <updated>2021-08-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article describes the direct deployment of Apache APISIX and APISIX Ingress Controller in KubeSphere using the official Apache APISIX Helm repository. And Apache APISIX can be used as a gateway or as a data plane for APISIX Ingress Controller to carry business traffic.]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Webinar｜ See you at the Apache APISIX Ingress Community Meeting on Wednesday at 2pm!]]></title>
+        <id>Webinar｜ See you at the Apache APISIX Ingress Community Meeting on Wednesday at 2pm!</id>
+        <link href="https://apisix.apache.org/blog/2021/08/30/Ingress-Meeting"/>
+        <updated>2021-08-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX Ingress community meetings to establish a channel of communication with community users and developers and to help everyone understand the direction and development plans for Apache APISIX Ingress.]]></summary>
+        <author>
+            <name>Apache APISIX 社区</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29]]></title>
+        <id>Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29</id>
+        <link href="https://apisix.apache.org/blog/2021/08/30/weekly-report"/>
+        <updated>2021-08-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.9]]></title>
+        <id>Release Apache APISIX 2.9</id>
+        <link href="https://apisix.apache.org/blog/2021/08/27/release-apache-apisix-2.9"/>
+        <updated>2021-08-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX version 2.9 is released!]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Authorization with Casbin in Apache APISIX]]></title>
+        <id>Authorization with Casbin in Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[When using Apache APISIX, you may want to add complex authorization logic to your application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
+        <author>
+            <name>Casbin Community &amp; Apache APISIX Community</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centralized authentication using the OpenID Connect plug-in for Apache APISIX]]></title>
+        <id>Centralized authentication using the OpenID Connect plug-in for Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/08/25/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article demonstrates the process of centralized Okta authentication using the Apache APISIX OpenID Connect Plugin. This article contains a conceptual introduction to Apache APISIX and Okta centralized authentication, showing the process of establishing centralized authentication from Okta directly in Apache APISIX. This centralized authentication approach reduces learning and maintenance costs for developers and provides a secure and streamlined user experience.]]></summary>
+        <author>
+            <name>Xinxin Zhu</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Apache APISIX chose Nginx and Lua to build API Gateway]]></title>
+        <id>Why Apache APISIX chose Nginx and Lua to build API Gateway</id>
+        <link href="https://apisix.apache.org/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua"/>
+        <updated>2021-08-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language. So why do Apache APISIX and other well-known gateways choose Lua?]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Meetup in Shanghai]]></title>
+        <id>Apache APISIX Meetup in Shanghai</id>
+        <link href="https://apisix.apache.org/blog/2021/08/24/shanghai-meetup-recap"/>
+        <updated>2021-08-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Event Review: Apache APISIX Meetup Shanghai Topic Sharing and Video Review.]]></summary>
+        <author>
+            <name>Apache APISIX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ApacheCon Asia 2021]]></title>
+        <id>ApacheCon Asia 2021</id>
+        <link href="https://apisix.apache.org/blog/2021/08/23/ApacheCon-Asia-2021"/>
+        <updated>2021-08-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore the "technologies of tomorrow" across more than 350 Apache projects and their diverse communities. ApacheCon Asia 2021 was held online from August 6-8, 2021. The Apache APISIX community actively participated in this annual open source event, presenting a total of eight API/microservices technology-related topics. The content was rich.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 2021 8.16-8.22]]></title>
+        <id>Apache APISIX 社区周报 ｜ 2021 8.16-8.22</id>
+        <link href="https://apisix.apache.org/blog/2021/08/23/weekly-report"/>
+        <updated>2021-08-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[August 21 Apache APISIX Meetup Shanghai, welcome to register!]]></title>
+        <id>August 21 Apache APISIX Meetup Shanghai, welcome to register!</id>
+        <link href="https://apisix.apache.org/blog/2021/08/21/shanghai-meetup"/>
+        <updated>2021-08-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This Meetup was initiated by api7.ai https://www.apiseven.com/, and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go gives Apache APISIX a run for its money]]></title>
+        <id>Go gives Apache APISIX a run for its money</id>
+        <link href="https://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better"/>
+        <updated>2021-08-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article will explain in detail how to use Go to develop Apache APISIX plugins. By embracing the Go ecosystem and breaking new ground for Apache APISIX, we hope that Go will make Apache APISIX even better!]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 社区周报 ｜ 08-09 ～ 08-15]]></title>
+        <id>Apache APISIX 社区周报 ｜ 08-09 ～ 08-15</id>
+        <link href="https://apisix.apache.org/blog/2021/08/19/weekly-report"/>
+        <updated>2021-08-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Licensing with Casbin in Apache APISIX]]></title>
+        <id>Licensing with Casbin in Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX"/>
+        <updated>2021-08-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[When we are using Apache APISIX, we may want to add complex authorization logic to our application. In this article, we will use the built-in Casbin plugin (authz-casbin) of Apache APISIX to implement the role-based access control (RBAC) model.]]></summary>
+        <author>
+            <name>Casbin &amp; Apache APISIX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX in Airwallex | Interview with Yang Li, Head of Airwallex Technology Platform]]></title>
+        <id>Apache APISIX in Airwallex | Interview with Yang Li, Head of Airwallex Technology Platform</id>
+        <link href="https://apisix.apache.org/blog/2021/08/17/interview-airwallex"/>
+        <updated>2021-08-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article, we interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. In the interview, he introduced in detail why Airwallex chose Apache APISIX when making technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in production environment.]]></summary>
+        <author>
+            <name>Apache APISIX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication]]></title>
+        <id>Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication</id>
+        <link href="https://apisix.apache.org/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication"/>
+        <updated>2021-08-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication.  This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.]]></summary>
+        <author>
+            <name>Peter Zhu</name>
+            <uri>https://github.com/starsz</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Contributors — The Golden Metric of OpenSource Projects]]></title>
+        <id>Contributors — The Golden Metric of OpenSource Projects</id>
+        <link href="https://apisix.apache.org/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects"/>
+        <updated>2021-08-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.]]></summary>
+        <author>
+            <name>Lien</name>
+            <uri>https://github.com/lilien1010</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Chaos Mesh Helps Apache APISIX Improve System Stability]]></title>
+        <id>Chaos Mesh Helps Apache APISIX Improve System Stability</id>
+        <link href="https://apisix.apache.org/blog/2021/08/12/Chaos-Mesh-Helps-Apache-APISIX-Improve-System-Stability"/>
+        <updated>2021-08-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.]]></summary>
+        <author>
+            <name>Shuyang Wu</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I issued my first PR in the Apache APISIX community]]></title>
+        <id>I issued my first PR in the Apache APISIX community</id>
+        <link href="https://apisix.apache.org/blog/2021/08/11/interview-TuZhengsong"/>
+        <updated>2021-08-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community.]]></summary>
+        <author>
+            <name>Apache APISIX</name>
+            <uri>https://github.com/Yangxiamao</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Architecture Analysis: How to Dynamically Manage Nginx Clustering?]]></title>
+        <id>Apache APISIX Architecture Analysis: How to Dynamically Manage Nginx Clustering?</id>
+        <link href="https://apisix.apache.org/blog/2021/08/10/apisix-nginx"/>
+        <updated>2021-08-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3 to implement a REST API for remote control of Nginx clusters.]]></summary>
+        <author>
+            <name>Hui Tao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 在移动云的应用]]></title>
+        <id>Apache APISIX 在移动云的应用</id>
+        <link href="https://apisix.apache.org/blog/2021/08/09/Apache-APISIX-in-China-Mobile-Cloud"/>
+        <updated>2021-08-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[我们有幸采访了中国移动云能力中心的陈焱山，在采访中我们了解到中国移动公有云建设发展演进历程，了解了中国移动云为什么选择 Apache APISIX 作为负载均衡网关，并且知晓移动云后续的发展规划。]]></summary>
+        <author>
+            <name>Apache APISIX 社区</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform]]></title>
+        <id>Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform</id>
+        <link href="https://apisix.apache.org/blog/2021/08/09/Apache-APISIX-in-Quliankeji"/>
+        <updated>2021-08-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article introduces the landing practice of Apache APISIX in Hyperchain Blockchain BaaS platform, and explains why Hyperchain Technology has chosen Apache APISIX among many gateway applications.]]></summary>
+        <author>
+            <name>Weifeng Sheng</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Improve the Observability of Nginx with Apache APISX]]></title>
+        <id>How to Improve the Observability of Nginx with Apache APISX</id>
+        <link href="https://apisix.apache.org/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx"/>
+        <updated>2021-08-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Best Practices: This article shares solutions and practices for observability in the context of Nginx observability, the relationship between Apache APISIX and Nginx, Apache APISIX observability, and further enhancing observability with Apache SkyWalking.]]></summary>
+        <author>
+            <name>Wei Jin</name>
+            <uri>https://github.com/gxthrj</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kong-To-APISIX Migration Tool]]></title>
+        <id>Kong-To-APISIX Migration Tool</id>
+        <link href="https://apisix.apache.org/blog/2021/08/05/Kong-to-APISIX"/>
+        <updated>2021-08-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.]]></summary>
+        <author>
+            <name>吴舒旸</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.8.0]]></title>
+        <id>Release Apache APISIX 2.8.0</id>
+        <link href="https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8"/>
+        <updated>2021-07-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX version 2.8 is released!]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Applying Plugin Orchestration in Apache APISIX]]></title>
+        <id>Applying Plugin Orchestration in Apache APISIX</id>
+        <link href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-Apache-APISIX"/>
+        <updated>2021-07-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.]]></summary>
+        <author>
+            <name>Zhiyuan Ju</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ApacheCon Asia 2021: Apache APISIX Technical Topics]]></title>
+        <id>ApacheCon Asia 2021: Apache APISIX Technical Topics</id>
+        <link href="https://apisix.apache.org/blog/2021/07/25/apachecon-asia"/>
+        <updated>2021-07-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore "tomorrow's technologies" across more than 350 Apache projects and their diverse communities. ApacheCon Asia is the ApacheCon organizing committee's online conference for the Asia-Pacific region. ApacheCon Asia is an online ApacheCon conference organized by the ApacheCon organizing committee for the Asia-Pacific region with the primary goal of better serving the rapidly growing number of Apache users and contributors in the Asia-Pacific region. ApacheCon Asia 2021 will be held online from August 6-8 this year.]]></summary>
+        <author>
+            <name>Apache APISIX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX x Kubernetes: Just Right｜Live]]></title>
+        <id>Apache APISIX x Kubernetes: Just Right｜Live</id>
+        <link href="https://apisix.apache.org/blog/2021/07/21/Apache-APISIX-Kubernetes"/>
+        <updated>2021-07-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Live Preview: On Friday, July 23rd, 2021 at 00:00 GMT, Apache APISIX committer Jintao Zhang will present "Run Apache APISIX in Kubernetes" at the Data on Kubernetes Community Meetup for global developers. The topic will be "Run Apache APISIX in Kubernetes".]]></summary>
+        <author>
+            <name>Apache APISIX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Road to Customized Development of Sina Weibo API Gateway]]></title>
+        <id>The Road to Customized Development of Sina Weibo API Gateway</id>
+        <link href="https://apisix.apache.org/blog/2021/07/14/the-road-to-customization-of-Sina-Weibo-API-gateway-based-on-Apache-APISIX"/>
+        <updated>2021-07-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Sina Weibo’s previous HTTP API gateway was built based on Nginx, which brought up a series of problems. After some research, we chose Apache APISIX, which is dynamic, efficient and stable to meet the fast response requirements of the business.]]></summary>
+        <author>
+            <name>Yong Nie</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX has over 200 contributors in GitHub main repo! ]]></title>
+        <id>Apache APISIX has over 200 contributors in GitHub main repo! </id>
+        <link href="https://apisix.apache.org/blog/2021/07/06/celebrate-200-contributors"/>
+        <updated>2021-07-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX has over 200 contributors in GitHub main repo!]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Does etcd 3 Support HTTP Access Perfectly?]]></title>
+        <id>Does etcd 3 Support HTTP Access Perfectly?</id>
+        <link href="https://apisix.apache.org/blog/2021/06/30/etcd3-support-HTTP-access-perfectly"/>
+        <updated>2021-06-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd's HTTP API that interoperate with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Release Apache APISIX 2.7.0]]></title>
+        <id>Release Apache APISIX 2.7.0</id>
+        <link href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7"/>
+        <updated>2021-06-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.7.0 has been released!]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why do you need Apache APISIX when you have NGINX and Kong?]]></title>
+        <id>Why do you need Apache APISIX when you have NGINX and Kong?</id>
+        <link href="https://apisix.apache.org/blog/2021/06/28/why-we-need-Apache-APISIX"/>
+        <updated>2021-06-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article describes the evolution of the Apache APISIX architecture and compares what the advantages of the two frameworks, Apache APISIX and Nginx, are.]]></summary>
+        <author>
+            <name>Yuansheng Wang</name>
+            <uri>https://github.com/membphis</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Deploy Apache APISIX and Apache APISIX Ingress Controller on Rancher]]></title>
+        <id>Deploy Apache APISIX and Apache APISIX Ingress Controller on Rancher</id>
+        <link href="https://apisix.apache.org/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast"/>
+        <updated>2021-06-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article shows the procedure of installing and deploying Apache APISIX and Apache APISIX Ingress Controller in the Rancher App Store (Catalog), and how to proxy Kubernetes services through them.]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Write an Apache APISIX Plugin in Java]]></title>
+        <id>How to Write an Apache APISIX Plugin in Java</id>
+        <link href="https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins"/>
+        <updated>2021-06-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX now supports writing plugins in Java! You can now write plugins in a programming language you are familiar with.]]></summary>
+        <author>
+            <name>Zhengsong Tu</name>
+            <uri>https://github.com/tzssangglass</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The first GA release of Apache APISIX Ingress Controller v1.0 is now available!]]></title>
+        <id>The first GA release of Apache APISIX Ingress Controller v1.0 is now available!</id>
+        <link href="https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released"/>
+        <updated>2021-06-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX Ingress Controller v1.0 has been released, supporting the use of custom resources including ApisixRoute and ApisixUpstream, as well as Kubernetes native Ingress resources to control external traffic access to services deployed in Kubernetes.]]></summary>
+        <author>
+            <name>Jintao Zhang</name>
+            <uri>https://github.com/tao12345666333</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Dashboard Access Control Bypass Vulnerability Advisory (CVE-2021-33190)]]></title>
+        <id>Apache APISIX Dashboard Access Control Bypass Vulnerability Advisory (CVE-2021-33190)</id>
+        <link href="https://apisix.apache.org/blog/2021/06/17/Apache-APISIX-Dashboard-Access-Control-Bypass-Vulnerability-Announcement"/>
+        <updated>2021-06-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX Dashboard Access Control Bypass Vulnerability Bulletin]]></summary>
+        <author>
+            <name>Zhiyuan Ju</name>
+            <uri>https://github.com/juzhiyuan</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Chaos Mesh Helps Apache APISIX Improve Stability]]></title>
+        <id>Chaos Mesh Helps Apache APISIX Improve Stability</id>
+        <link href="https://apisix.apache.org/blog/2021/06/16/Chaos-Mesh-helps-Apache-APISIX-improve-stability"/>
+        <updated>2021-06-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article describes how to use Chaos Mesh in a variety of scenarios to improve stability for Apache APISIX.]]></summary>
+        <author>
+            <name>Shuyang Wu</name>
+            <uri>https://github.com/Yiyiyimu</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX v.s Envoy: Which Has the Better Performance?]]></title>
+        <id>Apache APISIX v.s Envoy: Which Has the Better Performance?</id>
+        <link href="https://apisix.apache.org/blog/2021/06/10/Apache-APISIX-and-Envoy-performance-comparison"/>
+        <updated>2021-06-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.]]></summary>
+        <author>
+            <name>Yuansheng Wang</name>
+            <uri>https://github.com/membphis</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX not affected by NGINX CVE-2021-23017]]></title>
+        <id>Apache APISIX not affected by NGINX CVE-2021-23017</id>
+        <link href="https://apisix.apache.org/blog/2021/06/07/Apache-APISIX-not-affected-by-NGINX-CVE-2021-23017"/>
+        <updated>2021-06-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[On May 26, NGINX issued a security announcement that fixed a DNS resolver vulnerability (CVE -2021-23017) in the NGINX resolver.]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Open Source 2 Year Anniversary!]]></title>
+        <id>Apache APISIX Open Source 2 Year Anniversary!</id>
+        <link href="https://apisix.apache.org/blog/2021/06/06/apisix-two-years"/>
+        <updated>2021-06-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX is now two years old, thanks for all contributors.]]></summary>
+        <author>
+            <name>Ruofei Zhao</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Experience sharing from Apache APISIX committer - Interview with Summer of Programming]]></title>
+        <id>Experience sharing from Apache APISIX committer - Interview with Summer of Programming</id>
+        <link href="https://apisix.apache.org/blog/2021/06/03/experience-share-from-Apache-APISIX-committer"/>
+        <updated>2021-06-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this interview, we invited Apache APISIX committer to share his experience of participating in open source projects.]]></summary>
+        <author>
+            <name>赵若妃</name>
+            <uri>https://github.com/Serendipity96</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX 2.6.0-Release Officially Released]]></title>
+        <id>Apache APISIX 2.6.0-Release Officially Released</id>
+        <link href="https://apisix.apache.org/blog/2021/05/25/Apache APISIX 2.6.0-Release"/>
+        <updated>2021-05-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Apache APISIX 2.6.0-Release is officially released! You are welcome to download and use it.]]></summary>
+        <author>
+            <name>Zexuan Luo</name>
+            <uri>https://github.com/spacewander</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯]]></title>
+        <id>支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯</id>
+        <link href="https://apisix.apache.org/blog/2021/05/24/Tencent-Games"/>
+        <updated>2021-05-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。]]></summary>
+        <author>
+            <name>徐鑫</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Get Front-End Test Coverage with Cypress]]></title>
+        <id>Get Front-End Test Coverage with Cypress</id>
+        <link href="https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress"/>
+        <updated>2021-03-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In the article "Stable Product Delivery with Cypress", we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient.This article will describe how to get APISIX Dashboard front-end E2E coverage using Cypress.]]></summary>
+        <author>
+            <name>Yi Sun</name>
+            <uri>https://github.com/LiteSun</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Install Apache APISIX from Helm Charts]]></title>
+        <id>Install Apache APISIX from Helm Charts</id>
+        <link href="https://apisix.apache.org/blog/2021/02/26/install-apache-apisix-from-helm-charts"/>
+        <updated>2021-02-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A few days ago, Zhiliu Inc released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stable Product Delivery with Cypress]]></title>
+        <id>Stable Product Delivery with Cypress</id>
+        <link href="https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress"/>
+        <updated>2021-02-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/), implements stable product delivery with Cypress.]]></summary>
+        <author>
+            <name>Yi Sun</name>
+            <uri>https://github.com/LiteSun</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Run Ingress APISIX on Amazon EKS]]></title>
+        <id>Run Ingress APISIX on Amazon EKS</id>
+        <link href="https://apisix.apache.org/blog/2021/01/21/run-ingress-apisix-on-amazon-eks"/>
+        <updated>2021-01-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.]]></summary>
+        <author>
+            <name>Chao Zhang</name>
+            <uri>https://github.com/tokers</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apache APISIX Contributor Interview | Pengcheng Wang, Senior Security Consultant, PricewaterhouseCoopers China Data Security & Privacy Team]]></title>
+        <id>Apache APISIX Contributor Interview | Pengcheng Wang, Senior Security Consultant, PricewaterhouseCoopers China Data Security &amp; Privacy Team</id>
+        <link href="https://apisix.apache.org/blog/2021/01/11/interview-Apache-APISIX-contributor-Wang-Pengcheng-Senior-Security-Advisor-of-PwC-South-China-Data-Security-and-Privacy-Protection-Team"/>
+        <updated>2021-01-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Recently, Pengcheng Wang, a senior security consultant from PwC's South China Data Security and Privacy team, reported the first CVE for Apache APISIX to the National Information Security Vulnerability Sharing Platform (CNVD) and the Apache Software Foundation: Apache APISIX Admin API Default Token Vulnerability (CVE-2020- 13945). To thank Pengcheng for his contribution to the Apache APISIX community, we also conducted an interview with Pengcheng.]]></summary>
+        <author>
+            <name>Ming Wen</name>
+            <uri>https://github.com/moonming</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A First Look at Kubernetes Service APIs]]></title>
+        <id>A First Look at Kubernetes Service APIs</id>
+        <link href="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api"/>
+        <updated>2020-12-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine many ingress best practices, such as the enhanced expressiveness, which actually extends the capabilities of Route, and the BackendPolicy objects, which can specify almost any Kubernetes backend resource for upstream.]]></summary>
+        <author>
+            <name>Wei Jin</name>
+            <uri>https://github.com/gxthrj</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Envoy and Apache APISIX: Another way to implement the Envoy filter]]></title>
+        <id>Envoy and Apache APISIX: Another way to implement the Envoy filter</id>
+        <link href="https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter"/>
+        <updated>2020-12-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures. A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.]]></summary>
+        <author>
+            <name>Junxu Chen</name>
+            <uri>https://github.com/nic-chen</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[贝壳找房：如何基于 Apache APISIX 搭建网关]]></title>
+        <id>贝壳找房：如何基于 Apache APISIX 搭建网关</id>
+        <link href="https://apisix.apache.org/blog/2020/12/11/beike-how-to-build-gateway-based-on-apache-apisix"/>
+        <updated>2020-12-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[贝壳找房使用 Apache APISIX 作为生产系统的 API 网关，每天处理过亿的生产流量，性能优异，而且很稳定。正好 Apache APISIX 刚刚加入 Apache 孵化器，除了恭喜之外，我想来分享下贝壳找房当初为什么选择 Apache APISIX，以及使用过程中的一些心得。]]></summary>
+        <author>
+            <name>王辉</name>
+        </author>
+    </entry>
+</feed>
