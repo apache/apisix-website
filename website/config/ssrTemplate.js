@@ -35,7 +35,7 @@ module.exports = {
       window.onload = function() {
         if (window.location.host.endsWith(".netlify.app")) {
           var footerDOM = document.querySelector('footer');
-          footerDOM.insertAdjacentHTML('afterend', '<div style="text-align: center;">This site is powered by <a href="#">Netlify</a></div>');
+          footerDOM.insertAdjacentHTML('afterend', '<div style="text-align: center;">This site is powered by <a href="https://www.netlify.com/" target="_blank">Netlify</a></div>');
         }
       }
     </script>
