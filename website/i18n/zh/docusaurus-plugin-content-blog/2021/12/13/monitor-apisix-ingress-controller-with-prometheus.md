@@ -173,6 +173,11 @@ spec:
 
 打开 Grafana 后，导入 APISIX Ingress Controller 的 [Dashboard 模版](https://raw.githubusercontent.com/apache/apisix-ingress-controller/22e548bc267115ccd36aec4200d5399aab565958/docs/assets/other/json/apisix-ingress-controller-grafana.json)即可看到监控大盘，效果图如下：
 
+![效果图1](https://static.apiseven.com/202108/1639381275740-d9e3b2a7-6895-43f2-8119-212ea616dddd.png)
+
+![效果图2](https://static.apiseven.com/202108/1639381348652-7fb30365-179c-4b68-a168-ec3c9da7324d.png)
+
+![效果图3](https://static.apiseven.com/202108/1639381376926-d6af92c7-16dd-4306-8931-9b83e7e8dce1.png)
 创建 Dashboard 模版可参考[相关 PR](https://github.com/apache/apisix-ingress-controller/pull/731)。
 
 ## 补充：监控指标释义

@@ -162,6 +162,12 @@ Start by accessing the `prometheus-grafana` service. Note that if you do not hav
 
 After opening Grafana, import the [Dashboard template](https://raw.githubusercontent.com/apache/apisix-ingress-controller/22e548bc267115ccd36aec4200d5399aab565958/docs/assets/other/json/apisix-ingress-controller-grafana.json) of APISIX Ingress Controller to see the monitoring dashboard, which looks like the following.
 
+![Dashboard1](https://static.apiseven.com/202108/1639381275740-d9e3b2a7-6895-43f2-8119-212ea616dddd.png)
+
+![Dashboard2](https://static.apiseven.com/202108/1639381348652-7fb30365-179c-4b68-a168-ec3c9da7324d.png)
+
+![Dashboard3](https://static.apiseven.com/202108/1639381376926-d6af92c7-16dd-4306-8931-9b83e7e8dce1.png)
+
 For more information on creating Dashboard templates, please see [related PR](https://github.com/apache/apisix-ingress-controller/pull/731).
 
 ## Addendum: Monitoring Metrics Explained
