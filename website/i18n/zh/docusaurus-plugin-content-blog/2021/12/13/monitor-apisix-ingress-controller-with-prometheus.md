@@ -64,7 +64,9 @@ spec:
 
 接下来我们将通过 Prometheus Operator 来启用 Prometheus 服务，因此需要先安装 Prometheus Operator。
 
-> 下述命令同时也会安装 Grafana
+:::note 注意
+下述命令同时也会安装 Grafana
+:::
 
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts

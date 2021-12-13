@@ -53,7 +53,9 @@ In most cases, the monitoring function must involve more than just the APISIX In
 
 Next, we will enable the Prometheus service through the Prometheus Operator, so you will need to install the Prometheus Operator first.
 
->The following command will also install Grafana.
+:::note
+The following command will also install Grafana.
+:::
 
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
