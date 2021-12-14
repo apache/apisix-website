@@ -22,7 +22,7 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway. Apache APIS
 
 As shown in the architecture diagram below, Apache APISIX is divided into two parts: the data plane (left side) and the control plane (right side): the control plane sends down the configuration to ETCD, and the data plane handles internal and external traffic with the help of rich plug-ins.
 
-![Apache APISIX architecture](/img/blog_img/2021-07-27-1.png)
+![Apache APISIX architecture](https://static.apiseven.com/202108/1639466553989-ecae1a31-8121-4390-a830-f386b9b12322.png)
 
 Apache APISIX exposes a set of interfaces that allow us to bind plugins to the API. If we want to add speed-limiting capabilities to the API, we can simply bind the `limit-req` plugin to the API.
 
@@ -82,7 +82,7 @@ The Web interface lists the currently available plugins and drawing boards, and 
 
 So how does Apache APISIX combine with low-code capabilities? This requires the data side Apache APISIX and the control side Apache APISIX Dashboard to work together. The overall process is as follows.
 
-![Apache APISIX plugin orchestration flow](/img/blog_img/2021-07-27-2.png)
+![Apache APISIX plugin orchestration flow](https://static.apiseven.com/202108/1639466624894-039f4e63-fd21-403a-94c5-6efc8425eb0f.png)
 
 ### Apache APISIX
 
@@ -102,7 +102,7 @@ Dashboard contains two sub-components, Web and ManagerAPI: Web provides a visual
 
 In order to generate legal and efficient script functions, ManagerAPI chose the DAG directed acyclic graph data structure for the underlying design and developed the `dag-to-lua` [project](https://github.com/api7/dag-to-lua): it takes the root node as the start node and decides the next flow plugin based on the judgment It uses the root node as the start node and decides the next flow plugin based on the judgment condition, which will effectively avoid logical dead loops. The following is a diagram of the DAG data structure.
 
-![Apache APISIX plugin orchestration DAG data structure](/img/blog_img/2021-07-27-3.png)
+![Apache APISIX plugin orchestration DAG data structure](https://static.apiseven.com/202108/1639466682723-dcfd5c1b-9ae7-42b4-b3c2-c00aaf7a5996.png)
 
 Corresponding to the script parameters received by ManagerAPI, the example is as follows.
 
@@ -150,21 +150,21 @@ After the client converts the final orchestrated data into the above format, Man
 
 On the Web side, after selection, comparison and project validation, we chose Ant Group's open source X6 graph editing engine as the underlying framework for the Web part of the plugin orchestration. In addition to perfect and clear documentation, a series of out-of-the-box interactive components and node customizability are the reasons we chose it.
 
-![X6 introduction](/img/blog_img/2021-07-27-4.png)
+![X6 introduction](https://static.apiseven.com/202108/1639466742487-269ebd5a-4f6c-47c3-a941-1275a4b3d178.png)
 
 In the process of orchestration implementation, we abstract the concept of generic components and plug-in components: generic components are start nodes, end nodes and conditional judgment nodes, while plug-in components are every available Apache APISIX plug-in, and the process of plug-in orchestration is completed by dragging and dropping these components into the drawing board. As shown in the figure.
 
-![Apache APISIX dashboard plugin orchestration demo1](/img/blog_img/2021-07-27-5.png)
+![Apache APISIX dashboard plugin orchestration demo1](https://static.apiseven.com/202108/1639466805116-0e1c9a83-e5d0-40c1-8a76-8cb1402a491c.png)
 
 During the drag and drop process, we need to restrict a series of boundary conditions, here are a few examples.
 
 When the plugin is not configured, the system will show the error message "There are unconfigured components", which allows you to visually see which plugin does not have configuration data.
 
-![Apache APISIX dashboard plugin orchestration demo2](/img/blog_img/2021-07-27-6.png)
+![Apache APISIX dashboard plugin orchestration demo2](https://static.apiseven.com/202108/1639466853301-a67de136-633d-4b5d-9062-ac17bf625063.png)
 
 When an API is edited, if the API is already bound with plugin data, when using the plugin orchestration mode, a warning message will appear after detection, and the system can only proceed if the user explicitly confirms that he/she wants to use the orchestration mode. This can effectively prevent the API data from being manipulated by mistake.
 
-![Apache APISIX dashboard plugin orchestration demo3](/img/blog_img/2021-07-27-7.png)
+![Apache APISIX dashboard plugin orchestration demo3](https://static.apiseven.com/202108/1639466907551-07ec82f9-8988-4a66-a5f2-d3944d4f239c.png)
 
 In addition, there are cases such as the start element can only have one output and the conditional judgment element can only have one input. Imagine: if the system allows users to operate without restrictions, unreasonable plugin combinations will be meaningless and generate unpredictable errors, so the continuous enrichment of boundary conditions is also an important consideration when designing the plugin arrangement.
 

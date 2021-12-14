@@ -26,7 +26,7 @@ For example, developers are not familiar with Lua and want to write plugins in a
 
 Starting from version 2.6, APISIX supports running plugins written in languages other than Lua with the help of plugin runner. The architecture diagram is as follows.
 
-![2021-05-25-1](/img/blog_img/2021-05-25-1.png)
+![2021-05-25-1](https://static.apiseven.com/202108/1639462480260-86431748-7dcd-4643-816b-92104ec5a666.png)
 
 APISIX will run the plugin runner as a sidecar.
 

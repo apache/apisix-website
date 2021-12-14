@@ -28,7 +28,7 @@ Now, Apache APISIX supports multi-language development plugins. More importantly
 
 ### Multiple Programming Languages Architecture Diagram
 
-![Multiple Programming Languages Architecture Diagram](/img/blog_img/2021-06-21-1.png)
+![Multiple Programming Languages Architecture Diagram](https://static.apiseven.com/202108/1639464774923-50cebc94-6344-4ea6-88a6-2b424c5f8567.png)
 
 The left side of the diagram shows the workflow of Apache APISIX. The right side of the diagram is the plugin runner, which is a generic term for projects with multiple programming languages support. The apisix-java-plugin-runner is a plugin runner that supports the Java language.
 
@@ -69,7 +69,7 @@ Before starting the `Mainclass(org.apache.apisix.plugin.runner.PluginRunnerAppli
 
 If you are using IDEA for development, the configured environment variables are shown below.
 
-![configured environment](/img/blog_img/2021-06-21-2.png)
+![configured environment](https://static.apiseven.com/202108/1639464890287-ee6bbc3a-3f8b-4de7-9ce4-7670fb0c3f64.png)
 
 apisix-java-plugin-runner is equivalent to the server side and will actively create the `/tmp/runner.sock` file at startup and communicate with Apache APISIX on this file for Unix Domain Socket.
 

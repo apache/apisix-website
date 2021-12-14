@@ -143,7 +143,7 @@ APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock APISIX_CONF_EXPIRE_TIME=3600 ./go-ru
 
 首先要安装 Apache APISIX，需要和 Go Runner 位于同一实例上。
 
-![Apache APISIX work flow](/img/blog_img/2021-08-19-1.png)
+![Apache APISIX work flow](https://static.apiseven.com/202108/1639467846997-8be8195d-98ac-457d-8b7f-a7b78e55fef1.png)
 
 上图左边是 Apache APISIX 的工作流程，右边的 plugin runner 负责运行不同语言编写的外部插件。apisix-go-plugin-runner 就是这样支持 Go 语言的 runner。
 

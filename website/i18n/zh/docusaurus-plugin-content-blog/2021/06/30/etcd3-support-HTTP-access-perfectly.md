@@ -41,7 +41,7 @@ Apache APISIX 开始用 etcd 的时候，用的是 etcd v2 的 API。从 Apache 
 
 我们采用了第二种方案，给 etcd 提了个 PR：https://github.com/etcd-io/etcd/pull/13077
 
-![2021-06-30-1](/img/blog_img/2021-06-30-1.png)
+![2021-06-30-1](https://static.apiseven.com/202108/1639465584634-26435c89-3e1c-4fb9-b094-057fce0f769d.png)
 
 最新发布的 v3.5.0 版本就包含了我们贡献的这个改动。如果你遇到 “grpc: received message larger than max”，不妨试一下这个版本。这一改动也被 etcd 开发者 backport 到 3.4 分支上了。3.4 分支的下一个发布，也会带上这个改动。
 
@@ -95,7 +95,7 @@ TLS Web Server Authentication
 
 etcd 上也有关于这个问题的 issue：https://github.com/etcd-io/etcd/issues/9785
 
-![2021-06-30-2](/img/blog_img/2021-06-30-2.png)
+![2021-06-30-2](https://static.apiseven.com/202108/1639465662863-30bc4fa9-8b7c-47d9-a73e-810bd690a588.png)
 
 ### 结语
 

@@ -26,29 +26,29 @@ Visit Rancher’s Tools — Catalogs page.
 
 Click “Edit Catalog”, enter https://github.com/apache/apisix-helm-chart in “Catalog URL” to add the Helm repository for Apache APISIX in Rancher.
 
-![2021-06-23-1](/img/blog_img/2021-06-23-1.png)
+![2021-06-23-1](https://static.apiseven.com/202108/1639464984786-20a73a62-1e9d-463b-aac3-26ac18ab5228.png)
 
 Click “Save” to save the changes.
 
 Select the Apps page, select Launch to see the Apache APISIX repository information. Here we can directly select “apisix” to deploy Apache APISIX.
 
-![2021-06-23-2](/img/blog_img/2021-06-23-2.png)
+![2021-06-23-2](https://static.apiseven.com/202108/1639465059361-aa11ab87-11f7-45b6-964f-d285d41e8a39.png)
 
-![2021-06-23-3](/img/blog_img/2021-06-23-3.png)
+![2021-06-23-3](https://static.apiseven.com/202108/1639465129809-bf86383f-bab5-459d-bb02-e7d45e3b4c51.png)
 
 Since we want to **deploy APISIX Ingress controller at the same time**, fill in the `ingress-controller.enabled=true` in the Answers at the bottom. Then click 'Save" to complete the deployment.
 
-![2021-06-23-4](/img/blog_img/2021-06-23-4.png)
+![2021-06-23-4](https://static.apiseven.com/202108/1639465197713-4ba6e7a2-8824-42e6-bf27-1d49f4e60ce5.png)
 
 Wait a few moments for the deployment to complete.
 
-![2021-06-23-5](/img/blog_img/2021-06-23-5.png)
+![2021-06-23-5](https://static.apiseven.com/202108/1639465259396-fc1104e9-289d-41b6-ae23-d6e05da066b1.png)
 
 ## Step 2: Deploy an Example Project
 
 We use `kennethreitz/httpbin` as a sample project for demonstration purpose. The deployment is also done directly in Rancher.
 
-![2021-06-23-6](/img/blog_img/2021-06-23-6.png)
+![2021-06-23-6](https://static.apiseven.com/202108/1639465331864-d8160567-d30c-427a-b0e5-425df6657879.png)
 
 ## Step 3: Use Apache APISIX as an API Gateway to Proxy Services
 
@@ -137,13 +137,13 @@ As you can see, **Apache APISIX is able to proxy services within a Kubernetes cl
 
 We can add Ingress directly to Rancher and the Apache APISIX Ingress controller will automatically synchronize the routing rules to Apache APISIX to complete the proxy for the service.
 
-![2021-06-23-7](/img/blog_img/2021-06-23-7.png)
+![2021-06-23-7](https://static.apiseven.com/202108/1639465402058-3f41e8de-033b-4888-a835-30969251e402.png)
 
 Note in the bottom right corner, we have added the annotation configuration `kubernetes.io/ingress.class: apisix` to support multiple ingress-controller scenarios in the cluster.
 
 After saving, you can see the following screen.
 
-![2021-06-23-8](/img/blog_img/2021-06-23-8.png)
+![2021-06-23-8](https://static.apiseven.com/202108/1639465466581-db8c19d7-9c8f-402c-9270-34e327908caa.png)
 
 Test if the proxy is successful under the terminal：
 

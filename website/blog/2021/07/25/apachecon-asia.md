@@ -38,7 +38,7 @@ This talk is about the application and practice of Apache APISIX in China Mobile
 
 ### Sharing Guests
 
-![Yanshan Chen](/img/blog_img/2021-07-25-2.png)
+![Yanshan Chen](https://static.apiseven.com/202108/1639465900639-ce850138-e0f5-4264-a902-be8ca94b93c0.png)
 
 Yanshan Chen - After graduation, he has been working on distributed storage software development and architecture design, and has been deeply involved in the construction process of mobile cloud, focusing on the selection of major technology solutions and landing development and construction work related to object storage. At the same time, he has rich practical experience in the field of distributed object storage, and is currently thinking about implementing object storage traffic governance based on APISIX seven-tier gateway to achieve further architectural upgrade.
 
@@ -54,7 +54,7 @@ This session will show how to use Apache APISIX to achieve dynamic, fine-grained
 
 ### Guest Speakers
 
-![Junxu Chen](/img/blog_img/2021-07-25-3.png)
+![Junxu Chen](https://static.apiseven.com/202108/1639465952917-9089d8e8-4509-4d14-91d9-84b587cb5e7d.png)
 
 Junxu Chen - Internet veteran, worked in Sina, Xunlei, 360 and other well-known Internet companies, Apache APISIX Committer.
 
@@ -70,7 +70,7 @@ Therefore, here we use Chaos Mesh, a Kubernetes-based chaos engineering platform
 
 ### Sharing Guests
 
-![Shuyang Wu](/img/blog_img/2021-07-25-4.png)
+![Shuyang Wu](https://static.apiseven.com/202108/1639466011014-75736153-f109-4318-a693-38e3bb59cbdd.png)
 
 Shuyang Wu - Committer for Apache APISIX and Chaos Mesh, he leads the integration of Chaos Mesh with Apache APISIX CI.
 
@@ -84,7 +84,7 @@ Authentication and authorization are very necessary features in API gateways. Th
 
 ### Sharing Guests
 
-![Xinxin Zhu](/img/blog_img/2021-07-25-5.png)
+![Xinxin Zhu](https://static.apiseven.com/202108/1639466066729-9b4d07e2-47f3-4725-99d5-5266864e1c73.png)
 
 Xinxin Zhu - Apache APISIX Committer, with years of CDN experience and familiar with gateways.
 
@@ -98,7 +98,7 @@ In the past year, Apahce APISIX has become the most active API gateway project i
 
 ### Guest Speakers
 
-![Yuansheng Wang](/img/blog_img/2021-07-25-6.png)
+![Yuansheng Wang](https://static.apiseven.com/202108/1639466127487-bc14552c-5326-43f6-8753-c0df363c3922.png)
 
 Yuansheng Wang - Founder and PMC member of open source enthusiast Apache APISIX.
 
@@ -112,7 +112,7 @@ In this topic I will introduce the apisix-mesh-agent project, which has some cap
 
 ### Sharing Guests
 
-![Chao Zhang](/img/blog_img/2021-07-25-7.png)
+![Chao Zhang](https://static.apiseven.com/202108/1639466178896-23fb5c6e-ccb1-46e0-ac02-55fef1b3bedf.png)
 
 Chao Zhang - Apache APISIX PMC, OpenResty contributor, open source enthusiast, now working on Service Mesh, Kubernetes and API Gateway.
 
@@ -130,7 +130,7 @@ Apache APISIX is one of the most popular API gateways: https://github.com/apache
 
 ### Sharing Guests
 
-![Zexuan Luo](/img/blog_img/2021-07-25-8.png)
+![Zexuan Luo](https://static.apiseven.com/202108/1639466430768-b416eea2-e8e3-4a50-91b9-2d6b05aead10.png)
 
 Zexuan Luo - Apache APISIX PMC, OpenResty developer.
 
@@ -144,7 +144,7 @@ Introducing the benefits of Apache APISIX-based Kubernetes Ingress and the featu
 
 ### Sharing Guests
 
-![Jin Wei](/img/blog_img/2021-07-25-9.png)
+![Jin Wei](https://static.apiseven.com/202108/1639466497596-7e4b91a9-2367-457a-ad33-0c5db7b87c24.png)
 
 Wei Jin - Apache APISIX PMC, Apache apisix-ingress-controller Founder, Apache Skywalking Committer.
 

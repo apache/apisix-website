@@ -25,7 +25,7 @@ Supports controlling external traffic access to services deployed in Kubernetes 
 
 The overall architecture is as follows.
 
-![Apache APISIX Ingress Controller Architecture Diagram](/img/blog_img/2021-06-18-1.png)
+![Apache APISIX Ingress Controller Architecture Diagram](https://static.apiseven.com/202108/1639464578081-06d7c64a-b597-444f-a59f-0217676e1ffc.png)
 
 ## v1.0 latest features
 

@@ -19,7 +19,7 @@ tags: [Practical Case]
 
 [Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scaling microservices API gateway. It is one of the Apache Software Foundation's top-level projects and serves hundreds of companies around the world, processing their mission-critical traffic, including finance, the Internet, manufacturing, retail, and operators. Our customers include NASA, the European Union’s digital factory, China Mobile, and Tencent.
 
-![Apache APISIX architecture](/img/blog_img/2021-07-27-1.png)
+![Apache APISIX architecture](https://static.apiseven.com/202108/1639466553989-ecae1a31-8121-4390-a830-f386b9b12322.png)
 
 As our community grows, Apache APISIX’s features more frequently interact with external components, making our system more complex and increasing the possibility of errors. To identify potential system failures and build confidence in the production environment, we introduced the concept of Chaos Engineering.
 
@@ -63,7 +63,7 @@ We deployed a Chaos Engineering experiment using the following steps:
 
 3. We used network chaos to add a five second network latency and then retested. This time, `set route` failed, `get route` succeeded, etcd could be connected to, and RPS had no significant change compared to the previous experiment. The experiment met our expectations.
 
-![High network latency occurs between etcd and Apache APISIX](/img/blog_img/2021-06-16-1.png)
+![High network latency occurs between etcd and Apache APISIX](https://static.apiseven.com/202108/1639462804552-8d51872f-3419-4e64-b365-4ef7cbb2a388.png)
 
 ### Scenario #2
 
@@ -75,7 +75,7 @@ Our troubleshooting revealed that the etcd Lua API used by Apache APISIX selecte
 
 After we fixed this problem, we added a health check to the etcd Lua API to ensure that a large number of requests would not be sent to the disconnected etcd node. To avoid flooding the log with errors, we added a fallback mechanism when the etcd cluster was completely disconnected.
 
-![An error is reported from one etcd node’s interaction with the Apache APISIX admin API](/img/blog_img/2021-06-16-2.png)
+![An error is reported from one etcd node’s interaction with the Apache APISIX admin API](https://static.apiseven.com/202108/1639462935848-b87400d3-e59b-4e6d-84f9-25c2771d48d3.png)
 
 ## Our future plans
 

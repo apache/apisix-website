@@ -41,7 +41,7 @@ You can see the flow of traditional authentication in the figure below.
 
 First, the user initiates a request, then the gateway receives the request and forwards it to the corresponding application services, and finally, the application services interact with the identity provider to complete the authorization.
 
-![traditional authentication work flow](/img/blog_img/2021-08-16-1.png)
+![traditional authentication work flow](https://static.apiseven.com/202108/1639467045776-715e1805-540b-4cef-87c5-6166e2af43a8.png)
 
 ### Centralized Identity Authentication Mode
 
@@ -49,7 +49,7 @@ Unlike traditional authentication, the centralized identity mode removes user au
 
 First, the user initiates a request, then the gateway itself takes charge of the user authentication process, interacting with the identity provider and sending them an authorization request. The identity provider returns user identity information (user info). After the gateway identifies the user, it forwards the user identity information (user info) to the services in a request header.
 
-![Centralized Identity Authentication work flow](/img/blog_img/2021-08-16-2.png)
+![Centralized Identity Authentication work flow](https://static.apiseven.com/202108/1639467122244-d4292436-c5ce-48f6-b1d5-67645f24fbc9.png)
 
 Compared with the traditional authentication mode, centralized identity mode has the following advantages:
 
@@ -62,7 +62,7 @@ OpenID Connect (OIDC) is a centralized identity authentication mode. The benefit
 
 ### OpenID Authentication Process
 
-![OpenID Authentication Process](/img/blog_img/2021-08-16-3.png)
+![OpenID Authentication Process](https://static.apiseven.com/202108/1639467187923-71854ddb-65fd-4a90-8bd0-242b47a8624b.png)
 
 1. APISIX initiates an authentication request to the Identity Provider.
 2. The user logs in and authenticates on the Identity Provider.
@@ -83,20 +83,20 @@ Have an Okta account ready for use.
 ### Step 1: Configuring Okta
 
 1. Log in to your Okta account and click "Create App Integration" to create an Okta application.
-   ![Create App Integration](/img/blog_img/2021-08-16-4.png)
+   ![Create App Integration](https://static.apiseven.com/202108/1639467243454-ac16645a-4a8a-426f-93a2-e840cae3c502.png)
 2. Select "OIDC-OpenID Connect" for the Sign-in method, and select "Web Application" for the Application type.
-   ![Create a new App Integration](/img/blog_img/2021-08-16-5.png)
+   ![Create a new App Integration](https://static.apiseven.com/202108/1639467299429-0ea741a7-95fd-43b5-a0c4-25a7026e62d2.png)
 3. Set the redirect URL for login and logout. The "Sign-in redirect URIs" are links a user can go to after a successful login, and the "Sign-out redirect URIs" are links a user goes to after a successful logout. In this example, we set both sign-in and sign-out redirect URIs to `http://127.0.0.1:9080/`.
-   ![Set the redirect URL for login and logout](/img/blog_img/2021-08-16-6.png)
+   ![Set the redirect URL for login and logout](https://static.apiseven.com/202108/1639467390099-e9594a05-7e78-4f20-a902-7c4ca2c302fb.png)
 4. After finishing the settings, click "Save" to save the changes.
-   ![save the changes](/img/blog_img/2021-08-16-7.png)
+   ![save the changes](https://static.apiseven.com/202108/1639467449049-628d7796-0d8e-4ed9-8334-5ba7f0fb32f4.png)
 5. Visit the General page of the application to obtain the following configuration, which is required to configure Apache APISIX OpenID Connect.
 
 - Client ID: OAuth client ID, the application ID, which corresponds to client_id and {YOUR_CLIENT_ID} below.
 - Client secret: OAuth client secret, the application key, which corresponds to client_secret and {YOUR_CLIENT_SECRET} below.
 - Okta domain: The domain name used by the application, corresponding to {YOUR_ISSUER} below.
 
-![obtain configuration](/img/blog_img/2021-08-16-8.png)
+![obtain configuration](https://static.apiseven.com/202108/1639467501106-d95bf8ad-db47-4918-ac70-424b12488e5b.png)
 
 ### Step 2: Install Apache APISIX
 
@@ -222,7 +222,7 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 ### Step 4: Access Apache APISIX
 
 1. Visit "http://127.0.0.1:9080/get" and the page is redirected to the Okta login page because the OpenID Connect plugin is enabled.
-   ![visit Okta login page](/img/blog_img/2021-08-16-9.png)
+   ![visit Okta login page](https://static.apiseven.com/202108/1639467566395-2a049b96-3b1f-4e74-93f0-d6ea2f52a72e.png)
 2. Enter the username and password for the user's Okta account and click "Sign In" to log in to your Okta account.
 3. After successful login, you can access the get page in "httpbin.org". The "httpbin.org/get" page will return the requested data with X-Access-Token,X-Id-Token, and X-Userinfo as follows.
 
@@ -234,15 +234,15 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 
 **X-Access-Token**: Apache APISIX puts the access token obtained from the user provider into the X-Access-Token request header, optionally via the access_token_in_authorization_header in the plugin configuration Authorization request header.
 
-![X-Access-Token](/img/blog_img/2021-08-16-10.png)
+![X-Access-Token](https://static.apiseven.com/202108/1639467626264-980605e2-0b21-4512-9e2c-af71950fcf99.png)
 
 **X-Id-Token**: Apache APISIX will get the Id token from the user provider through the base64 encoding into the X-Id-Token request header, you can choose whether to enable this function through the set_id_token_header in the plugin configuration, the default is enabled.
 
-![X-Id-Token](/img/blog_img/2021-08-16-11.png)
+![X-Id-Token](https://static.apiseven.com/202108/1639467682902-ada726b8-b46b-460d-8313-ef47b38d13ab.png)
 
 **X-Userinfo**: Apache APISIX will get the user information from the user provider and put it into X-Userinfo after encoding it with Base64, you can choose whether to enable this feature through set_userinfo_header in the plugin configuration, it is set to be on by default.
 
-![X-Userinfo](/img/blog_img/2021-08-16-12.png)
+![X-Userinfo](https://static.apiseven.com/202108/1639467730566-fc8a8a76-a3aa-4b8e-bb13-505b50839877.png)
 
 As you can see, Apache APISIX will carry the X-Access-Token, X-Id-Token, and X-Userinfo request headers to the upstream. The upstream can parse these headers to get the user IDid information and user metadata.
 
