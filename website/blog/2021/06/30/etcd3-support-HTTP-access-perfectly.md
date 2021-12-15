@@ -39,7 +39,7 @@ One idea was to use incremental synchronization to simulate full synchronization
 Another idea is to modify etcd. If you can remove the restrictions in etcdctl, why not treat gRPC-gateway the same way? The same change can be made to gRPC-gateway.
 We’ve adopted the second option, and have given etcd a PR: [PR #13077](https://github.com/etcd-io/etcd/pull/13077).
 
-![2021-06-30-1](/img/blog_img/2021-06-30-1.png)
+![2021-06-30-1](https://static.apiseven.com/202108/1639465584634-26435c89-3e1c-4fb9-b094-057fce0f769d.png)
 
 The latest release of v3.5.0 includes this change that we contributed. If you encounter “grpc: received message larger than max”, you may want to try this version. This change has also been back-ported to the 3.4 branch by the etcd developers, and the next release of the 3.4 branch will carry this change as well.
 
@@ -94,7 +94,7 @@ Note the “TLS Web Server Authentication” here, if we change it to “TLS Web
 There is also an issue about this problem on etcd’s repository: Issue [#9785](https://github.com/etcd-io/etcd/issues/9785
 ).
 
-![2021-06-30-2](/img/blog_img/2021-06-30-2.png)
+![2021-06-30-2](https://static.apiseven.com/202108/1639465662863-30bc4fa9-8b7c-47d9-a73e-810bd690a588.png)
 
 ## Summary
 

@@ -24,7 +24,7 @@ Apache APISIX 是一个生产可用的七层全流量处理平台，可作为 AP
 
 如下方架构图所示，Apache APISIX 分为数据面（左侧）与控制面（右侧）两部分：通过控制面下发配置到 ETCD，数据面借助丰富的插件处理内外流量。
 
-![Apache APISIX architecture](/img/blog_img/2021-07-27-1.png)
+![Apache APISIX architecture](https://static.apiseven.com/202108/1639466553989-ecae1a31-8121-4390-a830-f386b9b12322.png)
 
 Apache APISIX 暴露了一组接口，方便我们为 API 绑定插件。如果我们希望为 API 增加限速能力，只需为 API 绑定 `limit-req` 插件：
 
@@ -80,7 +80,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 那么 Apache APISIX 是如何与低代码能力结合的呢？这需要数据面 Apache APISIX 与控制面 Apache APISIX Dashboard 共同配合完成。整体流程如下：
 
-![Apache APISIX plugin orchestration flow](/img/blog_img/2021-07-27-2.png)
+![Apache APISIX plugin orchestration flow](https://static.apiseven.com/202108/1639466624894-039f4e63-fd21-403a-94c5-6efc8425eb0f.png)
 
 ### Apache APISIX
 
@@ -100,7 +100,7 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 为了生成合法、有效的 script 函数，ManagerAPI 选择了 DAG 有向无环图的数据结构进行底层设计，并自主研发了 `dag-to-lua` [项目](https://github.com/api7/dag-to-lua)：它将根节点作为开始节点，根据判断条件决定下一个流转插件，这将有效避免逻辑死循环。如下为 DAG 数据结构的示意图：
 
-![Apache APISIX plugin orchestration DAG data structure](/img/blog_img/2021-07-27-3.png)
+![Apache APISIX plugin orchestration DAG data structure](https://static.apiseven.com/202108/1639466682723-dcfd5c1b-9ae7-42b4-b3c2-c00aaf7a5996.png)
 
 对应到 ManagerAPI 接收的 `script` 参数上，示例如下：
 
@@ -148,21 +148,21 @@ curl -X PUT http://127.0.0.1:9080/apisix/admin/routes/1 -d '
 
 在 Web 侧，经过挑选、对比与项目验证，我们选择了蚂蚁金服开源的 X6 图编辑引擎作为插件编排 Web 部分的底层框架，除了完善、清晰的文档外，一系列开箱即用的交互组件以及节点可定制化能力也是我们选择它的原因。
 
-![X6 introduction](/img/blog_img/2021-07-27-4.png)
+![X6 introduction](https://static.apiseven.com/202108/1639466742487-269ebd5a-4f6c-47c3-a941-1275a4b3d178.png)
 
 在编排实现过程中，我们抽象出了通用元件与插件元件的概念：通用元件是指开始节点、结束节点与条件判断节点，插件元件则是每一个可用的 Apache APISIX 插件，通过将这些元件拖拽到画板中来完成插件编排的流程。如图所示：
 
-![Apache APISIX dashboard plugin orchestration demo1](/img/blog_img/2021-07-27-5.png)
+![Apache APISIX dashboard plugin orchestration demo1](https://static.apiseven.com/202108/1639466805116-0e1c9a83-e5d0-40c1-8a76-8cb1402a491c.png)
 
 在拖拽过程中，我们需要限制一系列的边界条件，这里有几个例子：
 
 当插件未配置时，系统将出现「存在未配置的元件」的错误提示，可以直观地看到哪个插件没有配置数据：
 
-![Apache APISIX dashboard plugin orchestration demo2](/img/blog_img/2021-07-27-6.png)
+![Apache APISIX dashboard plugin orchestration demo2](https://static.apiseven.com/202108/1639466853301-a67de136-633d-4b5d-9062-ac17bf625063.png)
 
 当编辑某条 API 时，若该 API 已经绑定了插件数据，当使用插件编排模式时，系统在检测后将出现警告信息，只有用户明确确认希望使用编排模式时，系统才能继续进行。这可以有效避免 API 数据被误操作的情况。
 
-![Apache APISIX dashboard plugin orchestration demo3](/img/blog_img/2021-07-27-7.png)
+![Apache APISIX dashboard plugin orchestration demo3](https://static.apiseven.com/202108/1639466907551-07ec82f9-8988-4a66-a5f2-d3944d4f239c.png)
 
 此外，还存在诸如开始元件只能有一个输出、条件判断元件只能有一个输入等情况。试想：如果系统不加限制地让用户操作，不合理的插件组合既无意义，又会产生无法预料的错误，因此不断丰富边界条件，也是在设计插件编排时需要着重考虑的问题。
 

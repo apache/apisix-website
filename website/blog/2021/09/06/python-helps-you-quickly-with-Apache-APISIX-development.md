@@ -37,7 +37,7 @@ and `Python`.
 The most important thing is to let more `Python developers` who are interested in `Apache APISIX` and `API gateways` to learn more about the use of `Apache APISIX` and `API gateways` through this project.
 The following is a diagram of the architecture of `Apache APISIX` multi-language support.
 
-![Apache APISIX work flow](/img/blog_img/2021-09-06-1.png)
+![Apache APISIX work flow](https://static.apiseven.com/202108/1639468460315-bb51d913-be72-4329-a47b-7e987dff21ba.png)
 
 The above diagram shows the workflow of `Apache APISIX` on the left, and the `Plugin Runner` on the right is the plug-in runner for each language, the `apisix-python-plugin-runner` introduced in this article is the one that supports `Python`.
 language.

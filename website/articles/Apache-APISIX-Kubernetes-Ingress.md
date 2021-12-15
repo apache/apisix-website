@@ -26,4 +26,4 @@ description: 介绍基于 Apache APISIX 的 Kubernetes Ingress 的优势以及 A
 
 关注 Apache APISIX 公众号，回复“ApacheCon”下载 PPT。
 
-<img src="../img/blog_img/APISIX-wechat.png" alt="Apache APISIX WeChat" style={{width: "200px"}} />
+<img src="https://static.apiseven.com/202108/1639468506819-7f829080-19de-4d94-b103-e1d967e0baea.png" alt="Apache APISIX WeChat" style={{width: "200px"}} />

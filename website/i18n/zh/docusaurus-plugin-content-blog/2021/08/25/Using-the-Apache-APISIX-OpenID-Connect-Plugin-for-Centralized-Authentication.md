@@ -29,13 +29,13 @@ tags: [Practical Case]
 
 在传统认证模式下，各个应用服务需要单独支持身份认证，例如当用户未登录时访问登录接口，接口返回 301 跳转页面。应用需要开发维护 Session 以及和身份提供商的认证交互等逻辑。传统认证模式的流程如下图所示：首先由用户发起请求（request），然后由网关接收请求并将其转发至对应的应用服务，最后由应用服务与身份提供方对接，完成身份认证（authorization）。
 
-![传统认证模式流程图](/img/blog_img/2021-08-16-1.png)
+![传统认证模式流程图](https://static.apiseven.com/202108/1639467045776-715e1805-540b-4cef-87c5-6166e2af43a8.png)
 
 ### 集中认证模式
 
 与传统认证模式不同，集中身份认证模式把用户认证从应用服务中抽离了出来，以 Apache APISIX 为例，集中认证的流程如下图所示：首先由用户发起请求（request），然后由前置的网关负责用户认证流程，与身份提供方对接，向身份提供方发送身份认证（authorization）请求。身份提供方返回用户身份信息（user info）。网关完成用户身份识别后，将用户身份信息通过请求头的形式转发至后端应用。
 
-![集中认证模式流程图](/img/blog_img/2021-08-16-2.png)
+![集中认证模式流程图](https://static.apiseven.com/202108/1639467122244-d4292436-c5ce-48f6-b1d5-67645f24fbc9.png)
 
 相比较传统认证模式，集中认证模式下有如下优点：
 
@@ -58,7 +58,7 @@ OpenID 认证过程有以下 7 个步骤，如下图所示。
 6. APISIX 将 Access Token 发送到 Identity Provider 的 User Endpoint，以进行获取用户身份。
 7. 通过认证后，User Endpoint 将 User info 发送到 APISIX，完成身份验证。
 
-![OpenID 认证流程图](/img/blog_img/2021-08-16-3.png)
+![OpenID 认证流程图](https://static.apiseven.com/202108/1639467187923-71854ddb-65fd-4a90-8bd0-242b47a8624b.png)
 
 ## 如何使用 Apache APISIX 的 OpenID Connect 插件配置 Okta 认证
 
@@ -71,20 +71,20 @@ OpenID 认证过程有以下 7 个步骤，如下图所示。
 ### 步骤一：配置 Okta
 
 1. 登录你的 Okta 账号，并创建一个 Okta 应用，选择 OIDC 登录模式以及 Web Application 应用类型。
-    ![创建一个 Okta 应用](/img/blog_img/2021-08-16-4.png)
-    ![选择 OIDC 登录模式以及 Web Application 应用类型](/img/blog_img/2021-08-16-5.png)
+    ![创建一个 Okta 应用](https://static.apiseven.com/202108/1639467243454-ac16645a-4a8a-426f-93a2-e840cae3c502.png)
+    ![选择 OIDC 登录模式以及 Web Application 应用类型](https://static.apiseven.com/202108/1639467299429-0ea741a7-95fd-43b5-a0c4-25a7026e62d2.png)
 2. 设置登录和登出的跳转 URL。
 其中 “Sign-in redirect URIs” 为登录成功允许跳转的链接地址，“Sign-out redirect URIs” 表示登出之后跳转的链接地址。在这个示例中，我们将登录成功跳转和登出之后跳转的链接地址都设置为 `http://127.0.0.1:9080/`。
-    ![设置登录和登出的跳转 URL](/img/blog_img/2021-08-16-6.png)
+    ![设置登录和登出的跳转 URL](https://static.apiseven.com/202108/1639467390099-e9594a05-7e78-4f20-a902-7c4ca2c302fb.png)
 3. 完成设置以后，单击“Save”保存修改。
-    ![保存修改](/img/blog_img/2021-08-16-7.png)
+    ![保存修改](https://static.apiseven.com/202108/1639467449049-628d7796-0d8e-4ed9-8334-5ba7f0fb32f4.png)
 4. 访问应用的 General 页面，获取以下配置，配置 Apache APISIX OpenID Connect 时需要提供这些信息：
 
 - Client ID：OAuth client ID，即应用的 ID，与下文的 `client_id`  和 `{YOUR_CLIENT_ID}` 对应。
 - Client secret：OAuth client secret，即应用密钥，与下文的 `client_secret`  和 `{YOUR_CLIENT_SECRET}` 对应。
 - Okta domain：应用使用的域名，与下文的 discovery  中的 `{YOUR_ISSUER}` 对应。
 
-![获取配置信息](/img/blog_img/2021-08-16-8.png)
+![获取配置信息](https://static.apiseven.com/202108/1639467501106-d95bf8ad-db47-4918-ac70-424b12488e5b.png)
 
 ### 安装 Apache APISIX
 
@@ -213,7 +213,7 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 
 1. 访问 http://127.0.0.1:9080/get ，因为开启了 OpenID Connect 插件，所以页面被重定向到 Okta 登录页面。
   
-![visit Okta login page](/img/blog_img/2021-08-16-9.png)
+![visit Okta login page](https://static.apiseven.com/202108/1639467566395-2a049b96-3b1f-4e74-93f0-d6ea2f52a72e.png)
   
 2. 输入用户在 Okta 注册的账号密码，单击“Sign in”，登录 Okta 账户。
 
@@ -229,15 +229,15 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 
 **X-Access-Token**：Apache APISIX 将从用户提供商获取到的 access token 放入 X-Access-Token 请求头，可以通过插件配置中的 access_token_in_authorization_header 来选择是否放入 Authorization 请求头中。
 
-![X-Access-Token](/img/blog_img/2021-08-16-10.png)
+![X-Access-Token](https://static.apiseven.com/202108/1639467626264-980605e2-0b21-4512-9e2c-af71950fcf99.png)
 
 **X-Id-Token**：Apache APISIX 将从用户提供商获取到的 ID token 通过 base64 编码之后放入 X-Id-Token 请求头，可以通过插件配置中的 set_id_token_header 来选择是否开启该功能，默认为为开启状态。
 
-![X-Id-Token](/img/blog_img/2021-08-16-11.png)
+![X-Id-Token](https://static.apiseven.com/202108/1639467682902-ada726b8-b46b-460d-8313-ef47b38d13ab.png)
 
 **X-Userinfo**：  Apache APISIX 将从用户提供商获取到的用户信息，通过 base64 编码之后放入 X-Userinfo，你可以通过插件配置中的 set_userinfo_header 来选择是否开启该功能，默认为开启状态。
 
-![X-Userinfo](/img/blog_img/2021-08-16-12.png)
+![X-Userinfo](https://static.apiseven.com/202108/1639467730566-fc8a8a76-a3aa-4b8e-bb13-505b50839877.png)
 
 由此可以看到，Apache APISIX 将会携带 X-Access-Token,X-Id-Token,X-Userinfo 三个请求头传递至上游。上游可以通过解析这几个头部，从而获取到用户 ID 信息和用户的元数据。
 

@@ -23,7 +23,7 @@ tags: [Interview]
 
 In 282 days, Zhengsong Tu (GitHub ID: tzssangglass) has grown from an open source community nerd to an Apache APISIX committer.
 
-![Apache APISIX committer tzssangglass github](/img/blog_img/2021-08-11-1.webp)
+![Apache APISIX committer tzssangglass github](https://static.apiseven.com/202108/1639549454040-de5d7598-83b7-483f-a5da-55fedeb5fa90.png)
 
 Zhengsong Tu was elected as Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and many contributions in the community.
 
@@ -80,7 +80,7 @@ After choosing this issue, Zhengsong started discussing details with his communi
 
 Zhengsong was very excited and immediately followed the guide to bring up the PR. Then he accepted the comments from Code Review and further modified the code. Finally, on October 18, the PR was successfully merged into the repository.
 
-![Apache APISIX committer tzssangglass pr](/img/blog_img/2021-08-11-2.webp)
+![Apache APISIX committer tzssangglass pr](https://static.apiseven.com/202108/1639549390155-6b6cb167-8c9a-43fb-8859-f58cd6b1aae7.png)
 
 "I was very excited and felt like I was finally substantially involved in the open source community. I could submit code to the Apache Foundation's top projects! As a technical worker, it was a technical confidence."
 
