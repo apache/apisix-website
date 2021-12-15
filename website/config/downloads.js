@@ -21,9 +21,9 @@ module.exports = [
     color: "#10B981",
     githubRepo: "apache/apisix-dashboard",
     githubBranch: "master",
-    downloadPath: "apisix/dashboard/2.9.0/apache-apisix-dashboard-2.9.0-src",
-    version: "2.9.0",
-    releaseDate: "2021-10-08",
+    downloadPath: "apisix/dashboard/2.10.0/apache-apisix-dashboard-2.10.0-src",
+    version: "2.10.0",
+    releaseDate: "2021-12-15",
     firstDocPath: "/USER_GUIDE",
   },
   {
