@@ -30,7 +30,7 @@ Star number: This is the most direct indicator, it represents the project has at
 
 Issue and PR counts: Also GitHub provides the Insights feature, shown in the following image.
 
-![Apache APISIX GitHub Insights](https://cdn.jsdelivr.net/gh/filess/img14@main/2021/12/14/1639470503282-7e6a025d-b613-414d-aca1-3026c2b0f176.png)
+![Apache APISIX GitHub Insights](https://static.apiseven.com/202108/1639549315114-8bcc2d6d-a67b-48a2-be1e-0831c2441921.png)
 
 You can select the number of new and closed issues and PRs for this open source project, can also filter by period.
 
@@ -40,7 +40,7 @@ GitHub insights provides a great developer perspective, but it’s not perfect: 
 
 The following graph shows the commit frequency statistics of Apache APISIX from it’s first day, which shows that Apache APISIX has maintained a very stable and continuous activities, but this metric is also a bit thin: you can’t see the data of which developers submitted these commits
 
-![Apache APISIX commits](https://cdn.jsdelivr.net/gh/filess/img3@main/2021/12/14/1639470530551-a9dd1ed4-16d2-40f7-9b52-b658745e4e98.png)
+![Apache APISIX commits](https://static.apiseven.com/202108/1639549239894-1406e1d6-ae84-4364-89cd-1b63f6f4cd4b.png)
 
 after reading so many indicators, still you can’t get your answer, don’t you think that choosing an open source project is so complicated? Wait!
 
@@ -49,11 +49,11 @@ As maintainers and developers of open source projects, we also need such golden 
 
 ## Contributor growth
 
-![Apache APISIX contributor growth](https://cdn.jsdelivr.net/gh/filess/img1@main/2021/12/14/1639470567442-843709f5-6048-4d44-8ab7-684d5eb09e95.png)
+![Apache APISIX contributor growth](https://static.apiseven.com/202108/1639549136527-e477c670-42d3-4764-9432-209c34dd222b.png)
 
 ## Monthly Active Contributors
 
-![Apache APISIX Monthly Active Contributors](https://cdn.jsdelivr.net/gh/filess/img9@main/2021/12/14/1639470234198-20a8e253-2488-450f-bd15-16e00848723c.png)
+![Apache APISIX Monthly Active Contributors](https://static.apiseven.com/202108/1639548976021-ed0946ae-eeb2-4dfc-8e15-c3db13f527e0.png)
 
 As you can clearly see from the two tables above, Apache APISIX has seen a steady growth in contributors since its first day, with about 25 contributors participating each month.
 
@@ -65,7 +65,7 @@ The contributor growth line plot is based on the date of the first commit by eac
 
 By showing line plot for multiple repo in the same chart at the same time, we can also visually compare the development of different communities.
 
-![Apache APISIX compare the development of different communities](https://cdn.jsdelivr.net/gh/filess/img10@main/2021/12/14/1639470592481-2b0b8f6f-27b7-412c-86fa-f435a105b728.png)
+![Apache APISIX compare the development of different communities](https://static.apiseven.com/202108/1639548845735-43efcae0-3221-4739-b10f-0d9aaafad3fd.png)
 
 In the graph above, we can see that the number of contributors to Apache APISIX is growing at a very fast rate, and in just two years, the number of contributors has almost caught up with or even surpassed other open source API gateway projects.
 
@@ -73,13 +73,13 @@ The monthly contributor line plot is derived from the number of contributors com
 
 Compared to the contributor growth line plot, the monthly contributors are a better measure of how the community has grown in a short period of time.
 
-![Apache APISIX monthly contributors compare](https://cdn.jsdelivr.net/gh/filess/img14@main/2021/12/14/1639470615210-03e7040a-1f46-4f83-8385-55025c91dfb0.png)
+![Apache APISIX monthly contributors compare](https://static.apiseven.com/202108/1639548683512-d7c7a72b-7ac3-4535-bd1a-f056d05d196b.png)
 
 For example, in the graph above, we can see that Apache APISIX has the highest and most consistent number of monthly contributors of any open source API gateway project.
 
 This explains why Apache APISIX has been able to catch up with its friends in terms of total contributors in such a short period of time since it’s first day of open source.
 
-![Apache APISIX monthly contributors](https://cdn.jsdelivr.net/gh/filess/img9@main/2021/12/14/1639470691773-45ae3523-e0ce-45c3-9d70-e748de7fa0d2.png)
+![Apache APISIX monthly contributors](https://static.apiseven.com/202108/1639548241386-6ba96e66-5ab7-468e-9072-6144fb902909.png)
 
 The above graph is comparison of monthly contributors between different MQ community, which is also widely discussed on Twitter. With this chart, we can see that Apache Pulsar is catching up to Apache Kafka in terms of contributors of the month.
 
