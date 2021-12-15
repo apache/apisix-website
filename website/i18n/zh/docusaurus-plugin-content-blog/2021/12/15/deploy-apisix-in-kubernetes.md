@@ -171,7 +171,7 @@ kubectl port-forward service/apisix-dashboard 8080:80
 
 最后访问 `localhost:8080`，即可查看 Dashboard 相关信息。默认登录账号密码为 `admin`、`admin`。
 
-:::note 提示
+:::tip 提示
 在安装过程中为了更直观地看到部署情况，可以尝试利用 [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) 在网页端查看 Pod 的运行情况。
 :::
 
