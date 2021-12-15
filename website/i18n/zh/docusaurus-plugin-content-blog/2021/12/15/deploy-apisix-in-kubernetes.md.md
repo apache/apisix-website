@@ -61,7 +61,7 @@ helm install apisix apisix/apisix
 上述指令执行成功后，会得到如下返回信息：
 
 ```shell
-▶ helm install apisix apisix/apisix                    
+▶ helm install apisix apisix/apisix
 NAME: apisix
 LAST DEPLOYED: Sun Dec  5 14:43:19 2021
 NAMESPACE: default
@@ -101,18 +101,18 @@ curl -X GET "http://127.0.0.1:8080/get?foo1=bar1&foo2=bar2" -H "Host: httpbin.or
 ```json
 {
   "args": {
-    "foo1": "bar1", 
+    "foo1": "bar1",
     "foo2": "bar2"
-  }, 
+  },
   "headers": {
-    "Accept": "*/*", 
-    "Accept-Encoding": "gzip", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.64.1", 
-    "X-Amzn-Trace-Id": "Root=1-61ac63b5-348d3c5567db393462cd0666", 
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.64.1",
+    "X-Amzn-Trace-Id": "Root=1-61ac63b5-348d3c5567db393462cd0666",
     "X-Forwarded-Host": "httpbin.org"
-  }, 
-  "origin": "127.0.0.1, 192.46.208.201", 
+  },
+  "origin": "127.0.0.1, 192.46.208.201",
   "url": "http://httpbin.org/get?foo1=bar1&foo2=bar2"
 }
 ```

@@ -60,7 +60,7 @@ helm install apisix apisix/apisix
 When the above command is executed successfully, the following return message will be obtained.
 
 ```shell
-▶ helm install apisix apisix/apisix                    
+▶ helm install apisix apisix/apisix
 NAME: apisix
 LAST DEPLOYED: Sun Dec  5 14:43:19 2021
 NAMESPACE: default
@@ -99,18 +99,18 @@ The expected return results can be seen in the example below.
 ```json
 {
   "args": {
-    "foo1": "bar1", 
+    "foo1": "bar1",
     "foo2": "bar2"
-  }, 
+  },
   "headers": {
-    "Accept": "*/*", 
-    "Accept-Encoding": "gzip", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.64.1", 
-    "X-Amzn-Trace-Id": "Root=1-61ac63b5-348d3c5567db393462cd0666", 
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.64.1",
+    "X-Amzn-Trace-Id": "Root=1-61ac63b5-348d3c5567db393462cd0666",
     "X-Forwarded-Host": "httpbin.org"
-  }, 
-  "origin": "127.0.0.1, 192.46.208.201", 
+  },
+  "origin": "127.0.0.1, 192.46.208.201",
   "url": "http://httpbin.org/get?foo1=bar1&foo2=bar2"
 }
 ```
