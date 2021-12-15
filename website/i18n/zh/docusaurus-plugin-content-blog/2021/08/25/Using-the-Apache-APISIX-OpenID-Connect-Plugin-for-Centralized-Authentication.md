@@ -77,7 +77,7 @@ OpenID 认证过程有以下 7 个步骤，如下图所示。
 其中 “Sign-in redirect URIs” 为登录成功允许跳转的链接地址，“Sign-out redirect URIs” 表示登出之后跳转的链接地址。在这个示例中，我们将登录成功跳转和登出之后跳转的链接地址都设置为 `http://127.0.0.1:9080/`。
     ![设置登录和登出的跳转 URL](https://static.apiseven.com/202108/1639467390099-e9594a05-7e78-4f20-a902-7c4ca2c302fb.png)
 3. 完成设置以后，单击“Save”保存修改。
-    ![保存修改](/img/blog_img/2021-08-16-7.png)
+    ![保存修改](https://static.apiseven.com/202108/1639467449049-628d7796-0d8e-4ed9-8334-5ba7f0fb32f4.png)
 4. 访问应用的 General 页面，获取以下配置，配置 Apache APISIX OpenID Connect 时需要提供这些信息：
 
 - Client ID：OAuth client ID，即应用的 ID，与下文的 `client_id`  和 `{YOUR_CLIENT_ID}` 对应。
