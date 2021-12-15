@@ -131,7 +131,7 @@ kubectl port-forward service/apisix-dashboard 8080:80
 
 Finally, visit your `localhost:8080` to see the login page.
 
-:::Note
+:::note
 The node information of Apache APISIX will not appear in the system information of Apache APISIX-Dashboard deployed here. The `server-info` plug-in is not enabled by default if installed by Helm, so you can add it in the apisix configmap if needed.
 
 For the configuration of `server-info`, please refer to the [relevant documentation](https://apisix.apache.org/docs/apisix/plugins/server-info/).
@@ -143,7 +143,7 @@ Deploying Apache APISIX using a yaml file is easier than the Helm deployment met
 
 ### Deploying APISIX and Dashboard
 
-:::Note
+:::note
 If you have already deployed using method 1, you will need to clear the ETCD PVC storage before proceeding with the following installation.
 :::
 
