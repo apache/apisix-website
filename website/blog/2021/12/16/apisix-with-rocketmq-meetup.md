@@ -6,33 +6,33 @@ keywords:
 - Kubernetes
 - Meetup
 - WASM
-description: On December 26rd, the Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.
+description: On December 26th, the Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.
 tags: [Events]
 ---
 
-> On December 26rd, the Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.
+> On December 26th, the Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.
 
 <!--truncate-->
 
 ![Meetup post](https://static.apiseven.com/202108/1639618571630-50324e59-64df-4747-8139-fedc4a63a297.jpeg)
 
-## Sharing Topics
+## Topics
 
 ### Apache APISIX: Keeping Low-Bar for Devs
 
-#### Sharing guest
+#### Speaker
 
-Yansheng Wang, Apache APISIX PMC, co-founder & CTO of api7.ai
+Yuansheng Wang, Apache APISIX PMC, co-founder & CTO of api7.ai
 
 #### Topic Details
 
 In recent years, open source projects have emerged from the ground, and a variety of open source products are bursting with power. Ecology is starting to become the moat of open source projects. How to choose the right track is perhaps the question that open source leaders should start to consider afterwards.
 
-Take Apache APISIX as an example . This talk will also bring a detailed introduction about Apache APISIX, through which you can fully understand the features and ecology of Apache APISIX, as well as the essential active community atmosphere.
+This talk includes a detailed introduction about Apache APISIX, through which you can fully understand the features and ecology of Apache APISIX, as well as the active community atmosphere.
 
 ### The O&M Practice and Governance Path of Xiaohongshu Messaging Middleware
 
-#### Sharing Guest
+#### Speaker
 
 Yihao Zhang, R&D engineer of Xiaohongshu's messaging middleware, responsible for the R&D and governance of Kafka and RocketMQ in the company.
 
@@ -44,7 +44,7 @@ In this talk, we will discuss the following issues, such as how to disassemble t
 
 ### WASM-based Multi-Language Plug-in Solution for Apache APISIX (Lightning Talk)
 
-#### Sharing Guests
+#### Speaker
 
 Zexuan Luo, api7.ai Engineer, Apache APISIX PMC
 
@@ -56,7 +56,7 @@ This talk will provide a repeatable understanding of WASM, including its advanta
 
 ### The road to grayscale and cloud-native governance for Zhengcaiyun messaging middleware
 
-#### Sharing guest
+#### Speaker
 
 Lin Zeng, the person in charge of Zhengcaiyun infrastructure platform, mainly responsible for the company's cloud-native, blockchain, artificial intelligence, middleware and other technical directions
 
@@ -68,7 +68,7 @@ This presentation will provide a full understanding of how to use RocketMQ for g
 
 ### Building a Better Kubernetes Ingress Controller
 
-#### Sharing guest
+#### Speaker
 
 Jintao Zhang, api7.ai cloud native technologist, Apache APISIX committer, Kubernetes ingress-nginx reviewer, contributor of Containerd/Docker/Helm/Kubernetes/KIND and many other open source projects.
 
@@ -78,7 +78,7 @@ This talk will share hands-on experience with Apache APISIX Ingress Controller a
 
 ### Construction of large-scale MQTT Service Cluster based on RocketMQ
 
-#### Sharing guest
+#### Speaker
 
 Xiuji, Senior Development engineer of Aliyun.
 
@@ -88,6 +88,6 @@ Through this presentation, you can learn how to build a MQTT messaging model bas
 
 ## How to participate
 
-Scan the code to follow the video number below and book the live broadcast.
+Scan the code to follow Apache APISIX's video account below and reserve your time for the live broadcast on December 26th.
 
 ![QR code](https://static.apiseven.com/202108/1639618627132-2ce4f183-4d3f-40ca-ae5f-397a48f650ae.png)
