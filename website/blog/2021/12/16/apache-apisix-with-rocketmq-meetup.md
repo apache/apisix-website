@@ -16,7 +16,6 @@ tags: [Events]
 
 ![Meetup post](https://static.apiseven.com/202108/1639618571630-50324e59-64df-4747-8139-fedc4a63a297.jpeg)
 
-
 ## Sharing Topics
 
 ### Apache APISIX: Keeping Low-Bar for Devs
@@ -39,7 +38,7 @@ Yihao Zhang, R&D engineer of Xiaohongshu's messaging middleware, responsible for
 
 #### Topic Details
 
-The overall convergence of Xiaohongshu's messaging middleware is late. Facing the huge business volume and complicated historical issues, Xiaohongshu still needs to be prepared in other aspects at the business level. 
+The overall convergence of Xiaohongshu's messaging middleware is late. Facing the huge business volume and complicated historical issues, Xiaohongshu still needs to be prepared in other aspects at the business level.
 
 In this talk, we will discuss the following issues, such as how to disassemble the operation and governance direction to meet the high stability requirements in a short period of time, what issues need to be paid attention to in the subsequent business process to improve the cluster visualization, operation and traceability, and the future planning of Xiaohongshu's internal messaging middleware direction.
 
@@ -63,7 +62,7 @@ Lin Zeng, the person in charge of Zhengcaiyun infrastructure platform, mainly re
 
 #### Topic Details
 
-This sharing will introduce how RocketMQ helps Zhengcaiyun companies to cope with the complex cloud and island hybrid cloud scenario of government procurement business. 
+This sharing will introduce how RocketMQ helps Zhengcaiyun companies to cope with the complex cloud and island hybrid cloud scenario of government procurement business.
 
 This presentation will provide a full understanding of how to use RocketMQ for grayscale and traffic staining, delayed message personalization, and the implementation of RocketMQ-based cloud-native operational transformation and other practical experience sharing.
 
