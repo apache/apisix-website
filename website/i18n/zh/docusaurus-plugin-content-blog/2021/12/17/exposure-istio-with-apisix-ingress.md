@@ -37,6 +37,8 @@ tags: [Technology]
 
 接下来我们将通过使用 Istio Service Mesh 和 Apache APISIX，为大家演示如何将启用 Service Mesh 的 Kubernetes 集群中服务安全暴露至集群外。
 
+![整体操作示意图](https://static.apiseven.com/202108/1639730236819-0911b90b-811f-4451-b0e5-f89ac3e04b77.png)
+
 ## 第一步：准备 Kubernetes 集群
 
 这里我们使用 [Kind](https://github.com/kubernetes-sigs/kind/) 在本地创建一个临时集群用于演示。关于如何通过 Kind 命令进行安装可参考[官方文档](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)。

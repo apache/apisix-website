@@ -35,6 +35,8 @@ Back in real-world usage scenarios, we won't only be exposed to traffic within t
 
 We'll show you how to securely expose services in a Service Mesh-enabled Kubernetes cluster outside the cluster using Istio Service Mesh and Apache APISIX.
 
+![How to deal](https://static.apiseven.com/202108/1639730236819-0911b90b-811f-4451-b0e5-f89ac3e04b77.png)
+
 ## Step 1: Prepare the Kubernetes cluster
 
 Here we use [Kind](https://github.com/kubernetes-sigs/kind/) to create a temporary cluster locally for demonstration purposes. You can refer to the [official documentation](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) for how to install it with the Kind command.
