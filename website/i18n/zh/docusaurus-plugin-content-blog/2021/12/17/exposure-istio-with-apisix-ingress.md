@@ -56,15 +56,15 @@ nodes:
 然后使用此配置文件创建一个集群。
 
 ```bash
-(MoeLove) ➜ kind create cluster --config kind-config.yaml 
+(MoeLove) ➜ kind create cluster --config kind-config.yaml
 Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.22.2) 🖼 
- ✓ Preparing nodes 📦 📦 📦 📦  
- ✓ Writing configuration 📜 
- ✓ Starting control-plane 🕹️ 
- ✓ Installing CNI 🔌 
- ✓ Installing StorageClass 💾 
- ✓ Joining worker nodes 🚜 
+ ✓ Ensuring node image (kindest/node:v1.22.2) 🖼
+ ✓ Preparing nodes 📦 📦 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing CNI 🔌
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
 Set kubectl context to "kind-kind"
 You can now use your cluster with:
 
@@ -98,7 +98,7 @@ add the /root/apisix-istio/istio-1.12.1/bin directory to your environment path v
          export PATH="$PATH:/root/apisix-istio/istio-1.12.1/bin"
 
 Begin the Istio pre-installation check by running:
-         istioctl x precheck 
+         istioctl x precheck
 
 Need more information? Visit https://istio.io/latest/docs/setup/install/
 ```
@@ -118,9 +118,12 @@ istio-1.12.1
 
 ```bash
 (MoeLove) ➜ istioctl install --set profile=minimal  -y
-✔ Istio core installed                                                                                                                                                                                    
-✔ Istiod installed                                                                                                                                                                                        
-✔ Installation complete                                                                                                                                                                                   Making this installation the default for injection and validation.
+✔ Istio core
+installed                                                                                                                                                                                    
+✔ Istiod
+installed                                                                                                                                                                                        
+✔ Installation
+complete                                                                                                                                                                                   Making this installation the default for injection and validation.
 
 Thank you for installing Istio 1.12.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/FegQbc9UvePd4Z9z7
 ```
@@ -128,7 +131,7 @@ Thank you for installing Istio 1.12.  Please take a few minutes to tell us about
 最后检查当前的部署状态，可以看到 Pod 已经在运行中了。
 
 ```bash
-(MoeLove) ➜ kubectl -n istio-system get pods 
+(MoeLove) ➜ kubectl -n istio-system get pods
 NAME                      READY   STATUS    RESTARTS   AGE
 istiod-58d79b7bff-g66cv   1/1     Running   0          1m
 ```
@@ -203,7 +206,7 @@ pod/apisix-istio-ingress-controller-5fcbb75b8c-b4nnc condition met
 > Host: 172.20.0.2:31225
 > User-Agent: curl/7.58.0
 > Accept: */*
-> 
+>
 < HTTP/1.1 404 Not Found
 < date: Wed, 15 Dec 2021 14:31:40 GMT
 < content-type: text/plain; charset=utf-8
@@ -211,7 +214,7 @@ pod/apisix-istio-ingress-controller-5fcbb75b8c-b4nnc condition met
 < x-envoy-upstream-service-time: 1
 < x-envoy-decorator-operation: apisix-istio-gateway.apisix-istio.svc.cluster.local:80/*
 < transfer-encoding: chunked
-< 
+<
 {"error_msg":"404 Route Not Found"}
 * Connection #0 to host 172.20.0.2 left intact
 ```
@@ -250,7 +253,7 @@ service/ratings created
 serviceaccount/bookinfo-ratings created
 deployment.apps/ratings-v1 created
 service/reviews created
-serviceaccount/bookinfo-reviews created` 
+serviceaccount/bookinfo-reviews created`
 deployment.apps/reviews-v1 created
 deployment.apps/reviews-v2 created
 deployment.apps/reviews-v3 created
@@ -262,7 +265,7 @@ deployment.apps/productpage-v1 created
 等待所有 Pod 正常运行。
 
 ```bash
-(MoeLove) ➜ kubectl -n bookinfo get pods   
+(MoeLove) ➜ kubectl -n bookinfo get pods
 NAME                             READY   STATUS    RESTARTS   AGE
 details-v1-96cf758d8-qr6p9       2/2     Running   0          64s
 productpage-v1-5f75dfbfb-22hcw   2/2     Running   0          64s
