@@ -117,11 +117,15 @@ Next, the real deployment process begins. Just set it to `--set profile=minimal`
 ```bash
 (MoeLove) ➜ istioctl install --set profile=minimal  -y
 ✔ Istio core
-installed                                                                                                                                                                                  
+installed
+
 ✔ Istiod
-installed                                                                                                                                                                                        
+installed
+
 ✔ Installation
-complete                                                                                                                                                                                   Making this installation the default for injection and validation.
+complete
+
+Making this installation the default for injection and validation.
 
 Thank you for installing Istio 1.12.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/FegQbc9UvePd4Z9z7
 ```
@@ -129,7 +133,7 @@ Thank you for installing Istio 1.12.  Please take a few minutes to tell us about
 Finally, check the current deployment status and you can see that the Pod is already running.
 
 ```bash
-(MoeLove) ➜ kubectl -n istio-system get pods 
+(MoeLove) ➜ kubectl -n istio-system get pods
 NAME                      READY   STATUS    RESTARTS   AGE
 istiod-58d79b7bff-g66cv   1/1     Running   0          1m
 ```

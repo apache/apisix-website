@@ -119,11 +119,15 @@ istio-1.12.1
 ```bash
 (MoeLove) ➜ istioctl install --set profile=minimal  -y
 ✔ Istio core
-installed                                                                                                                                                                                    
+installed
+
 ✔ Istiod
-installed                                                                                                                                                                                        
+installed
+
 ✔ Installation
-complete                                                                                                                                                                                   Making this installation the default for injection and validation.
+complete
+
+Making this installation the default for injection and validation.
 
 Thank you for installing Istio 1.12.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/FegQbc9UvePd4Z9z7
 ```
