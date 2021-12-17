@@ -88,6 +88,10 @@ Finally, the verification of the new route is performed.
 
 Since this article uses Kind to build a local K8s cluster, the `apisix-gateway` NodePort is not accessible, so an additional step is needed before validation, i.e. forwarding port `80` from the cluster to port `8080` on the local machine.
 
+```shell
+kubectl port-forward service/apisix-gateway 8080:80
+```
+
 Start the verification process.
 
 ```shell

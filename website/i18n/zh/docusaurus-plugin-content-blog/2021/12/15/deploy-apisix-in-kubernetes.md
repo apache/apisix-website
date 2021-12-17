@@ -88,7 +88,10 @@ kubectl port-forward service/apisix-admin 9080:9180
 最后进行新建路由的验证环节。
 
 由于在本文演示中使用了 Kind 来搭建本地 K8s 集群，`apisix-gateway` 的 NodePort 访问不了，所以在验证之前还需要额外一步，即将集群中的 `80` 端口转发到本机 `8080` 端口。
+
+```shell
 kubectl port-forward service/apisix-gateway 8080:80
+```
 
 开始进行验证。
 
