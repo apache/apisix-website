@@ -29,6 +29,8 @@ With the hot development of Cloud-Native technology, Service Mesh is gradually b
 
 The following diagram shows the schematic diagram of Service Mesh, which introduces Sidecar Proxy to complete the interconnection and communication between microservices.
 
+![Service Mesh](https://static.apiseven.com/202108/1639730484170-fbf2e5ed-3041-4975-8730-a16c92be68f2.png)
+
 The diagram above shows that Service Mesh focuses more on east-west traffic in the traditional sense, i.e., traffic between services. When we use Service Mesh with Kubernetes, the east-west traffic corresponds to the traffic within the Kubernetes cluster.
 
 Back in real-world usage scenarios, we won't only be exposed to traffic within the Kubernetes cluster, we will mostly need to expose some services outside of the cluster for users or other services to use. But when exposing services in a Kubernetes cluster outside the cluster, we have to consider factors such as security and observability.
