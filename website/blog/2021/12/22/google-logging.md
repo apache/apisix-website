@@ -23,6 +23,8 @@ tags: [Technology]
 
 <!--truncate-->
 
+![Apache APISIX-Google Cloud logging cover](https://static.apiseven.com/202108/1640155567091-2611f8b8-8181-42d8-8756-e892b3768a8d.png)
+
 Logging is an important infrastructure for distributed systems. It can help developers observe the status of service operation, improve the efficiency of service troubleshooting and diagnosis, and conduct multi-dimensional analysis to improve the overall stability and operational efficiency of the system.
 
 [Google Cloud Logging](https://cloud.google.com/logging/) is a real-time log management service provided by Google Cloud, offering EB-level storage, search, analysis, and alerting services. Google Cloud Logging's log browser allows you to search, sort, and analyze logs easily and efficiently, and Google Cloud Logging also provides saved queries and rich graphical features to make log screening results retrievable and more intuitive.

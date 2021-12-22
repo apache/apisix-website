@@ -23,6 +23,8 @@ tags: [Technology]
 
 <!--truncate-->
 
+![Apache APISIX-Google Cloud logging cover](https://static.apiseven.com/202108/1640155567091-2611f8b8-8181-42d8-8756-e892b3768a8d.png)
+
 日志是大型分布式系统的重要基础设施，可以帮助开发者检查观测服务运行的状态，提高服务故障排查和诊断效率以及进行多维度的分析，以此提高系统整体的稳定性和运行效率。
 
 Google Cloud Logging 是由 Google Cloud 提供的全代管式实时日志管理服务，提供 EB 级的存储、搜索、分析和提醒等服务。通过 Google Cloud Loging 的日志浏览器你可以简单高效的对日志进行对日志进行搜索、排序和分析，并且 Google Cloud Logging 还提供了保存查询和丰富的图表功能可以使日志筛查结果可回溯且有更直观的呈现。
