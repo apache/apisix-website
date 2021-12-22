@@ -1,7 +1,7 @@
 ---
 title: 捷报频传！Apache APISIX 现已支持对接 Google Cloud Logging
 authors:
-  - name: "帅近超"
+  - name: "帅进超"
     title: "Author"
     url: "https://github.com/shuaijinchao"
     image_url: "https://avatars.githubusercontent.com/u/8529452?v=4"
@@ -33,7 +33,7 @@ Apache APISIX 在此之前已经支持集成了 HTTP Logger 、TCP Logger、Kafk
 
 最近，Apache APISIX 对 Google Cloud Logging 也完成了支持，在使用 Apache APISIX 作为网关时用户又多了一种新的日志解决方案：使用 google-cloud-logging 插件，将 Apache APISIX 的请求日志转发到 Google Cloud Logging 服务中进行分析和存储。
 
-启用该插件后， Apache APISIX 将在 Log Phase 获取请求上下文信息并序列化为 Google Cloud Logging 的 日志格式，然后将序列化后的日志数据提交到批处理队列中，当批处理队列触发用户设置的时间或条目阈值时会将日志数据通过 Google Cloud API 批量转发到 Google Cloud Logging 服务中。
+启用该插件后， Apache APISIX 将在 Log Phase 获取请求上下文信息并序列化为 Google Cloud Logging 的日志格式，然后将序列化后的日志数据提交到批处理队列中，当批处理队列触发用户设置的时间或条目阈值时会将日志数据通过 Google Cloud API 批量转发到 Google Cloud Logging 服务中。
 
 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。
 
@@ -41,7 +41,7 @@ Apache APISIX 在此之前已经支持集成了 HTTP Logger 、TCP Logger、Kafk
 
 1. 打开浏览器，访问 Google Cloud 首页。
 2. 输入用户名和密码，登录 Google Cloud 控制台。
-3. 单击 Google Cloud 控制台左侧菜单，选择 “IAM& Admin > Create a Project”，开始创建项目。
+3. 单击 Google Cloud 控制台左侧菜单，选择 “IAM & Admin > Create a Project”，开始创建项目。
    ![创建项目](https://static.apiseven.com/202108/1640137078950-3a0b472b-df9f-4f75-9c03-816138860f74.png)
 4. 输入项目名称，选择组织名称，单击 “CREATE” 创建项目。
    ![创建项目-2](https://static.apiseven.com/202108/1640137136967-effec599-2263-45e7-874d-53a547b83aae.png)
@@ -55,9 +55,9 @@ Apache APISIX 在此之前已经支持集成了 HTTP Logger 、TCP Logger、Kafk
    ![创建服务账号](https://static.apiseven.com/202108/1640137784375-e47cbe0e-7735-4e7b-a881-1a9ec1c12ffc.png)
 9. 输入服务账号名称及 ID（ID 一般跟随账号生成），然后单击 “CREATE AND CONTINUE”。
     ![创建服务账号-2](https://static.apiseven.com/202108/1640137834702-76166e6f-ed98-4a85-a759-2ce78f795794.png)
-10. 单击“Role”，在搜索框中输入“Logging Admin” 搜索这个角色，选择“Logging Admin”作为角色。
+10. 单击“Role”，在搜索框中输入“Logging Admin”搜索这个角色，选择“Logging Admin”作为角色。
     ![创建服务账号-3](https://static.apiseven.com/202108/1640137883981-0f780040-8398-4d38-9600-a5e54b29b48e.png)
-11. 单击“DONE”， 完成服务账号创建，跳转到服务账号首页。此时你可以在列表中看到刚刚创建的账号及详情。
+11. 单击“DONE”，完成服务账号创建，跳转到服务账号首页。此时你可以在列表中看到刚刚创建的账号及详情。
     ![查看账号及详情](https://static.apiseven.com/202108/1640137970837-ed1994be-87d0-48b8-bec5-010200fe1f1d.png)
 12. 在服务账号最后一列的操作栏单击“Manage keys”，进入秘钥管理界面。
     ![进入秘钥管理界面](https://static.apiseven.com/202108/1640138660649-cd57da29-5965-4251-9deb-300de830dfd9.png)
@@ -103,7 +103,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 #### 通过 JSON 文本配置
 
 1. 打开私钥文件。
-2. 将`project_id` 的值配置到 `google-cloud-logging. auth_config.project_id` 配置项中。
+2. 将 `project_id` 的值配置到 `google-cloud-logging. auth_config.project_id` 配置项中。
 3. 将 `private_key` 的值配置到 `google-cloud-logging. auth_config. private_key` 配置项中。
 
 如下所示：
@@ -200,7 +200,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 Apache APISIX 不仅致力于保持自身的高性能，也一直非常重视开源生态的建设。目前 Apache APISIX 已经拥有了 10+ 个日志相关的插件，支持与业界主流的开源日志项目对接。
 
-如果你有对接其他日志的需求，不妨访问 Apache APISIX 的 GitHub，通过 issue 留下你的建议；或订阅Apache APISIX 的邮件列表，通过邮件表达你的想法。
+如果你有对接其他日志的需求，不妨访问 Apache APISIX 的 [GitHub](https://github.com/apache/apisix/issues)，通过 issue 留下你的建议；或订阅 Apache APISIX 的[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)，通过邮件表达你的想法。
 
 ## 相关阅读
 

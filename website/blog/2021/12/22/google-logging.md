@@ -75,7 +75,7 @@ This article will explain how to configure and use the Google Cloud Logging serv
 #### Option 1: Upload key file configuration
 
 1. Upload the private key file to the Apache APISIX node server.
-2. Configure the file path to the google-cloud-logging. auth_file configuration item, as shown below:
+2. Configure the file path to the `google-cloud-logging.auth_file`, as shown below:
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -103,8 +103,8 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 #### Option 2: Declare configurations in JSON
 
 1. Open the private key file.
-2. Configure the value of "project_id" to google-cloud-logging. auth_config.project_id.
-3. Configure the value of "private_key" to google-cloud-logging. auth_config. private_key.
+2. Configure the value of `project_id` to `google-cloud-logging.auth_config.project_id`.
+3. Configure the value of `private_key` to `google-cloud-logging.auth_config.private_key`.
 As shown below:
 
 ```shell
@@ -199,7 +199,7 @@ This article describes the detailed steps for interfacing Apache APISIX and Goog
 
 Apache APISIX is not only committed to maintaining its own high performance, but also has always attached great importance to the construction of open source ecology. At present, Apache APISIX has 10+ logging-related plugins and supports interfacing with mainstream open source logging projects in the industry.
 
-If you have a need to interface to other logs, visit Apache APISIX's [GitHub](https://github.com/apache/apisix/issues) and leave your suggestions via issue; or subscribe to the Apache APISIX [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) and express your thoughts via email.
+If you have a need to interface to other logs, visit Apache APISIX's [GitHub](https://github.com/apache/apisix/issues) and leave your suggestions via issue; or subscribe to the Apache APISIX [mailing list](https://apisix.apache.org/docs/general/subscribe-guide/) and express your thoughts via email.
 
 ## Related articles
 
