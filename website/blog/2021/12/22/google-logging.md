@@ -23,7 +23,7 @@ tags: [Technology]
 
 <!--truncate-->
 
-![Apache APISIX-Google Cloud logging cover](https://static.apiseven.com/202108/1640155567091-2611f8b8-8181-42d8-8756-e892b3768a8d.png)
+![Apache APISIX-Google Cloud Logging cover](https://static.apiseven.com/202108/1640155567091-2611f8b8-8181-42d8-8756-e892b3768a8d.png)
 
 Logging is an important infrastructure for distributed systems. It can help developers observe the status of service operation, improve the efficiency of service troubleshooting and diagnosis, and conduct multi-dimensional analysis to improve the overall stability and operational efficiency of the system.
 
@@ -155,7 +155,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 ### Verify plugin is running normally
 
-1. Run the following command to send a request to Google Logging.
+1. Run the following command to send a request to Google Cloud Logging.
 
    ```shell
     curl -i http://127.0.0.1:9080/logging.do
@@ -195,7 +195,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 ## Summary
 
-This article describes the detailed steps for interfacing Apache APISIX and Google Logging. We hope this article will give you a clearer understanding of using Google Cloud in Apache APISIX and facilitate the subsequent hands-on operation.
+This article describes the detailed steps for interfacing Apache APISIX and Google Cloud Logging. We hope this article will give you a clearer understanding of using Google Cloud Logging in Apache APISIX and facilitate the subsequent hands-on operation.
 
 Apache APISIX is not only committed to maintaining its own high performance, but also has always attached great importance to the construction of open source ecology. At present, Apache APISIX has 10+ logging-related plugins and supports interfacing with mainstream open source logging projects in the industry.
 

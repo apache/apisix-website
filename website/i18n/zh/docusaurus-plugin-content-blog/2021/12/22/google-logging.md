@@ -29,7 +29,8 @@ tags: [Technology]
 
 Google Cloud Logging 是由 Google Cloud 提供的全代管式实时日志管理服务，提供 EB 级的存储、搜索、分析和提醒等服务。通过 Google Cloud Loging 的日志浏览器你可以简单高效的对日志进行对日志进行搜索、排序和分析，并且 Google Cloud Logging 还提供了保存查询和丰富的图表功能可以使日志筛查结果可回溯且有更直观的呈现。
 
-Apache APISIX 在此之前已经支持集成了 HTTP Logger 、TCP Logger、Kafka Logger、UDP Logger、RocketMQ Logger、SkyWalking Logger、Aliyun Cloud Logging（SLS）等众多开源及云日志服务解决方案。
+Apache APISIX 在此之前已经支持集成了 [HTTP Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/http-logger.md) 、[TCP Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/tcp-logger.md)、[Kafka Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/kafka-logger.md)、[UDP Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/udp-logger.md)、[RocketMQ Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/rocketmq-logger.md)、[SkyWalking Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/skywalking-logger.md)、[Aliyun Cloud Logging（SLS）](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/sls-logger.md)等众多开源及云日志服务解决方案。
+
 
 最近，Apache APISIX 对 Google Cloud Logging 也完成了支持，在使用 Apache APISIX 作为网关时用户又多了一种新的日志解决方案：使用 google-cloud-logging 插件，将 Apache APISIX 的请求日志转发到 Google Cloud Logging 服务中进行分析和存储。
 
@@ -156,7 +157,7 @@ auth_config.token_uri|否|oauth2.googleapis.com/token|请求 Google Service Acco
 
 ### 验证插件是否成功运行
 
-1. 运行以下命令，向 Google Logging 发送请求。
+1. 运行以下命令，向 Google Cloud Logging 发送请求。
 
   ```shell
   curl -i http://127.0.0.1:9080/logging.do
@@ -196,7 +197,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 ## 总结
 
-本文为大家描述了 Apache APISIX 和 Google Logging 对接的详细操作步骤，希望通过本文可以让大家对于在 Apache APISIX 中使用 Google Cloud 有了更清晰的理解，方便后续进行上手实操。
+本文为大家描述了 Apache APISIX 和 Google Cloud Logging 对接的详细操作步骤，希望通过本文可以让大家对于在 Apache APISIX 中使用 Google Cloud Logging 有更清晰的理解，方便后续进行上手实操。
 
 Apache APISIX 不仅致力于保持自身的高性能，也一直非常重视开源生态的建设。目前 Apache APISIX 已经拥有了 10+ 个日志相关的插件，支持与业界主流的开源日志项目对接。
 
