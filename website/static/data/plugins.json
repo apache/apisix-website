@@ -152,7 +152,7 @@
       },
       {
         "name": "google-cloud-logging",
-        "description": "google-cloud-logging plugin is used to send the access log of Apache APISIX to the Google Cloud Logging Service.",
+        "description": "google-cloud-logging plugin is used to send the access log of Apache APISIX to the Google Cloud Logging Service."
       }
     ]
   },
