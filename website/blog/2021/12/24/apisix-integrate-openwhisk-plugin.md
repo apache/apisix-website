@@ -49,6 +49,7 @@ The general principle of operation is as follows: users can use the openwhisk pl
 ## How to use
 
 ### Step 1: Set up Apache OpenWhisk test environment
+
 1. First, you need to ensure that you are using a Linux system with Docker software installed on it. Execute the following command.
 
 ```shell
@@ -180,6 +181,7 @@ If you are done using the OpenWhisk plug-in, simply remove the OpenWhisk-related
 Thanks to the dynamic advantage of Apache APISIX, the process of turning on and off plug-ins does not require restarting Apache APISIX, which is very convenient.
 
 ## Summary
+
 In this article, we have introduced the feature preview and usage steps of `openwhisk` plugin. For more information about `openwhisk` plugin description and full configuration list, please refer to the [official documentation](https://apisix.apache.org/docs/apisix/next/plugins/openwhisk).
 
 Currently, we are also developing other Serverless plugins to integrate with more cloud services. If you're interested in such integration projects, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide/).
