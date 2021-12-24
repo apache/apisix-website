@@ -164,7 +164,6 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/routes/r1' \
 # 允许请求
 curl -XGET '127.0.0.1:9080/get?test=none&user=dylon' \
     --header 'test-header: only-for-test'
-    
 {
     "args": {
         "test": "abcd1",

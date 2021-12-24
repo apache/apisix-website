@@ -164,7 +164,6 @@ Next, run the following command to send a request to the `opa` plugin to test th
 # Allow requests
 curl -XGET '127.0.0.1:9080/get?test=none&user=dylon' \
     --header 'test-header: only-for-test'
-    
 {
     "args": {
         "test": "abcd1",
