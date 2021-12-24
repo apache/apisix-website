@@ -231,7 +231,7 @@ Server: APISIX/2.11.0
 
 ### Disable the plugin
 
-Thanks to the dynamic nature of Apache APISIX, the OPA plug-in on a route can be turned off by simply removing the opa plug-in related configuration from the route configuration and saving it.
+Thanks to the dynamic nature of Apache APISIX, the OPA plug-in on a route can be turned off by simply removing the `opa` plug-in related configuration from the route configuration and saving it.
 
 ## Summary
 
