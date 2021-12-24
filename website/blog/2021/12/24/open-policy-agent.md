@@ -24,7 +24,7 @@ tags: [Technology]
 
 ![APISIX-OPA cover](https://static.apiseven.com/202108/1640333490845-38542a3e-5d3a-4960-b11f-69ce3a61f7fc.png)
 
-Open Policy Agent (OPA) is an open source lightweight general-purpose policy engine that can replace the built-in policy function module in software and help users decouple services from the policy engine. Thanks to OPA's well-established ecosystem, users can easily integrate OPA with other services, such as program libraries, HTTP APIs, etc.
+Open Policy Agent (OPA) is an open source lightweight general-purpose policy engine that can replace the built-in policy function module in software and help users decouple services from the policy engine. Thanks to [OPA's well-established ecosystem](https://www.openpolicyagent.org/docs/latest/ecosystem/), users can easily integrate OPA with other services, such as program libraries, HTTP APIs, etc.
 
 As shown in the figure below, OPA first describes the policy through the policy language Rego; then stores the policy data through JSON, after which the user can send a query request. After receiving the query request, OPA will combine the policy, data and user input to generate a policy decision and send the decision to the service.
 

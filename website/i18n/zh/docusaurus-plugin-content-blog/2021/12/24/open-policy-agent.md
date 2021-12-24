@@ -24,7 +24,7 @@ tags: [Technology]
 
 ![APISIX-OPA cover](https://static.apiseven.com/202108/1640333490845-38542a3e-5d3a-4960-b11f-69ce3a61f7fc.png)
 
-Open Policy Agent（OPA）是一个开源的轻量级通用策略引擎，可以代替软件中内置的策略功能模块，帮助用户实现服务与策略引擎的解耦。得益于 OPA 完善的生态系统，用户可以很容易地集成 OPA 和其他服务，例如程序库、HTTP API 等。
+Open Policy Agent（OPA）是一个开源的轻量级通用策略引擎，可以代替软件中内置的策略功能模块，帮助用户实现服务与策略引擎的解耦。得益于 [OPA 完善的生态系统](https://www.openpolicyagent.org/docs/latest/ecosystem/)，用户可以很容易地集成 OPA 和其他服务，例如程序库、HTTP API 等。
 
 如下图所示，OPA 首先通过策略语言 Rego 描述策略；然后通过 JSON 存储策略数据，之后用户就可以发送查询请求。收到查询请求后，OPA 将结合策略、数据和用户输入的查询请求内容生成策略决策，并将决策发送至服务。
 
