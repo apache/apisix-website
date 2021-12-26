@@ -148,11 +148,8 @@
       },
       {
         "name": "datadog",
-        "description": "Datadog is a monitoring plugin built into Apache APISIX to push metrics of different services into DatadogHQ via a locally run Datadog agent."
-      },
-      {
-        "name": "google-cloud-logging",
-        "description": "google-cloud-logging plugin is used to send the access log of Apache APISIX to the Google Cloud Logging Service."
+        "description": "Datadog is a monitoring plugin built into Apache APISIX to push metrics of different services into DatadogHQ via a locally run Datadog agent.",
+        "beta": true
       }
     ]
   },
