@@ -3,7 +3,7 @@ title: "Apache APISIX integrates with Open Policy Agent to enrich its ecosystem"
 authors:
   - name: "Zeping Bai"
     title: "Author"
-    url: "hhttps://github.com/bzp2010"
+    url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
   - name: "Yilin Zeng"
     title: "Technical Writer"

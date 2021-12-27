@@ -194,7 +194,7 @@ Question: How is the extension mechanism of Apache APISIX implemented? Does exte
 
 A: The Apache APISIX extension mechanism benefits from its architecture, which allows adding business logic to each phase (rewrite / access / header_filter / body_filter / preread_filter / log).
 
-As for stability, Apahce APISIX has open sourced nearly 50 plugins, each of which is tested end-to-end and is proven to be stable and available. However, custom plug-ins have to follow certain specifications, which are simple, but we should not be too casual. The stability of the custom plug-ins is guaranteed and needs to be guaranteed by the business side itself.
+As for stability, Apache APISIX has open sourced nearly 50 plugins, each of which is tested end-to-end and is proven to be stable and available. However, custom plug-ins have to follow certain specifications, which are simple, but we should not be too casual. The stability of the custom plug-ins is guaranteed and needs to be guaranteed by the business side itself.
 
 ### How to confirm that rules are in effect
 

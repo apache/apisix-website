@@ -3,7 +3,7 @@ title: "再接再厉！Apache APISIX 集成 Open Policy Agent"
 authors:
   - name: "白泽平"
     title: "Author"
-    url: "hhttps://github.com/bzp2010"
+    url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
   - name: "曾奕霖"
     title: "Technical Writer"
@@ -14,11 +14,11 @@ keywords:
 - Open Policy Agent
 - OPA
 - API 网关
-description: 本文以  HTTP API  为例为大家介绍 opa 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
+description: 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
 tags: [Technology]
 ---
 
-> 本文以  HTTP API  为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
+> 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
 
 <!--truncate-->
 
@@ -36,7 +36,7 @@ Apache APISIX 提供了一个 `opa` 插件，用户可以使用这个插件，�
 
 将 `opa` 插件配置在路由上后，Apache APISIX 会在处理响应请求时，将请求信息、连接信息等组装成 JSON 数据，并将其发送到策略决策 API 地址。只要在 OPA 中部署的策略符合 Apache APISIX 设定的数据规范，就可以实现如通过请求、拒绝请求、自定义状态码、自定义响应头、自定义响应头等功能。
 
-本文以  HTTP API  为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
+本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
 
 ## 如何使用
 

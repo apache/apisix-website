@@ -1,148 +1,165 @@
 ---
-title: "支持 10 亿日流量的基础设施：当 Apahce APISIX 遇上腾讯"
-author: "徐鑫"
+title: "How to use API Gateway to process 1 billion traffic daily for Tencent?"
+author: "Xin Xu"
 keywords:
-- API 网关
+- API Gateway
 - APISIX
 - Apache APISIX
-- 腾讯游戏
-- 基础设施
-description: 本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+- Tencent Games
+- Infrastructure
+description: This article is a lecture note from the speech given by Xin Xu, an engineer in charge of internal container platform of Tencent Games, at the Apache APISIX Meetup - Shenzhen. By reading this article, you can not only learn what a gateway is and how the gateway model improves the traditional service architecture, but also understand the reasons for the birth of Tencent OTeam and how Apache APISIX is implemented inside Tencent.
 tags: [User Case]
 ---
 
-> 本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+> This article is a lecture note from the speech given by Xin Xu, an engineer in charge of internal container platform of Tencent Games, at the Apache APISIX Meetup - Shenzhen. By reading this article, you can not only learn what a gateway is and how the gateway model improves the traditional service architecture, but also understand the reasons for the birth of Tencent OTeam and how Apache APISIX is implemented inside Tencent.
 
 <!--truncate-->
 
-在正式进入分享之前，先为大家介绍一下网关（Gateway）的作用和价值。
+## What is an API Gateway?
 
-## 网关是什么
+### Traditional architecture
 
-### 传统架构的通用功能
+Before integrating with API Gateway, we have few ways to reuse some general functionalities, such as:
 
-在传统的架构中，没有网关，那么通用功能该怎么复用起来呢？这里的通用功能指业务无关的一些特性，比如：
+- Security: authentication, authorization, anti-replay, anti-tampering, anti-DDoS, etc.
 
-- 安全性：身份验证、授权、防重放、防篡改、对抗 DDos 等。
-- 可靠性：服务降级、熔断、限流等。
+- Reliability: service degradation, fusing, traffic limiting, and so on.
 
-这些功能在传统架构下，最常见的处理方法就是将其放入服务框架当中，通过 AOP 的方式去实现，类似下图：
+Under the traditional architecture, the most common way to deal with this case is to put them into a service framework and implement them through AOP, similar to the following architecture diagram:
 
-![传统架构](https://static.apiseven.com/202108/1630640321175-ee272ad4-d8ee-45f3-8b67-9630fb534a82.png)
+![Traditional architecture](https://static.apiseven.com/202108/1630640321175-ee272ad4-d8ee-45f3-8b67-9630fb534a82.png)
 
-传统架构图中有以下几个模块：
+The traditional architecture diagram has the following modules.
 
-- Backend：后端服务。
-- AOP：框架携带的 AOP 分层。
-- SD：服务中心，用于服务间发现，此组件在云原生环境下经常用 Service 替代。
-- LB：负载均衡器，放置于网络边界上，作为外部流量的入口。
+- Backend: Backend services
 
-这种架构在早些年的设计中非常常见，由此诞生了很多大而全的服务框架，比如 Dubbo、SpringCloud 等。如果我们去认真研究它们的功能介绍，我们会发现这些功能点它们大多都有。
+- AOP: AOP layering carried by the framework;
 
-这种架构的优点在于上下游关系简单，网络传输中也少了一次转发。但是它们的缺点也很明显：
+- SD: Service Center, used for internal service discovery. In cloud-native technologies, we often use Service to replace this component;
 
-- 通用功能的迭代会迫使业务服务更新：由于采用的是代码引用，因此需要业务服务重新编译才能使功能生效。对一些没有实现平滑发布的团队，由于服务会中断，因此还得挑业务的空闲期发布。
-- 版本难以管理：由于我们不可能每次发布都让所有业务服务升级最新版，长此以往，各个服务的版本将会不一致。
+- LB: Load balancer, we use it on the network boundary as an entry point for external traffic.
 
-那么我们是否可以将这些通用功能下沉到一个独立的服务，它可以单独迭代且业务无关？
+This kind of architecture was widespread in the design of the early years, which gave birth to many extensive and comprehensive service frameworks, such as Dubbo, SpringCloud, etc., and we will find that most of them have many similar features.
 
-### 网关模式的出现
+The advantage of this architecture is that the upstream and downstream relationships are more accessible and more apparent, and it reduces one forwarding in the network transmission. But their disadvantages are also obvious:
 
-![网关模式](https://static.apiseven.com/202108/1630640321180-bd19ad6c-6116-4982-98e8-3b626285ed03.png)
+- Standard features force business service updates: since code references are used, we have to recompile business services to make the features effective. Some teams that do not achieve rolling release have to release during the idle of the business.
 
-从上图中，我们可以看到传统架构的大部分内容都没有变化，只是在后端服务与 LB（负载均衡器） 之间多出了一个角色：网关。
-（这里需要澄清的是，本文讨论的网关特指 API Gateway ，即针对后台服务以 API 提供服务的场景。）
+- Hard to manage versions: Since we cannot upgrade all services to the latest version every time we release, after a period, the performance of various services will be inconsistent.
 
-在上面的这个图中，有时 LB 同时也起到网关的作用，比如 k8s 的 Ingress 组件。
+Why not put those same functions in a standalone service, which can upgrade or maintain separately?
 
-有了网关这个组件后，我们就可以将传统架构的通用功能下沉到网关，这样一来我们获得了很多的好处：
+### Gateway mode
 
-- 网关可以独立迭代，不再需要业务服务配合。
-- 与语言无关，可以配置专门的团队维护。
+![Gateway mode](https://static.apiseven.com/202108/1630640321180-bd19ad6c-6116-4982-98e8-3b626285ed03.png)
 
-但是网关模式也有自己的缺点：
+Compared with traditional architecture, We can see an additional component between the backend services and the LB: Gateway.
 
-- 多了一次转发，延迟变高，排查问题复杂度变高。
-- 网关如果不能正常工作，可能会成为整个平台的瓶颈。
+A gateway usually contains many standard and reusable features, such as Authentication, Traffic Management, etc. The following are the benefits we could get:
 
-如何平衡好网关模式的好处和缺点，不仅十分考验业务团队的实力，更是与网关的选型息息相关。接下来，我们要请出本文要介绍的两个重点对象：腾讯 OTeam 和 Apache APISIX。
+- Gateway is a dependent component on the systems, and we could have a better maintain experience.
 
-## 项目介绍
+- Gateway is language-independent.
+  
+However, the gateway mode also has its disadvantages:
+
+- Because we proxy traffic to the gateway first, we have one more forwarding and higher latency. It will cause a higher complexity of troubleshooting problems.
+
+- If the gateway does not work correctly, it may become a bottleneck for the entire system.
+
+How to balance the benefits and disadvantages of the gateway model is a challenge for the technical team. Let’s see how the Tencent OTeam works with Apache APISIX.
+
+## Introduction
 
 ### OTeam
 
-很多人对腾讯内部的赛马文化恐怕早有耳闻。在腾讯内部，老板们为了创造更有竞争力的产品，通常会让不同的队伍去同一个赛道竞争。由于产品的竞争关系，下面的技术当然也不会共享，因此导致早期的腾讯在技术沉淀方面是互联网大厂中垫底的那个。
+Tencent’s OTeam is a group of teams, and every team maintains one or several technical products. They aim to build a stable but robust mid-platform for internal systems. One of the OTeam supports Tencent’s internal Apache APISIX customization distribution.
 
-为了整合公司内的重复轮子，沉淀技术中台。腾讯将相同性质的几个技术产品都放入同一个 Oteam，将维护人员都整合起来，一起发力，让这些产品逐渐合并成一个大而全的产品，这就是 Oteam。
+In order to integrate the duplicate wheels within the company and sink the technical middle ground. Tencent put several technical products of the same nature into the same Oteam, integrating the maintenance staff and firing them all together, so that they could gradually merge into one big and comprehensive product, which is Oteam.
 
-有的 Oteam 下面有多达十数种产品，而有的只有一种。比如 Apache APISIX 所在的 Oteam 就单单只有 Apache APISIX 这一个产品，这个 Oteam 成立的初衷是：维护腾讯内部的 Apache APISIX 定制化特性。
+Some Oteams have as many as a dozen products under them, while others have only one. For example, the Oteam where Apache APISIX is located has only one product, Apache APISIX. The original purpose of this Oteam is to maintain the customization features of Apache APISIX within Tencent.
 
 ### Apache APISIX
 
-感兴趣的同学可以看看 Apache APISIX 的 GitHub 项目主页：[Apache APISIX](https://github.com/apache/apisix)。我们在这里只简单介绍几个点：
+[Apache APISIX](https://apisix.apache.org/) is a Top-Level Project from the Apache Software Foundation, and here are some key points:
 
-- Apache APISIX 是基于 OpenResty 的高性能网关，比起竞品 Kong，它的路由性能高了一个数量级。
-- Apache APISIX 使用 ETCD 作为配置存储，可以实现配置秒更新。
-- Apache APISIX 是 Apache 基金会毕业最快、最让导师省心的项目之一。
+- Apache APISIX is a cloud-native, dynamic API gateway based on OpenResty, with a higher routing performance than Kong.
 
-## Apache APISIX in OTeam
+- Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
-大家是不是很好奇腾讯的 OTeam 是怎么运作，又如何和 GitHub 的社区形成双赢的关系的？
-OTeam 的运作参考下图：
+- Apache APISIX is good at handling traditional north-south traffic, as well as east-west traffic between services. It can also be used as a k8s ingress controller.
 
-![OTeam 的运营策略](https://static.apiseven.com/202108/1630640321189-46cf2163-552c-4816-bdf6-ef4f58702667.png)
+- Apache APISIX default uses ETCD as the configuration center, which can update the configuration in seconds.
 
-可以看到 OTeam 的特性迭代是一个完整的闭环：
+- Apache APISIX graduates from Apache Software Foundation and only takes a few months.
 
-- 用户通过 Issue 反馈问题和需求
-- OTeam 的成员 在 周会 上讨论解决方案，或者直接在 Issue 中跟进
-- 按照解决方案实现特性 or 修复 Bug
-- 代码 Review 后，经历 CI 合入到主干中，再视情况需不需要打包镜像发版
-这个流程其实和 GitHub 多数开源项目的贡献过程是没区别的，关键点在于：
-- 解决了 Issue 后，腾讯工程师会判断这个问题对于社区来说，是否也是一个共性问题。如果是，则会发 PR 到社区的仓库去。
-- 腾讯 OTeam 会定期 Review Apache APISIX 的新特性，判断其是否稳定、是否对腾讯内部也是一个痛点。如果答案是肯定的，合入相关代码。
+## Tencent OTeam’s operational strategy
 
-最早期的时候，OTeam 会每 12 小时，自动合入社区代码到内部仓库中，以保证我们与社区能够共同前进，但这种做法带来了几个问题：
+![OTeam operational strategy](https://static.apiseven.com/202108/1630640321189-46cf2163-552c-4816-bdf6-ef4f58702667.png)
 
-- 合入的代码通过目前的集成测试只能保证功能 正确性 却没法保证 稳定性，很多偶现的问题都是在并发中发生的。
-- 合入的代码，有时会产生上游的多个 PR 在逻辑上出现冲突的问题，但是各自的 CI 无法检测出来，只有当合入主干后，才会发现主干的代码产生了问题。
+The above diagram shows how the OTeam works with Apache APISIX’s community:
 
-出于以上原因，现在 OTeam 转为定期 Review 后合入所需特性的代码的策略。
+- Users give feedback or requirements via GitHub Issue.
 
-## OTeam 发展情况
+- OTeam members discuss solutions at weekly meetings or reply directly in Issue.
 
-截止 2021 年 5 月，Apache APISIX 所在的 OTeam 在腾讯内部已为超过十个团队落地了 Apache APISIX，其中最大的业务日请求量已超过十亿，同时 OTeam 也为 Apache APISIX 开发了超过十个内部特性，其中包括内部的服务发现、RPC 协议转换、打通监控平台等。与此同时，OTeam 也将开发的一些通用的特性贡献到了社区，为社区带来了不少 Contributor。目前 OTeam 团队中，有两位成员同时也是 ApacheAPISIX 社区的 PMC，OTeam 为社区贡献了超过 50 个 PR。同时，我们相信 OTeam 今后还会与 Apache APISIX 社区开展更多的合作。
+- Implement features or fix bugs according to discussion.
 
-## 腾讯内部特性介绍
+- Code Review and CI check, then release if necessary.
 
-OTeam 的主要职责是维护 Apache APISIX 的一些针对腾讯内部的特性，那么这些特性都是哪些，又解决了什么样的痛点呢？
+This process is just like other Open Source projects. Here are some key points:
 
-### 内部的痛点
+- After solving the Issue, Tencent engineers will determine whether the problem is also a common problem for the community. If so, they will file a PR to the community.
 
-先来看看，有哪些痛点是腾讯内部独有的：
+- Tencent OTeam will regularly review Apache APISIX’s new features to determine whether it is stable and whether it is also a pain point for Tencent. If the answer is yes, pick the relevant codes.
 
-- RPC 框架对前端不友好：腾讯内部有很多遗留项目使用了 TARS 框架，它不像 TRPC 一样可以直接支持 HTTP 协议，它只支持 RPC 框架最传统的 TCP 协议，传输内容都使用特定的二进制协议。这带来的一个问题是，我们需要维护一个中间服务来将这些接口转换为前端友好的 HTTP + Json 形式。
-- 服务中心多样化：腾讯内部服务发现的组件众多，比如 CL5、L5、北极星等。虽然在未来，服务组件会逐渐统一，但在过渡期间，会存在多个服务中心同时使用的情况，最开始的 Apache APISIX 不支持这一点。
-- 告警：作为一个网关解决方案，告警不是一个它应该关注的方向，但是作为网关这个基础组件，告警一定是团队所关心的事项，要怎么解决告警问题，也是一个痛点。
-- 安全性：腾讯这种体量的公司，除了产品本身会面对大量流量之外，产品还有安全性的要求。不乏 ToC 的产品使用了 OTeam ，它们要面对的不止海量用户的误操作，还要面对来自网络的攻击，无论是善意还是恶意的，最典型的有 DDos、重放、篡改请求等。这些流量我们是否可以在网关层解决？
+In the beginning, OTeam would sync codes with Apache APISIX every 12 hours so that we could follow up Apache APISIX quickly, but this approach brought some problems:
 
-### 问题的解决
+- After syncing codes with Apache APISIX, we could make sure regulations are correct but couldn’t ensure the codes are stable. Some occasional errors happened in concurrency cases.
 
-带着这些问题，让我们来看一个架构拓扑图，它来自一个腾讯内部某个落地案例的简化：
+- The merged codes sometimes cause multiple PR upstream conflicts logically, but Apache APISIX and OTeam’s CI cannot detect this case. Only when we merge PRs to the master branch could we find something wrong happened.
 
-![OTeam 架构拓扑图](https://static.apiseven.com/202108/1630640321184-dfcba4df-1b97-4d6e-ab10-07f89e131438.png)
+For these reasons, OTeam is now moving to pick codes for required features after internal reviews.
 
-从上图可以看出，刚才提出的几个问题都在 OTeam 都得到了解决：
+## OTeam Trend
 
-- 网关实现协议转换：OTeam 基于 Apache APISIX 实现了 TRPC 与 TARS 的协议转换，这样一来那些没有实现 HTTP 的遗留服务，可以在网关直接使用封装好的协议转换插件来实现 HTTP 和 RPC 互转的需求而不再需要编写中间服务。
-- 支持多服务中心：这一点其实应该不止腾讯内部需要，相信外面也有很多同学在新老架构的过渡期需要，该特性我们已经反馈给了社区。
-- 指标上报自研监控平台：OTeam 利用插件打通了腾讯内部的几个主要的监控平台，让用户可以简单配置后自动上报接口可观测性的相关信息（链路调用、日志、统计），上报后用户可自行在监控平台配置告警。
-- 防重放与防篡改：OTeam 实现了防重放和防篡改插件，让需要这些能力的对外的业务可以直接开箱即用，保护自己的接口安全。
-我们希望这些例子能起到抛砖引玉的作用，鼓励大家去发掘更多 Apache APISIX 的使用场景，更好的把 Apache APISIX 这个好用的工具用起来。比如在腾讯云团队，就有同学利用网关实现了一些腾讯云平台强制要求的 API 规范，将这逻辑下沉到了网关。
+As of May 2021, OTeam has landed Apache APISIX for more than ten teams within Tencent, with the enormous daily business request traffic exceeding one billion. At the same time, OTeam has also developed more than ten features for Apache APISIX, including Service Discovery, RPC Protocol Conversion, and connect with the monitoring platform.
 
-## 最后的话
+At the same time, OTeam has also contributed some standard features to Apache APISIX’s community. At present, two members of the OTeam team are also PMCs of the Apache APISIX, and OTeam has contributed more than 50 PRs to the community. We believe that OTeam will keep cooperating with the Apache APISIX community in the future.
 
-转眼在腾讯内帮助各个团队维护 Apache APISIX 也一年多了，在这个过程中，OTeam 既帮助业务团队解决了他们的痛点，也不断完善了 Apache APISIX 在腾讯内部的特性，同时也间接推动了社区的发展，实现了共赢。
-如果读者所在公司如果还没有落地网关的话，可以了解下 Apahce APISIX。已经落地了网关的读者，也希望本文能够给你们带来一点在网关落地上的灵感和帮助。
+## OTeam Internal Features
 
-> 欢迎感兴趣的同学访问 bilibili [Apache APISIX 在腾讯游戏的应用](https://www.bilibili.com/video/BV1yK4y1G7CP/)，观看视频。
+### Internal pain points
+
+OTeam’s primary responsibility is to maintain Apache APISIX’s features for Tencent. Let’s take a look at what pain points OTeam met.
+
+- The RPC framework is not friendly to the frontend: there are many legacy projects within Tencent that use the TARS framework, it does not directly support the HTTP protocol like TRPC, it only supports the most traditional TCP protocol of the RPC framework, and the transport content uses a specific binary protocol. We need to maintain an intermediate service to convert these interfaces into a frontend-friendly HTTP + JSON form.
+
+- Diversification of service centers: There are many Service Centers in Tencent’s internal services, such as CL5, L5, Polaris, etc. Although we will gradually use the same Service Center, we will use multiple service centers simultaneously during this extended period. The initial Apache APISIX does not support this.
+
+- Alarm: As a gateway, the alarm is not a direction it should pay attention to, but as a fundamental component, the alarm must be a required component to the team. How to solve the alarm problem is also a pain point.
+
+- Security: Tencent has a large amount of traffic and security requirements. A log of toC products are using OTeam, and they have to face a large number of users’ misuse and attacks from the network. The most typical cases are DDos, replay, tampering requests, etc. Can we solve these issues at the gateway layer?
+
+### Problem-solving
+
+![OTeam arichitecture](https://static.apiseven.com/202108/1630640321184-dfcba4df-1b97-4d6e-ab10-07f89e131438.png)
+
+The above diagram comes from a simplification of a landing case within Tencent. We can see several problems just raised have been solved in OTeam:
+
+- Protocol Conversion: based on Apache APISIX, OTeam achieves TRPC and TARS protocol conversion. Those who do not perform HTTP legacy services can directly use the conversion plugin in the gateway to attaining HTTP and RPC transfer requirements without writing intermediate services.
+
+- Multiple Service Centers: We have contributed this feature to the community.
+Report to monitoring platform: Tencent OTeam uses plugins to connect with monitoring platforms. Users only need to do some configurations, and then the system will automatically report metrics, logs. By the way, users can configure alarm policies on the monitoring platform.
+
+- Anti-replay and anti-tampering: OTeam implements anti-replay and anti-tampering plugins, allowing external businesses that need these capabilities to use them directly out of the box to protect their APIs security.
+
+We hope that these examples can help you explore more Apache APISIX usage scenarios and better use it as a helpful platform. For example, someone used the gateway to implement some API specifications mandatory according to Tencent Cloud policies.
+
+## Summary
+
+OTeam helped the business team solve their pain points and continuously improved the features of Apache APISIX within Tencent, and move forward with the development of the community.
+
+If your team does not have a gateway, you can search and learn more about Apache APISIX and are welcome to participate in the Apache APISIX community.
+
+For more videos about Apache APISIX, please visit https://www.bilibili.com/video/BV1yK4y1G7CP/ .
