@@ -94,7 +94,7 @@ Xinxin Zhu - Apache APISIX Committer, with years of CDN experience and familiar 
 
 ## Relying on the community to make Apache APISIX grow fast
 
-In the past year, Apahce APISIX has become the most active API gateway project in the world, not only because of its advanced technology, but also because of the highly active community. As of today, there are 225 contributors from all over the world, and the number is still growing rapidly. This session will introduce APISIX's experience in practicing "community over code". As an idealistic startup, how to combine with Apache culture to make the startup grow fast.
+In the past year, Apache APISIX has become the most active API gateway project in the world, not only because of its advanced technology, but also because of the highly active community. As of today, there are 225 contributors from all over the world, and the number is still growing rapidly. This session will introduce APISIX's experience in practicing "community over code". As an idealistic startup, how to combine with Apache culture to make the startup grow fast.
 
 ### Guest Speakers
 

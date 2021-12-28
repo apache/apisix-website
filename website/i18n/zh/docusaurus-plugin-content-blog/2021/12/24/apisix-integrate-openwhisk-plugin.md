@@ -3,7 +3,7 @@ title: "生态丰富持续进行中，Apache OpenWhisk 集成闪亮登场"
 authors:
   - name: "白泽平"
     title: "Author"
-    url: "hhttps://github.com/bzp2010"
+    url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
   - name: "苏钰"
     title: "Technical Writer"

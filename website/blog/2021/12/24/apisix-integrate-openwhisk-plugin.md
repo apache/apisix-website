@@ -1,9 +1,9 @@
 ---
-title: "Coming soon！Apache APISIX Integrate with Apache OpenWhisk"
+title: "Coming soon! Apache APISIX Integrate with Apache OpenWhisk"
 authors:
   - name: "Zeping Bai"
     title: "Author"
-    url: "hhttps://github.com/bzp2010"
+    url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
   - name: "Sylvia"
     title: "Technical Writer"
