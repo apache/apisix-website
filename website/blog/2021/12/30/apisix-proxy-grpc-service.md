@@ -72,7 +72,7 @@ go run main.go
 
 3. Verify the gRPC service, it is recommended to use `grpcurl` to verify the availability of the service.
 
-```apache
+```shell
 grpcurl -d '{"name": "zhangsan"}' -plaintext 127.0.0.1:50051 helloworld.Greeter.SayHello
 ```
 
@@ -132,11 +132,11 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 Details of the specific code interpretation and supported parameters can be found below.
 
 | Name      | Type                        | Requirement | Default | Description                       |
-|-----------|------------------------------|------|:-------|:---------------------------|
+|:----------|:-----------------------------|:------|:-------|:---------------------------|
 | proto_id  | string/integer               | required |        | `.proto` content id        |
 | service   | string                       | required |        | the grpc service name                |
 | method    | string                       | required |        | the method name of grpc service  |
-| deadline  | number                       | optional | 0      | deadline for grpc, ms          |
+| deadline  | number                       | optional | 0      | deadline for grpc in milliseconds          |
 | pb_option | array[string(pb_option_def)] | optional |        | protobuf options |
 
 ### Testing Requests
