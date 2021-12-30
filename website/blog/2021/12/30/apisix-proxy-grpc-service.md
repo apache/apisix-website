@@ -141,7 +141,7 @@ Details of the specific code interpretation and supported parameters can be foun
 
 ### Testing Requests
 
-Here we will use cURL for testing. 
+Here we will use cURL for testing.
 
 ```shell
 curl -i http://127.0.0.1:9080/grpctest\?name=world
@@ -156,14 +156,14 @@ Trailer: grpc-message
 
 {"message":"Hello world"}
 grpc-status: 0
-grpc-message: 
+grpc-message:
 ```
 
 The feedback from the code shows that the request was successfully proxied to the back-end gRPC service.
 
 ### Disabling the plugin
 
-If you are done using the `grpc-transcode` plugin on the route, simply remove the plugin-related configuration from the route configuration to turn off the `grpc-transcode` plugin on the route. 
+If you are done using the `grpc-transcode` plugin on the route, simply remove the plugin-related configuration from the route configuration to turn off the `grpc-transcode` plugin on the route.
 
 Thanks to the Apache APISIX plugin hot-loading mode, there is no need to restart Apache APISIX to turn it on and off.
 

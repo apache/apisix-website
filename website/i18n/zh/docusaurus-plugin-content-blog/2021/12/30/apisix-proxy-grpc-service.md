@@ -156,7 +156,7 @@ Trailer: grpc-message
 
 {"message":"Hello world"}
 grpc-status: 0
-grpc-message: 
+grpc-message:
 ```
 
 通过代码反馈可知，已成功将请求代理到后端 gRPC 服务上。
