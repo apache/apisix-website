@@ -133,11 +133,11 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 | 名称      | 类型                         | 存在 | 默认值 | 描述                       |
 |:-----------|:------------------------------|:------|:-------|:---------------------------|
-| proto_id  | string/integer               | 必须 |        | `.proto` 内容的 id         |
-| service   | string                       | 必须 |        | gRPC 服务名                |
-| method    | string                       | 必须 |        | gRPC 服务中要调用的方法名  |
-| deadline  | number                       | 可选 | 0      | gRPC 服务截止时间        |
-| pb_option | array[string(pb_option_def)] | 可选 |        | proto 编码过程中的转换选项 |
+| proto_id  | string/integer               | 必须 | N/A   | `.proto` 内容的 id         |
+| service   | string                       | 必须 | N/A   | gRPC 服务名                |
+| method    | string                       | 必须 | N/A   | gRPC 服务中要调用的方法名  |
+| deadline  | number                       | 可选 | 0     | gRPC 服务截止时间        |
+| pb_option | array[string(pb_option_def)] | 可选 | N/A   | proto 编码过程中的转换选项 |
 
 ### 测试请求
 

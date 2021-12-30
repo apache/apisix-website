@@ -133,11 +133,11 @@ Details of the specific code interpretation and supported parameters can be foun
 
 | Name      | Type                        | Requirement | Default | Description                       |
 |:----------|:-----------------------------|:------|:-------|:---------------------------|
-| proto_id  | string/integer               | required |        | `.proto` content id        |
-| service   | string                       | required |        | the grpc service name                |
-| method    | string                       | required |        | the method name of grpc service  |
-| deadline  | number                       | optional | 0      | deadline for grpc in milliseconds          |
-| pb_option | array[string(pb_option_def)] | optional |        | protobuf options |
+| proto_id  | string/integer               | required | N/A  | `.proto` content id        |
+| service   | string                       | required | N/A  | the grpc service name                |
+| method    | string                       | required | N/A  | the method name of grpc service  |
+| deadline  | number                       | optional | 0    | deadline for grpc in milliseconds          |
+| pb_option | array[string(pb_option_def)] | optional | N/A  | protobuf options |
 
 ### Testing Requests
 
