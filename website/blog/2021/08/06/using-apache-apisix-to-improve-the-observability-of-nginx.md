@@ -93,7 +93,7 @@ The table shows a comparison of Apache APISIX and Nginx features. Apache APISIX 
 
 ### Apache APISIX Introduction
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and other rich traffic management features. Apache APISIX is also the world's most active open source API gateway project, and is a production-ready, high-performance gateway. Hundreds of enterprises around the world have used Apache APISIX to handle business-critical traffic, covering finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the EU's Digital Factory, Air China, China Mobile, Tencent, Huawei, Weibo, NetEase, Shell Finder, 360, Taikang, and more.
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, and other rich traffic management features. Apache APISIX is also the world's most active open source API gateway project, and is a production-ready, high-performance gateway. Hundreds of enterprises around the world have used Apache APISIX to handle business-critical traffic, covering finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the EU's Digital Factory, Air China, China Mobile, Tencent, Huawei, Weibo, NetEase, Shell Finder, 360, Taikang, and more.
 
 ### Apache APISIX Solution
 

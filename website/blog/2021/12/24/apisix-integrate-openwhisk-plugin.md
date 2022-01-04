@@ -30,7 +30,7 @@ In this article, we will introduce `openwhisk`, a new plug-in for Apache APISIX,
 
 ### Apache APISIX
 
-[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service fusion, authentication, observability, etc. Apache APISIX not only supports plug-in dynamic changes and hot-plugging, but also has many useful plug-ins.
+[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service fusion, authentication, observability, etc. Apache APISIX not only supports plug-in dynamic changes and hot-plugging, but also has many useful plug-ins.
 
 ### Apache OpenWhisk
 

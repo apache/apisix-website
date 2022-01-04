@@ -34,7 +34,7 @@ We mentioned earlier that APISIX Ingress uses Apache APISIX as the data surface 
 
 ![Apache APISIX Architecture](https://static.apiseven.com/202108/1633765402660-6b20dd1c-bef6-4dcb-974e-fa80334e0623.png)
 
-Apache APISIX is the top open source project of the Apache Foundation and is currently the most active open source gateway project. As a dynamic, real-time, high-performance open source API gateway, Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more.
+Apache APISIX is the top open source project of the Apache Foundation and is currently the most active open source gateway project. As a dynamic, real-time, high-performance open source API gateway, Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, and more.
 
 Apache APISIX helps enterprises handle API and microservice traffic quickly and securely with features such as flow-limiting authentication, logging security features, and support for rich custom plug-ins. There are also currently relevant integrations with many open source projects such as Apache SkyWalking, Prometheus and other such components.
 
@@ -44,7 +44,7 @@ Since I am involved in the development and maintenance of both APISIX Ingress an
 
 ### Configuration level
 
-In APISIX Ingress, we have added some rich and flexible configurations, such as grayscale deployment through a single configuration file. However, in K8s Ingress Nginx, you need at least two Ingress resource files to achieve the above effect.
+In APISIX Ingress, we have added some rich and flexible configurations, such as canary release deployment through a single configuration file. However, in K8s Ingress Nginx, you need at least two Ingress resource files to achieve the above effect.
 
 ### Richness
 
@@ -148,7 +148,7 @@ Configure `subset` and `weight` in `backends` to split the incoming user request
 
 ![Configure APISIX Route](https://static.apiseven.com/202108/1633765771090-1e51e66c-0979-43b4-852b-28f2284a5d4e.png)
 
-With the above two steps, it is very easy to slice and dice traffic proportionally to achieve scenarios like grayscale publishing.
+With the above two steps, it is very easy to slice and dice traffic proportionally to achieve scenarios like canary release.
 For more details, please refer to: [Traffic Segmentation in Apache APISIX Ingress Controller](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress-controller).
 
 ### Practice Scenario 2: Configuring Authentication

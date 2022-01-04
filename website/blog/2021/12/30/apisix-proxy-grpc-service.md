@@ -27,7 +27,7 @@ tags: [Technology]
 
 ### Apache APISIX
 
-[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, service fusion, authentication, observability, and other rich traffic management features. Apache APISIX not only supports dynamic change and hot-plugging of plug-ins, but also has a rich library of plug-in resources.
+[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, canary release, service fusion, authentication, observability, and other rich traffic management features. Apache APISIX not only supports dynamic change and hot-plugging of plug-ins, but also has a rich library of plug-in resources.
 
 ### gRPC
 

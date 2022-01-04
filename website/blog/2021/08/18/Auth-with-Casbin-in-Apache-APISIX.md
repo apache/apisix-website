@@ -19,7 +19,7 @@ tags: [Practical Case]
 
 ### Apache APISIX
 
-[Apache APISIX](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, fine-grained routing, flow and speed limiting, service degradation, service meltdown, authentication, observability, and hundreds of other features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [k8s ingress controller](https://github.com/apache/apisix-ingress-controller).
+[Apache APISIX](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, canary release, fine-grained routing, flow and speed limiting, service degradation, service meltdown, authentication, observability, and hundreds of other features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [k8s ingress controller](https://github.com/apache/apisix-ingress-controller).
 
 ### Casbin
 

@@ -54,7 +54,7 @@ In this lightning talk, we will demonstrate how to run Go and Rust code inside A
 
 This talk will provide a repeatable understanding of WASM, including its advantages and limitations, and how to introduce WASM into your own system.
 
-### The road to grayscale and cloud-native governance for Zhengcaiyun messaging middleware
+### The road to canary release and cloud-native governance for Zhengcaiyun messaging middleware
 
 #### Speaker
 
@@ -64,7 +64,7 @@ Lin Zeng, the person in charge of Zhengcaiyun infrastructure platform, mainly re
 
 This sharing will introduce how RocketMQ helps Zhengcaiyun companies to cope with the complex cloud and island hybrid cloud scenario of government procurement business.
 
-This presentation will provide a full understanding of how to use RocketMQ for grayscale and traffic staining, delayed message personalization, and the implementation of RocketMQ-based cloud-native operational transformation and other practical experience sharing.
+This presentation will provide a full understanding of how to use RocketMQ for canary release and traffic staining, delayed message personalization, and the implementation of RocketMQ-based cloud-native operational transformation and other practical experience sharing.
 
 ### Building a Better Kubernetes Ingress Controller
 

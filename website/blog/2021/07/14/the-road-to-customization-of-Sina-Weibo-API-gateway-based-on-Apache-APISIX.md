@@ -27,7 +27,7 @@ The whole process is long and inefficient, and cannot meet the trend of low-code
 
 After some research, we chose the closest to the expected cloud-based micro-services API gateway: Apache APISIX.
 
-1. Based on Nginx, the technology stack is unified before and after the grayscale upgrade, security, stability, etc. are guaranteed.
+1. Based on Nginx, the technology stack is unified before and after the canary release upgrade, security, stability, etc. are guaranteed.
 1. Built-in unified control surface, unified management of multiple proxy services.
 1. Dynamic API call, you can complete the common resource modifications in real time, compared to the traditional Nginx configuration + reload way progress is obvious.
 1. Rich routing options to meet the needs of Sina Weibo routing.
@@ -42,7 +42,7 @@ In the actual business situation, we cannot use Apache APISIX directly for the f
 
 1. Apache APISIX does not support SaaS multi-tenancy, and there are many upper-layer applications that actually need to be operated and maintained, and each business line development or operation and maintenance student only needs to manage and maintain their own rules, upstreams and other rules, which are not associated with each other.
 1. When the routing rules are published online, they need fast roll back support if problems arise.
-1. When creating or editing existing routing rules, we are not so sure about publishing them directly to the wire, and then we need it to be able to support grayscale publishing to a specified gateway instance for simulation or local testing.
+1. When creating or editing existing routing rules, we are not so sure about publishing them directly to the wire, and then we need it to be able to support canary release to a specified gateway instance for simulation or local testing.
 1. The need for API gateways to be able to support Consul KV-style service registration and discovery mechanisms.
 
 None of these requirements are currently supported built-in by Apache APISIX, so custom development is the only way to make Apache APISIX truly usable within Weibo.
@@ -89,38 +89,38 @@ The internal processing flow of a single route roll back is shown in the followi
 
 We need to create version database storage for each release of a single route. This way, when we do a full release after the audit, each release will generate a version number and the corresponding full configuration data; then the version list grows. When we need to roll back, go to the version list and select a corresponding version to rollback; in a sense, the roll back is actually a special form of full release.
 
-### Support Grayscale Release
+### Support Canary Release
 
-Our custom-developed grayscale release feature is different from what the community generally understands as grayscale release, and is less risky compared to full deployment. When a change to a routing rule is large, we can choose to publish and take effect only on a specific limited number of gateway instances, instead of publishing and taking effect on all gateway instances, thus reducing the scope of the release, lowering the risk, and enabling fast trial and error.
+Our custom-developed canary release feature is different from what the community generally understands as canary release, and is less risky compared to full deployment. When a change to a routing rule is large, we can choose to publish and take effect only on a specific limited number of gateway instances, instead of publishing and taking effect on all gateway instances, thus reducing the scope of the release, lowering the risk, and enabling fast trial and error.
 
-Although grayscale release is a low-frequency behavior, there is still a state transition between it and full volume release.
+Although canary release is a low-frequency behavior, there is still a state transition between it and full volume release.
 
-![Support Grayscale Release1](https://user-images.githubusercontent.com/23514812/125597330-b3dde9ba-28f3-4899-9f4f-53b89131e653.png)
+![Support Canary Release1](https://user-images.githubusercontent.com/23514812/125597330-b3dde9ba-28f3-4899-9f4f-53b89131e653.png)
 
-When the percentage of gray release decreases to 0%, it is the state of full release; when the gray release rises to 100%, it is the next full release, and this is its state transition.
-The full grayscale publishing feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
+When the percentage of canary release decreases to 0%, it is the state of full release; when the canary release rises to 100%, it is the next full release, and this is its state transition.
+The full canary release feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
 
-![Support Grayscale Release2](https://user-images.githubusercontent.com/23514812/125598577-bcf2b13d-031a-440c-9480-c68d41d5ca9c.png)
+![Support Canary Release2](https://user-images.githubusercontent.com/23514812/125598577-bcf2b13d-031a-440c-9480-c68d41d5ca9c.png)
 
-The above screenshot shows the screenshot when operating Grayscale Publishing to select a specific gateway instance.
+The above screenshot shows the screenshot when operating canary release to select a specific gateway instance.
 
-The full grayscale publishing feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
+The full canary release feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
 
-![Support Grayscale Release3](https://user-images.githubusercontent.com/23514812/125597285-cf3c9145-adc6-4fa4-979e-124ea8f376b5.png)
+![Support Canary Release3](https://user-images.githubusercontent.com/23514812/125597285-cf3c9145-adc6-4fa4-979e-124ea8f376b5.png)
 
-Grayscale publishing API fixed URI, the unified path is /admin/services/gray/{SAAS_ID}/ routes. Different HTTP Method presents different business meanings, POST means create, DELETE means to stop grayscale, GET means to view.
+Canary release API fixed URI, the unified path is /admin/services/gray/{SAAS_ID}/ routes. Different HTTP Method presents different business meanings, POST means create, DELETE means to stop canary release, GET means to view.
 
 #### Activation Process
 
 ![Activation Process](https://user-images.githubusercontent.com/23514812/125597454-e4ad004e-9f04-495d-bb93-33c4b9942d4d.png)
 
-An API is published from the gateway level, and after receiving the data the worker process checks the legitimacy of the data sent, and the legitimate data is broadcast to all worker processes via events. Then the grayscale publishing API is called and the grayscale rules are added and take effect when the next request is processed.
+An API is published from the gateway level, and after receiving the data the worker process checks the legitimacy of the data sent, and the legitimate data is broadcast to all worker processes via events. Then the canary release API is called and the canary release rules are added and take effect when the next request is processed.
 
 #### Deactivation Process
 
 ![Deactivation Process](https://user-images.githubusercontent.com/23514812/125597537-99270698-992a-4f58-91b4-06067f4d44d2.png)
 
-The deactivation process is basically the same as the grayscale distribution process. The API for grayscale distribution is called by the DELETE method and broadcasted to all work processes. If it exists in the route table, delete it and try to restore it from the ETCD. If the grayscale is deactivated, make sure that the original ETCD can be restored without affecting the normal service.
+The deactivation process is basically the same as the canary release distribution process. The API for canary release distribution is called by the DELETE method and broadcasted to all work processes. If it exists in the route table, delete it and try to restore it from the ETCD. If the canary release is deactivated, make sure that the original ETCD can be restored without affecting the normal service.
 
 ### Support Fast Import
 

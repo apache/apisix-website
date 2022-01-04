@@ -35,7 +35,7 @@ He is also the author of Kubernetes Hands-on and Docker Core Knowledge.
 
 ## About Apache APISIX
 
-Apache APISIX is a dynamic, real-time, high-performance open source API gateway that provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service fusion, authentication, observability, etc. Apache APISIX can help enterprises quickly and securely handle API and microservice traffic, including gateways, Kubernetes Ingress and Service Grid.
+Apache APISIX is a dynamic, real-time, high-performance open source API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service fusion, authentication, observability, etc. Apache APISIX can help enterprises quickly and securely handle API and microservice traffic, including gateways, Kubernetes Ingress and Service Grid.
 
 Apache APISIX has been used by hundreds of enterprises worldwide to handle business-critical traffic, including finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the European Union's Digital Factory, China Airlines, China Mobile, Tencent, Huawei, Weibo, NetEase, Shell, 360, Taikang, and Nespresso Tea.
 

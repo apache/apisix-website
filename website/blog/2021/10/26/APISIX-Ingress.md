@@ -32,7 +32,7 @@ As you can see in the figure above, APISIX Ingress is deployed in a Kubernetes c
 
 We mentioned earlier that APISIX Ingress uses Apache APISIX as the actual data plane to carry business traffic, so what is Apache APISIX?
 
-Apache APISIX is the top open source project of the Apache Foundation and the most active open source gateway project, and is currently certified as a trusted open source project by the China Academy of Information and Communications Technology. As a dynamic, real-time, high-performance open source API gateway, Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more.
+Apache APISIX is the top open source project of the Apache Foundation and the most active open source gateway project, and is currently certified as a trusted open source project by the China Academy of Information and Communications Technology. As a dynamic, real-time, high-performance open source API gateway, Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, and more.
 
 ![Apache APISIX Architechture](https://static.apiseven.com/202108/1635304156053-68751f2e-40e7-4932-99a4-5b9cc8f60628.png)
 
@@ -104,7 +104,7 @@ Most of these contributions come from community members using APISIX Ingress to 
 - Admission Hook
 - Ingress' own Prometheus Metrics
 - mTLs
-- Improvements to the grayscale function
+- Improvements to the canary release function
 - Additional product documentation
 
 More features [click here to view](https://github.com/apache/apisix-ingress-controller/#readme).
