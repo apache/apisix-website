@@ -83,7 +83,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [支持发送 APISIX 数据以协助 OPA 插件的决策](https://github.com/apache/apisix/pull/5874)（贡献者：[bzp2010](https://github.com/bzp2010)）
 
-- [允许设置 proxy_request_buffering 而不禁用 proxy-mirror](hhttps://github.com/apache/apisix/pull/5943)（贡献者：[spacewander](https://github.com/spacewander)）
+- [允许设置 proxy_request_buffering 而不禁用 proxy-mirror](https://github.com/apache/apisix/pull/5943)（贡献者：[spacewander](https://github.com/spacewander)）
 
 Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。
 

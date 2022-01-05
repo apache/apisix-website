@@ -91,7 +91,7 @@ That will be more convenient in using these plugins. So do `key-auth` plugin.
 
 - [Support send APISIX data to assist decision in OPA plugin](https://github.com/apache/apisix/pull/5874)（Contributor: [bzp2010](https://github.com/bzp2010)）
 
-- [Allow setting proxy_request_buffering without disabling proxy-mirror](hhttps://github.com/apache/apisix/pull/5943)（Contributor: [spacewander](https://github.com/spacewander)）
+- [Allow setting proxy_request_buffering without disabling proxy-mirror](https://github.com/apache/apisix/pull/5943)（Contributor: [spacewander](https://github.com/spacewander)）
 
 The Apache APISIX project website and the Github issue have accumulated a wealth of documentation and experience, so if you encounter problems, you can read the documentation, search the issue with keywords, or participate in the discussion on the issue to put forward your own ideas and practical experience.
 
