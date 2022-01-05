@@ -40,7 +40,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 Sometimes the full CI "linux_openresty"
 
 ```YAML
-- linux_openresty 
+- linux_openresty
 ```
 
 takes 50 minutes to complete.
@@ -50,7 +50,7 @@ Let's split it into multiple parts so the max single job time can be reduced.
 We can pass an environment variable as the test file range in
 
 ```Shell
-apisix/ci/linux_openresty_common_runner.sh
+ FLUSH_ETCD=1 PERL5LIB=.:$PERL5LIB prove -Itest-nginx/lib -r t
 ```
 
 ### Issue #5900

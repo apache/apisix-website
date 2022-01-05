@@ -37,7 +37,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 **问题描述**：有些情况下，完整的 CI "linux_openresty" 需要 50 分钟才能完成。
 
 ```YAML
- - linux_openresty 
+ - linux_openresty
 ```
 
 我们可以把它分成多个部分，这样可以减少最大的单项工作时间。
@@ -45,7 +45,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 可以在下方中通过一个环境变量作为测试文件的范围：
 
 ```Shell
- FLUSH_ETCD=1 PERL5LIB=.:$PERL5LIB prove -Itest-nginx/lib -r t 
+ FLUSH_ETCD=1 PERL5LIB=.:$PERL5LIB prove -Itest-nginx/lib -r t
 ```
 
 ### Issue #5900
