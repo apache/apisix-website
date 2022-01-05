@@ -10,7 +10,7 @@ description: “独行者速，众行者远”。Apache APISIX 社区周报希�
 tags: [Events]
 ---
 
-> 从 12.1 到 12.15, 有 38 位开发者为 Apache APISIX 提交了 114 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 12.16 到 12.31, 有 33 位开发者为 Apache APISIX 提交了 90 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 <!--truncate-->
 
