@@ -68,7 +68,7 @@ When we have few tools at hand, we always have to compromise between functionali
 
 As you can see, these are NGINX drawbacks, such as NGINX's low activity community. While we could invest more resources at the corporate level, his community is really unfriendly, and how unfriendly is it? As you can see in the picture above, the NGINX repository in Github is only a mirror, the issue function is closed, it is impossible to submit an issue, and even if you submit a PR the official will not merge it.
 
-In addition, NGINX is weak in its own routing, for example, I want to do grayscale based on a request parameter such as id, you will find that NGINX is completely unable to achieve. So we can see a lot of small open source systems, as long as the above grayscale scenario is solved, it can be an independent open source project. In addition, gRPC calls are becoming more and more popular in microservice calls, but NGINX support for it is only "simple to use".
+In addition, NGINX is weak in its own routing, for example, I want to do canary release based on a request parameter such as id, you will find that NGINX is completely unable to achieve. So we can see a lot of small open source systems, as long as the above canary release scenario is solved, it can be an independent open source project. In addition, gRPC calls are becoming more and more popular in microservice calls, but NGINX support for it is only "simple to use".
 
 Finally, the NGINX cluster management, almost every Internet vendor has its own NGINX configuration management system, although the system is similar but there is no unified solution, more than a decade has been blank.
 
@@ -136,7 +136,7 @@ You may be wondering if APISIX is going to support so many scenarios. Here I wil
 
 ![API gateway](https://static.apiseven.com/202108/20210625019.png)
 
-For traditional LB and API Gateway scenarios, APISIX has the advantage of going from static to all dynamic, no more reloads, as many tech companies start with a half hour NGINX reload. The aforementioned grayscale scenario of moduloing based on request id can be easily done in APISIX using fine-grained routing.
+For traditional LB and API Gateway scenarios, APISIX has the advantage of going from static to all dynamic, no more reloads, as many tech companies start with a half hour NGINX reload. The aforementioned canary release scenario of moduloing based on request id can be easily done in APISIX using fine-grained routing.
 
 ![API gateway](https://static.apiseven.com/202108/20210625020.png)
 

@@ -80,7 +80,7 @@ When the instance changes, the corresponding node is first unlogged from Consul 
 
 The gateway is multi-location deployment, build a set of multi-location backup link in advance, at the same time suggest the user back-end service is also multi-location deployment nearby. Then the user creates an API service on the Skywalker Gateway platform, the Controller deploys the API routing on the entire DC gateway cluster, and the business domain defaults to CNAME on the unified gateway domain name.
 
-It provides multi-local access, disaster preparedness and handoff capability for business directly, and also supports user-defined resolution routing. For the user’s own fault-cut flow, blue-green deployment, gray-scale publishing needs, users can use the uuid domain name to customize the resolution of routing configuration, but also to support the back-end service discovery custom scheduling.
+It provides multi-local access, disaster preparedness and handoff capability for business directly, and also supports user-defined resolution routing. For the user’s own fault-cut flow, blue-green deployment, canary release  needs, users can use the uuid domain name to customize the resolution of routing configuration, but also to support the back-end service discovery custom scheduling.
 
 ### Scenario 5: Multi-site Multi-level Disaster Tolerance
 

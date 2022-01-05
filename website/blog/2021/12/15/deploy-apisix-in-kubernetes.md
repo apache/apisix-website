@@ -23,7 +23,7 @@ tags: [Technology]
 
 <!--truncate-->
 
-Apache APISIX is a dynamic, real-time, high-performance open source API gateway that provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more.
+Apache APISIX is a dynamic, real-time, high-performance open source API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, and more.
 
 And Kubernetes, an open source system for automatically deploying, scaling, and managing containerized applications, is designed to provide users with support for automatic deployment **across host clusters**, scaling, and related features such as running application containers. Here we have compiled two easy-to-follow installation ideas on how to quickly deploy Apache APISIX in K8s and present related information via Dashboard.
 

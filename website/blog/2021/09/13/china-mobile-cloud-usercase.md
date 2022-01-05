@@ -66,7 +66,7 @@ Here we first give you a brief description of the current Object Storage EOS nod
 
 ![Fuse Protection](https://static.apiseven.com/202108/1631500499020-4297de78-f9e3-45a5-8f57-2a55280bf7b0.png)
 
-The control plane has several main services, including the autopilot service Manager, the observable system Observer, and the chaos engineering fault injection module Checker. there is also an additional overall interaction orchestration system Orchestrator and a grayscale publishing platform Publisher.
+The control plane has several main services, including the autopilot service Manager, the observable system Observer, and the chaos engineering fault injection module Checker. there is also an additional overall interaction orchestration system Orchestrator and a canary release platform Publisher.
 
 ![Control Plane Services](https://static.apiseven.com/202108/1631500520579-1e40b538-377b-4356-b0f2-1038c0a798e4.png)
 

@@ -19,7 +19,7 @@ tags: [Practical Case]
 
 ## What is Apache APISIX
 
-[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and more. Apache APISIX's OpenID Connect plug-in supports OpenID, which allows users to replace authentication from traditional authentication mode to centralized authentication mode.
+[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, and more. Apache APISIX's OpenID Connect plug-in supports OpenID, which allows users to replace authentication from traditional authentication mode to centralized authentication mode.
 
 ## What is authentication
 
@@ -249,7 +249,7 @@ Okta is a customizable, secure centralized authentication solution. Okta can add
 
 ## About Apache APISIX
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, grayscale publishing, service meltdown, authentication, observability, and other rich traffic management features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [Kubernetes Ingress Controller](https://github.com/apache/apisix-ingress-controller).
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, and other rich traffic management features. You can use Apache APISIX for traditional north-south traffic, as well as east-west traffic between services, or as a [Kubernetes Ingress Controller](https://github.com/apache/apisix-ingress-controller).
 
 Hundreds of enterprises worldwide have used Apache APISIX to handle business-critical traffic, covering finance, Internet, manufacturing, retail, carriers, and more, such as NASA, the EU's Digital Factory, China Airlines, China Mobile, Tencent, Huawei, Sina Weibo, NetEase, Ke, 360, Taikang, Nayuki, and more.
 
