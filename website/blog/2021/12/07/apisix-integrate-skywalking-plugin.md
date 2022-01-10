@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing"
+title: "Apache APISIX Integrates with SkyWalking to Create a Full Range of Log Processing"
 authors: 
   - name: "Haochao Zhuang"
     title: "Author"
@@ -38,7 +38,7 @@ Obviously, the above way of handling the process is tedious and complicated, and
 
 ## Introduction of the New Plugins
 
-### SkyWalking Logger Pulgin
+### SkyWalking Logger Plugin
 
 The SkyWalking Logger plugin parses the SkyWalking Tracing Context Header and prints the relevant Tracing Context information to the log, thus enabling the log to be associated with the call chain.
 

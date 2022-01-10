@@ -203,6 +203,6 @@ If you have a need to interface to other logs, visit Apache APISIX's [GitHub](ht
 
 ## Related articles
 
-[Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/)
+[Apache APISIX Integrates with SkyWalking to Create a Full Range of Log Processing](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/)
 
 [Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities](https://apisix.apache.org/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin/)

@@ -127,7 +127,7 @@ The Apache APISIX project website and the Github issue have accumulated a wealth
 
   This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.
   
-- [Apache APISIX Integrates with SkyWalking to Create a Full Fange of Log Processing](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin)：
+- [Apache APISIX Integrates with SkyWalking to Create a Full Range of Log Processing](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin)：
 
   This paper mainly introduces two Apache APISIX integrated SkyWalking log plug-ins to provide a more convenient operation and environment for log processing in Apache APISIX.
   
