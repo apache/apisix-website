@@ -14,7 +14,9 @@ description: 本文为大家描述了在 M1 中启用 arm 版 ubuntu 通过源�
 tags: [Technology]
 ---
 
-本篇文章记录了通过源码在 arm 版 ubuntu 中构建 Apache APISIX 的详细踩坑记录，ubuntu 环境使用的是 [https://multipass.run/](https://multipass.run/) 中的 Multipass 。因为它可以在 M1 上使用～
+> 本篇文章记录了通过源码在 arm 版 ubuntu 中构建 Apache APISIX 的详细踩坑记录，ubuntu 环境使用的是 [https://multipass.run/](https://multipass.run/) 中的 Multipass 。因为它可以在 M1 上使用～
+
+<!--truncate-->
 
 ## 克隆源码
 
