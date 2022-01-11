@@ -15,11 +15,11 @@ keywords:
 - APISIX Dashboard
 - Deployment
 - Cluster
-description: Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apach APISIX and APISIX-Dashboard in a Kubernetes environment.
+description: Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apache APISIX and APISIX-Dashboard in a Kubernetes environment.
 tags: [Technology]
 ---
 
-> Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apach APISIX and APISIX-Dashboard in a Kubernetes environment.
+> Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apache APISIX and APISIX-Dashboard in a Kubernetes environment.
 
 <!--truncate-->
 
@@ -36,7 +36,7 @@ Here, we recommend using Kind to build the K8s cluster test environment locally,
 kind create cluster
 ```
 
-### Option 1: Installation via Helm
+## Option 1: Installation via Helm
 
 Helm is mainly used to manage applications in Kubernetes. Helm is also known as the package manager in Kubernetes, similar to apt, yum, and pacman, which are package managers in Linux.
 
