@@ -23,7 +23,7 @@ tags: [Release]
 
 <!--truncate-->
 
-Apache APISIX 2.11.0 is the first release with new features since the last 2.10.0 LTS release. It not only enriches the plugin library, but also brings fresh ecological support. Specific feature details you can scroll down to see oh.
+Apache APISIX 2.11.0 is the first release with new features since the last 2.10.0 LTS release. It not only enriches the plugin library, but also brings fresh ecological support.
 
 ## New feature: New LDAP-based authentication plugin
 

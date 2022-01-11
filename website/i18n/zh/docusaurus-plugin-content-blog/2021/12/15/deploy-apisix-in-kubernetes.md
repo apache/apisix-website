@@ -15,11 +15,11 @@ keywords:
 - APISIX Dashboard
 - 部署安装
 - 集群
-description: Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apach APISIX 以及 APISIX-Dashboard。
+description: Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apache APISIX 以及 APISIX-Dashboard。
 tags: [Technology]
 ---
 
-> Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apach APISIX 以及 APISIX-Dashboard。
+> Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apache APISIX 以及 APISIX-Dashboard。
 
 <!--truncate-->
 
