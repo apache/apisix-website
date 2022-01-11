@@ -68,7 +68,6 @@ tags: [Events]
 3. Apache APISIX 数据库多协议代理和X-RPC
 4. Apache APISIX 全流量应用场景及多语言生态
 
-
 ### 基于 DistSQL 的 ShardingSphere 分布式数据库服务管理实践
 
 #### 分享嘉宾

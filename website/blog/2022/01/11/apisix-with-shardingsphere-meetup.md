@@ -48,7 +48,7 @@ Yang Hou, SphereEx-Middleware Engineer, Apache ShardingSphere Contributor
 
 #### Topic Details
 
-- Apache ShardingSphere Shadow DB's Architecture Design 
+- Apache ShardingSphere Shadow DB's Architecture Design
 - Application Scenarios for Apache ShardingSphere Shadow DB- Shadow DB's Data Routing Capability in CyborgFlow
 
 ### Apache APISIX: Multiple Database Protocols Support & Observability
