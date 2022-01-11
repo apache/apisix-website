@@ -75,6 +75,7 @@ echo "deb http://openresty.org/package/arm64/ubuntu $(lsb_release -sc) main" \
 ```shell
 sudo apt-get update
 ```
+
 然后就可以像下面这样安装软件包，比如 `OpenResty`：
 
 ```shell
@@ -175,18 +176,20 @@ nohup etcd &
 
 ### 在 docker 中运行 etcd 服务
 
-1. 安装 docker 
+1. 安装 docker
 
 ```shell
 sudo apt install docker.io
 ```
 
 Tip: docker 常用的命令：(无权限错误在命令前添加 sudo)
+
 - 查看所有容器列表 docker ps -a
 - 查看正在运行的容器列表 docker ps
 - 查看镜像列表 docker image list
 - 删除所有容器 docker container prune
 - 删除所有镜像 docker image prune -f -a
+
 更多参考：[Docker 入门教程 - 阮一峰的网络日志](https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html)
 
 2. 拉取并运行 etcd
