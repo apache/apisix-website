@@ -14,7 +14,7 @@ tags: [Events]
 
 <!--truncate-->
 
-![活动海报]!(https://static.apiseven.com/202108/1641870767554-2f443190-e752-48e5-9624-ca8ee0aca1e4.png)
+![活动海报](https://static.apiseven.com/202108/1641870767554-2f443190-e752-48e5-9624-ca8ee0aca1e4.png)
 
 ## 分享议题
 
@@ -35,7 +35,7 @@ tags: [Events]
 
 #### 分享嘉宾
 
-张晋涛 api7.ai 云原生技术专家，Apache APISIX Committer，Kubernetes ingress-NGINX Reviewer
+张晋涛, API7.ai 云原生技术专家，Apache APISIX Committer，Kubernetes ingress-NGINX Reviewer
 
 #### 议题详情
 
