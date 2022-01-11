@@ -1,5 +1,5 @@
 ---
-title: "在 arm 版 ubuntu 构建 APISIX"
+title: "如何在 ARM Ubuntu 中构建 Apache APISIX"
 authors:
   - name: "郭奇"
     title: "Author"
@@ -9,34 +9,35 @@ keywords:
 - Apache APISIX
 - arm
 - ubuntu
-- m1
-description: 本文为大家描述了在 M1 中启用 arm 版 ubuntu 通过源码构建 Apache APISIX 的详细操作步骤，通过阅读本文，大家对于在 arm ubuntu 上构建 Apache APISIX 更加快捷。
+- Apple Macbook Pro M1
+description: 笔者使用的是 M1 芯片的 Macbook Pro，通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX。
 tags: [Technology]
 ---
 
-> 本篇文章记录了通过源码在 arm 版 ubuntu 中构建 Apache APISIX 的详细踩坑记录，ubuntu 环境使用的是 [https://multipass.run/](https://multipass.run/) 中的 Multipass 。因为它可以在 M1 上使用～
+> 笔者使用的是 M1 芯片的 Macbook Pro，借助 [https://multipass.run/](https://multipass.run/) 安装了 Ubuntu 系统，本文便记录了如何在此环境中通过源码构建 Apache APISIX。
 
 <!--truncate-->
 
 ## 克隆源码
 
-首先根据 [官方文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 安装 APISIX 源码仓库。并且进入项目文件。
+首先根据 [官方文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 克隆 APISIX 源码仓库，然后进入项目目录。
 
 ```shell
-cd apisix-2.11.0
+git clone https://github.com/apache/apisix.git
+cd apisix
 ```
 
 ## 安装项目依赖
 
-1. 现在我们可以通过脚本一键安装项目所需要的依赖拉，在根目录下运行下面命令：
+1. 接着，我们通过脚本一键安装项目所需要的依赖，在**项目根目录**运行如下命令：
 
 ```shell
 bash utils/install-dependencies.sh
 ```
 
-![1.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/1.png)
+![1.png](https://static.apiseven.com/202108/1641911830267-75310d03-1039-4f5a-a8b1-94c01474a086.png)
 
-不出所料，没有成功跑完。通过错误提示我们知道，这里是未能成功安装 `OpenResty`。原因是默认没有 `arm 64` 平台的源。
+不出所料，没有成功跑完 🤔 通过错误提示我们知道，这里是未能成功安装 `OpenResty`。原因是默认没有 `ARM 64` 平台的源。
 
 2. 下面我们手动安装下 OpenResty：参考 [https://openresty.org/cn/linux-packages.html#ubuntu](https://openresty.org/cn/linux-packages.html#ubuntu)
 
@@ -54,7 +55,7 @@ wget -O - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
 
 成功：
 
-![2.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/2.png)
+![2.png](https://static.apiseven.com/202108/1641911867662-8d1dcb8d-7c1e-4ddd-ad60-2d7448b6c544.png)
 
 - 步骤三：添加 OpenResty 官方 APT 仓库。对于 x86_64 或 amd64 系统，可以使用下面的命令：
 
@@ -63,7 +64,7 @@ echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" \
     | sudo tee /etc/apt/sources.list.d/openresty.list
 ```
 
-- 而对于 arm64 或 aarch64 系统，则可以使用下面的命令:（我在 M1 上运行的是该命令，上个命令会报错）
+- 而对于 ARM64 或 aarch64 系统，则可以使用下面的命令:（我在 M1 上运行的是该命令，上个命令会报错）
 
 ```shell
 echo "deb http://openresty.org/package/arm64/ubuntu $(lsb_release -sc) main" \
@@ -90,12 +91,12 @@ sudo apt-get -y install --no-install-recommends software-properties-common
 
 成功安装 `OpenResty` :
 
-![3.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/3.png)
+![3.png](https://static.apiseven.com/202108/1641911892167-2a6b56a9-aad8-400b-99d9-8401718c6ba9.png)
 
-3. 重新运行安装依赖脚本 （参考上面 1. ）
+3. 重新运行安装依赖脚本 （参考步骤一）
 4. 接着运行 `LUAROCKS_SERVER=https://luarocks.cn` 命令安装依赖：
 
-![4.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/4.png)
+![4.png](https://static.apiseven.com/202108/1641911909131-3f30b00e-2939-480e-809d-ccd17e5f15c4.png)
 
 运行下面命令即可：
 
@@ -103,7 +104,7 @@ sudo apt-get -y install --no-install-recommends software-properties-common
 curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 ```
 
-![5.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/5.png)
+![5.png](https://static.apiseven.com/202108/1641911924788-7e0d2f90-90d6-41cc-8c98-450cdf55a3c1.png)
 
 又出现错误提示了。。。接着运行下面命令：
 
@@ -120,7 +121,7 @@ curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-
 然后我们继续运行安装依赖的命令：`LUAROCKS_SERVER=https://luarocks.cn make deps`
 终于成功了，哭了，坑确实太多了。
 
-![6.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/6.png)
+![6.png](https://static.apiseven.com/202108/1641911942296-0ed90547-80b3-4e80-be5a-89cf60ba67b4.png)
 
 大部分依赖已经成功安装好，但是又有新的错误提示了。
 这里看起来是两个仓库未能成功克隆下来，没关系，先往后面运行试试：
@@ -134,15 +135,15 @@ make install
 
 成功：
 
-![7.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/7.png)
+![7.png](https://static.apiseven.com/202108/1641911956728-0a64adb1-0bc5-489c-bf5b-929177325ab4.png)
 
 ## 安装 etcd
 
 ### 踩坑 etcd
 
-启动 APISIX 之前需要安装下 etcd，参考 [官方文档](https://apisix.apache.org/docs/apisix/2.10/install-dependencies/#ubuntu-1604--1804)
+启动 APISIX 之前需要安装下 etcd，参考 APISIX 提供的 [官方文档](https://apisix.apache.org/docs/apisix/2.10/install-dependencies/#ubuntu-1604--1804)
 
->（由于该安装教程并不是针对 arm 写的，所以虽然成功安装了 etcd，但是未能成功将 etcd 运行起来，原因是因为默认使用的 x86 的二进制文件启动，所以无法运行。可以跳过该部分直接参考在 「docker 中运行 etcd 服务」部分）
+>（由于该安装教程并不是针对 arm 写的，所以虽然成功安装了 etcd，但是未能成功将 etcd 运行起来，原因是因为默认使用的 x86 的二进制文件启动，所以无法运行。可以跳过该部分直接参考在 「Docker 中运行 etcd 服务」部分）
 
 - 第一步运行：
 
@@ -153,30 +154,30 @@ wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linu
 - 第二部运行：
 
 ```shell
-tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && \    cd etcd-v3.4.13-linux-amd64 && \    sudo cp -a etcd etcdctl /usr/bin/
+tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && cd etcd-v3.4.13-linux-amd64 && sudo cp -a etcd etcdctl /usr/bin/
 ```
 
 成功：
 
-![8.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/8.png)
+![8.png](https://static.apiseven.com/202108/1641911973528-258ae3a2-f7c1-41b7-8b4a-9547e7a50035.png)
 
-- 第三部启动 etcd 服务
+- 第三步启动 etcd 服务
 
 ```shell
 nohup etcd &
 ```
 
-![9.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/9.png)
+![9.png](https://static.apiseven.com/202108/1641911987650-859af5f5-a3f5-4ccc-b27b-30bf2741d65a.png)
 
-然后我在后面运行 APISIX 时发现 etcd 报错了：
+然后我在后面运行 Apache APISIX 时发现 etcd 报错了：
 
-![10.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/10.png)
+![10.png](https://static.apiseven.com/202108/1641912001558-0afe245e-0cc0-405c-8624-0a55b0b63535.png)
 
-发现在 arm 上的 ubuntu 裸跑 etcd 坑太多了，各种各样的错误，后来决定还是跑 docker 吧～
+发现在 ARM Ubuntu 裸跑 etcd 坑太多了，各种各样的错误，后来决定还是跑 docker 吧～
 
-### 在 docker 中运行 etcd 服务
+### 在 Docker 中运行 etcd 服务
 
-1. 安装 docker
+1. 安装 Docker
 
 ```shell
 sudo apt install docker.io
@@ -201,7 +202,7 @@ sudo docker run -d --name etcd -p 2379:2379 -e ETCD_UNSUPPORTED_ARCH=arm64 -e ET
 注意：该镜像需要开代理。
 成功：
 
-![11.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/11.png)
+![11.png](https://static.apiseven.com/202108/1641912022850-0ad47270-79e2-4227-a786-9d478906b8b0.png)
 
 验证是否运行：
 
@@ -209,13 +210,13 @@ sudo docker run -d --name etcd -p 2379:2379 -e ETCD_UNSUPPORTED_ARCH=arm64 -e ET
 sudo docker ps -a
 ```
 
-![12.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/12.png)
+![12.png](https://static.apiseven.com/202108/1641912040567-141b520e-4c33-448d-ba33-86e01a9f6114.png)
 
 这样，etcd 已经成功启动了。
 
-## 启动 APISIX
+## 启动 Apache APISIX
 
-所有的依赖项目已经准备完毕，现在我们可以启动 APISIX 拉～直接参考如何构建 APISIX [官方文档](https://apisix.apache.org/docs/apisix/how-to-build)
+所有的依赖项目已经准备完毕，现在我们可以启动 Apache APISIX 了～直接参考如何构建 APISIX [官方文档](https://apisix.apache.org/docs/apisix/how-to-build)
 
 - 第一步安装依赖
 
@@ -229,14 +230,14 @@ make install
 ```shell
 apisix init
 
-// start APISIX
+# start APISIX
 apisix start
 
-// stop APISIX
+# stop APISIX
 apisix stop
 ```
 
-![13.png](https://guoqi-test-1307026204.file.myqcloud.com/202108/13.png)
+![13.png](https://static.apiseven.com/202108/1641912056163-67b0f11b-a122-4f5b-b7a6-c09662443cce.png)
 
 没有任何错误信息了，完美收工！
 
