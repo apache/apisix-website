@@ -14,7 +14,7 @@ description: 笔者使用的是 M1 芯片的 Macbook Pro，通过阅读本文，
 tags: [Technology]
 ---
 
-> 笔者使用的是 M1 芯片的 Macbook Pro，借助 [https://multipass.run/](https://multipass.run/) 安装了 Ubuntu 系统，本文便记录了如何在此环境中通过源码构建 Apache APISIX。
+> 笔者使用的是 M1 芯片的 Macbook Pro，借助 [https://multipass.run/](https://multipass.run/) 安装了 Ubuntu 系统，本文记录了如何在此环境中通过源码构建 Apache APISIX。
 
 <!--truncate-->
 
@@ -24,6 +24,7 @@ tags: [Technology]
 
 ```shell
 git clone https://github.com/apache/apisix.git
+git checkout release/2.11
 cd apisix
 ```
 
@@ -64,7 +65,7 @@ echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" \
     | sudo tee /etc/apt/sources.list.d/openresty.list
 ```
 
-- 而对于 ARM64 或 aarch64 系统，则可以使用下面的命令:（我在 M1 上运行的是该命令，上个命令会报错）
+- 而对于 ARM64 或 aarch64 系统，则可以使用下面的命令：（我在 M1 上运行的是该命令，上个命令会报错）
 
 ```shell
 echo "deb http://openresty.org/package/arm64/ubuntu $(lsb_release -sc) main" \
@@ -89,7 +90,7 @@ sudo apt-get -y install openresty
 sudo apt-get -y install --no-install-recommends software-properties-common
 ```
 
-成功安装 `OpenResty` :
+成功安装 `OpenResty`：
 
 ![3.png](https://static.apiseven.com/202108/1641911892167-2a6b56a9-aad8-400b-99d9-8401718c6ba9.png)
 
@@ -106,7 +107,7 @@ curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-
 
 ![5.png](https://static.apiseven.com/202108/1641911924788-7e0d2f90-90d6-41cc-8c98-450cdf55a3c1.png)
 
-又出现错误提示了。。。接着运行下面命令：
+又出现了错误提示，我们运行以下命令：
 
 ```shell
 sudo apt install wget sudo unzip
@@ -151,7 +152,7 @@ make install
 wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
 ```
 
-- 第二部运行：
+- 第二步运行：
 
 ```shell
 tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && cd etcd-v3.4.13-linux-amd64 && sudo cp -a etcd etcdctl /usr/bin/
@@ -183,7 +184,7 @@ nohup etcd &
 sudo apt install docker.io
 ```
 
-Tip: docker 常用的命令：(无权限错误在命令前添加 sudo)
+Tip: docker 常用的命令：(如果出现无权限错误，请在命令前添加 sudo)
 
 - 查看所有容器列表 docker ps -a
 - 查看正在运行的容器列表 docker ps
