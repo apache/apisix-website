@@ -24,8 +24,8 @@ tags: [Technology]
 
 ```shell
 git clone https://github.com/apache/apisix.git
-git checkout release/2.11
 cd apisix
+git checkout release/2.11
 ```
 
 ## 安装项目依赖
