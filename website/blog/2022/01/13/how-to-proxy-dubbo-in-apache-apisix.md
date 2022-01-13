@@ -70,7 +70,7 @@ After the interface information, the DemoService can be published via XML config
 <dubbo:service interface="org.apache.dubbo.samples.tengine.DemoService" ref="demoService"/>
 ```
 
-After the above configuration, the Consumer can access the `tengineDubbo` method through `org.apache.dubbo.samples.tengine.DemoService` The specific interface implementation is as follows. 
+After the above configuration, the Consumer can access the `tengineDubbo` method through `org.apache.dubbo.samples.tengine.DemoService` The specific interface implementation is as follows.
 
 ```java
 public class DemoServiceImpl implements DemoService {
@@ -209,7 +209,7 @@ public class HTTP2DubboServiceImpl implements HTTP2DubboService {
 
     @Autowired
     private ApplicationContext appContext;
-    
+
     @Override
     public Map<String, Object> invoke(Map<String, Object> context) throws Exception {
         DubboInvocation invocation = JSONObject.parseObject((byte[]) context.get("body"), DubboInvocation.class);

@@ -70,7 +70,7 @@ public interface DemoService {
 <dubbo:service interface="org.apache.dubbo.samples.tengine.DemoService" ref="demoService"/>
 ```
 
-通过上述配置后，Consumer 可通过 `org.apache.dubbo.samples.tengine.DemoService` 访问其中的`tengineDubbo` 方法。具体接口实现如下： 
+通过上述配置后，Consumer 可通过 `org.apache.dubbo.samples.tengine.DemoService` 访问其中的`tengineDubbo` 方法。具体接口实现如下：
 
 ```java
 public class DemoServiceImpl implements DemoService {
@@ -207,7 +207,7 @@ public class HTTP2DubboServiceImpl implements HTTP2DubboService {
 
     @Autowired
     private ApplicationContext appContext;
-    
+
     @Override
     public Map<String, Object> invoke(Map<String, Object> context) throws Exception {
         DubboInvocation invocation = JSONObject.parseObject((byte[]) context.get("body"), DubboInvocation.class);
