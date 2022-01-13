@@ -10,17 +10,17 @@ keywords:
 - arm
 - ubuntu
 - Apple Macbook Pro M1
-description: 笔者使用的是 M1 芯片的 Macbook Pro，通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX。
+description: 通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX（M1 芯片环境）
 tags: [Technology]
 ---
 
-> 笔者使用的是 M1 芯片的 Macbook Pro，借助 [https://multipass.run/](https://multipass.run/) 安装了 Ubuntu 系统，本文记录了如何在此环境中通过源码构建 Apache APISIX。
+> 通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX（M1 芯片环境）。ARM Ubuntu 系统借助了 [https://multipass.run/](https://multipass.run/) 安装。
 
 <!--truncate-->
 
 ## 克隆源码
 
-首先根据 [官方文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 克隆 APISIX 源码仓库，然后进入项目目录。
+首先根据 [官方文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 克隆 Apache APISIX 源码仓库并进入项目目录。
 
 ```shell
 git clone https://github.com/apache/apisix.git
@@ -30,7 +30,7 @@ git checkout release/2.11
 
 ## 安装项目依赖
 
-1. 接着，我们通过脚本一键安装项目所需要的依赖，在**项目根目录**运行如下命令：
+1. 通过脚本一键安装项目所需要的依赖，在**项目根目录**运行如下命令：
 
 ```shell
 bash utils/install-dependencies.sh
@@ -38,9 +38,9 @@ bash utils/install-dependencies.sh
 
 ![1.png](https://static.apiseven.com/202108/1641911830267-75310d03-1039-4f5a-a8b1-94c01474a086.png)
 
-不出所料，没有成功跑完 🤔 通过错误提示我们知道，这里是未能成功安装 `OpenResty`。原因是默认没有 `ARM 64` 平台的源。
+通过错误提示可知，是由于未能成功安装 `OpenResty` 导致。根本原因是默认没有 `ARM 64` 平台的源。
 
-2. 下面我们手动安装下 OpenResty：参考 [https://openresty.org/cn/linux-packages.html#ubuntu](https://openresty.org/cn/linux-packages.html#ubuntu)
+2. 下面我们手动安装下 `OpenResty`，具体安装步骤可参考 [https://openresty.org/cn/linux-packages.html#ubuntu](https://openresty.org/cn/linux-packages.html#ubuntu)。
 
 - 步骤一：安装导入 GPG 公钥时所需的几个依赖包（整个安装过程完成后可以随时删除它们）：
 
@@ -54,11 +54,11 @@ sudo apt-get -y install --no-install-recommends wget gnupg ca-certificates
 wget -O - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
 ```
 
-成功：
+如下图所示，导入成功：
 
 ![2.png](https://static.apiseven.com/202108/1641911867662-8d1dcb8d-7c1e-4ddd-ad60-2d7448b6c544.png)
 
-- 步骤三：添加 OpenResty 官方 APT 仓库。对于 x86_64 或 amd64 系统，可以使用下面的命令：
+- 步骤三：添加 OpenResty 官方 APT 仓库。对于 x86_64 或 amd64 系统，可以使用以下命令：
 
 ```shell
 echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" \
@@ -84,7 +84,7 @@ sudo apt-get update
 sudo apt-get -y install openresty
 ```
 
-- 步骤五：（可选）可以通过下面命令删除该包和对应的关联包：
+- 步骤五：（可选）可以通过以下命令删除该包和对应的关联包：
 
 ```shell
 sudo apt-get -y install --no-install-recommends software-properties-common
@@ -217,16 +217,16 @@ sudo docker ps -a
 
 ## 启动 Apache APISIX
 
-所有的依赖项目已经准备完毕，现在我们可以启动 Apache APISIX 了～直接参考如何构建 APISIX [官方文档](https://apisix.apache.org/docs/apisix/how-to-build)
+所有的依赖项目已经准备完毕，现在我们可以启动 Apache APISIX 了～直接参考如何构建 APISIX [官方文档](https://apisix.apache.org/docs/apisix/how-to-build)。
 
-- 第一步安装依赖
+- 第一步：安装依赖
 
 ```shell
 make deps
 make install
 ```
 
-- 第二部初始化依赖，启动 APISIX
+- 第二步：初始化依赖并启动 APISIX
 
 ```shell
 apisix init
@@ -246,4 +246,4 @@ apisix stop
 
 总体来说，有两个大坑是安装 APISIX 依赖部分和 arm 的 etcd 部分，etcd 部分可以直接用 docker 来解决，不过在拉取镜像的时候也会有一些坑，在此就不展示了，大多都是一些版本不匹配的错误，直接换别的镜像尝试就好。
 
-如果有更好的建议，欢迎大家为 Apache APISIX [构建文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 贡献，留下你的建议，来帮助更多的人。
+如果各位有更好的建议，欢迎大家为 Apache APISIX [构建文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 贡献，留下您的建议，来帮助更多的人。
