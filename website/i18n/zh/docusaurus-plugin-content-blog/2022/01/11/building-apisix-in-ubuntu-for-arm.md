@@ -146,13 +146,13 @@ make install
 
 >（由于该安装教程并不是针对 arm 写的，所以虽然成功安装了 etcd，但是未能成功将 etcd 运行起来，原因是因为默认使用的 x86 的二进制文件启动，所以无法运行。可以跳过该部分直接参考在 「Docker 中运行 etcd 服务」部分）
 
-- 第一步运行：
+- 下载 etcd：
 
 ```shell
 wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
 ```
 
-- 第二步运行：
+- 解压 etcd：
 
 ```shell
 tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && cd etcd-v3.4.13-linux-amd64 && sudo cp -a etcd etcdctl /usr/bin/
@@ -162,7 +162,7 @@ tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && cd etcd-v3.4.13-linux-amd64 && sudo 
 
 ![8.png](https://static.apiseven.com/202108/1641911973528-258ae3a2-f7c1-41b7-8b4a-9547e7a50035.png)
 
-- 第三步启动 etcd 服务
+- 启动 etcd 服务
 
 ```shell
 nohup etcd &
@@ -205,7 +205,7 @@ sudo docker run -d --name etcd -p 2379:2379 -e ETCD_UNSUPPORTED_ARCH=arm64 -e ET
 
 ![11.png](https://static.apiseven.com/202108/1641912022850-0ad47270-79e2-4227-a786-9d478906b8b0.png)
 
-验证是否运行：
+验证 etcd 是否启动成功：
 
 ```shell
 sudo docker ps -a
@@ -219,14 +219,14 @@ sudo docker ps -a
 
 所有的依赖项目已经准备完毕，现在我们可以启动 Apache APISIX 了～直接参考如何构建 APISIX [官方文档](https://apisix.apache.org/docs/apisix/how-to-build)。
 
-- 第一步：安装依赖
+- 安装依赖
 
 ```shell
 make deps
 make install
 ```
 
-- 第二步：初始化依赖并启动 APISIX
+- 初始化依赖并启动 APISIX
 
 ```shell
 apisix init
