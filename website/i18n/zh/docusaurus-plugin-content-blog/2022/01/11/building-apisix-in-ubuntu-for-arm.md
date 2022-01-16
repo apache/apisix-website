@@ -10,7 +10,7 @@ keywords:
 - arm
 - ubuntu
 - Apple Macbook Pro M1
-description: 通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX（M1 芯片环境）
+description: 通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX（M1 芯片环境）。
 tags: [Technology]
 ---
 
