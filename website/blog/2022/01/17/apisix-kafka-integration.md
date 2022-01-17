@@ -1,11 +1,11 @@
 ---
 title: "Apache APISIX Integration with Kafka for Efficient Real-Time Log Monitoring"
 authors:
-- name: "Zeping Bai"
+  - name: "Zeping Bai"
     title: "Author"
     url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
-- name: "Sylvia"
+  - name: "Sylvia"
     title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
