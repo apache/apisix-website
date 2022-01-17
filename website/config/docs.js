@@ -62,8 +62,8 @@ module.exports = [
     shape: "star",
     color: "#FB9300",
     githubRepo: "apache/apisix-java-plugin-runner",
-    version: "0.1.0",
-    releaseDate: "2021-07-09",
+    version: "0.2.0",
+    releaseDate: "2022-01-17",
     firstDocPath: "/development",
   },
   {

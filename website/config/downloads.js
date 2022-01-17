@@ -47,9 +47,9 @@ module.exports = [
     color: "#FB9300",
     githubRepo: "apache/apisix-java-plugin-runner",
     githubBranch: "main",
-    downloadPath: "apisix/java-plugin-runner/0.1/apisix-java-plugin-runner-0.1.0-src",
-    version: "0.1.0",
-    releaseDate: "2021-07-09",
+    downloadPath: "apisix/java-plugin-runner/0.2.0/apisix-java-plugin-runner-0.2.0-src",
+    version: "0.2.0",
+    releaseDate: "2022-01-17",
     firstDocPath: "/development",
   },
   {
