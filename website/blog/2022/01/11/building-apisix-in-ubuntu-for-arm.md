@@ -20,7 +20,7 @@ tags: [Technology]
 
 ## Clone source code
 
-First follow the [official documentation](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85). Clone the Apache APISIX source code repository and go to the project directory.
+First follow the [official documentation](https://apisix.apache.org/docs/apisix/how-to-build/). Clone the Apache APISIX source code repository and go to the project directory.
 
 ```shell
 git clone https://github.com/apache/apisix.git
@@ -246,4 +246,4 @@ No more error messages, perfect finish!
 
 In general, there are two problems: the installation of APISIX dependencies and the etcd part of arm. The etcd part can be solved directly with docker, but there are also some pitfalls when pulling images, which I won't show here.
 
-If you have better suggestions, you are welcome to contribute to the Apache APISIX [build documentation](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) and leave your suggestions to help more people.
+If you have better suggestions, you are welcome to contribute to the Apache APISIX [build documentation](https://apisix.apache.org/docs/apisix/how-to-build/) and leave your suggestions to help more people.

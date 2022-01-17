@@ -20,7 +20,7 @@ tags: [Technology]
 
 ## 克隆源码
 
-首先根据 [官方文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 克隆 Apache APISIX 源码仓库并进入项目目录。
+首先根据 [官方文档](https://apisix.apache.org/docs/apisix/how-to-build/) 克隆 Apache APISIX 源码仓库并进入项目目录。
 
 ```shell
 git clone https://github.com/apache/apisix.git
@@ -246,4 +246,4 @@ apisix stop
 
 总体来说，有两个大坑是安装 APISIX 依赖部分和 arm 的 etcd 部分，etcd 部分可以直接用 docker 来解决，不过在拉取镜像的时候也会有一些坑，在此就不展示了，大多都是一些版本不匹配的错误，直接换别的镜像尝试就好。
 
-如果各位有更好的建议，欢迎大家为 Apache APISIX [构建文档](https://apisix.apache.org/zh/docs/apisix/how-to-build#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85) 贡献，留下您的建议，来帮助更多的人。
+如果各位有更好的建议，欢迎大家为 Apache APISIX [构建文档](https://apisix.apache.org/docs/apisix/how-to-build/) 贡献，留下您的建议，来帮助更多的人。
