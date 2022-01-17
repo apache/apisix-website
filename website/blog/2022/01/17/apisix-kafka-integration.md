@@ -1,11 +1,11 @@
 ---
 title: "Apache APISIX Integration with Kafka for Efficient Real-Time Log Monitoring"
 authors:
-  - name: "Zeping Bai"
+- name: "Zeping Bai"
     title: "Author"
     url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
-  - name: "Sylvia"
+- name: "Sylvia"
     title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
@@ -14,7 +14,7 @@ keywords:
 - Apache Kafka
 - Kafka
 - logging
-- Monitoring
+- monitoring
 description: Apache APISIX has been providing support for Apache Kafka since version 1.2 with the kafka-logger plugin release. kafka-logger has been enhanced several times since then to provide very mature and complete functionality. It supports pushing API request logs, request bodies, and response bodies, to a Kafka cluster in JSON format.
 tags: [Technology]
 ---
