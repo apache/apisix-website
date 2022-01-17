@@ -1,7 +1,7 @@
 ---
 title: "Apache APISIX 集成 Kafka 实现高效率实时日志监控"
 authors:
-- name: "白泽平"
+  - name: "白泽平"
     title: "Author"
     url: "https://github.com/bzp2010"
     image_url: "https://avatars.githubusercontent.com/u/8078418?v=4"
