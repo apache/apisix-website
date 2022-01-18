@@ -40,7 +40,7 @@ Benefiting from the advantages of Apache Dubbo application scenarios, Apache API
 
 > Here we recommend using the Apache APISIX version 2.11 image for installation. This version of APISIX-Base has the Dubbo module compiled by default, so you can use the `dubbo-proxy` plugin directly.
 
-In the next steps, we will use the [`dubbo-samples`](https://github.com/apache/dubbo-samples) project for a partial demonstration. This project is a demo application implemented using Apache Dubbo, and in this article we use the `dubbo-samples-tengine` submodule as the Dubbo Provider.
+In the next steps, we will use the [`dubbo-samples`](https://github.com/apache/dubbo-samples) project for a partial demonstration. This project is a demo application implemented using Apache Dubbo, and in this article we use one of the sub-modules as the Dubbo Provider.
 
 Before we get into the action, let's take a brief look at the definition, configuration, and implementation of the Dubbo interface.
 
@@ -50,11 +50,11 @@ Before we get into the action, let's take a brief look at the definition, config
 public interface DemoService {
 
     /**
-     * standard samples tengine dubbo infterace demo
-     * @param context tengine pass http infos
-     * @return Map<String, Object></> pass to tengine response http
+     * standard samples dubbo infterace demo
+     * @param context pass http infos
+     * @return Map<String, Object></> pass to response http
      **/
-    Map<String, Object> tengineDubbo(Map<String, Object> httpRequestContext);
+    Map<String, Object> apisixDubbo(Map<String, Object> httpRequestContext);
 }
 ```
 
@@ -64,18 +64,18 @@ After the interface information, the DemoService can be published via XML config
 
 ```xml
 <!-- service implementation, as same as regular local bean -->
-<bean id="demoService" class="org.apache.dubbo.samples.tengine.provider.DemoServiceImpl"/>
+<bean id="demoService" class="org.apache.dubbo.samples.provider.DemoServiceImpl"/>
 
 <!-- declare the service interface to be exported -->
-<dubbo:service interface="org.apache.dubbo.samples.tengine.DemoService" ref="demoService"/>
+<dubbo:service interface="org.apache.dubbo.samples.apisix.DemoService" ref="demoService"/>
 ```
 
-After the above configuration, the Consumer can access the `tengineDubbo` method through `org.apache.dubbo.samples.tengine.DemoService` The specific interface implementation is as follows.
+After the above configuration, the Consumer can access the `apisixDubbo` method through `org.apache.dubbo.samples.apisix.DemoService` The specific interface implementation is as follows.
 
 ```java
 public class DemoServiceImpl implements DemoService {
     @Override
-    public Map<String, Object> tengineDubbo(Map<String, Object> httpRequestContext) {
+    public Map<String, Object> apisixDubbo(Map<String, Object> httpRequestContext) {
         for (Map.Entry<String, Object> entry : httpRequestContext.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
@@ -96,7 +96,7 @@ In the above code, `DemoServiceImpl` prints the received `httpRequestContext` an
 
 #### Operation steps
 
-1. Start [`dubbo-samples-tengine`](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-tengine#install-dubbo).
+1. Start [`dubbo-samples`](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-tengine#install-dubbo).
 2. Enable the `dubbo-proxy` plugin in the `config.yaml` file.
 
 ```yaml
@@ -129,9 +129,9 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
     ],
     "plugins": {
         "dubbo-proxy": {
-            "service_name": "org.apache.dubbo.samples.tengine.DemoService",
+            "service_name": "org.apache.dubbo.samples.apisix.DemoService",
             "service_version": "0.0.0",
-            "method": "tengineDubbo"
+            "method": "apisixDubbo"
         }
     },
     "upstream_id": 1
@@ -235,11 +235,11 @@ public class HTTP2DubboServiceImpl implements HTTP2DubboService {
 ```shell
 curl http://127.0.0.1:9080/demo  -H "Host: example.org"  -X POST --data '
 {
-    "service": "org.apache.dubbo.samples.tengine.DemoService",
+    "service": "org.apache.dubbo.samples.apisix.DemoService",
     "method": "createUser",
     "parameters": [
         {
-            "type": "org.apache.dubbo.samples.tengine.User",
+            "type": "org.apache.dubbo.samples.apisix.User",
             "value": "{'name': 'hello'}"
         }
     ]

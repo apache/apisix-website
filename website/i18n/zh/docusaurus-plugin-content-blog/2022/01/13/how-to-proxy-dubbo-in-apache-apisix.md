@@ -40,7 +40,7 @@ tags: [Technology]
 
 >这里我们建议使用 Apache APISIX 2.11 版本镜像进行安装。该版本的 APISIX-Base 中已默认编译了 Dubbo 模块，可直接使用 `dubbo-proxy` 插件。
 
-在接下来的操作中，我们将使用 [`dubbo-samples`](https://github.com/apache/dubbo-samples) 项目进行部分展示。该项目是一些使用 Apache Dubbo 实现的 Demo 应用，本文中我们采用其中的 `dubbo-samples-tengine` 子模块作为 Dubbo Provider。
+在接下来的操作中，我们将使用 [`dubbo-samples`](https://github.com/apache/dubbo-samples) 项目进行部分展示。该项目是一些使用 Apache Dubbo 实现的 Demo 应用，本文中我们采用其中的一个子模块作为 Dubbo Provider。
 
 在进入正式操作前，我们先简单看下 Dubbo 接口的定义、配置以及相关实现。
 
@@ -50,11 +50,11 @@ tags: [Technology]
 public interface DemoService {
 
     /**
-     * standard samples tengine dubbo infterace demo
-     * @param context tengine pass http infos
-     * @return Map<String, Object></> pass to tengine response http
+     * standard samples dubbo infterace demo
+     * @param context pass http infos
+     * @return Map<String, Object></> pass to response http
      **/
-    Map<String, Object> tengineDubbo(Map<String, Object> httpRequestContext);
+    Map<String, Object> apisixDubbo(Map<String, Object> httpRequestContext);
 }
 ```
 
@@ -64,18 +64,18 @@ public interface DemoService {
 
 ```xml
 <!-- service implementation, as same as regular local bean -->
-<bean id="demoService" class="org.apache.dubbo.samples.tengine.provider.DemoServiceImpl"/>
+<bean id="demoService" class="org.apache.dubbo.samples.provider.DemoServiceImpl"/>
 
 <!-- declare the service interface to be exported -->
-<dubbo:service interface="org.apache.dubbo.samples.tengine.DemoService" ref="demoService"/>
+<dubbo:service interface="org.apache.dubbo.samples.apisix.DemoService" ref="demoService"/>
 ```
 
-通过上述配置后，Consumer 可通过 `org.apache.dubbo.samples.tengine.DemoService` 访问其中的`tengineDubbo` 方法。具体接口实现如下：
+通过上述配置后，Consumer 可通过 `org.apache.dubbo.samples.apisix.DemoService` 访问其中的`apisixDubbo` 方法。具体接口实现如下：
 
 ```java
 public class DemoServiceImpl implements DemoService {
     @Override
-    public Map<String, Object> tengineDubbo(Map<String, Object> httpRequestContext) {
+    public Map<String, Object> apisixDubbo(Map<String, Object> httpRequestContext) {
         for (Map.Entry<String, Object> entry : httpRequestContext.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
@@ -94,7 +94,7 @@ public class DemoServiceImpl implements DemoService {
 
 #### 操作步骤
 
-1. 启动 [`dubbo-samples-tengine`](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-tengine#install-dubbo)。
+1. 启动 [`dubbo-samples`](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-tengine#install-dubbo)。
 2. 在 `config.yaml` 文件中进行 `dubbo-proxy` 插件启用。
 
 ```yaml
@@ -127,9 +127,9 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
     ],
     "plugins": {
         "dubbo-proxy": {
-            "service_name": "org.apache.dubbo.samples.tengine.DemoService",
+            "service_name": "org.apache.dubbo.samples.apisix.DemoService",
             "service_version": "0.0.0",
-            "method": "tengineDubbo"
+            "method": "apisixDubbo"
         }
     },
     "upstream_id": 1
@@ -233,11 +233,11 @@ public class HTTP2DubboServiceImpl implements HTTP2DubboService {
 ```shell
 curl http://127.0.0.1:9080/demo  -H "Host: example.org"  -X POST --data '
 {
-    "service": "org.apache.dubbo.samples.tengine.DemoService",
+    "service": "org.apache.dubbo.samples.apisix.DemoService",
     "method": "createUser",
     "parameters": [
         {
-            "type": "org.apache.dubbo.samples.tengine.User",
+            "type": "org.apache.dubbo.samples.apisix.User",
             "value": "{'name': 'hello'}"
         }
     ]
