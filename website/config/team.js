@@ -145,6 +145,12 @@ module.exports = [
         "username": "bzp2010",
         "githubUsername": "bzp2010",
         "avatarUrl": "https://avatars.githubusercontent.com/u/8078418?v=4"
+      },
+      {
+        "name": "Jintao Zhang",
+        "username": "zhangjintao",
+        "githubUsername": "tao12345666333",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/3264292?v=4"
       }
     ]
   },
@@ -210,12 +216,6 @@ module.exports = [
         "username": "Jaycean",
         "githubUsername": "Jaycean",
         "avatarUrl": "https://avatars.githubusercontent.com/u/36916582?v=4"
-      },
-      {
-        "name": "Jintao Zhang",
-        "username": "zhangjintao",
-        "githubUsername": "tao12345666333",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/3264292?v=4"
       },
       {
         "name": "ZhengSong Tu",
