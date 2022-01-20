@@ -10,7 +10,7 @@ keywords:
 - Ecosystem
 - Plugin
 description: Support for WASM will be added in the upcoming Apache APISIX version (2.11.0)! By reading this article you will learn how Apache APISIX deploys the support and development of this feature from 0 to 1.
-tags: [Technology, Ecosystem]
+tags: [Technology,Ecosystem]
 ---
 
 > Support for WASM will be added in the upcoming Apache APISIX version (2.11.0)! By reading this article you will learn how Apache APISIX deploys the support and development of this feature from 0 to 1.

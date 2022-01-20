@@ -16,7 +16,7 @@ keywords:
 - Deployment
 - Cluster
 description: Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apache APISIX and APISIX-Dashboard in a Kubernetes environment.
-tags: [Technology, Kubernetes]
+tags: [Technology,Kubernetes]
 ---
 
 > Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apache APISIX and APISIX-Dashboard in a Kubernetes environment.
