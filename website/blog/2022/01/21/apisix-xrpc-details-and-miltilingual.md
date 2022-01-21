@@ -45,7 +45,7 @@ The xRPC framework makes it very easy to extend protocol capabilities, both spec
 
 ### What is xRPC
 
-xRPC literally means that X is an abstract representation of a protocol resource. And RPC is what we consider all resources passing through the gateway as a process dispatch, i.e. it is a protocol extension framework. So in terms of positioning, xRPC is a base framework rather than an implementation of a specific protocol. 
+xRPC literally means that X is an abstract representation of a protocol resource. And RPC is what we consider all resources passing through the gateway as a process dispatch, i.e. it is a protocol extension framework. So in terms of positioning, xRPC is a base framework rather than an implementation of a specific protocol.
 
 ![xRPC architecture](https://static.apiseven.com/202108/1642733068660-f479ffcc-5bda-49de-bbd9-0d04d7259450.png)
 
@@ -56,8 +56,9 @@ So the main role of xRPC can be summarized as: **providing access to standardize
 #### Sample Application Scenarios
 
 With the xRPC protocol framework in place, what scenarios can it address? Here are a few examples.
-- Example 1: Redis does not support TLS in earlier versions. If there are multiple versions of Redis in our system, and we cannot upgrade Redis in production for some reasons, but we need to add TLS capability. In this case, we can use the xPRC-based Redis Protocol to solve the above situation. 2.
-- Example 2: When we want to limit the frequency of certain IPs or callers and want to visualize the frequency of each call source, which Redis does not support. This is perfectly solved by using the Redis Protocol, which is extended by xRPC. 3.
+
+- Example 1: Redis does not support TLS in earlier versions. If there are multiple versions of Redis in our system, and we cannot upgrade Redis in production for some reasons, but we need to add TLS capability. In this case, we can use the xPRC-based Redis Protocol to solve the above situation.
+- Example 2: When we want to limit the frequency of certain IPs or callers and want to visualize the frequency of each call source, which Redis does not support. This is perfectly solved by using the Redis Protocol, which is extended by xRPC.
 - Example 3: If you want to use MySQL to temporarily enable the slow query function, you just need to access MySQL Protocol and configure the relevant policy in APISIX, which saves you from the tedious step of logging into the instance machine by machine.
 
 Of course, there are many similar application scenarios, and we hope that after the release of the feature, you can experience and practice more in the actual application. The process of invoking xPRC is shown in the following diagram.
@@ -76,7 +77,7 @@ The current design of the Apache APISIX xRPC framework is initially divided into
 - Phase 2: Access Phase Access phase. Provide plug-in access function, which can realize the demand scenarios of security, flow control and access.
 - Phase 3: Proxy data forwarding and load balancing. Provides access support for custom load balancing policies and algorithms.
 - Phase 4: Send Sending data and protocol encoding.
-- Phase 5: Log Phase Logging phase. Provide plug-in access to realize the logging and logging requirements scenarios. 
+- Phase 5: Log Phase Logging phase. Provide plug-in access to realize the logging and logging requirements scenarios.
 
 ## Multilingual Ecology
 
@@ -98,7 +99,7 @@ Currently, the Apache APISIX xPluginRunner solution is in a relatively stable st
 
 - [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner)
 - [apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner)
-- [apache-apisix-python-runner ](https://github.com/apache/apisix-python-plugin-runner)
+- [apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner)
 
 Finally, we will show you how to develop APISIX plugins based on Java Plugin Runner with a simple Java example.
 
@@ -133,8 +134,8 @@ Finally, restart Apache APISIX and you are ready for the routing and plugin conf
 
 ## Summary
 
-This article brings you the upcoming release of the xRPC framework for Apache APISIX and related details, as well as a detailed demonstration of Apache APISIX in multi-language development support. 
+This article brings you the upcoming release of the xRPC framework for Apache APISIX and related details, as well as a detailed demonstration of Apache APISIX in multi-language development support.
 
-The article also shows the details of Apache APISIX's multilanguage development support. It shows the ecology-oriented efforts of Apache APISIX from both the multiprotocol proxy and multilanguage support perspectives. 
+The article also shows the details of Apache APISIX's multilanguage development support. It shows the ecology-oriented efforts of Apache APISIX from both the multiprotocol proxy and multilanguage support perspectives.
 
 Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).

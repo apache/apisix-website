@@ -45,7 +45,7 @@ tags: [Ecosystem]
 
 ### 什么是 xRPC
 
-xRPC 从字面角度来分析，即 X 为协议资源的抽象代表。而 RPC 是我们认为所有经过网关的资源都为一个过程调度，即它是一个协议扩展框架。所以在定位上，xRPC 是一个基础框架，而不是一种具体协议的实现。 
+xRPC 从字面角度来分析，即 X 为协议资源的抽象代表。而 RPC 是我们认为所有经过网关的资源都为一个过程调度，即它是一个协议扩展框架。所以在定位上，xRPC 是一个基础框架，而不是一种具体协议的实现。
 
 ![xRPC 架构图](https://static.apiseven.com/202108/1642733068660-f479ffcc-5bda-49de-bbd9-0d04d7259450.png)
 
@@ -77,7 +77,7 @@ xRPC 从字面角度来分析，即 X 为协议资源的抽象代表。而 RPC �
 - 阶段二：Access Phase 准入阶段。提供插件接入功能，可实现安全、流控和准入等需求场景。
 - 阶段三：Proxy 数据转发与负载均衡。提供自定义负载均衡策略及算法的接入支持。
 - 阶段四：Send 发送数据与协议编码。
-- 阶段五：Log Phase 日志阶段。提供插件接入功能，实现日志上报和记录等需求场景。 
+- 阶段五：Log Phase 日志阶段。提供插件接入功能，实现日志上报和记录等需求场景。
 
 ## 多语言生态
 
@@ -99,7 +99,7 @@ xPluginRunner 作为跟 Apache APISIX 通信的桥梁，主要实现了**私有�
 
 - [apisix-go-plugin-runner](https://github.com/apache/apisix-go-plugin-runner)
 - [apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner)
-- [apache-apisix-python-runner ](https://github.com/apache/apisix-python-plugin-runner)
+- [apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner)
 
 最后我们将通过一个简单的 Java 示例，为大家展示一下如何基于 Java Plugin Runner 来开发 APISIX 插件。
 
