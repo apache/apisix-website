@@ -18,7 +18,9 @@ tags: [Technology]
 
 <!--truncate-->
 
-## Clone source code
+## Prerequisites
+
+### Clone source code
 
 First follow the [official documentation](https://apisix.apache.org/docs/apisix/how-to-build/). Clone the Apache APISIX source code repository and go to the project directory.
 
@@ -28,27 +30,29 @@ cd apisix
 git checkout release/2.11
 ```
 
-## Installing Dependencies
+### Install OpenResty
 
-1. Install the dependencies required for the project in one click via an automation script, running the following command in the **project root** directory.
+First, install the dependencies required for the project in one click via an automation script, running the following command in the **project root** directory.
 
 ```shell
 bash utils/install-dependencies.sh
 ```
 
-![1.png](https://static.apiseven.com/202108/1641911830267-75310d03-1039-4f5a-a8b1-94c01474a086.png)
+![Installation dependency.png](https://static.apiseven.com/202108/1641911830267-75310d03-1039-4f5a-a8b1-94c01474a086.png)
 
-The error message indicates that this is due to a failure to successfully install `OpenResty`. The root cause is that there are no sources for the `ARM 64` platform by default.
+As you can see from the error message, it is due to the failure to install `OpenResty` successfully. The root cause is that there is no source for the `ARM 64` platform by default.
 
-2. Here we install `OpenResty` manually, the installation steps can be found at [https://openresty.org/cn/linux-packages.html#ubuntu](https://openresty.org/cn/linux-packages.html#ubuntu).
+Here we install `OpenResty` manually, the installation steps can be found at [https://openresty.org/cn/linux-packages.html#ubuntu](https://openresty.org/cn/linux-packages.html#ubuntu).
 
-- Step 1: Install the several dependencies required to import the GPG public key (they can be removed at any time after the entire installation process is complete).
+#### Step 1: Install the several dependencies required to import the GPG public key
+
+Specific code examples can be found below (you can delete them at any time after the entire installation process is complete).
 
 ```shell
 sudo apt-get -y install --no-install-recommends wget gnupg ca-certificates
 ```
 
-- Step 2: Import our GPG key.
+#### Step 2: Import GPG key
 
 ```shell
 wget -O - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
@@ -56,35 +60,39 @@ wget -O - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
 
 The import was successful as shown in the figure below.
 
-![2.png](https://static.apiseven.com/202108/1641911867662-8d1dcb8d-7c1e-4ddd-ad60-2d7448b6c544.png)
+![Import GPG key.png](https://static.apiseven.com/202108/1641911867662-8d1dcb8d-7c1e-4ddd-ad60-2d7448b6c544.png)
 
-- Step 3: Add the official OpenResty APT repository. For x86_64 or amd64 systems, the following command can be used.
+#### Step 3: Add the official OpenResty APT repository
+
+For x86_64 or amd64 systems, the following command can be used.
 
 ```shell
 echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" \
     | sudo tee /etc/apt/sources.list.d/openresty.list
 ```
 
-- And for ARM64 or aarch64 systems, the following command can be used: (I am running this command on M1, the previous one reports an error)
+For ARM64 or aarch64 systems, you can use the following command (run on M1 to run the command, the last command will report an error).
 
 ```shell
 echo "deb http://openresty.org/package/arm64/ubuntu $(lsb_release -sc) main" \
     | sudo tee /etc/apt/sources.list.d/openresty.list
 ```
 
-- Step 4: Update the APT Index.
+#### Step 4: Update the APT Index
 
 ```shell
 sudo apt-get update
 ```
 
-The package can then be installed like this, e.g. `OpenResty`.
+After that, you can install the software package according to the code below. Here we take `OpenResty` as an example.
 
 ```shell
 sudo apt-get -y install openresty
 ```
 
-- Step 5: (Optional) The package and the corresponding associated package can be deleted by the following command.
+#### Step 5: Delete the corresponding associated package (optional)
+
+Finally, we can delete the package and its corresponding associated package with the following command.
 
 ```shell
 sudo apt-get -y install --no-install-recommends software-properties-common
@@ -92,12 +100,17 @@ sudo apt-get -y install --no-install-recommends software-properties-common
 
 Successful installation of `OpenResty`.
 
-![3.png](https://static.apiseven.com/202108/1641911892167-2a6b56a9-aad8-400b-99d9-8401718c6ba9.png)
+![OpenResty installed successfully.png](https://static.apiseven.com/202108/1641911892167-2a6b56a9-aad8-400b-99d9-8401718c6ba9.png)
 
-3. Rerun the installation dependency script (refer to step 1)
-4. Next, run the command `LUAROCKS_SERVER=https://luarocks.cn` to install the dependencies.
+### Install Dependencies
 
-![4.png](https://static.apiseven.com/202108/1641911909131-3f30b00e-2939-480e-809d-ccd17e5f15c4.png)
+First rerun the installation dependency script. Then run the command `LUAROCKS_SERVER=https://luarocks.cn` to install the dependencies.
+
+```shell
+bash utils/install-dependencies.sh
+```
+
+![Install dependency.png](https://static.apiseven.com/202108/1641911909131-3f30b00e-2939-480e-809d-ccd17e5f15c4.png)
 
 Simply run the following command.
 
@@ -105,128 +118,93 @@ Simply run the following command.
 curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 ```
 
-![5.png](https://static.apiseven.com/202108/1641911924788-7e0d2f90-90d6-41cc-8c98-450cdf55a3c1.png)
+![Installation dependency feedback.png](https://static.apiseven.com/202108/1641911924788-7e0d2f90-90d6-41cc-8c98-450cdf55a3c1.png)
 
-Another error message appears and we run the following command.
+Find the error prompt based on the feedback from the figure above, and then execute the following command.
 
 ```shell
 sudo apt install wget sudo unzip
 ```
 
-We then re-run.
+Then we rerun the following command.
 
 ```shell
 curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 ```
 
-We then proceeded to run the command to install the dependencies: `LUAROCKS_SERVER=https://luarocks.cn make deps`
-Finally it worked, there were indeed too many problems.
+Finally, run the installation dependency instruction `LUAROCKS_SERVER=https://luarocks.cn make deps`
 
-![6.png](https://static.apiseven.com/202108/1641911942296-0ed90547-80b3-4e80-be5a-89cf60ba67b4.png)
+![Successful installation.png](https://static.apiseven.com/202108/1641911942296-0ed90547-80b3-4e80-be5a-89cf60ba67b4.png)
 
-Most of the dependencies have been successfully installed, but there is a new error message.
-Here it looks like the two repositories have not been successfully cloned, but that's fine, try running them backwards first.
-
-5. Installing APISIX commands
+At this point, most of the dependencies have been successfully installed, but a new error message appears (it looks like the two repositories failed to clone). It doesn't matter, it doesn't matter for the time being, you can execute the APISIX installation command here.
 
 ```shell
 make install
 # If you get an insufficient permissions message, use `sudo make install`
 ```
 
-Success:
-
-![7.png](https://static.apiseven.com/202108/1641911956728-0a64adb1-0bc5-489c-bf5b-929177325ab4.png)
+![Excute APISIX.png](https://static.apiseven.com/202108/1641911956728-0a64adb1-0bc5-489c-bf5b-929177325ab4.png)
 
 ## Install etcd
 
-### Installing etcd Error Guide
+Before starting Apache APISIX you need to install etcd, more details can refer to the [official documentation](https://apisix.apache.org/docs/apisix/2.10/install-dependencies/#ubuntu-1604--1804).
 
-Before starting APISIX you need to install etcd, refer to the [official documentation](https://apisix.apache.org/docs/apisix/2.10/install-dependencies/#ubuntu-1604--1804).
+:::info
+Because the installation tutorial was not written for arm, although etcd, was successfully installed, etcd could not be run successfully due to the default use of x86 binaries. The specific part of stepping on the pit will not be repeated here, but will directly put the correct steps for your reference.
+:::
 
-> As the tutorial is not written for arm, etcd was installed successfully, but it did not run because the x86 binary was used to start it by default, so it did not run. (You can skip this section and go directly to the section on running the etcd service in Docker)
+### Run the etcd in Docker
 
-- Download etcd.
-
-```shell
-wget https://github.com/etcd-io/etcd/releases/download/v3.4.13/etcd-v3.4.13-linux-amd64.tar.gz
-```
-
-- Decompress the etcd.
-
-```shell
-tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && cd etcd-v3.4.13-linux-amd64 && sudo cp -a etcd etcdctl /usr/bin/
-```
-
-Success:
-
-![8.png](https://static.apiseven.com/202108/1641911973528-258ae3a2-f7c1-41b7-8b4a-9547e7a50035.png)
-
-- Start the etcd service
-
-```shell
-nohup etcd &
-```
-
-![9.png](https://static.apiseven.com/202108/1641911987650-859af5f5-a3f5-4ccc-b27b-30bf2741d65a.png)
-
-Then when I ran Apache APISIX later I found that etcd was reporting an error.
-
-![10.png](https://static.apiseven.com/202108/1641912001558-0afe245e-0cc0-405c-8624-0a55b0b63535.png)
-
-In the end, I found that running etcd naked on ARM Ubuntu was too problematic, with all sorts of errors, so I decided to run docker instead~.
-
-### Running the etcd service in Docker
-
-1. Installing Docker
+#### Step 1: Install Docker
 
 ```shell
 sudo apt install docker.io
 ```
 
-Tip: Common docker commands: (add sudo before the command if you get no permission error)
+:::tip
+Common docker commands(add sudo before the command if you get no permission error):
 
 - View a list of all containers `docker ps -a`
 - View the list of running containers `docker ps`
 - View the list of images `docker image list`
 - Delete all containers `docker container prune`
 - Delete all images `docker image prune -f -a`
+:::
 
-More references: [Docker Getting Started Tutorial - Ruan Yifeng's Weblog](https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html).
+More references can refer to [Docker Getting Started Tutorial - Ruan Yifeng's Weblog](https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html).
 
-2. Pull and run etcd
+#### Step 2: Pull and run etcd
 
 ```shell
 sudo docker run -d --name etcd -p 2379:2379 -e ETCD_UNSUPPORTED_ARCH=arm64 -e ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379 -e ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379 gcr.io/etcd-development/etcd:v3.5.1-arm64
 ```
 
-Note: This image requires a proxy to be turned on.
-Success:
+It should be noted that the proxy needs to be enabled for mirroring in this operation.
 
-![11.png](https://static.apiseven.com/202108/1641912022850-0ad47270-79e2-4227-a786-9d478906b8b0.png)
+![Run etcd.png](https://static.apiseven.com/202108/1641912022850-0ad47270-79e2-4227-a786-9d478906b8b0.png)
 
-Verify that etcd has started successfully.
+#### Step 3: Verify etcd status
 
 ```shell
 sudo docker ps -a
 ```
 
-![12.png](https://static.apiseven.com/202108/1641912040567-141b520e-4c33-448d-ba33-86e01a9f6114.png)
+![Verify that etcd is on.png](https://static.apiseven.com/202108/1641912040567-141b520e-4c33-448d-ba33-86e01a9f6114.png)
 
 As you can see, etcd has been successfully started.
 
-## Starting Apache APISIX
+## Start Apache APISIX
 
-All dependencies have been prepared and we can now start Apache APISIX ~ refer directly to How to build APISIX [official documentation](https://apisix.apache.org/docs/apisix/how-to-build).
+After doing this, all the dependent projects are now ready, and now you are ready to start Apache APISIX.
 
-- Installing dependencies
+### Step 1: Install dependencies
 
 ```shell
 make deps
 make install
 ```
 
-- Initialise dependencies and start APISIX
+### Step 2: Initialise dependencies and start APISIX
 
 ```shell
 apisix init
@@ -238,12 +216,12 @@ apisix start
 apisix stop
 ```
 
-![13.png](https://static.apiseven.com/202108/1641912056163-67b0f11b-a122-4f5b-b7a6-c09662443cce.png)
+![APISIX started successfully.png](https://static.apiseven.com/202108/1641912056163-67b0f11b-a122-4f5b-b7a6-c09662443cce.png)
 
-No more error messages, perfect finish!
+Apache APISIX started successfully. For more details on how to install and build Apache APISIX, please see [official documentation](https://apisix.apache.org/docs/apisix/how-to-build).
 
 ## Summary
 
-In general, there are two problems: the installation of APISIX dependencies and the etcd part of arm. The etcd part can be solved directly with docker, but there are also some pitfalls when pulling images, which I won't show here.
+Through detailed steps, this article shows you how to deploy and install Apache APISIX under Macbook M1 chip system. In overall practice, there will be some trampling process, but the overall experience is still a successful deployment.
 
 If you have better suggestions, you are welcome to contribute to the Apache APISIX [build documentation](https://apisix.apache.org/docs/apisix/how-to-build/) and leave your suggestions to help more people.
