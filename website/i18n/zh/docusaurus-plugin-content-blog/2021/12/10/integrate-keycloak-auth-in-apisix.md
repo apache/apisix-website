@@ -15,7 +15,7 @@ keywords:
 - 身份认证
 - 集成
 description: 本文通过详细的步骤为大家展示了如何在 Apache APISIX 使用 OpenID-Connect 协议和 Keycloak 进行身份认证。通过对接 Keycloak，Apache APISIX 仅需通过配置即可实现对使用者和应用服务进行认证与鉴权，从而大大减少了相关开发工作。
-tags: [Technology]
+tags: [Technology,Authentication]
 ---
 
 > 本文通过详细的步骤为大家展示了如何在 Apache APISIX 使用 OpenID-Connect 协议和 Keycloak 进行身份认证。通过对接 Keycloak，Apache APISIX 仅需通过配置即可实现对使用者和应用服务进行认证与鉴权，从而大大减少了相关开发工作。

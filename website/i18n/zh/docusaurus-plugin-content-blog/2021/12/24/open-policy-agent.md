@@ -15,7 +15,7 @@ keywords:
 - OPA
 - API 网关
 description: 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
-tags: [Technology]
+tags: [Technology,Authentication]
 ---
 
 > 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。

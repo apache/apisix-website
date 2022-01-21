@@ -10,7 +10,7 @@ keywords:
 - Apache
 - Prometheus
 description: 本文介绍了 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力。
-tags: [Technology]
+tags: [Technology,Observability]
 ---
 
 > 本文介绍了 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力。
