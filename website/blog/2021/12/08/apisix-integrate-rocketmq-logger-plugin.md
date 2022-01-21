@@ -16,7 +16,7 @@ keywords:
 - Log processing
 - Monitoring function
 description: This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.
-tags: [Technology,Monitoring]
+tags: [Technology,Message Queue]
 ---
 
 > This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.
