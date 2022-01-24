@@ -101,7 +101,7 @@ sys/          system       system_2045ddb1       system endpoints used for contr
 
 #### 为 Apache APISIX 生成一个 Vault 访问令牌
 
-本文是关于在 `jwt-auth` 插件中使用 Vault 的观点。因此，对于一个 APISIX 消费者 `jack`，`jwt-auth` 插件会在 `<vault.prefix inside config.yaml>/consumer/<consumer.username>/jwt-auth` 中查找（如果启用了 Vault 配置）`secret/s` 到 Vault 键值对 存储。在这种情况下，如果你将 `kv/apisix` 命名空间（Vault 路径）指定为`config.yaml` 内的 `vault.prefix`，用于所有 APISIX 相关数据的检索，我们建议你为路径 `kv/apisix/consumer/` 创建一个策略。最后的星号（*）确保策略允许读取任何具有 `kv/apisix/consumer` 前缀的路径。
+本文是关于在 `jwt-auth` 插件中使用 Vault 的观点。因此，对于一个 APISIX Consumer `jack`，`jwt-auth` 插件会在 `<vault.prefix inside config.yaml>/consumer/<consumer.username>/jwt-auth` 中查找（如果启用了 Vault 配置）`secret/s` 到 Vault 键值对 存储。在这种情况下，如果你将 `kv/apisix` 命名空间（Vault 路径）指定为`config.yaml` 内的 `vault.prefix`，用于所有 APISIX 相关数据的检索，我们建议你为路径 `kv/apisix/consumer/` 创建一个策略。最后的星号（*）确保策略允许读取任何具有 `kv/apisix/consumer` 前缀的路径。
 
 用 HashiCorp 配置语言（HCL）创建一个策略文件。
 
@@ -161,9 +161,9 @@ vault:
 
 ### 创建一个 APISIX Consumer
 
-APISIX 有一个消费者层面的抽象，与认证方案并列。为了启用任何 APISIX 路由的认证，需要一个具有适合该特定类型认证服务配置的消费者。之后将通过 APISIX 成功执行消费者配置方面的认证请求转发到上游 URI。APISIX 消费者有两个字段：一个是 `username`（必填项），用于识别消费者；另一个是 `plugins`，用于保存消费者所使用的特定插件配置。
+APISIX 有一个 Consumer 层面的抽象，与认证方案并列。为了启用任何 APISIX 路由的认证，需要一个具有适合该特定类型认证服务配置的 Consumer。之后将通过 APISIX 成功执行 Consumer 配置方面的认证请求转发到上游 URI。APISIX Consumer 有两个字段：一个是 `username`（必填项），用于识别 Consumer；另一个是 `plugins`，用于保存 Consumer 所使用的特定插件配置。
 
-在这里，在这篇文章中，我们将用 `jwt-auth` 插件创建一个消费者。它为各自的路由或服务执行 JWT 认证。
+在这里，在这篇文章中，我们将用 `jwt-auth` 插件创建一个 Consumer。它为各自的路由或服务执行 JWT 认证。
 
 运行以下命令，启用 Vault 配置的 `jwt-auth`。
 
@@ -180,7 +180,7 @@ $ curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335
 }'
 ```
 
-在这里，插件在消费者配置中提到的消费者 `jack` 的 Vault 路径（`<vault.prefix from conf.yaml>/consumer/jack/jwt-auth`）中查找密钥 `secret`，并使用它进行后续的签名和 jwt 验证。如果在同一路径中没有找到密钥，该插件会记录错误，并且无法执行 JWT 验证。
+在这里，插件在 Consumer 配置中提到的 Consumer `jack` 的 Vault 路径（`<vault.prefix from conf.yaml>/consumer/jack/jwt-auth`）中查找密钥 `secret`，并使用它进行后续的签名和 jwt 验证。如果在同一路径中没有找到密钥，该插件会记录错误，并且无法执行 JWT 验证。
 
 #### 设置一个测试的上游 server
 
@@ -305,7 +305,7 @@ Apache APISIX `jwt-auth` 插件可以被配置为从 Vault 存储中获取简单
     }'
    ```
 
-   在这里，插件在消费者配置中提到的消费者用户 `jack` 的 Vault 路径（`<vault.prefix from conf.yaml>/consumer/jack/jwt-auth`）中查找密钥 `secret`，并使用它进行后续的签名和 jwt 验证。如果在同一路径中没有找到密钥，该插件将记录一个错误，并且无法执行 JWT 验证。
+   在这里，插件在 Consumer 配置中提到的 Consumer 用户 `jack` 的 Vault 路径（`<vault.prefix from conf.yaml>/consumer/jack/jwt-auth`）中查找密钥 `secret`，并使用它进行后续的签名和 jwt 验证。如果在同一路径中没有找到密钥，该插件将记录一个错误，并且无法执行 JWT 验证。
 
 2. RS256 RSA 密钥对，公钥和私钥都存储在 Vault 中。
 
@@ -334,7 +334,7 @@ Apache APISIX `jwt-auth` 插件可以被配置为从 Vault 存储中获取简单
     Success! Data written to: kv/apisix/consumer/jim/jwt-auth
    ```
 
-3. 消费者配置中的公钥，而私钥在 Vault 中。
+3. Consumer 配置中的公钥，而私钥在 Vault 中。
 
    ```shell
    $ curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -351,11 +351,11 @@ Apache APISIX `jwt-auth` 插件可以被配置为从 Vault 存储中获取简单
     }'
    ```
 
-   这个插件使用来自消费者配置的 RSA 公钥，并使用直接从 Vault 获取的私钥。
+   这个插件使用来自 Consumer 配置的 RSA 公钥，并使用直接从 Vault 获取的私钥。
 
 ### 禁用 Vault 插件
 
-现在，要禁用 `jwt-auth` 插件的 Vault 查询，只需从消费者插件配置中删除空的 Vault 对象（本例中是 `jack`）。这将使 JWT 插件在随后对已启用 `jwt-auth` 配置的 URI 路由的请求中，将查找签名密钥（包括 HS256/HS512 或 RS512 密钥对）纳入插件配置。即使你在 APISIX `config.yaml` 中启用了 Vault 配置，也不会有请求被发送到 Vault server。
+现在，要禁用 `jwt-auth` 插件的 Vault 查询，只需从 Consumer 插件配置中删除空的 Vault 对象（本例中是 `jack`）。这将使 JWT 插件在随后对已启用 `jwt-auth` 配置的 URI 路由的请求中，将查找签名密钥（包括 HS256/HS512 或 RS512 密钥对）纳入插件配置。即使你在 APISIX `config.yaml` 中启用了 Vault 配置，也不会有请求被发送到 Vault server。
 
 Apache APISIX 插件是热加载的，因此不需要重新启动 Apache APISIX，配置可以立即生效。
 
