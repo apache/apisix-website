@@ -101,7 +101,7 @@ sys/          system       system_2045ddb1       system endpoints used for contr
 
 #### 为 Apache APISIX 生成一个 Vault 访问令牌
 
-本文是关于在 `jwt-auth` 插件中使用 Vault 的观点。因此，对于一个 APISIX Consumer `jack`，`jwt-auth` 插件会在 `<vault.prefix inside config.yaml>/consumer/<consumer.username>/jwt-auth` 中查找（如果启用了 Vault 配置）`secret/s` 到 Vault 键值对 存储。在这种情况下，如果你将 `kv/apisix` 命名空间（Vault 路径）指定为`config.yaml` 内的 `vault.prefix`，用于所有 APISIX 相关数据的检索，我们建议你为路径 `kv/apisix/consumer/` 创建一个策略。最后的星号（*）确保策略允许读取任何具有 `kv/apisix/consumer` 前缀的路径。
+本文是关于在 `jwt-auth` 插件中使用 Vault 的介绍。因此，对于一个 APISIX Consumer `jack`，`jwt-auth` 插件会在 `<vault.prefix inside config.yaml>/consumer/<consumer.username>/jwt-auth` 中查找（如果启用了 Vault 配置）`secret/s` 到 Vault 键值对 存储。在这种情况下，如果你将 `kv/apisix` 命名空间（Vault 路径）指定为`config.yaml` 内的 `vault.prefix`，用于所有 APISIX 相关数据的检索，我们建议你为路径 `kv/apisix/consumer/` 创建一个策略。最后的星号（*）确保策略允许读取任何具有 `kv/apisix/consumer` 前缀的路径。
 
 用 HashiCorp 配置语言（HCL）创建一个策略文件。
 
