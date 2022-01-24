@@ -10,7 +10,7 @@ keywords:
 - 生态
 - 插件
 description: 在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从 0 到 1 部署这项功能的支持与开发。
-tags: [Technology]
+tags: [Technology,Ecosystem]
 ---
 
 > 在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从 0 到 1 部署这项功能的支持与开发。

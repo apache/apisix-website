@@ -16,7 +16,7 @@ keywords:
 - Authentication
 - Ecosystem
 description: This article describes the detailed steps for interfacing Apache APISIX and Authing.
-tags: [Technology]
+tags: [Technology,Authentication]
 ---
 
 > This article describes the detailed steps for interfacing Apache APISIX and Authing.

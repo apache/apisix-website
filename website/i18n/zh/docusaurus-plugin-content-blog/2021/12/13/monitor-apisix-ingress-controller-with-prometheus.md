@@ -16,7 +16,7 @@ keywords:
 - Metrics
 - Grafana
 description: 本文介绍了如何使用 Prometheus 监控 APISIX Ingress Controller 的相关步骤和部分指标的展示效果。
-tags: [Technology]
+tags: [Technology,Monitoring]
 ---
 
 > 本文介绍了如何使用 Prometheus 监控 APISIX Ingress Controller 的相关步骤和部分指标的展示效果。
