@@ -63,7 +63,7 @@ With the xRPC protocol framework in place, what scenarios can it address? Here a
 
 Of course, there are many similar application scenarios, and we hope that after the release of the feature, you can experience and practice more in the actual application. The process of invoking xPRC is shown in the following diagram.
 
-![Invoke process](https://static.apiseven.com/202108/1643103297079-b6efd6c8-4037-4adb-bae3-2fb5f66e6764.png)
+![Invoke process](https://static.apiseven.com/202108/1643103835579-d215a120-f62e-4ba5-aa14-59ea3d38a429.png)
 
 Once the upstream services are taken over by Apache APISIX, the different upstream application services can be managed in a unified manner. Functions such as logging, monitoring, security, and troubleshooting can all be accomplished through a standardized set of policies.
 
@@ -71,7 +71,7 @@ Once the upstream services are taken over by Apache APISIX, the different upstre
 
 The current design of the Apache APISIX xRPC framework is initially divided into 5 phases.
 
-![5 phases about xRPC](https://static.apiseven.com/202108/1643103297086-3c6e6560-c0d6-4f77-8ddb-e45ffe21685c.png)
+![5 phases about xRPC](https://static.apiseven.com/202108/1643103835583-40afb0a0-ec20-40e8-84de-b34afee2724c.png)
 
 - Phase 1: Read Read data and protocol decoding.
 - Phase 2: Access Phase Access phase. Provide plug-in access function, which can realize the demand scenarios of security, flow control and access.
