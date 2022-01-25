@@ -23,7 +23,7 @@ tags: [Events]
 
 Qing Liu, Product Manager of QingCloud API Gateway
 
-Lian Zhai, Architecturer of QingCloud API Gateway 
+Lian Zhai, Architecturer of QingCloud API Gateway
 
 #### Topic Details
 
