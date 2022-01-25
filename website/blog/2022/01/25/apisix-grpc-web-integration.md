@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX New Skills, Proxy gRPC-Web Requests"
+title: "Integrating Apache APISIX with gRPC-Web"
 authors:
   - name: "Jinchao Shuai"
     title: "Author"
