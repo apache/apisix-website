@@ -14,9 +14,9 @@ keywords:
 - HashiCorp
 - Vault
 - jwt-auth
-- Ecosystem
+- authentication
 description: This article brings you the upcoming release of the Vault-Apache APISIX integration and related details.
-tags: [Technology,Ecosystem,Authentication]
+tags: [Technology,Authentication]
 ---
 
 > This article brings you the upcoming release of the Vault-Apache APISIX integration and related details.
@@ -370,4 +370,8 @@ $ curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335
 
 This article brings you the upcoming release of the Vault-Apache APISIX integration and related details.
 
-Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).
+Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide).
+
+## Reference
+
+[Bisakh's Blog](https://blog.bisakh.com/blog/vault-apisix-jwt-auth)

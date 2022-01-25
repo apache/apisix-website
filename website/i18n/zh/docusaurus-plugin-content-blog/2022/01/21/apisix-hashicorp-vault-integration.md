@@ -14,9 +14,9 @@ keywords:
 - HashiCorp
 - Vault
 - jwt-auth
-- 插件生态
+- 认证
 description: 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。
-tags: [Technology,Ecosystem,Authentication]
+tags: [Technology,Authentication]
 ---
 
 > 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。
@@ -377,3 +377,7 @@ $ curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335
 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。
 
 欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+
+## Reference
+
+[Bisakh's Blog](https://blog.bisakh.com/blog/vault-apisix-jwt-auth)
