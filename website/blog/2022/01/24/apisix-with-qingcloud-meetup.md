@@ -15,29 +15,27 @@ tags: [Events]
 
 ![Meetup Post](https://static.apiseven.com/202108/1642747652149-53306a20-6fa8-48a0-8433-a3a625cf2cb9.png)
 
-## Topics
+## Topic 1: API gateway to the cloud, how to define a good API gateway
 
-### API gateway to the cloud, how to define a good API gateway
-
-#### Speaker
+### Speakers
 
 Qing Liu, Product Manager of QingCloud API Gateway
 
 Lian Zhai, Architecturer of QingCloud API Gateway
 
-#### Topic Details
+### Topic Details
 
 1. Why does the API gateway cloud solve the pain points of users
 2. How do we understand and define a good API gateway product
 3. Important product features, functions and application scenarios of QingCloud API Gateway
 
-### Running Apache APISIX in the Hybrid Cloud
+## Topic 2: Running Apache APISIX in the Hybrid Cloud
 
-#### Speaker
+### Speaker
 
-wei Jin, API7 Engineer, Apache APISIX PMC, Apache APISIX Ingress Controller Founder
+Wei Jin, API7 Engineer, Apache APISIX PMC, Apache APISIX Ingress Controller Founder
 
-#### Topic Details
+### Topic Details
 
 1. Apache APISIX integration with various public clouds (plug-ins and real-world applications)
 2. Architecture and practice of Apache APISIX under hybrid cloud
