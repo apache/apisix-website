@@ -197,7 +197,7 @@ gRPC Web Client -> Apache APISIX（protocol conversion & data codec） -> gRPC s
 
    ```shell
    $ npm i grpc-web
-   $ npm i google-protobuf 
+   $ npm i google-protobuf
    ```
 
 3. 客户端执行入口文件
@@ -208,10 +208,10 @@ gRPC Web Client -> Apache APISIX（protocol conversion & data codec） -> gRPC s
    const {EchoServiceClient} = require('./a6/echo_grpc_web_pb');
    // 连接到 Apache APISIX 的入口
    let echoService = new EchoServiceClient('http://127.0.0.1:9080');
-   
+
    let request = new EchoRequest();
    request.setMessage("hello")
-   
+
    echoService.echo(request, {}, function (err, response) {
        if (err) {
             console.log(err.code);

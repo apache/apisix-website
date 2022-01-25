@@ -163,7 +163,7 @@ The first step is to install the Protocol Buffer compiler and related plug-ins.
     }
    ```
 
-4.  Compile and start the server-side service.
+4. Compile and start the server-side service.
 
    ```bash
    go build -o grpc-server server.go
@@ -198,7 +198,7 @@ The first step is to install the Protocol Buffer compiler and related plug-ins.
 
    ```shell
    $ npm i grpc-web
-   $ npm i google-protobuf 
+   $ npm i google-protobuf
    ```
 
 3. Execute entry file on client-side.
@@ -209,10 +209,10 @@ The first step is to install the Protocol Buffer compiler and related plug-ins.
    const {EchoServiceClient} = require('./a6/echo_grpc_web_pb');
    // connect to  the entrance of Apache APISIX
    let echoService = new EchoServiceClient('http://127.0.0.1:9080');
-   
+
    let request = new EchoRequest();
    request.setMessage("hello")
-   
+
    echoService.echo(request, {}, function (err, response) {
        if (err) {
             console.log(err.code);
