@@ -28,7 +28,7 @@ Forward Auth 能巧妙地将认证与授权逻辑转移至专门的外部服务�
 
 ![插件原理图](https://static.apiseven.com/202108/1643096414141-ccbc33c0-7899-445a-a2f8-b6d5341c44df.jpg)
 
-关于 forward-auth 插件在 Apache APISIX 中的运行原理与流程如上图所示，具体总结为以下几步：
+关于 `forward-auth` 插件在 Apache APISIX 中的运行原理与流程如上图所示，具体总结为以下几步：
 
 - 第一步：由客户端向 APISIX 发起请求
 - 第二步：由 APISIX 向用户配置的认证服务发起请求

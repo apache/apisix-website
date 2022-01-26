@@ -1,5 +1,5 @@
 ---
-title: "Furward-auth, Another Choice for Authentication Function"
+title: "Forward-auth, Another Choice for Authentication Function"
 authors:
   - name: "Zeping Bai"
     title: "Author"
@@ -43,7 +43,7 @@ Suppose there is an authentication service to which the user sends a request wit
 
 ### Step 2: Create a route and enable the `forward-auth` plugin
 
-Next, we will configure a route and enable the `forward-auth` plug-in to interface the above authentication service with the upstream application.
+Next, we will configure a route and enable the `forward-auth` plugin to interface the above authentication service with the upstream application.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -91,9 +91,9 @@ Location: https://example.com/auth
 
 ### Addendum: Disable the plugin
 
-If you have finished using the Forward Auth plug-in, simply remove the `forward-auth` plug-in configuration from the route configuration and save it to turn off the Forward Auth plug-in on the route.
+If you have finished using the Forward Auth plugin, simply remove the `forward-auth` plugin configuration from the route configuration and save it to turn off the Forward Auth plugin on the route.
 
-Thanks to the dynamic nature of Apache APISIX, there is no need to restart Apache APISIX to turn the plug-in on and off.
+Thanks to the dynamic nature of Apache APISIX, there is no need to restart Apache APISIX to turn the plugin on and off.
 
 ## Summary
 
