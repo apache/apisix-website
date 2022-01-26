@@ -42,7 +42,7 @@ tags: [Release,Technology,Ecosystem]
 
 除了上边提到的鉴权插件，本次新版本还将带来三个新的日志插件：`google-cloud-logging`、`splunk-hec-logging` 以及 `rocketmq-logger`。
 
-从插件名称上也很容易理解，通过上述三个插件可以把日志分别发送到 Google Cloud、Splunk 和  Apache RocketMQ。未来，Apache APISIX 将会对接越来越多的日志服务商和开源 Broker，让日志处理变得更加轻松。
+从插件名称上也很容易理解，通过上述三个插件可以把日志分别发送到 Google Cloud、Splunk 和 Apache RocketMQ。未来，Apache APISIX 将会对接越来越多的日志服务商和开源 Broker，让日志处理变得更加轻松。
 
 ### 支持记录响应体
 
