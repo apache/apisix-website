@@ -7,9 +7,9 @@ module.exports = [
     color: "#e8433e",
     githubRepo: "apache/apisix",
     githubBranch: "master",
-    downloadPath: "apisix/2.11.0/apache-apisix-2.11.0-src",
-    version: "2.11.0",
-    releaseDate: "2021-11-29",
+    downloadPath: "apisix/2.12.0/apache-apisix-2.12.0-src",
+    version: "2.12.0",
+    releaseDate: "2022-01-25",
     firstDocPath: "/getting-started",
   },
   {
