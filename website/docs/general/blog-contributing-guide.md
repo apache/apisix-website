@@ -56,9 +56,11 @@ While `title` and `author` are starightforward, the other fields might be a bit 
 
 ```markdown
 title: "blog's title"
-author: "blog's author"
-authorURL: "author's GitHub ID"
-authorImageURL: "author's GitHub Image"
+authors:
+  - name: "Author's Name"
+    title: "Author"
+    url: "Author's GitHub"
+    image_url: "Author's Image URL"
 keywords:
 - keywords 1
 - keywords 2
@@ -66,7 +68,7 @@ keywords:
 - keywords 4
 - keywords 5
 description: description of this blog
-tags: [tag1]
+tags: [tag1,tag2,...,tagn]
 ```
 
 ##### Co-author template
@@ -90,7 +92,7 @@ keywords:
 - keywords 4
 - keywords 5
 description: description of this blog
-tags: [tag1]
+tags: [tag1,tag2,...,tagn]
 ```
 
 ##### title
@@ -132,7 +134,7 @@ Required field, the description, which is used to enhance better SEO performance
 
 ##### tags
 
-Required field, tag, which is used to categorize the blog. Each post has and can only have one tag. If more than one tag is suitable, please choose the most suitable one. The available tags and explanations are as follows. Please note that these tags and rules of applying tags could change over time.
+Required field, tag, which is used to categorize the blog. Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and rules of applying tags could change over time.
 
 - **Community**: community related, e.g. "How to contribute to an open source project without writing code?"
 - **Events**: event-related, for example: online live stream, event previews, meetups, and online meeting, etc.
