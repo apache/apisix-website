@@ -28,7 +28,6 @@ Forward Auth cleverly moves the authentication and authorization logic to a dedi
 
 ![Plugin priciple](https://static.apiseven.com/202108/1643096414141-ccbc33c0-7899-445a-a2f8-b6d5341c44df.jpg)
 
-
 The principle and flow of the `forward-auth plugin` in Apache APISIX is shown in the figure above and is summarized in the following steps.
 
 - Step 1: A request is made by the client to APISIX
@@ -92,7 +91,7 @@ Location: https://example.com/auth
 
 ### Addendum: Disable the plugin
 
-If you have finished using the Forward Auth plug-in, simply remove the `forward-auth` plug-in configuration from the route configuration and save it to turn off the Forward Auth plug-in on the route. 
+If you have finished using the Forward Auth plug-in, simply remove the `forward-auth` plug-in configuration from the route configuration and save it to turn off the Forward Auth plug-in on the route.
 
 Thanks to the dynamic nature of Apache APISIX, there is no need to restart Apache APISIX to turn the plug-in on and off.
 
