@@ -323,8 +323,7 @@ Apache APISIX `jwt-auth` 插件可以被配置为从 Vault 存储中获取简单
     }'
    ```
 
-   The plugin looks up for `public_key` and `private_key` keys inside vault kv path (`<vault.prefix from conf.yaml>/consumer/jim/jwt-auth`) for `jim` mentioned inside plugin vault configuration. If not found, authentication fails.
-   该插件在 Vault 键值对 路径（`<vault.prefix from conf.yaml>/consumer/jim/jwt-auth`）中为插件 Vault 配置中提到的用户 `jim` 查找 `public_key` 和 `private_key`。如果没有找到，认证失败。
+   该插件在 Vault 键值对路径（`<vault.prefix from conf.yaml>/consumer/jim/jwt-auth`）中为插件 Vault 配置中提到的用户 `jim` 查找 `public_key` 和 `private_key`。如果没有找到，认证失败。
 
    如果你不确定如何将公钥和私钥存储到 Vault 键值对中，请使用这个命令。
 
