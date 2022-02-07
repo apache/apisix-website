@@ -19,7 +19,7 @@ tags: [Practical Case]
 
 ## Why Go
 
-[Apache APISIX](https://github.com/apache/apisix) allows users to extend functionality by way of plugins. Core features such as forensics, flow restriction, request rewriting, etc. are implemented by way of plugins. Although the core code of Apache APISIX is written in Lua, Apache APISIX supports multi-language development of plugins, such as Go, Java.
+[Apache APISIX](https://github.com/apache/apisix) allows users to extend functionality by way of plugins. Core features such as authentication, flow restriction, request rewriting, etc. are implemented by way of plugins. Although the core code of Apache APISIX is written in Lua, Apache APISIX supports multi-language development of plugins, such as Go, Java.
 
 This article will explain in detail how to develop Apache APISIX plugins in Go. By embracing the Go ecosystem, we are breaking new ground for Apache APISIX, and we hope that Go will make Apache APISIX even better!
 
