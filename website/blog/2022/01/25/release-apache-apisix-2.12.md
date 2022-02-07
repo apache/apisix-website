@@ -29,18 +29,18 @@ Remember that in the last release, Apache APISIX added support for Azure Functio
 
 Users can now also combine AWS Lambda and Apache OpenWhisk in Apache APISIX to expose specific functions on the gateway.
 
-## New features: More Forensic Plugins
+## New features: More Authentication Plugins
 
 This new release also brings two new plugins that we've been waiting for: `forward-auth` and `opa`.
 
 - The `forward-auth` plugin is similar to Traefik's plugin of the same name, which allows sending the information of the current request to an external service for authentication.
 - The `opa` plugin integrates with the well-known Open Policy Agent, which can perform complex authentication functions via OPA.
 
-These two plugins will add to the forensic functionality of Apache APISIX, giving users richer and easier forensic operations.
+These two plugins will add to the authentication functionality of Apache APISIX, giving users richer and easier authentication operations.
 
 ## New features: More Logging Features
 
-In addition to the forensic plugins mentioned above, this new release will also bring three new logging plugins: `google-cloud-logging`, `splunk-hec-logging` and `rocketmq-logger`.
+In addition to the authentication plugins mentioned above, this new release will also bring three new logging plugins: `google-cloud-logging`, `splunk-hec-logging` and `rocketmq-logger`.
 
 In the future, Apache APISIX will connect to more and more logging service providers and open source brokers to make logging easier.
 
