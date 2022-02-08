@@ -13,6 +13,7 @@ import IconStarSolid from "../../assets/icons/star-solid.svg";
 import IconOctagon from "../../assets/icons/octagon.svg";
 import IconShield from "../../assets/icons/shield.svg";
 
+
 const Dropdown = (props) => {
   const ref = useRef();
   const { isDropdownOpen, setIsDropdownOpen } = props;
@@ -32,7 +33,28 @@ const Dropdown = (props) => {
   );
 };
 
+const LTSDropdown = (props) => {
+  const ref = useRef();
+  const { isLTSDropdownOpen, setIsLTSDropdownOpen } = props;
+  useOutsideClick(ref, () => {
+    if (isLTSDropdownOpen) {
+      setIsLTSDropdownOpen(false);
+    }
+  });
+  return (
+    <StyledDropdown
+      className="downloads-dropdown"
+      ref={ref}
+      open={isLTSDropdownOpen}
+    >
+      {props.children}
+    </StyledDropdown>
+  );
+};
+
+
 const ProjectCard = (props) => {
+  const [isLTSDropdownOpen, setIsLTSDropdownOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [repoStats, setRepoStats] = useState({ stars: 0, issues: 0 });
   const {
@@ -46,6 +68,10 @@ const ProjectCard = (props) => {
     githubBranch,
     downloadPath
   } = props;
+
+  const Download=props.name==='APISIX®'?'2.11.0 Current':'Download'
+  
+  
   const shapeComponent =
     shape === "triangle" ? (
       <IconTriangle />
@@ -62,6 +88,7 @@ const ProjectCard = (props) => {
     );
 
   useEffect(() => {
+   
     getGitHubRepoStats(githubRepo).then((stats) => {
       setRepoStats({
         stars: stats.stargazers_count,
@@ -70,6 +97,23 @@ const ProjectCard = (props) => {
     });
   }, []);
 
+  
+  
+  
+  const LTSButton=()=>{
+    
+    return(
+      <Button
+          style={{display: (name==='APISIX®'? ' ':'NONE')}}
+          onClick={() => setIsLTSDropdownOpen(!isLTSDropdownOpen)}
+          background={color}
+      >
+            <IconDownload /> 2.10.3 LTS
+          </Button>
+    )
+  }
+ 
+  
   return (
     <Card>
       <LeftSide>
@@ -112,12 +156,47 @@ const ProjectCard = (props) => {
           Release Date ·{" "}
           <span className="downloads-versioninfo-span">{releaseDate}</span>
         </VersionInfo>
-        <div>
+        
+         <ButtonRow>
+          <LTSCard>
+          <LTSButton />
+          <LTSDropdown
+            isLTSDropdownOpen={isLTSDropdownOpen}
+            setIsLTSDropdownOpen={setIsLTSDropdownOpen}
+          >
+            <DropdownItem
+              className="download-dropdown-item"
+              href={`https://www.apache.org/dyn/closer.cgi/apisix/2.10.3/apache-apisix-2.10.3-src.tgz`}
+              target="_blank"
+            >
+              Source
+            </DropdownItem>
+            <DropdownItem
+              className="download-dropdown-item"
+              href={`https://www.apache.org/dyn/closer.cgi/apisix/2.10.3/apache-apisix-2.10.3-src.tgz.asc`}
+              target="_blank"
+            >
+              ASC
+            </DropdownItem>
+            <DropdownItem
+              className="download-dropdown-item"
+              href={`https://www.apache.org/dyn/closer.cgi/apisix/2.10.3/apache-apisix-2.10.3-src.tgz.sha512`}
+              target="_blank"
+            >
+              SHA512
+            </DropdownItem>
+          </LTSDropdown>
+        </LTSCard>
+
+        
+      
+        <ButtonCard>
           <Button
+            
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             background={color}
           >
-            <IconDownload /> Download
+            <IconDownload /> {Download}
           </Button>
           <Dropdown
             isDropdownOpen={isDropdownOpen}
@@ -145,7 +224,8 @@ const ProjectCard = (props) => {
               SHA512
             </DropdownItem>
           </Dropdown>
-        </div>
+          </ButtonCard>
+         </ButtonRow>
       </RightSide>
     </Card>
   );
@@ -231,6 +311,12 @@ const LeftSideLinks = styled.div`
     margin-right: 4px;
   }
 `;
+const ButtonRow=styled.div`
+  inline-size:auto;
+  display: flex;
+  
+`;
+
 const LeftSideLink = styled.a`
   display: flex;
   align-items: center;
@@ -242,6 +328,18 @@ const LeftSideLink = styled.a`
   &:hover {
     text-decoration: none;
   }
+`;
+
+const LTSCard=styled.div`
+  margin-right: 1.0em;
+  position:relative;
+  display:flex;
+`;
+
+const ButtonCard=styled.div`
+  margin-right:0.3em;
+  position:relative;
+  display:flex;
 `;
 
 const RightSide = styled.div`
@@ -258,6 +356,8 @@ const RightSide = styled.div`
     padding-left: 0;
   }
 `;
+
+
 const Button = styled.button`
   padding: 12px 18px;
   font-size: 18px;
@@ -270,6 +370,7 @@ const Button = styled.button`
   box-sizing: border-box;
   width: 100%;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -282,6 +383,7 @@ const Button = styled.button`
     padding-bottom: 2px;
   }
 `;
+
 const StyledDropdown = styled.div`
   right: 0;
   position: absolute;
