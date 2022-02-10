@@ -52,7 +52,6 @@ const LTSDropdown = (props) => {
   );
 };
 
-
 const ProjectCard = (props) => {
   const [isLTSDropdownOpen, setIsLTSDropdownOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -63,6 +62,7 @@ const ProjectCard = (props) => {
     shape,
     color,
     version,
+    LTSDownloadPath=' ',
     releaseDate,
     githubRepo,
     githubBranch,
@@ -70,7 +70,6 @@ const ProjectCard = (props) => {
   } = props;
 
   const Download=props.name==='APISIX®'?'2.11.0 Current':'Download'
-  
   
   const shapeComponent =
     shape === "triangle" ? (
@@ -97,9 +96,6 @@ const ProjectCard = (props) => {
     });
   }, []);
 
-  
-  
-  
   const LTSButton=()=>{
     
     return(
@@ -113,7 +109,6 @@ const ProjectCard = (props) => {
     )
   }
  
-  
   return (
     <Card>
       <LeftSide>
@@ -166,33 +161,29 @@ const ProjectCard = (props) => {
           >
             <DropdownItem
               className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/apisix/2.10.3/apache-apisix-2.10.3-src.tgz`}
+              href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz`}
               target="_blank"
             >
               Source
             </DropdownItem>
             <DropdownItem
               className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/apisix/2.10.3/apache-apisix-2.10.3-src.tgz.asc`}
+              href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz.asc`}
               target="_blank"
             >
               ASC
             </DropdownItem>
             <DropdownItem
               className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/apisix/2.10.3/apache-apisix-2.10.3-src.tgz.sha512`}
+              href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.sha512`}
               target="_blank"
             >
               SHA512
             </DropdownItem>
           </LTSDropdown>
         </LTSCard>
-
-        
-      
         <ButtonCard>
           <Button
-            
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             background={color}
           >
@@ -314,7 +305,6 @@ const LeftSideLinks = styled.div`
 const ButtonRow=styled.div`
   inline-size:auto;
   display: flex;
-  
 `;
 
 const LeftSideLink = styled.a`

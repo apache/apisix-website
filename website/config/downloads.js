@@ -9,6 +9,7 @@ module.exports = [
     githubBranch: "master",
     downloadPath: "apisix/2.11.0/apache-apisix-2.11.0-src",
     version: "2.11.0",
+    LTSDownloadPath:"2.10.3",
     releaseDate: "2021-11-29",
     firstDocPath: "/getting-started",
   },
