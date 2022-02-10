@@ -62,11 +62,11 @@ const ProjectCard = (props) => {
     shape,
     color,
     version,
-    LTSDownloadPath=' ',
     releaseDate,
     githubRepo,
     githubBranch,
-    downloadPath
+    downloadPath,
+    LTSDownloadPath=' '
   } = props;
 
   const Download=props.name==='APISIX®'?'2.11.0 Current':'Download'
@@ -168,14 +168,14 @@ const ProjectCard = (props) => {
             </DropdownItem>
             <DropdownItem
               className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz.asc`}
+              href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
               target="_blank"
             >
               ASC
             </DropdownItem>
             <DropdownItem
               className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.sha512`}
+              href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
               target="_blank"
             >
               SHA512
@@ -240,7 +240,6 @@ const Card = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
-
   @media (max-width: 600px) {
     flex-direction: column;
     padding: 1rem;
@@ -295,7 +294,6 @@ const ShapeBeforeTitle = styled.span`
 const LeftSideLinks = styled.div`
   display: inline-flex;
   font-size: 1rem;
-
   margin-top: 24px;
   & svg {
     height: 1rem;
