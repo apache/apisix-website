@@ -20,7 +20,7 @@ tags: [Release]
 
 ### New feature: APISIX now supports writing custom plugins in other languages
 
-APISIX now supports writing plug-ins in Lua to perform custom logic during proxy requests, such as calling webhook to notify external systems, performing special forensic logic, and so on. However, there are cases where developers may want to write plugins in languages other than Lua.
+APISIX now supports writing plug-ins in Lua to perform custom logic during proxy requests, such as calling webhook to notify external systems, performing special authentication logic, and so on. However, there are cases where developers may want to write plugins in languages other than Lua.
 
 For example, developers are not familiar with Lua and want to write plugins in a language they are familiar with, or third-party teams only provide the Java SDK and there is no way to use it inside Lua plugins.
 

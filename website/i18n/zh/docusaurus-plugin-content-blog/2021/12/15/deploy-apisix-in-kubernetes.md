@@ -16,7 +16,7 @@ keywords:
 - 部署安装
 - 集群
 description: Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apache APISIX 以及 APISIX-Dashboard。
-tags: [Technology]
+tags: [Technology,Kubernetes]
 ---
 
 > Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apache APISIX 以及 APISIX-Dashboard。
