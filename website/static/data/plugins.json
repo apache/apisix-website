@@ -3,6 +3,10 @@
     "groupName": "authentication",
     "plugins": [
       {
+        "name": "authz-casbin",
+        "description": "An authorization plugin based on Lua Casbin supporting various access control models"
+      },
+      {
         "name": "authz-keycloak",
         "description": "An authorization plugin to be used with the Keycloak Identity Server"
       },
