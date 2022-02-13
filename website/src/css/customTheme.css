@@ -120,6 +120,7 @@ div.inner {
 
 header h2 {
   color: var(--color-primary);
+  
 }
 
 @media only screen and (max-width: 414px) {
@@ -262,12 +263,15 @@ header h2 {
     margin: 0;
   }
 }
+
 a {
-  color: inherit;
+  color: var(--ifm-color-dark);
   cursor: pointer;
 }
+
 a:hover {
   color: var(--color-primary);
+  text-decoration: none;
 }
 .markdown a {
   color: var(--color-primary);
@@ -276,6 +280,19 @@ a:hover {
 .arrow-btn {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1002;
+}
+
+/*Blogs section*/
+
+.blogPostTitle_node_modules-\@docusaurus-theme-classic-lib-next-theme-BlogPostItem-styles-module {
+    font-size: 2rem !important;
+}
+
+.sidebar_node_modules-\@docusaurus-theme-classic-lib-next-theme-BlogSidebar-styles-module {
+    margin-left: -3px;
+    text-align: left;
+    margin-right: 10px;
+    padding-right: 20px;
 }
 
 /*Hero section*/

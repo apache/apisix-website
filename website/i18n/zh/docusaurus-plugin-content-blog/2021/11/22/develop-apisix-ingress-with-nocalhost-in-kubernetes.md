@@ -10,7 +10,7 @@ keywords:
 - Controller
 - 部署开发
 description: 本文将为您介绍如何使用 Nocalhost 将本地开发机无缝连接到一个远程 Kubernetes 集群，同时配合 IDE 来开发和调试 Apache APISIX Ingress Controller。利用现有技术栈更顺畅地开发和调试远程应用。
-tags: [Technology]
+tags: [Technology,Kubernetes]
 ---
 
 > 本文将为您介绍如何使用 Nocalhost 将本地开发机无缝连接到一个远程 Kubernetes 集群，同时配合 IDE 来开发和调试 Apache APISIX Ingress Controller。利用现有技术栈更顺畅地开发和调试远程应用。

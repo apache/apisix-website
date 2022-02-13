@@ -16,7 +16,7 @@ keywords:
 - APISIX
 - API Gateway
 description: 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。
-tags: [Technology]
+tags: [Technology,Logging]
 ---
 
 > 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。

@@ -150,7 +150,7 @@ Some judgments are made by request headers, parameters and other related informa
 
 ![Authentication Request](https://static.apiseven.com/202108/1631005141578-f90cf948-4913-45cd-a28e-9e697ad197fe.png)
 
-By initiating an HTTP request through the HTTP library, we can use a third-party service to do some authentication and forensics related things and then parse the returned results. In this way, we can do a lot of things that can be extended. For example, interfacing to Redis or a database, as long as it's over TCP or UDP, can be attempted with the Serverless plugin.
+By initiating an HTTP request through the HTTP library, we can use a third-party service to do some authentication and authentication related things and then parse the returned results. In this way, we can do a lot of things that can be extended. For example, interfacing to Redis or a database, as long as it's over TCP or UDP, can be attempted with the Serverless plugin.
 
 ### Upload Configurations
 

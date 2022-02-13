@@ -6,8 +6,8 @@ module.exports = [
     shape: "triangle",
     color: "#e8433e",
     githubRepo: "apache/apisix",
-    version: "2.11.0",
-    releaseDate: "2021-11-29",
+    version: "2.12.0",
+    releaseDate: "2022-01-25",
     firstDocPath: "/getting-started",
   },
   {

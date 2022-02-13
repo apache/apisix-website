@@ -50,15 +50,17 @@ To add a new blog, please perform the following steps:
 
 ##### Single author template
 
-Our blogs start with a header sections containing fields such as `title`, `author`, `authorURL`, `authorImageURL`, `keywords`, `description`, and `tags`.
+Our blogs start with a header sections containing fields such as `title`, `authors`, `authors.name`, `authors.title`, `authors.url`, `authors.image_url`, `description`, and `tags`.
 
-While `title` and `author` are starightforward, the other fields might be a bit confusing for first-time contributors. Explanation of each field is mentioned below. Please note that these fields could change over time.
+Some fields might be a bit confusing for first-time contributors. Explanation of each field is mentioned below. Please note that these fields could change over time.
 
 ```markdown
 title: "blog's title"
-author: "blog's author"
-authorURL: "author's GitHub ID"
-authorImageURL: "author's GitHub Image"
+authors:
+  - name: "Author's Name"
+    title: "Author"
+    url: "Author's GitHub"
+    image_url: "Author's Image URL"
 keywords:
 - keywords 1
 - keywords 2
@@ -66,7 +68,7 @@ keywords:
 - keywords 4
 - keywords 5
 description: description of this blog
-tags: [tag1]
+tags: [tag1,tag2,...,tagn]
 ```
 
 ##### Co-author template
@@ -90,28 +92,8 @@ keywords:
 - keywords 4
 - keywords 5
 description: description of this blog
-tags: [tag1]
+tags: [tag1,tag2,...,tagn]
 ```
-
-##### title
-
-Required field for single author template, the title of the article, the standard expression in the form of `title: "title"`.
-
-##### author
-
-Required field for single author template, the article's author name, the standard form of expression for `author: "author"`.
-
-1. Community author: if you are willing to provide your real name, use your real name, if not, use your GitHub account name.
-
-2. Business case authors: please provide real name, such as John Doe.
-
-##### authorURL
-
-For business users or business cases, you can leave this item blank. Because GitHub is personal, and in the case of a business case, the person represents his company rather than himself, it is recommended that you leave this blank to avoid unnecessary controversy. This does not mean leave `authorURL`: blank, it means just delete the entire line that corresponds to it, including the variable name.
-
-##### authorImageURL
-
-The author's GitHub avatar, it is related with `authorURL`. For the same reason described above, this is an optional field. See below for how to get the avatar.
 
 #### authors
 
@@ -132,7 +114,7 @@ Required field, the description, which is used to enhance better SEO performance
 
 ##### tags
 
-Required field, tag, which is used to categorize the blog. Each post has and can only have one tag. If more than one tag is suitable, please choose the most suitable one. The available tags and explanations are as follows. Please note that these tags and rules of applying tags could change over time.
+Required field, tag, which is used to categorize the blog. Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and rules of applying tags could change over time.
 
 - **Community**: community related, e.g. "How to contribute to an open source project without writing code?"
 - **Events**: event-related, for example: online live stream, event previews, meetups, and online meeting, etc.
@@ -145,13 +127,13 @@ Required field, tag, which is used to categorize the blog. Each post has and can
 
 We can help authors to use a better category once a pull request is submitted.
 
-#### How to get the authorImageURL or authors.image_url
+#### How to get the authors.image_url
 
 1. Open Chrome or your preferred browser.
 2. Enter the author's GitHub address to access the author's GitHub home page.
 3. Right click on the author's avatar, and click "copy image address".
-4. Paste image address to the authorImageURL field.
-![How to get the authorImageURL](https://static.apiseven.com/202108/1638257037354-10fc1d17-c0f7-4826-84c9-5966b1ae43ad.png)
+4. Paste image address to the authors.image_url field.
+![How to get the authors.image_url](https://static.apiseven.com/202108/1638257037354-10fc1d17-c0f7-4826-84c9-5966b1ae43ad.png)
 
 #### truncate and overview
 

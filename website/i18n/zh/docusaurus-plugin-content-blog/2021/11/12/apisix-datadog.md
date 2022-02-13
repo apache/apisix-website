@@ -9,7 +9,7 @@ keywords:
 - 可观测性
 - Cloud Monitoring
 description: Apache APISIX 最近发布了一个新的插件：APISIX-Datadog，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。
-tags: [Technology]
+tags: [Technology,Monitoring]
 ---
 
 > Apache APISIX 最近发布了一个新的插件：[APISIX-Datadog](http://apisix.apache.org/docs/apisix/next/plugins/datadog)，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。
