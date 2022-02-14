@@ -13,7 +13,6 @@ import IconStarSolid from "../../assets/icons/star-solid.svg";
 import IconOctagon from "../../assets/icons/octagon.svg";
 import IconShield from "../../assets/icons/shield.svg";
 
-
 const Dropdown = (props) => {
   const ref = useRef();
   const { isDropdownOpen, setIsDropdownOpen } = props;
@@ -66,11 +65,11 @@ const ProjectCard = (props) => {
     githubRepo,
     githubBranch,
     downloadPath,
-    LTSDownloadPath=' '
+    LTSDownloadPath = ' '
   } = props;
 
-  const Download=props.name==='APISIX®'?'2.11.0 Current':'Download'
-  
+  const Download = props.name === 'APISIX®' ? '2.11.0 Current' : 'Download'
+
   const shapeComponent =
     shape === "triangle" ? (
       <IconTriangle />
@@ -81,13 +80,12 @@ const ProjectCard = (props) => {
     ) : shape === "star" ? (
       <IconStarSolid />
     ) : shape === "shield" ? (
-        <IconShield />
+      <IconShield />
     ) : (
       <IconOctagon />
     );
 
   useEffect(() => {
-   
     getGitHubRepoStats(githubRepo).then((stats) => {
       setRepoStats({
         stars: stats.stargazers_count,
@@ -96,19 +94,18 @@ const ProjectCard = (props) => {
     });
   }, []);
 
-  const LTSButton=()=>{
-    
-    return(
+  const LTSButton = () => {
+    return (
       <Button
-          style={{display: (name==='APISIX®'? ' ':'NONE')}}
-          onClick={() => setIsLTSDropdownOpen(!isLTSDropdownOpen)}
-          background={color}
+        style={{ display: (name === 'APISIX®' ? ' ' : 'NONE') }}
+        onClick={() => setIsLTSDropdownOpen(!isLTSDropdownOpen)}
+        background={color}
       >
-            <IconDownload /> 2.10.3 LTS
-          </Button>
+        <IconDownload /> 2.10.3 LTS
+      </Button>
     )
   }
- 
+
   return (
     <Card>
       <LeftSide>
@@ -151,72 +148,72 @@ const ProjectCard = (props) => {
           Release Date ·{" "}
           <span className="downloads-versioninfo-span">{releaseDate}</span>
         </VersionInfo>
-        
-         <ButtonRow>
+
+        <ButtonRow>
           <LTSCard>
-          <LTSButton />
-          <LTSDropdown
-            isLTSDropdownOpen={isLTSDropdownOpen}
-            setIsLTSDropdownOpen={setIsLTSDropdownOpen}
-          >
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz`}
-              target="_blank"
+            <LTSButton />
+            <LTSDropdown
+              isLTSDropdownOpen={isLTSDropdownOpen}
+              setIsLTSDropdownOpen={setIsLTSDropdownOpen}
             >
-              Source
-            </DropdownItem>
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
-              target="_blank"
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz`}
+                target="_blank"
+              >
+                Source
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
+                target="_blank"
+              >
+                ASC
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
+                target="_blank"
+              >
+                SHA512
+              </DropdownItem>
+            </LTSDropdown>
+          </LTSCard>
+          <ButtonCard>
+            <Button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              background={color}
             >
-              ASC
-            </DropdownItem>
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
-              target="_blank"
+              <IconDownload /> {Download}
+            </Button>
+            <Dropdown
+              isDropdownOpen={isDropdownOpen}
+              setIsDropdownOpen={setIsDropdownOpen}
             >
-              SHA512
-            </DropdownItem>
-          </LTSDropdown>
-        </LTSCard>
-        <ButtonCard>
-          <Button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            background={color}
-          >
-            <IconDownload /> {Download}
-          </Button>
-          <Dropdown
-            isDropdownOpen={isDropdownOpen}
-            setIsDropdownOpen={setIsDropdownOpen}
-          >
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/${downloadPath}.tgz`}
-              target="_blank"
-            >
-              Source
-            </DropdownItem>
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://downloads.apache.org/${downloadPath}.tgz.asc`}
-              target="_blank"
-            >
-              ASC
-            </DropdownItem>
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://downloads.apache.org/${downloadPath}.tgz.sha512`}
-              target="_blank"
-            >
-              SHA512
-            </DropdownItem>
-          </Dropdown>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://www.apache.org/dyn/closer.cgi/${downloadPath}.tgz`}
+                target="_blank"
+              >
+                Source
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${downloadPath}.tgz.asc`}
+                target="_blank"
+              >
+                ASC
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${downloadPath}.tgz.sha512`}
+                target="_blank"
+              >
+                SHA512
+              </DropdownItem>
+            </Dropdown>
           </ButtonCard>
-         </ButtonRow>
+        </ButtonRow>
       </RightSide>
     </Card>
   );
@@ -300,7 +297,7 @@ const LeftSideLinks = styled.div`
     margin-right: 4px;
   }
 `;
-const ButtonRow=styled.div`
+const ButtonRow = styled.div`
   inline-size:auto;
   display: flex;
 `;
@@ -318,13 +315,13 @@ const LeftSideLink = styled.a`
   }
 `;
 
-const LTSCard=styled.div`
+const LTSCard = styled.div`
   margin-right: 1.0em;
   position:relative;
   display:flex;
 `;
 
-const ButtonCard=styled.div`
+const ButtonCard = styled.div`
   margin-right:0.3em;
   position:relative;
   display:flex;
