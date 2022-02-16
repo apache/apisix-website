@@ -15,7 +15,7 @@ keywords:
 - Ecosystem
 - Developer
 - Guide
-description: 本篇文章记录了一个没有后端经验的前端工程师开发file-logger插件的过程。
+description: 本篇文章记录了一个没有后端经验的前端工程师开发 `file-logger` 插件的过程。
 tags: [Technology,Logging]
 ---
 
@@ -23,7 +23,7 @@ tags: [Technology,Logging]
 
 <!--truncate-->
 
-在过去的几个月，社区用户为 Apache APISIX 添加了许多插件，丰富了 Apache APISIX 的生态。从使用者的角度而言，更多样化的插件出现无疑是一件好事，它们在完善 Apache APISIX 高性能和低延迟的基础之上，满足了使用者对于网关的更多期望，即 “一站式”和“多功能”。
+在过去的几个月，社区用户为 Apache APISIX 添加了许多插件，丰富了 Apache APISIX 的生态。从使用者的角度而言，更多样化的插件出现无疑是一件好事，它们在完善 Apache APISIX 高性能和低延迟的基础之上，满足了使用者对于网关的更多期望，即“一站式”和“多功能”。
 
 社区的贡献者们是如何为 Apache APISIX 开发插件的呢？Apache APISIX 博客上的文章似乎都没有详细讲述过开发插件的流程。那么这次我们换一个视角，从插件开发者的角度出发，一起来看看一款插件诞生的全过程吧！
 
@@ -174,8 +174,8 @@ return _M
 
 1. 每次接受请求之后，将日志数据输出到插件配置的 `path` 中去。
    1. 首先，在日志阶段通过 `conf` 拿到 `file-logger` 中 `path` 的值。
-   2. 然后，通过 Lua IO 库来完成文件创建、打开、写、刷新缓存、关闭的操作。
-2. 处理打开文件失败、创建文件失败等错误。
+   2. 然后，通过 Lua IO 库来完成文件「创建」、「打开」、「写」、「刷新缓存」、「关闭」的操作。
+2. 处理「文件打开」失败、「文件创建」失败等错误。
 
    ```lua
     local function write_file_data(conf, log_message)
@@ -349,7 +349,7 @@ property "path" is required
 
 ## 总结
 
-以上就是我作为一个后端新手，从 0 开始实现一款 Apache APISIX 插件的全过程。在开发插件的过程中确实碰到了很多坑，比较幸运的是 Apache APISIX 社区里面有很多热心的大佬帮我解惑，使得 `file-logger` 插件的开发和测试全程都比较顺畅。如果你对这个插件感兴趣，或想要查看插件详情， 可以参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/file-logger/)。
+以上就是我作为一个后端新手，从 0 开始实现一款 Apache APISIX 插件的全过程。在开发插件的过程中确实碰到了很多坑，比较幸运的是 Apache APISIX 社区里面有很多热心的大佬帮我解惑，使得 `file-logger` 插件的开发和测试全程都比较顺畅。如果你对这个插件感兴趣，或想要查看插件详情，可以参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/file-logger/)。
 
 目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 [GitHub Discussion](https://github.com/apache/apisix/discussions) 中发起讨论，也可通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流讨论。
 
