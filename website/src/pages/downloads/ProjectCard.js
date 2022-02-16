@@ -297,11 +297,6 @@ const LeftSideLinks = styled.div`
     margin-right: 4px;
   }
 `;
-const ButtonRow = styled.div`
-  inline-size:auto;
-  display: flex;
-`;
-
 const LeftSideLink = styled.a`
   display: flex;
   align-items: center;
@@ -313,18 +308,6 @@ const LeftSideLink = styled.a`
   &:hover {
     text-decoration: none;
   }
-`;
-
-const LTSCard = styled.div`
-  margin-right: 1.0em;
-  position:relative;
-  display:flex;
-`;
-
-const ButtonCard = styled.div`
-  margin-right:0.3em;
-  position:relative;
-  display:flex;
 `;
 
 const RightSide = styled.div`
@@ -341,8 +324,20 @@ const RightSide = styled.div`
     padding-left: 0;
   }
 `;
-
-
+const LTSCard = styled.div`
+  margin-right: 1.0em;
+  position:relative;
+  display:flex;
+`;
+const ButtonCard = styled.div`
+  margin-right:0.3em;
+  position:relative;
+  display:flex;
+`;
+const ButtonRow = styled.div`
+  inline-size:auto;
+  display: flex;
+`;
 const Button = styled.button`
   padding: 12px 18px;
   font-size: 18px;
@@ -368,7 +363,6 @@ const Button = styled.button`
     padding-bottom: 2px;
   }
 `;
-
 const StyledDropdown = styled.div`
   right: 0;
   position: absolute;
