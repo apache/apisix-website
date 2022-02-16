@@ -43,7 +43,7 @@ We can use `file-logger` to write log data to a specific log file to simplify th
 
 After introducing the features of file-logger, you will have a better understanding of this plugin. The following is a detailed explanation of how I, a front-end developer with no server-side experience, develop the plugin for Apache APISIX and add the corresponding tests for it.
 
-### Confirm the name and priority of the plug-in
+### Confirm the name and priority of the plugin
 
 Open the [Apache APISIX Plugin Development Guide](https://apisix.apache.org/docs/apisix/plugin-develop/#name-priority-and-the-others) and in order of priority you need to determine the following two things:
 
