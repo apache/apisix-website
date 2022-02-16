@@ -68,7 +68,7 @@ const ProjectCard = (props) => {
     LTSDownloadPath = ' '
   } = props;
 
-  const Download = props.name === 'APISIX®' ? '2.11.0 Current' : 'Download'
+  const Download = props.name === 'APISIX®' ? '2.12.1 Current' : 'Download'
 
   const shapeComponent =
     shape === "triangle" ? (
