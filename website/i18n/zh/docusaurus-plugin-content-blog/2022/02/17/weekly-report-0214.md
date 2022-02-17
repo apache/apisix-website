@@ -43,15 +43,15 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 **问题描述**：[t/core/utils.t](https://github.com/apache/apisix/blob/ec0fc2ceaf04a20b0bd0ebdaad67296a1d3f621c/t/core/utils.t) 中的测试案例目前有一些代码错误，比如：
 
 ```Lua
-         content_by_lua_block { 
-             local core = require("apisix.core") 
-             local resolvers = {"8.8.8.8"} 
-             core.utils.set_resolver(resolvers) 
-             local ip_info, err = core.utils.dns_parse("github.com") 
-             if not ip_info then 
-                 core.log.error("failed to parse domain: ", host, ", error: ",err) 
-             end 
-             ngx.say(require("toolkit.json").encode(ip_info)) 
+         content_by_lua_block {
+             local core = require("apisix.core")
+             local resolvers = {"8.8.8.8"}
+             core.utils.set_resolver(resolvers)
+             local ip_info, err = core.utils.dns_parse("github.com")
+             if not ip_info then
+                 core.log.error("failed to parse domain: ", host, ", error: ",err)
+             end
+             ngx.say(require("toolkit.json").encode(ip_info))
          } 
 ```
 
