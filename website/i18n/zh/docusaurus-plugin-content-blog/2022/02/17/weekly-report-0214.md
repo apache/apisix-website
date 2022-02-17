@@ -52,7 +52,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
                  core.log.error("failed to parse domain: ", host, ", error: ",err)
              end
              ngx.say(require("toolkit.json").encode(ip_info))
-         } 
+         }
 ```
 
 在这里执行代码时，变量 host 是一个 nil（可能永远不会触发）。
