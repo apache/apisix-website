@@ -32,7 +32,27 @@ const Dropdown = (props) => {
   );
 };
 
+const LTSDropdown = (props) => {
+  const ref = useRef();
+  const { isLTSDropdownOpen, setIsLTSDropdownOpen } = props;
+  useOutsideClick(ref, () => {
+    if (isLTSDropdownOpen) {
+      setIsLTSDropdownOpen(false);
+    }
+  });
+  return (
+    <StyledDropdown
+      className="downloads-dropdown"
+      ref={ref}
+      open={isLTSDropdownOpen}
+    >
+      {props.children}
+    </StyledDropdown>
+  );
+};
+
 const ProjectCard = (props) => {
+  const [isLTSDropdownOpen, setIsLTSDropdownOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [repoStats, setRepoStats] = useState({ stars: 0, issues: 0 });
   const {
@@ -44,8 +64,12 @@ const ProjectCard = (props) => {
     releaseDate,
     githubRepo,
     githubBranch,
-    downloadPath
+    downloadPath,
+    LTSDownloadPath = ' '
   } = props;
+
+  const Download = props.name === 'APISIX®' ? `${props.version} Current` : 'Download'
+
   const shapeComponent =
     shape === "triangle" ? (
       <IconTriangle />
@@ -56,7 +80,7 @@ const ProjectCard = (props) => {
     ) : shape === "star" ? (
       <IconStarSolid />
     ) : shape === "shield" ? (
-        <IconShield />
+      <IconShield />
     ) : (
       <IconOctagon />
     );
@@ -69,6 +93,18 @@ const ProjectCard = (props) => {
       });
     });
   }, []);
+
+  const LTSButton = () => {
+    return (
+      <Button
+        style={{ display: (name === 'APISIX®' ? ' ' : 'NONE') }}
+        onClick={() => setIsLTSDropdownOpen(!isLTSDropdownOpen)}
+        background={color}
+      >
+        <IconDownload/> {`${props.LTSVersion} LTS`}
+      </Button>
+    )
+  }
 
   return (
     <Card>
@@ -112,40 +148,72 @@ const ProjectCard = (props) => {
           Release Date ·{" "}
           <span className="downloads-versioninfo-span">{releaseDate}</span>
         </VersionInfo>
-        <div>
-          <Button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            background={color}
-          >
-            <IconDownload /> Download
-          </Button>
-          <Dropdown
-            isDropdownOpen={isDropdownOpen}
-            setIsDropdownOpen={setIsDropdownOpen}
-          >
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://www.apache.org/dyn/closer.cgi/${downloadPath}.tgz`}
-              target="_blank"
+
+        <ButtonRow>
+          <LTSCard>
+            <LTSButton />
+            <LTSDropdown
+              isLTSDropdownOpen={isLTSDropdownOpen}
+              setIsLTSDropdownOpen={setIsLTSDropdownOpen}
             >
-              Source
-            </DropdownItem>
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://downloads.apache.org/${downloadPath}.tgz.asc`}
-              target="_blank"
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz`}
+                target="_blank"
+              >
+                Source
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
+                target="_blank"
+              >
+                ASC
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
+                target="_blank"
+              >
+                SHA512
+              </DropdownItem>
+            </LTSDropdown>
+          </LTSCard>
+          <ButtonCard>
+            <Button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              background={color}
             >
-              ASC
-            </DropdownItem>
-            <DropdownItem
-              className="download-dropdown-item"
-              href={`https://downloads.apache.org/${downloadPath}.tgz.sha512`}
-              target="_blank"
+              <IconDownload /> {Download}
+            </Button>
+            <Dropdown
+              isDropdownOpen={isDropdownOpen}
+              setIsDropdownOpen={setIsDropdownOpen}
             >
-              SHA512
-            </DropdownItem>
-          </Dropdown>
-        </div>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://www.apache.org/dyn/closer.cgi/${downloadPath}.tgz`}
+                target="_blank"
+              >
+                Source
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${downloadPath}.tgz.asc`}
+                target="_blank"
+              >
+                ASC
+              </DropdownItem>
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://downloads.apache.org/${downloadPath}.tgz.sha512`}
+                target="_blank"
+              >
+                SHA512
+              </DropdownItem>
+            </Dropdown>
+          </ButtonCard>
+        </ButtonRow>
       </RightSide>
     </Card>
   );
@@ -169,7 +237,6 @@ const Card = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
-
   @media (max-width: 600px) {
     flex-direction: column;
     padding: 1rem;
@@ -224,7 +291,6 @@ const ShapeBeforeTitle = styled.span`
 const LeftSideLinks = styled.div`
   display: inline-flex;
   font-size: 1rem;
-
   margin-top: 24px;
   & svg {
     height: 1rem;
@@ -258,6 +324,20 @@ const RightSide = styled.div`
     padding-left: 0;
   }
 `;
+const LTSCard = styled.div`
+  margin-right: 1.0em;
+  position:relative;
+  display:flex;
+`;
+const ButtonCard = styled.div`
+  margin-right:0.3em;
+  position:relative;
+  display:flex;
+`;
+const ButtonRow = styled.div`
+  inline-size:auto;
+  display: flex;
+`;
 const Button = styled.button`
   padding: 12px 18px;
   font-size: 18px;
@@ -270,6 +350,7 @@ const Button = styled.button`
   box-sizing: border-box;
   width: 100%;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -283,6 +364,7 @@ const Button = styled.button`
   }
 `;
 const StyledDropdown = styled.div`
+  top: 45px;
   right: 0;
   position: absolute;
   margin-top: 0.25rem;
