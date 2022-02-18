@@ -9,45 +9,41 @@ keywords:
 description: This article is a set of guidelines for Apache APISIX contributors, including things that a contributor can do and how to do it well.
 ---
 
-Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
+Please follow this guide to [report bugs](#submit-an-issue), [submit suggestions](#submit-an-issue), or [submit PRs](#submit-pr).
 
-## Submit an issue
+## Submitting an Issue
 
-1. Before submitting your issues, please go through a comprehensive search to make sure the problem cannot be solved just by searching.
+Before submitting an issue, try solving the problem through a comprehensive search.
 
-2. Check the Issue List to make sure the problem is not repeated.
+[Open issues](https://github.com/apache/apisix/issues) and the [discussions forum](https://github.com/apache/apisix/discussions) are good places to search for solutions before opening an issue.
 
-3. Create a new issue and choose the type of issue.
+1. Check the [open issues](https://github.com/apache/apisix/issues) to avoid duplication.
 
-4. Define the issue with a clear and descriptive title.
+2. Create a [new issue](https://github.com/apache/apisix/issues/new/choose) and choose the type of issue.
 
-5. Fill in necessary information according to the template.
+3. Define the issue with a clear and descriptive title.
 
-6. Choose a label after issue created.
+4. Fill in necessary information according to the template.
 
-7. Please pay attention to your issue, you may need provide more information during discussion.
+5. Choose proper label(s) after opening the issue.
 
-## Developer Flow
+6. Engage in the discussions in the issue and provide more information if necessary.
 
-### Fork repo
+## Choosing an Issue to Work On
 
-Fork the Apache APISIX repo to your own repo to work, then setting proper upstream.
+You can also contribute by fixing one of the [open issues](https://github.com/apache/apisix/issues).
 
-```sh
-git remote add upstream https://github.com/apache/apisix.git
-```
+1. Once you have chosen an issue to work on or [opened a new issue](#submitting-an-issue), indicate that you would like to work on it by adding a comment.
 
-### Choose an issue
+2. Please check to see if the issue is already being worked on and indicate when you will be able to complete it.
 
-1. Please choose your target issue. If it is a new issue discovered or a new function enhancement to offer, please create an issue and set the right label for it.
+3. Connect with a [mentor](/team) for providing feedback on your issue and reviewing your PR.
 
-2. After choosing the relevant issue, please reply with a deadline to indicate that you are working on it.
+### Good First Issues
 
-3. Find a mentor from the Team page and your mentor will give you feedback about your PR or issue in time.
+Issues labelled "good first issues" are low hanging fruits that are easy to fix. These issues can help you make your first contributions to Apache APISIX®.
 
-#### **Good First Issues**:
-
-Good First Issue curates easy pickings from this project, and helps you make your first contribution to Apache APISIX®.
+The list below contains such issues spanning across all the repos in Apache APISIX®.
 
 - [Apache APISIX®](https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 - [Apache APISIX® Ingress Controller](https://github.com/apache/apisix-ingress-controller/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
@@ -58,55 +54,83 @@ Good First Issue curates easy pickings from this project, and helps you make you
 - [Apache APISIX® Java Plugin Runner](https://github.com/apache/apisix-java-plugin-runner/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
 - [Apache APISIX® Go Plugin Runner](https://github.com/apache/apisix-go-plugin-runner/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
 
-### Create your branch
+## Git Flow
 
-Switch to your forked master branch, pull codes from upstream, then create a new branch.
+To contribute code or documentation, setup your local machine for development.
+
+### Fork the repo and clone your fork
+
+Fork the [Apache APISIX repo](https://github.com/apache/apisix/) and clone your fork to your local machine.
 
 ```sh
-$ git checkout master
-$ git pull upstream master
-$ git checkout -b IssueNo
+git clone https://github.com/your-username/apisix.git
 ```
 
-Notice: We will merge PR using squash, commit logs will be different form upstream if you use one older branch.
+### Add 'upstream' repo to list of remotes
 
-### Coding
+```sh
+git remote add upstream https://github.com/apache/apisix.git
+```
 
-1. Please obey the Code of Conduct during the process of development and finish the check before submitting the pull request.
+You can then verify the configured remotes.
 
-2. Then push codes to your fork repo.
+```sh
+git remote -v
+```
+
+Learn more about Git and GitHub flow by following the [GitHub Docs](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+
+**Note**: Setup your username and email address to make sure that your ID shows up in the contributor list.
+
+```sh
+git config --global user.name "username"
+git config --global user.email "mail address"
+```
+
+### Create your branch
+
+To keep your local fork up to date, fetch and merge the upstream remote.
+
+```sh
+git fetch upstream
+git checkout master
+git merge upstream/master
+```
+
+Then, to make changes, create a new branch in your local fork.
+
+```sh
+git checkout -b issue-no
+```
+
+**Note**: The commits in a PR are squashed before merging. This could result in commit logs different from upstream if you are using an older branch.
+
+### Commiting your changes
+
+Contributors are expected to adhere to the [Code of Conduct](https://www.apache.org/foundation/policies/conduct.html) throughout the process.
+
+Once you make the changes, commit the files and push the changes to your fork.
 
 ```sh
 $ git add modified-file-names
 $ git commit -m 'commit message'
-$ git push origin issueNo
+$ git push origin issue-no
 ```
 
-### Submit PR
+### Open a pull request
 
-1. Send a pull request to the master branch.
+Once you have your changes pushed to your fork, it is time to start the process of merging it to upstream by opening a pull request.
 
-2. The mentor will do codes review before discussing some details (including the design, the implementation and the performance) with you.
+See [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow#create-a-pull-request) for detailed instructions on making a pull request.
 
-3. Also make sure that the pull request title has a semantic prefix like `fix:` or `feat:` or any other [conventional commit types](https://github.com/commitizen/conventional-commit-types/blob/master/index.json).
+1. Open a pull request to the master branch.
 
-4. Then congratulate to you to be an official contributor of Apache APISIX.
+2. Make sure that the pull request title has a semantic prefix like `fix:` or `feat:` or any other [conventional commit types](https://github.com/commitizen/conventional-commit-types/blob/master/index.json).
 
-### Delete branch
+3. Reach out to your mentor for starting the review process.
 
-You can delete the remote branch (origin/IssueNo) and the local branch (IssueNo) associated with the remote branch (origin/IssueNo) after the mentor merged the PR into the master branch.
+4. Engage in discussions and provide clarifications to reviewers' questions.
 
-```sh
-$ git checkout master
-$ git branch -d IssueNo
-$ git push origin --delete issueNo
-```
+5. Wait for your PR to be approved and merged.
 
-### Notice
-
-Please note that in order to show your ID in the contributor list, please DO NOT forget to set the configurations below:
-
-```sh
-$ git config --global user.name "username"
-$ git config --global user.email "mail address"
-```
+6. Congratulate yourself for being an official contributor of Apache APISIX®!
