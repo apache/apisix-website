@@ -44,7 +44,8 @@ const ProjectCard = (props) => {
     releaseDate,
     githubRepo,
     githubBranch,
-    downloadPath
+    downloadPath,
+    dockerhubPath,
   } = props;
   const shapeComponent =
     shape === "triangle" ? (
@@ -56,7 +57,7 @@ const ProjectCard = (props) => {
     ) : shape === "star" ? (
       <IconStarSolid />
     ) : shape === "shield" ? (
-        <IconShield />
+      <IconShield />
     ) : (
       <IconOctagon />
     );
@@ -144,6 +145,15 @@ const ProjectCard = (props) => {
             >
               SHA512
             </DropdownItem>
+            {dockerhubPath ? (
+              <DropdownItem
+                className="download-dropdown-item"
+                href={`https://hub.docker.com/r/apache/${dockerhubPath}`}
+                target="_blank"
+              >
+                DockerHub
+              </DropdownItem>
+            ) : null}
           </Dropdown>
         </div>
       </RightSide>
