@@ -68,7 +68,7 @@ const ProjectCard = (props) => {
     LTSDownloadPath = ' '
   } = props;
 
-  const Download = props.name === 'APISIX®' ? '2.12.1 Current' : 'Download'
+  const Download = props.name === 'APISIX®' ? `${props.version} Current` : 'Download'
 
   const shapeComponent =
     shape === "triangle" ? (
@@ -101,7 +101,7 @@ const ProjectCard = (props) => {
         onClick={() => setIsLTSDropdownOpen(!isLTSDropdownOpen)}
         background={color}
       >
-        <IconDownload /> 2.10.3 LTS
+        <IconDownload/> {`${props.LTSVersion} LTS`}
       </Button>
     )
   }
@@ -364,6 +364,7 @@ const Button = styled.button`
   }
 `;
 const StyledDropdown = styled.div`
+  top: 45px;
   right: 0;
   position: absolute;
   margin-top: 0.25rem;
