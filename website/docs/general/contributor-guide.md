@@ -68,33 +68,36 @@ git clone https://github.com/your-username/apisix.git
 
 ### Add 'upstream' repo to list of remotes
 
-```sh
-git remote add upstream https://github.com/apache/apisix.git
-```
-
-You can then verify the configured remotes.
+Check to see if the upstream repo has been configured by listing the remotes.
 
 ```sh
 git remote -v
 ```
 
-Learn more about Git and GitHub flow by following the [GitHub Docs](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
-
-**Note**: Setup your username and email address to make sure that your ID shows up in the contributor list.
+If not, you can add the upstream remote.
 
 ```sh
-git config --global user.name "username"
+git remote add upstream https://github.com/apache/apisix.git
+```
+
+Learn more about Git and GitHub flow by following the [GitHub Docs](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+
+**Note**: Setup your name and email address to make sure that your ID shows up in the contributor list.
+
+```sh
+git config --global user.name "full name"
 git config --global user.email "mail address"
 ```
 
 ### Create your branch
 
-To keep your local fork up to date, fetch and merge the upstream remote.
+To keep your local fork up to date, fetch and rebase with the upstream remote.
 
 ```sh
 git fetch upstream
 git checkout master
-git merge upstream/master
+git rebase upstream/master
+git push origin master
 ```
 
 Then, to make changes, create a new branch in your local fork.
