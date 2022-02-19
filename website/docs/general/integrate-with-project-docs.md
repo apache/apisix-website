@@ -1,6 +1,6 @@
 ---
 id: integrate-with-project-docs
-title: Integrate with Project documentations
+title: Integrating Project Documentation
 keywords:
 - API gateway
 - APISIX
@@ -11,7 +11,7 @@ description: This article explains Apache APISIX documents' directory structure,
 
 ## Directory Structure
 
-Put all Markdown files into the latest directory
+The docs are organized as shown below. To create a new page, create a new file in the latest folder of the language you are writing the doc in.
 
 ```text
 /docs
@@ -36,13 +36,13 @@ Put all Markdown files into the latest directory
         └── ...
 ```
 
-## Configuration file
+## Configuration File
 
-This file is located in `/docs/<locale>/latest/config.json`, where locale is locale codes, please refer to https://www.science.co.il/language/Locale-codes.php, locale is all lowercase. Don't forget to remove the comment after copying JSON.
+The configuration file is located in `/docs/<locale>/latest/config.json` where locale represents the locale code (language). Refer to [Locale Codes](https://www.science.co.il/language/Locale-codes.php) for more info. Note that locale is always all lowercase.
 
-More information about sidebar can be found at https://v2.docusaurus.io/docs/next/sidebar
+You can learn more about the sidebar from the [Docusaurus docs](https://v2.docusaurus.io/docs/next/sidebar).
 
-```jsonc
+```json
 {
   "version": 2.3,
   "sidebar": [
@@ -77,10 +77,12 @@ More information about sidebar can be found at https://v2.docusaurus.io/docs/nex
 }
 ```
 
-## Markdown formatting restrictions
+## Markdown Formatting Guide
 
-- Use relative paths within Markdown files `../xxx/xxx`, not absolute paths `/docs/en/xxx/xxx`. If you want to refer to files outside the docs directory, please use `https://github.com/apache/apisix-xxx/blob/master/xxx/xxx.xxx`
+Please follow this guide while working with markdown files.
 
-- You need to use Markdown syntax when introducing images, i.e. `![image name](./assets/xxxx.png)`. Images cannot be introduced using HTML tags, i.e. `<img src=". /assets/xxxx.png" />`
+- Always use relative paths within markdown files `../xxx/xxx` and not absolute paths `/docs/en/xxx/xxx`. To refer files outside the docs directory, use the format `https://github.com/apache/apisix-xxx/blob/master/xxx/xxx.xxx`
 
-- If the Markdown file contains HTML tags within it, be sure to make sure the tags are closed. For example `<br>` must be written as `<br/>`
+- Always use markdown syntax to include images (`![image name](./assets/xxxx.png)`). **Don't** use HTML tags as an alternative (`<img src=". /assets/xxxx.png" />`).
+
+- Make sure to close the HTML tags if the markdown file has any. For example, a `<br>` tag must be written as `<br/>`.
