@@ -6,68 +6,70 @@ keywords:
 - APISIX
 - Apache APISIX
 - committer guide
-description: This article is a set of guidelines for Apache APISIX committers. It provides general guideline of contritions, and the way of promoting from contributors to commiter, and from committer to PMC.
+description: This article covers some guidelines for Apache APISIX committers. It walks through the type of contributions and the contributor ladder and how contributors can become committers and then PMC members.
 ---
 
-## What can I contribute?
+This article walks through the guidelines for Apache APISIX contributors.
 
-All forms of contributions are accepted, for example:
+See [Contributor Guide](/docs/general/contributor-guide/) to learn more about the contributing process.
 
-1. Take a look at issues with tag called Good first issue or Help wanted.
+## What Can I Contribute?
 
-2. Join the discussion on mailing list.
+Any and all forms of contributions are welcome! For example you can,
 
-3. Answer questions on issues.
+- Fix issues tagged "[good first issue](/docs/general/contributor-guide/#good-first-issues)" or "[help wanted](https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)".
 
-4. Fix bugs reported on issues, and send us pull request.
+- Join the discussions on the [mailing list](/docs/general/subscribe-guide/).
 
-5. Review the existing pull request.
+- Answer questions in [issues](https://github.com/apache/apisix/issues) and [discussions](https://github.com/apache/apisix/discussions).
 
-6. Improve the website.
+- Review open [pull requests](https://github.com/apache/apisix/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
 
-7. Write a document or article.
+- Improve the website.
 
-8. Any form of contribution that is not mentioned above.
+- Improve documentation or write a blog post.
 
-If you would like to contribute, please send an email to dev@apisix.apache.org to let us know!
+- Any other form of code or non-code contribution.
+
+If you would like to contribute, let us know by sending an email to dev@apisix.apache.org!
 
 ## How to become an APISIX committer?
 
-Anyone can be a contributor to an Apache project. Being a contributor simply means that you take an interest in the project and contribute in some way, ranging from asking sensible questions (which documents the project and provides feedback to developers) through to providing new features as patches.
+Anyone can be a contributor to an Apache project. Being a contributor means that you take an interest in the project and contribute to it in some way, ranging from asking sensible questions (which documents the project and provides feedback to developers) to working on new features and patches.
 
-If you become a valuable contributor to the project you may well be invited to become a committer. Committer is a term used at the ASF to signify someone who is committed to a particular project. It brings with it the privilege of write access to the project repository and resources.
+If you become a valuable contributor to the project you may be invited to become a Committer. A Committer is a term used at the ASF to signify someone who is committed to a particular project. It brings with it the privilege of write access to the project repository and resources.
 
 More details could be found [here](https://community.apache.org/contributors/).
 
 ## Promotion
 
-The Apache APISIX community follows the Apache Community’s process on accepting a new committer. After a contributor participates in APISIX's community actively, (P)PMC and Committers will make decisions to invite the contributor join Committers and (P)PMC.
+The Apache APISIX community follows the Apache Community’s process on accepting a new committer. After a contributor participates in APISIX's community actively, (P)PMC and Committers will decide whether to invite the contributor to join Committers and (P)PMC.
 
-Processes are:
+1. This process starts with a discussion and vote in @private. Only the current PMC members can nominate a new committer or a PMC member.
 
-1. Start the discussion and vote in @private. Only current PMC member could nominate
+2. If the vote passes, an offer letter is sent to the contributor to become a committer with @private CC’ed.
 
-2. If the vote passes, send an offer to become a committer with @private CC’ed
+3. The new committer can then sign the ICLA and apply for an Apache ID and email address.
 
-3. New committer signs ICLA and apply Apache ID and email address
-
-4. Update Team page.
+4. The [Team](/team) page is updated with the new committer.
 
 ## Responsibilities
 
-1. Develop new features
+The following are the expected responsibilities of an ASF Committer. 
 
-2. Refactor codes
+1. Develop new features.
 
-3. Review PR reliably and in time
+2. Refactor code.
 
-4. Consider and accept feature requests
+3. Review pull requests reliably and in time.
 
-5. Answer questions
+4. Consider and accept feature requests.
 
-6. Update documentation and examples
+5. Answer questions.
 
-7. Improve processes and tools
+6. Update documentation and examples.
+
+7. Improve processes and tools.
 
 8. Guide new contributors join community.
 
