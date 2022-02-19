@@ -5,26 +5,26 @@ keywords:
 - API gateway
 - APISIX
 - Apache APISIX
-- two factor authentication
-description: This article provides information of how to enable Two-factor authentication(2FA) on GitHub. It consists of 3 parts, what is Two-factor authentication(2FA), how to enable 2FA on GitHub, and how to submit codes.
+- Two Factor Authentication
+description: This article provides information of how to enable Two-Factor Authentication (2FA) on GitHub. It consists of 3 parts, what is Two-Factor Authentication (2FA), how to enable 2FA on GitHub, and how to submit code.
 ---
 
-## Two-factor authentication(2FA)
+## Two-Factor Authentication (2FA)
 
-Two factor authentication (2FA) refers to the authentication method that combines both passport and an object (credit card, SMS phone, token or biomarkers as fingerprint) to identify a user. To ensure the security of the committer’s account, we need you to enable 2FA to sign in and contribute codes on GitHub. More details, please refer to 2FA.
+Two-Factor Authentication (2FA) refers to the authentication method that combines both a passport and an object (credit card, SMS, tokens or biomarkers as fingerprint) to identify a user. 
 
-Note:If you do not enable 2FA, you will be removed from the project and unable to access our repositories and the fork from our private repository.
+To ensure the security of the committer’s account, we need you to [configure 2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) while signing in to contribute code on GitHub. For more details, please refer to [Securing your account with two-factor authentication (2FA)](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa).
 
-## Enable 2FA on GitHub
+**Note**: If 2FA is not enabled, you are liable to be removed from the project and would not be able to access Apache APISIX's repositories.
 
-For detailed operations, please refer to Enable Two Factor Authentication with TOTP.
+## Configuring 2FA on GitHub
 
-After enabling 2FA, you need to sign in GitHub with the way of username/password + mobile phone authentication code.
+You can configure 2FA using a [mobile app](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app) or via [text message](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages).
 
-Tips: If you cannot download the APP through the page link, you can search and download the Google Authenticator in APP Store.
+GitHub recommends using a time-based-one-time password (TOTP) mobile application to configure 2FA. Read [Configuring two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) for detailed information.
 
-## How to Submit Codes
+## Submitting Code
 
-After enabling 2FA, you need to generate a private access Token to perform operations such as git submit and so on. At this time, you will use username + private access Token in replace of username + password to submit codes.
+After enabling 2FA, [create a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to perform Git operations.
 
-For detailed operations, please refer to Create a Private Token.
+You can then use the username + personal access token combination in place of the username + password combination while pushing your code.
