@@ -1,14 +1,14 @@
 {
   "docs": {
-    "General": [
+    "Community": [
+      "community",
+      "contributor-guide",
+      "committer-guide",
+      "subscribe-guide",
+      "blog",
       "security",
       "2fa",
-      "subscribe-guide",
-      "contributor-guide",
-      "blog",
-      "committer-guide",
       "release-guide",
-      "community",
       "integrate-with-project-docs"
     ]
   }
