@@ -50,7 +50,7 @@ If the service on the server side suddenly goes down and there is no feedback to
 ### What application scenarios does Apache APISIX + Nacos provide for users?
 
 Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, the ability to proxy and route forwarding interface services through Apache APISIX. After each microservice is registered on Nacos, Apache APISIX can obtain a list of services through Nacos's service discovery function and find the corresponding service address to implement dynamic proxy.
- ![logs/error.log 记录](https://static.apiseven.com/202108/1644996952020-7a79d5df-e679-42f1-94f3-40a913db790c.png)
+![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433492822-5218e923-97ae-4d04-863b-3b3f901de84f.png)
 
 ## Apache APISIX realizes service discovery based on Nacos
 
