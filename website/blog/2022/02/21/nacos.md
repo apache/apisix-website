@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Realizes Service Discovery Based on Nacos"
+title: "Feature review: Apache APISIX Realizes Service Discovery Based on Nacos"
 authors:
   - name: "Zhihuang Lin"
     title: "Author"
