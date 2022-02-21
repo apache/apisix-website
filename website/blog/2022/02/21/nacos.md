@@ -206,7 +206,7 @@ It can be seen from the example that the new route in Apache APISIX can find the
 ## Summary
 
 This article introduces the concept of registry and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery. How to use Apache APISIX with Nacos in actual scenarios depends on the specific business requirements and past technical architecture.
-To get more information about the nacos plugin description and full configuration list, you can refer to the official documentation. 
+To get more information about the nacos plugin description and full configuration list, you can refer to the official documentation.
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in GitHub Discussion, or via the mailing list to communicate.
 
 ## References
