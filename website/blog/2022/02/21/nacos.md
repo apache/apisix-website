@@ -24,6 +24,7 @@ tags: [Technology,Service Registry,Discovery]
 <!--truncate-->
 
 ## Background information
+
 ### Apache APISIX Introduction
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway.
@@ -35,8 +36,11 @@ APISIX provides rich traffic management features such as load balancing, dynamic
 Nacos is an easy-to-use, open source platform for dynamic service discovery, service configuration and service management.  It provides a set of simple and useful features enabling you to realize dynamic service discovery, service configuration, service metadata and traffic management. Nacos makes it easier and faster to construct, deliver and manage your microservices platform. It is the infrastructure that supports a service-centered modern application architecture with a microservices or cloud-native approach.
 
 ## Service Registry
+
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
+
 The core functions of the Service Registry are as follows:
+
 - Service registration: Service providers register with the Service Registration Center.
 - Service discovery: Service consumers can find the call routing information of service providers through the registry.
 - Health check: Ensure that service nodes registered with the service registry can be invoked normally, and avoid the waste of call resources caused by invalid nodes.
@@ -58,6 +62,7 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 ### Prerequisites
 
 This article is based on the following environments.
+
 - OS: Centos 7.9.
 - Apache APISIX 12.1.0, please refer to: Apache APISIX how-to-bulid.
 - Nacos 2.0.4, please refer to: Nacos quick start
@@ -77,11 +82,13 @@ app.use(async ctx => {
 
 app.listen(3005);
 ```
+
 2. Register the service on the command line by requesting the Nacos Open API.
 
 ```Shell
 curl -X POST 'http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=APISIX-NACOS&ip=127.0.0.1&port=3005&ephemeral=false'
 ```
+
 3. After service registration, use the following command to query the current service.
 
 ```Shell
@@ -174,10 +181,13 @@ In addition, you can also pass other service related parameters in upstream.disc
 | group_name   | string | optional    | DEFAULT_GROUP       |       | This parameter is used to specify the group of the corresponding service |
 
 ### Step 3: Verify configuration results
+
 Use the following command to send the request to the route to be configured.
+
 ```Shell
 curl -i http://127.0.0.1:9080/nacos/
 ```
+
 Examples of correct returned results are as follows:
 
 ```Apache
@@ -192,7 +202,9 @@ Hello World
 ```
 
 It can be seen from the example that the new route in Apache APISIX can find the correct service address through Nacos service discovery and respond normally.
+
 ## Summary
+
 This article introduces the concept of registry and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery. How to use Apache APISIX with Nacos in actual scenarios depends on the specific business requirements and past technical architecture.
 To get more information about the nacos plugin description and full configuration list, you can refer to the official documentation. 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in GitHub Discussion, or via the mailing list to communicate.
