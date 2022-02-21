@@ -22,13 +22,16 @@ tags: [Technology,Service Registry,Discovery]
 > 本文为您介绍 Apache APISIX、Nacos 基本概念以及注册中心的作用，并为您展示了 Apache APISIX 基于 Nacos 实现服务发现的具体操作。
 
 <!--truncate-->
+
 ## 背景信息
 
 ### 关于 Apache APISIX
- Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。
+
+Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。
 
 ### 关于 Nacos
- Nacos 是阿里巴巴开源的一个易于使用的动态服务发现、配置和服务管理平台。它提供了一组简单易用的特性集，可以帮助您快速实现动态服务发现，服务配置，服务元数据及流量管理，让您更敏捷和容易地构建，交付和管理微服务平台。Nacos 是构建以“服务”为中心的现代应用架构（例如微服务范式、云原生范式）的服务基础设施。
+
+Nacos 是阿里巴巴开源的一个易于使用的动态服务发现、配置和服务管理平台。它提供了一组简单易用的特性集，可以帮助您快速实现动态服务发现，服务配置，服务元数据及流量管理，让您更敏捷和容易地构建，交付和管理微服务平台。Nacos 是构建以“服务”为中心的现代应用架构（例如微服务范式、云原生范式）的服务基础设施。
 
 ## 注册中心
 
@@ -36,6 +39,7 @@ tags: [Technology,Service Registry,Discovery]
 
 服务注册中心是服务要实现服务化管理的核心组件，类似于目录服务的作用，也是微服务架构中最基础的设施之一，主要用来存储服务信息，譬如服务提供者 URL 、路由信息等。注册中心的实现是通过一种映射的方式，将复杂的服务端信息映射为简单易懂的信息提供给客户端。
 注册中心的核心功能为以下三点：
+
 - 服务注册：**服务提供方** 向 **注册中心** 进行注册。
 - 服务发现：**服务消费方** 可以通过注册中心寻找到服务提供方的调用路由信息。
 - 健康检测：确保注册到注册中心的服务节点是可以被正常调用的，避免无效节点导致的调用资源浪费等问题。
@@ -57,12 +61,14 @@ Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项�
 ### 前提条件
 
 本文操作基于以下环境进行。
+
 - 操作系统 Centos 7.9。
 - 已安装 Apache APISIX 12.1.0，详情请参考：[Apache APISIX how-to-bulid](https://apisix.apache.org/zh/docs/apisix/how-to-build)。
 - 已安装 Nacos 2.0.4，详情请参考：[quick start](https://nacos.io/zh-cn/docs/quick-start.html)。
 - 已安装 Node.js，详情请参考：[node.js Installation](https://github.com/nodejs/help/wiki/Installation)。
 
 ### 步骤一：服务注册
+
 1. 使用 Node.js 的 Koa 框架在 3005 端口启动一个简单的测试服务作为[上游（Upstream）](https://apisix.apache.org/zh/docs/apisix/admin-api#upstream)。
 
 ```JavaScript
