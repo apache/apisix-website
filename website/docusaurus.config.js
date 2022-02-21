@@ -7,8 +7,7 @@ const getEditUrl = ({
   docPath,
   defaultBranch = "master"
 }) => {
-  const branch = version === 'current' ? defaultBranch : `release/${version}`;
-  return `https://github.com/apache/${projectName}/edit/${branch}/docs/${locale}/latest/${docPath}`;
+  return version === 'current' ? `https://github.com/apache/${projectName}/edit/${defaultBranch}/docs/${locale}/latest/${docPath}` : null;
 }
 
 module.exports = {
