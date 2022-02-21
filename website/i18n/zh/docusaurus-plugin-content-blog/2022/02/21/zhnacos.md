@@ -49,7 +49,8 @@ tags: [Technology,Service Registry,Discovery]
 ### Apache APISIX + Nacos 为用户提供了什么应用场景？
 
 Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项控制，集中在 Apache APISIX 中进行统一管理，即通过Apache APISIX 实现接口服务的代理和路由转发的能力。各个微服务在 Nacos 上注册后，Apache APISIX 可以通过 Nacos 的服务发现功能获取服务列表，查找对应的服务地址从而实现动态代理。
- ![logs/error.log 记录](https://static.apiseven.com/202108/1644996952020-7a79d5df-e679-42f1-94f3-40a913db790c.png)
+
+![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433492822-5218e923-97ae-4d04-863b-3b3f901de84f.png)
 
 ## Apache APISIX 基于 Nacos 实现服务发现
 
