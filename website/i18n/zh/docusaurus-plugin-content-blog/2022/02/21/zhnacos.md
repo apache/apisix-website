@@ -175,12 +175,10 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 除此之外，您还可以在 upstream.discovery_args 中传递其他服务相关参数用于指定服务所在的命名空间或组别，具体内容可参考下表：
 
-
 | 名字         | 类型   | 可选项 | 默认值 | 有效值 | 说明                                                  |
 | ------------ | ------ | ----------- | ------- | ----- | ------------------------------------------------------------ |
 | namespace_id | string | 可选    | public     |       | 服务所在的命名空间 |
 | group_name   | string | 可选    | DEFAULT_GROUP       |       | 服务所在的组 |
-
 
 ### 步骤三：验证配置结果
 
@@ -212,7 +210,6 @@ Hello World
 关于 `nacos` 插件的更多说明和完整配置信息，可参考官网文档：[nacos](https://apisix.apache.org/zh/docs/apisix/discovery/nacos)。
 
 Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
-
 
 ## 参考资料
 
