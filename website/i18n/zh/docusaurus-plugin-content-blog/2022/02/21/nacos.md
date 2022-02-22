@@ -1,5 +1,5 @@
 ---
-title: "功能回顾：Apache APISIX 基于 Nacos 实现服务发现"
+title: "如何使用 Apache APISIX 基于 Nacos 实现服务发现"
 authors:
   - name: "林志煌"
     title: "Author"
@@ -11,12 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
-- Service Registry
 - Nacos
-- Developer
-- Guide
+- Service Discovery
+- Service Registry
+- Ecosystem
 description: 本文为您介绍 Apache APISIX、Nacos 基本概念以及注册中心的作用，并为您展示了 Apache APISIX 基于 Nacos 实现服务发现的具体操作。
-tags: [Technology,Service Registry,Discovery]
+tags: [Technology,Ecosyste,Service Discovery]
 ---
 
 > 本文为您介绍 Apache APISIX、Nacos 基本概念以及注册中心的作用，并为您展示了 Apache APISIX 基于 Nacos 实现服务发现的具体操作。
@@ -25,17 +25,9 @@ tags: [Technology,Service Registry,Discovery]
 
 ## 背景信息
 
-### 关于 Apache APISIX
-
-Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。
-
-### 关于 Nacos
-
 Nacos 是阿里巴巴开源的一个易于使用的动态服务发现、配置和服务管理平台。它提供了一组简单易用的特性集，可以帮助您快速实现动态服务发现，服务配置，服务元数据及流量管理，让您更敏捷和容易地构建，交付和管理微服务平台。Nacos 是构建以“服务”为中心的现代应用架构（例如微服务范式、云原生范式）的服务基础设施。
 
 ## 注册中心
-
-### 什么是注册中心
 
 服务注册中心是服务要实现服务化管理的核心组件，类似于目录服务的作用，也是微服务架构中最基础的设施之一，主要用来存储服务信息，譬如服务提供者 URL 、路由信息等。注册中心的实现是通过一种映射的方式，将复杂的服务端信息映射为简单易懂的信息提供给客户端。
 注册中心的核心功能为以下三点：
@@ -205,17 +197,8 @@ Hello World
 
 ## 总结
 
-本文为大家介绍了注册中心的概念以及 Apache APISIX 如何配合 Nacos 实现基于服务发现的路由代理。实际场景中如何进行 Apache APISIX 与 Nacos 的配合使用，您需要看具体的业务需求和过往技术架构。
-
+本文为大家介绍了注册中心的概念以及 Apache APISIX 如何配合 Nacos 实现基于服务发现的路由代理。用户可以根据自身的业务需求和过往技术架构使用 Apache APISIX 与 Nacos，以实现接口服务的代理和路由转发的能力。
 关于 `nacos` 插件的更多说明和完整配置信息，可参考官网文档：[nacos](https://apisix.apache.org/zh/docs/apisix/discovery/nacos)。
 
 Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
 
-## 参考资料
-
-- [Apache APISIX 插件开发指南](https://apisix.apache.org/zh/docs/apisix/plugin-develop/)
-- [Lua - File I/O 使用指南](https://www.tutorialspoint.com/lua/lua_file_io.htm)
-- [如何运行 Apache APISIX 测试案例](https://apisix.apache.org/zh/docs/apisix/how-to-build/#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B)
-- [如何编写测试用例](https://apisix.apache.org/zh/docs/apisix/plugin-develop/#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B)
-- [Apache APISIX 测试框架介绍](https://apisix.apache.org/zh/docs/apisix/internal/testing-framework/)
-- [test-nginx 相关的一些 API 介绍](https://metacpan.org/pod/Test%3A%3ANginx%3A%3ASocket)
