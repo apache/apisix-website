@@ -31,7 +31,6 @@ Nacos 是阿里巴巴开源的一个易于使用的动态服务发现、配置�
 
 服务注册中心是服务要实现服务化管理的核心组件，类似于目录服务的作用，也是微服务架构中最基础的设施之一，主要用来存储服务信息，譬如服务提供者 URL 、路由信息等。注册中心的实现是通过一种映射的方式，将复杂的服务端信息映射为简单易懂的信息提供给客户端。
 注册中心的核心功能为以下三点：
-
 - 服务注册：**服务提供方** 向 **注册中心** 进行注册。
 - 服务发现：**服务消费方** 可以通过注册中心寻找到服务提供方的调用路由信息。
 - 健康检测：确保注册到注册中心的服务节点是可以被正常调用的，避免无效节点导致的调用资源浪费等问题。
@@ -39,12 +38,14 @@ Nacos 是阿里巴巴开源的一个易于使用的动态服务发现、配置�
 ### 为什么需要注册中心
 
 注册中心本质上是为了 **解耦服务提供者和服务消费者**，在微服务体系中，各个业务服务之间会频繁互相调用，并且需要对各个服务的 IP、port 等路由信息进行统一的管理。但是要如何进行管理呢？我们可以通过注册中心的 **服务注册** 功能将已有服务的相关信息提供到统一的注册中心进行管理。
+
 通过上述描述，您可以了解到注册中心可以帮助用户通过映射快速找到服务和服务地址。随着业务更新迭代，服务会频繁发生变化，在服务端中注册了新的服务或者服务宕机后，客户端仍然可以通过注册中心的 **服务发现** 功能拉取服务列表，如果注册中心的服务节点发生变更，注册中心会发送请求通知客户端重新拉取。
+
 如果服务端的服务突然宕机，并且没有向注册中心反馈，客户端可以通过注册中心的 **健康检查** 功能，进行固定时间间隔的主动上报心跳方式向服务端表明自己的服务状态。如果服务状态异常，则会通知注册中心，注册中心可以及时把已经宕机的服务节点进行剔除，避免资源的浪费。
 
-### Apache APISIX + Nacos 为用户提供了什么应用场景？
 
-Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项控制，集中在 Apache APISIX 中进行统一管理，即通过Apache APISIX 实现接口服务的代理和路由转发的能力。各个微服务在 Nacos 上注册后，Apache APISIX 可以通过 Nacos 的服务发现功能获取服务列表，查找对应的服务地址从而实现动态代理。
+
+Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项控制，集中在 Apache APISIX 中进行统一管理，即**通过 Apache APISIX 实现接口服务的代理和路由转发的能力**。在 Nacos 上注册各个微服务后，Apache APISIX 可以通过 Nacos 的服务发现功能获取服务列表，查找对应的服务地址从而实现动态代理。
 
 ![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433492822-5218e923-97ae-4d04-863b-3b3f901de84f.png)
 
@@ -55,13 +56,13 @@ Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项�
 本文操作基于以下环境进行。
 
 - 操作系统 Centos 7.9。
-- 已安装 Apache APISIX 12.1.0，详情请参考：[Apache APISIX how-to-bulid](https://apisix.apache.org/zh/docs/apisix/how-to-build)。
-- 已安装 Nacos 2.0.4，详情请参考：[quick start](https://nacos.io/zh-cn/docs/quick-start.html)。
-- 已安装 Node.js，详情请参考：[node.js Installation](https://github.com/nodejs/help/wiki/Installation)。
+- 已安装 Apache APISIX 12.1.0，详情请参考：[如何构建 Apache APISIX](https://apisix.apache.org/zh/docs/apisix/how-to-build)。
+- 已安装 Nacos 2.0.4，详情请参考：[Nacos 快速入门](https://nacos.io/zh-cn/docs/quick-start.html)。
+- 已安装 Node.js，详情请参考：[Node.js 安装指南](https://github.com/nodejs/help/wiki/Installation)。
 
 ### 步骤一：服务注册
 
-1. 使用 Node.js 的 Koa 框架在 3005 端口启动一个简单的测试服务作为[上游（Upstream）](https://apisix.apache.org/zh/docs/apisix/admin-api#upstream)。
+1. 使用 Node.js 的 Koa 框架在 `3005` 端口启动一个简单的测试服务作为[上游（Upstream）](https://apisix.apache.org/zh/docs/apisix/admin-api#upstream)。
 
 ```JavaScript
 const Koa = require('koa');
