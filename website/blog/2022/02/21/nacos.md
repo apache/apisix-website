@@ -32,20 +32,15 @@ Nacos is an easy-to-use, open source platform for dynamic service discovery, ser
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
 
 The core functions of the Service Registry are as follows:
-
 - Service registration: Service providers register with the Service Registration Center.
 - Service discovery: Service consumers can find the call routing information of service providers through the registry.
 - Health check: Ensure that service nodes registered with the service registry can be invoked normally, and avoid the waste of call resources caused by invalid nodes.
-
-### Why do you need a service registry?
 
 The registry is essentially to decouple service providers and service consumers. In the microservice system, each business service will call each other frequently, and the IP, port and other routing information of each service need to be managed uniformly. But how do you manage it? You can provide information about existing services to a unified service registry for management through the Service Registration function of the Service Registry.
 
 From the above description, you can know that the registry can help users quickly find services and service addresses through mapping. As business updates iterate, services change frequently. Clients can still pull a list of services through the service discovery function of the registry after registering new services or service downtime on the service side. If the service node of the registry changes, the registry sends a request to notify the client to pull again.
 
-If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.
-
-### What application scenarios does Apache APISIX + Nacos provide for users?
+If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.
 
 Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, the ability to proxy and route forwarding interface services through Apache APISIX. After each microservice is registered on Nacos, Apache APISIX can obtain a list of services through Nacos's service discovery function and find the corresponding service address to implement dynamic proxy.
 
@@ -64,7 +59,7 @@ This article is based on the following environments.
 
 ### Step 1: Service Register
 
-1. Use Node.js's Koa framework starts a simple test service on port 3005 as [upstream](https://apisix.apache.org/docs/apisix/admin-api/).
+1. Use Node.js's Koa framework starts a simple test service on port `3005` as [upstream](https://apisix.apache.org/docs/apisix/admin-api/).
 
 ```JavaScript
 const Koa = require('koa');
