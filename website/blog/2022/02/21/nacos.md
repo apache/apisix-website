@@ -167,12 +167,7 @@ After successful addition, examples of correct returned results are as follows:
 }
 ```
 
-In addition, you can also pass other service related parameters in `upstream.discovery_args` to specify the namespace or group where the service is located. For details, please refer to the following table:
-
-| Name         | Type   | Requirement | Default | Valid | Description                                                  |
-| ------------ | ------ | ----------- | ------- | ----- | ------------------------------------------------------------ |
-| namespace_id | string | optional    | public     |       | This parameter is used to specify the namespace of the corresponding service |
-| group_name   | string | optional    | DEFAULT_GROUP       |       | This parameter is used to specify the group of the corresponding service |
+In addition, you can also pass other service related parameters in `upstream.discovery_args` to specify the namespace or group where the service is located. For details, please refer to the [official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos#discovery_args).
 
 ### Step 3: Verify configuration results
 
