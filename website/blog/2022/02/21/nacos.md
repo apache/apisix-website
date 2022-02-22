@@ -42,7 +42,7 @@ From the above description, you can know that the registry can help users quickl
 
 If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.
 
-Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, the ability to proxy and route forwarding interface services through Apache APISIX. After each microservice is registered on Nacos, Apache APISIX can obtain a list of services through Nacos's service discovery function and find the corresponding service address to implement dynamic proxy.
+Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, **the ability to implement proxy and routing forwarding of interface services through Apache APISIX**. After registering various microservices on Nacos, Apache APISIX can get the list of services through the service discovery function of Nacos, and find corresponding service addresses to achieve dynamic proxy.
 
 ![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433743260-53613be6-2812-4af7-9bed-8a03014f2c69.png)
 
@@ -53,9 +53,9 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 This article is based on the following environments.
 
 - OS: Centos 7.9.
-- Apache APISIX 12.1.0, please refer to: [Apache APISIX how-to-bulid](https://apisix.apache.org/docs/apisix/how-to-build).
-- Nacos 2.0.4, please refer to: [quick start](https://nacos.io/zh-cn/docs/quick-start.html).
-- Node.js, please refer to: [node.js Installation](https://github.com/nodejs/help/wiki/Installation).
+- Apache APISIX 12.1.0, please refer to: [How-to-Bulid Apache APISIX ](https://apisix.apache.org/docs/apisix/how-to-build).
+- Nacos 2.0.4, please refer to: [Nacos Quick Start](https://nacos.io/zh-cn/docs/quick-start.html).
+- Node.js, please refer to: [Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
 ### Step 1: Service Register
 
