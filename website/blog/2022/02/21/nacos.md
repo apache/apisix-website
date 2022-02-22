@@ -32,6 +32,7 @@ Nacos is an easy-to-use, open source platform for dynamic service discovery, ser
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
 
 The core functions of the Service Registry are as follows:
+
 - Service registration: Service providers register with the Service Registration Center.
 - Service discovery: Service consumers can find the call routing information of service providers through the registry.
 - Health check: Ensure that service nodes registered with the service registry can be invoked normally, and avoid the waste of call resources caused by invalid nodes.
@@ -53,7 +54,7 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 This article is based on the following environments.
 
 - OS: Centos 7.9.
-- Apache APISIX 12.1.0, please refer to: [How-to-Bulid Apache APISIX ](https://apisix.apache.org/docs/apisix/how-to-build).
+- Apache APISIX 12.1.0, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build).
 - Nacos 2.0.4, please refer to: [Nacos Quick Start](https://nacos.io/zh-cn/docs/quick-start.html).
 - Node.js, please refer to: [Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
@@ -135,6 +136,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 ```
 
 In the above command, the request header `X-API-KEY` is the access token of the Admin API, which can be viewed under `apisix.admin_key.key` in the `conf/config.yaml` file.
+
 After successful addition, examples of correct returned results are as follows:
 
 ```JSON
