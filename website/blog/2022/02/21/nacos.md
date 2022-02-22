@@ -11,10 +11,10 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
-- Service Registry
 - Nacos
-- Developer
-- Guide
+- Service Discovery
+- Service Registry
+- Ecosystem
 description: This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
 tags: [Technology,Ecosystem,Service Discovery]
 ---
@@ -52,7 +52,7 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 This article is based on the following environments.
 
 - OS: Centos 7.9.
-- Apache APISIX 12.1.0, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build).
+- Apache APISIX 2.12.1, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build).
 - Nacos 2.0.4, please refer to: [Nacos Quick Start](https://nacos.io/zh-cn/docs/quick-start.html).
 - Node.js, please refer to: [Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
@@ -174,7 +174,7 @@ Use the following command to send the request to the route to be configured.
 
 Examples of correct returned results are as follows:
 
-  ```Apache
+  ```Shell
   HTTP/1.1 200 OK
   Content-Type: text/plain; charset=utf-8
   Content-Length: 11
