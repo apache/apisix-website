@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Realizes Service Discovery Based on Nacos"
+title: "How to Use Apache APISIX Realizes Service Discovery Based on Nacos"
 authors:
   - name: "Zhihuang Lin"
     title: "Author"
@@ -16,7 +16,7 @@ keywords:
 - Developer
 - Guide
 description: This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
-tags: [Technology,Service Registry,Discovery]
+tags: [Technology,Ecosystem,Service Discovery]
 ---
 
 > This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
@@ -24,14 +24,6 @@ tags: [Technology,Service Registry,Discovery]
 <!--truncate-->
 
 ## Background information
-
-### Apache APISIX Introduction
-
-Apache APISIX is a dynamic, real-time, high-performance API gateway.
-
-APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. Apache APISIX not only has many practical plug-ins, but also supports plugin dynamic change and Hot-loading.
-
-### Nacos Introduction
 
 Nacos is an easy-to-use, open source platform for dynamic service discovery, service configuration and service management.  It provides a set of simple and useful features enabling you to realize dynamic service discovery, service configuration, service metadata and traffic management. Nacos makes it easier and faster to construct, deliver and manage your microservices platform. It is the infrastructure that supports a service-centered modern application architecture with a microservices or cloud-native approach.
 
@@ -207,17 +199,9 @@ It can be seen from the example that the new route in Apache APISIX can find the
 
 ## Summary
 
-This article introduces the concept of registry and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery. How to use Apache APISIX with Nacos in actual scenarios depends on the specific business requirements and past technical architecture.
+This article introduces the concept of registry and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery.Users can use Apache APISIX and Nacos according to their business requirements and past technology architecture to realize the proxy and routing and forwarding capabilities of interface services.
 
 To get more information about the nacos plugin description and full configuration list, you can refer to the [official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
 
-## References
-
-- [Apache APISIX Plugin Development Guide](https://apisix.apache.org/docs/apisix/plugin-develop/)
-- [Lua - File I/O Usage Guide](https://www.tutorialspoint.com/lua/lua_file_io.htm)
-- [How to run Apache APISIX test cases](https://apisix.apache.org/docs/apisix/how-to-build/#step-4-run-test-cases)
-- [How to Write Test Cases](https://apisix.apache.org/docs/apisix/plugin-develop/#write-test-case)
-- [Introduction to the Apache APISIX testing framework](https://apisix.apache.org/docs/apisix/internal/testing-framework/)
-- [Introduction to some APIs related to test-nginx](https://metacpan.org/pod/Test%3A%3ANginx%3A%3ASocket)
