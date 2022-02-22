@@ -204,4 +204,3 @@ This article introduces the concept of registry and how Apache APISIX cooperates
 To get more information about the nacos plugin description and full configuration list, you can refer to the [official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
-
