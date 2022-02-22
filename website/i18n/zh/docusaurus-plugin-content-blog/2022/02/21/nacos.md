@@ -165,12 +165,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }
 ```
 
-除此之外，您还可以在 upstream.discovery_args 中传递其他服务相关参数用于指定服务所在的命名空间或组别，具体内容可参考下表：
-
-| 名字         | 类型   | 可选项 | 默认值 | 有效值 | 说明                                                  |
-| ------------ | ------ | ----------- | ------- | ----- | ------------------------------------------------------------ |
-| namespace_id | string | 可选    | public     |       | 服务所在的命名空间 |
-| group_name   | string | 可选    | DEFAULT_GROUP       |       | 服务所在的组 |
+除此之外，您还可以在 upstream.discovery_args 中传递其他服务相关参数用于指定服务所在的命名空间或组别，具体内容可参考[官方文档](https://apisix.apache.org/zh/docs/apisix/next/discovery/nacos/#%E5%8F%82%E6%95%B0)。
 
 ### 步骤三：验证配置结果
 
