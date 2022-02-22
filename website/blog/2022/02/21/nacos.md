@@ -31,8 +31,8 @@ Service Registry is the core component of service management, similar to the rol
 
 The core functions of the Service Registry are as follows:
 
-- Service registration: Service providers register with the Service Registration Center.
-- Service discovery: Service consumers can find the call routing information of service providers through the registry.
+- Service registration: **Service providers** register with the **Service Registration Center**.
+- Service discovery: **Service consumers** can find the call routing information of service providers through the registry.
 - Health check: Ensure that service nodes registered with the service registry can be invoked normally, and avoid the waste of call resources caused by invalid nodes.
 
 The registry is essentially to decouple service providers and service consumers. In the microservice system, each business service will call each other frequently, and the IP, port and other routing information of each service need to be managed uniformly. But how do you manage it? You can provide information about existing services to a unified service registry for management through the Service Registration function of the Service Registry.
@@ -117,7 +117,7 @@ Examples of correct returned results are as follows:
   }
   ```
 
-### Step 2:Add Nacos Route
+### Step 2: Add Nacos Route
 
 Create a new [route](https://apisix.apache.org/docs/apisix/admin-api/#route) using the Admin API provided by Apache APISIX. APISIX selects the service discovery type to use through the `upstream.discovery_type` field. `upstream.service_name` needs to be associated with the corresponding service name of the registry. Therefore, when creating a route, specify the service discovery type as `nacos`.
 
