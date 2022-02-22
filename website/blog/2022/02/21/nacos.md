@@ -1,5 +1,5 @@
 ---
-title: "Feature review: Apache APISIX Realizes Service Discovery Based on Nacos"
+title: "Apache APISIX Realizes Service Discovery Based on Nacos"
 authors:
   - name: "Zhihuang Lin"
     title: "Author"
@@ -48,7 +48,9 @@ The core functions of the Service Registry are as follows:
 ### Why do you need a service registry?
 
 The registry is essentially to decouple service providers and service consumers. In the microservice system, each business service will call each other frequently, and the IP, port and other routing information of each service need to be managed uniformly. But how do you manage it? You can provide information about existing services to a unified service registry for management through the Service Registration function of the Service Registry.
+
 From the above description, you can know that the registry can help users quickly find services and service addresses through mapping. As business updates iterate, services change frequently. Clients can still pull a list of services through the service discovery function of the registry after registering new services or service downtime on the service side. If the service node of the registry changes, the registry sends a request to notify the client to pull again.
+
 If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.
 
 ### What application scenarios does Apache APISIX + Nacos provide for users?
@@ -64,13 +66,13 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 This article is based on the following environments.
 
 - OS: Centos 7.9.
-- Apache APISIX 12.1.0, please refer to: Apache APISIX how-to-bulid.
-- Nacos 2.0.4, please refer to: Nacos quick start
-- Node.js, please refer to: node.js Installation
+- Apache APISIX 12.1.0, please refer to: [Apache APISIX how-to-bulid](https://apisix.apache.org/docs/apisix/how-to-build).
+- Nacos 2.0.4, please refer to: [quick start](https://nacos.io/zh-cn/docs/quick-start.html).
+- Node.js, please refer to: [node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
 ### Step 1: Service Register
 
-1. Use Node.js's Koa framework starts a simple test service on port 3005 as upstream.
+1. Use Node.js's Koa framework starts a simple test service on port 3005 as [upstream](https://apisix.apache.org/docs/apisix/admin-api/).
 
 ```JavaScript
 const Koa = require('koa');
@@ -131,7 +133,7 @@ Examples of correct returned results are as follows:
 
 ### Step 2:Added Nacos Route
 
-Create a new route using the Admin API provided by Apache APISIX. APISIX selects the service discovery type to use through the upstream.discovery_type field. upstream.service_name  needs to be associated with the corresponding service name of the registry. Therefore, when creating a route, specify the service discovery type as Nacos.
+Create a new [route](https://apisix.apache.org/docs/apisix/admin-api/#route) using the Admin API provided by Apache APISIX. APISIX selects the service discovery type to use through the `upstream.discovery_type` field. `upstream.service_name` needs to be associated with the corresponding service name of the registry. Therefore, when creating a route, specify the service discovery type as `nacos`.
 
 ```Shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
@@ -145,7 +147,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 
-In the above command, the request header X-API-KEY is the access token of the admin API, which can be viewed under apisix.admin_key.key in theconf/config.yaml file.
+In the above command, the request header `X-API-KEY` is the access token of the Admin API, which can be viewed under `apisix.admin_key.key` in the `conf/config.yaml` file.
 After successful addition, examples of correct returned results are as follows:
 
 ```JSON
@@ -173,7 +175,7 @@ After successful addition, examples of correct returned results are as follows:
 }
 ```
 
-In addition, you can also pass other service related parameters in upstream.discovery_args   to specify the namespace or group where the service is located. For details, please refer to the following table:
+In addition, you can also pass other service related parameters in `upstream.discovery_args` to specify the namespace or group where the service is located. For details, please refer to the following table:
 
 | Name         | Type   | Requirement | Default | Valid | Description                                                  |
 | ------------ | ------ | ----------- | ------- | ----- | ------------------------------------------------------------ |
@@ -206,8 +208,10 @@ It can be seen from the example that the new route in Apache APISIX can find the
 ## Summary
 
 This article introduces the concept of registry and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery. How to use Apache APISIX with Nacos in actual scenarios depends on the specific business requirements and past technical architecture.
-To get more information about the nacos plugin description and full configuration list, you can refer to the official documentation.
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in GitHub Discussion, or via the mailing list to communicate.
+
+To get more information about the nacos plugin description and full configuration list, you can refer to the [official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos/).
+
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
 
 ## References
 
