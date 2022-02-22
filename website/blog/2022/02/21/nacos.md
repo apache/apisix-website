@@ -23,11 +23,9 @@ tags: [Technology,Ecosystem,Service Discovery]
 
 <!--truncate-->
 
-## Background information
+## Background Information
 
-Nacos is an easy-to-use, open source platform for dynamic service discovery, service configuration and service management.  It provides a set of simple and useful features enabling you to realize dynamic service discovery, service configuration, service metadata and traffic management. Nacos makes it easier and faster to construct, deliver and manage your microservices platform. It is the infrastructure that supports a service-centered modern application architecture with a microservices or cloud-native approach.
-
-## Service Registry
+Nacos is an easy-to-use, open source platform for dynamic service discovery, service configuration and service management. It provides a set of simple and useful features enabling you to realize dynamic service discovery, service configuration, service metadata and traffic management. Nacos makes it easier and faster to construct, deliver and manage your microservices platform. It is the infrastructure that supports a service-centered modern application architecture with a microservices or cloud-native approach.
 
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
 
@@ -47,7 +45,7 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 
 ![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433743260-53613be6-2812-4af7-9bed-8a03014f2c69.png)
 
-## Apache APISIX realizes service discovery based on Nacos
+## Apache APISIX Integrates Service Discovery Based on Nacos
 
 ### Prerequisites
 
@@ -62,137 +60,137 @@ This article is based on the following environments.
 
 1. Use Node.js's Koa framework starts a simple test service on port `3005` as [upstream](https://apisix.apache.org/docs/apisix/admin-api/).
 
-```JavaScript
-const Koa = require('koa');
-const app = new Koa();
-
-app.use(async ctx => {
-  ctx.body = 'Hello World';
-});
-
-app.listen(3005);
-```
+  ```JavaScript
+  const Koa = require('koa');
+  const app = new Koa();
+  
+  app.use(async ctx => {
+    ctx.body = 'Hello World';
+  });
+  
+  app.listen(3005);
+  ```
 
 2. Register the service on the command line by requesting the Nacos Open API.
 
-```Shell
-curl -X POST 'http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=APISIX-NACOS&ip=127.0.0.1&port=3005&ephemeral=false'
-```
+  ```Shell
+  curl -X POST 'http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=APISIX-NACOS&ip=127.0.0.1&port=3005&ephemeral=false'
+  ```
 
 3. After service registration, use the following command to query the current service.
 
-```Shell
-curl -X GET 'http://127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=APISIX-NACOS'
-```
+  ```Shell
+  curl -X GET 'http://127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=APISIX-NACOS'
+  ```
 
 Examples of correct returned results are as follows:
 
-```JSON
-{
-  "name": "DEFAULT_GROUP@@APISIX-NACOS",
-  "groupName": "DEFAULT_GROUP",
-  "clusters": "",
-  "cacheMillis": 10000,
-  "hosts": [
-    {
-      "instanceId": "127.0.0.1#3005#DEFAULT#DEFAULT_GROUP@@APISIX-NACOS",
-      "ip": "127.0.0.1",
-      "port": 3005,
-      "weight": 1.0,
-      "healthy": true,
-      "enabled": true,
-      "ephemeral": true,
-      "clusterName": "DEFAULT",
-      "serviceName": "DEFAULT_GROUP@@APISIX-NACOS",
-      "metadata": {},
-      "instanceHeartBeatInterval": 5000,
-      "instanceHeartBeatTimeOut": 15000,
-      "ipDeleteTimeout": 30000,
-      "instanceIdGenerator": "simple"
-    }
-  ],
-  "lastRefTime": 1643191399694,
-  "checksum": "",
-  "allIPs": false,
-  "reachProtectionThreshold": false,
-  "valid": true
-}
-```
+  ```JSON
+  {
+    "name": "DEFAULT_GROUP@@APISIX-NACOS",
+    "groupName": "DEFAULT_GROUP",
+    "clusters": "",
+    "cacheMillis": 10000,
+    "hosts": [
+      {
+        "instanceId": "127.0.0.1#3005#DEFAULT#DEFAULT_GROUP@@APISIX-NACOS",
+        "ip": "127.0.0.1",
+        "port": 3005,
+        "weight": 1.0,
+        "healthy": true,
+        "enabled": true,
+        "ephemeral": true,
+        "clusterName": "DEFAULT",
+        "serviceName": "DEFAULT_GROUP@@APISIX-NACOS",
+        "metadata": {},
+        "instanceHeartBeatInterval": 5000,
+        "instanceHeartBeatTimeOut": 15000,
+        "ipDeleteTimeout": 30000,
+        "instanceIdGenerator": "simple"
+      }
+    ],
+    "lastRefTime": 1643191399694,
+    "checksum": "",
+    "allIPs": false,
+    "reachProtectionThreshold": false,
+    "valid": true
+  }
+  ```
 
-### Step 2:Added Nacos Route
+### Step 2:Add Nacos Route
 
 Create a new [route](https://apisix.apache.org/docs/apisix/admin-api/#route) using the Admin API provided by Apache APISIX. APISIX selects the service discovery type to use through the `upstream.discovery_type` field. `upstream.service_name` needs to be associated with the corresponding service name of the registry. Therefore, when creating a route, specify the service discovery type as `nacos`.
 
-```Shell
-curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-{
-    "uri": "/nacos/*",
-    "upstream": {
-        "service_name": "APISIX-NACOS",
-        "type": "roundrobin",
-        "discovery_type": "nacos"
-    }
-}'
-```
+  ```Shell
+  curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
+  {
+      "uri": "/nacos/*",
+      "upstream": {
+          "service_name": "APISIX-NACOS",
+          "type": "roundrobin",
+          "discovery_type": "nacos"
+      }
+  }'
+  ```
 
 In the above command, the request header `X-API-KEY` is the access token of the Admin API, which can be viewed under `apisix.admin_key.key` in the `conf/config.yaml` file.
 
 After successful addition, examples of correct returned results are as follows:
 
-```JSON
-{
-  "action": "set",
-  "node": {
-    "key": "\/apisix\/routes\/1",
-    "value": {
-      "update_time": 1643191044,
-      "create_time": 1643176603,
-      "priority": 0,
-      "uri": "\/nacos\/*",
-      "upstream": {
-        "hash_on": "vars",
-        "discovery_type": "nacos",
-        "scheme": "http",
-        "pass_host": "pass",
-        "type": "roundrobin",
-        "service_name": "APISIX-NACOS"
-      },
-      "id": "1",
-      "status": 1
+  ```JSON
+  {
+    "action": "set",
+    "node": {
+      "key": "\/apisix\/routes\/1",
+      "value": {
+        "update_time": 1643191044,
+        "create_time": 1643176603,
+        "priority": 0,
+        "uri": "\/nacos\/*",
+        "upstream": {
+          "hash_on": "vars",
+          "discovery_type": "nacos",
+          "scheme": "http",
+          "pass_host": "pass",
+          "type": "roundrobin",
+          "service_name": "APISIX-NACOS"
+        },
+        "id": "1",
+        "status": 1
+      }
     }
   }
-}
-```
+  ```
 
 In addition, you can also pass other service related parameters in `upstream.discovery_args` to specify the namespace or group where the service is located. For details, please refer to the [official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos#discovery_args).
 
-### Step 3: Verify configuration results
+### Step 3: Verify Configuration Results
 
 Use the following command to send the request to the route to be configured.
 
-```Shell
-curl -i http://127.0.0.1:9080/nacos/
-```
+  ```Shell
+  curl -i http://127.0.0.1:9080/nacos/
+  ```
 
 Examples of correct returned results are as follows:
 
-```Apache
-HTTP/1.1 200 OK
-Content-Type: text/plain; charset=utf-8
-Content-Length: 11
-Connection: keep-alive
-Date: Thu, 27 Jan 2022 00:48:26 GMT
-Server: APISIX/2.12.0
+  ```Apache
+  HTTP/1.1 200 OK
+  Content-Type: text/plain; charset=utf-8
+  Content-Length: 11
+  Connection: keep-alive
+  Date: Thu, 27 Jan 2022 00:48:26 GMT
+  Server: APISIX/2.12.0
 
-Hello World
-```
+  Hello World
+  ```
 
 It can be seen from the example that the new route in Apache APISIX can find the correct service address through Nacos service discovery and respond normally.
 
 ## Summary
 
-This article introduces the concept of registry and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery.Users can use Apache APISIX and Nacos according to their business requirements and past technology architecture to realize the proxy and routing and forwarding capabilities of interface services.
+This article introduces the concept of registry center and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery. Users can use Apache APISIX and Nacos according to their business requirements and past technology architecture to realize the proxy and routing and forwarding capabilities of interface services.
 
-To get more information about the nacos plugin description and full configuration list, you can refer to the [official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos/).
+To get more information about the `nacos` plugin description and full configuration list, you can refer to the [Apache APISIX's official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
