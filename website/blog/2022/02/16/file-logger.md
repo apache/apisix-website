@@ -70,6 +70,7 @@ After confirming the plugin name and priority, you can create our plugin code fi
 
 ```lua
 -- Introduce the module we need in the header
+local log_util     =   require("apisix.utils.log-util")
 local core         =   require("apisix.core")
 local plugin       =   require("apisix.plugin")
 local ngx          =   ngx
