@@ -36,7 +36,7 @@ CSRF（Cross-Site Request Forgery），即跨站点请求伪造。发起跨站�
 
 在路由中开启 `csrf` 插件后，访问该路由的所有请求响应中都会包含携带了 `csrf token` 的 Cookie。
 
-用户需要在对该路由的不安全请求中携带这一 Cookie，并在请求头添加额外的字段携带 Cookie 的内容。字段为插件配置中的 `name` 值，这样的请求才能通过 CSRF 插件的校验。
+用户需要在对该路由的不安全请求中携带这一 Cookie，并在请求头添加额外的字段用来携带 Cookie 的内容。字段为插件配置中的 `name` 值，这样的请求才能通过 CSRF 插件的校验。
 
 用户在插件的配置中提供一个随机密钥，插件使用该密钥对 token 信息进行 sha256 哈希加密，然后生成  CSRF token，从而保证该 token 不可伪造。
 
@@ -82,7 +82,7 @@ Apache APISIX 会拦截该请求并返回 `401` 错误。在返回的头部中�
 
 ```shell
 HTTP/1.1 401 Unauthorized
-Set-Cookie: apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==;path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
+Set-Cookie: apisix-csrf-token= ${apisix-csrf-token};path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
 {"error_msg":"no csrf token in headers"}
 ```
 
@@ -99,19 +99,19 @@ const instance = axios.create({
 如果 Cookie 中的 token 和请求头中的 token 不一致，请求会被 `csrf` 插件拦截，示例如下：
 
 ```shell
-curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: differenteyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==' -b 'apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ=='
+curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: ${apisix-csrf-token}' -b 'apisix-csrf-token= ${apisix-csrf-token}'
 ```
 
 ```shell
 HTTP/1.1 401 Unauthorized
-Set-Cookie: apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==;path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
+Set-Cookie: apisix-csrf-token= ${apisix-csrf-token};path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
 {"error_msg":"csrf token mismatch"}
 ```
 
-最后使用 `curl`验证正常的访问：
+最后使用 `curl` 验证正常的访问：
 
 ```shell
-curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==' -b 'apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ=='
+curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: ${apisix-csrf-token}' -b 'apisix-csrf-token= ${apisix-csrf-token}'
 ```
 
 ```shell

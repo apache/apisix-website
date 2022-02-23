@@ -36,7 +36,7 @@ To defend against CSRF attacks, we need to create a token or identifier that can
 
 When the `csrf` plugin is enabled in a route, all request responses to that route will contain a Cookie carrying a `csrf token`.
 
-The user needs to carry this Cookie in an unsecured request to the route and add an additional field in the request header to carry the contents of the Cookie. The field is the `name` value in the plugin's configuration so that the request passes the CSRF plugin's checks.
+The user needs to carry this Cookie in an insecure request for this route and add an additional field in the request header to carry the content of the cookie. The field is the `name` value in the plugin configuration so that the request passes the CSRF plugin's checks.
 
 The user provides a random key in the plugin's configuration, which is used by the plugin to encrypt the token information with a sha256 hash and generate a CSRF token, thus ensuring that the token cannot be forged.
 
@@ -82,7 +82,7 @@ Apache APISIX will intercept the request and return a `401` error. In the return
 
 ```shell
 HTTP/1.1 401 Unauthorized
-Set-Cookie: apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==;path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
+Set-Cookie: apisix-csrf-token= ${apisix-csrf-token};path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
 {"error_msg":"no csrf token in headers"}
 ```
 
@@ -96,22 +96,22 @@ const instance = axios.create({
 });
 ```
 
-If the token in the Cookie does not match the token in the request header, the request will be intercepted by the csrf plugin, as shown in the following example.
+If the token in the Cookie does not match the token in the request header, the request will be intercepted by the `csrf` plugin, as shown in the following example.
 
 ```shell
-curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: differenteyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==' -b 'apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ=='
+curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: ${apisix-csrf-token}' -b 'apisix-csrf-token= ${apisix-csrf-token}'
 ```
 
 ```shell
 HTTP/1.1 401 Unauthorized
-Set-Cookie: apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==;path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
+Set-Cookie: apisix-csrf-token= ${apisix-csrf-token};path=/;Expires=Mon, 13-Dec-21 09:33:55 GMT
 {"error_msg":"csrf token mismatch"}
 ```
 
 Finally, use `curl` to verify regular access.
 
 ```shell
-curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ==' -b 'apisix-csrf-token=eyJyYW5kb20iOjAuNjg4OTcyMzA4ODM1NDMsImV4cGlyZXMiOjcyMDAsInNpZ24iOiJcL09uZEF4WUZDZGYwSnBiNDlKREtnbzVoYkJjbzhkS0JRZXVDQm44MG9ldz0ifQ=='
+curl -i http://127.0.0.1:9080/hello -X POST -H 'apisix-csrf-token: ${apisix-csrf-token}' -b 'apisix-csrf-token= ${apisix-csrf-token}'
 ```
 
 ```shell
