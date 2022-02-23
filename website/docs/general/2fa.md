@@ -6,12 +6,12 @@ keywords:
 - APISIX
 - Apache APISIX
 - Two Factor Authentication
-description: This article provides information of how to enable Two-Factor Authentication (2FA) on GitHub. It consists of 3 parts, what is Two-Factor Authentication (2FA), how to enable 2FA on GitHub, and how to submit code.
+description: This article provides information on how to enable Two-Factor Authentication (2FA) on GitHub. It consists of 3 parts, what is Two-Factor Authentication (2FA), how to enable 2FA on GitHub, and how to submit code.
 ---
 
 ## Two-Factor Authentication (2FA)
 
-Two-Factor Authentication (2FA) refers to the authentication method that combines both a passport and an object (credit card, SMS, tokens or biomarkers as fingerprint) to identify a user. 
+Two-Factor Authentication (2FA) refers to the authentication method that combines both a password and an object (credit card, SMS, tokens, or biomarkers as fingerprint) to identify a user. 
 
 To ensure the security of the committer’s account, we need you to [configure 2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) while signing in to contribute code on GitHub. For more details, please refer to [Securing your account with two-factor authentication (2FA)](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa).
 

@@ -113,7 +113,7 @@ Each of these fields are described in detail below.
 
 ##### authors
 
-Use this field when the blog is co-authored by two or more people to give credit to both the authors. `authors` field is composed of the following fields.
+This is a required field to be used when the blog is co-authored by two or more people to give credit to both the authors. `authors` field is composed of the following fields.
 
 - `authors.name`: authors' names in plain text, for example: `name: "John Doe"`.
 - `authors.title`: author's title in plain text, for example: `title: "Technical Writer"`.
@@ -143,8 +143,8 @@ Each post can have more than one tag. The available tags and explanations are as
 - **Community**: Everything related to community, for example, "How to contribute to an open source project without writing code?".
 - **Events**: Related to events, for example, live streams, event previews, meetups and project meetings.
 - **Interview**: For example, Dr. Yang Li interview, Summer of Programming interview.
-- **Practical Case**: Includes best practices to follow. This is easily confused with **Technology**. The content of the article determines which tag the post belongs to. For example, "Running Apache APISIX on xxx platform" would belong to the Practical Case tag and "Apache APISIX vs Envoy" would belong to the Technology tag.
-- **Release**: Tag for release notes. Note that the release notes in blog posts are polished where as inline release notes are written by developers.
+- **Practical Case**: Includes best practices to follow. This is easily confused with **Technology**. The content of the article determines which tag the post belongs to. For example, "Running Apache APISIX on the xxx platform" would belong to the Practical Case tag and "Apache APISIX vs Envoy" would belong to the Technology tag.
+- **Release**: Tag for release notes. Note that the release notes in blog posts are polished whereas inline release notes are written by developers.
 - **Security**: Security vulnerability notifications and methods to bypass security vulnerabilities. Currently there are [five articles](/blog/tags/security/), and they generally have CVE-xxxxxxx in its title.
 - **Technology**: Technical articles. Should not be confused with **Practical Case** (see above).
 - **User Case**: Posts about using Apache APISIX. Tell us how you are using Apache APISIX!

@@ -43,15 +43,17 @@ More details could be found [here](https://community.apache.org/contributors/).
 
 ## Promotion
 
-The Apache APISIX community follows the Apache Community’s process on accepting a new committer. After a contributor participates in APISIX's community actively, (P)PMC and Committers will decide whether to invite the contributor to join Committers and (P)PMC.
+The Apache APISIX community follows the Apache Community’s process of accepting a new committer. After a contributor participates in APISIX's community actively, (P)PMC members will decide whether to invite the contributor to join Committers and (P)PMC.
 
-1. This process starts with a discussion and vote in @private. Only the current PMC members can nominate a new committer or a PMC member.
+1. This process starts with a discussion and vote in @private. Only the current PMC members can nominate a new committer or a PMC member. Each new email in the discussion will extend the process for 72 hours. Please remain patient as PMC members arrive at a decision.
 
 2. If the vote passes, an offer letter is sent to the contributor to become a committer with @private CC’ed.
 
-3. The new committer can then sign the ICLA and apply for an Apache ID and email address.
+3. The new committer can then sign the [ICLA](https://www.apache.org/licenses/contributor-agreements.html#clas) and apply for an Apache ID and email address.
 
-4. The [Team](/team) page is updated with the new committer.
+4. You can now link your Apache account and your GitHub account via [GitBox](https://gitbox.apache.org/setup/).
+
+5. The [Team](/team) page is updated with the new committer.
 
 ## Responsibilities
 

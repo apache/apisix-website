@@ -16,7 +16,7 @@ See the [Subscription Guide](/docs/general/subscribe-guide) to learn more about 
 
 ## Joining the Slack Channel
 
-You can join the Slack channel directly using this invite.
+You can join the Slack channel directly using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ).
 
 _Please open an issue if this link is expired._
 
