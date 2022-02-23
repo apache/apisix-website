@@ -9,7 +9,7 @@ keywords:
 description: This article is a set of guidelines for Apache APISIX contributors, including things that a contributor can do and how to do it well.
 ---
 
-Please follow this guide to [report bugs](#submit-an-issue), [submit suggestions](#submit-an-issue), or [submit PRs](#submit-pr).
+Please follow this guide to [report bugs](#submitting-an-issue), [submit suggestions](#submitting-an-issue), or [submit PRs](#open-a-pull-request).
 
 ## Submitting an Issue
 
@@ -25,19 +25,17 @@ Before submitting an issue, try solving the problem through a comprehensive sear
 
 4. Fill in necessary information according to the template.
 
-5. Choose proper label(s) after opening the issue.
-
-6. Engage in the discussions in the issue and provide more information if necessary.
+5. Engage in the discussions in the issue and provide more information if necessary.
 
 ## Choosing an Issue to Work On
 
 You can also contribute by fixing one of the [open issues](https://github.com/apache/apisix/issues).
 
-1. Once you have chosen an issue to work on or [opened a new issue](#submitting-an-issue), indicate that you would like to work on it by adding a comment.
+1. Once you have chosen an issue to work on or [opened a new issue](#submitting-an-issue), please comment on the issue and ask a [Committer or PMC](/team) to assign it to you.
 
 2. Please check to see if the issue is already being worked on and indicate when you will be able to complete it.
 
-3. Connect with a [mentor](/team) for providing feedback on your issue and reviewing your PR.
+3. Connect with a [Committer or PMC](/team) for providing feedback on your issue and reviewing your PR.
 
 ### Good First Issues
 
