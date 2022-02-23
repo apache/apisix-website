@@ -150,6 +150,7 @@ Each post can have more than one tag. The available tags and explanations are as
 - **User Case**: Posts about using Apache APISIX. Tell us how you are using Apache APISIX!
 
 Reviewers will help you find the right tags while reviewing your PR.
+
 ##### Obtaining authors.image_url
 
 1. Open your browser.

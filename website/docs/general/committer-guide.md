@@ -57,7 +57,7 @@ The Apache APISIX community follows the Apache Community’s process of acceptin
 
 ## Responsibilities
 
-The following are the expected responsibilities of an ASF Committer. 
+The following are the expected responsibilities of an ASF Committer.
 
 1. Develop new features.
 
