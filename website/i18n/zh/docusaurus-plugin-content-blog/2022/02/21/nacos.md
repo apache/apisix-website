@@ -191,6 +191,6 @@ Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项�
 
 本文为大家介绍了注册中心的概念以及 Apache APISIX 如何配合 Nacos 实现基于服务发现的路由代理。用户可以根据自身的业务需求和过往技术架构使用 Apache APISIX 与 Nacos，以实现接口服务的代理和路由转发的能力。
 
-关于 `nacos` 插件的更多说明和完整配置信息，可参考[Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/discovery/nacos)。
+关于 `nacos` 插件的更多说明和完整配置信息，可参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/discovery/nacos)。
 
 Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
