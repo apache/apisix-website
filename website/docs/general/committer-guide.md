@@ -71,7 +71,7 @@ The following are the expected responsibilities of an ASF Committer.
 
 7. Improve processes and tools.
 
-8. Guide new contributors join community.
+8. Guide new contributors to join the community.
 
 ## How to become an APISIX PMC?
 

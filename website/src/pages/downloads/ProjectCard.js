@@ -65,10 +65,12 @@ const ProjectCard = (props) => {
     githubRepo,
     githubBranch,
     downloadPath,
-    LTSDownloadPath = ' '
+    dockerhubPath,
+    LTSDownloadPath = " ",
   } = props;
 
-  const Download = props.name === 'APISIX®' ? `${props.version} Current` : 'Download'
+  const Download =
+    props.name === "APISIX®" ? `${props.version} Current` : "Download";
 
   const shapeComponent =
     shape === "triangle" ? (
@@ -97,14 +99,14 @@ const ProjectCard = (props) => {
   const LTSButton = () => {
     return (
       <Button
-        style={{ display: (name === 'APISIX®' ? ' ' : 'NONE') }}
+        style={{ display: name === "APISIX®" ? " " : "NONE" }}
         onClick={() => setIsLTSDropdownOpen(!isLTSDropdownOpen)}
         background={color}
       >
-        <IconDownload/> {`${props.LTSVersion} LTS`}
+        <IconDownload /> {`${props.LTSVersion} LTS`}
       </Button>
-    )
-  }
+    );
+  };
 
   return (
     <Card>
@@ -190,6 +192,15 @@ const ProjectCard = (props) => {
               isDropdownOpen={isDropdownOpen}
               setIsDropdownOpen={setIsDropdownOpen}
             >
+              {dockerhubPath ? (
+                <DropdownItem
+                  className="download-dropdown-item"
+                  href={`https://hub.docker.com/r/apache/${dockerhubPath}`}
+                  target="_blank"
+                >
+                  DockerHub
+                </DropdownItem>
+              ) : null}
               <DropdownItem
                 className="download-dropdown-item"
                 href={`https://www.apache.org/dyn/closer.cgi/${downloadPath}.tgz`}
@@ -325,17 +336,17 @@ const RightSide = styled.div`
   }
 `;
 const LTSCard = styled.div`
-  margin-right: 1.0em;
-  position:relative;
-  display:flex;
+  margin-right: 1em;
+  position: relative;
+  display: flex;
 `;
 const ButtonCard = styled.div`
-  margin-right:0.3em;
-  position:relative;
-  display:flex;
+  margin-right: 0.3em;
+  position: relative;
+  display: flex;
 `;
 const ButtonRow = styled.div`
-  inline-size:auto;
+  inline-size: auto;
   display: flex;
 `;
 const Button = styled.button`

@@ -70,6 +70,7 @@ tags: [Technology,Logging]
 
 ```lua
 -- 在头部引入我们所需要的模块
+local log_util     =   require("apisix.utils.log-util")
 local core         =   require("apisix.core")
 local plugin       =   require("apisix.plugin")
 local ngx          =   ngx

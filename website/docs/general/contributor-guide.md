@@ -9,7 +9,7 @@ keywords:
 description: This article is a set of guidelines for Apache APISIX contributors, including things that a contributor can do and how to do it well.
 ---
 
-Please fee free to report bugs, submit suggestions, or submit PRs according to this guide.
+Please feel free to report bugs, submit suggestions, or submit PRs according to this guide.
 
 ## Submit an issue
 
@@ -23,15 +23,15 @@ Please fee free to report bugs, submit suggestions, or submit PRs according to t
 
 5. Fill in necessary information according to the template.
 
-6. Choose a label after issue created.
+6. Choose a label after the issue is created.
 
-7. Please pay attention to your issue, you may need provide more information during discussion.
+7. Please pay attention to your issue, you may need to provide more information during discussion.
 
 ## Developer Flow
 
 ### Fork repo
 
-Fork the Apache APISIX repo to your own repo to work, then setting proper upstream.
+Fork the Apache APISIX repo to your repo to work, then set proper upstream.
 
 ```sh
 git remote add upstream https://github.com/apache/apisix.git
@@ -47,7 +47,7 @@ git remote add upstream https://github.com/apache/apisix.git
 
 #### **Good First Issues**:
 
-Good First Issue curates easy pickings from this project, and helps you make your first contribution to Apache APISIX®.
+Good First Issue curates easy pickings from this project and helps you make your first contribution to Apache APISIX®.
 
 - [Apache APISIX®](https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 - [Apache APISIX® Ingress Controller](https://github.com/apache/apisix-ingress-controller/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
@@ -68,7 +68,7 @@ $ git pull upstream master
 $ git checkout -b IssueNo
 ```
 
-Notice: We will merge PR using squash, commit logs will be different form upstream if you use one older branch.
+Notice: We will merge PR using squash, commit logs will be different from upstream if you use one older branch.
 
 ### Coding
 
@@ -86,11 +86,11 @@ $ git push origin issueNo
 
 1. Send a pull request to the master branch.
 
-2. The mentor will do codes review before discussing some details (including the design, the implementation and the performance) with you.
+2. The mentor will do a codes review before discussing some details (including the design, the implementation, and the performance) with you.
 
 3. Also make sure that the pull request title has a semantic prefix like `fix:` or `feat:` or any other [conventional commit types](https://github.com/commitizen/conventional-commit-types/blob/master/index.json).
 
-4. Then congratulate to you to be an official contributor of Apache APISIX.
+4. Then congratulate you to be an official contributor of Apache APISIX.
 
 ### Delete branch
 
@@ -104,7 +104,7 @@ $ git push origin --delete issueNo
 
 ### Notice
 
-Please note that in order to show your ID in the contributor list, please DO NOT forget to set the configurations below:
+Please note that to show your ID in the contributor list, please DO NOT forget to set the configurations below:
 
 ```sh
 $ git config --global user.name "username"
