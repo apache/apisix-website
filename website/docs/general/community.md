@@ -15,7 +15,7 @@ It is an open source project that abides by the [Apache code of conduct](https:/
 
 Apache APISIX is an open source infrastructure software company that provides API processing and analytics with products and solutions for microservices and real-time traffic processing; such as API gateway, k8s ingress controller, and Service Mesh.
 
-The Apache APISIX project is built by collaboration of the community and great contributors. Catch up on other activities in this community by subscribing to the [mailing list](dev-subscribe@apisix.apache.org).
+The Apache APISIX project is built by the collaboration of the community and great contributors. Catch up on other activities in this community by subscribing to the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide).
 
 ## How to get involved
 
