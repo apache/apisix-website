@@ -28,14 +28,14 @@ const useWindowSize = () => {
 const ThemeResetComponent = () => {
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
 
-  useEffect(() => {    
+  useEffect(() => {
     const children = document.querySelector(".navbar__items--right").childElementCount;
     document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none";
 
     if(isDarkTheme) {
       setLightTheme(true);
-    }    
-  }, [])
+    }
+  }, [isDarkTheme])
 
   return (null);
 };
