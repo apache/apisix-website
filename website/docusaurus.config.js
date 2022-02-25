@@ -330,6 +330,10 @@ module.exports = {
             to: '/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development',
             from: '/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development',
           },
+          {
+            to: '/blog/2021/05/24/tencent-games',
+            from: '/blog/2021/05/24/Tencent-Games',
+          },
         ],
       },
     ],
