@@ -1842,6 +1842,23 @@
   resolved "https://registry.npmjs.org/@docusaurus/module-type-aliases/-/module-type-aliases-2.0.0-beta.6.tgz#6d7388d65e1cf31e097f4e5924ec46cd6e7eff1c"
   integrity sha512-TrJ0u4F3mZ7uQNga22why3SsoNwlHp6vltDLlWI80jZmZpnk9BJglpcR8MPOTSEjyUgMxJ6B3q0PA/rWzupWZA==
 
+"@docusaurus/plugin-client-redirects@2.0.0-beta.6":
+  version "2.0.0-beta.6"
+  resolved "https://registry.npmmirror.com/@docusaurus/plugin-client-redirects/-/plugin-client-redirects-2.0.0-beta.6.tgz#c982cc50643bdd93d32d9eaecec8e6ea0ad5ad31"
+  integrity sha512-/tryRByGwuPjrqHf5cSh1VS9oUX+SVHF8ElW8N7CDiTDyjUagffxTumKDMvZiWEzv0++l/MRwSc/PkZk0mOBWQ==
+  dependencies:
+    "@docusaurus/core" "2.0.0-beta.6"
+    "@docusaurus/types" "2.0.0-beta.6"
+    "@docusaurus/utils" "2.0.0-beta.6"
+    "@docusaurus/utils-common" "2.0.0-beta.6"
+    "@docusaurus/utils-validation" "2.0.0-beta.6"
+    chalk "^4.1.1"
+    eta "^1.11.0"
+    fs-extra "^10.0.0"
+    globby "^11.0.2"
+    lodash "^4.17.20"
+    tslib "^2.2.0"
+
 "@docusaurus/plugin-content-blog@2.0.0-beta.6":
   version "2.0.0-beta.6"
   resolved "https://registry.npmjs.org/@docusaurus/plugin-content-blog/-/plugin-content-blog-2.0.0-beta.6.tgz#54ae1c96a8e95dbc58484157c259e8aaf47a3fcb"
@@ -4641,6 +4658,11 @@ esutils@^2.0.2:
   version "2.0.3"
   resolved "https://registry.npmjs.org/esutils/-/esutils-2.0.3.tgz"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
+
+eta@^1.11.0:
+  version "1.12.3"
+  resolved "https://registry.npmmirror.com/eta/-/eta-1.12.3.tgz#2982d08adfbef39f9fa50e2fbd42d7337e7338b1"
+  integrity sha512-qHixwbDLtekO/d51Yr4glcaUJCIjGVJyTzuqV4GPlgZo1YpgOKG+avQynErZIYrfM6JIJdtiG2Kox8tbb+DoGg==
 
 eta@^1.12.1:
   version "1.12.1"
