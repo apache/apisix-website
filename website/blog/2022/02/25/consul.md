@@ -49,14 +49,14 @@ The test environments in this article are built in Docker using docker-compose.
 
   ```shell
   # Pull the Git repository of apisix-docker
-  git clone https://github.com/apache/apisix-docker.git 
+  git clone https://github.com/apache/apisix-docker.git
   ```
 
 2. Create Consul folder and configuration files.
 
   ```shell
   # Create Consul folder
-  mkdir -p ~/docker-things/consul/ && cd "$_" 
+  mkdir -p ~/docker-things/consul/ && cd "$_"
   # Create configuration files
   touch docker-compose.yml server1.json
   ```
@@ -168,7 +168,7 @@ The test environments in this article are built in Docker using docker-compose.
   The following return message indicates successful registration.
 
   ```shell
-  ["upstreams/webpages/172.26.0.2:80","upstreams/webpages/172.26.0.7:80"]% 
+  ["upstreams/webpages/172.26.0.2:80","upstreams/webpages/172.26.0.7:80"]%
   ```
 
 ### Create a Route and Enable Consul
@@ -211,12 +211,12 @@ Here the request with URL `/consul/*` is routed to `http://consul-server1:8500/v
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X POST -d '
-{    
-    "uri": "/consul/*",    
-    "upstream": {        
-        "service_name": "http://consul-server1:8500/v1/kv/upstreams/webpages/",        
+{
+    "uri": "/consul/*",
+    "upstream": {  
+        "service_name": "http://consul-server1:8500/v1/kv/upstreams/webpages/",
         "type": "roundrobin",
-        "discovery_type": "consul_kv"    
+        "discovery_type": "consul_kv"
     }
 }'
 ```

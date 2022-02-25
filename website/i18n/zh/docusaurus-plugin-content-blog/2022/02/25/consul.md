@@ -49,14 +49,14 @@ Apache APISIX 利用 Consul KV 分布式键值存储能力的 `consul_kv` 模块
 
   ```shell
   # 拉取 apisix-docker 的 Git 仓库
-  git clone https://github.com/apache/apisix-docker.git 
+  git clone https://github.com/apache/apisix-docker.git
   ```
 
 2. 创建 Consul 文件夹和配置文件。
 
   ```shell
   # 创建 consul 文件夹
-  mkdir -p ~/docker-things/consul/ && cd "$_" 
+  mkdir -p ~/docker-things/consul/ && cd "$_"
   # 创建配置文件
   touch docker-compose.yml server1.json
   ```
@@ -167,7 +167,7 @@ Apache APISIX 利用 Consul KV 分布式键值存储能力的 `consul_kv` 模块
   返回消息如下则表示注册成功。
 
   ```shell
-  ["upstreams/webpages/172.26.0.2:80","upstreams/webpages/172.26.0.7:80"]% 
+  ["upstreams/webpages/172.26.0.2:80","upstreams/webpages/172.26.0.7:80"]%
   ```
 
 ### 创建路由并为其启用 Consul
@@ -210,12 +210,12 @@ $ curl http://127.0.0.1:9092/v1/discovery/consul_kv/dump | jq
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X POST -d '
-{    
-    "uri": "/consul/*",    
-    "upstream": {        
-        "service_name": "http://consul-server1:8500/v1/kv/upstreams/webpages/",        
+{
+    "uri": "/consul/*",
+    "upstream": {
+        "service_name": "http://consul-server1:8500/v1/kv/upstreams/webpages/",
         "type": "roundrobin",
-        "discovery_type": "consul_kv"    
+        "discovery_type": "consul_kv"
     }
 }'
 ```
