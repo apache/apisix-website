@@ -154,11 +154,11 @@ Reviewers will help you find the right tags while reviewing your PR.
 ##### Obtaining authors.image_url
 
 1. Open your browser.
-2. Enter the url to author's GitHub page (https://github.com/author-username).
-3. Right click on the author's avatar, and click "copy image address".
-4. Paste image address to the `authors.image_url` field.
+2. Enter the url to author's GitHub page followed by a .png (https://github.com/author-username.png).
+3. This will open the author's avatar image and you can copy the url to the image.
+4. Paste this image url to the `authors.image_url` field.
 
-![How to get the authors.image_url](https://static.apiseven.com/202108/1638257037354-10fc1d17-c0f7-4826-84c9-5966b1ae43ad.png)
+![How to get the authors.image_url](https://user-images.githubusercontent.com/49474499/155665803-198d1be0-2878-4c46-9ce1-7e39697eebe8.gif)
 
 #### Truncate and summary
 
