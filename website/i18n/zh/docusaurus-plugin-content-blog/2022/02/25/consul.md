@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 集成 Consul，服务发现能力再升级"
+title: "Apache APISIX 集成 Consul KV，服务发现能力再升级"
 authors:
   - name: "杨陶"
     title: "Author"
@@ -11,7 +11,7 @@ authors:
     image_url: "https://github.com/yzeng25.png"
 keywords: 
 - Apache APISIX
-- Consul
+- Consul KV
 - 服务发现
 - 服务注册
 description: Apache APISIX 支持基于 Consul KV 的服务发现注册表。这篇文章讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程。
