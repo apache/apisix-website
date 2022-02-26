@@ -39,9 +39,9 @@ const ThemeResetComponent = () => {
       }
     } else {
       // remove mode switch at navbar
-      const navbarRightItems = document.querySelector("div.navbar__items.navbar__items--right > div.react-toggle");
-      if (navbarRightItems) {
-        navbarRightItems.style.display = 'none';
+      const navbarModeSwitch = document.querySelector("div.navbar__items.navbar__items--right > div.react-toggle");
+      if (navbarModeSwitch) {
+        navbarModeSwitch.style.display = 'none';
       }
     }
   }, [windowType])
