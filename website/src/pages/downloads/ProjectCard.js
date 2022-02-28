@@ -174,7 +174,7 @@ const ProjectCard = (props) => {
               </DropdownItem>
               <DropdownItem
                 className="download-dropdown-item"
-                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
+                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.sha512`}
                 target="_blank"
               >
                 SHA512
