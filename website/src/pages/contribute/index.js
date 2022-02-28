@@ -25,10 +25,10 @@ const PageDesc = styled.div`
 `;
 
 const Contribute = () => {
-  const repoList = require("../../../config/docs").map(item => ({ repoName: item.githubRepo }));
+  const repoList = require("../../../config/docs").map(item => item.githubRepo);
 
-  const repos = repoList.map((repo) => {
-    return <ContributeCard key={repo.repoName} {...repo} />;
+  const repos = repoList.map((repoName) => {
+    return <ContributeCard key={repoName} repoName={repoName}/>;
   });
 
   return (
@@ -39,7 +39,6 @@ const Contribute = () => {
         {repos}
       </Page>
     </Layout>
-
   );
 };
 

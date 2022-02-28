@@ -57,32 +57,24 @@ const ListItem = styled.li`
   display: flex;
 `;
 
+const reposInfoIssues = require('../../../repos-info.json')
 
 const ContributeCard = (props) => {
   const { repoName } = props;
-  const [isShow, setisShow] = useState(false);
-  const [repoInfo, setRepoInfo] = useState({ description: '', Star: '', Watch: '', Fork: '' });
-  const [issues, setIssues] = useState([]);
+  const {issues, info} = reposInfoIssues[repoName]
+  const [isShow, setIsShow] = useState(false);
 
-  useEffect(() => {
-    getGitHubIssuesInfo(repoName).then((result) => {
-      setIssues(result);
-    });
-    getGitHubRepoInfo(repoName).then((result) => {
-      setRepoInfo({ description: result.description, Star: result.stargazers_count, Watch: result.subscribers_count, Fork: result.forks_count })
-    })
-  }, []);
   return (
-    <Card onClick={() => setisShow(!isShow)} isShow={isShow}>
+    <Card onClick={() => setIsShow(!isShow)} isShow={isShow}>
       <ProjectTitle>
         <Title isShow={isShow}>{repoName}</Title>
         <Issue isShow={isShow}>{issues.length} issues</Issue>
       </ProjectTitle>
-      <div>{repoInfo.description}</div>
+      <div>{info.description}</div>
       <ProjectDesc isShow={isShow}>
-        <div style={{ marginRight: '1rem' }}>Star: {repoInfo.Star}</div>
-        <div style={{ marginRight: '1rem' }}>Watch: {repoInfo.Watch}</div>
-        <div style={{ marginRight: '1rem' }}>Fork: {repoInfo.Fork}</div>
+        <div style={{ marginRight: '1rem' }}>Star: {info.Star}</div>
+        <div style={{ marginRight: '1rem' }}>Watch: {info.Watch}</div>
+        <div style={{ marginRight: '1rem' }}>Fork: {info.Fork}</div>
       </ProjectDesc>
       <List isShow={isShow}>
         <ul style={{ paddingLeft: 0 }}>
@@ -90,31 +82,12 @@ const ContributeCard = (props) => {
             <ListItem key={item.number}>
               <div style={{ minWidth: '4rem' }}>#{item.number}</div>
               <a target="_blank" href={item.html_url} style={{ flex: '1 1 auto', textDecoration: 'none', overflow: 'hidden' }}>{item.title} </a>
-              {item.comments > 0 ? <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}><IconComment></IconComment><div style={{ marginLeft: '0.25rem', fontSize: '0.5rem', color: '#333' }}>{item.comments}</div></div> : ''}
+              {item.comments > 0 ? <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}><IconComment/><div style={{ marginLeft: '0.25rem', fontSize: '0.5rem', color: '#333' }}>{item.comments}</div></div> : ''}
             </ListItem>
           ))}
         </ul></List>
     </Card>
   );
-};
-
-const getGitHubIssuesInfo = (repo) => {
-  return fetch(`https://api.github.com/repos/${repo}/issues?state=open&labels=good%20first%20issue`, {
-    headers: {
-      "content-type": "application/json",
-      Accept: "application / vnd.github.v3 + json",
-    },
-  }).then((response) => response.json()
-  );
-};
-
-const getGitHubRepoInfo = (repo) => {
-  return fetch(`https://api.github.com/repos/${repo}`, {
-    headers: {
-      "content-type": "application/json",
-      Accept: "application / vnd.github.v3 + json",
-    },
-  }).then((response) => response.json());
 };
 
 export default ContributeCard;
