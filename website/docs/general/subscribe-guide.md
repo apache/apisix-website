@@ -1,23 +1,23 @@
 ---
 id: subscribe-guide
 slug: /subscribe-guide
-title: Subscribe Guide
+title: Subscription Guide
 keywords:
 - API gateway
 - APISIX
 - Apache APISIX
 - Subscribe Guide
-description: During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.
+description: Subscribe to the Apache APISIX mailing list to discuss issues, suggest new ideas and participate in other community discussions.
 ---
 
-During the process of using Apache APISIX, if there has any problems, suggestion or new ideas, please feel free to use the Apache mailing-list to participate in the community construction.
+You can subscribe to the Apache APISIX mailing list to discuss issues, suggest new ideas and participate in other community discussions.
 
-1. Send e-mail to subscribe the mailing-list first. Use your mailbox to send an e-mail to dev-subscribe@apisix.apache.org with any subjects or contents.
+1. To subscribe to the mailing list, first send an email to dev-subscribe@apisix.apache.org.
 
-2. Receive and reply the confirmation e-mail. After Step 1, you will receive a confirmation e-mail from dev-help@apisix.apache.org (if you can not receive that, please check “RSS feeds”, “junk e-mail” or other items). Reply that e-mail directly or click the link in e-mail to reply, with any subjects or contents.
+2. Once you send the email, you will receive a confirmation e-mail from dev-help@apisix.apache.org.
 
-3. Receive the Welcome e-mail. After finishing the two steps above, an e-mail with the subject of WELCOME to dev@apisix.apache.org will be sent to your e-mail address. Congrats, you have succeeded in subscribing Apache APISIX mailing-list.
+3. Reply to this email to confirm your subscription.
 
-4. At this stage, you can interact with community by your subscribed email or track email conversations by Archived email list.
+4. Once you confirm, you will receive a welcome email with instructions on using and communicating over the mailing list.
 
-5. To view the Archived email lists, check out [history mailing-list](https://lists.apache.org/list.html?apisix.apache.org).
+5. To view archived emails from the mailing list, check out the [history](https://lists.apache.org/list.html?apisix.apache.org).

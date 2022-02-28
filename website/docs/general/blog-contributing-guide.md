@@ -7,55 +7,69 @@ keywords:
 - Apache APISIX
 - blog
 - how to write a blog 
-description: This article is a set of guidelines for contributors who want to write blogs. This guideline will teach you how to contribute if you want to add a new blog, or modify existing blog contents.
+description: This article contains guidelines for contributors who want to write/update blogs posts on the Apache APISIX website.
 ---
 
 ## Overview
 
-This guideline will teach you how to contribute if you want to add a new blog or modify existing blog content.
+Please follow this guide while writing/updating [blog posts](/blog/) on the Apache APISIX website.
 
-If you find an issue on current documents, please feel free to [file an issue](https://github.com/apache/apisix-website/issues/new) and let the community know about it, or you can [submit a pull request](https://github.com/apache/apisix-website/pulls) to fix or update. Both actions are welcome and recommended.
+Please [submit an issue](/docs/general/contributor-guide/#submitting-an-issue) if you find any issues in the published blog posts. Also feel free to [open a pull request](/docs/general/contributor-guide/#open-a-pull-request) to fix the issue yourself.
 
-The blogs are written in two languages: English and Chinese. We encourage contributors to add blogs in their preferred language. It is completely up to you. We can handle translations and ask you to do a pull request review later.
+The blogs are written in both [English](/blog/) and [Chinese](/zh/blog/). Contributors are encouraged to write blogs in their preferred language. Translations can be handled later and you can review the pull request.
 
-English blogs are located in the `website/blog` directory, in which they are categorized by year, month and date. For example, `website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes.md` means that a blog named `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` was published on November 22nd, 2021, and it is located in the `website/blog/2021/11/22` directory. Once it is reviewed and merged, the URL should be: `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`.
+English blogs are located in the `website/blog` directory, in which they are categorized by year, month and date.
+
+For example, `website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes.md` means that a blog named `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` was published on November 22nd, 2021, and it is located in the `website/blog/2021/11/22` directory. Once it is reviewed and megered, the URL should be: `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`.
 
 Similarly, Chinese blogs are located in `website/i18n/zh/docusaurus-plugin-content-blog` directory and follow the same patterns described above.
 
-## What you can contribute
+## Areas to Contribute
 
-We encourage contributors and users to write blogs about how they contribute or use Apache APISIX, or help us fix typos and update content in existing blogs.
+You are encouraged to write blogs posts about how you use Apache APISIX or how you are contributing to Apache APISIX.
 
-### Add a new blog
+You can also update the existing blogs by updating the content or fixing issues like broken links and typos.
 
-To add a new blog, please perform the following steps:
+### Writing a new blog
 
-1. Find the right place to store your blog.
-    1. If you plan to submit a blog written in **English**, please create a markdown file under the `website/blog` directory.
-    2. If you plan to submit a blog written in **Chinese**, please create a markdown file under `website/i18n/zh/docusaurus-plugin-content-blog` directory.
-    3. If you cannot find an existing year, month, or date directory that fits your desired published date, you can go ahead and create such a directory on your own.
+Writing a new blog post is one of the best ways to contribute to Apache APISIX. Users and contributors of the project will be able to learn from your experience through your content.
 
-2. Create a markdown file in the directory. Please make sure that the file name is written in English with **NO** capitalized letters. During the review session, we may suggest changing it to achieve better SEO performance (Yes, currently some files names contain capitalized letters, we are working on it, see [Issue #713](https://github.com/apache/apisix-website/issues/713)).
+1. To create a post, first find the right place to store it.
+    1. If you are submitting a blog written in **English**, create a markdown file under the `website/blog` directory.
+    2. If you are submitting a blog written in **Chinese**, create a markdown file under the `website/i18n/zh/docusaurus-plugin-content-blog` directory.
+    3. If you don't find a directory that matches the year, month or date, you can create one yourself to store your post.
 
-3. Add text, images, diagrams, charts to the markdown file.
-    1. There is nothing much to say about adding text.
-    2. To add images, please upload images by using [this public image CDN service](https://markdown.apiseven.com), and copy the links from there.
-    3. To add charts or diagrams, we are happy to see any sort of charts and diagrams. From previous experience, charts with 4 columns or less are the perfect size displayed on the screen.
+2. Once you find a place to store your post, you can create a markdown file in the directory. Note that the file name should be in English with no capitalized letters. Reviewers might suggest changing the file name to improve SEO (some of the file names contain capital letters and this is being fixed in [#713](https://github.com/apache/apisix-website/issues/713)).
 
-4. Optional: run it locally to inspect any typos or formatting issues left behind. Although we implemented lint and error checks in the repository, we suggest running it locally to avoid repeated work. To run it locally, please run `cd website`, and then run `yarn start` commands in your terminal.
+3. You can add text, images, diagrams and charts to your post by adding them to the markdown file. You can learn more about formatting in markdown from [The Markdown Guide](https://www.markdownguide.org/).
+    - To add images to your post, first upload the images to this [public image CDN service](https://markdown.apiseven.com) and copy the links to the markdown file.
+    <!-- This link seems to be broken -->
+    - Charts and diagrams are always cool and we are happy to see them! From experience, charts with 4 columns or less fit perfectly to any screen.
 
-5. Submit a pull request to our repository.
+4. [Open a pull request](/docs/general/contributor-guide/#open-a-pull-request) with your new blog post.
 
-#### Blog's header information
+**Note**: You can inspect your changes locally by building the website. This can ensure that there aren't any typos or issues left behind before you make a PR. We run CI checks to catch these errors but it is a recommended practice to test it locally.
+
+<!-- Future: Move this to the contributing guide -->
+To build the website locally, run:
+
+```sh
+cd website
+yarn start
+```
+
+#### Configuring blog headers
+
+Each of the blog posts have a YAML front matter or a header before the content. These are enclosed within the two `---` in the markdown file.
+
+The header section contains fields such as `title`, `description`, `authors`, and `tags`. A description of these fields and templates to copy are described below.
 
 ##### Single author template
 
-Our blogs start with a header sections containing fields such as `title`, `authors`, `authors.name`, `authors.title`, `authors.url`, `authors.image_url`, `description`, and `tags`.
-
-Some fields might be a bit confusing for first-time contributors. An explanation of each field is mentioned below. Please note that these fields could change over time.
+You can use template if your post only has a single author.
 
 ```markdown
-title: "blog's title"
+title: "Blog's Title"
 authors:
   - name: "Author's Name"
     title: "Author"
@@ -67,16 +81,16 @@ keywords:
 - keywords 3
 - keywords 4
 - keywords 5
-description: description of this blog
+description: Description of the post
 tags: [tag1,tag2,...,tagn]
 ```
 
 ##### Co-author template
 
-[Co-author](https://docusaurus.io/docs/next/blog#blog-post-authors) feature is added since translating and editing articles is also time-consuming, we would like to give credit to translators and technical writers as well.
+Translating and editing articles consume time and effort and deserves credit. For this, you can use the co-author template to add multiple authors to the blog post.
 
 ```markdown
-title: "blog's title"
+title: "Blog's Title"
 authors:
   - name: "Author's Name"
     title: "Author's title"
@@ -91,274 +105,95 @@ keywords:
 - keywords 3
 - keywords 4
 - keywords 5
-description: description of this blog
+description: Description of the post
 tags: [tag1,tag2,...,tagn]
 ```
 
-#### authors
+Each of these fields are described in detail below.
 
-The required field for co-author template. When a blog is co-authored by 2 people, please use `authors` instead of `author` to give credits to both authors. `authors` consists of the following fields: `authors.name`, `authors.url`, `authors.title` and `authors.image_url`.
+##### authors
+
+This is a required field to be used when the blog is co-authored by two or more people to give credit to both the authors. `authors` field is composed of the following fields.
 
 - `authors.name`: authors' names in plain text, for example: `name: "John Doe"`.
 - `authors.title`: author's title in plain text, for example: `title: "Technical Writer"`.
-- `authors.url`: authors' GitHub pages, for example: `url: "https://github.com/yzeng25"`.
+- `authors.url`: authors' GitHub page, for example: `url: "https://github.com/yzeng25"`.
 - `authors.image_url`: author's GitHub avatar, for example: `authors.image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"`.
 
 ##### keywords
 
-Required field, keyword, which is used to enhance better SEO performance. Usually, the first three keywords are "APISIX", "Apache APISIX", "API Gateway", and the last two are the article's keywords.
+This is a required field used to enhance SEO performance.
+
+Usually the first three keywords are "APISIX", "Apache APISIX" and "API Gateway", and the last two are specific to the blog post.
 
 ##### description
 
-Required field, the description, which is used to enhance better SEO performance. Usually, you can summarize the first or last paragraph of the article, forming about 120 words of text, and put it here.
+This is also a required field used to enhance SEO performance.
+
+A brief summary of the blog post would be a good description. A good rule of thumb is to keep the number of characters in the description between 150 and 170.
 
 ##### tags
 
-Required field, tag, which is used to categorize the blog. Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and the rules of applying tags could change over time.
+This is a required filed used to categorize the blog post.
 
-- **Community**: community-related, e.g. "How to contribute to an open-source project without writing code?"
-- **Events**: event-related, for example, online live stream, event previews, meetups, online meeting, etc.
-- **Interview**: Interviews, e.g., Dr. Yang Li interview, Summer of Programming interview.
-- **Practical Case**: Best practices, easily confused with Technology. The factors that determine whether an article is a Technology or a Practical Case are the content of the article and the subject of the description. For example, if the article is about "Running Apache APISIX on the xxx platform", then it is a Practical Case; for example, if the article is about technical stuff, "Apache APISIX v.s. Envoy", then it is Technology.
-- **Release**: Release notes, this is better understood. It should be noted that the release notes inside the blog are polished, while the release notes inside the release are written by developers.
-- **Security**: Security vulnerability notification and methods to bypass security vulnerabilities, currently there are only two articles, very good to identify, generally have CVE-xxxxxxx is it.
-- **Technology**: Technical articles, easily confused with Practical Case. The factors that determine whether an article is a Technology or a Practical Case are the content of the article and the subject of the description. For example, if the article is about "Running Apache APISIX on the xxx platform", then it is a Practical Case; for example, if the article is about technical stuff, "Apache APISIX v.s. Envoy", then it is Technology.
-- **User Case**: User Case, is also very straightforward. Please tell us how you use Apache APISIX and your feelings about Apache APISIX.
+Each post can have multiple tags. The tags used currently are given below and each post usually fits into one or more of these tags.
 
-We can help authors to use a better category once a pull request is submitted.
+Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and rules of applying tags could change over time.
 
-#### How to get the authors.image_url
+- **Community**: Everything related to community, for example, "How to contribute to an open source project without writing code?".
+- **Events**: Related to events, for example, live streams, event previews, meetups and project meetings.
+- **Interview**: For example, Dr. Yang Li interview, Summer of Programming interview.
+- **Practical Case**: Includes best practices to follow. This is easily confused with **Technology**. The content of the article determines which tag the post belongs to. For example, "Running Apache APISIX on the xxx platform" would belong to the Practical Case tag and "Apache APISIX vs Envoy" would belong to the Technology tag.
+- **Release**: Tag for release notes. Note that the release notes in blog posts are polished whereas inline release notes are written by developers.
+- **Security**: Security vulnerability notifications and methods to bypass security vulnerabilities. Currently there are [five articles](/blog/tags/security/), and they generally have CVE-xxxxxxx in its title.
+- **Technology**: Technical articles. Should not be confused with **Practical Case** (see above).
+- **User Case**: Posts about using Apache APISIX. Tell us how you are using Apache APISIX!
 
-1. Open Chrome or your preferred browser.
-2. Enter the author's GitHub address to access the author's GitHub home page.
-3. Right-click on the author's avatar, and click "copy image address".
-4. Paste image address to the authors.image_url field.
-![How to get the authors.image_url](https://static.apiseven.com/202108/1638257037354-10fc1d17-c0f7-4826-84c9-5966b1ae43ad.png)
+Reviewers will help you find the right tags while reviewing your PR.
 
-#### truncate and overview
+##### Obtaining authors.image_url
+
+1. Open your browser.
+2. Enter the url to author's GitHub page followed by a .png (https://github.com/author-username.png).
+3. This will open the author's avatar image and you can copy the url to the image.
+4. Paste this image url to the `authors.image_url` field.
+
+![How to get the authors.image_url](https://user-images.githubusercontent.com/49474499/155665803-198d1be0-2878-4c46-9ce1-7e39697eebe8.gif)
+
+#### Truncate and summary
 
 ```markdown
-> overview
+title: "Blog's Title"
+---
+This is the summary.
+
+And this is also part of the summary.
 
 <!--truncate-->
+
+But this is not part of the summary.
 ```
 
-An overview is entered starting with `>` and a space followed by texts. The overview can be your summary of the article, or it can be the first paragraph of the article with a summary description. When you are done, type `<! --truncate-->`. `<! --truncate--->` serves to display the `<! --truncate--->` above the blog overview, or if there is no overview, nothing will be displayed; if there is an overview but no `<! --truncate--->`, it will show the whole thing. For more information, please visit [Docusaurus Offical Document: Blog list](https://docusaurus.io/docs/blog#blog-list).
+You can use the `<!--truncate-->` marker in your posts to decide what will be shown as the post summary in the list of posts page.
 
-#### Difference between Description and Overview
+Anything above `<!--truncate-->` will be part of this summary.
 
-Some people may ask: why should we add the same contents in two fields? First of all, they are indeed both summary texts. Second, they are different in the following way: description is used for SEO enhancements, the overview is used to display content on the blog page.
+You can learn more from the [Docusaurus docs](https://docusaurus.io/docs/blog#blog-list).
 
-### Fix typos or formats
+##### Difference between Description and Summary
 
-1. Locate the file. Chinese blogs are located in `website/i18n/zh/docusaurus-plugin-content-blog` directory. English blogs are located in the `website/blog` directory.
-2. Fix the typos or formats.
-3. Submit a pull request to our repository.
+Summary and description could essentially be the same. Then why do we repeat them on two fields?
 
-## Before you contribute
+Well, the description's primary purpose is for SEO enhancement and is mainly read by computers where as the summary gives human readers an idea about the content of the blog post.
 
-### Commit message style
+### Fixing typos, formatting and keeping up-to-date
 
-1. The initial/first commit message should follow this style: `docs: type in your actual commit message`. Otherwise, the CI tests would fail and you would need to modify the commit message.
-2. The later commit messages would be nice if you follow these styles (it is totally fine if you do it your way):
-    1. `update: type in your actual commit message`
-    2. `fix: type in your actual commit message`
+You can also make impactful contributions by fixing/updating the existing blog posts.
 
-### Pull request title guide
+1. To start, locate the file for the blog post. Note that English blogs are located in the `website/blog` directory and the Chinese blogs are located in `website/i18n/zh/docusaurus-plugin-content-blog` directory.
+2. Once you locate the file, make the necessary changes.
+3. [Open a pull request](/docs/general/contributor-guide/#open-a-pull-request) with the updated blog post.
 
-Pull request title is usually generated from the first commit message, this is why we need a uniform message for the first commit message. It is easier to maintain this way. Remember this is the repository for website and blog, titles start with prefix `docs:` can help us track down particular pull requests.
+## Contributing Guide
 
-## How to contribute via git command line
-
-### Local repository configuration
-
-1. Open your browser and visit https://github.com/apache/apisix-website.
-2. Click 'fork' in the upper right corner to fork it to your repository.
-3. Copy your own remote repository address.
-4. Open your terminal, and type in the following commands. Change to your desired directory to store the files, and git clone it from remote.
-
-    ```sh
-    cd {path or directory name} # change to your desired directory
-    git clone 'https://github.com/{your GitHub Username}/apisix-website' # After forking the repo to your own GitHub, please clone your own repo to local
-    ```
-
-5. View the relationship between your repository and your remote repository. The result should be two lines containing 'origin' messages only.
-
-    ```sh
-    git remote -v
-    ```
-
-6. Now you need to add the main repository as 'upstream'.
-
-    ```sh
-    git remote add upstream https://github.com/apache/apisix-website.git
-    ```
-
-    To verify that 'upstream' is added: run git remote -v , the result should be 4 lines, 2 with 'origin' and 2 with 'upstream'.
-
-These steps conclude the process of adding and configuring a local repository. Next, let's see how to add a new blog, modify content, and how to resolve conflicts.
-
-### Add a new blog
-
-1. Switch to the apisix-website directory.
-
-    ```sh
-    cd apisix-website
-    ```
-
-2. Then find out how many branches there are and which branch you are currently in.
-
-    ```sh
-    git branch
-    ```
-
-    Ideally, there should be few branches and they should stay on the branch where the last change was made or on the master branch.
-
-3. Create a new branch and specify that it is upstream of the master branch of the GitHub master repository.
-
-    ```sh
-    git checkout -b {branch name} upstream/master # replace {branch name} with actual branch name
-    ```
-
-4. Pull the latest changes from the master branch in the main repository.
-
-    ```sh
-    git fetch upstream master
-    ```
-
-5. Synchronize changes to the local branch.
-
-    ```sh
-    git rebase
-    ```
-
-6. Add a new blog.
-
-7. When you're done editing blogs, run `git add` command to temporarily store them.
-
-    ```sh
-    git add .
-    ```
-
-8. Then run `git commit` to record your changes.
-
-    ```sh
-    git commit -m "docs: a brief message about this change" # message should be concise and shorter than 50 characters
-    ```
-
-9. Finally, run git push to push the changes to the remote repository.
-
-    ```sh
-    git push origin
-    ```
-
-10. Visit the GitHub website in your browser, create a pull request, and edit the change information.
-
-11. Complete your pull request.
-
-### Fix typos or formats
-
-1. First switch to the apisix-website path.
-
-    ```sh
-    cd apisix-website
-    ```
-
-2. Then find out how many branches there are and which branch you are currently in.
-
-    ```sh
-    git branch
-    ```
-
-    Ideally, there should be few branches and they should stay on the branch where the last change was made or on the master branch.
-
-3. Create a new branch and specify that it is upstream of the master branch of the GitHub master repository.
-
-    ```sh
-    git checkout -b {branch name} upstream/master # replace {branch name} with actual branch name
-    ```
-
-4. Pull the latest changes from the master branch in the main repository.
-
-    ```sh
-    git fetch upstream master
-    ```
-
-5. Synchronize changes to the local branch.
-
-    ```sh
-    git rebase
-    ```
-
-6. Fix typos or formats.
-
-7. When you're done making changes, run `git add` command to temporarily store them.
-
-    ```sh
-    git add .
-    ```
-
-8. Then run `git commit` to record your changes.
-
-    ```sh
-    git commit -m "docs: a brief message about this change" # message should be concise and shorter than 50 characters
-    ```
-
-9. Finally, run git push to push the changes to the remote repository.
-
-    ```sh
-    git push origin
-    ```
-
-10. Open the GitHub code repository in your browser, create the PR, and edit the change information.
-
-11. Complete your pull request.
-
-### Resolving conflicts
-
-#### Why does conflict occur
-
-Conflict can occur when you submit a PR, and the reason for the conflict is simple: when you make a local change, someone else has committed the PR and merged it into master, and the master you pulled at the time is not the latest version anymore. GitHub is confused because it has no way to determine which of the two versions of the same file prevails. So it throws the problem to the person who created it: whoever's pull request caused the conflict is in charge of the problem.
-
-#### How to resolve conflict
-
-##### Rebase is a good method
-
-1. Since the master pulled at the time is out of date, then pull the latest again.
-
-    ```sh
-    git fetch upstream master
-    ```
-
-2. Sync the latest to this local branch.
-
-    ```sh
-    git rebase
-    ```
-
-3. Handle conflict locally.
-
-4. After you're done, run `git add`, `git commit`, and `git push -f` again.
-
-##### Cherry-pick is an alternative
-
-1. Create a new branch locally.
-
-    ```sh
-    git checkout -b {new branch name} upstream/master
-    ```
-
-2. Pull the latest changes from the remote master repository.
-
-    ```sh
-    git fetch upstream master
-    ```
-
-3. Move all changes from the original branch to the new branch.
-
-    ```sh
-    git cherry-pick {commit number}
-    ```
-
-4. Handle conflict locally.
-5. Run `git add`, `git commit`, and `git push` once.
+Please make sure you follow the [Contributor Guide](/docs/general/contributor-guide/) while you contribute blog posts.

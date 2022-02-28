@@ -8,15 +8,16 @@ keywords:
 description: This article provides useful information about Apache APISIX's Community, including 2 ways to join the Slack channel.
 ---
 
-## Slack
+The Apache APISIX community communicates over Slack and a mailing list. Join both to be in the loop for discussions related to the project and the community.
 
-Apache APISIX provides 2 ways to join the Slack channel.
+## Joining the Mailing List
 
-### Get help from Mailing List (recommended)
+See the [Subscription Guide](/docs/general/subscribe-guide) to learn more about how you can subscribe to the Apache APISIX mailing list.
 
-1. Subscribe the mailing list according to [this guide](subscribe-guide.md);
-2. Send a mail to [dev@apisix.apache.org](mailto:dev@apisix.apache.org) and wait for reply.
+## Joining the Slack Channel
 
-### Use the invitation link below
+You can join the Slack channel directly using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ).
 
-Please use this link [https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ). If this link is expired, please use the mailing list way.
+_Please open an issue if this link is expired._
+
+You can also join via the [mailing list](/docs/general/subscribe-guide) by sending an email to the list (dev@apisix.apache.org) asking for help to join.
