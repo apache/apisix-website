@@ -1,5 +1,5 @@
 ---
-title: "How to Use Apache APISIX Realizes Service Discovery Based on Nacos"
+title: "The practice of Nacos service discovery on API Gateway"
 authors:
   - name: "Zhihuang Lin"
     title: "Author"
@@ -12,20 +12,23 @@ authors:
 keywords: 
 - Apache APISIX
 - Nacos
+- API gateway
 - Service Discovery
 - Service Registry
 - Ecosystem
-description: This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
+description: This article introduces the basic concepts of Apache APISIX and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 tags: [Technology,Ecosystem,Service Discovery]
 ---
 
-> This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
+> This article introduces the basic concepts of Apache APISIX and the Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 
 <!--truncate-->
 
 ## Background Information
 
-Nacos is an easy-to-use, open source platform for dynamic service discovery, service configuration and service management. It provides a set of simple and useful features enabling you to realize dynamic service discovery, service configuration, service metadata and traffic management. Nacos makes it easier and faster to construct, deliver and manage your microservices platform. It is the infrastructure that supports a service-centered modern application architecture with a microservices or cloud-native approach.
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap. At the same time, when using service discovery components, you can not only use etcd, but also Eureka, Consul, and Nacos as service discovery components. This article will introduce you in detail how to configure Nacos in Apache APISIX as a service discovery component in Apache APISIX API Gateway.
+
+![error/Apache APISIX API Getway.png](https://static.apiseven.com/202108/1646038041730-3d9bfdd8-d2f0-41a2-84f5-cb1e1d567a86.png)
 
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
 
@@ -45,7 +48,7 @@ Apache APISIX + Nacos can centralize business-independent control of each micros
 
 ![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433743260-53613be6-2812-4af7-9bed-8a03014f2c69.png)
 
-## Apache APISIX Integrates Service Discovery Based on Nacos
+## API Gateway Integrates Service Discovery Based on Nacos
 
 ### Prerequisites
 
