@@ -15,15 +15,19 @@ keywords:
 - API gateway
 - Service Discovery
 - Service Registry
-description: This article introduces the basic concepts of Apache APISIX，Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
+description: This article introduces the basic concepts of Apache APISIX and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 tags: [Technology,Ecosystem,Service Discovery]
 ---
 
-> This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
+> This article introduces the basic concepts of Apache APISIX and the Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 
 <!--truncate-->
 
-## Background Information
+## Background Information test
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap. At the same time, when using service discovery components, you can not only use etcd, but also Eureka, Consul, and Nacos as service discovery components. This article will introduce you in detail how to configure Nacos in Apache APISIX as a service discovery component in Apache APISIX API Gateway.
+
+![error/Apache APISIX API Getway.png](https://static.apiseven.com/202108/1646038041730-3d9bfdd8-d2f0-41a2-84f5-cb1e1d567a86.png)
 
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
 
