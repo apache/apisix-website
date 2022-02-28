@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX x Kubernetes: Just Right｜Live"
+slug: /blog/2021/07/21/apache-apisix-kubernetes
 author: Apache APISIX
 keywords:
 - API Gateway

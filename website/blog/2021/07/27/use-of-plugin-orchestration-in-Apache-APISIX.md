@@ -1,5 +1,6 @@
 ---
 title: "Applying Plugin Orchestration in Apache APISIX"
+slug: /blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix
 author: "Zhiyuan Ju"
 authorURL: "https://github.com/juzhiyuan"
 authorImageURL: "https://avatars.githubusercontent.com/u/2106987?v=4"

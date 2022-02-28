@@ -1,5 +1,6 @@
 ---
 title: "Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication"
+slug: /blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication
 author: "Peter Zhu"
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"

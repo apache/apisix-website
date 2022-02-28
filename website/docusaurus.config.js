@@ -301,42 +301,7 @@ module.exports = {
         },
       },
     ],
-    ['docusaurus-plugin-sass', {}],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            from: '/blog/2021/06/28/why-we-need-apache-apisix',
-            to: '/blog/2021/06/28/why-we-need-Apache-APISIX',
-          },
-          {
-            from: '/blog/2021/10/26/apisix-ingress',
-            to: '/blog/2021/10/26/APISIX-Ingress',
-          },
-          {
-            from: '/blog/2021/10/01/openeuler',
-            to: '/blog/2021/10/26/openEuler',
-          },
-          {
-            from: '/blog/2021/09/28/wps-usercase',
-            to: '/blog/2021/09/28/WPS-usercase',
-          },
-          {
-            from: '/blog/2021/09/07/iqiyi-usercase',
-            to: '/blog/2021/09/07/iQIYI-usercase',
-          },
-          {
-            from: '/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development',
-            to: '/blog/2021/09/06/python-helps-you-quickly-with-Apache-APISIX-development',
-          },
-          {
-            from: '/blog/2021/05/24/tencent-games',
-            to: '/blog/2021/05/24/Tencent-Games',
-          },
-        ],
-      },
-    ],
+    ['docusaurus-plugin-sass', {}]
   ],
   themeConfig: {
     navbar: {
