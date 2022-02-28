@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import useThemeContext from '@theme/hooks/useThemeContext';
 import Layout from "@theme/Layout";
+import useWindowType from "@theme/hooks/useWindowSize";
 
 import HeroSection from "./sections/heroSection";
 import Architecture from "./sections/architecture";
@@ -27,11 +28,25 @@ const useWindowSize = () => {
 
 const ThemeResetComponent = () => {
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+  const windowType = useWindowType();
+
+  useEffect(()=>{
+    if (windowType === 'mobile') {
+      //  remove mode switch at navbar-sidebar
+      const sidebarModeSwitch = document.querySelector("div.navbar-sidebar__brand > div");
+      if (sidebarModeSwitch) {
+        sidebarModeSwitch.style.display = 'none';
+      }
+    } else {
+      // remove mode switch at navbar
+      const navbarModeSwitch = document.querySelector("div.navbar__items.navbar__items--right > div.react-toggle");
+      if (navbarModeSwitch) {
+        navbarModeSwitch.style.display = 'none';
+      }
+    }
+  }, [windowType])
 
   useEffect(() => {
-    const children = document.querySelector(".navbar__items--right").childElementCount;
-    document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none";
-
     if(isDarkTheme) {
       setLightTheme(true);
     }
