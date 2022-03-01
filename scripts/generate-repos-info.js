@@ -39,7 +39,13 @@ const tasks = new listr([
 						task: () => axios.get(`https://api.github.com/repos/${repo}/issues?state=open&labels=good%20first%20issue`, axiosConfig)
 							.then((v) => v.data)
 							.then((v) => {
-								res[repo] = Object.assign(res[repo] || {}, {issues: v})
+								res[repo] = Object.assign(res[repo] || {}, {issues: v.map((issue)=>({
+										comments: issue.comments,
+										number: issue.number,
+										title: issue.title,
+										htmlUrl: issue.html_url
+									}))
+								})
 							})
 					}
 				])

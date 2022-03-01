@@ -82,7 +82,7 @@ const ContributeCard = (props) => {
           {issues.map(item => (
             <ListItem key={item.number}>
               <div style={{ minWidth: '4rem' }}>#{item.number}</div>
-              <a target="_blank" href={item.html_url} style={{ flex: '1 1 auto', textDecoration: 'none', overflow: 'hidden' }}>{item.title} </a>
+              <a target="_blank" href={item.htmlUrl} style={{ flex: '1 1 auto', textDecoration: 'none', overflow: 'hidden' }}>{item.title} </a>
               {item.comments > 0 ? <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}><IconComment/><div style={{ marginLeft: '0.25rem', fontSize: '0.5rem', color: '#333' }}>{item.comments}</div></div> : ''}
             </ListItem>
           ))}
