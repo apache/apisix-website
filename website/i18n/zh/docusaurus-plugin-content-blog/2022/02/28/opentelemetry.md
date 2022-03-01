@@ -302,7 +302,7 @@ services:
 
 当然，您也可以通过 `docekr-compose.yaml` 部署 Apache APISIX ，具体可以参考 [Apache APISIX 官方文档](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md)。
 
-### 步骤三：测试
+#### 步骤三：测试
 
 重新部署完成后，访问 Jaeger UI 或者 Zipkin UI 即可看到 Trace 中包含了 APISIX 的 Span，如下图：
 

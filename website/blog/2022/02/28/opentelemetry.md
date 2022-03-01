@@ -302,7 +302,7 @@ It should be noted that demo-client.environment.DEMO_SERVER_ENDPOINT needs to be
 
 Of course, you can also deploy Apache APISIX through docekr-compose.yaml. For details, please refer to the [Apache APISIX official documentation](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md).
 
-### Step 3: Test
+#### Step 3: Test
 
 After the redeployment is completed, you can access the Jaeger UI or Zipkin UI to see that the Span of APISIX is included in the Trace, as shown below:
 
