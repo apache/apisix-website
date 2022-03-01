@@ -97,7 +97,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-    
+
     <header>.<payload>.<signature>
 ```
 
@@ -131,7 +131,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
-    
+
     <header>.<payload>.<signature>
 ```
 
@@ -139,7 +139,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-    
+
     {"error_msg":"404 Route Not Found"}
 ```
 
@@ -196,7 +196,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
     # with corrent apikey
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
         -H "apikey: test-apikey"
-    
+
     <header>.<payload>.<signature>
 
     # without apikey

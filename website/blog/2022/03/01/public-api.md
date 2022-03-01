@@ -97,7 +97,7 @@ You can test with the following command, and if you see that the result is a `JW
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-    
+
     <header>.<payload>.<signature>
 ```
 
@@ -131,7 +131,7 @@ The public API is normally accessible with the new `uri`.
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
-    
+
     <header>.<payload>.<signature>
 ```
 
@@ -139,7 +139,7 @@ The public API can't be accessed using the old `uri`.
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-    
+
     {"error_msg":"404 Route Not Found"}
 ```
 
@@ -196,7 +196,7 @@ After testing, when the request carries the correct `apikey`, the public API can
     # with corrent apikey
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
         -H "apikey: test-apikey"
-    
+
     <header>.<payload>.<signature>
 
     # without apikey
