@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX Extensions Guide"
+slug: /blog/2021/10/29/extension-guide
 author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

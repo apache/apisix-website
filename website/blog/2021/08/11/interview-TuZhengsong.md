@@ -1,5 +1,6 @@
 ---
 title: I issued my first PR in the Apache APISIX community
+slug: /blog/2021/08/11/interview-tuzhengsong
 author: Apache APISIX
 authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"
