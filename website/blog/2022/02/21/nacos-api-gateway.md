@@ -23,7 +23,7 @@ tags: [Technology,Ecosystem,Service Discovery]
 
 <!--truncate-->
 
-## Background Information test
+## Background Information
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap. At the same time, when using service discovery components, you can not only use etcd, but also Eureka, Consul, and Nacos as service discovery components. This article will introduce you in detail how to configure Nacos in Apache APISIX as a service discovery component in Apache APISIX API Gateway.
 
