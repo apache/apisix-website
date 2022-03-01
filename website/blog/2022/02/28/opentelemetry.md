@@ -11,18 +11,21 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - OpenTelemetry
 - Observability
 - Ecosystem
 description: This article introduces you to the Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.
-tags: [Technology,Ecosystem,Service Discovery]
+tags: [Technology,Ecosystem,Observability]
 ---
 
 > This article introduces you to the Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.
 
 <!--truncate-->
 
-## Background information
+## Background Information
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
 
 OpenTelemetry is an open source telemetry data acquisition and processing system. It not only provides various SDKS for application side telemetry data collection and reporting, but also data collection side for data receiving, processing and exporting. Export to any or more OpenTelemetry backends, such as Jaeger, Zipkin, and OpenCensus, by configuration. You can view the list of plug-ins that have adapted the OpenTelemetry Collector in the opentelemetry collector contrib  library.
 
@@ -69,7 +72,7 @@ plugin_attr:
 
 #### Method 1: Bind the plugin to the specified route
 
-In order to show you the test effect, `sampler` is temporarily set to full sampling in the example to ensure that `trace` data is generated after each request is tracked, so that you can view the relevant data of `trace` on the Web UI. You can also set relevant parameters according to the actual situation.
+In order to show the test effect more conveniently, `sampler` is temporarily set to full sampling in the example to ensure that `trace` data is generated after each request is traced, so that you can view `trace` related data on the Web UI. You can also set relevant parameters according to the actual situation.
 
   ```Shell
   curl http://127.0.0.1:9080/apisix/admin/routes/1 \
@@ -325,3 +328,4 @@ Apache APISIX is also currently working on additional plugins to support integra
 ## Related articles
 
 [The observability of Apache APISIX](https://apisix.apache.org/blog/2021/11/04/skywalking/).
+[Integrating Splunk HTTP Event Collector with API Gateway](https://apisix.apache.org/blog/2022/02/10/apisix-splunk-integration/)

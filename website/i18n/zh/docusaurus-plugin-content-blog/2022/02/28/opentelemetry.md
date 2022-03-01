@@ -1,5 +1,5 @@
 ---
-title: "可观测性能力升级，Apache APISIX 集成 OpenTelemetry"
+title: "如何在 API 网关中集成 OpenTelemetry 最佳实践"
 authors:
   - name: "庄浩潮"
     title: "Author"
@@ -11,25 +11,29 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - OpenTelemetry
 - Observability
 - Ecosystem
-description: 本文为您介绍 Apache APISIX `opentelemetry` 插件概念以及如何如何开启和部署 opentelemetry 插件。
-tags: [Technology,Ecosystem,Service Discovery]
+description: 本文为您介绍了 Apache APISIX API 网关中的 opentelemetry 插件的概念以及如何部署 opentelemetry 插件。
+tags: [Technology,Ecosystem,Observability]
 ---
 
-> 本文为您介绍 Apache APISIX `opentelemetry` 插件概念以及如何如何开启和部署 `opentelemetry` 插件。
+> 本文为您介绍了 Apache APISIX API 网关中的 `opentelemetry` 插件的概念以及如何部署 `opentelemetry` 插件。
 
 <!--truncate-->
 
 ## 背景信息
+
+Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为 API 网关，Apache APISIX 不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。
 
 OpenTelemetry 是一个开源的遥测数据采集和处理系统，它不仅提供了各种 SDK 用于应用端遥测数据的收集和上报，以及数据收集端用于数据接收、加工和导出，还支持通过配置导出到任意一个或者多个已经适配 OpenTelemetry Exporter 的后端，比如 Jaeger、Zipkin、OpenCensus 等。您可以在 opentelemetry collector contrib 库中查看已经适配 OpenTelemetry Collector 的插件列表。
 
 ![error/OpenTelemetry](https://static.apiseven.com/202108/1646037628714-f542841e-ac27-4c13-a4c8-4cdef79ee501.png)
 
 ## 插件介绍
-Apache APISIX  `opentelemetry` 插件是基于 OpenTelemetry 原生标准（[OTLP/HTTP](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp-request)）实现的 Tracing 数据采集，并通过 HTTP 协议发送至 OpenTelemetry Collector。该功能将在 Apache APISIX 2.13.0  版本中上线支持。
+
+Apache APISIX `opentelemetry` 插件是基于 OpenTelemetry 原生标准（[OTLP/HTTP](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp-request)）实现的 Tracing 数据采集，并通过 HTTP 协议发送至 OpenTelemetry Collector。该功能将在 Apache APISIX 2.13.0  版本中上线支持。
 
 由于 OpenTelemetry 的 Agent/SDK 与后端实现无关，当应用集成了 OpenTelemetry 的 Agent/SDK 之后，用户能够在应用侧无感知的情况下轻松地、自由地变更可观测性后端服务，比如从 Zipkin 切换成 Jaeger。
 
@@ -66,7 +70,7 @@ plugin_attr:
 
 #### 方法一：将插件绑定到指定路由
 
-为了为您展示测试效果，示例中暂时将 sampler 设置为全采样，以确保每次请求都被追踪后产生 trace 数据，方便您在 Web UI 上查看 trace 的相关数据。您也可以根据实际情况，设置相关参数。
+为了更方便的展示测试效果，示例中暂时将 `sampler` 设置为全采样，以确保每次请求都被追踪后产生 `trace` 数据，方便您在 Web UI 上查看 `trace` 的相关数据。您也可以根据实际情况，设置相关参数。
 
   ```Shell
   curl http://127.0.0.1:9080/apisix/admin/routes/1 \
@@ -108,7 +112,7 @@ plugin_attr:
 }'
   ```
 
-#### 方式三：通过 additional_attributes 为 Span 自定义标签
+#### 方式三：通过 `additional_attributes` 为 Span 自定义标签
 
 关于 `sampler` 和 `additional_attributes` 的配置您可以参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/)，其中 `additional_attributes` 是一系列的 `Key:Value` 键值对，您可以使用它为 Span 自定义标签，并且可以跟随 Span 在 Web UI 上展示。通过 `additional_attributes` 为某个路由的 Span 增加 `route_id` 和 `http_x-custom-ot-key`，可以参考如下配置：
 
@@ -221,6 +225,7 @@ Trace 数据上报流程如下。其中由于 Apache APISIX 是单独部署的�
         grpc:
         http:${ip:port}   # 添加 OTLP HTTP Receiver，默认端口为 4318
   ```
+
 3. 修改 `docker-compose.yaml`。
 
 您需要修改配置文件，把 Client 调用 Server 的接口地址修改为 Apache APISIX 的地址，将 OTLP HTTP Receiver 和 Server 服务的端口映射到本地。
@@ -293,7 +298,7 @@ services:
       - "9090:9090"
   ```
 需要注意，`demo-client.environment.DEMO_SERVER_ENDPOINT` 处需要改为您的 Apache APISIX 地址，且保证在容器内可以正常访问。
-当然，您也可以通过 `docekr-compose.yaml` 部署 Apache APISIX ，具体可以参考 Apache APISIX 官方文档。
+当然，您也可以通过 `docekr-compose.yaml` 部署 Apache APISIX ，具体可以参考 [Apache APISIX 官方文档](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md)。
 
 ### 步骤三：测试
 
@@ -314,3 +319,7 @@ services:
 Apache APISIX 在集成 OpenTelemetery 之后，借助 OpenTelemetry 丰富的插件能够与市场上大部分主流的 Trace 系统轻松实现对接。此外，Apache APISIX 也实现了 SkyWalking 和 Zipkin 原生标准协议插件，也在积极与各大社区合作打造更加强大的生态。
 
 Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
+
+## 相关阅读
+
+[浅谈 Apache APISIX 的可观测性](https://apisix.apache.org/zh/blog/2021/11/04/skywalking)
