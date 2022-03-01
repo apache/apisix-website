@@ -9,7 +9,7 @@ description: This article provides useful information about Apache APISIX's Comm
 ---
 
 Apache APISIX is a project maintained by community members under the Apache Software Foundation.
-It is an open source project that abides by the [Apache code of conduct](https://www.apache.org/foundation/policies/conduct.html). Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API Gateway. It handles traditional north-south traffic, as well as east-west traffic between services.
+It is an open source project that abides by the [Apache Software Foundation's code of conduct](https://www.apache.org/foundation/policies/conduct.html). Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API Gateway. It handles traditional north-south traffic, as well as east-west traffic between services.
 
 ## How to get involved
 
