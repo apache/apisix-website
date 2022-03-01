@@ -43,10 +43,6 @@ From the above description, you can know that the registry can help users quickl
 
 If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway.
-
-APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
-
 Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, **the ability to implement proxy and routing forwarding of interface services through Apache APISIX**. After registering various microservices on Nacos, Apache APISIX can get the list of services through the service discovery function of Nacos, and find corresponding service addresses to achieve dynamic proxy.
 
 ![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433743260-53613be6-2812-4af7-9bed-8a03014f2c69.png)
