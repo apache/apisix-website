@@ -1,5 +1,5 @@
 ---
-title: "如何在 API 网关中集成 OpenTelemetry 最佳实践"
+title: "可观测性能力升级，API 网关 Apache APISIX 集成 OpenTelemetry"
 authors:
   - name: "庄浩潮"
     title: "Author"
@@ -15,11 +15,11 @@ keywords:
 - OpenTelemetry
 - Observability
 - Ecosystem
-description: 本文为您介绍了 Apache APISIX API 网关中的 opentelemetry 插件的概念以及如何部署 opentelemetry 插件。
+description: 本文为您介绍了  API 网关 Apache APISIX 中的 opentelemetry 插件的概念以及如何部署 opentelemetry 插件。
 tags: [Technology,Ecosystem,Observability]
 ---
 
-> 本文为您介绍了 Apache APISIX API 网关中的 `opentelemetry` 插件的概念以及如何部署 `opentelemetry` 插件。
+> 本文为您介绍了 API 网关 Apache APISIX 中的 `opentelemetry` 插件的概念以及如何部署 `opentelemetry` 插件。
 
 <!--truncate-->
 
@@ -323,3 +323,4 @@ Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，
 ## 相关阅读
 
 [浅谈 Apache APISIX 的可观测性](https://apisix.apache.org/zh/blog/2021/11/04/skywalking)
+[生态扩大进行中！API 网关集成 Splunk HTTP Event Collector](https://apisix.apache.org/zh/blog/2022/02/10/apisix-splunk-integration)

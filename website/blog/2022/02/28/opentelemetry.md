@@ -1,5 +1,5 @@
 ---
-title: "Upgrade of observability capabilities, Apache APISIX integrates OpenTelemetry"
+title: "Upgrade of observability capabilities, API Gateway Apache APISIX integrates OpenTelemetry"
 authors:
   - name: "Haochao Zhuang"
     title: "Author"
