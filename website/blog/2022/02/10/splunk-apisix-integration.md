@@ -1,5 +1,5 @@
 ---
-title: "Integrating Splunk HTTP Event Collector with Apache APISIX"
+title: "Integrating Splunk HTTP Event Collector with API Gateway"
 authors:
   - name: "Jinchao Shuai"
     title: "Author"
@@ -11,10 +11,11 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
 - Apache APISIX
-- Logging
+- Splunk
 - Observability
-- Ecosystem
-description: This article explains how to configure and use the Splunk HEC service in Apache APISIX.
+- API Gateway
+
+description: This article explains how to configure and use the Splunk HEC service in Clou-native API Gateway Apache APISIX.
 tags: [Technology,Ecosystem,Logging]
 ---
 
