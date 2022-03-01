@@ -46,9 +46,9 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 您可以通过下述命令请求 API 地址，通过返回结果可以看到 /apisix/plugin/jwt/sign 默认情况下并没有被暴露出来，是不可用的。
 
-```Shell 
+```Shell
 curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-    
+
 {"error_msg":"404 Route Not Found"}
 ```
 
@@ -97,7 +97,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-        
+    
     <header>.<payload>.<signature>
 ```
 
@@ -131,7 +131,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
-        
+    
     <header>.<payload>.<signature>
 ```
 
@@ -139,7 +139,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-        
+    
     {"error_msg":"404 Route Not Found"}
 ```
 
@@ -168,6 +168,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
         }
     }'
 ```
+
 2. 设置路由
 
 修改**方法二**中创建的路由，并开启 `key-auth` 插件和 `public-api` 插件。
@@ -195,7 +196,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
     # with corrent apikey
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
         -H "apikey: test-apikey"
-        
+    
     <header>.<payload>.<signature>
 
     # without apikey
@@ -214,7 +215,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 首先，您需要了解 Apache APISIX 在集成 `public-api` 插件之前是如何实现 public API 的功能的。
 
-- 当 APISIX 启动时会加载自定义插件，并使用从 etcd 获取的 Route 配置构建 radixtree 路由器，它将负责根据请求信息匹配 Route 并调用正确的 `handler` 来转发请求。 
+- 当 APISIX 启动时会加载自定义插件，并使用从 etcd 获取的 Route 配置构建 radixtree 路由器，它将负责根据请求信息匹配 Route 并调用正确的 `handler` 来转发请求。
 - APISIX 将为自定义插件的 public API 与用户创建的 Route 分别创建不同的路由器（下文分别称为 public API 路由器和 Route 路由器）
 - 当请求到达时，将先由 public API 路由器进行匹配，之后再由 Route 路由器进行匹配。它们是请求处理流程上完全分开的两个部分。
 

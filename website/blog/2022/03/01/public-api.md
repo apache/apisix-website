@@ -26,7 +26,7 @@ tags: [Technology,Ecosystem,Security]
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an API gateway, Apache APISIX not only has many useful plug-ins, but also supports dynamic plug-in change and hot plug.
 
-When users develop custom plugins in Apache APISIX, they can define some APIs (hereinafter referred to as: public API) for the plugins. For example, the `jwt-auth` plugin, which implements and provides the `/apisix/plugin/jwt/sign` interface for signing JWT, because this interface is not added through the Admin API, it can't be managed like a route. 
+When users develop custom plugins in Apache APISIX, they can define some APIs (hereinafter referred to as: public API) for the plugins. For example, the `jwt-auth` plugin, which implements and provides the `/apisix/plugin/jwt/sign` interface for signing JWT, because this interface is not added through the Admin API, it can't be managed like a route.
 
 In practical application scenarios, the provided interface is for internal calls, rather than being open on the public network for anyone to call. In order to deal with this scenario, Apache APISIX designed [`plugin-interceptors`](https://apisix.apache.org/zh/docs/apisix/plugin-interceptors/), which allows the public API to apply some plugins and implement request filtering, but currently only [`ip-restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/ip-restriction) plugins are supported.
 
@@ -46,7 +46,7 @@ Before using the `public-api` plugin, if the public API is registered using `_M.
 
 You can request the API path by following the command below and return the result to see that `/apisix/plugin/jwt/sign` is not exposed by default and is not available.
 
-```Shell 
+```Shell
 curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
 
 {"error_msg":"404 Route Not Found"}
@@ -97,7 +97,7 @@ You can test with the following command, and if you see that the result is a `JW
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-        
+    
     <header>.<payload>.<signature>
 ```
 
@@ -131,7 +131,7 @@ The public API is normally accessible with the new `uri`.
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
-        
+    
     <header>.<payload>.<signature>
 ```
 
@@ -139,7 +139,7 @@ The public API can't be accessed using the old `uri`.
 
 ```Shell
     curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
-        
+    
     {"error_msg":"404 Route Not Found"}
 ```
 
@@ -168,6 +168,7 @@ Create Consumer and configure the `key-auth` key.
         }
     }'
 ```
+
 2. Set Route
 
 Modify the route created in **Method 2** and open the key-auth plugin and `public-api` plugin.
@@ -195,7 +196,7 @@ After testing, when the request carries the correct `apikey`, the public API can
     # with corrent apikey
     curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'
         -H "apikey: test-apikey"
-        
+    
     <header>.<payload>.<signature>
 
     # without apikey
@@ -231,7 +232,7 @@ After Apache APISIX introduce the `public-api` plugin, the above process will be
 
 ![error/flowchart.png](https://static.apiseven.com/202108/1646136319962-68f66607-804c-4cbc-8742-0745a3ad0f5a.png)
 
-The public API provided by the user defined plugin will no longer be exposed by default. Instead, the user configures route to decide how to provide it. You can freely set routing parameters, such as `uri`, `host`,` method`, etc. after that, you only need to open the `public-api` plugin for routing.
+The public API provided by the user defined plugin will no longer be exposed by default. Instead, the user configures route to decide how to provide it. You can freely set routing parameters, such as `uri`, `host`, `method`, etc. after that, you only need to open the `public-api` plugin for routing.
 
 Because the `public-api` plugin has a low priority, it will be executed after most plugins are executed, so that users can configure any authentication and security plugins for route.
 
