@@ -1,5 +1,6 @@
 ---
 title: "Chaos Mesh Helps Apache APISIX Improve System Stability"
+slug: /blog/2021/08/12/chaos-mesh-helps-apache-apisix-improve-system-stability
 author: "Shuyang Wu"
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"

@@ -1,5 +1,6 @@
 ---
 title: "From 0 to 1, How APISIX Ingress Has Grown and Gained Since Joining The Community"
+slug: /blog/2021/10/26/apisix-ingress
 author: "Wei Jin"
 authorURL: "https://github.com/gxthrj"
 authorImageURL: "https://avatars.githubusercontent.com/u/4413028?v=4"
