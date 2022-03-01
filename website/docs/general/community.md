@@ -8,6 +8,7 @@ keywords:
 description: This article provides useful information about Apache APISIX's Community, including 2 ways to join the Slack channel.
 ---
 
+
 Apache APISIX is a project maintained by community members under the Apache Software Foundation.
 It is an open source project that abides by the [Apache Software Foundation's code of conduct](https://www.apache.org/foundation/policies/conduct.html). Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API Gateway. It handles traditional north-south traffic, as well as east-west traffic between services.
 
@@ -30,3 +31,4 @@ Apache APISIX provides 2 ways to join the Slack channel.
    _Please open an issue if this link is expired._
 
 2. You can also join via the mailing list by sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
+

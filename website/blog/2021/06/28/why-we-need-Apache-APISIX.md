@@ -1,5 +1,6 @@
 ---
 title: Why do you need Apache APISIX when you have NGINX and Kong?
+slug: /blog/2021/06/28/why-we-need-apache-apisix
 author: Yuansheng Wang
 authorURL: "https://github.com/membphis"
 authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"

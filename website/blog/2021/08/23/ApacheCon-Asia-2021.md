@@ -1,5 +1,6 @@
 ---
 title: ApacheCon Asia 2021
+slug: /blog/2021/08/23/apachecon-asia-2021
 keywords:
 - APISIX
 - ApacheCon

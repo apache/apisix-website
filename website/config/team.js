@@ -151,6 +151,12 @@ module.exports = [
         "username": "zhangjintao",
         "githubUsername": "tao12345666333",
         "avatarUrl": "https://avatars.githubusercontent.com/u/3264292?v=4"
+      },
+      {
+        "name": "Guosheng Yang",
+        "username": "dabue",
+        "githubUsername": "dabue",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/53054094?v=4"
       }
     ]
   },

@@ -1,5 +1,6 @@
 ---
 title: Python helps you develop Apache APISIX plugin
+slug: /blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development
 author: Jinchao Shuai
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
