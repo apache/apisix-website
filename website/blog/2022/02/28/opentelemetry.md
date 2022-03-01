@@ -51,7 +51,7 @@ It is assumed that you have already deployed the OpenTelemetry Collector and ena
 
 > If you have not completed the deployment, you can refer to the Scenario Example section in the next section to complete the deployment of OpenTelemetry Collector.
 
-The default port of the OTLP HTTP Receiver is `4318`, and the address of `collector` is the HTTP Receiver address of the OpenTelemetry Collector. For related fields, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/). 
+The default port of the OTLP HTTP Receiver is `4318`, and the address of `collector` is the HTTP Receiver address of the OpenTelemetry Collector. For related fields, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/).
 
   ```YAML
   plugins
@@ -310,12 +310,11 @@ After the redeployment is completed, you can access the Jaeger UI or Zipkin UI t
 
 ![error/Zipkin example.png](https://static.apiseven.com/202108/1646045376329-e1344754-58b4-4a73-8aea-50e6a04f3b70.png)
 
-
 ## Disable Plugin
 
 If you do not need trace collection of a route temporarily, you only need to modify the route configuration and delete the related configuration of `opentelemetry` under `plugins` in the configuration.
 
-You can only remove the configuration of the `opentelemetry` global plugin if you enabled it globally by binding Global Rules. 
+You can only remove the configuration of the `opentelemetry` global plugin if you enabled it globally by binding Global Rules.
 
 ## Summary
 
