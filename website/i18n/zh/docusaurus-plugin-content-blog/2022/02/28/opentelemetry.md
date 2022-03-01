@@ -297,7 +297,9 @@ services:
     ports:
       - "9090:9090"
   ```
+
 需要注意，`demo-client.environment.DEMO_SERVER_ENDPOINT` 处需要改为您的 Apache APISIX 地址，且保证在容器内可以正常访问。
+
 当然，您也可以通过 `docekr-compose.yaml` 部署 Apache APISIX ，具体可以参考 [Apache APISIX 官方文档](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md)。
 
 ### 步骤三：测试
@@ -307,7 +309,6 @@ services:
 ![error/Jaeger example.png](https://static.apiseven.com/202108/1646045290844-acfa071b-5a0d-4f7a-aa77-55838a3cb9f6.png)
 
 ![error/Zipkin example.png](https://static.apiseven.com/202108/1646045376329-e1344754-58b4-4a73-8aea-50e6a04f3b70.png)
-
 
 ## 禁用插件
 
@@ -322,5 +323,6 @@ Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，
 
 ## 相关阅读
 
-[浅谈 Apache APISIX 的可观测性](https://apisix.apache.org/zh/blog/2021/11/04/skywalking)
-[生态扩大进行中！API 网关集成 Splunk HTTP Event Collector](https://apisix.apache.org/zh/blog/2022/02/10/apisix-splunk-integration)
+- [浅谈 Apache APISIX 的可观测性](https://apisix.apache.org/zh/blog/2021/11/04/skywalking)
+
+- [生态扩大进行中！API 网关集成 Splunk HTTP Event Collector](https://apisix.apache.org/zh/blog/2022/02/10/apisix-splunk-integration)

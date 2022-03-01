@@ -41,8 +41,6 @@ The `opentelemetry`plug-in integrates the OpenTelemetry Agent/SDK in Apache APIS
 
 The `opentelemetry` plugin is located on the Agent side in the above figure, but currently only supports the `trace` part, and does not support the `logs` and `metrics` protocols of OpenTelemetry.
 
-
-
 ## How to Use
 
 ### Enable Plugin
@@ -327,5 +325,6 @@ Apache APISIX is also currently working on additional plugins to support integra
 
 ## Related articles
 
-[The observability of Apache APISIX](https://apisix.apache.org/blog/2021/11/04/skywalking/).
-[Integrating Splunk HTTP Event Collector with API Gateway](https://apisix.apache.org/blog/2022/02/10/apisix-splunk-integration/)
+- [The observability of Apache APISIX](https://apisix.apache.org/blog/2021/11/04/skywalking/)
+
+- [Integrating Splunk HTTP Event Collector with API Gateway](https://apisix.apache.org/blog/2022/02/10/apisix-splunk-integration/)
