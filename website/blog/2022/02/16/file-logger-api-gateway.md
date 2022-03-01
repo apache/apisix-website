@@ -1,5 +1,5 @@
 ---
-title: "How did a Beginner Build an Apache APISIX Plugin from 0 to 1"
+title: "file logger practice in API Gateway"
 authors:
   - name: "Qi Guo"
     title: "Author"
@@ -10,11 +10,10 @@ authors:
     url: "https://github.com/yzeng25"
     image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
-- Apache APISIX
+- API Gateway
 - Logging
-- Ecosystem
-- Developer
-- Guide
+- file logger
+
 description: This article documents the process of developing the `file-logger` plugin by a front-end engineer with no back-end experience.
 tags: [Technology,Logging]
 ---
@@ -27,7 +26,7 @@ Over the past few months, community users have added many plugins to Apache APIS
 
 None of the articles on the Apache APISIX blog seem to go into detail about the process of developing plugins. So let's take a look at the process from the perspective of a plugin developer and see how a plugin is born!
 
-This article documents the process of developing the `file-logger` plugin by **a front-end engineer with no back-end experience**. Before digging into the details of the implementation process, we will briefly introduce the functionality of `file-logger`.
+This article documents the process of developing the `file-logger` plugin on API Gateway by **a front-end engineer with no back-end experience**. Before digging into the details of the implementation process, we will briefly introduce the functionality of `file-logger`.
 
 ## Introduction of file-logger plugin
 
