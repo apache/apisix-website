@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "@theme/Layout";
 import ContributeCard from "./ContributeCard";
+import repoInfoList from "../../../repos-info.json";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -26,9 +27,10 @@ const PageDesc = styled.div`
 
 const Contribute = () => {
   const repoList = require("../../../config/docs").map(item => item.githubRepo);
+  const repoInfoList = require("../../../repos-info.json")
 
   const repos = repoList.map((repoName) => {
-    return <ContributeCard key={repoName} repoName={repoName}/>;
+    return <ContributeCard key={repoName} repoName={repoName} { ...repoInfoList[repoName] } />;
   });
 
   return (

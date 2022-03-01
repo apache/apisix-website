@@ -57,13 +57,14 @@ const ListItem = styled.li`
   display: flex;
 `;
 
-const reposInfoIssues = require('../../../repos-info.json')
 
 const ContributeCard = (props) => {
-  const { repoName } = props;
-  const {issues, info} = reposInfoIssues[repoName]
+  const { repoName, issues = [], info } = props;
   const [isShow, setIsShow] = useState(false);
 
+  if (!repoName || !info) {
+    return null
+  }
   return (
     <Card onClick={() => setIsShow(!isShow)} isShow={isShow}>
       <ProjectTitle>
