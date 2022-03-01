@@ -241,7 +241,7 @@ Apache APISIX no longer performs the two stage Route route matching and performs
 
 You should note that after `public-api` is included in the official version release, Apache APISIX will no longer match the route of the public API in the HTTP request processing process of APISIX, that is, the public API registered in the plugin is not exposed by default. You can use the functions of the public API more flexibly through the use method of the `public-api` plugin.
 
-> If you have completed the development of custom plugins in the previous version, the upgrade will affect your business, please confirm again before upgrading.
+> This plug-in will be supported in `APISIX 2.13.0`. If you have completed the development of custom plug-in before `APISIX 2.13.0`, upgrading the version will affect your services. Please confirm again before upgrading.
 
 To get more information about the `public-api` plugin description and full configuration list, you can refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/next/plugins/public-api).
 

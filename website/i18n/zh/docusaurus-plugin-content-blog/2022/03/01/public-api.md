@@ -241,7 +241,7 @@ Apache APISIX 不再进行两阶段的 Route 路由匹配和执行不同的逻�
 
 需要注意，`public-api` 在被纳入正式版本发布之后，在 APISIX 的 HTTP 请求处理流程中，Apache APISIX 将不再进行 public API 的路由匹配，即默认不暴露插件中注册的 public API。您可以参考上述 `public-api` 插件的操作示例更加灵活的使用 public API 的功能。
 
-> 如果您已经在之前的版本完成自定义插件的开发，升级版本后会对您的业务造成影响，请您升级前再次确认。
+> 此插件将在 `APISIX v2.13.0` 版本上线支持，如果您已经在 `APISIX v2.13.0` 之前的版本完成自定义插件的开发，升级版本后会对您的业务造成影响，请您升级前再次确认。
 
 关于 `public-api` 插件的更多说明和完整配置信息，您可以参考 [Apache APISIX 官方文档](https://apisix.apache.org/docs/apisix/next/plugins/public-api)。
 
