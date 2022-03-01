@@ -51,7 +51,7 @@ Apache APISIX `opentelemetry` 插件是基于 OpenTelemetry 原生标准（[OTLP
 
 > 如果您未完成部署，可参考下一节的场景示例部分，完成 OpenTelemetry Collector 的部署。
 
-其中 OTLP HTTP Receiver 的默认端口为 4318 ，collector 的地址为 OpenTelemetry Collector 的 HTTP Receiver 地址，相关字段可参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/)。
+其中 OTLP HTTP Receiver 的默认端口为`4318`，`collector` 的地址为 OpenTelemetry Collector 的 HTTP Receiver 地址，相关字段可参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/)。
 
   ```YAML
   plugins
@@ -154,7 +154,7 @@ curl -X PUT -H `x-custom-ot-key: test-ot-val` http://127.0.0.1:9080/put
 
 ![error/Span details.png](https://static.apiseven.com/202108/1646039676695-a346734b-0498-4ff6-8882-789a61008544.png)
 
-您需要注意，`additional_attributes` 配置的设定是从 Apache APISIX 和 Nginx 变量取值作为 `attribute` 的值，因此 `additional_attributes` 必须是 Apache APISIX 或者 Nginx 的有效变量。其中也包括 HTTP Header，但是在取 `http_header` 时，需要添加 `http_` 作为变量名的前缀。如果变量不存在，那么此 `tag` 就不会被展示了。
+您需要注意，`additional_attributes` 配置的设定是从 Apache APISIX 和 Nginx 变量取值作为 `attribute` 的值，因此 `additional_attributes` 必须是 Apache APISIX 或者 Nginx 的有效变量。其中也包括 HTTP Header，但是在取 `http_header` 时，需要添加 `http_` 作为变量名的前缀。如果变量不存在，就不会展示这个 `tag` 了。
 
 ### 场景示例
 
@@ -172,7 +172,7 @@ cd opentelemetry-collector-contrib/examples/demo
 docker-compose up -d
   ```
 
-在浏览器中输入 http://127.0.0.1:16886（Jaeger UI）或者 http://127.0.0.1:9411/zipkin（Zipkin UI），如果可以正常访问，则表示部署成功。
+在浏览器中输入 `http://127.0.0.1:16886`（Jaeger UI）或者 `http://127.0.0.1:9411/zipkin`（Zipkin UI），如果可以正常访问，则表示部署成功。
 
 下图为访问成功示例：
 

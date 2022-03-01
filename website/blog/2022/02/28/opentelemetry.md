@@ -51,7 +51,7 @@ It is assumed that you have already deployed the OpenTelemetry Collector and ena
 
 > If you have not completed the deployment, you can refer to the Scenario Example section in the next section to complete the deployment of OpenTelemetry Collector.
 
-The default port of the OTLP HTTP Receiver is 4318, and the address of the collector is the HTTP Receiver address of the OpenTelemetry Collector. For related fields, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/). 
+The default port of the OTLP HTTP Receiver is `4318`, and the address of `collector` is the HTTP Receiver address of the OpenTelemetry Collector. For related fields, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/). 
 
   ```YAML
   plugins
@@ -172,7 +172,7 @@ cd opentelemetry-collector-contrib/examples/demo
 docker-compose up -d
   ```
 
-Enter http://127.0.0.1:16886 (Jaeger UI) or http://127.0.0.1:9411/zipkin (Zipkin UI) in the browser. If it can be accessed normally, the deployment is successful.
+Enter `http://127.0.0.1:16886` (Jaeger UI) or `http://127.0.0.1:9411/zipkin` (Zipkin UI) in the browser. If it can be accessed normally, the deployment is successful.
 
 The following figure shows an example of successful access:
 
