@@ -24,7 +24,7 @@ tags: [Technology,Ecosystem,Security]
 
 ## 背景信息
 
-GraphQL 是一个开源的、面向 API 而创造出来的数据查询操作语言以及相应的运行环境。最初由Facebook 于 2012 年内部开发，2015 年公开发布。2018 年 11 月 7 日，Facebook 将 GraphQL 项目转移到新成立的 GraphQL 基金会。
+GraphQL 是一个开源的、面向 API 而创造出来的数据查询操作语言以及相应的运行环境。最初由 Facebook 于 2012 年内部开发，2015 年公开发布。2018 年 11 月 7 日，Facebook 将 GraphQL 项目转移到新成立的 GraphQL 基金会。
 
 您可以把 GraphQL 类比为 SQL 查询语句来理解，与 SQL 查询语句相比，GraphQL 对 API 中的数据提供了一套易于理解的完整描述，让客户端能够通过自定义的描述来准确获得其所需要的数据。这也让 API 能够从容面对日益复杂的接口发展，并避免最终成为一个令人望而生畏的复杂接口。
 
@@ -62,18 +62,21 @@ Apache APISIX 作为云原生 API 网关，在设计之初就已经具备识别 
 
 ### 基本逻辑
 
-![](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
+![error/graphql.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
 
 目前 GraphQL 在 Apache APISIX 中的执行逻辑如下：
 
 1. Clients 向 Apache APISIX 发起带有 GraphQL 语句的请求；
 2. Apache APISIX 匹配路由并提取预设的 GraphQL 数据；
 3. Apache APISIX 通过预设 GraphQL 数据对请求数据进行匹配；
-  - 匹配成功，Apache APISIX 将继续转发请求；
-  - 匹配失败，Apache APISIX 将立刻终止请求。
+
+- 匹配成功，Apache APISIX 将继续转发请求；
+- 匹配失败，Apache APISIX 将立刻终止请求。
+
 4. 是否存在插件；
-  - 如果存在插件，请求将继续被插件处理，处理完成后，继续转发到 GraphQL Server；
-  - 如果不存在插件，请求将直接转发到 GraphQL Server。
+
+- 如果存在插件，请求将继续被插件处理，处理完成后，继续转发到 GraphQL Server；
+- 如果不存在插件，请求将直接转发到 GraphQL Server。
 
 在 APISIX core 里内部匹配中，Apache APISIX 通过 [`graphql-lua`](https://github.com/bjornbytes/graphql-lua) 库实现对 GraphQL 的支持。Apache APISIX GraphQL 解析库会先对携带 GraphQL 语法的请求进行解析，之后将解析后的请求与预设在 Apache APISIX 数据库里的配置数据进行匹配。如果匹配成功 Apache APISIX 会放行并转发请求，反之则终止请求
 
@@ -167,7 +170,7 @@ HTTP/1.1 404 Not Found
       "nodes": {
           "192.168.1.200:1980": 1
       }
-  }'   
+  }'
 ```
 
 2. 创建与第一个上游服务绑定的 GraphQL 路由，`graphql_name` 设置为 `getRepo111`：
@@ -182,9 +185,9 @@ HTTP/1.1 404 Not Found
           ["graphql_operation", "==", "query"],
           ["graphql_name", "==", "getRepo111"],
           ["graphql_root_fields", "has", "owner"]
-      ],    
+      ],
       "upstream_id": "1"
-  }'   
+  }'
 ```
 
 3. 创建第二个上游服务：
@@ -222,7 +225,7 @@ HTTP/1.1 404 Not Found
 
 使用之前所创建的两个 `graphql_name` 服务进行测试，您可以发现 Apache APISIX 可以根据请求中不同的 `graphql_name` 自动选择转发的 Upstream。
 
-  - 如果请求是此示例：
+- 如果请求是此示例：
 
 ```Shell
   curl -i -H 'content-type: application/graphql' \
@@ -247,7 +250,7 @@ HTTP/1.1 404 Not Found
   Centos-port: 1980
 ```
 
-  - 如果请求是这个示例：
+- 如果请求是这个示例：
 
 ```Shell
   curl -i -H 'content-type: application/graphql' \
@@ -278,7 +281,7 @@ HTTP/1.1 404 Not Found
 
 1. 配置 Apache APISIX：
 
-```Shell 
+```Shell
 curl http://192.168.1.200:9080/apisix/admin/routes/11 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
@@ -322,7 +325,7 @@ Centos-port: 1982
 
 ## 搭配插件
 
-Apache APISIX 拥有丰富的插件生态以应用不同的使用场景，如果在使用 Apache APISIX + GraphQL 时添加适合的插件，就可以使方案应用的场景变得更多。
+Apache APISIX 拥有丰富的插件生态以应对不同的使用场景，如果在使用 Apache APISIX + GraphQL 时添加适合的插件，就可以使方案应用的场景变得更多。
 
 本文仅选取了以下两种类型的插件进行举例。
 
@@ -332,7 +335,7 @@ Apache APISIX 拥有丰富的插件生态以应用不同的使用场景，如果
 
 ### 可观测性插件
 
-Apache APISIX 提供了包括但不仅限于 [`prometheus`](https://apisix.apache.org/docs/apisix/plugins/prometheus)、[`skywalking`](https://apisix.apache.org/docs/apisix/plugins/skywalking) 等可观测性插件，能够为系统提供更多监控指标数据，方便系统后续的运营维护等实现。
+Apache APISIX 提供了包括但不仅限于 [`prometheus`](https://apisix.apache.org/zh/docs/apisix/plugins/prometheus)、[`skywalking`](https://apisix.apache.org/zh/docs/apisix/plugins/skywalking) 等可观测性插件，能够为系统提供更多监控指标数据，方便系统后续的运营维护等实现。
 
 ## 总结
 

@@ -15,7 +15,7 @@ keywords:
 - GraphQL
 - Ecosystem
 description: This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
-tags: [Technology,Ecosystem,]
+tags: [Technology,Ecosystem,Security]
 ---
 
 > This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
@@ -62,18 +62,21 @@ In addition, Apache APISIX can also perform different permission checks for diff
 
 ### Basic Logic
 
-![](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
+![error/graphql.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
 
 The execution logic of GraphQL in Apache APISIX is as follows:
 
 1. Clients to  Apache APISIX initiated with GraphQL statements request;
 2. Apache APISIX matching routing and extract the preset GraphQL data;
 3. Apache APISIX matches the request data with the preset GraphQL data;
-  - If the match is successful,  Apache APISIX will continue to forward the request;
-  - If the match fails, Apache APISIX will immediately terminate the request.
+
+- If the match is successful,  Apache APISIX will continue to forward the request;
+- If the match fails, Apache APISIX will immediately terminate the request.
+
 4. Whether plugins exist;
-  - if the plug-in exists, the request will continue to be processed by the plug-in, and after the processing is completed, it will continue to be forwarded to the GraphQL Server;
-  - If no plug-in exists, the request will be forwarded directly to GraphQL Server.
+
+- if the plug-in exists, the request will continue to be processed by the plug-in, and after the processing is completed, it will continue to be forwarded to the GraphQL Server;
+- If no plug-in exists, the request will be forwarded directly to GraphQL Server.
 
 In the internal matching of APISIX core, Apache APISIX implements GraphQL support through the [`graphql-lua`](https://github.com/bjornbytes/graphql-lua) library. The Apache APISIX GraphQL parsing library will first parse the request carrying the GraphQL syntax, and then match the parsed request with the configuration data preset in the Apache APISIX database. If the match is successful, Apache APISIX will pass and forward the request, otherwise it will terminate the request.
 
@@ -168,7 +171,7 @@ Apache APISIX can forward to different Upstreams according to different `graphql
       "nodes": {
           "192.168.1.200:1980": 1
       }
-  }'   
+  }'
 ```
 
 2. 2. Create GraphQL route bound to the first Upstream service with `graphql_name` set to `getRepo111`:
@@ -183,9 +186,9 @@ Apache APISIX can forward to different Upstreams according to different `graphql
           ["graphql_operation", "==", "query"],
           ["graphql_name", "==", "getRepo111"],
           ["graphql_root_fields", "has", "owner"]
-      ],    
+      ],
       "upstream_id": "1"
-  }'   
+  }'
 ```
 
 3. 3. Create the second Upstream :
@@ -223,7 +226,7 @@ Apache APISIX can forward to different Upstreams according to different `graphql
 
 Test with the two `graphql_name` services created earlier, you can find that Apache APISIX can automatically select the forwarded Upstream based on the different `graphql_names` in the request.
 
-  - If the request is this example:：
+- If the request is this example:：
 
 ```Shell
   curl -i -H 'content-type: application/graphql' \
@@ -247,7 +250,8 @@ Returns a response from upstream `192.168.1.200:1980`:
   ---Service Node
   Centos-port: 1980
 ```
-  - If the request is this example:
+
+- If the request is this example:
 
 ```Shell
   curl -i -H 'content-type: application/graphql' \
@@ -278,7 +282,7 @@ The above example provides a matching rule with `graphql_operation` as query, an
 
 1. Configure Apache APISIX:
 
-```Shell 
+```Shell
   curl http://192.168.1.200:9080/apisix/admin/routes/11 \
   -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
   {
@@ -328,7 +332,7 @@ This article only selects the following two types of plugins as examples.
 
 ### `limit-count` Plugin
 
-With the use of the `limit-count` plugin, the traffic is further limited after being forwarded by GraphQL matching rules. Thanks to the characteristics of Apache APISIX, dynamic, refined and distributed current and speed limiting can be achieved. For details, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/zh/docs/apisix/plugins/limit-count).
+With the use of the `limit-count` plugin, the traffic is further limited after being forwarded by GraphQL matching rules. Thanks to the characteristics of Apache APISIX, dynamic, refined and distributed current and speed limiting can be achieved. For details, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/plugins/limit-count).
 
 ### Observability Plugin
 
