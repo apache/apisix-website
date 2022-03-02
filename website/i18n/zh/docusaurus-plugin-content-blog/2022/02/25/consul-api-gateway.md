@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 集成 Consul KV，服务发现能力再升级"
+title: "API 网关 Apache APISIX 集成 Consul KV，服务发现能力再升级"
 authors:
   - name: "杨陶"
     title: "Author"
@@ -10,8 +10,8 @@ authors:
     url: "https://github.com/yzeng25"
     image_url: "https://github.com/yzeng25.png"
 keywords: 
-- Apache APISIX
-- Consul KV
+- API Gateway
+- Consul
 - 服务发现
 - 服务注册
 description: Apache APISIX 支持基于 Consul KV 的服务发现注册表。这篇文章讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程。
@@ -23,6 +23,10 @@ tags: [Technology,Ecosystem,Service Discovery]
 <!--truncate-->
 
 ## 背景信息
+
+Apache APISIX 是一个动态、实时、高性能的 API 网关。
+
+作为 API 网关，Apache APISIX 提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。
 
 Consul 是一个服务网格解决方案，其核心之一的 Consul KV 是一个分布式键值数据库，主要用途是存储配置参数和元数据，同时也允许用户存储索引对象。
 
