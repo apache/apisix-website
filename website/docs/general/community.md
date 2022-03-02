@@ -20,7 +20,7 @@ Want to get involved with a project, join our slack community, collaborate & int
 
 ### Joining the Mailing List
 
-The Apache APISIX project is built by the collaboration of the community and great contributors. Catch up on other activities in this community by subscribing to the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide).
+The Apache APISIX project is built by the collaboration of the community and great contributors. Catch up on other activities in this community by [subscribing to the mailing list](https://apisix.apache.org/docs/general/subscribe-guide).
 
 ### Joining the Slack Channel
 
