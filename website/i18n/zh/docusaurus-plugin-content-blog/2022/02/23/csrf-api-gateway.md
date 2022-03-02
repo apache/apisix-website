@@ -1,5 +1,5 @@
 ---
-title: "如何使用 Apache APISIX CSRF 安全插件拦截跨站点伪造攻击"
+title: "如何使用 API 网关 Apache APISIX 的 CSRF 安全插件拦截跨站点伪造攻击"
 authors:
   - name: "暴渊"
     title: "Author"
@@ -11,10 +11,11 @@ authors:
     image_url: "https://github.com/yzeng25.png"
 keywords: 
 - Apache APISIX
+- API 网关
 - API 安全
 - 伪造跨站点请求
-- 跨站点请求攻击
-description: 本文介绍了 Apache APISIX 的 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。
+- CSRF
+description: 本文介绍了云原生 API 网关 Apache APISIX 的 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。
 tags: [Technology,Ecosystem]
 ---
 
@@ -22,9 +23,9 @@ tags: [Technology,Ecosystem]
 
 <!--truncate-->
 
-CSRF（Cross-Site Request Forgery），即跨站点请求伪造。发起跨站点请求伪造攻击的关键点在于让目标服务器无法分辨众多请求的来源是真实用户还是攻击者。攻击的一般流程为：首先攻击者会诱导用户导航至攻击者提供的网页上。该网页包含一个自动发送到目标服务器的请求。然后该网页正常加载，这个请求就会自动发送至服务器。在服务器看来，这个请求和用户正常发送的请求一模一样，殊不知这是由攻击者发起，而用户却毫不知情。由于该请求携带了用户的一些凭据，攻击者通过解析这些凭据，就可以获取用户信息，进而产生安全风险。
+Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为 API 网关，Apache APISIX 拥有多种类型的实用插件，本文介绍了 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。
 
-本文介绍了 Apache APISIX 的 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。
+CSRF（Cross-Site Request Forgery），即跨站点请求伪造。发起跨站点请求伪造攻击的关键点在于让目标服务器无法分辨众多请求的来源是真实用户还是攻击者。攻击的一般流程为：首先攻击者会诱导用户导航至攻击者提供的网页上。该网页包含一个自动发送到目标服务器的请求。然后该网页正常加载，这个请求就会自动发送至服务器。在服务器看来，这个请求和用户正常发送的请求一模一样，殊不知这是由攻击者发起，而用户却毫不知情。由于该请求携带了用户的一些凭据，攻击者通过解析这些凭据，就可以获取用户信息，进而产生安全风险。
 
 ## 插件介绍
 
