@@ -1,5 +1,6 @@
 ---
 title: "Authorization with Casbin in Apache APISIX"
+slug: /blog/2021/08/25/auth-with-casbin-in-apache-apisix
 author: "Casbin Community & Apache APISIX Community"
 keywords:
 - API gateway

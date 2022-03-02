@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Integrates with Consul KV to Expand Its Capabilities in Service Discovery"
+title: "How to Integrate API Gateway and Consul?"
 authors:
   - name: "Tao Yang"
     title: "Author"
@@ -10,8 +10,8 @@ authors:
     url: "https://github.com/yzeng25"
     image_url: "https://github.com/yzeng25.png"
 keywords: 
-- Apache APISIX
-- Consul KV
+- API Gateway
+- Consul
 - Service Discovery
 - Servici Register
 description: Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.
@@ -23,6 +23,10 @@ tags: [Technology,Ecosystem,Service Discovery]
 <!--truncate-->
 
 ## Background Information
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway.
+
+APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
 Consul is a service mesh solution. One of its cores, Consul KV, is a distributed key-value database whose primary purpose is to store configuration parameters and metadata, while also allowing users to store indexed objects.
 

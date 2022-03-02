@@ -1,5 +1,6 @@
 ---
 title: "Why Apache APISIX chose Nginx and Lua to build API Gateway"
+slug: /blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua
 author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

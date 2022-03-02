@@ -1,5 +1,6 @@
 ---
 title: "Kong-To-APISIX Migration Tool"
+slug: /blog/2021/08/05/kong-to-apisix
 author: "吴舒旸"
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"
