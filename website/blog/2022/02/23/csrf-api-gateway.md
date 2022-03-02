@@ -32,7 +32,6 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway.
 
 APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
-
 ## Plugin Introduction
 
 The `csrf` plugin is implemented based on the `Double Submit Cookie` scheme. As defined in [RFC 7231#section-4.2.1](https://datatracker.ietf.org/doc/html/rfc7231.html#section-4.2.1), we consider the `GET`, `HEAD` and `OPTIONS` methods as **secure methods**. According to this convention, the `csrf` plug-in will let these three methods go directly, but will check the other methods and intercept any unsafe requests.
