@@ -1,5 +1,5 @@
 ---
-title: "后端新手如何从 0 到 1 打造一款 Apache APISIX 插件"
+title: "后端新手如何从 0 到 1 在 API 网关上开发 file-logger 插件"
 authors:
   - name: "郭奇"
     title: "Author"
@@ -10,12 +10,11 @@ authors:
     url: "https://github.com/yzeng25"
     image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
-- Apache APISIX
+- API Gateway
 - Logging
-- Ecosystem
-- Developer
-- Guide
-description: 本篇文章记录了一个没有后端经验的前端工程师开发 `file-logger` 插件的过程。
+- file logger
+
+description: 本篇文章记录了一个没有后端经验的前端工程师在云原生 API 网关 Apache APISIX 上开发 `file-logger` 插件的过程。
 tags: [Technology,Logging]
 ---
 
@@ -27,7 +26,7 @@ tags: [Technology,Logging]
 
 社区的贡献者们是如何为 Apache APISIX 开发插件的呢？Apache APISIX 博客上的文章似乎都没有详细讲述过开发插件的流程。那么这次我们换一个视角，从插件开发者的角度出发，一起来看看一款插件诞生的全过程吧！
 
-本篇文章记录了一个**没有后端经验的前端工程师**开发 `file-logger` 插件的过程。在详细说明实现过程之前，先向大家简单介绍下 `file-logger` 的功能。
+本篇文章记录了一个**没有后端经验的前端工程师**在 API 网关上开发 `file-logger` 插件的过程。在详细说明实现过程之前，先向大家简单介绍下 `file-logger` 的功能。
 
 ## 功能介绍
 
