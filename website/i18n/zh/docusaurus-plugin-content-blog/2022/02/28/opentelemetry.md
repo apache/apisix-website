@@ -313,7 +313,6 @@ services:
 ## 禁用插件
 
 如果您暂时不需要某个路由的 Trace 采集，则仅需修改路由配置，将配置中的 `plugins` 下的 `opentelemetry` 相关配置删除即可。
-
 如果您是通过绑定 Global Rules 全局启用的，则只能删除 `opentelemetry` 全局插件的配置。得益于 Apache APISIX 的动态化优势，开启关闭插件的过程都不需要重启 Apache APISIX，十分方便。
 
 ## 总结
