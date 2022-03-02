@@ -31,4 +31,3 @@ Apache APISIX provides 2 ways to join the Slack channel.
    _Please open an issue if this link is expired._
 
 2. You can also join via the mailing list by sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
-
