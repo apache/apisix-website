@@ -1,5 +1,5 @@
 ---
-title: "如何使用 Apache APISIX 基于 Nacos 实现服务发现"
+title: "Nacos 在 API 网关中的服务发现实践"
 authors:
   - name: "林志煌"
     title: "Author"
@@ -12,20 +12,23 @@ authors:
 keywords: 
 - Apache APISIX
 - Nacos
+- API gateway
 - Service Discovery
 - Service Registry
 - Ecosystem
-description: 本文为您介绍 Apache APISIX、Nacos 基本概念以及注册中心的作用，并为您展示了 Apache APISIX 基于 Nacos 实现服务发现的具体操作。
+description: 本文为您介绍 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 API 网关基于 Nacos 实现服务发现的具体操作。
 tags: [Technology,Ecosystem,Service Discovery]
 ---
 
-> 本文为您介绍 Apache APISIX、Nacos 基本概念以及注册中心的作用，并为您展示了 Apache APISIX 基于 Nacos 实现服务发现的具体操作。
+> 本文为您介绍 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 API 网关基于 Nacos 实现服务发现的具体操作。
 
 <!--truncate-->
 
 ## 背景信息
 
-Nacos 是阿里巴巴开源的一个易于使用的动态服务发现、配置和服务管理平台。它提供了一组简单易用的特性集，可以帮助您快速实现动态服务发现，服务配置，服务元数据及流量管理，让您更敏捷和容易地构建，交付和管理微服务平台。Nacos 是构建以“服务”为中心的现代应用架构（例如微服务范式、云原生范式）的服务基础设施。
+Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。它不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。同时在使用服务发现组件时，不仅可以利用 etcd，也可以将 Eureka、Consul 和 Nacos 作为服务发现组件。本文将详细为您介绍如何在 Apache APISIX 中配置 Nacos 作为 Apache APISIX API 网关中的服务发现组件。
+
+![error/Apache APISIX API Getway.png](https://static.apiseven.com/202108/1646038041730-3d9bfdd8-d2f0-41a2-84f5-cb1e1d567a86.png)
 
 注册中心是服务要实现服务化管理的核心组件，类似于目录服务的作用，也是微服务架构中最基础的设施之一，主要用来存储服务信息，譬如服务提供者 URL 、路由信息等。注册中心的实现是通过一种映射的方式，将复杂的服务端信息映射为简单易懂的信息提供给客户端。
 
@@ -45,7 +48,7 @@ Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项�
 
 ![error/Principle Introduction.png](https://static.apiseven.com/202108/1645433492822-5218e923-97ae-4d04-863b-3b3f901de84f.png)
 
-## Apache APISIX 基于 Nacos 实现服务发现
+## API 网关基于 Nacos 实现服务发现
 
 ### 前提条件
 

@@ -15,15 +15,19 @@ keywords:
 - API gateway
 - Service Discovery
 - Service Registry
-description: This article introduces the basic concepts of Apache APISIX，Nacos and Service Registry, and shows you the specific operation of Apache APISIX to realize service discovery based on Nacos.
+description: This article introduces the basic concepts of Apache APISIX and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 tags: [Technology,Ecosystem,Service Discovery]
 ---
 
-> This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
+> This article introduces the basic concepts of Apache APISIX and the Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 
 <!--truncate-->
 
 ## Background Information
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap. At the same time, when using service discovery components, you can not only use etcd, but also Eureka, Consul, and Nacos as service discovery components. This article will introduce you in detail how to configure Nacos in Apache APISIX as a service discovery component in Apache APISIX API Gateway.
+
+![error/Apache APISIX API Getway.png](https://static.apiseven.com/202108/1646038041730-3d9bfdd8-d2f0-41a2-84f5-cb1e1d567a86.png)
 
 Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.
 
@@ -38,10 +42,6 @@ The registry is essentially to decouple service providers and service consumers.
 From the above description, you can know that the registry can help users quickly find services and service addresses through mapping. As business updates iterate, services change frequently. Clients can still pull a list of services through the service discovery function of the registry after registering new services or service downtime on the service side. If the service node of the registry changes, the registry sends a request to notify the client to pull again.
 
 If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.
-
-Apache APISIX is a dynamic, real-time, high-performance API gateway.
-
-APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
 Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, **the ability to implement proxy and routing forwarding of interface services through Apache APISIX**. After registering various microservices on Nacos, Apache APISIX can get the list of services through the service discovery function of Nacos, and find corresponding service addresses to achieve dynamic proxy.
 
