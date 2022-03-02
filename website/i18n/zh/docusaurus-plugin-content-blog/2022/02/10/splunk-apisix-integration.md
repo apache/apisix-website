@@ -1,5 +1,5 @@
 ---
-title: "生态扩大进行中！Apache APISIX 集成 Splunk HTTP Event Collector"
+title: "生态扩大进行中！云原生 API 网关 Apache APISIX 集成 Splunk HTTP Event Collector"
 authors:
   - name: "帅进超"
     title: "Author"
@@ -11,14 +11,15 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
 - Apache APISIX
-- 日志
+- API Gateway
+- Splunk
 - 可观测性
 - 生态
-description: 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Splunk HEC 服务。
+description: 本文将为大家介绍如何在云原生 API 网关 Apache APISIX 中配置和使用 Splunk HEC 服务。
 tags: [Technology,Ecosystem,Logging]
 ---
 
-> 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Splunk HEC 服务。
+> 本文将为大家介绍如何在云原生 API 网关 Apache APISIX 中配置和使用 Splunk HEC 服务。
 
 <!--truncate-->
 
