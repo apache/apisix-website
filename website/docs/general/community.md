@@ -24,7 +24,7 @@ The Apache APISIX project is built by the collaboration of the community and gre
 
 ### Joining the Slack Channel
 
-Apache APISIX provides 2 ways to join the Slack channel.
+You can join the Apache APISIX Slack channel in two ways:
 
 1. You can join the slack channel using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ).
 
