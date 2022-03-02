@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Enhances API Security by CSRF Plugin"
+title: "API Gateway Enhances Security by CSRF Plugin"
 authors:
   - name: "Yuan Bao"
     title: "Author"
@@ -13,8 +13,10 @@ keywords:
 - Apache APISIX
 - API Security
 - cross-site request forgery
-- CSRF Attack
-description: This article introduces `csrf`, the CSRF security plugin for Apache APISIX, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.
+- CSRF
+- API Gateway
+
+description: This article introduces `csrf`, the CSRF security plugin for API Gateway, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.
 tags: [Technology,Ecosystem]
 ---
 
@@ -25,6 +27,10 @@ tags: [Technology,Ecosystem]
 The key point of launching a cross-site request forgery attack is to make the target server unable to distinguish whether the source of many requests is a real user or an attacker. The general flow of the attack is that first the attacker will lure the user to navigate to a web page provided by the attacker. This page contains a request that is automatically sent to the target server. The page then loads normally and the request is automatically sent to the server. It appears to the server that the request is exactly the same as the request normally sent by the user, unaware that it was initiated by the attacker without the user's knowledge. Since the request carries some of the user's credentials, the attacker can get access to the user's information by parsing these credentials, thus creating a security risk.
 
 This article introduces `csrf`, the CSRF security plugin for Apache APISIX, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway.
+
+APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
 ## Plugin Introduction
 
