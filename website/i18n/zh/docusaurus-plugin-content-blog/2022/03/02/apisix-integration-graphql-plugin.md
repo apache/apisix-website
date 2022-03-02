@@ -141,6 +141,7 @@ query getRepo {
     }
 }'
 ```
+
 如果匹配成功，则 Apache APISIX 继续进行请求转发。
 
 ```Shell
