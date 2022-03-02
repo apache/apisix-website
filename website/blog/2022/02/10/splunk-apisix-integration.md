@@ -15,7 +15,7 @@ keywords:
 - Observability
 - API Gateway
 
-description: This article explains how to configure and use the Splunk HEC service in Clou-native API Gateway Apache APISIX.
+description: This article explains how to configure and use the Splunk HEC service in Cloud-native API Gateway Apache APISIX.
 tags: [Technology,Ecosystem,Logging]
 ---
 
