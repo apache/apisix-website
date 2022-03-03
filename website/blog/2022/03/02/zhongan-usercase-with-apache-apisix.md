@@ -86,7 +86,7 @@ But when the channel is docked in the need for follow-up related operations, alt
 
 ### Strengthen inter-departmental synergy
 
-At present, Zhongan has not only one business, but also many subsidiaries, so we will definitely face many large-scale deployments of such multi-departmental business in the follow-up process. 
+At present, Zhongan has not only one business, but also many subsidiaries, so we will definitely face many large-scale deployments of such multi-departmental business in the follow-up process.
 
 Therefore, when promoting the related technology stack, it must not be led by only one department, but more of a cross-departmental collaboration, so as to realize the deployment of Apache APISIX in Zhongan as soon as possible.
 
@@ -104,6 +104,7 @@ In the process of pursuing traffic governance and implementation of some ground 
 
 We hope that in the subsequent implementation practice, Zhongan can realize the complete implementation of overall traffic governance based on Apache APISIX, and help the traffic control and security governance in the Internet insurance field.
 
-Notes.
+:::note
 1. The specific terms involved in the architecture diagram in the text are all abstract understanding, not the real environment with words.
 2. API Gateway side-by-side comparison data comes from the Internet, which may deviate from the latest or real data, and does not represent the official website data.
+:::
