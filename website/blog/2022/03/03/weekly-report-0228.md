@@ -59,7 +59,7 @@ Is it possible to specify a redirect url to be used when the access is denied so
 
 ## Highlights of Recent Features
 
-- [Push access log to clickhouse DB](https://github.com/apache/apisix/pull/6215)（Contributor: [zhendongcmss](https://github.com/zhendongcmss)）
+- [Push access log to clickhouse DB](https://github.com/apache/apisix/pull/6215)(Contributor: [zhendongcmss](https://github.com/zhendongcmss)(
 
 - [Add Kubernetes discovery module](https://github.com/apache/apisix/pull/4880)(Contributor: [zhixiongdu027](https://github.com/zhixiongdu027))
 
