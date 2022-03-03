@@ -66,7 +66,7 @@ Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰
 
 ## 近期博文推荐
 
-- [如何使用 Apache APISIX CSRF 安全插件拦截跨站点伪造攻击](https://apisix.apache.org/zh/blog/2022/02/23/csrf)：
+- [如何使用 Apache APISIX CSRF 安全插件拦截跨站点伪造攻击](https://apisix.apache.org/zh/blog/2022/02/23/csrf-api-gateway)：
 
   本文介绍了 Apache APISIX 的 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。
 
