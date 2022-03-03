@@ -2,11 +2,9 @@
 title: Biweekly Report｜2.15-2.28 Feature Highlights Update in Progress
 keywords:
 - Apache APISIX
+- API Gateway
 - Weekly Report
 - Contributor
-- APISIX
-- API Gateway
-- Apache
 description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
 tags: [Events]
 ---
