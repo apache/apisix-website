@@ -1,5 +1,5 @@
 ---
-title: "API Gateway Apache APISIX integration `public-api` plugin"
+title: "API Gateway Apache APISIX provides enhancements on API Management"
 authors:
   - name: "Zeping Bai"
     title: "Author"
@@ -36,13 +36,13 @@ Therefore, Apache APISIX has designed a `public-api` plugin that replaces the li
 
 ![error/flowchart.png](https://static.apiseven.com/202108/1646118914254-d6743193-96c5-492f-aa3f-c1d7a5d6eeb7.png)
 
-## Initial knowledge `public-api`
+## Initial Knowledge about `public-api`
 
 This section takes the `/apisix/plugin/jwt/sign` interface of the `jwt-auth` plugin as an example to introduce two usage methods and a scenario example of the `public-api` plugin.
 
 Before using the `public-api` plugin, if the public API is registered using `_M.api()` in plugin development, APISIX will expose it by default and you can call it directly on the HTTP port. Now you need to manually create a route and configure the `public-api` plugin before you can forward the API to the `public-api` plugin.
 
-### Confirm whether API is Open
+### Confirm Whether the API is Open
 
 You can request the API path by following the command below and return the result to see that `/apisix/plugin/jwt/sign` is not exposed by default and is not available.
 
@@ -223,7 +223,7 @@ First, you need to understand how Apache APISIX realizes the function of public 
 
 According to this process, if you want to apply the plugin for Route router to the public API router, you need to manually maintain a list of plugins and manually execute the plugin function after the public API router is matched. It can be seen that such an architecture is complex and difficult to maintain, and brings many problems, such as complex use (configuration based on `plugin_metadata`), coarse grained configuration (it is difficult to implement different policies for multiple public APIs provided in a plugin), etc.
 
-### After adding the `public-api` plugin
+### After adding the `public-api` Plugin
 
 After Apache APISIX introduce the `public-api` plugin, the above process will be simplified and the public API router matching previously executed before Route router matching will be transferred to the plugin.
 

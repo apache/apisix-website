@@ -1,5 +1,5 @@
 ---
-title: "public API 处理能力再增强，API 网关 Apache APISIX 支持 `public-api` 插件"
+title: "新插件上线，API 网关 Apache APISIX Public API 处理能力再增强"
 authors:
   - name: "白泽平"
     title: "Author"
@@ -38,13 +38,13 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 ## 初识 public-api
 
-本节以 jwt-auth 插件的 /apisix/plugin/jwt/sign 接口为例，为您介绍 `public-api` 插件两种使用方法和一种场景示例。。
+本节以 `jwt-auth` 插件的 `/apisix/plugin/jwt/sign` 接口为例，为您介绍 `public-api` 插件两种使用方法和一种场景示例。
 
 在使用 `public-api` 插件之前，如果在插件开发中使用 `_M.api()` 注册了 public API 后，APISIX 会默认将它暴露出来，您可以直接在 HTTP 端口调用这个 API。现在，您需要手动创建一个路由，配置 `public-api` 插件，才可以将 API 转发至 `public-api` 插件中。
 
 ### 确认 API 是否被开放
 
-您可以通过下述命令请求 API 地址，通过返回结果可以看到 /apisix/plugin/jwt/sign 默认情况下并没有被暴露出来，是不可用的。
+您可以通过下述命令请求 API 地址，通过返回结果可以看到 `/apisix/plugin/jwt/sign` 默认情况下并没有被暴露出来，是不可用的。
 
 ```Shell
 curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'
