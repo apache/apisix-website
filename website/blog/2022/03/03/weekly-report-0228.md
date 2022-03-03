@@ -65,7 +65,7 @@ Is it possible to specify a redirect url to be used when the access is denied so
 
 - [Add config to control return all status at X-APISIX-Upstream-Status](https://github.com/apache/apisix/pull/6392)（Contributor: [liangliang4ward](https://github.com/liangliang4ward)）
 
-- [Add `mocking` plugin](https://github.com/apache/apisix/pull/5940)（Contributor: [Drery](https://github.com/Drery)）
+- [Add `mocking` plugin](https://github.com/apache/apisix/pull/5940)(Contributor: [Drery](https://github.com/Drery))
 
 The Apache APISIX project website and the Github issue have accumulated a wealth of documentation and experience, so if you encounter problems, you can read the documentation, search the issue with keywords, or participate in the discussion on the issue to put forward your own ideas and practical experience.
 
