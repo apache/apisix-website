@@ -75,7 +75,7 @@ The Apache APISIX project website and the Github issue have accumulated a wealth
 
   This article introduces the basic concepts of Apache APISIX and Nacos and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 
-- [Apache APISIX Enhances API Security by CSRF Plugin](https://apisix.apache.org/blog/2022/02/23/csrf)：
+- [Apache APISIX Enhances API Security by CSRF Plugin](https://apisix.apache.org/blog/2022/02/23/csrf-api-gateway):
 
   This article introduces `csrf`, the CSRF security plugin for Apache APISIX, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.
 
