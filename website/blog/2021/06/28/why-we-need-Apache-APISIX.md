@@ -163,7 +163,7 @@ The default configuration center for the open source version of APISIX is etcd, 
 
 APISIX is already on the road to full traffic data plane, and I believe we all ask questions such as: Why do we need to unify traffic forwarding? Does unification bring value to the enterprise? What are the benefits to the technical staff? With these questions in mind, let's look at the following diagram.
 
-![APISIX goal](https://static.apiseven.com/202108/1646302542119-fb774335-2762-498d-9dc2-df74b0e38a1c.jpg)
+![APISIX goal](https://static.apiseven.com/202108/1646303195876-db7f1e30-f257-4b2c-b926-f9dc088f755c.jpg)
 
 Unification itself is not the goal, but the benefits after unification is the logic behind our pursuit, and several different perspectives are given below to elaborate separately.
 
