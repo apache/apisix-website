@@ -174,7 +174,7 @@ Apache APISIX can forward to different Upstreams according to different `graphql
   }'
 ```
 
-2. 2. Create GraphQL route bound to the first Upstream service with `graphql_name` set to `getRepo111`:
+2. Create GraphQL route bound to the first Upstream service with `graphql_name` set to `getRepo111`:
 
 ```Shell
   curl http://192.168.1.200:9080/apisix/admin/routes/1 \
@@ -191,7 +191,7 @@ Apache APISIX can forward to different Upstreams according to different `graphql
   }'
 ```
 
-3. 3. Create the second Upstream :
+3. Create the second Upstream :
 
 ```Shell
   curl http://192.168.1.200:9080/apisix/admin/upstreams/2 \
@@ -222,9 +222,7 @@ Apache APISIX can forward to different Upstreams according to different `graphql
   }'
 ```
 
-5. Test Example
-
-Test with the two `graphql_name` services created earlier, you can find that Apache APISIX can automatically select the forwarded Upstream based on the different `graphql_names` in the request.
+5. Test with the two `graphql_name` services created earlier, you can find that Apache APISIX can automatically select the forwarded Upstream based on the different `graphql_names` in the request.
 
 - If the request is this example:：
 
