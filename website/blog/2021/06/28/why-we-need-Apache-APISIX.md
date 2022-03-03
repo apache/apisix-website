@@ -103,7 +103,7 @@ This is a diagram of the APISIX eco, from which you can see exactly what periphe
 
 To give you a brief report on the current state of APISIX, APISIX has become the most active open source API gateway project in the world in the two years since it became open source, and this state has been going on for more than a year. Remember the bottom sentence, APISIX has been **production available, with better features, performance, and architecture across the board than Kong**. In September 2019 Shell has already used the APISIX project in production environments.
 
-![APISIX Community](https://static.apiseven.com/202108/20210625014.png)
+![APISIX Community](https://static.apiseven.com/202108/1646318520391-a44d3d7f-221a-4f42-81ec-1d14be6f85dc.png)
 
 To briefly explain this graph, you can call it a contributor growth curve. The horizontal coordinate is the timeline and the vertical coordinate is the total number of contributors. We can see that APISIX and Kong are two relatively more active projects. APISIX has been growing at a very good rate since the first day of open source, and is growing at nearly twice the rate of Kong, which shows how popular APISIX is. Of course there are many other ways to evaluate the activity of a project, such as checking monthly active issues, PR totals, etc. I'm happy to say that APISIX is still number one in terms of activity in these ways.
 
