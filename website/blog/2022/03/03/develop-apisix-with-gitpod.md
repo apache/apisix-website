@@ -34,7 +34,7 @@ This development model has many benefits for developers, such as:
 
 The two most popular IDEs are Jetbrain and VSCode, and both of these popular development tools have cloud-based products, so it's clear that the "cloud IDE" direction is favored by many developers.
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. 
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
 Apache APISIX, as an open source cloud native API gateway, how to quickly deploy the development environment is more important for developers. This article will introduce an open source cloud IDE product - [GitPod](https://gitpod.io/), and demonstrate how to use GitPod to develop Apache APISIX.
 
@@ -110,4 +110,4 @@ As we mentioned earlier, GitPod is an open source product, so it is possible to 
 
 The beauty of GitPod is that it allows developers to get started with a project quickly, which is very much in line with the needs of the open source community. Because open source projects can often feel like a mystery to developers who are new to open source, it can be a deterrent, but you'll find that it's not.
 
-I hope that through the introduction and description of this article, every developer interested in open source projects with the help of open source tools can more easily join the open source community, so that the open source ecosystem continues to prosper.的生态持续繁荣。
+I hope that through the introduction and description of this article, every developer interested in open source projects with the help of open source tools can more easily join the open source community, so that the open source ecosystem continues to prosper.

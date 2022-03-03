@@ -32,11 +32,11 @@ tags: [Technology]
 - 快速为每个项目启动或摧毁一个开发环境，避免多个项目并行开发时存在依赖冲突等问题；
 - 纯粹的 Linux 环境。对于服务端开发同学来说，MacOS 和 Windows 的依赖问题往往比开发项目代码还要困难；
 
-目前最流行的两种 IDE，非 Jetbrain 系和 VSCode 莫属，而这两个广受欢迎的开发工具都有相关的云产品面世，可见“云 IDE”这个方向是被很多开发者看好的。
+目前最流行的两种 IDE，非 Jetbrain 系和 VSCode 莫属，而这两种广受欢迎的开发工具都有相关的云产品面世，可见很多开发者看好“云 IDE”这个方向。
 
 Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。
 
-Apache APISIX 作为开源的云原生 API 网关，如何快速的部署开发环境对于开发者是比较重要的。本文将为大家介绍一款开源的云 IDE 产品——[GitPod](https://gitpod.io/)，并为大家演示如何使用 GitPod 对 Apache APISIX 进行相关开发。
+Apache APISIX 作为开源的云原生 API 网关，如何快速的部署 APISIX 的开发环境对于开发者是比较重要的。本文将为大家介绍如何使用 [GitPod](https://gitpod.io/) 对 Apache APISIX 进行相关开发。
 
 ## 安装 GitPod Chrome 插件
 
@@ -58,9 +58,9 @@ GitPod 为三个主流代码托管服务 GitLab、GitHub 和 Bitbucket 提供了
 
 ### 步骤一：执行测试用例
 
-相信很多刚接触开源的同学，都会为如何搭建开源项目的开发环境感到过困扰，因为开源项目往往都会存在大量自动化执行的测试用例来保证整个项目的质量，所以如何在开发者本地运行这些测试用例，可能是我们遇到的第一个问题，这一点和企业内的开发可能有比较大的差异。
+相信很多刚接触开源的同学，都为如何搭建开源项目的开发环境感到过困扰，因为开源项目往往都会存在大量自动化执行的测试用例来保证整个项目的质量，所以如何在开发者在本地运行这些测试用例，可能是我们遇到的第一个问题，这一点和企业内的开发可能有比较大的差异。
 
-下面我们尝试在 GitPod 中运行 APISIX 的测试用例，这里可以参考 APISIX 仓库中 [github workflow](https://github.com/apache/apisix/blob/master/.github/workflows/build.yml) 去配置依赖。在 GitPod 的终端中执行如下步骤：
+下面我们尝试在 GitPod 中运行 APISIX 的测试用例，这里可以参考 APISIX 仓库中的 [github workflow](https://github.com/apache/apisix/blob/master/.github/workflows/build.yml) 配置依赖。在 GitPod 的终端中执行如下步骤：
 
 ```Shell
 # 启动CI依赖的组件
@@ -78,7 +78,7 @@ sudo ./ci/linux_openresty_1_17_runner.sh script
 
 ### 步骤二：访问 HTTP 服务
 
-那么对于项目中启动的 HTTP 服务（例如 APISIX ）我们要如何访问呢？
+那么对于项目中启动的 HTTP 服务（例如 APISIX）我们要如何访问呢？
 
 通过终端访问自然是可以的，但如果你想要通过页面访问，也可以通过 Remote Explorer 将打开的端口暴露到公网上， 如下图所示：
 
@@ -98,7 +98,7 @@ sudo ./ci/linux_openresty_1_17_runner.sh script
 
 ![error/install gitpod plugin.png](https://static.apiseven.com/202108/1646234524665-0e860b0b-ec80-4ba9-a893-cfa79d3f48c3.png)
 
-2. 在浏览器的 GitPod 页面单击 `Gitpod: Open in VS Code`就可以实现拉起本地的 VSCode 作为客户端连接到云端的 GitPod ，达到与桌面版相同效果的编码体验。
+2. 在浏览器的 GitPod 页面单击 `Gitpod: Open in VS Code` 就可以实现拉起本地的 VSCode 作为客户端连接到云端的 GitPod ，达到与桌面版相同效果的编码体验。
 
 ![error/open in vs code.png](https://static.apiseven.com/202108/1646234630208-bc8912a8-9542-4888-9cde-8889631d2ea8.png)
 
