@@ -15,7 +15,7 @@ keywords:
 - Security
 - Ecosystem
 description: 本文为您介绍了 API 网关 Apache APISIX `public-api` 插件的原理及使用方法。
-tags: [Technology,Ecosystem,Security]
+tags: [Technology,Ecosystem]
 ---
 
 > 本文为您介绍了 API 网关 Apache APISIX `public-api` 插件的原理及使用方法。
@@ -30,7 +30,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 在实际应用场景中，提供的接口是面向内部调用的，而非开放在公网供任何人调用。为了应对这种场景，Apache APISIX 设计了 [`plugin-interceptors`](https://apisix.apache.org/zh/docs/apisix/plugin-interceptors/) （插件拦截器），通过此功能可以让 public API 应用部分插件并实现请求过滤，但是当前仅支持 [`ip-restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/ip-restriction) 插件。
 
-由上可以看出，Apache APISIX 对于 public API  的请求过滤能力是比较弱的，所以不能使用 Apache APISIX 中其他插件实现复杂的认证和授权能力。
+由上可以看出，Apache APISIX 对于 public API 的请求过滤能力是比较弱的，所以不能使用 Apache APISIX 中其他插件实现复杂的认证和授权能力。
 
 因此，Apache APISIX 设计了 `public-api` 插件，它替换了功能有限且使用复杂的插件拦截器。通过这个插件，可以解决 public API 使用过程中的痛点，您可以为 public API 设置自定义的 `uri`，可以配置任何类型的插件。下图展示了使用 `public-api` 前后的变化。
 
@@ -207,11 +207,11 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ## 原理详解
 
-从上述示例中您可以看出，public-api 插件可以很好的解决用户在使用 public API 时的缺陷。本节为您详细介绍实现原理。
+从上述示例中您可以看出，`public-api` 插件可以很好的解决用户在使用 public API 时的缺陷。本节为您详细介绍实现原理。
 
-关于 public-api 的原理，可以使用一句话描述：public-api 插件将之前单独的 public API 路由匹配转移到插件内部，仅对开启插件的路由进行 public API 匹配。以下将从两个方面为您详细解释原理。
+关于 `public-api` 的原理，可以使用一句话描述：public-api 插件将之前单独的 public API 路由匹配转移到插件内部，仅对开启插件的路由进行 public API 匹配。以下将从两个方面为您详细解释原理。
 
-### 使用 public-api 插件之前
+### 使用 `public-api` 插件之前
 
 首先，您需要了解 Apache APISIX 在集成 `public-api` 插件之前是如何实现 public API 的功能的。
 
@@ -232,7 +232,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 ![error/flowchart.png](https://static.apiseven.com/202108/1646136319962-68f66607-804c-4cbc-8742-0745a3ad0f5a.png)
 
-自定义插件提供的 public API 默认将不再暴露出来，而是由用户配置 Route 来决定以何种方式提供，可以自由的设置路由参数，如 `uri`, `host`, `method` 等，之后只需要为路由开启 `public-api` 插件即可。
+自定义插件提供的 public API 默认将不再暴露出来，而是由用户配置 Route 来决定以何种方式提供，可以自由的设置路由参数，如 `uri`、`host`、`method` 等，之后只需要为路由开启 `public-api` 插件即可。
 
 由于 `public-api` 插件具有较低的优先级，它将在大部分插件执行完之后再执行，这样用户就可以为 Route 配置任意认证和安全类插件。
 

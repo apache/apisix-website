@@ -15,7 +15,7 @@ keywords:
 - Security
 - Ecosystem
 description: This article introduces the principle and usage of API gateway Apache APISIX native plugin public-API.
-tags: [Technology,Ecosystem,Security]
+tags: [Technology,Ecosystem]
 ---
 
 > This article introduces the principle and usage of API gateway Apache APISIX native plugin public-API.
@@ -75,7 +75,7 @@ You need to create a Consumer and enable the `jwt-auth` plugin to perform the fo
 
 ### Method 1: Basic Use
 
-1. Set Route
+1. Create and configure a Route.
 
 Create a Route based on the Consumer in the **Prerequisites**, set the `uri` to the API address where the JWT is issued in the `jwt-auth` plugin, and open the `public-api` plugin in the Route.
 
@@ -91,7 +91,7 @@ Create a Route based on the Consumer in the **Prerequisites**, set the `uri` to 
     }'
 ```
 
-2. Test the Example
+2. Test the Example.
 
 You can test with the following command, and if you see that the result is a `JWT` string, this public API is ready to use.
 
@@ -107,7 +107,7 @@ Before using the `public-api` plugin, it is difficult for users to modify a `uri
 
 Now you can use the `public-api` plugin to modify the URI that the public API is open to the outside world, with the following examples.
 
-1. Set Route
+1. Create and configure a Route.
 
 Use the following command to modify the Route created in **Method 1**, set `uri=/gen_token`, and configure the original `uri` to the `uri` field in the `public-api` plugin.
 
@@ -125,7 +125,7 @@ Use the following command to modify the Route created in **Method 1**, set `uri=
     }'
 ```
 
-2. Test the Example
+2. Test the Example.
 
 The public API is normally accessible with the new `uri`.
 
@@ -151,7 +151,7 @@ The following steps take the `key-auth` plugin as an example to show you how to 
 
 > For `jwt-auth` parameter configuration information in the example, you can refer to the [Apache APISIX official documentation](https://apisix.apache.org/zh/docs/apisix/plugins/jwt-auth).
 
-1. Create Consumer
+1. Create and configure a Consumer.
 
 Create Consumer and configure the `key-auth` key.
 
@@ -169,7 +169,7 @@ Create Consumer and configure the `key-auth` key.
     }'
 ```
 
-2. Set Route
+2. Create and configure a Route.
 
 Modify the route created in **Method 2** and open the key-auth plugin and `public-api` plugin.
 
@@ -188,7 +188,7 @@ Modify the route created in **Method 2** and open the key-auth plugin and `publi
     }'
 ```
 
-3. Test the Example
+3. Test the Example.
 
 After testing, when the request carries the correct `apikey`, the public API can respond normally. When the request does not carry the `apikey`, the `401` unauthenticated status code will be returned. If the returned results of your test are consistent with the sample status, it proves that the `key-auth` plugin you just configured has taken effect.
 
