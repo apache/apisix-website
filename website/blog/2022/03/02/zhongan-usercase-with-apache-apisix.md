@@ -9,32 +9,32 @@ keywords:
 - Apache APISIX
 - Zhongan
 description: In this article, we will introduce some business scenarios and practical cases of zhongan and bring you the gateway selection and implementation operation under the "Internet Insurance" scenario.
-tags: [User Case,Internet Insurance]
+tags: [User Case]
 ---
 
 > The content of this article is sorted out from the relevant sharing brought by Xu Min, head of Zhongan Insurance and Technology Infrastructure in Apache APISIX Weekly Meeting.
 
 <!--truncate-->
 
-Zhongan is the first and largest Internet insurance company in China, with sales using an all-Internet format for product sales, no offline agents, and online traffic mainly through self-operated, partner company websites and channels. By actively providing personalized, customized and intelligent insurance varieties, it makes up for the lack of product capabilities of traditional insurance companies.
+Zhongan Insurance is the first and the largest Internet insurance company in China, with sales using an all-Internet format for product sales, no offline agents, and online traffic mainly through self-operated, partner company websites and channels. By actively providing personalized, customized and intelligent insurance varieties, it makes up for the lack of product capabilities of traditional insurance companies.
 
 When looking at the technical level from the business perspective, there is a strong demand for traffic governance on the technical side in order to meet the complex business scenarios and the proprietary characteristics of the industry of Zhongan. In this article, we will introduce some business scenarios and practical cases of zhongan and bring you the gateway selection and implementation operation under the "Internet Insurance" scenario.
 
 ## Business Scenario Features
 
-### Multi-Insurance
+### Multiple Insurance Categories
 
 As we mentioned at the beginning, Zhongan, as the first Internet insurance company in China, offers a very wide range of insurance products, especially like property insurance. There are many kinds of property insurance, and there may be all types that you can think of, such as car insurance, broken screen insurance and health insurance, as well as the common daily shopping refund shipping insurance for Taobao, etc.
 
 Basically, as long as everyone encounters something in life, it may be designed as an insurance product, so the Internet insurance scene, the number of types of insurance products is its more characteristic background.
 
-### Multi-Channel
+### Multi Sales Channels
 
 Although it is said that all the operation process of Internet insurance is carried out online, it is a typical Internet+ scenario. It has both the high frequency and high concurrency of the Internet or some explosive phenomena, and also low frequency and low concurrency scenarios like others. However, it has both the flow characteristics of the Internet and also contains very many offline or traditional insurance business characteristics.
 
 To be more precise, many scenarios of Internet insurance rely on channels for entrance, and multiple channels enable the business to release more capabilities. Therefore, the management of channel traffic is also an important part of Internet insurance in realizing the business level.
 
-### Strong supervision
+### Strong Supervision
 
 ![Strong supervision](https://static.apiseven.com/202108/1646279054405-a55ded0a-986f-4d49-a927-545999070d65.png)
 
@@ -70,7 +70,7 @@ In the end, a comprehensive side-by-side comparison was conducted in the followi
 
 ## Apache APISIX Based Landing Case
 
-### Metering and billing for BaaS products
+### Metering and Billing for BaaS Products
 
 Zhongan is now gradually BaaS its underlying products within the business. Because of the financial attributes, the implementation requirements for BaaS products will be higher, and the infrastructure products need to achieve the same unified standard measurement and billing as cloud products.
 
@@ -84,7 +84,7 @@ At the same time, the audit process also requires peak audit calculations, which
 
 The specific implementation framework can be found in the above diagram, where the configuration center is a pure layer 7 traffic protocol, so it can be fully integrated into the metering and billing system, including ES and APISIX itself, etc. The specific operation is mainly based on the current structure of APISIX to do some definitions, such as to call several requirements for the company's business, as well as using some plug-ins of APISIX for the implementation of related orchestration capabilities.
 
-### Multi-tenant multi-channel traffic segregation
+### Multi-tenant and Multi-channel Traffic Segregation
 
 In the face of the multi-insurance multi-channel scenario of Zhongan, multi-tenant multi-channel traffic isolation has also become a requirement with industry characteristics.
 
@@ -102,17 +102,17 @@ But when the channel is docked in the need for follow-up related operations, alt
 
 ## Future Plan and Expectations
 
-### Strengthen inter-departmental synergy
+### Strengthen Cross-departmental Synergy
 
 At present, Zhongan has not only one business, but also many subsidiaries, so we will definitely face many large-scale deployments of such multi-departmental business in the follow-up process.
 
 Therefore, when promoting the related technology stack, it must not be led by only one department, but more of a cross-departmental collaboration, so as to realize the deployment of Apache APISIX in Zhongan as soon as possible.
 
-### Update Nacos registry service based on APISIX
+### Update Nacos Service Registry Based on Apache APISIX
 
 At present, Zhongan is doing lossless service up/down based on Nacos, so in the following plan, APISIX will be interfaced with Nacos to achieve unified management. This will allow microservices to be routed to Apache APISIX for lossless or source data-based traffic distribution. Of course, we will also continue to use APISIX to improve BaaS-related capabilities.
 
-### Continue to watch the service grid product
+### Continue to Watch the Service Mesh Product
 
 However, because of the rapid development of business, the current service grid can not meet the current business implementation space. Therefore, we continue to look at external service grid products, such as APISIX Service Mesh, or try to use APISIX in combination with etcd.
 
