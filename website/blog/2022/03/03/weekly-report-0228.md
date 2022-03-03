@@ -79,6 +79,6 @@ The Apache APISIX project website and the Github issue have accumulated a wealth
 
   This article introduces `csrf`, the CSRF security plugin for Apache APISIX, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.
 
-- [How to Integrate API Gateway and Consul?](https://apisix.apache.org/blog/2022/02/25/consul-api-gateway)：
+- [How to Integrate API Gateway and Consul?](https://apisix.apache.org/blog/2022/02/25/consul-api-gateway):
 
   Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.
