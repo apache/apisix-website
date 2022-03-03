@@ -69,7 +69,10 @@ const tasks = new listr([
   {
     title: "Save repos' info and good first issues to json file",
     task: () => {
-      fs.writeFileSync("../website/repos-info.json", JSON.stringify(res));
+      fs.writeFileSync(
+        "../website/config/repos-info.json",
+        JSON.stringify(res)
+      );
     },
   },
 ]);

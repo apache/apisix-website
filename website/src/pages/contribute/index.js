@@ -28,7 +28,7 @@ const Contribute = () => {
   const repoList = require("../../../config/docs").map(
     (item) => item.githubRepo
   );
-  const repoInfoList = require("../../../repos-info.json");
+  const repoInfoList = require("../../../config/repos-info.json");
 
   const repos = repoList.map((repoName) => {
     return (
