@@ -10,7 +10,7 @@ keywords:
 - 众安保险
 - Apache APISIX
 description: 本文将通过介绍众安保险的一些业务场景与实践案例，为大家带来关于「互联网保险」场景下的网关选型与落地操作。
-tags: [User Case]
+tags: [User Case,Internet Insurance]
 ---
 
 > 本文内容整理自 Apache APISIX Weekly Meeting 中众安保险和科技基础架构负责人徐敏带来的相关分享。
