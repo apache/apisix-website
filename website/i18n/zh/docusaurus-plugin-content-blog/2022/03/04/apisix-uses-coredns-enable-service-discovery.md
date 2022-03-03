@@ -36,14 +36,14 @@ tags: [Technology,Ecosystem,Service Discovery]
 
 - 服务发现：允许其他用户发现服务注册阶段存储的信息。分为客户端发现模式和服务端发现模式。
 
-**客户端服务发现模式**
+### 客户端服务发现模式
 
 在使用客户端发现模式时，客户端通过查询服务注册中心的存储信息，获取可用服务的实际网络地址后，通过负载均衡算法选择一个可用的服务实例，并将请求发送至该服务。
 
 - 优点：架构简单，扩展灵活，方便实现负载均衡功能。
 - 缺点：重客户端，强耦合，有一定开发成本。
 
-![error/client service discovery.png](https://static.apiseven.com/202108/1646292623280-2c43fd71-5f9c-4c3e-a016-472741cd8ea3.png)
+![error/client service discovery.png](https://static.apiseven.com/202108/1646299482001-9bba7b28-1780-44c8-869d-b75bc993c021.png)
 
 客户端发现模式实现逻辑如下：
 
@@ -53,14 +53,14 @@ tags: [Technology,Ecosystem,Service Discovery]
 
 在这个过程中，除了服务注册，服务发现的工作基本由客户端独立完成，注册中心和服务端的地址对客户端也是完全可见的。
 
-**服务端服务发现模式**
+### 服务端服务发现模式
 
 客户端向 Load Balancer 发送请求，Load Balancer 根据客户端的请求查询服务注册中心，找到可用的服务后转发请求到该服务上，和客户端服务发现模式一样，服务都需要在注册中心进行服务注册和注销。
 
 - 优点：服务的发现逻辑对客户端是透明的。
 - 缺点：需要额外部署和维护负载均衡器。
 
-![error/server service discovery.png](https://static.apiseven.com/202108/1646292807761-2d775c6d-b006-4914-8f2a-588d8450c5fe.png)
+![error/server service discovery.png](https://static.apiseven.com/202108/1646299531288-3ff99279-3ab6-49d7-8abf-68461f50c5c0.png)
 
 服务端发现模式实现逻辑如下：
 
@@ -86,7 +86,7 @@ CoreDNS 是一个用 `Go` 语言编写的开源 DNS 服务器，由于它的灵�
 3. CoreDNS 根据请求的服务名返回可用的地址列表。
 4. APISIX 根据可用地址和配置的算法，从其中选择一个发起调用。
 
-![error/architecture.png](https://static.apiseven.com/202108/1646291985021-05d9b3fa-9c76-4e42-b456-8aa59b349a2d.png)
+![error/architecture.png](https://static.apiseven.com/202108/1646299586044-3b44e6a8-b7a9-4ba6-a69c-8d08772b6065.png)
 
 ## 如何使用
 
@@ -225,7 +225,7 @@ app.listen(3005);
 
 ```Shell
 .:1053 {                           # 监听在1053端口
-    hosts {                        
+    hosts {
         10.10.10.11 hello        # 修改服务IP地址
         # 将服务名 “coredns” 和IP地址绑定
         fallthrough
@@ -251,6 +251,7 @@ app.listen(3005);
 
   Hello, Apache APISIX
 ```
+
 ## 总结
 
 本文主要介绍了服务发现的类型以及在 Apache APISIX 中如何使用 CoreDNS。您可以根据自身的业务需求和过往技术架构使用 Apache APISIX 与 CoreDNS。

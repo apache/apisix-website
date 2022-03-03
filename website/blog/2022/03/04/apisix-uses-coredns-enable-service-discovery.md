@@ -34,16 +34,16 @@ The service discovery mechanism can be split into two parts:
 
 If a container provides a service for calculating the average, we use the service name of average as the unique identifier, then it will be stored in the form of a key-value pair (average:192.168.1.21) in the service registry.
 
-- - Service Discovery: Allows other users to discover the information stored during the service registration phase. It is divided into client discovery mode and server discovery mode.
+- Service Discovery: Allows other users to discover the information stored during the service registration phase. It is divided into client discovery mode and server discovery mode.
 
-**Client Service Discovery Mode**
+### Client Service Discovery Mode
 
 When using the client discovery mode, the client obtains the actual network address of the available service by querying the storage information of the service registry, selects an available service instance through a load balancing algorithm, and sends the request to the service.
 
 - Advantages: Simple architecture, flexible expansion, and easy implementation of load balancing functions.
 - Disadvantages: heavy client, strong coupling, there is a certain development cost.
 
-![error/client service discovery.png](https://static.apiseven.com/202108/1646294804587-6b27b8c1-3967-4c2b-8719-eba3d095575a.png)
+![error/client service discovery.png](https://static.apiseven.com/202108/1646299277491-53bd8cd0-a984-4fed-bcbd-d251c18f5b7f.png)
 
 The implementation logic of client discovery mode is as follows:
 
@@ -53,14 +53,14 @@ The implementation logic of client discovery mode is as follows:
 
 In this process, in addition to service registration, the work of service discovery is basically completed by the client independently, and the addresses of the registry and the server are also fully visible to the client.
 
-**Server Service Discovery Mode**
+### Server Service Discovery Mode
 
-The client sends a request to the Load Balancer, and the Load Balancer queries the service registry according to the client's request, finds an available service, and forwards the request to the service. Like the client service discovery mode, the service needs to be registered and deregistered in the registry. 
+The client sends a request to the Load Balancer, and the Load Balancer queries the service registry according to the client's request, finds an available service, and forwards the request to the service. Like the client service discovery mode, the service needs to be registered and deregistered in the registry.
 
 - Advantages: The discovery logic of the service is transparent to the client.
 - Disadvantages: Requires additional deployment and maintenance of a Load Balancer.
 
-![error/server service discovery.png](https://static.apiseven.com/202108/1646294923678-96d270a5-0dda-4290-9de7-84ecbd2243be.png)
+![error/server service discovery.png](https://static.apiseven.com/202108/1646299327406-0172de7f-94a8-4964-b109-562795941d0e.png)
 
 The implementation logic of server discovery mode is as follows:
 
@@ -86,7 +86,7 @@ The overall structure is as follows:
 3. CoreDNS returns a list of available addresses based on the requested service name.
 4. APISIX selects one of the available addresses and the configured algorithm to initiate the call.
 
-![error/architecture.png](https://static.apiseven.com/202108/1646295622543-9ce6a74b-7cac-4b2e-9d8f-fe40618236ae.png)
+![error/architecture.png](https://static.apiseven.com/202108/1646299394984-76683b2c-03ae-45b0-b5a6-8b8f3b6d47cf.png)
 
 ## How to Use
 
@@ -95,7 +95,7 @@ The overall structure is as follows:
 This article is based on the following environments.
 
 - OS: Centos 7.9.
-- Apache APISIX 2.12.1, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/zh/docs/apisix/how-to-build).
+- Apache APISIX 2.12.1, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build).
 - CoreDNS 1.9.0，please refer to：[CoreDNS Installation Guide](https://coredns.io/manual/toc/#installation).
 - Node.js, please refer to:：[Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
@@ -163,7 +163,7 @@ Next, we configure the relevant routing information by requesting the `Admin API
       "uri": "/core/*",
       "upstream": {
           "service_name": "hello:3005",
-          # Name the service as coredns, consistent with 
+          # Name the service as coredns, consistent with
           # the configuration of the hosts plugin in CoreDNS
           "type": "roundrobin",
           "discovery_type": "dns" # Set service discovery type to DNS
@@ -224,7 +224,7 @@ Modify the `Corefile` configuration and restart Core DNS. Leave other configurat
 
 ```Shell
 .:1053 {                         # Listen on port 1053
-    hosts {                        
+    hosts {
         10.10.10.11 hello        # Modify service IP address
         # Bind the service name "coredns" to the IP address
         fallthrough
