@@ -33,6 +33,10 @@ Vault makes it very easy to control and manage access by providing us with a uni
 
 ![HashiCorp Vault](https://static.apiseven.com/202108/1642770417379-a91960a5-5aac-45fa-9277-801a4ee2afc6.png)
 
+## About Apache APISIX
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
+
 ## About APISIX jwt-auth Plugin
 
 It is an authentication plugin that can be attached to any APISIX route to perform JWT (JSON web token, [read more](https://jwt.io/introduction)) authentication before the request gets forwarded to the upstream URI. In short, it is a secure authentication mechanism that leads to authorization to critical resources. Typically, a private key, or a text secret, is used by the issuer to sign the JWT. The receiver of the JWT will verify the signature to ensure that the token hasn’t been altered after it was signed by the issuer. The total integrity of the whole jwt mechanism depends on the signing secret (may it be a text secret of RSA keypairs). That makes it difficult for unauthenticated sources to guess the signing key and attempt to change the claims within the JWT.

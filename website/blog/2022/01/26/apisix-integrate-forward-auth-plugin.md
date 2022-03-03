@@ -22,6 +22,8 @@ tags: [Technology,Ecosystem,Authentication]
 
 <!--truncate-->
 
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
+
 Forward Auth cleverly moves the authentication and authorization logic to a dedicated external service, where the gateway forwards the user's request to the authentication service and blocks the original request and replaces the result when the authentication service responds with a non-20x status. In this way, it is possible to return a custom error or redirect the user to the authentication page if the authentication fails.
 
 ## Principle

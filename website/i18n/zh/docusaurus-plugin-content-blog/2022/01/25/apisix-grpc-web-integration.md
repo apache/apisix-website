@@ -36,6 +36,10 @@ gRPC 最初由谷歌开发，是一个基于 HTTP/2 实现的高性能远程过�
 - 跨域调用 gRPC 服务需要在服务器端配置 CORS。
 - gRPC 服务器端必须配置为支持 gRPC-Web，或者必须有第三方服务代理在浏览器和服务器之间对调用进行转换。
 
+## 关于 Apache APISIX
+
+[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。
+
 ## Apache APISIX gRPC Web Proxy
 
 Apache APISIX 通过插件的方式支持 gRPC Web 协议的代理，在 `grpc-web` 插件中完成了 gRPC Web与 gRPC Server 通讯时的协议转换及数据编解码工作，其通讯的过程如下：

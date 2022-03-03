@@ -27,6 +27,10 @@ As business scenarios and requirements become more complex and diverse, more and
 
 In this article, we will bring you examples of Apache APISIX's upcoming xRPC framework and multilingual plug-ins from two perspectives: **multi-protocol proxy and multilingual support**.
 
+## About Apache APISIX
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
+
 ## Multiprotocol Proxy
 
 In Apache APISIX, each request corresponds to a Route object. There are currently two main proxy scenarios for Apache APISIX.

@@ -30,6 +30,10 @@ As shown in the figure below, OPA first describes the policy through the policy 
 
 ![OPA Workflow](https://static.apiseven.com/202108/1640332208554-40f574e3-0582-48f3-8e07-eb49fbd37ac7.png)
 
+## About Apache APISIX
+
+[Apache APISIX](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, etc. Apache APISIX not only supports dynamic plug-in changes and hot-plugging, but also has a number of useful plug-ins.OpenID Connect Plug-in for Apache APISIX With support for the OpenID Connect protocol, users can use this plug-in to enable Apache APISIX to interface with Authing services and be deployed as a centralized authentication gateway in the enterprise.
+
 ## Plugin Introduction
 
 Apache APISIX provides an `opa` plug-in that allows users to conveniently introduce the policy capabilities provided by OPA to Apache APISIX to enable flexible authentication and access control features.

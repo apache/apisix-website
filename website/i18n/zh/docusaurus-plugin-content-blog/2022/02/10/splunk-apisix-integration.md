@@ -37,6 +37,10 @@ Apache APISIX 作为一个高性能的 API 网关不仅在性能上有着良好�
 
 [Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector) 是 Splunk 提供的 HTTP 事件收集器，主要提供以 HTTP(S) 协议将数据和应用程序事件发送到 Splunk 的能力。
 
+## 关于 Apache APISIX
+
+[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。
+
 ## 关于 Splunk HEC Logging 插件
 
 [splunk-hec-logging](https://github.com/apache/apisix/blob/master/docs/zh/latest/plugins/splunk-hec-logging.md) 插件用于将 Apache APISIX 的请求日志转发到 Splunk 中进行分析和存储。启用该插件后，Apache APISIX 将在 Log 阶段获取请求上下文信息，并将其序列化为 [Splunk Event Data 格式](https://docs.splunk.com/Documentation/Splunk/latest/Data/FormateventsforHTTPEventCollector#Event_metadata)后提交到批处理队列中。当触发批处理队列每批次最大处理容量，或刷新缓冲区的最大时间时，会将队列中的数据提交到 Splunk HEC 中。

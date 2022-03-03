@@ -41,6 +41,10 @@ This article explains how to configure and use the [Splunk HEC](https://docs.spl
 
 The [splunk-hec-logging](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/splunk-hec-logging.md) is used to forward Apache APISIX request logs to Splunk for analysis and storage. When enabled, Apache APISIX will take the request context information during the Log phase, serialize it into [Splunk Event Data Format](https://docs.splunk.com/Documentation/Splunk/latest/Data/FormateventsforHTTPEventCollector#Event_metadata) and submit it to the batch queue. The data in the queue is committed to Splunk HEC when the maximum processing capacity of the batch queue per batch is triggered, or when the maximum time to refresh the buffer is reached.
 
+## About Apache APISIX
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
+
 ## How to use the splunk-hec-logging plugin
 
 ### Splunk Configuration

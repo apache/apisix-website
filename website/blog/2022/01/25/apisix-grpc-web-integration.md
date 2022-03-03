@@ -36,6 +36,10 @@ With gRPC Web, users can call back-end gRPC applications directly using a browse
 - Calling gRPC services across domains requires CORS to be configured on the server side.
 - The gRPC server side must be configured to support gRPC-Web, or a third-party service agent must be available to translate the call between the browser and the server.
 
+## About Apache APISIX
+
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
+
 ## Apache APISIX gRPC Web Proxy
 
 Apache APISIX supports the proxy of gRPC Web protocol by means of a plug-in, which completes the protocol conversion and data codec work when gRPC Web communicates with gRPC Server in the `grpc-web` plug-in, and its communication process is as follows.

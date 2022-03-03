@@ -32,6 +32,8 @@ Open Policy Agent（OPA）是一个开源的轻量级通用策略引擎，可以
 
 ## 插件介绍
 
+[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。
+
 Apache APISIX 提供了一个 `opa` 插件，用户可以使用这个插件，便捷地将 OPA 提供的策略能力引入到 Apache APISIX，实现灵活的身份认证与准入控制功能。
 
 将 `opa` 插件配置在路由上后，Apache APISIX 会在处理响应请求时，将请求信息、连接信息等组装成 JSON 数据，并将其发送到策略决策 API 地址。只要在 OPA 中部署的策略符合 Apache APISIX 设定的数据规范，就可以实现如通过请求、拒绝请求、自定义状态码、自定义响应头、自定义响应头等功能。

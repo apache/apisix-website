@@ -23,9 +23,15 @@ tags: [Technology]
 
 <!--truncate-->
 
+## 关于 Apache Kafka
+
 Apache Kafka 是由 Apache 管理的开源流处理平台，由 Scala 和 Java 编写，为处理实时数据提供了统一、高吞吐、低延迟的功能特性。
 
 其持久化层本质上是一个“按照分布式事务日志架构的大规模发布/订阅消息队列”，这使它作为企业级基础设施来处理流式数据非常有价值。目前已被数千家公司用于高性能数据管道、流分析、数据集成和任务关键型应用程序等领域。
+
+## 关于 Apache APISIX
+
+[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。
 
 ## 实现方式：kafka-logger
 

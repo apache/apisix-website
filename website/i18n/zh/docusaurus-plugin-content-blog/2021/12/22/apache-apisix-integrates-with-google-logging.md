@@ -31,6 +31,8 @@ Google Cloud Logging 是由 Google Cloud 提供的全代管式实时日志管理
 
 Apache APISIX 在此之前已经支持集成了 [HTTP Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/http-logger.md) 、[TCP Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/tcp-logger.md)、[Kafka Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/kafka-logger.md)、[UDP Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/udp-logger.md)、[RocketMQ Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/rocketmq-logger.md)、[SkyWalking Logger](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/skywalking-logger.md)、[Aliyun Cloud Logging（SLS）](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/sls-logger.md)等众多开源及云日志服务解决方案。
 
+Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。
+
 最近，Apache APISIX 对 Google Cloud Logging 也完成了支持，在使用 Apache APISIX 作为网关时用户又多了一种新的日志解决方案：使用 google-cloud-logging 插件，将 Apache APISIX 的请求日志转发到 Google Cloud Logging 服务中进行分析和存储。
 
 启用该插件后， Apache APISIX 将在 Log Phase 获取请求上下文信息并序列化为 Google Cloud Logging 的日志格式，然后将序列化后的日志数据提交到批处理队列中，当批处理队列触发用户设置的时间或条目阈值时会将日志数据通过 Google Cloud API 批量转发到 Google Cloud Logging 服务中。

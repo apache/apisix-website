@@ -24,6 +24,10 @@ tags: [Technology,Ecosystem,Authentication]
 
 Forward Auth 能巧妙地将认证与授权逻辑转移至专门的外部服务中，网关会将用户的请求转发至认证服务中，并在认证服务响应非 20x 状态时，阻止原有请求并替换结果。通过这样的方式，就可以实现认证未通过时，返回自定义报错或用户重定向至认证页面。接下来将为大家介绍 Apache APISIX 中新增插件 `forward-auth` 的使用方法。
 
+## 关于 Apache APISIX
+
+[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。
+
 ## 原理
 
 ![插件原理图](https://static.apiseven.com/202108/1643096414141-ccbc33c0-7899-445a-a2f8-b6d5341c44df.jpg)

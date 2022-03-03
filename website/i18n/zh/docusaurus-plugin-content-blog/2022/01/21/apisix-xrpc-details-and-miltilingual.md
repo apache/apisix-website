@@ -27,6 +27,10 @@ tags: [Technology,Ecosystem]
 
 本文将从**多协议代理**与**多语言支持**两个角度，为大家带来 Apache APISIX 即将发布的 xRPC 框架与多语言插件的相关示例。
 
+## 关于 Apache APISIX
+
+[Apache APISIX](https://github.com/apache/apisix) 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。
+
 ## 多协议代理
 
 在 Apache APISIX 中，每个请求都会对应一个 Route 对象。目前 Apache APISIX 的代理场景主要以下两种。
