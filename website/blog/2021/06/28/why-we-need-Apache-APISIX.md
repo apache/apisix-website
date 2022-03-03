@@ -147,7 +147,7 @@ APISIX Ingress Controller solves all the problems mentioned above, and inherits 
 
 Service mesh, it is necessary to talk to you about it. In the next five or ten years, what is the most likely mainstream server-side architecture? If I were to answer, I would choose the service mesh.
 
-![APISIX Mesh](https://static.apiseven.com/202108/1646300936558-cfcf4e64-1673-4720-a7f5-40235cb185b4.jpg)
+![APISIX Mesh](https://static.apiseven.com/202108/1646311189556-00b1c555-9dad-4513-84fb-736fbc7e6761.jpg)
 
 The diagram on the right shows the internal architecture of APISIX Mesh.
 
@@ -159,11 +159,11 @@ Because APISIX is currently an Apache Foundation project, it is no longer the pr
 
 The default configuration center for the open source version of APISIX is etcd, and while it is still the best choice, we still often hear about support for other configuration centers when we talk to users, more often than not because etcd is so new that it is not on the list of supported products in the company's existing operations and maintenance products. So we plan to make APISIX work with other configuration centers.
 
-![APISIX data plane](https://static.apiseven.com/202108/1646302479754-369eab40-36ce-4933-8fef-b9fbdafa9cb1.jpg)
+![APISIX data plane](https://static.apiseven.com/202108/1646311124305-eebfd917-43b7-459a-99f8-150f33336d91.jpg)
 
 APISIX is already on the road to full traffic data plane, and I believe we all ask questions such as: Why do we need to unify traffic forwarding? Does unification bring value to the enterprise? What are the benefits to the technical staff? With these questions in mind, let's look at the following diagram.
 
-![APISIX goal](https://static.apiseven.com/202108/1646303195876-db7f1e30-f257-4b2c-b926-f9dc088f755c.jpg)
+![APISIX goal](https://static.apiseven.com/202108/1646311097068-1c54852d-1272-434e-86c6-ed946e875792.jpg)
 
 Unification itself is not the goal, but the benefits after unification is the logic behind our pursuit, and several different perspectives are given below to elaborate separately.
 
