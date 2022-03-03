@@ -48,7 +48,7 @@ Apache APISIX 作为云原生 API 网关，在设计之初就已经具备识别 
 
 基于 Apache APISIX 安全、稳定、高性能的特性，增加 GraphQL 灵活的路由匹配规则是解决 GraphQL 集中式接口设计问题的最佳方案。
 
-![error/graphql.png](https://static.apiseven.com/202108/1646200966179-1d649ab0-8d49-49f5-a8fa-a1a30af0519d.png)
+![error/graphql architecture.png](https://static.apiseven.com/202108/1646200966179-1d649ab0-8d49-49f5-a8fa-a1a30af0519d.png)
 
 在此方案中，Apache APISIX 作为 API 网关部署在 GraphQL Server 之前，为整个后端系统提供了安全保障，并且 Apache APISIX 根据自身所具备的 GraphQL 匹配功能，筛选一部分请求之后再由 GraphQL Server 进行处理，使整个请求资源过程变得更高效。
 
@@ -62,7 +62,7 @@ Apache APISIX 作为云原生 API 网关，在设计之初就已经具备识别 
 
 ### 基本逻辑
 
-![error/graphql.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
+![error/GraphQL principle.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
 
 目前 GraphQL 在 Apache APISIX 中的执行逻辑如下：
 

@@ -15,7 +15,7 @@ keywords:
 - GraphQL
 - Ecosystem
 description: This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
-tags: [Technology,Ecosystem,Security]
+tags: [Technology,Ecosystem]
 ---
 
 > This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
@@ -48,7 +48,7 @@ Because NGINX only processes URLs and some parameters when processing requests, 
 
 Based on the security, stability, and high performance of Apache APISIX, adding flexible routing matching rules to GraphQL is the best solution to GraphQL's centralized interface design.
 
-![error/graphql.png](https://static.apiseven.com/202108/1646200966179-1d649ab0-8d49-49f5-a8fa-a1a30af0519d.png)
+![error/graphql architecture.png](https://static.apiseven.com/202108/1646200966179-1d649ab0-8d49-49f5-a8fa-a1a30af0519d.png)
 
 In this scheme, Apache APISIX is deployed before GraphQL Server as an API gateway, providing security for the whole backend system. In addition, Apache APISIX has GraphQL matching functions according to its own. Some of the requests are filtered and processed by the GraphQL Server, making the whole request resource process more efficient.
 
@@ -62,7 +62,7 @@ In addition, Apache APISIX can also perform different permission checks for diff
 
 ### Basic Logic
 
-![error/graphql.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
+![error/GraphQL principle.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
 
 The execution logic of GraphQL in Apache APISIX is as follows:
 
