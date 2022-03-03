@@ -1,5 +1,5 @@
 ---
-title: "开源云 IDE 产品新宠儿，如何使用 GitPod 开发 APISIX？"
+title: "开源云 IDE 产品新宠儿，如何使用 GitPod 开发 API 网关 Apache APISIX？"
 authors:
   - name: "钱勇"
     title: "Author"
