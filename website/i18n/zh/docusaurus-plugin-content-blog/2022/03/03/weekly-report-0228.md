@@ -2,9 +2,8 @@
 title: "社区双周报｜2.15-2.28 功能亮点更新进行中"
 keywords: 
 - Apache APISIX
+- API 网关
 - 社区周报
-- APISIX
-- API Gateway
 - 贡献者
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
 tags: [Events]
