@@ -14,11 +14,11 @@ keywords:
 - API Gateway
 - Security
 - Ecosystem
-description: This article introduces the principle and usage of API gateway Apache APISIX native plugin public-API.
+description: This article introduces the principle and usage of API gateway Apache APISIX native plugin `public-api`.
 tags: [Technology,Ecosystem]
 ---
 
-> This article introduces the principle and usage of API gateway Apache APISIX native plugin public-API.
+> This article introduces the principle and usage of API gateway Apache APISIX native plugin `public-api`.
 
 <!--truncate-->
 
@@ -105,7 +105,7 @@ You can test with the following command, and if you see that the result is a `JW
 
 Before using the `public-api` plugin, it is difficult for users to modify a `uri` that is open to the public API. Users of the `prometheus` plugin can customize the `exporter uri` by modifying the configuration file, but for other Apache APISIX plugins, this can only be done by modifying the plugin file, which is difficult and risky in a production environment.
 
-Now you can use the `public-api` plugin to modify the URI that the public API is open to the outside world, with the following examples.
+Now you can use the `public-api` plugin to modify the `uri` that the public API is open to the outside world, with the following examples.
 
 1. Create and configure a Route.
 
@@ -171,7 +171,7 @@ Create Consumer and configure the `key-auth` key.
 
 2. Create and configure a Route.
 
-Modify the route created in **Method 2** and open the key-auth plugin and `public-api` plugin.
+Modify the route created in **Method 2** and open the `key-auth` plugin and `public-api` plugin.
 
 ```Shell
     curl -XPUT 'http://127.0.0.1:9080/apisix/admin/routes/r1' \

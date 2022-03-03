@@ -209,7 +209,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 从上述示例中您可以看出，`public-api` 插件可以很好的解决用户在使用 public API 时的缺陷。本节为您详细介绍实现原理。
 
-关于 `public-api` 的原理，可以使用一句话描述：public-api 插件将之前单独的 public API 路由匹配转移到插件内部，仅对开启插件的路由进行 public API 匹配。以下将从两个方面为您详细解释原理。
+关于 `public-api` 的原理，可以使用一句话描述：`public-api` 插件将之前单独的 public API 路由匹配转移到插件内部，仅对开启插件的路由进行 public API 匹配。以下将从两个方面为您详细解释原理。
 
 ### 使用 `public-api` 插件之前
 
@@ -217,7 +217,7 @@ curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \
 
 - 当 APISIX 启动时会加载自定义插件，并使用从 etcd 获取的 Route 配置构建 radixtree 路由器，它将负责根据请求信息匹配 Route 并调用正确的 `handler` 来转发请求。
 - APISIX 将为自定义插件的 public API 与用户创建的 Route 分别创建不同的路由器（下文分别称为 public API 路由器和 Route 路由器）
-- 当请求到达时，将先由 public API 路由器进行匹配，之后再由 Route 路由器进行匹配。它们是请求处理流程上完全分开的两个部分。
+- 当请求到达时，将先由 public API 路由器进行匹配，之后再由 Route 路由器进行匹配。它们在请求处理流程上是完全分开的两个部分。
 
 ![error/flowchart.png](https://static.apiseven.com/202108/1646120195055-fff81b45-55bb-4100-8822-b14b173448d5.png)
 
