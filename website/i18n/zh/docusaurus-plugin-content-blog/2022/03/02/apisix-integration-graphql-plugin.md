@@ -15,7 +15,7 @@ keywords:
 - GraphQL
 - Ecosystem
 description: 本文介绍了 Apache APISIX 和 GraphQL 的特性，以及如何使用云原生 API 网关 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。
-tags: [Technology,Ecosystem,Security]
+tags: [Technology,Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 和 GraphQL 的特性，以及如何使用 API 网关 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。
