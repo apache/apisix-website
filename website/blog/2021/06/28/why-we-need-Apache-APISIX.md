@@ -25,7 +25,7 @@ Hello everyone, I'm happy to share a topic that I'm excited about, "Why do you n
 The reason why we are doing a replacement project for NGINX and Kong is actually related to the background of our backend architecture evolution, and I will start by sharing with you the backend architecture evolution process, which is very important.
 
 I'll start by sharing with you the evolution of the backend architecture, which is very important.
-![membphis](https://static.apiseven.com/202108/1646299637523-b074acde-e902-483b-bc27-7ebe75e675cb.jpg)
+![membphis](https://static.apiseven.com/202108/1646320281711-c7e446ce-91f3-4494-93de-8c4b9f7936a2.jpg)
 
 First of all, I would like to introduce myself, my name is Yuansheng Wang. I wrote an e-book called "OpenResty Best Practices" in 2015 and formed a community of over 10,000 people through this book. Since that time, I have become more and more interested in open source itself. Before 2015, I was basically mainly a user of open source software, then slowly became a co-organizer of the community, and then later became a community leader. Simple, because the book is written by you, others encounter a variety of problems, there are advanced and more common, ask more I gradually became a teacher and eventually became a community leader, like the famous saying "walk more people, also become the road.
 
