@@ -73,9 +73,9 @@ const ContributeCard = (props) => {
       </ProjectTitle>
       <div>{info.description}</div>
       <ProjectDesc isShow={isShow}>
-        <div style={{ marginRight: '1rem' }}>Star: {info.Star}</div>
-        <div style={{ marginRight: '1rem' }}>Watch: {info.Watch}</div>
-        <div style={{ marginRight: '1rem' }}>Fork: {info.Fork}</div>
+        <div style={{ marginRight: '1rem' }}>Star: {info.star}</div>
+        <div style={{ marginRight: '1rem' }}>Watch: {info.watch}</div>
+        <div style={{ marginRight: '1rem' }}>Fork: {info.fork}</div>
       </ProjectDesc>
       <List isShow={isShow}>
         <ul style={{ paddingLeft: 0 }}>

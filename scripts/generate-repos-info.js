@@ -28,9 +28,9 @@ const tasks = new listr([
               .then((v) => {
                 res[repo] = Object.assign(res[repo] || {}, {info: {
                     description: v.description,
-                    Star: v.stargazers_count,
-                    Watch: v.subscribers_count,
-                    Fork: v.forks_count
+                    star: v.stargazers_count,
+                    watch: v.subscribers_count,
+                    fork: v.forks_count
                   }})
               })
           },
