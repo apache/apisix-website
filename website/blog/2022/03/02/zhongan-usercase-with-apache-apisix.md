@@ -105,6 +105,8 @@ In the process of pursuing traffic governance and implementation of some ground 
 We hope that in the subsequent implementation practice, Zhongan can realize the complete implementation of overall traffic governance based on Apache APISIX, and help the traffic control and security governance in the Internet insurance field.
 
 :::note
+
 1. The specific terms involved in the architecture diagram in the text are all abstract understanding, not the real environment with words.
 2. API Gateway side-by-side comparison data comes from the Internet, which may deviate from the latest or real data, and does not represent the official website data.
+
 :::
