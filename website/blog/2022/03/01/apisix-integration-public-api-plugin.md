@@ -217,7 +217,7 @@ First, you need to understand how Apache APISIX realizes the function of public 
 
 - When apisix starts, it will load the custom plugin and build a radiotree router using the route configuration obtained from etcd. It will be responsible for matching the route according to the request information and calling the correct `handler` to forward the request.
 - APISIX will create different routers for the public API of the custom plugin and the Route created by users respectively (hereinafter referred to as public API router and Route router).
-- When the external request arrives, the public API router first matches and then the Route router matches. They are two completely separate parts of the request processing flow.
+- When a request arrives, it will be matched first by the public API router and then by the Route router. They are two completely separate parts in the request processing flow.
 
 ![error/flowchart.png](https://static.apiseven.com/202108/1646120195055-fff81b45-55bb-4100-8822-b14b173448d5.png)
 
