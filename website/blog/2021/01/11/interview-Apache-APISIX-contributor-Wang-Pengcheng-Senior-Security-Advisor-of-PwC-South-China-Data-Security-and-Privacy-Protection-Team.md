@@ -1,6 +1,6 @@
 ---
 title: Apache APISIX Contributor Interview | Pengcheng Wang, Senior Security Consultant, PricewaterhouseCoopers China Data Security & Privacy Team
-slug: /blog/2021/01/11/interview-apache-apisix-contributor-wang-pengcheng-senior-security-advisor-of-pwc-south-china-data-security-and-privacy-protection-team
+slug: blog/2021/01/11/interview-apache-apisix-contributor-wang-pengcheng-senior-security-advisor-of-pwc-south-china-data-security-and-privacy-protection-team
 author: Ming Wen
 authorURL: "https://github.com/moonming"
 authorImageURL: "https://avatars.githubusercontent.com/u/26448043?v=4"
