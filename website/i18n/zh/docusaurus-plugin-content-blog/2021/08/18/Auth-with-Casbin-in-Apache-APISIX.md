@@ -1,5 +1,6 @@
 ---
 title: "在 Apache APISIX 中使用 Casbin 进行授权"
+slug: /zh/blog/2021/08/18/auth-with-casbin-in-apache-apisix
 author: "Casbin 社区 & Apache APISIX 社区"
 keywords:
 - API 网关

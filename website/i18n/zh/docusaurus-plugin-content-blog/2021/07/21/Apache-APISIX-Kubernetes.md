@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX x Kubernetes：恰到好处｜直播预告"
+slug: /zh/blog/2021/07/21/apache-apisix-kubernetes
 author: "Apache APISIX 社区"
 keywords:
 - API 网关

@@ -1,5 +1,6 @@
 ---
 title: "不写代码，如何为开源项目做贡献？"
+slug: /zh/blog/2021/09/09/how-to-contribute-to-an-openSource-without-coding
 author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"

@@ -1,5 +1,6 @@
 ---
 title: "基于 Apache APISIX，新浪微博 API 网关的定制化开发之路"
+slug: /zh/blog/2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix
 author: "聂永"
 keywords:
 - Apache APISIX

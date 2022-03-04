@@ -1,5 +1,6 @@
 ---
 title: "从 0 到 1，APISIX Ingress 加入社区后的发展与收获"
+slug: /zh/blog/2021/10/26/apisix-ingress
 author: "金卫"
 authorURL: "https://github.com/gxthrj"
 authorImageURL: "https://avatars.githubusercontent.com/u/4413028?v=4"

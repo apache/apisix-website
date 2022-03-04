@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！"
+slug: /zh/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released
 author: "张晋涛"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"

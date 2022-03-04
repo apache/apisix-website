@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 在移动云的应用"
+slug: /zh/blog/2021/08/09/apache-apisix-in-china-mobile-cloud
 author: "Apache APISIX 社区"
 keywords:
 - API 网关
