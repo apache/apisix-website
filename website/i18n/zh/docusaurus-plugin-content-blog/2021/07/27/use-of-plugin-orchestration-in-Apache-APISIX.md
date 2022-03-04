@@ -1,6 +1,6 @@
 ---
 title: "插件编排在 Apache APISIX 中的应用与实践"
-slug: /zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix
+slug: 2021/07/27/use-of-plugin-orchestration-in-apache-apisix
 author: "琚致远"
 authorURL: "https://github.com/juzhiyuan"
 authorImageURL: "https://avatars.githubusercontent.com/u/2106987?v=4"

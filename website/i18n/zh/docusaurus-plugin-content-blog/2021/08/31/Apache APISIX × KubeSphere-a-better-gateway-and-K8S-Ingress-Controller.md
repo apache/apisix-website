@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX × KubeSphere：提供更好用的网关及 K8S Ingress Controller"
-slug: /zh/blog/2021/08/31/apache-apisix-kubeSphere-a-better-gateway-and-k8s-ingress-controller
+slug: 2021/08/31/apache-apisix-kubeSphere-a-better-gateway-and-k8s-ingress-controller
 author: "张晋涛"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"

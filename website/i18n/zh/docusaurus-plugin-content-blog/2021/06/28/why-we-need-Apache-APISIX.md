@@ -1,6 +1,6 @@
 ---
 title: "有了 NGINX 和 Kong，为什么还需要 Apache APISIX"
-slug: /zh/blog/2021/06/28/why-we-need-apache-apisix
+slug: 2021/06/28/why-we-need-apache-apisix
 author: "王院生"
 authorURL: "https://github.com/membphis"
 authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"

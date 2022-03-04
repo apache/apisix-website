@@ -1,6 +1,6 @@
 ---
 title: "来自 Apache APISIX committer 的经验分享 —— 编程之夏专访"
-slug: /zh/blog/2021/06/03/experience-share-from-apache-apisix-committer
+slug: 2021/06/03/experience-share-from-apache-apisix-committer
 author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"

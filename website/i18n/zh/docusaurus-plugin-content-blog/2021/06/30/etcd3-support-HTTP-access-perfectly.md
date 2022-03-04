@@ -1,6 +1,6 @@
 ---
 title: "差之毫厘：etcd 3 完美支持 HTTP 访问？"
-slug: /zh/blog/2021/06/30/etcd3-support-http-access-perfectly
+slug: 2021/06/30/etcd3-support-http-access-perfectly
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

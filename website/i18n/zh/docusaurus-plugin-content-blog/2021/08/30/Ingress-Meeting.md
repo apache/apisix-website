@@ -1,6 +1,6 @@
 ---
 title: "社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散"
-slug: /zh/blog/2021/08/30/ingress-meeting
+slug: 2021/08/30/ingress-meeting
 author: "Apache APISIX 社区"
 keywords:
 - API 网关

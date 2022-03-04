@@ -1,6 +1,6 @@
 ---
 title: "贡献者，是衡量开源项目的金指标"
-slug: /zh/blog/2021/08/14/contributors-the-golden-metric-of-opensource-projects
+slug: 2021/08/14/contributors-the-golden-metric-of-opensource-projects
 author: "吴舒旸"
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"

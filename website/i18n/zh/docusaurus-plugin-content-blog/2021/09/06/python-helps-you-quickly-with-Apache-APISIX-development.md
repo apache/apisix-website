@@ -1,6 +1,6 @@
 ---
 title: "Python 助你快速上手 Apache APISIX 插件开发"
-slug: /zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development
+slug: 2021/09/06/python-helps-you-quickly-with-apache-apisix-development
 author: "帅进超"
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
