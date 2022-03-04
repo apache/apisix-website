@@ -25,7 +25,7 @@ Hello everyone, I'm happy to share a topic that I'm excited about, "Why do you n
 The reason why we are doing a replacement project for NGINX and Kong is actually related to the background of our backend architecture evolution, and I will start by sharing with you the backend architecture evolution process, which is very important.
 
 I'll start by sharing with you the evolution of the backend architecture, which is very important.
-![membphis](https://static.apiseven.com/202108/1646320281711-c7e446ce-91f3-4494-93de-8c4b9f7936a2.jpg)
+![membphis](https://static.apiseven.com/202108/1646374573876-7643caae-1913-4569-a5c4-59c1f2ef7597.jpg)
 
 First of all, I would like to introduce myself, my name is Yuansheng Wang. I wrote an e-book called "OpenResty Best Practices" in 2015 and formed a community of over 10,000 people through this book. Since that time, I have become more and more interested in open source itself. Before 2015, I was basically mainly a user of open source software, then slowly became a co-organizer of the community, and then later became a community leader. Simple, because the book is written by you, others encounter a variety of problems, there are advanced and more common, ask more I gradually became a teacher and eventually became a community leader, like the famous saying "walk more people, also become the road.
 
@@ -55,7 +55,7 @@ As the backend architecture continues to iterate and enters the Kubernetes era, 
 
 Let's look at the left side of the more interesting JAVA, Spring Cloud built-in API gateway has experienced ZUUL, ZUUL2, but still not good, performance, architecture official are not satisfied, so Spring Cloud official launched a new project Spring Cloud Gateway, the final formation of the family bucket solution.
 
-Finally, the bottom right part of the service grid, for the service grid has formed a choice istio (CP) + envoy (DP). Later we see the Alibaba open source mosn, in a nutshell: Golang version of envoy.
+Finally, the bottom right part of the service grid, for the service grid has formed a choice istio (CP) + Envoy (DP). Later we see the Alibaba open source mosn, in a nutshell: Golang version of envoy.
 
 ![APISIX architecture](https://static.apiseven.com/202108/1646300450364-7318620a-0876-472e-8d7b-880c0f4a7ac2.jpg)
 
@@ -141,7 +141,7 @@ For traditional LB and API Gateway scenarios, APISIX has the advantage of going 
 
 ![APISIX Ingress Controller](https://static.apiseven.com/202108/1646300936551-b463c6b9-7def-432d-b4a4-0bf26de28b38.jpg)
 
-APISIX Ingress Controller solves all the problems mentioned above, and inherits all the advantages of APISIX, in addition to supporting native k8s CRD for easy migration.
+APISIX Ingress Controller solves all the problems mentioned above, and inherits all the advantages of APISIX, in addition to supporting native K8s CRD for easy migration.
 
 ![service mesh](https://static.apiseven.com/202108/1646300936553-041cdf4e-c918-4e90-804f-c5f31b2a309e.jpg)
 
