@@ -41,6 +41,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供了负�
 Spring Cloud 为 Eureka 提供了一个 `EnableEurekaServer` 的注解，可以直接以 Spring Boot 的方式启动一个 Eureka Server。
 
 代码示例如下：
+
 ```Java
 @SpringBootApplication
 @EnableEurekaServer
