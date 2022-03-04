@@ -1,5 +1,5 @@
 ---
-title: "生态系统持续完善， API 网关 Apache APISIX 集成 Eureka 作为服务发现"
+title: "生态系统持续完善，API 网关 Apache APISIX 集成 Eureka 作为服务发现"
 authors:
   - name: "钱勇"
     title: "Author"
@@ -83,13 +83,13 @@ public class Application {
 
         @RequestMapping("/")
         public String home() {
-                return String.format("server-%s"，serverPort);
+                return String.format("server-%s",serverPort);
         }
 
         public static void main(String[] args) {
                 new SpringApplicationBuilder(Application.class).web(WebApplicationType.SERVLET).run(args);
         }
-        
+
 }
 ```
 
@@ -119,7 +119,7 @@ server.port=8080 # 修改监听端口以启动多个实例
 首先，需要在 Apache APISIX 的配置文件 `config.yaml` 中找到 `apisix.discovery`，修改 Eureka Server 连接信息的相关配置，并启动 APISIX。
 
 ```YAML
-  discovery:                       # service discovery center                                             
+  discovery:                       # service discovery center
       eureka:
         host:                        # it's possible to define multiple eureka hosts addresses of the same eureka cluster.
           - "http://172.23.79.129:8761" # Access address of Eureka Server started by Spring Boot
@@ -129,7 +129,7 @@ server.port=8080 # 修改监听端口以启动多个实例
         timeout:
           connect: 2000              # default 2000ms
           send: 2000                 # default 2000ms
-          read: 5000                 # default 5000ms 
+          read: 5000                 # default 5000ms
 
 ```
 
@@ -143,11 +143,11 @@ server.port=8080 # 修改监听端口以启动多个实例
 ```Shell
 curl http://172.30.45.72:9180/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-    "uri": "/*"，
-    "host": "eureka-demo"，
+    "uri": "/*",
+    "host": "eureka-demo",
     "upstream": {
-        "service_name": "A-BOOTIFUL-CLIENT"，
-        "type": "roundrobin"，
+        "service_name": "A-BOOTIFUL-CLIENT",
+        "type": "roundrobin",
         "discovery_type": "eureka"
     }
 }'
@@ -195,6 +195,7 @@ server-8082
 server-8080
 server-8082
 ```
+
 由上述结果可以看出，关闭 `8081` 实例后，Apache APISIX 会及时同步到 Eureka 的最新实例列表，然后将请求转发给正确的后端。
 
 ### 诊断工具
@@ -203,7 +204,7 @@ server-8082
 
 所以 APISIX 在 Service Discovery 插件中提供了一个诊断接口，可以方便的查询出当前网关正在使用的服务列表，结合注册中心的控制台，我们就对网关到注册中心这一链路做出快速诊断。
 
-诊断接口默认暴露在回环接口的 `9090` 端口，访问方式为 `GET /v1/discovery/{discovery_type}/dump`，例: 
+诊断接口默认暴露在回环接口的 `9090` 端口，访问方式为 `GET /v1/discovery/{discovery_type}/dump`，例：
 
 ```Shell
 curl http://localhost:9090/v1/discovery/eureka/dump

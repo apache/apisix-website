@@ -28,9 +28,10 @@ As the most core development framework in the Java ecosystem, Spring continues t
 
 In Spring Cloud, Eureka acts as a registry. Eureka is an open source Registry service written in The Java language by Netflix that plays a key role in Netflix's infrastructure.
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an industry-leading microservice gateway, Apache APISIX provides native support for Eureka. This article will use the Spring Cloud demo project as an example to show you the main functions and features of Apache APISIX docking Eureka service discovery. 
+Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an industry-leading microservice gateway, Apache APISIX provides native support for Eureka. This article will use the Spring Cloud demo project as an example to show you the main functions and features of Apache APISIX docking Eureka service discovery.
 
 ## Preparation Phase
+
 This demonstration uses the official [`spring-cloud-netflix`](https://spring.io/projects/spring-cloud-netflix#overview) tutorial provided by Spring as an example, which provides the Eureka Server started with SpringBoot as the registration center of Spring Cloud. We also use the same method to start the Eureka server for demonstration. Please visit  [`spring-cloud-samples/eureka`](https://github.com/spring-cloud-samples/eureka，) for the project address.
 
 The following will introduce you to the relevant code and startup method.
@@ -46,7 +47,7 @@ The code example is as follows:
 @EnableEurekaServer
 public class EurekaApplication {
         public static void main(String[] args) {
-                SpringApplication.run(EurekaApplication.class，args);
+                SpringApplication.run(EurekaApplication.class,args);
         }
 }
 ```
@@ -89,7 +90,7 @@ public class Application {
         public static void main(String[] args) {
                 new SpringApplicationBuilder(Application.class).web(WebApplicationType.SERVLET).run(args);
         }
-        
+
 }
 ```
 
@@ -99,7 +100,7 @@ The configuration file is as follows:
 
 ```JAVA
 spring.application.name=a-bootiful-client # will be used as the application name registered in Eureka
-server.port=8080 # Modify the listening port to start multiple instances
+server.port=8080 # Modify Modify the listening port to start multiple instances
 ```
 
 Set the listening ports to `8080`, `8081`, and `8082`, and start three Spring Boot instances. After completion, use a browser to access port `8761` of Eureka Server to view the results of service registration.
@@ -119,7 +120,7 @@ Next, we will implement the request chain as shown in the following figure:
 First, you need to find `apisix.discovery` in the configuration file `config.yaml` of Apache APISIX, modify the related configuration of Eureka Server connection information, and finally start APISIX.
 
 ```YAML
-  discovery:                       # service discovery center                                             
+  discovery:                       # service discovery center
       eureka:
         host:                        # it's possible to define multiple eureka hosts addresses of the same eureka cluster.
           - "http://172.23.79.129:8761" # Access address of Eureka Server started by Spring Boot
@@ -129,7 +130,7 @@ First, you need to find `apisix.discovery` in the configuration file `config.yam
         timeout:
           connect: 2000              # default 2000ms
           send: 2000                 # default 2000ms
-          read: 5000                 # default 5000ms 
+          read: 5000                 # default 5000ms
 
 ```
 
@@ -144,10 +145,10 @@ Create a Route and enable the Eureka Service Discovery plugin in Upstream.
 curl http://172.30.45.72:9180/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
     "uri": "/*"，
-    "host": "eureka-demo"，
+    "host": "eureka-demo",
     "upstream": {
-        "service_name": "A-BOOTIFUL-CLIENT"，
-        "type": "roundrobin"，
+        "service_name": "A-BOOTIFUL-CLIENT",
+        "type": "roundrobin",
         "discovery_type": "eureka"
     }
 }'
@@ -195,6 +196,7 @@ server-8082
 server-8080
 server-8082
 ```
+
 It can be seen from the above results that after closing the `8081` instance, Apache APISIX will synchronize to the latest instance list of Eureka in time, and then forward the request to the correct backend.
 
 ### Diagnostic Tools
