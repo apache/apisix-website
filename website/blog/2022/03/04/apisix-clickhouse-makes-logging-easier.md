@@ -245,4 +245,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  \
 
 ## Summary
 
-The above is the whole process of developing clickhouse-logger for Apache APISIX, and how to implement it with Grafana to achieve the same observability with simpler architechure and worlflows. I hope more people in the community will be willing to step out of their comfort zones. Switching from followers to contributors is much easier than you think.
+The above is the whole process of developing `clickhouse-logger` for Apache APISIX, and how to implement it with Grafana to achieve the same observability with simpler architechure and worlflows. I hope more people in the community will be willing to step out of their comfort zones, switching from followers to contributors is much easier than you think.

@@ -27,7 +27,7 @@ tags: [Technology,Logging]
 
 Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为 API 网关，Apache APISIX 拥有多种类型的实用插件。得益于 Apache APISIX 的插件热加载机制，我们无需重启便可启用插件、修改插件配置和停用插件。
 
-ClickHouse 由 Yandex 开发，在2016年开源。ClickHouse 不止是一个数据库， 也是一个数据库管理系统，它允许在运行时创建表和数据库、加载数据和运行查询，而无需重新配置或重启服务。
+ClickHouse 由 Yandex 开发，在 2016 年开源。ClickHouse 不止是一个数据库， 也是一个数据库管理系统，它允许在运行时创建表和数据库、加载数据和运行查询，而无需重新配置或重启服务。
 
 随着越来越多的公司开始将业务迁移上云，如何高效地实现日志收发及日志分析，增强系统的可观测性成为了一个难题。中国移动作为一家提供公有云服务的企业，前期基于 Apache APISIX 的业务日志收发和和分析系统的架构大致是这样的。
 
@@ -50,7 +50,7 @@ ClickHouse 由 Yandex 开发，在2016年开源。ClickHouse 不止是一个数�
 
 ## ClickHouse 插件实现原理
 
-`clickhouse-logger` 插件的作为一个中间层，对接 Apache APISIX 和 ClickHouse。如前文所说，我们使用Apache APISIX 作为七层负载均衡，请求经过 Apache APISIX会产生日志，比如 access log 和 error log。`clickhouse-logger` 收集到日志后，会按照自身 metadata 所设置的日志格式，对这些日志进行整理。最后依靠批处理器将整理过的日志批量发送至 ClickHouse。
+`clickhouse-logger` 插件的作为一个中间层，对接 Apache APISIX 和 ClickHouse。如前文所说，我们使用Apache APISIX 作为七层负载均衡，请求经过 Apache APISIX 会产生日志，比如 access log 和 error log。`clickhouse-logger` 收集到日志后，会按照自身 metadata 所设置的日志格式，对这些日志进行整理。最后依靠批处理器将整理过的日志批量发送至 ClickHouse。
 
 ![clickhouse-logger architecture](https://static.apiseven.com/202108/1646363936994-c2646095-1ea4-4c1f-8cad-1dcecfc41df3.png)
 
@@ -215,7 +215,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
   }'
   ```
 
-以下是使用 Grafana  与 Clickhouse 对接后的仪表盘视图。
+以下是使用 Grafana 与 Clickhouse 对接后的仪表盘视图。
 
 ![Grafana-1](https://static.apiseven.com/202108/1646366781343-ab2848fe-d10a-4222-a90d-79f4fe58999a.png)
 
