@@ -17,7 +17,7 @@ const PageTitle = styled.h1`
 `;
 
 const PageTitleSpecial = styled.span`
-  color:rgb(232, 67, 62);
+  color: rgb(232, 67, 62);
 `;
 
 const PageDesc = styled.div`
@@ -25,21 +25,34 @@ const PageDesc = styled.div`
 `;
 
 const Contribute = () => {
-  const repoList = require("../../../config/docs").map(item => ({ repoName: item.githubRepo }));
+  const repoList = require("../../../config/docs").map(
+    (item) => item.githubRepo
+  );
+  const repoInfoList = require("../../../config/repos-info.json");
 
-  const repos = repoList.map((repo) => {
-    return <ContributeCard key={repo.repoName} {...repo} />;
+  const repos = repoList.map((repoName) => {
+    return (
+      <ContributeCard
+        key={repoName}
+        repoName={repoName}
+        {...repoInfoList[repoName]}
+      />
+    );
   });
 
   return (
     <Layout>
       <Page>
-        <PageTitle>Good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
-        <PageDesc>Help new partners to Apache APISIX Community and make first contribution.</PageDesc>
+        <PageTitle>
+          Good <PageTitleSpecial>first</PageTitleSpecial> issue
+        </PageTitle>
+        <PageDesc>
+          Help new partners to Apache APISIX Community and make first
+          contribution.
+        </PageDesc>
         {repos}
       </Page>
     </Layout>
-
   );
 };
 
