@@ -1,6 +1,6 @@
 ---
 title: "The Road to Customized Development of Sina Weibo API Gateway"
-slug: /blog/2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix
+slug: 2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix
 author: "Yong Nie"
 keywords:
 - Apache APISIX

@@ -1,6 +1,6 @@
 ---
 title: "How to Write an Apache APISIX Plugin in Java"
-slug: /blog/2021/06/21/use-java-to-write-apache-apisix-plugins
+slug: 2021/06/21/use-java-to-write-apache-apisix-plugins
 author: "Zhengsong Tu"
 authorURL: "https://github.com/tzssangglass"
 authorImageURL: "https://avatars.githubusercontent.com/u/30819887?v=4"

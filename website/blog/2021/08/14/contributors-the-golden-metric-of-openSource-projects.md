@@ -1,6 +1,6 @@
 ---
 title: "Contributors — The Golden Metric of OpenSource Projects"
-slug: /blog/2021/08/14/contributors-the-golden-metric-of-opensource-projects
+slug: 2021/08/14/contributors-the-golden-metric-of-opensource-projects
 author: "Lien"
 authorURL: "https://github.com/lilien1010"
 authorImageURL: "https://avatars.githubusercontent.com/u/3814966?v=4"

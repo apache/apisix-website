@@ -1,6 +1,6 @@
 ---
 title: "Abandoning Kong and Nginx, Hyperchain Technology implements on its BaaS platform"
-slug: /blog/2021/08/09/apache-apisix-in-quliankeji
+slug: 2021/08/09/apache-apisix-in-quliankeji
 author: "Weifeng Sheng"
 keywords: 
 - APISIX
