@@ -201,9 +201,9 @@ It can be seen from the above results that after closing the `8081` instance, Ap
 
 ### Diagnostic Tools
 
-In microservice systems, unexpected forwarding problems are often encountered. The reasons for these problems may come from various links in service discovery, such as: client registration exception, registration center data exception, gateway reading registration data exception, etc. etc., diagnostic tools that can be used in the link when an anomaly occurs will be particularly important.
+In microservice systems, unexpected forwarding problems are often encountered. The reasons for these problems may come from various links in service discovery, such as: client registration exception, registration center data exception, gateway reading registration data exception, etc., diagnostic tools that can be used in the link when an anomaly occurs will be particularly important.
 
-Therefore, APISIX provides a diagnostic interface in the Service Discovery plug-in, which can easily query the list of services currently being used by the gateway. Combined with the console of the registry, we can quickly diagnose the link from the gateway to the registry.
+Therefore, APISIX provides a diagnostic interface in the Service Discovery plugin, which can easily query the list of services currently being used by the gateway. Combined with the console of the registry, we can quickly diagnose the link from the gateway to the registry.
 
 The diagnostic interface is exposed on port `9090` of the loopback interface by default, and the access method is `GET /v1/discovery/{discovery_type}/dump`, for example:
 
@@ -261,6 +261,6 @@ In this way, the Eureka data that APISIX is using is queried.
 
 Spring Cloud is a popular microservice framework, and Apache APISIX provides the ability to handle Spring Cloud application traffic by supporting Eureka Service Discovery. We can see that the close integration of these two ecosystems makes the implementation of the microservice architecture change. It is simpler and more efficient, so that business development can focus more on business value.
 
-For more instructions and complete configuration information about the eureka plugin, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/discovery/eureka/).
+For more instructions and complete configuration information about the `eureka` plugin, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/discovery/eureka/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide) to communicate.
