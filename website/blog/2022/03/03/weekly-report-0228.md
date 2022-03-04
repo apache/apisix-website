@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report｜2.15-2.28 Feature Highlights Update in Progress
+title: Biweekly Report｜Explore the week of Feb 15 - Feb 28
 keywords:
 - Apache APISIX
 - API Gateway
