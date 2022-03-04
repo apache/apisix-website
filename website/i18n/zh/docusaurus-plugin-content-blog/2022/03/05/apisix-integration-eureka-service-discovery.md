@@ -36,7 +36,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供了负�
 
 接下来将为您介绍相关代码和启动方式。
 
-### Eureka Server
+## Eureka Server
 
 Spring Cloud 为 Eureka 提供了一个 `EnableEurekaServer` 的注解，可以直接以 Spring Boot 的方式启动一个 Eureka Server。
 
@@ -257,7 +257,7 @@ curl http://localhost:9090/v1/discovery/eureka/dump
 
 通过上述示例就可以查询到 APISIX 正在使用的 Eureka 数据。
 
-### 总结
+## 总结
 
 Spring Cloud 是一个广受用户欢迎的微服务框架，而 Apache APISIX 通过支持 Eureka Service Discovery 提供了处理 Spring Cloud 应用流量的能力，我们可以看到这两个生态的紧密结合，让微服务架构的落地变得更加简单高效，从而让业务开发可以更加的专注于业务价值。
 
