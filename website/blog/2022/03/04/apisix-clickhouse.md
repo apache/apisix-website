@@ -179,9 +179,9 @@ You can set a custom log format using the `log_format` metadata, as shown in the
               "database": "default",
               "logtable": "t",  "max_retry_count": 1,
               "endpoint_addr": "http://127.0.0.1:8123"
-          } 
-      } 
-  }' 
+          }
+      }
+  }'
   ```
 
 2. Configure the log_format metadata parameter. log_format must be in the same format as the database table structure, otherwise it will cause write failure.
@@ -211,8 +211,8 @@ You can set a custom log format using the `log_format` metadata, as shown in the
           "upstream_addr": "$upstream_addr",
           "http_host": "$http_host",
           "content_type": "$content_type"
-      } 
-  }' 
+      }
+  }'
   ```
 
 Here are some screenshots of the dashboard after interfacing with Clickhouse using Grafana.

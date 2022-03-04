@@ -179,9 +179,9 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
               "database": "default",
               "logtable": "t",  "max_retry_count": 1,
               "endpoint_addr": "http://127.0.0.1:8123"
-          } 
-      } 
-  }' 
+          }
+      }
+  }'
   ```
 
 2. 配置 `log_format` 元数据参数。`log_format` 的格式必须与数据库表的结构保持一致，否则会导致写入失败。
@@ -211,8 +211,8 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
           "upstream_addr": "$upstream_addr",
           "http_host": "$http_host",
           "content_type": "$content_type"
-      } 
-  }' 
+      }
+  }'
   ```
 
 以下是使用 Grafana  与 Clickhouse 对接后的仪表盘视图。
