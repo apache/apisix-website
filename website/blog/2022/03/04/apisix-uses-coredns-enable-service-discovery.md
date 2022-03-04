@@ -73,7 +73,7 @@ The implementation logic of server discovery mode is as follows:
 
 CoreDNS is an open source DNS server written in `Go`, which is commonly used for DNS services and service discovery in multi-container environments due to its flexibility and extensibility. CoreDNS is built on top of Caddy, the HTTP/2 web server, and implements a plug-in chain architecture, abstracting many DNS related logic into layer-by-layer plug-ins, which are more flexible and easy to expand, and user selected plugin It will be compiled into the final executable file, and the running efficiency is also very high. CoreDNS is the first cloud native open source project to join CNCF (Cloud Native Computing Foundation) and has graduated, and it is also the default DNS service in Kubernetes.
 
-Compared with common service discovery frameworks (Zookeeper and Consul), what are the advantages of CoreDNS implementing service discovery?
+Compared with common service discovery frameworks (Apache ZooKeeper and Consul), what are the advantages of CoreDNS implementing service discovery?
 
 The principle of service discovery is similar to DNS domain name system, which is an important infrastructure in computer networks. The DNS domain name system binds domain names that rarely change with frequently changing server IP addresses, while the service discovery mechanism is to seldom change domain names. The service name is bound to the service address. In this way, we can use DNS to achieve a function similar to the service registry, and only need to convert the domain name stored in the DNS into the service name. Since many computers have built in DNS functions, we only need to modify the configuration on the original DNS system without doing too many extra things.
 
