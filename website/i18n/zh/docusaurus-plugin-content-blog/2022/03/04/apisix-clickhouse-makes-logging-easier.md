@@ -37,7 +37,7 @@ ClickHouse 由 Yandex 开发，在 2016 年开源。ClickHouse 不止是一个�
 
 计算机领域有句名言： “任何问题都可以通过增加一个间接的中间层来解决”。我们其实也考虑过在 `tcp-logger` 和 rsyslog 之间再加一个中间层，使字符串转换为 JSON。但这显然不是长久之计。
 
-所以我们换了一种思路去看待这个问题：如果把现有架构中的 “tcp-logger+rsyslog+Promtail+Loki” 看作是一个巨大的中间层，那么不论我们在这中间怎么添加额外的中间层，除了能解决燃眉之急外，只会使它变得更加臃肿和难以维护。市面上有没有一个产品能直接把“tcp-logger+rsyslog+Promtail+Loki”给替换掉呢？
+所以我们换了一种思路去看待这个问题：如果把现有架构中的“tcp-logger+rsyslog+Promtail+Loki”看作是一个巨大的中间层，那么不论我们在这中间怎么添加额外的中间层，除了能解决燃眉之急外，只会使它变得更加臃肿和难以维护。市面上有没有一个产品能直接把“tcp-logger+rsyslog+Promtail+Loki”给替换掉呢？
 
 带着这个问题，我们花了些时间进行调研，最终选择 ClickHouse 主要有以下几点原因。
 
@@ -54,7 +54,7 @@ ClickHouse 由 Yandex 开发，在 2016 年开源。ClickHouse 不止是一个�
 
 ![clickhouse-logger architecture](https://static.apiseven.com/202108/1646363936994-c2646095-1ea4-4c1f-8cad-1dcecfc41df3.png)
 
-`clickhouse-logger` 在我们这个场景下，起到了替代 “tcp-logger+rsyslog+Promtail+Loki”的作用。免除了多个组件之间的格式转换和数据转发，可将 Log 数据请求直接推送到 ClickHouse 服务器。
+`clickhouse-logger` 在我们这个场景下，起到了替代“tcp-logger+rsyslog+Promtail+Loki”的作用。免除了多个组件之间的格式转换和数据转发，可将 Log 数据请求直接推送到 ClickHouse 服务器。
 
 ![improved bussiness architecture](https://static.apiseven.com/202108/1646364005040-93d70286-e7e6-4fb5-a164-1de1c865ce2b.png)
 
@@ -245,4 +245,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  \
 
 ## 总结
 
-以上就是我为 Apache APISIX 开发 `clickhouse-logger` 的全过程。希望社区里有更多的人愿意走出舒适区，实现自身的角色转换，从关注者变为贡献者的远比你想象的简单。
+以上就是我为 Apache APISIX 开发 `clickhouse-logger` 的全过程。希望社区里有更多的人愿意走出舒适区，实现自身的角色转换，从关注者变为贡献者的过程远比你想象的简单。
