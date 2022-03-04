@@ -78,9 +78,9 @@ module.exports = [
     color: "#1296DB",
     githubRepo: "apache/apisix-python-plugin-runner",
     githubBranch: "master",
-    downloadPath: "apisix/python-plugin-runner/0.1.0/apisix-python-plugin-runner-0.1.0-src",
-    version: "0.1.0",
-    releaseDate: "2021-09-06",
+    downloadPath: "apisix/python-plugin-runner/0.2.0/apisix-python-plugin-runner-0.2.0-src",
+    version: "0.2.0",
+    releaseDate: "2022-03-04",
     firstDocPath: "/getting-started",
   }
 ]
