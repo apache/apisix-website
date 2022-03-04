@@ -1,5 +1,5 @@
 ---
-title: "How to Integrate API Gateway and Eureka?"
+title: "How to Integrate API Gateway with Eureka?"
 authors:
   - name: "Yong Qian"
     title: "Author"
@@ -15,18 +15,18 @@ keywords:
 - Eureka
 - Service Discovery
 - Servici Register
-description: This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to quickly discover links that forward exceptions.
+description: This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
 tags: [Technology,Ecosystem,Service Discovery]
 ---
 
-> This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to quickly discover links that forward exceptions.
+> This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
 
 <!--truncate-->
 In microservices architecture, large and complex systems are vertically divided into smaller subsystems based on function or business requirements, which exist as independently deployed sub-processes that communicate with each other through network calls. How these independently deployed services discover each other is the first problem to be solved, so there is often a centralized registry in microservice architectures.
 
 As the most core development framework in the Java ecosystem, Spring continues to liberate the productivity of Java developers from Spring MVC to Spring Boot, and Spring Cloud is Spring's answer to the micro-service architecture in the Cloud native era.
 
-In Spring Cloud, Eureka acts as a registry. Eureka is an open source Registry service written in The Java language by Netflix that plays a key role in Netflix's infrastructure.
+In Spring Cloud, Eureka acts as a registry. Eureka is an open source Registry service written in the Java language by Netflix that plays a key role in Netflix's infrastructure.
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an industry-leading microservice gateway, Apache APISIX provides native support for Eureka. This article will use the Spring Cloud demo project as an example to show you the main functions and features of Apache APISIX docking Eureka service discovery.
 
@@ -36,9 +36,9 @@ This demonstration uses the official [`spring-cloud-netflix`](https://spring.io/
 
 The following will introduce you to the relevant code and startup method.
 
-### Eureka Server
+## Eureka Server
 
-Spring Cloud provides an EnableEurekaServer annotation for Eureka, which can directly start an Eureka Server in the way of Spring Boot.
+Spring Cloud provides an `EnableEurekaServer` annotation for Eureka, which can directly start an Eureka Server in the way of Spring Boot.
 
 The code example is as follows:
 
@@ -257,7 +257,7 @@ curl http://localhost:9090/v1/discovery/eureka/dump
 
 In this way, the Eureka data that APISIX is using is queried.
 
-### Summary
+## Summary
 
 Spring Cloud is a popular microservice framework, and Apache APISIX provides the ability to handle Spring Cloud application traffic by supporting Eureka Service Discovery. We can see that the close integration of these two ecosystems makes the implementation of the microservice architecture change. It is simpler and more efficient, so that business development can focus more on business value.
 

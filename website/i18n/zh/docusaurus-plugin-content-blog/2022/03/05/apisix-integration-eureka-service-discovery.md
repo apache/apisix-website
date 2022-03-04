@@ -1,5 +1,5 @@
 ---
-title: "生态系统持续完善，API 网关 Apache APISIX 集成 Eureka 作为服务发现"
+title: "API 网关 Apache APISIX 集成 Eureka 作为服务发现"
 authors:
   - name: "钱勇"
     title: "Author"
@@ -15,11 +15,11 @@ keywords:
 - Eureka
 - 服务发现
 - 服务注册
-description: 本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具快速发现转发异常的链路。
+description: 本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具快速发现链路中出现的问题。
 tags: [Technology,Ecosystem,Service Discovery]
 ---
 
-> 本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具快速发现转发异常的链路。
+> 本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具发现链路中出现的问题。
 
 <!--truncate-->
 微服务架构中，大型复杂的系统按功能或者业务需求垂直切分成更小的子系统，这些子系统以独立部署的子进程存在，它们之间通过网络调用进行通信。这些独立部署的服务如何发现对方成为了首先要解决的问题，所以在微服务架构中往往都会存在一个中心化的注册中心。
