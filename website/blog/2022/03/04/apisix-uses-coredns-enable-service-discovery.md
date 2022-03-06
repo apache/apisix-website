@@ -22,6 +22,8 @@ tags: [Technology,Ecosystem,Service Discovery]
 
 > Apache APISIX is a dynamic, real-time, high-performance cloud-native API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, grayscale publishing, service interruption, identity authentication, and observability. As a cloud native API gateway, Apache APISIX also integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in Apache APISIX.
 
+<!--truncate-->
+
 ## Background information
 
 In traditional physical machine and virtual machine deployment, calls between various services can be made through fixed **IP + port**. With the advent of the cloud-native era, enterprise business deployment is more inclined to cloud-native containerization. However, in a containerized environment, the startup and destruction of service instances are very frequent. Manual maintenance by operation and maintenance personnel will not only be a heavy workload, but also ineffective. Therefore, a mechanism is needed that can automatically detect the service status, and dynamically bind a new address when the service address changes. The service discovery mechanism came into being.
