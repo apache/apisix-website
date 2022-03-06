@@ -1,5 +1,6 @@
 ---
 title: "为什么 Apache APISIX 选择 Nginx + Lua 这个技术栈？"
+slug: 2021/08/25/why-apache-apisix-chose-nginx-and-lua
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

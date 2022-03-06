@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 社区成员助力 openEuler 发布第一个社区创新版"
+slug: 2021/10/01/openeuler
 keywords:
 - Apache APISIX
 - openEuler

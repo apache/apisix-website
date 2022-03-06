@@ -1,5 +1,6 @@
 ---
 title: "从新手村出来，我在 Apache APISIX 社区发出了第一个 PR"
+slug: 2021/08/11/interview-tuzhengsong
 author: "Apache APISIX 社区"
 authorURL: "https://github.com/Yangxiamao"
 authorImageURL: "https://avatars.githubusercontent.com/u/47442074?v=4"

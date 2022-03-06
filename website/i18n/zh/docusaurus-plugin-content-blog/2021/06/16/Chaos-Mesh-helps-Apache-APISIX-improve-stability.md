@@ -1,5 +1,6 @@
 ---
 title: "Chaos Mesh 助力 Apache APISIX 提升稳定性"
+slug: 2021/06/16/chaos-mesh-helps-apache-apisix-improve-stability
 author: "吴舒旸"
 authorURL: "https://github.com/Yiyiyimu"
 authorImageURL: "https://avatars.githubusercontent.com/u/34589752?v=4"

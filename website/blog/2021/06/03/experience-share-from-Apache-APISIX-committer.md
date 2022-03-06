@@ -1,6 +1,6 @@
 ---
 title: Experience sharing from Apache APISIX committer - Interview with Summer of Programming
-slug: /blog/2021/06/03/experience-share-from-apache-apisix-committer
+slug: 2021/06/03/experience-share-from-apache-apisix-committer
 author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"

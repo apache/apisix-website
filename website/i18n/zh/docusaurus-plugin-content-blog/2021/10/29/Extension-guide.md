@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 扩展指南"
+slug: 2021/10/26/extension-guide
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

@@ -1,6 +1,6 @@
 ---
 id: subscribe-guide
-slug: /subscribe-guide
+slug: subscribe-guide
 title: Subscription Guide
 keywords:
 - API gateway

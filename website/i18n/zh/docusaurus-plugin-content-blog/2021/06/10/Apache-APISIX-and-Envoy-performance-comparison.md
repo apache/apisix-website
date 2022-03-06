@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 和 Envoy 性能大比拼"
+slug: 2021/06/10/apache-apisix-and-envoy-performance-comparison
 author: "王院生"
 authorURL: "https://github.com/membphis"
 authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"

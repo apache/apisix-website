@@ -1,5 +1,6 @@
 ---
 title: "使用 Java 编写 Apache APISIX 插件"
+slug: 2021/06/21/use-java-to-write-apache-apisix-plugins
 author: "屠正松"
 authorURL: "https://github.com/tzssangglass"
 authorImageURL: "https://avatars.githubusercontent.com/u/30819887?v=4"

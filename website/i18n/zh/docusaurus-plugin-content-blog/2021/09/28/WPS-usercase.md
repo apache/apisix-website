@@ -1,5 +1,6 @@
 ---
 title: "百万级 QPS 业务新宠，金山办公携手 Apache APISIX 打造网关实践新体验"
+slug: 2021/09/28/wps-usercase
 author: 张强
 keywords: 
 - Apache APISIX

@@ -1,6 +1,6 @@
 ---
 title: Apache APISIX 2.6.0-Release Officially Released
-slug: /blog/2021/05/25/apache-apisix-2.6.0-release
+slug: 2021/05/25/apache-apisix-2.6.0-release
 author: Zexuan Luo
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
