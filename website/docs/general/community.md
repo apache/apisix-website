@@ -10,13 +10,13 @@ description: This article provides useful information about Apache APISIX's Comm
 
 
 Apache APISIX is a project maintained by community members under the Apache Software Foundation.
-It is an open source project that abides by the [Apache Software Foundation's code of conduct](https://www.apache.org/foundation/policies/conduct.html). Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API Gateway. It handles traditional north-south traffic, as well as east-west traffic between services.
+It is an open-source project that abides by the [Apache Software Foundation's code of conduct](https://www.apache.org/foundation/policies/conduct.html). Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API Gateway. It handles traditional north-south traffic, as well as east-west traffic between services.
 
 ## How to Get Involved
 
-Apache APISIX is an open source infrastructure software project that provides API processing and analytics with products and solutions for microservices and real-time traffic processing; such as API gateway, k8s ingress controller, and Service Mesh.
+Apache APISIX is an open-source infrastructure software project that provides API processing and analytics with products and solutions for microservices and real-time traffic processing; such as API gateway, k8s ingress controller, and Service Mesh.
 
-Want to get involved with a project, join our slack community, collaborate & interact with other community members who will make sure you are not left out. We are open to any form of contribution; like code contributions, design, community management, advocacy, or you can just to listen in.
+Want to get involved with a project, join our Slack community, collaborate & interact with other community members who will make sure you are not left out. We are open to any form of contribution; like code contributions, design, community management, advocacy, or you can just listen in.
 
 ### Joining the Mailing List
 
