@@ -615,6 +615,49 @@ a:hover {
   opacity: 0;
 }
 
+.dashboard-demo {
+  bottom: 10%;
+  border: 4px dashed rgba(232, 67, 62, 0.85);
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+
+.demo-title {
+  opacity: 0.98;
+}
+
+.demo-account {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1.14rem;
+  font-variant: small-caps;
+  color: #615d5d;
+}
+
+.demo-account span {
+  color: #9a9898;
+  font-variant: normal;
+}
+
+.demo-desc {
+  padding-right: 50px;
+}
+
+.btn-try-demo {
+  text-align: center;
+  display: block;
+  width: 100%;
+  border-radius: 6px;
+  background-color: #ebedf0;
+  color: #615d5d;
+  transition: all 300ms;
+}
+
+.btn-try-demo:hover {
+  color: currentColor;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 /*benefits section*/
 .row-benefit {
   margin: 100px 5px;

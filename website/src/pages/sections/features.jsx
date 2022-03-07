@@ -158,6 +158,26 @@ const Features = () => {
                 </Link>
                 <ArrowAnim />
               </div>
+              <div className="dashboard-demo add-left-margin-feat">
+                <h3 className={"demo-title"}>Dashboard Playground</h3>
+                <p className={"demo-account"}>
+                  <div>
+                    Username: <span>admin</span>
+                  </div>
+                  <div>
+                    Password: <span>admin</span>
+                  </div>
+                </p>
+                <div className={"demo-desc"}>
+                  Remember the above account, and...
+                </div>
+                <Link
+                  className={"btn-try-demo"}
+                  to={"http://106.55.144.26/user/login"}
+                >
+                  Try it now!
+                </Link>
+              </div>
             </div>
           </div>
 
