@@ -18,7 +18,7 @@ tags: [User Case]
 
 [Airwallex](https://www.airwallex.com) is a global financial technology company that helps global users with payment services and cross-border payment scenarios. A global financial infrastructure platform has been built, and the payment network has covered more than 50 currencies in more than 130 countries and regions around the world, providing enterprises with digital financial technology products.
 
-![Airwallex Business](https://static.apiseven.com/202108/1635907812263-929d9f89-2bee-403e-9641-2e18b077e1b3.png)
+![Airwallex Business](https://static.apiseven.com/202108/1646626634389-7d9a0a82-a76c-4645-93b6-8a431bb1f9a1.png)
 
 Under the demand of global service content, the risk of data sovereignty must be considered in the conduct of the company's business.
 
@@ -41,7 +41,7 @@ Judging from the above events, data sovereignty has indeed brought great challen
 
 Because the business involves transnational attributes, some problems will be encountered in the technical processing.
 
-![Airwallex Business Process](https://static.apiseven.com/202108/1635907812252-3d427136-b986-4ac5-a853-d9bbbb4439d3.png)
+![Airwallex Business Process](https://static.apiseven.com/202108/1646626634395-c0076f05-0610-43f0-80b5-3110f30db183.png)
 
 The data flow of multinational corporations is reflected in a variety of interactions between different regions. In the absence of data sovereignty claims, the data can be stored in Europe and then Synchronize to any data center in Asia or the world. When you make a subsequent data service request, you only need to encapsulate the business into a service.
 
