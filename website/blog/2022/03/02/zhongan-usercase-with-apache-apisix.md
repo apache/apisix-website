@@ -36,7 +36,7 @@ To be more precise, many scenarios of Internet insurance rely on channels for en
 
 ### Strong Supervision
 
-![Strong supervision](https://static.apiseven.com/202108/1646279054405-a55ded0a-986f-4d49-a927-545999070d65.png)
+![Strong supervision](https://static.apiseven.com/202108/1646628024098-e18d1cc9-f5d4-42e8-b8cf-d9adb13ee9a5.png)
 
 In addition to the business area, as an industry that deals directly with money, insurance is also part of finance, so it is a financial product that will be supervised by the CBRC just like banks and securities, and comply with the corresponding terms and conditions. At the same time, the CBRC basically puts forward different requirements for business and technical aspects every year, and these are to go along with and develop.
 
@@ -48,11 +48,11 @@ Considering the real use scenario, each company actually has different levels an
 
 From some common perspectives (closer to the business scenario of Zhongan), the following pain points and solution directions have been sorted out, i.e. the shortcomings of the gateway level in the current business scenario and the action directions that we want to make up afterwards.
 
-![Pain points](https://static.apiseven.com/202108/1646279106033-216d6453-c051-464f-9c17-8f2f3d87a738.png)
+![Pain points](https://static.apiseven.com/202108/1646630173098-4a408c81-c09d-43c9-a97d-652a1105b36c.png)
 
 And in the real scenario of gateway deployment, in addition to the above issues, it is also necessary to consider the overall business requirements and the adaptation of multiple types of gateways in the deployment process. The following figure shows the logical deployment in the traffic governance process, mainly involving traffic gateway, microservice gateway, unified operation gateway, BaaS gateway and domain gateway.
 
-![Logical deployment in the traffic governance](https://static.apiseven.com/202108/1646279112162-1d2e492d-b8a8-44b9-937b-e20fa3c67d58.png)
+![Logical deployment in the traffic governance](https://static.apiseven.com/202108/1646632229629-35e7661b-82da-41cd-814b-8f3a527b7290.png)
 
 After sorting out the current problems, the technical team of Zhongan started to focus the gateway selection on some more mature open source products and began a new round of exploration.
 
@@ -66,7 +66,7 @@ Of course, in addition to evaluating the open source products themselves, Zhonga
 
 In the end, a comprehensive side-by-side comparison was conducted in the following projects, and it can be seen that Apache APISIX is well suited to Zhongan's business needs in both long-term and short-term planning at the enterprise level.
 
-![Comprehensive details](https://static.apiseven.com/202108/1646279121377-8f21e5d6-f32f-450b-9445-392a8253dee8.png)
+![Comprehensive details](https://static.apiseven.com/202108/1646629377542-caa6e75a-01d3-447e-b60d-3b405d9b61b7.png)
 
 ## Apache APISIX Based Landing Case
 
@@ -74,13 +74,13 @@ In the end, a comprehensive side-by-side comparison was conducted in the followi
 
 Zhongan is now gradually BaaS its underlying products within the business. Because of the financial attributes, the implementation requirements for BaaS products will be higher, and the infrastructure products need to achieve the same unified standard measurement and billing as cloud products.
 
-![BaaS case](https://static.apiseven.com/202108/1646279126510-bcfdcab1-7457-4ab6-8331-2a82e65a95d4.png)
+![BaaS case](https://static.apiseven.com/202108/1646632943025-f024f316-8bc4-4318-8416-a05f5da4aaf1.png)
 
 Because all the products used in the company need to achieve financial statement-style regulatory requirements. Therefore, in this scenario, real-name authentication and related auditing functions are required, and the APISIX forensics module is needed here. This means that any call process within the company needs to be audited and recorded, including the number of calls, expenses incurred, etc. So in this process, Apache APISIX's powerful logging-related features also play a very good support.
 
 At the same time, the audit process also requires peak audit calculations, which involves a lot of billing formulas that include not only the number of calls, but also peak information. So based on APISIX's functional support, we can also realize the presentation of relevant Metrics indicators, thus laying a solid foundation for metering and billing scenarios.
 
-![Audit process](https://static.apiseven.com/202108/1646279130416-c1c161d2-9fbf-4a48-b621-eadfe851c6b0.png)
+![Audit process](https://static.apiseven.com/202108/1646633267273-f7737cdf-59ad-441f-b76d-8a172e46a7bb.png)
 
 The specific implementation framework can be found in the above diagram, where the configuration center is a pure layer 7 traffic protocol, so it can be fully integrated into the metering and billing system, including ES and APISIX itself, etc. The specific operation is mainly based on the current structure of APISIX to do some definitions, such as to call several requirements for the company's business, as well as using some plug-ins of APISIX for the implementation of related orchestration capabilities.
 
@@ -94,11 +94,11 @@ For example, if some business parties are large and have large channels, they ma
 
 Of course here it will involve each application in the process of access, because different channels will have different upstream and downstream to dock, it will generate different domain names. The isolation based on this scenario (structured in the figure below) is called first-level isolation.
 
-![First-level isolation](https://static.apiseven.com/202108/1646279134880-2d657934-68ac-40c4-9c29-2ead848ef663.png)
+![First-level isolation](https://static.apiseven.com/202108/1646633613102-961cda91-be0e-475f-beb3-3b8f77c4ec5a.png)
 
 But when the channel is docked in the need for follow-up related operations, although the process is exactly the same but the next business control capacity requirements are different from those mentioned above, so it is necessary to carry out secondary isolation of the channel again (as shown in the structure below). Through such a level of isolation plus two isolation mode, it can be a good solution to the gateway in the multi-tenant multi-channel traffic isolation.
 
-![Two isolation mode](https://static.apiseven.com/202108/1646279139544-01337e7a-6360-453d-95d9-be3550b864d6.png)
+![Two isolation mode](https://static.apiseven.com/202108/1646635887658-f357d9b8-ac83-41d1-8e3d-a8ae1eae8588.png)
 
 ## Future Plan and Expectations
 
@@ -120,7 +120,7 @@ However, because of the rapid development of business, the current service grid 
 
 In the process of pursuing traffic governance and implementation of some ground plans, we are not only using Apache APISIX as an edge gateway to control point traffic, but also based on the overall architecture for traffic control. That is, for the whole DevOps lifecycle, such as whether the testing scenario can provide testing capability or multi-version development capability; whether the production side can provide traffic recording and playback capability; whether the big data department can produce related sandbox environment to evaluate better models and isolate the domain environment and other capabilities.
 
-![Summary](https://static.apiseven.com/202108/1646279144771-483cfabe-753e-4570-8013-1eedbf88aed8.png)
+![Summary](https://static.apiseven.com/202108/1646634773029-3192409f-8302-4f1e-8b7f-fef4f2f5df2f.png)
 
 We hope that in the subsequent implementation practice, Zhongan can realize the complete implementation of overall traffic governance based on Apache APISIX, and help the traffic control and security governance in the Internet insurance field.
 
