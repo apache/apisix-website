@@ -23,7 +23,7 @@ Youzan is a major retail technology SaaS provider that helps businesses open onl
 
 Youzan OPS platform is based on FLASK in the early single application, mainly to support business-oriented. It gradually went online and deployed a lot of business-side code into the containerization phase. At that time, the gateway was only a part of the function of the internal flash application, and there was no clear concept of the gateway, only as the traffic forwarding function of business application. The following illustration shows the current Gateway 1.0 business structure.
 
-![1.0 business structure](https://static.apiseven.com/202108/1631607246260-65fa3794-befc-4e84-beee-e5526085c719.png)
+![1.0 business structure](https://static.apiseven.com/202108/1646730623405-a0e0b22b-40ca-49c2-bd9b-fd77547bc404.png)
 
 As the entire system in the early days mainly focused on the direction of the business, so did not generate too much momentum to carry out the transformation. From 2018 onwards, through internal communication, we found that if there is not a good gateway layer governance, the subsequent product function and business access will bring more and more obvious bottlenecks.
 
@@ -41,7 +41,7 @@ Based on this problem, our action direction is: the professional work to the pro
 
 #### Internal Operational Aspects
 
-![Internal problems](https://static.apiseven.com/202108/1631607280492-f3e9abbe-5017-497a-a8b8-80dd079f5a98.png)
+![Internal problems](https://static.apiseven.com/202108/1646730664670-a57a07d3-4a10-4201-9455-410e1d05428d.png)
 
 1. The number of internal services to manage is very high (hundreds)
 2. Some services do not dock with CAS implementation authentication
@@ -58,7 +58,7 @@ We also initially investigated a number of gateway systems, such as Apache APISI
 
 Considering the maturity and extensibility of the product, we finally made a choice between Kong and Apache APISIX.
 
-![Multi-dimensional comparison](https://static.apiseven.com/202108/1631607325400-45aba773-ef63-4168-8c01-5cfa69bb4021.png)
+![Multi-dimensional comparison](https://static.apiseven.com/202108/1646730698055-43211b42-639e-403b-9d0b-5312cc8fb978.png)
 
 As you can see from the image above, the two are basically the same in many ways, so the storage side has become a key consideration. Because etcd is mature in our company’s internal operation and maintenance system, Apache APISIX is a little better than Kong.
 
@@ -74,7 +74,7 @@ When we started accessing Apache APISIX, the two problems mentioned above were s
 
 Apache APISIX is deployed as an entry point to gateway at the edge of the internal service area, through which all requests to the front end pass. At the same time, we use the plug-in function of Apache APISIX to connect with the company’s internal CAS single sign-on system. At the same time in the front end we provide a responsible for authentication SDK Apache APISIX authentication interface docking, to achieve a complete and automated process system.
 
-![Optimized architecture](https://static.apiseven.com/202108/1631607354934-f951c4f5-8d45-458e-83a6-de20fd206540.png)
+![Optimized architecture](https://static.apiseven.com/202108/1646730763458-7c60675d-4edf-4e4b-9d8b-c3619679af58.png)
 
 So the problem was solved:
 
@@ -93,7 +93,7 @@ Some of the fine-tuning details of the in-house service are briefly described he
 
 The authentication plug-in is developed based on JWT-Auth protocol. When a user accesses the front end, the front end calls the SDK first to get the available JWT-Token locally. Then through the following path to get the user’s valid information, placed in the front-end of a storage, complete login authentication.
 
-![Login authentication](https://static.apiseven.com/202108/1631607385027-4cf6381d-d0ea-4e5e-a8c9-ffc599e6e69c.png)
+![Login authentication](https://static.apiseven.com/202108/1646730872779-8ca9bc05-a3ea-4cc5-95dc-b8b2a8e3e2d1.png)
 
 #### Deployment Configuration Upgrade
 
@@ -137,7 +137,7 @@ In our usage scenario, we are more involved in multi-service of intranet, and we
 
 Then we’re going to Dock Apache Apisix with the company’s permission system, and after authentication, determine if the user has access to a resource on the back end, the administrator of the permissions only needs to make a uniform configuration on the administration plane.
 
-![System docking](https://static.apiseven.com/202108/1631607457290-e1f379c5-a23e-46a6-9cea-93cb6f5916ba.png)
+![System docking](https://static.apiseven.com/202108/1646730958671-7a7dff8f-7b4a-4488-ae31-e99bb06dc7f3.png)
 
 One of the benefits of this is that all back-end services do not need to be individually managed, since all current traffic is handled through the gateway layer.
 
