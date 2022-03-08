@@ -31,7 +31,7 @@ Before choosing Apache APISIX, the iqiyi platform was already using Kong, but it
 
 ### Why Give Up Kong
 
-![Kong's disadvantage](https://static.apiseven.com/202108/1630995514489-6f7b382a-ed2d-46ad-8ded-4dda42ed3bc8.png)
+![Kong's disadvantage](https://static.apiseven.com/202108/1646731967723-f38f77fc-3b84-403a-8c4c-651e2f1d3b6e.png)
 
 Kong uses PostgreSQL to store its information, which is obviously not a good way. We also looked at the performance of Apache APISIX compared to Kong in the course of our research, and it’s amazing that Apache Apisix is 10 times better than Kong in terms of performance optimization. We also compared some of the major gateway products, Apache APISIX’s response latency is more than 50% lower than other gateways, and Apache APISIX can still run stably when the CPU reaches more than 70% .
 
@@ -43,13 +43,13 @@ We also saw that Apache APISIX was very active throughout the open source projec
 
 The overall architecture of iQIYI Gateway is shown below, including domain name, gateway to service instance and monitoring alarm. DPVS is an open source project within the company based on LVS, Hubble monitoring alerts is also a deep secondary development based on an open source project, and the Consul area has been optimized for performance and high availability.
 
-![iQIYI Gateway architecture](https://static.apiseven.com/202108/1630995637366-b42e408b-53ea-47fb-b282-e68042f13090.png)
+![iQIYI Gateway architecture](https://static.apiseven.com/202108/1646733152413-3c768dfd-e9df-4eba-84fb-96ee83f6b39c.png)
 
 ### Scenario 1: Microservice Gateway
 
 About the gateway this piece, simple from the control surface and the data surface introduce.
 
-![Gateway details](https://static.apiseven.com/202108/1630995699492-bdc1c560-2c0a-4db0-82c9-2a5391941863.png)
+![Gateway details](https://static.apiseven.com/202108/1646733199348-15d96c96-a64f-42b1-b7da-cd3c61fd7de9.png)
 
 The data plane is mainly oriented to the front-end users, and the whole architecture from LB to Gateway is multi-location and multi-link disaster deployment.
 
@@ -71,13 +71,13 @@ The monitoring feature is currently implemented using the Apache APISIX plug-in 
 
 With regard to the above-mentioned service discovery, it is mainly through the service center to register the service to the Consul cluster, and then through the DNS service discovery to do dynamic updates, qae is a micro-service platform in our company. A simple example illustrates the general flow of updating a backend application instance.
 
-![Service discovery process](https://static.apiseven.com/202108/1630995762178-b807f5fe-8851-4f10-acdc-fbf1c372b12f.png)
+![Service discovery process](https://static.apiseven.com/202108/1646733434679-ecb6431e-64c8-4e55-b01f-9cb117e2e523.png)
 
 When the instance changes, the corresponding node is first unlogged from Consul and a request to update the DNS cache is sent to the gateway through the API Gateway Controller. After the cache update is successful, the Controller then feeds back to the QAE platform to stop the associated back-end application node and avoid reforwarding traffic to the offline node.
 
 ### Scenario 4: Directional Route
 
-![Directional route](https://static.apiseven.com/202108/1630995803596-e8d73d5d-29e0-4f66-b3bd-976d650bafcb.png)
+![Directional route](https://static.apiseven.com/202108/1646733411551-50fd722b-b4af-4674-a297-08350d1252d2.png)
 
 The gateway is multi-location deployment, build a set of multi-location backup link in advance, at the same time suggest the user back-end service is also multi-location deployment nearby. Then the user creates an API service on the Skywalker Gateway platform, the Controller deploys the API routing on the entire DC gateway cluster, and the business domain defaults to CNAME on the unified gateway domain name.
 
