@@ -6,6 +6,7 @@ keywords:
 - Youzan
 - Micro-service
 - Cloud native
+- API Gateway
 description: This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.
 tags: [User Case]
 ---

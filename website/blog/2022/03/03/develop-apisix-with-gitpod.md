@@ -32,7 +32,7 @@ This development model has many benefits for developers, such as:
 - Quickly start or destroy a development environment for each project to avoid problems such as dependency conflicts when multiple projects are developed in parallel.
 - For pure Linux environments, it is sometimes more difficult for server-side development students to toss some dependency differences between MacOS and Windows than to develop project code.
 
-The two most popular IDEs are Jetbrain and VSCode, and both of these popular development tools have cloud-based products, so it's clear that the "cloud IDE" direction is favored by many developers.
+The two most popular IDEs are JetBrains and VSCode, and both of these popular development tools have cloud-based products, so it's clear that the "cloud IDE" direction is favored by many developers.
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
 
