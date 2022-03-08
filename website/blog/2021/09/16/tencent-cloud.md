@@ -18,7 +18,7 @@ tags: [User Case]
 
 Tencent Cloud Intelligent Titanium Machine Learning Platform (TI-ONE) is a machine learning service platform for AI engineers, providing users with full-process development support from data pre-processing, model building, model training to model evaluation. TI-ONE has rich built-in algorithm components and supports multiple algorithm frameworks to meet the needs of various AI application scenarios.
 
-![TI-ONE Architecture](https://static.apiseven.com/202108/1631781110822-39c59a83-aa18-4934-a2ef-43cd58866878.jpg)
+![TI-ONE Architecture](https://static.apiseven.com/202108/1646733057321-30edde1f-c6ab-4d51-b1cd-a461149ce3fe.png)
 
 ## What Does TI-ONE Need from Apache APISIX?
 
@@ -28,19 +28,19 @@ The main requirement at the technical aspect is to have cross-sectional function
 
 Considering the demand of subsequent business connection to Tencent Cloud, the API gateway must support Tencent’s customized authentication and login mechanism and comply with Tencent Cloud API 3.0 format.
 
-![TI-ONE's Technical Needs](https://static.apiseven.com/202108/1632067141398-816af366-f7d5-47ad-ad85-3df534ada734.58)
+![TI-ONE's Technical Needs](https://static.apiseven.com/202108/1646733057324-fdd36204-a825-4221-85b1-09a80229f0de.png)
 
 From the business aspect, the main consideration is user perception. When the platform is developed, AI and algorithm colleagues need an interactive programming environment, and then the API gateway needs to support Notebook. It also needs to support request-level monitoring, including logging monitoring and metrics monitoring.
 
 We conducted research on API Gateway products to address the above requirements.
 
-![TI-ONE's requirements on  API Gateway](https://static.apiseven.com/202108/1631781748143-8e30a89c-99b8-45ed-b6e6-1dddaa838342.jpg)
+![TI-ONE's requirements on  API Gateway](https://static.apiseven.com/202108/1646733057325-b5c6a9b5-c759-4ffc-885b-7f2f4263dc97.png)
 
 ## Research and Compare Products
 
 We have compared Envoy, Kong and Apache APISIX from multiple dimensions in our research stage.
 
-![Envoy, Kong and Apache APISIX Comparison](https://static.apiseven.com/202108/1631781764958-a2cadf83-80b4-4b50-ba42-76b21d0d211a.jpg)
+![Envoy, Kong and Apache APISIX Comparison](https://static.apiseven.com/202108/1646733057334-3b96b9b6-cce5-4c12-a9b1-080cd85cf91e.png)
 
 Since Envoy’s technology stack is C++, it is likely that we will have to look at the C++ source code when we need to locate the problem. It is very likely to bring us some extra problems, so Envoy was eliminated from our options in the early stage.
 
@@ -56,11 +56,11 @@ After connecting to Apache APISIX, we have completed the gateway aspect of TI-ON
 
 Apache APISIX supports http+pb, http+json, gRPC, WebSocket and other traffic. After these traffic flows go through Apache APISIX, they will go to some components custom-developed by TI-ONE.
 
-![Apache APISIX Architecture](https://static.apiseven.com/202108/1631781850656-4235a4e8-2792-48ae-9c98-b4d75628a476.jpg)
+![Apache APISIX Architecture](https://static.apiseven.com/202108/1646733057327-10beae1e-3eef-4855-ac4b-68264d9515b8.png)
 
 The business of TI-ONE is deployed on Tencent Cloud TKE platform. In order to improve its availability, the gateway, etcd, etc. are clustered and deployed. Instead of using the Apache APISIX dashboard, Smart Titanium Machine Learning Platform interacts directly with the Admin API and writes directly to etcd.
 
-![Add Plugin Process](https://static.apiseven.com/202108/1631781876752-faf1b7d0-abbb-4313-879c-e00d2b28334a.jpg)
+![Add Plugin Process](https://static.apiseven.com/202108/1646733057328-8362a88e-15a9-4e13-b468-92149d49e24f.png)
 
 ## Experience Sharing
 
@@ -70,7 +70,7 @@ In the process of doing this, we have summarized some of the pitfalls of using N
 
 When I used Nginx before, I felt that Nginx was a configuration-driven product. Nginx is often counterintuitive when it comes to configuration management. One such counterintuitive pitfall was encountered by my colleague during this hands-on experience:
 
-![Nginx Configuration Error](https://static.apiseven.com/202108/1631781909354-0fada4fa-1154-4974-ae3d-292ab46e5889.jpg)
+![Nginx Configuration Error](https://static.apiseven.com/202108/1646733057331-e8b968b4-121b-4b64-a774-6e386af018e0.png)
 
 For those are new to Nginx, these two lines of commands are added before the `if`, and there are no other commands inside the `if` that could override them, so they should be executed. Anyone familiar with Nginx knows that the command inside the `if` overrides the outside command, but this is very counterintuitive.
 
@@ -78,7 +78,7 @@ For those are new to Nginx, these two lines of commands are added before the `if
 
 In practicing using Apache APISIX practices, the Apache APISIX project test cases are written in great detail. Even if I didn’t have a deep understanding of how to call certain functions in Apache APISIX, I could often find the answers in the test cases. When I encountered some OpenResty problems later, I would look for the relevant code in these test cases, and I was able to solve the problem every time.
 
-![Test Cases as Documentation](https://static.apiseven.com/202108/1631781920390-a504ce7c-1ccd-4fb8-99a2-09d74be6bb7e.jpg)
+![Test Cases as Documentation](https://static.apiseven.com/202108/1646733057329-96e639df-c3ec-4fe7-b604-8c48e81c9572.png)
 
 ## Some Thoughts on Service Mesh
 
