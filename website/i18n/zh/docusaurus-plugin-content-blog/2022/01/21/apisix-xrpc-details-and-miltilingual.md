@@ -10,7 +10,7 @@ authors:
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords:
-- API网关
+- API 网关
 - Apache APISIX
 description: 本文为大家带来了 Apache APISIX 即将发布的 xRPC 框架以及相关细节，同时介绍了 Apache APISIX 在多语言开发支持中的细节展示。
 tags: [Technology,Ecosystem]

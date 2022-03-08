@@ -13,7 +13,7 @@ keywords:
 - Apache APISIX
 - HashiCorp
 - Vault
-- API网关
+- API 网关
 
 description: 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。
 tags: [Technology,Authentication]

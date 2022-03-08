@@ -25,6 +25,7 @@ tags: [Technology,Ecosystem]
 ### About Apache APISIX
 
 [Apache APISIX](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, etc. Apache APISIX not only supports dynamic plug-in changes and hot-plugging, but also has a number of useful plug-ins.OpenID Connect Plug-in for Apache APISIX With support for the OpenID Connect protocol, users can use this plug-in to enable Apache APISIX to interface with Authing services and be deployed as a centralized authentication gateway in the enterprise.
+
 ## gRPC Web Introduction
 
 Originally developed by Google, gRPC is a high-performance remote procedure call framework implemented on HTTP/2. However, because browsers do not directly expose HTTP/2, Web applications cannot use gRPC directly. gRPC Web is a standardized protocol that solves this problem.

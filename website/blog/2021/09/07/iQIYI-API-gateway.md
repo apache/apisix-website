@@ -1,5 +1,5 @@
 ---
-title: "Why did iQIYI choose Apache APISIX as the api gateway?"
+title: "Why did iQIYI choose Apache APISIX as the API Gateway?"
 slug: 2021/09/07/iqiyi-api-gateway
 author: "Cong He"
 keywords:

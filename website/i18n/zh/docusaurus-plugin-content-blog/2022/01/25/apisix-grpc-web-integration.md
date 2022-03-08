@@ -12,7 +12,7 @@ authors:
 keywords:
 - Apache APISIX
 - gRPC
-- API网关
+- API 网关
 
 description: Apache APISIX 已经支持了 gRPC 协议代理，以及通过 gRPC Transcode 插件支持了 HTTP(s) 到 gRPC Server 的代理。通过社区的积极讨论和贡献，Apache APISIX 又拓宽了 gRPC 生态的支持范围：支持 gRPC Web 协议请求代理。
 tags: [Technology,Ecosystem]

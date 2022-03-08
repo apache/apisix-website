@@ -15,7 +15,7 @@ tags: [Events]
 
 ![活动海报](https://static.apiseven.com/202108/1642747565874-a3e854c3-81ea-460b-aec6-1a23b28912f7.png)
 
-## 议题 1：API网关上云，如何定义一款好的API网关
+## 议题 1：API 网关上云，如何定义一款好的API 网关
 
 ### 分享嘉宾
 
