@@ -31,3 +31,5 @@ tmp/*
 .netlify
 
 scripts/yarn.lock
+
+.history
