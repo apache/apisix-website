@@ -152,125 +152,143 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm<br>Running 30s test @ http://127.0.0.1:9080/wasm<br>5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm<br>Running 30s test @ http://127.0.0.1:9080/wasm</br>5 threads and 50 connections</center></td>
+    </tr>
     <tr>
-        <td><b>Thread Stats</td>
-        <td><b>Latency</td>
-        <td><b>Req/Sec</td>
+        <td><b>Thread Stats</b></td>
+        <td><b>Latency</b></td>
+        <td><b>Req/Sec</b></td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Avg</td>
+        <td><b>Avg</b></td>
         <td>66.17ms</td>
         <td>7.01k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Sdev</td>
+        <td><b>Sdev</b></td>
         <td>226.42ms</td>
         <td>3.09k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Max</td>
+        <td><b>Max</b></td>
         <td>1.99s</td>
         <td>33.97k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>+/- Stdev</td>
+        <td><b>+/- Stdev</b></td>
         <td>91.89%</td>
         <td>82.28%</td>
+    </tr>
     <tr>
-        <td><b>Request details</td>
+        <td><b>Request details</b></td>
         <td colspan="2">650497 requests in 36.33s, 119.70MB read</td>
+    </tr>
     <tr>
-        <td><b>Socket errors</td>
+        <td><b>Socket errors</b></td>
         <td colspan="2">connect 0, read 0, write 0, timeout 63</td>
+    </tr>
     <tr>
-        <td><b>Request/sec</td>
+        <td><b>Request/sec</b></td>
         <td colspan="2">17903.17</td>
+    </tr>
     <tr>
-        <td><b>Transfer/sec</td>
+        <td><b>Transfer/sec</b></td>
         <td colspan="2">3.29MB</td>
+    </tr>
 </table>
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin<br>Running 30s test @ http://127.0.0.1:9080/ext-plugin<br>5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin<br>Running 30s test @ http://127.0.0.1:9080/ext-plugin</br>5 threads and 50 connections</center></td>
+    </tr>
     <tr>
-        <td><b>Thread Stats</td>
-        <td><b>Latency</td>
-        <td><b>Req/Sec</td>
+        <td><b>Thread Stats</b></td>
+        <td><b>Latency</b></td>
+        <td><b>Req/Sec</b></td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Avg</td>
+        <td><b>Avg</b></td>
         <td>95.69ms</td>
         <td>3.23k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Sdev</td>
+        <td><b>Sdev</b></td>
         <td>229.09ms</td>
         <td>1.47k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Max</td>
+        <td><b>Max</b></td>
         <td>1.70s</td>
         <td>15.18k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>+/- Stdev</td>
+        <td><b>+/- Stdev</b></td>
         <td>87.37%</td>
         <td>83.89%</td>
+    </tr>
     <tr>
-        <td><b>Request details</td>
+        <td><b>Request details</b></td>
         <td colspan="2">362151 requests in 30.50s, 66.64MB read</td>
+    </tr>
     <tr>
-        <td><b>Socket errors</td>
+        <td><b>Socket errors</b></td>
         <td colspan="2">connect 0, read 0, write 0, timeout 17</td>
+    </tr>
     <tr>
-        <td><b>Request/sec</td>
+        <td><b>Request/sec</b></td>
         <td colspan="2">11873.12</td>
+    </tr>
     <tr>
-        <td><b>Transfer/sec</td>
+        <td><b>Transfer/sec</b></td>
         <td colspan="2">2.18MB</td>
+    </tr>
 </table>
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection<br>Running 30s test @ http://127.0.0.1:9080/fault-injection<br>5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection<br>Running 30s test @ http://127.0.0.1:9080/fault-injection</br>5 threads and 50 connections</center></td>
+    </tr>    
     <tr>
-        <td><b>Thread Stats</td>
-        <td><b>Latency</td>
-        <td><b>Req/Sec</td>
+        <td><b>Thread Stats</b></td>
+        <td><b>Latency</b></td>
+        <td><b>Req/Sec</b></td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Avg</td>
+        <td><b>Avg</b></td>
         <td>86.91ms</td>
         <td>7.90k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Sdev</td>
+        <td><b>Sdev</b></td>
         <td>263.14ms</td>
         <td>2.04k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>Max</td>
+        <td><b>Max</b></td>
         <td>1.91s</td>
         <td>15.60k</td>
+    </tr>
     <tr>
-    <tr>
-        <td><b>+/- Stdev</td>
+        <td><b>+/- Stdev</b></td>
         <td>90.73%</td>
         <td>81.97%</td>
+    </tr>
     <tr>
-        <td><b>Request details</td>
+        <td><b>Request details</b></td>
         <td colspan="2">974326 requests in 30.07s, 179.29MB read</td>
+    </tr>
     <tr>
-        <td><b>Socket errors</td>
+        <td><b>Socket errors</b></td>
         <td colspan="2">connect 0, read 0, write 0, timeout 8</td>
+    </tr>
     <tr>
-        <td><b>Request/sec</td>
+        <td><b>Request/sec</b></td>
         <td colspan="2">32405.28</td>
+    </tr>
     <tr>
-        <td><b>Transfer/sec</td>
+        <td><b>Transfer/sec</b></td>
         <td colspan="2">5.96MB</td>
+    </tr>
 </table>
 
 As you can see from the results, the performance of the WASM version is somewhere between that of the external plugin and the native Lua.
