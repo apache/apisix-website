@@ -153,7 +153,7 @@ uri: /fault-injection
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm  Running 30s test @ http://127.0.0.1:9080/wasm  5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm<br>Running 30s test @ http://127.0.0.1:9080/wasm<br>5 threads and 50 connections</td>
     <tr>
         <td><b>Thread Stats</td>
         <td><b>Latency</td>
@@ -190,10 +190,11 @@ uri: /fault-injection
     <tr>
         <td><b>Transfer/sec</td>
         <td colspan="2">3.29MB</td>
+</table>
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin  Running 30s test @ http://127.0.0.1:9080/ext-plugin  5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin<br>Running 30s test @ http://127.0.0.1:9080/ext-plugin<br>5 threads and 50 connections</td>
     <tr>
         <td><b>Thread Stats</td>
         <td><b>Latency</td>
@@ -230,10 +231,11 @@ uri: /fault-injection
     <tr>
         <td><b>Transfer/sec</td>
         <td colspan="2">2.18MB</td>
+</table>
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection  Running 30s test @ http://127.0.0.1:9080/fault-injection  5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection<br>Running 30s test @ http://127.0.0.1:9080/fault-injection<br>5 threads and 50 connections</td>
     <tr>
         <td><b>Thread Stats</td>
         <td><b>Latency</td>
@@ -270,6 +272,7 @@ uri: /fault-injection
     <tr>
         <td><b>Transfer/sec</td>
         <td colspan="2">5.96MB</td>
+</table>
 
 从上述结果可以看到，WASM 版本的性能介于外部插件和原生 Lua 之间。
 
