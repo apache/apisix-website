@@ -31,7 +31,7 @@ Before choosing Apache APISIX, the iqiyi platform was already using Kong, but it
 
 ### Why Give Up Kong
 
-![Kong's disadvantage](https://static.apiseven.com/202108/1646791291248-fc258e39-1710-4b6c-89c9-cfc4c50f6731.png)
+![Kong's disadvantage](https://static.apiseven.com/202108/1646804680988-c0c833ee-79b1-4c9d-88ed-c158e9c374cd.png)
 
 Kong uses PostgreSQL to store its information, which is obviously not a good way. We also looked at the performance of Apache APISIX compared to Kong in the course of our research, and it’s amazing that Apache Apisix is 10 times better than Kong in terms of performance optimization. We also compared some of the major gateway products, Apache APISIX’s response latency is more than 50% lower than other gateways, and Apache APISIX can still run stably when the CPU reaches more than 70% .
 
