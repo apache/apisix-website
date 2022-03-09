@@ -1,6 +1,6 @@
 ---
 title: "支持 10 亿日流量的基础设施：当 Apache APISIX 遇上腾讯"
-slug: 2021/05/24/tencent-games
+slug: 2021/05/24/how-tencent-game-use-api-geteway
 author: "徐鑫"
 keywords:
 - API 网关

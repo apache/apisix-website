@@ -1,6 +1,6 @@
 ---
 title: "How to use API Gateway to process 1 billion traffic daily for Tencent?"
-slug: 2021/05/24/how-tencent-game-use-API-geteway
+slug: 2021/05/24/how-tencent-game-use-api-geteway
 author: "Xin Xu"
 keywords:
 - API Gateway
