@@ -264,6 +264,12 @@ module.exports = [
         "username": "yilinzeng",
         "githubUsername": "yzeng25",
         "avatarUrl": "https://avatars.githubusercontent.com/u/36651058?v=4"
+      },
+      {
+        "name": "Sylvia Su",
+        "username": "SylviaBABY",
+        "githubUsername": "SylviaBABY",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/39793568?v=4"
       }
     ]
   }

@@ -27,7 +27,7 @@ At the beginning of 2020, we decided to launch the containerization project with
 
 Currently, companies are looking to “Embrace cloud native”as a solution for future business, focusing on micro-service re-engineering in cloud native mode, DevOps, continuous delivery, and most importantly, containerization.
 
-![Why choose Cloud Native](https://static.apiseven.com/202108/1631946996654-5cb0668b-bd15-42f8-9446-06ba11449367.png)
+![Why choose Cloud Native](https://static.apiseven.com/202108/1646623804095-4f89cc3d-685f-44e3-8a17-51fb55526677.png)
 
 ## Why Need Apache APISIX
 
@@ -80,7 +80,7 @@ With the above architecture and business model in practice, each project change 
 
 In a change environment we have two scenarios, one is point-to-point mode, where one domain name corresponds to one application. Simply by enabling the domain name, Apache APISIX is used in the DNA to generate the corresponding route, which is the single path routing rule.
 
-![Point-to-Point mode](https://static.apiseven.com/202108/1632293545058-511768bc-b9b9-4f2d-ad58-73f206f1b7c2.38)
+![Point-to-Point mode](https://static.apiseven.com/202108/1646623778769-ae05d742-8f31-4272-94e0-5d3266d0c9b7.png)
 
 Another scenario is multilevel path routing. In this scenario, we use Apache APISIX to point multiple APP routes required in project changes to the current Namespace environment, and their associated APP routes to a Stable set of Namespace environments (usually Stable) .
 
@@ -92,11 +92,11 @@ Based on some routing rules of the above project environment, Apache APISIX’s 
 
 For example, when a new application comes online, you can request a corresponding routing rule and add it to the control center. When you need to request routing, you can enable this routing rule with one click and automatically synchronize to Apache APISIX.
 
-![Automated process](https://static.apiseven.com/202108/1632294540198-e0a21138-b0ec-490d-966b-55d5bbddd33d.06)
+![Automated process](https://static.apiseven.com/202108/1646623758208-09d6dfef-677b-47df-919e-99c3b0794e04.png)
 
 We also provide a single common routing request, including online and test environments, or some public network exposure and test requirements, and call the Apache APISIX interface.
 
-![Ordinary route](https://static.apiseven.com/202108/1632294623255-1a9762ab-59b4-4798-82b8-e9fc3e32f571.07)
+![Ordinary route](https://static.apiseven.com/202108/1646623778763-0951ede3-1c58-46dd-b4ee-6ac9f977e636.png)
 
 ## Practice Based on Apache APISIX
 
