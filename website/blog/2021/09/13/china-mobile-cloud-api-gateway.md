@@ -64,11 +64,11 @@ By accessing Apache APISIX, we realize multi-domain certificate configuration fo
 
 Here we first give you a brief description of the current Object Storage EOS node management after accessing Apache APISIX. The entire object store is divided into a data plane and a control plane. The data plane mainly carries the I/O flow of the whole business. The business data is processed from APISIX’s Layer 7 traffic governance module as the entry point, through the APISIX back-end upstream Accesser, which is the main module for business interface processing.
 
-![Fuse Protection](https://static.apiseven.com/202108/1631500499020-4297de78-f9e3-45a5-8f57-2a55280bf7b0.png)
+![Fuse Protection](https://static.apiseven.com/202108/1646731748455-69e4da37-1a58-4303-968e-3a636e308d04.png)
 
 The control plane has several main services, including the autopilot service Manager, the observable system Observer, and the chaos engineering fault injection module Checker. there is also an additional overall interaction orchestration system Orchestrator and a canary release platform Publisher.
 
-![Control Plane Services](https://static.apiseven.com/202108/1631500520579-1e40b538-377b-4356-b0f2-1038c0a798e4.png)
+![Control Plane Services](https://static.apiseven.com/202108/1646731771583-36c98076-1434-4bb6-820d-41de725223bf.png)
 
 In order to achieve request fusion protection, the data plane is connected to Apache APISIX to achieve the processing capability of request intervention. The observable system at the control plane is mainly built based on Prometheus, which collects indicators and alerts, and finally realizes the overall fusion protection at the back-end.
 
@@ -77,7 +77,7 @@ In order to achieve request fusion protection, the data plane is connected to Ap
 limit-conn key This plugin mainly supports remote_addr, server_addr, X-Forwarded-For, X-Real-IP, but cannot do full limit flow for north-south gateway traffic.
 In order to match our business requirements, we customize a constant constant as the range of imit-conn key. The right side of the above figure is the modified configuration after accessing Apache APISIX, and the constant constant constant key is used to achieve the function of global flow-limit.
 
-![Global Flow-limit](https://static.apiseven.com/202108/1631500546238-9fd5ebcf-d205-4d99-a34d-236d5589a7e6.png)
+![Global Flow-limit](https://static.apiseven.com/202108/1646731806833-166c115f-26bb-4657-a7c1-9a24e043f399.png)
 
 ### Improvement 4: New Function Feature Switches
 
@@ -103,7 +103,7 @@ Combined with the Apache APISIX Layer 7 governance capabilities, we perform upgr
 
 Based on access.log, we have implemented a centralized log collection management method to collect APISIX logs and logs of other processes, and then perform a comprehensive analysis.
 
-![Log Tracking](https://static.apiseven.com/202108/1631500588620-9200d098-b4ac-4b9d-99f4-509f9fada70f.png)
+![Log Tracking](https://static.apiseven.com/202108/1646731841734-478f5fe5-186c-4d1e-b754-009ba4942ead.png)
 
 The configuration item on the right side of the image above uses the request-id plugin of Apache APISIX. Each request is assigned a request-id when it passes through APISIX, which is used in the business logic processing layer (Accesser) and the data persistence layer, which in turn filters out the log timestamps of the different components in the official Loki panel and helps to automate some analysis using AI later.
 
@@ -112,7 +112,7 @@ The configuration item on the right side of the image above uses the request-id 
 The backend of the current load balancing is a seven-layer traffic governance layer based on APISIX implementation, which achieves multi-live capability by equal ECMP + BGP routing. We define three traffic types, each APISIX node receives service traffic and only hits the upstream service of this node to process (level0, purple line), similar to SideCar mode.
 If a node has a problem upstream, it will be forwarded to other upstream nodes in the same AZ for processing (green line). If all upstream nodes hang, the ability to invoke requests across AZs (level2, red line) is implemented based on Apache APISIX, which writes the requests to other AZs and finally achieves request scheduling across AZs.
 
-![Cross Available Zones Request Scheduling](https://static.apiseven.com/202108/1631500626933-473fdd62-dcee-42cc-93c2-93d83acd796c.png)
+![Cross Available Zones Request Scheduling](https://static.apiseven.com/202108/1646731904721-e1b2a9ee-0f3c-41da-8a6b-c20a027df1b6.png)
 
 ## Future Plans
 

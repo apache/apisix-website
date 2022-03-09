@@ -20,8 +20,6 @@ tags: [User Case]
 ## 选择 Kong 还是 Apache APISIX
 
 ![Apache APISIX vs Kong in QPS](https://static.apiseven.com/2020/05/1588752135-Snipaste_2020-05-06_16-02-04.png)
-![Apache APISIX 架构图](https://static.apiseven.com/2020/05/1588756665-Snipaste_2020-05-06_17-17-29.png)
-![Apache APISIX 技术亮点](https://static.apiseven.com/2020/05/1588756618-Snipaste_2020-05-06_17-16-13.png)
 
 对于网关的技术要求，一是要性能好，能够支撑大流量的接入，二是要稳定，不能出问题。
 
