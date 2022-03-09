@@ -248,7 +248,7 @@ uri: /fault-injection
 <table>
     <tr>
         <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection<br>Running 30s test @ http://127.0.0.1:9080/fault-injection</br>5 threads and 50 connections</center></td>
-    </tr>    
+    </tr>
     <tr>
         <td><b>Thread Stats</b></td>
         <td><b>Latency</b></td>
