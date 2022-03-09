@@ -43,7 +43,7 @@ We also saw that Apache APISIX was very active throughout the open source projec
 
 The overall architecture of iQIYI Gateway is shown below, including domain name, gateway to service instance and monitoring alarm. DPVS is an open source project within the company based on LVS, Hubble monitoring alerts is also a deep secondary development based on an open source project, and the Consul area has been optimized for performance and high availability.
 
-![iQIYI Gateway architecture](https://static.apiseven.com/202108/1646733152413-3c768dfd-e9df-4eba-84fb-96ee83f6b39c.png)
+![iQIYI Gateway architecture](https://static.apiseven.com/202108/1646792292257-8907ca46-0a08-4659-8549-810bc5fa788a.png)
 
 ### Scenario 1: Microservice Gateway
 

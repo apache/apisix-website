@@ -57,7 +57,7 @@ We also initially investigated a number of gateway systems, such as Apache APISI
 
 Considering the maturity and extensibility of the product, we finally made a choice between Kong and Apache APISIX.
 
-![Multi-dimensional comparison](https://static.apiseven.com/202108/1646730698055-43211b42-639e-403b-9d0b-5312cc8fb978.png)
+![Multi-dimensional comparison](https://static.apiseven.com/202108/1646793171947-28500d69-44c3-4afe-9808-e21b30265aad.png)
 
 As you can see from the image above, the two are basically the same in many ways, so the storage side has become a key consideration. Because etcd is mature in our company’s internal operation and maintenance system, Apache APISIX is a little better than Kong.
 
