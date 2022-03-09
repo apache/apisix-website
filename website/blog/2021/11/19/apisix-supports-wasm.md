@@ -190,7 +190,6 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
         <td><b>Transfer/sec</td>
         <td colspan="2">3.29MB</td>
 
-
 <table>
     <tr>
         <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin<br>Running 30s test @ http://127.0.0.1:9080/ext-plugin<br>5 threads and 50 connections</td>
@@ -230,7 +229,6 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
     <tr>
         <td><b>Transfer/sec</td>
         <td colspan="2">2.18MB</td>
-        
 
 <table>
     <tr>
@@ -271,8 +269,7 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
     <tr>
         <td><b>Transfer/sec</td>
         <td colspan="2">5.96MB</td>
-        
-        
+
 As you can see from the results, the performance of the WASM version is somewhere between that of the external plugin and the native Lua.
 
 The reason why the WASM version performs so much better than the external plugin is that the fault-injection functionality is simple, so the performance loss caused by the external plugin RPC is too obvious. Considering that we haven't made any optimizations to the WASM implementation, we are satisfied with this situation.
