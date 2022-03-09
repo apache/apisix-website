@@ -96,7 +96,7 @@ Some Oteams have as many as a dozen products under them, while others have only 
 
 ## Tencent OTeam’s operational strategy
 
-![OTeam operational strategy](https://static.apiseven.com/202108/1646727352243-7bc9aa24-d6e5-4797-90d3-427d482a9271.png)
+![OTeam operational strategy](https://static.apiseven.com/202108/1646831516782-bd2d1b56-0e63-4dc8-a53a-c891c6a11d6d.png)
 
 The above diagram shows how the OTeam works with Apache APISIX’s community:
 
@@ -144,7 +144,7 @@ OTeam’s primary responsibility is to maintain Apache APISIX’s features for T
 
 ### Problem-solving
 
-![OTeam arichitecture](https://static.apiseven.com/202108/1646727352248-27eb1b90-d346-42f8-8b06-1b70be1c0c92.png)
+![OTeam arichitecture](https://static.apiseven.com/202108/1646831157962-78e0d276-37d9-4bf7-a841-b9600b0ce1f9.png)
 
 The above diagram comes from a simplification of a landing case within Tencent. We can see several problems just raised have been solved in OTeam:
 
