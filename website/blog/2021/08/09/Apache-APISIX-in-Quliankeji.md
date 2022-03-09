@@ -40,7 +40,7 @@ Now that we have a preliminary understanding of Baas platform, let’s take a lo
 
 ### Scenario 1: Practice on BaaS system
 
-![Apache APISIX applied on BaaS system](https://static.apiseven.com/202108/1646723569967-eeae7966-acc5-43e3-83ee-a12e84294db2.003)
+![Apache APISIX applied on BaaS system](https://static.apiseven.com/202108/1646814465109-4ec35266-ce3f-4547-bab7-d75edd332e0c.003)
 
 The architecture of Hyperchain’s BaaS platform is not only microservices-based, but also divided into two layers, which are business access layer and core service layer.
 
@@ -50,7 +50,7 @@ The role of BFF is to do business aggregation, format adaptation, and give the f
 
 These business modules need to store the relevant information in the registry (ETCD), and then read out the information through the gateway module when it is used.
 
-![Hyperchain BaaS Platform Workflow](https://static.apiseven.com/202108/1646810207297-6bbf33b0-e295-4e42-87ee-1978e30e62df.003_1)
+![Hyperchain BaaS Platform Workflow](https://static.apiseven.com/202108/1646814465106-81be15cb-aabf-4240-a98b-e2cd6b8bc5ad.003_1)
 
 In the whole process, we mainly use four features of Apache APISIX.
 
