@@ -152,7 +152,7 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm<br>Running 30s test @ http://127.0.0.1:9080/wasm<br>5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm  Running 30s test @ http://127.0.0.1:9080/wasm  5 threads and 50 connections</td>
     <tr>
         <td><b>Thread Stats</td>
         <td><b>Latency</td>
@@ -192,7 +192,7 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin<br>Running 30s test @ http://127.0.0.1:9080/ext-plugin<br>5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin  Running 30s test @ http://127.0.0.1:9080/ext-plugin  5 threads and 50 connections</td>
     <tr>
         <td><b>Thread Stats</td>
         <td><b>Latency</td>
@@ -232,7 +232,7 @@ Next, try to use wrk pressure. The specific data comparison is shown in the foll
 
 <table>
     <tr>
-        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection<br>Running 30s test @ http://127.0.0.1:9080/fault-injection<br>5 threads and 50 connections</td>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection  Running 30s test @ http://127.0.0.1:9080/fault-injection  5 threads and 50 connections</td>
     <tr>
         <td><b>Thread Stats</td>
         <td><b>Latency</td>
