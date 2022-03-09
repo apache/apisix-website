@@ -151,7 +151,128 @@ uri: /fault-injection
 
 接下来试着用 wrk 进行压测，具体数据对比如下：
 
-![压测结果对比](https://static.apiseven.com/202108/1637289637162-6d2ef1d6-9de8-410c-8ca6-e264205c1be1.png)
+<table>
+    <tr>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm<br>Running 30s test @ http://127.0.0.1:9080/wasm<br>5 threads and 50 connections</td>
+    <tr>
+        <td><b>Thread Stats</td>
+        <td><b>Latency</td>
+        <td><b>Req/Sec</td>
+    <tr>
+    <tr>
+        <td><b>Avg</td>
+        <td>66.17ms</td>
+        <td>7.01k</td>
+    <tr>
+    <tr>
+        <td><b>Sdev</td>
+        <td>226.42ms</td>
+        <td>3.09k</td>
+    <tr>
+    <tr>
+        <td><b>Max</td>
+        <td>1.99s</td>
+        <td>33.97k</td>
+    <tr>
+    <tr>
+        <td><b>+/- Stdev</td>
+        <td>91.89%</td>
+        <td>82.28%</td>
+    <tr>
+        <td><b>Request details</td>
+        <td colspan="2">650497 requests in 36.33s, 119.70MB read</td>
+    <tr>
+        <td><b>Socket errors</td>
+        <td colspan="2">connect 0, read 0, write 0, timeout 63</td>
+    <tr>
+        <td><b>Request/sec</td>
+        <td colspan="2">17903.17</td>
+    <tr>
+        <td><b>Transfer/sec</td>
+        <td colspan="2">3.29MB</td>
+
+
+<table>
+    <tr>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin<br>Running 30s test @ http://127.0.0.1:9080/ext-plugin<br>5 threads and 50 connections</td>
+    <tr>
+        <td><b>Thread Stats</td>
+        <td><b>Latency</td>
+        <td><b>Req/Sec</td>
+    <tr>
+    <tr>
+        <td><b>Avg</td>
+        <td>95.69ms</td>
+        <td>3.23k</td>
+    <tr>
+    <tr>
+        <td><b>Sdev</td>
+        <td>229.09ms</td>
+        <td>1.47k</td>
+    <tr>
+    <tr>
+        <td><b>Max</td>
+        <td>1.70s</td>
+        <td>15.18k</td>
+    <tr>
+    <tr>
+        <td><b>+/- Stdev</td>
+        <td>87.37%</td>
+        <td>83.89%</td>
+    <tr>
+        <td><b>Request details</td>
+        <td colspan="2">362151 requests in 30.50s, 66.64MB read</td>
+    <tr>
+        <td><b>Socket errors</td>
+        <td colspan="2">connect 0, read 0, write 0, timeout 17</td>
+    <tr>
+        <td><b>Request/sec</td>
+        <td colspan="2">11873.12</td>
+    <tr>
+        <td><b>Transfer/sec</td>
+        <td colspan="2">2.18MB</td>
+
+        
+<table>
+    <tr>
+        <td colspan="3"><center>￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection<br>Running 30s test @ http://127.0.0.1:9080/fault-injection<br>5 threads and 50 connections</td>
+    <tr>
+        <td><b>Thread Stats</td>
+        <td><b>Latency</td>
+        <td><b>Req/Sec</td>
+    <tr>
+    <tr>
+        <td><b>Avg</td>
+        <td>86.91ms</td>
+        <td>7.90k</td>
+    <tr>
+    <tr>
+        <td><b>Sdev</td>
+        <td>263.14ms</td>
+        <td>2.04k</td>
+    <tr>
+    <tr>
+        <td><b>Max</td>
+        <td>1.91s</td>
+        <td>15.60k</td>
+    <tr>
+    <tr>
+        <td><b>+/- Stdev</td>
+        <td>90.73%</td>
+        <td>81.97%</td>
+    <tr>
+        <td><b>Request details</td>
+        <td colspan="2">974326 requests in 30.07s, 179.29MB read</td>
+    <tr>
+        <td><b>Socket errors</td>
+        <td colspan="2">connect 0, read 0, write 0, timeout 8</td>
+    <tr>
+        <td><b>Request/sec</td>
+        <td colspan="2">32405.28</td>
+    <tr>
+        <td><b>Transfer/sec</td>
+        <td colspan="2">5.96MB</td>
+
 
 从上述结果可以看到，WASM 版本的性能介于外部插件和原生 Lua 之间。
 
