@@ -48,9 +48,8 @@ The overall architecture of iQIYI Gateway is shown below, including domain name,
 ### Scenario 1: Microservice Gateway
 
 About the gateway this piece, simple from the control surface and the data surface introduce.
-https://static.apiseven.com/202108/1646791464287-ba803227-7bd0-4134-8709-3bea19ba9432.png
 
-![Gateway details]()
+![Gateway details](https://static.apiseven.com/202108/1646791464287-ba803227-7bd0-4134-8709-3bea19ba9432.png)
 
 The data plane is mainly oriented to the front-end users, and the whole architecture from LB to Gateway is multi-location and multi-link disaster deployment.
 
