@@ -31,7 +31,7 @@ Before choosing Apache APISIX, the iqiyi platform was already using Kong, but it
 
 ### Why Give Up Kong
 
-![Kong's disadvantage](https://static.apiseven.com/202108/1646731967723-f38f77fc-3b84-403a-8c4c-651e2f1d3b6e.png)
+![Kong's disadvantage](https://static.apiseven.com/202108/1646791291248-fc258e39-1710-4b6c-89c9-cfc4c50f6731.png)
 
 Kong uses PostgreSQL to store its information, which is obviously not a good way. We also looked at the performance of Apache APISIX compared to Kong in the course of our research, and it’s amazing that Apache Apisix is 10 times better than Kong in terms of performance optimization. We also compared some of the major gateway products, Apache APISIX’s response latency is more than 50% lower than other gateways, and Apache APISIX can still run stably when the CPU reaches more than 70% .
 
@@ -48,8 +48,9 @@ The overall architecture of iQIYI Gateway is shown below, including domain name,
 ### Scenario 1: Microservice Gateway
 
 About the gateway this piece, simple from the control surface and the data surface introduce.
+https://static.apiseven.com/202108/1646791464287-ba803227-7bd0-4134-8709-3bea19ba9432.png
 
-![Gateway details](https://static.apiseven.com/202108/1646733199348-15d96c96-a64f-42b1-b7da-cd3c61fd7de9.png)
+![Gateway details]()
 
 The data plane is mainly oriented to the front-end users, and the whole architecture from LB to Gateway is multi-location and multi-link disaster deployment.
 
@@ -59,7 +60,7 @@ From the perspective of control surface, because of the multi-cluster compositio
 
 At present, the API architecture based on Apache APISIX has realized some basic functions, such as current limiting, authentication, alarm, monitoring and so on.
 
-![Micro service platform function](https://static.apiseven.com/202108/1630995732178-1717dd1a-3cdf-4f34-aea2-9a26df1c37c1.png)
+![Micro service platform function](https://static.apiseven.com/202108/1646733199348-15d96c96-a64f-42b1-b7da-cd3c61fd7de9.png)
 
 First is the HTTPS section, iQIYI for security reasons, certificates and keys are not stored on the gateway machine, will be placed on a dedicated remote server. We didn’t support this when we used Kong, we used the prefix Nginx to do HTTPS Offload, and after the migration to Apache APISIX, we implemented this feature on Apache APISIX, which is a layer less forwarding over the link.
 
