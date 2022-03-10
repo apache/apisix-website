@@ -22,7 +22,7 @@ BaaS, which is also known as “Blockchain as a Service”, is an open platform 
 
 Typically, a complete BaaS solution includes four main components: device access, access control, service monitoring and blockchain platform.
 
-![BaaS introduction](https://static.apiseven.com/202108/1630647228757-9e5f730c-dde0-46b6-b5f3-81a15ff40e39.png)
+![BaaS introduction](https://static.apiseven.com/202108/1646723437500-89897c8a-7912-49d3-bea9-1f21e3e6e0d7.001)
 
 **We can build blockchain network quickly and flexibly through BaaS. For enterprises, with BaaS platform, we can manage blockchain business in a unified way.**
 
@@ -32,7 +32,7 @@ Because the chain has so many nodes, from tens to thousands, it is difficult to 
 
 The architecture of BaaS product of Hyperchain Technology is divided into four layers in total, which are resource layer, blockchain underlying layer, blockchain service layer and application layer.
 
-![Hyperchain BaaS Architecture](https://static.apiseven.com/202108/1630647274805-f2b960c4-57af-4257-99b4-9185dd5db255.png)
+![Hyperchain BaaS Architecture](https://static.apiseven.com/202108/1646723539486-3d0d42a2-217e-420d-8e6f-22eb4b37d464.002)
 
 Now that we have a preliminary understanding of Baas platform, let’s take a look at the usage scenarios and gains of Apache APISIX on BaaS system.
 
@@ -40,7 +40,7 @@ Now that we have a preliminary understanding of Baas platform, let’s take a lo
 
 ### Scenario 1: Practice on BaaS system
 
-![Apache APISIX applied on BaaS system](https://static.apiseven.com/202108/1637027614625-f3ca4571-19d1-4aab-95e8-e524db104968.png)
+![Apache APISIX applied on BaaS system](https://static.apiseven.com/202108/1646814465109-4ec35266-ce3f-4547-bab7-d75edd332e0c.003)
 
 The architecture of Hyperchain’s BaaS platform is not only microservices-based, but also divided into two layers, which are business access layer and core service layer.
 
@@ -50,7 +50,7 @@ The role of BFF is to do business aggregation, format adaptation, and give the f
 
 These business modules need to store the relevant information in the registry (ETCD), and then read out the information through the gateway module when it is used.
 
-![Hyperchain BaaS Platform Workflow](https://static.apiseven.com/202108/1630647395095-39602805-0d56-4838-add1-b8b0f6a5d716.png)
+![Hyperchain BaaS Platform Workflow](https://static.apiseven.com/202108/1646814465106-81be15cb-aabf-4240-a98b-e2cd6b8bc5ad.003_1)
 
 In the whole process, we mainly use four features of Apache APISIX.
 
@@ -63,13 +63,13 @@ Let’s learn more about how these features are used on the Hyperchain BaaS syst
 
 #### Routing and Forwarding
 
-![Apache APISIX Proxy-rewrite Routing and Forwarding](https://static.apiseven.com/202108/1630647494816-d78b6ea1-b291-446c-be36-fc2aae57ca7e.png)
+![Apache APISIX Proxy-rewrite Routing and Forwarding](https://static.apiseven.com/202108/1646723635425-8adc8c53-5a00-4457-9ac7-0b8f55308d27.004)
 
 Hyperchain uses the official Proxy-rewrite plugin provided by Apache APISIX to perform route forwarding services.
 
 When a request accesses port 8080, through the Proxy-rewrite plugin, the request will be accessed to the API of the corresponding service.
 
-![Apache APISIX Proxy-rewrite Routing and Forwarding 2](https://static.apiseven.com/202108/1630647560207-1f931523-c9e7-4e58-95e1-c1c56cb1af3a.png)
+![Apache APISIX Proxy-rewrite Routing and Forwarding 2](https://static.apiseven.com/202108/1646723635426-c5de189b-e934-4395-b671-f0d161fa8c19.005)
 
 The above figure shows the interface of Proxy-rewrite, we can see that you can match your own forwarding rules by regular matching, of course, you can also write HOST or by URL to match.
 
@@ -79,31 +79,31 @@ Before Apache APISIX, the platform needed to write its own logic code. With Apac
 
 Through the interface of the Limit-req plugin, we can easily configure parameters such as speed, bucket height, etc.
 
-![Apache APISIX Traffic Control](https://static.apiseven.com/202108/1630647608569-086d3303-027b-4e11-ac09-3a9cca9405bd.png)
+![Apache APISIX Traffic Control](https://static.apiseven.com/202108/1646723635427-0550eac8-a4dd-40c9-99f8-8ec42646fd2a.006)
 
 In the Hyperchain BaaS platform, customers can build any chains according to their needs. At this point, the BaaS platform needs to quickly support the creation of these chains and manage their lifecycle.
 
 The creation of these federated chains is not solved by hard code written directly on the code, but by driver components. In a privatization scenario, we need to have such driver components to provide support quickly and need to control the frequency of access to the driver processes.
 
-![Apache APISIX Traffic Control 2](https://static.apiseven.com/202108/1630647661769-3e026b06-35c6-4b1f-9de9-054c69415e2c.png)
+![Apache APISIX Traffic Control 2](https://static.apiseven.com/202108/1646723635428-5473b0db-b7f9-4bfa-b91c-063d68a6ed60.007)
 
 Before Apache APISIX, the platform needed to write its own logic code. With Apache APISIX, we can directly use the officially provided Limit-req plugin to limit the input and output for the purpose of protecting the system. Through the interface of the Limit-req plugin, we can easily configure parameters such as speed, bucket height, etc.
 
-![Apache APISIX Traffic Control 3](https://static.apiseven.com/202108/1630647699093-f071ccc1-c122-4463-928e-0eb46d5aa1aa.png)
+![Apache APISIX Traffic Control 3](https://static.apiseven.com/202108/1646723635429-36f04fcf-0596-43b1-9147-af79c2786ba2.008)
 
 #### Security and Access Control
 
-![Apache APISIX Security and Access Control](https://static.apiseven.com/202108/1630647753459-a693194d-369a-47fb-b9c3-a01fb97853b7.png)
+![Apache APISIX Security and Access Control](https://static.apiseven.com/202108/1646723635429-554b8e0f-8be8-4828-91cf-cc4784d30558.009)
 
 In Hyperchain’s privatization scenario, many users don’t like to use the account system provided by the platform and ask the platform to connect to their existing account system, so Hyperchain uses Apache APISIX’s Access-Auth plugin to adapt the third-party authentication service address with it.
 
-![Apache APISIX Security and Access Control 2](https://static.apiseven.com/202108/1630648022609-85bbfa93-ab67-4c58-9cbf-8d360115ea4f.png)
+![Apache APISIX Security and Access Control 2](https://static.apiseven.com/202108/1646723635430-e5e6d1ad-79c5-4a4e-b82b-2803794bc7d0.010)
 
 In Baas platform, all web requests will go through Apache APISIX’s Access-Auth plugin, complete cookie parsing and authentication, then carry user information in HEAD header and pass to back-end microservices to process business. The advantage of this is that the developer of the microservice does not need to parse the cookie, but can send the user information to the microservice module directly, which is very convenient.
 
 #### Dynamic Loading
 
-![Apache APISIX Dynamic Loading](https://static.apiseven.com/202108/1630648314372-43fcba14-2822-46ca-bc97-916a89871715.png)
+![Apache APISIX Dynamic Loading](https://static.apiseven.com/202108/1646723635431-1a0f5d29-2643-4d72-8ec7-265ea181bc47.011)
 
 The client interface of Baas platform of Hyperchain does not have a “store” button on top; however, there is a “store” button on the public platform of Baas of Hyperchain. In some privatization scenarios, the “store” button is not needed, but the backend services of both are shared, and the platform interface will be displayed differently according to the demand as soon as the backend services are started.
 
@@ -111,13 +111,13 @@ Hyperchain uses Apache APISIX to operate in collaboration with the service cente
 
 ### Scenario 2: Practice on blockchain nodes
 
-![blockchain nodes](https://static.apiseven.com/202108/1630648472228-b61451ca-4e4d-4410-877c-395c8770c85e.png)
+![blockchain nodes](https://static.apiseven.com/202108/1646723635432-a4e185fd-3648-4a60-83b7-f767560c3a4d.012)
 
 When a user buys a chain through the BaaS platform, its upper business or developer client connects directly to the nodes, for example, a bank connects to three on the left, an insurance connects to three on the right, or some users access a whole chain. This will bring a big problem because basically every node will be accessed, so we need to expose all the nodes on the blockchain to the public network environment.
 
 #### Conserve public network ports
 
-![public network ports](https://static.apiseven.com/202108/1630648545755-fd385832-3375-4ac9-89f6-4c2bb10780be.png)
+![public network ports](https://static.apiseven.com/202108/1646723635433-3999243b-7457-48d3-803a-99860c9e1bac.013)
 
 This situation may be acceptable for private users, but for a BaaS platform like Hyperchain, which is open to all Internet users, it requires dozens or hundreds or thousands of public IPs, which is not only very costly but also a waste of public IP resources.
 
@@ -125,7 +125,7 @@ In order to solve this problem, Hyperchain’s Baas platform uses Apache APISIX.
 
 #### Access Control
 
-![Access Control](https://static.apiseven.com/202108/1630648599393-f4e6a152-f6d6-47a4-b42a-a9a644be37f8.png)
+![Access Control](https://static.apiseven.com/202108/1646723635433-7e76d02b-99e9-479a-8cbf-a56ae120913d.014)
 
 Unlike traditional software, different heterogeneous chains have their own very complicated RBAC permission control, so users need to add many certificates on the client side, which is a great headache.
 
@@ -133,13 +133,13 @@ In order to solve this pain point, Baas platform of Hyperchain Technology uses A
 
 #### Improved node stability
 
-![blockchain nodes 2](https://static.apiseven.com/202108/1630648704337-6e02ca0e-3e51-4251-8455-5b3bb7668912.png)
+![blockchain nodes 2](https://static.apiseven.com/202108/1646723635434-60398981-d33b-4b7c-b43c-0aba4b0779a7.015)
 
 One of the properties of blockchain is that, essentially, accessing any node is the same.
 
 Just like Bitcoin, we access any node to get the data, so many users operate directly against a node.
 
-![Improved node stability](https://static.apiseven.com/202108/1630648773610-b56cb8aa-f690-4b30-9933-78f429fd20bc.png)
+![Improved node stability](https://static.apiseven.com/202108/1646723635435-3dd3e082-f1aa-4763-ab46-c15d34a28f58.016)
 
 However, the direct access to a single node model is vulnerable to attacks. For example, banks have a very high concurrency, TPS can reach 4–5W/sec, and every transaction will hit this node.
 
@@ -147,11 +147,11 @@ In order to achieve the effect of fast dynamic scaling, Hyperchain’s Baas plat
 
 #### Multi-protocol support
 
-![Multi-protocol support](https://static.apiseven.com/202108/1630648817779-0c1ae8f9-0b40-403a-a759-e55f4423a6cf.png)
+![Multi-protocol support](https://static.apiseven.com/202108/1646723635435-d68f64a9-6dc2-40d4-ab81-9604767d363d.017)
 
 Because Hyperchain’s Baas platform uses a lot of heterogeneous chains, the protocols used are very diverse, such as HTTP, RPC, WebSocket and so on. Apache APISIX supports multi-protocols very well, which can fully meet the use of Baas platform in the relevant scenarios, which significantly reduces the development cost.
 
-![Multi-protocol support 2](https://static.apiseven.com/202108/1630648857753-05f65dc5-0ea6-4e9d-b9d4-b97089f97d59.png)
+![Multi-protocol support 2](https://static.apiseven.com/202108/1646723635436-2cd77c45-6a60-4ad2-aa24-0d47758fbe3a.018)
 
 ## What were the kinks we went through before choosing Apache APISIX?
 
@@ -161,7 +161,7 @@ Before choosing Apache APISIX, Hyperchain’s Baas platform was already using Ko
 
 Kong uses PostgreSQL to store its information, which is obviously not a good way to do it.
 
-![Kong](https://static.apiseven.com/202108/1630648907559-71716f82-6740-468c-afe0-49daa426d93a.png)
+![Kong](https://static.apiseven.com/202108/1646723635437-69eef80d-9f35-4164-9779-b1c65bc311d8.019)
 
 In the software industry, high availability configuration of databases is very complex. Not only do you need to have a dedicated DBA, but the implementation is also very difficult.
 
@@ -175,7 +175,7 @@ Some of you may think, “Why not use Nginx?
 
 Yes, Hyperchain’s BaaS platform used to use Nginx, but later we found that Nginx has many imperfections compared to Apache APISIX.
 
-![Nginx](https://static.apiseven.com/202108/1630648946732-532ee7ac-478e-4f6c-aaa6-1f7f6be60693.png)
+![Nginx](https://static.apiseven.com/202108/1646723635437-d6e57e5d-3a6f-4140-9a1a-68adcd3790a0.020)
 
 - **Issues on hot starts and hot plugins**
 
@@ -195,7 +195,7 @@ Nginx does not have a Dashboard, and the Apache APISIX Dashboard makes it less d
 
 ## Future Plans
 
-![Future Plans](https://static.apiseven.com/202108/1630648997393-b5e6dd0e-3a2f-4dc7-94c1-cc892054ad09.png)
+![Future Plans](https://static.apiseven.com/202108/1646723635438-7392246c-e644-41ca-a4aa-599533f47239.021)
 
 ### Plan 1: Use Apache APISIX provided or self-developed logging plugins
 
