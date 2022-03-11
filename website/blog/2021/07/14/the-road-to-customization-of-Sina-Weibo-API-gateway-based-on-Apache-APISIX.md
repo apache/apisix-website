@@ -62,7 +62,7 @@ A complete database of product lines and business lines is available at the ente
 
 Users, roles and the actual product line of operation are then associated with the following correspondence.
 
-![Users, roles and product association](https://user-images.githubusercontent.com/23514812/125596630-15444f25-0bcb-4f2f-8fd2-7bef6faf6f4e.png)
+![Users, roles and product association](https://static.apiseven.com/202108/1646899698131-8e90270e-9849-435e-b776-0827c04b293c.png)
 
 A user can be assigned to undertake different operations and maintenance roles to manage and maintain different product lines of services.
 
@@ -70,23 +70,23 @@ The administrator role is very easy to understand, the core role of operation an
 
 ### Add Audit Function
 
-![Audit Function1](https://user-images.githubusercontent.com/23514812/125596773-6ebbb1f2-1287-418b-a5f0-1fc85c9e8e9f.png)
+![Audit Function1](https://static.apiseven.com/202108/1646899698135-0b92ed91-0803-4f2c-8d4b-6873c19fa492.png)
 
 In the open source version, a route can be published directly after it is created or modified.
 
 In our custom version, after a route is created or modified, it needs to go through an audit workflow before it can be published, which lengthens the process, but we think it is more credible to publish after the authorization is reviewed at the enterprise level.
 
-![Audit Function2](https://user-images.githubusercontent.com/23514812/125596844-7e3f057e-1dc4-4c3e-8d91-2b2c3d8e780f.png)
+![Audit Function2](https://static.apiseven.com/202108/1646900059586-f7feca14-57ed-417b-aadc-ca02e31bfa47.png)
 
 When creating routing rules, they must be reviewed by default. To take into account efficiency, when entering new services, you can choose the no-review, fast-publishing channel and click the publish button directly.
 
-![Audit Function3](https://user-images.githubusercontent.com/23514812/125596916-e3a7c3e6-7201-4b37-89b5-bacbbb6f4a9d.png)
+![Audit Function3](https://static.apiseven.com/202108/1646900090210-6f08f1e5-fc62-4148-9d5a-879bc96a54d2.png)
 
 When an important API route has problems after a certain adjustment rule release goes live, you can select the previous version of the routing rule for a quick roll back, with the granularity of a single route roll back that will not affect other routing rules.
 
 The internal processing flow of a single route roll back is shown in the following figure.
 
-![Audit Function4](https://user-images.githubusercontent.com/23514812/125596979-74aa252c-3a84-44e5-a62a-6d9e254de859.png)
+![Audit Function4](https://static.apiseven.com/202108/1646900126327-f297be1b-c7e5-4991-9fea-0e1e87bea937.png)
 
 We need to create version database storage for each release of a single route. This way, when we do a full release after the audit, each release will generate a version number and the corresponding full configuration data; then the version list grows. When we need to roll back, go to the version list and select a corresponding version to rollback; in a sense, the roll back is actually a special form of full release.
 
@@ -96,30 +96,30 @@ Our custom-developed canary release feature is different from what the community
 
 Although canary release is a low-frequency behavior, there is still a state transition between it and full volume release.
 
-![Support Canary Release1](https://user-images.githubusercontent.com/23514812/125597330-b3dde9ba-28f3-4899-9f4f-53b89131e653.png)
+![Support Canary Release1](https://static.apiseven.com/202108/1646900161267-83d3bb57-596c-4e23-8fa3-4999739a77ca.png)
 
 When the percentage of canary release decreases to 0%, it is the state of full release; when the canary release rises to 100%, it is the next full release, and this is its state transition.
 The full canary release feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
 
-![Support Canary Release2](https://user-images.githubusercontent.com/23514812/125598577-bcf2b13d-031a-440c-9480-c68d41d5ca9c.png)
+![Support Canary Release2](https://static.apiseven.com/202108/1646900188100-bf697358-4d6a-44d7-ab3d-223728e860b2.png)
 
 The above screenshot shows the screenshot when operating canary release to select a specific gateway instance.
 
 The full canary release feature requires some API support exposed on the gateway instance in addition to the administrative backend support.
 
-![Support Canary Release3](https://user-images.githubusercontent.com/23514812/125597285-cf3c9145-adc6-4fa4-979e-124ea8f376b5.png)
+![Support Canary Release3](https://static.apiseven.com/202108/1646900211377-0c1df098-c5be-4c69-bda6-eabd1518f0f5.png)
 
 Canary release API fixed URI, the unified path is /admin/services/gray/{SAAS_ID}/ routes. Different HTTP Method presents different business meanings, POST means create, DELETE means to stop canary release, GET means to view.
 
 #### Activation Process
 
-![Activation Process](https://user-images.githubusercontent.com/23514812/125597454-e4ad004e-9f04-495d-bb93-33c4b9942d4d.png)
+![Activation Process](https://static.apiseven.com/202108/1646900248884-ca1757d7-e6c0-45a3-a677-d29184b494d8.png)
 
 An API is published from the gateway level, and after receiving the data the worker process checks the legitimacy of the data sent, and the legitimate data is broadcast to all worker processes via events. Then the canary release API is called and the canary release rules are added and take effect when the next request is processed.
 
 #### Deactivation Process
 
-![Deactivation Process](https://user-images.githubusercontent.com/23514812/125597537-99270698-992a-4f58-91b4-06067f4d44d2.png)
+![Deactivation Process](https://static.apiseven.com/202108/1646900280677-87a90d54-c78d-4660-afab-33bbc433010d.png)
 
 The deactivation process is basically the same as the canary release distribution process. The API for canary release distribution is called by the DELETE method and broadcasted to all work processes. If it exists in the route table, delete it and try to restore it from the ETCD. If the canary release is deactivated, make sure that the original ETCD can be restored without affecting the normal service.
 
@@ -135,23 +135,23 @@ By exposing the Go Import HTTP API for the management backend, the operation eng
 
 Custom development based on the Apache APISIX data surface requires a number of code path rules to be followed. In particular, the code for the Apache APISIX gateway and the custom code are stored in separate paths, and the two work together and can each be iterated independently.
 
-![Changes in the Data Plane](https://user-images.githubusercontent.com/23514812/125597706-33f97c9a-1e82-43c5-9ed7-e13b051ad9a0.png)
+![Changes in the Data Plane](https://static.apiseven.com/202108/1646900844425-46711779-fa2c-4242-a3c4-311fd5ea2563.png)
 
 ### Modification of Installation Package
 
 So when packaging, not only custom code, but also dependencies, configuration, etc. all need to be packaged together for distribution. As for the output format, you can either choose Docker or type it into a tarball, as required.
 
-![Modification of Installation Package](https://user-images.githubusercontent.com/23514812/125597788-24829253-d6f2-4f65-9799-3fc840a7c970.png)
+![Modification of Installation Package](https://static.apiseven.com/202108/1646900306141-5f85e7e9-3e13-4477-957c-657d5435bdef.png)
 
 ### Custom Development of Code
 
 Some custom modules need to be loaded first when they are initialized, so that the code intrusion into Apache APISIX becomes minimal, requiring only modifications to the Nginx.conf file.
 
-![Custom Development of Code1](https://user-images.githubusercontent.com/23514812/125597856-6020f223-dfeb-44a1-8a80-896a24a3d8fb.png)
+![Custom Development of Code1](https://static.apiseven.com/202108/1646900356726-16c7b794-c5d9-43a4-af60-7dc675f56dc7.png)
 
 For example, if you need to stuff an upstream object with a saas_id attribute field, you can call the following method at initialize time.
 
-![Custom Development of Code2](https://user-images.githubusercontent.com/23514812/125598009-75d4aaf7-10b7-476b-af22-97a0630d878c.png)
+![Custom Development of Code2](https://static.apiseven.com/202108/1646900387986-d7036503-98a9-4cb8-a47e-27e7ae83796b.png)
 
 You need to be called in the initworker_by_lua* phase to complete the initialization for similar modifications.
 
@@ -167,15 +167,15 @@ If you have similar needs in a production environment, you can refer to the abov
 
 Currently, most of Weibo services use Consul KV as a service registration and discovery mechanism. Previously, Apache APISIX did not support the Consul KV method of service discovery mechanism, so a `consul_kv.lua` module needs to be added to the gateway layer, and a UI interface needs to be provided in the management backend as follows.
 
-![Support Consul KV1](https://user-images.githubusercontent.com/23514812/125598115-d72321e4-b886-4e0d-965f-50c06f0f3104.png)
+![Support Consul KV1](https://static.apiseven.com/202108/1646900423967-5b5db4c1-1c2c-495c-88ef-e0f4937bcef8.png)
 
 In the upstream list in the console, everything is filled in at a glance, and the metadata of all registered nodes is automatically presented when the mouse is moved over the registered service address, which greatly facilitates the daily operation of our operation engineers.
 
-![Support Consul KV2](https://user-images.githubusercontent.com/23514812/125598173-0b456929-5c41-4ddc-9675-a80f5129621f.png)
+![Support Consul KV2](https://static.apiseven.com/202108/1646900450031-bf0109c1-c859-4fbd-9a47-967c193d27ff.png)
 
 The `consul_kv.lua` module is relatively simple to configure at the gateway level, supporting multiple connections to different Consul clusters at the same time, but this is also due to the requirements of the actual environment.
 
-![Support Consul KV3](https://user-images.githubusercontent.com/23514812/125598228-bd02e3ab-3c70-4f2c-8860-3ddee4bb9dcc.png)
+![Support Consul KV3](https://static.apiseven.com/202108/1646900471956-9490a2d0-256d-4f15-b24e-6f8204a60a17.png)
 
 This code has now been merged into the APISIX master branch and is included in version 2.4.
 
