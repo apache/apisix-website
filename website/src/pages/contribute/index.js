@@ -45,11 +45,11 @@ const Contribute = () => {
     <Layout>
       <Head>
         <title>
-          Good first issue -- Apache APISIX® -- Cloud-Native API Gateway
+          Good first issue - Apache APISIX® - Cloud-Native API Gateway
         </title>
 
         <meta
-          property={"description"}
+          name={"description"}
           content={
             "Help new partners to Apache APISIX Community and make first contribution."
           }
@@ -59,7 +59,7 @@ const Contribute = () => {
         <meta
           property={"og:title"}
           content={
-            "Good first issue -- Apache APISIX® -- Cloud-Native API Gateway"
+            "Good first issue - Apache APISIX® - Cloud-Native API Gateway"
           }
         />
         <meta
@@ -73,15 +73,15 @@ const Contribute = () => {
           }
         />
 
-        <meta property={"twitter:card"} content={"summary"} />
+        <meta name={"twitter:card"} content={"summary"} />
         <meta
-          property={"twitter:title"}
+          name={"twitter:title"}
           content={
-            "Good first issue -- Apache APISIX® -- Cloud-Native API Gateway"
+            "Good first issue - Apache APISIX® - Cloud-Native API Gateway"
           }
         />
         <meta
-          property={"twitter:description"}
+          name={"twitter:description"}
           content={
             "Help new partners to Apache APISIX Community and make first contribution."
           }
