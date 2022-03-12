@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "@theme/Layout";
 import ContributeCard from "./ContributeCard";
+import Head from "@docusaurus/Head";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -42,6 +43,50 @@ const Contribute = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>
+          Good first issue - Apache APISIX® - Cloud-Native API Gateway
+        </title>
+
+        <meta
+          name={"description"}
+          content={
+            "Help new partners to Apache APISIX Community and make first contribution."
+          }
+        />
+
+        <meta property={"og:type"} content={"website"} />
+        <meta
+          property={"og:title"}
+          content={
+            "Good first issue - Apache APISIX® - Cloud-Native API Gateway"
+          }
+        />
+        <meta
+          property={"og:site_name"}
+          content={"Apache APISIX® -- Cloud-Native API Gateway"}
+        />
+        <meta
+          property={"og:description"}
+          content={
+            "Help new partners to Apache APISIX Community and make first contribution."
+          }
+        />
+
+        <meta name={"twitter:card"} content={"summary"} />
+        <meta
+          name={"twitter:title"}
+          content={
+            "Good first issue - Apache APISIX® - Cloud-Native API Gateway"
+          }
+        />
+        <meta
+          name={"twitter:description"}
+          content={
+            "Help new partners to Apache APISIX Community and make first contribution."
+          }
+        />
+      </Head>
       <Page>
         <PageTitle>
           Good <PageTitleSpecial>first</PageTitleSpecial> issue
