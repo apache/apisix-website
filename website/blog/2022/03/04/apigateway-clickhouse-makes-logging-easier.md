@@ -15,11 +15,11 @@ keywords:
 - ClickHouse
 - Logging
 - Ecosystem
-description: This blog describes the whole process of developing clickhouse-logger for Apache APISIX, and how to implement it with Grafana to achieve the same observability with simpler architechure and worlflows.
-tags: [Technology,Logging]
+description: The author of this article, Zhendong Qi, is from China Mobile Cloud Competence Center. He has extensive experience in distributed object storage software development and has participated in the construction of several resource pools in the mobile cloud. This article describes how community contributor Zhendong Qi contributed `clickhouse-logger` to Apache APISIX and how he used the plugin to simplify the business architecture and improve the efficiency of logging.
+tags: [Technology,Logging,Ecosystem]
 ---
 
-> This blog describes the whole process of developing `clickhouse-logger` for Apache APISIX, and how to implement it with Grafana to achieve the same observability with simpler architechure and worlflows.
+> The author of this article, Zhendong Qi, is from China Mobile Cloud Competence Center. He has extensive experience in distributed object storage software development and has participated in the construction of several resource pools in the mobile cloud. This article describes how community contributor Zhendong Qi contributed `clickhouse-logger` to Apache APISIX and how he used the plugin to simplify the business architecture and improve the efficiency of logging.
 
 <!--truncate-->
 
@@ -29,7 +29,7 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway that provide
 
 Developed by Yandex and open sourced in 2016, ClickHouse is not only a database, but also a database management system that allows creating tables and databases, loading data and running queries at runtime without reconfiguring or restarting services.
 
-As more and more companies start to migrate their business to the cloud, how to efficiently implement log sending and receiving and log analysis to enhance the observabilities of the system becomes a challenge. China Mobile, as a company providing public cloud services, the architecture of the initial Apache APISIX-based business log sending and receiving and analysis system is roughly like this.
+As more and more companies start to migrate their business to the cloud, how to efficiently implement log sending and receiving and log analysis to enhance the observabilities of the system becomes a challenge. China Mobile Cloud Competence Center, as a company providing public cloud services, the architecture of the initial Apache APISIX-based business log sending and receiving and analysis system is roughly like this.
 
 ![initial bussiness architecture](https://static.apiseven.com/202108/1646363723740-f92d6a39-64e0-4464-8c44-c73832362bf6.png)
 
