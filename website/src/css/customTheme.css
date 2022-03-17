@@ -875,6 +875,10 @@ a:hover {
   transition: background 0.5s;
 }
 
+.oss-promo a {
+  color: white;
+}
+
 .oss-promo-cta:hover {
   background: #9b9b9b;
   color: #080808;
