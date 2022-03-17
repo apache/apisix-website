@@ -1,7 +1,7 @@
 ---
 title: "化繁为简，Apache APISIX 集成 ClickHouse 插件提升全链路日志效率"
 authors:
-  - name: "齐振东"
+  - name: "祁振东"
     title: "Author"
     url: "https://github.com/zhendongcmss"
     image_url: "https://github.com/zhendongcmss.png"
@@ -15,11 +15,11 @@ keywords:
 - ClickHouse
 - 日志
 - Ecosystem
-description: 本文讲述了社区贡献者齐振东为 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
-tags: [Technology,Logging]
+description: 本文讲述了社区贡献者祁振东为 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
+tags: [Technology,Logging,Ecosystem]
 ---
 
-> 本文讲述了社区贡献者齐振东为 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
+> 本文作者祁振东，来自中国移动云能力中心。从事分布式对象存储软件开发工作，参与移动云多个资源池的建设工作，在对象存储领域有丰富的实战经验。本文讲述了社区贡献者祁振东为 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
 
 <!--truncate-->
 
@@ -29,7 +29,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 ClickHouse 由 Yandex 开发，在 2016 年开源。ClickHouse 不止是一个数据库， 也是一个数据库管理系统，它允许在运行时创建表和数据库、加载数据和运行查询，而无需重新配置或重启服务。
 
-随着越来越多的公司开始将业务迁移上云，如何高效地实现日志收发及日志分析，增强系统的可观测性成为了一个难题。中国移动作为一家提供公有云服务的企业，前期基于 Apache APISIX 的业务日志收发和和分析系统的架构大致是这样的。
+随着越来越多的公司开始将业务迁移上云，如何高效地实现日志收发及日志分析，增强系统的可观测性成为了一个难题。中国移动云能力中心作为一家提供公有云服务的企业，前期基于 Apache APISIX 的业务日志收发和和分析系统的架构大致是这样的。
 
 ![initial bussiness architecture](https://static.apiseven.com/202108/1646363723740-f92d6a39-64e0-4464-8c44-c73832362bf6.png)
 
