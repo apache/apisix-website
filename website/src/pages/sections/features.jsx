@@ -10,6 +10,28 @@ import Snippet from "../../assets/images/code-sample.png";
 import Plugin from "../../assets/images/pluginised.png";
 import ArrowAnim from "./components/arrowAnim";
 
+const DashboardPlayground = () => {
+  return (
+    <Link
+      className={"dashboard-playground-link add-left-margin-feat"}
+      to={"http://106.55.144.26/user/login"}
+    >
+      <div className="dashboard-playground">
+        <h2 className={"dashboard-title"}>Dashboard Playground</h2>
+
+        <div className={"dashboard-account"}>
+          <div>
+            username <span>admin</span>
+          </div>
+          <div>
+            pass <span>admin</span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
 const Features = () => {
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
@@ -158,26 +180,7 @@ const Features = () => {
                 </Link>
                 <ArrowAnim />
               </div>
-              <div className="dashboard-demo add-left-margin-feat">
-                <h3 className={"demo-title"}>Dashboard Playground</h3>
-                <p className={"demo-account"}>
-                  <div>
-                    Username: <span>admin</span>
-                  </div>
-                  <div>
-                    Password: <span>admin</span>
-                  </div>
-                </p>
-                <div className={"demo-desc"}>
-                  Remember the above account, and...
-                </div>
-                <Link
-                  className={"btn-try-demo"}
-                  to={"http://106.55.144.26/user/login"}
-                >
-                  Try it now!
-                </Link>
-              </div>
+              <DashboardPlayground />
             </div>
           </div>
 

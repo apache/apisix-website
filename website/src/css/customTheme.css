@@ -615,31 +615,104 @@ a:hover {
   opacity: 0;
 }
 
-.dashboard-demo {
-  bottom: 10%;
-  border: 4px dashed rgba(232, 67, 62, 0.85);
-  border-radius: 10px;
-  padding: 10px 20px;
+.dashboard-playground-link {
+  bottom: 18%;
+  color: #dfdfdf;
 }
 
-.demo-title {
-  opacity: 0.98;
+.dashboard-playground-link:hover {
+  color: #dfdfdf;
 }
 
-.demo-account {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 1.14rem;
+.dashboard-playground {
+  background-color: hsl(0, 100%, 0%);
+  font-family: "MaisonNeue-Bold", sans-serif;
+
+  --height: 150px;
+  --radius: calc(var(--height) * 0.168);
+  height: var(--height);
+  width: calc(var(--height) * 2.048);
+  border-radius: var(--radius);
+  padding: calc(var(--radius) - 4px) var(--radius);
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-playground::before {
+  content: "";
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  border-radius: inherit;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.dashboard-playground::after {
+  content: "GO";
+
+  position: absolute;
+  right: -14px;
+  top: 19px;
+
+  font-size: 8rem;
+  font-weight: bolder;
+  color: #ffffff;
+  opacity: 0.1;
+  transition: all 300ms ease-in-out;
+}
+
+.dashboard-playground:hover::before {
+  opacity: 1;
+}
+
+.dashboard-playground:hover::after {
+  top: 50%;
+  left: 50%;
+  right: unset;
+  opacity: 0.9;
+  transform: translate(-50%, -45%);
+}
+
+.dashboard-playground:active::after {
+  transform: translate(-50%, -45%) scale(0.88);
+}
+
+
+.dashboard-title {
+  font-size: 1.2rem;
+  font-family: "MaisonNeue-ExtraBold", sans-serif;
+
+  flex-grow: 1;
+
+  background-image: linear-gradient(to right, hsl(0, 73%, 50%), hsl(227, 90%, 65%));
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-account {
   font-variant: small-caps;
-  color: #615d5d;
+  line-height: normal;
+  letter-spacing: 1px;
 }
 
-.demo-account span {
-  color: #9a9898;
+.dashboard-account span {
+  font-family: "MaisonNeue-Medium", sans-serif;
   font-variant: normal;
+  letter-spacing: normal;
+  font-size: 0.9rem;
 }
 
-.demo-desc {
+.dashboard-desc {
   padding-right: 50px;
 }
 
