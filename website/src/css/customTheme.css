@@ -671,7 +671,7 @@ a:hover {
   font-size: 8rem;
   font-weight: bolder;
   color: #ffffff;
-  opacity: 0.1;
+  opacity: 0.05;
   transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
@@ -693,7 +693,7 @@ a:hover {
 
 
 .dashboard-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-family: "MaisonNeue-ExtraBold", sans-serif;
 
   flex-grow: 1;
