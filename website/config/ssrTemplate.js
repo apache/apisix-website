@@ -1,4 +1,4 @@
-const CDN_URL = 'https://cdn.jsdelivr.net/gh/apache/apisix-website@asf-site'
+const CDN_URL = 'https://raw.githubusercontent.com/apache/apisix-website/asf-site'
 
 module.exports = {
   ssrTemplate: `<!DOCTYPE html>
