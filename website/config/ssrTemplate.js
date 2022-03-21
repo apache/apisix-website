@@ -1,5 +1,3 @@
-const CDN_URL = 'https://raw.githubusercontent.com/apache/apisix-website/asf-site'
-
 module.exports = {
   ssrTemplate: `<!DOCTYPE html>
   <html <%~ it.htmlAttributes %>>
@@ -20,10 +18,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <%~ metaAttribute %>
       <% }); %>
       <% it.stylesheets.forEach((stylesheet) => { %>
-        <link rel="stylesheet" href="${CDN_URL}<%= it.baseUrl %><%= stylesheet %>" />
+        <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
       <% }); %>
       <% it.scripts.forEach((script) => { %>
-        <link rel="preload" href="${CDN_URL}<%= it.baseUrl %><%= script %>" as="script">
+        <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
       <% }); %>
     </head>
     <body <%~ it.bodyAttributes %>>
