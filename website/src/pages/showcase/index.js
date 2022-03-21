@@ -5,33 +5,33 @@ import './styles.scss';
 
 const Container = (props) => {
   return (
-      <div className="hero text--center showcase">
-        <div className="container">
-          {props.children}
-        </div>
+    <div className="hero text--center showcase">
+      <div className="container">
+        {props.children}
       </div>
+    </div>
   );
 }
 
 const Header = (props) => {
   return (
-      <div className="header">
-        <div className="title">
-          Showcase
-        </div>
-        <div className="tips">
-          This project is used by all these folks
-          <br />
-          Are you using this project?&nbsp;
-          <a
-              href="https://github.com/apache/apisix/blob/master/powered-by.md"
-              target="_blank"
-              rel="noopener"
-          >
-            <u>Add your company</u>
-          </a>
-        </div>
+    <div className="header">
+      <div className="title">
+        Showcase
       </div>
+      <div className="tips">
+        This project is used by all these folks
+        <br />
+        Are you using this project?&nbsp;
+        <a
+          href="https://github.com/apache/apisix/blob/master/powered-by.md"
+          target="_blank"
+          rel="noopener"
+        >
+          <u>Add your company</u>
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -43,9 +43,9 @@ const Content = (props) => {
   const showcases = siteConfig.customFields.showcases.map((user) => (
     <div className="col col--2 item" key={user.infoLink}>
       <UserCard
-          image={'https://raw.githubusercontent.com/apache/apisix-website/master/website/static/img/' + user.image}
-          caption={user.caption}
-          infoLink={user.infoLink}
+        image={'https://raw.githubusercontent.com/apache/apisix-website/master/website/static/img/' + user.image}
+        caption={user.caption}
+        infoLink={user.infoLink}
       />
     </div>
   ));
@@ -59,22 +59,22 @@ const Content = (props) => {
 
 const UserCard = (props) => {
   return (
-      <div className="user-card">
-        <a href={props.infoLink}>
-          <img className="logo" src={props.image} alt={props.caption}/>
-        </a>
-      </div>
+    <div className="user-card">
+      <a href={props.infoLink}>
+        <img className="logo" src={props.image} alt={props.caption} />
+      </a>
+    </div>
   );
 }
 
 const Showcase = (props) => {
   return (
-      <Layout>
-        <Container>
-          <Header/>
-          <Content/>
-        </Container>
-      </Layout>
+    <Layout>
+      <Container>
+        <Header />
+        <Content />
+      </Container>
+    </Layout>
   );
 };
 
