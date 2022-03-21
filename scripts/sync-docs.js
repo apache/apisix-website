@@ -200,7 +200,7 @@ const replaceMDElements = (project, path, branch = "master") => {
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
       const imgPath = match.replace(/\(|\)|\.\.\/*/g, "");
-      const newUrl = `https://cdn.jsdelivr.net/gh/apache/${project}@${branch}/docs/${imgPath}`;
+      const newUrl = `https://raw.githubusercontent.com/apache/${project}/${branch}/docs/${imgPath}`;
       //console.log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
