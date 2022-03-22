@@ -35,7 +35,16 @@
 
   @media (max-width: 1200px) {
     .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       padding: 50px 50px;
+    }
+  }
+
+  @media (max-width: 820px) {
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     }
   }
 }
