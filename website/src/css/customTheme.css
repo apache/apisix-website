@@ -634,18 +634,23 @@ a:hover {
   background-color: hsl(0, 100%, 0%);
   font-family: "MaisonNeue-Bold", sans-serif;
 
-  --height: 150px;
+  --height: 130px;
+  --width: calc(var(--height) * 2.048);
   --radius: calc(var(--height) * 0.168);
   height: var(--height);
-  width: calc(var(--height) * 2.048);
+  width: var(--width);
   border-radius: var(--radius);
-  padding: calc(var(--radius) - 4px) var(--radius);
+  padding: calc(var(--radius) - 6px);
 
   display: flex;
   flex-direction: column;
 
   position: relative;
+  left: calc(var(--width) * -0.05);
   overflow: hidden;
+
+  transform: scale3d(0.95, 0.95, 1);
+  transition: all 200ms cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 .dashboard-playground::before {
@@ -662,39 +667,36 @@ a:hover {
 }
 
 .dashboard-playground::after {
-  content: "GO";
+  content: "APISIX";
 
   position: absolute;
-  right: -14px;
-  top: 19px;
+  top: 5px;
+  left: -35%;
 
-  font-size: 8rem;
+  font-size: 8.5rem;
   font-weight: bolder;
+  line-height: 1;
   color: #ffffff;
-  opacity: 0.05;
-  transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
+  opacity: 0.06;
 }
 
-.dashboard-playground:hover::before {
-  opacity: 1;
+.dashboard-playground:hover {
+  transform: scale3d(1, 1, 1);
+  box-shadow: 0 0 0 1px hsla(213, 26%, 28%, 0.2),
+  0 3px 2px hsla(0, 0%, 0%, 0.14),
+  0 7px 5px hsla(0, 0%, 0%, 0.12),
+  0 13px 10px hsla(0, 0%, 0%, 0.05),
+  0 22px 17px hsla(0, 0%, 0%, 0.08);
 }
 
-.dashboard-playground:hover::after {
-  top: 50%;
-  left: 50%;
-  right: unset;
-  opacity: 0.88;
-  transform: translate(-50%, -45%) scale(0.88);
+.dashboard-playground:active {
+  transform: scale3d(0.95, 0.95, 1);
 }
-
-.dashboard-playground:active::after {
-  transform: translate(-50%, -45%) scale(0.8);
-}
-
 
 .dashboard-title {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-family: "MaisonNeue-ExtraBold", sans-serif;
+  white-space: nowrap;
 
   flex-grow: 1;
 
@@ -705,13 +707,87 @@ a:hover {
   -webkit-text-fill-color: transparent;
 
   width: fit-content;
+
+  position: relative;
+}
+
+.dashboard-playground:hover .dashboard-title {
+  animation: pulse 3s linear infinite;
+}
+
+@keyframes pulse {
+  from {
+    filter: hue-rotate(0);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
 }
 
 .dashboard-account {
   font-variant: small-caps;
   line-height: normal;
   letter-spacing: 1px;
+  position: relative;
+  opacity: 0.8;
 }
+
+.dashboard-account::after {
+  content: "↑";
+
+  font-family: "MaisonNeue-Light", sans-serif;
+  font-size: 2.5rem;
+  line-height: 2rem;
+
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  opacity: 0;
+  color: hsl(0, 0%, 70%);
+
+  transform: rotate(90deg);
+  transition: opacity 300ms ease-in-out;
+}
+
+.dashboard-playground:hover .dashboard-account {
+  opacity: 0.9;
+}
+
+.dashboard-playground:hover .dashboard-account::after {
+  opacity: 0.6;
+  animation: bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  from,
+  20%,
+  53%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: rotate(90deg) translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: rotate(90deg) translate3d(0, 30px, 0) scaleY(1.1);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: rotate(90deg) translate3d(0, 15px, 0) scaleY(1.05);
+  }
+
+  80% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: rotate(90deg) translate3d(0, 0, 0) scaleY(0.95);
+  }
+
+  90% {
+    transform: rotate(90deg) translate3d(0, 4px, 0) scaleY(1.02);
+  }
+}
+
 
 .dashboard-account span {
   font-family: "MaisonNeue-Medium", sans-serif;

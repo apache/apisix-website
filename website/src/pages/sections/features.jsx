@@ -24,7 +24,7 @@ const DashboardPlayground = () => {
             username <span>admin</span>
           </div>
           <div>
-            pass <span>admin</span>
+            passwd <span>admin</span>
           </div>
         </div>
       </div>
