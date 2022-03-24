@@ -9,7 +9,7 @@ description: The Apache APISIX Community Weekly Report hopes to help community m
 tags: [Events]
 ---
 
-> From 3.1 to 3.14, 44 contributors submitted 131 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
+> From March 1st to  March 14th, 44 contributors submitted 131 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
 
 <!--truncate-->
 
