@@ -1,5 +1,5 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import config from "./docusaurus.config";
+import config from "../../docusaurus.config";
 
 (() => {
   // not in browser
@@ -73,7 +73,6 @@ import config from "./docusaurus.config";
       }
       // all ''
       if (pathArr.at(-1) === pathArr.at(-2)) pathArr.pop();
-      console.log(lct.origin + pathArr.join("/"), pathArr);
       lct.replace(lct.origin + pathArr.join("/"));
     }
   }

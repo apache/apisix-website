@@ -405,5 +405,5 @@ module.exports = {
    * See ssrTemplate -> jsDelivr
    */
   ssrTemplate,
-  clientModules: [require.resolve("./lang-redirect.js")],
+  clientModules: [require.resolve("./src/clientModules/lang-redirect.js")],
 };
