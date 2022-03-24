@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report｜Explore the week of Mar 1 - Mar 14
+title: Biweekly Report｜Explore the weeks of Mar 1st - Mar 14th
 keywords:
 - Apache APISIX
 - API Gateway
@@ -9,7 +9,7 @@ description: The Apache APISIX Community Weekly Report hopes to help community m
 tags: [Events]
 ---
 
-> From 3.1 to 3.14, 44 contributors submitted 131 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
+> From March 1st to  March 14th, 44 contributors submitted 131 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
 
 <!--truncate-->
 
@@ -83,18 +83,18 @@ The Apache APISIX project website and the Github issue have accumulated a wealth
 
 ## Recent Blog Recommendations
 
-- [How to Integrate API Gateway with Eureka?](https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery)：
+- [How to Integrate API Gateway with Eureka?](https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery)
 
   This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
 
-- [Making It Simple, Apache APISIX Integrates ClickHouse to Improve Logging Efficiency](https://apisix.apache.org/blog/2022/03/04/apigateway-clickhouse-makes-logging-easier):
+- [Making It Simple, Apache APISIX Integrates ClickHouse to Improve Logging Efficiency](https://apisix.apache.org/blog/2022/03/04/apigateway-clickhouse-makes-logging-easier)
 
   This article describes how community contributor Zhendong Qi contributed clickhouse-logger to Apache APISIX and how he used the plugin to simplify the business architecture and improve the efficiency of logging.
 
-- [Apache APISIX and CoreDNS open new doors for service discovery](https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery):
+- [Apache APISIX and CoreDNS open new doors for service discovery](https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery)
 
   As a cloud native API gateway, Apache APISIX also integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in Apache APISIX.
 
-- [How to Use Gitpod to Develop API Gateway?](https://apisix.apache.org/blog/2022/03/03/develop-apisix-with-gitpod):
+- [How to Use Gitpod to Develop API Gateway?](https://apisix.apache.org/blog/2022/03/03/develop-apisix-with-gitpod)
 
-  This article introduces the open source cloud IDE product - Gitpod, and demonstrates how to use Gitpod to develop API gateway Apache APISIX and solutions to common problems.
+  This article introduces the open source cloud IDE product - Gitpod, and demonstrates how to use Gitpod to develop API gateway Apache APISIX and solutions of common problems.
