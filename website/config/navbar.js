@@ -79,6 +79,10 @@ module.exports = [
         label: "Community"
       },
       {
+        to: "/docs/general/events",
+        label: "Events"
+      },
+      {
         to: "/contribute",
         label: "Contribute"
       }
