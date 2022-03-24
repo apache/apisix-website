@@ -1,5 +1,6 @@
 ---
 title: "基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践"
+slug: 2021/09/07/iqiyi-usercase
 author: "何聪"
 keywords: 
 - APISIX

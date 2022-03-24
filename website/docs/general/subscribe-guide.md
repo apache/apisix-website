@@ -1,6 +1,6 @@
 ---
 id: subscribe-guide
-slug: /subscribe-guide
+slug: subscribe-guide
 title: Subscription Guide
 keywords:
 - API gateway
@@ -10,9 +10,9 @@ keywords:
 description: Subscribe to the Apache APISIX mailing list to discuss issues, suggest new ideas and participate in other community discussions.
 ---
 
-You can subscribe to the Apache APISIX mailing list to discuss issues, suggest new ideas and participate in other community discussions.
+You can subscribe to the Apache APISIX mailing list to discuss issues, suggest new ideas, and participate in other community discussions.
 
-1. To subscribe to the mailing list, first send an email to dev-subscribe@apisix.apache.org.
+1. To subscribe to the mailing list, first, send an email to dev-subscribe@apisix.apache.org.
 
 2. Once you send the email, you will receive a confirmation e-mail from dev-help@apisix.apache.org.
 

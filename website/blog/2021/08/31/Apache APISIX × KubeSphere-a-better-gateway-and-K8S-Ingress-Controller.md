@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX × KubeSphere: Providing a better gateway and K8S Ingress Controller"
-slug: /blog/2021/08/31/apache-apisix-kubeSphere-a-better-gateway-and-k8s-ingress-controller
+slug: 2021/08/31/apache-apisix-kubeSphere-a-better-gateway-and-k8s-ingress-controller
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"

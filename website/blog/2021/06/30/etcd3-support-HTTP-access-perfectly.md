@@ -1,6 +1,6 @@
 ---
 title: "Does etcd 3 Support HTTP Access Perfectly?"
-slug: /blog/2021/06/30/etcd3-support-http-access-perfectly
+slug: 2021/06/30/etcd3-support-http-access-perfectly
 author: "Zexuan Luo"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

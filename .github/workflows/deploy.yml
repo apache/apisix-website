@@ -24,7 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/setup-node@v3
         with:
           node-version: "14"
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Sync documents
         run: |
-          cd scripts && yarn sync && git status
+          cd scripts && yarn sync && yarn generate-repos-info && git status
 
       - name: Build
         run: |

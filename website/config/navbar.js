@@ -38,7 +38,7 @@ module.exports = [
       },
       {
         label: "General",
-        to: "/docs/general/security",
+        to: "/docs/general/community",
       },
     ],
   },

@@ -1,6 +1,6 @@
 ---
 title: Licensing with Casbin in Apache APISIX
-slug: /blog/2021/08/18/auth-with-casbin-in-apache-apisix
+slug: 2021/08/18/auth-with-casbin-in-apache-apisix
 author: Casbin & Apache APISIX
 keywords:
 - API Gateway

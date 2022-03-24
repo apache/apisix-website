@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX v.s Envoy: Which Has the Better Performance?"
-slug: /blog/2021/06/10/apache-apisix-and-envoy-performance-comparison
+slug: 2021/06/10/apache-apisix-and-envoy-performance-comparison
 author: "Yuansheng Wang"
 authorURL: "https://github.com/membphis"
 authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"

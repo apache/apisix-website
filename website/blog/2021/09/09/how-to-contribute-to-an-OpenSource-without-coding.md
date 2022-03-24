@@ -1,6 +1,6 @@
 ---
 title: How can I contribute to an open source project without writing code?
-slug: /blog/2021/09/09/how-to-contribute-to-an-openSource-without-coding
+slug: 2021/09/09/how-to-contribute-to-an-openSource-without-coding
 author: Ruofei Zhao
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"

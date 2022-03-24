@@ -2,6 +2,7 @@ const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
+const os = require('os');
 const listr = require("listr");
 const simpleGit = require("simple-git");
 const semver = require('semver');
@@ -68,7 +69,7 @@ const tasks = new listr([
               return {
                 title: `Extract ${project.name} ${version} documents`,
                 task: () => {
-                  const steps = [
+                  return new listr([
                     {
                       title: `Checkout ${project.name} version: ${version}`,
                       task: async () => {
@@ -84,6 +85,15 @@ const tasks = new listr([
                       }
                     },
                     {
+                      title: "Generate API docs for APISIX",
+                      enabled: () => {
+                        return os.platform() === "linux" && project.name === 'apisix' && isFileExisted(`./${tempPath}/${project.name}/autodocs`);
+                      },
+                      task: () => {
+                        return generateAPIDocs(project);
+                      }
+                    },
+                    {
                       title: "Add English documents",
                       task: () => {
                         childProcess.execSync(
@@ -95,7 +105,7 @@ const tasks = new listr([
                     {
                       title: "Add Chinese documents",
                       task: () => {
-                        if (isFileExisted(`./tmp/${project.name}/docs/zh/latest`) !== false) {
+                        if (isFileExisted(`./${tempPath}/${project.name}/docs/zh/latest`) !== false) {
                           copyFolder(
                               project.latestDocs.zh,
                               `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`
@@ -103,8 +113,7 @@ const tasks = new listr([
                         }
                       }
                     }
-                  ];
-                  return new listr(steps)
+                  ]);
                 }
               }
             });
@@ -126,15 +135,26 @@ const tasks = new listr([
             const steps = [
               {
                 title: `Checkout ${project.name} next version`,
-                task: async () => {
-                  await git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']);
-                }
+                task: () => new Promise(async (resolve) => {
+                  git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']).then(() => {
+                    resolve();
+                  });
+                })
               },
               {
                 title: "Replace elements inside MD files",
                 task: () => {
                   replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], project.branch);
                   copyAllDocs(project);
+                }
+              },
+              {
+                title: "Generate API docs for APISIX",
+                enabled: () => {
+                  return os.platform() === "linux" && project.name === 'apisix' && isFileExisted(`./${tempPath}/${project.name}/autodocs`);
+                },
+                task: () => {
+                  return generateAPIDocs(project);
                 }
               }
             ];
@@ -180,7 +200,7 @@ const replaceMDElements = (project, path, branch = "master") => {
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
       const imgPath = match.replace(/\(|\)|\.\.\/*/g, "");
-      const newUrl = `https://cdn.jsdelivr.net/gh/apache/${project}@${branch}/docs/${imgPath}`;
+      const newUrl = `https://raw.githubusercontent.com/apache/${project}/${branch}/docs/${imgPath}`;
       //console.log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
@@ -296,3 +316,30 @@ const copyAllDocs = (project) => {
       "zh"
   );
 };
+
+/**
+ * Generate APISIX API Docs
+ * @return {Listr<Listr.ListrContext>}
+ * @param project
+ * @param version
+ */
+const generateAPIDocs = (project) => {
+  return new listr([
+    {
+      title: "Generate markdown files",
+      task: () => {
+        childProcess.spawnSync(`autodocs/generate.sh`, ['build'], {
+          cwd: `./${tempPath}/${project.name}`
+        });
+      }
+    },
+    {
+      title: "Copy API docs",
+      task: () => {
+        if (isFileExisted(`./${tempPath}/${project.name}/autodocs/output`) !== false) {
+          copyFolder(`${tempPath}/${project.name}/autodocs/output`, `${project.latestDocs.en}/pdk-docs`);
+        }
+      }
+    }
+  ]);
+}

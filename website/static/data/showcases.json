@@ -1,7 +1,7 @@
 [
   {
     "caption": "360 奇虎",
-    "image": "showcase/360.png",
+    "image": "showcase/360.svg",
     "infoLink": "https://www.360.cn/",
     "pinned": true
   },
@@ -43,7 +43,7 @@
   },
   {
     "caption": "嘀嗒出行",
-    "image": "showcase/didachuxing.jpg",
+    "image": "showcase/didachuxing.jpeg",
     "infoLink": "https://www.didachuxing.com/",
     "pinned": true
   },
@@ -67,7 +67,7 @@
   },
   {
     "caption": "eFactory",
-    "image": "showcase/eFactory.webp",
+    "image": "showcase/eFactory.jpeg",
     "infoLink": "https://www.efactory-project.eu/",
     "pinned": true
   },
@@ -97,7 +97,7 @@
   },
   {
     "caption": "中移杭研",
-    "image": "showcase/hy10086.png",
+    "image": "showcase/10086.svg",
     "infoLink": "https://hy.10086.cn/",
     "pinned": true
   },
@@ -157,7 +157,7 @@
   },
   {
     "caption": "魅族",
-    "image": "showcase/meizu.jpg",
+    "image": "showcase/meizu.svg",
     "infoLink": "https://www.meizu.com/",
     "pinned": true
   },

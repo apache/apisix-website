@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Layout from "@theme/Layout";
 import ContributeCard from "./ContributeCard";
+import Head from "@docusaurus/Head";
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -17,7 +18,7 @@ const PageTitle = styled.h1`
 `;
 
 const PageTitleSpecial = styled.span`
-  color:rgb(232, 67, 62);
+  color: rgb(232, 67, 62);
 `;
 
 const PageDesc = styled.div`
@@ -25,21 +26,78 @@ const PageDesc = styled.div`
 `;
 
 const Contribute = () => {
-  const repoList = require("../../../config/docs").map(item => ({ repoName: item.githubRepo }));
+  const repoList = require("../../../config/docs").map(
+    (item) => item.githubRepo
+  );
+  const repoInfoList = require("../../../config/repos-info.json");
 
-  const repos = repoList.map((repo) => {
-    return <ContributeCard key={repo.repoName} {...repo} />;
+  const repos = repoList.map((repoName) => {
+    return (
+      <ContributeCard
+        key={repoName}
+        repoName={repoName}
+        {...repoInfoList[repoName]}
+      />
+    );
   });
 
   return (
     <Layout>
+      <Head>
+        <title>
+          Good first issue - Apache APISIX® - Cloud-Native API Gateway
+        </title>
+
+        <meta
+          name={"description"}
+          content={
+            "Help new partners to Apache APISIX Community and make first contribution."
+          }
+        />
+
+        <meta property={"og:type"} content={"website"} />
+        <meta
+          property={"og:title"}
+          content={
+            "Good first issue - Apache APISIX® - Cloud-Native API Gateway"
+          }
+        />
+        <meta
+          property={"og:site_name"}
+          content={"Apache APISIX® -- Cloud-Native API Gateway"}
+        />
+        <meta
+          property={"og:description"}
+          content={
+            "Help new partners to Apache APISIX Community and make first contribution."
+          }
+        />
+
+        <meta name={"twitter:card"} content={"summary"} />
+        <meta
+          name={"twitter:title"}
+          content={
+            "Good first issue - Apache APISIX® - Cloud-Native API Gateway"
+          }
+        />
+        <meta
+          name={"twitter:description"}
+          content={
+            "Help new partners to Apache APISIX Community and make first contribution."
+          }
+        />
+      </Head>
       <Page>
-        <PageTitle>Good <PageTitleSpecial>first</PageTitleSpecial> issue</PageTitle>
-        <PageDesc>Help new partners to Apache APISIX Community and make first contribution.</PageDesc>
+        <PageTitle>
+          Good <PageTitleSpecial>first</PageTitleSpecial> issue
+        </PageTitle>
+        <PageDesc>
+          Help new partners to Apache APISIX Community and make first
+          contribution.
+        </PageDesc>
         {repos}
       </Page>
     </Layout>
-
   );
 };
 
