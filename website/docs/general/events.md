@@ -9,10 +9,10 @@ keywords:
 description: This page provides information about upcoming Apache APISIX's community events where you can track Meetups, Conferences and Workshops.
 ---
 
-# Events
+## Events
 
-Here you will find details about upcoming all type of events (*conferences*, *workshops*, *meetups* etc.) 
-that have a specific focus on Apache APISIX. 
+Here you will find details about upcoming all type of events (*conferences*, *workshops*, *meetups* etc.)
+that have a specific focus on Apache APISIX.
 
 > To add your event to the list, please open [a Documentation issue](https://github.com/apache/apisix-website/issues/new?assignees=&labels=documentation&template=documentation.yaml&title=%5BDocs%5D%3A+) or submit a PR to the [Apache APISIX Website repo](https://github.com/apache/apisix-website).
 
