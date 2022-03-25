@@ -30,16 +30,15 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd scripts && yarn install
-          cd ../website && yarn install
-
+          yarn install
+          
       - name: Pull Docs
         run: |
-          cd scripts && yarn sync && git status
+          yarn sync-doc && git status
 
       - name: Check Links
         run: |
-          cd scripts && yarn link-checker && git status
+          yarn workspace scripts link-checker && git status
 
       - name: Archive Broken Links List
         uses: actions/upload-artifact@v2
