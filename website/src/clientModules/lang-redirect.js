@@ -42,11 +42,13 @@ import config from "../../docusaurus.config";
       const nav = window.navigator;
       exactLang =
         [
-          ...nav.languages,
           nav.language,
+          ...nav.languages,
           nav.userLanguage,
           nav.systemLanguage,
-        ].filter((lang) => langArr.includes(lang))[0] || defaultLang;
+        ]
+          .map((lang) => lang?.split('-')[0])
+          .filter((lang) => langArr.includes(lang))[0] || defaultLang;
     }
 
     // update localStorage val
@@ -69,6 +71,8 @@ import config from "../../docusaurus.config";
       } else {
         if (exactLang !== defaultLang) {
           pathArr.splice(1, 0, exactLang);
+        } else {
+          return;
         }
       }
       // all ''
