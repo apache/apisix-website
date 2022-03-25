@@ -34,7 +34,7 @@ jobs:
 
       - name: Sync documents
         run: |
-          yarn sync && yarn generate-repos-info && git status
+          yarn sync-doc && yarn generate-repos-info && git status
 
       - name: Build
         run: |
