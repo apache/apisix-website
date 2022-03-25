@@ -1,16 +1,14 @@
-const { ssrTemplate } = require("./config/ssrTemplate");
+const { ssrTemplate } = require('./config/ssrTemplate');
 
 const getEditUrl = ({
   projectName,
   version,
   locale,
   docPath,
-  defaultBranch = "master",
+  defaultBranch = "master"
 }) => {
-  return version === "current"
-    ? `https://github.com/apache/${projectName}/edit/${defaultBranch}/docs/${locale}/latest/${docPath}`
-    : null;
-};
+  return version === 'current' ? `https://github.com/apache/${projectName}/edit/${defaultBranch}/docs/${locale}/latest/${docPath}` : null;
+}
 
 module.exports = {
   title: "Apache APISIX® -- Cloud-Native API Gateway",
@@ -44,7 +42,7 @@ module.exports = {
       "apache/apisix-control-plane",
       "apache/apisix-java-plugin-runner",
       "apache/apisix-go-plugin-runner",
-      "apache/apisix-python-plugin-runner",
+      "apache/apisix-python-plugin-runner"
     ],
   },
   i18n: {
@@ -72,26 +70,28 @@ module.exports = {
           path: "docs/general",
           routeBasePath: "/docs/general",
           sidebarPath: require.resolve("./docs/general/sidebars.json"),
-          editUrl: function ({ docPath }) {
+          editUrl: function ({
+            docPath,
+          }) {
             return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
           },
         },
         blog: {
           path: "blog",
-          blogSidebarTitle: "All posts",
-          blogSidebarCount: "ALL",
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
         },
         theme: {
           customCss: "../src/css/customTheme.css",
         },
         sitemap: {
-          changefreq: "daily",
+          changefreq: 'daily',
           priority: 0.5,
           trailingSlash: false,
         },
         pages: {
-          exclude: ["**/downloads/ProjectCard.js"],
-        },
+          exclude: ['**/downloads/ProjectCard.js']
+        }
       },
     ],
   ],
@@ -111,7 +111,7 @@ module.exports = {
         routeBasePath: "articles",
         path: "articles",
         blogSidebarCount: 0,
-        blogTitle: "Article",
+        blogTitle: "Article"
       },
     ],
     [
@@ -123,13 +123,17 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: "/docs/apisix",
         sidebarPath: require.resolve("./docs/apisix/sidebars.json"),
-        editUrl: function ({ docPath, version, locale }) {
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix",
             locale,
             docPath,
-            version,
-          });
+            version
+          })
         },
       },
     ],
@@ -142,13 +146,17 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: "/docs/dashboard",
         sidebarPath: require.resolve("./docs/apisix-dashboard/sidebars.json"),
-        editUrl: function ({ docPath, version, locale }) {
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-dashboard",
             locale,
             docPath,
-            version,
-          });
+            version
+          })
         },
       },
     ],
@@ -163,13 +171,17 @@ module.exports = {
         sidebarPath: require.resolve(
           "./docs/apisix-ingress-controller/sidebars.json"
         ),
-        editUrl: function ({ docPath, version, locale }) {
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-ingress-controller",
             locale,
             docPath,
-            version,
-          });
+            version
+          })
         },
       },
     ],
@@ -182,13 +194,17 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: "/docs/helm-chart",
         sidebarPath: require.resolve("./docs/apisix-helm-chart/sidebars.json"),
-        editUrl: function ({ docPath, version, locale }) {
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-helm-chart",
             locale,
             docPath,
-            version,
-          });
+            version
+          })
         },
       },
     ],
@@ -201,13 +217,17 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: "/docs/docker",
         sidebarPath: require.resolve("./docs/apisix-docker/sidebars.json"),
-        editUrl: function ({ docPath, version, locale }) {
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-docker",
             locale,
             docPath,
-            version,
-          });
+            version
+          })
         },
       },
     ],
@@ -219,17 +239,19 @@ module.exports = {
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
         routeBasePath: "/docs/java-plugin-runner",
-        sidebarPath: require.resolve(
-          "./docs/apisix-java-plugin-runner/sidebars.json"
-        ),
-        editUrl: function ({ docPath, version, locale }) {
+        sidebarPath: require.resolve("./docs/apisix-java-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-java-plugin-runner",
             locale,
             docPath,
             version,
-            defaultBranch: "main",
-          });
+            defaultBranch: "main"
+          })
         },
       },
     ],
@@ -241,16 +263,18 @@ module.exports = {
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
         routeBasePath: "/docs/go-plugin-runner",
-        sidebarPath: require.resolve(
-          "./docs/apisix-go-plugin-runner/sidebars.json"
-        ),
-        editUrl: function ({ docPath, version, locale }) {
+        sidebarPath: require.resolve("./docs/apisix-go-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-go-plugin-runner",
             locale,
             docPath,
             version,
-          });
+          })
         },
       },
     ],
@@ -262,20 +286,22 @@ module.exports = {
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
         routeBasePath: "/docs/python-plugin-runner",
-        sidebarPath: require.resolve(
-          "./docs/apisix-python-plugin-runner/sidebars.json"
-        ),
-        editUrl: function ({ docPath, version, locale }) {
+        sidebarPath: require.resolve("./docs/apisix-python-plugin-runner/sidebars.json"),
+        editUrl: function ({
+          docPath,
+          version,
+          locale
+        }) {
           return getEditUrl({
             projectName: "apisix-python-plugin-runner",
             locale,
             docPath,
             version,
-          });
+          })
         },
       },
     ],
-    ["docusaurus-plugin-sass", {}],
+    ['docusaurus-plugin-sass', {}]
   ],
   themeConfig: {
     navbar: {
@@ -355,29 +381,29 @@ module.exports = {
         "Copyright © 2019-2022 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.",
     },
     announcementBar: {
-      id: "query",
+      id: 'query',
       backgroundColor: "#e8433e",
-      textColor: "white",
+      textColor: 'white',
       content:
         '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://apisix.apache.org/docs/general/community">join #apisix channel</a>! ⭐️',
     },
     prism: {
-      theme: require("prism-react-renderer/themes/github"),
-      darkTheme: require("prism-react-renderer/themes/dracula"),
-      defaultLanguage: "bash",
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+      defaultLanguage: 'bash',
     },
     algolia: {
-      appId: "38VC84A2WJ",
-      apiKey: "73248b6e5908d49bb7986c4aef5fd30d",
+      appId: '38VC84A2WJ',
+      apiKey: '73248b6e5908d49bb7986c4aef5fd30d',
       indexName: "apache_apisix",
       contextualSearch: true,
     },
     colorMode: {
-      defaultMode: "light",
+      defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: false,
     },
-    image: "img/apache-apisix.png",
+    image: 'img/apache-apisix.png',
     metadatas: [
       {
         name: "description",
@@ -386,12 +412,12 @@ module.exports = {
       },
       {
         name: "robots",
-        content: "index,follow",
+        content: "index,follow"
       },
       {
         name: "twitter:card",
         content: "summary",
-      },
+      }
     ],
     gtag: {
       trackingID: "G-WQLBQL6GY3",
@@ -403,7 +429,7 @@ module.exports = {
   /**
    * We need to check if we build site for preview env, or preview site will load static assets from the asf-site branch.
    * See ssrTemplate -> jsDelivr
-   */
+  */
   ssrTemplate,
   clientModules: [require.resolve("./src/clientModules/lang-redirect.js")],
 };
