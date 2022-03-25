@@ -1,0 +1,17 @@
+{
+  "name": "apisix-website",
+  "repository": "https://github.com/apache/apisix-website.git",
+  "license": "Apache-2.0",
+  "private": "true",
+  "workspaces": [
+    "website",
+    "scripts"
+  ],
+  "scripts": {
+    "sync-doc": "yarn workspace scripts sync",
+    "generate-repos-info": "yarn workspace scripts generate-repos-info",
+    "update-sitemap": "yarn workspace scripts update-sitemap",
+    "build": "yarn workspace website build",
+    "docusaurus": "yarn workspace website docusaurus"
+  }
+}

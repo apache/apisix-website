@@ -1,8 +1,11 @@
 {
+  "name": "scripts",
+  "version": "1.0.0",
   "scripts": {
     "sync": "node sync-docs.js",
     "link-checker": "node link-checker.js",
-    "generate-repos-info": "node generate-repos-info.js"
+    "generate-repos-info": "node generate-repos-info.js",
+    "update-sitemap": "node update-sitemap-loc.js"
   },
   "devDependencies": {
     "@types/node": "^14.17.21",
