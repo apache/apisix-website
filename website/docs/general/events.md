@@ -30,12 +30,11 @@ that have a specific focus on Apache APISIX.
 * **Speaker:** [Nicolas Fränkel](https://github.com/nfrankel)
 * **Dates:** from 2022-06-29 to 2022-07-02
 * **Location:** Berlin, Germany
-* **Type:** Conference
 
 ### Workshops
 
-Coming soon
+Coming soon...
 
 ### Meetups
 
-Coming soon
+Coming soon...
