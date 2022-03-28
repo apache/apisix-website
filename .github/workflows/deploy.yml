@@ -30,21 +30,20 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd scripts && yarn install
-          cd ../website && yarn install
+          yarn install
 
       - name: Sync documents
         run: |
-          cd scripts && yarn sync && yarn generate-repos-info && git status
+          yarn sync-doc && yarn generate-repos-info && git status
 
       - name: Build
         run: |
-          cd website && yarn build
-          cp ../.asf.yaml ./build
+          yarn build
+          cp ./.asf.yaml ./build
 
       - name: Update sitemap.xml
         run: |
-          cd scripts && node update-sitemap-loc.js && git status
+          yarn update-sitemap && git status
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0
