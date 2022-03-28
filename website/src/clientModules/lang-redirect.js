@@ -32,23 +32,23 @@ import config from "../../docusaurus.config";
     if (curLang === localLang) return;
 
     let exactLang;
-    if (localLang !== followSystem) {
+    {
       // reset if not valid
       exactLang = langArr.includes(localLang) ? localLang : followSystem;
-    }
 
-    // follow system, detect browser language
-    if (exactLang === followSystem) {
-      const nav = window.navigator;
-      exactLang =
-        [
-          nav.language,
-          ...nav.languages,
-          nav.userLanguage,
-          nav.systemLanguage,
-        ]
-          .map((lang) => lang?.split('-')[0])
-          .filter((lang) => langArr.includes(lang))[0] || defaultLang;
+      // follow system, detect browser language
+      if (exactLang === followSystem) {
+        const nav = window.navigator;
+        exactLang =
+          [
+            nav.language,
+            ...nav.languages,
+            nav.userLanguage,
+            nav.systemLanguage,
+          ]
+            .map((lang) => lang?.split('-')[0])
+            .filter((lang) => langArr.includes(lang))[0] || defaultLang;
+      }
     }
 
     // update localStorage val
