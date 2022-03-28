@@ -1,5 +1,8 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+import { createBrowserHistory } from "history";
+
 import config from "../../docusaurus.config";
+
 
 (() => {
   // not in browser
@@ -81,20 +84,36 @@ import config from "../../docusaurus.config";
     }
   }
 
-  // add click event to locale menu
-  const dropDowns = document.querySelectorAll("div.navbar__item.dropdown > ul");
-  dropDowns[dropDowns.length - 1].addEventListener(
-    "click",
-    function clickEvent(e) {
-      e.preventDefault();
+  function bindEventToLangSwitch() {
+    // add click event to locale menu
+    const dropDowns = document.querySelectorAll("div.navbar__item.dropdown > ul");
+    dropDowns[dropDowns.length - 1].addEventListener(
+      "click",
+      function clickEvent(e) {
+        e.preventDefault();
 
-      const lang = localeLabelMap[e.target.textContent] || defaultLang;
-      if (localStorage.getItem(storeKey) !== lang) {
-        localStorage.setItem(storeKey, lang);
+        const lang = localeLabelMap[e.target.textContent] || defaultLang;
+        if (localStorage.getItem(storeKey) !== lang) {
+          localStorage.setItem(storeKey, lang);
+        }
+        redirect();
       }
-      redirect();
-    }
-  );
+    );
+  }
 
+  // because of SPA, if the location changed (in site, no redirect), the above click event will also be cleared
+  // doc https://docusaurus.io/docs/docusaurus-core#redirect=
+  // and https://reactrouter.com/docs/en/v6/getting-started/concepts#history=
+  // were browsed, but not fix the problem
+  // now, the solution is observing the head.title
+  // the code inspired by https://stackoverflow.com/a/29540461
+  new MutationObserver(bindEventToLangSwitch)
+    .observe(document.querySelector('title'), {
+      subtree: true,
+      characterData: true,
+      childList: true
+    })
+
+  bindEventToLangSwitch()
   redirect();
 })();
