@@ -15,11 +15,11 @@ keywords:
 - Release Notes
 - API Gateway
 - LTS version
-description: Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability and service discovery plugins, and a better multilingual development system.
+description: Apache APISIX community has rolled out a new LTS version, 2.13.0. This version not only delivers more stable performance, but also supports more observability and service discovery plugins, as well as a more robust multilingual development system.
 tags: [Release]
 ---
 
-> Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability and service discovery plugins, and a better multilingual development system.
+> Apache APISIX community has rolled out a new LTS version, 2.13.0. This version not only delivers more stable performance, but also supports more observability and service discovery plugins, as well as a more robust multilingual development system.
 
 <!--truncate-->
 
