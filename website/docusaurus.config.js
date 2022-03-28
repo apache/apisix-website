@@ -430,5 +430,6 @@ module.exports = {
    * We need to check if we build site for preview env, or preview site will load static assets from the asf-site branch.
    * See ssrTemplate -> jsDelivr
   */
-  ssrTemplate
+  ssrTemplate,
+  clientModules: [require.resolve("./src/clientModules/lang-redirect.js")],
 };
