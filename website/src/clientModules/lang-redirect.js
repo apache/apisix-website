@@ -1,5 +1,4 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import { createBrowserHistory } from "history";
 
 import config from "../../docusaurus.config";
 
