@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.13.0 is released, bringing LTS and new features"
+title: "Apache APISIX 2.13.0 Is Released, Bringing LTS and New Features"
 authors:
   - name: "Zexuan Luo"
     title: "Author"
@@ -12,41 +12,41 @@ authors:
 keywords: 
 - Apache APISIX
 - 2.13.0
-- 版本发布
-- API 网关
+- Release Notes
+- API Gateway
 - LTS version
-description: Today, the Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability, service discovery plugins, and a better multilingual development system.
+description: Today, the Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability and service discovery plugins, and a better multilingual development system.
 tags: [Release]
 ---
 
-> Today, the Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability, service discovery plugins, and a better multilingual development system.
+> Today, the Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability and service discovery plugins, and a better multilingual development system.
 
 <!--truncate-->
 
-It has been more than half a year since the last LTS release of Apache APISIX, and today the Apache APISIX community is bringing a new LTS release, 2.13.0, which is not only more stable, but also supports more observability, service discovery plugins and a more complete multilingual development system.
+It has been more than half a year since the last LTS release of Apache APISIX, and today the Apache APISIX community is bringing a new LTS release, 2.13.0, which is not only more stable, but also supports more observability and service discovery plugins, and a more complete multilingual development system.
 
-If you're looking for overall stability but also want to try new features, consider upgrading your existing Apache APISIX to 2.13.0, which will be followed by a series of patch releases based on 2.13.0.
+If you're trying to find a balance between stability and new features, Apache APISIX 2.13.0 is an ideal choice. Since 2.13.0 is a LTS version, we will release a series of patch releases based on 2.13.0.
 
-![Apache APISIX 2.13.0 Features Preview](https://static.apiseven.com/202108/1648448702387-7beb37b3-a733-42c3-b35e-0e4a93961001.png)
+![Apache APISIX 2.13.0 Features Preview](https://static.apiseven.com/202108/1648452101951-d69cb087-a6b4-490f-9a7b-47e122f72240.png)
 
 ## Features Preview
 
 ### New Change: API Is No Longer Exposed by Default
 
-In versions prior to 2.13.0, we allowed plugins to register APIs that could be called by clients. for example, the `jwt-auth` plugin would register a JWT-signed interface that could be accessed by clients to generate signatures for validation. However, this design has a potential drawback - since it is the interface that is exposed and not the route, it is not possible to enforce security for it in the same way as for routes. While existing mechanisms allow users to intercept interface access by writing a corresponding plugin interceptor, there are still security risks in this approach.
+In versions prior to 2.13.0, we allowed plugins to register APIs that could be called by clients. For example, the `jwt-auth` plugin would register a JWT-signed interface that could be accessed by clients to generate signatures for validation. However, this design has a  drawback - since it is the interface that is exposed and not the route, it is not possible to enforce security for it in the same way as for routes. While existing mechanisms allow users to intercept interface access by writing a corresponding plugin interceptor, there are still security risks in this approach.
 
-**So starting with version 2.13.0, we decided to make a major change and no longer expose the API by default**. If a user needs to expose an interface, they need to bind the interface to the corresponding route via the `public-api` plugin. This approach brings two benefits.
+**Starting with version 2.13.0, we decide to make a major change and no longer expose the API by default**. If a user needs to expose an interface, they need to bind the interface to the corresponding route via the `public-api` plugin. This approach brings two benefits.
 
 1. registered APIs will have higher visibility, currently registered APIs only take effect through display configuration, and access is user-defined.
 2. More security options are allowed, and registered APIs have the same permission controls as routes.
 
-Of course, there are other new changes in version 2.13.0, such as fixing unusual behaviors in previous versions. For specific optimization information,see [2.13.0 Changelog](https://github.com/apache/apisix/blob/release/2.13/CHANGELOG.md#2130).
+Of course, there are other new changes in version 2.13.0, such as fixing unusual behaviors in previous versions. See [Apache APISIX 2.13.0 Changelog](https://github.com/apache/apisix/blob/release/2.13/CHANGELOG.md#2130) for detailed information.
 
 ### New Features: Enhancements in Observability
 
 As an API gateway, Apache APISIX has been working to connect more services and open up more observability upstream and downstream. We've been puting efforts in this field with every release, and 2.13.0 is also included.
 
-**This time we have added a new tracing plugin: `opentelemetry`, which allows sending OpenTelemetry tracing data to the configured collector.** Here's a brief look through an example.
+**This time we have added a new tracing plugin: `opentelemetry`, which allows sending OpenTelemetry tracing data to the configured collector**. Here is an example.
 
 The collector is set in the static configuration.
 
@@ -95,7 +95,7 @@ Requests that hit this route will report OpenTelemetry data to the corresponding
 
 In addition, we have added two new logging plugins that support reporting logs to ClickHouse and Loggly.
 
-ClickHouse is one of the fastest OLAP databases on the ground. Apache APISIX supports sending access logs and error logs to ClickHouse, as shown in the following example.
+ClickHouse is one of the fastest OLAP databases in the world. Apache APISIX supports sending access logs and error logs to ClickHouse, as shown in the following example.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -143,7 +143,7 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/loggly -H 'X-API-KEY: ed
 }'
 ```
 
-Configure the routes that need to be reported
+Configure the routes that need to be reported.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -165,7 +165,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 ### Better Multilingual Development System
 
-Apache APISIX has supported Wasm (Proxy Wasm SDK) since version 2.11, but the LTS version has not provided support for it. In this release of Apache APISIX 2.13.0, we have added and improved this feature.
+Apache APISIX has supported Wasm (Proxy Wasm SDK) since version 2.11, but the LTS version has not provided support for it. We add and improv this feature in 2.13.0.
 
 After six months of development with over 10,000 lines of code (including testing and documentation), APISIX now has full support for running Wasm code in all four phases of **processing request headers, request bodies, response headers, and response bodies**. Apache APISIX 2.13.0 is the first LTS release to support Wasm, and we consider it as a milestone.
 
