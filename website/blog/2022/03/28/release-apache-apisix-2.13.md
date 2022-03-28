@@ -174,16 +174,16 @@ In addition to Wasm, we are also working on a traditional, RPC-based multilingua
 ## Bugfixes
 
 - SkyWalking and OpenTelemetry do not track authentication failures.
-- `log-rotate` cutting logs do not support completion by whole point.
+- `log-rotate` cutting logs do not support completion by hours.
 - `deepcopy` does not copy `metatable`.
 - `request-validate` handling of duplicate keys in JSON.
 - `prometheus` duplicate calculation metrics.
 - `conf.method` in `proxy-rewrite` does not work when `conf.headers` is missing.
 - `traffic-split` fails to match when the first rule fails.
 - etcd timeout triggers `resync_delay`.
-- `proto` Definition conflict.
+- `proto` definition conflict.
 - `limit-count` configuration remains unchanged and resets the counter.
-- Admin API's `plugin-metadata` and `global-rule` count incorrectly.
+- Admin API's `plugin-metadata` count and `global-rule` count report wrong count numbers.
 - Labels are missing when merging route and service.
 
 ## More Details
