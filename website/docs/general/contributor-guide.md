@@ -15,7 +15,7 @@ This document describes the general flow for contributing to APISIX repos.
 
 Any and all forms of contributions are welcome! For example you can,
 
-- Fix issues tagged "[good first issue](/docs/general/contributor-guide/#good-first-issues)" or "[help wanted](https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)".
+- Fix issues tagged with "[good first issue](/docs/general/contributor-guide/#good-first-issues)" or "[help wanted](https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)" labels.
 
 - Join the discussions on the [mailing list](/docs/general/join/).
 

@@ -13,7 +13,7 @@ This document walks through how Apache APISIX contributors are structured.
 
 See [Contributing flow](/docs/general/contributor-guide/) to learn more about the contributing process.
 
-## How do I become an APISIX committer?
+## How do I become an Apache APISIX committer?
 
 Anyone can be a contributor to an Apache project. Being a contributor means that you take an interest in the project and contribute to it in some way, ranging from asking sensible questions (which documents the project and provides feedback to developers) to working on new features and patches.
 
@@ -55,7 +55,7 @@ The following are the expected responsibilities of an ASF Committer.
 
 8. Guide new contributors to join the community.
 
-## How do I become an APISIX PMC member?
+## How do I become an Apache APISIX PMC member?
 
 In APISIX community, a committer who has earned even more merits can be invited to be a part of the Project Management Committee (PMC).
 

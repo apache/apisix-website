@@ -1,5 +1,5 @@
 ---
-id: documentation-guide
+id: documentation-style-guide
 title: Documentation style guide
 keywords:
   - API gateway
@@ -55,7 +55,7 @@ To learn more about contributing, see [Contributing flow](contributor-guide.md).
 
 ### Directory structure
 
-The docs are organized as shown below. To create a new page, create a new file in the latest folder of the language you are writing the doc in.
+The documents are organized as shown below. To create a new page, create a new file in the latest folder of the language you are writing the doc in.
 
 ```text
 /docs
@@ -67,14 +67,11 @@ The docs are organized as shown below. To create a new page, create a new file i
 ├── en
 │   └── latest
 │       ├── doc1.md
-│       ├── folder
-│       │   └── doc2.md
-│       │       └── folder2
-│       │           └── doc3.md
-│       └── config.json
-├── es
-│   └── latest
-│       └── ...
+│       └── folder
+│           └── doc2.md
+│               └── folder2
+│                   └── doc3.md
+│
 └── zh
     └── latest
         └── ...
@@ -86,7 +83,7 @@ The configuration file is located in `/docs/<locale>/latest/config.json` where l
 
 You can learn more about the sidebar from the [Docusaurus docs](https://v2.docusaurus.io/docs/next/sidebar).
 
-```json
+```jsonc
 {
   "version": 2.3,
   "sidebar": [

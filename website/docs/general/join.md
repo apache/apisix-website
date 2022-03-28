@@ -2,9 +2,9 @@
 id: join
 title: Join the conversation
 keywords:
+  - Apache APISIX
   - Slack
   - Community
-  - Apache APISIX
 description: Join the Apache APISIX community and get involved in the conversations.
 ---
 
@@ -13,7 +13,7 @@ Apache APISIX is a project maintained by community members under the Apache Soft
 
 We have a transparent and inclusive community where you can join in and contribute to the discussion.
 
-### Subscribe to the Mailing List
+## Subscribe to the Mailing List
 
 You can subscribe to the Apache APISIX mailing list to discuss issues, suggest new ideas, and participate in other community discussions.
 
@@ -27,10 +27,10 @@ You can subscribe to the Apache APISIX mailing list to discuss issues, suggest n
 
 5. To view archived emails from the mailing list, check out the [history](https://lists.apache.org/list.html?apisix.apache.org).
 
-### Join the Slack Channel
+## Join the Slack Channel
 
 You can join the Apache APISIX Slack channel in two ways:
 
-- Using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please open an issue if this link is expired_).
+- Using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](./submit-issue.md) if this link is expired_).
 
-- By sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
+- By [subscribing to the mailing list](#subscribe-to-the-mailing-list) and sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
