@@ -1,11 +1,11 @@
 ---
-title: "Apache APISIX 2.13.0 发布，LTS 和新功能，我全都要"
+title: "Apache APISIX 2.13.0 is released, bringing LTS and new features"
 authors:
-  - name: "罗泽轩"
+  - name: "Zexuan Luo"
     title: "Author"
     url: "https://github.com/spacewander"
     image_url: "https://avatars.githubusercontent.com/u/4161644?v=4"
-  - name: "曾奕霖"
+  - name: "Yilin Zeng"
     title: "Technical Writer"
     url: "https://github.com/yzeng25"
     image_url: "https://github.com/yzeng25.png"
@@ -15,40 +15,40 @@ keywords:
 - 版本发布
 - API 网关
 - LTS version
-description: 今天，Apache APISIX 社区带来了一个全新的 LTS 版本——2.13.0。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
+description: Today, the Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability, service discovery plugins, and a better multilingual development system.
 tags: [Release]
 ---
 
-> 今天，Apache APISIX 社区带来了一个全新的 LTS 版本——2.13.0。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
+> Today, the Apache APISIX community is bringing a new LTS release, 2.13.0, which not only provides more stable performance, but also supports more observability, service discovery plugins, and a better multilingual development system.
 
 <!--truncate-->
 
-距离 Apache APISIX 上一次发布 LTS 版本已经过去了大半年的时间，今天，Apache APISIX 社区带来了一个全新的 LTS 版本——2.13.0。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
+It has been more than half a year since the last LTS release of Apache APISIX, and today the Apache APISIX community is bringing a new LTS release, 2.13.0, which is not only more stable, but also supports more observability, service discovery plugins and a more complete multilingual development system.
 
-如果你在追求整体稳定性的同时，也想尝试一下新功能，不妨考虑将现有的 Apache APISIX 升级到 2.13.0。后续社区也会在 2.13.0 版本的基础上发布一系列 patch 版本。
+If you're looking for overall stability but also want to try new features, consider upgrading your existing Apache APISIX to 2.13.0, which will be followed by a series of patch releases based on 2.13.0.
 
-![Apache APISIX 2.13.0 更新概览](https://static.apiseven.com/202108/1648439024629-e286bd1f-ce1d-424e-a4c0-7ded1ab3d17e.png)
+![Apache APISIX 2.13.0 Features Preview](https://static.apiseven.com/202108/1648448702387-7beb37b3-a733-42c3-b35e-0e4a93961001.png)
 
-## 功能更新
+## Features Preview
 
-### 新变化：不再默认暴露 API
+### New Change: API Is No Longer Exposed by Default
 
-在 2.13.0 之前的版本中，我们允许插件注册可供客户端调用的 API。例如，`jwt-auth` 插件会注册一个 JWT 签名的接口，客户端可以访问该接口，以生成用于校验的签名。但这个设计有一个潜在的缺陷——由于暴露出来的是接口而不是路由，因此无法像对待路由一样为其加强安全防护。虽然现有的机制允许用户通过编写对应的 plugin interceptor 来拦截接口访问，但这种方式仍然存在安全隐患。
+In versions prior to 2.13.0, we allowed plugins to register APIs that could be called by clients. for example, the `jwt-auth` plugin would register a JWT-signed interface that could be accessed by clients to generate signatures for validation. However, this design has a potential drawback - since it is the interface that is exposed and not the route, it is not possible to enforce security for it in the same way as for routes. While existing mechanisms allow users to intercept interface access by writing a corresponding plugin interceptor, there are still security risks in this approach.
 
-**所以从 2.13.0 版本开始，我们决定做出重大变更，不再默认暴露 API。**如果用户需要暴露接口，则需要通过 `public-api` 插件将接口绑定到对应的路由上。这种方式会带来两个好处：
+**So starting with version 2.13.0, we decided to make a major change and no longer expose the API by default**. If a user needs to expose an interface, they need to bind the interface to the corresponding route via the `public-api` plugin. This approach brings two benefits.
 
-1. 注册的 API 会有更高的能见度，目前注册的 API 只有通过显示配置才会生效，访问方式也是由用户自定义。
-2. 允许采用更多的安全防护选项，注册的 API 和路由拥有同样的权限控制。
+1. registered APIs will have higher visibility, currently registered APIs only take effect through display configuration, and access is user-defined.
+2. More security options are allowed, and registered APIs have the same permission controls as routes.
 
-当然，2.13.0 版本还有其他的新变化，比如修复了历史版本的不合理行为。如需了解具体优化信息，请查阅 [2.13.0 Changelog](https://github.com/apache/apisix/blob/release/2.13/docs/zh/latest/CHANGELOG.md#2130)。
+Of course, there are other new changes in version 2.13.0, such as fixing unusual behaviors in previous versions. For specific optimization information,see [2.13.0 Changelog](https://github.com/apache/apisix/blob/release/2.13/CHANGELOG.md#2130).
 
-### 新功能：可观测性层面对接更多的监控体系
+### New Features: Enhancements in Observability
 
-作为 API 网关，Apache APISIX 一直致力于连接更多的服务，打通更多的可观测性上下游。我们在每个版本都会为此添砖加瓦，2.13.0 版本也不例外。
+As an API gateway, Apache APISIX has been working to connect more services and open up more observability upstream and downstream. We've been puting efforts in this field with every release, and 2.13.0 is also included.
 
-**这次我们新增了一个 tracing 插件：`opentelemetry`，允许发送 OpenTelemetry tracing 数据到配置的 collector。**下面简单通过一个示例来看一下。
+**This time we have added a new tracing plugin: `opentelemetry`, which allows sending OpenTelemetry tracing data to the configured collector.** Here's a brief look through an example.
 
-在静态配置里面设置了 collector：
+The collector is set in the static configuration.
 
 ```yaml
 plugin_attr:
@@ -66,7 +66,7 @@ plugin_attr:
       max_export_batch_size: 2
 ```
 
-之后就可以在特定的路由上开启 tracing：
+After that, tracing can be enabled on a specific route.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -91,11 +91,11 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 }'
 ```
 
-命中该路由的请求将会上报 OpenTelemetry 的数据到对应的 collector。
+Requests that hit this route will report OpenTelemetry data to the corresponding collector.
 
-此外，我们还新增了两个日志插件，支持把日志上报到 ClickHouse 和 Loggly 中。
+In addition, we have added two new logging plugins that support reporting logs to ClickHouse and Loggly.
 
-ClickHouse 是地表最快的 OLAP 数据库之一。Apache APISIX 支持发送 access log 和 error log 到 ClickHouse，示例如下：
+ClickHouse is one of the fastest OLAP databases on the ground. Apache APISIX supports sending access logs and error logs to ClickHouse, as shown in the following example.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -132,9 +132,9 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/error-log-logger -H 'X-A
 }'
 ```
 
-Loggly 是 SolarWinds 旗下的日志处理 SaaS 平台，我们支持通过 syslog 或 HTTP/HTTPS 的方式发送 access log。示例如下：
+Loggly is SolarWinds' SaaS platform for log processing, and we support sending access logs via syslog or HTTP/HTTPS. Examples are as follows.
 
-配置上报方式
+Configure reporting method.
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/loggly -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -143,7 +143,7 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/loggly -H 'X-API-KEY: ed
 }'
 ```
 
-配置需要上报的路由
+Configure the routes that need to be reported
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -163,34 +163,34 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 }'
 ```
 
-### 更完善的多语言开发体系
+### Better Multilingual Development System
 
-Apache APISIX 自 2.11 版本起开始支持 Wasm（Proxy Wasm SDK），但 LTS 版本一直没有提供相应支持。在此次发布的 Apache APISIX 2.13.0 版本中，我们新增并完善了该功能。
+Apache APISIX has supported Wasm (Proxy Wasm SDK) since version 2.11, but the LTS version has not provided support for it. In this release of Apache APISIX 2.13.0, we have added and improved this feature.
 
-在经过半年超过 10000 行代码（包括测试和文档）的开发后，APISIX 现已全面支持在**处理请求头、请求体、响应头、响应体四个阶段运行 Wasm 代码**。2.13.0 版本是第一个支持 Wasm 的 LTS 版本，可以说是一个新的里程碑。
+After six months of development with over 10,000 lines of code (including testing and documentation), APISIX now has full support for running Wasm code in all four phases of **processing request headers, request bodies, response headers, and response bodies**. Apache APISIX 2.13.0 is the first LTS release to support Wasm, and we consider it as a milestone.
 
-除了 Wasm 之外，我们也正在开发传统的、基于 RPC 的多语言插件体系。不久之前，我们发布了 Python Runner 0.2.0 版本。几天后，我们也会发布 Go Runner 0.3.0 版本。
+In addition to Wasm, we are also working on a traditional, RPC-based multilingual plugin system. Not long ago, we released Python Runner version 0.2.0. In a few days, we will also release Go Runner 0.3.0.
 
-## Bug 修复
+## Bugfixes
 
-- SkyWalking 和 OpenTelemetry 没有追踪认证失败。
-- `log-rotate` 切割日志不支持按整点完成。
-- `deepcopy` 没有复制 `metatable`。
-- `request-validate` 对 JSON 里面重复键的处理 。
-- `prometheus` 重复计算指标。
-- 当 `conf.headers` 缺失时，`proxy-rewrite` 中的 `conf.method` 不生效 。
-- `traffic-split` 首条规则失败时无法匹配。
-- etcd 超时触发 `resync_delay` 。
-- `proto` 定义冲突。
-- `limit-count` 配置不变，重置计数器。
-- Admin API 的 `plugin-metadata` 和 `global-rule` 计数有误。
-- 合并 route 和 service 时 labels 丢失。
+- SkyWalking and OpenTelemetry do not track authentication failures.
+- `log-rotate` cutting logs do not support completion by whole point.
+- `deepcopy` does not copy `metatable`.
+- `request-validate` handling of duplicate keys in JSON.
+- `prometheus` duplicate calculation metrics.
+- `conf.method` in `proxy-rewrite` does not work when `conf.headers` is missing.
+- `traffic-split` fails to match when the first rule fails.
+- etcd timeout triggers `resync_delay`.
+- `proto` Definition conflict.
+- `limit-count` configuration remains unchanged and resets the counter.
+- Admin API's `plugin-metadata` and `global-rule` count incorrectly.
+- Labels are missing when merging route and service.
 
-## 更多细节
+## More Details
 
-除了上述功能和组件外，Apache APISIX 2.13.0 版本还更新了如下功能：
+In addition to the above features and components, Apache APISIX version 2.13.0 has been updated with the following features.
 
-- grpc-transcode 支持通过 `.pb` 文件处理带 import 的 proto 定义。
-- 支持从 K8s 配置中获取上游节点。
-- 新增 `csrf` 插件，提供跨站请求伪造防护。
-- 新增 `mocking` 插件，方便生成测试数据。
+- grpc-transcode support for processing proto definitions with import via `.pb` files.
+- Support for fetching upstream nodes from K8s configuration.
+- Added `csrf` plugin to provide protection against cross-site request forgery.
+- Add `mocking` plugin to generate test data easily.
