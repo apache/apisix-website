@@ -252,4 +252,4 @@ This article describes the detailed steps for interfacing Apache APISIX with Aut
 
 Apache APISIX is not only committed to maintaining its own high performance, but also has always attached great importance to the construction of open source ecology. At present, Apache APISIX has 10+ authentication authorization-related plug-ins that support interfacing with mainstream authentication authorization services in the industry.
 
-If you have a need to interface to other authentication authorities, visit Apache APISIX's [GitHub](https://github.com/apache/apisix/issues) and leave your suggestions via issue; or subscribe to Apache APISIX's [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to express your thoughts via email.
+If you have a need to interface to other authentication authorities, visit Apache APISIX's [GitHub](https://github.com/apache/apisix/issues) and leave your suggestions via issue; or subscribe to Apache APISIX's [mailing list](https://apisix.apache.org/zh/docs/general/join) to express your thoughts via email.

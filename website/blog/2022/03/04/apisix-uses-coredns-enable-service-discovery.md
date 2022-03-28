@@ -257,4 +257,4 @@ By verifying, we can find that the request has been redirected to the new addres
 
 This article mainly introduces the types of service discovery and how to use CoreDNS in Apache APISIX. You can use Apache APISIX and CoreDNS according to your business needs and past technical architecture.
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/join) to communicate.

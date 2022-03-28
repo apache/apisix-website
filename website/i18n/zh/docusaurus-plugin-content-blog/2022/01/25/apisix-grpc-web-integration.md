@@ -301,4 +301,4 @@ gRPC Web Client -> Apache APISIX（protocol conversion & data codec） -> gRPC s
 
 本文为大家带来了 Apache APISIX 的 `grpc-web` 插件讲解及实战案例。
 
-欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。

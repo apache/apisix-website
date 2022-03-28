@@ -38,7 +38,7 @@ module.exports = [
       },
       {
         label: "General",
-        to: "/docs/general/community",
+        to: "/docs/general/join",
       },
     ],
   },
@@ -75,16 +75,12 @@ module.exports = [
         label: "Plugin Hub",
       },
       {
-        to: "/docs/general/community",
+        to: "/docs/general/join",
         label: "Community"
       },
       {
         to: "/docs/general/events",
         label: "Events"
-      },
-      {
-        to: "/contribute",
-        label: "Contribute"
       }
     ]
   },

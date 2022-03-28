@@ -70,7 +70,7 @@ function Help(props) {
               <ChevronRight />
             </a>
             <a
-              href="https://apisix.apache.org/docs/general/community"
+              href="https://apisix.apache.org/docs/general/join"
               target="_blank"
             >
               Slack

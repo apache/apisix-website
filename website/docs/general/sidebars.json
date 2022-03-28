@@ -1,16 +1,27 @@
 {
   "docs": {
-    "General": [
-      "community",
+    "Community": [
+      "join",
       "events",
-      "contributor-guide",
-      "committer-guide",
-      "subscribe-guide",
-      "blog",
-      "security",
-      "2fa",
-      "release-guide",
-      "integrate-with-project-docs"
+      {
+        "type": "category",
+        "label": "Contribute to APISIX",
+        "items": [
+          "submit-issue",
+          "contributor-guide",
+          "blog",
+          "security",
+          "committer-guide"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Process and style guides",
+        "items": [
+          "documentation-guide",
+          "release-guide"
+        ]
+      }
     ]
   }
 }

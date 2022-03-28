@@ -320,7 +320,7 @@ services:
 
 Apache APISIX 在集成 OpenTelemetery 之后，借助 OpenTelemetry 丰富的插件能够与市场上大部分主流的 Trace 系统轻松实现对接。此外，Apache APISIX 也实现了 SkyWalking 和 Zipkin 原生标准协议插件，也在积极与各大社区合作打造更加强大的生态。
 
-Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
+Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流.
 
 ## 相关阅读
 

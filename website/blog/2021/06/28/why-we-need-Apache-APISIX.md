@@ -173,6 +173,6 @@ Unification itself is not the goal, but the benefits after unification is the lo
 
 - Company value: Unify technology stack, reduce company operation cost, reduce the difficulty of transitioning to microservices and cloud-native, and accelerate enterprise digital transformation.
 
-Last but not least is the APISIX [Slack channel](https://apisix.apache.org/docs/general/community#slack), any questions can be left here or on [Github issue](https://github.com/apache/apisix/issues), there will be someone to respond quickly, thanks again.
+Last but not least is the APISIX [Slack channel](https://apisix.apache.org/docs/general/join#slack), any questions can be left here or on [Github issue](https://github.com/apache/apisix/issues), there will be someone to respond quickly, thanks again.
 
 Click to watch the [video](https://www.bilibili.com/video/BV1w54y1V73Z?p=1&share_medium=android&share_plat=android&share_source=COPY&share_tag=s_i&timestamp=1621812452&unique_k=PEusrt)

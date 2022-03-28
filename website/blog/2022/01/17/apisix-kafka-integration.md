@@ -214,4 +214,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 In this article, we have introduced the feature preview and usage steps of the kafka-logger plugin. For more information about the kafka-logger plugin and the full configuration list, you can refer to the official documentation.
 
-We are also currently working on other logging plugins to integrate with more related services. If you're interested in such integration projects, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).
+We are also currently working on other logging plugins to integrate with more related services. If you're interested in such integration projects, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/join).

@@ -181,4 +181,4 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/azure-functions \
 
 ## Summary
 
-The `azure-functions` plugin is Apache APISIX's second plugin designed for serverless. We are developing other serverless plugins and will feature them with the upcoming Apache APISIX releases. If you are interested, please don't hesitate to [file an issue](https://github.com/apache/apisix/issues/new/choose) to share your opinions. You can talk about your proposals of developing a new plugin in our [mailing list](https://apisix.apache.org/docs/general/community) as well!
+The `azure-functions` plugin is Apache APISIX's second plugin designed for serverless. We are developing other serverless plugins and will feature them with the upcoming Apache APISIX releases. If you are interested, please don't hesitate to [file an issue](https://github.com/apache/apisix/issues/new/choose) to share your opinions. You can talk about your proposals of developing a new plugin in our [mailing list](https://apisix.apache.org/docs/general/join) as well!
