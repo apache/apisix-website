@@ -173,18 +173,18 @@ Apache APISIX 自 2.11 版本起开始支持 Wasm（Proxy Wasm SDK），但 LTS 
 
 ## Bug 修复
 
-- 修复 SkyWalking 和 OpenTelemetry 没有追踪认证失败的问题。
-- 修复 `log-rotate` 切割日志不支持按整点完成的问题。
-- 修复 `deepcopy` 没有复制 `metatable` 的问题。
-- 修复 `request-validate` 对 JSON 里面重复键的处理 。
-- 添加 `prometheus` 避免重复计算指标的修正。
-- 修复 `proxy-rewrite` 中，当 `conf.headers` 缺失时，`conf.method` 不生效的问题 。
-- 修复 `traffic-split` 首条规则失败时无法匹配的问题。
-- 修复 etcd 超时不应触发 `resync_delay` 的问题。
-- 解决 `proto` 定义冲突的问题。
-- 修复 `limit-count` 配置不变，不应重置计数器的问题。
-- 修复 Admin API 的 `plugin-metadata` 和 `global-rule` 计数有误的问题。
-- 解决合并 route 和 service 时 labels 丢失问题。
+- SkyWalking 和 OpenTelemetry 没有追踪认证失败。
+- `log-rotate` 切割日志不支持按整点完成。
+- `deepcopy` 没有复制 `metatable`。
+- `request-validate` 对 JSON 里面重复键的处理 。
+- `prometheus` 重复计算指标。
+- 当 `conf.headers` 缺失时，`proxy-rewrite` 中的 `conf.method` 不生效 。
+- `traffic-split` 首条规则失败时无法匹配。
+- etcd 超时触发 `resync_delay` 。
+- `proto` 定义冲突。
+- `limit-count` 配置不变，重置计数器。
+- Admin API 的 `plugin-metadata` 和 `global-rule` 计数有误。
+- 合并 route 和 service 时 labels 丢失。
 
 ## 更多细节
 
