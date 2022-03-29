@@ -4,6 +4,8 @@ import config from "../../docusaurus.config";
 
 
 (() => {
+  // dev mode
+  if (process.env.NODE_ENV === 'development') return;
   // not in browser
   if (!ExecutionEnvironment.canUseDOM) return;
 
@@ -117,14 +119,7 @@ import config from "../../docusaurus.config";
       })
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    window.addEventListener('DOMContentLoaded', ()=>{
-      bindEventToLangSwitch()
-      rebindWhenTitleChanged()
-    })
-  } else {
     bindEventToLangSwitch()
     rebindWhenTitleChanged()
-  }
-  redirect();
+    redirect();
 })();
