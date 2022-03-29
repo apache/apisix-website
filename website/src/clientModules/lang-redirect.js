@@ -118,7 +118,7 @@ import config from "../../docusaurus.config";
   }
 
   if (process.env.NODE_ENV === 'development') {
-    window.addEventListener('DOMContentedLoaded', ()=>{
+    window.addEventListener('DOMContentLoaded', ()=>{
       bindEventToLangSwitch()
       rebindWhenTitleChanged()
     })
