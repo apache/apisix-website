@@ -85,7 +85,7 @@ import config from "../../docusaurus.config";
 
   function bindEventToLangSwitch() {
     // add click event to locale menu
-    const dropDowns = document.querySelectorAll("div.navbar__item.dropdown > ul");
+    const dropDowns = document.querySelectorAll("div.navbar__items > div.dropdown.dropdown--right > ul");
     dropDowns[dropDowns.length - 1].addEventListener(
       "click",
       function clickEvent(e) {
