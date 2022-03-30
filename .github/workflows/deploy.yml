@@ -38,8 +38,7 @@ jobs:
 
       - name: Build
         run: |
-          yarn build
-          cp ./.asf.yaml ./build
+          yarn build && cp ./.asf.yaml ./website/build
 
       - name: Update sitemap.xml
         run: |
