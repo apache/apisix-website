@@ -215,7 +215,8 @@ const Features = () => {
           className="right-pane"
           style={{
             width: "50%",
-            height: "100vh",
+            height: "70vh",
+            top: "60px",
             position: "relative",
             overflow: "hidden",
             display: "flex",
