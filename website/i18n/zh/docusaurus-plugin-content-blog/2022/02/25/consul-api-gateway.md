@@ -247,4 +247,4 @@ hello web2%
 
 本文的前半部分介绍了 Apache APISIX 如何配合 Consul 实现基于 Consul KV 的服务发现注册中心，解决服务信息管理维护的问题。而在后半部分则着重介绍了如何在 Docker 中搭配 Consul 使用 Apache APISIX 的操作流程。当然，在实际场景中的应用，还需要各位读者根据业务使用场景和已有的系统架构具体分析。关于在 Apache APISIX 中使用 Consul 注册中心的更多说明，可以在[官方文档](https://apisix.apache.org/zh/docs/apisix/discovery/consul_kv/)中找到。
 
-Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
+Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流.

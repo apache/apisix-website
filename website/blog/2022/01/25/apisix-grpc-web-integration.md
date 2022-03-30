@@ -303,4 +303,4 @@ Next, simply enable the `grpc-web` plugin in the Apache APISIX routing plugin co
 
 This article brings you hands-on experience about using `grpc-web` in Apache APISIX.
 
-Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).
+Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/join).

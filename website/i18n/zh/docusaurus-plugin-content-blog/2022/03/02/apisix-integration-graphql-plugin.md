@@ -344,4 +344,4 @@ Apache APISIX 提供了包括但不仅限于 [`prometheus`](https://apisix.apach
 
 关于 GraphQL 的更多说明和完整配置信息，可参考 [Apache APISIX官方文档](https://apisix.apache.org/zh/docs/apisix/router-radixtree/#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87-graphql-%E5%B1%9E%E6%80%A7%E8%BF%87%E6%BB%A4%E8%B7%AF%E7%94%B1)。
 
-Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
+Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流.

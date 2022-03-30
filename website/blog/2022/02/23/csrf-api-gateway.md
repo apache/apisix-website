@@ -147,4 +147,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 This article describes in detail how the `csrf` plugin works and how to use it. We hope that this article can give you a clearer understanding of using the plugin to intercept CSRF attacks in Apache APISIX and facilitate its application in practical scenarios.
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/join) to communicate.

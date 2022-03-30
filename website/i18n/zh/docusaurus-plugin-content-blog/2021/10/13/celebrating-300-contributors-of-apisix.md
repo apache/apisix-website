@@ -48,6 +48,6 @@ Apache APISIX Ingress 项目每两周举办一次线上讨论，大家一同讨�
 - [Apache APISIX 社区周报 ｜ 2021 8.23-8.29](https://apisix.apache.org/zh/blog/2021/08/30/weekly-report)
 - [Apache APISIX 社区周报 ｜ 2021 8.16-8.22](https://apisix.apache.org/zh/blog/2021/08/23/weekly-report)
 
-你希望 Apache APISIX 社区举办什么活动？或者想成为某个活动的组织者/志愿者，欢迎在[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)讨论！
+你希望 Apache APISIX 社区举办什么活动？或者想成为某个活动的组织者/志愿者，欢迎在[邮件列表](https://apisix.apache.org/zh/docs/general/join)讨论！
 
 **社区大于代码**是 the Apache Way 中非常重要的准则，让我们一起秉承 the Apache Way，建设 Apache APISIX 以及 Apache APISIX 周边生态。Apache APISIX 社区，感恩有你；Apache APISIX 社区，也期待更多小伙伴加入。

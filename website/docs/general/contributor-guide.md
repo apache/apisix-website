@@ -1,33 +1,37 @@
 ---
 id: contributor-guide
-title: Contributor Guide
+title: Contributing flow
 keywords:
 - API gateway
 - APISIX
 - Apache APISIX
 - contributor guide
-description: This article is a set of guidelines for Apache APISIX contributors, including things that a contributor can do and how to do it well.
+description: Guidelines for Apache APISIX contributors.
 ---
 
-Please follow this guide to [report bugs](#submitting-an-issue), [submit suggestions](#submitting-an-issue), or [submit PRs](#open-a-pull-request).
+This document describes the general flow for contributing to APISIX repos.
 
-## Submitting an Issue
+## What can I contribute?
 
-Before submitting an issue, try solving the problem through a comprehensive search.
+Any and all forms of contributions are welcome! For example you can,
 
-[Open issues](https://github.com/apache/apisix/issues) and the [discussions forum](https://github.com/apache/apisix/discussions) are good places to search for solutions before opening an issue.
+- Fix issues tagged with "[good first issue](/docs/general/contributor-guide/#good-first-issues)" or "[help wanted](https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)" labels.
 
-1. Check the [open issues](https://github.com/apache/apisix/issues) to avoid duplication.
+- Join the discussions on the [mailing list](/docs/general/join/).
 
-2. Create a [new issue](https://github.com/apache/apisix/issues/new/choose) and choose the type of issue.
+- Answer questions in [issues](https://github.com/apache/apisix/issues) and [discussions](https://github.com/apache/apisix/discussions).
 
-3. Define the issue with a clear and descriptive title.
+- Review open [pull requests](https://github.com/apache/apisix/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
 
-4. Fill in necessary information according to the template.
+- Improve the website.
 
-5. Engage in the discussions in the issue and provide more information if necessary.
+- Improve documentation or write a blog post.
 
-## Choosing an Issue to Work On
+- Any other form of code or non-code contribution.
+
+If you would like to contribute, let us know by sending an email to dev@apisix.apache.org!
+
+## Choosing an issue to work on
 
 You can also contribute by fixing one of the [open issues](https://github.com/apache/apisix/issues).
 
@@ -37,28 +41,19 @@ You can also contribute by fixing one of the [open issues](https://github.com/ap
 
 3. Connect with a [Committer or PMC](/team) for providing feedback on your issue and reviewing your PR.
 
-### Good First Issues
+### Good first issues
 
-Issues labelled "good first issues" are low hanging fruits that are easy to fix. These issues can help you make your first contributions to Apache APISIX®.
+Issues labelled "good first issues" are low hanging fruits that are easy to fix. These issues can help you make your first contributions to APISIX.
 
-The list below contains such issues spanning across all the repos in Apache APISIX®.
+To start, you can go through this [curated list of "good first issues"](/contribute).
 
-- [Apache APISIX®](https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-- [Apache APISIX® Ingress Controller](https://github.com/apache/apisix-ingress-controller/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-- [Apache APISIX® dashboard](https://github.com/apache/apisix-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-- [Apache APISIX® Helm Chart](https://github.com/apache/apisix-helm-chart/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-- [Docker distribution for Apache APISIX®](https://github.com/apache/apisix-docker/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-- [Apache APISIX® Website](https://github.com/apache/apisix-website/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
-- [Apache APISIX® Java Plugin Runner](https://github.com/apache/apisix-java-plugin-runner/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
-- [Apache APISIX® Go Plugin Runner](https://github.com/apache/apisix-go-plugin-runner/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
-
-## Git Flow
+## Git flow
 
 To contribute code or documentation, setup your local machine for development.
 
 ### Fork the repo and clone your fork
 
-Fork the [Apache APISIX repo](https://github.com/apache/apisix/) and clone your fork to your local machine.
+Fork the [APISIX repo](https://github.com/apache/apisix/) and clone your fork to your local machine.
 
 ```sh
 git clone https://github.com/your-username/apisix.git
@@ -134,4 +129,24 @@ See [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow#
 
 5. Wait for your PR to be approved and merged.
 
-6. Congratulate yourself for being an official contributor of Apache APISIX®!
+6. Congratulate yourself for being an official contributor of Apache APISIX!
+
+## Two-Factor Authentication (2FA)
+
+Two-Factor Authentication (2FA) refers to the authentication method that combines both a password and an object (credit card, SMS, tokens, or biomarkers as fingerprint) to identify a user.
+
+To ensure the security of the committer’s account, we need you to [configure 2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) while signing in to contribute code on GitHub. For more details, please refer to [Securing your account with two-factor authentication (2FA)](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa).
+
+**Note**: If 2FA is not enabled, you are liable to be removed from the project and would not be able to access Apache APISIX's repositories.
+
+### Configuring 2FA on GitHub
+
+You can configure 2FA using a [mobile app](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app) or via [text message](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages).
+
+GitHub recommends using a time-based-one-time password (TOTP) mobile application to configure 2FA. Read [Configuring two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) for detailed information.
+
+### Submitting code
+
+After enabling 2FA, [create a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to perform Git operations.
+
+You can then use the username + personal access token combination in place of the username + password combination while pushing your code.

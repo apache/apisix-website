@@ -9,7 +9,7 @@ keywords:
 description: This article explains Apache APISIX's release flow and GPG Settings.
 ---
 
-## Release Flow
+## Release flow
 
 The release flow of Apache APISIX follows [GitLab flow](https://docs.gitlab.com/ee/topics/gitlab_flow.html), instead of Git flow or Github flow. Furthermore, [Release branches with GitLab flow](https://docs.gitlab.com/ee/topics/gitlab_flow.html#release-branches-with-gitlab-flow) is the preferred way. The chart below will take the release `v2.3` of [apache/apisix-dashboard](https://github.com/apache/apisix-dashboard) as an example to illustrate the details.
 
@@ -17,7 +17,7 @@ The release flow of Apache APISIX follows [GitLab flow](https://docs.gitlab.com/
 
 The entire flow is comprised of the following four phases.
 
-### Planning Phase
+### Planning phase
 
 This phase will decide if a feature is ready to be released as well as the release time.
 
@@ -25,14 +25,14 @@ This phase will decide if a feature is ready to be released as well as the relea
 - A discussion will be started on dev mailing list dev@apisix.apache.org for gathering ideas for the next release.
 - Maintainer team will then mark the issues and pull requests with the target milestone.
 
-### Development Phase
+### Development phase
 
 This phase is for developing new features and fixing bugs.
 
 - Maintainer team and contributors will work on the issues targeted to release milestone.
 - Every single new issue is required to be recognized if it should be included in the next release. If yes, the milestone needs to be set for the issue.
 
-### Release Phase
+### Release phase
 
 This phase will be throughout the entire Release Time Window.
 
@@ -42,11 +42,11 @@ This phase will be throughout the entire Release Time Window.
 - At the end of the Release Time Window, the `CHANGELOG` for the new release will be added.
 - Tag the last commit and release the assets via the following section [GPG Settings](#gpg-settings).
 
-### Maintenance Phase
+### Maintenance phase
 
 Once a version is released, it will enter the maintenance mode and will only accept the security and critical bug patches backported from the `master` branch. A new version will be released soon after significant bugs got fixed, with patch version increment (e.g. `2.3.1`). In this case, all users are recommended to upgrade to the latest release to avoid potential risk to the stability.
 
-## GPG Settings
+## GPG settings
 
 ### Install GPG
 
@@ -58,7 +58,7 @@ After the installation is complete, execute the following command to check the v
 $ gpg --version
 ```
 
-### Create Key
+### Create key
 
 Execute the following command to create the key:
 
@@ -163,7 +163,7 @@ uid Yuansheng Wang <membphis@apache.org>
 sub 4096R/3D2F913D 2020-01-02
 ```
 
-### Login id.apache.org and submit Key Fingerprint
+### Login id.apache.org and submit key fingerprint
 
 ### Add your GPG key to Apache svn
 
@@ -332,6 +332,6 @@ Invite [PMCs](https://apisix.apache.org/team/) to move KEYS and package under th
 
 The [Download](https://apisix.apache.org/downloads) page contains links for Apache APISIX, Apache APISIX Dashboard, and other sources, and we need to update its contents [here](https://github.com/apache/apisix-website/blob/master/website/docusaurus.config.js).
 
-### Send ANNOUNCE
+### Send announcement email
 
-Click [here](https://lists.apache.org/thread.html/r6e90ffb7964314605c082ac3ae204303ad94f0f71087542c33fcd7bf%40%3Cdev.apisix.apache.org%3E) to view the reference email send announce email to dev@apisix.apache.org and announce@apache.org
+Click [here](https://lists.apache.org/thread.html/r6e90ffb7964314605c082ac3ae204303ad94f0f71087542c33fcd7bf%40%3Cdev.apisix.apache.org%3E) to view the reference email send the announcement email to dev@apisix.apache.org and announce@apache.org

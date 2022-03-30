@@ -41,7 +41,7 @@ tags: [Events]
 如果你对 Apache APISIX 的技术方向感兴趣，希望一同开发，或者有其他建议或意见，可以通过以下渠道参与：
 
 1. 订阅并发送邮件至 dev@apisix.apache.org‍
-以 Apache Way 的方式参与社区，订阅方式见官网[订阅指南](https://apisix.apache.org/docs/general/subscribe-guide)。邮件列表是 Apache 社区最常用的沟通方式，社区会积极回复邮件列表中的问题。
+以 Apache Way 的方式参与社区，订阅方式见官网[订阅指南](https://apisix.apache.org/docs/general/join)。邮件列表是 Apache 社区最常用的沟通方式，社区会积极回复邮件列表中的问题。
 
 2. 在 Apache APISIX Github discussion 发起讨论
 欢迎大家在 GitHub discussion 讨论，[discussion](https://github.com/apache/apisix/discussions) 区非常活跃哦。我们也会不定期的将一些常见问题在 discussion 中进行汇总和答复，方便大家查找。

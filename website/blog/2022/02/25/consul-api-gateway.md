@@ -252,4 +252,4 @@ The first half of this article describes how Apache APISIX works with Consul to 
 
 More instructions on using the Consul registry in Apache APISIX can be found in the [official documentation](https://apisix.apache.org/docs/apisix/discovery/consul_kv/).
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide) to communicate.
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join) to communicate.

@@ -1,6 +1,6 @@
 ---
 id: blog
-title: Blog Contributing Guide
+title: Contribute a blog post
 keywords:
 - API gateway
 - APISIX
@@ -10,11 +10,9 @@ keywords:
 description: This article contains guidelines for contributors who want to write/update blogs posts on the Apache APISIX website.
 ---
 
-## Overview
-
 Please follow this guide while writing/updating [blog posts](/blog/) on the Apache APISIX website.
 
-Please [submit an issue](/docs/general/contributor-guide/#submitting-an-issue) if you find any issues in the published blog posts. Also feel free to [open a pull request](/docs/general/contributor-guide/#open-a-pull-request) to fix the issue yourself.
+Please [submit an issue](/docs/general/submit-issue) if you find any issues in the published blog posts. Also feel free to [open a pull request](/docs/general/contributor-guide/#open-a-pull-request) to fix the issue yourself.
 
 The blogs are written in both [English](/blog/) and [Chinese](/zh/blog/). Contributors are encouraged to write blogs in their preferred language. Translations can be handled later and you can review the pull request.
 
@@ -24,7 +22,7 @@ For example, `website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-k
 
 Similarly, Chinese blogs are located in `website/i18n/zh/docusaurus-plugin-content-blog` directory and follow the same patterns described above.
 
-## Areas to Contribute
+## Areas to contribute
 
 You are encouraged to write blogs posts about how you use Apache APISIX or how you are contributing to Apache APISIX.
 
@@ -193,7 +191,3 @@ You can also make impactful contributions by fixing/updating the existing blog p
 1. To start, locate the file for the blog post. Note that English blogs are located in the `website/blog` directory and the Chinese blogs are located in `website/i18n/zh/docusaurus-plugin-content-blog` directory.
 2. Once you locate the file, make the necessary changes.
 3. [Open a pull request](/docs/general/contributor-guide/#open-a-pull-request) with the updated blog post.
-
-## Contributing Guide
-
-Please make sure you follow the [Contributor Guide](/docs/general/contributor-guide/) while you contribute blog posts.

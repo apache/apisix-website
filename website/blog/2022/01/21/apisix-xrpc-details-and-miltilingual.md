@@ -138,4 +138,4 @@ This article brings you the upcoming release of the xRPC framework for Apache AP
 
 The article also shows the details of Apache APISIX's multilanguage development support. It shows the ecology-oriented efforts of Apache APISIX from both the multiprotocol proxy and multilanguage support perspectives.
 
-Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).
+Feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/join).

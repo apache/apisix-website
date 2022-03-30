@@ -342,4 +342,4 @@ This article briefly introduces the application of GraphQL in Apache APISIX, and
 
 For more instructions and complete configuration information about GraphQL, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/router-radixtree/#how-to-filter-route-by-graphql-attributes).
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide) to communicate.
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join) to communicate.

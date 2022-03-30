@@ -183,7 +183,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 ## Summary
 
-Apache APISIX is also currently working on additional plugins to support integration with more services, so if you're interested, feel free to start a discussion thread in our [GitHub Discussion](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).
+Apache APISIX is also currently working on additional plugins to support integration with more services, so if you're interested, feel free to start a discussion thread in our [GitHub Discussion](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/zh/docs/general/join).
 
 ## Related articles
 

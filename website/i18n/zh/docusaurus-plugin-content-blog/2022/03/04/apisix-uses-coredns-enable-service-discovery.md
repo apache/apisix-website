@@ -258,4 +258,4 @@ app.listen(3005);
 
 本文主要介绍了服务发现的类型以及在 Apache APISIX 中如何使用 CoreDNS。您可以根据自身的业务需求和过往技术架构使用 Apache APISIX 与 CoreDNS。
 
-Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流。
+Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流。

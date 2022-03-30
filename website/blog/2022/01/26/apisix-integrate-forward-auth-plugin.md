@@ -99,4 +99,4 @@ Thanks to the dynamic nature of Apache APISIX, there is no need to restart Apach
 
 To get more information about the `forward-auth` plugin description and full configuration list, you can refer to the [official documentation](https://apisix.apache.org/docs/apisix/next/plugins/forward-auth). Also, if you have more complex authentication or authorization application scenarios, try using the `opa` plugin, which allows for more powerful functionality in a programmable way.
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list]( https://apisix.apache.org/zh/docs/general/subscribe-guide) to communicate.
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list]( https://apisix.apache.org/zh/docs/general/join) to communicate.

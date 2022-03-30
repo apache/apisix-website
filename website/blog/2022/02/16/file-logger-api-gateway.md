@@ -351,7 +351,7 @@ This concludes the plugin addition test session.
 
 The above is the whole process of implementing an Apache APISIX plugin from 0 as a newbie in the backend. I did encounter a lot of pitfalls in the process of developing the plugin, but luckily there are many enthusiastic brothers in the Apache APISIX community to help me solve the problems, which made the development and testing of the file-logger plugin relatively smooth throughout. If you are interested in this plugin, or want to see the details of the plugin, you can refer to the [official Apache APISIX documentation](https://apisix.apache.org/docs/apisix/next/plugins/file-logger/).
 
-Apache APISIX is also currently working on other plugins to support more integration services, so if you're interested, feel free to start a discussion in the [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide).
+Apache APISIX is also currently working on other plugins to support more integration services, so if you're interested, feel free to start a discussion in the [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join).
 
 ## References
 

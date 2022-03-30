@@ -1,7 +1,7 @@
 
 # Apache APISIX® Website
 
-[<img align="right" width="150" src="./website/static/img/join-slack.png">](https://apisix.apache.org/docs/general/community)
+[<img align="right" width="150" src="./website/static/img/join-slack.png">](https://apisix.apache.org/docs/general/join)
 
 The website of [Apache APISIX®](https://apisix.apache.org/), a cloud-native microservices api gateway.
 
