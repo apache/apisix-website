@@ -310,10 +310,6 @@ module.exports = {
             from: ['/docs/general/community', '/docs/general/subscribe-guide'],
             to: '/docs/general/join',
           },
-          {
-            from: '/docs/general/submit-issue',
-            to: '/docs/general/contributor-guide',
-          },
         ]
       }
     ]
