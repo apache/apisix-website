@@ -1,0 +1,12 @@
+/website/src/static/js/**/*.js
+/website/src/assets
+/website/src/fonts
+/website/src/shaders
+/website/.docusaurus
+/website/articles
+/website/blog
+/website/build
+/website/docs
+/website/docs-apisix*
+/website/i18n
+yarn.lock
