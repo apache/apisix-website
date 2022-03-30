@@ -12,7 +12,8 @@
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
     "update-sitemap": "yarn workspace scripts update-sitemap",
     "build": "yarn workspace website build",
-    "docusaurus": "yarn workspace website docusaurus"
+    "docusaurus": "yarn workspace website docusaurus",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -22,11 +23,16 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.3.0"
-  },
-  "dependencies": {
+    "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-yml": "^0.14.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "stylelint": "^14.6.1",
     "stylelint-config-standard": "^25.0.0"
+  },
+  "lint-staged": {
+    "*.{js, jsx, ts, tsx}": "eslint --cache --fix",
+    "*.{yml, yaml}": "eslint --cache --fix",
+    "*.css": "stylelint --cache --fix"
   }
 }
