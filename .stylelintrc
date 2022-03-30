@@ -1,0 +1,8 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "selector-type-case": "lower",
+    "selector-class-pattern": null,
+    "property-no-vendor-prefix": true
+  }
+}
