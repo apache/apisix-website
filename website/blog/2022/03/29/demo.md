@@ -23,7 +23,7 @@ tags: [Release]
 
 <!--truncate-->
 
-It has been more than half a year since the last LTS release of Apache APISIX, and today the Apache APISIX community is bringing a new LTS release, 2.13.0, which is not only more stable, but also supports more observability and service discovery plugins, and a more complete multilingual development system.
+test.
 
 If you're trying to find a balance between stability and new features, Apache APISIX 2.13.0 is an ideal choice. Since 2.13.0 is a LTS version, we will release a series of patch releases based on 2.13.0.
 
