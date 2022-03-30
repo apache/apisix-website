@@ -41,7 +41,7 @@ We welcome you to join us to discuss the Apache APISIX Ingress solution, and we 
 If you are interested in the technical direction of Apache APISIX, want to develop it together, or have other suggestions or comments, you can participate through the following channels: 1.
 
 1. subscribe and send an email to dev@apisix.apache.org
-Participate in the community the Apache Way way by subscribing to the [Subscription Guide](https://apisix.apache.org/docs/general/subscribe-guide). The mailing list is the most common way for the Apache community to communicate, and the community will actively respond to questions on the mailing list.
+Participate in the community the Apache Way way by subscribing to the [Subscription Guide](https://apisix.apache.org/docs/general/join). The mailing list is the most common way for the Apache community to communicate, and the community will actively respond to questions on the mailing list.
 
 2. Start a discussion in the Apache APISIX Github discussion
 The [discussion](https://github.com/apache/apisix/discussions) area is very active. From time to time, we'll also include a summary of frequently asked questions in the discussion to make them easier to find.

@@ -183,4 +183,4 @@ A test body
 
 本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，更多关于 `openwhisk` 插件说明和完整配置列表，可以参考[官方文档](https://apisix.apache.org/docs/apisix/next/plugins/openwhisk)。
 
-目前，我们也在开发其他 Serverless 插件以便与更多云服务进行集成。如果您对此类集成项目感兴趣，也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+目前，我们也在开发其他 Serverless 插件以便与更多云服务进行集成。如果您对此类集成项目感兴趣，也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。

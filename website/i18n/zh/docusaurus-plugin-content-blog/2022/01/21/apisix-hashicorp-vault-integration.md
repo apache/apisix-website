@@ -375,7 +375,7 @@ $ curl http://127.0.0.1:9080/apisix/admin/consumers -H 'X-API-KEY: edd1c9f034335
 
 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。
 
-欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。
 
 ## Reference
 

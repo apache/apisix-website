@@ -263,4 +263,4 @@ Spring Cloud 是一个广受用户欢迎的微服务框架，而 Apache APISIX �
 
 关于 `eureka` 插件的更多说明和完整配置信息，可参考 [Apache APISIX 官网文档](https://apisix.apache.org/zh/docs/apisix/discovery#%E5%A6%82%E4%BD%95%E6%89%A9%E5%B1%95%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%EF%BC%9F)。
 
-Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
+Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流.

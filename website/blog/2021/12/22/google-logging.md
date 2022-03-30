@@ -199,7 +199,7 @@ This article describes the detailed steps for interfacing Apache APISIX and Goog
 
 Apache APISIX is not only committed to maintaining its own high performance, but also has always attached great importance to the construction of open source ecology. At present, Apache APISIX has 10+ logging-related plugins and supports interfacing with mainstream open source logging projects in the industry.
 
-If you have a need to interface to other logs, visit Apache APISIX's [GitHub](https://github.com/apache/apisix/issues) and leave your suggestions via issue; or subscribe to the Apache APISIX [mailing list](https://apisix.apache.org/docs/general/subscribe-guide/) and express your thoughts via email.
+If you have a need to interface to other logs, visit Apache APISIX's [GitHub](https://github.com/apache/apisix/issues) and leave your suggestions via issue; or subscribe to the Apache APISIX [mailing list](https://apisix.apache.org/docs/general/join/) and express your thoughts via email.
 
 ## Related articles
 

@@ -263,4 +263,4 @@ Spring Cloud is a popular microservice framework, and Apache APISIX provides the
 
 For more instructions and complete configuration information about the `eureka` plugin, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/discovery/eureka/).
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide) to communicate.
+Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join) to communicate.

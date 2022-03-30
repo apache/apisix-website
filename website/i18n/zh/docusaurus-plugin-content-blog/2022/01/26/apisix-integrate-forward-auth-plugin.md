@@ -97,4 +97,4 @@ Location: https://example.com/auth
 
 想要获取更多关于 `forward-auth` 插件说明和完整配置列表，可参考[官方文档](https://apisix.apache.org/docs/apisix/next/plugins/forward-auth)。同时，如果您有更加复杂的认证或授权应用场景，也可以尝试使用 `opa` 插件，该插件允许以可编程的方式提供更强大的功能。
 
-目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 [GitHub Discussion](https://github.com/apache/apisix/discussions) 中发起讨论，也可通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 [GitHub Discussion](https://github.com/apache/apisix/discussions) 中发起讨论，也可通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。

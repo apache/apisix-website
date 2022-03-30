@@ -254,4 +254,4 @@ curl  -XPOST 127.0.0.1:9080/apisix/admin/routes -H "X-Api-Key: edd1c9f034335f136
 
 Apache APISIX 不仅致力于保持自身的高性能，也一直非常重视开源生态的建设。目前 Apache APISIX 已经拥有了 10+ 个认证授权相关的插件，支持与业界主流的认证授权服务对接。
 
-如果你有对接其他认证授权的需求，不妨访问 Apache APISIX 的 [GitHub](https://github.com/apache/apisix/issues)，通过 issue 留下你的建议；或订阅 Apache APISIX 的[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)，通过邮件表达你的想法。
+如果你有对接其他认证授权的需求，不妨访问 Apache APISIX 的 [GitHub](https://github.com/apache/apisix/issues)，通过 issue 留下你的建议；或订阅 Apache APISIX 的[邮件列表](https://apisix.apache.org/zh/docs/general/join)，通过邮件表达你的想法。

@@ -214,4 +214,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 本文为大家介绍了关于 kafka-logger 插件的功能前瞻与使用步骤，更多关于 kafka-logger 插件说明和完整配置列表，可以参考官方文档。
 
-也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。

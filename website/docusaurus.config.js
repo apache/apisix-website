@@ -301,7 +301,18 @@ module.exports = {
         },
       },
     ],
-    ['docusaurus-plugin-sass', {}]
+    ['docusaurus-plugin-sass', {}],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: ['/docs/general/community', '/docs/general/subscribe-guide'],
+            to: '/docs/general/join',
+          },
+        ]
+      }
+    ]
   ],
   themeConfig: {
     navbar: {
@@ -353,7 +364,7 @@ module.exports = {
             },
             {
               label: "Slack",
-              to: "https://apisix.apache.org/docs/general/community",
+              to: "https://apisix.apache.org/docs/general/join",
             },
             {
               label: "Twitter",
@@ -385,7 +396,7 @@ module.exports = {
       backgroundColor: "#e8433e",
       textColor: 'white',
       content:
-        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://apisix.apache.org/docs/general/community">join #apisix channel</a>! ⭐️',
+        '\u{1F914} Have queries regarding apache APISIX, Join slack channel to discuss them <a target="_blank" rel="noopener noreferrer" href="https://apisix.apache.org/docs/general/join">join #apisix channel</a>! ⭐️',
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),

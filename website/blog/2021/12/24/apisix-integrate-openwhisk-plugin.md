@@ -184,4 +184,4 @@ Thanks to the dynamic advantage of Apache APISIX, the process of turning on and 
 
 In this article, we have introduced the feature preview and usage steps of `openwhisk` plugin. For more information about `openwhisk` plugin description and full configuration list, please refer to the [official documentation](https://apisix.apache.org/docs/apisix/next/plugins/openwhisk).
 
-Currently, we are also developing other Serverless plugins to integrate with more cloud services. If you're interested in such integration projects, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/docs/general/subscribe-guide/).
+Currently, we are also developing other Serverless plugins to integrate with more cloud services. If you're interested in such integration projects, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via the [mailing list](https://apisix.apache.org/docs/general/join/).

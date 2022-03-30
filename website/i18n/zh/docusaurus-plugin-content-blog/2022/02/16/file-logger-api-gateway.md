@@ -351,7 +351,7 @@ property "path" is required
 
 以上就是我作为一个后端新手，从 0 开始实现一款 Apache APISIX 插件的全过程。在开发插件的过程中确实碰到了很多坑，比较幸运的是 Apache APISIX 社区里面有很多热心的大佬帮我解惑，使得 `file-logger` 插件的开发和测试全程都比较顺畅。如果你对这个插件感兴趣，或想要查看插件详情，可以参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/file-logger/)。
 
-目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 [GitHub Discussion](https://github.com/apache/apisix/discussions) 中发起讨论，也可通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流讨论。
+目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 [GitHub Discussion](https://github.com/apache/apisix/discussions) 中发起讨论，也可通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流讨论。
 
 ## 参考资料
 

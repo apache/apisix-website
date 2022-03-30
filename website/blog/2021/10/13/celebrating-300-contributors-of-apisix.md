@@ -48,6 +48,6 @@ Past recommendations.
 - [Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29](https://apisix.apache.org/zh/blog/2021/08/30/weekly-report)
 - [Apache APISIX Community Weekly Report ｜ 2021 8.16-8.22](https://apisix.apache.org/zh/blog/2021/08/23/weekly-report)
 
-What kind of events do you want the Apache APISIX community to organize? Or want to be an organizer/volunteer for an event, feel free to discuss it on the [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide)!
+What kind of events do you want the Apache APISIX community to organize? Or want to be an organizer/volunteer for an event, feel free to discuss it on the [mailing list](https://apisix.apache.org/zh/docs/general/join)!
 
 Apache APISIX community is thankful to have you, and we are looking forward to more people joining the Apache APISIX community. The Apache APISIX community is grateful to have you.

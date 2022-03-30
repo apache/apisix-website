@@ -181,4 +181,4 @@ curl http://127.0.0.1:9080/apisix/admin/plugin_metadata/azure-functions \
 
 ## 总结
 
-`azure-functions` 插件是 Apache APISIX 为 serverless 设计的第二个插件。我们正在开发其他 serverless 插件，并会在即将发布的 Apache APISIX 版本中介绍这些插件。如果大家感兴趣，请[提交 Issue](https://github.com/apache/apisix/issues/new/choose)来分享你的意见，也可以在我们的[邮件列表](https://apisix.apache.org/docs/general/community)中分享开发新插件的建议!
+`azure-functions` 插件是 Apache APISIX 为 serverless 设计的第二个插件。我们正在开发其他 serverless 插件，并会在即将发布的 Apache APISIX 版本中介绍这些插件。如果大家感兴趣，请[提交 Issue](https://github.com/apache/apisix/issues/new/choose)来分享你的意见，也可以在我们的[邮件列表](https://apisix.apache.org/docs/general/join)中分享开发新插件的建议!

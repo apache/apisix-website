@@ -4,6 +4,8 @@ import config from "../../docusaurus.config";
 
 
 (() => {
+  // dev mode
+  if (process.env.NODE_ENV === 'development') return;
   // not in browser
   if (!ExecutionEnvironment.canUseDOM) return;
 
@@ -86,18 +88,20 @@ import config from "../../docusaurus.config";
   function bindEventToLangSwitch() {
     // add click event to locale menu
     const dropDowns = document.querySelectorAll("div.navbar__items > div.dropdown.dropdown--right > ul");
-    dropDowns[dropDowns.length - 1].addEventListener(
-      "click",
-      function clickEvent(e) {
-        e.preventDefault();
+    if (dropDowns.length) {
+      dropDowns[dropDowns.length - 1].addEventListener(
+        "click",
+        function clickEvent(e) {
+          e.preventDefault();
 
-        const lang = localeLabelMap[e.target.textContent] || defaultLang;
-        if (localStorage.getItem(storeKey) !== lang) {
-          localStorage.setItem(storeKey, lang);
+          const lang = localeLabelMap[e.target.textContent] || defaultLang;
+          if (localStorage.getItem(storeKey) !== lang) {
+            localStorage.setItem(storeKey, lang);
+          }
+          redirect();
         }
-        redirect();
-      }
-    );
+      );
+    }
   }
 
   // because of SPA, if the location changed (in site, no redirect), the above click event will also be cleared
@@ -106,13 +110,16 @@ import config from "../../docusaurus.config";
   // were browsed, but not fix the problem
   // now, the solution is observing the head.title
   // the code inspired by https://stackoverflow.com/a/29540461
-  new MutationObserver(bindEventToLangSwitch)
-    .observe(document.querySelector('title'), {
-      subtree: true,
-      characterData: true,
-      childList: true
-    })
+  function rebindWhenTitleChanged() {
+    new MutationObserver(bindEventToLangSwitch)
+      .observe(document.querySelector('title'), {
+        subtree: true,
+        characterData: true,
+        childList: true
+      })
+  }
 
-  bindEventToLangSwitch()
-  redirect();
+    bindEventToLangSwitch()
+    rebindWhenTitleChanged()
+    redirect();
 })();

@@ -132,4 +132,4 @@ APISIX 一旦感知到 Runner 中的 `response` 对象被操作就会立即终�
 
 ## 总结
 
-本文为大家带来了 Apache APISIX 即将发布的 xRPC 框架以及相关细节，同时介绍了 Apache APISIX 在多语言开发支持中的细节展示。通过多协议代理与多语言支持两个角度，充分展示了 Apache APISIX 在面向生态的多项努力。也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/subscribe-guide)进行交流。
+本文为大家带来了 Apache APISIX 即将发布的 xRPC 框架以及相关细节，同时介绍了 Apache APISIX 在多语言开发支持中的细节展示。通过多协议代理与多语言支持两个角度，充分展示了 Apache APISIX 在面向生态的多项努力。也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。

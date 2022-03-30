@@ -196,4 +196,4 @@ Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项�
 
 关于 `nacos` 插件的更多说明和完整配置信息，可参考 [Apache APISIX 官方文档](https://apisix.apache.org/zh/docs/apisix/discovery/nacos)。
 
-Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/subscribe-guide)进行交流.
+Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流.

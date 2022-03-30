@@ -49,7 +49,7 @@ const HomeEventsSection = () => {
           Stay up to date about all Apache APISIX™ News, subscribe to our{" "}
           <a hred="%">newsletter.</a>
         </p>
-        <a className="news-button" href="/docs/general/subscribe-guide">
+        <a className="news-button" href="/docs/general/join">
           Subscribe
         </a>
       </div>

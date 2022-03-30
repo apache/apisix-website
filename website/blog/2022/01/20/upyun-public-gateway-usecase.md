@@ -121,4 +121,4 @@ At the same time, the high scalability of open source also brings developers mor
 
 We hope that this series of user cases will provide some ideas and directions for you in the process of gateway selection.We hope that this series of user cases will provide some ideas and directions for you in the gateway selection process.
 
-At the same time, Apache APISIX also welcomes users who are using APISIX to actively participate in sharing related user cases and practices, and feel free to start discussions in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via [mailing list](https://apisix.apache.org/zh/docs/general/subscribe-guide).
+At the same time, Apache APISIX also welcomes users who are using APISIX to actively participate in sharing related user cases and practices, and feel free to start discussions in [GitHub Discussions](https://github.com/apache/apisix/discussions) or communicate via [mailing list](https://apisix.apache.org/zh/docs/general/join).
