@@ -83,5 +83,12 @@ module.exports = {
         amd: true,
       },
     },
+    {
+      files: ['*.yaml', '*.yml'],
+      extends: [
+        'plugin:yml/standard',
+      ],
+      parser: 'yaml-eslint-parser',
+    },
   ],
 };

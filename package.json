@@ -25,6 +25,7 @@
     "eslint-plugin-react-hooks": "^4.3.0"
   },
   "dependencies": {
+    "eslint-plugin-yml": "^0.14.0",
     "stylelint": "^14.6.1",
     "stylelint-config-standard": "^25.0.0"
   }
