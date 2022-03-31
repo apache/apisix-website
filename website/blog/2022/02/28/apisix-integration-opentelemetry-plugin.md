@@ -23,6 +23,10 @@ tags: [Technology,Ecosystem,Observability]
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://opentelemetry.io/blog/2022/apisix/" />
+</head>
+
 ## Background Information
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.
