@@ -593,8 +593,9 @@ a:hover {
 
 .imagePosition {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 30px;
+  max-width: none;
 }
 
 .i-text-col {
