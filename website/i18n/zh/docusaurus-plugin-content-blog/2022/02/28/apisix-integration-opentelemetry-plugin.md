@@ -186,7 +186,7 @@ docker-compose up -d
 
 ![error/Architecture diagram.png](https://static.apiseven.com/202108/1646040225319-819f10ab-9643-4bd7-8f99-07f9a6c84bf8.png)
 
-Trace 数据上报流程如下。其中由于 Apache APISIX 是单独部署的，并不在 `docker-compose` 的网络内，所以 Apache APISIX 是通过本地映射的端口（即 `127.0.0.1:4138`）访问到 OpenTelemetery Collector 的 OTLP HTTP Receiver 的。
+Trace 数据上报流程如下。其中由于 Apache APISIX 是单独部署的，并不在 `docker-compose` 的网络内，所以 Apache APISIX 是通过本地映射的端口（即 `127.0.0.1:4138`）访问到 OpenTelemetry Collector 的 OTLP HTTP Receiver 的。
 
 ![error/Trace data reporting process.png](https://static.apiseven.com/202108/1646040470172-4d44c6ca-b890-4245-9c87-3a42d8b59f47.png)
 
@@ -300,7 +300,7 @@ services:
 
 需要注意，`demo-client.environment.DEMO_SERVER_ENDPOINT` 处需要改为您的 Apache APISIX 地址，且保证在容器内可以正常访问。
 
-当然，您也可以通过 `docekr-compose.yaml` 部署 Apache APISIX ，具体可以参考 [Apache APISIX 官方文档](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md)。
+当然，您也可以通过 `docker-compose.yaml` 部署 Apache APISIX ，具体可以参考 [Apache APISIX 官方文档](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md)。
 
 #### 步骤三：测试
 
@@ -318,7 +318,7 @@ services:
 
 ## 总结
 
-Apache APISIX 在集成 OpenTelemetery 之后，借助 OpenTelemetry 丰富的插件能够与市场上大部分主流的 Trace 系统轻松实现对接。此外，Apache APISIX 也实现了 SkyWalking 和 Zipkin 原生标准协议插件，也在积极与各大社区合作打造更加强大的生态。
+Apache APISIX 在集成 OpenTelemetry 之后，借助 OpenTelemetry 丰富的插件能够与市场上大部分主流的 Trace 系统轻松实现对接。此外，Apache APISIX 也实现了 SkyWalking 和 Zipkin 原生标准协议插件，也在积极与各大社区合作打造更加强大的生态。
 
 Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 [GitHub Discussions](https://github.com/apache/apisix/discussions) 发起讨论，或通过[邮件列表](https://apisix.apache.org/docs/general/join)进行交流.
 

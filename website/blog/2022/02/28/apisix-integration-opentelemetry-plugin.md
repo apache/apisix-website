@@ -186,7 +186,7 @@ The Apache APISIX service is introduced, and the topology of the final applicati
 
 ![error/Architecture diagram.png](https://static.apiseven.com/202108/1646040225319-819f10ab-9643-4bd7-8f99-07f9a6c84bf8.png)
 
-The Trace data reporting process is as follows. Among them, since Apache APISIX is deployed separately and not in the network of docker-compose, Apache APISIX accesses the OTLP HTTP Receiver of OpenTelemetery Collector through the locally mapped port (`127.0.0.1:4138`).
+The Trace data reporting process is as follows. Among them, since Apache APISIX is deployed separately and not in the network of docker-compose, Apache APISIX accesses the OTLP HTTP Receiver of OpenTelemetry Collector through the locally mapped port (`127.0.0.1:4138`).
 
 ![error/Trace data reporting process.png](https://static.apiseven.com/202108/1646040470172-4d44c6ca-b890-4245-9c87-3a42d8b59f47.png)
 
@@ -300,7 +300,7 @@ services:
 
 It should be noted that demo-client.environment.DEMO_SERVER_ENDPOINT needs to be changed to your Apache APISIX address, and ensure that it can be accessed normally in the container.
 
-Of course, you can also deploy Apache APISIX through docekr-compose.yaml. For details, please refer to the [Apache APISIX official documentation](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md).
+Of course, you can also deploy Apache APISIX through `docker-compose.yaml`. For details, please refer to the [Apache APISIX official documentation](https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md).
 
 #### Step 3: Test
 
@@ -318,7 +318,7 @@ You can only remove the configuration of the `opentelemetry` global plugin if yo
 
 ## Summary
 
-After Apache APISIX integrates OpenTelemetery, it can easily connect with most mainstream Trace systems on the market with the help of OpenTelemetry's rich plug-ins. In addition, Apache APISIX has also implemented SkyWalking and Zipkin native standard protocol plug-ins, and is also actively cooperating with major communities to create a more powerful ecosystem.
+After Apache APISIX integrates OpenTelemetry, it can easily connect with most mainstream Trace systems on the market with the help of OpenTelemetry's rich plug-ins. In addition, Apache APISIX has also implemented SkyWalking and Zipkin native standard protocol plug-ins, and is also actively cooperating with major communities to create a more powerful ecosystem.
 
 Apache APISIX is also currently working on additional plugins to support integration with more services, so if you're interested, feel free to start a discussion thread in our GitHub Discussion or communicate via the mailing list.
 
