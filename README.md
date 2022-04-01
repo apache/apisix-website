@@ -42,6 +42,12 @@ then build script.
 
 Now the main fun begins!! we will be using docusaurus for running and delployng our website on local server.
 
+One can run , 
+```sh
+$ yarn start
+```
+to start server or
+
 - To start the server on a specified port say ```3000``` try ,
 ```sh
 
