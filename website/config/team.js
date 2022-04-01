@@ -277,6 +277,12 @@ module.exports = [
         githubUsername: 'Baoyuantop',
         avatarUrl: 'https://avatars.githubusercontent.com/u/30611190?v=4',
       },
+      {
+        name: 'Qi Guo',
+        username: 'guoqqqi',
+        githubUsername: 'guoqqqi',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/72343596?v=4',
+      },
     ],
   },
 ];
