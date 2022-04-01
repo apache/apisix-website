@@ -1,6 +1,6 @@
 ---
-title: First-Hand Experience with Apache APISIX Shared by Student Participants in OSPP 2020
-slug: /blog/2021/06/03/experience-from-ospp-2020-student-participants-and-apache-apisix-committers
+title: Firsthand Experience with Apache APISIX Shared by Student Participants in OSPP 2020
+slug: /blog/2021/06/03/firsthand-experience-with-apache-apisix-from-ospp-2020-students
 author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
@@ -37,7 +37,7 @@ tags: [Interview]
 
 ![join opensource](https://static.apiseven.com/202108/1630546703021-d63457b1-4068-45da-8bde-aa9c708c6793.png)
 
-**Shuyang**: Before I got involved with APISIX last year, I had no knowledge of the technology stacks required for the project, including Lua, OpenResty, etcd, and even API gateways, but I got up to speed very quickly. I was able to run a few demos with the help of the documentation, and I was able to get started with Lua in half a day. Here I'd like to share with you two must-have materials for new OpenResty learners, namely a free e-book and a series of paid courses on the GeekTime App, both created by WEN Ming, the PMC Chair of Apache APISIX. These two materials did help me a lot. 
+**Shuyang**: Before I got involved with APISIX last year, I knew nothing about the technology stacks required for the project, including Lua, OpenResty, etcd, and even API gateways, but I got up to speed very quickly. I was able to run a few demos with the help of the documentation, and I was able to get started with Lua in half a day. Here I'd like to share with you two must-have materials for new OpenResty learners, namely a free e-book and a series of paid courses on the GeekTime App, both created by WEN Ming, the PMC Chair of Apache APISIX. These two materials did help me a lot.
 
 **Q: What is your biggest takeaway from being a part of the Apache APISIX project?**
 
