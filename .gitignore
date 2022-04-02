@@ -31,3 +31,4 @@ tmp/*
 .netlify
 
 scripts/yarn.lock
+/.eslintcache
