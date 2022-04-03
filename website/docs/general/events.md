@@ -25,9 +25,105 @@ that have a specific focus on Apache APISIX.
 * **Dates:** from 2022-06-29 to 2022-07-02
 * **Location:** Berlin, Germany
 
+#### [DevDays](https://devdays.lt/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 04-26-22 to 04-28-22
+* **Location** Lithuania
+
+#### [SciFiDevCon](https://www.scifidevcon.com/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 05-01-22 to 05-31-22
+* **Location** Online
+
+#### [GeeCon](https://2022.geecon.org/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 05-11-22 to 05-13-22
+* **Location** Poland
+
+#### [Cloud Native Rejekts](https://cloud-native.rejekts.io/)
+
+* **Topic** Plugin Orchestration for an API Gateway
+* **Speaker** Bobur Umurzokov
+* **Dates** from 05-14-22 to 05-15-22
+* **Location** Spain
+
+#### [JavaCro Spring](https://2022spring.javacro.hr/eng/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 05-16-22 to 05-17-22
+* **Location** Croatia
+
+#### [JavaCro Spring](https://2022spring.javacro.hr/eng/)
+
+* **Topic** Chopping the monolith
+* **Speaker** Nicolas Fränkel
+* **Dates** from 05-16-22 to 05-17-22
+* **Location** Croatia
+
+#### [jPrime](https://jprime.io/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 05-25-22 to 05-26-22
+* **Location** Bulgaria
+
+#### [Java Day Istanbul](http://www.javaday.istanbul/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 05-28-22 to 05-28-22
+* **Location** Turkey
+
+#### [JNation](https://2022.jnation.pt/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 06-07-22 to 06-07-22
+* **Location** Portugal
+
+#### [WeAreDevelopers World Congress](https://worldcongress.dev/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 06-14-22 to 06-14-22
+* **Location** Germany
+
+#### [CloudLand](https://www.cloudland.org/de/home/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 06-29-22 to 07-02-22
+* **Location** Germany
+
+#### [CloudLand](https://www.cloudland.org/de/home/)
+
+* **Topic** Chopping the monolith
+* **Speaker** Nicolas Fränkel
+* **Dates** from 06-29-22 to 07-02-22
+* **Location** Germany
+
+#### [Web Developer Conference](https://www.web-developer-conference.de/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 09-26-22 to 09-28-22
+* **Location** Germany
+
 ### Workshops
 
-Coming soon...
+#### [Craft Conf](https://craft-conf.com/)
+
+* **Topic** Hands-on APISIX
+* **Speaker** Nicolas Fränkel, Bobur Umurzokov
+* **Dates** from 05-31-22 to 06-03-22
+* **Location** Hungary
 
 ### Meetups
 
