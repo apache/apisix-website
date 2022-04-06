@@ -71,16 +71,27 @@ module.exports = {
         ],
       },
     ],
+    'no-lonely-if': OFF,
+    'no-lone-blocks': OFF,
   },
   overrides: [
     {
       files: [
         'scripts/**/*.js',
         'website/src/clientModules/**/*.js',
+        'website/config/**/*.js',
+        'website/babel.config.js',
+        'website/docusaurus.config.js',
       ],
       env: {
         node: true,
         amd: true,
+      },
+      rules: {
+        'global-require': WARNING,
+        'import/extensions': OFF,
+        'import/no-extraneous-dependencies': OFF,
+        '@typescript-eslint/no-shadow': OFF,
       },
     },
     {

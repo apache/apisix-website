@@ -13,8 +13,9 @@ try {
   }
 
   const xml = fs.readFileSync(SITEMAP_XML_PATH, 'utf8');
-  const result = JSON.parse(convert.xml2json(xml, { compact: true }))
-  result.urlset.url = result.urlset.url.map(item => {
+  const result = JSON.parse(convert.xml2json(xml, { compact: true }));
+  result.urlset.url = result.urlset.url.map((item) => {
+    // eslint-disable-next-line no-underscore-dangle
     const targetLoc = item.loc._text.endsWith('/') ? item.loc._text : `${item.loc._text}/`;
     return {
       loc: {
@@ -22,10 +23,10 @@ try {
       },
       changefreq: item.changefreq,
       priority: item.priority,
-    }
-  })
+    };
+  });
   fs.writeFileSync(SITEMAP_XML_PATH, convert.json2xml(result, { compact: true, spaces: 4 }), 'utf8');
   console.log(`Updated ${SITEMAP_XML_PATH} successfully`);
 } catch (error) {
-  console.warn(error)
+  console.warn(error);
 }
