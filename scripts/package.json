@@ -13,7 +13,7 @@
     "listr": "^0.14.3",
     "replace-in-file": "^6.2.0",
     "semver": "^7.3.5",
-    "simple-git": "^2.44.0",
+    "simple-git": "^3.3.0",
     "xml-js": "^1.6.11"
   }
 }
