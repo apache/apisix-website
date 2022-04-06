@@ -98,8 +98,8 @@ import config from '../../docusaurus.config';
         'click',
         (e) => {
           e.preventDefault();
-
-          const lang = localeLabelMap[e.target.textContent] || defaultLang;
+          const targetLang = e.target.getAttribute('href').split('/')[1];
+          const lang = langArr.includes(targetLang) ? targetLang : defaultLang;
           if (localStorage.getItem(storeKey) !== lang) {
             localStorage.setItem(storeKey, lang);
           }
@@ -125,7 +125,7 @@ import config from '../../docusaurus.config';
       });
   }
 
+  redirect();
   bindEventToLangSwitch();
   rebindWhenTitleChanged();
-  redirect();
 })();
