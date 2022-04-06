@@ -79,7 +79,14 @@ import config from '../../docusaurus.config';
       }
       // all ''
       if (pathArr.at(-1) === pathArr.at(-2)) pathArr.pop();
-      lct.replace(lct.origin + pathArr.join('/'));
+
+      // blog page: redirect to index
+      if (pathArr.includes('blog')) {
+        lct.replace(lct.origin + pathArr.slice(0, pathArr.indexOf('blog') + 1).join('/'));
+      } else {
+        // other pages
+        lct.replace(lct.origin + pathArr.join('/'));
+      }
     }
   }
 
