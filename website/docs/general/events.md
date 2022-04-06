@@ -106,7 +106,7 @@ that have a specific focus on Apache APISIX.
 
 * **Topic** Evolving your APIs
 * **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 26-September-2022 to 28-September-2022
+* **Dates** from 26-Sep-2022 to 28-Sep-2022
 * **Location** Germany
 
 ### Workshops
