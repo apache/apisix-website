@@ -89,6 +89,9 @@ module.exports = {
         pages: {
           exclude: ['**/downloads/ProjectCard.js'],
         },
+        gtag: {
+          trackingID: 'G-WQLBQL6GY3',
+        },
       },
     ],
   ],
@@ -427,9 +430,6 @@ module.exports = {
         content: 'summary',
       },
     ],
-    gtag: {
-      trackingID: 'G-WQLBQL6GY3',
-    },
   },
   stylesheets: [
     'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
