@@ -117,8 +117,11 @@ import config from '../../docusaurus.config';
   // now, the solution is observing the head.title
   // the code inspired by https://stackoverflow.com/a/29540461
   function rebindWhenTitleChanged() {
+    const lct = window.location;
+    const pathArr = lct.pathname.split('/');
+    const ele = document.querySelector(pathArr.includes('blog') ? '#__docusaurus' : 'title');
     new MutationObserver(bindEventToLangSwitch)
-      .observe(document.querySelector('title'), {
+      .observe(ele, {
         subtree: true,
         characterData: true,
         childList: true,

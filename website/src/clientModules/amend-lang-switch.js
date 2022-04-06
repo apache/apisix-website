@@ -33,7 +33,7 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
   // the code inspired by https://stackoverflow.com/a/29540461
   function rebindWhenTitleChanged() {
     new MutationObserver(amendLangSwitch)
-      .observe(document.querySelector('title'), {
+      .observe(document.querySelector('#__docusaurus'), {
         subtree: true,
         characterData: true,
         childList: true,
