@@ -79,7 +79,14 @@ import config from '../../docusaurus.config';
       }
       // all ''
       if (pathArr.at(-1) === pathArr.at(-2)) pathArr.pop();
-      lct.replace(lct.origin + pathArr.join('/'));
+
+      // blog page: redirect to index
+      if (pathArr.includes('blog')) {
+        lct.replace(lct.origin + pathArr.slice(0, pathArr.indexOf('blog') + 1).join('/'));
+      } else {
+        // other pages
+        lct.replace(lct.origin + pathArr.join('/'));
+      }
     }
   }
 
@@ -91,8 +98,8 @@ import config from '../../docusaurus.config';
         'click',
         (e) => {
           e.preventDefault();
-
-          const lang = localeLabelMap[e.target.textContent] || defaultLang;
+          const targetLang = e.target.getAttribute('href').split('/')[1];
+          const lang = langArr.includes(targetLang) ? targetLang : defaultLang;
           if (localStorage.getItem(storeKey) !== lang) {
             localStorage.setItem(storeKey, lang);
           }
@@ -110,15 +117,18 @@ import config from '../../docusaurus.config';
   // now, the solution is observing the head.title
   // the code inspired by https://stackoverflow.com/a/29540461
   function rebindWhenTitleChanged() {
+    const lct = window.location;
+    const pathArr = lct.pathname.split('/');
+    const ele = document.querySelector(pathArr.includes('blog') ? '#__docusaurus' : 'title');
     new MutationObserver(bindEventToLangSwitch)
-      .observe(document.querySelector('title'), {
+      .observe(ele, {
         subtree: true,
         characterData: true,
         childList: true,
       });
   }
 
+  redirect();
   bindEventToLangSwitch();
   rebindWhenTitleChanged();
-  redirect();
 })();
