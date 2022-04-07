@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import Layout from "@theme/Layout";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-
+import type { FC } from 'react';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import Layout from '@theme/Layout';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const PageTitle = styled.h1`
   text-align: center;
@@ -111,7 +111,7 @@ const PluginIcon = styled.div`
   min-height: 200px;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const PluginName = styled.div`
   display: flex;
@@ -186,9 +186,9 @@ const SBeta = styled.div`
       border-color: #e8433e;
     }
   }
-`
+`;
 
-function Plugins(props) {
+const Plugins: FC = () => {
   useEffect(() => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
@@ -197,11 +197,9 @@ function Plugins(props) {
     document.head.appendChild(script);
   }, []);
   const { siteConfig } = useDocusaurusContext();
-  const sidebar = siteConfig.customFields.plugins.map((section) => {
-    return (
-      <SidebarItem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></SidebarItem>
-    );
-  });
+  const sidebar = siteConfig.customFields.plugins.map((section) => (
+    <SidebarItem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></SidebarItem>
+  ));
 
   const plugins = siteConfig.customFields.plugins.map((section) => {
     const pluginCards = section.plugins.map((plugin) => {
@@ -215,15 +213,17 @@ function Plugins(props) {
         <div key={plugin.name}>
           <PluginCard href={plugin.beta ? `https://apisix.apache.org/docs/apisix/next/plugins/${pluginUrl}` : `https://apisix.apache.org/docs/apisix/plugins/${pluginUrl}`} target="_blank">
             <PluginIcon>
-              {plugin.useDefaultIcon ?
-                <img className="plugin-logo shadow default" src={'/img/plugin/default-icon.png'} alt={plugin.name} /> :
-                <svg className="plugin-logo shadow" aria-hidden="true">
-                  <use xlinkHref={`#icon${plugin.name}`} />
-                </svg>}
+              {plugin.useDefaultIcon
+                ? <img className="plugin-logo shadow default" src="/img/plugin/default-icon.png" alt={plugin.name} />
+                : (
+                  <svg className="plugin-logo shadow" aria-hidden="true">
+                    <use xlinkHref={`#icon${plugin.name}`} />
+                  </svg>
+                )}
             </PluginIcon>
             <PluginName>
               {plugin.name}
-              {plugin.beta && <SBeta title='This plugin will be supported in the next version of Apache APISIX'>Beta</SBeta>}
+              {plugin.beta && <SBeta title="This plugin will be supported in the next version of Apache APISIX">Beta</SBeta>}
             </PluginName>
             <PluginDescription>{plugin.description}</PluginDescription>
             <span className="read-more-link">{'Read more >'}</span>
@@ -242,17 +242,15 @@ function Plugins(props) {
   });
 
   return (
-    <Page>
-      <PageTitle>Apache APISIX®️ Plugin Hub</PageTitle>
-      <PageSubtitle>Powerful Plugins and Easy Integrations</PageSubtitle>
-      <SidebarContainer>{sidebar}</SidebarContainer>
-      {plugins}
-    </Page>
+    <Layout>
+      <Page>
+        <PageTitle>Apache APISIX®️ Plugin Hub</PageTitle>
+        <PageSubtitle>Powerful Plugins and Easy Integrations</PageSubtitle>
+        <SidebarContainer>{sidebar}</SidebarContainer>
+        {plugins}
+      </Page>
+    </Layout>
   );
-}
+};
 
-export default (props) => (
-  <Layout>
-    <Plugins {...props} />
-  </Layout>
-);
+export default Plugins;
