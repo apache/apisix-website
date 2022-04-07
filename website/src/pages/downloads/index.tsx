@@ -1,9 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import Layout from "@theme/Layout";
-import CodeBlock from "@theme/CodeBlock";
-import ProjectCard from "./ProjectCard";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import type { FC } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import Layout from '@theme/Layout';
+import CodeBlock from '@theme/CodeBlock';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type { DownloadInfo } from './ProjectCard';
+import ProjectCard from './ProjectCard';
 
 const DownloadsPage = styled.div`
   max-width: var(--ifm-container-width);
@@ -11,15 +13,18 @@ const DownloadsPage = styled.div`
   padding: 2rem var(--ifm-spacing-horizontal);
   width: 100%;
 `;
+
 const PageTitle = styled.h1`
   margin-top: 2rem;
   font-size: 3rem;
   font-weight: 800;
   text-transform: uppercase;
 `;
+
 const PageSubtitle = styled.div`
   margin-bottom: 4rem;
 `;
+
 const Description = styled.div`
   margin-top: 6rem;
   h2 {
@@ -32,14 +37,15 @@ const StyledCodeBlock = styled(CodeBlock)`
   margin-top: 1rem;
 `;
 
-export default (props) => {
+const Downloads: FC = () => {
   const { siteConfig } = useDocusaurusContext();
-  if (!(siteConfig.customFields.downloads || []).length) {
+  const downloads = siteConfig.customFields.downloads as DownloadInfo[] | null;
+
+  if (!downloads?.length) {
     return null;
   }
-  const projects = siteConfig.customFields.downloads.map((project) => {
-    return <ProjectCard key={project.name} {...project} />;
-  });
+
+  const projects = downloads.map((project) => <ProjectCard key={project.name} {...project} />);
 
   return (
     <Layout>
@@ -51,7 +57,7 @@ export default (props) => {
           <h2>History Versions</h2>
           <div className="markdown">
             Find all APISIX releases in the&nbsp;
-            <a href="https://archive.apache.org/dist/apisix/" target="_blank">
+            <a href="https://archive.apache.org/dist/apisix/" target="_blank" rel="noreferrer">
               Archive repository
             </a>
             .
@@ -59,6 +65,7 @@ export default (props) => {
             <a
               href="https://archive.apache.org/dist/incubator/apisix/"
               target="_blank"
+              rel="noreferrer"
             >
               Incubating Archive repository
             </a>
@@ -66,7 +73,7 @@ export default (props) => {
           </div>
           <h2>Verify the releases</h2>
           <div className="markdown">
-            <a href="https://downloads.apache.org/apisix/KEYS" target="_blank">
+            <a href="https://downloads.apache.org/apisix/KEYS" target="_blank" rel="noreferrer">
               Get PGP signatures KEYS
             </a>
             <br />
@@ -77,27 +84,33 @@ export default (props) => {
             get these files from the main distribution directory and not from
             the mirrors.
             <br />
-            <StyledCodeBlock>{`gpg -i KEYS
+            <StyledCodeBlock>
+              {`gpg -i KEYS
 
 # or
 pgpk -a KEYS
 
 # or
-pgp -ka KEYS`}</StyledCodeBlock>
+pgp -ka KEYS`}
+            </StyledCodeBlock>
             <br />
             To verify the binaries/sources you can download the relevant asc
             files for it from main distribution directory and follow the below
             guide.
-            <StyledCodeBlock>{`gpg --verify apache-apisix-********.asc apache-apisix-********
+            <StyledCodeBlock>
+              {`gpg --verify apache-apisix-********.asc apache-apisix-********
 
 # or
 pgpv apache-apisix-********.asc
 
 # or
-pgp apache-apisix-********.asc`}</StyledCodeBlock>
+pgp apache-apisix-********.asc`}
+            </StyledCodeBlock>
           </div>
         </Description>
       </DownloadsPage>
     </Layout>
   );
 };
+
+export default Downloads;
