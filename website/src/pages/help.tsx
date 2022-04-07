@@ -1,8 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import "../css/customTheme.css"
-import Layout from "@theme/Layout";
-import ChevronRight from "../assets/icons/chevron-right.svg";
+import type { FC } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import Layout from '@theme/Layout';
+import ChevronRight from '../assets/icons/chevron-right.svg';
+
+import '../css/customTheme.css';
 
 const PageTitle = styled.h1`
   margin-top: 2rem;
@@ -21,13 +23,8 @@ const Page = styled.div`
   width: 100%;
 `;
 
-function Help(props) {
-  const { config: siteConfig, language = "" } = props;
-  const { baseUrl, docsUrl } = siteConfig;
-  const docsPart = `${docsUrl ? `${docsUrl}/` : ""}`;
-  const langPart = `${language ? `${language}/` : ""}`;
-  const docUrl = (doc) => `${baseUrl}${docsPart}${langPart}${doc}`;
-  return (
+const Help: FC = () => (
+  <Layout>
     <Page className="help-page">
       <PageTitle>NEED HELP?</PageTitle>
       <PageSubtitle>
@@ -50,6 +47,7 @@ function Help(props) {
             <a
               href="https://apisix.apache.org/docs/"
               target="_blank"
+              rel="noreferrer"
             >
               Read Documents
               <ChevronRight />
@@ -65,18 +63,19 @@ function Help(props) {
           </div>
           <p>Ask questions about the documentation and project</p>
           <div className="buttons">
-            <a href="https://github.com/apache/apisix/issues" target="_blank">
+            <a href="https://github.com/apache/apisix/issues" target="_blank" rel="noreferrer">
               GitHub
               <ChevronRight />
             </a>
             <a
               href="https://apisix.apache.org/docs/general/join"
               target="_blank"
+              rel="noreferrer"
             >
               Slack
               <ChevronRight />
             </a>
-            <a href="https://twitter.com/ApacheAPISIX" target="_blank">
+            <a href="https://twitter.com/ApacheAPISIX" target="_blank" rel="noreferrer">
               Twitter
               <ChevronRight />
             </a>
@@ -84,11 +83,7 @@ function Help(props) {
         </div>
       </div>
     </Page>
-  );
-}
-
-export default (props) => (
-  <Layout>
-    <Help {...props} />
   </Layout>
 );
+
+export default Help;
