@@ -1,38 +1,41 @@
-import React, { useEffect, useRef, useState } from "react";
-import Link from "@docusaurus/Link";
-import useBaseUrl from "@docusaurus/useBaseUrl";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { FC } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ArrowAnim from './components/ArrowAnim';
 
-import "../../css/customTheme.css";
-import Dashboard from "../../assets/images/apisix-dashboard.png";
-import Snippet from "../../assets/images/code-sample.png";
-import Plugin from "../../assets/images/pluginised.png";
-import ArrowAnim from "./components/arrowAnim";
+import '../../css/customTheme.css';
+import Dashboard from '../../assets/images/apisix-dashboard.png';
+import Snippet from '../../assets/images/code-sample.png';
+import Plugin from '../../assets/images/pluginised.png';
 
-const DashboardPlayground = () => {
-  return (
-    <Link
-      className={"dashboard-playground-link add-left-margin-feat"}
-      to={"http://106.55.144.26/user/login"}
-    >
-      <div className="dashboard-playground">
-        <h2 className={"dashboard-title"}>Dashboard Playground</h2>
+const DashboardPlayground = () => (
+  <Link
+    className="dashboard-playground-link add-left-margin-feat"
+    to="http://106.55.144.26/user/login"
+  >
+    <div className="dashboard-playground">
+      <h2 className="dashboard-title">Dashboard Playground</h2>
 
-        <div className={"dashboard-account"}>
-          <div>
-            username <span>admin</span>
-          </div>
-          <div>
-            passwd <span>admin</span>
-          </div>
+      <div className="dashboard-account">
+        <div>
+          username
+          {' '}
+          <span>admin</span>
+        </div>
+        <div>
+          passwd
+          {' '}
+          <span>admin</span>
         </div>
       </div>
-    </Link>
-  );
-};
+    </div>
+  </Link>
+);
 
-const Features = () => {
+const Features:FC = () => {
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
   const pluginDiv = useRef(null);
@@ -50,24 +53,24 @@ const Features = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   const [screenWidth, setScreenWidth] = useState(
-    typeof window !== "undefined" && window.innerWidth
+    typeof window !== 'undefined' && window.innerWidth,
   );
-  const [screenHeight, setScreenHeight] = useState(
-    typeof window !== "undefined" && window.innerWidth
+  const [, setScreenHeight] = useState(
+    typeof window !== 'undefined' && window.innerWidth,
   );
 
   useEffect(() => {
     setScreenHeight(window.innerHeight);
     setScreenWidth(window.innerWidth);
-    window.addEventListener("resize", resizeEvent, false);
+    window.addEventListener('resize', resizeEvent, false);
 
-    function resizeEvent(event) {
+    function resizeEvent() {
       setScreenHeight(window.innerHeight);
       setScreenWidth(window.innerWidth);
     }
 
     return () => {
-      window.removeEventListener("resize", resizeEvent);
+      window.removeEventListener('resize', resizeEvent);
     };
   }, []);
 
@@ -75,20 +78,20 @@ const Features = () => {
     const value = window.innerHeight * 2;
 
     let tl;
-    let observers = [];
+    const observers = [];
 
     if (screenWidth > 1100) {
       tl = gsap.timeline({
         defaults: {
-          ease: "linear",
+          ease: 'linear',
         },
         scrollTrigger: {
-          id: "feat",
+          id: 'feat',
           trigger: triggerDiv.current,
-          start: "top top",
+          start: 'top top',
           pin: pinDiv.current,
           scrub: 1.5,
-          end: value + "px",
+          end: `${value}px`,
         },
       });
 
@@ -108,10 +111,10 @@ const Features = () => {
       // Mobile
 
       const elems = [img1col.current, img2col.current, img3col.current];
-      for (let i = 1; i < 4; i++) {
+      for (let i = 1; i < 4; i += 1) {
         observers.push(
           new IntersectionObserver(
-            (entries, opts) => {
+            (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                   observers[i - 1].disconnect();
@@ -125,10 +128,10 @@ const Features = () => {
                       opacity: 1,
                       y: 0,
                       duration: 0.5,
-                      ease: "power3.out",
+                      ease: 'power3.out',
                       yoyo: true,
-                      yoyoEase: "power3.inOut",
-                    }
+                      yoyoEase: 'power3.inOut',
+                    },
                   );
                 }
               });
@@ -136,8 +139,8 @@ const Features = () => {
             {
               root: null,
               threshold: 0.2,
-            }
-          )
+            },
+          ),
         );
       }
 
@@ -149,7 +152,7 @@ const Features = () => {
 
   return (
     <>
-      <div ref={featPin} className="feat-top" style={{ padding: "50px 0" }}>
+      <div ref={featPin} className="feat-top" style={{ padding: '50px 0' }}>
         <h3 className="feat-head-desc">Why APISIX ?</h3>
         <h1 className="feat-head add-left-margin">
           Reduce time fighting bugs, focus on designing world-class systems
@@ -162,9 +165,9 @@ const Features = () => {
       </div>
       <div className="feat-container-d" ref={triggerDiv}>
         {/* Desktop */}
-        <div className="left-pane" style={{ width: "50%", height: "100%" }}>
-          <div ref={dashboardDiv} style={{ position: "relative" }}>
-            <div className="text-div" style={{ height: "100vh" }}>
+        <div className="left-pane" style={{ width: '50%', height: '100%' }}>
+          <div ref={dashboardDiv} style={{ position: 'relative' }}>
+            <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
                 Easy-to-use dashboard
               </h2>
@@ -175,7 +178,7 @@ const Features = () => {
                 contribute.
               </p>
               <div className="hero-ctas add-left-margin-feat bottom-pos">
-                <Link to={useBaseUrl("downloads")} className="btn btn-download">
+                <Link to={useBaseUrl('downloads')} className="btn btn-download">
                   Downloads
                 </Link>
                 <ArrowAnim />
@@ -184,8 +187,8 @@ const Features = () => {
             </div>
           </div>
 
-          <div ref={userfDiv} style={{ position: "relative" }}>
-            <div className="text-div" style={{ height: "100vh" }}>
+          <div ref={userfDiv} style={{ position: 'relative' }}>
+            <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">User flexible</h2>
               <p className="i-text-desc add-left-margin-feat">
                 The Apache APISIX dashboard is flexible to User demand,
@@ -195,8 +198,8 @@ const Features = () => {
             </div>
           </div>
 
-          <div ref={pluginDiv} style={{ position: "relative" }}>
-            <div className="text-div" style={{ height: "100vh" }}>
+          <div ref={pluginDiv} style={{ position: 'relative' }}>
+            <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
                 Pluginised workflow
               </h2>
@@ -214,13 +217,13 @@ const Features = () => {
           ref={pinDiv}
           className="right-pane"
           style={{
-            width: "50%",
-            height: "100vh",
-            position: "relative",
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            width: '50%',
+            height: '100vh',
+            position: 'relative',
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <img
@@ -249,16 +252,16 @@ const Features = () => {
       <div
         className="feat-container-m"
         ref={triggerDivCol}
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
       >
         {/* Mobile */}
         <div
           ref={img1col}
           className="hiddenDiv-col"
-          style={{ height: "fit-content", padding: "0 0 40px 0" }}
+          style={{ height: 'fit-content', padding: '0 0 40px 0' }}
         >
-          <div style={{ position: "relative", height: "100%" }}>
-            <h2 className="add-left-margin" style={{ width: "fit-content" }}>
+          <div style={{ position: 'relative', height: '100%' }}>
+            <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
               Easy-to-use dashboard
             </h2>
             <img className="i-image-col" src={Dashboard} alt="" />
@@ -270,9 +273,9 @@ const Features = () => {
             </p>
             <div
               className="hero-ctas add-left-margin"
-              style={{ width: "fit-content" }}
+              style={{ width: 'fit-content' }}
             >
-              <Link to={useBaseUrl("downloads")} className="btn btn-download">
+              <Link to={useBaseUrl('downloads')} className="btn btn-download">
                 Downloads
               </Link>
               <ArrowAnim />
@@ -283,9 +286,9 @@ const Features = () => {
         <div
           ref={img2col}
           className="hiddenDiv-col"
-          style={{ height: "fit-content", padding: "20px 0" }}
+          style={{ height: 'fit-content', padding: '20px 0' }}
         >
-          <h2 className="add-left-margin" style={{ width: "fit-content" }}>
+          <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
             User flexible
           </h2>
           <img className="i-image-col" src={Snippet} alt="" />
@@ -299,9 +302,9 @@ const Features = () => {
         <div
           ref={img3col}
           className="hiddenDiv-col"
-          style={{ height: "fit-content", padding: "20px 0" }}
+          style={{ height: 'fit-content', padding: '20px 0' }}
         >
-          <h2 className="add-left-margin" style={{ width: "fit-content" }}>
+          <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
             Pluginised workflow
           </h2>
           <img className="i-image-col" src={Plugin} alt="" />
