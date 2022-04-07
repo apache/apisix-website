@@ -3,14 +3,16 @@ const WARNING = 1;
 const ERROR = 2;
 
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
     node: true,
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -19,11 +21,20 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
+    tsconfigRootDir: `${__dirname}/website`,
+    projects: ['./tsconfig.json'],
   },
   plugins: [
     'react',
     '@typescript-eslint',
   ],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   rules: {
     quotes: [ERROR, 'single', { allowTemplateLiterals: true }],
     'no-unused-vars': OFF,
@@ -73,6 +84,12 @@ module.exports = {
     ],
     'no-lonely-if': OFF,
     'no-lone-blocks': OFF,
+    'react/jsx-filename-extension': [
+      ERROR,
+      { extensions: ['.jsx', '.tsx'] },
+    ],
+    'import/extensions': [ERROR, { tsx: 'never' }],
+    'react/jsx-props-no-spreading': OFF,
   },
   overrides: [
     {
