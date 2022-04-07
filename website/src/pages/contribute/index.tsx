@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
@@ -28,7 +28,7 @@ const PageDesc = styled.div`
   margin: 1.25rem auto;
 `;
 
-function Contribute(): ReactElement {
+const Contribute: FC = () => {
   const repoList = doc.map((item) => item.githubRepo);
 
   const repos = repoList.map((repoName) => (
@@ -91,6 +91,6 @@ function Contribute(): ReactElement {
       </Page>
     </Layout>
   );
-}
+};
 
 export default Contribute;

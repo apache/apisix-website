@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { FC } from 'react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import IconComment from '../../assets/icons/comment.svg';
@@ -87,7 +87,7 @@ interface ContributeCardProps {
   info: RepoInfo;
 }
 
-function ContributeCard(props: ContributeCardProps): ReactElement {
+const ContributeCard: FC<ContributeCardProps> = (props) => {
   const { repoName, issues = [], info } = props;
   const [isShow, setIsShow] = useState(false);
 
@@ -168,6 +168,6 @@ function ContributeCard(props: ContributeCardProps): ReactElement {
       </List>
     </Card>
   );
-}
+};
 
 export default ContributeCard;

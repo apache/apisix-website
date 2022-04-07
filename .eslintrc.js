@@ -31,7 +31,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.svg'],
       },
     },
   },
@@ -88,8 +88,14 @@ module.exports = {
       ERROR,
       { extensions: ['.jsx', '.tsx'] },
     ],
-    'import/extensions': [ERROR, { tsx: 'never' }],
+    'import/extensions': [ERROR, { tsx: 'never', svg: 'always' }],
     'react/jsx-props-no-spreading': OFF,
+    'react/function-component-definition': [
+      ERROR,
+      {
+        namedComponents: 'arrow-function',
+      },
+    ],
   },
   overrides: [
     {
@@ -109,6 +115,7 @@ module.exports = {
         'import/extensions': OFF,
         'import/no-extraneous-dependencies': OFF,
         '@typescript-eslint/no-shadow': OFF,
+        '@typescript-eslint/no-var-requires': OFF,
       },
     },
     {
