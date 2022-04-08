@@ -99,7 +99,7 @@ This article is based on the following environments.
 - OS: Centos 7.9.
 - Apache APISIX 2.12.1, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build).
 - CoreDNS 1.9.0，please refer to：[CoreDNS Installation Guide](https://coredns.io/manual/toc/#installation).
-- Node.js, please refer to:：[Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
+- Node.js, please refer to:[Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
 ### Procedure
 
@@ -140,7 +140,7 @@ CoreDNS listens on port `53` by default, and will read the `Corefile` configurat
   }
 ```
 
-3. Configuring Apache APISIX。
+3. Configuring Apache APISIX.
 
 Add the relevant configuration in the `conf/config.yaml` file and reload Apache APISIX.
 
@@ -154,7 +154,7 @@ Add the relevant configuration in the `conf/config.yaml` file and reload Apache 
                                       # here is the 1053 port of the local machine.
 ```
 
-4. 4. Configure routing information in Apache APISIX.
+4. Configure routing information in Apache APISIX.
 
 Next, we configure the relevant routing information by requesting the `Admin API`.
 

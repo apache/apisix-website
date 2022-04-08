@@ -37,7 +37,7 @@ This article explains how to configure and use the [Splunk HEC](https://docs.spl
 
 [Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)is an HTTP event collector provided by Splunk that provides the ability to send data and application events to Splunk using the HTTP(S) protocol.
 
-## About splunk-hec-logging lugin
+## About splunk-hec-logging plugin
 
 The [splunk-hec-logging](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/splunk-hec-logging.md) is used to forward Apache APISIX request logs to Splunk for analysis and storage. When enabled, Apache APISIX will take the request context information during the Log phase, serialize it into [Splunk Event Data Format](https://docs.splunk.com/Documentation/Splunk/latest/Data/FormateventsforHTTPEventCollector#Event_metadata) and submit it to the batch queue. The data in the queue is committed to Splunk HEC when the maximum processing capacity of the batch queue per batch is triggered, or when the maximum time to refresh the buffer is reached.
 
