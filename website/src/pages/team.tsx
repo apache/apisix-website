@@ -1,16 +1,18 @@
-import React from "react";
-import styled from "styled-components";
-import Layout from "@theme/Layout";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import GitHubLogo from "../assets/icons/github-logo.svg";
-import "../css/customTheme.css";
-import IconCode from "../assets/icons/code.svg";
-import IconStar from "../assets/icons/star.svg";
-import IconDatabase from "../assets/icons/database.svg";
-import IconTerminal from "../assets/icons/terminal.svg";
-import IconPuzzle from "../assets/icons/puzzle.svg";
-import IconEye from "../assets/icons/eye.svg";
-import IconDocumentText from "../assets/icons/document-text.svg";
+import type { FC } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import Layout from '@theme/Layout';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import GitHubLogo from '../assets/icons/github-logo.svg';
+import IconCode from '../assets/icons/code.svg';
+import IconStar from '../assets/icons/star.svg';
+import IconDatabase from '../assets/icons/database.svg';
+import IconTerminal from '../assets/icons/terminal.svg';
+import IconPuzzle from '../assets/icons/puzzle.svg';
+import IconEye from '../assets/icons/eye.svg';
+import IconDocumentText from '../assets/icons/document-text.svg';
+
+import '../css/customTheme.css';
 
 const PageTitle = styled.h1`
   margin-top: 2rem;
@@ -241,23 +243,24 @@ const ContributeCardRightSide = styled.div`
   }
 `;
 
-function Team(props) {
+const Team: FC = () => {
   const { siteConfig } = useDocusaurusContext();
   const memberSections = siteConfig.customFields.team.map((section) => {
-    const memberCards = section.members.map((member) => {
-      return (
-        <div key={member.username}>
-          <MemberCard
-            href={`https://github.com/${member.githubUsername}`}
-            target="_blank"
-          >
-            <Avatar src={member.avatarUrl} />
-            <MemberName>{member.name}</MemberName>
-            <Username>@{member.username}</Username>
-          </MemberCard>
-        </div>
-      );
-    });
+    const memberCards = section.members.map((member) => (
+      <div key={member.username}>
+        <MemberCard
+          href={`https://github.com/${member.githubUsername}`}
+          target="_blank"
+        >
+          <Avatar src={member.avatarUrl} />
+          <MemberName>{member.name}</MemberName>
+          <Username>
+            @
+            {member.username}
+          </Username>
+        </MemberCard>
+      </div>
+    ));
     return (
       <div key={section.groupName}>
         <SectionTitle>{section.groupName}</SectionTitle>
@@ -267,63 +270,61 @@ function Team(props) {
       </div>
     );
   });
-  const repoComponents = siteConfig.customFields.allRepos.map((repo) => {
-    return (
-      <RepoCard
-        className="team-repocard"
-        href={`https://github.com/${repo}/graphs/contributors`}
-        target="_blank"
-        key={repo}
-      >
-        <GitHubLogo className="team-githubLogo" /> {repo}
-      </RepoCard>
-    );
-  });
+  const repoComponents = siteConfig.customFields.allRepos.map((repo) => (
+    <RepoCard
+      className="team-repocard"
+      href={`https://github.com/${repo}/graphs/contributors`}
+      target="_blank"
+      key={repo}
+    >
+      <GitHubLogo className="team-githubLogo" />
+      {' '}
+      {repo}
+    </RepoCard>
+  ));
   return (
-    <Page>
-      <PageTitle>Team</PageTitle>
-      <PageSubtitle>We love open source.</PageSubtitle>
-      {memberSections}
-      <SectionTitle>Contributors</SectionTitle>
-      <SectionSubtitle>
-        You can find all contributors of Apache APISIX from GitHub contribution
-        list.
-      </SectionSubtitle>
-      <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
-      <SectionTitle>Contributor Over Time</SectionTitle>
-      <SectionSubtitle>
-        Note: This graph contains contributors from all repos under Apache APISIX
-      </SectionSubtitle>
-      <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time"/>
-      <ContributeCard>
-        <ContributeCardLeftSide>
-          <ContributeCardTitle>🛠 Become A Committer </ContributeCardTitle>
-          <ContributeCardSubtitle>
-            The Apache APISIX community follows the Apache Community’s process
-            on accepting a new committer. After a contributor participates
-            APISIX's community actively, PMC and Committers will make decisions
-            to invite the contributor join Committers and PMC.
-          </ContributeCardSubtitle>
-          <ContributeCardButton href="/docs/general/contributor-guide">
-            Start Contribute
-          </ContributeCardButton>
-        </ContributeCardLeftSide>
-        <ContributeCardRightSide>
-          <IconCode id="icon-code" />
-          <IconStar id="icon-star" />
-          <IconDatabase id="icon-database" />
-          <IconTerminal id="icon-terminal" />
-          <IconPuzzle id="icon-puzzle" />
-          <IconEye id="icon-eye" />
-          <IconDocumentText id="icon-document-text" />
-        </ContributeCardRightSide>
-      </ContributeCard>
-    </Page>
+    <Layout>
+      <Page>
+        <PageTitle>Team</PageTitle>
+        <PageSubtitle>We love open source.</PageSubtitle>
+        {memberSections}
+        <SectionTitle>Contributors</SectionTitle>
+        <SectionSubtitle>
+          You can find all contributors of Apache APISIX from GitHub contribution
+          list.
+        </SectionSubtitle>
+        <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
+        <SectionTitle>Contributor Over Time</SectionTitle>
+        <SectionSubtitle>
+          Note: This graph contains contributors from all repos under Apache APISIX
+        </SectionSubtitle>
+        <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time" />
+        <ContributeCard>
+          <ContributeCardLeftSide>
+            <ContributeCardTitle>🛠 Become A Committer </ContributeCardTitle>
+            <ContributeCardSubtitle>
+              The Apache APISIX community follows the Apache Community&apos;s process
+              on accepting a new committer. After a contributor participates
+              APISIX&apos;s community actively, PMC and Committers will make decisions
+              to invite the contributor join Committers and PMC.
+            </ContributeCardSubtitle>
+            <ContributeCardButton href="/docs/general/contributor-guide">
+              Start Contribute
+            </ContributeCardButton>
+          </ContributeCardLeftSide>
+          <ContributeCardRightSide>
+            <IconCode id="icon-code" />
+            <IconStar id="icon-star" />
+            <IconDatabase id="icon-database" />
+            <IconTerminal id="icon-terminal" />
+            <IconPuzzle id="icon-puzzle" />
+            <IconEye id="icon-eye" />
+            <IconDocumentText id="icon-document-text" />
+          </ContributeCardRightSide>
+        </ContributeCard>
+      </Page>
+    </Layout>
   );
-}
+};
 
-export default (props) => (
-  <Layout>
-    <Team {...props} />
-  </Layout>
-);
+export default Team;

@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import IconComment from "../../assets/icons/comment.svg";
+import type { FC } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import IconComment from '../../assets/icons/comment.svg';
 
-const Card = styled.div`
+interface CommonStyleProps {
+  isShow: boolean
+}
+
+const Card = styled.div<CommonStyleProps>`
   @media (max-width: 700px) {
     width: 100%;
   }
@@ -21,7 +26,7 @@ const Card = styled.div`
     }
   }
 
-  background-color: ${(props) => (props.isShow ? "rgb(255,241,240,0.2)" : "")};
+  background-color: ${(props) => (props.isShow ? 'rgb(255,241,240,0.2)' : '')};
 `;
 
 const ProjectTitle = styled.div`
@@ -31,10 +36,11 @@ const ProjectTitle = styled.div`
   margin-left: 1.25rem;
   margin-right: 1.25rem;
 `;
-const Title = styled.p`
+
+const Title = styled.p<CommonStyleProps>`
   margin: 0;
   font-size: 1.5rem;
-  color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")};
+  color: ${(props) => (props.isShow ? 'rgb(232, 67, 62)' : '')};
 `;
 
 const Issue = styled.div`
@@ -47,19 +53,41 @@ const Issue = styled.div`
   font-size: 0.875rem;
 `;
 
-const ProjectDesc = styled.div`
+const ProjectDesc = styled.div<CommonStyleProps>`
   display: flex;
-  color: ${(props) => (props.isShow ? "rgb(232, 67, 62)" : "")};
+  color: ${(props) => (props.isShow ? 'rgb(232, 67, 62)' : '')};
 `;
-const List = styled.div`
-  display: ${(props) => (props.isShow ? "block" : "none")};
+
+const List = styled.div<CommonStyleProps>`
+  display: ${(props) => (props.isShow ? 'block' : 'none')};
 `;
+
 const ListItem = styled.li`
   list-style: none;
   display: flex;
 `;
 
-const ContributeCard = (props) => {
+interface IssueInfo {
+  number: number;
+  htmlUrl: string;
+  title: string;
+  comments: number
+}
+
+interface RepoInfo {
+  description: string;
+  star: number;
+  watch: number;
+  fork: number;
+}
+
+interface ContributeCardProps {
+  repoName: string;
+  issues: IssueInfo[];
+  info: RepoInfo;
+}
+
+const ContributeCard: FC<ContributeCardProps> = (props) => {
   const { repoName, issues = [], info } = props;
   const [isShow, setIsShow] = useState(false);
 
@@ -70,51 +98,69 @@ const ContributeCard = (props) => {
     <Card onClick={() => setIsShow(!isShow)} isShow={isShow}>
       <ProjectTitle>
         <Title isShow={isShow}>{repoName}</Title>
-        <Issue isShow={isShow}>{issues.length} issues</Issue>
+        <Issue>
+          {issues.length}
+          {' '}
+          issues
+        </Issue>
       </ProjectTitle>
       <div>{info.description}</div>
       <ProjectDesc isShow={isShow}>
-        <div style={{ marginRight: "1rem" }}>Star: {info.star}</div>
-        <div style={{ marginRight: "1rem" }}>Watch: {info.watch}</div>
-        <div style={{ marginRight: "1rem" }}>Fork: {info.fork}</div>
+        <div style={{ marginRight: '1rem' }}>
+          Star:
+          {info.star}
+        </div>
+        <div style={{ marginRight: '1rem' }}>
+          Watch:
+          {info.watch}
+        </div>
+        <div style={{ marginRight: '1rem' }}>
+          Fork:
+          {info.fork}
+        </div>
       </ProjectDesc>
       <List isShow={isShow}>
         <ul style={{ paddingLeft: 0 }}>
           {issues.map((item) => (
             <ListItem key={item.number}>
-              <div style={{ minWidth: "4rem" }}>#{item.number}</div>
+              <div style={{ minWidth: '4rem' }}>
+                #
+                {item.number}
+              </div>
               <a
                 target="_blank"
                 href={item.htmlUrl}
                 style={{
-                  flex: "1 1 auto",
-                  textDecoration: "none",
-                  overflow: "hidden",
+                  flex: '1 1 auto',
+                  textDecoration: 'none',
+                  overflow: 'hidden',
                 }}
+                rel="noreferrer"
               >
-                {item.title}{" "}
+                {item.title}
+                {' '}
               </a>
               {item.comments > 0 ? (
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                 >
                   <IconComment />
                   <div
                     style={{
-                      marginLeft: "0.25rem",
-                      fontSize: "0.5rem",
-                      color: "#333",
+                      marginLeft: '0.25rem',
+                      fontSize: '0.5rem',
+                      color: '#333',
                     }}
                   >
                     {item.comments}
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </ListItem>
           ))}

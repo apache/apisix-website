@@ -1,17 +1,18 @@
-import React from "react";
-import styled from "styled-components";
-import "../css/customTheme.css";
-import Layout from "@theme/Layout";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import type { FC } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import '../css/customTheme.css';
+import Layout from '@theme/Layout';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import IconTriangle from "../assets/icons/triangle.svg";
-import IconSquare from "../assets/icons/square.svg";
-import IconHexagon from "../assets/icons/hexagon.svg";
-import IconPentagon from "../assets/icons/pentagon.svg";
-import IconDiamond from "../assets/icons/diamond.svg";
-import IconStar from "../assets/icons/star-solid.svg";
-import IconOctagon from "../assets/icons/octagon.svg";
-import IconShield from "../assets/icons/shield.svg";
+import IconTriangle from '../assets/icons/triangle.svg';
+import IconSquare from '../assets/icons/square.svg';
+import IconHexagon from '../assets/icons/hexagon.svg';
+import IconPentagon from '../assets/icons/pentagon.svg';
+import IconDiamond from '../assets/icons/diamond.svg';
+import IconStar from '../assets/icons/star-solid.svg';
+import IconOctagon from '../assets/icons/octagon.svg';
+import IconShield from '../assets/icons/shield.svg';
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);
@@ -19,12 +20,14 @@ const Page = styled.div`
   padding: 2rem var(--ifm-spacing-horizontal);
   width: 100%;
 `;
+
 const PageTitle = styled.h1`
   margin-top: 2rem;
   font-size: 3rem;
   font-weight: 800;
   text-transform: uppercase;
 `;
+
 const PageSubtitle = styled.div`
   margin-bottom: 4rem;
 `;
@@ -37,6 +40,7 @@ const CardsContainer = styled.div`
     grid-template-columns: 1fr;
   }
 `;
+
 const Card = styled.a`
   border-radius: 0.75rem;
   border: 1px solid #eee;
@@ -60,6 +64,7 @@ const Card = styled.a`
     }
   }
 `;
+
 const Title = styled.div`
   font-size: 2.4rem;
   line-height: 2.4rem;
@@ -75,6 +80,7 @@ const Title = styled.div`
     transition: all 0.6s;
   }
 `;
+
 const Description = styled.div`
   font-size: 1rem;
   margin-top: 0px;
@@ -82,11 +88,12 @@ const Description = styled.div`
     margin-top: 6px;
   }
 `;
+
 const ShapeBeforeTitle = styled.span`
   margin-right: 12px;
   & svg {
     height: 1.75rem;
-    color: ${(props) => props.color || "var(--ifm-color-primary)"};
+    color: ${(props) => props.color || 'var(--ifm-color-primary)'};
   }
   @media (max-width: 600px) {
     margin-right: 8px;
@@ -95,6 +102,7 @@ const ShapeBeforeTitle = styled.span`
     }
   }
 `;
+
 const VersionInfo = styled.div`
   display: inline-flex;
   font-size: 1rem;
@@ -104,7 +112,31 @@ const VersionInfo = styled.div`
   }
 `;
 
-const ProjectCard = (props) => {
+const shapeComponentMap = {
+  triangle: <IconTriangle />,
+  pentagon: <IconPentagon />,
+  diamond: <IconDiamond />,
+  square: <IconSquare />,
+  hexagon: <IconHexagon />,
+  star: <IconStar />,
+  shield: <IconShield />,
+  octagon: <IconOctagon />,
+};
+
+interface DocInfo {
+    name: string;
+    nameInParamCase: string;
+    description: string;
+    shape: string;
+    color: string;
+    version: string;
+    releaseDate: string;
+    firstDocPath: string;
+}
+
+interface ProjectCardProps extends DocInfo {}
+
+const ProjectCard: FC<ProjectCardProps> = (props) => {
   const {
     name,
     nameInParamCase,
@@ -113,50 +145,34 @@ const ProjectCard = (props) => {
     color,
     version,
     releaseDate,
-    firstDocPath = "",
+    firstDocPath = '',
   } = props;
-  const shapeComponent =
-    shape === "triangle" ? (
-      <IconTriangle />
-    ) : shape === "pentagon" ? (
-      <IconPentagon />
-    ) : shape === "diamond" ? (
-      <IconDiamond />
-    ) : shape === "square" ? (
-      <IconSquare />
-    ) : shape === "hexagon" ? (
-      <IconHexagon />
-    ) : shape === "star" ? (
-      <IconStar />
-    ) : shape === "shield" ? (
-      <IconShield />
-    ) : (
-      <IconOctagon />
-    );
 
   return (
     <Card href={`/docs/${nameInParamCase}${firstDocPath}`}>
       <Title>
-        <ShapeBeforeTitle color={color}>{shapeComponent}</ShapeBeforeTitle>
+        <ShapeBeforeTitle color={color}>{shapeComponentMap[shape]}</ShapeBeforeTitle>
         {name}
       </Title>
       <Description className="docs-subtitle">{description}</Description>
       <VersionInfo className="docs-versioninfo">
-        Latest version&nbsp;<span>{version}</span>&nbsp;released at&nbsp;
+        Latest version&nbsp;
+        <span>{version}</span>
+&nbsp;released at&nbsp;
         <span>{releaseDate}</span>
       </VersionInfo>
     </Card>
   );
 };
 
-export default (props) => {
+const Docs: FC = () => {
   const { siteConfig } = useDocusaurusContext();
-  if (!(siteConfig.customFields.docs || []).length) {
+  const docs = siteConfig.customFields.docs as DocInfo[] | null;
+
+  if (!docs?.length) {
     return null;
   }
-  const projects = siteConfig.customFields.docs.map((project) => {
-    return <ProjectCard key={project.name} {...project} />;
-  });
+  const projects = docs.map((project) => <ProjectCard key={project.name} {...project} />);
 
   return (
     <Layout>
@@ -168,3 +184,5 @@ export default (props) => {
     </Layout>
   );
 };
+
+export default Docs;
