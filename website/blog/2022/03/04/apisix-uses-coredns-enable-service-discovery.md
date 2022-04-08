@@ -98,8 +98,8 @@ This article is based on the following environments.
 
 - OS: Centos 7.9.
 - Apache APISIX 2.12.1, please refer to: [How-to-Bulid Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build).
-- CoreDNS 1.9.0，please refer to：[CoreDNS Installation Guide](https://coredns.io/manual/toc/#installation).
-- Node.js, please refer to:[Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
+- CoreDNS 1.9.0，please refer to: [CoreDNS Installation Guide](https://coredns.io/manual/toc/#installation).
+- Node.js, please refer to: [Node.js Installation](https://github.com/nodejs/help/wiki/Installation).
 
 ### Procedure
 
@@ -124,9 +124,9 @@ CoreDNS listens on port `53` by default, and will read the `Corefile` configurat
 
 `Corefile` mainly implements functions by configuring plugins, so we need to configure three plugins:
 
-- `hosts`： You can use this parameter to bind the service name and IP address. fallthrough means that when the current plugin cannot return normal data, the request can be forwarded to the next plugin for processing (if it exists).
-- `forward`： Indicates to proxy the request to the specified address, usually the authoritative DNS server address.
-- `log`： Don't configure any parameters to print log information to the console interface for debugging.
+- `hosts`:  You can use this parameter to bind the service name and IP address. fallthrough means that when the current plugin cannot return normal data, the request can be forwarded to the next plugin for processing (if it exists).
+- `forward`:  Indicates to proxy the request to the specified address, usually the authoritative DNS server address.
+- `log`:  Don't configure any parameters to print log information to the console interface for debugging.
 
 ```Shell
   .:1053 {                           # Listen on port 1053
