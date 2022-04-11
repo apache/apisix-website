@@ -41,7 +41,7 @@ const projects = [
   },
 ];
 
-const languages = ['en', 'zh', 'es'];
+const languages = ['en', 'zh'];
 
 module.exports = {
   projects,
