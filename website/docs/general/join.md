@@ -31,6 +31,6 @@ You can subscribe to the Apache APISIX mailing list to discuss issues, suggest n
 
 You can join the Apache APISIX Slack channel in two ways:
 
-- Using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](./submit-issue.md) if this link is expired_).
+- Join Apache Software Foundation Slack workspace using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](./submit-issue.md) if this link is expired_), and then join the **#apisix** channel (Channels -> Browse channels -> search for "apisix").
 
 - By [subscribing to the mailing list](#subscribe-to-the-mailing-list) and sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
