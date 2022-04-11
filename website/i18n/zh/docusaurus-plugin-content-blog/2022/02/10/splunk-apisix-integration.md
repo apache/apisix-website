@@ -35,7 +35,7 @@ Apache APISIX 作为一个高性能的 API 网关不仅在性能上有着良好�
 
 [Splunk](https://www.splunk.com/) 是一个机器数据的全文搜索引擎，可应用于采集、索引、搜索和分析各种应用数据，根据 [DB Engines 的检索引擎排名](https://db-engines.com/en/ranking/search+engine)，目前 Splunk 位列第二，是一款应用广泛的全文检索软件。Splunk 和 ElasticSearch 一样，是准实时可以提供不间断搜索结果的数据流。
 
-[Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector) 是 Splunk 提供的 HTTP 事件收集器，主要提供以 HTTP(S) 协议将数据和应用程序事件发送到 Splunk 的能力。
+[Splunk HTTP Event Collector(HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector) 是 Splunk 提供的 HTTP 事件收集器，主要提供以 HTTP(S) 协议将数据和应用程序事件发送到 Splunk 的能力。
 
 ## 关于 Splunk HEC Logging 插件
 
