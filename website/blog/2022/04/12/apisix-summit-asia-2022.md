@@ -136,7 +136,7 @@ Rui Chen, Head of BlueKing Container Platform and Microservices Project at Tence
 
 <img src="https://static.apiseven.com/202108/1649755167267-a7759d7f-7864-4f2b-b7a7-1a2b5d1aa8d3.png" alt="Qi Gu" style={{width: "300px"}} />
 
-Qi Gu, Technical Expert of Alibaba Cloud Native Application Platform at Alibaba Cloud 
+Qi Gu, Technical Expert of Alibaba Cloud Native Application Platform at Alibaba Cloud
 
 ### Production Practice of Apache APISIX Gateway in Snowball
 
