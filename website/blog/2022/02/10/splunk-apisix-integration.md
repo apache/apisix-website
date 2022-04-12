@@ -35,7 +35,7 @@ This article explains how to configure and use the [Splunk HEC](https://docs.spl
 
 [Splunk](https://www.splunk.com/) is a full-text search engine for machine data that can be used to collect, index, search, and analyze data from a variety of applications. According to DB Engines' search engine ranking, Splunk is currently in second place and is a widely used full-text search software. Splunk, like ElasticSearch, is a quasi-real-time data stream that provides uninterrupted search results.
 
-[Splunk HTTP Event Collector(HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)is an HTTP event collector provided by Splunk that provides the ability to send data and application events to Splunk using the HTTP(S) protocol.
+[Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector) is an HTTP event collector provided by Splunk that provides the ability to send data and application events to Splunk using the HTTP(S) protocol.
 
 ## About splunk-hec-logging plugin
 
