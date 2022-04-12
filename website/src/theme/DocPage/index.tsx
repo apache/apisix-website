@@ -44,6 +44,7 @@ const navbarLinkMap = {
   docker: 'Apache APISIX® Docker',
   'java-plugin-runner': 'Apache APISIX® Java Plugin Runner',
   'go-plugin-runner': 'Apache APISIX® Go Plugin Runner',
+  'python-plugin-runner': 'Apache APISIX® Python Plugin Runner',
 };
 
 const DocPageContent = ({
