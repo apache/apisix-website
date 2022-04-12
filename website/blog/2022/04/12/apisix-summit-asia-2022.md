@@ -222,7 +222,7 @@ Yubo Wang, Amazon Web Services, Director of Developer Relations
 
 Scan the QR code or [chilk here](https://apisix-summit.org/) to register for **Apache APISIX Summit ASIA 2022**.
 
-![Website QR Code](https://static.apiseven.com/202108/1649733967719-664f2584-6e5a-41c1-b799-fa337b89ecc3.png)
+<img src="https://static.apiseven.com/202108/1649733967719-664f2584-6e5a-41c1-b799-fa337b89ecc3.png" alt="Website QR Code" style={{width: "300px"}} />
 
 ### Join the Apache APISIX Slack channel
 

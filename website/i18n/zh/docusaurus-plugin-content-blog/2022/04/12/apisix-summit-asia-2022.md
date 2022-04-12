@@ -222,4 +222,4 @@ Daniel Kocot，VMware Tanzu Labs Product Manager
 
 扫描下方二维码或[点击链接](http://hdxu.cn/vcGn3)即可前往报名预约观看直播！
 
-![报名二维码](https://static.apiseven.com/202108/1649729975688-98b8a028-2261-4636-bbf2-c20ae9c63f8f.png)
+<img src="https://static.apiseven.com/202108/1649729975688-98b8a028-2261-4636-bbf2-c20ae9c63f8f.png" alt="报名二维码" style={{width: "300px"}} />
