@@ -68,7 +68,7 @@ Qing Chen，Ops Architect of Excelliance Tech.
 
 ### Design and Production Practice Based on Apache APISIX Full-link Grayscale Capability
 
-#### 分享嘉宾
+#### Speaker
 
 <img src="https://static.apiseven.com/202108/1649754486535-2384e0d3-09eb-4a4f-9749-f9eb789eefdf.png" alt="Shengwei Pan" style={{width: "300px"}} />
 
