@@ -5,40 +5,53 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useState, useCallback, useEffect} from 'react';
-import {MDXProvider} from '@mdx-js/react';
+import type { ReactNode } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MDXProvider } from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';
-import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+import type { PropVersionMetadata } from '@docusaurus/plugin-content-docs-types';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
-import type {DocumentRoute} from '@theme/DocItem';
-import type {Props} from '@theme/DocPage';
+import type { DocumentRoute } from '@theme/DocItem';
+import type { Props } from '@theme/DocPage';
 import IconArrow from '@theme/IconArrow';
 import BackToTopButton from '@theme/BackToTopButton';
-import {matchPath} from '@docusaurus/router';
-import {translate} from '@docusaurus/Translate';
-
+import { matchPath } from '@docusaurus/router';
+import { translate } from '@docusaurus/Translate';
 import clsx from 'clsx';
-import styles from './styles.module.css';
-import {ThemeClassNames, docVersionSearchTag} from '@docusaurus/theme-common';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ThemeClassNames, docVersionSearchTag } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
-type DocPageContentProps = {
-  readonly currentDocRoute: DocumentRoute;
-  readonly versionMetadata: PropVersionMetadata;
-  readonly children: ReactNode;
+import styles from './styles.module.css';
+
+ type DocPageContentProps = {
+   readonly currentDocRoute: DocumentRoute;
+   readonly versionMetadata: PropVersionMetadata;
+   readonly children: ReactNode;
+ };
+
+const navbarLinkMap = {
+  general: 'General',
+  apisix: 'Apache APISIX®',
+  dashboard: 'Apache APISIX® Dashboard',
+  'ingress-controller': 'Apache APISIX® Ingress Controller',
+  'helm-chart': 'Apache APISIX® Helm Chart',
+  docker: 'Apache APISIX® Docker',
+  'java-plugin-runner': 'Apache APISIX® Java Plugin Runner',
+  'go-plugin-runner': 'Apache APISIX® Go Plugin Runner',
 };
 
-function DocPageContent({
+const DocPageContent = ({
   currentDocRoute,
   versionMetadata,
   children,
-}: DocPageContentProps): JSX.Element {
-  const {pluginId, version} = versionMetadata;
+}: DocPageContentProps): JSX.Element => {
+  const { pluginId, version } = versionMetadata;
   const sidebarName = currentDocRoute.sidebar;
   const sidebar = sidebarName
     ? versionMetadata.docsSidebars[sidebarName]
@@ -46,45 +59,23 @@ function DocPageContent({
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
-  
+
   useEffect(() => {
-    const children = document.querySelector(".navbar__items--right").childElementCount;
-    if(window.innerWidth > 745) {
-      document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "block";
+    const childrenCount = document.querySelector('.navbar__items--right').childElementCount;
+    const el = document.querySelector('.navbar__items--right').childNodes[childrenCount - 2] as HTMLDivElement;
+    if (window.innerWidth > 745) {
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
     }
-    else {
-      document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none";
-    }
-    const currentPage = currentDocRoute.path.split("/")[2] || "";
-    switch (currentPage) {
-      case "general":
-        document.querySelectorAll(".navbar__link")[0].innerText = "General";
-        break;
-      case "apisix":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX®";
-        break;
-      case "dashboard":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Dashboard";
-        break;
-      case "ingress-controller":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Ingress Controller";
-        break;
-      case "helm-chart":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Helm Chart";
-        break;
-      case "docker":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Docker";
-        break;
-      case "java-plugin-runner":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Java Plugin Runner";
-        break;
-      case "go-plugin-runner":
-        document.querySelectorAll(".navbar__link")[0].innerText = "Apache APISIX® Go Plugin Runner";
-        break;
-    }
+
+    const currentPage = currentDocRoute.path.split('/')[2] || '';
+    const navbarLink = document.querySelectorAll('.navbar__link')[0] as HTMLAnchorElement;
+    navbarLink.innerText = navbarLinkMap[currentPage];
+
     return () => {
-      document.querySelector(".navbar__items--right").childNodes[children-2].style.display = "none"
-    }
+      el.style.display = 'none';
+    };
   }, []);
 
   const toggleSidebar = useCallback(() => {
@@ -94,77 +85,84 @@ function DocPageContent({
 
     setHiddenSidebarContainer(!hiddenSidebarContainer);
   }, [hiddenSidebar]);
-  
+
   return (
     <Layout
+       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+       // @ts-ignore
       wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsDocPage}
       searchMetadatas={{
         version,
         tag: docVersionSearchTag(pluginId, version),
-      }}>
+      }}
+    >
       <div className={styles.docPage}>
         <BackToTopButton />
 
         {sidebar && (
-          <aside
-            className={clsx(styles.docSidebarContainer, {
-              [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+        <aside
+          className={clsx(styles.docSidebarContainer, {
+            [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+          })}
+          onTransitionEnd={(e) => {
+            if (
+              !e.currentTarget.classList.contains(styles.docSidebarContainer)
+            ) {
+              return;
+            }
+
+            if (hiddenSidebarContainer) {
+              setHiddenSidebar(true);
+            }
+          }}
+        >
+          <DocSidebar
+            key={
+                 // Reset sidebar state on sidebar changes
+                 // See https://github.com/facebook/docusaurus/issues/3414
+                 sidebarName
+               }
+            sidebar={sidebar}
+            path={currentDocRoute.path}
+            onCollapse={toggleSidebar}
+            isHidden={hiddenSidebar}
+               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               // @ts-ignore
+            docsPluginId={pluginId}
+          />
+
+          {hiddenSidebar && (
+          <div
+            className={styles.collapsedDocSidebar}
+            title={translate({
+              id: 'theme.docs.sidebar.expandButtonTitle',
+              message: 'Expand sidebar',
+              description:
+                     'The ARIA label and title attribute for expand button of doc sidebar',
             })}
-            onTransitionEnd={(e) => {
-              if (
-                !e.currentTarget.classList.contains(styles.docSidebarContainer)
-              ) {
-                return;
-              }
-
-              if (hiddenSidebarContainer) {
-                setHiddenSidebar(true);
-              }
-            }}>
-            <DocSidebar
-              key={
-                // Reset sidebar state on sidebar changes
-                // See https://github.com/facebook/docusaurus/issues/3414
-                sidebarName
-              }
-              sidebar={sidebar}
-              path={currentDocRoute.path}
-              onCollapse={toggleSidebar}
-              isHidden={hiddenSidebar}
-              // @ts-ignore
-              docsPluginId={pluginId}
-            />
-
-            {hiddenSidebar && (
-              <div
-                className={styles.collapsedDocSidebar}
-                title={translate({
-                  id: 'theme.docs.sidebar.expandButtonTitle',
-                  message: 'Expand sidebar',
-                  description:
-                    'The ARIA label and title attribute for expand button of doc sidebar',
-                })}
-                aria-label={translate({
-                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
-                  message: 'Expand sidebar',
-                  description:
-                    'The ARIA label and title attribute for expand button of doc sidebar',
-                })}
-                tabIndex={0}
-                role="button"
-                onKeyDown={toggleSidebar}
-                onClick={toggleSidebar}>
-                <IconArrow className={styles.expandSidebarButtonIcon} />
-              </div>
-            )}
-          </aside>
+            aria-label={translate({
+              id: 'theme.docs.sidebar.expandButtonAriaLabel',
+              message: 'Expand sidebar',
+              description:
+                     'The ARIA label and title attribute for expand button of doc sidebar',
+            })}
+            tabIndex={0}
+            role="button"
+            onKeyDown={toggleSidebar}
+            onClick={toggleSidebar}
+          >
+            <IconArrow className={styles.expandSidebarButtonIcon} />
+          </div>
+          )}
+        </aside>
         )}
         <main
           className={clsx(styles.docMainContainer, {
             [styles.docMainContainerEnhanced]:
-              hiddenSidebarContainer || !sidebar,
-          })}>
+               hiddenSidebarContainer || !sidebar,
+          })}
+        >
           <div
             className={clsx(
               'container padding-top--md padding-bottom--lg',
@@ -172,40 +170,43 @@ function DocPageContent({
               {
                 [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
               },
-            )}>
+            )}
+          >
             <MDXProvider components={MDXComponents}>{children}</MDXProvider>
           </div>
         </main>
       </div>
     </Layout>
   );
-}
+};
 
-function DocPage(props: Props): JSX.Element {
+const DocPage = (props: Props): JSX.Element => {
   const {
-    route: {routes: docRoutes},
+    route: { routes: docRoutes },
     versionMetadata,
     location,
   } = props;
-  const currentDocRoute = docRoutes.find((docRoute) =>
-    matchPath(location.pathname, docRoute),
-  );
+  const currentDocRoute = docRoutes.find((docRoute) => matchPath(location.pathname, docRoute));
   if (!currentDocRoute) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return <NotFound {...props} />;
   }
   return (
     <>
       <Head>
         {/* TODO we should add a core addRoute({htmlClassName}) generic plugin option */}
+        {/* eslint-disable-next-line jsx-a11y/html-has-lang */}
         <html className={versionMetadata.className} />
       </Head>
       <DocPageContent
         currentDocRoute={currentDocRoute}
-        versionMetadata={versionMetadata}>
-        {renderRoutes(docRoutes, {versionMetadata})}
+        versionMetadata={versionMetadata}
+      >
+        {renderRoutes(docRoutes, { versionMetadata })}
       </DocPageContent>
     </>
   );
-}
+};
 
 export default DocPage;

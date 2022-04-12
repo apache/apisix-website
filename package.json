@@ -32,8 +32,8 @@
     "stylelint-config-standard": "^25.0.0"
   },
   "lint-staged": {
-    "*.{js, jsx, ts, tsx}": "eslint --cache --fix",
-    "*.{yml, yaml}": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{yml,yaml}": "eslint --cache --fix",
     "*.css": "stylelint --cache --fix"
   }
 }
