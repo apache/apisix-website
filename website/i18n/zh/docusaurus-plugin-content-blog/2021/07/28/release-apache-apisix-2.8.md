@@ -30,7 +30,7 @@ Apache APISIX 2.8 版本正式发布！🎉 这个版本有 30+ 开发者参与�
 - 动态设置 mTLS
 - 动态设置 client_max_body_size
 - Upstream 的 keepalive（2.8 新功能）
-- gzip （2.8 新插件）
+- gzip (2.8 新插件)
 
 在 Apache APISIX 后续版本中，我们也会陆续允许下面的 Nginx 配置能够被动态设置：
 

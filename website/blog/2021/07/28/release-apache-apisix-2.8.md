@@ -28,8 +28,8 @@ The following features are currently included:
 
 - Dynamically set mTLS
 - Dynamically set client_max_body_size
-- Upstream Keepalive （2.8 new feature）
-- gzip （2.8 new Plug-in）
+- Upstream Keepalive (2.8 new feature)
+- gzip (2.8 new Plug-in)
 
 In future releases, we will continue to allow the following Nginx configurations to be set dynamically:
 

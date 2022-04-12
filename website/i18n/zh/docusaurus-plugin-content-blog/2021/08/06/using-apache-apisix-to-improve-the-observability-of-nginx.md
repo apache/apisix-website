@@ -151,7 +151,7 @@ Apache APISIX 最重要的一个优势是有一个活跃的社区，一个活跃
 
 ![Apache APISIX 社区活跃度对比图](https://static.apiseven.com/202108/1630651158650-2c4a287f-45a3-4c49-94d1-5be3914e5f69.png)
 
-上图展示的是 Apache APISIX（绿色）、Kong（浅蓝）、mosn（黄色）、bfe （深蓝）贡献者增长曲线，Apache APISX 增长趋势最快，曲线最为陡峭。 Apache APISIX 社区活跃度在同类型项目里面是最活跃的。
+上图展示的是 Apache APISIX（绿色）、Kong（浅蓝）、mosn（黄色）、bfe（深蓝）贡献者增长曲线，Apache APISX 增长趋势最快，曲线最为陡峭。 Apache APISIX 社区活跃度在同类型项目里面是最活跃的。
 
 ## 结合 Apache SkyWalking，在可观测性上做进一步提升
 
@@ -171,7 +171,7 @@ SkyWalking Satellite 按照上图步骤采集数据，SkyWalking Satellite 可�
 
 ### ALS 方案
 
-ALS （Access Log Service）将经过 Apache  APISIX 的访问日志发送出来，在普通的 access log 上增加特殊的字段，如：增加关键字段便于生成拓扑图，同时聚合出 metrics。
+ALS（Access Log Service）将经过 Apache  APISIX 的访问日志发送出来，在普通的 access log 上增加特殊的字段，如：增加关键字段便于生成拓扑图，同时聚合出 metrics。
 
 ALS 方案最大的好处是可以直接通过 access log 方式分析和聚合出拓扑图、metrics 、logging 这三种类型的数据。
 在使用 Prometheus 时，如果配置了 URI 级别的 metrics 指标的统计，会导致整个 metrics 急剧膨胀。因为 URI 级别的服务可能有几十个，每个 metrics 后面可能有许多 labels，这会降低网关性能，增加 metrics 获取难度。**使用 ALS 方案，通过流的方式将数据发送给 SkyWalking，把计算的事情交给 SkyWalking，后续也方便查询**，不会出现每隔几秒钟拉取一次非常庞大的数据的情况。
@@ -192,7 +192,7 @@ ALS 方案最大的好处是可以直接通过 access log 方式分析和聚合�
 
 问题：Apache APISIX 的扩展机制是怎么实现的？扩展这个功能是否对 Apache APISIX 本身稳定性有影响？
 
-答：Apache APISIX 扩展机制得益于它的架构，可以在各个 phases （rewrite / access / header_filter / body_filter / preread_filter / log）增加业务逻辑。
+答：Apache APISIX 扩展机制得益于它的架构，可以在各个 phases（rewrite / access / header_filter / body_filter / preread_filter / log）增加业务逻辑。
 
 至于稳定性方面， Apache  APISIX 已经开源了近 50 个插件，每一个插件都会有端到端的测试，这些插件都是经过验证的、是稳定可用的。但是自定义插件要遵循一定的规范，虽然很简单，但是大家也不能太随意。自定义插件的稳定性保证，需要由业务方自己来保证。
 

@@ -44,7 +44,7 @@ BaaS（Blockchain as a Service），中文为“区块链即服务”，是指�
 
 从这张图中可以看到，趣链科技 BaaS 平台的架构不仅是微服务化的，而且分为两层，分别是业务接入层和核心服务层。
 
-BFF（Backend For Frontend） 一般对着前端，通过 HTTP 接入。核心服务一般是通过类似 Dubbo、ETCD 等服务注册，最后使用 gRPC 来访问。
+BFF（Backend For Frontend）一般对着前端，通过 HTTP 接入。核心服务一般是通过类似 Dubbo、ETCD 等服务注册，最后使用 gRPC 来访问。
 
 也就是说，趣链科技的 BaaS 平台前端连接的都是 BFF 模块，然后 BFF 模块再去连接后面的微服务模块。BFF 的作用主要就是做业务聚合、格式适配，并把最终的结果数据给到前端。
 

@@ -60,7 +60,7 @@ Apache APISIX 目前已初步支持 WASM，可以使用 WASM 来编写 fault-inj
 
 实现代码（包含 `go.mod` 和其他）具体细节可[点击此处](https://github.com/apache/apisix/tree/master/t/wasm)查阅。
 
-这里需要解释下，虽然 proxy-wasm-go-sdk 这个项目带了 Go 的名字，但它其实用的是 tinygo 而不是原生的 Go。因为原生的 Go 在支持 WASI （你可以认为它是非浏览器的 WASM 运行时接口）时会有一些问题，详情可[点击此处](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/main/doc/OVERVIEW.md#tinygo-vs-the-official-go-compiler)查阅。
+这里需要解释下，虽然 proxy-wasm-go-sdk 这个项目带了 Go 的名字，但它其实用的是 tinygo 而不是原生的 Go。因为原生的 Go 在支持 WASI（你可以认为它是非浏览器的 WASM 运行时接口）时会有一些问题，详情可[点击此处](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/main/doc/OVERVIEW.md#tinygo-vs-the-official-go-compiler)查阅。
 
 ### 步骤二：构建对应的 WASM 文件
 

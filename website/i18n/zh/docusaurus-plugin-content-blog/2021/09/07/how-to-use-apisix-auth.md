@@ -74,7 +74,7 @@ Authz-casbin 插件是目前 Apche APISIX 与 Casbin 社区正在进行合作开
 
 ### 优点三：配置灵活，功能强大
 
-功能强大该如何理解，就是 Apache APISIX 中可以针对每一个 Consumer （即调用方应用）去做不同级别的插件配置。
+功能强大该如何理解，就是 Apache APISIX 中可以针对每一个 Consumer（即调用方应用）去做不同级别的插件配置。
 
 ![配置灵活](https://static.apiseven.com/202108/1631004783828-3dd0056c-a6aa-4ab9-b902-7bd2ca545ffe.png)
 

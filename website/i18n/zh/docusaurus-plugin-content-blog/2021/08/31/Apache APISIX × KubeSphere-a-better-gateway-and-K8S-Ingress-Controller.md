@@ -180,7 +180,7 @@ root@apisix:~$ curl http://172.18.0.5:31441/get -H "HOST: httpbin.org"
 
 ## 使用 APISIX Ingress Controller 代理服务
 
-我们可以直接在 KubeSphere 中添加应用路由（Ingress） ，Apache APISIX Ingress Controller 会自动将路由规则同步至 Apache APISIX 中，完成服务的代理。
+我们可以直接在 KubeSphere 中添加应用路由（Ingress），Apache APISIX Ingress Controller 会自动将路由规则同步至 Apache APISIX 中，完成服务的代理。
 
 ![KubeSphere APISIX Ingress Controller demo](https://static.apiseven.com/202108/1630404265190-585b9b09-72d5-4320-b0fe-9cf8a73c55ea.png)
 

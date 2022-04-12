@@ -188,7 +188,7 @@ kubectl apply -f 03.svc.yaml
 
 ![填写释义](https://static.apiseven.com/202108/1637119221114-90c1ef58-6743-419c-be87-9cdc8503aa30.png)
 
-在支持命名空间的托管平台上，Dapr 应用 ID 是符合有效的 FQDN 格式，其中包括目标名称空间。例如，以下字符串包含应用 ID （svc-kennethreitz-httpbin） 以及应用运行在命名空间（kind-test）。
+在支持命名空间的托管平台上，Dapr 应用 ID 是符合有效的 FQDN 格式，其中包括目标名称空间。例如，以下字符串包含应用 ID（svc-kennethreitz-httpbin）以及应用运行在命名空间（kind-test）。
 
 最后可以通过访问：http://20.195.90.43/httpbin/get 来查看代理是否成功。
 
