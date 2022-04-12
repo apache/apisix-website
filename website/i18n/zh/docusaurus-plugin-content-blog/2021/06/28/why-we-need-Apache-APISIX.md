@@ -54,7 +54,7 @@ tags: [Technology]
 
 我们再看看左侧比较有意思的 JAVA ，Spring Cloud 内置 API 网关先后经历了 ZUUL、ZUUL2，但还是不好用，性能、架构官方都不满意，所以 Spring Cloud 官方发起了新项目 Spring Cloud Gateway，最终形成全家桶解决方案。
 
-最后说说右下角部分的服务网格，对于服务网格已经形成一种选择就是 istio(CP) + envoy(DP)。后面我们又看到了阿里巴巴开源的 mosn，一句话概括：Golang 版本的 envoy。
+最后说说右下角部分的服务网格，对于服务网格已经形成一种选择就是 istio（控制面）+ envoy（数据面）。后面我们又看到了阿里巴巴开源的 mosn，一句话概括：Golang 版本的 envoy。
 
 ![APISIX architecture](https://static.apiseven.com/202108/20210625007.png)
 

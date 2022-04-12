@@ -20,13 +20,13 @@ Apache APISIX 2.10 版本正式发布！🎉 这是 Apache APISIX 首个 LTS 版
 
 ## 里程碑：第一个 LTS 版本
 
-对于 Apache APISIX 来说，本次发布的 2.10.0 是一个具有里程碑意义的版本，因为 Apache APISIX 2.10.0 是我们的第一个 LTS （Long Time Support）的版本。
+对于 Apache APISIX 来说，本次发布的 2.10.0 是一个具有里程碑意义的版本，因为 Apache APISIX 2.10.0 是我们的第一个 LTS（Long Time Support）的版本。
 
 我们会在 Apache APISIX 2.10.0 的基础上发布后续的 patch 版本，也就是 2.10.1、2.10.2 等版本。这些版本会从主分支上 backport bugfix。
 
 按计划，10 月份我们会发布首个 LTS 版本的首个 patch 版本，也就是 Apache APISIX 2.10.1。
 
-之后我们会交替发布 2.10.x（例如 2.10.2 ） 和 2.x（例如 2.11.0）两个版本线，保持功能迭代的同时，确保 LTS 版本能够得到较新的 bugfix。
+之后我们会交替发布 2.10.x（例如 2.10.2 ）和 2.x（例如 2.11.0）两个版本线，保持功能迭代的同时，确保 LTS 版本能够得到较新的 bugfix。
 
 ## 新功能：service 增加 hosts 属性
 

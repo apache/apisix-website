@@ -40,7 +40,7 @@ gRPC 最初由谷歌开发，是一个基于 HTTP/2 实现的高性能远程过�
 
 Apache APISIX 通过插件的方式支持 gRPC Web 协议的代理，在 `grpc-web` 插件中完成了 gRPC Web与 gRPC Server 通讯时的协议转换及数据编解码工作，其通讯的过程如下：
 
-gRPC Web Client -> Apache APISIX（protocol conversion & data codec） -> gRPC server
+gRPC Web Client -> Apache APISIX（protocol conversion & data codec）-> gRPC server
 
 接下来通过一个完整的示例向大家演示怎样构建一个 gRPC Web 客户端，并通过 Apache APISIX 进行 gRPC Web 请求的代理。在以下的示例中，我们会将 Go 作为 gRPC Server 服务端处理程序，Node 作为 gRPC Web 客户端请求程序。
 

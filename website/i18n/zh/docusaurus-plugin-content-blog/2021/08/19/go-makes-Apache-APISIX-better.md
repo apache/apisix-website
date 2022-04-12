@@ -140,7 +140,7 @@ APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock APISIX_CONF_EXPIRE_TIME=3600 ./go-ru
 
 应用运行时会去监听 `/tmp/runner.sock`。
 
-### 设置 Apache APISIX （开发）
+### 设置 Apache APISIX（开发）
 
 首先要安装 Apache APISIX，需要和 Go Runner 位于同一实例上。
 
@@ -214,7 +214,7 @@ hello
 
 可以看到接口返回 hello 而且没有访问到任何上游。
 
-### 设置 Apache APISIX （运行）
+### 设置 Apache APISIX（运行）
 
 这里以 go-runner 为例，只需把运行命令行配置在 ext-plugin 里就可以运行了：
 
