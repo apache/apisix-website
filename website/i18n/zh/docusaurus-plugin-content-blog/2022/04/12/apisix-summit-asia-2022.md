@@ -6,9 +6,11 @@ description: 云原生 API 网关 Apache APISIX 社区将于 2022 年 5 月 20-2
 tags: [Events]
 ---
 
-> Apache APISIX 社区将于 2022 年 5 月 20-21 日通过「线上直播」的方式举办 Apache APISIX Summit ASIA 2022。更多详情可点击文章查看。
+> Apache APISIX 社区将于 2022 年 5 月 20-21 日通过「线上直播」的方式举办 Apache APISIX Summit ASIA 2022。
 
 <!--truncate-->
+
+[点击此处](https://apisix-summit.org/)前往 **Apache APISIX Summit ASIA 2022** 大会官网.
 
 ![活动海报](https://static.apiseven.com/202108/1649729812376-b05269c8-90b9-4d73-b97e-463beb351d1d.png)
 

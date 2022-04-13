@@ -12,6 +12,8 @@ tags: [Events]
 
 ![Summit Post](https://static.apiseven.com/202108/1649729812376-b05269c8-90b9-4d73-b97e-463beb351d1d.png)
 
+[Chilk here](https://apisix-summit.org/) to register for **Apache APISIX Summit ASIA 2022**.
+
 ## Conference Introduction
 
 Since Apache APISIX was officially open sourced on June 6, 2019, it has been growing rapidly as a community. In just over two years, the number of global contributors has exceeded 400, and the number is still growing rapidly. During this time, the Apache APISIX community has also successively gained recognition from domestic and foreign developers.
