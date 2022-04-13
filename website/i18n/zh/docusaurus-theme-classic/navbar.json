@@ -11,8 +11,20 @@
     "message": "博客",
     "description": "Navbar item with label Blog"
   },
+  "item.label.Resources": {
+    "message": "资源",
+    "description": "Navbar item with label Resources"
+  },
+  "item.label.Plugin Hub": {
+    "message": "插件中心",
+    "description": "Navbar item with label Plugin Hub"
+  },
+  "item.label.Community": {
+    "message": "社区活动",
+    "description": "Navbar item with label Community"
+  },
   "item.label.Events": {
-    "message": "Events",
+    "message": "活动介绍",
     "description": "Navbar item with label Events"
   },
   "item.label.Downloads": {
