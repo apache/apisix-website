@@ -4,8 +4,8 @@
  * @type {Array<string>} version list
  */
 const versions = [
-  '2.13',
   '2.12',
+  '2.13',
 ];
 
 /**
