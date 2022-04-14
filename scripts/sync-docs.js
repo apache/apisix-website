@@ -1,43 +1,83 @@
 const childProcess = require('child_process');
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 const process = require('process');
 const os = require('os');
 const Listr = require('listr');
 const simpleGit = require('simple-git');
 const semver = require('semver');
+const replace = require('replace-in-file');
 
 const common = require('./common.js');
+const { versions } = require('../website/config/apisix-versions.js');
 
-const git = simpleGit();
 const { projects, languages, projectPaths } = common;
+const git = simpleGit();
 const tempPath = './tmp';
 const websitePath = '../website';
+
+const extractDocsHeadTasks = (project, version) => ([
+  {
+    title: `Checkout ${project.name} version: ${version}`,
+    task: () => git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/release/${version}`, ['-f']),
+  },
+  {
+    title: 'Replace elements inside MD files',
+    task: async () => {
+      const branchName = `release/${version}`;
+      await replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], branchName);
+      await copyAllDocs(project);
+    },
+  },
+]);
+
+const extractDocsTailTasks = (project, version) => ([
+  {
+    title: 'Add English documents',
+    task: () => {
+      childProcess.execSync(
+        `yarn docusaurus docs:version:docs-${project.name} ${version}`,
+        { cwd: websitePath },
+      );
+    },
+  },
+  {
+    title: 'Add Chinese documents',
+    task: async () => {
+      if (await isFileExisted(`./${tempPath}/${project.name}/docs/zh/latest`)) {
+        await copyFolder(
+          project.latestDocs.zh,
+          `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`,
+        );
+      }
+    },
+  },
+]);
 
 const projectReleases = {};
 const tasks = new Listr([
   {
     title: 'Start documents sync',
-    task: () => {
-      removeFolder(tempPath);
-      fs.mkdirSync(tempPath);
+    skip: () => true,
+    task: async () => {
+      await removeFolder(tempPath);
+      await fs.mkdir(tempPath);
     },
   },
   {
     title: 'Clone git repositories',
+    skip: () => true,
     task: () => {
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
-        task: async () => {
-          await git.clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`);
-        },
+        task: () => git.clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`),
       }));
-      return new Listr(gitTasks, { concurrent: 3 });
+      return new Listr(gitTasks, { concurrent: 6 });
     },
   },
   {
     title: 'Find project release',
-    task: async () => {
+    task: () => {
       const findReleaseTasks = projects.map((project) => ({
         title: `Find ${project.name} releases`,
         task: async () => {
@@ -59,53 +99,30 @@ const tasks = new Listr([
       const extractDocumentTasks = projectPaths.map((project) => ({
         title: `Extract ${project.name} documents`,
         task: () => {
-          const extractProjectTasks = projectReleases[project.name].map((version) => ({
-            title: `Extract ${project.name} ${version} documents`,
-            task: () => new Listr([
-              {
-                title: `Checkout ${project.name} version: ${version}`,
-                task: async () => {
-                  await git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/release/${version}`, ['-f']);
+          const extractProjectTasks = project.name === 'apisix'
+            ? versions.map((version) => ({
+              title: `Extract ${project.name} ${version} documents`,
+              task: () => new Listr([
+                ...extractDocsHeadTasks(project, version),
+                {
+                  title: 'Generate API docs for APISIX',
+                  enabled: () => os.platform() === 'linux' && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
+                  task: () => generateAPIDocs(project),
                 },
-              },
-              {
-                title: 'Replace elements inside MD files',
-                task: () => {
-                  const branchName = `release/${version}`;
-                  replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], branchName);
-                  copyAllDocs(project);
-                },
-              },
-              {
-                title: 'Generate API docs for APISIX',
-                enabled: () => os.platform() === 'linux' && project.name === 'apisix' && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
-                task: () => generateAPIDocs(project),
-              },
-              {
-                title: 'Add English documents',
-                task: () => {
-                  childProcess.execSync(
-                    `npm run docusaurus docs:version:docs-${project.name} ${version}`,
-                    { cwd: websitePath },
-                  );
-                },
-              },
-              {
-                title: 'Add Chinese documents',
-                task: () => {
-                  if (isFileExisted(`./${tempPath}/${project.name}/docs/zh/latest`) !== false) {
-                    copyFolder(
-                      project.latestDocs.zh,
-                      `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`,
-                    );
-                  }
-                },
-              },
-            ]),
-          }));
+                ...extractDocsTailTasks(project, version),
+              ]),
+            }))
+            : projectReleases[project.name].map((version) => ({
+              title: `Extract ${project.name} ${version} documents`,
+              task: () => new Listr([
+                ...extractDocsHeadTasks(project, version),
+                ...extractDocsTailTasks(project, version),
+              ]),
+            }));
           return new Listr(extractProjectTasks);
         },
       }));
+
       return new Listr(extractDocumentTasks);
     },
   },
@@ -119,17 +136,13 @@ const tasks = new Listr([
           const steps = [
             {
               title: `Checkout ${project.name} next version`,
-              task: () => new Promise((resolve) => {
-                git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']).then(() => {
-                  resolve();
-                });
-              }),
+              task: () => git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']),
             },
             {
               title: 'Replace elements inside MD files',
-              task: () => {
-                replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], project.branch);
-                copyAllDocs(project);
+              task: async () => {
+                await replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], project.branch);
+                await copyAllDocs(project);
               },
             },
             {
@@ -146,9 +159,8 @@ const tasks = new Listr([
   },
   {
     title: 'Clean temporary files',
-    task: () => {
-      removeFolder(tempPath);
-    },
+    skip: () => true,
+    task: () => removeFolder(tempPath),
   },
 ]);
 
@@ -163,14 +175,10 @@ tasks.run()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function log(text) {
+  // console.log(text);
 }
 
-function isFileExisted(p) {
-  return fs.existsSync(p);
-}
-
-function replaceMDElements(project, path, branch = 'master') {
-  const replace = require('replace-in-file');
+async function replaceMDElements(project, path, branch = 'master') {
   const allMDFilePaths = path.map((p) => `${p}/**/*.md`);
 
   // replace the image urls inside markdown files
@@ -182,7 +190,7 @@ function replaceMDElements(project, path, branch = 'master') {
     to: (match) => {
       const imgPath = match.replace(/\(|\)|\.\.\/*/g, '');
       const newUrl = `https://raw.githubusercontent.com/apache/${project}/${branch}/docs/${imgPath}`;
-      // console.log(`${project}: ${match} 👉 ${newUrl}`);
+      log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
   };
@@ -204,92 +212,82 @@ function replaceMDElements(project, path, branch = 'master') {
       const projectNameWithoutPrefix = project === 'apisix' ? 'apisix' : project.replace('apisix-', '');
       const newUrl = match.replace(
         /\]\(.*\)/g,
-        `](https://apisix.apache.org${lang !== 'en' ? `/${lang}` : ''
-        }/docs/${projectNameWithoutPrefix}/${urlPath})`,
+        `](https://apisix.apache.org${lang === 'en' ? '' : `/${lang}`}/docs/${projectNameWithoutPrefix}/${urlPath})`,
       );
       log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
     },
   };
 
-  try {
-    replace.sync(imageOptions);
-    replace.sync(markdownOptions);
-  } catch (error) {
-    console.error(`${project} - Error occurred:`, error);
-  }
+  await Promise.all([
+    replace(imageOptions),
+    replace(markdownOptions),
+  ]);
 }
 
-function removeFolder(tarDir) {
-  if (!fs.existsSync(tarDir)) return;
-
-  const files = fs.readdirSync(tarDir);
-  files.forEach((file) => {
-    const tarPath = path.join(tarDir, file);
-    const stats = fs.statSync(tarPath);
-    if (stats.isDirectory()) {
-      removeFolder(tarPath);
-    } else {
-      fs.unlinkSync(tarPath);
-    }
-  });
-
-  fs.rmdirSync(tarDir);
+async function isFileExisted(p) {
+  return fs.stat(p).then((v) => v.isFile()).catch(() => false);
 }
 
-function copyFolder(srcDir, tarDir) {
-  const files = fs.readdirSync(srcDir);
-  if (isFileExisted(tarDir) === false) {
-    fs.mkdirSync(tarDir, () => log(`create directory ${tarDir}`));
-  }
-  files.forEach((file) => {
+async function isDirExisted(p) {
+  return fs.stat(p).then((v) => v.isDirectory()).catch(() => false);
+}
+
+async function removeFolder(tarDir) {
+  if (await isDirExisted()) return;
+  await fs.rm(tarDir, { recursive: true, force: true });
+}
+
+async function copyFolder(srcDir, tarDir) {
+  const [files] = await Promise.all([
+    fs.readdir(srcDir),
+    fs.mkdir(tarDir, { recursive: true }),
+  ]);
+
+  return Promise.all(files.map(async (file) => {
     const srcPath = path.join(srcDir, file);
     const tarPath = path.join(tarDir, file);
+    const stats = await fs.stat(srcPath);
 
-    const stats = fs.statSync(srcPath);
-    if (stats.isDirectory()) {
-      if (!fs.existsSync(tarPath)) {
-        fs.mkdirSync(tarPath);
-      }
-      copyFolder(srcPath, tarPath);
-    } else {
-      fs.copyFileSync(srcPath, tarPath);
-    }
-  });
+    return stats.isDirectory()
+      ? copyFolder(srcPath, tarPath)
+      : fs.copyFile(srcPath, tarPath);
+  }));
 }
 
-function copyDocs(source, target, projectName, locale) {
-  if (isFileExisted(`${source}/${locale}/latest`) === false) {
+async function copyDocs(source, target, projectName, locale) {
+  if (!await isDirExisted(`${source}/${locale}/latest`)) {
     log(`[${projectName}] can not find ${locale} latest folder, skip.`);
     return;
   }
 
   log(`[${projectName}] load ${locale} latest docs config.json`);
   const configLatest = JSON.parse(
-    fs.readFileSync(`${source}/${locale}/latest/config.json`),
+    await fs.readFile(`${source}/${locale}/latest/config.json`),
   );
 
   log(`[${projectName}] delete ${locale} docs config.json`);
-  fs.unlinkSync(`${source}/${locale}/latest/config.json`);
+  await fs.unlink(`${source}/${locale}/latest/config.json`);
 
   log(`[${projectName}] copy latest ${locale} docs to ${target}`);
-  copyFolder(`${source}/${locale}/latest/`, target);
+  await copyFolder(`${source}/${locale}/latest/`, target);
 
   log(`[${projectName}] write sidebar.json`);
   const sidebar = {
     docs: [...(configLatest.sidebar || [])],
   };
-  fs.writeFileSync(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
+
+  await fs.writeFile(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
 }
 
-function copyAllDocs(project) {
-  copyDocs(
+async function copyAllDocs(project) {
+  await copyDocs(
     `${tempPath}/${project.name}/docs`,
     project.latestDocs.en,
     project.name,
     'en',
   );
-  copyDocs(
+  await copyDocs(
     `${tempPath}/${project.name}/docs`,
     project.latestDocs.zh,
     project.name,
@@ -315,9 +313,9 @@ function generateAPIDocs(project) {
     },
     {
       title: 'Copy API docs',
-      task: () => {
-        if (isFileExisted(`./${tempPath}/${project.name}/autodocs/output`) !== false) {
-          copyFolder(`${tempPath}/${project.name}/autodocs/output`, `${project.latestDocs.en}/pdk-docs`);
+      task: async () => {
+        if (await isFileExisted(`./${tempPath}/${project.name}/autodocs/output`)) {
+          await copyFolder(`${tempPath}/${project.name}/autodocs/output`, `${project.latestDocs.en}/pdk-docs`);
         }
       },
     },
