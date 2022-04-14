@@ -58,7 +58,6 @@ const projectReleases = {};
 const tasks = new Listr([
   {
     title: 'Start documents sync',
-    skip: () => true,
     task: async () => {
       await removeFolder(tempPath);
       await fs.mkdir(tempPath);
@@ -66,7 +65,6 @@ const tasks = new Listr([
   },
   {
     title: 'Clone git repositories',
-    skip: () => true,
     task: () => {
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
@@ -159,7 +157,6 @@ const tasks = new Listr([
   },
   {
     title: 'Clean temporary files',
-    skip: () => true,
     task: () => removeFolder(tempPath),
   },
 ]);
