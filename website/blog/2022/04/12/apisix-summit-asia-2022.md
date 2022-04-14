@@ -12,7 +12,7 @@ tags: [Events]
 
 ![Summit Post](https://static.apiseven.com/202108/1649729812376-b05269c8-90b9-4d73-b97e-463beb351d1d.png)
 
-[Chilk here](https://apisix-summit.org/) to register for **Apache APISIX Summit ASIA 2022**.
+[Click here](https://apisix-summit.org/) to register for **Apache APISIX Summit ASIA 2022**.
 
 ## Conference Introduction
 
@@ -34,7 +34,7 @@ There are more important speakers: Fei Xiong (Partner of Matrix Partners China),
 
 <img src="https://static.apiseven.com/202108/1649753814098-6c7fa7d6-bac0-4f72-bcba-9367b7e4c59b.png" alt="Ming Wen" style={{width: "300px"}} />
 
-Ming Wen，Apache APISIX PMC Chair, API7.ai Co-Founder
+Ming Wen, Apache APISIX PMC Chair, API7.ai Co-Founder
 
 ### The Globalization Path for Open Source Products Through Community Ecology
 
@@ -90,7 +90,7 @@ Jean-Philippe GOUIN，VMware Tanzu Labs Product Manager
 
 <img src="https://static.apiseven.com/202108/1649754730088-df00e488-4b91-41d4-a504-e007dbc7bb36.png" alt="Daniel Kocot" style={{width: "300px"}} />
 
-Daniel Kocot，VMware Tanzu Labs Product Manager
+Daniel Kocot, VMware Tanzu Labs Product Manager
 
 ### Building a Cloud-Native Integrated Architecture based on APISIX and RocketMQ
 
@@ -222,10 +222,10 @@ Yubo Wang, Amazon Web Services, Director of Developer Relations
 
 ## How to Participate
 
-Scan the QR code or [chilk here](https://apisix-summit.org/) to register for **Apache APISIX Summit ASIA 2022**.
+Scan the QR code or [click here](https://apisix-summit.org/) to register for **Apache APISIX Summit ASIA 2022**.
 
 <img src="https://static.apiseven.com/202108/1649733967719-664f2584-6e5a-41c1-b799-fa337b89ecc3.png" alt="Website QR Code" style={{width: "300px"}} />
 
 ### Join the Apache APISIX Slack channel
 
-Join Apache Software Foundation Slack workspace using [this invite](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](./submit-issue.md) if this link is expired_), and then join the **#apisix** channel (Channels -> Browse channels -> search for "apisix").
+Join Apache Software Foundation Slack workspace using [this invitation link](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](./submit-issue.md) if this link is expired_), and then join the **#apisix** channel (Channels -> Browse channels -> search for "apisix").
