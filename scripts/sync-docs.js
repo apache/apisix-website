@@ -216,10 +216,8 @@ async function replaceMDElements(project, path, branch = 'master') {
     },
   };
 
-  await Promise.all([
-    replace(imageOptions),
-    replace(markdownOptions),
-  ]);
+  await replace(imageOptions);
+  await replace(markdownOptions);
 }
 
 async function isFileExisted(p) {
