@@ -65,7 +65,7 @@ jobs:
           path: |
             ./website/.docusaurus
             ./website/build
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('./website/docs/apisix/**') }}
 
       - name: Build
         run: |
