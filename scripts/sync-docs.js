@@ -48,10 +48,7 @@ const extractDocsTailTasks = (project, version) => ([
             project.latestDocs.zh,
             `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`,
           ),
-        )
-        .catch((err) => {
-          console.error(err);
-        }),
+        ),
     ]),
   },
 ]);
@@ -69,9 +66,9 @@ const tasks = new Listr([
     task: () => {
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
-        task: () => {
+        task: async () => {
           gitMap[project.name] = simpleGit();
-          return gitMap[project.name].clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`);
+          await gitMap[project.name].clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`);
         },
       }));
       return new Listr(gitTasks, { concurrent: projects.length });
