@@ -58,6 +58,15 @@ jobs:
         run: |
           yarn sync-doc && yarn generate-repos-info && git status
 
+      - name: Apply docusaurus cache
+        id: docusaurus-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./website/.docusaurus
+            ./website/build
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Build
         run: |
           yarn build && cp ./.asf.yaml ./website/build
