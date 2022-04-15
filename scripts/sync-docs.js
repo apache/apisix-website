@@ -7,19 +7,22 @@ const Listr = require('listr');
 const simpleGit = require('simple-git');
 const semver = require('semver');
 const replace = require('replace-in-file');
+const { promisify } = require('util');
 
 const common = require('./common.js');
 const { versions } = require('../website/config/apisix-versions.js');
 
 const { projects, languages, projectPaths } = common;
-const git = simpleGit();
+const exec = promisify(childProcess.exec);
 const tempPath = './tmp';
 const websitePath = '../website';
+const gitMap = {};
+const projectReleases = {};
 
 const extractDocsHeadTasks = (project, version) => ([
   {
     title: `Checkout ${project.name} version: ${version}`,
-    task: () => git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/release/${version}`, ['-f']),
+    task: () => gitMap[project.name].cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/release/${version}`, ['-f']),
   },
   {
     title: 'Replace elements inside MD files',
@@ -33,28 +36,26 @@ const extractDocsHeadTasks = (project, version) => ([
 
 const extractDocsTailTasks = (project, version) => ([
   {
-    title: 'Add English documents',
-    task: () => {
-      childProcess.execSync(
+    title: 'Add English & Chinese documents',
+    task: () => Promise.all([
+      exec(
         `yarn docusaurus docs:version:docs-${project.name} ${version}`,
         { cwd: websitePath },
-      );
-    },
-  },
-  {
-    title: 'Add Chinese documents',
-    task: async () => {
-      if (await isFileExisted(`./${tempPath}/${project.name}/docs/zh/latest`)) {
-        await copyFolder(
-          project.latestDocs.zh,
-          `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`,
-        );
-      }
-    },
+      ),
+      isDirExisted(`./${tempPath}/${project.name}/docs/zh/latest`)
+        .then(
+          (exist) => exist && copyFolder(
+            project.latestDocs.zh,
+            `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`,
+          ),
+        )
+        .catch((err) => {
+          console.error(err);
+        }),
+    ]),
   },
 ]);
 
-const projectReleases = {};
 const tasks = new Listr([
   {
     title: 'Start documents sync',
@@ -68,9 +69,12 @@ const tasks = new Listr([
     task: () => {
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
-        task: () => git.clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`),
+        task: () => {
+          gitMap[project.name] = simpleGit();
+          return gitMap[project.name].clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`);
+        },
       }));
-      return new Listr(gitTasks, { concurrent: 6 });
+      return new Listr(gitTasks, { concurrent: projects.length });
     },
   },
   {
@@ -79,7 +83,7 @@ const tasks = new Listr([
       const findReleaseTasks = projects.map((project) => ({
         title: `Find ${project.name} releases`,
         task: async () => {
-          const ret = await git.cwd(`${tempPath}/${project.name}/`).branch();
+          const ret = await gitMap[project.name].cwd(`${tempPath}/${project.name}/`).branch();
           if (ret.all) {
             projectReleases[project.name] = ret.all
               .filter((release) => release.includes('remotes/origin/release/'))
@@ -88,7 +92,7 @@ const tasks = new Listr([
           }
         },
       }));
-      return new Listr(findReleaseTasks);
+      return new Listr(findReleaseTasks, { concurrent: projects.length });
     },
   },
   {
@@ -121,7 +125,7 @@ const tasks = new Listr([
         },
       }));
 
-      return new Listr(extractDocumentTasks);
+      return new Listr(extractDocumentTasks, { concurrent: projects.length });
     },
   },
   {
@@ -134,7 +138,7 @@ const tasks = new Listr([
           const steps = [
             {
               title: `Checkout ${project.name} next version`,
-              task: () => git.cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']),
+              task: () => gitMap[project.name].cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']),
             },
             {
               title: 'Replace elements inside MD files',
@@ -152,7 +156,7 @@ const tasks = new Listr([
           return new Listr(steps);
         },
       }));
-      return new Listr(nextVersionTasks);
+      return new Listr(nextVersionTasks, { concurrent: projects.length });
     },
   },
   {
@@ -262,32 +266,32 @@ async function copyDocs(source, target, projectName, locale) {
   );
 
   log(`[${projectName}] delete ${locale} docs config.json`);
-  await fs.unlink(`${source}/${locale}/latest/config.json`);
-
   log(`[${projectName}] copy latest ${locale} docs to ${target}`);
-  await copyFolder(`${source}/${locale}/latest/`, target);
-
   log(`[${projectName}] write sidebar.json`);
-  const sidebar = {
-    docs: [...(configLatest.sidebar || [])],
-  };
-
-  await fs.writeFile(`${target}/sidebars.json`, JSON.stringify(sidebar, null, 2));
+  await Promise.all([
+    fs.unlink(`${source}/${locale}/latest/config.json`),
+    copyFolder(`${source}/${locale}/latest/`, target),
+    fs.writeFile(`${target}/sidebars.json`, JSON.stringify({
+      docs: [...(configLatest.sidebar || [])],
+    }, null, 2)),
+  ]);
 }
 
 async function copyAllDocs(project) {
-  await copyDocs(
-    `${tempPath}/${project.name}/docs`,
-    project.latestDocs.en,
-    project.name,
-    'en',
-  );
-  await copyDocs(
-    `${tempPath}/${project.name}/docs`,
-    project.latestDocs.zh,
-    project.name,
-    'zh',
-  );
+  await Promise.all([
+    copyDocs(
+      `${tempPath}/${project.name}/docs`,
+      project.latestDocs.en,
+      project.name,
+      'en',
+    ),
+    copyDocs(
+      `${tempPath}/${project.name}/docs`,
+      project.latestDocs.zh,
+      project.name,
+      'zh',
+    ),
+  ]);
 }
 
 /**
