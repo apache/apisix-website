@@ -10,7 +10,7 @@ tags: [Events]
 
 <!--truncate-->
 
-[点击此处](https://apisix-summit.org/)前往 **Apache APISIX Summit ASIA 2022** 大会官网.
+[点击此处](https://apisix-summit.org/)前往 **Apache APISIX Summit ASIA 2022** 大会官网。
 
 ![活动海报](https://static.apiseven.com/202108/1649729812376-b05269c8-90b9-4d73-b97e-463beb351d1d.png)
 
