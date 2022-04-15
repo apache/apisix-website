@@ -90,7 +90,7 @@ module.exports = {
           exclude: ['**/downloads/ProjectCard.js'],
         },
         gtag: {
-          trackingID: 'G-WQLBQL6GY3',
+          trackingID: 'GTM-K24PRPS',
         },
       },
     ],
