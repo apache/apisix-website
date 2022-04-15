@@ -427,9 +427,9 @@ module.exports = {
         content: 'summary',
       },
     ],
-  },
-  gtag: {
-    trackingID: 'GTM-K24PRPS',
+    gtag: {
+      trackingID: 'GTM-K24PRPS',
+    },
   },
   stylesheets: [
     'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
