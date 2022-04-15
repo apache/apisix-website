@@ -40,7 +40,7 @@
     "description": "Navbar item with label Showcase"
   },
   "item.label.Help": {
-    "message": "Help",
+    "message": "帮助",
     "description": "Navbar item with label Help"
   },
   "item.label.APISIX": {
