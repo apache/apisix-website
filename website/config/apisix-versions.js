@@ -9,17 +9,41 @@ const versions = [
 ];
 
 /**
- * @type {Object.<string, string>} {version: version-url}
+ * @type {Array<{label: string, href: string}>}
  */
-const archivedVersions = {
-  '2.11': '',
-  '2.10': '',
-  '2.9': '',
-  '2.8': '',
-  '2.7': '',
-  '2.6': '',
-  '2.5': '',
-  '2.4': '',
-};
+const archivedVersions = [
+  {
+    label: '2.11',
+    href: 'https://625a9090d04b9a6953165811--2-11-old-docs-apache-apisix.netlify.app/docs/apisix/getting-started/',
+  },
+  {
+    label: '2.10',
+    href: 'https://625a9090d04b9a6953165811--2-11-old-docs-apache-apisix.netlify.app/docs/apisix/2.10/getting-started/',
+  },
+  {
+    label: '2.9',
+    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/getting-started/',
+  },
+  {
+    label: '2.8',
+    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.8/getting-started/',
+  },
+  {
+    label: '2.7',
+    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.7/getting-started/',
+  },
+  {
+    label: '2.6',
+    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.6/getting-started/',
+  },
+  {
+    label: '2.5',
+    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.5/getting-started/',
+  },
+  {
+    label: '2.4',
+    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.4/getting-started/',
+  },
+];
 
 module.exports = { versions, archivedVersions };
