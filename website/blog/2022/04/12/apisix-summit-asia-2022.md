@@ -228,4 +228,4 @@ Scan the QR code or [click here](https://apisix-summit.org/) to register for **A
 
 ### Join the Apache APISIX Slack channel
 
-Join Apache Software Foundation Slack workspace using [this invitation link](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](./submit-issue.md) if this link is expired_), and then join the **#apisix** channel (Channels -> Browse channels -> search for "apisix").
+Join Apache Software Foundation Slack workspace using [this invitation link](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ) (_Please [open an issue](https://apisix.apache.org/docs/general/submit-issue/) if this link is expired_), and then join the **#apisix** channel (Channels -> Browse channels -> search for "apisix").
