@@ -306,6 +306,9 @@ module.exports = {
           {
             from: ['/docs/general/community', '/docs/general/subscribe-guide'],
             to: '/docs/general/join',
+          }, {
+            from: ['/blog/2021/08/16/Using-the-Apache-APISIX-OpenID-Connect-Plugin-for-Centralized-Authentication'],
+            to: '/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication',
           },
         ],
       },
