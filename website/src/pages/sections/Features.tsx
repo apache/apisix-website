@@ -14,7 +14,7 @@ import Plugin from '../../assets/images/pluginised.png';
 const DashboardPlayground = () => (
   <Link
     className="dashboard-playground-link add-left-margin-feat"
-    to="http://20.210.250.99:9000/"
+    to="http://20.210.250.99:9000/user/login/"
   >
     <div className="dashboard-playground">
       <h2 className="dashboard-title">Dashboard Playground</h2>
