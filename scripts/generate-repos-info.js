@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs/promises');
 const axios = require('axios');
 const Listr = require('listr');
 
@@ -59,16 +59,15 @@ const tasks = new Listr([
           },
         ]),
       })),
+      { concurrent: repoList.length },
     ),
   },
   {
     title: `Save repos' info and good first issues to json file`,
-    task: () => {
-      fs.writeFileSync(
-        '../website/config/repos-info.json',
-        JSON.stringify(res),
-      );
-    },
+    task: () => fs.writeFile(
+      '../website/config/repos-info.json',
+      JSON.stringify(res),
+    ),
   },
 ]);
 

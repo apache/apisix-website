@@ -23,6 +23,7 @@ import { translate } from '@docusaurus/Translate';
 import { DocSidebarItems } from '@theme/DocSidebarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type { Props } from '@theme/DocSidebar';
+import { archivedVersions } from '../../../config/apisix-versions';
 
 import styles from './styles.module.css';
 
@@ -68,7 +69,7 @@ const DocsVersionWrapper = (props: {docsPluginId: string}) => {
       <DocsVersionDropdownNavbarItem
         docsPluginId={docsPluginId}
         dropdownItemsBefore={[]}
-        dropdownItemsAfter={[]}
+        dropdownItemsAfter={archivedVersions}
         items={[]}
       />
     </div>
