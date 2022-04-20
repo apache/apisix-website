@@ -72,7 +72,7 @@ module.exports = [
       },
       {
         to: '/plugins',
-        label: 'Plugin Hub',
+        label: 'PluginHub',
       },
       {
         to: '/docs/general/join',
