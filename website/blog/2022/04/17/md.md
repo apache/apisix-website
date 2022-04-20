@@ -6,7 +6,7 @@ description: In this blog post, we can leverage the power of some [Apache APISI
 tags: [Events]
 ---
 
-> In this blog post, we can leverage the power of some [Apache APISIX ](https://apisix.apache.org/)Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
+> In this blog post, we can leverage the power of some [Apache APISIX](https://apisix.apache.org/)Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
 
 <!--truncate-->
 
@@ -16,7 +16,7 @@ tags: [Events]
 
  [#api](https://dev.to/t/api) [#plugins](https://dev.to/t/plugins)[#monitoring](https://dev.to/t/monitoring)[#opensource](https://dev.to/t/opensource)
 
-In this blog post, we can leverage the power of some [Apache APISIX ](https://apisix.apache.org/)Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
+In this blog post, we can leverage the power of some [Apache APISIX](https://apisix.apache.org/)Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
 
 ## [](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm#apis-are-everywhere)APIs are everywhere
 
@@ -26,13 +26,13 @@ Nowadays **API Observability** is already a part of every API development as i
 
 API observability can help every team in your organization:
 
-*   Sales and growth teams to monitor your API usage, free trials, observe expansion opportunities and ensure that API serves the correct data.
+* Sales and growth teams to monitor your API usage, free trials, observe expansion opportunities and ensure that API serves the correct data.
 
-*   Engineering teams to monitor and troubleshoot API issues.
+* Engineering teams to monitor and troubleshoot API issues.
 
-*   Product teams to understand API usage and business value.
+* Product teams to understand API usage and business value.
 
-*   Security teams to detect and protect from API threats.
+* Security teams to detect and protect from API threats.
 
 [![API observability in every team](https://res.cloudinary.com/practicaldev/image/fetch/s--ItJyrD63--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h9jrwx2p2zx7nj6a4ixj.jpg)](https://res.cloudinary.com/practicaldev/image/fetch/s--ItJyrD63--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h9jrwx2p2zx7nj6a4ixj.jpg)
 
@@ -58,23 +58,23 @@ Before enabling our plugins we need to install Apache APISIX, create a route, an
 
 **Logs** are also easy to instrument and trivial steps of API observability, they can be used to inspect API calls in real-time for debugging, auditing, and recording time-stamped events that happened over time. There are several logger plugins Apache APISIX provides such as:
 
-*   [http-logger](https://apisix.apache.org/docs/apisix/plugins/http-logger/)
+* [http-logger](https://apisix.apache.org/docs/apisix/plugins/http-logger/)
 
-*   [skywalking-logger](https://apisix.apache.org/docs/apisix/plugins/skywalking-logger/)
+* [skywalking-logger](https://apisix.apache.org/docs/apisix/plugins/skywalking-logger/)
 
-*   [tcp-logger](https://apisix.apache.org/docs/apisix/plugins/tcp-logger)
+* [tcp-logger](https://apisix.apache.org/docs/apisix/plugins/tcp-logger)
 
-*   [kafka-logger](https://apisix.apache.org/docs/apisix/plugins/kafka-logger)
+* [kafka-logger](https://apisix.apache.org/docs/apisix/plugins/kafka-logger)
 
-*   [rocketmq-logger](https://apisix.apache.org/docs/apisix/plugins/rocketmq-logger)
+* [rocketmq-logger](https://apisix.apache.org/docs/apisix/plugins/rocketmq-logger)
 
-*   [udp-logger](https://apisix.apache.org/docs/apisix/plugins/udp-logger)
+* [udp-logger](https://apisix.apache.org/docs/apisix/plugins/udp-logger)
 
-*   [clickhouse-logger](https://apisix.apache.org/docs/apisix/plugins/clickhouse-logger)
+* [clickhouse-logger](https://apisix.apache.org/docs/apisix/plugins/clickhouse-logger)
 
-*   [error-logger](https://apisix.apache.org/docs/apisix/plugins/error-log-logger)
+* [error-logger](https://apisix.apache.org/docs/apisix/plugins/error-log-logger)
 
-*   [google-cloud-logging](https://apisix.apache.org/docs/apisix/plugins/google-cloud-logging)
+* [google-cloud-logging](https://apisix.apache.org/docs/apisix/plugins/google-cloud-logging)
 
 And you can see the [full list](https://apisix.apache.org/docs/apisix/plugins/zipkin) on the official website of Apache APISIX. Now for demo purposes, let's choose a simple but mostly used _http-logger_ plugin that is capable of sending API Log data requests to HTTP/HTTPS servers or sends as JSON objects to Monitoring tools. We can assume that a route and an upstream are created. You can learn how to set up them in the **[Getting started with Apache APISIX](https://youtu.be/dUOjJkb61so)** video tutorial. Also, you can find all command-line examples on the GitHub page [apisix-observability-plugins](https://boburmirzo.github.io/apisix-observability-plugins/)
 
@@ -82,9 +82,9 @@ You can generate a mock HTTP server at [mockbin.com](https://mockbin.org/) to 
 
 The following is an example of how to enable the http-logger for a specific route.
 
-  <code> 
+```
 
-  curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+    curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 
 {
 
@@ -104,15 +104,15 @@ The following is an example of how to enable the http-logger for a specific rout
 
 }' 
 
-</code> 
+``` 
 
 > To http-logger plugin settings, your can just put your mock server URI address like below:
 
- ```
+```
 
-  {"uri": "http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61"}
+    {"uri": "http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61"}
   
- 
+
 
 Once we get a successful response from APISIX server, we can send a request to this _get_ endpoint to generate logs.
 
@@ -120,7 +120,7 @@ Once we get a successful response from APISIX server, we can send a request to t
   
   curl -i http://127.0.0.1:9080/get
   
- 
+
 ```
 
 Then if you click and navigate to the following our [mock server link](http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61/log) some recent logs are sent and we can see them:
@@ -157,49 +157,49 @@ Let’s enable prometheus-plugin for our route:
 
 We fetch the metric data from the specified URL `/apisix/prometheus/`metrics.
 
-  ```
-  curl -i http://127.0.0.1:9091/apisix/prometheus/metrics
+```
+    curl -i http://127.0.0.1:9091/apisix/prometheus/metrics
 
-  ``` 
+``` 
 
 You will get a response with Prometheus metrics something like below:
 
- ```
- HTTP/1.1 200 OK
+```
+    HTTP/1.1 200 OK
 
-Server: openresty
+    Server: openresty
 
-Date: Fri, 25 Mar 2022 11:13:14 GMT
+    Date: Fri, 25 Mar 2022 11:13:14 GMT
 
-Content-Type: text/plain; charset=utf-8
+    Content-Type: text/plain; charset=utf-8
 
-Transfer-Encoding: chunked
+    Transfer-Encoding: chunked
 
-Connection: keep-alive
+    Connection: keep-alive
 
-# HELP apisix_batch_process_entries batch process remaining entries
+    # HELP apisix_batch_process_entries batch process remaining entries
 
-# TYPE apisix_batch_process_entries gauge
+    # TYPE apisix_batch_process_entries gauge
 
-apisix_batch_process_entries{name="http logger",route_id="1",server_addr="172.19.0.8"} 0
+    apisix_batch_process_entries{name="http logger",route_id="1",server_addr="172.19.0.8"} 0
 
-# HELP apisix_etcd_modify_indexes Etcd modify index for APISIX keys
+    # HELP apisix_etcd_modify_indexes Etcd modify index for APISIX keys
 
-# TYPE apisix_etcd_modify_indexes gauge
+    # TYPE apisix_etcd_modify_indexes gauge
 
-apisix_etcd_modify_indexes{key="consumers"} 17819
+    apisix_etcd_modify_indexes{key="consumers"} 17819
 
-apisix_etcd_modify_indexes{key="global_rules"} 17832
+    apisix_etcd_modify_indexes{key="global_rules"} 17832
 
-apisix_etcd_modify_indexes{key="max_modify_index"} 20028
+    apisix_etcd_modify_indexes{key="max_modify_index"} 20028
 
-apisix_etcd_modify_indexes{key="prev_index"} 18963
+    apisix_etcd_modify_indexes{key="prev_index"} 18963
 
-apisix_etcd_modify_indexes{key="protos"} 0
+    apisix_etcd_modify_indexes{key="protos"} 0
 
-apisix_etcd_modify_indexes{key="routes"} 20028
+    apisix_etcd_modify_indexes{key="routes"} 20028
 
-...
+    ...
 
 ``` 
 
@@ -221,9 +221,9 @@ In addition to this, you can view the Grafana dashboard running in your local in
 
 You can also check two other plugins for metrics:
 
-*   [Skywalking-plugin](https://apisix.apache.org/docs/apisix/plugins/skywalking)
+* [Skywalking-plugin](https://apisix.apache.org/docs/apisix/plugins/skywalking)
 
-*   [Opentelemetry-plugin](https://apisix.apache.org/docs/apisix/plugins/opentelemetry)
+* [Opentelemetry-plugin](https://apisix.apache.org/docs/apisix/plugins/opentelemetry)
 
 ## [](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm#tracing)Tracing
 
@@ -234,7 +234,7 @@ The third is **tracing** or distributed tracing allows you to understand the l
 Here’s an example to enable the _zipkin plugin_ on the specified route:
 
 ```
-curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+    curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 
 {
 
@@ -267,7 +267,7 @@ We can test our example by simply running the following curl command:
 As you can see, there are some additional trace identifiers (like traceId, spanId, parentId) were appended to the headers:
 
 ```
-"X-B3-Parentspanid": "61bd3f4046a800e7",
+    "X-B3-Parentspanid": "61bd3f4046a800e7",
 
     "X-B3-Sampled": "1",
 
@@ -280,7 +280,7 @@ As you can see, there are some additional trace identifiers (like traceId, spanI
 Then you can use a browser to access `http://127.0.0.1:9411/zipkin`, see traces on the Web UI of Zipkin.
 
 > Note that you need to run the Zipkin instance in order to install Zipkin Web UI. For example, by using docker you can simply run it:
-> 
+
 > `docker run -d -p 9411:9411 openzipkin/zipkin`
 
 [![Zipkin plugin output 1](https://res.cloudinary.com/practicaldev/image/fetch/s---BmZMyXZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/av8rdcwwybyfcibbo7xh.png)](https://res.cloudinary.com/practicaldev/image/fetch/s---BmZMyXZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/av8rdcwwybyfcibbo7xh.png)
@@ -312,4 +312,6 @@ Community⤵️
 🙋 [Join the Apache APISIX Community](https://apisix.apache.org/docs/general/community)
 🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
 📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
-📧 [Mail to us](https://dev@apisix.apache.org/) with your questions
+📧 [Mail to us](https://dev@apisix.apache.org/) 
+
+with your questions
