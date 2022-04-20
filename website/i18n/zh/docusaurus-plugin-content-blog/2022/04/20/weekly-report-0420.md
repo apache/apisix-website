@@ -38,7 +38,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 ```Bash
   "plugins":{
         "openid-connect":{
-              ... 
+              ...
             "scope":"openid profile",
             "bearer_only":false,
             "introspection_endpoint_auth_method":"client_secret_post",
