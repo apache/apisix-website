@@ -40,7 +40,7 @@ When I use `openid-connect` plugins with the wrong `redirect_uri` in Apache APIS
 ```Bash
    "plugins":{
         "openid-connect":{
-              ... 
+             ...
             "scope":"openid profile",
             "bearer_only":false,
             "introspection_endpoint_auth_method":"client_secret_post",
