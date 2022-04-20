@@ -16,7 +16,7 @@
     "description": "Navbar item with label Resources"
   },
   "item.label.PluginHub": {
-    "message": "插件中心",
+    "message": "插件市场",
     "description": "Navbar item with label Plugin Hub"
   },
   "item.label.Community": {
