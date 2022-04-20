@@ -33,7 +33,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **链接**: https://github.com/apache/apisix/issues/6803
 
-**问题描述**：当用户在 Apache APISIX 中使用 openid-connect 插件时，使用了错误的 redirect_uri ，如下：
+**问题描述**：当用户在 Apache APISIX 中使用 `openid-connect` 插件时，使用了错误的 `redirect_uri`，如下：
 
 ```Bash
   "plugins":{
@@ -57,19 +57,19 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 2022/04/07 17:13:50 [error] 31780#3492140: *1959 [lua] openid-connect.lua:304: phase_func(): OIDC authentication failed: request to the redirect_uri path but there's no session state found, client: 127.0.0.1, server: _, request: "GET / HTTP/1.1", host: "127.0.0.1:9080"
 ```
 
-这样的日志非常不清楚，并且用户不知道会发生什么。所以应该改进错误日志，以提高使用 openid-connect 插件的体验。
+这样的日志非常不清楚，并且用户不知道会发生什么。所以应该改进错误日志，以提高使用 `openid-connect` 插件的体验。
 
 ### Issue #6797
 
-**链接**: https://github.com/apache/apisix/issues/6797
+**链接**:https://github.com/apache/apisix/issues/6797
 
-**问题描述**：当使用 file-logger 插件时，可以通过定义 /dev/stdout 将日志发送到 stdout。这是为了使用 Docker 输出并将其在 Kubernetes 中传递到 ELK 堆栈。但是使用过程中出现了一个报错，表明当前用户的权限被拒绝。
+**问题描述**：当使用 `file-logger` 插件时，可以通过定义 `/dev/stdout` 将日志发送到 stdout。这是为了使用 Docker 输出并将其在 Kubernetes 中传递到 ELK 堆栈。但是使用过程中出现了一个报错，表明当前用户的权限被拒绝。
 
 ## 近期功能特性亮点
 
 - [`key-auth` 支持隐藏认证相关的请求 header](https://github.com/apache/apisix/pull/6670)（贡献者：[bin-ya](https://github.com/bin-ya)）
 
-- [支持 Zookeeper 作为服务发现](https://github.com/apache/apisix/pull/6751)（贡献者：[shuaijinchao](https://github.com/shuaijinchao)）
+- [支持 ZooKeeper 作为服务发现](https://github.com/apache/apisix/pull/6751)（贡献者：[shuaijinchao](https://github.com/shuaijinchao)）
 
 - [`request-id` 支持 nanoid 作为 ID 生成算法](https://github.com/apache/apisix/pull/6779)（贡献者：[aikin-vip](https://github.com/aikin-vip)）
 
