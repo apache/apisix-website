@@ -102,9 +102,9 @@ The following is an example of how to enable the http-logger for a specific rout
 
       "uri": "/get"
 
-}' 
+}'
 
-``` 
+```
 
 > To http-logger plugin settings, your can just put your mock server URI address like below:
 
@@ -160,7 +160,7 @@ We fetch the metric data from the specified URL `/apisix/prometheus/`metrics.
 ```
     curl -i http://127.0.0.1:9091/apisix/prometheus/metrics
 
-``` 
+```
 
 You will get a response with Prometheus metrics something like below:
 
@@ -201,7 +201,7 @@ You will get a response with Prometheus metrics something like below:
 
     ...
 
-``` 
+```
 
 And we can also check the status of our endpoint at the Prometheus dashboard by pointing to this URL `http://localhost:9090/targets`
 
@@ -280,7 +280,6 @@ As you can see, there are some additional trace identifiers (like traceId, spanI
 Then you can use a browser to access `http://127.0.0.1:9411/zipkin`, see traces on the Web UI of Zipkin.
 
 > Note that you need to run the Zipkin instance in order to install Zipkin Web UI. For example, by using docker you can simply run it:
-
 > `docker run -d -p 9411:9411 openzipkin/zipkin`
 
 [![Zipkin plugin output 1](https://res.cloudinary.com/practicaldev/image/fetch/s---BmZMyXZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/av8rdcwwybyfcibbo7xh.png)](https://res.cloudinary.com/practicaldev/image/fetch/s---BmZMyXZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/av8rdcwwybyfcibbo7xh.png)
@@ -312,6 +311,5 @@ Community⤵️
 🙋 [Join the Apache APISIX Community](https://apisix.apache.org/docs/general/community)
 🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
 📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
-📧 [Mail to us](https://dev@apisix.apache.org/) 
-
+📧 [Mail to us](https://dev@apisix.apache.org/)
 with your questions
