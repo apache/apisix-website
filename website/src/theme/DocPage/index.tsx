@@ -47,6 +47,8 @@ const navbarLinkMap = {
   'python-plugin-runner': 'Apache APISIX® Python Plugin Runner',
 };
 
+const navbarLinkKeys = Object.keys(navbarLinkMap);
+
 const DocPageContent = ({
   currentDocRoute,
   versionMetadata,
@@ -64,13 +66,10 @@ const DocPageContent = ({
   useEffect(() => {
     const childrenCount = document.querySelector('.navbar__items--right').childElementCount;
     const el = document.querySelector('.navbar__items--right').childNodes[childrenCount - 2] as HTMLDivElement;
-    if (window.innerWidth > 745) {
-      el.style.display = 'block';
-    } else {
-      el.style.display = 'none';
-    }
+    el.style.display = window.innerWidth > 745 ? 'block' : 'none';
 
-    const currentPage = currentDocRoute.path.split('/')[2] || '';
+    const pathArr = currentDocRoute.path.split('/').slice(2, 4);
+    const currentPage = pathArr.reduce((res, cur) => (navbarLinkKeys.includes(cur) ? cur : res), '');
     const navbarLink = document.querySelectorAll('.navbar__link')[0] as HTMLAnchorElement;
     navbarLink.innerText = navbarLinkMap[currentPage];
 

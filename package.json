@@ -14,6 +14,7 @@
     "start": "yarn workspace website start",
     "build": "yarn workspace website build",
     "docusaurus": "yarn workspace website docusaurus",
+    "serve": "yarn docusaurus serve",
     "prepare": "husky install"
   },
   "devDependencies": {
