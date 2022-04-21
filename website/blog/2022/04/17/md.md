@@ -231,7 +231,7 @@ The third is **tracing** or distributed tracing allows you to understand the l
 
 Here’s an example to enable the _zipkin plugin_ on the specified route:
 
-```
+```sh
     curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 
 {
