@@ -12,13 +12,11 @@ tags: [Events]
 
  ![Cover image for API Observability with Apache APISIX Plugins](https://res.cloudinary.com/practicaldev/image/fetch/s--Rv3WzLi8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9vpdkknyeky542fat56v.jpg)
 
-# API Observability with Apache APISIX Plugins
-
- [#api](https://dev.to/t/api) [#plugins](https://dev.to/t/plugins)[#monitoring](https://dev.to/t/monitoring)[#opensource](https://dev.to/t/opensource)
+ [#api](https://dev.to/t/api)&nbsp;[#plugins](https://dev.to/t/plugins)&nbsp; [#monitoring](https://dev.to/t/monitoring)&nbsp; [#opensource](https://dev.to/t/opensource)
 
 In this blog post, we can leverage the power of some [Apache APISIX](https://apisix.apache.org/)Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
 
-## [](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm#apis-are-everywhere)APIs are everywhere
+## APIs are everywhere
 
 APIs — by now, we're all familiar with the term. Every service we use today either uses an API or is an API itself. APIs are central in building and delivering your services. Also, you know that the success of your services depends on the integrity, availability, and performance of your APIs.
 
@@ -36,7 +34,7 @@ API observability can help every team in your organization:
 
 [![API observability in every team](https://res.cloudinary.com/practicaldev/image/fetch/s--ItJyrD63--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h9jrwx2p2zx7nj6a4ixj.jpg)](https://res.cloudinary.com/practicaldev/image/fetch/s--ItJyrD63--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h9jrwx2p2zx7nj6a4ixj.jpg)
 
-## [](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm#a-central-point-for-observation)A central point for observation
+## A central point for observation
 
 We know that an API gateway offers a central control point for incoming traffic to a variety of destinations but it can also be a central point for observation as well since it is uniquely qualified to know about all the traffic moving between clients and our service networks. Instead of spending time integrating your services with other many APIs and technologies to improve observability, you can easily manage all work with [Apache APISIX Plugins](https://apisix.apache.org/plugins).
 
@@ -50,7 +48,7 @@ The core of observability breaks down into _three key areas_: structured logs, 
 
 * * *
 
-Prerequisites
+## Prerequisites
 
 Before enabling our plugins we need to install Apache APISIX, create a route, an upstream, and map the route to the upstream. You can simply follow [getting started guide](https://apisix.apache.org/docs/apisix/getting-started) provided on the website.
 
@@ -225,7 +223,7 @@ You can also check two other plugins for metrics:
 
 * [Opentelemetry-plugin](https://apisix.apache.org/docs/apisix/plugins/opentelemetry)
 
-## [](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm#tracing)Tracing
+## Tracing
 
 The third is **tracing** or distributed tracing allows you to understand the life of a request as it traverses your service network and allows you to answer questions like what service has this request touched and how much latency was introduced. Traces enable you to further explore which logs to look at for a particular session or related set of API calls.
 
@@ -288,7 +286,7 @@ Then you can use a browser to access `http://127.0.0.1:9411/zipkin`, see traces
 
 As you noticed, the recent traces were exposed in the above pictures.
 
-## [](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm#summary)Summary
+## Summary
 
 As we learned, API Observability is a sort of framework for managing your applications in an API world and Apache APISIX API Gateway plugins can help when observing modern API-driven applications by integrating to several observability platforms. So, you can make your development work focused on core business features instead of building a custom integration for observability tools.
 
@@ -311,5 +309,5 @@ Community⤵️
 🙋 [Join the Apache APISIX Community](https://apisix.apache.org/docs/general/community)
 🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
 📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
-📧 [Mail to us](https://dev@apisix.apache.org/)
+📧 [Mail to us](https://dev@apisix.apache.org/)  
 with your questions
