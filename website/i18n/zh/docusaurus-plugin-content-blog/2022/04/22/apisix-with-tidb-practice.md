@@ -31,7 +31,7 @@ Apache APISIX 采用了数据平面与控制平面分离的架构方式，通过
 
 ![APISIX 架构图](https://static.apiseven.com/202108/1650769844333-c2d90f33-8138-49cc-a511-0e96b75b47e8.png)
 
-在此架构中，数据平面负责接收并处理调用方请求，使用 Lua 与 Nginx 动态控制请求流量，可用于管理 API 请求的全生命周期。控制平面则包含了 Manager API 和默认配置中心 etcd，可用于管理 API 网关。管理员在访问并操作控制台时，控制台将调用 Manager API 下发配置到 etcd，借助 etcd watch 机制，配置将在网关中实时生效。
+在此架构中，数据平面负责接收并处理调用方请求，使用 Lua 与 NGINX 动态控制请求流量，可用于管理 API 请求的全生命周期。控制平面则包含了 Manager API 和默认配置中心 etcd，可用于管理 API 网关。管理员在访问并操作控制台时，控制台将调用 Manager API 下发配置到 etcd，借助 etcd watch 机制，配置将在网关中实时生效。
 
 配置中心默认为 etcd，也支持 Consul、Nacos、Eureka 等。etcd 天然支持分布式、高可用，支持集群，并且在 K8s 等领域有大量的应用实践，使得 APISIX 可以轻松支持毫秒级配置更新、支撑数千网关节点，且网关节点无状态，可任意扩缩容。
 
@@ -39,7 +39,7 @@ Apache APISIX 采用了数据平面与控制平面分离的架构方式，通过
 
 #### 自身架构问题
 
-首先 etcd 基于 BoltDB，容量具有上限 。etcd 的默认存储上限为 2 GB，如果上限要求超过 2 GB，则可以通过 `--quota-backend-bytes` 标记配置存储，最大可调整至 8 GB。一个 etcd 集群如果有 8 GB 的存储量，则足以服务一个网关，但如果同时服务 N 个 APISIX 集群，容量可能不够用，有可能会带来一些麻烦。
+首先 etcd 基于 BoltDB，容量具有上限 。etcd 的默认存储上限为 2 GB，如果上限要求超过 2 GB，则可以通过 `--quota-backend-bytes` 参数配置存储，最大可调整至 8 GB。一个 etcd 集群如果有 8 GB 的存储量，则足以服务一个网关，但如果同时服务 N 个 APISIX 集群，容量可能不够用，有可能会带来一些麻烦。
 
 其次，etcd 本质上是一个 CP 系统，无法承载大量的客户端连接。因为 etcd 是通过 Raft 来实现分布式共识，所有的读写请求都会经由 Raft 的 Leader 进行处理，大量的客户端连接可能会导致整个集群的负载偏高，有可能会影响到调用者。
 
@@ -97,7 +97,7 @@ Apache APISIX 采用了数据平面与控制平面分离的架构方式，通过
 
 第三，Kine 还模拟了 etcd 的 MVCC 特性，支持 Compact。每一次的变更、写入、更新或者删除在 Kine 或 TiDB 里就是一行数据。每行数据的主键就是 etcd 的 Revision，也就是计数器，记录最新变更的次数。通过这种方式，Kine 实现了多版本的支持。
 
-通过引入类似架构，Apache APISIX 不用和真正的存储中心进行交互，而是和这个中间层进行交互。如上图，APISIX 和 etcd adapter 中间层会走 etcd 的 KV API 和 Watch API，etcd adapter 会轮询 TiDB，感知配置的写入，完成 watch 操作，从而把数据推给 APISIX。
+通过引入类似架构，Apache APISIX 不用和真正的存储中心进行交互，而是和这个中间层（etcd adapter）进行交互。如上图，APISIX 和 etcd adapter 会走 etcd 的 KV API 和 Watch API，etcd adapter 会轮询 TiDB，感知配置的写入，完成 watch 操作，从而把数据推给 APISIX。
 
 ## 方案效果：etcd adapter 的诞生
 
@@ -109,7 +109,7 @@ Apache APISIX 采用了数据平面与控制平面分离的架构方式，通过
 
 最后，这个项目⽀持了 gRPC Gateway。它会把对应的 gRPC 接口翻译成对应的 Restful 接口，供 APISIX 调用。
 
-虽然我们把 etcd adapter 放在了控制面，但我们也可以把它放在每个 APISIX 边上，作为一个边车存在。两种方案各有好处，大家可以根据自己的实际情况灵活选择。
+虽然我们把 etcd adapter 放在了控制面，但我们也可以把它放在每个 APISIX 边上，作为一个 Sidecar 存在。两种方案各有好处，用户可以根据自己的实际情况灵活选择。
 
 ## 未来计划
 
@@ -117,15 +117,15 @@ Apache APISIX 采用了数据平面与控制平面分离的架构方式，通过
 
 ### 为 Apache APISIX 的⽤户提供更多的配置中心选择
 
-我们希望 etcd adapter 项目能让 Apache APISIX 的用户有更多的配置中心选择，不被 etcd 锁定，用户可以根据自己的实际情况选择解决方案。如果公司的运维、开发的技术栈更偏向于 Consul，就可以使用 Consul。Consul KV 也是基于 Raft，可用性很高。除此以外，也可以考虑比较主流的 Apollo 或者和 etcd 对标的 Apache ZooKeeper，还有 PostgreSQL 或者其他备选方案
+我们希望 etcd adapter 项目能让 Apache APISIX 的用户有更多的配置中心选择，不被 etcd 锁定，用户可以根据自己的实际情况选择解决方案。如果公司的运维、开发的技术栈更偏向于 Consul，就可以使用 Consul。Consul KV 也是基于 Raft，可用性很高。除此以外，也可以考虑比较主流的 Apollo 或者和 etcd 对标的 Apache ZooKeeper，还有 PostgreSQL 或者其他备选方案。
 
 ### 为 Apache APISIX Ingress Controller 的架构改良助力
 
 我们希望 etcd adapter 项目能为 APISIX Ingress Controller 的架构改良助力。etcd adapter 支持了 In-Memory B-Tree，In-Memory B-Tree 可以把数据嵌入到内存里，而不需要实际地存储。
 
-如此一来，etcd adapter 可以成为 APISIX Ingress Controller 的一部分，Apache Ingress Controller 只需保留 Ingress Controller 控制面和 APISIX 数据面两个组件。因为没有了 etcd，APISIX 甚至可以和 Ingress Controller 直接交互，获取配置变更数据。
+如此一来，etcd adapter 可以成为 APISIX Ingress Controller 的一部分，Apache Ingress Controller 只需保留 Ingress Controller 控制面和 APISIX 数据面两个组件。因为没有使用 etcd，APISIX 甚至可以和 Ingress Controller 直接交互，获取配置变更数据。
 
-除此以外，我们还可以把 Ingress Controller 控制面和 APISIX 数据面放在同一个镜像里，实现控制面与数据面的⼀体化部署。最终只需要一条命令、一个镜像，就可以在 K8s 目标集群中把 APISIX Ingress Controller 跑起来。如果控制面、数据面放在一起，大家就不用再额外部署一个 etcd 和一个控制面，相当于直接少了两个组件，可以极大地提升用户体验。
+除此以外，我们还可以把 Ingress Controller 控制面和 APISIX 数据面放在同一个镜像里，实现控制面与数据面的⼀体化部署。最终只需要一条命令、一个镜像，就可以在 K8s 目标集群中把 APISIX Ingress Controller 运行起来。如果控制面、数据面放在一起，用户就不需要额外部署一个 etcd 和一个控制面，相当于直接少了两个组件，可以极大地提升用户体验。
 
 ### 捐赠给 Apache 基金会，作为 Apache APISIX 子项目进行孵化
 

@@ -31,7 +31,7 @@ Apache APISIX adopts an architecture that separates the data plane from the cont
 
 ![APISIX Architecture](https://static.apiseven.com/202108/1650769844333-c2d90f33-8138-49cc-a511-0e96b75b47e8.png)
 
-In this architecture, the data plane receives and processes caller requests and dynamically controls request traffic using Lua and Nginx, which can be used to manage the full lifecycle of API requests. The control plane contains the Manager API and the default configuration center etcd, which is used to manage the API gateways. When an administrator accesses and operates the console, the console calls the Manager API to send the configuration to etcd, which takes effect in real time on the gateway thanks to the etcd watch mechanism.
+In this architecture, the data plane receives and processes caller requests and dynamically controls request traffic using Lua and NGINX, which can be used to manage the full lifecycle of API requests. The control plane contains the Manager API and the default configuration center etcd, which is used to manage the API gateways. When an administrator accesses and operates the console, the console calls the Manager API to send the configuration to etcd, which takes effect in real time on the gateway thanks to the etcd watch mechanism.
 
 The default configuration center is etcd, which also supports Consul, Nacos, Eureka, etc. etcd naturally supports distributed, high availability, clustering, and has a lot of practice in K8s, etc. APISIX can easily support millisecond configuration updates, thousands of gateway nodes, and the gateway nodes are stateless and can be expanded and reduced at will.
 
