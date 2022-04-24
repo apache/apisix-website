@@ -29,6 +29,8 @@ Apache APISIX also supports high customization, Wasm support, and plugin written
 
 Apache APISIX adopts an architecture that separates the data plane from the control plane, receiving and distributing configurations through the configuration center so that the data plane is not affected by the control plane.
 
+![APISIX Architecture](https://static.apiseven.com/202108/1650769844333-c2d90f33-8138-49cc-a511-0e96b75b47e8.png)
+
 In this architecture, the data plane receives and processes caller requests and dynamically controls request traffic using Lua and Nginx, which can be used to manage the full lifecycle of API requests. The control plane contains the Manager API and the default configuration center etcd, which is used to manage the API gateways. When an administrator accesses and operates the console, the console calls the Manager API to send the configuration to etcd, which takes effect in real time on the gateway thanks to the etcd watch mechanism.
 
 The default configuration center is etcd, which also supports Consul, Nacos, Eureka, etc. etcd naturally supports distributed, high availability, clustering, and has a lot of practice in K8s, etc. APISIX can easily support millisecond configuration updates, thousands of gateway nodes, and the gateway nodes are stateless and can be expanded and reduced at will.
@@ -84,6 +86,8 @@ Second, this extra middle layer can interface with different storage solutions. 
 Only when these two things are done can this middle tier interface to different storage solutions and thus bring the full configuration center functionality to APISIX.
 
 ## Program Implementation
+
+![architectural design diagram](https://static.apiseven.com/202108/1650769803987-7a297f15-baa7-4817-8d3a-89a99a76c94b.png)
 
 Once we have this middle tier, how do we integrate TiDB? We actually have a similar project to look at. Although K8s natively supports etcd as a storage solution, Rancher's [K3s](https://github.com/k3s-io/kine) project doesn't use etcd, probably because if K3s is deployed in some embedded environment, etcd has some limitations that make it not well maintained. So, Rancher supports additional components such as PostgreSQL, MySQL, SQLite, and Dqlite through the Kine project, giving K3s users the flexibility to choose other storage options. To summarize, Kine project has the following points that we should learn from.
 
