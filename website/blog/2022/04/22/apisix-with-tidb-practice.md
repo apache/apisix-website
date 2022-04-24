@@ -49,7 +49,7 @@ K8s itself supports storage services, and all configuration information and Endp
 
 The same is true for service grids. If you use APISIX in a Service Grid scenario and deploy etcd as well, the whole selection will be heavy. And in a service grid scenario, the number of Pods can be hundreds or even tens of thousands, which is very common. If all the tens of thousands of Pods are connected to etcd, etcd will become the bottleneck of the whole service.
 
-#### Cost issues 
+#### Cost issues
 
 First, etcd has high operation and maintenance costs, and some companies do not have dedicated etcd operation and maintenance engineers. At least 3-5 instances are needed to deploy etcd, and after etcd is running successfully, data backups and snapshots need to be done regularly. In order to monitor the operation of etcd and understand the health of etcd in real time, you also need to build an observable system to provide the necessary alerting support. If a company does not have dedicated etcd operations and maintenance engineers, it may not be able to do a good job of etcd operations and maintenance.
 
