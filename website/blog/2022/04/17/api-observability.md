@@ -228,10 +228,13 @@ As we learned, API Observability is a sort of framework for managing your applic
 
 You can also click below to get more details:
 
-- [Download Apache APISIX](https://apisix.apache.org/downloads)
-- [Getting Started with Apache APISIX](https://youtu.be/dUOjJkb61so)
-- [Getting Started with Apache APISIX Dashboard](https://youtu.be/-9-HZKK2ccI)
-- [Overview of Apache APISIX Plugins](https://youtu.be/ixSZA4ILBKQ)
-- [Install Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build)
-- [Watch the Video version of the blog post](https://youtu.be/XK0xcui5BQU)
-If you have any questions, feel free to mail [Apache APISIX Community](https://dev@apisix.apache.org/) 
+You can also click below to get more details:
+
+* [Download Apache APISIX](https://apisix.apache.org/downloads)
+* [Getting Started with Apache APISIX](https://youtu.be/dUOjJkb61so)
+* [Getting Started with Apache APISIX Dashboard](https://youtu.be/-9-HZKK2ccI)
+* [Overview of Apache APISIX Plugins](https://youtu.be/ixSZA4ILBKQ)
+* [Install Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build)
+* [Watch the Video version of the blog post](https://youtu.be/XK0xcui5BQU)
+
+If you have any questions, feel free to mail [Apache APISIX Community](https://dev@apisix.apache.org/)
