@@ -1,345 +1,237 @@
 ---
-title: "How to Use GraphQL with API Gateway Apache APISIX"
-authors:
-  - name: "JohnChever"
-    title: "Author"
-    url: "https://github.com/Chever-John"
-    image_url: "https://avatars.githubusercontent.com/u/43690894?v=4"
-  - name: "Fei Han"
-    title: "Technical Writer"
-    url: "https://github.com/hf400159"
-    image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
-keywords: 
+title: "API Observability with Apache APISIX Plugins"
+keywords:
 - Apache APISIX
 - API Gateway
-- GraphQL
-- Ecosystem
-description: This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
-tags: [Technology,Ecosystem]
+- Observability
+authors:
+  - name: "Boburmirzo"
+    title: "Author"
+    url: "https://github.com/Boburmirzo"
+    image_url: "https://avatars.githubusercontent.com/u/14247607?v=4"
+description: In this blog post, we can leverage the power of some [Apache APISIX](https://apisix.apache.org/) Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
+tags: [Technology,Observability]
 ---
 
-> This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
+> In this blog post, we can leverage the power of some [Apache APISIX](https://apisix.apache.org/) Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact APISIX's users.
 
 <!--truncate-->
 
-## Background Information
+![Cover image for API Observability with Apache APISIX Plugins](https://static.apiseven.com/202108/1650506677636-f4d1ffa0-d848-4264-b497-de1061da0faf.png)
 
-GraphQL is an open source, API oriented data query operation language and corresponding running environment. Originally developed internally by Facebook in 2012 and publicly released in 2015. On November 7, 2018, Facebook transferred the GraphQL project to the newly established GraphQL foundation.
+In this blog post, we can leverage the power of some [Apache APISIX](https://apisix.apache.org/) Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
 
-You can understand GraphQL by analogy with SQL query statements. Compared with SQL query statements, GraphQL provides an easy to understand and complete description of the data in the API, so that the client can accurately obtain the data it needs through the customized description. This also allows the API to calmly face the development of increasingly complex interfaces and avoid eventually becoming a daunting complex interface.
+## APIs are everywhere
 
-Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.
+APIs — by now, we're all familiar with the term. Every service we use today either uses an API or is an API itself. APIs are central in building and delivering your services. Also, you know that the success of your services depends on the integrity, availability, and performance of your APIs.
 
-As a cloud native API gateway, Apache APISIX already has the matching ability to recognize GraphQL syntax at the beginning of its design. By efficiently matching GraphQL statements carried in requests, it can filter out abnormal traffic to further ensure security and improve system performance.
+Nowadays **API Observability** is already a part of every API development as it addresses many problems related to API consistency, reliability, and the ability to quickly iterate on new API features. When you design for full-stack observability, you get everything you need to find issues and catch breaking changes.
 
-### Scene Analysis
+API observability can help every team in your organization:
 
-We are in the era of big data and large traffic, Apache APISIX and GraphQL can be combined to form a win-win situation. The following is a detailed description of a scenario.
+* Sales and growth teams to monitor your API usage, free trials, observe expansion opportunities and ensure that API serves the correct data.
 
-This article will discuss the practical application of Apache APISIX and GraphQL in the context of microservice architecture.
+* Engineering teams to monitor and troubleshoot API issues.
 
-### Problems Encountered In the Actual Scene
+* Product teams to understand API usage and business value.
 
-In the late stage of the project, business complexity and team mobility are often the problems. Micro service architecture has become a common solution to such problems. In microservice architecture, GraphQL exposes two kinds of interfaces: decentralized and centralized. However, only centralized interface design can maximize GraphQL's advantages. However, in centralized interface design, all microservices are exposed to the same interface. **So processing flow routing cannot simply forwarded according to the URL, but should be based on the request contained in different fields are forwarded.**
+* Security teams to detect and protect from API threats.
 
-Because NGINX only processes URLs and some parameters when processing requests, but only by parsing the query information in the request parameters can the resources accessed by the client be known, so as to perform routing forwarding, so this routing forwarding method cannot be completed through traditional NGINX. . In practical application scenarios, it is very dangerous to directly expose the GraphQL interface to the outside world, so a professional high-performance API gateway is required to protect the GraphQL interface.
+## A central point for observation
 
-### Solution
+We know that an API gateway offers a central control point for incoming traffic to a variety of destinations but it can also be a central point for observation as well since it is uniquely qualified to know about all the traffic moving between clients and our service networks. Instead of spending time integrating your services with other many APIs and technologies to improve observability, you can easily manage all work with [Apache APISIX Plugins](https://apisix.apache.org/plugins).
 
-Based on the security, stability, and high performance of Apache APISIX, adding flexible routing matching rules to GraphQL is the best solution to GraphQL's centralized interface design.
+![A central point for observation](https://static.apiseven.com/202108/1650506058593-265ec5da-4b0b-49f0-add4-cabd4a4f52cb.png)
 
-![error/graphql architecture.png](https://static.apiseven.com/202108/1646200966179-1d649ab0-8d49-49f5-a8fa-a1a30af0519d.png)
+Most observability platforms like (Prometheus, SkyWalking, and Opentelemetry) provide pre-built connectors that you can easily integrate with Apache APISIX. You can leverage these connectors to ingest log data from your API gateways to further derive useful metrics and gain complete visibility into the usage, management performance, and security of your APIs in your environment.
 
-In this scheme, Apache APISIX is deployed before GraphQL Server as an API gateway, providing security for the whole backend system. In addition, Apache APISIX has GraphQL matching functions according to its own. Some of the requests are filtered and processed by the GraphQL Server, making the whole request resource process more efficient.
+The core of observability breaks down into **three key areas**: structured logs, metrics, and traces. Let’s break down each pillar of API observability and learn how with Apache APISIX Plugins we can simplify these tasks and provides a solution that you can use to better understand API usage.
 
-Thanks to the dynamic features of Apache APISIX, you can enable plug-ins such as current limiting, authentication, and observability without restarting services, which further improves the operating efficiency of this solution and facilitates operation and maintenance.
+![Observability of three key areas](https://static.apiseven.com/202108/1650506177111-04b43058-d8e1-426d-97e4-ac1d0a8c4b3e.png)
 
-In addition, Apache APISIX can also perform different permission checks for different `graphql_operations`, and forward to different Upstream for different graphql_names. The details will be described below.
+## Prerequisites
 
-**To sum up, the solution of Apache APISIX + GraphQL can fully utilize the advantages of GraphQL search and also have the security and stability of Apache APISIX as API gateway.**
+Before enabling our plugins we need to install Apache APISIX, create a route, an upstream, and map the route to the upstream. You can simply follow [getting started guide](https://apisix.apache.org/docs/apisix/getting-started) provided on the website.
 
-## Application of GraphQL In API Gateway
+## Logs
 
-### Basic Logic
+**Logs** are also easy to instrument and trivial steps of API observability, they can be used to inspect API calls in real-time for debugging, auditing, and recording time-stamped events that happened over time. There are several logger plugins Apache APISIX provides such as:
 
-![error/GraphQL principle.png](https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png)
+* [http-logger](https://apisix.apache.org/docs/apisix/plugins/http-logger/)
 
-The execution logic of GraphQL in Apache APISIX is as follows:
+* [skywalking-logger](https://apisix.apache.org/docs/apisix/plugins/skywalking-logger/)
 
-1. Clients to  Apache APISIX initiated with GraphQL statements request;
-2. Apache APISIX matching routing and extract the preset GraphQL data;
-3. Apache APISIX matches the request data with the preset GraphQL data;
+* [tcp-logger](https://apisix.apache.org/docs/apisix/plugins/tcp-logger)
 
-- If the match is successful,  Apache APISIX will continue to forward the request;
-- If the match fails, Apache APISIX will immediately terminate the request.
+* [kafka-logger](https://apisix.apache.org/docs/apisix/plugins/kafka-logger)
 
-4. Whether plugins exist;
+* [rocketmq-logger](https://apisix.apache.org/docs/apisix/plugins/rocketmq-logger)
 
-- if the plug-in exists, the request will continue to be processed by the plug-in, and after the processing is completed, it will continue to be forwarded to the GraphQL Server;
-- If no plug-in exists, the request will be forwarded directly to GraphQL Server.
+* [udp-logger](https://apisix.apache.org/docs/apisix/plugins/udp-logger)
 
-In the internal matching of APISIX core, Apache APISIX implements GraphQL support through the [`graphql-lua`](https://github.com/bjornbytes/graphql-lua) library. The Apache APISIX GraphQL parsing library will first parse the request carrying the GraphQL syntax, and then match the parsed request with the configuration data preset in the Apache APISIX database. If the match is successful, Apache APISIX will pass and forward the request, otherwise it will terminate the request.
+* [clickhouse-logger](https://apisix.apache.org/docs/apisix/plugins/clickhouse-logger)
 
-### Specific Configuration
+* [error-logger](https://apisix.apache.org/docs/apisix/plugins/error-log-logger)
 
-Apache APISIX currently supports filtering routes by some properties of GraphQL:
+* [google-cloud-logging](https://apisix.apache.org/docs/apisix/plugins/google-cloud-logging)
 
-- graphql_operation
-- graphql_name
-- graphql_root_fields
+And you can see the [full list](https://apisix.apache.org/docs/apisix/plugins/zipkin) on the official website of Apache APISIX. Now for demo purposes, let's choose a simple but mostly used _http-logger_ plugin that is capable of sending API Log data requests to HTTP/HTTPS servers or sends as JSON objects to Monitoring tools. We can assume that a route and an upstream are created. You can learn how to set up them in the **[Getting started with Apache APISIX](https://youtu.be/dUOjJkb61so)** video tutorial. Also, you can find all command-line examples on the GitHub page [apisix-observability-plugins](https://boburmirzo.github.io/apisix-observability-plugins/).
 
-The GraphQL properties correspond to the GraphQL query statement shown below:
+You can generate a mock HTTP server at [mockbin.com](https://mockbin.org/) to record and view the logs. Note that we also bind the route to an upstream (You can refer to this documentation to learn about more [core concepts of Apache APISIX](https://apisix.apache.org/docs/apisix/architecture-design/apisix)).
 
-```Nginx
-query getRepo {
-    owner {
-        name
-    }
-    repo {
-        created
-    }
-}
+The following is an example of how to enable the http-logger for a specific route.
+
 ```
-
-- `graphql_operation` corresponds to `query`
-- `graphql_name` corresponds to `getRepo`
-- `graphql_root_fields` corresponds to `["owner", "repo"]`
-
-You can set up a route for Apache APISIX to verify GraphQL matching capabilities with the following example:
-
-```Shell
-curl http://127.0.0.1:9080/apisix/admin/routes/1 \
-  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-  {
-      "methods": ["POST"],
-      "uri": "/_graphql",
-      "vars": [
-          ["graphql_operation", "==", "query"],
-          ["graphql_name", "==", "getRepo"],
-          ["graphql_root_fields", "has", "owner"]
-      ],
-      "upstream": {
-          "type": "roundrobin",
-          "nodes": {
-              "192.168.1.200:4000": 1
+curl http://127.0.0.1:9080/apisix/admin/routes/1 \-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "plugins": {
+          "http-logger": {
+              "uri": "http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61"
           }
-      }
-  }'
-```
-
-Then use GraphQL statements request to visit:
-
-```Shell
-curl -H 'content-type: application/graphql' \
--X POST http://127.0.0.1:9080/graphql -d '
-query getRepo {
-    owner {
-        name
-    }
-    repo {
-        created
-    }
+     },
+    "upstream_id": "1",
+    "uri": "/get"
 }'
 ```
 
-If the match is successful, Apache APISIX proceeds to forward the request.
+> To http-logger plugin settings, your can just put your mock server URI address like below:
 
-```Shell
+```
+{"uri": "http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61"}
+```
+
+Once we get a successful response from APISIX server, we can send a request to this _get_ endpoint to generate logs.
+
+```
+curl -i http://127.0.0.1:9080/get
+```
+
+Then if you click and navigate to the following [mock server link](http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61/log) some recent logs are sent and we can see them:
+
+![http-logger-plugin-test-screenshot](https://static.apiseven.com/202108/1650506211706-09f0bb8a-9d63-4b5c-ae5f-01be1a76a9ba.png)
+
+## Metrics
+
+**Metrics** are a numeric representation of data measured over intervals of time. You can also aggregate this data into daily or weekly frequency and run queries against a distributed system like [Elasticsearch](https://www.elastic.co/). Or sometimes based on metrics you trigger alerts to take any action later. Once API metrics are collected, you can track them with metrics tracking tools such as [Prometheus](https://prometheus.io/).
+
+Apache APISIX API Gateway also offers [prometheus-plugin](https://apisix.apache.org/docs/apisix/plugins/prometheus/) to fetch your API metrics and expose them in Prometheus. Behind the scene, Apache APISIX downloads the Grafana dashboard meta, imports it to [Grafana](https://grafana.com/), and fetches real-time metrics from the Prometheus plugin.
+
+Let’s enable prometheus-plugin for our route:
+
+```
+    curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "uri": "/get",
+    "plugins": {
+        "prometheus":{}
+    },
+    "upstream_id": "1"
+}
+```
+
+We fetch the metric data from the specified URL `/apisix/prometheus/`metrics.
+
+```
+curl -i http://127.0.0.1:9091/apisix/prometheus/metrics
+```
+
+You will get a response with Prometheus metrics something like below:
+
+```
 HTTP/1.1 200 OK
+Server: openresty
+Date: Fri, 25 Mar 2022 11:13:14 GMT
+Content-Type: text/plain; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+# HELP apisix_batch_process_entries batch process remaining entries
+# TYPE apisix_batch_process_entries gauge
+apisix_batch_process_entries{name="http logger",route_id="1",server_addr="172.19.0.8"} 0
+# HELP apisix_etcd_modify_indexes Etcd modify index for APISIX keys
+# TYPE apisix_etcd_modify_indexes gauge
+apisix_etcd_modify_indexes{key="consumers"} 17819
+apisix_etcd_modify_indexes{key="global_rules"} 17832
+apisix_etcd_modify_indexes{key="max_modify_index"} 20028
+apisix_etcd_modify_indexes{key="prev_index"} 18963
+apisix_etcd_modify_indexes{key="protos"} 0
+apisix_etcd_modify_indexes{key="routes"} 20028
+...
 ```
 
-Otherwise, terminate the request.
+And we can also check the status of our endpoint at the Prometheus dashboard by pointing to this URL `http://localhost:9090/targets`.
 
-```Shell
-HTTP/1.1 404 Not Found
+![plugin-orchestration-configure-rule-screenshot](https://static.apiseven.com/202108/1650506275118-b49f881f-caff-4d9a-aedc-01e95e45c77f.png)
+
+As you can see, Apache APISIX exposed metrics endpoint is upon and running.
+
+Now you can query metrics for `apisix_http_status` to see what HTTP requests are handled by API Gateway and what was the outcome.
+
+![prometheus-plugin-dashboard-query-http-status-screenshot](https://static.apiseven.com/202108/1650506329360-f6e53316-cf26-475b-a5d7-dc77fb200130.png)
+
+![prometheus-plugin-dashboard-query-http-status-table-screenshot](https://static.apiseven.com/202108/1650506385033-9913d5e6-2441-4761-bb49-c185048f3caf.png)
+
+In addition to this, you can view the Grafana dashboard running in your local instance. Go to `http://localhost:3000/`
+
+![prometheus-plugin-grafana-dashboard-screenshot](https://static.apiseven.com/202108/1650506413963-781b2820-b82a-4556-b06c-6dfd7a23abab.png)
+
+## Tracing
+
+The third is **tracing** or distributed tracing allows you to understand the life of a request as it traverses your service network and allows you to answer questions like what service has this request touched and how much latency was introduced. Traces enable you to further explore which logs to look at for a particular session or related set of API calls.
+
+[Zipkin](https://zipkin.io/), an open-source distributed tracing system. [APISIX plugin](https://apisix.apache.org/docs/apisix/plugins/zipkin) is supported to collect tracing and report to Zipkin Collector based on [Zipkin API specification](https://zipkin.io/pages/instrumenting.html).
+
+Here’s an example to enable the _zipkin plugin_ on the specified route:
+
+```shell
+curl http://127.0.0.1:9080/apisix/admin/routes/1  \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+    "methods": ["GET"],
+    "uri": "/get",
+    "plugins": {
+        "zipkin": {
+            "endpoint": "http://127.0.0.1:9411/api/v2/spans",
+            "sample_ratio": 1
+        }
+    },
+    "upstream_id": "1"
+}'
 ```
 
-## Advanced Operation
+We can test our example by simply running the following curl command:
 
-Apache APISIX can forward to different Upstreams according to different `graphql_names`, and perform different permission checks according to different `graphql_operation`. The following will show you the code configuration for this feature.
+`curl -i http://127.0.0.1:9080/get`
 
-### Match Upstream with `graphql_name`
+As you can see, there are some additional trace identifiers (like traceId, spanId, parentId) were appended to the headers:
 
-1. Create the first Upstream:
-
-```Shell
-  curl http://192.168.1.200:9080/apisix/admin/upstreams/1 \
-  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-  {
-      "type": "chash",
-      "key": "remote_addr",
-      "nodes": {
-          "192.168.1.200:1980": 1
-      }
-  }'
+```
+"X-B3-Parentspanid": "61bd3f4046a800e7",
+"X-B3-Sampled": "1",
+"X-B3-Spanid": "855cd5465957f414",
+"X-B3-Traceid": "e18985df47dab632d62083fd96626692",
 ```
 
-2. Create GraphQL route bound to the first Upstream service with `graphql_name` set to `getRepo111`:
+Then you can use a browser to access `http://127.0.0.1:9411/zipkin`, see traces on the Web UI of Zipkin.
 
-```Shell
-  curl http://192.168.1.200:9080/apisix/admin/routes/1 \
-  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-  {
-      "methods": ["POST"],
-      "uri": "/graphql",
-      "vars": [
-          ["graphql_operation", "==", "query"],
-          ["graphql_name", "==", "getRepo111"],
-          ["graphql_root_fields", "has", "owner"]
-      ],
-      "upstream_id": "1"
-  }'
-```
+> Note that you need to run the Zipkin instance in order to install Zipkin Web UI. For example, by using docker you can simply run it:
+> `docker run -d -p 9411:9411 openzipkin/zipkin`
 
-3. Create the second Upstream:
+![Zipkin plugin output 1](https://static.apiseven.com/202108/1650506478581-395f9706-e3f4-4687-9744-4fb7e7f17d93.png)
 
-```Shell
-  curl http://192.168.1.200:9080/apisix/admin/upstreams/2 \
-  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-  {
-      "type": "chash",
-      "key": "remote_addr",
-      "nodes": {
-          "192.168.1.200:1981": 1
-      }
-  }'
-```
+![Zipkin plugin output 2](https://static.apiseven.com/202108/1650506596789-f5a1207b-21ea-4250-abc6-a8f3c35d877d.png)
 
-4. Create a GraphQL route bound to the second upstream service with `graphql_name` set to `getRepo222`:
-
-```Shell
-  curl http://192.168.1.200:9080/apisix/admin/routes/2 \
-  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
-  {
-      "methods": ["POST"],
-      "uri": "/graphql",
-      "vars": [
-          ["graphql_operation", "==", "query"],
-          ["graphql_name", "==", "getRepo222"],
-          ["graphql_root_fields", "has", "owner"]
-      ],
-      "upstream_id": 2
-  }'
-```
-
-5. Test with the two `graphql_name` services created earlier, you can find that Apache APISIX can automatically select the forwarded Upstream based on the different `graphql_names` in the request.
-
-- If the request is this example:
-
-```Shell
-  curl -i -H 'content-type: application/graphql' \
-  -X POST http://192.168.1.200:9080/graphql -d '
-  query getRepo111 {
-      owner {
-          name
-      }
-      repo {
-          created
-      }
-  }'
-```
-
-Returns a response from upstream `192.168.1.200:1980`:
-
-```Shell
-  HTTP/1.1 200 OK
-  ---URI
-  /graphql
-  ---Service Node
-  Centos-port: 1980
-```
-
-- If the request is this example:
-
-```Shell
-  curl -i -H 'content-type: application/graphql' \
-  -X POST http://192.168.1.200:9080/graphql -d '
-  query getRepo222 {
-      owner {
-          name
-      }
-      repo {
-          created
-      }
-  }'
-```
-
-Returns a response from upstream `192.168.1.200:1981`:
-
-```Shell
-  HTTP/1.1 200 OK
-  ---URI
-  /graphql
-  ---Service Node
-  Centos-port: 1981
-```
-
-### Use `graphql_operation` for different permission checks
-
-The above example provides a matching rule with `graphql_operation` as query, and now uses GraphQL requests in the form of `mutation`.
-
-1. Configure Apache APISIX:
-
-```Shell
-  curl http://192.168.1.200:9080/apisix/admin/routes/11 \
-  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-  {
-      "methods": ["POST"],
-      "uri": "/hello",
-      "vars": [
-          ["graphql_operation", "==", "mutation"],
-          ["graphql_name", "==", "repo"]
-      ],
-      "upstream": {
-          "nodes": {
-              "192.168.1.200:1982": 1
-          },
-          "type": "roundrobin"
-      }
-  }'
-```
-
-2. Use `mutation` request to verify Apache APISIX configuration:
-
-```Shell
-  curl -i -H 'content-type: application/graphql' \
-  -X POST http://192.168.1.200:9080/hello -d '
-  mutation repo($ep: Episode!, $review: ReviewInput!) {
-    createReview(episode: $ep, review: $review) {
-      stars
-      commentary
-    }
-  }'
-```
-
-The returned result is as follows:
-
-```Shell
-  HTTP/1.1 200 OK
-  ---URI
-  /hello
-  ---Service Node
-  Centos-port: 1982
-```
-
-## Collocation Plugins
-
-Apache APISIX has a rich plugin ecosystem to apply different usage scenarios. If you add suitable plug-ins when using Apache APISIX + GraphQL, you can make more scenarios for the solution application.
-
-This article only selects the following two types of plugins as examples.
-
-### `limit-count` Plugin
-
-With the use of the `limit-count` plugin, the traffic is further limited after being forwarded by GraphQL matching rules. Thanks to the characteristics of Apache APISIX, dynamic, refined and distributed current and speed limiting can be achieved. For details, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/plugins/limit-count).
-
-### Observability Plugin
-
-Apache APISIX provides observability plug-ins including but not limited to  [`prometheus`](https://apisix.apache.org/docs/apisix/plugins/prometheus)、[`skywalking`](https://apisix.apache.org/docs/apisix/plugins/skywalking), etc.,which can provide more monitoring indicator data for the system and facilitate the implementation of subsequent operation and maintenance of the system.
+As you noticed, the recent traces were exposed in the above pictures.
 
 ## Summary
 
-This article briefly introduces the application of GraphQL in Apache APISIX, and uses the actual code to show you the combination of Apache APISIX and GraphQL. Users can use GraphQL in Apache APISIX according to their own business needs and actual scenarios.
+As we learned, API Observability is a sort of framework for managing your applications in an API world and Apache APISIX API Gateway plugins can help when observing modern API-driven applications by integrating to several observability platforms. So, you can make your development work focused on core business features instead of building a custom integration for observability tools.
 
-For more instructions and complete configuration information about GraphQL, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/router-radixtree/#how-to-filter-route-by-graphql-attributes).
+You can also click below to get more details:
 
-Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussions](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join) to communicate.
+- [Download Apache APISIX](https://apisix.apache.org/downloads)
+- [Getting Started with Apache APISIX](https://youtu.be/dUOjJkb61so)
+- [Getting Started with Apache APISIX Dashboard](https://youtu.be/-9-HZKK2ccI)
+- [Overview of Apache APISIX Plugins](https://youtu.be/ixSZA4ILBKQ)
+- [Install Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build)
+- [Watch the Video version of the blog post](https://youtu.be/XK0xcui5BQU)
+If you have any questions, feel free to mail [Apache APISIX Community](https://dev@apisix.apache.org/) 
