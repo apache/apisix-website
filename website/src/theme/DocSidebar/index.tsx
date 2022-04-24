@@ -69,7 +69,7 @@ const DocsVersionWrapper = (props: {docsPluginId: string}) => {
       <DocsVersionDropdownNavbarItem
         docsPluginId={docsPluginId}
         dropdownItemsBefore={[]}
-        dropdownItemsAfter={archivedVersions}
+        dropdownItemsAfter={docsPluginId === 'docs-apisix' ? archivedVersions : []}
         items={[]}
       />
     </div>
