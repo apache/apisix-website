@@ -11,8 +11,20 @@
     "message": "博客",
     "description": "Navbar item with label Blog"
   },
+  "item.label.Resources": {
+    "message": "相关资源",
+    "description": "Navbar item with label Resources"
+  },
+  "item.label.PluginHub": {
+    "message": "插件市场",
+    "description": "Navbar item with label Plugin Hub"
+  },
+  "item.label.Community": {
+    "message": "加入社区",
+    "description": "Navbar item with label Community"
+  },
   "item.label.Events": {
-    "message": "Events",
+    "message": "社区活动",
     "description": "Navbar item with label Events"
   },
   "item.label.Downloads": {
@@ -28,7 +40,7 @@
     "description": "Navbar item with label Showcase"
   },
   "item.label.Help": {
-    "message": "Help",
+    "message": "帮助",
     "description": "Navbar item with label Help"
   },
   "item.label.APISIX": {
