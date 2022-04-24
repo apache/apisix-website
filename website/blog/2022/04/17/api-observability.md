@@ -237,4 +237,4 @@ You can also click below to get more details:
 * [Install Apache APISIX](https://apisix.apache.org/docs/apisix/how-to-build)
 * [Watch the Video version of the blog post](https://youtu.be/XK0xcui5BQU)
 
-If you have any questions, feel free to mail [Apache APISIX Community](https://dev@apisix.apache.org/)
+If you have any questions, feel free to mail [Apache APISIX Community](https://apisix.apache.org/docs/general/join/)
