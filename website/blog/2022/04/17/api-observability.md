@@ -18,7 +18,6 @@ description: In this blog post, we can leverage the power of some Apache APISIX 
 
 ![Cover image for API Observability with Apache APISIX Plugins](https://static.apiseven.com/202108/1650506677636-f4d1ffa0-d848-4264-b497-de1061da0faf.png)
 
-
 ## APIs are everywhere
 
 APIs — by now, we're all familiar with the term. Every service we use today either uses an API or is an API itself. APIs are central in building and delivering your services. Also, you know that the success of your services depends on the integrity, availability, and performance of your APIs.
