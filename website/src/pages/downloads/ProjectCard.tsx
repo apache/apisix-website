@@ -336,7 +336,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           >
             <IconStar />
             {' '}
-            {repoInfo.info.star}
+            {repoInfo?.info.star}
           </LeftSideLink>
           <LeftSideLink
             className="downloads-leftsidelink"
@@ -346,7 +346,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           >
             <IconInfo />
             {' '}
-            {repoInfo.info.issue}
+            {repoInfo?.info.issue}
           </LeftSideLink>
           <LeftSideLink
             className="downloads-leftsidelink"
