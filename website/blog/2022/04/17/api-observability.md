@@ -18,7 +18,6 @@ description: In this blog post, we can leverage the power of some Apache APISIX 
 
 ![Cover image for API Observability with Apache APISIX Plugins](https://static.apiseven.com/202108/1650506677636-f4d1ffa0-d848-4264-b497-de1061da0faf.png)
 
-In this blog post, we can leverage the power of some Apache APISIX Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
 
 ## APIs are everywhere
 
