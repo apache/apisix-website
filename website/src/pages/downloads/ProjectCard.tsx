@@ -1,5 +1,5 @@
 import type { Dispatch, FC, SetStateAction } from 'react';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import '../../css/customTheme.css';
@@ -13,6 +13,8 @@ import IconHexagon from '../../assets/icons/hexagon.svg';
 import IconStarSolid from '../../assets/icons/star-solid.svg';
 import IconOctagon from '../../assets/icons/octagon.svg';
 import IconShield from '../../assets/icons/shield.svg';
+import repoInfoList from '../../../config/repos-info.json';
+import type { ContributeCardProps } from '../contribute/ContributeCard';
 
 const Card = styled.div`
   border-radius: 0.75rem;
@@ -254,13 +256,6 @@ const shapeComponentMap = {
   octagon: <IconOctagon />,
 };
 
-const getGitHubRepoStats = (repo:string) => fetch(`https://api.github.com/repos/${repo}`, {
-  headers: {
-    'content-type': 'application/json',
-    Accept: 'application / vnd.github.v3 + json',
-  },
-}).then((response) => response.json());
-
 interface LTSButtonProps extends LTSDropdownProps {
   name: string;
   color: string;
@@ -306,7 +301,6 @@ interface ProjectCardProps extends Omit<DownloadInfo, 'firstDocPath'> {
 const ProjectCard: FC<ProjectCardProps> = (props) => {
   const [isLTSDropdownOpen, setIsLTSDropdownOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [repoStats, setRepoStats] = useState({ stars: 0, issues: 0 });
   const {
     name,
     description,
@@ -323,15 +317,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
   } = props;
 
   const Download = name === 'APISIX®' ? `${version} Current` : 'Download';
-
-  useEffect(() => {
-    getGitHubRepoStats(githubRepo).then((stats) => {
-      setRepoStats({
-        stars: stats.stargazers_count,
-        issues: stats.open_issues_count,
-      });
-    });
-  }, []);
+  const repoInfo = repoInfoList[githubRepo] as Omit<ContributeCardProps, 'repoName'>;
 
   return (
     <Card>
@@ -350,7 +336,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           >
             <IconStar />
             {' '}
-            {repoStats.stars}
+            {repoInfo.info.star}
           </LeftSideLink>
           <LeftSideLink
             className="downloads-leftsidelink"
@@ -360,7 +346,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           >
             <IconInfo />
             {' '}
-            {repoStats.issues}
+            {repoInfo.info.issue}
           </LeftSideLink>
           <LeftSideLink
             className="downloads-leftsidelink"

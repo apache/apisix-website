@@ -79,9 +79,10 @@ interface RepoInfo {
   star: number;
   watch: number;
   fork: number;
+  issue:number;
 }
 
-interface ContributeCardProps {
+export interface ContributeCardProps {
   repoName: string;
   issues: IssueInfo[];
   info: RepoInfo;
