@@ -30,7 +30,7 @@ description: Style guide for Apache APISIX documentation.
   - 尽量使用简单句和并列句，避免使用复合句。
   - 同样一个意思，尽量使用肯定句表达，不使用否定句表达。
   - 避免使用双重否定句。
-- 不要在标题、文本、导航或目录中使用`&`代替`和`，`/` 代替 `或`。请参考[一般注意事项](https://developers.google.com/style/accessibility#general-dos-and-donts) 了解更多信息。
+- 请不要在标题、文本、导航或目录中使用`&`代替`和`，`/` 代替 `或`。请参考[一般注意事项](https://developers.google.com/style/accessibility#general-dos-and-donts) 了解更多信息。
 - 对项目特定词汇使用以下拼写：
   - 在介绍中引用项目和引用项目社区时，使用 Apache APISIX 而不是 APISIX。
   - 当引用文档中的项目时，请使用 APISIX。
