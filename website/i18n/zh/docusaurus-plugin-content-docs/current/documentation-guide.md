@@ -158,7 +158,7 @@ description: Apache APISIX 中文文档的贡献指南，适用于 APISIX 中文
 如需在本网站【文档-Apache APISIX】下添加技术文档（插件类文档），可参考以下内容架构：
 
 - 插件描述（使用该插件可以做什么，为什么开发了此插件等背景信息）；
-- 属性（使用该插件时可以配置哪些属性。）；
+- 属性（使用该插件时可以配置哪些属性）；
 - 如何使用该插件，可包含以下内容：
   - 前提条件（可选）
   - 启用插件
@@ -166,4 +166,4 @@ description: Apache APISIX 中文文档的贡献指南，适用于 APISIX 中文
   - 禁用插件
 - 注意事项（可选）；
 - 插件后续计划（可选）。
-如需详细示例，请参考[`jwt-auth`](https://apisix.apache.org/zh/docs/apisix/plugins/jwt-auth)。
+如需详细示例，请参考 [`jwt-auth`](https://apisix.apache.org/zh/docs/apisix/plugins/jwt-auth)。
