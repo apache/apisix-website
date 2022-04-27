@@ -1,0 +1,27 @@
+{
+  "docs": {
+    "Community": [
+      "join",
+      "events",
+      {
+        "type": "category",
+        "label": "Contribute to APISIX",
+        "items": [
+          "submit-issue",
+          "contributor-guide",
+          "blog",
+          "security",
+          "committer-guide"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Process and style guides",
+        "items": [
+          "documentation-style-guide",
+          "release-guide"
+        ]
+      }
+    ]
+  }
+}

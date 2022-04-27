@@ -6,5 +6,9 @@
   "sidebar.docs.category.General": {
     "message": "General",
     "description": "The label for category General in sidebar docs"
+  },
+  "sidebar.docs.category.Process and style guides": {
+    "message": "发布流程与文档写作指南",
+    "description": "The label for category Process and style guides in sidebar docs"
   }
 }
