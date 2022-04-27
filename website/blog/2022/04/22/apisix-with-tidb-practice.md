@@ -1,8 +1,14 @@
 ---
 title: "Best Practices for TiDB-based Apache APISIX High Availability Configuration"
-author: "Chao Zhang"
-authorURL: "https://github.com/tokers"
-authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
+authors: 
+  - name: "Chao Zhang"
+    title: Author
+    url: "https://github.com/tokers"
+    image_url: "https://avatars.githubusercontent.com/u/10428333?v=4"
+  - name: "Estelle Rao"
+    title: "Technical Writer"
+    url: "https://github.com/EstelleRao"
+    image_url: "https://github.com/EstelleRao.png"
 keywords: 
 - API Gateway
 - APISIX

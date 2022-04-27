@@ -1,8 +1,14 @@
 ---
 title: "基于 TiDB 的 Apache APISIX 高可用配置中心的最佳实践"
-author: "张超"
-authorURL: "https://github.com/tokers"
-authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
+authors: 
+  - name: "张超"
+    title: Author
+    url: "https://github.com/tokers"
+    image_url: "https://avatars.githubusercontent.com/u/10428333?v=4"
+  - name: "饶雅惠"
+    title: "Technical Writer"
+    url: "https://github.com/EstelleRao"
+    image_url: "https://github.com/EstelleRao.png"
 keywords: 
 - API 网关
 - APISIX
