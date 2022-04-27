@@ -101,6 +101,7 @@ module.exports = {
     {
       files: [
         'scripts/**/*.js',
+        'scripts/**/*.mjs',
         'website/src/clientModules/**/*.js',
         'website/config/**/*.js',
         'website/babel.config.js',
