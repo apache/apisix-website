@@ -187,7 +187,7 @@ function linkShunt(options = {}) {
   });
   return (tree, file) => {
     visit(tree, (node) => {
-      if ((node.type === 'link' || node.type === 'linkReference')) {
+      if (node.type === 'link' || node.type === 'definition') {
         const info = {
           url: node.url,
           path: file.path,
@@ -210,7 +210,7 @@ const processor = unified()
   .use(linkShunt, {
     base: '../website',
     ignore: [
-      /(\/zh)?\/blog\/?(tags)?/,
+      /(\/zh)?\/blog\/?(tags\/.+)?$/,
       /(\/zh)?\/team\/?$/,
       /(\/zh)?\/contribute\/?$/,
       /.+cert-manager/,
@@ -238,7 +238,7 @@ engine(
 
     await Promise.all(allQueue)
       .then(() => {
-        console.log('done', data, data.length);
+        console.log(data, data.length);
       });
   },
 );
