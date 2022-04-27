@@ -27,7 +27,8 @@ export interface Options {
     includeAll: boolean;
     base: string;
     files?: string[];
-    ignore: (string | RegExp)[];
+    ignoreUrls: (string | RegExp)[];
+    ignoreFiles: (string | RegExp)[];
     beforeHandlePath: ((path: string) => string);
 }
 

@@ -84,7 +84,7 @@ async function checkInternalLink(info, opt) {
   };
 
   // skip ignored url
-  if (url.length === 0 || opt.ignore.some((v) => v.test(url))) {
+  if (url.length === 0 || opt.ignoreUrls.some((v) => v.test(url))) {
     return Promise.resolve(Object.assign(res, {
       parsedUrl: info.url,
       status: true,
@@ -183,9 +183,11 @@ const defaultOptions = {
 function linkShunt(options = {}) {
   // merge options
   const opt = Object.assign(defaultOptions, options, {
-    ignore: options.ignore.map((v) => (typeof v === 'string' ? new RegExp(v) : v)),
+    ignoreUrls: options.ignoreUrls.map((v) => (typeof v === 'string' ? new RegExp(v) : v)),
+    ignoreFiles: options.ignoreFiles.map((v) => (typeof v === 'string' ? new RegExp(v) : v)),
   });
   return (tree, file) => {
+    if (opt.ignoreFiles.some((v) => v.test(file.path))) return;
     visit(tree, (node) => {
       if (node.type === 'link' || node.type === 'definition') {
         const info = {
@@ -209,11 +211,16 @@ const processor = unified()
   .use(remarkParse)
   .use(linkShunt, {
     base: '../website',
-    ignore: [
+    ignoreUrls: [
       /(\/zh)?\/blog\/?(tags\/.+)?$/,
       /(\/zh)?\/team\/?$/,
       /(\/zh)?\/contribute\/?$/,
       /.+cert-manager/,
+      /LICENSE/,
+      /logos\/apache-apisix.png/,
+    ],
+    ignoreFiles: [
+      /README\.md/,
     ],
     beforeHandlePath: (p) => {
       const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
@@ -229,7 +236,13 @@ const processor = unified()
 engine(
   {
     processor,
-    files: ['../website/docs', '../website/blog', '../website/articles'],
+    files: [
+      '../website/docs',
+      '../website/blog',
+      '../website/articles',
+      '../website/i18n/zh/docusaurus-plugin-content-blog',
+      '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
+    ],
     extensions: ['md'],
     color: true,
   },

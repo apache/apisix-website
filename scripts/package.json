@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "sync": "node sync-docs.js",
-    "link-checker": "node link-checker.js",
+    "link-checker": "node link-checker.mjs",
     "generate-repos-info": "node generate-repos-info.js",
     "update-sitemap": "node update-sitemap-loc.js"
   },
