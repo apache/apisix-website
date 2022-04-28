@@ -20,7 +20,13 @@ const linkStatusMap = {};
 /**
  * @param {string} url
  */
-async function isLinkAlive(url) {
+async function isLinkAlive(url, opt) {
+  if (opt.ignoreExUrls.some((v) => v.test(url))) {
+    return {
+      status: true,
+      msg: 'ignored',
+    };
+  }
   const config = {
     headers: {
       ...url.includes('github.com') ? { authorization: `Bearer ${GITHUB_TOKEN}` } : {},
@@ -59,13 +65,13 @@ async function isLinkAlive(url) {
 }
 
 /** @type {import('./link-checker').CheckExternalLink} */
-async function checkExternalLink(info) {
+async function checkExternalLink(info, opt) {
   return {
     external: true,
     url: info.url,
     file: info.path,
     position: info.pos,
-    ...await isLinkAlive(info.url),
+    ...await isLinkAlive(info.url, opt),
   };
 }
 
@@ -75,7 +81,7 @@ async function isFileExist(p) {
 
 const headingsFilter = unified()
   .use(remarkParse)
-  .use(remarkFrontmatter, ['yaml', 'toml'])
+  .use(remarkFrontmatter, ['yaml'])
   .freeze();
 
 const fileHeadingsMap = {};
@@ -114,10 +120,11 @@ async function checkInternalLink(info, opt) {
   };
 
   // skip ignored url
-  if (url.length === 0 || opt.ignoreUrls.some((v) => v.test(url))) {
+  if (opt.ignoreInUrls.some((v) => v.test(url))) {
     return Promise.resolve(Object.assign(res, {
       parsedUrl: info.url,
       status: true,
+      msg: 'ignored',
     }));
   }
 
@@ -151,17 +158,18 @@ async function checkInternalLink(info, opt) {
       }
       filePath += '.md';
     }
-  }
-  // renew res
-  res.parsedUrl = filePath;
 
-  const exist = await isFileExist(filePath);
+    // renew res
+    res.parsedUrl = filePath;
 
-  if (!exist) {
-    return Object.assign(res, {
-      status: false,
-      msg: 'file not exist',
-    });
+    const exist = await isFileExist(filePath);
+
+    if (!exist) {
+      return Object.assign(res, {
+        status: false,
+        msg: 'file not exist',
+      });
+    }
   }
 
   if (typeof hash === 'undefined' || hash.length === 0) {
@@ -170,11 +178,17 @@ async function checkInternalLink(info, opt) {
     });
   }
 
+  // current path
+  if (filePath.length === 0) {
+    filePath = info.path;
+  }
   const headingExist = await isHeadingExist(filePath, hash);
   return Object.assign(res, headingExist
     ? {
+      parsedUrl: `${filePath}#${hash}`,
       status: true,
     } : {
+      parsedUrl: `${filePath}#${hash}`,
       status: false,
       msg: 'heading not exist',
     });
@@ -212,10 +226,7 @@ const defaultOptions = {
  */
 function linkShunt(options = {}) {
   // merge options
-  const opt = Object.assign(defaultOptions, options, {
-    ignoreUrls: options.ignoreUrls.map((v) => (typeof v === 'string' ? new RegExp(v) : v)),
-    ignoreFiles: options.ignoreFiles.map((v) => (typeof v === 'string' ? new RegExp(v) : v)),
-  });
+  const opt = Object.assign(defaultOptions, options);
   return (tree, file) => {
     if (opt.ignoreFiles.some((v) => v.test(file.path))) return;
     visit(tree, (node) => {
@@ -242,7 +253,7 @@ const processor = unified()
   .use(remarkFrontmatter, ['yaml'])
   .use(linkShunt, {
     base: '../website',
-    ignoreUrls: [
+    ignoreInUrls: [
       /(\/zh)?\/blog\/?(tags\/.+)?$/,
       /(\/zh)?\/team\/?$/,
       /(\/zh)?\/contribute\/?$/,
@@ -250,8 +261,13 @@ const processor = unified()
       /LICENSE/,
       /logos\/apache-apisix.png/,
     ],
+    ignoreExUrls: [
+      /127\.0\.0\.1/,
+      /mailto/,
+    ],
     ignoreFiles: [
       /README\.md/,
+      /CHANGELOG\.md/,
     ],
     beforeHandlePath: (p) => {
       const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
