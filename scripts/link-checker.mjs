@@ -63,7 +63,7 @@ async function isHeadingExist(filePath, heading) {
           if (node.type === 'heading') {
             let s = toString(node);
             if (typeof s === 'string') {
-              s = s.replaceAll(puncRegExp, '').replaceAll(' ', '-');
+              s = s.replace(puncRegExp, '').replace(/\s/g, '-');
               headings.push(s, s.toLowerCase());
             }
           }
