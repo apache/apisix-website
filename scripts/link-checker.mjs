@@ -51,7 +51,7 @@ async function isLinkAlive(url) {
     }
     return {
       status: false,
-      msg: v[0],
+      msg: v[0].reason,
     };
   });
 }
@@ -189,7 +189,7 @@ function handleWrapper(func, info, opt) {
 const inLinkChecker = handleWrapper.bind(null, checkInternalLink);
 const exLinkChecker = handleWrapper.bind(null, checkExternalLink);
 
-const exLinksQueue = new PQueue({ concurrency: 60 });
+const exLinksQueue = new PQueue({ concurrency: 60, interval: 500 });
 const inLinksQueue = new PQueue();
 const allQueue = [];
 
