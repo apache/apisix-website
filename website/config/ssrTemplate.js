@@ -4,6 +4,7 @@ module.exports = {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="ahrefs-site-verification" content="c2f7370ecf46173f4fb25f114e74c97e0a2976d4f02f61c9b00a9d7d34e34698">
       <meta name="generator" content="Docusaurus v<%= it.version %>">
       <% if (it.noIndex) { %>
         <meta name="robots" content="noindex, nofollow" />
