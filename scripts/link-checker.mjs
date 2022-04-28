@@ -12,35 +12,33 @@ import fs from 'fs/promises';
 import { stringifyPosition } from 'unist-util-stringify-position';
 import { toString } from 'mdast-util-to-string';
 import remarkFrontmatter from 'remark-frontmatter';
-import axiosRetry from 'axios-retry';
+// eslint-disable-next-line import/no-unresolved
+import got from 'got';
 
 const { GITHUB_TOKEN } = process.env;
-
-axiosRetry(axios, {
-  retries: 3,
-  shouldResetTimeout: true,
-  retryDelay: (retryCount) => retryCount * 1000,
-});
 
 /**
  * @param {string} url
  */
 async function isLinkAlive(url) {
   const config = {
-    ...url.includes('github.com')
-      ? {
-        headers: {
-          authorization: `Bearer ${GITHUB_TOKEN}`,
-        },
-      }
-      : {},
-    timeout: 5000,
+    headers: {
+      ...url.includes('github.com') ? { authorization: `Bearer ${GITHUB_TOKEN}` } : {},
+      connection: 'close',
+    },
+    timeout: {
+      request: 5000,
+    },
+    retry: {
+      limit: 3,
+      noise: 50,
+    },
   };
-  const get = axios.get(url, config)
-    .then((v) => v.statusText === 'OK');
+  const get = got.get(url, config)
+    .then((v) => v.statusMessage === 'OK');
 
-  const head = axios.head(url, config)
-    .then((v) => v.statusText === 'OK');
+  const head = got.get(url, config)
+    .then((v) => v.statusMessage === 'OK');
 
   return Promise.allSettled([get, head]).then((v) => {
     if (v.some((r) => r.status === 'fulfilled' && r.value === true)) {
