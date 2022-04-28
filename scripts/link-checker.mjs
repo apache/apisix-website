@@ -2,7 +2,6 @@ import remarkParse from 'remark-parse';
 import { read } from 'to-vfile';
 import { visit } from 'unist-util-visit';
 import isAbsoluteUrl from 'is-absolute-url';
-import axios from 'axios';
 // eslint-disable-next-line import/no-unresolved
 import PQueue from 'p-queue';
 import { engine } from 'unified-engine';
@@ -17,6 +16,7 @@ import got from 'got';
 
 const { GITHUB_TOKEN } = process.env;
 
+const linkStatusMap = {};
 /**
  * @param {string} url
  */
@@ -34,24 +34,28 @@ async function isLinkAlive(url) {
       noise: 50,
     },
   };
-  const get = got.get(url, config)
-    .then((v) => v.statusMessage === 'OK').catch((err) => err.code);
+  if (!linkStatusMap[url]) {
+    const get = got.get(url, config)
+      .then((v) => v.statusMessage === 'OK').catch((err) => err.code);
 
-  const head = got.get(url, config)
-    .then((v) => v.statusMessage === 'OK').catch((err) => err.code);
+    const head = got.get(url, config)
+      .then((v) => v.statusMessage === 'OK').catch((err) => err.code);
 
-  return Promise.allSettled([get, head]).then((v) => {
-    if (v.some((r) => r.status === 'fulfilled' && r.value === true)) {
+    linkStatusMap[url] = Promise.allSettled([get, head]).then((v) => {
+      if (v.some((r) => r.status === 'fulfilled' && r.value === true)) {
+        return {
+          status: true,
+          msg: undefined,
+        };
+      }
       return {
-        status: true,
-        msg: undefined,
+        status: false,
+        msg: v[0].value,
       };
-    }
-    return {
-      status: false,
-      msg: v[0].reason,
-    };
-  });
+    });
+  }
+
+  return linkStatusMap[url];
 }
 
 /** @type {import('./link-checker').CheckExternalLink} */
