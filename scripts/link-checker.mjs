@@ -13,6 +13,7 @@ import { toString } from 'mdast-util-to-string';
 import remarkFrontmatter from 'remark-frontmatter';
 // eslint-disable-next-line import/no-unresolved
 import got from 'got';
+import Listr from 'listr';
 
 const { GITHUB_TOKEN } = process.env;
 
@@ -195,16 +196,16 @@ async function checkInternalLink(info, opt) {
     });
 }
 
-const data = [];
-function handleWrapper(func, info, opt) {
+function handleWrapper(func, data, info, opt) {
   return async () => {
     const res = await func(info, opt);
     if (opt.includeAll || !res.status) data.push(res);
   };
 }
-
-const inLinkChecker = handleWrapper.bind(null, checkInternalLink);
-const exLinkChecker = handleWrapper.bind(null, checkExternalLink);
+const exData = [];
+const inData = [];
+const inLinkChecker = handleWrapper.bind(null, checkInternalLink, inData);
+const exLinkChecker = handleWrapper.bind(null, checkExternalLink, exData);
 
 const exLinksQueue = new PQueue({ concurrency: 60, interval: 500 });
 const inLinksQueue = new PQueue();
@@ -249,57 +250,81 @@ function linkShunt(options = {}) {
   };
 }
 
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkFrontmatter, ['yaml'])
-  .use(linkShunt, {
-    base: '../website',
-    ignoreInUrls: [
-      /(\/zh)?\/blog\/?(tags\/.+)?$/,
-      /(\/zh)?\/team\/?$/,
-      /(\/zh)?\/contribute\/?$/,
-      /.+cert-manager/,
-      /LICENSE/,
-      /logos\/apache-apisix.png/,
-    ],
-    ignoreExUrls: [
-      /127\.0\.0\.1/,
-      /mailto/,
-    ],
-    ignoreFiles: [
-      /README\.md/,
-      /CHANGELOG\.md/,
-    ],
-    beforeHandlePath: (p) => {
-      const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
-      const path = paths.find((v) => p.includes(v));
-      if (typeof path === 'undefined') return p;
-
-      const idx = p.indexOf(path);
-      return `${p.slice(0, idx)}apisix-${p.slice(idx)}`;
-    },
-  })
-  .freeze();
-
-engine(
+const tasks = new Listr([
   {
-    processor,
-    files: [
-      '../website/docs',
-      '../website/blog',
-      '../website/articles',
-      '../website/i18n/zh/docusaurus-plugin-content-blog',
-      '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
-    ],
-    extensions: ['md'],
-    color: true,
-  },
-  async (err) => {
-    if (err) console.log(err);
+    title: 'checking links',
+    task: async () => {
+      const processor = unified()
+        .use(remarkParse)
+        .use(remarkFrontmatter, ['yaml'])
+        .use(linkShunt, {
+          base: '../website',
+          ignoreInUrls: [
+            /(\/zh)?\/blog\/?(tags\/.+)?$/,
+            /(\/zh)?\/team\/?$/,
+            /(\/zh)?\/contribute\/?$/,
+            /.+cert-manager/,
+            /LICENSE/,
+            /logos\/apache-apisix.png/,
+          ],
+          ignoreExUrls: [
+            /127\.0\.0\.1/,
+            /mailto/,
+          ],
+          ignoreFiles: [
+            /README\.md/,
+            /CHANGELOG\.md/,
+          ],
+          beforeHandlePath: (p) => {
+            const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
+            const path = paths.find((v) => p.includes(v));
+            if (typeof path === 'undefined') return p;
 
-    await Promise.all(allQueue)
-      .then(() => {
-        console.log(data, data.length);
-      });
+            const idx = p.indexOf(path);
+            return `${p.slice(0, idx)}apisix-${p.slice(idx)}`;
+          },
+        })
+        .freeze();
+
+      engine(
+        {
+          processor,
+          files: [
+            '../website/docs',
+            '../website/blog',
+            '../website/articles',
+            '../website/i18n/zh/docusaurus-plugin-content-blog',
+            '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
+          ],
+          extensions: ['md'],
+          color: true,
+        },
+        async (err) => {
+          if (err) console.log(err);
+          process.exit(1);
+        },
+      );
+
+      await Promise.all(allQueue);
+    },
   },
-);
+  {
+    title: 'write broken links to json file',
+    task: () => fs.writeFile(
+      './brokenLinks.json',
+      JSON.stringify({
+        internal: inData,
+        external: exData,
+      }),
+    ),
+  },
+]);
+
+tasks.run()
+  .then(() => {
+    console.log('[Finish] Link Checker finished');
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
