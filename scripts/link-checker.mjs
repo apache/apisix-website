@@ -35,10 +35,10 @@ async function isLinkAlive(url) {
     },
   };
   const get = got.get(url, config)
-    .then((v) => v.statusMessage === 'OK');
+    .then((v) => v.statusMessage === 'OK').catch((err) => err.code);
 
   const head = got.get(url, config)
-    .then((v) => v.statusMessage === 'OK');
+    .then((v) => v.statusMessage === 'OK').catch((err) => err.code);
 
   return Promise.allSettled([get, head]).then((v) => {
     if (v.some((r) => r.status === 'fulfilled' && r.value === true)) {
