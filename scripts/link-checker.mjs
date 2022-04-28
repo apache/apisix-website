@@ -201,7 +201,7 @@ function linkShunt(options = {}) {
 
         // external url
         if ((isAbsoluteUrl(node.url) || node.url.startsWith('//'))) {
-          // allQueue.push(exLinksQueue.add(exLinkChecker(info, opt)));
+          allQueue.push(exLinksQueue.add(exLinkChecker(info, opt)));
         } else {
           allQueue.push(inLinksQueue.add(inLinkChecker(info, opt)));
         }
