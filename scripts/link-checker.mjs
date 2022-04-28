@@ -86,7 +86,7 @@ const headingsFilter = unified()
   .freeze();
 
 const fileHeadingsMap = {};
-const puncRegExp = /[:?/]/g;
+const puncRegExp = /[:?/()]/g;
 async function isHeadingExist(filePath, heading) {
   if (!fileHeadingsMap[filePath]) {
     fileHeadingsMap[filePath] = read(filePath)
