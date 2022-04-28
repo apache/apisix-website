@@ -11,6 +11,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { stringifyPosition } from 'unist-util-stringify-position';
 import { toString } from 'mdast-util-to-string';
+import remarkFrontmatter from 'remark-frontmatter';
 
 axios.defaults.timeout = 5000;
 
@@ -47,6 +48,7 @@ async function isFileExist(p) {
 
 const headingsFilter = unified()
   .use(remarkParse)
+  .use(remarkFrontmatter, ['yaml', 'toml'])
   .freeze();
 
 const fileHeadingsMap = {};
@@ -60,9 +62,8 @@ async function isHeadingExist(filePath, heading) {
         visit(t, (node) => {
           if (node.type === 'heading') {
             let s = toString(node);
-            console.log(node, s);
-            s = s.replaceAll(puncRegExp, '').replaceAll(' ', '-');
-            if (typeof s === 'string' && !s.startsWith('title')) {
+            if (typeof s === 'string') {
+              s = s.replaceAll(puncRegExp, '').replaceAll(' ', '-');
               headings.push(s, s.toLowerCase());
             }
           }
@@ -200,7 +201,7 @@ function linkShunt(options = {}) {
 
         // external url
         if ((isAbsoluteUrl(node.url) || node.url.startsWith('//'))) {
-          allQueue.push(exLinksQueue.add(exLinkChecker(info, opt)));
+          // allQueue.push(exLinksQueue.add(exLinkChecker(info, opt)));
         } else {
           allQueue.push(inLinksQueue.add(inLinkChecker(info, opt)));
         }
@@ -211,6 +212,7 @@ function linkShunt(options = {}) {
 
 const processor = unified()
   .use(remarkParse)
+  .use(remarkFrontmatter, ['yaml'])
   .use(linkShunt, {
     base: '../website',
     ignoreUrls: [
