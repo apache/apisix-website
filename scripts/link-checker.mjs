@@ -16,7 +16,11 @@ import axiosRetry from 'axios-retry';
 
 const { GITHUB_TOKEN } = process.env;
 
-axiosRetry(axios, { retries: 3, retryDelay: 500, shouldResetTimeout: true });
+axiosRetry(axios, {
+  retries: 3,
+  shouldResetTimeout: true,
+  retryDelay: (retryCount) => retryCount * 1000,
+});
 
 /**
  * @param {string} url
