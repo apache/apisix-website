@@ -12,8 +12,11 @@ import fs from 'fs/promises';
 import { stringifyPosition } from 'unist-util-stringify-position';
 import { toString } from 'mdast-util-to-string';
 import remarkFrontmatter from 'remark-frontmatter';
+import axiosRetry from 'axios-retry';
 
 const { GITHUB_TOKEN } = process.env;
+
+axiosRetry(axios, { retries: 3, retryDelay: 500, shouldResetTimeout: true });
 
 /**
  * @param {string} url
@@ -173,7 +176,7 @@ function handleWrapper(func, info, opt) {
 const inLinkChecker = handleWrapper.bind(null, checkInternalLink);
 const exLinkChecker = handleWrapper.bind(null, checkExternalLink);
 
-const exLinksQueue = new PQueue({ concurrency: 60, interval: 100 });
+const exLinksQueue = new PQueue({ concurrency: 60 });
 const inLinksQueue = new PQueue();
 const allQueue = [];
 
