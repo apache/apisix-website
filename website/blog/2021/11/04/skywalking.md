@@ -1,8 +1,14 @@
 ---
 title: "The observability of Apache APISIX"
-author: "Haochao Zhuang"
-authorURL: "https://github.com/dmsolr"
-authorImageURL: "https://avatars.githubusercontent.com/u/29735230?v=4"
+authors:
+  - name: "Haochao Zhuang"
+    title: "Author"
+    url: "https://github.com/dmsolr"
+    image_url: "https://avatars.githubusercontent.com/u/29735230?v=4"
+  - name: "Yilin Zeng"
+    title: "Technical Writer"
+    url: "https://github.com/yzeng25"
+    image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
 - Apache APISIX
 - observability
