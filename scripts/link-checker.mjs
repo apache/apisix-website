@@ -26,7 +26,7 @@ axiosRetry(axios, {
  * @param {string} url
  */
 async function isLinkAlive(url) {
-  return axios.get(url, {
+  const config = {
     ...url.includes('github.com')
       ? {
         headers: {
@@ -35,16 +35,25 @@ async function isLinkAlive(url) {
       }
       : {},
     timeout: 5000,
-  })
-    .then((v) => v.statusText === 'OK')
-    .then(() => ({
-      status: true,
-      msg: undefined,
-    }))
-    .catch((err) => ({
+  };
+  const get = axios.get(url, config)
+    .then((v) => v.statusText === 'OK');
+
+  const head = axios.head(url, config)
+    .then((v) => v.statusText === 'OK');
+
+  return Promise.allSettled([get, head]).then((v) => {
+    if (v.some((r) => r.status === 'fulfilled' && r.value === true)) {
+      return {
+        status: true,
+        msg: undefined,
+      };
+    }
+    return {
       status: false,
-      msg: err,
-    }));
+      msg: v[0],
+    };
+  });
 }
 
 /** @type {import('./link-checker').CheckExternalLink} */
