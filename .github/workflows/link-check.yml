@@ -28,6 +28,28 @@ jobs:
         with:
           node-version: "14"
 
+      - name: Get node version
+        id: node-version
+        run: |
+          echo "::set-output name=ver::$(node --version)"
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Cache install
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install Dependencies
         run: |
           yarn install
@@ -38,7 +60,7 @@ jobs:
 
       - name: Check Links
         run: |
-          yarn workspace scripts link-checker && git status
+          yarn workspace scripts link-checker
 
       - name: Archive Broken Links List
         uses: actions/upload-artifact@v2
