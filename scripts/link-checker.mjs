@@ -31,6 +31,7 @@ async function isLinkAlive(url, opt) {
     headers: {
       ...url.includes('github.com') ? { authorization: `Bearer ${GITHUB_TOKEN}` } : {},
       connection: 'close',
+      'Accept-Encoding': 'compress, gzip;',
     },
     timeout: {
       request: 5000,
