@@ -20,9 +20,13 @@ const { GITHUB_TOKEN } = process.env;
  */
 async function isLinkAlive(url) {
   return axios.get(url, {
-    headers: {
-      authorization: url.includes('github.com') ? `Bearer ${GITHUB_TOKEN}` : undefined,
-    },
+    ...url.includes('github.com')
+      ? {
+        headers: {
+          authorization: `Bearer ${GITHUB_TOKEN}`,
+        },
+      }
+      : {},
     timeout: 5000,
   })
     .then((v) => v.statusText === 'OK')
