@@ -300,8 +300,10 @@ const tasks = new Listr([
           color: true,
         },
         async (err) => {
-          if (err) console.log(err);
-          process.exit(1);
+          if (err) {
+            console.log(err);
+            process.exit(1);
+          }
         },
       );
 
