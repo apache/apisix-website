@@ -61,6 +61,8 @@ jobs:
       - name: Check Links
         run: |
           yarn workspace scripts link-checker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive Broken Links List
         uses: actions/upload-artifact@v2

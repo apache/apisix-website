@@ -13,13 +13,19 @@ import { stringifyPosition } from 'unist-util-stringify-position';
 import { toString } from 'mdast-util-to-string';
 import remarkFrontmatter from 'remark-frontmatter';
 
-axios.defaults.timeout = 5000;
+const { GITHUB_TOKEN } = process.env;
 
 /**
  * @param {string} url
  */
 async function isLinkAlive(url) {
-  return axios.get(url)
+  return axios.get(url, url.includes('github.com')
+    ? {
+      authorization: `Bearer ${GITHUB_TOKEN}`,
+      timeout: 5000,
+    } : {
+      timeout: 5000,
+    })
     .then((v) => v.statusText === 'OK')
     .then(() => ({
       status: true,
