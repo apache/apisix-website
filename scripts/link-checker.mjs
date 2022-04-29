@@ -217,7 +217,7 @@ const inData = [];
 const inLinkChecker = handleWrapper.bind(null, checkInternalLink, inData);
 const exLinkChecker = handleWrapper.bind(null, checkExternalLink, exData);
 
-const exLinksQueue = new PQueue({ concurrency: 100 });
+const exLinksQueue = new PQueue({ concurrency: 500 });
 const inLinksQueue = new PQueue();
 const allQueue = [];
 
@@ -313,7 +313,7 @@ const engConfig = {
 const tasks = new Listr([
   {
     title: 'checking links',
-    task: async () => Promise.all([
+    task: async () => {
       await new Promise((resolve, reject) => {
         const processor = unified()
           .use(remarkParse)
@@ -333,9 +333,9 @@ const tasks = new Listr([
             resolve();
           },
         );
-      }),
-      await Promise.all(allQueue),
-    ]),
+      });
+      await Promise.all(allQueue);
+    },
   },
   {
     title: 'write to json file',
