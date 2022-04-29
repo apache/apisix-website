@@ -202,6 +202,7 @@ function handleWrapper(func, data, info, opt) {
     if (opt.includeAll || !res.status) data.push(res);
   };
 }
+
 const exData = [];
 const inData = [];
 const inLinkChecker = handleWrapper.bind(null, checkInternalLink, inData);
@@ -254,58 +255,60 @@ const tasks = new Listr([
   {
     title: 'checking links',
     task: async () => {
-      const processor = unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(linkShunt, {
-          base: '../website',
-          ignoreInUrls: [
-            /(\/zh)?\/blog\/?(tags\/.+)?$/,
-            /(\/zh)?\/team\/?$/,
-            /(\/zh)?\/contribute\/?$/,
-            /.+cert-manager/,
-            /LICENSE/,
-            /logos\/apache-apisix.png/,
-          ],
-          ignoreExUrls: [
-            /127\.0\.0\.1/,
-            /mailto/,
-          ],
-          ignoreFiles: [
-            /README\.md/,
-            /CHANGELOG\.md/,
-          ],
-          beforeHandlePath: (p) => {
-            const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
-            const path = paths.find((v) => p.includes(v));
-            if (typeof path === 'undefined') return p;
+      await new Promise((resolve, reject) => {
+        const processor = unified()
+          .use(remarkParse)
+          .use(remarkFrontmatter, ['yaml'])
+          .use(linkShunt, {
+            base: '../website',
+            ignoreInUrls: [
+              /(\/zh)?\/blog\/?(tags\/.+)?$/,
+              /(\/zh)?\/team\/?$/,
+              /(\/zh)?\/contribute\/?$/,
+              /.+cert-manager/,
+              /LICENSE/,
+              /logos\/apache-apisix.png/,
+            ],
+            ignoreExUrls: [
+              /127\.0\.0\.1/,
+              /mailto/,
+            ],
+            ignoreFiles: [
+              /README\.md/,
+              /CHANGELOG\.md/,
+            ],
+            beforeHandlePath: (p) => {
+              const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
+              const path = paths.find((v) => p.includes(v));
+              if (typeof path === 'undefined') return p;
 
-            const idx = p.indexOf(path);
-            return `${p.slice(0, idx)}apisix-${p.slice(idx)}`;
+              const idx = p.indexOf(path);
+              return `${p.slice(0, idx)}apisix-${p.slice(idx)}`;
+            },
+          })
+          .freeze();
+
+        engine(
+          {
+            processor,
+            files: [
+              '../website/docs',
+              '../website/blog',
+              '../website/articles',
+              '../website/i18n/zh/docusaurus-plugin-content-blog',
+              '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
+            ],
+            extensions: ['md'],
+            color: true,
           },
-        })
-        .freeze();
-
-      engine(
-        {
-          processor,
-          files: [
-            '../website/docs',
-            '../website/blog',
-            '../website/articles',
-            '../website/i18n/zh/docusaurus-plugin-content-blog',
-            '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
-          ],
-          extensions: ['md'],
-          color: true,
-        },
-        async (err) => {
-          if (err) {
-            console.log(err);
-            process.exit(1);
-          }
-        },
-      );
+          async (err) => {
+            if (err) {
+              reject(err);
+            }
+            resolve();
+          },
+        );
+      });
 
       await Promise.all(allQueue);
     },
@@ -315,7 +318,9 @@ const tasks = new Listr([
     task: () => fs.writeFile(
       './brokenLinks.json',
       JSON.stringify({
+        internalLen: inData.length,
         internal: inData,
+        externalLen: exData.length,
         external: exData,
       }),
     ),
