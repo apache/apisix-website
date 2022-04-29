@@ -313,7 +313,7 @@ const engConfig = {
 const tasks = new Listr([
   {
     title: 'checking links',
-    task: async () => {
+    task: async () => Promise.all([
       await new Promise((resolve, reject) => {
         const processor = unified()
           .use(remarkParse)
@@ -333,10 +333,9 @@ const tasks = new Listr([
             resolve();
           },
         );
-      });
-
-      await Promise.all(allQueue);
-    },
+      }),
+      await Promise.all(allQueue),
+    ]),
   },
   {
     title: 'write to json file',
