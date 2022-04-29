@@ -24,7 +24,10 @@ export interface Info {
 }
 
 export interface Options {
-    includeAll: boolean;
+    include: {
+        pass: boolean;
+        ignore: boolean;
+    };
     base: string;
     files?: string[];
     ignoreInUrls: RegExp[];

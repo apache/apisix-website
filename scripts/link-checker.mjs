@@ -25,7 +25,7 @@ async function isLinkAlive(url, opt) {
   if (opt.ignoreExUrls.some((v) => v.test(url))) {
     return {
       status: true,
-      msg: 'ignored',
+      msg: 'ignored link',
     };
   }
   const config = {
@@ -126,7 +126,7 @@ async function checkInternalLink(info, opt) {
     return Promise.resolve(Object.assign(res, {
       parsedUrl: info.url,
       status: true,
-      msg: 'ignored',
+      msg: 'ignored link',
     }));
   }
 
@@ -196,10 +196,19 @@ async function checkInternalLink(info, opt) {
     });
 }
 
+const ignoreData = [];
+const passData = [];
+
 function handleWrapper(func, data, info, opt) {
   return async () => {
     const res = await func(info, opt);
-    if (opt.includeAll || !res.status) data.push(res);
+    if (!res.status) data.push(res);
+    else {
+      if (opt.include.pass) passData.push(res);
+      else if (opt.include.ignore && res.msg && res.msg.startsWith('ignored')) {
+        ignoreData.push(res);
+      }
+    }
   };
 }
 
@@ -208,7 +217,7 @@ const inData = [];
 const inLinkChecker = handleWrapper.bind(null, checkInternalLink, inData);
 const exLinkChecker = handleWrapper.bind(null, checkExternalLink, exData);
 
-const exLinksQueue = new PQueue({ concurrency: 60, interval: 500 });
+const exLinksQueue = new PQueue({ concurrency: 100 });
 const inLinksQueue = new PQueue();
 const allQueue = [];
 
@@ -231,7 +240,12 @@ function linkShunt(options = {}) {
   // merge options
   const opt = Object.assign(defaultOptions, options);
   return (tree, file) => {
-    if (opt.ignoreFiles.some((v) => v.test(file.path))) return;
+    if (opt.ignoreFiles.some((v) => v.test(file.path))) {
+      ignoreData.push({
+        file: file.path,
+        msg: 'ignored file',
+      });
+    }
     visit(tree, (node) => {
       if (node.type === 'link' || node.type === 'definition') {
         const info = {
@@ -251,6 +265,51 @@ function linkShunt(options = {}) {
   };
 }
 
+/** @type import('./link-checker').Options */
+const proConfig = {
+  base: '../website',
+  include: {
+    ignore: process.env.INCLUDE_IGNORE || false,
+    pass: process.env.INCLUDE_PASS || false,
+  },
+  ignoreInUrls: [
+    /(\/zh)?\/blog\/?(tags\/.+)?$/,
+    /(\/zh)?\/team\/?$/,
+    /(\/zh)?\/contribute\/?$/,
+    /.+cert-manager/,
+    /LICENSE/,
+    /logos\/apache-apisix.png/,
+  ],
+  ignoreExUrls: [
+    /127\.0\.0\.1/,
+    /mailto/,
+  ],
+  ignoreFiles: [
+    /README\.md/,
+    /CHANGELOG\.md/,
+  ],
+  beforeHandlePath: (p) => {
+    const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
+    const path = paths.find((v) => p.includes(v));
+    if (typeof path === 'undefined') return p;
+
+    const idx = p.indexOf(path);
+    return `${p.slice(0, idx)}apisix-${p.slice(idx)}`;
+  },
+};
+
+const engConfig = {
+  files: [
+    '../website/docs',
+    '../website/blog',
+    '../website/articles',
+    '../website/i18n/zh/docusaurus-plugin-content-blog',
+    '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
+  ],
+  extensions: ['md'],
+  color: true,
+};
+
 const tasks = new Listr([
   {
     title: 'checking links',
@@ -259,47 +318,13 @@ const tasks = new Listr([
         const processor = unified()
           .use(remarkParse)
           .use(remarkFrontmatter, ['yaml'])
-          .use(linkShunt, {
-            base: '../website',
-            ignoreInUrls: [
-              /(\/zh)?\/blog\/?(tags\/.+)?$/,
-              /(\/zh)?\/team\/?$/,
-              /(\/zh)?\/contribute\/?$/,
-              /.+cert-manager/,
-              /LICENSE/,
-              /logos\/apache-apisix.png/,
-            ],
-            ignoreExUrls: [
-              /127\.0\.0\.1/,
-              /mailto/,
-            ],
-            ignoreFiles: [
-              /README\.md/,
-              /CHANGELOG\.md/,
-            ],
-            beforeHandlePath: (p) => {
-              const paths = ['dashboard', 'docker', 'go-plugin-runner', 'helm-chart', 'ingress-controller', 'java-plugin-runner', 'python-plugin-runner'];
-              const path = paths.find((v) => p.includes(v));
-              if (typeof path === 'undefined') return p;
-
-              const idx = p.indexOf(path);
-              return `${p.slice(0, idx)}apisix-${p.slice(idx)}`;
-            },
-          })
+          .use(linkShunt, proConfig)
           .freeze();
 
         engine(
           {
             processor,
-            files: [
-              '../website/docs',
-              '../website/blog',
-              '../website/articles',
-              '../website/i18n/zh/docusaurus-plugin-content-blog',
-              '../website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/current',
-            ],
-            extensions: ['md'],
-            color: true,
+            ...engConfig,
           },
           async (err) => {
             if (err) {
@@ -314,7 +339,7 @@ const tasks = new Listr([
     },
   },
   {
-    title: 'write broken links to json file',
+    title: 'write to json file',
     task: () => fs.writeFile(
       './brokenLinks.json',
       JSON.stringify({
@@ -322,6 +347,14 @@ const tasks = new Listr([
         internal: inData,
         externalLen: exData.length,
         external: exData,
+        ...proConfig?.include?.ignore ? {
+          ignoreLen: ignoreData.length,
+          ignore: ignoreData,
+        } : {},
+        ...proConfig?.include?.pass ? {
+          passLen: passData.length,
+          pass: passData,
+        } : {},
       }),
     ),
   },
