@@ -57,6 +57,8 @@ jobs:
       - name: Pull Docs
         run: |
           yarn sync-doc && git status
+        env:
+          SKIP_PULL_VERSION_DOCS: true
 
       - name: Check Links
         run: |

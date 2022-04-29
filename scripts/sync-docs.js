@@ -97,6 +97,7 @@ const tasks = new Listr([
     task: () => {
       const extractDocumentTasks = projectPaths.map((project) => ({
         title: `Extract ${project.name} documents`,
+        skip: () => process.env.SKIP_PULL_VERSION_DOCS || false,
         task: () => {
           const extractProjectTasks = project.name === 'apisix'
             ? versions.map((version) => ({
