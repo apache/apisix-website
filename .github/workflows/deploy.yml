@@ -53,6 +53,14 @@ jobs:
       - name: Install Dependencies
         run: |
           yarn install
+      
+      - name: Apply docs cache
+        id: docs-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./scripts/temp
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('./scripts/temp/apisix/**') }}
 
       - name: Sync documents
         run: |
