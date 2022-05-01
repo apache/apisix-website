@@ -43,6 +43,7 @@ const tasks = new Listr([
               )
               .cwd(`${tempPath}/${project.name}/`)
               .raw(['sparse-checkout', 'set', 'docs']);
+
             if (project.name === 'apisix') {
               gitMap[project.name]
                 .cwd(`${tempPath}/${project.name}/`)
@@ -90,11 +91,13 @@ const tasks = new Listr([
                 const projectName = project.name;
                 const docs = `${websitePath}/docs-${projectName}_versioned_docs`;
                 const sidebar = `${websitePath}/docs-${projectName}_versioned_sidebars`;
-                const versions = `${websitePath}/docs-${projectName}_vesions.json`;
+                const versions = `${websitePath}/docs-${projectName}_versions.json`;
+                const i18nDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}`;
 
                 await Promise.all([
-                  removeFolder(docs).then(() => fs.mkdir(docs)),
-                  removeFolder(sidebar).then(() => fs.mkdir(sidebar)),
+                  removeFolder(docs),
+                  removeFolder(sidebar),
+                  removeFolder(i18nDocs),
                   fs.rm(versions)
                     .catch(() => { /* ignore */ })
                     .then(() => fs.writeFile(
@@ -105,7 +108,7 @@ const tasks = new Listr([
               },
             },
             {
-              title: `Extract ${project.name} documents`,
+              title: `Extract ${project.name} versioned documents`,
               task: () => {
                 const steps = projectReleases[project.name]
                   .map((version) => ({
@@ -115,42 +118,14 @@ const tasks = new Listr([
                 return new Listr(steps);
               },
             },
+            {
+              title: `Extract ${project.name} next version documents`,
+              task: () => extractDocsNextVersionTasks(project, project.branch),
+            },
           ]),
         }
       ));
       return new Listr(extractTasks, { concurrent: projects.length });
-    },
-  },
-  {
-    // NOTE: Extract docs from the master branch
-    title: 'Extract next version documents',
-    skip: () => true,
-    task: () => {
-      const nextVersionTasks = projectPaths.map((project) => ({
-        title: `Extract ${project.name} next version documents`,
-        task: () => {
-          const steps = [
-            {
-              title: `Checkout ${project.name} next version`,
-              task: () => gitMap[project.name].cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']),
-            },
-            {
-              title: 'Replace elements inside MD files',
-              task: async () => {
-                await replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], project.branch);
-                // await copyAllDocs(project);
-              },
-            },
-            {
-              title: 'Generate API docs for APISIX',
-              enabled: () => os.platform() === 'linux' && project.name === 'apisix' && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
-              task: () => generateAPIDocs(project),
-            },
-          ];
-          return new Listr(steps);
-        },
-      }));
-      return new Listr(nextVersionTasks, { concurrent: projects.length });
     },
   },
 ]);
@@ -293,18 +268,23 @@ async function handleConfig2Sidebar(source, target, version, versionedTarget) {
     2,
   );
 
-  const versionedSidebar = JSON.stringify(
-    await normalizeSidebar(config.sidebar, version),
-    null,
-    2,
-  );
+  const writeVersionedSidebar = new Promise((resolve) => {
+    if (typeof version === 'undefined') resolve();
+    else {
+      const versionedSidebar = JSON.stringify(
+        normalizeSidebar(config.sidebar, version),
+        null,
+        2,
+      );
+      const task = fs.writeFile(`${versionedTarget}/version-${version}-sidebars.json`, versionedSidebar);
+      resolve(task);
+    }
+  });
 
   await Promise.allSettled([
     fs.unlink(`${source}/config.json`),
     fs.writeFile(`${target}/sidebars.json`, sidebar),
-    typeof version !== 'undefined'
-      ? fs.writeFile(`${versionedTarget}/version-${version}-sidebars.json`, versionedSidebar)
-      : Promise.resolve(),
+    writeVersionedSidebar,
   ]);
 }
 
@@ -368,6 +348,42 @@ function extractDocsVersionTasks(project, version) {
           copyDocs(enSrcDocs, enTargetDocs)
             .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
             .then(() => handleConfig2Sidebar(enTargetDocs, enTargetDocs, version, `${websitePath}/docs-${project.name}_versioned_sidebars`)),
+          copyDocs(zhSrcDocs, zhTargetDocs)
+            .then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
+        ]).catch(() => { /* ignore */ });
+      },
+    },
+  ]);
+}
+
+function extractDocsNextVersionTasks(project, version) {
+  const projectPath = `${tempPath}/${project.name}`;
+  return new Listr([
+    {
+      title: `Checkout ${project.name} version: ${version}`,
+      task: () => gitMap[project.name].cwd(projectPath).checkout(`remotes/origin/${version}`, ['-f']),
+    },
+    {
+      title: 'Generate API docs for APISIX',
+      enabled: () => project.name === 'apisix' && os.platform() === 'linux' && isFileExisted(`./${projectPath}/autodocs`),
+      task: () => generateAPIDocs(project),
+    },
+    {
+      title: `Copy to target path`,
+      task: async () => {
+        const branchName = project.branch;
+        const projectName = project.name;
+
+        const docsPath = `${projectPath}/docs`;
+        const enSrcDocs = `${docsPath}/en/latest`;
+        const zhSrcDocs = `${docsPath}/zh/latest`;
+        const enTargetDocs = `${websitePath}/docs/${projectName}`;
+        const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/current`;
+
+        await Promise.all([
+          copyDocs(enSrcDocs, enTargetDocs)
+            .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
+            .then(() => handleConfig2Sidebar(enTargetDocs, enTargetDocs)),
           copyDocs(zhSrcDocs, zhTargetDocs)
             .then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
         ]).catch(() => { /* ignore */ });
