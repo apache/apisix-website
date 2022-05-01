@@ -115,7 +115,7 @@ const tasks = new Listr([
               },
             },
             {
-              title: `Extract ${project.name} versioned documents`,
+              title: `Extract ${project.name} release versions documents`,
               task: () => {
                 const steps = projectReleases[project.name]
                   .map((version) => ({
