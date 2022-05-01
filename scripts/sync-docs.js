@@ -31,7 +31,7 @@ const tasks = new Listr([
         title: `Clone ${project.name} repository`,
         task: async () => {
           const dir = `${tempPath}/${project.name}/`;
-          if (isDirExisted(dir)) {
+          if (await isDirExisted(dir)) {
             gitMap[project.name] = simpleGit(dir);
             await gitMap[project.name].cwd(dir).fetch();
           } else {
