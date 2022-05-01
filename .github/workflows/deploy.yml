@@ -60,7 +60,7 @@ jobs:
         with:
           path: |
             ./scripts/temp
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('./website/config/apisix-version.js') }}
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Sync documents
         run: |
@@ -73,7 +73,7 @@ jobs:
           path: |
             ./website/.docusaurus
             ./website/build
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('./website/config/apisix-version.js') }}
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Build
         run: |
