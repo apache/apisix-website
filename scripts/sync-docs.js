@@ -81,6 +81,16 @@ const tasks = new Listr([
       // add apisix versions to release
       projectReleases.apisix = versions;
 
+      const writeVersion2File = async (target, versions) => {
+        if (versions.length === 0) return Promise.resolve();
+
+        if (await isFileExisted(target)) await fs.rm(target);
+        return fs.writeFile(
+          target,
+          JSON.stringify(versions.reverse(), null, 2),
+        );
+      };
+
       const extractTasks = projectPaths.map((project) => (
         {
           title: `Extract ${project.name}`,
@@ -98,12 +108,7 @@ const tasks = new Listr([
                   removeFolder(docs),
                   removeFolder(sidebar),
                   removeFolder(i18nDocs),
-                  fs.rm(versions)
-                    .catch(() => { /* ignore */ })
-                    .then(() => fs.writeFile(
-                      versions,
-                      JSON.stringify(projectReleases[projectName], null, 2),
-                    )),
+                  writeVersion2File(versions, projectReleases[projectName]),
                 ]);
               },
             },
@@ -141,7 +146,7 @@ tasks.run()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function log(text) {
-  console.log(text);
+  // console.log(text);
 }
 
 async function replaceMDElements(project, path, branch = 'master') {
@@ -231,6 +236,7 @@ async function copyDocs(source, target) {
 function normalizeSidebar(sidebarList, version) {
   const arr = sidebarList.map((block) => ({
     ...block,
+    ...block?.id ? { id: `version-${version}/${block.id}` } : {},
     ...block?.items?.length > 0
       ? {
         collapsible: true,
@@ -242,10 +248,7 @@ function normalizeSidebar(sidebarList, version) {
               id: `version-${version}/${v}`,
             };
           }
-          if (v.type === 'category') {
-            return normalizeSidebar([v], version)[`version-${version}/docs`][0];
-          }
-          return v;
+          return normalizeSidebar([v], version)[`version-${version}/docs`][0];
         }),
       }
       : {},
@@ -268,23 +271,22 @@ async function handleConfig2Sidebar(source, target, version, versionedTarget) {
     2,
   );
 
-  const writeVersionedSidebar = new Promise((resolve) => {
-    if (typeof version === 'undefined') resolve();
-    else {
-      const versionedSidebar = JSON.stringify(
-        normalizeSidebar(config.sidebar, version),
-        null,
-        2,
-      );
-      const task = fs.writeFile(`${versionedTarget}/version-${version}-sidebars.json`, versionedSidebar);
-      resolve(task);
-    }
-  });
+  const writeVersionedSidebar = async () => {
+    if (typeof version === 'undefined') return Promise.resolve();
+
+    const versionedSidebar = JSON.stringify(
+      normalizeSidebar(config.sidebar, version),
+      null,
+      2,
+    );
+    await fs.mkdir(versionedTarget, { recursive: true });
+    return fs.writeFile(`${versionedTarget}/version-${version}-sidebars.json`, versionedSidebar);
+  };
 
   await Promise.allSettled([
     fs.unlink(`${source}/config.json`),
     fs.writeFile(`${target}/sidebars.json`, sidebar),
-    writeVersionedSidebar,
+    writeVersionedSidebar(),
   ]);
 }
 
