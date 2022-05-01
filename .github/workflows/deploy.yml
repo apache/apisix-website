@@ -60,7 +60,7 @@ jobs:
         with:
           path: |
             ./scripts/temp
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('./scripts/temp/apisix/**') }}
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('./scripts/temp/apisix/docs/en/latest/**') }}
 
       - name: Sync documents
         run: |
