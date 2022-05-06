@@ -205,7 +205,7 @@ function handleWrapper(func, data, info, opt) {
     if (!res.status) data.push(res);
     else {
       if (opt.include.pass) passData.push(res);
-      else if (opt.include.ignore && res.msg && res.msg.startsWith('ignored')) {
+      else if (res.msg?.startsWith('ignored')) {
         ignoreData.push(res);
       }
     }
@@ -273,9 +273,9 @@ const proConfig = {
     pass: process.env.INCLUDE_PASS || false,
   },
   ignoreInUrls: [
-    /(\/zh)?\/blog\/?(tags\/.+)?$/,
-    /(\/zh)?\/team\/?$/,
-    /(\/zh)?\/contribute\/?$/,
+    /(\/zh)?\/blog\/?(tags\/.+)?$/, // blog list and tag page
+    /(\/zh)?\/team\/?$/, // team page
+    /(\/zh)?\/contribute\/?$/, // contribute page
     /.+cert-manager/,
     /LICENSE/,
     /logos\/apache-apisix.png/,
@@ -334,13 +334,13 @@ const tasks = new Listr([
           },
         );
       });
-      await Promise.all(allQueue);
+      await Promise.allSettled(allQueue);
     },
   },
   {
     title: 'write to json file',
     task: () => fs.writeFile(
-      './brokenLinks.json',
+      './broken-links.json',
       JSON.stringify({
         internalLen: inData.length,
         internal: inData,

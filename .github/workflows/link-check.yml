@@ -54,6 +54,14 @@ jobs:
         run: |
           yarn install
 
+      - name: Apply docs cache
+        id: docs-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./scripts/temp
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+
       - name: Pull Docs
         run: |
           yarn sync-doc && git status
@@ -71,5 +79,5 @@ jobs:
         if: always()
         with:
           name: broken-links.json
-          path: scripts/brokenLinks.json
+          path: scripts/broken-links.json
           retention-days: 5
