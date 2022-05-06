@@ -1,3 +1,4 @@
+<br>
 
 <h1 style="position: relative" align="center">Apache APISIX® Website</h1>
 
@@ -8,6 +9,8 @@ A cloud-native microservices api gateway
 
 <a href="https://apisix.apache.org/docs/general/join"><img  width="150" src="./website/static/img/join-slack.png"></a>
 </div>
+
+<br>
 
 ## Usage
 
