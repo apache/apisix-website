@@ -1,9 +1,15 @@
 ---
 title: Centralized authentication using the OpenID Connect plug-in for Apache APISIX
 slug: 2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication
-author: Xinxin Zhu
-authorURL: "https://github.com/starsz"
-authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
+authors:
+  - name: "Xinxin Zhu"
+    title: "Author"
+    url: "https://github.com/starsz"
+    image_url: "https://avatars.githubusercontent.com/u/25628854?v=4"
+  - name: "Yilin Zeng"
+    title: "Technical Writer"
+    url: "https://github.com/yzeng25"
+    image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords:
   - API Gateway
   - APISIX

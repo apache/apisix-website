@@ -54,6 +54,14 @@ jobs:
         run: |
           yarn install
 
+      - name: Apply docs cache
+        id: docs-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./scripts/temp
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+
       - name: Sync documents
         run: |
           yarn sync-doc && yarn generate-repos-info && git status
@@ -65,11 +73,11 @@ jobs:
           path: |
             ./website/.docusaurus
             ./website/build
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('./website/docs/apisix/**') }}
+          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Build
         run: |
-          yarn build && cp ./.asf.yaml ./website/build
+          yarn build && cp ./.asf.yaml ./.htaccess ./website/build/
 
       - name: Update sitemap.xml
         run: |

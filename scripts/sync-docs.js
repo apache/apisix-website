@@ -7,58 +7,21 @@ const Listr = require('listr');
 const simpleGit = require('simple-git');
 const semver = require('semver');
 const replace = require('replace-in-file');
-const { promisify } = require('util');
 
 const common = require('./common.js');
 const { versions } = require('../website/config/apisix-versions.js');
 
 const { projects, languages, projectPaths } = common;
-const exec = promisify(childProcess.exec);
-const tempPath = './tmp';
+const tempPath = './temp';
 const websitePath = '../website';
 const gitMap = {};
 const projectReleases = {};
-
-const extractDocsHeadTasks = (project, version) => ([
-  {
-    title: `Checkout ${project.name} version: ${version}`,
-    task: () => gitMap[project.name].cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/release/${version}`, ['-f']),
-  },
-  {
-    title: 'Replace elements inside MD files',
-    task: async () => {
-      const branchName = `release/${version}`;
-      await replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], branchName);
-      await copyAllDocs(project);
-    },
-  },
-]);
-
-const extractDocsTailTasks = (project, version) => ([
-  {
-    title: 'Add English & Chinese documents',
-    task: () => Promise.all([
-      exec(
-        `yarn docusaurus docs:version:docs-${project.name} ${version}`,
-        { cwd: websitePath },
-      ),
-      isDirExisted(`./${tempPath}/${project.name}/docs/zh/latest`)
-        .then(
-          (exist) => exist && copyFolder(
-            project.latestDocs.zh,
-            `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/version-${version}`,
-          ),
-        ),
-    ]),
-  },
-]);
 
 const tasks = new Listr([
   {
     title: 'Start documents sync',
     task: async () => {
-      await removeFolder(tempPath);
-      await fs.mkdir(tempPath);
+      if (!await isDirExisted(tempPath)) { await fs.mkdir(tempPath); }
     },
   },
   {
@@ -67,8 +30,28 @@ const tasks = new Listr([
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
         task: async () => {
-          gitMap[project.name] = simpleGit();
-          await gitMap[project.name].clone(`https://github.com/apache/${project.name}.git`, `${tempPath}/${project.name}/`);
+          const dir = `${tempPath}/${project.name}/`;
+          const exist = await isDirExisted(dir);
+          if (exist) {
+            gitMap[project.name] = simpleGit(dir);
+            await gitMap[project.name].cwd(dir).fetch();
+          } else {
+            gitMap[project.name] = simpleGit();
+            await gitMap[project.name]
+              .clone(
+                `https://github.com/apache/${project.name}.git`,
+                dir,
+                { '--filter': 'blob:none', '--sparse': true },
+              )
+              .cwd(dir)
+              .raw(['sparse-checkout', 'set', 'docs']);
+
+            if (project.name === 'apisix') {
+              await gitMap[project.name]
+                .cwd(dir)
+                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
+            }
+          }
         },
       }));
       return new Listr(gitTasks, { concurrent: projects.length });
@@ -77,89 +60,80 @@ const tasks = new Listr([
   {
     title: 'Find project release',
     task: () => {
-      const findReleaseTasks = projects.map((project) => ({
-        title: `Find ${project.name} releases`,
-        task: async () => {
-          const ret = await gitMap[project.name].cwd(`${tempPath}/${project.name}/`).branch();
-          if (ret.all) {
-            projectReleases[project.name] = ret.all
-              .filter((release) => release.includes('remotes/origin/release/'))
-              .map((release) => release.replace('remotes/origin/release/', ''))
-              .sort((a, b) => semver.compare(semver.coerce(a).version, semver.coerce(b).version));
-          }
-        },
-      }));
+      const findReleaseTasks = projects
+        .filter((p) => p.name !== 'apisix')
+        .map((project) => ({
+          title: `Find ${project.name} releases`,
+          task: async () => {
+            const ret = await gitMap[project.name].cwd(`${tempPath}/${project.name}/`).branch();
+            if (ret.all) {
+              projectReleases[project.name] = ret.all
+                .filter((release) => release.includes('remotes/origin/release/'))
+                .map((release) => release.replace('remotes/origin/release/', ''))
+                .sort((a, b) => semver.compare(semver.coerce(a).version, semver.coerce(b).version));
+            }
+          },
+        }));
       return new Listr(findReleaseTasks, { concurrent: projects.length });
     },
   },
   {
     title: 'Extract documents',
     task: () => {
-      const extractDocumentTasks = projectPaths.map((project) => ({
-        title: `Extract ${project.name} documents`,
-        skip: () => process.env.SKIP_PULL_VERSION_DOCS || false,
-        task: () => {
-          const extractProjectTasks = project.name === 'apisix'
-            ? versions.map((version) => ({
-              title: `Extract ${project.name} ${version} documents`,
-              task: () => new Listr([
-                ...extractDocsHeadTasks(project, version),
-                {
-                  title: 'Generate API docs for APISIX',
-                  enabled: () => os.platform() === 'linux' && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
-                  task: () => generateAPIDocs(project),
-                },
-                ...extractDocsTailTasks(project, version),
-              ]),
-            }))
-            : projectReleases[project.name].map((version) => ({
-              title: `Extract ${project.name} ${version} documents`,
-              task: () => new Listr([
-                ...extractDocsHeadTasks(project, version),
-                ...extractDocsTailTasks(project, version),
-              ]),
-            }));
-          return new Listr(extractProjectTasks);
-        },
-      }));
+      // add apisix versions to release
+      projectReleases.apisix = versions;
 
-      return new Listr(extractDocumentTasks, { concurrent: projects.length });
-    },
-  },
-  {
-    // NOTE: Extract docs from the master branch
-    title: 'Extract next version documents',
-    task: () => {
-      const nextVersionTasks = projectPaths.map((project) => ({
-        title: `Extract ${project.name} next version documents`,
-        task: () => {
-          const steps = [
+      const writeVersion2File = async (target, versions) => {
+        if (versions.length === 0) return Promise.resolve();
+
+        if (await isFileExisted(target)) await fs.rm(target);
+        return fs.writeFile(
+          target,
+          JSON.stringify(versions.reverse(), null, 2),
+        );
+      };
+
+      const extractTasks = projectPaths.map((project) => (
+        {
+          title: `Extract ${project.name}`,
+          task: () => new Listr([
             {
-              title: `Checkout ${project.name} next version`,
-              task: () => gitMap[project.name].cwd(`${tempPath}/${project.name}/`).checkout(`remotes/origin/${project.branch}`, ['-f']),
-            },
-            {
-              title: 'Replace elements inside MD files',
+              title: `Create target dir`,
               task: async () => {
-                await replaceMDElements(project.name, [`${tempPath}/${project.name}/docs`], project.branch);
-                await copyAllDocs(project);
+                const projectName = project.name;
+                const docs = `${websitePath}/docs-${projectName}_versioned_docs`;
+                const sidebar = `${websitePath}/docs-${projectName}_versioned_sidebars`;
+                const versions = `${websitePath}/docs-${projectName}_versions.json`;
+                const i18nDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}`;
+
+                await Promise.allSettled([
+                  removeFolder(docs),
+                  removeFolder(sidebar),
+                  removeFolder(i18nDocs),
+                  writeVersion2File(versions, projectReleases[projectName]),
+                ]);
               },
             },
             {
-              title: 'Generate API docs for APISIX',
-              enabled: () => os.platform() === 'linux' && project.name === 'apisix' && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
-              task: () => generateAPIDocs(project),
+              title: `Extract ${project.name} release versions documents`,
+              task: () => {
+                const steps = projectReleases[project.name]
+                  .map((version) => ({
+                    title: `Extract ${project.name} ${version} documents`,
+                    task: () => extractDocsVersionTasks(project, version),
+                  }));
+                return new Listr(steps);
+              },
             },
-          ];
-          return new Listr(steps);
-        },
-      }));
-      return new Listr(nextVersionTasks, { concurrent: projects.length });
+            {
+              title: `Extract ${project.name} next version documents`,
+              task: () => extractDocsNextVersionTasks(project, project.branch),
+            },
+          ]),
+        }
+      ));
+      return new Listr(extractTasks, { concurrent: projects.length });
     },
-  },
-  {
-    title: 'Clean temporary files',
-    task: () => removeFolder(tempPath),
   },
 ]);
 
@@ -241,54 +215,83 @@ async function copyFolder(srcDir, tarDir) {
     fs.mkdir(tarDir, { recursive: true }),
   ]);
 
-  return Promise.all(files.map(async (file) => {
+  return Promise.allSettled(files.map(async (file) => {
     const srcPath = path.join(srcDir, file);
     const tarPath = path.join(tarDir, file);
-    const stats = await fs.stat(srcPath);
 
-    return stats.isDirectory()
-      ? copyFolder(srcPath, tarPath)
-      : fs.copyFile(srcPath, tarPath);
+    if (await isDirExisted(srcPath)) {
+      return copyFolder(srcPath, tarPath);
+    }
+    if (await isFileExisted(srcPath)) {
+      return fs.copyFile(srcPath, tarPath);
+    }
+    return Promise.resolve();
   }));
 }
 
-async function copyDocs(source, target, projectName, locale) {
-  if (!await isDirExisted(`${source}/${locale}/latest`)) {
-    log(`[${projectName}] can not find ${locale} latest folder, skip.`);
-    return;
+async function copyDocs(source, target) {
+  if (!await isDirExisted(source)) {
+    log(`cannot find ${source}, skip.`);
+    return Promise.reject(new Error(`${source} no exist`));
   }
 
-  log(`[${projectName}] load ${locale} latest docs config.json`);
-  const configLatest = JSON.parse(
-    await fs.readFile(`${source}/${locale}/latest/config.json`),
-  );
-
-  log(`[${projectName}] delete ${locale} docs config.json`);
-  log(`[${projectName}] copy latest ${locale} docs to ${target}`);
-  log(`[${projectName}] write sidebar.json`);
-  await Promise.all([
-    fs.unlink(`${source}/${locale}/latest/config.json`),
-    copyFolder(`${source}/${locale}/latest/`, target),
-    fs.writeFile(`${target}/sidebars.json`, JSON.stringify({
-      docs: [...(configLatest.sidebar || [])],
-    }, null, 2)),
-  ]);
+  return copyFolder(source, target);
 }
 
-async function copyAllDocs(project) {
-  await Promise.all([
-    copyDocs(
-      `${tempPath}/${project.name}/docs`,
-      project.latestDocs.en,
-      project.name,
-      'en',
-    ),
-    copyDocs(
-      `${tempPath}/${project.name}/docs`,
-      project.latestDocs.zh,
-      project.name,
-      'zh',
-    ),
+function normalizeSidebar(sidebarList, version) {
+  const arr = sidebarList.map((block) => ({
+    ...block,
+    ...block?.id ? { id: `version-${version}/${block.id}` } : {},
+    ...block?.items?.length > 0
+      ? {
+        collapsible: true,
+        collapsed: true,
+        items: block.items.map((v) => {
+          if (typeof v === 'string') {
+            return {
+              type: 'doc',
+              id: `version-${version}/${v}`,
+            };
+          }
+          return normalizeSidebar([v], version)[`version-${version}/docs`][0];
+        }),
+      }
+      : {},
+  }));
+
+  return {
+    [`version-${version}/docs`]: arr,
+  };
+}
+
+async function handleConfig2Sidebar(source, target, version, versionedTarget) {
+  log(`load ${source} latest docs config.json`);
+  const config = JSON.parse(
+    await fs.readFile(`${source}/config.json`),
+  );
+
+  const sidebar = JSON.stringify(
+    { docs: config.sidebar || [] },
+    null,
+    2,
+  );
+
+  const writeVersionedSidebar = async () => {
+    if (typeof version === 'undefined') return Promise.resolve();
+
+    const versionedSidebar = JSON.stringify(
+      normalizeSidebar(config.sidebar, version),
+      null,
+      2,
+    );
+    await fs.mkdir(versionedTarget, { recursive: true });
+    return fs.writeFile(`${versionedTarget}/version-${version}-sidebars.json`, versionedSidebar);
+  };
+
+  await Promise.allSettled([
+    fs.unlink(`${source}/config.json`),
+    fs.writeFile(`${target}/sidebars.json`, sidebar),
+    writeVersionedSidebar(),
   ]);
 }
 
@@ -299,21 +302,98 @@ async function copyAllDocs(project) {
  * @param version
  */
 function generateAPIDocs(project) {
+  const dir = `./${tempPath}/${project.name}`;
   return new Listr([
     {
       title: 'Generate markdown files',
       task: () => {
         childProcess.spawnSync(`autodocs/generate.sh`, ['build'], {
-          cwd: `./${tempPath}/${project.name}`,
+          cwd: dir,
         });
       },
     },
     {
       title: 'Copy API docs',
       task: async () => {
-        if (await isFileExisted(`./${tempPath}/${project.name}/autodocs/output`)) {
-          await copyFolder(`${tempPath}/${project.name}/autodocs/output`, `${project.latestDocs.en}/pdk-docs`);
+        if (
+          await copyDocs(`${dir}/autodocs/output`, `${dir}/pdk-docs`)
+            .then(() => true)
+            .catch(() => false)
+        ) {
+          await fs.rm(`${dir}/autodocs/output`, { recursive: true });
         }
+      },
+    },
+  ]);
+}
+
+function extractDocsVersionTasks(project, version) {
+  const projectPath = `${tempPath}/${project.name}`;
+  return new Listr([
+    {
+      title: `Checkout ${project.name} version: ${version}`,
+      task: () => gitMap[project.name].cwd(projectPath).checkout(`remotes/origin/release/${version}`, ['-f']),
+    },
+    {
+      title: 'Generate API docs for APISIX',
+      enabled: () => project.name === 'apisix' && os.platform() === 'linux' && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
+      task: () => generateAPIDocs(project),
+    },
+    {
+      title: `Copy to target path`,
+      task: async () => {
+        const branchName = `release/${version}`;
+        const projectName = project.name;
+
+        const docsPath = `${projectPath}/docs`;
+        const enSrcDocs = `${docsPath}/en/latest`;
+        const zhSrcDocs = `${docsPath}/zh/latest`;
+        const enTargetDocs = `${websitePath}/docs-${projectName}_versioned_docs/version-${version}`;
+        const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${version}`;
+
+        await Promise.allSettled([
+          copyDocs(enSrcDocs, enTargetDocs)
+            .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
+            .then(() => handleConfig2Sidebar(enTargetDocs, enTargetDocs, version, `${websitePath}/docs-${project.name}_versioned_sidebars`)),
+          copyDocs(zhSrcDocs, zhTargetDocs)
+            .then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
+        ]).catch(() => { /* ignore */ });
+      },
+    },
+  ]);
+}
+
+function extractDocsNextVersionTasks(project, version) {
+  const projectPath = `${tempPath}/${project.name}`;
+  return new Listr([
+    {
+      title: `Checkout ${project.name} version: ${version}`,
+      task: () => gitMap[project.name].cwd(projectPath).checkout(`remotes/origin/${version}`, ['-f']),
+    },
+    {
+      title: 'Generate API docs for APISIX',
+      enabled: () => project.name === 'apisix' && os.platform() === 'linux' && isFileExisted(`./${projectPath}/autodocs`),
+      task: () => generateAPIDocs(project),
+    },
+    {
+      title: `Copy to target path`,
+      task: async () => {
+        const branchName = project.branch;
+        const projectName = project.name;
+
+        const docsPath = `${projectPath}/docs`;
+        const enSrcDocs = `${docsPath}/en/latest`;
+        const zhSrcDocs = `${docsPath}/zh/latest`;
+        const enTargetDocs = `${websitePath}/docs/${projectName}`;
+        const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/current`;
+
+        await Promise.all([
+          copyDocs(enSrcDocs, enTargetDocs)
+            .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
+            .then(() => handleConfig2Sidebar(enTargetDocs, enTargetDocs)),
+          copyDocs(zhSrcDocs, zhTargetDocs)
+            .then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
+        ]).catch(() => { /* ignore */ });
       },
     },
   ]);
