@@ -32,7 +32,7 @@ git remote add upstream https://github.com/apache/apisix-website.git
 ### Basic
 
 ```sh
-# 1. cd 
+# 1. cd
 # default dir should be apisix-website
 cd apisix-website
 
@@ -48,9 +48,9 @@ yarn start
 # tip.
 # in development mode, only English site will be built
 # it's a feature of docusaurus
-# if you want to specify the locale, 
-# for example, Chinese, your should run 
-yarn start --locale zh 
+# if you want to specify the locale,
+# for example, Chinese, your should run
+yarn start --locale zh
 
 # tip.
 # if you want to preview the same site as online
@@ -79,7 +79,7 @@ apisix-website
     ├── articles
     ├── blog
     ├── config # are imported in scripts and docusaurus.config.js
-    ├── docs 
+    ├── docs
     │   └── general # https://apisix.apache.org/docs/general/join
     ├── i18n
     │   └── zh # chinese content
