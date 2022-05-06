@@ -5,7 +5,7 @@
 <div align="center">
 The website of <a href="https://github.com/apache/apisix/">Apache APISIX®</a>
 
-A cloud-native microservices api gateway
+A cloud-native microservices API Gateway
 
 <a href="https://apisix.apache.org/docs/general/join"><img  width="150" src="./website/static/img/join-slack.png"></a>
 </div>
@@ -18,7 +18,7 @@ A cloud-native microservices api gateway
 
 ### Preparation
 
-First, you need to install `node.js`, `yarn`, `git`.
+First, you need to install `Node.js`, `Yarn`, `Git`.
 
 Since the installation method may change, we recommend that you check the installation method on the corresponding official website. If you encounter any problems, please feel free to create an issue.
 
@@ -101,7 +101,7 @@ apisix-website
 
 ## Acknowledge
 
-Special thanks to [docusaurus](https://docusaurus.io/).
+Special thanks to [Docusaurus](https://docusaurus.io/).
 
 ## License
 
