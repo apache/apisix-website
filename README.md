@@ -1,17 +1,13 @@
 
-<h1 style="position: relative" align="center">Apache APISIX® Website
-<a style="position: absolute; bottom: 10px; right: 0px" href="https://apisix.apache.org/docs/general/join"><img align="right" width="150" src="./website/static/img/join-slack.png"></a>
-</h1>
+<h1 style="position: relative" align="center">Apache APISIX® Website</h1>
 
 <div align="center">
 The website of <a href="https://github.com/apache/apisix/">Apache APISIX®</a>
 
 A cloud-native microservices api gateway
 
-
-<a href="https://apisix.apache.org/docs/general/join">��Let's go</a>
+<a href="https://apisix.apache.org/docs/general/join"><img  width="150" src="./website/static/img/join-slack.png"></a>
 </div>
-
 
 ## Usage
 
