@@ -98,7 +98,7 @@ apisix-website
 
 ## Acknowledge
 
-Special thanks to [docusaurus](https://docusaurus.io/).
+Special thanks to [Docusaurus](https://docusaurus.io/).
 
 ## License
 
