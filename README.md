@@ -15,7 +15,7 @@ A cloud-native microservices API Gateway
 
 ### Preparation
 
-First, you need to install `node.js`, `yarn`, `git`.
+First, you need to install `Node.js`, `Yarn`, `Git`.
 
 Since the installation method may change, we recommend that you check the installation method on the corresponding official website. If you encounter any problems, please feel free to create an issue.
 
