@@ -106,7 +106,7 @@ const tasks = new Listr([
                 const versions = `${websitePath}/docs-${projectName}_versions.json`;
                 const i18nDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}`;
 
-                await Promise.all([
+                await Promise.allSettled([
                   removeFolder(docs),
                   removeFolder(sidebar),
                   removeFolder(i18nDocs),
@@ -215,14 +215,17 @@ async function copyFolder(srcDir, tarDir) {
     fs.mkdir(tarDir, { recursive: true }),
   ]);
 
-  return Promise.all(files.map(async (file) => {
+  return Promise.allSettled(files.map(async (file) => {
     const srcPath = path.join(srcDir, file);
     const tarPath = path.join(tarDir, file);
-    const stats = await fs.stat(srcPath);
 
-    return stats.isDirectory()
-      ? copyFolder(srcPath, tarPath)
-      : fs.copyFile(srcPath, tarPath);
+    if (await isDirExisted(srcPath)) {
+      return copyFolder(srcPath, tarPath);
+    }
+    if (await isFileExisted(srcPath)) {
+      return fs.copyFile(srcPath, tarPath);
+    }
+    return Promise.resolve();
   }));
 }
 
@@ -348,7 +351,7 @@ function extractDocsVersionTasks(project, version) {
         const enTargetDocs = `${websitePath}/docs-${projectName}_versioned_docs/version-${version}`;
         const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${version}`;
 
-        await Promise.all([
+        await Promise.allSettled([
           copyDocs(enSrcDocs, enTargetDocs)
             .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
             .then(() => handleConfig2Sidebar(enTargetDocs, enTargetDocs, version, `${websitePath}/docs-${project.name}_versioned_sidebars`)),
