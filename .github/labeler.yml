@@ -1,0 +1,24 @@
+# root file changes
+repo:
+  - "*"
+
+#
+blog:
+  - website/blog/**/*
+  - website/articles/**/*
+  - website/i18n/zh/docusaurus-plugin-content-blog/**/*
+
+#
+docs-general:
+  - website/docs/general/**/*
+  - website/i18n/zh/docusaurus-plugin-content-docs/**/*
+
+#
+pages:
+  - website/config/*
+  - website/src/**/*
+  - website/static/**/*
+
+#
+scripts:
+  - scripts/**/*
