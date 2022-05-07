@@ -73,6 +73,7 @@ jobs:
           path: |
             ./website/.docusaurus
             ./website/build
+            ./website/node_modules
           key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Build
