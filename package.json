@@ -15,7 +15,8 @@
     "build": "yarn workspace website build",
     "docusaurus": "yarn workspace website docusaurus",
     "serve": "yarn docusaurus serve",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepare-data": "yarn sync-doc && yarn generate-repos-info"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.17.0",
