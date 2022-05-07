@@ -28,6 +28,7 @@ jobs:
       - uses: actions/labeler@v4
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true
   # This workflow contains a single job called "build"
   check:
     # The type of runner that the job will run on
