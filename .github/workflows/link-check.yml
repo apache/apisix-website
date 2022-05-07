@@ -6,9 +6,16 @@ name: Check broken links
 # events but only for the master branch
 on:
   push:
-    branches: [master]
+    branches:
+      - "master"
   pull_request_target:
-    branches: [master]
+    types:
+      - "opened"
+      - "edited"
+      - "synchronize"
+      - "reopened"
+    branches:
+      - "master"
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: "0 5 * * *"
@@ -17,9 +24,8 @@ on:
 jobs:
   labeler:
     permissions:
-      issues: write
       pull-requests: write
-      contents: write
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/labeler@v4
