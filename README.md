@@ -44,7 +44,7 @@ yarn
 
 # 3. sync docs and generate repos info
 yarn sync-doc && yarn generate-repos-info
-# or
+# or you can run
 yarn prepare-data
 
 # 4. start dev mode
