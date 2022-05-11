@@ -7,7 +7,7 @@ name: Test and Deploy Website
 on:
   push:
     branches: [master]
-  pull_request:
+  pull_request_target:
     branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
@@ -24,6 +24,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3.0.2
+        with:
+          submodules: recursive
+
       - uses: actions/setup-node@v3
         with:
           node-version: "14"
@@ -64,7 +67,7 @@ jobs:
 
       - name: Sync documents
         run: |
-          yarn sync-doc && yarn generate-repos-info && git status
+          yarn prepare-data && git status
 
       - name: Apply docusaurus cache
         id: docusaurus-cache
@@ -83,6 +86,20 @@ jobs:
       - name: Update sitemap.xml
         run: |
           yarn update-sitemap && git status
+
+      - name: Deploy to Netlify
+        uses: ./.github/actions/actions-netlify
+        with:
+          publish-dir: "./website/build"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "${{ github.event.pull_request.title }}, Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 10
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0
