@@ -24,6 +24,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3.0.2
+        with:
+          submodules: recursive
+
       - uses: actions/setup-node@v3
         with:
           node-version: "14"
@@ -43,7 +46,6 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          submodules: recursive
 
       - name: Cache install
         uses: actions/cache@v3
