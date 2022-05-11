@@ -40,13 +40,10 @@ git remote add upstream https://github.com/apache/apisix-website.git
 cd apisix-website
 
 # 2. install deps
-# 
 yarn
 
 # 3. sync docs and generate repos info
 yarn sync-doc && yarn generate-repos-info
-# or you can run
-yarn prepare-data
 
 # 4. start dev mode
 yarn start
