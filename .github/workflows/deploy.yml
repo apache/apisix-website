@@ -91,7 +91,6 @@ jobs:
         uses: ./.github/actions/actions-netlify
         with:
           publish-dir: "./website/build"
-          production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "${{ github.event.pull_request.title }}, Deploy from GitHub Actions"
           enable-pull-request-comment: true
