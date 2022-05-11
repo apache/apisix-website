@@ -7,7 +7,7 @@ name: Test and Deploy Website
 on:
   push:
     branches: [master]
-  pull_request:
+  pull_request_target:
     branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
@@ -43,6 +43,7 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          submodules: recursive
 
       - name: Cache install
         uses: actions/cache@v3
@@ -64,7 +65,7 @@ jobs:
 
       - name: Sync documents
         run: |
-          yarn sync-doc && yarn generate-repos-info && git status
+          yarn prepare-data && git status
 
       - name: Apply docusaurus cache
         id: docusaurus-cache
@@ -83,6 +84,21 @@ jobs:
       - name: Update sitemap.xml
         run: |
           yarn update-sitemap && git status
+
+      - name: Deploy to Netlify
+        uses: ./.github/actions/actions-netlify
+        with:
+          publish-dir: "./website/build"
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "${{ github.event.pull_request.title }}, Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0
