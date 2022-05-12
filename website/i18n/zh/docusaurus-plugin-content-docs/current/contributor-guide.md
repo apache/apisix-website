@@ -1,53 +1,53 @@
 ---
 id: contributor-guide
-title: 贡献流程
+title: 贡献指南
 keywords:
 - API 网关
 - APISIX
 - Apache APISIX
-- 贡献者指南
+- APISIX 贡献者指南
 description: Apache APISIX 贡献者指南。
 ---
 
-本文档描述了任何贡献到 Apache APISIX 的通用流程。
+本文介绍了如何为 Apache APISIX 社区做出贡献。 
 
 ## 我能贡献什么？
 
-欢迎任意形式的形式的贡献！比如说你可以，
+你可以通过以下方式为 Apache APISIX 做出贡献：
 
-- 修复标记为 "[good first issue](/docs/general/contributor-guide/#good-first-issues)" 的 issue 或者 "[help wanted](https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)" 的 label。
+- 修复标记为 [`good first issue`](/docs/general/contributor-guide/#good-first-issues) 或者 [`help wanted`](https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc) 的 issue 。
 
 - 参与[邮件列表](/docs/general/join/)上的讨论.
 
-- 回答 [issues](https://github.com/apache/apisix/issues) 和 [discussions](https://github.com/apache/apisix/discussions)中的问题。
+- 回答 [Issues](https://github.com/apache/apisix/issues) 和 [Discussions](https://github.com/apache/apisix/discussions)中的问题。
 
 - 审查正在进行的 [pull requests](https://github.com/apache/apisix/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
 
-- 改进网站。
+- 改进 APISIX Website。
 
-- 改进文档或者提供新的文档博客。
+- 改进文档或者提交新的博客文章。
 
-- 任何其他形式的代码或非代码的贡献。
+- 其他形式的代码或者非代码的贡献。
 
-如果你有意愿为 Apache APISIX 做一些贡献，可以向发送邮件到 dev@apisix.apache.org 让我们知道！
+如果你愿意为 Apache APISIX 做出贡献，可以发送邮件到 dev@apisix.apache.org 告知社区。
 
-## 选择一个issue去贡献
+## 选择想要修复的 issue
 
-你可以选择修复一个 [正在进行的 issues](https://github.com/apache/apisix/issues)。
+你可以选择修复一个正在进行的 [Issues](https://github.com/apache/apisix/issues)。
 
-1. 一旦你选择了一个 issue 进行工作或 [发起一份新 issue](#submitting-an-issue)，请在该 issue 下留言，并让一个[Committer 或者 PMC](/team) 将它分配给你。
+1. 一旦你选择了一个 issue 进行工作或[创建新的 issue](#submitting-an-issue)，请在该 issue 下留言，并让一个[Committer 或者 PMC](/team) 将它分配给你。
 
 2. 请检查 issue 是否已经在处理中，并推断你是否能够完成该问题。
 
-3. 联系一位 [Committer 或者 PMC](/team) 给你处理的 issue 提供反馈和代码审查。
+3. 联系 [Committer 或者 PMC](/team) 为你处理的 issue 提供反馈和审查。
 
 ### Good first issues
 
-带有 "good first issues" 标签的 issue 比较简单直接，您可以此作为突破口，开始你对 APISIX 的第一个贡献。
+带有 `good first issues` 标签的 issue 比较简单直接，你可以此作为突破口，开始你对 APISIX 的第一个贡献。
 
-你可以从浏览 ["good first issues" 列表](/contribute)开始。
+你可以浏览 [`good first issues`](/contribute) 列表，并选择想要贡献的 issue。
 
-## Git 流程
+## 搭建本地开发环境
 
 贡献代码或文档前，请搭建你的本地开发环境。
 
@@ -55,51 +55,61 @@ description: Apache APISIX 贡献者指南。
 
 首先前往 Github 上的 [APISIX repo](https://github.com/apache/apisix/) 仓库。在页面右上角处，点击 Fork 按键，然后在你 Fork 的仓库中克隆到你的本地环境。
 
-```sh
-git clone https://github.com/your-username/apisix.git
+```shell
+git clone https://github.com/${your-username}/apisix.git
 ```
 
-### 添加 'upstream' 仓库作为本地的远程仓库
+### 添加 `upstream` 仓库作为本地的远程仓库
 
-通过列出远程仓库，检查上游 repo 是否已被配置。
+你可以通过以下命令，检查上游 repo 是否已经被配置，如果返回结果中存在四条记录则说明已经被配置。
 
-```sh
+```shell
 git remote -v
 ```
 
-如果没有的话，需要手动配置：
+如果返回结果中只有两条记录，你可以通过以下命令配置：
 
-```sh
+```shell
 git remote add upstream https://github.com/apache/apisix.git
 ```
 
-了解更多关于 Git 和 GitHub 流程的信息，请查阅 [GitHub 文档](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+如果你需要了解更多关于 Git 和 GitHub 流程的信息，请参考 [GitHub 文档](https://docs.github.com/en/get-started/quickstart/fork-a-repo)。
 
-**注意**: git 中设置你的姓名和电子邮件地址，以确保你的 ID 显示在贡献者名单上。
+:::note
 
-```sh
+你需要设置你的姓名和邮件地址，以确保你的 ID 显示在贡献者名单上。
+
+:::
+
+你可以使用以下命令进行设置：
+
+```shell
 git config --global user.name "full name"
 git config --global user.email "mail address"
 ```
 
 ### 创建你的分支
 
-为了使你的本地分叉保持最新，你可以从上游远程获取并变基。
+为了保证本地分支保持最新，你可以拉取上游的最新变更并应用到本地分支：
 
-```sh
+```shell
 git fetch upstream
 git checkout master
 git rebase upstream/master
 git push origin master
 ```
 
-然后，要进行修改，在你的本地分叉中创建一个新的分支。
+如果需要修改代码，你可以通过以下命令在本地创建一个新分支：
 
-```sh
+```shell
 git checkout -b issue-no
 ```
 
-**注意**: PR 中的提交在合并前会被压缩。如果你使用的是较早的分支，这可能会导致提交日志与上游不同。
+:::note
+
+每个 PR 中的提交在合并之前都会被压缩。如果你使用的是较早的分支，可能会导致提交日志与上游不同。
+
+:::
 
 ### 提交你的改动
 
@@ -107,21 +117,21 @@ git checkout -b issue-no
 
 当你完成了修改，就可以提交文件并推送到你的分叉上。
 
-```sh
-$ git add modified-file-names
-$ git commit -m 'commit message'
-$ git push origin issue-no
+```shell
+git add modified-file-names
+git commit -m 'commit message'
+git push origin issue-no
 ```
 
-### 开启一个 PR
+### 创建一个 PR
 
-当你把修改推送到你的分支上后，就可以通过开启一个PR开始把它合并到上游仓库中。
+当你把修改推送到你的分支上后，就可以创建一个 PR 把它合并到上游仓库中。
 
-查阅 [GitHub 工作流程](https://docs.github.com/en/get-started/quickstart/github-flow#create-a-pull-request) 了解提交PR的详细细节。
+查阅 [GitHub 工作流程](https://docs.github.com/en/get-started/quickstart/github-flow#create-a-pull-request) 了解提交 PR 的详细细节。
 
 1. 创建一个到 master 分支的 PR。
 
-2. 确保PR标题有如 `fix:` ， `feat:` 或其他 [约定俗成的提交类型](https://github.com/commitizen/conventional-commit-types/blob/master/index.json)的前缀。
+2. 请确保 PR 标题有如 `fix:`，`feat:` 或者其他[提交类型](https://github.com/commitizen/conventional-commit-types/blob/master/index.json)的前缀。
 
 3. 联系你的 mentor，开始 review 流程。
 
@@ -135,18 +145,22 @@ $ git push origin issue-no
 
 双重认证（Two-factor authentication，下称 2FA）是指将密码和对象（如信用卡、短信、令牌或如指纹的生物标志物）结合起来识别用户的认证方法。
 
-为了保证贡献者账户的安全，在GitHub上登录贡献代码时我们需要你 [配置  2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)。更多细节请参考 [用 2FA 确保你的账户安全](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa)。
+为了保证贡献者账户的安全，在 GitHub 上登录贡献代码时，你需要配置 [2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) 。更多细节请参考[用 2FA 保护你的账户](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa)。
 
-**注意**: 如果不启用2FA，你有可能被从项目中删除，并将无法访问Apache APISIX的存储库。
+:::note
+
+如果不启用 2FA，你有可能被从项目中删除，并且无法访问 Apache APISIX 的存储库。
+
+:::
 
 ### 在GitHub上配置2FA
 
-你可以使用一个[移动软件](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app)或通过[短信](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages)来配置2FA。
+你可以使用一个[手机 APP](https://docs.github.com/cn/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app) 或通过[短信](https://docs.github.com/cn/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages)来配置 2FA。
 
-GitHub 建议使用基于时间的一次性密码（TOTP）移动应用程序来配置 2FA。阅读[配置 2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)获得更细节的信息。
+GitHub 建议使用基于时间的一次性密码（TOTP）手机 APP 来配置 2FA。阅读[配置 2FA](https://docs.github.com/cn/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)获得更细节的信息。
 
 ### 提交代码
 
-在开启了 2FA 之后，[创建一个个人访问令牌](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)来执行Git操作。
+在开启了 2FA 之后，[创建一个个人访问令牌](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)来执行 Git 操作。
 
 在推送代码时，你可以使用用户名+个人访问令牌组合来代替用户名+密码组合。
