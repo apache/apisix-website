@@ -89,7 +89,6 @@ jobs:
 
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify
-        if: 
         with:
           publish-dir: "./website/build"
           github-token: ${{ secrets.GITHUB_TOKEN }}
