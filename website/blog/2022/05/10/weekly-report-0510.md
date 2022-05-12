@@ -9,7 +9,7 @@ description: The Apache APISIX Community Weekly Report hopes to help community m
 tags: [Events]
 ---
 
-> From April 15th to  April 30th, 28 contributors submitted 88 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
+> From April 15th to April 30th, 28 contributors submitted 88 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
 
 <!--truncate-->
 
@@ -35,7 +35,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 **Issue description**:
 
-As a user, I want to let api-breaker plugin return default response body. Refer to the document [api-breaker](https://apisix.apache.org/zh/docs/apisix/plugins/api-breaker/),when upstream is in the unhealthy state, the `api-breaker` returns `unhealthy.http_statuses` only, without a response body.
+As a user, I want to let `api-breaker` plugin return the default response body. Refer to the document [api-breaker](https://apisix.apache.org/zh/docs/apisix/plugins/api-breaker/), when upstream is in the unhealthy state, the `api-breaker` returns `unhealthy.http_statuses` only, without a response body.
 
 In order to be more compatible to the client, return a default response body is useful.
 

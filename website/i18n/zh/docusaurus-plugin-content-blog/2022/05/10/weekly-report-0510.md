@@ -33,7 +33,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **链接**: https://github.com/apache/apisix/issues/6923
 
-**问题描述**：参考文档 [api-breaker](https://apisix.apache.org/docs/apisix/plugins/api-breaker/) 当上游处于不健康状态时，api-breaker仅返回 unhealthy.http_statuses，为了更兼容客户端，是否可以添加字段，返回默认响应体。
+**问题描述**：当上游处于不健康状态时，`api-breaker` 仅返回 `unhealthy.http_statuses`，为了更兼容客户端，是否可以添加字段，返回默认响应体。参考文档 [api-breaker](https://apisix.apache.org/docs/apisix/plugins/api-breaker/) 。
 
 ## 近期功能特性亮点
 
