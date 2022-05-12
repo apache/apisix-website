@@ -31,11 +31,9 @@ ErrorDocument 404 /404.html
 RewriteEngine on
 
 # Remove trailing slash from non-filepath urls
-RewriteCond %{REQUEST_URI} /(.+)/$
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ https://apisix.apache.org/%1 [R=301,L]
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^(.*)/$ https://apisix.apache.org/$1 [R=301,L]
 
-# Include trailing slash on directory 
-RewriteCond %{REQUEST_URI} !(.+)/$
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.+)$ https://apisix.apache.org/$1/ [R=301,L]
+# Insensitive case
+CheckSpelling on
