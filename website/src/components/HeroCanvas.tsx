@@ -5,8 +5,10 @@ import gsap from 'gsap';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import '../../../css/customTheme.css';
+import '../css/customTheme.css';
+// eslint-disable-next-line import/no-webpack-loader-syntax
 import vertex from '!!raw-loader!../../../shaders/vertex.vert';
+// eslint-disable-next-line import/no-webpack-loader-syntax
 import fragment from '!!raw-loader!../../../shaders/fragment.frag';
 
 const HeroCanvas: FC = () => {

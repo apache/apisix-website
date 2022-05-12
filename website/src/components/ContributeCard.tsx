@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import IconComment from '../../assets/icons/comment.svg';
+import IconComment from '../assets/icons/comment.svg';
 
 interface CommonStyleProps {
   isShow: boolean

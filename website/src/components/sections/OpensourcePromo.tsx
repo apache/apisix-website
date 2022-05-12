@@ -3,7 +3,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-import OssCanvas from './components/OssCanvas';
+import OssCanvas from '../OssCanvas';
 
 import '../../css/customTheme.css';
 import GitHub from '../../assets/icons/github-logo.svg';

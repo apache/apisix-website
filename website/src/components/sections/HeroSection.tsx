@@ -5,8 +5,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
 
 import '../../css/customTheme.css';
-import HeroCanvas from './components/HeroCanvas';
-import ArrowAnim from './components/ArrowAnim';
+import HeroCanvas from '../HeroCanvas';
+import ArrowAnim from '../ArrowAnim';
 
 const HeroSection:FC = () => {
   const titleRef = useRef<HTMLHeadingElement>();

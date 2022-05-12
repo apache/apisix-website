@@ -1,20 +1,20 @@
 import type { Dispatch, FC, SetStateAction } from 'react';
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import useOutsideClick from '../../hooks/useOutsideClick';
-import '../../css/customTheme.css';
-import IconInfo from '../../assets/icons/info.svg';
-import IconStar from '../../assets/icons/star.svg';
-import IconDocumentText from '../../assets/icons/document-text.svg';
-import IconDownload from '../../assets/icons/download.svg';
-import IconTriangle from '../../assets/icons/triangle.svg';
-import IconSquare from '../../assets/icons/square.svg';
-import IconHexagon from '../../assets/icons/hexagon.svg';
-import IconStarSolid from '../../assets/icons/star-solid.svg';
-import IconOctagon from '../../assets/icons/octagon.svg';
-import IconShield from '../../assets/icons/shield.svg';
-import repoInfoList from '../../../config/repos-info.json';
-import type { ContributeCardProps } from '../contribute/ContributeCard';
+import useOutsideClick from '../hooks/useOutsideClick';
+import '../css/customTheme.css';
+import IconInfo from '../assets/icons/info.svg';
+import IconStar from '../assets/icons/star.svg';
+import IconDocumentText from '../assets/icons/document-text.svg';
+import IconDownload from '../assets/icons/download.svg';
+import IconTriangle from '../assets/icons/triangle.svg';
+import IconSquare from '../assets/icons/square.svg';
+import IconHexagon from '../assets/icons/hexagon.svg';
+import IconStarSolid from '../assets/icons/star-solid.svg';
+import IconOctagon from '../assets/icons/octagon.svg';
+import IconShield from '../assets/icons/shield.svg';
+import repoInfoList from '../../config/repos-info.json';
+import type { ContributeCardProps } from './ContributeCard';
 
 const Card = styled.div`
   border-radius: 0.75rem;

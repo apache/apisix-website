@@ -4,7 +4,7 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ArrowAnim from './components/ArrowAnim';
+import ArrowAnim from '../ArrowAnim';
 
 import '../../css/customTheme.css';
 import Dashboard from '../../assets/images/apisix-dashboard.png';

@@ -4,7 +4,7 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
 
-import '../../../css/customTheme.css';
+import '../css/customTheme.css';
 
 const ArrowAnim: FC = () => {
   const endpathRef1 = useRef(null);
