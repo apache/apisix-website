@@ -27,12 +27,3 @@ ErrorDocument 404 /404.html
     ExpiresByType application/json       	"access plus 1 hour"
     ExpiresDefault                  		"access plus 10 days"
 </IfModule>
-
-RewriteEngine on
-
-# Remove trailing slash
-RewriteCond %{REQUEST_URI} (.+)/$
-RewriteRule ^(.*)/$ https://apisix.apache.org/$1 [R=301,L]
-
-# Insensitive case
-CheckSpelling on
