@@ -89,6 +89,7 @@ jobs:
 
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify
+        if: ${{ github.event.pull_request.merged != true }}
         with:
           publish-dir: "./website/build"
           github-token: ${{ secrets.GITHUB_TOKEN }}
