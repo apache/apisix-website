@@ -9,7 +9,7 @@ keywords:
 description: Apache APISIX 贡献者指南。
 ---
 
-本文介绍了如何为 Apache APISIX 社区做出贡献。 
+本文介绍了如何为 Apache APISIX 社区做出贡献。
 
 ## 我能贡献什么？
 
@@ -19,9 +19,9 @@ description: Apache APISIX 贡献者指南。
 
 - 参与[邮件列表](/docs/general/join/)上的讨论.
 
-- 回答 [Issues](https://github.com/apache/apisix/issues) 和 [Discussions](https://github.com/apache/apisix/discussions)中的问题。
+- 回答 [Issues](https://github.com/apache/apisix/issues) 和 [Discussions](https://github.com/apache/apisix/discussions) 中的问题。
 
-- 审查正在进行的 [pull requests](https://github.com/apache/apisix/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
+- Review 正在进行的 [pull requests](https://github.com/apache/apisix/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
 
 - 改进 APISIX Website。
 
@@ -29,7 +29,7 @@ description: Apache APISIX 贡献者指南。
 
 - 其他形式的代码或者非代码的贡献。
 
-如果你愿意为 Apache APISIX 做出贡献，可以发送邮件到 dev@apisix.apache.org 告知社区。
+如果你有任何关于 Apache APISIX 做贡献的想法，也欢迎随时发邮件到 dev@apisix.apache.org 进行社区讨论。
 
 ## 选择想要修复的 issue
 
@@ -37,13 +37,13 @@ description: Apache APISIX 贡献者指南。
 
 1. 一旦你选择了一个 issue 进行工作或[创建新的 issue](#submitting-an-issue)，请在该 issue 下留言，并让一个[Committer 或者 PMC](/team) 将它分配给你。
 
-2. 请检查 issue 是否已经在处理中，并推断你是否能够完成该问题。
+2. 请检查 issue 的状态，并推断你是否能够完成该 issue。
 
-3. 联系 [Committer 或者 PMC](/team) 为你处理的 issue 提供反馈和审查。
+3. 联系 [Committer 或者 PMC](/team) 为你处理的 issue 提供反馈和 Review。
 
 ### Good first issues
 
-带有 `good first issues` 标签的 issue 比较简单直接，你可以此作为突破口，开始你对 APISIX 的第一个贡献。
+带有 `good first issues` 标签的 issue 通常是对新手友好且上手较简单的类型，你可以此作为突破口，开始你对 APISIX 的第一个贡献。
 
 你可以浏览 [`good first issues`](/contribute) 列表，并选择想要贡献的 issue。
 
@@ -133,7 +133,7 @@ git push origin issue-no
 
 2. 请确保 PR 标题有如 `fix:`，`feat:` 或者其他[提交类型](https://github.com/commitizen/conventional-commit-types/blob/master/index.json)的前缀。
 
-3. 联系你的 mentor，开始 review 流程。
+3. 联系相关问题领域的 Committer/PMC 成员，开始进入 Review 流程。
 
 4. 参与讨论并对 reviewer 的问题进行解答。
 
@@ -141,7 +141,7 @@ git push origin issue-no
 
 6. 祝贺你成为 Apache APISIX 的官方贡献者!
 
-## 双重认证 (2FA)
+## 建议操作：双重认证 (2FA)
 
 双重认证（Two-factor authentication，下称 2FA）是指将密码和对象（如信用卡、短信、令牌或如指纹的生物标志物）结合起来识别用户的认证方法。
 
@@ -153,7 +153,7 @@ git push origin issue-no
 
 :::
 
-### 在GitHub上配置2FA
+### 在 GitHub 上配置 2FA
 
 你可以使用一个[手机 APP](https://docs.github.com/cn/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app) 或通过[短信](https://docs.github.com/cn/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages)来配置 2FA。
 
@@ -163,4 +163,4 @@ GitHub 建议使用基于时间的一次性密码（TOTP）手机 APP 来配置 
 
 在开启了 2FA 之后，[创建一个个人访问令牌](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)来执行 Git 操作。
 
-在推送代码时，你可以使用用户名+个人访问令牌组合来代替用户名+密码组合。
+在推送代码时，你可以使用`用户名+个人访问令牌`组合来代替`用户名+密码`组合。
