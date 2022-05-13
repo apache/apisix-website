@@ -35,7 +35,7 @@ description: Apache APISIX 贡献者指南。
 
 你可以选择修复一个正在进行的 [Issues](https://github.com/apache/apisix/issues)。
 
-1. 一旦你选择了一个 issue 进行工作或[创建新的 issue](#submitting-an-issue)，请在该 issue 下留言，并让一个[Committer 或者 PMC](/team) 将它分配给你。
+1. 一旦你选择了一个 issue 进行工作或[创建新的 issue](#submitting-an-issue)，请在该 issue 下留言，并让一个 [Committer 或者 PMC](/team) 将它分配给你。
 
 2. 请检查 issue 的状态，并推断你是否能够完成该 issue。
 
@@ -113,7 +113,7 @@ git checkout -b issue-no
 
 ### 提交你的改动
 
-贡献者应在整个过程中遵守[代码行为准则](https://www.apache.org/foundation/policies/conduct.html) 。
+贡献者应在整个过程中遵守[代码行为准则](https://www.apache.org/foundation/policies/conduct.html)。
 
 当你完成了修改，就可以提交文件并推送到你的分叉上。
 
@@ -149,7 +149,7 @@ git push origin issue-no
 
 :::note
 
-如果不启用 2FA，你有可能被从项目中删除，并且无法访问 Apache APISIX 的存储库。
+如果没有启用 2FA，你有可能会被项目移除，并且无法访问 Apache APISIX 的存储库。
 
 :::
 
