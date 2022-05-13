@@ -24,7 +24,7 @@ Apache APISIX 是一个由 Apache 软件基金会下的社区成员维护的项�
 
 4. 一旦你确认了订阅，你将收到一封欢迎邮件，其中包含如何使用和通过邮件列表交流的说明。
 
-5. 如果你想要查看邮件列表的存档邮件，请查阅[历史邮件]((https://lists.apache.org/list.html?apisix.apache.org)。
+5. 如果你想要查看邮件列表的存档邮件，请查阅[历史邮件](https://lists.apache.org/list.html?apisix.apache.org)。
 
 ## 加入 Slack 频道
 
@@ -34,7 +34,7 @@ Apache APISIX 是一个由 Apache 软件基金会下的社区成员维护的项�
 
 :::tip
 
-如果此邀请链接已过期，请[创建一个 issue](./submit-issue.md)）
+如果此邀请链接已过期，请[创建一个 issue](./submit-issue.md)。
 
 :::
 

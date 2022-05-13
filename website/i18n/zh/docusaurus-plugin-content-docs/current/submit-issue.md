@@ -11,8 +11,6 @@ description: 关于提交 Bug 报告或功能请求的指南。
 
 在提交 issue 时，请遵循此指南。
 
-在提交 issue 之前，请优先通过综合搜索来解决问题。
-
 在创建 issue 之前，你可以通过 [Issues](https://github.com/apache/apisix/issues) 和 [Discussions](https://github.com/apache/apisix/discussions) 搜索解决方案。
 
 如需提交 issue：
