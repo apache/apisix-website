@@ -11,18 +11,18 @@ description: 关于提交 Bug 报告或功能请求的指南。
 
 在提交 issue 时，请遵循此指南。
 
-在提交 issue 之前，尝试通过综合搜索来解决问题。
+在提交 issue 之前，请优先通过综合搜索来解决问题。
 
-[Issues](https://github.com/apache/apisix/issues) 和 [Discussions](https://github.com/apache/apisix/discussions) 是创建一个 issue 前搜索解决方案的好去处。
+在创建 issue 之前，你可以通过 [Issues](https://github.com/apache/apisix/issues) 和 [Discussions](https://github.com/apache/apisix/discussions) 搜索解决方案。
 
-要提交一个 issue：
+如需提交 issue：
 
-1. 检查[已经创建的 issues](https://github.com/apache/apisix/issues) 以免重复。
+1. 检查已经创建的 [issues](https://github.com/apache/apisix/issues) 列表，避免重复操作。
 
 2. 创建一个[新的 issue](https://github.com/apache/apisix/issues/new/choose) 并选择类型。
 
-3. 用一个明确的、描述性的标题来定义 issue。
+3. 用一个明确的、描述性的标题来定义 issue，如 Bug、Doc 等关键词开头的标题。
 
 4. 根据模板填写必要的信息。
 
-5. 参与该 issue 的讨论，并在必要时提供更多信息。
+5. 请随时关注你的电子邮件，并参与该 issue 的讨论，在必要时提供更多信息。

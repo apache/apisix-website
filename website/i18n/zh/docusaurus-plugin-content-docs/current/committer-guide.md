@@ -1,12 +1,12 @@
 ---
 id: committer-guide
-title: 项目管理结构
+title: 项目管理体系
 keywords:
 - API 网关
 - APISIX
 - Apache APISIX
 - APISIX committer 指南
-description: 这篇文章涵盖了 Apache APISIX committers 的一些准则，包括贡献的类型与贡献者的晋升路线，以及贡献者如何成为 committer，进一步成为 PMC 成员。
+description: 本文介绍了 Apache APISIX committers 的一些准则，包括贡献的类型与贡献者的晋升路线，以及贡献者如何成为 committer，进一步成为 PMC 成员。
 ---
 
 本文档介绍了 Apache APISIX 贡献者的结构。
@@ -25,7 +25,7 @@ description: 这篇文章涵盖了 Apache APISIX committers 的一些准则，�
 
 Apache APISIX 社区遵循 Apache 社区接受新 committer 的流程。在贡献者积极参加 APISIX 社区的活动后，(P) PMC 成员将决定是否邀请该贡献者加入 Committers 和 (P) PMC。
 
-1. 此过程首先在 @private 中进行讨论和投票。只有当前的 PMC 成员可以提名一个新的 committer 或 PMC 成员。讨论中的每封新邮件都将延长该过程 72 小时。在 PMC 成员做决定时，请保持耐心。
+1. 此过程首先在 @private 中进行讨论和投票。只有当前的 PMC 成员可以提名一个新的 committer 或 PMC 成员。讨论中的每封新邮件都将延长该过程 72 小时，所以请耐心等待结果。
 
 2. 如果投票通过，将向贡献者发送一封邀请信，邀请其成为 committer，并注明 @private CC'ed。
 
@@ -33,8 +33,7 @@ Apache APISIX 社区遵循 Apache 社区接受新 committer 的流程。在贡�
 
 4. 然后可以通过 [GitBox](https://gitbox.apache.org/setup/) 将 Apache 账户和 GitHub 账户关联起来。
 
-5. [团队](/team)页面将为新的 committer 更新。
-
+5. 新的 committer 需要更新[团队](/team)页面添加个人信息。
 
 ## 职责
 
@@ -50,7 +49,7 @@ Apache APISIX 社区遵循 Apache 社区接受新 committer 的流程。在贡�
 
 5. 回答问题。
 
-6. 更新文档和实例。
+6. 更新文档和示例。
 
 7. 改进流程和工具。
 
@@ -60,4 +59,4 @@ Apache APISIX 社区遵循 Apache 社区接受新 committer 的流程。在贡�
 
 在 APISIX 社区，获得更多成绩的 committer 可以被邀请成为项目管理委员会（Project Management Committee，简称 PMC）的一员。
 
-当你初次接触 ASF 使用的开放开发流程的时，有一件事可能很难理解，那就是我们重视社区胜过重视代码。一个强大而健康的社区会受到尊重，并会成为一个既有意思又有价值的地方。更重要的是，一个多样化且健康的社区可以持续地支持代码的开发，即使个别公司没有持续在这里深耕。
+Apache 社区的理念之一是“社区优于代码”。一个充满活力且持续成长的开源社区自然会受到开发者们的青睐，同时也会提供既有意思又有价值的内容。
