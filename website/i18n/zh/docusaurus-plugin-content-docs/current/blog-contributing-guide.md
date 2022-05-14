@@ -18,8 +18,7 @@ description: 在 Apache APISIX 网站上撰写或更新博客指南。
 
 英文博客在 `website/blog` 目录下，根据年月日信息分类。
 
-举个例子，`website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes.md` 意味着一个名为 `develop-apisix-ingress-with-nocalhost-in-kubernetes.md`
-的博客在2021年11月22号发表，它被存放在 `website/blog/2021/11/22` 目录下。在它完成 review 并合并后，相应的URL会是 `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`。
+举个例子，`website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes.md` 意味着一个名为 `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` 的博客在2021年11月22号发表，它被存放在 `website/blog/2021/11/22` 目录下。在它完成 review 并合并后，相应的 URL 会是 `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`。
 
 类似的，中文博客在 `website/zh/blog` 目录下，根据上述一样的方式分类。
 
@@ -40,7 +39,7 @@ description: 在 Apache APISIX 网站上撰写或更新博客指南。
 
 2. 当你找到了一个存放你的博客的地方，你就可以在这个目录中创建一个 Markdown 文件。请注意，文件名使用英文，并且避免大写字母。Reviewers 可能会建议你改变文件名以提升 SEO（有些文件名含有大写字母，这一点正在 [#713](https://github.com/apache/apisix-website/issues/713) 中被修复）。
 
-3. 你可以通过编辑 Markdown 文件把文字、图片、图表添加到你的博客中。你可以从 [Markdown 指南](https://www.markdownguide.org/)了解更多关于 Markdown 格式的信息。 
+3. 你可以通过编辑 Markdown 文件把文字、图片、图表添加到你的博客中。你可以从 [Markdown 指南](https://www.markdownguide.org/)了解更多关于 Markdown 格式的信息。
     - 添加图片前请先将图片上传到[公共图片 CDN 服务](https://Markdown.apiseven.com)然后在 Markdown 文件中添加图片链接。
     <!-- This link seems to be broken -->
     - 图表总是蕴涵了大量信息，我们很乐意看到他们。从经验来看小于等于4列的图表在网页上显得更加美观。
@@ -127,8 +126,7 @@ tags: [tag1,tag2,...,tagn]
 
 这是一个提高 SEO 性能的必要字段。
 
-通常前三个关键字是 "APISIX", "Apache APISIX" 和 "API Gateway"
-, 后两个关键字和博客主题相关。
+通常前三个关键字是 "APISIX", "Apache APISIX" 和 "API Gateway", 后两个关键字和博客主题相关。
 
 ##### 描述
 
@@ -140,9 +138,7 @@ tags: [tag1,tag2,...,tagn]
 
 这是一个用于分类的必要字段。
 
-每篇博客可以有多个标签。下面列举了经常使用的标签，一篇博客通常会符合其中部分标签。
-
-每篇博客可以有多个标签。下面列举了一些标签和相应解释。如果这其中都找不到适合的，请在提交 PR 时留下评论，我们将一起处理。请注意，这些标签和应用标签的规则可能会随着时间而改变。
+每篇博客可以有多个标签。下面列举了一些常用的标签和相应解释，一篇博客通常会涵盖其中部分标签。如果这其中都找不到适合的，请在提交 PR 时留下评论，我们将一起处理。请注意，这些标签和应用标签的规则可能会随着时间而改变。
 
 - **Community**: 和社区有关的内容，比如说："如何以代码之外形式给社区做贡献?"。
 - **Events**: 和活动有关的内容，比如说：直播流、活动预告、会议和项目会议。
@@ -188,7 +184,7 @@ But this is not part of the summary.
 
 描述和摘要本质上可能是一样的。那为什么我们要在两个字段上重复它们呢？
 
-原因是描述主要目的是为了提高SEO，并且主要由计算机阅读，而摘要则是让人类读者了解博客的内容。
+重复的原因是：描述主要目的是为了提高SEO，并且主要由计算机阅读，而摘要则是让人类读者了解博客的内容。
 
 ### 修正错别字、格式化并保持更新
 
