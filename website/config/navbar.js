@@ -48,6 +48,11 @@ module.exports = [
     position: 'right',
   },
   {
+    to: '/blog/tags/user-case',
+    label: 'Case Studies',
+    position: 'right',
+  },
+  {
     to: '/downloads',
     label: 'Downloads',
     position: 'right',

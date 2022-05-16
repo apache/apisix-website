@@ -1,0 +1,3 @@
+[submodule ".github/actions/actions-netlify"]
+	path = .github/actions/actions-netlify
+	url = https://github.com/nwtgck/actions-netlify.git

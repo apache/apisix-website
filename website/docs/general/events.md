@@ -18,18 +18,25 @@ that have a specific focus on Apache APISIX.
 
 ### Conferences
 
-#### [DevDays](https://devdays.lt/)
-
-* **Topic** Evolving your APIs
-* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 26-Apr-2022 to 28-Apr-2022
-* **Location** Lithuania
-
 #### [SciFiDevCon](https://www.scifidevcon.com/)
 
 * **Topic** Evolving your APIs
 * **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
 * **Dates** 1-May-2022 to 31-May-2022
+* **Location** Online
+
+#### [Columbus JS](https://columbusjs.org/05-04-2022/nicolas-frankel.html)
+
+* **Topic** Chopping the monolith
+* **Speaker** Nicolas Fränkel
+* **Dates** from 04-May-2022 to 04-May-2022
+* **Location** USA
+
+#### [Microsoft JDConf 2022](https://docs.microsoft.com/en-us/events/learntv/jdconf-2022/)
+
+* **Topic** API Gateway Plugin in Java.
+* **Speaker** Bobur Umurzokov
+* **Dates** from 04-May-2022 to 05-May-2022
 * **Location** Online
 
 #### [GeeCon](https://2022.geecon.org/)
@@ -74,6 +81,13 @@ that have a specific focus on Apache APISIX.
 * **Dates** from 28-May-2022 to 28-May-2022
 * **Location** Turkey
 
+#### [NDC Copenhagen](https://ndccopenhagen.com/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 01-June-2022 to 01-June-2022
+* **Location** Denmark
+
 #### [JNation](https://2022.jnation.pt/)
 
 * **Topic** Evolving your APIs
@@ -101,6 +115,13 @@ that have a specific focus on Apache APISIX.
 * **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
 * **Dates** from 29-June-2022 to 02-July-2022
 * **Location** Germany
+
+#### [Apidays New York](https://www.apidays.global/new-york/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 27-July-2022 to 28-July-2022
+* **Location** USA
 
 #### [Web Developer Conference](https://www.web-developer-conference.de/)
 
