@@ -6,19 +6,22 @@ keywords:
 - APISIX
 - Apache APISIX
 - 博客
-- 如何写一篇博客
-description: 在 Apache APISIX 网站上撰写或更新博客指南。
+description: 如何在 Apache APISIX 官网提交或更新博客？
 ---
 
-在 Apache APISIX 网站上撰写或更新[博客](/blog/)请遵循本篇指南。
+如需在 Apache APISIX 网站上进行撰写或更新[博客](/blog/)，请遵循本篇指南。
 
-如果你对已经发布的博客存有疑问欢迎提交一份 [issue](/docs/general/submit-issue)。如果有意愿的话可以同时创建一个 [PR](/docs/general/contributor-guide/#open-a-pull-request) 自己来修复它。
+如果你对已经发布的博客内容存有疑问，欢迎提交 [issue](/docs/general/submit-issue) 进行反馈。如果你有意愿，也可自己创建一个 [PR](/docs/general/contributor-guide/#open-a-pull-request) 对该问题进行修复。
 
-博客同时以[中文](/zh/blog/)和[英文](/blog/)撰写, 贡献者可以自由的根据自己的喜好选择使用哪种语言，翻译工作会在未来进行并且你也可以 review 相应 PR。
+当前博客支持[中文](/zh/blog/)和[英文](/blog/)两种语言，你可以根据自己的熟悉的语言提交博客。目前中文和英文博客需要同时提交，否则在官网会出现未知错误，但是你不必担心，社区贡献者会在你提交博客之后翻译文章，届时你可以 Review 相应 PR。
 
-英文博客在 `website/blog` 目录下，根据年月日信息分类。
+你可以在 `website/blog` 目录下根据年/月/日创建一个目录，并提交英文博客。
 
-举个例子，`website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes.md` 意味着一个名为 `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` 的博客在2021年11月22号发表，它被存放在 `website/blog/2021/11/22` 目录下。在它完成 review 并合并后，相应的 URL 会是 `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`。
+例如：`website/blog/2022/03/01/apisix-integration-public-api-plugin.md` 该目录释义如下：
+
+- `apisix-integration-public-api-plugin.md` 博客是在2022年03月01号发表，
+- `website/blog/2022/03/01` 是该博客所在的目录。
+- `https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin` 是该博客 PR 合并后的 URL。
 
 类似的，中文博客在 `website/zh/blog` 目录下，根据上述一样的方式分类。
 
