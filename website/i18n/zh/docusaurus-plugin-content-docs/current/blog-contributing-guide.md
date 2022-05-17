@@ -62,7 +62,7 @@ description: 如何在 Apache APISIX 官网提交或更新博客？
 
 每一个博客源文件都包含了一个 YAML 前言或标题，并使用两行 `---` 与正文分分隔。
 
-元数据中包含了`title`，`description`，`authors`、`tags`和`keywords`等字段，部分内容可以参考的模板如下：
+元数据中包含了 `title`、`description`、`authors`、`tags` 和 `keywords` 等字段，部分内容可以参考的模板如下：
 
 ##### 单作者模板
 
@@ -156,7 +156,7 @@ tags: [tag1,tag2,...,tagn]
 
 Reviewers 将在 Review 你的 PR 时帮助你选择合适的标签。
 
-##### 获取作者头像 url
+##### 获取作者头像 URL
 
 1. 打开你的浏览器。
 2. 输入作者的 GitHub 页面的 URL，在 URL 结尾加一个 `.png`，例如：https://github.com/${author-username}.png。
