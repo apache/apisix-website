@@ -5,6 +5,8 @@ import '../css/customTheme.css';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
+import Translate from '@docusaurus/Translate';
+
 import IconTriangle from '../assets/icons/triangle.svg';
 import IconSquare from '../assets/icons/square.svg';
 import IconHexagon from '../assets/icons/hexagon.svg';
@@ -124,17 +126,17 @@ const shapeComponentMap = {
 };
 
 interface DocInfo {
-    name: string;
-    nameInParamCase: string;
-    description: string;
-    shape: string;
-    color: string;
-    version: string;
-    releaseDate: string;
-    firstDocPath: string;
+  name: string;
+  nameInParamCase: string;
+  description: string;
+  shape: string;
+  color: string;
+  version: string;
+  releaseDate: string;
+  firstDocPath: string;
 }
 
-interface ProjectCardProps extends DocInfo {}
+interface ProjectCardProps extends DocInfo { }
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
   const {
@@ -158,7 +160,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
       <VersionInfo className="docs-versioninfo">
         Latest version&nbsp;
         <span>{version}</span>
-&nbsp;released at&nbsp;
+        &nbsp;released at&nbsp;
         <span>{releaseDate}</span>
       </VersionInfo>
     </Card>
@@ -177,8 +179,12 @@ const Docs: FC = () => {
   return (
     <Layout>
       <Page>
-        <PageTitle>Documents</PageTitle>
-        <PageSubtitle>We love open source.</PageSubtitle>
+        <PageTitle>
+          <Translate id="docs.webpage.title.Document">Document</Translate>
+        </PageTitle>
+        <PageSubtitle>
+          <Translate id="docs.webpage.title.DocumentSubtitle">We love open source.</Translate>
+        </PageSubtitle>
         <CardsContainer>{projects}</CardsContainer>
       </Page>
     </Layout>
