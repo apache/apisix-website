@@ -10,5 +10,13 @@
   "sidebar.docs.category.Process and style guides": {
     "message": "发布流程与文档写作指南",
     "description": "The label for category Process and style guides in sidebar docs"
+  },
+  "sidebar.docs.category.Contribute to APISIX": {
+    "message": "贡献者指南",
+    "description": "The label for category Contribute to APISIX in sidebar docs"
+  },
+  "sidebar.docs.category.Community": {
+    "message": "社区指南",
+    "description": "The label for category Community in sidebar docs"
   }
 }
