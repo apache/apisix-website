@@ -95,6 +95,7 @@ authors:
     url: "Author's GitHub"
     image_url: "Author's Image URL"
   - name: "Translator/Technical Writer's name"
+    title: "Translator or Technical Writer"
     url: "Translator/Technical Writer's GitHub"
     image_url: "Translator/Technical Writer's Image URL"
 keywords:
@@ -143,7 +144,7 @@ Each post can have more than one tag. The available tags and explanations are as
 - **Interview**: For example, Dr. Yang Li interview, Summer of Programming interview.
 - **Practical Case**: Includes best practices to follow. This is easily confused with **Technology**. The content of the article determines which tag the post belongs to. For example, "Running Apache APISIX on the xxx platform" would belong to the Practical Case tag and "Apache APISIX vs Envoy" would belong to the Technology tag.
 - **Release**: Tag for release notes. Note that the release notes in blog posts are polished whereas inline release notes are written by developers.
-- **Security**: Security vulnerability notifications and methods to bypass security vulnerabilities. Currently there are [five articles](/blog/tags/security/), and they generally have CVE-xxxxxxx in its title.
+- **Security**: Security vulnerability notifications and methods to bypass security vulnerabilities. Currently there are [six articles](/blog/tags/security/), and they generally have CVE-xxxxxxx in its title.
 - **Technology**: Technical articles. Should not be confused with **Practical Case** (see above).
 - **User Case**: Posts about using Apache APISIX. Tell us how you are using Apache APISIX!
 
