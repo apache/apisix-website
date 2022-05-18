@@ -1,13 +1,12 @@
 import type { FC } from 'react';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import '../../../css/customTheme.css';
+import '../css/customTheme.css';
 
 const OssCanvas: FC = () => {
   let screenWidth: number;
-  let screenHeight: number;
   let canvasHeight: number;
   let canvasWidth: number;
 
@@ -21,7 +20,6 @@ const OssCanvas: FC = () => {
     let mesh;
 
     screenWidth = window.innerWidth;
-    screenHeight = window.innerHeight;
     window.addEventListener('resize', onWindowResize, false);
 
     let controls;
@@ -37,7 +35,6 @@ const OssCanvas: FC = () => {
     }
 
     function onWindowResize() {
-      screenHeight = window.innerHeight;
       screenWidth = window.innerWidth;
 
       if (screenWidth > 1100) {

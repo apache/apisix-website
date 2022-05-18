@@ -4,15 +4,15 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import Layout from '@theme/Layout';
 import useWindowType from '@theme/hooks/useWindowSize';
 
-import HeroSection from './sections/HeroSection';
-import Architecture from './sections/Architecture';
-import Features from './sections/Features';
-import Benefits from './sections/Benefits';
-import Comparison from './sections/Comparison';
-import OpensourcePromo from './sections/OpensourcePromo';
-import HomeEventsSection from './sections/HomeEventsSection';
-import EndCTA from './sections/Endcta';
-import EventPosterCard from './sections/components/EventPosterCard';
+import HeroSection from '../components/sections/HeroSection';
+import Architecture from '../components/sections/Architecture';
+import Features from '../components/sections/Features';
+import Benefits from '../components/sections/Benefits';
+import Comparison from '../components/sections/Comparison';
+import OpensourcePromo from '../components/sections/OpensourcePromo';
+import HomeEventsSection from '../components/sections/HomeEventsSection';
+import EndCTA from '../components/sections/Endcta';
+import EventPosterCard from '../components/EventPosterCard';
 
 const useWindowSize = () => {
   const [size, setSize] = useState([0, 0]);

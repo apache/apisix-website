@@ -4,7 +4,7 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import '../../css/customTheme.css';
-import ArrowAnim from './components/ArrowAnim';
+import ArrowAnim from '../ArrowAnim';
 
 const EndCTA:FC = () => (
   <div className="endcta" style={{ padding: '50px 0', background: '#FF90A3', margin: '0 0 -32px 0' }}>

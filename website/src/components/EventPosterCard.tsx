@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import gsap from 'gsap';
 
-import '../../../css/customTheme.css';
+import '../css/customTheme.css';
 
 interface EventPosterCardInfo {
   show: boolean;

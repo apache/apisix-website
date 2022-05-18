@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import type { DownloadInfo } from './ProjectCard';
-import ProjectCard from './ProjectCard';
+import type { DownloadInfo } from '../components/ProjectCard';
+import ProjectCard from '../components/ProjectCard';
 
 const DownloadsPage = styled.div`
   max-width: var(--ifm-container-width);
