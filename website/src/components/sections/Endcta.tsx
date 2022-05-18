@@ -3,10 +3,12 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+import Translate from '@docusaurus/Translate';
+
 import '../../css/customTheme.css';
 import ArrowAnim from '../ArrowAnim';
 
-const EndCTA:FC = () => (
+const EndCTA: FC = () => (
   <div className="endcta" style={{ padding: '50px 0', background: '#FF90A3', margin: '0 0 -32px 0' }}>
     <div className="endcta-text">
       <p style={{
@@ -26,7 +28,7 @@ const EndCTA:FC = () => (
           to={useBaseUrl('downloads')}
           className="btn btn-download"
         >
-          Downloads
+          <Translate id="hero.webpage.download.btn">Downloads</Translate>
         </Link>
         <ArrowAnim />
       </div>

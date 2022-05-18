@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
+import Translate from '@docusaurus/Translate';
+
 import '../../css/customTheme.css';
 import ChevronRight from '../../assets/icons/chevron-right.svg';
 
@@ -10,7 +12,7 @@ interface EventInfo {
   fileName: string;
 }
 
-const HomeEventsSection:FC = () => {
+const HomeEventsSection: FC = () => {
   const { siteConfig } = useDocusaurusContext();
   const events = (siteConfig.customFields.events as EventInfo[])
     .slice(0, 4)
@@ -42,24 +44,32 @@ const HomeEventsSection:FC = () => {
           className="docs-promo-head"
           style={{ width: '100%', textAlign: 'center', left: '0' }}
         >
-          Stay updated about APISIX
+          <Translate id="homeEventsSection.component.title">Stay updated about APISIX</Translate>
         </h3>
         <p
           className="docs-promo-subtitle"
           style={{ width: '100%', textAlign: 'center', left: '0' }}
         >
-          Some Recent events
+          <Translate id="homeEventsSection.component.subtitle">Some Recent events</Translate>
         </p>
         <div className="event-card-container">{events}</div>
       </div>
       <div className="newsletter">
         <p>
-          Stay up to date about all Apache APISIX™ News, subscribe to our
+          <Translate id="homeEventsSection.component.message.news">
+            Stay up to date about all Apache APISIX™ News, subscribe to our
+          </Translate>
           {' '}
-          <a href="%">newsletter.</a>
+          <a href="%">
+            <Translate id="homeEventsSection.component.link.newsletter">
+              newsletter.
+            </Translate>
+          </a>
         </p>
         <a className="news-button" href="/docs/general/join">
-          Subscribe
+          <Translate id="homeEventsSection.component.link.Subscribe">
+            Subscribe
+          </Translate>
         </a>
       </div>
     </div>

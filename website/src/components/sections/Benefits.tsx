@@ -5,6 +5,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import Translate from '@docusaurus/Translate';
+
 import '../../css/customTheme.css';
 
 import Performance from '../../assets/images/infographs/performance.svg';
@@ -327,13 +329,19 @@ const Benefits: FC<BenefitsProps> = (props) => {
     <div ref={triggerDiv} className="benefit" style={{ position: 'relative' }}>
       <div ref={performance} className="row-benefit">
         <div style={{ width: screenWidth > 768 ? '50%' : '100%' }}>
-          <h3 className="feat-head-desc">Performance</h3>
-          <h1 className="feat-head add-left-margin">Ultimate performance </h1>
+          <h3 className="feat-head-desc">
+            <Translate id="benefits.component.performance.title">Performance</Translate>
+          </h3>
+          <h1 className="feat-head add-left-margin">
+            <Translate id="benefits.component.performance.subtitle">Ultimate performance</Translate>
+          </h1>
           <p className="feat-desc add-left-margin">
-            Apache APISIX uses radixtree-route-matching and etcd under the hood to
-            provide you the ability to create high speed synchronized systems.
-            From routing to built-in plugins, all these are designed and implemented to
-            be uber performant with the minimum latency possible.
+            <Translate id="benefits.component.performance.message">
+              Apache APISIX uses radixtree-route-matching and etcd under the hood to
+              provide you the ability to create high speed synchronized systems.
+              From routing to built-in plugins, all these are designed and implemented to
+              be uber performant with the minimum latency possible.
+            </Translate>
           </p>
         </div>
         <div className="benefit-infograph">
@@ -346,14 +354,28 @@ const Benefits: FC<BenefitsProps> = (props) => {
           <Security style={{ width: screenWidth >= 768 ? '75%' : '100%', position: 'relative', left: screenWidth >= 768 ? '3%' : '0' }} />
         </div>
         <div style={{ width: screenWidth > 768 ? '50%' : '100%' }}>
-          <h3 className="feat-head-desc">Security</h3>
-          <h1 className="feat-head add-left-margin">Shield against the malicious</h1>
+          <h3 className="feat-head-desc">
+            <Translate id="benefits.component.security.title">
+              Security
+            </Translate>
+          </h3>
+          <h1 className="feat-head add-left-margin">
+            <Translate id="benefits.component.security.subtitle">
+              Shield against the malicious
+            </Translate>
+          </h1>
           <p className="feat-desc add-left-margin">
-            Apache APISIX provides multiple security plugins
-            for identity authentication and interface verification,
-            putting stability and security first. For more information, check
+            <Translate id="benefits.component.security.message">
+              Apache APISIX provides multiple security plugins
+              for identity authentication and interface verification,
+              putting stability and security first. For more information, check
+            </Translate>
             {' '}
-            <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs/apisix/plugins/cors/')}>here</Link>
+            <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs/apisix/plugins/cors/')}>
+              <Translate id="benefits.component.security.link.here">
+                here
+              </Translate>
+            </Link>
             .
           </p>
         </div>
@@ -361,12 +383,22 @@ const Benefits: FC<BenefitsProps> = (props) => {
 
       <div ref={scale} className="row-benefit row-hidden">
         <div style={{ width: screenWidth > 768 ? '50%' : '100%' }}>
-          <h3 className="feat-head-desc">Scalability and availability</h3>
-          <h1 className="feat-head add-left-margin">Scales with your users</h1>
+          <h3 className="feat-head-desc">
+            <Translate id="benefits.component.scalability.title">
+              Scalability and availability
+            </Translate>
+          </h3>
+          <h1 className="feat-head add-left-margin">
+            <Translate id="benefits.component.scalability.subtitle">
+              Scales with your users
+            </Translate>
+          </h1>
           <p className="feat-desc add-left-margin">
-            Apache APISIX provides the ability to write your own custom plugins,
-            use custom Load Balancing Algorithms during the balancer phase
-            for scaling and custom Routing algorithms for fine control on routing.
+            <Translate id="benefits.component.scalability.message">
+              Apache APISIX provides the ability to write your own custom plugins,
+              use custom Load Balancing Algorithms during the balancer phase
+              for scaling and custom Routing algorithms for fine control on routing.
+            </Translate>
           </p>
         </div>
         <div className="benefit-infograph">
@@ -379,27 +411,47 @@ const Benefits: FC<BenefitsProps> = (props) => {
           <Dynamic style={{ width: screenWidth >= 768 ? '50%' : '70%' }} />
         </div>
         <div style={{ width: screenWidth > 768 ? '50%' : '100%' }}>
-          <h3 className="feat-head-desc">Fully dynamic</h3>
-          <h1 className="feat-head add-left-margin">Save dev-time, design what matters </h1>
+          <h3 className="feat-head-desc">
+            <Translate id="benefits.component.fullyDynamic.title">
+              Fully dynamic
+            </Translate>
+          </h3>
+          <h1 className="feat-head add-left-margin">
+            <Translate id="benefits.component.fullyDynamic.subtitle">
+              Save dev-time, design what matters
+            </Translate>
+          </h1>
           <p className="feat-desc add-left-margin">
-            Apache APISIX provides Hot updates and Hot plugins,
-            which continuosly update configurations without restarts,
-            saving development time and stress. Health checks,
-            circuit breakers and many more features keep the system balanced at all times.
+            <Translate id="benefits.component.fullyDynamic.message">
+              Apache APISIX provides Hot updates and Hot plugins,
+              which continuosly update configurations without restarts,
+              saving development time and stress. Health checks,
+              circuit breakers and many more features keep the system balanced at all times.
+            </Translate>
           </p>
         </div>
       </div>
 
       <div ref={multiplatform} className="row-benefit row-hidden">
         <div style={{ width: screenWidth > 768 ? '50%' : '100%' }}>
-          <h3 className="feat-head-desc">Multi-platform and protocol</h3>
-          <h1 className="feat-head add-left-margin">Create once, run anywhere</h1>
+          <h3 className="feat-head-desc">
+            <Translate id="benefits.component.multiPlatform.title">
+              Multi-platform and protocol
+            </Translate>
+          </h3>
+          <h1 className="feat-head add-left-margin">
+            <Translate id="benefits.component.multiPlatform.subtitle">
+              Create once, run anywhere
+            </Translate>
+          </h1>
           <p className="feat-desc add-left-margin">
-            Platform agnostic, no vendor lock-in,
-            Apache APISIX can run from bare-metal to kubernetes.
-            It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo,
-            MQTT proxy and multiple platforms including ARM64,
-            don&apos;t worry about the lock-in of the infra technology.
+            <Translate id="benefits.component.multiPlatform.message">
+              Platform agnostic, no vendor lock-in,
+              Apache APISIX can run from bare-metal to kubernetes.
+              It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo,
+              MQTT proxy and multiple platforms including ARM64,
+              don&apos;t worry about the lock-in of the infra technology.
+            </Translate>
           </p>
         </div>
         <div className="benefit-infograph">

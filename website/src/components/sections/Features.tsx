@@ -4,6 +4,8 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+import Translate from '@docusaurus/Translate';
 import ArrowAnim from '../ArrowAnim';
 
 import '../../css/customTheme.css';
@@ -35,7 +37,7 @@ const DashboardPlayground = () => (
   </Link>
 );
 
-const Features:FC = () => {
+const Features: FC = () => {
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
   const pluginDiv = useRef(null);
@@ -153,14 +155,18 @@ const Features:FC = () => {
   return (
     <>
       <div ref={featPin} className="feat-top" style={{ padding: '50px 0' }}>
-        <h3 className="feat-head-desc">Why APISIX ?</h3>
+        <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX ?</Translate></h3>
         <h1 className="feat-head add-left-margin">
-          Reduce time fighting bugs, focus on designing world-class systems
+          <Translate id="features.component.why.subtitle">
+            Reduce time fighting bugs, focus on designing world-class systems
+          </Translate>
         </h1>
         <p className="feat-desc add-left-margin">
-          Apache APISIX is the first Open source API gateway, with a built-in
-          low-code Dashboard offering a powerful and flexible interface for
-          developers to use
+          <Translate id="features.component.why.message">
+            Apache APISIX is the first Open source API gateway, with a built-in
+            low-code Dashboard offering a powerful and flexible interface for
+            developers to use
+          </Translate>
         </p>
       </div>
       <div className="feat-container-d" ref={triggerDiv}>
@@ -169,17 +175,21 @@ const Features:FC = () => {
           <div ref={dashboardDiv} style={{ position: 'relative' }}>
             <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
-                Easy-to-use dashboard
+                <Translate id="features.component.easyDashboard.title">
+                  Easy-to-use dashboard
+                </Translate>
               </h2>
               <p className="i-text-desc add-left-margin-feat">
-                The Apache APISIX Dashboard is designed to make it as easy as
-                possible for users to operate Apache APISIX through a frontend
-                interface. It’s opensource and ever evolving, feel free to
-                contribute.
+                <Translate id="features.component.easyDashboard.message">
+                  The Apache APISIX Dashboard is designed to make it as easy as
+                  possible for users to operate Apache APISIX through a frontend
+                  interface. It’s opensource and ever evolving, feel free to
+                  contribute.
+                </Translate>
               </p>
               <div className="hero-ctas add-left-margin-feat bottom-pos">
                 <Link to={useBaseUrl('downloads')} className="btn btn-download">
-                  Downloads
+                  <Translate id="features.component.easyDashboard.downloadBtn">Downloads</Translate>
                 </Link>
                 <ArrowAnim />
               </div>
@@ -189,11 +199,15 @@ const Features:FC = () => {
 
           <div ref={userfDiv} style={{ position: 'relative' }}>
             <div className="text-div" style={{ height: '100vh' }}>
-              <h2 className="i-text add-left-margin-feat">User flexible</h2>
+              <h2 className="i-text add-left-margin-feat">
+                <Translate id="features.component.userFlexible.title">User flexible</Translate>
+              </h2>
               <p className="i-text-desc add-left-margin-feat">
-                The Apache APISIX dashboard is flexible to User demand,
-                providing option to create custom modules through code matching
-                your requirements, alongside the existing no-code toolchain.
+                <Translate id="features.component.userFlexible.message">
+                  The Apache APISIX dashboard is flexible to User demand,
+                  providing option to create custom modules through code matching
+                  your requirements, alongside the existing no-code toolchain.
+                </Translate>
               </p>
             </div>
           </div>
@@ -201,13 +215,15 @@ const Features:FC = () => {
           <div ref={pluginDiv} style={{ position: 'relative' }}>
             <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
-                Pluginised workflow
+                <Translate id="features.component.pluginised.title">Pluginised workflow</Translate>
               </h2>
               <p className="i-text-desc add-left-margin-feat">
-                No need to reinvent the wheel again and again. Use inbuilt
-                plugins to create high performance systems in tight deadlines.
-                For something custom, there is option of building custom
-                plugins.
+                <Translate id="features.component.pluginised.message">
+                  No need to reinvent the wheel again and again. Use inbuilt
+                  plugins to create high performance systems in tight deadlines.
+                  For something custom, there is option of building custom
+                  plugins.
+                </Translate>
               </p>
             </div>
           </div>
@@ -262,21 +278,25 @@ const Features:FC = () => {
         >
           <div style={{ position: 'relative', height: '100%' }}>
             <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
-              Easy-to-use dashboard
+              <Translate id="features.component.easyDashboard.title">
+                Easy-to-use dashboard
+              </Translate>
             </h2>
             <img className="i-image-col" src={Dashboard} alt="" />
             <p className="i-text-desc-col add-left-margin">
-              The Apache APISIX Dashboard is designed to make it as easy as
-              possible for users to operate Apache APISIX through a frontend
-              interface. It’s opensource and ever evolving, feel free to
-              contribute.
+              <Translate id="features.component.easyDashboard.message">
+                The Apache APISIX Dashboard is designed to make it as easy as
+                possible for users to operate Apache APISIX through a frontend
+                interface. It’s opensource and ever evolving, feel free to
+                contribute.
+              </Translate>
             </p>
             <div
               className="hero-ctas add-left-margin"
               style={{ width: 'fit-content' }}
             >
               <Link to={useBaseUrl('downloads')} className="btn btn-download">
-                Downloads
+                <Translate id="features.component.easyDashboard.downloadBtn">Downloads</Translate>
               </Link>
               <ArrowAnim />
             </div>
@@ -289,13 +309,15 @@ const Features:FC = () => {
           style={{ height: 'fit-content', padding: '20px 0' }}
         >
           <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
-            User flexible
+            <Translate id="features.component.userFlexible.title">User flexible</Translate>
           </h2>
           <img className="i-image-col" src={Snippet} alt="" />
           <p className="i-text-desc-col add-left-margin">
-            The Apache APISIX dashboard is flexible to User demand, providing
-            option to create custom modules through code matching your
-            requirements, alongside the existing no-code toolchain.
+            <Translate id="features.component.userFlexible.message">
+              The Apache APISIX dashboard is flexible to User demand, providing
+              option to create custom modules through code matching your
+              requirements, alongside the existing no-code toolchain.
+            </Translate>
           </p>
         </div>
 
@@ -305,13 +327,15 @@ const Features:FC = () => {
           style={{ height: 'fit-content', padding: '20px 0' }}
         >
           <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
-            Pluginised workflow
+            <Translate id="features.component.pluginised.title">Pluginised workflow</Translate>
           </h2>
           <img className="i-image-col" src={Plugin} alt="" />
           <p className="i-text-desc-col add-left-margin">
-            No need to reinvent the wheel again and again. Use inbuilt plugins
-            to create high performance systems in tight deadlines. For something
-            custom, there is option of building custom plugins.
+            <Translate id="features.component.pluginised.message">
+              No need to reinvent the wheel again and again. Use inbuilt plugins
+              to create high performance systems in tight deadlines. For something
+              custom, there is option of building custom plugins.
+            </Translate>
           </p>
         </div>
       </div>

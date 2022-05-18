@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import React, { useEffect } from 'react';
 import gsap from 'gsap';
 
+import Translate from '@docusaurus/Translate';
+
 import '../../css/customTheme.css';
 import HLDesign from '../../assets/images/infographs/Architecture.svg';
 import Pattern from '../../assets/images/PatternGrouped.svg';
@@ -75,13 +77,17 @@ const Architecture: FC<ArchitectureProps> = (props) => {
         />
       </div>
       <div>
-        <h3 className="arch-head">Building for large-scale, high value systems</h3>
+        <h3 className="arch-head">
+          <Translate id="architecture.component.title.name">Building for large-scale, high value systems</Translate>
+        </h3>
       </div>
       <div className="arch-subtitle">
         <p>
-          Apache APISIX lets you build Cloud-Native Microservices API gateways,
-          delivering the ultimate performance, security,
-          open source and scalable platform for all your APIs and microservices.
+          <Translate id="architecture.component.title.subtitle">
+            Apache APISIX lets you build Cloud-Native Microservices API gateways,
+            delivering the ultimate performance, security,
+            open source and scalable platform for all your APIs and microservices.
+          </Translate>
         </p>
       </div>
       <div className="arch-card" style={{ position: 'relative' }}>
@@ -90,9 +96,11 @@ const Architecture: FC<ArchitectureProps> = (props) => {
         </div>
         <div className="arch-card-caption">
           <p style={{ width: screenWidth >= 768 ? '50%' : '90%' }}>
-            Apache APISIX is based on Nginx and etcd.
-            Compared with traditional API gateways,
-            APISIX has dynamic routing and hot-loading plugins
+            <Translate id="architecture.component.card.caption">
+              Apache APISIX is based on Nginx and etcd.
+              Compared with traditional API gateways,
+              APISIX has dynamic routing and hot-loading plugins
+            </Translate>
           </p>
         </div>
         <div className="arch-card-border" />
