@@ -220,7 +220,7 @@
     "description": "Be a part of building APISIX"
   },
   "openSourcePromo.component.ossPromo.subtitle": {
-    "message": "Apache APISIX 是完全源码的，并且在不断发展。我们随时欢迎贡献者。请在GitHub上与我们联系",
+    "message": "Apache APISIX 是完全开放源码的，并且在不断发展。我们随时欢迎贡献者。请在GitHub上与我们联系",
     "description": "Apache APISIX is opensource and ever-growing. Contributors are always welcome. Reach out to us on GitHub"
   },
   "openSourcePromo.component.link.Github": {
