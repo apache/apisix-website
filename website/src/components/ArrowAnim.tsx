@@ -5,6 +5,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
 
 import '../css/customTheme.css';
+import Translate from '@docusaurus/Translate';
 
 const ArrowAnim: FC = () => {
   const endpathRef1 = useRef(null);
@@ -53,7 +54,7 @@ const ArrowAnim: FC = () => {
       onMouseLeave={mouseOut}
       className="btn-docs"
     >
-      Go to docs...
+      <Translate id="arrowAnim.webpage.link.btn">Go to docs...</Translate>
       <svg width="15" strokeWidth="3" height="25" viewBox="0 0 43 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path ref={endpathRef1} d="M27.5 1L42.5 16L27.5 31" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
         <path ref={endpathRef2} className="arrow-btn" d="M42.5 16H0.5" stroke="black" strokeLinecap="round" strokeLinejoin="round" />

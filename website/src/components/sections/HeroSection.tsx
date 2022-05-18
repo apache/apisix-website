@@ -3,12 +3,13 @@ import React, { useRef, useEffect } from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import gsap from 'gsap';
+import Translate from '@docusaurus/Translate';
 
 import '../../css/customTheme.css';
 import HeroCanvas from '../HeroCanvas';
 import ArrowAnim from '../ArrowAnim';
 
-const HeroSection:FC = () => {
+const HeroSection: FC = () => {
   const titleRef = useRef<HTMLHeadingElement>();
   const subtitleRef = useRef<HTMLHeadingElement>();
   const ctaRef = useRef<HTMLHeadingElement>();
@@ -41,19 +42,23 @@ const HeroSection:FC = () => {
     <div className="hero-sec-wrap" style={{ width: '100%' }}>
       <div className="hero-text">
         <h2 ref={titleRef} className="hero-title hide-title">
-          <span>Effortless and smooth</span>
+          <span><Translate id="hero.webpage.title.fragment1">Effortless and smooth</Translate></span>
           {' '}
-          <span style={{ color: '#E8433E' }}>API Traffic</span>
+          <span style={{ color: '#E8433E' }}>
+            <Translate id="hero.webpage.title.fragment2">API Traffic</Translate>
+          </span>
           {' '}
-          management.
+          <Translate id="hero.webpage.title.fragment3">management.</Translate>
         </h2>
-        <h3 ref={subtitleRef} className="hero-subtitle hide-subtitle">Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more...</h3>
+        <h3 ref={subtitleRef} className="hero-subtitle hide-subtitle">
+          <Translate id="hero.webpage.subtitle.content">Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more...</Translate>
+        </h3>
         <div ref={ctaRef} className="hero-ctas hide-ctas">
           <Link
             to={useBaseUrl('downloads')}
             className="btn btn-download"
           >
-            Downloads
+            <Translate id="hero.webpage.download.btn">Downloads</Translate>
           </Link>
           <ArrowAnim />
         </div>
