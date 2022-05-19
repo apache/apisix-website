@@ -18,7 +18,7 @@ description: In this interview, we invited JU Zhiyuan, a PMC member of Apache AP
 tags: [Interview]
 ---
 
->JU Zhiyuan, a PPMC member of Apache APISIX, was elected to be one of the 918 ASF Members in March 2022. In this interview, Zhiyuan shared his experience with open source and his self-learning journey in technology.
+> JU Zhiyuan, a PPMC member of Apache APISIX, was elected to be one of the 918 ASF Members in March 2022. In this interview, Zhiyuan shared his experience with open source and his self-learning journey in technology.
 
 <!--truncate-->
 
@@ -58,8 +58,7 @@ In college days, I joined various communities and activities, learning technolog
 
 Over the past few years, I have accumulated much project experience and expanded my technology stack. However, I realized that though project practices could bring me income, it was not conducive to skill development. I found that the open-source code I used in projects was of high quality and community collaboration was patterned, so I began to study open-source code and keep abreast of open-source communities. After graduation, I joined the APISIX open-source community and contributed some code.
 
-**What is open source? In the video named [Trillions and Trillions Served](https://www.youtube.com/watch?v=JUt2nb0mgwg), Jim Jagielski, one of the co-founders of the Apache Software Foundation, pointed out that "for me, it's an acknowledgment of what I see was the old hacker culture. I mean that developers and coders contributors are artists, and I think all artists want to share the results of their craft. They want to work with aligned people. They want to hone their skills."  
-You got to know hackers early in your junior and high school and then engaged in open-source communities in college. How do you take the spirit of hackers and open source? In your opinion, is there any inheritance between hacker culture and open-source culture?**
+**What is open source? In the video named [Trillions and Trillions Served](https://www.youtube.com/watch?v=JUt2nb0mgwg), Jim Jagielski, one of the co-founders of the Apache Software Foundation, pointed out that "for me, it's an acknowledgment of what I see was the old hacker culture. I mean that developers and coders contributors are artists, and I think all artists want to share the results of their craft. They want to work with aligned people. They want to hone their skills." You got to know hackers early in your junior and high school and then engaged in open-source communities in college. How do you take the spirit of hackers and open source? In your opinion, is there any inheritance between hacker culture and open-source culture?**
 
 In my opinion, a hacker is not a hacker in the pejorative sense with malicious intent to destroy or invade other people's computer systems. Hackers, as it means, are a group of geeks who dare to think and act and who believe in liberalism and are not bound by overt or covert rules. They make decisions and take actions based on their interest and pursuit of truth. I feel that I am one of them. Whatever difficulties I encounter, I will brave them and figure out the solution.
 
@@ -164,4 +163,5 @@ When I was in college, I also played drones, took aerial photos of the school wi
 ## Knowing More About Zhiyuan
 
 Zhiyuan usually shares his recent thoughts and insights in his blogs. Through his words, we can see a young man exploring freely in open source, technology, work, and life. If you want to know more about Zhiyuan, you can subscribe to his [Blog](https://wineso.me/) and [GitHub](https://github.com/juzhiyuan).
+
 Looking forward to more exploration and sharing from Zhiyuan in the future!
