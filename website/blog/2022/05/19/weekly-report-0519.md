@@ -31,31 +31,30 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ### Issue #7052
 
-**链接**: https://github.com/apache/apisix/issues/7052
+**Link**: https://github.com/apache/apisix/issues/7052
 
-**问题描述**：As a User, I want to use oAuth2 with [PKCE](https://oauth.net/2/pkce/) support, so that I can configure an oAuth2 connection without using client/secret.
+**Description**：As a User, I want to use oAuth2 with [PKCE](https://oauth.net/2/pkce/) support, so that I can configure an oAuth2 connection without using client/secret.
 
-I am using an IDP. which has implemented the [Authorization Code Flow](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth).
+I am using an IDP, which has implemented the [Authorization Code Flow](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth).
 
 From the docs of the IdP:
 The IdP implements the Authorization Code Flow, preferably with PKCE. The PKCE flow is the recommended and most universal authorization flow that supports mobile apps, single page applications and traditional server-rendered applications and doesn't require the exchange of a shared secret.
 
 The Flow:
 
-user opens a web app (in my case an `APISIXROUTE`, using `openid` plugin)
-code challenge using **SHA256** is created by the `openid` plugin
-redirect to the idp authorization endpoint
-login of the user
-redirect to the `redirect_url` with `authcode` as URL Queryparameter
-`openid` plugin uses the `authcode` to receive a JWT from the idp token endpoint
-Could you implement this oAuth flow with pkce support?
-Please add a section to the documentation as well, tkaning care on the configuration of the pkce and the redirect_url
+- User opens a web app (in my case an `APISIXROUTE`, using `openid` plugin)
+- Code challenge using **SHA256** is created by the `openid` plugin
+- Redirect to the idp authorization endpoint
+- Login of the user
+- Redirect to the `redirect_url` with `authcode` as URL Queryparameter
+- `openid` plugin uses the `authcode` to receive a JWT from the idp token endpoint
+- Could implement this OAuth flow with PKCE support? Please add a section to the documentation as well, introduce configuration of the PKEC and the redirect_url.
 
 ## Issue #6939
 
-**链接**: https://github.com/apache/apisix/issues/6939
+**Link**: https://github.com/apache/apisix/issues/6939
 
-**问题描述**：See [apisix/apisix/stream/router/ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) Line 82 in dbe7eee
+**Description**：See [apisix/apisix/stream/router/ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) Line 82 in dbe7eee
 
 ```Lua
    -- TODO: check the subordinate relationship in the Admin API
@@ -63,8 +62,8 @@ Please add a section to the documentation as well, tkaning care on the configura
 
 We need to check the subordinate relationship in the Admin API, including:
 
-validate if the stream route with superior id exists and its protocol matches the subordinate
-when deleting a stream route, check if it is referenced by another stream route
+- validate if the stream route with superior id exists and its protocol matches the subordinate;
+- When deleting a stream route, check if it is referenced by another stream route
 
 ## Highlights of Recent Features
 
@@ -90,4 +89,4 @@ when deleting a stream route, check if it is referenced by another stream route
 
 - [support hook response body for ext-plugin](https://github.com/apache/apisix/pull/6968)（Contributor: [soulbird](https://github.com/soulbird)）
 
-In the TiDB Hackathon 2021, the APISIX team (team leader: Chao Zhang, team members: Zeping Bai, Zhengsong Tu, Jinghan Chen) presented the ability of TiDB to interface with Apache APISIX to implement a universal configuration center. In this article, we will bring you some stories behind the project and the future outlook, if you are interested in the project, please feel free to participate in the project.
+The Apache APISIX project website and the Github issue have accumulated a wealth of documentation and experience, so if you encounter problems, you can read the documentation, search the issue with keywords, or participate in the discussion on the issue to put forward your own ideas and practical experience.
