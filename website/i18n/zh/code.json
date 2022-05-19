@@ -56,7 +56,7 @@
     "description": "Contributor Over Time"
   },
   "team.webpage.content.ContributorOverTimeNote": {
-    "message": "注：该图反映了 Apache APISIX 所有仓库的贡献者变化趋势总和",
+    "message": "注：下图中的贡献者数量包含了 Apache APISIX 所有仓库的贡献者",
     "description": "Note: This graph contains contributors from all repos under Apache APISIX"
   },
   "team.webpage.content.BecomeACommitter": {
@@ -76,7 +76,7 @@
     "description": "Building for large-scale, high value systems"
   },
   "architecture.component.title.subtitle": {
-    "message": "Apache APISIX 作为云原生的 API 网关，提供了高性能、可伸缩、值得信赖的 API 管理平台。",
+    "message": "Apache APISIX 作为云原生架构的开源 API 网关，可以为海量 API 和微服务提供安全可靠的高性能、动态、可扩展的管理平台。",
     "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
   },
   "architecture.component.card.caption": {
@@ -96,7 +96,7 @@
     "description": "Apache APISIX is the first Open source API gateway, with a built-in low-code Dashboard offering a powerful and flexible interface for developers to use"
   },
   "features.component.easyDashboard.title": {
-    "message": "直观易用的控制台",
+    "message": "简单易用的控制台",
     "description": "Easy-to-use dashboard"
   },
   "features.component.easyDashboard.message": {
@@ -112,15 +112,15 @@
     "description": "User flexible"
   },
   "features.component.userFlexible.message": {
-    "message": "Apache APISIX 控制台可灵活地满足用户需求，且提供了清晰的组织架构以适配二次开发。同时，你可以借助插件编排能力释放想象力！",
+    "message": "Apache APISIX Dashboard 极大地满足了用户需求，不仅提供了清晰的组织架构以适配二次开发，而且你也可以借助插件编排能力释放想象力！",
     "description": "The Apache APISIX dashboard is flexible to User demand, providing option to create custom modules through code matching your requirements, alongside the existing no-code toolchain."
   },
   "features.component.pluginised.title": {
-    "message": "可插拔式工作流",
+    "message": "可视化配置",
     "description": "Pluginised workflow"
   },
   "features.component.pluginised.message": {
-    "message": "无需反复创作轮子，借助 Apache APISIX 内置插件创建灵活、可靠、高性能的网关。我们有近百种插件供你选择，定制化适配特定业务的系统。",
+    "message": "拒绝重复造轮子。使用 Apache APISIX 内置的插件，可以在极短时间内创建灵活、可靠、高性能的网关。无需写代码，只需在编辑器中，拖拽插件到画布上，再配置插件的判断条件、数据源及交互动作，以可视化的方式打造属于你自己的 API 管理系统。",
     "description": "No need to reinvent the wheel again and again. Use inbuilt plugins to create high performance systems in tight deadlines. For something custom, there is option of building custom plugins."
   },
   "benefits.component.performance.title": {
@@ -132,7 +132,7 @@
     "description": "Ultimate performance"
   },
   "benefits.component.performance.message": {
-    "message": "Apache APISIX 基于自研的决策树算法实现了请求路由规则的极速匹配，并借助于 etcd 实现了超低延迟配置更新的能力。",
+    "message": "Apache APISIX 基于 Radixtree Route Matching 和 etcd 提供极速匹配与配置同步的能力。从路由到插件，所有的设计和实现都是为了超低延迟的极速性能。",
     "description": "Apache APISIX uses radixtree-route-matching and etcd under the hood to provide you the ability to create high speed synchronized systems. From routing to built-in plugins, all these are designed and implemented to be uber performant with the minimum latency possible."
   },
   "benefits.component.security.title": {
@@ -184,7 +184,7 @@
     "description": "Create once, run anywhere"
   },
   "benefits.component.multiPlatform.message": {
-    "message": "平台无关、无供应商锁定，Apache APISIX 可运行在裸机、Kubernetes 中。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。",
+    "message": "Apache APISIX 提供了多平台解决方案，它不但支持在裸机运行，也支持在 Kubernetes 中使用。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。",
     "description": "Platform agnostic, no vendor lock-in, Apache APISIX can run from bare-metal to kubernetes. It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo, MQTT proxy and multiple platforms including ARM64, don&apos;t worry about the lock-in of the infra technology."
   },
   "comparison.component.title": {
