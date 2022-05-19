@@ -1,4 +1,8 @@
 {
+  "common.punctuation.anEnd": {
+    "message": "。",
+    "description": "."
+  },
   "hero.webpage.title.fragment1": {
     "message": "简洁高效的",
     "description": "Effortless and smooth"
@@ -60,11 +64,11 @@
     "description": "Become A Committer"
   },
   "team.webpage.content.BecomeACommitterInto": {
-    "message": "Apache APISIX 社区遵循 Apache 选举 Committer 的规范，在贡献者积极参与 Apache APISIX 社区后，PMC 将决定是否邀请贡献者加入 Committers。",
+    "message": "Apache APISIX 社区遵循并使用 Apache 社区提交规范，在贡献者积极参与 APISIX 社区后，项目管理委员会（PMC）将决定是否邀请贡献者加入 Committers 和 PMC。",
     "description": "The Apache APISIX community follows the Apache Community process on accepting a new committer. After contributors actively participate in the APISIX community, PMC and Committers will decide to invite contributors to join Committers and PMC."
   },
   "team.webpage.content.StartContributeBtn": {
-    "message": "开始你的贡献",
+    "message": "开始参与社区贡献",
     "description": "Start Contribute"
   },
   "architecture.component.title.name": {
@@ -72,11 +76,11 @@
     "description": "Building for large-scale, high value systems"
   },
   "architecture.component.title.subtitle": {
-    "message": "使用 Apache APISIX 构建云原生 API 网关，为海量 API 和微服务提供安全可靠的高性能、可扩展且的动态管理平台。",
+    "message": "Apache APISIX 作为云原生的 API 网关，提供了高性能、可伸缩、值得信赖的 API 管理平台。",
     "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
   },
   "architecture.component.card.caption": {
-    "message": "Apache APISIX 基于 NGINX 和 etcd。与传统的 API 网关相比，APISIX 具有动态路由和热加载插件",
+    "message": "Apache APISIX 基于 Nginx 与 etcd，相较于传统的 API 网关，它提供了动态路由、热加载插件等诸多能力",
     "description": "Apache APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
@@ -84,11 +88,11 @@
     "description": "Why APISIX ?"
   },
   "features.component.why.subtitle": {
-    "message": "还在与 Bug 斗争？APISIX 让你更专注于全平台系统打造",
+    "message": "Apache APISIX 值得信赖，能够使你专注在具体特定业务中，而无需考虑 API 处理基础组件。",
     "description": "Reduce time fighting bugs, focus on designing world-class systems"
   },
   "features.component.why.message": {
-    "message": "Apache APISIX 是首个开源 API 网关，内置的低代码仪表盘为开发人员提供了强大且灵活的操作界面",
+    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会中的顶级项目，它也为开发人员提供强大且灵活的控制界面",
     "description": "Apache APISIX is the first Open source API gateway, with a built-in low-code Dashboard offering a powerful and flexible interface for developers to use"
   },
   "features.component.easyDashboard.title": {
@@ -104,11 +108,11 @@
     "description": "Downloads"
   },
   "features.component.userFlexible.title": {
-    "message": "配置更灵活",
+    "message": "灵活地用户体验",
     "description": "User flexible"
   },
   "features.component.userFlexible.message": {
-    "message": "Apache APISIX Dashboard 极大满足了用户需求。不仅提供了丰富的接口，还支持自动创建自定义模块选项，以及无代码流程。",
+    "message": "Apache APISIX 控制台可灵活地满足用户需求，且提供了清晰的组织架构以适配二次开发。同时，你可以借助插件编排能力释放想象力！",
     "description": "The Apache APISIX dashboard is flexible to User demand, providing option to create custom modules through code matching your requirements, alongside the existing no-code toolchain."
   },
   "features.component.pluginised.title": {
@@ -116,7 +120,7 @@
     "description": "Pluginised workflow"
   },
   "features.component.pluginised.message": {
-    "message": "拒绝重复造轮子。使用 Apache APISIX 内置的插件，可以在极短时间内创建可靠且高性能的系统。你可以像拼乐高一样，将多样插件进行定制化拼接，打造属于你自己的系统。",
+    "message": "无需反复创作轮子，借助 Apache APISIX 内置插件创建灵活、可靠、高性能的网关。我们有近百种插件供你选择，定制化适配特定业务的系统。",
     "description": "No need to reinvent the wheel again and again. Use inbuilt plugins to create high performance systems in tight deadlines. For something custom, there is option of building custom plugins."
   },
   "benefits.component.performance.title": {
@@ -128,7 +132,7 @@
     "description": "Ultimate performance"
   },
   "benefits.component.performance.message": {
-    "message": "Apache APISIX 在后端使用 radixtree-route-matching 和 etcd 为你提供创建高速同步系统的能力。从路由到内置插件，均具有极低延迟的超级性能。",
+    "message": "Apache APISIX 基于自研的决策树算法实现了请求路由规则的极速匹配，并借助于 etcd 实现了超低延迟配置更新的能力。",
     "description": "Apache APISIX uses radixtree-route-matching and etcd under the hood to provide you the ability to create high speed synchronized systems. From routing to built-in plugins, all these are designed and implemented to be uber performant with the minimum latency possible."
   },
   "benefits.component.security.title": {
@@ -140,15 +144,15 @@
     "description": "Shield against the malicious"
   },
   "benefits.component.security.message": {
-    "message": "Apache APISIX 为身份认证和接口验证提供了多个安全插件，将稳定性和安全性放在首位。如需了解更多细节，请查看",
+    "message": "Apache APISIX 提供了多款身份认证与接口验证的插件，我们将稳定、安全放在首位。如需了解更多信息请查看",
     "description": "Apache APISIX provides multiple security plugins for identity authentication and interface verification, putting stability and security first. For more information, check"
   },
   "benefits.component.security.link.here": {
-    "message": "这里",
+    "message": "安全类插件",
     "description": "here"
   },
   "benefits.component.scalability.title": {
-    "message": "高可用与拓展性",
+    "message": "高可用与可扩展性",
     "description": "Scalability and availability"
   },
   "benefits.component.scalability.subtitle": {
@@ -156,7 +160,7 @@
     "description": "Scales with your users"
   },
   "benefits.component.scalability.message": {
-    "message": "Apache APISIX 提供了自定义插件的能力，在 Balancer 阶段使用自定义负载平衡算法进行扩展，并使用自定义路由算法对路由进行精细控制",
+    "message": "Apache APISIX 提供了自定义插件的能力，在 Balancer 阶段使用自定义负载平衡算法进行扩展，并使用自定义路由算法对路由进行精细控制。",
     "description": "Apache APISIX provides the ability to write your own custom plugins, use custom Load Balancing Algorithms during the balancer phase for scaling and custom Routing algorithms for fine control on routing."
   },
   "benefits.component.fullyDynamic.title": {
@@ -164,11 +168,11 @@
     "description": "Fully dynamic"
   },
   "benefits.component.fullyDynamic.subtitle": {
-    "message": "摆脱繁重代码，专注打造核心环节",
+    "message": "节省选型、开发时间，只做最重要的业务设计",
     "description": "Save dev-time, design what matters"
   },
   "benefits.component.fullyDynamic.message": {
-    "message": "Apache APISIX 提供了热更新、热加载插件能力，在不重新启动实例的情况下可快速更新配置。这能够节省开发时间与服务压力。同时，健康检查、断路器和许多其它功能使系统始终保持稳定、可靠。",
+    "message": "Apache APISIX 提供了配置热更新、插件热加载能力，在不重新启动实例的情况下可快速更新配置，这能够节省开发时间并降低服务压力。同时，健康检查、断路器和许多其它功能使系统始终保持稳定、可靠。",
     "description": "Apache APISIX provides Hot updates and Hot plugins, which continuosly update configurations without restarts,  saving development time and stress. Health checks, circuit breakers and many more features keep the system balanced at all times."
   },
   "benefits.component.multiPlatform.title": {
@@ -184,11 +188,11 @@
     "description": "Platform agnostic, no vendor lock-in, Apache APISIX can run from bare-metal to kubernetes. It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo, MQTT proxy and multiple platforms including ARM64, don&apos;t worry about the lock-in of the infra technology."
   },
   "comparison.component.title": {
-    "message": "致力成为你的最佳选择",
+    "message": "Apache APISIX 是 API 流量处理的最佳选择",
     "description": "Among the best, and always improving"
   },
   "comparison.component.subtitle": {
-    "message": "Apache APISIX 是开源且蓬勃发展的。以下是 APISIX 与其他 API 网关的功能差异。",
+    "message": "Apache APISIX 是 Apache 软件基金会下持续维护的顶级项目。下表是它与其它 API 网关的能力对比：",
     "description": "Apache APISIX is opensource and ever evolving. Here&apos;s a general comparison of APISIX with other options in this API Gateway ecosystem."
   },
   "openSourcePromo.component.title": {
@@ -196,7 +200,7 @@
     "description": "Learn from developers"
   },
   "openSourcePromo.component.subtitle.fragment1": {
-    "message": "想要了解或使用 Apache APISIX，但又不知道从哪里开始？你可以查阅",
+    "message": "想学习 Apache APISIX 的使用，但不知道从哪里开始？请查阅我们的",
     "description": "Want to learn Apache APISIX usage, but don&apos;t know where to start. Check out our"
   },
   "openSourcePromo.component.link.docs": {
@@ -216,7 +220,7 @@
     "description": "for detailed tutorials. Subscribe for more."
   },
   "openSourcePromo.component.ossPromo.title": {
-    "message": "想成为 APISIX 社区的一员？",
+    "message": "为 Apache APISIX 贡献你的力量！",
     "description": "Be a part of building APISIX"
   },
   "openSourcePromo.component.ossPromo.subtitle": {

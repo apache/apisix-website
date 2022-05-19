@@ -16,6 +16,7 @@ const EndCTA: FC = () => (
       }}
       >
         Try
+        {' '}
         <span style={{ color: '#E8433E' }}>APISIX</span>
         {' '}
         today

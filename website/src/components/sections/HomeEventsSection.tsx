@@ -60,7 +60,7 @@ const HomeEventsSection: FC = () => {
             Stay up to date about all Apache APISIX™ News, subscribe to our
           </Translate>
           {' '}
-          <a href="%">
+          <a href="/docs/general/join/">
             <Translate id="homeEventsSection.component.link.newsletter">
               newsletter.
             </Translate>

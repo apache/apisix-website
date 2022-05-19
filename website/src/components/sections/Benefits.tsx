@@ -376,7 +376,7 @@ const Benefits: FC<BenefitsProps> = (props) => {
                 here
               </Translate>
             </Link>
-            .
+            <Translate id="common.punctuation.anEnd">.</Translate>
           </p>
         </div>
       </div>
