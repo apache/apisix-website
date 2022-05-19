@@ -33,7 +33,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 **Link**: https://github.com/apache/apisix/issues/7052
 
-**Description**：As a User, I want to use oAuth2 with [PKCE](https://oauth.net/2/pkce/) support, so that I can configure an oAuth2 connection without using client/secret.
+**Description**: As a User, I want to use oAuth2 with [PKCE](https://oauth.net/2/pkce/) support, so that I can configure an oAuth2 connection without using client/secret.
 
 I am using an IDP, which has implemented the [Authorization Code Flow](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth).
 
@@ -48,13 +48,14 @@ The Flow:
 - Login of the user
 - Redirect to the `redirect_url` with `authcode` as URL Queryparameter
 - `openid` plugin uses the `authcode` to receive a JWT from the idp token endpoint
-- Could implement this OAuth flow with PKCE support? Please add a section to the documentation as well, introduce configuration of the PKEC and the redirect_url.
+
+Could implement this OAuth flow with PKCE support? Please add a section to the documentation as well, introduce configuration of the PKEC and the redirect_url.
 
 ## Issue #6939
 
 **Link**: https://github.com/apache/apisix/issues/6939
 
-**Description**：See [apisix/apisix/stream/router/ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) Line 82 in dbe7eee
+**Description**: See [apisix/apisix/stream/router/ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) Line 82 in dbe7eee
 
 ```Lua
    -- TODO: check the subordinate relationship in the Admin API
@@ -62,7 +63,7 @@ The Flow:
 
 We need to check the subordinate relationship in the Admin API, including:
 
-- validate if the stream route with superior id exists and its protocol matches the subordinate;
+- Validate if the stream route with superior id exists and its protocol matches the subordinate;
 - When deleting a stream route, check if it is referenced by another stream route
 
 ## Highlights of Recent Features

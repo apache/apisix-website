@@ -9,7 +9,7 @@ description: “独行者速，众行者远”。Apache APISIX 社区周报希�
 tags: [Events]
 ---
 
-> 从 5.01 - 5.15 ， 有 35 位开发者为 Apache APISIX 提交了 77 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 5.01 - 5.15，有 35 位开发者为 Apache APISIX 提交了 77 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 <!--truncate-->
 
@@ -31,9 +31,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Issue #7052
 
-**链接**: https://github.com/apache/apisix/issues/7052
+**链接**：https://github.com/apache/apisix/issues/7052
 
-**问题描述**：作为用户，希望能够使用带有 [PKCE](https://oauth.net/2/pkce/) 支持的 OAuth2，这样就可以在不使用客户端/密码的情况下配置 OAuth2 连接。 我用的是 IdP。它已经实现了 [Authorization Code Flow.](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth)。以下来自 IdP 的文档：
+**问题描述**：作为用户，希望能够使用带有 [PKCE](https://oauth.net/2/pkce/) 支持的 OAuth2，这样就可以在不使用客户端/密码的情况下配置 OAuth2 连接。 我用的是 IdP。它已经实现了 [Authorization Code Flow](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth)。以下介绍来自 IdP 的文档：
 
 IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code Exchange)。PKCE 流程是推荐和最通用的授权流程，它支持移动应用程序、单页应用程序和传统的服务器渲染应用程序，并且不需要交换共享密钥。
 
@@ -50,7 +50,7 @@ IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code
 
 ## Issue #6939
 
-**链接**: https://github.com/apache/apisix/issues/6939
+**链接**：https://github.com/apache/apisix/issues/6939
 
 **问题描述**：如 [ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) 文件的第 82 行中所示：
 
@@ -77,7 +77,7 @@ IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code
 
 - [在 APISIX 初始化时，batch-requests 插件支持处理 CIDR 格式 的 real_ip_from](https://github.com/apache/apisix/pull/6981)（贡献者：[kwanhur](https://github.com/kwanhur)）
 
-- [ext-plugin 支持处理 response body](https://github.com/apache/apisix/pull/6960)（贡献者：[tzssangglass](https://github.com/tzssangglass))
+- [xRPC 框架支持日志过滤](https://github.com/apache/apisix/pull/6960)（贡献者：[tzssangglass](https://github.com/tzssangglass))
 
 - [新增 pubsub 框架](https://github.com/apache/apisix/pull/7028)（贡献者：[bzp2010](https://github.com/bzp2010)）
 
