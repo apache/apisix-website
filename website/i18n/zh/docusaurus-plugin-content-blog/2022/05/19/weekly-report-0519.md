@@ -55,8 +55,8 @@ IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code
 **问题描述**：如 [ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) 文件的第 82 行中所示：
 
 ```Lua
-   -- TODO: check the subordinate relationship in the Admin API 
-```   
+   -- TODO: check the subordinate relationship in the Admin API
+```
 
 作为用户，需要检查 Admin API 中的从属关系，包括：
 
@@ -71,7 +71,7 @@ IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code
 
 - [xRPC 框架实现 Redis 协议支持 pipeline](https://github.com/apache/apisix/pull/6959)（贡献者：[spacewander](https://github.com/spacewander)）
 
-- [key-auth 插件隐藏 credentials 时只需更改 uri args 或 headers ](https://github.com/apache/apisix/pull/6991)（贡献者：[jwrookie](https://github.com/jwrookie)）
+- [key-auth 插件隐藏 credentials 时只需更改 uri args 或 headers](https://github.com/apache/apisix/pull/6991)（贡献者：[jwrookie](https://github.com/jwrookie)）
 
 - [支持 servlet 的 URI 规范](https://github.com/apache/apisix/pull/6984)（贡献者：[spacewander](https://github.com/spacewander)）
 
@@ -88,4 +88,3 @@ IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code
 - [ext-plugin 支持处理 response body](https://github.com/apache/apisix/pull/6968)（贡献者：[soulbird](https://github.com/soulbird)）
 
 Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。
-

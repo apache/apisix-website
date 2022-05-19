@@ -58,8 +58,8 @@ Please add a section to the documentation as well, tkaning care on the configura
 **问题描述**：See [apisix/apisix/stream/router/ip_port.lua](https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82) Line 82 in dbe7eee
 
 ```Lua
-   -- TODO: check the subordinate relationship in the Admin API 
-``` 
+   -- TODO: check the subordinate relationship in the Admin API
+```
 
 We need to check the subordinate relationship in the Admin API, including:
 
@@ -70,7 +70,7 @@ when deleting a stream route, check if it is referenced by another stream route
 
 - [xRPC support timeout](https://github.com/apache/apisix/pull/6965)（Contributor: [spacewander](https://github.com/spacewander)）
 
-- [stream port syslog plugin ](https://github.com/apache/apisix/pull/6953)（Contributor: [tzssangglass](https://github.com/tzssangglass)）
+- [stream port syslog plugin](https://github.com/apache/apisix/pull/6953)（Contributor: [tzssangglass](https://github.com/tzssangglass)）
 
 - [redis support pipeline](https://github.com/apache/apisix/pull/6959)（Contributor: [spacewander](https://github.com/spacewander)）
 
@@ -91,4 +91,3 @@ when deleting a stream route, check if it is referenced by another stream route
 - [support hook response body for ext-plugin](https://github.com/apache/apisix/pull/6968)（Contributor: [soulbird](https://github.com/soulbird)）
 
 In the TiDB Hackathon 2021, the APISIX team (team leader: Chao Zhang, team members: Zeping Bai, Zhengsong Tu, Jinghan Chen) presented the ability of TiDB to interface with Apache APISIX to implement a universal configuration center. In this article, we will bring you some stories behind the project and the future outlook, if you are interested in the project, please feel free to participate in the project.
-
