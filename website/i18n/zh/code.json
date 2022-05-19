@@ -8,11 +8,11 @@
     "description": "API Traffic"
   },
   "hero.webpage.title.fragment3": {
-    "message": "管理",
+    "message": "管理组件",
     "description": "management"
   },
   "hero.webpage.subtitle.content": {
-    "message": "Apache APISIX 提供了丰富的流量管理功能，如负载平衡、动态上游、金丝雀发布、断路器、身份校验、可观测性等",
+    "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
     "description": "Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more..."
   },
   "hero.webpage.download.btn": {
@@ -24,7 +24,7 @@
     "description": "Go to docs..."
   },
   "docs.webpage.title.Document": {
-    "message": "文档",
+    "message": "产品文档",
     "description": "Document"
   },
   "docs.webpage.title.DocumentSubtitle": {
