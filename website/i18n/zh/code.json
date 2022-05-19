@@ -68,7 +68,7 @@
     "description": "Start Contribute"
   },
   "architecture.component.title.name": {
-    "message": "构建大规模且高价值的系统",
+    "message": "适用于超大规模、复杂的业务系统",
     "description": "Building for large-scale, high value systems"
   },
   "architecture.component.title.subtitle": {
@@ -80,7 +80,7 @@
     "description": "Apache APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
-    "message": "为什么选择 APISIX？",
+    "message": "为什么选择 Apache APISIX？",
     "description": "Why APISIX ?"
   },
   "features.component.why.subtitle": {
@@ -92,15 +92,15 @@
     "description": "Apache APISIX is the first Open source API gateway, with a built-in low-code Dashboard offering a powerful and flexible interface for developers to use"
   },
   "features.component.easyDashboard.title": {
-    "message": "视图化仪表盘",
+    "message": "直观易用的控制台",
     "description": "Easy-to-use dashboard"
   },
   "features.component.easyDashboard.message": {
-    "message": "Apache APISIX Dashboard 的设计目的是让用户尽可能容易地通过前端接口和图形化的方式来操作 Apache APISIX，它是一个完全开源的项目，并且在快速发展中，随时欢迎你提出新的创意。",
+    "message": "Apache APISIX Dashboard 让用户尽可能直观、容易地通过可视化界面来操作 Apache APISIX，它同样是 Apache 软件基金会中持续迭代的开源项目，欢迎你你随时提出新的想法。",
     "description": "The Apache APISIX Dashboard is designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface. It’s opensource and ever evolving, feel free to contribute."
   },
   "features.component.easyDashboard.downloadBtn": {
-    "message": "现在尝试",
+    "message": "立即下载",
     "description": "Downloads"
   },
   "features.component.userFlexible.title": {
@@ -152,11 +152,11 @@
     "description": "Scalability and availability"
   },
   "benefits.component.scalability.subtitle": {
-    "message": "定制化扩展",
+    "message": "与用户一起扩容",
     "description": "Scales with your users"
   },
   "benefits.component.scalability.message": {
-    "message": "Apache APISIX 提供了您自己编写自定义插件的能力，在平衡器阶段使用自定义负载平衡算法进行扩展，并使用自定义路由算法对路由进行精细控制",
+    "message": "Apache APISIX 提供了自定义插件的能力，在 Balancer 阶段使用自定义负载平衡算法进行扩展，并使用自定义路由算法对路由进行精细控制",
     "description": "Apache APISIX provides the ability to write your own custom plugins, use custom Load Balancing Algorithms during the balancer phase for scaling and custom Routing algorithms for fine control on routing."
   },
   "benefits.component.fullyDynamic.title": {
@@ -168,7 +168,7 @@
     "description": "Save dev-time, design what matters"
   },
   "benefits.component.fullyDynamic.message": {
-    "message": "Apache APISIX提供热更新和热插件，在不重新启动的情况下持续更新配置，节省开发时间和压力。健康检查、断路器和许多其他功能使系统始终保持平衡。",
+    "message": "Apache APISIX 提供了热更新、热加载插件能力，在不重新启动实例的情况下可快速更新配置。这能够节省开发时间与服务压力。同时，健康检查、断路器和许多其它功能使系统始终保持稳定、可靠。",
     "description": "Apache APISIX provides Hot updates and Hot plugins, which continuosly update configurations without restarts,  saving development time and stress. Health checks, circuit breakers and many more features keep the system balanced at all times."
   },
   "benefits.component.multiPlatform.title": {
@@ -180,7 +180,7 @@
     "description": "Create once, run anywhere"
   },
   "benefits.component.multiPlatform.message": {
-    "message": "平台不可知，没有供应商锁定，Apache APISIX 可以从裸机到 kubernetes 运行。它支持 HTTP 到 gRPC 的转码、websockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，不用担心对基础设施技术的锁定。",
+    "message": "平台无关、无供应商锁定，Apache APISIX 可运行在裸机、Kubernetes 中。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。",
     "description": "Platform agnostic, no vendor lock-in, Apache APISIX can run from bare-metal to kubernetes. It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo, MQTT proxy and multiple platforms including ARM64, don&apos;t worry about the lock-in of the infra technology."
   },
   "comparison.component.title": {
@@ -212,7 +212,7 @@
     "description": "Youtube channel"
   },
   "openSourcePromo.component.subtitle.fragment3": {
-    "message": "以了解详细的教程，欢迎您的订阅",
+    "message": "以了解详细的教程，欢迎你的订阅",
     "description": "for detailed tutorials. Subscribe for more."
   },
   "openSourcePromo.component.ossPromo.title": {
