@@ -80,7 +80,7 @@
     "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
   },
   "architecture.component.card.caption": {
-    "message": "Apache APISIX 基于 Nginx 与 etcd，相较于传统的 API 网关，它提供了动态路由、热加载插件等诸多能力",
+    "message": "Apache APISIX 基于 Nginx 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力",
     "description": "Apache APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
@@ -96,11 +96,11 @@
     "description": "Apache APISIX is the first Open source API gateway, with a built-in low-code Dashboard offering a powerful and flexible interface for developers to use"
   },
   "features.component.easyDashboard.title": {
-    "message": "简单易用的控制台",
+    "message": "简单易用的 Dashboard",
     "description": "Easy-to-use dashboard"
   },
   "features.component.easyDashboard.message": {
-    "message": "Apache APISIX Dashboard 让用户尽可能直观、容易地通过可视化界面来操作 Apache APISIX，它同样是 Apache 软件基金会中持续迭代的开源项目，欢迎你你随时提出新的想法。",
+    "message": "Apache APISIX Dashboard 可以让用户尽可能直观、便捷地通过可视化界面来操作 Apache APISIX，它同样是 Apache 软件基金会中持续迭代的开源项目，欢迎你随时提出新的想法。",
     "description": "The Apache APISIX Dashboard is designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface. It’s opensource and ever evolving, feel free to contribute."
   },
   "features.component.easyDashboard.downloadBtn": {
@@ -108,7 +108,7 @@
     "description": "Downloads"
   },
   "features.component.userFlexible.title": {
-    "message": "灵活地用户体验",
+    "message": "灵活的用户体验",
     "description": "User flexible"
   },
   "features.component.userFlexible.message": {
@@ -160,7 +160,7 @@
     "description": "Scales with your users"
   },
   "benefits.component.scalability.message": {
-    "message": "Apache APISIX 提供了自定义插件的能力，在 Balancer 阶段使用自定义负载平衡算法进行扩展，并使用自定义路由算法对路由进行精细控制。",
+    "message": "Apache APISIX 提供了自定义插件的能力，你可以在 Balancer 阶段使用自定义负载均衡算法，并使用自定义路由算法对路由进行精细化控制。",
     "description": "Apache APISIX provides the ability to write your own custom plugins, use custom Load Balancing Algorithms during the balancer phase for scaling and custom Routing algorithms for fine control on routing."
   },
   "benefits.component.fullyDynamic.title": {
@@ -172,7 +172,7 @@
     "description": "Save dev-time, design what matters"
   },
   "benefits.component.fullyDynamic.message": {
-    "message": "Apache APISIX 提供了配置热更新、插件热加载能力，在不重新启动实例的情况下可快速更新配置，这能够节省开发时间并降低服务压力。同时，健康检查、断路器和许多其它功能使系统始终保持稳定、可靠。",
+    "message": "Apache APISIX 提供了配置热更新、插件热加载能力，在不重新启动实例的情况下可快速更新配置，这能够节省开发时间并降低服务压力。同时，健康检查、服务熔断以及其它功能可以让系统始终保持稳定、可靠。",
     "description": "Apache APISIX provides Hot updates and Hot plugins, which continuosly update configurations without restarts,  saving development time and stress. Health checks, circuit breakers and many more features keep the system balanced at all times."
   },
   "benefits.component.multiPlatform.title": {
@@ -192,7 +192,7 @@
     "description": "Among the best, and always improving"
   },
   "comparison.component.subtitle": {
-    "message": "Apache APISIX 是 Apache 软件基金会下持续维护的顶级项目。下表是它与其它 API 网关的能力对比：",
+    "message": "Apache APISIX 是 Apache 软件基金会下的开源项目，并且在不断蓬勃发展。下方是 Apache APISIX 与其它 API 网关对比：",
     "description": "Apache APISIX is opensource and ever evolving. Here&apos;s a general comparison of APISIX with other options in this API Gateway ecosystem."
   },
   "openSourcePromo.component.title": {
