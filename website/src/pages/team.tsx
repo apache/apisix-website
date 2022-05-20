@@ -3,6 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+import Translate from '@docusaurus/Translate';
+
 import GitHubLogo from '../assets/icons/github-logo.svg';
 import IconCode from '../assets/icons/code.svg';
 import IconStar from '../assets/icons/star.svg';
@@ -285,31 +288,46 @@ const Team: FC = () => {
   return (
     <Layout>
       <Page>
-        <PageTitle>Team</PageTitle>
-        <PageSubtitle>We love open source.</PageSubtitle>
+        <PageTitle><Translate id="team.webpage.title.Team">Team</Translate></PageTitle>
+        <PageSubtitle><Translate id="team.webpage.title.DocumentSubtitle">We love open source.</Translate></PageSubtitle>
         {memberSections}
-        <SectionTitle>Contributors</SectionTitle>
+        <SectionTitle><Translate id="team.webpage.content.Contributors">Contributors</Translate></SectionTitle>
         <SectionSubtitle>
-          You can find all contributors of Apache APISIX from GitHub contribution
-          list.
+          <Translate id="team.webpage.content.ContributorsSub">
+            You can find all contributors of Apache APISIX from GitHub contribution
+            list.
+          </Translate>
         </SectionSubtitle>
         <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
-        <SectionTitle>Contributor Over Time</SectionTitle>
+        <SectionTitle>
+          <Translate id="team.webpage.content.ContributorOverTime">Contributor Over Time</Translate>
+        </SectionTitle>
         <SectionSubtitle>
-          Note: This graph contains contributors from all repos under Apache APISIX
+          <Translate id="team.webpage.content.ContributorOverTimeNote">
+            Note: This graph contains contributors from all repos under Apache APISIX
+          </Translate>
         </SectionSubtitle>
         <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time" />
         <ContributeCard>
           <ContributeCardLeftSide>
-            <ContributeCardTitle>🛠 Become A Committer </ContributeCardTitle>
+            <ContributeCardTitle>
+              🛠
+              <Translate id="team.webpage.content.BecomeACommitter">
+                Become A Committer
+              </Translate>
+            </ContributeCardTitle>
             <ContributeCardSubtitle>
-              The Apache APISIX community follows the Apache Community&apos;s process
-              on accepting a new committer. After a contributor participates
-              APISIX&apos;s community actively, PMC and Committers will make decisions
-              to invite the contributor join Committers and PMC.
+              <Translate id="team.webpage.content.BecomeACommitterInto">
+                The Apache APISIX community follows the Apache Community&apos;s process
+                on accepting a new committer. After a contributor participates
+                APISIX&apos;s community actively, PMC and Committers will make decisions
+                to invite the contributor join Committers and PMC.
+              </Translate>
             </ContributeCardSubtitle>
             <ContributeCardButton href="/docs/general/contributor-guide">
-              Start Contribute
+              <Translate id="team.webpage.content.StartContributeBtn">
+                Start Contribute
+              </Translate>
             </ContributeCardButton>
           </ContributeCardLeftSide>
           <ContributeCardRightSide>

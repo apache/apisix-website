@@ -1,19 +1,26 @@
 import type { FC } from 'react';
 import React from 'react';
 
+import Translate from '@docusaurus/Translate';
+
 import '../../css/customTheme.css';
 import Cross from '../../assets/icons/cross.svg';
 import Tick from '../../assets/icons/tick.svg';
 
-const Comparison:FC = () => (
+const Comparison: FC = () => (
   <div className="compare">
     <div>
-      <h3 className="compare-head">Among the best, and always improving</h3>
+      <h3 className="compare-head">
+        <Translate id="comparison.component.title">Among the best, and always improving</Translate>
+      </h3>
     </div>
     <div className="compare-subtitle">
       <p>
-        Apache APISIX is opensource and ever evolving.
-        Here&apos;s a general comparison of APISIX with other options in this API Gateway ecosystem.
+        <Translate id="comparison.component.subtitle">
+          Apache APISIX is opensource and ever evolving.
+          Here&apos;s a general comparison of APISIX with other options in this API Gateway
+          ecosystem.
+        </Translate>
       </p>
     </div>
     <div>
