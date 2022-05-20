@@ -80,12 +80,12 @@
     "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
   },
   "architecture.component.card.caption": {
-    "message": "Apache APISIX 基于 Nginx 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力",
-    "description": "Apache APISIX is based on Nginx and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
+    "message": "Apache APISIX 基于 NGINX 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力",
+    "description": "Apache APISIX is based on NGINX and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
     "message": "为什么选择 Apache APISIX？",
-    "description": "Why APISIX ?"
+    "description": "Why APISIX?"
   },
   "features.component.why.subtitle": {
     "message": "Apache APISIX 值得信赖，能够使你专注在具体特定业务中，而无需考虑 API 处理基础组件。",
