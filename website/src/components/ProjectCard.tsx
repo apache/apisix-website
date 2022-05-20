@@ -1,8 +1,11 @@
 import type { Dispatch, FC, SetStateAction } from 'react';
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
+
 import useOutsideClick from '../hooks/useOutsideClick';
+
 import '../css/customTheme.css';
+
 import IconInfo from '../assets/icons/info.svg';
 import IconStar from '../assets/icons/star.svg';
 import IconDocumentText from '../assets/icons/document-text.svg';
@@ -13,7 +16,9 @@ import IconHexagon from '../assets/icons/hexagon.svg';
 import IconStarSolid from '../assets/icons/star-solid.svg';
 import IconOctagon from '../assets/icons/octagon.svg';
 import IconShield from '../assets/icons/shield.svg';
+
 import repoInfoList from '../../config/repos-info.json';
+
 import type { ContributeCardProps } from './ContributeCard';
 
 const Card = styled.div`
@@ -66,7 +71,7 @@ const Description = styled.div`
   }
 `;
 
-const ShapeBeforeTitle = styled.span<{color: string}>`
+const ShapeBeforeTitle = styled.span<{ color: string }>`
   margin-right: 12px;
   & svg {
     height: 1.75rem;
@@ -135,7 +140,7 @@ const ButtonRow = styled.div`
   display: flex;
 `;
 
-const Button = styled.button<{background: string}>`
+const Button = styled.button<{ background: string }>`
   padding: 12px 18px;
   font-size: 18px;
   font-weight: 600;
@@ -161,7 +166,7 @@ const Button = styled.button<{background: string}>`
   }
 `;
 
-const StyledDropdown = styled.div<{open: boolean}>`
+const StyledDropdown = styled.div<{ open: boolean }>`
   top: 45px;
   right: 0;
   position: absolute;
@@ -336,7 +341,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           >
             <IconStar />
             {' '}
-            {repoInfo?.info.star}
+            {repoInfo?.info?.star ?? ' - '}
           </LeftSideLink>
           <LeftSideLink
             className="downloads-leftsidelink"
@@ -346,7 +351,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           >
             <IconInfo />
             {' '}
-            {repoInfo?.info.issue}
+            {repoInfo?.info?.issue ?? ' - '}
           </LeftSideLink>
           <LeftSideLink
             className="downloads-leftsidelink"

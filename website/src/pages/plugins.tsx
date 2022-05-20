@@ -17,7 +17,10 @@
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+
 import Layout from '@theme/Layout';
+import Translate from '@docusaurus/Translate';
+
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const PageTitle = styled.h1`
@@ -244,8 +247,12 @@ const Plugins: FC = () => {
   return (
     <Layout>
       <Page>
-        <PageTitle>Apache APISIX®️ Plugin Hub</PageTitle>
-        <PageSubtitle>Powerful Plugins and Easy Integrations</PageSubtitle>
+        <PageTitle>
+          <Translate id="plugins.website.title">Apache APISIX®️ Plugin Hub</Translate>
+        </PageTitle>
+        <PageSubtitle>
+          <Translate id="plugins.website.subtitle">Powerful Plugins and Easy Integrations</Translate>
+        </PageSubtitle>
         <SidebarContainer>{sidebar}</SidebarContainer>
         {plugins}
       </Page>

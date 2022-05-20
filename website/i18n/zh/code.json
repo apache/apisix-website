@@ -3,29 +3,21 @@
     "message": "。",
     "description": "."
   },
-  "hero.webpage.title.fragment1": {
-    "message": "简单高效的",
-    "description": "Effortless and smooth"
+  "showcase.website.title": {
+    "message": "产品展示",
+    "description": "Showcase"
   },
-  "hero.webpage.title.fragment2": {
-    "message": "API 流量",
-    "description": "API Traffic"
+  "showcase.website.tips.used": {
+    "message": "他们都在使用 Apache APISIX 进行生产和研究",
+    "description": "This project is used by all these folks"
   },
-  "hero.webpage.title.fragment3": {
-    "message": "管理组件",
-    "description": "management"
+  "showcase.website.tips.wantUse": {
+    "message": "你也在使用它吗？告诉我们是如何使用，我们将会积极的收集和采纳你的意见。",
+    "description": "Are you using this project?&nbsp;"
   },
-  "hero.webpage.subtitle.content": {
-    "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
-    "description": "Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more..."
-  },
-  "hero.webpage.download.btn": {
-    "message": "立即体验",
-    "description": "Download"
-  },
-  "arrowAnim.webpage.link.btn": {
-    "message": "阅读文档",
-    "description": "Go to docs..."
+  "showcase.website.link.addYourCompany": {
+    "message": "加入使用者名单",
+    "description": "Add your company"
   },
   "docs.webpage.title.Document": {
     "message": "产品文档",
@@ -34,6 +26,86 @@
   "docs.webpage.title.DocumentSubtitle": {
     "message": "让产品与技术背后的细节更加可视化",
     "description": "We love open source."
+  },
+  "download.website.title": {
+    "message": "开启智能网关之旅",
+    "description": "Downloads"
+  },
+  "download.website.subtitle": {
+    "message": "We love open source.",
+    "description": "We love open source."
+  },
+  "download.website.history.title": {
+    "message": "历史版本",
+    "description": "History Versions"
+  },
+  "download.website.history.all": {
+    "message": "如果你想要预览 Apache APISIX 已发布的所有版本，请查看 ",
+    "description": "Find all APISIX releases in the&nbsp;"
+  },
+  "download.website.link.archive": {
+    "message": "Archive repository",
+    "description": "Archive repository"
+  },
+  "download.website.link.incubator": {
+    "message": "Incubating Archive repository",
+    "description": "Incubating Archive repository"
+  },
+  "download.website.history.incubator": {
+    "message": " 存储着 Apache APISIX 旧版孵化器项目的备份归档，你也可以随时查阅它们。",
+    "description": "&nbsp;hosts older releases when APISIX was an incubator project."
+  },
+  "download.website.verify.title": {
+    "message": "验证 Apache APISIX 版本号",
+    "description": "Verify the releases"
+  },
+  "download.website.link.PGP_KEY": {
+    "message": "获取PGP签名密钥",
+    "description": "Get PGP signatures KEYS"
+  },
+  "download.website.verify.step1": {
+    "message": "你可以使用 PGP 或 SHA 签名验证 Apache APISIX 的文件完整性，使用 GPG 或 PGP 验证 PGP 签名的合法性， 建议从主目录获取密钥文件和ASC签名文件。",
+    "description": "It is essential that you verify the integrity of the downloaded files using the PGP or SHA signatures. The PGP signatures can be verified using GPG or PGP. Please download the KEYS as well as the asc signature files for relevant distribution. It is recommended to get these files from the main distribution directory and not from the mirrors."
+  },
+  "download.website.verify.step2": {
+    "message": "如果需要验证二进制文件/源代码，您可以从主目录下载相关的 asc 文件，并遵循下面的指南。",
+    "description": "To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide."
+  },
+  "help.website.title": {
+    "message": "需要帮助吗？",
+    "description": "NEED HELP?"
+  },
+  "help.website.subtitle": {
+    "message": "维护 Apache APISIX 的专业团队人员随时可以为你答疑解惑",
+    "description": "This project is maintained by a dedicated group of people."
+  },
+  "help.website.docs.title": {
+    "message": "官方文档",
+    "description": "Browse Docs"
+  },
+  "help.website.docs.tips": {
+    "message": "访问官方技术文档以了解更多",
+    "description": "Learn more using the documentation on this site."
+  },
+  "help.website.link.docs": {
+    "message": "阅读文档",
+    "description": "Read Documents"
+  },
+  "help.website.community.title": {
+    "message": "加入社区",
+    "description": "Join Community"
+  },
+  "help.website.community.tips": {
+    "message": "告诉我们你遇到了什么问题？",
+    "description": "Ask questions about the documentation and project"
+  },
+  "plugins.website.title": {
+    "message": "Apache APISIX®️ 插件中心",
+    "description": "Apache APISIX®️ Plugin Hub"
+  },
+  "plugins.website.subtitle": {
+    "message": "功能强大，即插即用",
+    "description": "Powerful Plugins and Easy Integrations"
   },
   "team.webpage.title.Team": {
     "message": "团队介绍",
@@ -70,6 +142,10 @@
   "team.webpage.content.StartContributeBtn": {
     "message": "开始参与社区贡献",
     "description": "Start Contribute"
+  },
+  "arrowAnim.component.link.btn": {
+    "message": "阅读文档",
+    "description": "Go to docs..."
   },
   "architecture.component.title.name": {
     "message": "适用于超大规模、复杂的业务系统",
@@ -250,5 +326,25 @@
   "homeEventsSection.component.link.Subscribe": {
     "message": "立即订阅",
     "description": "Subscribe"
+  },
+  "hero.component.title.fragment1": {
+    "message": "简单高效的",
+    "description": "Effortless and smooth"
+  },
+  "hero.component.title.fragment2": {
+    "message": "API 流量",
+    "description": "API Traffic"
+  },
+  "hero.component.title.fragment3": {
+    "message": "管理组件",
+    "description": "management"
+  },
+  "hero.component.subtitle.content": {
+    "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
+    "description": "Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more..."
+  },
+  "hero.component.download.btn": {
+    "message": "立即体验",
+    "description": "Download"
   }
 }

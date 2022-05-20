@@ -2,6 +2,9 @@ import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
+
+import Translate from '@docusaurus/Translate';
+
 import ChevronRight from '../assets/icons/chevron-right.svg';
 
 import '../css/customTheme.css';
@@ -26,9 +29,9 @@ const Page = styled.div`
 const Help: FC = () => (
   <Layout>
     <Page className="help-page">
-      <PageTitle>NEED HELP?</PageTitle>
+      <PageTitle><Translate id="help.website.title">NEED HELP?</Translate></PageTitle>
       <PageSubtitle>
-        This project is maintained by a dedicated group of people.
+        <Translate id="help.website.subtitle">This project is maintained by a dedicated group of people.</Translate>
       </PageSubtitle>
       <div className="row cards">
         <div className="card">
@@ -39,17 +42,17 @@ const Help: FC = () => (
                 id="documents-icon"
                 alt="documents icon"
               />
-              Browse Docs
+              <Translate id="help.website.docs.title">Browse Docs</Translate>
             </h2>
           </div>
-          <p>Learn more using the documentation on this site.</p>
+          <p><Translate id="help.website.docs.tips">Learn more using the documentation on this site.</Translate></p>
           <div className="buttons">
             <a
               href="https://apisix.apache.org/docs/"
               target="_blank"
               rel="noreferrer"
             >
-              Read Documents
+              <Translate id="help.website.link.docs">Read Documents</Translate>
               <ChevronRight />
             </a>
           </div>
@@ -58,10 +61,10 @@ const Help: FC = () => (
           <div className="header">
             <h2>
               <img src="/img/community.png" alt="community icon" />
-              Join Community
+              <Translate id="help.website.community.title">Join Community</Translate>
             </h2>
           </div>
-          <p>Ask questions about the documentation and project</p>
+          <p><Translate id="help.website.community.tips">Ask questions about the documentation and project</Translate></p>
           <div className="buttons">
             <a href="https://github.com/apache/apisix/issues" target="_blank" rel="noreferrer">
               GitHub

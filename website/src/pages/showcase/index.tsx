@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Translate from '@docusaurus/Translate';
+
 import Layout from '@theme/Layout';
 import './styles.scss';
 
@@ -19,18 +21,18 @@ const Container: FC = (props) => {
 const Header: FC = () => (
   <div className="header">
     <div className="title">
-      Showcase
+      <Translate id="showcase.website.title">Showcase</Translate>
     </div>
     <div className="tips">
-      This project is used by all these folks
+      <Translate id="showcase.website.tips.used">This project is used by all these folks</Translate>
       <br />
-      Are you using this project?&nbsp;
+      <Translate id="showcase.website.tips.wantUse">Are you using this project?&nbsp;</Translate>
       <a
         href="https://github.com/apache/apisix/blob/master/powered-by.md"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <u>Add your company</u>
+        <u><Translate id="showcase.website.link.addYourCompany">Add your company</Translate></u>
       </a>
     </div>
   </div>

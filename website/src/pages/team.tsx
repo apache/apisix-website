@@ -318,10 +318,10 @@ const Team: FC = () => {
             </ContributeCardTitle>
             <ContributeCardSubtitle>
               <Translate id="team.webpage.content.BecomeACommitterInto">
-                The Apache APISIX community follows the Apache Community&apos;s process
-                on accepting a new committer. After a contributor participates
-                APISIX&apos;s community actively, PMC and Committers will make decisions
-                to invite the contributor join Committers and PMC.
+                The Apache APISIX community follows the Apache Community process on
+                accepting a new committer.
+                After contributors actively participate in the APISIX community,
+                PMC and Committers will decide to invite contributors to join Committers and PMC.
               </Translate>
             </ContributeCardSubtitle>
             <ContributeCardButton href="/docs/general/contributor-guide">
