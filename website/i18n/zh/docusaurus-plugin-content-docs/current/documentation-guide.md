@@ -37,7 +37,7 @@ description: Apache APISIX 中文文档的贡献指南，适用于 APISIX 中文
 - 对项目特定词汇使用以下拼写：
   - 在介绍中引用项目和引用项目社区时，使用 Apache APISIX 而不是 APISIX。
   - 在文档中引用项目时，请使用 APISIX。
-  - APISIX 特定的组件名称，如 Plugin、Route、Service 和 Consumer 等组件名称始终保持首字母大写。如果是表示概念则使用英文书写，如果表示一个实体，则使用中文名称。
+  - APISIX 特定的组件名称，如 Plugin、Route、Service 和 Consumer 等组件名称始终保持首字母大写。如果是表示概念则使用英文书写，如果表示一个实体（例如：创建一个路由。），则使用中文名称。
   - 必要时使用正确的首字母缩略词，例如：
 
     | ✅              | ❌               |
