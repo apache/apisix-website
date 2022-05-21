@@ -4,15 +4,15 @@
     "description": "."
   },
   "showcase.website.title": {
-    "message": "产品展示",
+    "message": "用户列表",
     "description": "Showcase"
   },
   "showcase.website.tips.used": {
-    "message": "他们都在使用 Apache APISIX 进行生产和研究",
+    "message": "Apache APISIX 被众多产品与用户所信赖",
     "description": "This project is used by all these folks"
   },
   "showcase.website.tips.wantUse": {
-    "message": "你也在使用它吗？告诉我们是如何使用，我们将会积极的收集和采纳你的意见。",
+    "message": "你也在使用它吗？请让我们知道！",
     "description": "Are you using this project?&nbsp;"
   },
   "showcase.website.link.addYourCompany": {
@@ -28,11 +28,11 @@
     "description": "We love open source."
   },
   "download.website.title": {
-    "message": "开启智能网关之旅",
+    "message": "立即下载",
     "description": "Downloads"
   },
   "download.website.subtitle": {
-    "message": "We love open source.",
+    "message": "We love Open Source.",
     "description": "We love open source."
   },
   "download.website.history.title": {
@@ -72,11 +72,11 @@
     "description": "To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide."
   },
   "help.website.title": {
-    "message": "需要帮助吗？",
+    "message": "获取帮助",
     "description": "NEED HELP?"
   },
   "help.website.subtitle": {
-    "message": "维护 Apache APISIX 的专业团队人员随时可以为你答疑解惑",
+    "message": "Apache APISIX 维护者们将积极为你答疑解惑",
     "description": "This project is maintained by a dedicated group of people."
   },
   "help.website.docs.title": {
