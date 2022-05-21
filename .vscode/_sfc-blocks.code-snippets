@@ -1,0 +1,14 @@
+{
+  "test": {
+    "prefix": "test",
+    "body": [
+      "import { } from '../index'",
+      "describe('${0}', () => {",
+      "\tit('', () => {",
+      "\t\texpect().toBe()",
+      "\t})",
+      "})"
+    ],
+    "description": "Unit test block"
+  }
+}
