@@ -1,4 +1,26 @@
-precision mediump float;
+export const fragment = `precision mediump float;
+
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec2 u_mouse;
+uniform vec2 u_fragMouse;
+
+varying vec2 vUv;
+varying float transfer;
+varying float value;
+
+void main() {
+  vec2 st = gl_FragCoord.xy / u_resolution;
+  vec2 mouse = u_fragMouse;
+
+  st.x *= (u_resolution.x / u_resolution.y);
+  mouse.x *= (u_resolution.x / u_resolution.y);
+
+  gl_FragColor = vec4(vec3(1.0, 0.0, transfer), 1.0);
+}
+`;
+
+export const vertex = `precision mediump float;
 
 attribute float aSize;
 
@@ -138,7 +160,7 @@ void main() {
   float noiseAmp = 1.55;
   vec3 noisePos = vec3(pos.x * noiseFreq + u_time, pos.y, pos.z);
 
-  if(distance(u_mouse,pos.xy)<=0.9) 
+  if(distance(u_mouse,pos.xy)<=0.9)
   {
     float vertexDistance = distance(u_mouse, pos.xy);
     float height = ((Gaussian_h+0.05)* exp(-(0.5*pow((vertexDistance)/Gaussian_sd, 2.0))));
@@ -155,3 +177,10 @@ void main() {
   gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos.xyz, 1.0);
   gl_PointSize = aSize*(1.0/-ecPosition.z);
 }
+
+`;
+
+export default {
+  fragment,
+  vertex,
+};

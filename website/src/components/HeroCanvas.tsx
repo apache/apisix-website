@@ -6,10 +6,7 @@ import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import '../css/customTheme.css';
-// eslint-disable-next-line import/no-unresolved, import/no-webpack-loader-syntax, import/extensions
-import fragment from '!!raw-loader!../shaders/fragment.frag';
-// eslint-disable-next-line import/no-unresolved, import/no-webpack-loader-syntax, import/extensions
-import vertex from '!!raw-loader!../shaders/vertex.vert';
+import { fragment, vertex } from '../database/heroCanvas';
 
 const HeroCanvas: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>();
