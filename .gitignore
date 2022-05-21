@@ -24,8 +24,10 @@ website/.cache-loader
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.vscode
 tmp/*
+
+# jest report
+coverage
 
 # Local Netlify folder
 .netlify

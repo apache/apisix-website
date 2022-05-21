@@ -16,9 +16,12 @@
     "docusaurus": "yarn workspace website docusaurus",
     "serve": "yarn docusaurus serve",
     "prepare": "husky install",
-    "prepare-data": "yarn sync-doc && yarn generate-repos-info"
+    "prepare-data": "yarn sync-doc && yarn generate-repos-info",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "eslint": "^8.2.0",
@@ -29,9 +32,12 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-yml": "^0.14.0",
     "husky": ">=6",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "lint-staged": ">=10",
     "stylelint": "^14.6.1",
-    "stylelint-config-standard": "^25.0.0"
+    "stylelint-config-standard": "^25.0.0",
+    "ts-jest": "^28.0.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
