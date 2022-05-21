@@ -60,15 +60,15 @@
     "description": "Verify the releases"
   },
   "download.website.link.PGP_KEY": {
-    "message": "获取PGP签名密钥",
+    "message": "获取 PGP 签名密钥",
     "description": "Get PGP signatures KEYS"
   },
   "download.website.verify.step1": {
-    "message": "你可以使用 PGP 或 SHA 签名验证 Apache APISIX 的文件完整性，使用 GPG 或 PGP 验证 PGP 签名的合法性， 建议从主目录获取密钥文件和ASC签名文件。",
+    "message": "你可以使用 PGP 或 SHA 签名验证 Apache APISIX 的文件完整性，使用 GPG 或 PGP 验证 PGP 签名的合法性， 建议从主目录获取密钥文件和 ASC 签名文件。",
     "description": "It is essential that you verify the integrity of the downloaded files using the PGP or SHA signatures. The PGP signatures can be verified using GPG or PGP. Please download the KEYS as well as the asc signature files for relevant distribution. It is recommended to get these files from the main distribution directory and not from the mirrors."
   },
   "download.website.verify.step2": {
-    "message": "如果需要验证二进制文件/源代码，您可以从主目录下载相关的 asc 文件，并遵循下面的指南。",
+    "message": "如果需要验证二进制文件/源代码，您可以从主目录下载相关的 ACS 文件，并遵循下面的指南。",
     "description": "To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide."
   },
   "help.website.title": {
