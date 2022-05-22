@@ -99,6 +99,12 @@ apisix-website
     └── docusaurus.config.js
 ```
 
+#### IDE recommendations config
+
+> Help you configure your IDE quickly
+
+- [VsCode](./website/docs/ide-config.md#vscode)
+
 ## Acknowledge
 
 Special thanks to [Docusaurus](https://docusaurus.io/).
