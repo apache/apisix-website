@@ -73,7 +73,7 @@ const Comparison: FC = () => (
             <td><Cross /></td>
           </tr>
           <tr>
-            <th scope="row">Support any Nginx variable as routing condition</th>
+            <th scope="row">Support any NGINX variable as routing condition</th>
             <td><Tick /></td>
             <td><Cross /></td>
           </tr>

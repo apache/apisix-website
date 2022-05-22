@@ -97,7 +97,7 @@ const Architecture: FC<ArchitectureProps> = (props) => {
         <div className="arch-card-caption">
           <p style={{ width: screenWidth >= 768 ? '50%' : '90%' }}>
             <Translate id="architecture.component.card.caption">
-              Apache APISIX is based on Nginx and etcd.
+              Apache APISIX is based on NGINX and etcd.
               Compared with traditional API gateways,
               APISIX has dynamic routing and hot-loading plugins
             </Translate>

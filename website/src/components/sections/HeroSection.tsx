@@ -42,23 +42,23 @@ const HeroSection: FC = () => {
     <div className="hero-sec-wrap" style={{ width: '100%' }}>
       <div className="hero-text">
         <h2 ref={titleRef} className="hero-title hide-title">
-          <span><Translate id="hero.webpage.title.fragment1">Effortless and smooth</Translate></span>
+          <span><Translate id="hero.component.title.fragment1">Effortless and smooth</Translate></span>
           {' '}
           <span style={{ color: '#E8433E' }}>
-            <Translate id="hero.webpage.title.fragment2">API Traffic</Translate>
+            <Translate id="hero.component.title.fragment2">API Traffic</Translate>
           </span>
           {' '}
-          <Translate id="hero.webpage.title.fragment3">management.</Translate>
+          <Translate id="hero.component.title.fragment3">management.</Translate>
         </h2>
         <h3 ref={subtitleRef} className="hero-subtitle hide-subtitle">
-          <Translate id="hero.webpage.subtitle.content">Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more...</Translate>
+          <Translate id="hero.component.subtitle.content">Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more...</Translate>
         </h3>
         <div ref={ctaRef} className="hero-ctas hide-ctas">
           <Link
             to={useBaseUrl('downloads')}
             className="btn btn-download"
           >
-            <Translate id="hero.webpage.download.btn">Downloads</Translate>
+            <Translate id="hero.component.download.btn">Downloads</Translate>
           </Link>
           <ArrowAnim />
         </div>

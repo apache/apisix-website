@@ -31,7 +31,7 @@ const EndCTA: FC = () => (
           to={useBaseUrl('downloads')}
           className="btn btn-download"
         >
-          <Translate id="hero.webpage.download.btn">Downloads</Translate>
+          <Translate id="hero.component.download.btn">Downloads</Translate>
         </Link>
         <ArrowAnim />
       </div>

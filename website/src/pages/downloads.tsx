@@ -3,7 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
+
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+import Translate from '@docusaurus/Translate';
 import type { DownloadInfo } from '../components/ProjectCard';
 import ProjectCard from '../components/ProjectCard';
 
@@ -55,39 +58,43 @@ const DownloadCards: FC = () => {
 const Downloads: FC = () => (
   <Layout>
     <DownloadsPage>
-      <PageTitle>Downloads</PageTitle>
-      <PageSubtitle>We love open source.</PageSubtitle>
+      <PageTitle><Translate id="download.website.title">Downloads</Translate></PageTitle>
+      <PageSubtitle><Translate id="download.website.subtitle">We love open source.</Translate></PageSubtitle>
       <DownloadCards />
       <Description>
-        <h2>History Versions</h2>
+        <h2><Translate id="download.website.history.title">History Versions</Translate></h2>
         <div className="markdown">
-          Find all APISIX releases in the&nbsp;
+          <Translate id="download.website.history.all">Find all APISIX releases in the&nbsp;</Translate>
           <a href="https://archive.apache.org/dist/apisix/" target="_blank" rel="noreferrer">
-            Archive repository
+            <Translate id="download.website.link.archive">Archive repository</Translate>
           </a>
-          .
+          <Translate id="common.punctuation.anEnd">.</Translate>
           <br />
           <a
             href="https://archive.apache.org/dist/incubator/apisix/"
             target="_blank"
             rel="noreferrer"
           >
-            Incubating Archive repository
+            <Translate id="download.website.link.incubator">Incubating Archive repository</Translate>
           </a>
+          <Translate id="download.website.history.incubator">
             &nbsp;hosts older releases when APISIX was an incubator project.
+          </Translate>
         </div>
-        <h2>Verify the releases</h2>
+        <h2><Translate id="download.website.verify.title">Verify the releases</Translate></h2>
         <div className="markdown">
           <a href="https://downloads.apache.org/apisix/KEYS" target="_blank" rel="noreferrer">
-            Get PGP signatures KEYS
+            <Translate id="download.website.link.PGP_KEY">Get PGP signatures KEYS</Translate>
           </a>
           <br />
-          It is essential that you verify the integrity of the downloaded
-          files using the PGP or SHA signatures. The PGP signatures can be
-          verified using GPG or PGP. Please download the KEYS as well as the
-          asc signature files for relevant distribution. It is recommended to
-          get these files from the main distribution directory and not from
-          the mirrors.
+          <Translate id="download.website.verify.step1">
+            It is essential that you verify the integrity of the downloaded
+            files using the PGP or SHA signatures. The PGP signatures can be
+            verified using GPG or PGP. Please download the KEYS as well as the
+            asc signature files for relevant distribution. It is recommended to
+            get these files from the main distribution directory and not from
+            the mirrors.
+          </Translate>
           <br />
           <StyledCodeBlock>
             {`gpg -i KEYS
@@ -99,9 +106,11 @@ pgpk -a KEYS
 pgp -ka KEYS`}
           </StyledCodeBlock>
           <br />
-          To verify the binaries/sources you can download the relevant asc
-          files for it from main distribution directory and follow the below
-          guide.
+          <Translate id="download.website.verify.step2">
+            To verify the binaries/sources you can download the relevant asc
+            files for it from main distribution directory and follow the below
+            guide.
+          </Translate>
           <StyledCodeBlock>
             {`gpg --verify apache-apisix-********.asc apache-apisix-********
 
