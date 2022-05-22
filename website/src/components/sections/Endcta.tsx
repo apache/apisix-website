@@ -16,9 +16,11 @@ const EndCTA: FC = () => (
       }}
       >
         Try
-        {' '}
-        <span style={{ color: '#E8433E' }}>APISIX</span>
-        {' '}
+        <span style={{ color: '#E8433E' }}>
+          {' '}
+          Apache APISIX
+          {' '}
+        </span>
         today
         <img className="rocket" src="https://raw.githubusercontent.com/apache/apisix-website/master/website/src/assets/images/rocket.gif" alt="Rocket" />
       </p>
