@@ -3,6 +3,26 @@ export const getDomStyle = (dom: HTMLElement, attr: string): string => {
   return currentStyle[attr];
 };
 
+export const styleUnit2Number = (value: string | number): number => {
+  if (typeof value === 'number') {
+    return value;
+  }
+
+  const strValue = value;
+  const isNumber = /[0-9]+/;
+  if (!isNumber.test(strValue[0])) {
+    const [first] = strValue.match(isNumber);
+    return Number(first);
+  }
+
+  if (value.includes('%')) {
+    return parseFloat(value) / 100;
+  }
+
+  return parseFloat(value);
+};
+
 export default {
   getDomStyle,
+  styleUnit2Number,
 };

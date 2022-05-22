@@ -2,24 +2,23 @@ import type { CSSProperties, ReactNode, FC } from 'react';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { getDomStyle } from '../../utils';
+import { getDomStyle, styleUnit2Number } from '../../utils';
 
-interface Props {
+interface AffixProps {
   style: CSSProperties;
   children: ReactNode;
 }
 
-const AffixContent = styled.div`
-`;
+const AffixContent = styled.div``;
 
 const getPositionStyle = (
   hasCssSticky: boolean,
   defaultStyles: CSSProperties = {},
 ):CSSProperties => {
-  const { width } = defaultStyles;
+  const { width = 0 } = defaultStyles;
   const positionStyle: CSSProperties = hasCssSticky ? {
     position: 'sticky',
-    marginLeft: `-${width}px`,
+    marginLeft: `-${styleUnit2Number(width)}px`,
     display: 'inline-block',
     float: 'left',
   } : {
@@ -32,16 +31,19 @@ const getPositionStyle = (
   };
 };
 
-const Affix: FC<Props> = (props) => {
+const Affix: FC<AffixProps> = (props) => {
   const { style, children } = props;
+  const { top: propStyleTop = 0 } = style || {};
   const [hasCssSticky, SetHasCssSticky] = useState(true);
+  const [positionStyle, SetPositionStyle] = useState(style);
+
   useEffect(() => {
-    SetHasCssSticky(CSS.supports('position', 'sticky'));
-  });
+    const hasSticky = CSS.supports('position', 'sticky');
+    SetHasCssSticky(hasSticky);
+    SetPositionStyle(getPositionStyle(hasSticky, style));
+  }, []);
 
-  const positionStyle = getPositionStyle(hasCssSticky, style);
-
-  const defaultHeight = parseInt(`${style.top}`, 10);
+  const defaultHeight = styleUnit2Number(propStyleTop);
   const [height, setHeight] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -66,7 +68,7 @@ const Affix: FC<Props> = (props) => {
     return () => {
       window.removeEventListener('scroll', getScrollHeight);
     };
-  });
+  }, []);
 
   const getScrollStyle = (): CSSProperties => {
     if (hasCssSticky) {
