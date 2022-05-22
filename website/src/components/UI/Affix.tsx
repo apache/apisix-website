@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode, FC } from 'react';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { getDomStyle, checkCssRule } from '../../utils';
+import { getDomStyle } from '../../utils';
 
 interface Props {
   style: CSSProperties;
@@ -16,31 +16,30 @@ const getPositionStyle = (
   hasCssSticky: boolean,
   defaultStyles: CSSProperties = {},
 ):CSSProperties => {
+  const { width } = defaultStyles;
   const positionStyle: CSSProperties = hasCssSticky ? {
     position: 'sticky',
-    width: 0, // fix float left width
+    marginLeft: `-${width}px`,
+    display: 'inline-block',
+    float: 'left',
   } : {
     position: 'absolute',
   };
 
   return {
-    ...defaultStyles,
     ...positionStyle,
+    ...defaultStyles,
   };
 };
 
 const Affix: FC<Props> = (props) => {
   const { style, children } = props;
-  const hasCssSticky = checkCssRule('position', 'sticky');
-  const positionStyle = getPositionStyle(hasCssSticky, style);
+  const [hasCssSticky, SetHasCssSticky] = useState(true);
+  useEffect(() => {
+    SetHasCssSticky(CSS.supports('position', 'sticky'));
+  });
 
-  if (hasCssSticky) {
-    return (
-      <AffixContent style={positionStyle}>
-        {children}
-      </AffixContent>
-    );
-  }
+  const positionStyle = getPositionStyle(hasCssSticky, style);
 
   const defaultHeight = parseInt(`${style.top}`, 10);
   const [height, setHeight] = useState(0);
@@ -61,27 +60,36 @@ const Affix: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', getScrollHeight);
+    if (hasCssSticky) {
+      window.addEventListener('scroll', getScrollHeight);
+    }
     return () => {
       window.removeEventListener('scroll', getScrollHeight);
     };
   });
 
-  const getScrollTop = (): number => {
-    if (parentHeight > (scrollHeight + window.innerHeight)) {
-      return scrollHeight + defaultHeight;
+  const getScrollStyle = (): CSSProperties => {
+    if (hasCssSticky) {
+      return positionStyle;
     }
 
-    return parentHeight - height;
+    if (parentHeight > (scrollHeight + window.innerHeight)) {
+      return {
+        ...positionStyle,
+        top: scrollHeight + defaultHeight,
+      };
+    }
+
+    return {
+      ...positionStyle,
+      top: parentHeight - height,
+    };
   };
 
   return (
     <AffixContent
       ref={getHeight}
-      style={{
-        ...positionStyle,
-        top: getScrollTop(),
-      }}
+      style={getScrollStyle()}
     >
       {children}
     </AffixContent>

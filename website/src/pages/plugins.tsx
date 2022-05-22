@@ -78,7 +78,7 @@ const PluginsContainer = styled.div`
 
 const SidebarContainer = styled.div`
   display: grid;
-  width: 250px;
+  width: 100%;
   overflow-x: hidden;
   padding-right: 10px;
   border-style: solid;
@@ -252,7 +252,7 @@ const Plugins: FC = () => {
           <Translate id="plugins.website.subtitle">Powerful Plugins and Easy Integrations</Translate>
         </PageSubtitle>
         <Affix style={{
-          top: 300, left: 0, zIndex: 1, marginLeft: -125, float: 'left',
+          width: 250, top: 300, left: 0, zIndex: 1,
         }}
         >
           <SidebarContainer>{sidebar}</SidebarContainer>
