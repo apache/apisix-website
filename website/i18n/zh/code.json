@@ -76,11 +76,11 @@
     "description": "Building for large-scale, high value systems"
   },
   "architecture.component.title.subtitle": {
-    "message": "Apache APISIX 作为云原生架构的开源 API 网关，可以为海量 API 和微服务提供安全可靠的高性能、动态、可扩展的管理平台。",
+    "message": "Apache APISIX 作为云原生架构的开源 API 网关，可以为海量 API 和微服务提供安全可靠的动态、高性能、可扩展的管理平台。",
     "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
   },
   "architecture.component.card.caption": {
-    "message": "Apache APISIX 基于 NGINX 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力",
+    "message": "Apache APISIX 基于 NGINX 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力。",
     "description": "Apache APISIX is based on NGINX and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
@@ -88,11 +88,11 @@
     "description": "Why APISIX?"
   },
   "features.component.why.subtitle": {
-    "message": "Apache APISIX 值得信赖，能够使你专注在具体特定业务中，而无需考虑 API 处理基础组件。",
+    "message": "Apache APISIX 值得信赖，你只需专注在具体业务中，而无需考虑 API 处理基础组件。",
     "description": "Reduce time fighting bugs, focus on designing world-class systems"
   },
   "features.component.why.message": {
-    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会中的顶级项目，它也为开发人员提供强大且灵活的控制界面",
+    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会顶级项目，它也为开发人员提供强大且灵活的控制界面。",
     "description": "Apache APISIX is the first Open source API gateway, with a built-in low-code Dashboard offering a powerful and flexible interface for developers to use"
   },
   "features.component.easyDashboard.title": {
@@ -100,7 +100,7 @@
     "description": "Easy-to-use dashboard"
   },
   "features.component.easyDashboard.message": {
-    "message": "Apache APISIX Dashboard 可以让用户尽可能直观、便捷地通过可视化界面来操作 Apache APISIX，它同样是 Apache 软件基金会中持续迭代的开源项目，欢迎你随时提出新的想法。",
+    "message": "Apache APISIX Dashboard 可以让用户尽可能直观、便捷地通过可视化界面操作 Apache APISIX。作为 Apache 软件基金会中持续迭代的开源项目，欢迎你随时提出新的想法。",
     "description": "The Apache APISIX Dashboard is designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface. It’s opensource and ever evolving, feel free to contribute."
   },
   "features.component.easyDashboard.downloadBtn": {
@@ -108,11 +108,11 @@
     "description": "Downloads"
   },
   "features.component.userFlexible.title": {
-    "message": "灵活的用户体验",
+    "message": "友好的用户体验",
     "description": "User flexible"
   },
   "features.component.userFlexible.message": {
-    "message": "Apache APISIX Dashboard 极大地满足了用户需求，不仅提供了清晰的组织架构以适配二次开发，而且你也可以借助插件编排能力释放想象力！",
+    "message": "Apache APISIX Dashboard 极大地满足了用户需求，不仅提供了清晰的组织架构以适配二次开发，而且可以借助插件编排能力释放想象力！",
     "description": "The Apache APISIX dashboard is flexible to User demand, providing option to create custom modules through code matching your requirements, alongside the existing no-code toolchain."
   },
   "features.component.pluginised.title": {
@@ -120,7 +120,7 @@
     "description": "Pluginised workflow"
   },
   "features.component.pluginised.message": {
-    "message": "拒绝重复造轮子。使用 Apache APISIX 内置的插件，可以在极短时间内创建灵活、可靠、高性能的网关。无需写代码，只需在编辑器中，拖拽插件到画布上，再配置插件的判断条件、数据源及交互动作，以可视化的方式打造属于你自己的 API 管理系统。",
+    "message": "拒绝重复造轮子。借助 Apache APISIX 内置插件，可以在极短时间内创建灵活、可靠、高性能的网关。无需编写代码，只需在编辑器中拖拽插件、配置条件，便可通过可视化的方式打造专属的 API 管理系统。",
     "description": "No need to reinvent the wheel again and again. Use inbuilt plugins to create high performance systems in tight deadlines. For something custom, there is option of building custom plugins."
   },
   "benefits.component.performance.title": {
@@ -132,7 +132,7 @@
     "description": "Ultimate performance"
   },
   "benefits.component.performance.message": {
-    "message": "Apache APISIX 基于 Radixtree Route Matching 和 etcd 提供极速匹配与配置同步的能力。从路由到插件，所有的设计和实现都是为了超低延迟的极速性能。",
+    "message": "Apache APISIX 基于 Radixtree Route 和 etcd 提供路由极速匹配与配置快速同步的能力。从路由到插件，所有的设计和实现都是为了极速性能和超低延迟。",
     "description": "Apache APISIX uses radixtree-route-matching and etcd under the hood to provide you the ability to create high speed synchronized systems. From routing to built-in plugins, all these are designed and implemented to be uber performant with the minimum latency possible."
   },
   "benefits.component.security.title": {
@@ -212,11 +212,11 @@
     "description": "Like visual information, check out our"
   },
   "openSourcePromo.component.link.Youtube": {
-    "message": "Youtube 频道",
+    "message": "YouTube 频道",
     "description": "Youtube channel"
   },
   "openSourcePromo.component.subtitle.fragment3": {
-    "message": "以了解详细的教程，欢迎你的订阅",
+    "message": "以获取更多教程，欢迎你的订阅",
     "description": "for detailed tutorials. Subscribe for more."
   },
   "openSourcePromo.component.ossPromo.title": {
@@ -224,7 +224,7 @@
     "description": "Be a part of building APISIX"
   },
   "openSourcePromo.component.ossPromo.subtitle": {
-    "message": "Apache APISIX 是完全开放源码的，并且在不断发展！我们欢迎任何形式的贡献，请在 GitHub 上与社区联系",
+    "message": "Apache APISIX 完全开放源码并在不断发展！我们欢迎任何形式的贡献，请在 GitHub 上与社区互动。",
     "description": "Apache APISIX is opensource and ever-growing. Contributors are always welcome. Reach out to us on GitHub"
   },
   "openSourcePromo.component.link.Github": {
