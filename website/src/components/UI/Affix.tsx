@@ -51,7 +51,7 @@ const Affix: FC<AffixProps> = (props) => {
   const getHeight = (element: HTMLElement) => {
     if (element) {
       const parentDom = element.parentElement ?? document.body;
-      const parentPaddingBottom = parseInt(getDomStyle(parentDom, 'padding-bottom'), 10);
+      const parentPaddingBottom = styleUnit2Number(getDomStyle(parentDom, 'padding-bottom'));
       setHeight(element.clientHeight);
       setParentHeight(parentDom.clientHeight + parentDom.offsetTop - parentPaddingBottom);
     }
