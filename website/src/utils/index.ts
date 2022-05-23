@@ -11,7 +11,7 @@ export const styleUnit2Number = (value: string | number = 0): number => {
   const strValue = value;
   const isNumber = /[0-9]+/;
   if (!isNumber.test(strValue[0])) {
-    const [first] = strValue.match(isNumber);
+    const [first = 0] = strValue.match(isNumber) || [];
     return Number(first);
   }
 
