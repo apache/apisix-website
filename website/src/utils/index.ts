@@ -3,7 +3,7 @@ export const getDomStyle = (dom: HTMLElement, attr: string): string => {
   return currentStyle[attr];
 };
 
-export const styleUnit2Number = (value: string | number): number => {
+export const styleUnit2Number = (value: string | number = 0): number => {
   if (typeof value === 'number') {
     return value;
   }
