@@ -19,7 +19,7 @@ import NotFound from '@theme/NotFound';
 import type { DocumentRoute } from '@theme/DocItem';
 import type { Props } from '@theme/DocPage';
 import IconArrow from '@theme/IconArrow';
-import BackToTopButton from '@theme/BackToTopButton';
+import BackToTopButton from '@theme-original/BackToTopButton';
 import { matchPath } from '@docusaurus/router';
 import { translate } from '@docusaurus/Translate';
 import clsx from 'clsx';
