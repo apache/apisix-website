@@ -1,4 +1,4 @@
-# Vscode
+<h2 id="vscode">VS Code</h2>
 
 > Vscode Extensions
 
@@ -11,13 +11,13 @@
 - GitLens
   - id: "eamodio.gitlens"
   - recommend reason: "It helps you to visualize code authorship at a glance via Git blame annotations and CodeLens"
-- markdownlit
+- markdownlint
   - id: "DavidAnson.vscode-markdownlint"
   - recommend reason: "Markdown linting and style checking for Visual Studio Code"
 
 > Vscode Settings
 
-```json
+```json5
 {
   // ===
   // Spacing
