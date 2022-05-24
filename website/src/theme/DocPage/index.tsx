@@ -53,7 +53,7 @@ const navbarLinkKeys = Object.keys(navbarLinkMap);
 
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => <Image preview={{ mask: 'Click to Preview' }} {...props} />,
+  img: (props: ImageProps) => <Image {...props} preview={{ mask: 'Click to Preview' }} />,
 };
 
 const DocPageContent = ({

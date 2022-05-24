@@ -460,7 +460,7 @@ a:hover {
   left: 17%;
   border-color: white;
   background: white;
-  filter: drop-shadow(0 4px 10px rgba(0 0 0 25%));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .arch-head,
@@ -573,7 +573,7 @@ a:hover {
   border-radius: 10px;
   max-width: 200%;
   max-height: 100%;
-  filter: drop-shadow(0 4px 10px rgba(0 0 0 25%));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .n-image {
@@ -583,7 +583,7 @@ a:hover {
   border-radius: 10px;
   max-height: 100%;
   max-width: 200%;
-  filter: drop-shadow(0 4px 10px rgba(0 0 0 25%));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .i-image-col {
@@ -593,7 +593,7 @@ a:hover {
   max-height: 100%;
   max-width: 100%;
   margin: 0 0 20px;
-  filter: drop-shadow(0 4px 10px rgb(0 0 0 25%));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .imagePosition {
@@ -623,11 +623,11 @@ a:hover {
 
 .dashboard-playground-link {
   bottom: 14%;
-  color: hsl(0% 0% 80%);
+  color: hsl(0deg 0% 80%);
 }
 
 .dashboard-playground-link:hover {
-  color: hsl(0% 0% 80%);
+  color: hsl(0deg 0% 80%);
 }
 
 @media (min-width: 1600px) and (max-width: 2080px) {
@@ -637,7 +637,7 @@ a:hover {
 }
 
 .dashboard-playground {
-  background-color: hsl(0% 100% 0%);
+  background-color: hsl(0deg 100% 0%);
   font-family: MaisonNeue-Bold, sans-serif;
 
   --height: 130px;
@@ -685,11 +685,11 @@ a:hover {
 .dashboard-playground:hover {
   transform: scale3d(1, 1, 1);
   box-shadow:
-    0 0 0 1px hsla(213% 26% 28%  2%),
-    0 3px 2px hsla(0% 0% 0% 14%),
-    0 7px 5px hsla(0% 0% 0% 12%),
-    0 13px 10px hsla(0% 0% 0% 5%),
-    0 22px 17px hsla(0% 0% 0% 8%);
+    0 0 0 1px hsl(213deg 26% 28% / 2%),
+    0 3px 2px hsl(0deg 0% 0% / 14%),
+    0 7px 5px hsl(0deg 0% 0% / 12%),
+    0 13px 10px hsl(0deg 0% 0% / 5%),
+    0 22px 17px hsl(0deg 0% 0% / 8%);
 }
 
 .dashboard-playground:active {
@@ -704,8 +704,8 @@ a:hover {
   background-image:
     linear-gradient(
       135deg,
-      hsl(0% 73% 50%),
-      hsl(227% 90% 65%)
+      hsl(0deg 73% 50%),
+      hsl(227deg 90% 65%)
     );
   background-clip: text;
   /* stylelint-disable-next-line property-no-vendor-prefix */
@@ -746,7 +746,7 @@ a:hover {
   top: 2px;
   right: 8px;
   opacity: 0;
-  color: hsl(0% 0% 70%);
+  color: hsl(0deg 0% 70%);
   transform: rotate(90deg);
   transition: opacity 300ms ease-in-out;
 }
@@ -810,7 +810,7 @@ a:hover {
 
 .btn-try-demo:hover {
   color: currentcolor;
-  background-color: rgba(0 0 0 30%);
+  background-color: rgb(0 0 0 / 30%);
 }
 
 /* benefits section */
@@ -840,11 +840,11 @@ a:hover {
 }
 
 .table tbody td:nth-child(even) {
-  background: rgba(14 30 37 2%);
+  background: rgb(14 30 37 / 2%);
 }
 
 .table tbody tr:nth-child(odd) {
-  background: rgba(14 30 37 2%);
+  background: rgb(14 30 37 / 2%);
 }
 
 .table thead {
@@ -855,9 +855,9 @@ a:hover {
   background: #fff;
   border-radius: 8px;
   box-shadow:
-    0 0 0 1px rgba(255 255 255 10%),
-    0 2px 4px 0 rgba(14 30 37 12%);
-  color: rgba(14 30 37 87%);
+    0 0 0 1px rgb(255 255 255 / 10%),
+    0 2px 4px 0 rgb(14 30 37 / 12%);
+  color: rgb(14 30 37 / 87%);
   font-size: 1.13rem;
   margin: 1em auto;
   border-collapse: collapse;
@@ -980,7 +980,7 @@ a:hover {
 .event-card {
   border-style: solid;
   border-color: #fff;
-  box-shadow: 0 4px 23px rgba(0 0 0 10%));
+  box-shadow: 0 4px 23px rgb(0 0 0 / 10%));
   font-size: 0.95rem;
   font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
@@ -1114,7 +1114,7 @@ a:hover {
 .help-page .card {
   padding: 24px 28px 18px;
   border: 1px solid #eee;
-  box-shadow: 0 1px 2px 0 rgba(0 0 0 3%);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);
 }
 
 .help-page .card .header {
@@ -1623,7 +1623,8 @@ a:hover {
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(0 0 0 30%);
+  /* stylelint-disable-next-line color-function-notation */
+  background: rgb(0, 0, 0, 30%);
   opacity: 0;
   pointer-events: none;
   display: flex;
@@ -1668,7 +1669,7 @@ a:hover {
   z-index: 1000;
   height: 100%;
   background-color: #000;
-  opacity: 50;
+  opacity: 0.8;
 }
 
 .rc-image-preview-mask-hidden {
@@ -1738,7 +1739,7 @@ a:hover {
   flex-direction: row-reverse;
   z-index: 1;
   color: #bbb;
-  background: rgba(0 0 0 45%);
+  background: rgb(0 0 0 / 45%);
 }
 
 .rc-image-preview-operations-progress {
@@ -1773,7 +1774,7 @@ a:hover {
   width: 44px;
   height: 44px;
   margin-top: -22px;
-  background: rgba(187 187 187 45%);
+  background: rgb(187 187 187 / 45%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1784,7 +1785,7 @@ a:hover {
 }
 
 .rc-image-preview-switch-left-disabled {
-  background: rgba(187 187 187 30%);
+  background: rgb(187 187 187 / 30%);
   color: #6f6f6f;
   cursor: not-allowed;
 }
@@ -1804,7 +1805,7 @@ a:hover {
   width: 44px;
   height: 44px;
   margin-top: -22px;
-  background: rgba(187 187 187 45%);
+  background: rgb(187 187 187 / 45%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1815,7 +1816,7 @@ a:hover {
 }
 
 .rc-image-preview-switch-right-disabled {
-  background: rgba(187 187 187 20%);
+  background: rgb(187 187 187 / 20%);
   color: #6f6f6f;
   cursor: not-allowed;
 }
