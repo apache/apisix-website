@@ -1623,8 +1623,7 @@ a:hover {
   right: 0;
   top: 0;
   bottom: 0;
-  /* stylelint-disable-next-line color-function-notation */
-  background: rgb(0, 0, 0, 30%);
+  background: rgb(0 0 0 / 30%);
   opacity: 0;
   pointer-events: none;
   display: flex;
