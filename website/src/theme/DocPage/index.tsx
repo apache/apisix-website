@@ -19,13 +19,15 @@ import NotFound from '@theme/NotFound';
 import type { DocumentRoute } from '@theme/DocItem';
 import type { Props } from '@theme/DocPage';
 import IconArrow from '@theme/IconArrow';
-import BackToTopButton from '@theme/BackToTopButton';
+import BackToTopButton from '@theme-original/BackToTopButton';
 import { matchPath } from '@docusaurus/router';
 import { translate } from '@docusaurus/Translate';
 import clsx from 'clsx';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThemeClassNames, docVersionSearchTag } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
+import type { ImageProps } from 'rc-image';
+import Image from 'rc-image';
 
 import styles from './styles.module.css';
 
@@ -48,6 +50,11 @@ const navbarLinkMap = {
 };
 
 const navbarLinkKeys = Object.keys(navbarLinkMap);
+
+const components = {
+  ...MDXComponents,
+  img: (props: ImageProps) => <Image {...props} preview={{ mask: 'Click to Preview' }} />,
+};
 
 const DocPageContent = ({
   currentDocRoute,
@@ -172,7 +179,7 @@ const DocPageContent = ({
               },
             )}
           >
-            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+            <MDXProvider components={components}>{children}</MDXProvider>
           </div>
         </main>
       </div>
