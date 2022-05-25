@@ -39,7 +39,6 @@ const BlogPostPage = (props: Props): JSX.Element => {
   const { hide_table_of_contents: hideTableOfContents, keywords } = frontMatter;
 
   const image = assets.image ?? frontMatter.image;
-  console.log(BlogPostContents);
 
   return (
     <BlogLayout
