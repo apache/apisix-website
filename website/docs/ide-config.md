@@ -1,6 +1,6 @@
 <h2 id="vscode">VS Code</h2>
 
-> Vscode Extensions
+> VS Code Extensions
 
 - ESLint
   - id: "dbaeumer.vscode-eslint"
@@ -15,7 +15,7 @@
   - id: "DavidAnson.vscode-markdownlint"
   - recommend reason: "Markdown linting and style checking for Visual Studio Code"
 
-> Vscode Settings
+> VS Code Settings
 
 ```json5
 {

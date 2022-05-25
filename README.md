@@ -101,7 +101,7 @@ apisix-website
 
 #### IDE configuration and plug-in recommendations
 
-> Helps you enhance your development and documentation editing experience.
+> Help you enhance your development and documentation editing experience.
 
 - [VS Code](./website/docs/ide-config.md#vscode)
 
