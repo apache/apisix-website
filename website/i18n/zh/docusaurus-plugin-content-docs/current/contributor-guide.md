@@ -35,7 +35,7 @@ description: Apache APISIX 贡献者指南。
 
 你可以选择修复一个正在进行的 [Issues](https://github.com/apache/apisix/issues)。
 
-1. 一旦你选择了一个 issue 进行工作或[创建新的 issue](#submitting-an-issue)，请在该 issue 下留言，并让一个 [Committer 或者 PMC](/team) 将它分配给你。
+1. 一旦你选择了一个 issue 进行工作或[创建新的 issue](/docs/general/submit-issue)，请在该 issue 下留言，并让一个 [Committer 或者 PMC](/team) 将它分配给你。
 
 2. 请检查 issue 的状态，并推断你是否能够完成该 issue。
 

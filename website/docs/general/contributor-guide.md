@@ -35,7 +35,7 @@ If you would like to contribute, let us know by sending an email to dev@apisix.a
 
 You can also contribute by fixing one of the [open issues](https://github.com/apache/apisix/issues).
 
-1. Once you have chosen an issue to work on or [opened a new issue](#submitting-an-issue), please comment on the issue and ask a [Committer or PMC](/team) to assign it to you.
+1. Once you have chosen an issue to work on or [opened a new issue](/docs/general/submit-issue), please comment on the issue and ask a [Committer or PMC](/team) to assign it to you.
 
 2. Please check to see if the issue is already being worked on and indicate when you will be able to complete it.
 
