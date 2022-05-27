@@ -11,7 +11,7 @@ description: Apache APISIX 中文文档的贡献指南，适用于 APISIX 中文
 
 本文档是 Apache APISIX 中文文档的贡献指南，适用于为 APISIX 贡献中文文档的开发者，贡献者应遵循此文档以确保文档一致性。
 
-要了解关于贡献的更多信息，请参考[代码贡献流程](../docs/general/contributor-guide.md)。
+要了解关于贡献的更多信息，请参考[代码贡献流程](/docs/general/contributor-guide)。
 
 ## 语气、内容和受众
 
