@@ -68,7 +68,7 @@ Apache APISIX 2.10 版本正式发布！🎉 这是 Apache APISIX 首个 LTS 版
 }
 ```
 
-这么修改之后，Apache APISIX 里面的 `route` 和 `service` 的关系与 Nginx 里面的 `location` 和 `server` 的关系越来越相似。 可以这么说，本次修改让 `service` 从鸡肋变成了鸡腿，把 `service` 又拉回了 Apache APISIX 配置核心三角：[Route](http://apisix.apache.org/zh/docs/apisix/architecture-design/route)、 [Upstream](http://apisix.apache.org/zh/docs/apisix/architecture-design/upstream)、[Service](http://apisix.apache.org/zh/docs/apisix/architecture-design/service) 之中。
+这么修改之后，Apache APISIX 里面的 `route` 和 `service` 的关系与 Nginx 里面的 `location` 和 `server` 的关系越来越相似。 可以这么说，本次修改让 `service` 从鸡肋变成了鸡腿，把 `service` 又拉回了 Apache APISIX 配置核心三角：[Route](http://apisix.apache.org/zh/docs/apisix/terminology/route)、 [Upstream](http://apisix.apache.org/zh/docs/apisix/terminology/upstream)、[Service](http://apisix.apache.org/zh/docs/apisix/terminology/service) 之中。
 
 ## 新功能：支持设置镜像请求的比例
 

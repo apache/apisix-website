@@ -66,7 +66,7 @@ For example, the following configurations are equivalent in Apache APISIX 2.10.0
 }
 ```
 
-With this change, the relationship between `route` and `service` in Apache APISIX is becoming more and more similar to the relationship between `location` and `server` in Nginx. This change brings `service` back into the core Apache APISIX configuration: [Route](http://apisix.apache.org/docs/apisix/architecture-design/route), [Upstream](http://apisix.apache.org/docs/apisix/architecture-design/upstream), and [Service](http://apisix.apache.org/docs/apisix/architecture-design/service).
+With this change, the relationship between `route` and `service` in Apache APISIX is becoming more and more similar to the relationship between `location` and `server` in Nginx. This change brings `service` back into the core Apache APISIX configuration: [Route](http://apisix.apache.org/docs/apisix/terminology/route), [Upstream](http://apisix.apache.org/docs/apisix/terminology/upstream), and [Service](http://apisix.apache.org/docs/apisix/terminology/service).
 
 ## New Feature: Support Setting the Ratio of Mirror Requests
 
