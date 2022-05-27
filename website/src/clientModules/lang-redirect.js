@@ -26,7 +26,7 @@ import config from '../../docusaurus.config';
   }
 
   function redirect() {
-    const localLang = localStorage.getItem(storeKey) || followSystem;
+    const localLang = localStorage.getItem(storeKey) || 'en';
     const lct = window.location;
     const pathArr = lct.pathname.split('/');
     const curLang = langArr.includes(pathArr[1]) ? pathArr[1] : defaultLang;
