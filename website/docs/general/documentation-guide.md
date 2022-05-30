@@ -124,3 +124,4 @@ You can learn more about the sidebar from the [Docusaurus docs](https://v2.docus
 - The images are currently uploaded to a private CDN to ensure smaller repo size and fast loads. Please reach out to the project team to upload/change an image.
 - Use the default APISIX admin account while taking screenshots.
 - Provide meaningful file names and alt text for the images.
+- Please do not use a transparent background as the base color of the image. If you use an image with a white background, please make sure that the background color of the image is white, otherwise the text will be blurred when the image is enlarged.

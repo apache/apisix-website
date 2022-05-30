@@ -12,7 +12,7 @@ import config from '../../docusaurus.config';
   const defaultLang = config.i18n.defaultLocale;
 
   const followSystem = 'follow_system';
-  const storeKey = 'localLang';
+  const storeKey = 'localLang-20220529';
 
   // transform locale label
   const localeLabelMap = {};
@@ -26,7 +26,7 @@ import config from '../../docusaurus.config';
   }
 
   function redirect() {
-    const localLang = localStorage.getItem(storeKey) || followSystem;
+    const localLang = localStorage.getItem(storeKey) || 'en';
     const lct = window.location;
     const pathArr = lct.pathname.split('/');
     const curLang = langArr.includes(pathArr[1]) ? pathArr[1] : defaultLang;

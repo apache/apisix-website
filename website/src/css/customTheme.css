@@ -1,11 +1,12 @@
 :root {
-  --ifm-color-primary-lightest: rgb(228, 222, 222);
+  --ifm-color-primary-lightest: rgb(228 222 222);
   --ifm-color-primary-lighter: #d0312d;
   --ifm-color-primary-light: #f8f8fa;
   --ifm-color-primary: #e8433e;
   --ifm-color-dark: #000;
   --ifm-color-primary-dark: #a5a0a0;
   --ifm-color-primary-darker: #9a2521;
+  /* stylelint-disable-next-line custom-property-pattern */
   --ifm-color-shadow--lw: #7f1e1b;
   --color-title: #101827;
   --color-github-button: #101827;
@@ -53,37 +54,43 @@ html[data-theme="dark"] {
 }
 
 @font-face {
-  font-family: "MaisonNeue-Medium";
-  src: local("MaisonNeue-Medium"),
-  url(https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Medium.otf) format("opentype");
+  font-family: MaisonNeue-Medium;
+  src:
+    local("MaisonNeue-Medium"),
+    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Medium.otf") format("opentype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "MaisonNeue-Bold";
-  src: local("MaisonNeue-Bold"),
-  url(https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Bold.otf) format("opentype");
+  font-family: MaisonNeue-Bold;
+  src:
+    local("MaisonNeue-Bold"),
+    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Bold.otf") format("opentype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "MaisonNeue-Light";
-  src: local("MaisonNeue-Light"),
-  url(https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Light.otf) format("opentype");
+  font-family: MaisonNeue-Light;
+  src:
+    local("MaisonNeue-Light"),
+    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Light.otf") format("opentype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "MaisonNeue-Demi";
-  src: local("MaisonNeue-Demi"),
-  url(https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Demi.otf) format("opentype");
+  font-family: MaisonNeue-Demi;
+  src:
+    local("MaisonNeue-Demi"),
+    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Demi.otf") format("opentype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "MaisonNeue-ExtraBold";
-  src: local("MaisonNeue-ExtraBold"),
-  url(https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-ExtraBold.otf) format("opentype");
+  font-family: MaisonNeue-ExtraBold;
+  src:
+    local("MaisonNeue-ExtraBold"),
+    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-ExtraBold.otf")
+    format("opentype");
   font-display: swap;
 }
 
@@ -172,10 +179,6 @@ header h2 {
   margin-top: 48px;
 }
 
-.showcase .user-logos:hover span {
-  animation-play-state: paused !important;
-}
-
 .showcase .logo-row {
   display: flex;
   -webkit-box-align: center;
@@ -206,6 +209,10 @@ header h2 {
   overflow: hidden;
   display: flex;
   align-items: center;
+}
+
+.showcase .user-logos:hover span {
+  animation-play-state: paused !important;
 }
 
 .showcase .user-logo {
@@ -252,7 +259,7 @@ header h2 {
 
 .button.github .github-logo {
   height: 24px;
-  margin: 0 12px 1px 0px;
+  margin: 0 12px 1px 0;
 }
 
 .button.github:hover {
@@ -309,8 +316,7 @@ a:hover {
   stroke-dashoffset: 1002;
 }
 
-/*Blogs section*/
-
+/* Blogs section */
 .blogPostTitle_node_modules-\@docusaurus-theme-classic-lib-next-theme-BlogPostItem-styles-module {
   font-size: 2rem !important;
 }
@@ -322,7 +328,7 @@ a:hover {
   padding-right: 20px;
 }
 
-/*Hero section*/
+/* Hero section */
 .hide-title,
 .hide-subtitle,
 .hide-ctas {
@@ -339,9 +345,9 @@ a:hover {
   position: absolute;
   width: 50vw;
   height: 100vh;
-  background: #ffffff;
+  background: #fff;
   top: -1px;
-  right: 0px;
+  right: 0;
 }
 
 .homeCanvas {
@@ -359,7 +365,7 @@ a:hover {
 }
 
 .hero-title {
-  font-family: MaisonNeue-Bold;
+  font-family: MaisonNeue-Bold, sans-serif;
   color: #121212;
   width: 42vw;
   font-size: 4.2rem;
@@ -370,7 +376,7 @@ a:hover {
 .hero-subtitle {
   z-index: 100;
   font-size: 1.1rem;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   position: relative;
   color: #615d5d;
   line-height: 30px;
@@ -390,11 +396,11 @@ a:hover {
   border-width: 1px;
   border: none;
   color: white;
-  padding: 5px 20px 5px 20px;
+  padding: 5px 20px;
   border-radius: 20px;
   font-size: 1rem;
   text-decoration: none;
-  margin: 0 10px 0px 0;
+  margin: 0 10px 0 0;
   transition: all 0.3s;
 }
 
@@ -413,7 +419,7 @@ a:hover {
   color: #9b9b9b;
 }
 
-/*Architecture section*/
+/* Architecture section */
 .hldesign {
   height: 100%;
   display: flex;
@@ -426,7 +432,7 @@ a:hover {
 }
 
 .Architecture_svg__architecture {
-  font-family: MaisonNeue-Medium;
+  font-family: MaisonNeue-Medium, sans-serif;
 }
 
 .arch {
@@ -454,7 +460,7 @@ a:hover {
   left: 17%;
   border-color: white;
   background: white;
-  filter: drop-shadow(0px 4px 10px rgb(0, 0, 0, 0.25));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .arch-head,
@@ -479,13 +485,13 @@ a:hover {
   width: 70%;
   color: #615d5d;
   letter-spacing: 0.2px;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
 }
 
 .arch-card-caption > p {
   letter-spacing: 0.2px;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
   text-align: center;
   position: relative;
@@ -498,14 +504,13 @@ a:hover {
   left: 16.8%;
 }
 
-/*Features section*/
+/* Features section */
 .feat-head {
   font-size: 2.4rem;
   width: 75%;
 }
 
 .feat-container-d {
-  display: block;
   width: 100%;
   height: 300vh;
   display: flex;
@@ -531,7 +536,7 @@ a:hover {
   font-size: 1.13rem;
   color: #615d5d;
   font-weight: 700;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   width: 65%;
   left: 17%;
 }
@@ -542,9 +547,9 @@ a:hover {
 }
 
 .i-text {
-  font-family: MaisonNeue-Demi;
+  font-family: MaisonNeue-Demi, sans-serif;
   font-size: 2rem;
-  padding: 0 0 200px 0;
+  padding: 0 0 200px;
 }
 
 .text-div {
@@ -558,7 +563,7 @@ a:hover {
   font-size: 1.13rem;
   color: #615d5d;
   font-weight: 700;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
 }
 
 .i-image {
@@ -568,7 +573,7 @@ a:hover {
   border-radius: 10px;
   max-width: 200%;
   max-height: 100%;
-  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .n-image {
@@ -578,7 +583,7 @@ a:hover {
   border-radius: 10px;
   max-height: 100%;
   max-width: 200%;
-  filter: drop-shadow(0px 4px 10px rgb(0, 0, 0, 0.25));
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .i-image-col {
@@ -587,8 +592,8 @@ a:hover {
   height: auto;
   max-height: 100%;
   max-width: 100%;
-  margin: 0 0 20px 0;
-  filter: drop-shadow(0px 4px 10px rgb(0, 0, 0, 0.25));
+  margin: 0 0 20px;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
 }
 
 .imagePosition {
@@ -599,7 +604,7 @@ a:hover {
 }
 
 .i-text-col {
-  font-family: MaisonNeue-Demi;
+  font-family: MaisonNeue-Demi, sans-serif;
   font-size: 2rem;
   top: 0;
 }
@@ -608,7 +613,7 @@ a:hover {
   font-size: 0.95rem;
   color: #615d5d;
   font-weight: 700;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   width: 80%;
 }
 
@@ -618,11 +623,11 @@ a:hover {
 
 .dashboard-playground-link {
   bottom: 14%;
-  color: hsl(0, 0%, 80%);
+  color: hsl(0deg 0% 80%);
 }
 
 .dashboard-playground-link:hover {
-  color: hsl(0, 0%, 80%);
+  color: hsl(0deg 0% 80%);
 }
 
 @media (min-width: 1600px) and (max-width: 2080px) {
@@ -632,24 +637,22 @@ a:hover {
 }
 
 .dashboard-playground {
-  background-color: hsl(0, 100%, 0%);
-  font-family: "MaisonNeue-Bold", sans-serif;
+  background-color: hsl(0deg 100% 0%);
+  font-family: MaisonNeue-Bold, sans-serif;
 
   --height: 130px;
   --width: calc(var(--height) * 2.048);
   --radius: calc(var(--height) * 0.168);
+
   height: var(--height);
   width: var(--width);
   border-radius: var(--radius);
   padding: calc(var(--radius) - 6px);
-
   display: flex;
   flex-direction: column;
-
   position: relative;
   left: calc(var(--width) * -0.05);
   overflow: hidden;
-
   transform: scale3d(0.95, 0.95, 1);
   transition: all 200ms cubic-bezier(0.65, 0.05, 0.36, 1);
 }
@@ -669,25 +672,24 @@ a:hover {
 
 .dashboard-playground::after {
   content: "APISIX";
-
   position: absolute;
   top: 5px;
   left: -35%;
-
   font-size: 8.5rem;
   font-weight: bolder;
   line-height: 1;
-  color: #ffffff;
+  color: #fff;
   opacity: 0.06;
 }
 
 .dashboard-playground:hover {
   transform: scale3d(1, 1, 1);
-  box-shadow: 0 0 0 1px hsla(213, 26%, 28%, 0.2),
-  0 3px 2px hsla(0, 0%, 0%, 0.14),
-  0 7px 5px hsla(0, 0%, 0%, 0.12),
-  0 13px 10px hsla(0, 0%, 0%, 0.05),
-  0 22px 17px hsla(0, 0%, 0%, 0.08);
+  box-shadow:
+    0 0 0 1px hsl(213deg 26% 28% / 2%),
+    0 3px 2px hsl(0deg 0% 0% / 14%),
+    0 7px 5px hsl(0deg 0% 0% / 12%),
+    0 13px 10px hsl(0deg 0% 0% / 5%),
+    0 22px 17px hsl(0deg 0% 0% / 8%);
 }
 
 .dashboard-playground:active {
@@ -696,19 +698,20 @@ a:hover {
 
 .dashboard-title {
   font-size: 1.35rem;
-  font-family: "MaisonNeue-ExtraBold", sans-serif;
+  font-family: MaisonNeue-ExtraBold, sans-serif;
   white-space: nowrap;
-
   flex-grow: 1;
-
-  background-image: linear-gradient(135deg, hsl(0, 73%, 50%), hsl(227, 90%, 65%));
+  background-image:
+    linear-gradient(
+      135deg,
+      hsl(0deg 73% 50%),
+      hsl(227deg 90% 65%)
+    );
   background-clip: text;
-  text-fill-color: transparent;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
   width: fit-content;
-
   position: relative;
 }
 
@@ -720,6 +723,7 @@ a:hover {
   from {
     filter: hue-rotate(0);
   }
+
   to {
     filter: hue-rotate(360deg);
   }
@@ -735,17 +739,14 @@ a:hover {
 
 .dashboard-account::after {
   content: "↑";
-
-  font-family: "MaisonNeue-Light", sans-serif;
+  font-family: MaisonNeue-Light, sans-serif;
   font-size: 2.5rem;
   line-height: 2rem;
-
   position: absolute;
   top: 2px;
   right: 8px;
   opacity: 0;
-  color: hsl(0, 0%, 70%);
-
+  color: hsl(0deg 0% 70%);
   transform: rotate(90deg);
   transition: opacity 300ms ease-in-out;
 }
@@ -789,14 +790,13 @@ a:hover {
   }
 }
 
-
+/* stylelint-disable-next-line no-descending-specificity */
 .dashboard-account span {
-  font-family: "MaisonNeue-Medium", sans-serif;
+  font-family: MaisonNeue-Medium, sans-serif;
   font-variant: normal;
   letter-spacing: normal;
   font-size: 0.9rem;
 }
-
 
 .btn-try-demo {
   text-align: center;
@@ -809,11 +809,11 @@ a:hover {
 }
 
 .btn-try-demo:hover {
-  color: currentColor;
-  background-color: rgba(0, 0, 0, 0.3);
+  color: currentcolor;
+  background-color: rgb(0 0 0 / 30%);
 }
 
-/*benefits section*/
+/* benefits section */
 .row-benefit {
   margin: 100px 5px;
   display: flex;
@@ -834,17 +834,17 @@ a:hover {
   align-items: center;
 }
 
-/*Comparison table section*/
+/* Comparison table section */
 .compare {
   padding: 50px 0;
 }
 
 .table tbody td:nth-child(even) {
-  background: rgba(14, 30, 37, 0.02);
+  background: rgb(14 30 37 / 2%);
 }
 
 .table tbody tr:nth-child(odd) {
-  background: rgba(14, 30, 37, 0.02);
+  background: rgb(14 30 37 / 2%);
 }
 
 .table thead {
@@ -854,9 +854,10 @@ a:hover {
 .table {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1),
-  0 2px 4px 0 rgba(14, 30, 37, 0.12);
-  color: rgba(14, 30, 37, 0.87);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 10%),
+    0 2px 4px 0 rgb(14 30 37 / 12%);
+  color: rgb(14 30 37 / 87%);
   font-size: 1.13rem;
   margin: 1em auto;
   border-collapse: collapse;
@@ -864,10 +865,11 @@ a:hover {
   overflow-x: auto;
   table-layout: fixed;
   width: 66.4%;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   display: table;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .table td,
 .table th {
   font-weight: 700;
@@ -878,7 +880,7 @@ a:hover {
 
 .table-head {
   font-weight: 900;
-  font-family: MaisonNeue-Demi;
+  font-family: MaisonNeue-Demi, sans-serif;
   font-size: 1.25rem;
 }
 
@@ -886,12 +888,13 @@ a:hover {
   font-weight: 700;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .table td:first-child,
 .table th:first-child {
   text-align: left;
 }
 
-/*opensource and docs promotion*/
+/* opensource and docs promotion */
 .docs-promo {
   display: flex;
   padding: 100px 0;
@@ -966,7 +969,7 @@ a:hover {
   color: #080808;
 }
 
-/*Events and newsletter*/
+/* Events and newsletter */
 .event-card-container {
   display: flex;
   justify-content: center;
@@ -977,9 +980,9 @@ a:hover {
 .event-card {
   border-style: solid;
   border-color: #fff;
-  box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 23px rgb(0 0 0 / 10%));
   font-size: 0.95rem;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
   padding: 20px;
   width: 230px;
@@ -1008,7 +1011,7 @@ a:hover {
 .newsletter {
   display: flex;
   font-weight: 700;
-  font-family: MaisonNeue-Light;
+  font-family: MaisonNeue-Light, sans-serif;
   font-size: 0.95rem;
   color: #615d5d;
   letter-spacing: 0.2px;
@@ -1039,7 +1042,7 @@ a:hover {
 .endcta-text {
   text-align: center;
   font-size: 3.5rem;
-  font-family: MaisonNeue-ExtraBold;
+  font-family: MaisonNeue-ExtraBold, sans-serif;
 }
 
 .endcta-btns {
@@ -1056,8 +1059,7 @@ a:hover {
 
 /* footer */
 .footer__title {
-  /* margin-top: 2rem; */
-  font-family: MaisonNeue-Medium !important;
+  font-family: MaisonNeue-Medium, sans-serif !important;
 }
 
 .footer__links .footer__title {
@@ -1110,9 +1112,9 @@ a:hover {
 }
 
 .help-page .card {
-  padding: 24px 28px 18px 28px;
+  padding: 24px 28px 18px;
   border: 1px solid #eee;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);
 }
 
 .help-page .card .header {
@@ -1136,11 +1138,18 @@ a:hover {
 }
 
 .help-page .card p {
-  color: #6b7280;
+  color: var(--color-help-subtitle);
 }
 
 .help-page .card .buttons {
   margin-top: 18px;
+  display: flex;
+}
+
+.help-page .card .buttons svg {
+  height: 12px;
+  margin-left: 4px;
+  transition: transform 0.3s;
 }
 
 .help-page .card .buttons a {
@@ -1156,16 +1165,6 @@ a:hover {
 
 .help-page .card .buttons a:hover svg {
   transform: translateX(2px);
-}
-
-.help-page .card .buttons svg {
-  height: 12px;
-  margin-left: 4px;
-  transition: transform 0.3s;
-}
-
-.help-page .card .buttons {
-  display: flex;
 }
 
 .team-githubLogo {
@@ -1216,10 +1215,6 @@ a:hover {
   color: var(--color-docs-versioninfo);
 }
 
-.help-page .card p {
-  color: var(--color-help-subtitle);
-}
-
 .pic-wrapper {
   width: 350px;
   position: fixed;
@@ -1233,6 +1228,7 @@ a:hover {
   box-shadow: 0 0 20px -12px #626365;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .pic-wrapper a {
   display: flex;
 }
@@ -1244,7 +1240,7 @@ a:hover {
   right: 10px;
   padding: 5px;
   font-weight: 900;
-  color: rgb(135, 151, 172);
+  color: rgb(135 151 172);
   font-size: 16px;
   outline: none;
   border-radius: 100px;
@@ -1255,6 +1251,7 @@ a:hover {
   cursor: pointer;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .pic-wrapper-close svg {
   width: 10px;
   height: 10px;
@@ -1267,7 +1264,7 @@ a:hover {
   }
 }
 
-/*plugin hub section*/
+/* plugin hub section */
 .plugin-logo {
   margin-top: 10px;
   max-width: 250px;
@@ -1302,7 +1299,7 @@ a:hover {
   text-decoration: var(--ifm-link-hover-decoration);
 }
 
-/*Sidebar Section*/
+/* Sidebar Section */
 .sidebar-link {
   color: #d0312d;
 }
@@ -1328,7 +1325,7 @@ a:hover {
     height: 50vh;
     background: #ebe6dc;
     top: -1px;
-    right: 0px;
+    right: 0;
   }
 
   .hero-text {
@@ -1345,12 +1342,12 @@ a:hover {
   .hero-subtitle {
     font-size: 1.05rem;
     line-height: 28px;
-    margin: 25px 0 24px 0;
+    margin: 25px 0 24px;
     padding-right: 20px;
   }
 
   .add-margin {
-    margin: 30px 0 0 0;
+    margin: 30px 0 0;
   }
 
   .homeCanvas {
@@ -1433,7 +1430,7 @@ a:hover {
   }
 
   .row-benefit {
-    margin: 0 0px;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1445,7 +1442,7 @@ a:hover {
 
   .benefit-infograph {
     width: 100%;
-    padding: 0 0 60px 0;
+    padding: 0 0 60px;
   }
 
   .row-reverse {
@@ -1471,7 +1468,7 @@ a:hover {
   }
 
   .docs-promo-video > video {
-    padding: 0 26px 35px 26px;
+    padding: 0 26px 35px;
     width: 100%;
     height: auto;
   }
@@ -1479,7 +1476,7 @@ a:hover {
   .oss-promo {
     flex-flow: column;
     background: #121010;
-    padding: 50px 0 0 0;
+    padding: 50px 0 0;
   }
 
   .oss-promo-text {
@@ -1492,7 +1489,7 @@ a:hover {
   }
 
   .event-card {
-    margin: 0 20px 20px 20px;
+    margin: 0 20px 20px;
   }
 
   .event-card-container {
@@ -1521,7 +1518,7 @@ a:hover {
 @media only screen and (min-height: 500px) and (max-height: 670px) {
   .benefit-infograph {
     width: 70%;
-    padding: 0 0 60px 0;
+    padding: 0 0 60px;
   }
 }
 
@@ -1592,5 +1589,359 @@ a:hover {
 
   .arch-scale-svg {
     transform: scale(1.2);
+  }
+}
+
+.rc-image {
+  display: inline-flex;
+  position: relative;
+}
+
+.rc-image-img {
+  width: 100%;
+  height: auto;
+}
+
+.rc-image-img-placeholder {
+  background-color: #f3f3f3;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjhweCIgaGVpZ2h0PSIyMnB4IiB2aWV3Qm94PSIwIDAgMjggMjIiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDU1LjIgKDc4MTgxKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT5pbWFnZS1maWxs5aSH5Lu9PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9Iuafpeeci+WbvueJh+S8mOWMljQuMCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IuWKoOi9veWbvueJhyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTU3Mi4wMDAwMDAsIC01MDYuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSJpbWFnZS1maWxs5aSH5Lu9IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1NzAuMDAwMDAwLCA1MDEuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjMDAwMDAwIiBvcGFjaXR5PSIwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjwvcmVjdD4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yOSw1IEwzLDUgQzIuNDQ2ODc1LDUgMiw1LjQ0Njg3NSAyLDYgTDIsMjYgQzIsMjYuNTUzMTI1IDIuNDQ2ODc1LDI3IDMsMjcgTDI5LDI3IEMyOS41NTMxMjUsMjcgMzAsMjYuNTUzMTI1IDMwLDI2IEwzMCw2IEMzMCw1LjQ0Njg3NSAyOS41NTMxMjUsNSAyOSw1IFogTTEwLjU2MjUsOS41IEMxMS42NjU2MjUsOS41IDEyLjU2MjUsMTAuMzk2ODc1IDEyLjU2MjUsMTEuNSBDMTIuNTYyNSwxMi42MDMxMjUgMTEuNjY1NjI1LDEzLjUgMTAuNTYyNSwxMy41IEM5LjQ1OTM3NSwxMy41IDguNTYyNSwxMi42MDMxMjUgOC41NjI1LDExLjUgQzguNTYyNSwxMC4zOTY4NzUgOS40NTkzNzUsOS41IDEwLjU2MjUsOS41IFogTTI2LjYyMTg3NSwyMy4xNTkzNzUgQzI2LjU3ODEyNSwyMy4xOTY4NzUgMjYuNTE4NzUsMjMuMjE4NzUgMjYuNDU5Mzc1LDIzLjIxODc1IEw1LjUzNzUsMjMuMjE4NzUgQzUuNCwyMy4yMTg3NSA1LjI4NzUsMjMuMTA2MjUgNS4yODc1LDIyLjk2ODc1IEM1LjI4NzUsMjIuOTA5Mzc1IDUuMzA5Mzc1LDIyLjg1MzEyNSA1LjM0Njg3NSwyMi44MDYyNSBMMTAuNjY4NzUsMTYuNDkzNzUgQzEwLjc1NjI1LDE2LjM4NzUgMTAuOTE1NjI1LDE2LjM3NSAxMS4wMjE4NzUsMTYuNDYyNSBDMTEuMDMxMjUsMTYuNDcxODc1IDExLjA0Mzc1LDE2LjQ4MTI1IDExLjA1MzEyNSwxNi40OTM3NSBMMTQuMTU5Mzc1LDIwLjE4MTI1IEwxOS4xLDE0LjMyMTg3NSBDMTkuMTg3NSwxNC4yMTU2MjUgMTkuMzQ2ODc1LDE0LjIwMzEyNSAxOS40NTMxMjUsMTQuMjkwNjI1IEMxOS40NjI1LDE0LjMgMTkuNDc1LDE0LjMwOTM3NSAxOS40ODQzNzUsMTQuMzIxODc1IEwyNi42NTkzNzUsMjIuODA5Mzc1IEMyNi43NDA2MjUsMjIuOTEyNSAyNi43MjgxMjUsMjMuMDcxODc1IDI2LjYyMTg3NSwyMy4xNTkzNzUgWiIgaWQ9IlNoYXBlIiBmaWxsPSIjRThFOEU4Ij48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==");
+}
+
+.rc-image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.rc-image-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgb(0 0 0 / 30%);
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: opacity 0.3s;
+}
+
+.rc-image:hover .rc-image-mask {
+  opacity: 1;
+}
+
+.rc-image-preview {
+  text-align: center;
+  height: 100%;
+  pointer-events: none;
+}
+
+.rc-image-preview-body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.rc-image-preview.zoom-enter,
+.rc-image-preview.zoom-appear {
+  transform: none;
+  opacity: 0;
+  animation-duration: 0.3s;
+}
+
+.rc-image-preview-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+}
+
+.rc-image-preview-mask-hidden {
+  display: none;
+}
+
+.rc-image-preview-img {
+  cursor: grab;
+  transform: scale3d(1, 1, 1);
+  transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
+  user-select: none;
+  vertical-align: middle;
+  max-width: 100%;
+  max-height: 100%;
+  pointer-events: auto;
+}
+
+.rc-image-preview-img-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
+}
+
+.rc-image-preview-img-wrapper::before {
+  content: "";
+  display: inline-block;
+  height: 50%;
+  width: 1px;
+  margin-right: -1px;
+}
+
+.rc-image-preview-moving .rc-image-preview-img {
+  cursor: grabbing;
+}
+
+.rc-image-preview-moving .rc-image-preview-img-wrapper {
+  transition-duration: 0s;
+}
+
+.rc-image-preview-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: auto;
+  outline: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rc-image-preview-operations {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  pointer-events: auto;
+  list-style: none;
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+  width: 100%;
+  align-items: center;
+  flex-direction: row-reverse;
+  z-index: 1;
+  color: #bbb;
+  background: rgb(0 0 0 / 45%);
+}
+
+.rc-image-preview-operations-progress {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rc-image-preview-operations-operation {
+  padding: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.rc-image-preview-operations-operation-disabled {
+  pointer-events: none;
+  color: #6f6f6f;
+}
+
+.rc-image-preview-operations-operation:last-of-type {
+  margin-left: 0;
+}
+
+.rc-image-preview-operations-icon {
+  font-size: 18px;
+}
+
+.rc-image-preview-switch-left {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  background: rgb(187 187 187 / 45%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: auto;
+  color: #bbb;
+}
+
+.rc-image-preview-switch-left-disabled {
+  background: rgb(187 187 187 / 30%);
+  color: #6f6f6f;
+  cursor: not-allowed;
+}
+
+.rc-image-preview-switch-left-disabled > .anticon {
+  cursor: not-allowed;
+}
+
+.rc-image-preview-switch-left > .anticon {
+  font-size: 24px;
+}
+
+.rc-image-preview-switch-right {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  background: rgb(187 187 187 / 45%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: auto;
+  color: #bbb;
+}
+
+.rc-image-preview-switch-right-disabled {
+  background: rgb(187 187 187 / 20%);
+  color: #6f6f6f;
+  cursor: not-allowed;
+}
+
+.rc-image-preview-switch-right-disabled > .anticon {
+  cursor: not-allowed;
+}
+
+.rc-image-preview-switch-right > .anticon {
+  font-size: 24px;
+}
+
+.fade-enter,
+.fade-appear {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+
+.fade-leave {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+
+.fade-enter.fade-enter-active,
+.fade-appear.fade-appear-active {
+  animation-name: rc-image-fade-in;
+  animation-play-state: running;
+}
+
+.fade-leave.fade-leave-active {
+  animation-name: rc-image-fade-out;
+  animation-play-state: running;
+  pointer-events: none;
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+.fade-enter,
+.fade-appear {
+  opacity: 0;
+  animation-timing-function: linear;
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+.fade-leave {
+  animation-timing-function: linear;
+}
+
+@keyframes rc-image-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rc-image-fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.zoom-enter,
+.zoom-appear {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+
+.zoom-leave {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+
+.zoom-enter.zoom-enter-active,
+.zoom-appear.zoom-appear-active {
+  animation-name: rc-image-zoom-in;
+  animation-play-state: running;
+}
+
+.zoom-leave.zoom-leave-active {
+  animation-name: rc-image-zoom-out;
+  animation-play-state: running;
+  pointer-events: none;
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+.zoom-enter,
+.zoom-appear {
+  transform: scale(0);
+  opacity: 0;
+  animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+.zoom-leave {
+  animation-timing-function: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+
+@keyframes rc-image-zoom-in {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rc-image-zoom-out {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.2);
+    opacity: 0;
   }
 }

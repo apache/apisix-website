@@ -32,3 +32,4 @@ tmp/*
 
 scripts/yarn.lock
 /.eslintcache
+/.stylelintcache
