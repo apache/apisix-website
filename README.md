@@ -99,7 +99,7 @@ apisix-website
     └── docusaurus.config.js
 ```
 
-#### IDE configuration and plug-in recommendations
+#### IDE configuration and plugin recommendations
 
 > Help you enhance your development and documentation editing experience.
 
