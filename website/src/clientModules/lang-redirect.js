@@ -12,7 +12,7 @@ import config from '../../docusaurus.config';
   const defaultLang = config.i18n.defaultLocale;
 
   const followSystem = 'follow_system';
-  const storeKey = 'localLang';
+  const storeKey = 'localLang-20220529';
 
   // transform locale label
   const localeLabelMap = {};
