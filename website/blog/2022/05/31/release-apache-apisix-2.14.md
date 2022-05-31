@@ -28,7 +28,7 @@ Next, let's take a look at what exploratory new features are supported by APISIX
 
 ![Apache APISIX 2.14.0 Features Preview](https://static.apiseven.com/202108/1653985197318-dfabcc34-29c5-4f51-a471-c37af73a3f29.png)
 
-## pubsub proxy framework based on WebSocket
+## Pubsub proxy framework based on WebSocket
 
 Before APISIX v2.14.1, whether it was proxying gRPC requests or ordinary HTTP requests, the upstream of APISIX was a docking application server, which could not meet the needs of diversified scenarios. For example, if users need to use other upstream types (such as Kafka), they can only achieve it through other means. However, in APISIX v2.14.1, APISIX has added a Websocket-based message subscription broker framework, which allows clients to subscribe to messages in a specified message queue (upstream) through APISIX. Now you can use APISIX to subscribe to Kafka messages.
 

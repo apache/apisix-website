@@ -30,7 +30,7 @@ tags: [Release]
 
 ## 基于 WebSocket 的 pubsub 代理框架
 
-在 APISIX v2.14.1 版本之前，无论是代理 gRPC 请求还是普通的 HTTP 请求，APISIX 的上游都是对接的应用服务器，无法满足多元化场景需求。例如用户需要使用其他上游类型（比如 Kafka），就只能通过其他方式实现。但是在 APISIX v2.14.1 版本中，APISIX 新增了一个基于 Websocket 的消息订阅代理框架，该框架允许客户端通过 APISIX 来订阅指定消息队列（上游）中的消息。现在你可以使用 APISIX来订阅 Kafka 中的消息。
+在 APISIX v2.14.1 版本之前，无论是代理 gRPC 请求还是普通的 HTTP 请求，APISIX 的上游都是对接的应用服务器，无法满足多元化场景需求。例如用户需要使用其他上游类型（比如 Kafka），就只能通过其他方式实现。但是在 APISIX v2.14.1 版本中，APISIX 新增了一个基于 Websocket 的消息订阅代理框架，该框架允许客户端通过 APISIX 来订阅指定消息队列（上游）中的消息。现在你可以使用 APISIX 来订阅 Kafka 中的消息。
 
 以 Kafka 为例，我们需要如下配置：
 
@@ -193,7 +193,7 @@ curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 \
 
 除了上面提到的几个探索性功能外，本次版本发布也为用户提供了一些较为传统的功能：
 
-- 新增 casdoor 插件，提高与 Casdoor 的交互体验。
-- response-rewrite 插件增加了针对 Body 的替换过滤器。
+- 新增 `casdoor` 插件，提高与 Casdoor 的交互体验。
+- `response-rewrite` 插件增加了针对 Body 的替换过滤器。
 
 更多功能更新和 Bug 修复细节，请查看官方 [Releases CHANGELOG](https://github.com/apache/apisix/blob/master/CHANGELOG.md)。
