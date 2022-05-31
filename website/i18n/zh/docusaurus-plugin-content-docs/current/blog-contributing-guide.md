@@ -50,7 +50,7 @@ description: 如何在 Apache APISIX 官网提交或更新博客？
     - 添加图片前请先将图片上传到[公共图片 CDN 服务](https://markdown-editor-chi.vercel.app/#/)然后在 Markdown 文件中添加图片链接。
     - 表格及图片蕴涵了大量信息，我们很乐意看到它们。从经验来看小于等于4列的表格在网页上显得更加美观。
 
-4. 根据你新建的博客[创建一个 PR](/docs/general/contributor-guide/##创建一个-pr)。
+4. 根据你新建的博客[创建一个 PR](/docs/general/contributor-guide/#创建一个-pr)。
 
 :::note
 
