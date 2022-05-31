@@ -22,6 +22,10 @@ tags: [Technology,Authentication]
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://www.keycloak.org/2021/12/apisix" />
+</head>
+
 ![Keycloak-APISIX Integration](https://static.apiseven.com/202108/1639129658486-393e8a3a-ccf2-496d-9b46-4db741bd6e55.png)
 
 [Keycloak](https://www.keycloak.org/) is an open source identity and access management solution for modern applications and services. Keycloak supports Single-Sign On, which enables services to interface with Keycloak through protocols such as OpenID Connect, OAuth 2.0, etc. Keycloak also supports integrations with different authentication services, such as Github, Google and Facebook.

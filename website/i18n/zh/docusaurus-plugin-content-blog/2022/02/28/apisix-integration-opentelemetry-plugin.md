@@ -23,6 +23,10 @@ tags: [Technology,Ecosystem,Observability]
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://opentelemetry.io/blog/2022/apisix/" />
+</head>
+
 ## 背景信息
 
 Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为 API 网关，Apache APISIX 不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。

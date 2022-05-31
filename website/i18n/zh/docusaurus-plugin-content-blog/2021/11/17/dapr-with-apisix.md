@@ -17,6 +17,10 @@ tags: [Technology]
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://blog.dapr.io/posts/2022/01/13/enable-dapr-with-apache-apisix-ingress-controller/" />
+</head>
+
 本质上，Apache APISIX 控制器将配置相同标准 Dapr annotations 以注入 daprd sidecar。通过公开这个 sidecar，将允许外部应用程序与集群中启用 Dapr 的应用程序进行通信。
 
 下图为实际项目中的架构流程：
