@@ -980,7 +980,7 @@ a:hover {
 .event-card {
   border-style: solid;
   border-color: #fff;
-  box-shadow: 0 4px 23px rgb(0 0 0 / 10%));
+  box-shadow: 0 4px 23px rgb(0 0 0 / 10%);
   font-size: 0.95rem;
   font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
@@ -1501,7 +1501,7 @@ a:hover {
   }
 
   .endcta-text {
-    font-size: 2.4rem;
+    font-size: 1.85rem;
   }
 
   .navbar {
@@ -1552,7 +1552,7 @@ a:hover {
   }
 
   .endcta-text {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
   .arch-head,
