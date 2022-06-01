@@ -941,6 +941,7 @@ a:hover {
   background: #0a0a0a;
   width: 50%;
   height: 100%;
+  overflow: hidden;
 }
 
 .oss-promo-cta {
@@ -1354,7 +1355,11 @@ a:hover {
     width: 100vw;
     height: 50vh;
   }
-
+  
+  .hero-infograph {
+    overflow: hidden;
+  }
+  
   .hldesign-graphic {
     width: 100%;
   }
@@ -1501,7 +1506,7 @@ a:hover {
   }
 
   .endcta-text {
-    font-size: 1.85rem;
+    font-size: 1.70rem;
   }
 
   .navbar {
