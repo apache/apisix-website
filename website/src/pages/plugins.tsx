@@ -214,7 +214,7 @@ const Plugins: FC = () => {
       }
       return (
         <div key={plugin.name}>
-          <PluginCard href={plugin.beta ? `https://apisix.apache.org/docs/apisix/next/plugins/${pluginUrl}` : `https://apisix.apache.org/docs/apisix/plugins/${pluginUrl}`} target="_blank">
+          <PluginCard href={plugin.beta ? `/docs/apisix/next/plugins/${pluginUrl}` : `/docs/apisix/plugins/${pluginUrl}`} target="_blank">
             <PluginIcon>
               {plugin.useDefaultIcon
                 ? <img className="plugin-logo shadow default" src="/img/plugin/default-icon.png" alt={plugin.name} />

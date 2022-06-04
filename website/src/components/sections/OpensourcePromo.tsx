@@ -35,7 +35,7 @@ const OpensourcePromo: FC = () => (
             {' '}
             <a style={{ color: '#e8433e' }} href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">
               <Translate id="openSourcePromo.component.link.Youtube">
-                Youtube channel
+                YouTube channel
               </Translate>
             </a>
             {' '}
@@ -46,7 +46,7 @@ const OpensourcePromo: FC = () => (
         </div>
       </div>
       <div className="docs-promo-video">
-        <video preload="none" src="https://static.apiseven.com/apisix-website/videos/apisix.mp4" loading="lazy" autoPlay poster="" muted loop width="70%" height="auto" controls />
+        <video preload="none" src="https://static.apiseven.com/apisix-website/videos/apisix.mp4" poster="" loop width="70%" height="auto" controls />
       </div>
     </div>
 

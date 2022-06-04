@@ -84,9 +84,9 @@ const Architecture: FC<ArchitectureProps> = (props) => {
       <div className="arch-subtitle">
         <p>
           <Translate id="architecture.component.title.subtitle">
-            Apache APISIX lets you build Cloud-Native Microservices API gateways,
+            Apache APISIX provides open source API Gateway to help you manage microservices,
             delivering the ultimate performance, security,
-            open source and scalable platform for all your APIs and microservices.
+            and scalable platform for all your APIs and microservices.
           </Translate>
         </p>
       </div>
@@ -98,8 +98,8 @@ const Architecture: FC<ArchitectureProps> = (props) => {
           <p style={{ width: screenWidth >= 768 ? '50%' : '90%' }}>
             <Translate id="architecture.component.card.caption">
               Apache APISIX is based on NGINX and etcd.
-              Compared with traditional API gateways,
-              APISIX has dynamic routing and hot-loading plugins
+              Compared with traditional API Gateways,
+              APISIX has features like dynamic routing and hot-loading plugins, etc.
             </Translate>
           </p>
         </div>
