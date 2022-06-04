@@ -48,7 +48,7 @@ const Help: FC = () => (
           <p><Translate id="help.website.docs.tips">Learn more using the documentation on this site.</Translate></p>
           <div className="buttons">
             <a
-              href="https://apisix.apache.org/docs/"
+              href="/docs/"
               target="_blank"
               rel="noreferrer"
             >
@@ -71,7 +71,7 @@ const Help: FC = () => (
               <ChevronRight />
             </a>
             <a
-              href="https://apisix.apache.org/docs/general/join"
+              href="/docs/general/join"
               target="_blank"
               rel="noreferrer"
             >

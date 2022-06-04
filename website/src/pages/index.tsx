@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import useWindowType from '@theme/hooks/useWindowSize';
 
 import HeroSection from '../components/sections/HeroSection';
@@ -61,6 +62,24 @@ const Index: FC = () => {
 
   return (
     <Layout>
+      <Head>
+        <meta
+          name="twitter:title"
+          content="Apache APISIX® - Cloud-Native API Gateway"
+        />
+        <meta
+          name="twitter:description"
+          content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
+        />
+        <meta
+          name="twitter:site"
+          content="@apacheapisix"
+        />
+        <meta
+          name="og:description"
+          content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
+        />
+      </Head>
       <HeroSection />
       <Architecture screenWidth={screenWidth} />
       <Features />

@@ -332,9 +332,9 @@ const Benefits: FC<BenefitsProps> = (props) => {
           <h3 className="feat-head-desc">
             <Translate id="benefits.component.performance.title">Performance</Translate>
           </h3>
-          <h1 className="feat-head add-left-margin">
+          <h2 className="feat-head add-left-margin">
             <Translate id="benefits.component.performance.subtitle">Ultimate performance</Translate>
-          </h1>
+          </h2>
           <p className="feat-desc add-left-margin">
             <Translate id="benefits.component.performance.message">
               Apache APISIX uses radixtree-route-matching and etcd under the hood to
@@ -359,11 +359,11 @@ const Benefits: FC<BenefitsProps> = (props) => {
               Security
             </Translate>
           </h3>
-          <h1 className="feat-head add-left-margin">
+          <h2 className="feat-head add-left-margin">
             <Translate id="benefits.component.security.subtitle">
               Shield against the malicious
             </Translate>
-          </h1>
+          </h2>
           <p className="feat-desc add-left-margin">
             <Translate id="benefits.component.security.message">
               Apache APISIX provides multiple security plugins
@@ -388,11 +388,11 @@ const Benefits: FC<BenefitsProps> = (props) => {
               Scalability and availability
             </Translate>
           </h3>
-          <h1 className="feat-head add-left-margin">
+          <h2 className="feat-head add-left-margin">
             <Translate id="benefits.component.scalability.subtitle">
               Scales with your users
             </Translate>
-          </h1>
+          </h2>
           <p className="feat-desc add-left-margin">
             <Translate id="benefits.component.scalability.message">
               Apache APISIX provides the ability to write your own custom plugins,
@@ -416,11 +416,11 @@ const Benefits: FC<BenefitsProps> = (props) => {
               Fully dynamic
             </Translate>
           </h3>
-          <h1 className="feat-head add-left-margin">
+          <h2 className="feat-head add-left-margin">
             <Translate id="benefits.component.fullyDynamic.subtitle">
               Save dev-time, design what matters
             </Translate>
-          </h1>
+          </h2>
           <p className="feat-desc add-left-margin">
             <Translate id="benefits.component.fullyDynamic.message">
               Apache APISIX provides Hot updates and Hot plugins,
@@ -439,11 +439,11 @@ const Benefits: FC<BenefitsProps> = (props) => {
               Multi-platform and protocol
             </Translate>
           </h3>
-          <h1 className="feat-head add-left-margin">
+          <h2 className="feat-head add-left-margin">
             <Translate id="benefits.component.multiPlatform.subtitle">
               Create once, run anywhere
             </Translate>
-          </h1>
+          </h2>
           <p className="feat-desc add-left-margin">
             <Translate id="benefits.component.multiPlatform.message">
               Platform agnostic, no vendor lock-in,

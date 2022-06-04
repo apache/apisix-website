@@ -155,17 +155,17 @@ const Features: FC = () => {
   return (
     <>
       <div ref={featPin} className="feat-top" style={{ padding: '50px 0' }}>
-        <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX ?</Translate></h3>
-        <h1 className="feat-head add-left-margin">
+        <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX?</Translate></h3>
+        <h2 className="feat-head add-left-margin">
           <Translate id="features.component.why.subtitle">
-            Reduce time fighting bugs, focus on designing world-class systems
+            Reduce time fighting bugs, focus on designing world-class systems with API Gateway
           </Translate>
-        </h1>
+        </h2>
         <p className="feat-desc add-left-margin">
           <Translate id="features.component.why.message">
-            Apache APISIX is the first Open source API gateway, with a built-in
-            low-code Dashboard offering a powerful and flexible interface for
-            developers to use
+            Apache APISIX is the first open-source API Gateway
+            that includes a built-in low-code Dashboard,
+            which offers a powerful and flexible UI for developers to use.
           </Translate>
         </p>
       </div>
@@ -176,7 +176,7 @@ const Features: FC = () => {
             <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
                 <Translate id="features.component.easyDashboard.title">
-                  Easy-to-use dashboard
+                  Easy-to-use Dashboard
                 </Translate>
               </h2>
               <p className="i-text-desc add-left-margin-feat">
@@ -200,7 +200,7 @@ const Features: FC = () => {
           <div ref={userfDiv} style={{ position: 'relative' }}>
             <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
-                <Translate id="features.component.userFlexible.title">User flexible</Translate>
+                <Translate id="features.component.userFlexible.title">User Flexible</Translate>
               </h2>
               <p className="i-text-desc add-left-margin-feat">
                 <Translate id="features.component.userFlexible.message">
@@ -215,7 +215,7 @@ const Features: FC = () => {
           <div ref={pluginDiv} style={{ position: 'relative' }}>
             <div className="text-div" style={{ height: '100vh' }}>
               <h2 className="i-text add-left-margin-feat">
-                <Translate id="features.component.pluginised.title">Pluginised workflow</Translate>
+                <Translate id="features.component.pluginised.title">Pluginised Workflow</Translate>
               </h2>
               <p className="i-text-desc add-left-margin-feat">
                 <Translate id="features.component.pluginised.message">
@@ -309,7 +309,7 @@ const Features: FC = () => {
           style={{ height: 'fit-content', padding: '20px 0' }}
         >
           <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
-            <Translate id="features.component.userFlexible.title">User flexible</Translate>
+            <Translate id="features.component.userFlexible.title">User Flexible</Translate>
           </h2>
           <img className="i-image-col" src={Snippet} alt="" />
           <p className="i-text-desc-col add-left-margin">
@@ -327,7 +327,7 @@ const Features: FC = () => {
           style={{ height: 'fit-content', padding: '20px 0' }}
         >
           <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
-            <Translate id="features.component.pluginised.title">Pluginised workflow</Translate>
+            <Translate id="features.component.pluginised.title">Pluginised Workflow</Translate>
           </h2>
           <img className="i-image-col" src={Plugin} alt="" />
           <p className="i-text-desc-col add-left-margin">
