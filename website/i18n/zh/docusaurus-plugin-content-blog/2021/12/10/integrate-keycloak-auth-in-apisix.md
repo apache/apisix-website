@@ -22,6 +22,10 @@ tags: [Technology,Authentication]
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://www.keycloak.org/2021/12/apisix" />
+</head>
+
 ![Keycloak-APISIX 集成](https://static.apiseven.com/202108/1639129658486-393e8a3a-ccf2-496d-9b46-4db741bd6e55.png)
 
 ## 什么是 Keycloak

@@ -17,6 +17,10 @@ tags: [Technology]
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://blog.dapr.io/posts/2022/01/13/enable-dapr-with-apache-apisix-ingress-controller/" />
+</head>
+
 Essentially, the Apache APISIX controller will configure the same standard DAPR annotations to inject DAPRD sidecar. Exposing this sidecar allows external applications to communicate with applications in the cluster that have Dapr enabled.
 
 The following diagram shows the architectural flow of the actual project:
