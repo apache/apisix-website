@@ -57,7 +57,7 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Medium;
   src:
     local("MaisonNeue-Medium"),
-    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Medium.otf") format("opentype");
+    url("https://raw.githubusercontent.com/apache/apisix-website/master/website/src/fonts/MaisonNeue-Medium.otf") format("opentype");
   font-display: swap;
 }
 
@@ -65,7 +65,7 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Bold;
   src:
     local("MaisonNeue-Bold"),
-    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Bold.otf") format("opentype");
+    url("https://raw.githubusercontent.com/apache/apisix-website/master/website/src/fonts/MaisonNeue-Bold.otf") format("opentype");
   font-display: swap;
 }
 
@@ -73,7 +73,7 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Light;
   src:
     local("MaisonNeue-Light"),
-    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Light.otf") format("opentype");
+    url("https://raw.githubusercontent.com/apache/apisix-website/master/website/src/fonts/MaisonNeue-Light.otf") format("opentype");
   font-display: swap;
 }
 
@@ -81,7 +81,7 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Demi;
   src:
     local("MaisonNeue-Demi"),
-    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-Demi.otf") format("opentype");
+    url("https://raw.githubusercontent.com/apache/apisix-website/master/website/src/fonts/MaisonNeue-Demi.otf") format("opentype");
   font-display: swap;
 }
 
@@ -89,7 +89,7 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-ExtraBold;
   src:
     local("MaisonNeue-ExtraBold"),
-    url("https://cdn.jsdelivr.net/gh/apache/apisix-website@master/website/src/fonts/MaisonNeue-ExtraBold.otf")
+    url("https://raw.githubusercontent.com/apache/apisix-website/master/website/src/fonts/MaisonNeue-ExtraBold.otf")
     format("opentype");
   font-display: swap;
 }
@@ -1355,11 +1355,11 @@ a:hover {
     width: 100vw;
     height: 50vh;
   }
-  
+
   .hero-infograph {
     overflow: hidden;
   }
-  
+
   .hldesign-graphic {
     width: 100%;
   }
