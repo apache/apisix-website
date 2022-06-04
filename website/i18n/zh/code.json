@@ -160,16 +160,14 @@
     "description": "Apache APISIX is based on NGINX and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
-    "message": "为什么选择 Apache APISIX？",
-    "description": "Why APISIX?"
+    "message": "为什么选择 Apache APISIX?"
   },
   "features.component.why.subtitle": {
     "message": "Apache APISIX 值得信赖，你只需专注在具体业务中，而无需考虑 API 处理基础组件。",
     "description": "Reduce time fighting bugs, focus on designing world-class systems"
   },
   "features.component.why.message": {
-    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会顶级项目，它也为开发人员提供强大且灵活的控制界面。",
-    "description": "Apache APISIX is the first Open source API gateway, with a built-in low-code Dashboard offering a powerful and flexible interface for developers to use"
+    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会顶级项目，它也为开发人员提供强大且灵活的控制界面。"
   },
   "features.component.easyDashboard.title": {
     "message": "简单易用的 Dashboard",
@@ -288,8 +286,7 @@
     "description": "Like visual information, check out our"
   },
   "openSourcePromo.component.link.Youtube": {
-    "message": "YouTube 频道",
-    "description": "Youtube channel"
+    "message": "YouTube 频道"
   },
   "openSourcePromo.component.subtitle.fragment3": {
     "message": "以获取更多教程，欢迎你的订阅",
@@ -328,16 +325,10 @@
     "description": "Subscribe"
   },
   "hero.component.title.fragment1": {
-    "message": "简单高效的",
-    "description": "Effortless and smooth"
+    "message": "全生命周期 API 管理"
   },
   "hero.component.title.fragment2": {
-    "message": "API 流量",
-    "description": "API Traffic"
-  },
-  "hero.component.title.fragment3": {
-    "message": "管理组件",
-    "description": "management"
+    "message": "API 网关、Ingress Controller 等"
   },
   "hero.component.subtitle.content": {
     "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
