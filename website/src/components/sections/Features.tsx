@@ -155,7 +155,7 @@ const Features: FC = () => {
   return (
     <>
       <div ref={featPin} className="feat-top" style={{ padding: '50px 0' }}>
-        <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX?</Translate></h3>
+        <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX Gateway?</Translate></h3>
         <h2 className="feat-head add-left-margin">
           <Translate id="features.component.why.subtitle">
             Reduce time fighting bugs, focus on designing world-class systems with API Gateway

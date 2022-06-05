@@ -242,8 +242,7 @@
     "description": "Fully dynamic"
   },
   "benefits.component.fullyDynamic.subtitle": {
-    "message": "节省选型、开发时间，只做最重要的业务设计",
-    "description": "Save dev-time, design what matters"
+    "message": "节省选型、开发时间，只做最重要的业务设计"
   },
   "benefits.component.fullyDynamic.message": {
     "message": "Apache APISIX 提供了配置热更新、插件热加载能力，在不重新启动实例的情况下可快速更新配置，这能够节省开发时间并降低服务压力。同时，健康检查、服务熔断以及其它功能可以让系统始终保持稳定、可靠。",
@@ -254,8 +253,7 @@
     "description": "Multi-platform and protocol"
   },
   "benefits.component.multiPlatform.subtitle": {
-    "message": "一次创建，随处运行",
-    "description": "Create once, run anywhere"
+    "message": "一次创建，随处运行"
   },
   "benefits.component.multiPlatform.message": {
     "message": "Apache APISIX 提供了多平台解决方案，它不但支持在裸机运行，也支持在 Kubernetes 中使用。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。",
@@ -266,12 +264,10 @@
     "description": "Among the best, and always improving"
   },
   "comparison.component.subtitle": {
-    "message": "Apache APISIX 是 Apache 软件基金会下的开源项目，并且在不断蓬勃发展。下方是 Apache APISIX 与其它 API 网关对比：",
-    "description": "Apache APISIX is opensource and ever evolving. Here&apos;s a general comparison of APISIX with other options in this API Gateway ecosystem."
+    "message": "Apache APISIX 是 Apache 软件基金会下的开源项目，并且在不断蓬勃发展。下方是 Apache APISIX 与其它 API 网关对比："
   },
   "openSourcePromo.component.title": {
-    "message": "向更多开发者学习",
-    "description": "Learn from developers"
+    "message": "向更多开发者学习"
   },
   "openSourcePromo.component.subtitle.fragment1": {
     "message": "想学习 Apache APISIX 的使用，但不知道从哪里开始？请查阅我们的",
@@ -293,12 +289,10 @@
     "description": "for detailed tutorials. Subscribe for more."
   },
   "openSourcePromo.component.ossPromo.title": {
-    "message": "为 Apache APISIX 贡献你的力量！",
-    "description": "Be a part of building APISIX"
+    "message": "为 Apache APISIX 贡献你的力量！"
   },
   "openSourcePromo.component.ossPromo.subtitle": {
-    "message": "Apache APISIX 完全开放源码并在不断发展！我们欢迎任何形式的贡献，请在 GitHub 上与社区互动。",
-    "description": "Apache APISIX is opensource and ever-growing. Contributors are always welcome. Reach out to us on GitHub"
+    "message": "Apache APISIX 完全开放源码并在不断发展！我们欢迎任何形式的贡献，请在 GitHub 上与社区互动。"
   },
   "openSourcePromo.component.link.Github": {
     "message": "立即访问",
@@ -309,8 +303,7 @@
     "description": "Stay updated about APISIX"
   },
   "homeEventsSection.component.subtitle": {
-    "message": "最近的一些活动",
-    "description": "Some Recent events"
+    "message": "最近的一些活动"
   },
   "homeEventsSection.component.message.news": {
     "message": "了解 Apache APISIX™ 的最新情况，请订阅我们的",
@@ -328,7 +321,7 @@
     "message": "全生命周期 API 管理"
   },
   "hero.component.title.fragment2": {
-    "message": "API 网关、Ingress Controller 等"
+    "message": "API Gateway、Ingress Controller 等"
   },
   "hero.component.subtitle.content": {
     "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
