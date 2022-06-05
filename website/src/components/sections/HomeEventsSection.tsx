@@ -57,7 +57,7 @@ const HomeEventsSection: FC = () => {
       <div className="newsletter">
         <p>
           <Translate id="homeEventsSection.component.message.news">
-            Stay up to date about all Apache APISIX™ News, subscribe to our
+            Stay up to date about all Apache APISIX® News, subscribe to our
           </Translate>
           {' '}
           <a href="/docs/general/join/">

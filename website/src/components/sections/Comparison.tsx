@@ -16,11 +16,13 @@ const Comparison: FC = () => (
     </div>
     <div className="compare-subtitle">
       <p>
-        <Translate id="comparison.component.subtitle">
-          Apache APISIX is opensource and ever evolving.
-          Here&apos;s a general comparison of APISIX with other options in this API Gateway
-          ecosystem.
-        </Translate>
+        <strong>
+          <Translate id="comparison.component.subtitle">
+            Apache APISIX Gateway is open source and ever-evolving.
+            Here&apos;s a general comparison of APISIX with other API Gateway options,
+            choose your right API Gateway.
+          </Translate>
+        </strong>
       </p>
     </div>
     <div>
@@ -63,7 +65,7 @@ const Comparison: FC = () => (
             <td><Cross /></td>
           </tr>
           <tr>
-            <th scope="row">Plug-in hot loading</th>
+            <th scope="row">Plugin hot loading</th>
             <td><Tick /></td>
             <td><Cross /></td>
           </tr>

@@ -336,12 +336,14 @@ const Benefits: FC<BenefitsProps> = (props) => {
             <Translate id="benefits.component.performance.subtitle">Ultimate performance</Translate>
           </h2>
           <p className="feat-desc add-left-margin">
-            <Translate id="benefits.component.performance.message">
-              Apache APISIX uses radixtree-route-matching and etcd under the hood to
-              provide you the ability to create high speed synchronized systems.
-              From routing to built-in plugins, all these are designed and implemented to
-              be uber performant with the minimum latency possible.
-            </Translate>
+            <strong>
+              <Translate id="benefits.component.performance.message">
+                Apache APISIX Gateway uses radixtree-route-matching and etcd under the hood to
+                provide you the ability to create high speed synchronized systems.
+                From routing to built-in plugins, all these are designed and implemented to
+                be uber performant with the minimum latency possible.
+              </Translate>
+            </strong>
           </p>
         </div>
         <div className="benefit-infograph">
@@ -365,18 +367,21 @@ const Benefits: FC<BenefitsProps> = (props) => {
             </Translate>
           </h2>
           <p className="feat-desc add-left-margin">
-            <Translate id="benefits.component.security.message">
-              Apache APISIX provides multiple security plugins
-              for identity authentication and interface verification,
-              putting stability and security first. For more information, check
-            </Translate>
-            {' '}
-            <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs/apisix/plugins/cors/')}>
-              <Translate id="benefits.component.security.link.here">
-                here
+            <strong>
+              <Translate id="benefits.component.security.message">
+                Apache APISIX Gateway provides multiple security plugins for identity
+                authentication and API verification, including CORS, JWT, Key
+                Auth, OpenID Connect (OIDC), Keycloak, etc. We put stability and 
+                security first. For more information, check
               </Translate>
-            </Link>
-            <Translate id="common.punctuation.anEnd">.</Translate>
+              {' '}
+              <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs/apisix/plugins/cors/')}>
+                <Translate id="benefits.component.security.link.here">
+                  here
+                </Translate>
+              </Link>
+              <Translate id="common.punctuation.anEnd">.</Translate>
+            </strong>
           </p>
         </div>
       </div>
@@ -394,11 +399,13 @@ const Benefits: FC<BenefitsProps> = (props) => {
             </Translate>
           </h2>
           <p className="feat-desc add-left-margin">
-            <Translate id="benefits.component.scalability.message">
-              Apache APISIX provides the ability to write your own custom plugins,
-              use custom Load Balancing Algorithms during the balancer phase
-              for scaling and custom Routing algorithms for fine control on routing.
-            </Translate>
+            <strong>
+              <Translate id="benefits.component.scalability.message">
+                Apache APISIX Gateway provides the ability to write your own custom plugins,
+                use custom Load Balancing Algorithms during the balancer phase
+                for scaling and custom Routing algorithms for fine control on routing.
+              </Translate>
+            </strong>
           </p>
         </div>
         <div className="benefit-infograph">
@@ -422,12 +429,14 @@ const Benefits: FC<BenefitsProps> = (props) => {
             </Translate>
           </h2>
           <p className="feat-desc add-left-margin">
-            <Translate id="benefits.component.fullyDynamic.message">
-              Apache APISIX provides Hot updates and Hot plugins,
-              which continuosly update configurations without restarts,
-              saving development time and stress. Health checks,
-              circuit breakers and many more features keep the system balanced at all times.
-            </Translate>
+            <strong>
+              <Translate id="benefits.component.fullyDynamic.message">
+                As API Gateway, Apache APISIX provides Hot updates and Hot plugins,
+                which continuously update configurations without restarts, saving development
+                time and stress. In addition, health checks, circuit breakers,
+                and many more features keep the system balanced.
+              </Translate>
+            </strong>
           </p>
         </div>
       </div>
@@ -445,13 +454,15 @@ const Benefits: FC<BenefitsProps> = (props) => {
             </Translate>
           </h2>
           <p className="feat-desc add-left-margin">
-            <Translate id="benefits.component.multiPlatform.message">
-              Platform agnostic, no vendor lock-in,
-              Apache APISIX can run from bare-metal to kubernetes.
-              It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo,
-              MQTT proxy and multiple platforms including ARM64,
-              don&apos;t worry about the lock-in of the infra technology.
-            </Translate>
+            <strong>
+              <Translate id="benefits.component.multiPlatform.message">
+                Platform agnostic, no vendor lock-in.
+                Apache APISIX as API Management solution, can run from bare-metal to Kubernetes.
+                It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo,
+                MQTT proxy and multiple platforms including ARM64,
+                don&apos;t worry about the lock-in of the infra technology.
+              </Translate>
+            </strong>
           </p>
         </div>
         <div className="benefit-infograph">
