@@ -65,23 +65,26 @@ If you get an error message like `Could not find header file for LDAP/PCRE/opens
 The solution below is for macOS but it works similarly for other operating systems:
 
 1. Install `openldap` by running:
-   
+
    ```shell
    brew install openldap
    ```
 
 2. Locate the installation directory by running:
-   
+
    ```shell
    brew --prefix openldap
    ```
 
 3. Add this path to the project configuration file by any of the two methods shown below:
    1. You can use the `luarocks config` command to set `LDAP_DIR`:
+
       ```shell
       luarocks config variables.LDAP_DIR /opt/homebrew/cellar/openldap/2.6.1
       ```
+
    2. You can also change the default configuration file of `luarocks`. Open the file `~/.luaorcks/config-5.1.lua` and add the following:
+
       ```shell
       variables = { LDAP_DIR = "/opt/homebrew/cellar/openldap/2.6.1", LDAP_INCDIR = "/opt/homebrew/cellar/openldap/2.6.1/include", }
       ```
@@ -97,7 +100,7 @@ make uninstall
 make undeps
 ```
 
-:::danger 
+:::danger
 
 This operation will remove the files completely.
 
@@ -189,22 +192,31 @@ The steps below show how you can run the test cases for APISIX:
 
 1. Install [cpanminus](https://metacpan.org/pod/App::cpanminus#INSTALLATION), the package manager for Perl.
 2. Install the [test-nginx](https://github.com/openresty/test-nginx) dependencies with `cpanm`:
+   
    ```shell
    sudo cpanm --notest Test::Nginx IPC::Run > build.log 2>&1 || (cat build.log && exit 1)
    ```
+
 3. Clone the test-nginx source code locally:
+   
    ```shell
    git clone https://github.com/openresty/test-nginx.git
    ```
+
 4. Append the current directory to Perl's module directory by running:
+   
    ```shell
    export PERL5LIB=.:$PERL5LIB
    ```
+   
    You can specify the Nginx binary path by running:
+   
    ```shell
    TEST_NGINX_BINARY=/usr/local/bin/openresty prove -Itest-nginx/lib -r t
    ```
+
 5. Run the tests by running:
+   
    ```shell
    make test
    ```
@@ -224,10 +236,13 @@ These are some common troubleshooting steps for running APISIX test cases.
 For the error `Error unknown directive "lua_package_path" in /API_ASPIX/apisix/t/servroot/conf/nginx.conf`, ensure that OpenResty is set to the default Nginx and export the path as follows:
 
 - Linux default installation path:
+  
   ```shell
   export PATH=/usr/local/openresty/nginx/sbin:$PATH
   ```
+
 - macOS default installation path (view homebrew):
+  
   ```shell
   export PATH=/usr/local/opt/openresty/nginx/sbin:$PATH
   ```
