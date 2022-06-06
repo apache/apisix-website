@@ -18,6 +18,7 @@
         "type": "category",
         "label": "Process and style guides",
         "items": [
+          "building-apisix",
           "documentation-style-guide",
           "release-guide"
         ]
