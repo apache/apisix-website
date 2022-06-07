@@ -180,7 +180,7 @@ const Docs: FC = () => {
     <Layout>
       <Page>
         <PageTitle>
-          <Translate id="docs.webpage.title.Document">Document</Translate>
+          <Translate id="docs.webpage.title.Document">Documentation</Translate>
         </PageTitle>
         <PageSubtitle>
           <Translate id="docs.webpage.title.DocumentSubtitle">We love open source.</Translate>
