@@ -43,7 +43,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [pubsub 框架支持 Kafka](https://github.com/apache/apisix/pull/7032)（贡献者：[bzp2010](https://github.com/bzp2010)）
 
-- [xRPC 框架下代理 redis 协议新增 `redis_cmd_line` 变量](https://github.com/apache/apisix/pull/7041)（贡献者：[tzssangglass](https://github.com/tzssangglass)）
+- [xRPC 框架下代理 Redis 协议新增 `redis_cmd_line` 变量](https://github.com/apache/apisix/pull/7041)（贡献者：[tzssangglass](https://github.com/tzssangglass)）
 
 - [pubsub 框架 ping 命令添加默认处理程序](https://github.com/apache/apisix/pull/7058)（贡献者：[bzp2010](https://github.com/bzp2010)）
 
