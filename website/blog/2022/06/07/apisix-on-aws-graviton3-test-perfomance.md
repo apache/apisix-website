@@ -29,7 +29,7 @@ AWS released the latest ARM-based AWS Graviton family of processors at the end o
 
 So what about the actual data? Let's take a CPU-intensive API Gateway as an example to see how AWS Graviton3 performs. Here we use Apache APISIX to perform performance comparison tests on AWS Graviton2 (C6g) and AWS Graviton3 (C7g) server environments.
 
-[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable API gateway. Based on NGNIX+Lua JIT and etcd, compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading, which is especially suitable for API management under cloud native architecture.
+[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable API gateway. Based on NGNIX+Lua JIT and etcd, compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading features, which is especially suitable for API management under cloud native architecture.
 
 ![Apache APISIX](https://user-images.githubusercontent.com/39793568/172329936-774992c0-070b-48d0-be8b-33abbd6a4f78.png)
 
@@ -83,7 +83,9 @@ curl "http://127.0.0.1:9080/apisix/admin/routes/1" \
 
 ```shell
 curl -i http://127.0.0.1:9080/anything/das
+```
 
+```shell
 HTTP/1.1 200 OK
 .....
 ```

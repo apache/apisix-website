@@ -29,7 +29,7 @@ AWS 在 2022 年 5 月底发布了最新的基于 ARM 架构的 AWS Graviton 系
 
 那么实际数据会怎样呢？让我们以 CPU 密集型的 API 网关为例，来看看 AWS Graviton3 的表现如何。在这里我们使用 Apache APISIX 在 AWS Graviton2（C6g）和 AWS Graviton3（C7g） 两种服务器环境下进行性能对比测试。
 
-[Apache APISIX](https://github.com/apache/apisix) 是一个云原生、高性能、可扩展的 API 网关。基于 NGNIX+LuaJIT 和 etcd 来实现，和传统 API 网关相比，APISIX 具备动态路由和插件热加载，特别适合云原生架构下的 API 管理。
+[Apache APISIX](https://github.com/apache/apisix) 是一个云原生、高性能、可扩展的 API 网关。基于 NGNIX+LuaJIT 和 etcd 来实现，和传统 API 网关相比，APISIX 具备动态路由和插件热加载的特点，特别适合云原生架构下的 API 管理。
 
 ![Apache APISIX](https://user-images.githubusercontent.com/39793568/172329936-774992c0-070b-48d0-be8b-33abbd6a4f78.png)
 
@@ -83,7 +83,9 @@ curl "http://127.0.0.1:9080/apisix/admin/routes/1" \
 
 ```shell
 curl -i http://127.0.0.1:9080/anything/das
+```
 
+```shell
 HTTP/1.1 200 OK
 .....
 ```
@@ -92,7 +94,7 @@ HTTP/1.1 200 OK
 
 根据前文的操作，基于[官方脚本](https://github.com/apache/apisix/blob/master/benchmark/run.sh)成功完成了 APISIX 在 AWS Graviton3 处理器上安装和兼容性测试。下面让我们来看看 Apache APISIX 在 AWS Graviton2（C6g）和 AWS Graviton3（C7g）上的性能表现。
 
-为了简单起见，本次测试中 Apache APISIX 只开启了一个 Worker，下面的性能测试数据都是在单核 CPU 上运行的。
+为了方便测试，本示例中 Apache APISIX 只开启了一个 Worker，下面的性能测试数据都是在单核 CPU 上运行的。
 
 ### 场景一：单个上游
 
@@ -188,7 +190,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
     </tr>
     </table>
 
-从上方数据也可以看到，在 API 网关这样 CPU 密集型的计算场景下，AWS Graviton3 比 AWS Graviton2 的性能提升了 76%，同时延迟还降低了 38%。这个数据比开头提到的 AWS 官方给出的数据（25%性能提升）还要优异。
+从上方数据可以看到，在 API 网关这样 CPU 密集型的计算场景下，AWS Graviton3 比 AWS Graviton2 的性能提升了 76%，同时延迟还降低了 38%。这个数据比开头提到的 AWS 官方给出的数据（25%性能提升）还要优异。
 
 ## 总结
 
