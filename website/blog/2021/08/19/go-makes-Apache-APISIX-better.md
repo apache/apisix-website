@@ -1,6 +1,5 @@
 ---
-title: Go gives Apache APISIX a run for its money
-slug: 2021/08/19/go-makes-apache-apisix-better
+title: How to use Go to develop Apache APISIX plugin
 author: Zexuan Luo
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

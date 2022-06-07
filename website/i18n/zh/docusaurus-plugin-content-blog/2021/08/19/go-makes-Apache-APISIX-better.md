@@ -1,6 +1,5 @@
 ---
 title: "Go 让 Apache APISIX 如虎添翼"
-slug: 2021/08/19/go-makes-apache-apisix-better
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
