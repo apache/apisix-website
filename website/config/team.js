@@ -158,6 +158,12 @@ module.exports = [
         githubUsername: 'dabue',
         avatarUrl: 'https://avatars.githubusercontent.com/u/53054094?v=4',
       },
+      {
+        name: 'ZhengSong Tu',
+        username: 'tzssangglass',
+        githubUsername: 'tzssangglass',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/30819887?v=4',
+      },
     ],
   },
   {
@@ -222,12 +228,6 @@ module.exports = [
         username: 'Jaycean',
         githubUsername: 'Jaycean',
         avatarUrl: 'https://avatars.githubusercontent.com/u/36916582?v=4',
-      },
-      {
-        name: 'ZhengSong Tu',
-        username: 'tzssangglass',
-        githubUsername: 'tzssangglass',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/30819887?v=4',
       },
       {
         name: 'Xingwang Li',
