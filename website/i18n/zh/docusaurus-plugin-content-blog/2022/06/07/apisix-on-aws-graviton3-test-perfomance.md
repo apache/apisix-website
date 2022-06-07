@@ -193,6 +193,3 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 ## 总结
 
 本文主要通过使用 Apache APISIX 进行了 AWS Graviton3 与 AWS Graviton2 的性能对比，可以看到在 API 网关 CPU 密集型的计算场景下，AWS Graviton3 可谓展示了性能怪兽的属性。当然，也推荐大家多多进行实践，期待后续更多计算密集型项目的测试数据。
-
-
-

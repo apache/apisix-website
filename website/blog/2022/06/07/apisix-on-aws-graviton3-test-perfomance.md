@@ -191,5 +191,3 @@ It can also be seen from the above data that in a CPU-intensive computing scenar
 ## Summarize
 
 This article mainly uses Apache APISIX to compare the performance of AWS Graviton3 and AWS Graviton2. It can be seen that in the CPU-intensive computing scenario of API gateway, AWS Graviton3 can be said to show the properties of a performance monster. Of course, it is also recommended that you practice a lot, and look forward to more test data for computing-intensive projects in the future.
-
-
