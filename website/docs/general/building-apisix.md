@@ -88,7 +88,7 @@ The solution below is for macOS but it works similarly for other operating syste
       ```shell
       variables = { LDAP_DIR = "/opt/homebrew/cellar/openldap/2.6.1", LDAP_INCDIR = "/opt/homebrew/cellar/openldap/2.6.1/include", }
       ```
-    
+
       `/opt/homebrew/cellar/openldap/` is default path `openldap` is installed on Apple Silicon macOS machines. For Intel machines, the default path is  `/usr/local/opt/openldap/`.
 
 :::
@@ -192,31 +192,31 @@ The steps below show how you can run the test cases for APISIX:
 
 1. Install [cpanminus](https://metacpan.org/pod/App::cpanminus#INSTALLATION), the package manager for Perl.
 2. Install the [test-nginx](https://github.com/openresty/test-nginx) dependencies with `cpanm`:
-   
+
    ```shell
    sudo cpanm --notest Test::Nginx IPC::Run > build.log 2>&1 || (cat build.log && exit 1)
    ```
 
 3. Clone the test-nginx source code locally:
-   
+
    ```shell
    git clone https://github.com/openresty/test-nginx.git
    ```
 
 4. Append the current directory to Perl's module directory by running:
-   
+
    ```shell
    export PERL5LIB=.:$PERL5LIB
    ```
-   
+
    You can specify the Nginx binary path by running:
-   
+
    ```shell
    TEST_NGINX_BINARY=/usr/local/bin/openresty prove -Itest-nginx/lib -r t
    ```
 
 5. Run the tests by running:
-   
+
    ```shell
    make test
    ```
