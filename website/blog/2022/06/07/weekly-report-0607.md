@@ -45,7 +45,7 @@ https://github.com/amannn/action-semantic-pull-request
 
 - [pubsub supports Kafka](https://github.com/apache/apisix/pull/7032)（Contributor: [bzp2010](https://github.com/bzp2010)）
 
-- [xrpc add `redis_cmd_line` variable ](https://github.com/apache/apisix/pull/6959)（Contributor: [spacewander](https://github.com/spacewander)）
+- [xrpc add `redis_cmd_line` variable](https://github.com/apache/apisix/pull/6959)（Contributor: [spacewander](https://github.com/spacewander)）
 
 - [add default handler for pubsub ping command](https://github.com/apache/apisix/pull/7058)（Contributor: [bzp2010](https://github.com/bzp2010)）
 
