@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 在腾讯云智能钛平台中的落地实践"
+title: "APISIX 在腾讯云智能钛平台的落地实践"
 author: "刁寿钧"
 keywords:
 - Apache APISIX

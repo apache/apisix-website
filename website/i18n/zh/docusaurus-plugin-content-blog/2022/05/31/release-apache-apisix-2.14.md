@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.14.1 探索性版本发布，进军更多领域"
+title: "Apache APISIX 2.14.1 正式发布"
 authors:
   - name: "罗泽轩"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: "How to Use GraphQL with API Gateway Apache APISIX"
+title: "Use GraphQL with API Gateway Apache APISIX"
 authors:
   - name: "JohnChever"
     title: "Author"

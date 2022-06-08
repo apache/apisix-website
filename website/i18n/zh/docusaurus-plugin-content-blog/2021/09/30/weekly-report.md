@@ -1,5 +1,5 @@
 ---
-title: "社区周报｜新晋 committer 一位，功能亮点更新进行中"
+title: "社区双周报（9.13-9.30）"
 keywords:
 - Apache APISIX
 - 社区周报
