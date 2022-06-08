@@ -1,5 +1,5 @@
 ---
-title: "使用 Apache APISIX 进行集中式身份认证及进阶玩法"
+title: "如何使用 APISIX 进行集中式身份认证"
 author: "朱欣欣"
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"

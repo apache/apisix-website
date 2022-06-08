@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report｜Explore the weeks of May 1st - May 15th
+title: Biweekly Report (5.1-5.15)
 keywords:
 - Apache APISIX
 - API Gateway

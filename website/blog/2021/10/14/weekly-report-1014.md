@@ -1,5 +1,5 @@
 ---
-title: Community Weekly｜10.1-10.14 Feature Highlight Updates in Progress
+title: Bieekly Report (10.1-10.14)
 keywords:
 - Apache APISIX
 - Community Weekly

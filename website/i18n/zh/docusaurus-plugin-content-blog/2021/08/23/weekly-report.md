@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX 社区周报 ｜ 2021 8.16-8.22
+title: 社区双周报（8.16-8.22）
 keywords:
 - 社区周报
 - 贡献者

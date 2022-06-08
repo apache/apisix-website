@@ -1,5 +1,5 @@
 ---
-title: "How to Implement Traffic Governance in Internet Insurance with APISIX?"
+title: "Implement Traffic Governance in Internet Insurance with APISIX"
 author: "Sylvia"
 authorURL: "https://github.com/SylviaBABY"
 authorImageURL: "https://avatars.githubusercontent.com/u/39793568?v=4"

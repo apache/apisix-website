@@ -1,5 +1,5 @@
 ---
-title: "Beike：How to Build Gateway Based on Apache APISIX"
+title: "Beike Build Gateway with Apache APISIX"
 author: "Hui Wang"
 keywords:
 - API Gateway

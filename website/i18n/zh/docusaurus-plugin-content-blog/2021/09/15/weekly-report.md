@@ -1,5 +1,5 @@
 ---
-title: "社区周报｜新晋 committer 两位，功能亮点更新进行中"
+title: "社区周报｜社区持续活跃，功能亮点更新进行中"
 keywords:
   - Apache APISIX
   - API 网关
