@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 新技能，代理 gRPC-Web 请求"
+title: "APISIX 支持 gRPC Web 协议请求代理"
 authors:
   - name: "帅进超"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX Community Weekly Report ｜ 2021 8.23-8.29
+title: Weekly Report (8.23-8.29)
 keywords:
 - APISIX
 - Community Weekly

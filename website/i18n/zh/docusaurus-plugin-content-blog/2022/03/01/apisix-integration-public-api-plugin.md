@@ -1,5 +1,5 @@
 ---
-title: "新插件上线，API 网关 Apache APISIX Public API 处理能力再增强"
+title: "API 网关 APISIX Public API 处理能力再增强"
 authors:
   - name: "白泽平"
     title: "Author"

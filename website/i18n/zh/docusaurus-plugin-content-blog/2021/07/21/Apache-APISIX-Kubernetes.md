@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX x Kubernetes：恰到好处｜直播预告"
+title: "直播预告｜Apache APISIX x Kubernetes"
 slug: 2021/07/21/apache-apisix-kubernetes
 author: "Apache APISIX 社区"
 keywords:

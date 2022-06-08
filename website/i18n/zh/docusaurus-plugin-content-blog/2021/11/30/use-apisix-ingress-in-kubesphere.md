@@ -1,5 +1,5 @@
 ---
-title: "在 KubeSphere 中使用 Apache APISIX Ingress 网关接入自定义监控"
+title: "在 KubeSphere 中使用 APISIX Ingress 接入自定义监控"
 author: "张海立"
 authorURL: "https://github.com/webup"
 authorImageURL: "https://avatars.githubusercontent.com/u/2936504?v=4"

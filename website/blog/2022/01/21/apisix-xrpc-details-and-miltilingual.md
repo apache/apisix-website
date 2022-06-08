@@ -1,5 +1,5 @@
 ---
-title: "xRPC Will Be Released, Get More Details About APISIX Ecosystem"
+title: "Get More Details About xRPC"
 authors:
   - name: "Jinchao Shuai"
     title: "Author"

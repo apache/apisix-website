@@ -1,5 +1,5 @@
 ---
-title: "Making It Simple, Apache APISIX Integrates ClickHouse to Improve Logging Efficiency"
+title: "APISIX Integrates ClickHouse to Improve Log Efficiency"
 authors:
   - name: "Zhendong Qi"
     title: "Author"

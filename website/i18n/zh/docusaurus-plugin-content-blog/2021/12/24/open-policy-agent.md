@@ -1,5 +1,5 @@
 ---
-title: "再接再厉！Apache APISIX 集成 Open Policy Agent"
+title: "Apache APISIX 集成 Open Policy Agent"
 authors:
   - name: "白泽平"
     title: "Author"

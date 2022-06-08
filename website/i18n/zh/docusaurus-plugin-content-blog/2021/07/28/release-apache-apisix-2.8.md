@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.8 正式发布，带来更多新功能！"
+title: "Apache APISIX 2.8 正式发布"
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

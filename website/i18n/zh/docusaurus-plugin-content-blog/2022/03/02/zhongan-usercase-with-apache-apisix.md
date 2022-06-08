@@ -1,5 +1,5 @@
 ---
-title: "如何借助 Apache APISIX 实现互联网保险领域的流量治理？"
+title: "APISIX 在众安保险的应用实践"
 author: "Sylvia"
 authorURL: "https://github.com/SylviaBABY"
 authorImageURL: "https://avatars.githubusercontent.com/u/39793568?v=4"

@@ -1,5 +1,5 @@
 ---
-title: "How to use API Gateway to process 1 billion traffic daily for Tencent?"
+title: "Practice in Tencent with APISIX"
 slug: 2021/05/24/tencent-games
 author: "Xin Xu"
 keywords:

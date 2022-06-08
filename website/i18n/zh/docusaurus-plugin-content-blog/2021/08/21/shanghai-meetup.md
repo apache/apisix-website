@@ -1,5 +1,5 @@
 ---
-title: "8 月 21 日 Apache APISIX Meetup 上海站，欢迎报名参加！"
+title: "8.21 Apache APISIX Meetup 上海站报名开启！"
 keywords:
 - API 网关
 - APISIX

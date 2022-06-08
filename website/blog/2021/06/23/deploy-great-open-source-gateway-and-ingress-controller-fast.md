@@ -1,5 +1,5 @@
 ---
-title: "Deploy Apache APISIX and Apache APISIX Ingress Controller on Rancher"
+title: "Deploy APISIX and APISIX Ingress Controller on Rancher"
 author: "Jintao Zhang"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
