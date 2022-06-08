@@ -94,7 +94,7 @@ HTTP/1.1 200 OK
 
 根据前文的操作，基于[官方脚本](https://github.com/apache/apisix/blob/master/benchmark/run.sh)成功完成了 APISIX 在 AWS Graviton3 处理器上安装和兼容性测试。下面让我们来看看 Apache APISIX 在 AWS Graviton2（C6g）和 AWS Graviton3（C7g）上的性能表现。
 
-为了方便测试，本示例中 Apache APISIX 只开启了一个 Worker，下面的性能测试数据都是在单核 CPU 上运行的。
+为了方便测试，本示例中 APISIX 只开启了一个 Worker，下面的性能测试数据都是在单核 CPU 上运行的。
 
 ### 场景一：单个上游
 
