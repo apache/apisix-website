@@ -274,7 +274,7 @@
     "description": "Want to learn Apache APISIX usage, but don&apos;t know where to start. Check out our"
   },
   "openSourcePromo.component.link.docs": {
-    "message": "官方技术文档",
+    "message": "官方技术文档。",
     "description": "docs."
   },
   "openSourcePromo.component.subtitle.fragment2": {
@@ -285,7 +285,7 @@
     "message": "YouTube 频道"
   },
   "openSourcePromo.component.subtitle.fragment3": {
-    "message": "以获取更多教程，欢迎你的订阅",
+    "message": "以获取更多教程，欢迎你的订阅。",
     "description": "for detailed tutorials. Subscribe for more."
   },
   "openSourcePromo.component.ossPromo.title": {
