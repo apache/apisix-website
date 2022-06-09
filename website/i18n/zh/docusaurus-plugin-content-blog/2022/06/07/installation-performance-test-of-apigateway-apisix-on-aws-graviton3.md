@@ -27,7 +27,7 @@ tags: [Technology]
 
 AWS 在 2022 年 5 月底发布了最新的基于 ARM 架构的 AWS Graviton 系列处理器——[AWS Graviton3](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)。据 AWS 官方数据显示，与 Graviton2 处理器相比，基于领先的 DDR5 内存技术，Graviton3 处理器可提供高达 25% 的性能提升、高达 2 倍的浮点性能以及 50% 的内存访问速度；在性能与同类 EC2 实例相同的情况下，Graviton3 还可减少 60% 的能源。
 
-那么实际数据会怎样呢？让我们以 CPU 密集型的 API 网关为例，来看看 AWS Graviton3 的表现如何。在这里我们使用 Apache APISIX 在 AWS Graviton2（C6g）和 AWS Graviton3（C7g） 两种服务器环境下进行性能对比测试。
+那么实际数据会怎样呢？让我们以网络 IO 密集型的 API 网关为例，来看看 AWS Graviton3 的表现如何。在这里我们使用 Apache APISIX 在 AWS Graviton2（C6g）和 AWS Graviton3（C7g） 两种服务器环境下进行性能对比测试。
 
 [Apache APISIX](https://github.com/apache/apisix) 是一个云原生、高性能、可扩展的 API 网关。基于 NGNIX+LuaJIT 和 etcd 来实现，和传统 API 网关相比，APISIX 具备动态路由和插件热加载的特点，特别适合云原生架构下的 API 管理。
 
@@ -190,8 +190,8 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
     </tr>
     </table>
 
-从上方数据可以看到，在 API 网关这样 CPU 密集型的计算场景下，AWS Graviton3 比 AWS Graviton2 的性能提升了 76%，同时延迟还降低了 38%。这个数据比开头提到的 AWS 官方给出的数据（25%性能提升）还要优异。
+从上方数据可以看到，在 API 网关这样网络 IO 密集型的计算场景下，AWS Graviton3 比 AWS Graviton2 的性能提升了 76%，同时延迟还降低了 38%。这个数据比开头提到的 AWS 官方给出的数据（25%性能提升）还要优异。
 
 ## 总结
 
-本文主要通过使用 Apache APISIX 进行了 AWS Graviton3 与 AWS Graviton2 的性能对比，可以看到在 API 网关 CPU 密集型的计算场景下，AWS Graviton3 可谓展示了性能怪兽的属性。当然，也推荐大家多多进行实践，期待后续更多计算密集型项目的测试数据。
+本文主要通过使用 Apache APISIX 进行了 AWS Graviton3 与 AWS Graviton2 的性能对比，可以看到在 API 网关这种网络 IO 密集型的计算场景下，AWS Graviton3 可谓展示了性能怪兽的属性。当然，也推荐大家多多进行实践，期待后续更多计算密集型项目的测试数据。

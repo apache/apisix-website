@@ -27,9 +27,9 @@ tags: [Technology]
 
 AWS released the latest ARM-based AWS Graviton family of processors at the end of May 2022 - [AWS Graviton3](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/). According to AWS official data, compared with Graviton2 processor, based on leading DDR5 memory technology, Graviton3 processor can provide up to 25% performance improvement, up to 2x floating point performance and 50% faster memory access speed; Graviton3 also uses 60% less energy on the same EC2 instance of the same type.
 
-So what about the actual data? Let's take a CPU-intensive API Gateway as an example to see how AWS Graviton3 performs. Here we use Apache APISIX to perform performance comparison tests on AWS Graviton2 (C6g) and AWS Graviton3 (C7g) server environments.
+So what about the actual data? Let's take a network IO dense API Gateway as an example to see how AWS Graviton3 performs. Here we use Apache APISIX to perform performance comparison tests on AWS Graviton2 (C6g) and AWS Graviton3 (C7g) server environments.
 
-[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable API gateway. Based on NGNIX+Lua JIT and etcd, compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading features, which is especially suitable for API management under cloud native architecture.
+[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable API gateway. Based on NGNIX+LuaJIT and etcd, compared with traditional API gateways, APISIX has dynamic routing and plug-in hot loading features, which is especially suitable for API management under cloud native architecture.
 
 ![Apache APISIX](https://user-images.githubusercontent.com/39793568/172329936-774992c0-070b-48d0-be8b-33abbd6a4f78.png)
 
@@ -120,7 +120,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 ### Scenario 2: Single upstream + Two plugins
 
-Using a single upstream, two plugins. It mainly tests the performance of APISIX when the two core performance-consuming plugins, limit-count and prometheus, are enabled.
+Using a single upstream, two plugins. It mainly tests the performance of APISIX when the two core performance-consuming plugins, `limit-count` and `prometheus`, are enabled.
 
 ```shell
 # apisix: 1 worker + 1 upstream + 2 plugins (limit-count + prometheus)
@@ -188,8 +188,8 @@ In the above two scenarios, related testing and comparison were performed from t
     </tr>
     </table>
 
-It can also be seen from the above data that in a CPU-intensive computing scenario such as API Gateway, AWS Graviton3 improves the performance by 76% compared to AWS Graviton2, while reducing latency by 38%. This data is even better than the official data given by AWS mentioned at the beginning (25% performance improvement).
+It can also be seen from the above data that in a network IO dense computing scenario such as API Gateway, AWS Graviton3 improves the performance by 76% compared to AWS Graviton2, while reducing latency by 38%. This data is even better than the official data given by AWS mentioned at the beginning (25% performance improvement).
 
 ## Summarize
 
-This article mainly uses Apache APISIX to compare the performance of AWS Graviton3 and AWS Graviton2. It can be seen that in the CPU-intensive computing scenario of API gateway, AWS Graviton3 can be said to show the properties of a performance monster. Of course, it is also recommended that you practice a lot, and look forward to more test data for computing-intensive projects in the future.
+This article mainly uses Apache APISIX to compare the performance of AWS Graviton3 and AWS Graviton2. It can be seen that in the network IO dense computing scenario of API gateway, AWS Graviton3 can be said to show the properties of a performance monster. Of course, it is also recommended that you practice a lot, and look forward to more test data for computing-intensive projects in the future.
