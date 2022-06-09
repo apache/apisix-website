@@ -33,7 +33,6 @@
     "change-case": "^4.1.2",
     "clsx": "^1.1.1",
     "docusaurus-plugin-sass": "^0.2.1",
-    "dplayer": "^1.26.0",
     "gsap": "^3.7.1",
     "raw-loader": "^4.0.2",
     "rc-image": "^5.6.2",

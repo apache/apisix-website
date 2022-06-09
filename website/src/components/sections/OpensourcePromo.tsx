@@ -77,7 +77,6 @@ const OpensourcePromo: FC = () => (
       </div>
       <div className="docs-promo-video">
         <Video options={videoOptions} />
-        <video preload="none" src="https://static.apiseven.com/apisix-website/videos/apisix.mp4" poster="" loop width="70%" height="auto" controls />
       </div>
     </div>
 
