@@ -1,13 +1,34 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate from '@docusaurus/Translate';
 import OssCanvas from '../OssCanvas';
 
 import '../../css/customTheme.css';
 import GitHub from '../../assets/icons/github-logo.svg';
+
+const VideoChannel: FC = () => {
+  const { i18n: { currentLocale } } = useDocusaurusContext();
+
+  if (currentLocale.startsWith('zh')) {
+    return (
+      <a style={{ color: '#e8433e' }} href="https://space.bilibili.com/551921247">
+        哔哩哔哩官方账号
+      </a>
+    );
+  }
+
+  return (
+    <a style={{ color: '#e8433e' }} href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">
+      <Translate id="openSourcePromo.component.link.Youtube">
+        YouTube channel
+      </Translate>
+    </a>
+  );
+};
 
 const OpensourcePromo: FC = () => (
   <div className="ossPromotion">
@@ -19,8 +40,8 @@ const OpensourcePromo: FC = () => (
         <div className="docs-promo-subtitle">
           <p>
             <Translate id="openSourcePromo.component.subtitle.fragment1">
-              What are microservices? What is an API Gateway? 
-              Want to learn Apache APISIX usage, but don&apos;t know where to start? 
+              What are microservices? What is an API Gateway?
+              Want to learn Apache APISIX usage, but don&apos;t know where to start?
               Check out our
             </Translate>
             {' '}
@@ -35,11 +56,7 @@ const OpensourcePromo: FC = () => (
               Like visual information, check out our
             </Translate>
             {' '}
-            <a style={{ color: '#e8433e' }} href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">
-              <Translate id="openSourcePromo.component.link.Youtube">
-                YouTube channel
-              </Translate>
-            </a>
+            <VideoChannel />
             {' '}
             <Translate id="openSourcePromo.component.subtitle.fragment3">
               for detailed tutorials. Subscribe for more.
