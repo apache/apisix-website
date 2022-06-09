@@ -9,6 +9,8 @@ import OssCanvas from '../OssCanvas';
 
 import '../../css/customTheme.css';
 import GitHub from '../../assets/icons/github-logo.svg';
+import Video from '../Video';
+import type { VideoProps } from '../Video';
 
 const VideoChannel: FC = () => {
   const { i18n: { currentLocale } } = useDocusaurusContext();
@@ -28,6 +30,15 @@ const VideoChannel: FC = () => {
       </Translate>
     </a>
   );
+};
+
+const videoOptions: VideoProps['options'] = {
+  html5: {
+    hlsjsConfig: {
+      debug: true,
+    },
+  },
+  src: 'https://static.apiseven.com/apisix-website/videos/apisix-video/apisix-bobur.m3u8',
 };
 
 const OpensourcePromo: FC = () => (
@@ -65,6 +76,7 @@ const OpensourcePromo: FC = () => (
         </div>
       </div>
       <div className="docs-promo-video">
+        <Video options={videoOptions} />
         <video preload="none" src="https://static.apiseven.com/apisix-website/videos/apisix.mp4" poster="" loop width="70%" height="auto" controls />
       </div>
     </div>

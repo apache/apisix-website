@@ -21,6 +21,7 @@
     "@types/react-helmet": "^6.1.2",
     "@types/react-router-dom": "^5.1.8",
     "@types/styled-components": "^5.1.24",
+    "@types/video.js": "^7.3.40",
     "babel-plugin-styled-components": "^2.0.6",
     "typescript": "^4.4.2"
   },
@@ -28,9 +29,11 @@
     "@docusaurus/core": "2.0.0-beta.6",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.6",
     "@docusaurus/preset-classic": "2.0.0-beta.6",
+    "@streamroot/videojs-hlsjs-plugin": "^1.0.16",
     "change-case": "^4.1.2",
     "clsx": "^1.1.1",
     "docusaurus-plugin-sass": "^0.2.1",
+    "dplayer": "^1.26.0",
     "gsap": "^3.7.1",
     "raw-loader": "^4.0.2",
     "rc-image": "^5.6.2",
@@ -39,7 +42,8 @@
     "react-transition-group": "^4.4.1",
     "sass": "^1.38.2",
     "styled-components": "^5.3.3",
-    "three": "^0.131.3"
+    "three": "^0.131.3",
+    "video.js": "^7.19.2"
   },
   "browserslist": {
     "production": [
