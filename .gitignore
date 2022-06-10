@@ -56,3 +56,4 @@ website/docs-apisix-java-plugin-runner_versions.json
 website/docs-apisix-python-plugin-runner_versions.json
 
 website/i18n/zh/docusaurus-plugin-content-docs-docs-apisix/**
+scripts/temp/**
