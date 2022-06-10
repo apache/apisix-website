@@ -2,16 +2,13 @@ import type { FC } from 'react';
 import React from 'react';
 import videojs from 'video.js';
 import type { VideoJsPlayerOptions, VideoJsPlayer } from 'video.js';
-import videojsHlsjsSourceHandler from '@streamroot/videojs-hlsjs-plugin';
 import 'video.js/dist/video-js.css';
 
 export interface VideoProps {
-    options: VideoJsPlayerOptions & { html5: { [key: string]: any } },
+    options: VideoJsPlayerOptions,
     // eslint-disable-next-line react/require-default-props
     onReady?: ((player: VideoJsPlayer) => void) | undefined
 }
-
-videojsHlsjsSourceHandler.register(videojs);
 
 export const Video: FC<VideoProps> = (props) => {
   const videoRef = React.useRef(null);
@@ -36,6 +33,9 @@ export const Video: FC<VideoProps> = (props) => {
       // player.autoplay(options.autoplay);
       // player.src(options.sources);
     }
+    return () => {
+      playerRef.current.dispose();
+    };
   }, [options, videoRef]);
 
   // Dispose the Video.js player when the functional component unmounts

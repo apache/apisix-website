@@ -96,6 +96,7 @@ module.exports = {
         namedComponents: 'arrow-function',
       },
     ],
+    'consistent-return': OFF,
   },
   overrides: [
     {

@@ -33,12 +33,12 @@ const VideoChannel: FC = () => {
 };
 
 const videoOptions: VideoProps['options'] = {
-  html5: {
-    hlsjsConfig: {
-      debug: true,
-    },
-  },
-  src: 'https://static.apiseven.com/apisix-website/videos/apisix-video/apisix-bobur.m3u8',
+  controls: true,
+  responsive: true,
+  sources: [{
+    src: 'https://static.apiseven.com/apisix-website/videos/apisix-video/apisix-bobur.m3u8',
+    type: 'application/x-mpegURL',
+  }],
 };
 
 const OpensourcePromo: FC = () => (
