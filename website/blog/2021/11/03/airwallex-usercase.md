@@ -1,5 +1,5 @@
 ---
-title: "Practice in Airwallex with APISIX"
+title: "API Gateway Practice in Airwallex with APISIX"
 author: "Yang Li"
 keywords: 
 - Apache APISIX

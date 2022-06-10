@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report (9.13-9.30)
+title: Biweekly Report (Sep 13 - Sep 30)
 keywords:
   - Apache APISIX
   - Community Weekly

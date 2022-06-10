@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report (4.15-4.30)
+title: Biweekly Report (Apr 15 - Apr 30)
 keywords:
 - Apache APISIX
 - API Gateway

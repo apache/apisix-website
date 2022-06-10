@@ -1,5 +1,5 @@
 ---
-title: "Practice in Tencent with APISIX"
+title: "API Gateway Practice in Tencent with APISIX"
 slug: 2021/05/24/tencent-games
 author: "Xin Xu"
 keywords:

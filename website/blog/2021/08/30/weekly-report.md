@@ -1,5 +1,5 @@
 ---
-title: Weekly Report (8.23-8.29)
+title: Weekly Report (Aug 23 - Aug 29)
 keywords:
 - APISIX
 - Community Weekly

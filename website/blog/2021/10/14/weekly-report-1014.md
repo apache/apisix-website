@@ -1,5 +1,5 @@
 ---
-title: Bieekly Report (10.1-10.14)
+title: Bieekly Report (Oct 1 - Oct 14)
 keywords:
 - Apache APISIX
 - Community Weekly

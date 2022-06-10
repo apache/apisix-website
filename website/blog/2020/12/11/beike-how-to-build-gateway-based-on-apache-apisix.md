@@ -1,5 +1,5 @@
 ---
-title: "Beike Build Gateway with Apache APISIX"
+title: "Ke Holdings Inc chooses Apache APISIX as API Gateway"
 author: "Hui Wang"
 keywords:
 - API Gateway

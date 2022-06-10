@@ -1,5 +1,5 @@
 ---
-title: BiWeekly Report (8.30-9.15)
+title: BiWeekly Report (Aug 30 - Sep 15)
 keywords:
   - Apache APISIX
   - API Gateway

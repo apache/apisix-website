@@ -1,5 +1,5 @@
 ---
-title: "Practice in UPYUN with APISIX"
+title: "Practice in UPYUN with APISIX Ingress"
 author: "Zhuo Chen"
 keywords: 
 - Apache APISIX
