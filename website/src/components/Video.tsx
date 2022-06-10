@@ -27,11 +27,6 @@ export const Video: FC<VideoProps> = (props) => {
         onReady?.(player);
       });
       playerRef.current = player;
-    } else {
-      // const player = playerRef.current;
-
-      // player.autoplay(options.autoplay);
-      // player.src(options.sources);
     }
     return () => {
       playerRef.current.dispose();
