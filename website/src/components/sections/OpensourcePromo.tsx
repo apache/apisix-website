@@ -34,11 +34,13 @@ const VideoChannel: FC = () => {
 
 const videoOptions: VideoProps['options'] = {
   controls: true,
-  responsive: true,
+  preload: 'none',
   sources: [{
     src: 'https://static.apiseven.com/apisix-website/videos/apisix-video/apisix-bobur.m3u8',
     type: 'application/x-mpegURL',
   }],
+  width: 640,
+  height: 360,
 };
 
 const OpensourcePromo: FC = () => (
