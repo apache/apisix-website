@@ -338,21 +338,8 @@ a:hover {
 .hero-sec-wrap {
   display: flex;
   background: #f4f4f4ad;
-  height: 100vh;
-}
-
-.homeCanvas-overlay {
-  position: absolute;
-  width: 50vw;
-  height: 100vh;
-  background: #fff;
-  top: -1px;
-  right: 0;
-}
-
-.homeCanvas {
-  width: 50vw;
-  height: 100vh;
+  height: 70vh;
+  justify-content: center;
 }
 
 .hero-text {
@@ -360,8 +347,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
-  width: 50%;
-  padding: 0 0 0 6vw;
+  width: 65%;
 }
 
 .hero-title {
@@ -466,19 +452,21 @@ a:hover {
 .arch-head,
 .compare-head,
 .testimonials-head,
-.docs-promo-head,
-.oss-promo-head {
+.docs-promo-head {
   font-size: 2.4rem;
   position: relative;
   left: 16.8%;
   width: 83.2%;
 }
 
+.oss-promo-head {
+  font-size: 2.4rem;
+}
+
 .arch-subtitle,
 .compare-subtitle,
 .testimonials-subtitle,
-.docs-promo-subtitle,
-.oss-promo-subtitle {
+.docs-promo-subtitle {
   font-size: 1.13rem;
   position: relative;
   left: 16.8%;
@@ -929,24 +917,19 @@ a:hover {
 }
 
 .oss-promo-text {
-  width: 50%;
+  width: 100%;
+  padding: 50px 0;
   display: flex;
   justify-content: center;
   flex-direction: column;
   background: #121010;
   color: white;
-}
-
-.oss-promo-infograph {
-  background: #0a0a0a;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
+  text-align: center;
 }
 
 .oss-promo-cta {
   background: #080808;
-  display: flex;
+  display: inline-flex;
   width: fit-content;
   font-size: 0.95rem;
   border-style: solid;
@@ -1320,15 +1303,6 @@ a:hover {
     height: fit-content;
   }
 
-  .homeCanvas-overlay {
-    position: absolute;
-    width: 100vw;
-    height: 50vh;
-    background: #ebe6dc;
-    top: -1px;
-    right: 0;
-  }
-
   .hero-text {
     height: 50%;
     width: 100%;
@@ -1345,15 +1319,6 @@ a:hover {
     line-height: 28px;
     margin: 25px 0 24px;
     padding-right: 20px;
-  }
-
-  .add-margin {
-    margin: 30px 0 0;
-  }
-
-  .homeCanvas {
-    width: 100vw;
-    height: 50vh;
   }
 
   .hero-infograph {
@@ -1484,15 +1449,6 @@ a:hover {
     padding: 50px 0 0;
   }
 
-  .oss-promo-text {
-    width: 100%;
-  }
-
-  .oss-promo-infograph {
-    width: 100%;
-    margin-top: 30px;
-  }
-
   .event-card {
     margin: 0 20px 20px;
   }
@@ -1563,18 +1519,13 @@ a:hover {
   .arch-head,
   .compare-head,
   .testimonials-head,
-  .docs-promo-head,
-  .oss-promo-head {
+  .docs-promo-head {
     left: 7%;
     width: 93%;
   }
 
   .benefit .feat-desc {
     font-size: 0.85rem;
-  }
-
-  .oss-promo-infograph {
-    overflow: hidden;
   }
 }
 

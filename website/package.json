@@ -40,7 +40,6 @@
     "react-transition-group": "^4.4.1",
     "sass": "^1.38.2",
     "styled-components": "^5.3.3",
-    "three": "^0.131.3",
     "video.js": "^7.19.2"
   },
   "browserslist": {

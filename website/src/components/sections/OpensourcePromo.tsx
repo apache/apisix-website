@@ -5,7 +5,6 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate from '@docusaurus/Translate';
-import OssCanvas from '../OssCanvas';
 
 import '../../css/customTheme.css';
 import GitHub from '../../assets/icons/github-logo.svg';
@@ -94,7 +93,7 @@ const OpensourcePromo: FC = () => (
             <strong>
               <Translate id="openSourcePromo.component.ossPromo.subtitle">
                 Apache APISIX is open source and ever-growing.
-                Contributors are always welcome. Reach out to us on GitHub
+                Contributors are always welcome.
               </Translate>
             </strong>
           </p>
@@ -107,9 +106,6 @@ const OpensourcePromo: FC = () => (
             </a>
           </div>
         </div>
-      </div>
-      <div className="oss-promo-infograph">
-        <OssCanvas />
       </div>
     </div>
   </div>

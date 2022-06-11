@@ -19,6 +19,20 @@ module.exports = {
       <% it.scripts.forEach((script) => { %>
         <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
       <% }); %>
+
+      <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org/",
+        "@type": "WebSite",
+        "name": "Apache APISIX® -- Cloud-Native API Gateway",
+        "url": "https://apisix.apache.org/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://apisix.apache.org/search?q=",
+          "query-input": ""
+        }
+      }</script>
+
       <!-- Matomo from the ASF -->
       <script>
         var _paq = window._paq = window._paq || [];

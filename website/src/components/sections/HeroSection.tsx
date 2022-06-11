@@ -6,14 +6,12 @@ import gsap from 'gsap';
 import Translate from '@docusaurus/Translate';
 
 import '../../css/customTheme.css';
-import HeroCanvas from '../HeroCanvas';
 import ArrowAnim from '../ArrowAnim';
 
 const HeroSection: FC = () => {
   const titleRef = useRef<HTMLHeadingElement>();
   const subtitleRef = useRef<HTMLHeadingElement>();
   const ctaRef = useRef<HTMLHeadingElement>();
-  const canRef = useRef<HTMLHeadingElement>();
 
   useEffect(() => {
     const tl = gsap.timeline({
@@ -61,9 +59,6 @@ const HeroSection: FC = () => {
           </Link>
           <ArrowAnim />
         </div>
-      </div>
-      <div ref={canRef} className="add-margin">
-        <HeroCanvas />
       </div>
     </div>
   );
