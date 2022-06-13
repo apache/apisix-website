@@ -920,6 +920,10 @@ a:hover {
   height: 288px;
 }
 
+.docs-promo-video .vjs-has-started .vjs-big-play-button {
+  display: none !important;
+}
+
 .oss-promo {
   display: flex;
   padding: 50px 0;
