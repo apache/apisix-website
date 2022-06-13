@@ -1,5 +1,5 @@
 ---
-title: "社区会议｜ 周三下午 2 点，Apache APISIX Ingress 社区会议与你不见不散"
+title: "社区会议｜APISIX Ingress 会议与你不见不散"
 slug: 2021/08/30/ingress-meeting
 author: "Apache APISIX 社区"
 keywords:

@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 社区周报 ｜ 2021 8.23-8.29"
+title: "社区周报（8.23-8.29）"
 keywords:
 - APISIX
 - 社区周报

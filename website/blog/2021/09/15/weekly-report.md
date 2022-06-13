@@ -1,5 +1,5 @@
 ---
-title: Community Weekly｜Two new committers, feature highlight updates in progress
+title: BiWeekly Report (Aug 30 - Sep 15)
 keywords:
   - Apache APISIX
   - API Gateway

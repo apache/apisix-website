@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX x Kubernetes: Just Right｜Live"
+title: "Live | Apache APISIX x Kubernetes"
 slug: 2021/07/21/apache-apisix-kubernetes
 author: Apache APISIX
 keywords:

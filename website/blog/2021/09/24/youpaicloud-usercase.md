@@ -1,5 +1,5 @@
 ---
-title: "Why is Apache APISIX Ingress a new option for building container gateways into the UPYUN?"
+title: "Practice in UPYUN with APISIX Ingress"
 author: "Zhuo Chen"
 keywords: 
 - Apache APISIX

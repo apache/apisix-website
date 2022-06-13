@@ -1,5 +1,5 @@
 ---
-title: "Forward-auth, Another Choice for Authentication Function"
+title: "forward-auth Plugin for Authentication Function"
 authors:
   - name: "Zeping Bai"
     title: "Author"

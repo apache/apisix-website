@@ -1,5 +1,5 @@
 ---
-title: "Best Practices for TiDB-based Apache APISIX High Availability Configuration"
+title: "High Availability Configuration with TiDB and APISIX"
 authors:
   - name: "Chao Zhang"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: "教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书"
+title: "如何在 APISIX Ingress Controller 中使用 Cert Manager 管理证书"
 author: "张超"
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"

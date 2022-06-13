@@ -1,5 +1,5 @@
 ---
-title: Community Weekly｜New committer, feature highlight update in progress
+title: Biweekly Report (Sep 13 - Sep 30)
 keywords:
   - Apache APISIX
   - Community Weekly

@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 助力有赞云原生 PaaS 平台，实现全面微服务治理"
+title: "APISIX 在有赞云原生 PaaS 平台的应用实践"
 author: "戴诺璟"
 keywords: 
 - Apache APISIX

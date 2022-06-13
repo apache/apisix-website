@@ -1,5 +1,5 @@
 ---
-title: "使用 Apache APISIX 的 OpenID Connect 插件进行集中身份认证"
+title: "使用 APISIX openid-connect 插件进行集中身份认证"
 slug: 2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication
 authors:
   - name: "朱欣欣"

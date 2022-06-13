@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 集成 Kafka 实现高效率实时日志监控"
+title: "APISIX 集成 Kafka 实现高效实时日志监控"
 authors:
   - name: "白泽平"
     title: "Author"

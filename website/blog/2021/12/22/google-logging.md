@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX Integrates with Google Cloud Logging to Improve Log Processing
+title: APISIX Integrates with Google Cloud Logging
 authors:
   - name: "Jinchao Shuai"
     title: "Author"

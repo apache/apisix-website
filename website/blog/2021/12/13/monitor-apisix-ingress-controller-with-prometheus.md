@@ -1,5 +1,5 @@
 ---
-title: "Monitoring APISIX Ingress Controller with Prometheus"
+title: "Monitor APISIX Ingress Controller with Prometheus"
 authors:
   - name: "Chao Zhang"
     title: "Author"

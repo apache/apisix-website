@@ -1,5 +1,5 @@
 ---
-title: "多协议接入框架 xRPC 发布在即，为你解读更多 APISIX 生态细节"
+title: "多协议接入框架 xRPC 细节前瞻"
 authors:
   - name: "帅进超"
     title: "Author"

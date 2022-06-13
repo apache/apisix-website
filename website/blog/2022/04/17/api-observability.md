@@ -1,5 +1,5 @@
 ---
-title: "API Observability with Apache APISIX Plugins"
+title: "API Observability with APISIX Plugins"
 keywords:
 - Apache APISIX
 - API Gateway

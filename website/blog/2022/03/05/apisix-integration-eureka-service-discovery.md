@@ -1,5 +1,5 @@
 ---
-title: "How to Integrate API Gateway with Eureka?"
+title: "Integrate API Gateway with Eureka"
 authors:
   - name: "Yong Qian"
     title: "Author"

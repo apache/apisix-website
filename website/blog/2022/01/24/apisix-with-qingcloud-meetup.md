@@ -1,5 +1,5 @@
 ---
-title: "Webinar | APISIX in QingCloud! Open source and cloud native projects accelerate enterprises digital transformation"
+title: "Webinar | APISIX in QingCloud! "
 keywords:
 - Apache APISIX
 - QingCloud

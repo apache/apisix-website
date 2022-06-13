@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report｜12.1-12.15 Feature Highlights Update in Progress
+title: Biweekly Report (Dec 1 - Dec 15)
 keywords:
 - Apache APISIX
 - Weekly Report

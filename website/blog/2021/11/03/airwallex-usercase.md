@@ -1,5 +1,5 @@
 ---
-title: "How Apache APISIX protects Airwallex data sovereignty through the gateway layer"
+title: "API Gateway Practice in Airwallex with APISIX"
 author: "Yang Li"
 keywords: 
 - Apache APISIX

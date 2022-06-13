@@ -1,5 +1,5 @@
 ---
-title: "How to build Apache APISIX in ARM Ubuntu"
+title: "How to build APISIX in ARM Ubuntu"
 authors:
   - name: "Qi Guo"
     title: "Author"
