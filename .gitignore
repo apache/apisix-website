@@ -34,7 +34,6 @@ scripts/yarn.lock
 /.eslintcache
 /.stylelintcache
 
-website/docs/*
 website/docs-apisix_versioned_docs/*
 website/docs-apisix_versioned_sidebars/*
 website/docs-apisix-dashboard_versioned_docs/*
