@@ -8,7 +8,6 @@ import Translate from '@docusaurus/Translate';
 import OssCanvas from '../OssCanvas';
 
 import GitHub from '../../assets/icons/github-logo.svg';
-import VideoPoster from '../../assets/images/apisix-video-poster.jpg';
 import Video from '../Video';
 import type { VideoProps } from '../Video';
 
@@ -35,7 +34,7 @@ const VideoChannel: FC = () => {
 const videoOptions: VideoProps['options'] = {
   controls: true,
   preload: 'none',
-  poster: VideoPoster,
+  poster: 'https://raw.githubusercontent.com/apache/apisix-website/master/website/src/assets/images/apisix-video-poster.jpg',
   sources: [{
     src: 'https://static.apiseven.com/apisix-website/videos/apisix-video/apisix-bobur.m3u8',
     type: 'application/x-mpegURL',
