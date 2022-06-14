@@ -1,10 +1,11 @@
 ---
-title: "Design and Implementation of a Canary Release Solution Along the Whole Life Cycle Based on Apache APISIX"
+title: "Design and Implementation of a Canary Release Solution Based on Apache APISIX"
 author: "Shengwei Pan"
 keywords: 
 - Apache APISIX
 - API Gateway
-- Alibaba Cloud Microservice Engine
+- Alibaba Cloud
+- Microservice Engine
 description: This article describes how Alibaba Cloud's microservice engine MSE is based on the flexible routing capabilities of Apache APISIX, cooperates with MSE's full-link grayscale capabilities, and achieves full-link grayscale through minimal configuration and code-free intrusion. 
 tags: [User Case]
 ---
@@ -130,7 +131,7 @@ Select a route in the APISIX Dashboard and click to create. In the matching crit
 
 Then configure the route corresponding to the base:
 
-```JSON
+```json
 {
   "uri": "/*",
   "name": "spring-cloud-a",
@@ -156,7 +157,7 @@ Then configure the route corresponding to the base:
 
 Configure the route corresponding to `gray`:
 
-```JSON
+```json
 {
   "uri": "/*",
   "name": "spring-cloud-a-gray",
@@ -219,7 +220,7 @@ Select a route in the apisixdashboard and click create. In the matching criteria
 
 Then configure the route corresponding to the `base`:
 
-```JSON
+```json
 {
   "uri": "/*",
   "name": "spring-cloud-a",
@@ -247,7 +248,7 @@ Configure the route corresponding to `gray`, as shown in the following figure:
 
 ![Configure diagram](https://user-images.githubusercontent.com/88811141/173322176-ab677577-8595-4875-85cb-2dc799070871.png)
 
-```JSON
+```json
 {
   "uri": "/*",
   "name": "spring-cloud-a-gray",

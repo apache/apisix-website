@@ -1,9 +1,10 @@
 ---
-title: "Building an Automated Operation and Maintenance Platform Based on API Gateway Apache APISIX"
+title: "Build Automated Operation and Maintenance Platform Based on Apache APISIX"
 author: "Qing Chen"
 keywords: 
 - Apache APISIX
 - API Gateway
+- Operation
 description: In this article, Qing Chen, the former manager of operations and maintenance of the same program, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
 tags: [Technology]
 ---
@@ -100,9 +101,9 @@ Because APISIX is implemented based on NGINX+ Lua, some functions need to be imp
 
 In the rewrite/access phase, the message has not been transferred upstream, so various data preprocessing can be performed in this phase. From the above figure, we can see that there is an access_by_Lua. In this phase, the deny command can be used to manage permissions, including interface permissions and IP access white list. The plugin acl_plugin.lua, described later, is implemented at this stage.
 
-Second, in `hard_ filet_ by_Lua` stage is often used to insert some additional `key:values` in the HTTP request header for subsequent use when requesting access. For example, when we need online gray-scale publishing, we can add flag bits to the user's request header. Through these flag bits, we can control which back-end services these requests forward, to realize gray-scale publishing. Of course, we can also use the [`traffic split`](http://localhost:3000/zh/docs/apisix/next/plugins/traffic-split) plug-in of APISIX to realize grayscale publishing.
+Second, in `hard_filet_by_Lua` stage is often used to insert some additional `key:values` in the HTTP request header for subsequent use when requesting access. For example, when we need online gray-scale publishing, we can add flag bits to the user's request header. Through these flag bits, we can control which back-end services these requests forward, to realize gray-scale publishing. Of course, we can also use the [`traffic split`](http://localhost:3000/zh/docs/apisix/next/plugins/traffic-split) plug-in of APISIX to realize grayscale publishing.
 
-Finally, `log_by_Lua` stage. In this stage, we can directly input some trace information or some fault information into the log file. Similarly, APISIX also provides many plug-ins for loggers, including `skywalking logger`, `kafka-logger`, `rocketmq-logger`, and so on.
+Finally, `log_by_Lua` stage. In this stage, we can directly input some trace information or some fault information into the log file. Similarly, APISIX also provides many plug-ins for loggers, including `skywalking-logger`, `kafka-logger`, `rocketmq-logger`, and so on.
 
 ### Custom plugins `acl-plugin.lua`
 
