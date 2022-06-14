@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import videojs from 'video.js';
 import type { VideoJsPlayerOptions, VideoJsPlayer } from 'video.js';
-import 'video.js/dist/video-js.css';
+import 'video.js/dist/video-js.min.css';
 
 export interface VideoProps {
     options: VideoJsPlayerOptions,
