@@ -43,12 +43,12 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
 
   if (pathname.startsWith('/zh/blog')) {
     const to = `pathname:///blog`;
-    return <DefaultNavbarItem label="English Blog" to={to} {...blogLinkConfig} />;
+    return <DefaultNavbarItem label="Blog" to={to} {...blogLinkConfig} />;
   }
 
   if (pathname.startsWith('/blog')) {
     const to = `pathname:///zh/blog`;
-    return <DefaultNavbarItem label="中文博客" to={to} {...blogLinkConfig} />;
+    return <DefaultNavbarItem label="博客" to={to} {...blogLinkConfig} />;
   }
 
   function getLocaleLabel(locale) {
