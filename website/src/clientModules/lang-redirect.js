@@ -80,11 +80,8 @@ import config from '../../docusaurus.config';
       // all ''
       if (pathArr.at(-1) === pathArr.at(-2)) pathArr.pop();
 
-      // blog page: redirect to index
-      if (pathArr.includes('blog')) {
-        lct.replace(lct.origin + pathArr.slice(0, pathArr.indexOf('blog') + 1).join('/'));
-      } else {
-        // other pages
+      // ignore blog
+      if (!pathArr.includes('blog')) {
         lct.replace(lct.origin + pathArr.join('/'));
       }
     }
@@ -117,9 +114,12 @@ import config from '../../docusaurus.config';
   // now, the solution is observing the head.title
   // the code inspired by https://stackoverflow.com/a/29540461
   function rebindWhenTitleChanged() {
-    const lct = window.location;
-    const pathArr = lct.pathname.split('/');
-    const ele = document.querySelector(pathArr.includes('blog') ? '#__docusaurus' : 'title');
+    const pathArr = window.location.pathname.split('/');
+
+    // ignore blog
+    if (pathArr.includes('blog')) return;
+
+    const ele = document.querySelector('title');
     new MutationObserver(bindEventToLangSwitch)
       .observe(ele, {
         subtree: true,

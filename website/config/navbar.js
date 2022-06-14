@@ -43,6 +43,11 @@ module.exports = [
     ],
   },
   {
+    to: '/zh/blog',
+    label: '中文博客',
+    position: 'right',
+  },
+  {
     to: '/blog',
     label: 'Blog',
     position: 'right',
