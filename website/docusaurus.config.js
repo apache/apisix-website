@@ -376,9 +376,6 @@ module.exports = {
           title: 'More',
           items: [
             {
-              label: '中文博客',
-              to: '/zh/blog/',
-            }, {
               label: 'Blog',
               to: '/blog/',
             }, {

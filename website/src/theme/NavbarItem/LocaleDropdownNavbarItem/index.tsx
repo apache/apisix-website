@@ -8,6 +8,7 @@ import type { FC } from 'react';
 import React from 'react';
 import type { Props } from '@theme/NavbarItem/DropdownNavbarItem';
 import type { LinkLikeNavbarItemProps } from '@theme/NavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import IconLanguage from '@theme/IconLanguage';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -20,6 +21,12 @@ interface LocaleDropdownNavbarItemProps extends Omit<Props, 'items'>{
   readonly dropdownItemsBefore: readonly LinkLikeNavbarItemProps[],
   readonly dropdownItemsAfter: readonly LinkLikeNavbarItemProps[]
 }
+
+const blogLinkConfig = {
+  target: '_self',
+  autoAddBaseUrl: false,
+  isNavLink: true,
+};
 
 const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   const {
@@ -34,8 +41,14 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   const alternatePageUtils = useAlternatePageUtils();
   const { pathname } = useLocation();
 
-  if (pathname.startsWith('/zh/blog') || pathname.startsWith('/blog')) {
-    return null;
+  if (pathname.startsWith('/zh/blog')) {
+    const to = `pathname:///blog`;
+    return <DefaultNavbarItem label="English Blog" to={to} {...blogLinkConfig} />;
+  }
+
+  if (pathname.startsWith('/blog')) {
+    const to = `pathname:///zh/blog`;
+    return <DefaultNavbarItem label="中文博客" to={to} {...blogLinkConfig} />;
   }
 
   function getLocaleLabel(locale) {
