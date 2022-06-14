@@ -1,8 +1,10 @@
 ---
-title: "Build Automated Operation Platform Based on Apache APISIX"
+title: "Build automated operation platform based on Apache APISIX"
 authors:
   - name: "Qing Chen"
     title: "Author"
+    url: "https://github.com/chenqing24"
+    image_url: "https://avatars.githubusercontent.com/u/3502467?v=4"
   - name: "Fei Han"
     title: "Technical Writer"
     url: "https://github.com/hf400159"
@@ -11,6 +13,8 @@ keywords:
 - Apache APISIX
 - API Gateway
 - Operation
+- Microservice
+- Lua
 description: In this article, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
 tags: [Technology]
 ---
@@ -103,7 +107,7 @@ Through the above scenario description, I believe you have a general understandi
 
 ![Technical Details](https://user-images.githubusercontent.com/88811141/173297301-6ee14d6e-8398-4b34-80ce-4b04ce053bad.png)
 
-Because APISIX is implemented based on NGINX+ Lua, some functions need to be implemented through NGINX libraries. From the above figure, we can see where various Lua scripts can be cut into NGINX. In this article, we mainly introduce the operations that can be performed in the rewrite/access and content phases.
+Because APISIX is implemented based on NGINX+Lua, some functions need to be implemented through NGINX libraries. From the above figure, we can see where various Lua scripts can be cut into NGINX. In this article, we mainly introduce the operations that can be performed in the rewrite/access and content phases.
 
 In the rewrite/access phase, the message has not been transferred upstream, so various data preprocessing can be performed in this phase. From the above figure, we can see that there is an access_by_Lua. In this phase, the deny command can be used to manage permissions, including interface permissions and IP access white list. The plugin acl_plugin.lua, described later, is implemented at this stage.
 

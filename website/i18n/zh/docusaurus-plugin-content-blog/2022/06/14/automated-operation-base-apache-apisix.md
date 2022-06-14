@@ -3,13 +3,19 @@ title: "基于 Apache APISIX 的自动化运维平台"
 authors:
   - name: "陈庆"
     title: "Author"
+    url: "https://github.com/chenqing24"
+    image_url: "https://avatars.githubusercontent.com/u/3502467?v=4"
   - name: "韩飞"
     title: "Technical Writer"
     url: "https://github.com/hf400159"
     image_url: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
+- 自动化
+- 运维
+- 微服务
+- 权限
 description: 本文由前同程数科运维经理陈庆介绍了如何基于 Apache APISIX 实现自动化运维平台。
 tags: [Technology]
 ---

@@ -10,14 +10,14 @@ authors:
 keywords: 
 - API 网关
 - Apache APISIX
-- 雪球
+- 投资
 - 鉴权
-- 社区
-description: 本文整理自雪球基础组件团队在 Apache APISIX Summit ASIA 2022 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。
+- ZooKeeper
+description: 本文整理自雪球基础组件团队在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。
 tags: [User Case]
 ---
 
-> 本文整理自雪球基础组件团队在 Apache APISIX Summit ASIA 2022 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。
+> 本文整理自雪球基础组件团队在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。
 
 <!--truncate-->
 

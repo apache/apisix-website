@@ -9,9 +9,11 @@ authors:
     image_url: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
-- API Gateway
-- 阿里云微服务引擎
+- API 网关
+- 阿里云
+- 微服务
 - MSE
+- 流量
 description: 本篇文章描述了阿里云微服务引擎 MSE 如何基于 Apache APISIX 灵活的路由能力，配合 MSE 全链路灰度能力，通过极简的配置与无代码侵入的方式，来实现全链路灰度，释放基于 APISIX 的微服务架构的新价值。
 tags: [User Case]
 ---

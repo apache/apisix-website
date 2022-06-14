@@ -1,5 +1,5 @@
 ---
-title: "APISIX Makes Beeto to Achieve Localized Deployment"
+title: "Practice of localized application with API gateway in the Middle East"
 authors:
   - name: "Lilin Hu"
     title: "Author"
@@ -12,12 +12,13 @@ keywords:
 - Apache APISIX
 - Beeto
 - the Middle East
-- Localization
-description: This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the Apache APISIX Summit ASIA 2022 event, and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.
+- Traffic
+- Security
+description: This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/), and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.
 tags: [User Case]
 ---
 
-> This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the Apache APISIX Summit ASIA 2022 event, and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.
+> This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/), and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.
 
 <!--truncate-->
 

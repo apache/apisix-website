@@ -11,13 +11,14 @@ keywords:
 - API 网关
 - Apache APISIX
 - Beeto
-- 中东地区
-- 本地化
-description: 本文整理自胡丽麟（Beeto 平台研发）在 Apache APISIX Summit ASIA 2022 活动中进行的分享，介绍了中东社交软件 Beeto 如何使用 APISIX 实现本地化部署。
+- 本地化部署
+- 流量
+- 动态转发
+description: 本文整理自胡丽麟（Beeto 平台研发）在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 中进行的分享，介绍了中东社交软件 Beeto 如何使用 APISIX 实现本地化部署。
 tags: [User Case]
 ---
 
-> 本文整理自胡丽麟（Beeto 平台研发）在 Apache APISIX Summit ASIA 2022 活动中进行的分享，介绍了中东社交软件 Beeto 如何使用 APISIX 实现本地化部署。
+> 本文整理自胡丽麟（Beeto 平台研发）在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 中进行的分享，介绍了中东社交软件 Beeto 如何使用 APISIX 实现本地化部署。
 
 <!--truncate-->
 

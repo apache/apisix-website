@@ -1,5 +1,5 @@
 ---
-title: "Implementation of Canary Release Solution Based on Apache APISIX"
+title: "Implementation of canary release solution based on Apache APISIX"
 authors:
   - name: "Shengwei Pan"
     title: "Author"
@@ -11,9 +11,11 @@ keywords:
 - Apache APISIX
 - API Gateway
 - Alibaba Cloud
-- Microservice Engine
+- Microservice
+- MSE
+- Traffic
 description: This article describes how Alibaba Cloud's microservice engine MSE is based on the flexible routing capabilities of Apache APISIX, cooperates with MSE's full-link grayscale capabilities, and achieves full-link grayscale through minimal configuration and code-free intrusion. 
-tags: [User Case]
+tags: [Technology]
 ---
 
 > This article describes how Alibaba Cloud's microservice engine MSE is based on the flexible routing capabilities of Apache APISIX, cooperates with MSE's full-link grayscale capabilities, and achieves full-link grayscale through minimal configuration and code-free intrusion.

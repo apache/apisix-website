@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Helps Xueqiu Architecture Evolution"
+title: "Architecture evolution of investment platforms with API gateway"
 authors:
   - name: "Xueqiu Basic Component Team"
     title: "Author"
@@ -10,14 +10,15 @@ authors:
 keywords: 
 - API Gateway
 - Apache APISIX
-- Xueqiu
+- ZooKeeper
 - Authentication
-- Community
-description: This article is compiled from the sharing at Apache APISIX Summit ASIA 2022, and introduces how Xueqiu uses APISIX to achieve more flexible services in the adjustment of the active-active architecture.
+- Investment
+- Observability
+description: This article is compiled from the sharing at [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/). It introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.
 tags: [User Case]
 ---
 
-> This article is compiled from the sharing at Apache APISIX Summit ASIA 2022, and introduces how Xueqiu uses APISIX to achieve more flexible services in the adjustment of the active-active architecture.
+> This article is compiled from the sharing at [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/). It introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.
 
 <!--truncate-->
 
