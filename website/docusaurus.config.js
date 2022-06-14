@@ -451,6 +451,5 @@ module.exports = {
   ssrTemplate,
   clientModules: [
     require.resolve('./src/clientModules/lang-redirect.js'),
-    // require.resolve('./src/clientModules/amend-lang-switch.js'),
   ],
 };
