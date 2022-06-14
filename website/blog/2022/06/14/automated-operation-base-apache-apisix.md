@@ -1,5 +1,5 @@
 ---
-title: "Build Automated Operation and Maintenance Platform Based on Apache APISIX"
+title: "Build Automated Operation Platform Based on Apache APISIX"
 authors:
   - name: "Qing Chen"
     title: "Author"
@@ -11,11 +11,11 @@ keywords:
 - Apache APISIX
 - API Gateway
 - Operation
-description: In this article, Qing Chen, the former manager of operations and maintenance of the same program, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
+description: In this article, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
 tags: [Technology]
 ---
 
-> In this article, Qing Chen, the former manager of operations and maintenance at Tongcheng Network Technology, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
+> In this article, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
 
 <!--truncate-->
 

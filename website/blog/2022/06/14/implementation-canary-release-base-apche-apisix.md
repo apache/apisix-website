@@ -1,5 +1,5 @@
 ---
-title: "Design and Implementation of a Canary Release Solution Based on Apache APISIX"
+title: "Implementation of Canary Release Solution Based on Apache APISIX"
 authors:
   - name: "Shengwei Pan"
     title: "Author"
