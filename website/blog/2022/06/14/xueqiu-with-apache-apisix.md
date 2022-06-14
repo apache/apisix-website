@@ -129,10 +129,10 @@ However, this operation also brings a rather obvious disadvantage. When the ZK-R
 
 Currently, Apache APISIX is working well as a gateway layer within Xueqiu. Specifically, it shows that:
 
-- achieving unified authentication, fusing and flow limiting at the gateway layer.
+- Achieving unified authentication, fusing and flow limiting at the gateway layer.
 - Reducing the overall system coupling and improving the quality of service in a dual-room scenario.
 - With the APISIX monitoring system, the unified monitoring scheme from gateway to service is improved.
-- providing good support for full-link exclusion.
+- Providing good support for full-link exclusion.
 - Provides a more elegant implementation of both gRPC protocol conversion and service management.
 
 In subsequent use, Xueqiu is also planning the following processes:
