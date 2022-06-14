@@ -84,7 +84,7 @@ To summarize, the introduction of APISIX gateways for architectural integration.
 - solved the problem of unified north-south and east-west traffic, saved resources and labor costs, and realized dynamic and unified management.
 - the deployment architecture of business services focuses on the services themselves, thus realizing the independent existence of the gateway and business insensitivity.
 - (b) Through extension plugins, functions such as permission verification, route distribution and health check of each service are hosted by the gateway.
-- New business go-live and service migration can be done dynamically, which is very friendly to operation and maintenance 
+- New business go-live and service migration can be done dynamically, which is very friendly to operation and maintenance.
 
 Of course, as the gateway carries all the traffic in this architecture, the number of services will increase later as the services continue to expand, and the maintenance cost of the gateway will then increase, and new response options will need to be considered. However, in the current context, this solution is still the optimal choice.
 

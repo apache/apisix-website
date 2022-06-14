@@ -50,11 +50,11 @@ The overall architecture of the automation operation and maintenance platform is
 
 - Connected third-party platform-related components
 
-    - CMDB (self-research): a layer of RESTful API is outsourced in the open-source CMDBuild to facilitate interaction;
+  - CMDB (self-research): a layer of RESTful API is outsourced in the open-source CMDBuild to facilitate interaction;
 
-    - OpenLDAP: used for user account authentication, not for authentication;
+  - OpenLDAP: used for user account authentication, not for authentication;
 
-    - Workflow Activiti: the official RestAPI service is used. Since it is behind the gateway, there is no need to consider security issues.
+  - Workflow Activiti: the official RestAPI service is used. Since it is behind the gateway, there is no need to consider security issues.
 
 ## Business scenario
 
@@ -98,7 +98,7 @@ Through the above scenario description, I believe you have a general understandi
 
 Because APISIX is implemented based on NGINX+ Lua, some functions need to be implemented through NGINX libraries. From the above figure, we can see where various Lua scripts can be cut into NGINX. In this article, we mainly introduce the operations that can be performed in the rewrite/access and content phases.
 
-In the rewrite/access phase, the message has not been transferred upstream, so various data preprocessing can be performed in this phase. From the above figure, we can see that there is an access_ by_ Lua. In this phase, the deny command can be used to manage permissions, including interface permissions and IP access white list. The plugin acl_plugin.lua, described later, is implemented at this stage.
+In the rewrite/access phase, the message has not been transferred upstream, so various data preprocessing can be performed in this phase. From the above figure, we can see that there is an access_by_Lua. In this phase, the deny command can be used to manage permissions, including interface permissions and IP access white list. The plugin acl_plugin.lua, described later, is implemented at this stage.
 
 Second, in `hard_ filet_ by_Lua` stage is often used to insert some additional `key:values` in the HTTP request header for subsequent use when requesting access. For example, when we need online gray-scale publishing, we can add flag bits to the user's request header. Through these flag bits, we can control which back-end services these requests forward, to realize gray-scale publishing. Of course, we can also use the [`traffic split`](http://localhost:3000/zh/docs/apisix/next/plugins/traffic-split) plug-in of APISIX to realize grayscale publishing.
 

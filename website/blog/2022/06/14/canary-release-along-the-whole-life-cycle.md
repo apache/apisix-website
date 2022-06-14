@@ -180,6 +180,7 @@ Configure the route corresponding to `gray`:
   "status": 1
 }
 ```
+
 #### Configure canary release along the whole life cycle of MSE
 
 You need to configure the full link publishing of MSE. For details, please refer to this tutorial: [Configuring full link grayscale](https://help.aliyun.com/document_detail/404845.html).

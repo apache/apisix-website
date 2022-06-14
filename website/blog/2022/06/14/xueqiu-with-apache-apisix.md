@@ -131,8 +131,8 @@ Currently, Apache APISIX is working well as a gateway layer within Xueqiu. Speci
 
 In subsequent use, Xueqiu is also planning the following processes:
 
-- Use of APISIX Ingress Controller applied to K8s clusters. 
-- Using the `grpc-transcode` plugin for HTTP/gRPC protocol conversion to achieve a unified back-end interface form. 
-- Using `traffic-spilt` plugin for traffic marking, docking to Nacos registry, achieving full-link grayscale and other service governance. 
+- Use of APISIX Ingress Controller applied to K8s clusters.
+- Using the `grpc-transcode` plugin for HTTP/gRPC protocol conversion to achieve a unified back-end interface form.
+- Using `traffic-spilt` plugin for traffic marking, docking to Nacos registry, achieving full-link grayscale and other service governance.
 
 And in the follow-up plan, we use Apache APISIX to replace the existing OpenResty, and finally realize the management of north-south traffic in the whole domain.

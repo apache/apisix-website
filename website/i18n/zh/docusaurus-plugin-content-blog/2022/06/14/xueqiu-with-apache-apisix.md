@@ -133,8 +133,8 @@ tags: [User Case]
 
 在后续的使用中，雪球也在规划如下进程：
 
-- 使用 APISIX Ingress Controller 应用于 K8s 集群； 
-- 利用 grpc-transcode 插件进行 HTTP/gRPC 协议转换，达到后端统一接口形式； 
-- 利用 `traffic-spilt` 插件进行流量打标、对接 Nacos 注册中心，实现全链路灰度等服务治理。 
+- 使用 APISIX Ingress Controller 应用于 K8s 集群；
+- 利用 grpc-transcode 插件进行 HTTP/gRPC 协议转换，达到后端统一接口形式；
+- 利用 `traffic-spilt` 插件进行流量打标、对接 Nacos 注册中心，实现全链路灰度等服务治理。
 
 并在后续计划中，用 Apache APISIX 去替代现有的 OpenResty，最终实现全域南北流量的管理。
