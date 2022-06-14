@@ -1,6 +1,12 @@
 ---
 title: "API 网关 Apache APISIX 助力雪球双活架构演进"
-authors: "雪球基础组件团队"
+authors:
+  - name: "雪球基础组件团队"
+    title: "Author"
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API 网关
 - Apache APISIX

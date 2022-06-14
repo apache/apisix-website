@@ -1,6 +1,12 @@
 ---
 title: "基于 Apache APISIX 的自动化运维平台"
-author: "陈庆"
+authors:
+  - name: "陈庆"
+    title: "Author"
+  - name: "韩飞"
+    title: "Technical Writer"
+    url: "https://github.com/hf400159"
+    image_url: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
 - API Gateway

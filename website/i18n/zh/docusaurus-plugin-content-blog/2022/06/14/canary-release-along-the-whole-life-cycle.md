@@ -1,6 +1,12 @@
 ---
 title: "阿里云 MSE 基于 Apache APISIX 的全链路灰度方案实践"
-author: "泮圣伟"
+authors:
+  - name: "泮圣伟"
+    title: "Author"
+  - name: "韩飞"
+    title: "Technical Writer"
+    url: "https://github.com/hf400159"
+    image_url: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
 - API Gateway

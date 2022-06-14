@@ -1,6 +1,12 @@
 ---
 title: "APISIX 助力中东社交软件，实现本地化部署"
-authors: "胡丽麟"
+authors:
+  - name: "胡丽麟"
+    title: "Author"
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API 网关
 - Apache APISIX

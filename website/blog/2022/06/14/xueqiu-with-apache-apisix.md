@@ -1,6 +1,12 @@
 ---
 title: "Apache APISIX Helps Xueqiu Architecture Evolution"
-authors: "Xueqiu Basic Component Team"
+authors:
+  - name: "Xueqiu Basic Component Team"
+    title: "Author"
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API Gateway
 - Apache APISIX

@@ -1,6 +1,12 @@
 ---
 title: "APISIX Makes Beeto to Achieve Localized Deployment"
-authors: "Lilin Hu"
+authors:
+  - name: "Lilin Hu"
+    title: "Author"
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API Gateway
 - Apache APISIX
