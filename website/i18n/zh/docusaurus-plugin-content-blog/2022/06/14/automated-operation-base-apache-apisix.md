@@ -36,7 +36,7 @@ tags: [Technology]
 
 自动化运维平台整体架构图如下：
 
-![架构图](https://user-images.githubusercontent.com/88811141/173292289-2986c1b4-3704-4d34-a30a-df4ee6f09da7.png)
+![架构图](https://static.apiseven.com/2022/06/blog/1/173292289-2986c1b4-3704-4d34-a30a-df4ee6f09da7.png)
 
 - 存储层：核心是 CMDB，主要功能是记录和管理组织业务和 IT 资源的属性，以及其它们之间的关系。不但负责所有业务变更的起始状态查询，而且所有的业务资源的变更都要反馈记录在其中，实现业务标准规范的管控。存储层也包含一些权限管理的数据、业务工单的流转数据以及监控告警的时序数据；
 
@@ -73,7 +73,7 @@ tags: [Technology]
 
 对于所有的 Web 框架，用户登录是一个必选项，接下来我将为大家介绍此场景。
 
-![用户登录](https://user-images.githubusercontent.com/88811141/173294822-ade65508-842e-450c-bcda-d8400e102f7a.png)
+![用户登录](https://static.apiseven.com/2022/06/blog/1/173294822-ade65508-842e-450c-bcda-d8400e102f7a.png)
 
 首先，我们需要了解下场景中，我们的使用的相关组件，第一个就是访问的前端，这个是在网关之外的，其次使用 APISIX 云原生 API 网关作为业务边界。再之后的 Auth 服务，它是自定义开发的微服务，作用是校验前端的 URL 请求和用户登录请求，并对通过认证的用户发放 Token。LDAP 中存放的是公司内部的密码信息。CMDB 存储的是一些业务的相关信息，包括组织结构，可以访问的权限的一些组织信息，最后是前端需要访问的页面。
 
@@ -87,11 +87,11 @@ tags: [Technology]
 
 通过上述的描述，相信大家已经对正常的请求流程有了一定的理解，接下来将为大家介绍下如何判断这些用户权限不足的场景。在运维平台中，如果有涉及到数据变更的操作，必须要携带 Token，当这个 Token 被 ACL 的接口验证无权访问后，就会直接返回一个禁止访问的页面，让前端进行处理。以下是用户登录及权限验证场景的具体流程和其中更使用的相关组件。
 
-![流程图](https://user-images.githubusercontent.com/88811141/173295581-983d945f-76da-4cc1-b9f3-5531f60e9af3.png)
+![流程图](https://static.apiseven.com/2022/06/blog/1/173295581-983d945f-76da-4cc1-b9f3-5531f60e9af3.png)
 
 ### 新业务微服务接入
 
-![微服务接入](https://user-images.githubusercontent.com/88811141/173296472-4048d0fc-247c-4855-a407-3d270d366a52.png)
+![微服务接入](https://static.apiseven.com/2022/06/blog/1/173296472-4048d0fc-247c-4855-a407-3d270d366a52.png)
 
 在日常工作，我们经常会上线一些微服务，那么如何让这个微服务接入自动化运维平台呢？
 
@@ -105,7 +105,7 @@ tags: [Technology]
 
 通过上述的场景描述，相信大家已经对整套体系有了大概的认识，接下来为大家介绍下部分技术细节。
 
-![技术细节](https://user-images.githubusercontent.com/88811141/173297301-6ee14d6e-8398-4b34-80ce-4b04ce053bad.png)
+![技术细节](https://static.apiseven.com/2022/06/blog/1/173297301-6ee14d6e-8398-4b34-80ce-4b04ce053bad.png)
 
 因为 APISIX 是基于 NGINX + Lua 实现的，所以部分功能需要通过 NGINX 的库来实现。从上图中，我们可以看到各种 Lua 脚本可以在哪些点切入到 NGINX 当中。在本文中，主要是为大家介绍 Rewrite/Access 以及 Content 阶段可以进行的操作。
 
