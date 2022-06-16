@@ -29,7 +29,7 @@ tags: [User Case]
 
 在此背景下，雪球为了向广大投资者提供稳定优质的服务，启动了服务双活改造计划。Apache APISIX 能极大地简化双活架构的实施复杂度。同时 APISIX 自身的云原生功能特性、丰富的社区生态和插件等，也为雪球未来云原生架构的演进打下了良好基础。本文将介绍雪球公司是如何借助 Apache APISIX 实现内部双活架构的演进。
 
-![原架构](https://user-images.githubusercontent.com/39793568/173306578-94dde7ba-3ee6-4d26-b73a-f3365be0dbd0.png)
+![原架构](https://static.apiseven.com/2022/06/blog/xueqiu-1.png)
 
 上图是雪球单机房时期的简单架构描述，用户流量从云端入口（SLB）进来后，经网关进行简单的公共性逻辑处理，向后端服务转发。后端服务会通过 SDK 的方式，由集成在服务中的鉴权模块向雪球用户中心发起用户鉴权，通过后则继续进行后续的业务处理。
 
@@ -55,17 +55,17 @@ tags: [User Case]
 
 所以在这些痛点之上，雪球内部希望在不引入过多变量的同时，尽量保证对业务方透明以及最小化改动； 可以将问题在基础设施层面进行统一处理，并且尽量将鉴权服务在本机房完成。综上考虑，雪球决定将鉴权服务移至 API 网关进行完成。
 
-![诉求与调研](https://user-images.githubusercontent.com/39793568/173306897-39054d96-d985-4d37-8e57-547af4442d03.png)
+![诉求与调研](https://static.apiseven.com/2022/06/blog/xueqiu-2.png)
 
 基于在业务实践场景中逐渐显现的痛点，雪球基础设施团队开始了针对网关产品的调研。通过内部诉求和目前市场中网关产品的对比，最终选择了基于 Apache APISIX 进行后续架构的调整与使用。
 
-![APISIX 生态图](https://user-images.githubusercontent.com/39793568/173307474-0bf24d6b-4399-487b-854e-29f7859eae2a.png)
+![APISIX 生态图](https://static.apiseven.com/2022/06/blog/xueqiu-3.png)
 
 ## 基于 Apache APISIX 的实践
 
 ### 调整后架构
 
-![新架构](https://user-images.githubusercontent.com/39793568/173307775-5c47bc36-2d74-4738-af96-bfeb26d4d9c2.png)
+![新架构](https://static.apiseven.com/2022/06/blog/xueqiu-4.png)
 
 如上图是目前雪球行情双活架构。左侧展示的是在原机房里对应的架构，并没有进行太多改动；右侧展示的则是上云之后基于多 Region 设计的多活架构。
 
@@ -105,15 +105,15 @@ tags: [User Case]
 
 比如 APISIX 的延迟指标会在某些情况下，出现指标非常高的现象（如下图所示），这种其实是跟该延迟指标的计算逻辑有关。目前 APISIX 延迟指标的计算逻辑是：单条 HTTP 请求在 NGINX 上的耗时时间-这条请求路由到上游的延迟。两个耗时之间的差数值即为 APISIX 延迟指标数据。
 
-![延迟指标](https://user-images.githubusercontent.com/39793568/173308287-2009c863-7868-4b56-b5fb-69d6855da300.png)
+![延迟指标](https://static.apiseven.com/2022/06/blog/xueqiu-5.png)
 
 使用 APISIX 后，在新增或修改一些插件时会导致一些逻辑的变更，变更之后可能会导致耗时相关的数据出现偏差。为了避免出现混淆数据真实性的现象发生，雪球在监控层面还增加了基于插件级别的耗时监控。在保证各数据监测的准确性下，还方便了后续进行插件级的业务改造时，提前通过耗时定位一些问题，从而方便排查。
 
-![数据体现](https://user-images.githubusercontent.com/39793568/173308508-c79aec14-8c61-408a-bb55-aae459ac51d2.png)
+![数据体现](https://static.apiseven.com/2022/06/blog/xueqiu-6.png)
 
 同时可以利用 APISIX 的可观测性能力，收集 Access 日志信息，并通过格式化统一投递到流量大盘中进行视图汇总。更方便地从多角度提前了解整体趋势，发现潜在问题并及时进行处理。
 
-![视图汇总](https://user-images.githubusercontent.com/39793568/173310510-86119440-9ac7-408c-84c6-4fb35e5dde5d.png)
+![视图汇总](https://static.apiseven.com/2022/06/blog/xueqiu-7.png)
 
 #### 场景三：扩展 ZooKeeper 注册中心
 
@@ -121,7 +121,7 @@ tags: [User Case]
 
 具体实现主要是在 APISIX 的一个内容节点上，当 Worker 进程启动时去轮询像下图中的 ZK-Rest 集群，然后定时去拉取整个服务的源数据信息以及实际信息，更新到 Worker 进程内的本地缓存，用于服务列表的更新。
 
-![扩展 ZooKeeper](https://user-images.githubusercontent.com/39793568/173310711-2ef912b3-82a3-400f-b8f8-e5c06450c43d.png)
+![扩展 ZooKeeper](https://static.apiseven.com/2022/06/blog/xueqiu-8.png)
 
 通过上图也可以看到，ZK-Rest 集群相当于通过 Rest 的形式进行访问 ZooKeeper 的数据。所以整个过程其实实现的功能比较少（主要是基于自身业务场景需求），只需要增加它的一个实例就可以实现高可用特性，免去一些复杂操作。
 
