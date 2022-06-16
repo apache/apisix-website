@@ -30,7 +30,7 @@ In fact, the Middle East is considered a more mature region in the Internet fiel
 
 The maturity of the Internet market has brought about international software coverage, with the likes of WhatsApp, YouTube and Instagram being the mainstream local social software. But looking back, you will find that there is basically no localized social software in the Middle East like Weibo in China. Therefore, before Beeto was born, we aimed at the direction of "Middle East Internet is mature and high penetration rate, but little localization" and started to prepare the product focusing on "localization features".
 
-![Localization appeal](https://user-images.githubusercontent.com/39793568/173319868-9a4ec13c-8c13-402f-a815-da7e3e09ccaf.png)
+![Localization appeal](https://static.apiseven.com/2022/06/blog/beeto-en1.png)
 
 Beeto in the Middle East is actually benchmarked against feed stream applications like Twitter and Facebook, so a relatively complete framework was planned from the beginning in the deployment of the business architecture. For example, to meet the social attributes of relationship interaction, content consumption (graphics, live video, crosstown advertising, etc.), as well as financial and service categories of reward, cash withdrawal, voting and lottery, and other kinds of business, and even including the platform side of the regulation, content security audit and other requirements.
 
@@ -44,17 +44,17 @@ In order to go local, Beeto needs to meet the existing local social needs at the
 
 ### Monolithic Service
 
-![Service division](https://user-images.githubusercontent.com/39793568/173314689-a8bde4be-008d-4684-95e5-ed463b1ee050.png)
+![Service division](https://static.apiseven.com/2022/06/blog/beeto-en2.png)
 
 The current Beeto product's services can be divided into these categories. The implementation of these services actually needs to be deployed locally in the Middle East. If we split each business by service, each service is actually a separate monolithic architecture.
 
-![image](https://user-images.githubusercontent.com/39793568/173315138-2c7bc9bb-e627-4f09-84ad-48ce6dd917ff.png)
+![monolithic architecture](https://static.apiseven.com/2022/06/blog/beeto-3.png)
 
 The above diagram shows a very common deployment architecture. Take Beeto's feed stream service, if you want to realize the user browsing feed stream demand, you have to support public network access, i.e. north-south traffic access; at the same time, the feed stream service will also provide some internal calls in the form of similar topic business, i.e. east-west traffic calls. Therefore, the overall service property is to explicitly support both external and internal invocation modes, and user traffic is load balanced through seven layers and assigned to different servers before invoking different storage resources, similar to the east-west direction. The whole seven-tier cluster is responsible for handling north-south and east-west traffic, load balancing, security authentication and node monitoring.
 
 When the services of multiple services are combined together, the overall architecture is formed as shown below.
 
-![Overall architecture](https://user-images.githubusercontent.com/39793568/173315367-31f7aa29-4bff-4bfb-a9c1-6e3d2edc6691.png)
+![Overall architecture](https://static.apiseven.com/2022/06/blog/beeto-4.png)
 
 As you can see, several services exist in both the adaptation layer, the business layer and the basic service layer. The deployment architecture of each service has the single architectural details mentioned earlier, so there are several seven-tier clusters in between, which is actually a very large and complex set of system architecture already.
 
@@ -66,7 +66,7 @@ In addition to the complexity of deploying the architecture mentioned above, the
 
 North-south traffic is dispersed across service pools, and east-west traffic is interspersed across services, with the invocation relationships between these services intertwined. For each set of services, these invocation relationships need to be maintained, resulting in unclear and unmanageable invocation chains.
 
-![Technical stack differentiation](https://user-images.githubusercontent.com/39793568/173315741-892e2f0b-5af9-4587-9523-ad22645f49d6.png)
+![Technical stack differentiation](https://static.apiseven.com/2022/06/blog/beeto-5.png)
 
 In addition to the complexity of the invocation relationship, there are also differences in the technology stack between each service. For example, in terms of invocation protocols, some services provide HTTP while others are RPC; and in terms of development languages, there is a mix of Java, Go, and other languages.
 
@@ -78,11 +78,11 @@ Since the current cost of Beeto is focused on business upgrades and iterations, 
 
 In order to solve the pain point of inconvenient service management and high cost investment, and to benefit from the dynamic performance of APISIX with etcd which is more in line with Beeto's product requirements, APISIX was introduced as a gateway in the architecture deployment and a cluster of gateways was built, as shown in the figure below.
 
-![New architecture](https://user-images.githubusercontent.com/39793568/173316487-2fa2d238-a330-4e95-8fe4-ea663d7f5a86.png)
+![New architecture](https://static.apiseven.com/2022/06/blog/beeto-6.png)
 
 The gateway cluster provides extension tools such as registry, service control, service monitoring, protocol forwarding and application plugins for all services. The clusters of each service can be registered at the gateway in a unified manner, and new services up and down can all be done directly through the gateway.
 
-![Cluster link](https://user-images.githubusercontent.com/39793568/173316775-d401a068-7579-4a78-a6dc-c0f6f3cd446c.png)
+![Cluster link](https://static.apiseven.com/2022/06/blog/beeto-7.png)
 
 Also with the introduction of gateways, the call links for the entire cluster become very clear. North-south traffic is routed and forwarded by the gateway, while east-west traffic is forwarded by the gateway for services on the intranet. At the functional level, APISIX is responsible for unified maintenance of the authentication invoked by these traffic flows, so that the performance differences and traffic differences between the services are clearly understood at the gateway level.
 
@@ -105,7 +105,7 @@ Apache APISIX as a gateway can handle multiple policies such as security authent
 
 We talked earlier about the public network users' access traffic uniformly passing through the gateway. The authentication for public network users is based on user requests authenticated by cookies. When a user request arrives at the gateway carrying a cookie, it is authenticated at the gateway by an authentication plugin.
 
-![Cookie handling process](https://user-images.githubusercontent.com/39793568/173317006-ecfc1a6a-00ef-4477-8973-b189fb3c0fa4.png)
+![Cookie handling process](https://static.apiseven.com/2022/06/blog/beeto-8.png)
 
 As shown in the flowchart above, the plugin internally performs localization validation and then performs authentication verification of the remote service according to the policy. When the request completes the cookie verification, it is then forwarded to the specified service.
 
@@ -118,7 +118,7 @@ The advantages of doing so are mainly in two aspects.
 
 In the diagram below, Service A calls Service B. Generally speaking, it is only necessary to provide an API when calling each other. However, in the internal process, we need to understand "who called the API, how it was called, whether permission verification is required, and whether the researcher needs to be controlled", and so on, which need to be handled internally.
 
-![Token handling process](https://user-images.githubusercontent.com/39793568/173317215-4591730d-6e73-420a-af92-16f83bd9d04e.png)
+![Token handling process](https://static.apiseven.com/2022/06/blog/beeto-9.png)
 
 With the APISIX gateway, the process becomes much simpler. All the internal service calls only need to register with the Auth Authentication Service, and each service is issued an App key, which is used to indicate the identity ID of the service. After the authentication is passed, the authentication mark will be passed to the invoked service, and the whole process will be unified for authentication registration and completion of mutual invocation.
 
@@ -132,7 +132,7 @@ The overall deployment architecture of Beeto's clusters is based on APISIX gatew
 
 In the process of migration, Beeto focused on the migration of stateless services. Because of the migration cost of the data center, it is not suitable to do dynamic adjustment; at the same time, most of the request pressure is carried by the stateless service, so it is very important to ensure that the stateless service has a good scalability premise.
 
-![Migration process](https://user-images.githubusercontent.com/39793568/173317464-47aa5b47-e791-46e1-9a0f-087b0051a45a.png)
+![Migration process](https://static.apiseven.com/2022/06/blog/beeto-10.png)
 
 In Beeto's architecture, service scalability is mainly reflected in two aspects, namely, individual service scalability and overall cluster scalability. For example, if a single service runs out of resources and needs to be scaled up, APISIX gateways can be used to dynamically add nodes to achieve the scaling. Similarly, in cross-cluster or cross-cloud situations, cluster scalability can be achieved by deploying multiple APISIX gateways and migrating different services to different gateway nodes.
 
@@ -144,13 +144,13 @@ In addition to these familiar gateway general scenarios, Apache APISIX also prov
 
 Those who are familiar with the UI and back-end of APP should know that different product pages are provided by different services. A page is made up of different modules, and the content of them is all sent from the interface. What module's data is sent down from the interface is rendered as what on the end. This is a joint client-side rendering specification, which aims to make the client-side rendering process more generic and the business processing more flexible.
 
-![PageA](https://user-images.githubusercontent.com/39793568/173317819-e01a7daa-3858-4d91-9879-b46aa9f15070.png)
+![PageA](https://static.apiseven.com/2022/06/blog/beeto-11.png)
 
 For example, in the implementation of PageA above, the client calls the interface of Service A, sends the corresponding module data, and completes the rendering of PageA. This operation causes a problem, the client needs to maintain each page and interface to each service. If the content changes, it is necessary to make a release solution, which is not friendly in terms of operability and efficiency.
 
 The main idea to solve the above problem is to realize the unified distribution of services in the overall architecture. That is, the client first unifies the request interface address, forwards all requests of this type to one interface, processes the request parameters and URL rules for the URL address at the gateway layer, and then introduces the distribution plugin. Finally, according to the configuration rules, the parsed requests are forwarded directly to the specified services at the gateway layer.
 
-![Business dynamic forwarding](https://user-images.githubusercontent.com/39793568/173318459-0400116f-de4b-47e8-979c-bce07c13081c.png)
+![Business dynamic forwarding](https://static.apiseven.com/2022/06/blog/beeto-12.png)
 
 The client only needs to determine the rendering specification throughout the process and does not need to care about the source of the data. The gateway layer takes the responsibility of service distribution and forwards the traffic directly. Meanwhile, the plugin configuration file in APISIX can be dynamically updated in real time, and the forwarding rules can be dynamically adjusted, which is very flexible. In fact, for applications like BFF (Backend for Frontend) architecture, such requirements can be solved at the gateway layer.
 

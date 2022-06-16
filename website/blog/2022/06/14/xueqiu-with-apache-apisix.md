@@ -30,7 +30,7 @@ Among them, the real-time quotes service is docked to a variety of upstream data
 
 Apache APISIX can greatly simplify the complexity of implementing a dual-active architecture. APISIX's own cloud-native features, rich community ecology and plug-ins also lay a good foundation for the future evolution of Xueqiu's cloud-native architecture. In this article, we will introduce how Xueqiu is using Apache APISIX to evolve its internal dual-active architecture.
 
-![Original architecture](https://user-images.githubusercontent.com/39793568/173306578-94dde7ba-3ee6-4d26-b73a-f3365be0dbd0.png)
+![Original architecture](https://static.apiseven.com/2022/06/blog/xueqiu-1.png)
 
 The diagram above depicts the simple architecture of Xueqiu single room period, user traffic comes in from the cloud portal (SLB), and is processed by the gateway for simple public nature logic and forwarded to the back-end service. The back-end service will be through the SDK, the authentication module integrated in the service to the Xueqiu user center to initiate user authentication, and then continue to follow the business processing.
 
@@ -58,13 +58,13 @@ So on top of these pain points, Xueqiu wanted to be as transparent as possible t
 
 Based on the pain points that became apparent in the business practice scenarios, the Xueqiu Infrastructure team began researching gateway products. Through internal requirements and the comparison of current market gateway products, the final choice of the subsequent architecture based on Apache APISIX adjustment and use.
 
-![Ecological](https://user-images.githubusercontent.com/39793568/173307474-0bf24d6b-4399-487b-854e-29f7859eae2a.png)
+![Ecological](https://static.apiseven.com/2022/06/blog/xueqiu-2.png)
 
 ## Apache APISIX Practice
 
 ### Adjusted architecture
 
-![New architecture](https://user-images.githubusercontent.com/39793568/173307775-5c47bc36-2d74-4738-af96-bfeb26d4d9c2.png)
+![New architecture](https://static.apiseven.com/2022/06/blog/xueqiu-4.png)
 
 The above figure shows the current dual-active architecture of Xueqiu Quotes. The left side shows the corresponding architecture in the original server room without much change; the right side shows the multi-live architecture designed based on multiple regions after going to the cloud.
 
@@ -104,15 +104,15 @@ Xueqiu's daily use scenario, usually after the site is online is required to mon
 
 For example, the APISIX latency metric can be very high in some cases (as shown in the figure below), which is actually related to the calculation logic of the latency metric. The current calculation logic of the APISIX latency metric is: the time taken for a single HTTP request on NGINX - the delay in routing the request upstream. The difference between the two elapsed times is the APISIX latency metric data.
 
-![Delay indicator](https://user-images.githubusercontent.com/39793568/173308287-2009c863-7868-4b56-b5fb-69d6855da300.png)
+![Delay indicator](https://static.apiseven.com/2022/06/blog/xueqiu-5.png)
 
 After using APISIX, adding or modifying some plugins will lead to some logic changes, which may lead to deviations in the time-consuming related data. In order to avoid confusing the authenticity of the data, Xueqiu has also increased the monitoring level based on the plugin level of time consumption monitoring. In order to ensure the accuracy of each data monitoring, it also facilitates the subsequent plug-in level business transformation, locating some problems through time consumption in advance, thus facilitating troubleshooting.
 
-![Data manifestation](https://user-images.githubusercontent.com/39793568/173308508-c79aec14-8c61-408a-bb55-aae459ac51d2.png)
+![Data manifestation](https://static.apiseven.com/2022/06/blog/xueqiu-6.png)
 
 You can also take advantage of APISIX's observability capabilities to collect Access log information and format it for unified delivery to the traffic dashboard for view aggregation. It is easier to understand the overall trend in advance from multiple perspectives, identify potential problems and deal with them in time.
 
-![Summary](https://user-images.githubusercontent.com/39793568/173310510-86119440-9ac7-408c-84c6-4fb35e5dde5d.png)
+![Summary](https://static.apiseven.com/2022/06/blog/xueqiu-7.png)
 
 #### Extending the ZooKeeper registry
 
@@ -120,7 +120,7 @@ Currently, Xueqiu gRPC service calls are based on the Zookeeper registry for reg
 
 The specific implementation is mainly on a content node of APISIX, when the worker process starts to poll the ZK-Rest cluster like in the figure below, and then regularly pull the source data information and actual information of the whole service, update to the local cache in the worker process, and use it to update the service list.
 
-![Extend ZooKeeper](https://user-images.githubusercontent.com/39793568/173310711-2ef912b3-82a3-400f-b8f8-e5c06450c43d.png)
+![Extend ZooKeeper](https://static.apiseven.com/2022/06/blog/xueqiu-8.png)
 
 As you can see from the above diagram, the ZK-Rest cluster is equivalent to accessing the data of ZooKeeper through the form of Rest. Therefore, the whole process is actually less functional (mainly based on its own business scenario requirements), and only one instance of it needs to be added to achieve the high availability feature, eliminating some complex operations.
 
