@@ -55,7 +55,7 @@ How to quickly implement canary release solution along the whole life cycle in t
 
 Physical environment isolation, in fact, is to build real traffic isolation by adding machines.
 
-![Physical environment isolation](https://user-images.githubusercontent.com/88811141/173307762-c8d3c115-c7c0-415d-94eb-f259cadab3bb.png)
+![Physical environment isolation](https://static.apiseven.com/2022/06/blog/2/173307762-c8d3c115-c7c0-415d-94eb-f259cadab3bb.png)
 
 This scheme needs to build a set of network isolated and resource-independent environments for canary services, and deploy the canary version of the services in it. Because it is isolated from the formal environment, other services in the formal environment cannot access the services that need canary release. Therefore, these online services need to be deployed redundantly in the canary deployment so that the entire call link can forward traffic normally. In addition, some other dependent middleware components such as the registry also need to be redundantly deployed in the canary deployment to ensure the visibility between microservices and ensure that the obtained node IP address only belongs to the current network environment.
 
@@ -65,7 +65,7 @@ This scheme is generally used to build enterprise testing and pre development en
 
 The other scheme is to build a logical environment isolation. We only need to deploy the canary version of the service. When the traffic flows on the call link, the gateway, each middleware and each micro service passing through will identify the canary traffic and dynamically forward it to the canary version of the corresponding service. As shown below:
 
-![Logical environment isolation](https://user-images.githubusercontent.com/88811141/173314750-0a86a58f-b89f-4421-b841-015bb3cd5869.png)
+![Logical environment isolation](https://static.apiseven.com/2022/06/blog/2/173314750-0a86a58f-b89f-4421-b841-015bb3cd5869.png)
 
 The above figure can well show the effect of this scheme. We use different colors to represent the canary traffic of different versions. It can be seen that both the microservice gateway and the microservice itself need to identify the traffic and make dynamic decisions according to the governance rules. When the service version changes, the forwarding of this call link will also change in real time. Compared with the canary deployment built by machines, this scheme can not only save a lot of machine costs and operation and maintenance manpower, but also help developers to control the online traffic in real time and quickly.
 
@@ -111,7 +111,7 @@ ingress-apisix
 
 4. Access APISIX Dashboard via `{slb-ip}:9000`.
 
-![Dashboard](https://user-images.githubusercontent.com/88811141/173316825-e590decb-4c35-4602-9590-41ddde8b93cf.png)
+![Dashboard](https://static.apiseven.com/2022/06/blog/2/173316825-e590decb-4c35-4602-9590-41ddde8b93cf.png)
 
 #### Step 2: Enable microservice governance
 
@@ -125,7 +125,7 @@ Deploy three applications A, B, and C in Alibaba cloud container service. Each a
 
 In some scenarios, the baseline environment and gray environment on the line can be distinguished by different domain names. Gray environment has a separate domain name that can be configured. Suppose we visit www.gray.com to request gray environment, visit www.base.com is the baseline environment.
 
-![Scenario 1](https://user-images.githubusercontent.com/88811141/173319294-d27fc48a-4d42-4578-9457-4ab9072528a4.png)
+![Scenario 1](https://static.apiseven.com/2022/06/blog/2/173319294-d27fc48a-4d42-4578-9457-4ab9072528a4.png)
 
 Call the link `Ingress-nginx - > A - > B - > C`, where a can be a `spring-boot` application.
 
@@ -214,7 +214,7 @@ Agray[172.18.144.16] -> Bgray[172.18.144.57] -> Cgray[172.18.144.157]%
 
 Some clients can't rewrite the domain name. Users hope to visit `www.demo.com` routes to the gray environment by passing in different parameters. For example, in the following figure, the gray environment is accessed through the request parameter `env=gray`.
 
-![Scenario 2](https://user-images.githubusercontent.com/88811141/173321500-ee604a73-f41b-4fc1-8861-c591bbb9d257.png)
+![Scenario 2](https://static.apiseven.com/2022/06/blog/2/173321500-ee604a73-f41b-4fc1-8861-c591bbb9d257.png)
 
 Call the link ingress apisik - > A - > b - > C, where a can be a spring boot application.
 
@@ -254,7 +254,7 @@ Then configure the route corresponding to the `base`:
 
 Configure the route corresponding to `gray`, as shown in the following figure:
 
-![Configure diagram](https://user-images.githubusercontent.com/88811141/173322176-ab677577-8595-4875-85cb-2dc799070871.png)
+![Configure diagram](https://static.apiseven.com/2022/06/blog/2/173322176-ab677577-8595-4875-85cb-2dc799070871.png)
 
 ```json
 {
