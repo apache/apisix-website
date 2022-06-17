@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.7.0-Release 正式发布"
+title: "Apache APISIX 2.7.0 正式发布"
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

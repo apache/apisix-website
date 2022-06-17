@@ -1,5 +1,5 @@
 ---
-title: August 21 Apache APISIX Meetup Shanghai, welcome to register!
+title: Apache APISIX Meetup in Shanghai, welcome to register!
 keywords:
 - API Gateway
 - APISIX

@@ -1,5 +1,5 @@
 ---
-title: "舍弃 Kong 和 Nginx，Apache APISIX 在趣链科技 BaaS 平台的落地实践"
+title: "舍弃 Kong 和 NGINX，APISIX 在趣链科技 BaaS 平台的落地实践"
 slug: 2021/08/09/apache-apisix-in-quliankeji
 author: "盛威锋"
 keywords: 
