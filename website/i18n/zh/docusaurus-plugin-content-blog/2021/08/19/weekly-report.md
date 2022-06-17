@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX 社区周报 ｜ 08-09 ～ 08-15
+title: Apache APISIX 社区周报（8.9-8.15）
 keywords:
 - 社区周报
 - 贡献者

@@ -1,5 +1,5 @@
 ---
-title: "从原理到操作，让你在 Apache APISIX 中代理 Dubbo 服务更便捷"
+title: "让你在 Apache APISIX 中代理 Dubbo 服务更便捷"
 authors:
   - name: "钱勇"
     title: "Author"

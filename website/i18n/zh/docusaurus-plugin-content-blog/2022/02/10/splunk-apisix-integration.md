@@ -1,5 +1,5 @@
 ---
-title: "生态扩大进行中！云原生 API 网关 Apache APISIX 集成 Splunk HTTP Event Collector"
+title: "云原生 API 网关 APISIX 集成 Splunk HTTP Event Collector"
 authors:
   - name: "帅进超"
     title: "Author"
