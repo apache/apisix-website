@@ -1,5 +1,5 @@
 ---
-title: 捷报频传！Apache APISIX 现已支持对接 Google Cloud Logging
+title: API 网关现已支持对接 Google Cloud Logging
 authors:
   - name: "帅进超"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: "APISIX-Datadog 插件发布，助力用户提高系统的可观测性"
+title: "API 网关 Datadog 插件发布，助力提高系统可观测性"
 author: "Bisakh Mondal"
 authorURL: "https://github.com/bisakhmondal"
 authorImageURL: "https://avatars.githubusercontent.com/u/41498427?v=4"

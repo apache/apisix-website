@@ -1,5 +1,5 @@
 ---
-title: "Using the Apache APISIX proxy gRPC service"
+title: "Use API gateway to proxy gRPC service"
 authors:
   - name: "Bozhong Yu"
     title: "Author"

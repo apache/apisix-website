@@ -1,5 +1,5 @@
 ---
-title: "贝壳找房：如何基于 Apache APISIX 搭建网关"
+title: "贝壳找房如何基于 APISIX 搭建网关"
 author: "王辉"
 keywords:
 - API 网关

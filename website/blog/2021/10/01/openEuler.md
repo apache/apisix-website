@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX community members help openEuler release first community innovation version
+title: Apache APISIX community members help openEuler release first innovation version
 slug: 2021/10/01/openeuler
 keywords:
 - Apache APISIX

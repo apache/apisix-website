@@ -1,5 +1,5 @@
 ---
-title: "基于 TiDB 的 Apache APISIX 高可用配置中心的最佳实践"
+title: "基于 TiDB 的 API 网关高可用配置最佳实践"
 authors:
   - name: "张超"
     title: "Author"
