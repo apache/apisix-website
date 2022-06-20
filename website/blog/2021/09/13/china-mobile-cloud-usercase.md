@@ -1,5 +1,5 @@
 ---
-title: "How Apache APISIX is implemented in China Mobile Cloud"
+title: "How APISIX implemented in China Mobile Cloud"
 author: "Yanshan Chen"
 keywords: 
 - Apache APISIX

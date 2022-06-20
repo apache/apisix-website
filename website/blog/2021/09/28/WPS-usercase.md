@@ -1,5 +1,5 @@
 ---
-title: "WPS has teamed up with Apache APISIX to create a new gateway experience"
+title: "WPS with Apache APISIX to create new API gateway experience"
 slug: 2021/09/28/wps-usercase
 author: Qiang Zhang
 keywords: 

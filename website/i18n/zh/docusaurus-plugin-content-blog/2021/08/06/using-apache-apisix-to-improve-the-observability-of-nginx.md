@@ -1,5 +1,5 @@
 ---
-title: "如何利用 Apache APISX 提升 Nginx 的可观测性"
+title: "如何利用 Apache APISX 提升 NGINX 的可观测性"
 author: "金卫"
 authorURL: "https://github.com/gxthrj"
 authorImageURL: "https://avatars.githubusercontent.com/u/4413028?v=4"

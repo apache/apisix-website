@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX & RocketMQ Helps User API Log Monitoring Capabilities"
+title: "Apache APISIX & RocketMQ Help API Log Monitoring Capabilities"
 authors: 
   - name: "Zhou Yu"
     title: "Author"

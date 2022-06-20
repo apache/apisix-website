@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Integration with Kafka for Efficient Real-Time Log Monitoring"
+title: "APISIX integrate with Kafka for real-time log monitoring"
 authors:
   - name: "Zeping Bai"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: "直播预告 | APISIX in 青云！开源+云原生助力“企业上云”行动落地"
+title: "直播预告 | 开源+云原生助力企业上云与行动落地"
 keywords:
 - Apache APISIX
 - QingCloud

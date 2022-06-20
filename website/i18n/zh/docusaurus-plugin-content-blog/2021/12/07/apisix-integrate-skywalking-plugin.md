@@ -1,5 +1,5 @@
 ---
-title: "强强联合！APISIX 集成 SkyWalking 打造全方位日志处理"
+title: "API 网关集成 SkyWalking 打造全方位日志处理"
 authors: 
   - name: "庄浩潮"
     title: "Author"
