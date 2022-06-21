@@ -23,9 +23,9 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ## Contributor Statistics
 
-![Contributors List](https://s1.ax1x.com/2022/06/07/XBLhLj.jpg)
+![Contributors List](https://user-images.githubusercontent.com/88811141/174762493-6bdb893a-241d-4ae5-84e0-63e5fb0cadb4.png)
 
-![New Contributors](https://s1.ax1x.com/2022/06/07/XBL5es.png)
+![New Contributors](https://user-images.githubusercontent.com/88811141/174762575-4de25c71-befa-422f-abb3-86547ae4480d.png)
 
 ## Good first issue
 
