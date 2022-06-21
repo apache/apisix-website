@@ -45,7 +45,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [代理 Redis 协议支持收集指标](https://github.com/apache/apisix/pull/7183)（贡献者：[spacewander](https://github.com/spacewander)）
 
-- [Stream 子系统支持`prometheus`插件](https://github.com/apache/apisix/pull/7174)（贡献者：[spacewander ](https://github.com/spacewander)）
+- [Stream 子系统支持`prometheus`插件](https://github.com/apache/apisix/pull/7174)（贡献者：[spacewander](https://github.com/spacewander)）
 
 ## 近期博文推荐
 

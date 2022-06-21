@@ -45,7 +45,7 @@ e.g. https://github.com/amannn/action-semantic-pull-request
 
 - [Proxy Redis protocol support add metrics](https://github.com/apache/apisix/pull/7183)（Contributor: [spacewander](https://github.com/spacewander)）
 
-- [Stream subsystem supports `prometheus` plugin](https://github.com/apache/apisix/pull/7174)（Contributor: [spacewander ](https://github.com/spacewander)）
+- [Stream subsystem supports `prometheus` plugin](https://github.com/apache/apisix/pull/7174)（Contributor: [spacewander](https://github.com/spacewander)）
 
 ## Recent Blog Recommendations
 
