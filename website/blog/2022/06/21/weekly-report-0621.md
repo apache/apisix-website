@@ -23,9 +23,9 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ## Contributor Statistics
 
-![Contributors List](https://user-images.githubusercontent.com/97427731/174762816-bd9ccd9e-0053-4835-bd02-087645698f3a.png)
+![Contributors List](https://static.apiseven.com/2022/weeklyreport/0615/174762816-bd9ccd9e-0053-4835-bd02-087645698f3a.png)
 
-![New Contributors](https://user-images.githubusercontent.com/97427731/174762904-058d6973-2a31-4b74-ab83-b6e6f32ca368.png)
+![New Contributors](https://static.apiseven.com/2022/weeklyreport/0615/174762904-058d6973-2a31-4b74-ab83-b6e6f32ca368.png)
 
 ## Good first issue
 

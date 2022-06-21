@@ -23,9 +23,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 贡献者统计
 
-![本周贡献者名单](https://user-images.githubusercontent.com/97427731/174759817-47eddcc7-a857-494b-9874-8daf95a71abe.png)
+![本周贡献者名单](https://static.apiseven.com/2022/weeklyreport/0615/174759817-47eddcc7-a857-494b-9874-8daf95a71abe.png)
 
-![本周新晋贡献者](https://user-images.githubusercontent.com/97427731/174759599-d832f5cd-3c61-44b9-90a6-3ceff3934c4c.png)
+![本周新晋贡献者](https://static.apiseven.com/2022/weeklyreport/0615/174759599-d832f5cd-3c61-44b9-90a6-3ceff3934c4c.png)
 
 ## Good first issue
 
@@ -33,7 +33,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **链接**：https://github.com/apache/apisix/issues/7164
 
-**问题描述**：目前社区正在使用 Semantic Pull Requests（语义拉动请求）来检查 PR，但是该项目已经不再维护了，所以需要一些替代方案。
+**问题描述**：目前社区正在使用 Semantic Pull Requests 来检查 PR，但是该项目已经不再维护了，所以需要一些替代方案。
 
 比如：https://github.com/amannn/action-semantic-pull-request
 
@@ -45,7 +45,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [代理 Redis 协议支持收集指标](https://github.com/apache/apisix/pull/7183)（贡献者：[spacewander](https://github.com/spacewander)）
 
-- [Stream 子系统支持`prometheus`插件](https://github.com/apache/apisix/pull/7174)（贡献者：[spacewander](https://github.com/spacewander)）
+- [Stream 子系统支持 `prometheus` 插件](https://github.com/apache/apisix/pull/7174)（贡献者：[spacewander](https://github.com/spacewander)）
 
 ## 近期博文推荐
 
