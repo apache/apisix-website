@@ -23,6 +23,8 @@ import Translate from '@docusaurus/Translate';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
+import Affix from '../components/UI/Affix';
+
 const PageTitle = styled.h1`
   text-align: center;
   margin-top: 1rem;
@@ -41,7 +43,7 @@ const PageSubtitle = styled.div`
 const SidebarItem = styled.div`
   padding-top: 3px;
   padding-bottom: 3px;
-  padding-right: 3px; 
+  padding-right: 3px;
   text-align: right;
   font-size: 1rem;
   font-weight: 400;
@@ -60,7 +62,7 @@ const Page = styled.div`
 
 const PluginsContainer = styled.div`
   display: grid;
-  margin-left: 200px; 
+  margin-left: 200px;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 5px;
   @media (max-width: 1200px) {
@@ -76,12 +78,8 @@ const PluginsContainer = styled.div`
 
 const SidebarContainer = styled.div`
   display: grid;
-  width: 250px;
-  position: fixed;
-  z-index: 1;
-  left: 0;
+  width: 100%;
   overflow-x: hidden;
-  top: 300px;
   padding-right: 10px;
   border-style: solid;
   border-color: #ffffff #efeff5 #ffffff #ffffff ;
@@ -137,7 +135,7 @@ const PluginDescription = styled.div`
 `;
 
 const SectionTitle = styled.h2`
-  margin-left: 200px; 
+  margin-left: 200px;
   margin-bottom: 24px;
   margin-top: 84px;
   text-transform: uppercase;
@@ -253,7 +251,12 @@ const Plugins: FC = () => {
         <PageSubtitle>
           <Translate id="plugins.website.subtitle">Powerful Plugins and Easy Integrations</Translate>
         </PageSubtitle>
-        <SidebarContainer>{sidebar}</SidebarContainer>
+        <Affix style={{
+          width: 250, top: 300, left: 0, zIndex: 1,
+        }}
+        >
+          <SidebarContainer>{sidebar}</SidebarContainer>
+        </Affix>
         {plugins}
       </Page>
     </Layout>
