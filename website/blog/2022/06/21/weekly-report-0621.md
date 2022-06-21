@@ -1,5 +1,5 @@
 ---
-title: Biweekly Report｜Explore the weeks of Jun 1st - Jun 15th
+title: Biweekly Report (Jun 1 - Jun 15)
 keywords:
 - Apache APISIX
 - API Gateway
@@ -33,19 +33,17 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 **Link**: https://github.com/apache/apisix/issues/7164
 
-**Description**: Currently we are using Semantic Pull Requests to check in PR but the project is no longer maintained. we need some alternatives.
+**Description**: Currently we are using Semantic Pull Requests to check in PR but the project is no longer maintained. We need some alternatives.
 
-e.g.
-
-https://github.com/amannn/action-semantic-pull-request
+e.g. https://github.com/amannn/action-semantic-pull-request
 
 ## Highlights of Recent Features
 
-- [Support get upstream cert from ssl object](https://github.com/apache/apisix/pull/7221)（Contributor: [soulbird](https://github.com/soulbird)）
+- [Support get upstream cert from SSL object](https://github.com/apache/apisix/pull/7221)（Contributor: [soulbird](https://github.com/soulbird)）
 
 - [Add support for capturing OIDC refresh tokens](https://github.com/apache/apisix/pull/7220)（Contributor: [NMichas](https://github.com/NMichas)）
 
-- [Proxy Redis protocol support add metrics](https://github.com/apache/apisix/pull/7183)（Contributor: [spacewander ](https://github.com/spacewander)）
+- [Proxy Redis protocol support add metrics](https://github.com/apache/apisix/pull/7183)（Contributor: [spacewander](https://github.com/spacewander)）
 
 - [Stream subsystem supports `prometheus` plugin](https://github.com/apache/apisix/pull/7174)（Contributor: [spacewander ](https://github.com/spacewander)）
 
