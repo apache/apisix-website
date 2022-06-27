@@ -179,7 +179,7 @@ GET /hello?test=1234&user=none
 --- more_headers
 test-header: only-for-test
 --- response_body
-hello world    
+hello world
 ```
 
 上述示例定义了 `request`。因为我们在上一个测试中定义了 `/hello` 和 `/test` 的路径，所以我们可以通过 `GET` 的方法向 `/hello` 发送请求，并然后它会发送一个 `test=1234` 和 `user=none` 的 `query` 参数。你也可以通过 `more_headers` 的方式添加响应头，比如给发送到 `hello` 的请求添加一个叫 `test-header` 的响应头。
