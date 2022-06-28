@@ -440,9 +440,7 @@ module.exports = {
       trackingID: 'GTM-K24PRPS',
     },
   },
-  stylesheets: [
-    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
-  ],
+  stylesheets: [],
   /**
    * We need to check if we build site for preview env,
    * or preview site will load static assets from the asf-site branch.
