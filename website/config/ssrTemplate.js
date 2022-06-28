@@ -14,10 +14,10 @@ module.exports = {
         <%~ metaAttribute %>
       <% }); %>
       <% it.stylesheets.forEach((stylesheet) => { %>
-        <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
+        <link rel="stylesheet" href="https://apisix-website-static.apiseven.com/<%= stylesheet %>" />
       <% }); %>
       <% it.scripts.forEach((script) => { %>
-        <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
+        <link rel="preload" href="https://apisix-website-static.apiseven.com/<%= script %>" as="script">
       <% }); %>
       <!-- Matomo from the ASF -->
       <script>
@@ -45,7 +45,7 @@ module.exports = {
         <%~ it.appHtml %>
       </div>
       <% it.scripts.forEach((script) => { %>
-        <script src="<%= it.baseUrl %><%= script %>"></script>
+        <script src="https://apisix-website-static.apiseven.com/<%= script %>"></script>
       <% }); %>
       <%~ it.postBodyTags %>
     </body>
