@@ -16,7 +16,7 @@ module.exports = {
   baseUrl: '/',
   organizationName: 'Apache',
   projectName: 'apisix-website',
-  favicon: 'img/favicon.png',
+  favicon: 'https://static.apiseven.com/202202/favicon.png',
   customFields: {
     tagline2:
       'Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.',
@@ -390,7 +390,7 @@ module.exports = {
       ],
       logo: {
         alt: 'Apache Software Foundation',
-        src: 'img/asf_logo_wide_small.png',
+        src: 'https://static.apiseven.com/202202/asf_logo_wide_small.png',
         href: 'https://www.apache.org/',
       },
 
@@ -420,7 +420,7 @@ module.exports = {
       disableSwitch: false,
       respectPrefersColorScheme: false,
     },
-    image: 'img/apache-apisix.png',
+    image: 'https://static.apiseven.com/202202/apache-apisix.png',
     metadatas: [
       {
         name: 'description',
