@@ -22,7 +22,7 @@ const EndCTA: FC = () => (
           {' '}
         </span>
         today
-        <img className="rocket" src="https://raw.githubusercontent.com/apache/apisix-website/master/website/src/assets/images/rocket.gif" alt="Rocket" />
+        <img className="rocket" src="https://static.apiseven.com/202202/rocket.gif" alt="Rocket" />
       </p>
     </div>
     <div className="endcta-btns">
