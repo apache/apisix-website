@@ -18,8 +18,6 @@ const HeroSection: FC = () => {
   useEffect(() => {
     const tl = gsap.timeline({
       defaults: {
-        delay: window.innerWidth >= 768 ? 1.5 : 0.01,
-        duration: 0.5,
         ease: 'Expo.easeInOut',
       },
     });
