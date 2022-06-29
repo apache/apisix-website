@@ -13,11 +13,11 @@ module.exports = {
       <% it.metaAttributes.forEach((metaAttribute) => { %>
         <%~ metaAttribute %>
       <% }); %>
-      <% it.stylesheets.forEach((stylesheet) => { %>
-        <link rel="stylesheet" href="https://apisix-website-static.apiseven.com<%= it.baseUrl %><%= stylesheet %>" />
-      <% }); %>
       <% it.scripts.forEach((script) => { %>
-        <link rel="preload" href="https://apisix-website-static.apiseven.com<%= it.baseUrl %><%= script %>" as="script">
+        <link rel="preload" href="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= script %>" as="script">
+      <% }); %>
+      <% it.stylesheets.forEach((stylesheet) => { %>
+        <link rel="stylesheet" href="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= stylesheet %>" />
       <% }); %>
       <!-- Matomo from the ASF -->
       <script>
@@ -45,7 +45,7 @@ module.exports = {
         <%~ it.appHtml %>
       </div>
       <% it.scripts.forEach((script) => { %>
-        <script src="https://apisix-website-static.apiseven.com<%= it.baseUrl %><%= script %>"></script>
+        <script src="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= script %>"></script>
       <% }); %>
       <%~ it.postBodyTags %>
     </body>

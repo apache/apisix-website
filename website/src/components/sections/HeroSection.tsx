@@ -6,17 +6,23 @@ import Translate from '@docusaurus/Translate';
 
 import '../../css/customTheme.css';
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import useWindowType from '@theme/hooks/useWindowSize';
 import ArrowAnim from '../ArrowAnim';
 
-const LazyLoadHeroCanvas = () => (
-  <BrowserOnly>
-    {() => {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-      const HeroCanvas = require('../HeroCanvas').default;
-      return <HeroCanvas />;
-    }}
-  </BrowserOnly>
-);
+const LazyLoadHeroCanvas = () => {
+  const windowType = useWindowType();
+  if (windowType === 'mobile') return (null);
+
+  return (
+    <BrowserOnly>
+      {() => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+        const HeroCanvas = require('../HeroCanvas').default;
+        return <HeroCanvas />;
+      }}
+    </BrowserOnly>
+  );
+};
 
 const HeroSection: FC = () => (
   <div className="hero-sec-wrap" style={{ width: '100%' }}>

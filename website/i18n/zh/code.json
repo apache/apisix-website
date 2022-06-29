@@ -291,8 +291,11 @@
   "openSourcePromo.component.ossPromo.title": {
     "message": "为 Apache APISIX 贡献你的力量！"
   },
-  "openSourcePromo.component.ossPromo.subtitle": {
-    "message": "Apache APISIX 完全开放源码并在不断发展！我们欢迎任何形式的贡献，请在 GitHub 上与社区互动。"
+  "openSourcePromo.component.ossPromo.subtitle1": {
+    "message": "Apache APISIX 完全开放源码并在不断发展！"
+  },
+  "openSourcePromo.component.ossPromo.subtitle2": {
+    "message": "我们欢迎任何形式的贡献，请在 GitHub 上与社区互动。"
   },
   "openSourcePromo.component.link.Github": {
     "message": "立即访问",
