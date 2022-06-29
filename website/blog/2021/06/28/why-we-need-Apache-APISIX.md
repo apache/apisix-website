@@ -53,7 +53,7 @@ As the backend architecture continues to iterate and enters the Kubernetes era, 
 
 Let's look at the left side of the more interesting JAVA. Spring Cloud's built-in API gateway has experienced Zuul and Zuul2, which are still not good: in performance and architecture, so Spring Cloud officially launched a new project, Spring Cloud Gateway, the final formation of the family bucket solution.
 
-Finally, the service mesh has formed a choice istio (CP) and Envoy (DP) in the bottom right part of the service mesh. Later we see the Alibaba open-source mosn, in a nutshell: the Golang version of envoy.
+Finally, the service mesh has formed a choice Istio (CP) and Envoy (DP) in the bottom right part of the service mesh. Later we see the Alibaba open-source MOSN, in a nutshell: the Golang version of Envoy.
 
 ![APISIX architecture](https://static.apiseven.com/202108/1646300450364-7318620a-0876-472e-8d7b-880c0f4a7ac2.jpg)
 
