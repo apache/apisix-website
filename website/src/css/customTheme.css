@@ -57,7 +57,8 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Medium;
   src:
     local("MaisonNeue-Medium"),
-    url("https://static.apiseven.com/202202/MaisonNeue-Medium.otf") format("opentype");
+    url("https://static.apiseven.com/202202/MaisonNeue-Medium.otf")
+    format("opentype");
   font-display: swap;
 }
 
@@ -65,7 +66,8 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Bold;
   src:
     local("MaisonNeue-Bold"),
-    url("https://static.apiseven.com/202202/MaisonNeue-Bold.otf") format("opentype");
+    url("https://static.apiseven.com/202202/MaisonNeue-Bold.otf")
+    format("opentype");
   font-display: swap;
 }
 
@@ -73,7 +75,8 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Light;
   src:
     local("MaisonNeue-Light"),
-    url("https://static.apiseven.com/202202/MaisonNeue-Light.otf") format("opentype");
+    url("https://static.apiseven.com/202202/MaisonNeue-Light.otf")
+    format("opentype");
   font-display: swap;
 }
 
@@ -81,7 +84,8 @@ html[data-theme="dark"] {
   font-family: MaisonNeue-Demi;
   src:
     local("MaisonNeue-Demi"),
-    url("https://static.apiseven.com/202202/MaisonNeue-Demi.otf") format("opentype");
+    url("https://static.apiseven.com/202202/MaisonNeue-Demi.otf")
+    format("opentype");
   font-display: swap;
 }
 
@@ -329,10 +333,44 @@ a:hover {
 }
 
 /* Hero section */
-.hide-title,
-.hide-subtitle,
-.hide-ctas {
-  opacity: 0;
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 50%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-title,
+.hero-subtitle,
+.hero-ctas {
+  animation-name: fade-in-up;
+  animation-fill-mode: both;
+  animation-delay: 0s;
+  animation-duration: 1s;
+}
+
+.hero-subtitle {
+  z-index: 100;
+  font-size: 1.1rem;
+  font-family: MaisonNeue-Light, sans-serif;
+  position: relative;
+  color: #615d5d;
+  line-height: 30px;
+  letter-spacing: 0.2px;
+  margin: 25px 0;
+  padding-right: 20px;
+  animation-delay: 0.25s;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  animation-delay: 0.5;
 }
 
 .hero-sec-wrap {
@@ -373,23 +411,6 @@ a:hover {
   margin: 0;
 }
 
-.hero-subtitle {
-  z-index: 100;
-  font-size: 1.1rem;
-  font-family: MaisonNeue-Light, sans-serif;
-  position: relative;
-  color: #615d5d;
-  line-height: 30px;
-  letter-spacing: 0.2px;
-  margin: 25px 0;
-  padding-right: 20px;
-}
-
-.hero-ctas {
-  display: flex;
-  align-items: center;
-}
-
 .btn {
   background: #030c16;
   border-style: solid;
@@ -412,11 +433,52 @@ a:hover {
 
 .btn-docs {
   display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .btn-docs:hover {
   text-decoration: none;
-  color: #9b9b9b;
+}
+
+.btn-docs .goto {
+  color: #000;
+}
+
+.btn-docs:hover .goto,
+.btn-docs:active .goto {
+  opacity: 0.8;
+}
+
+.btn-docs .arrow {
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.btn-docs .arrow svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-docs .arrow polygon,
+.btn-docs .arrow rect {
+  transition: all 250ms;
+}
+
+.btn-docs .arrow rect {
+  opacity: 0;
+}
+
+.btn-docs:hover .arrow polygon {
+  transform: translateX(100px);
+}
+
+.btn-docs:hover .arrow rect {
+  transform: translateX(240px);
+  opacity: 1;
 }
 
 /* Architecture section */
@@ -854,9 +916,7 @@ a:hover {
 .table {
   background: #fff;
   border-radius: 8px;
-  box-shadow:
-    0 0 0 1px rgb(255 255 255 / 10%),
-    0 2px 4px 0 rgb(14 30 37 / 12%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 10%), 0 2px 4px 0 rgb(14 30 37 / 12%);
   color: rgb(14 30 37 / 87%);
   font-size: 1.13rem;
   margin: 1em auto;
