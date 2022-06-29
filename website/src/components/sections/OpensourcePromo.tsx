@@ -5,7 +5,6 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate from '@docusaurus/Translate';
-import OssCanvas from '../OssCanvas';
 
 import GitHub from '../../assets/icons/github-logo.svg';
 import Video from '../Video';
@@ -83,20 +82,21 @@ const OpensourcePromo: FC = () => (
     </div>
 
     <div className="oss-promo">
-      <div className="oss-promo-text">
+      <div className="oss-promo-inwrapper">
         <h3 className="oss-promo-head">
           <Translate id="openSourcePromo.component.ossPromo.title">
-            Building API Gateway together
+            Building API Gateway Together
           </Translate>
         </h3>
         <div className="oss-promo-subtitle" style={{ color: 'rgb(199, 199, 199)' }}>
           <p>
-            <strong>
-              <Translate id="openSourcePromo.component.ossPromo.subtitle">
-                Apache APISIX is open source and ever-growing.
-                Contributors are always welcome. Reach out to us on GitHub
-              </Translate>
-            </strong>
+            <Translate id="openSourcePromo.component.ossPromo.subtitle1">
+              Apache APISIX is open source and ever-growing.
+            </Translate>
+            <br />
+            <Translate id="openSourcePromo.component.ossPromo.subtitle2">
+              Contributors are always welcome, reach out to us on GitHub.
+            </Translate>
           </p>
           <div className="oss-promo-cta">
             <GitHub style={{ width: '20px', margin: '0 10px 0 0' }} />
@@ -107,9 +107,6 @@ const OpensourcePromo: FC = () => (
             </a>
           </div>
         </div>
-      </div>
-      <div className="oss-promo-infograph">
-        <OssCanvas />
       </div>
     </div>
   </div>
