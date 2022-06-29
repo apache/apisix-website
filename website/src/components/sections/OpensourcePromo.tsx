@@ -6,8 +6,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate from '@docusaurus/Translate';
 
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import GitHub from '../../assets/icons/github-logo.svg';
-import Video from '../Video';
 import type { VideoProps } from '../Video';
 
 const VideoChannel: FC = () => {
@@ -41,6 +41,16 @@ const videoOptions: VideoProps['options'] = {
   width: 640,
   height: 360,
 };
+
+const LazyLoadVideo = () => (
+  <BrowserOnly>
+    {() => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+      const Video = require('../Video').default;
+      return <Video options={videoOptions} />;
+    }}
+  </BrowserOnly>
+);
 
 const OpensourcePromo: FC = () => (
   <div className="ossPromotion">
@@ -77,7 +87,7 @@ const OpensourcePromo: FC = () => (
         </div>
       </div>
       <div className="docs-promo-video">
-        <Video options={videoOptions} />
+        <LazyLoadVideo />
       </div>
     </div>
 
