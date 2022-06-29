@@ -51,7 +51,7 @@ At the beginning of the venture, it was exciting to go through this diagram in m
 
 As the backend architecture continues to iterate and enters the Kubernetes era, the traffic portal Ingress will use the official Kubernetes Ingress by default, based on the NGINX local configuration file. Some companies in China are also using Traefik as Ingress, which has a lot to do with the large base of Golang developers in China.
 
-Let's look at the left side of the more interesting JAVA. Spring Cloud's built-in API gateway has experienced ZUUL and ZUUL2, which are still not good: in performance and architecture, so Spring Cloud officially launched a new project, Spring Cloud Gateway, the final formation of the family bucket solution.
+Let's look at the left side of the more interesting JAVA. Spring Cloud's built-in API gateway has experienced Zuul and Zuul2, which are still not good: in performance and architecture, so Spring Cloud officially launched a new project, Spring Cloud Gateway, the final formation of the family bucket solution.
 
 Finally, the service mesh has formed a choice istio (CP) and Envoy (DP) in the bottom right part of the service mesh. Later we see the Alibaba open-source mosn, in a nutshell: the Golang version of envoy.
 
