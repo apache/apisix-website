@@ -19,7 +19,7 @@ tags: [Technology]
 
 <!--truncate-->
 
-> Source: https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX
+> Source: https://api7.ai/blog/why-do-you-need-apache-apisix-when-you-have-nginx-and-kong
 
 Hello everyone, I'm happy to share, "Why do you need Apache APISIX when you have NGINX and Kong."
 
