@@ -1,5 +1,5 @@
 ---
-title: "从 0 到 1，APISIX Ingress 加入社区后的发展与收获"
+title: "APISIX Ingress 项目从 0 到 1 的发展历程"
 slug: 2021/10/26/apisix-ingress
 author: "金卫"
 authorURL: "https://github.com/gxthrj"

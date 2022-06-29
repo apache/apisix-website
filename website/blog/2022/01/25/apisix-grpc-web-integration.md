@@ -1,5 +1,5 @@
 ---
-title: "Integrating Apache APISIX with gRPC-Web"
+title: "Integrate Apache APISIX with gRPC-Web"
 authors:
   - name: "Jinchao Shuai"
     title: "Author"

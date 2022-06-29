@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.14.1 exploratory version released, supporting more new features"
+title: "Release Apache APISIX 2.14.1"
 authors:
   - name: "Zexuan Luo"
     title: "Author"

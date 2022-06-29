@@ -63,7 +63,7 @@ const Content: FC = () => {
   const showcases = siteConfig.customFields.showcases.map((user) => (
     <div className="col col--2 item" key={user.infoLink}>
       <UserCard
-        image={`https://raw.githubusercontent.com/apache/apisix-website/master/website/static/img/${user.image}`}
+        image={`https://static.apiseven.com/202202/${user.image}`}
         caption={user.caption}
         infoLink={user.infoLink}
       />

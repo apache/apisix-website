@@ -28,13 +28,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 
 当前用户在 Apache APISIX 中开发自定义插件时，可以为插件定义一些 API（下称 public API），比如在当前的 `jwt-auth` 插件中，它实现并提供了一个 `/apisix/plugin/jwt/sign` 接口用于签发 JWT，由于此接口不是通过 Admin API 添加的，因此无法像管理 Route 一样管理此类接口。
 
-在实际应用场景中，提供的接口是面向内部调用的，而非开放在公网供任何人调用。为了应对这种场景，Apache APISIX 设计了 [`plugin-interceptors`](https://apisix.apache.org/zh/docs/apisix/plugin-interceptors/)（插件拦截器），通过此功能可以让 public API 应用部分插件并实现请求过滤，但是当前仅支持 [`ip-restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/ip-restriction) 插件。
-
-由上可以看出，Apache APISIX 对于 public API 的请求过滤能力是比较弱的，所以不能使用 Apache APISIX 中其他插件实现复杂的认证和授权能力。
-
-因此，Apache APISIX 设计了 `public-api` 插件，它替换了功能有限且使用复杂的插件拦截器。通过这个插件，可以解决 public API 使用过程中的痛点，您可以为 public API 设置自定义的 `uri`，可以配置任何类型的插件。下图展示了使用 `public-api` 前后的变化。
-
-![error/flowchart.png](https://static.apiseven.com/202108/1646118914254-d6743193-96c5-492f-aa3f-c1d7a5d6eeb7.png)
+在实际应用场景中，提供的接口是面向内部调用的，而非开放在公网供任何人调用。为了应对这种场景，Apache APISIX 设计了 `public-api` 插件，它替换了功能有限且使用复杂的插件拦截器。通过这个插件，可以解决 public API 使用过程中的痛点，您可以为 public API 设置自定义的 `uri`，可以配置任何类型的插件。下图展示了使用 `public-api` 前后的变化。
 
 ## 初识 public-api
 

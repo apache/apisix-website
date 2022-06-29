@@ -34,7 +34,7 @@ const VideoChannel: FC = () => {
 const videoOptions: VideoProps['options'] = {
   controls: true,
   preload: 'none',
-  poster: 'https://raw.githubusercontent.com/apache/apisix-website/master/website/src/assets/images/apisix-video-poster.jpg',
+  poster: 'https://static.apiseven.com/202202/apisix-video-poster.jpeg',
   sources: [{
     src: 'https://static.apiseven.com/apisix-website/videos/apisix-video/apisix-bobur.m3u8',
     type: 'application/x-mpegURL',

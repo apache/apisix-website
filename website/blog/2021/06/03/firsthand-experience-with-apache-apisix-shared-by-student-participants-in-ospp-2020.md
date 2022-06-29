@@ -1,5 +1,5 @@
 ---
-title: Firsthand Experience with Apache APISIX Shared by Student Participants in OSPP 2020
+title: First Experience with Apache APISIX Shared by Student in OSPP 2020
 slug: /blog/2021/06/03/firsthand-experience-with-apache-apisix-from-ospp-2020-students
 author: "赵若妃"
 authorURL: "https://github.com/Serendipity96"

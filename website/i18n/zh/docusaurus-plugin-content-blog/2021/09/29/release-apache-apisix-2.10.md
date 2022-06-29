@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.10.0 正式发布，带来第一个 LTS 版本！"
+title: "Apache APISIX 2.10.0(LTS 版本)正式发布"
 author: "罗泽轩"
 authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"

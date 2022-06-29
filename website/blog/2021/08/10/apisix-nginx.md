@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Architecture Analysis: How to Dynamically Manage Nginx Clustering?"
+title: "APISIX Architecture: How to Dynamically Manage NGINX Cluster?"
 author: Hui Tao
 keywords: 
 - API Gateway

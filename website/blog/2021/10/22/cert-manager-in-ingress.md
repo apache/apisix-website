@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: How to use Cert Manager to manage certificates in Apache APISIX Ingress Controller"
+title: "Use Cert Manager to manage certificates in Apache APISIX Ingress Controller"
 author: "Chao Zhang"
 authorURL: "https://github.com/tokers"
 authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"

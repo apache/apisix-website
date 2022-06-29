@@ -18,27 +18,6 @@ that have a specific focus on Apache APISIX.
 
 ### Conferences
 
-#### [WeAreDevelopers World Congress](https://worldcongress.dev/)
-
-* **Topic** Evolving your APIs
-* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 14-June-2022 to 14-June-2022
-* **Location** Germany
-
-#### [Voxxed Days Luxembourg](https://luxembourg.voxxeddays.com/en/)
-
-* **Topic** Evolving your APIs
-* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 20-June-2022 to 24-June-2022
-* **Location** Luxembourg
-
-#### [Devoxx Poland](https://devoxx.pl/)
-
-* **Topic** Evolving your APIs
-* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 22-June-2022 to 24-June-2022
-* **Location** Poland
-
 #### [CloudLand](https://www.cloudland.org/de/home/)
 
 * **Topic** Evolving your APIs
@@ -99,4 +78,8 @@ that have a specific focus on Apache APISIX.
 
 ### Meetups
 
-Coming soon...
+#### Apache APISIX Community Meetup
+
+* **Topic** UseCase + technologies
+* **Activity schedule** July 30 (Saturday) - 13:30 - 17:00
+* **Location** China Nanjing Software Valley

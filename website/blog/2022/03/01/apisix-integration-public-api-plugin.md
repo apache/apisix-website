@@ -28,13 +28,7 @@ Apache APISIX is a dynamic, real-time, high-performance API gateway that provide
 
 When users develop custom plugins in Apache APISIX, they can define some APIs (hereinafter referred to as: public API) for the plugins. For example, the `jwt-auth` plugin, which implements and provides the `/apisix/plugin/jwt/sign` interface for signing JWT, because this interface is not added through the Admin API, it can't be managed like a route.
 
-In practical application scenarios, the provided interface is for internal calls, rather than being open on the public network for anyone to call. In order to deal with this scenario, Apache APISIX designed [`plugin-interceptors`](https://apisix.apache.org/zh/docs/apisix/plugin-interceptors/), which allows the public API to apply some plugins and implement request filtering, but currently only [`ip-restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/ip-restriction) plugins are supported.
-
-It can be seen from the above that Apache APISIX's ability to request public API for filtering is relatively weak, so it is impossible to use the other plugins in Apache APISIX to achieve complex authentication and authorization.
-
-Therefore, Apache APISIX has designed a `public-api` plugin that replaces the limited functionality and complex use of `plugin-interceptors`. With this plugin, you can solve the pain points in using the public API. You can set a custom URI for the public API and configure any type of plugin. The following figure shows the changes before and after using `public-api`.
-
-![error/flowchart.png](https://static.apiseven.com/202108/1646118914254-d6743193-96c5-492f-aa3f-c1d7a5d6eeb7.png)
+In practical application scenarios, the provided interface is for internal calls, rather than being open on the public network for anyone to call. In order to deal with this scenario, Apache APISIX designed a `public-api` plugin that replaces the limited functionality and complex use of `plugin-interceptors`. With this plugin, you can solve the pain points in using the public API. You can set a custom URI for the public API and configure any type of plugin. The following figure shows the changes before and after using `public-api`.
 
 ## Initial Knowledge about `public-api`
 

@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX integrates with Open Policy Agent to enrich its ecosystem"
+title: "Apache APISIX integrates with Open Policy Agent"
 authors:
   - name: "Zeping Bai"
     title: "Author"

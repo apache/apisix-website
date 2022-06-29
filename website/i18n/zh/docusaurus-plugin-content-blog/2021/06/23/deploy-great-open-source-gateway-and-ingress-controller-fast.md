@@ -1,5 +1,5 @@
 ---
-title: "Rancher × Apache APISIX: 极速部署更好用的开源网关和 Ingress Controller"
+title: "使用 Rancher 极速部署更好用的开源网关和 Ingress 控制器"
 author: "张晋涛"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"

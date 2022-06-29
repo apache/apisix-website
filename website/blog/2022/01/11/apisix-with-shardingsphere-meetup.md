@@ -1,5 +1,5 @@
 ---
-title: "Webinar | From API to Database: A Comprehensive Solution to Perform Online Load Test on Your Distributed System"
+title: "Webinar | From API to Database"
 keywords: 
 - Apache APISIX
 - Apache ShardingSphere

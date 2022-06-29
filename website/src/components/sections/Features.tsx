@@ -9,9 +9,6 @@ import Translate from '@docusaurus/Translate';
 import ArrowAnim from '../ArrowAnim';
 
 import '../../css/customTheme.css';
-import Dashboard from '../../assets/images/apisix-dashboard.png';
-import Snippet from '../../assets/images/code-sample.png';
-import Plugin from '../../assets/images/pluginised.png';
 
 const DashboardPlayground = () => (
   <Link
@@ -245,21 +242,21 @@ const Features: FC = () => {
           <img
             ref={img1}
             className="i-image imagePosition"
-            src={Dashboard}
+            src="https://static.apiseven.com/202202/apisix-dashboard.png"
             loading="lazy"
             alt="apisix-dashboard"
           />
           <img
             ref={img2}
             className="n-image imagePosition"
-            src={Snippet}
+            src="https://static.apiseven.com/202202/code-sample.png"
             loading="lazy"
             alt="code-snippet"
           />
           <img
             ref={img3}
             className="n-image imagePosition"
-            src={Plugin}
+            src="https://static.apiseven.com/202202/pluginised.png"
             loading="lazy"
             alt="plugin-workflow"
           />
@@ -282,7 +279,7 @@ const Features: FC = () => {
                 Easy-to-use dashboard
               </Translate>
             </h2>
-            <img className="i-image-col" src={Dashboard} alt="" />
+            <img className="i-image-col" src="https://static.apiseven.com/202202/apisix-dashboard.png" alt="Dashboard" />
             <p className="i-text-desc-col add-left-margin">
               <Translate id="features.component.easyDashboard.message">
                 The Apache APISIX Dashboard is designed to make it as easy as
@@ -311,7 +308,7 @@ const Features: FC = () => {
           <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
             <Translate id="features.component.userFlexible.title">User Flexible</Translate>
           </h2>
-          <img className="i-image-col" src={Snippet} alt="" />
+          <img className="i-image-col" src="https://static.apiseven.com/202202/code-sample.png" alt="code-sample" />
           <p className="i-text-desc-col add-left-margin">
             <Translate id="features.component.userFlexible.message">
               The Apache APISIX dashboard is flexible to User demand, providing
@@ -329,7 +326,7 @@ const Features: FC = () => {
           <h2 className="add-left-margin" style={{ width: 'fit-content' }}>
             <Translate id="features.component.pluginised.title">Pluginised Workflow</Translate>
           </h2>
-          <img className="i-image-col" src={Plugin} alt="" />
+          <img className="i-image-col" src="https://static.apiseven.com/202202/pluginised.png" alt="Plugin" />
           <p className="i-text-desc-col add-left-margin">
             <Translate id="features.component.pluginised.message">
               No need to reinvent the wheel again and again. Use inbuilt plugins

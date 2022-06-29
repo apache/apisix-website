@@ -1,5 +1,5 @@
 ---
-title: I issued my first PR in the Apache APISIX community
+title: My first PR in the Apache APISIX community
 slug: 2021/08/11/interview-tuzhengsong
 author: Apache APISIX
 authorURL: "https://github.com/Yangxiamao"
