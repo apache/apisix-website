@@ -98,7 +98,6 @@ property "host" validation failed: wrong type: expected string, got number
 - 输入类型错误（整数）的 `host` 值。因为在源码中设置了 `host` 参数必须是字符串类型，所以返回结果将是 `property "host" validation failed: wrong type`。
 
 ```perl
-expected string, got number。
 --- config
     location /t {
         content_by_lua_block {

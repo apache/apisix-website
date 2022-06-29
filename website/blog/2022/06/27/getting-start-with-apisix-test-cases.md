@@ -199,12 +199,15 @@ Typically, you can run a test case locally using the following command:
 PATH=/usr/local/openresty/nginx/sbin:/usr/bin PERL5LIB=.:$PERL5LIB FLUSH_ETCD=1 prove -Itest-nginx/lib -r t/admin
 ```
 
+The above commands are interpreted as follows:
+
 - `PATH` specifies the directory where `openresty/nginx` is located, which can avoid conflicts caused by incorrect configuration of some environments. If OpenResty in the environment is installed in other locations, it can also be specified through this command.
 - `PERL5LIB` specifies importing locally using `Perl`. Import the PERL library that exists in this path and some of the PERL libraries attached via environment variables.
 - `FLUSH_ETCD` specifies that after each test file is executed, all data is cleared. It needs to call the `etcdctl` function, and it needs to ensure that the `etcdctl` executable file can be found in the `PATH`.
 - `prove` invokes the test program to start the test execution.
 - `-Itest-nginx/lib` means import the `Itest-nginx/lib` library.
 - `-r` means to automatically find test files. If a path is specified, all test files under this path will be searched.
+- `t/admin` means to specify the test case search path, and it can also be specified to a unique `.t` file for qualification.
   
 The following is the normal return result.
 
