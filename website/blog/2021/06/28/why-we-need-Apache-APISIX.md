@@ -64,10 +64,12 @@ When we have few tools, we always compromise between functionality, dynamics, pe
 ![Nginx](https://static.apiseven.com/202108/1646300822188-c239210d-ee4c-4025-a2a5-9e40da1e7863.jpg)
 
 As you can see, these are NGINX drawbacks, such as NGINX's low activity community:
-The NGINX repository in Github is only a mirror.
-The GitHub Issue feature is disabled.
-It is impossible to submit an issue.
-The official team will not merge even if you submit a PR.
+
+- The NGINX repository in Github is only a mirror.
+- The GitHub Issue feature is disabled.
+- It is impossible to submit an issue.
+- The official team will not merge even if you submit a PR.
+
 In addition, NGINX is weak in its routing. For example, if I want to do a canary release based on a request parameter such as id, you will find that NGINX is entirely unable to achieve it. So we can see a lot of small open-source projects. As long as the above canary release scenario is solved, it can be an independent open source project. In addition, gRPC calls are becoming increasingly popular in microservice calls, but NGINX support for it is only "simple to use."
 
 Finally, almost every Internet vendor has its own NGINX configuration system team for the NGINX cluster management. Although the system is similar, there is no unified solution. More than a decade has been blank.
