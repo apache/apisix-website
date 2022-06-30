@@ -83,7 +83,7 @@ tags: [Technology]
 
 在权限认证中，鉴权服务会根据传入的“用户名”和“密码”，从 LDAP 中查询账号是否正确。如果正确，就会通过 CMDB 查询该用户是属于哪个组织、可以查看哪些功能模块；得到结果后，使用 APISIX 的 JWT 插件，根据用户信息生成一个 Token，并添加过期时间，返回给前端；用户通过 Cookie 的方式进行Token存储。该用户后续如果继续访问，网关会从 Cookie 中把之前存储的 Token 调出来，验证当前用户是否可以继续访问后面的页面。
 
-在这里，我们使用了 APISIX 的 `consumer-restriction` 插件，上述所讲的权限认证，实际上就是通过 `consumer-restriction` 插件来完成的，不需要我们在后台多次反复认证。
+在这里，我们使用了 APISIX 的 [`consumer-restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/consumer-restriction/) 插件，上述所讲的权限认证，实际上就是通过 `consumer-restriction` 插件来完成的，不需要我们在后台多次反复认证。
 
 通过上述的描述，相信大家已经对正常的请求流程有了一定的理解，接下来将为大家介绍下如何判断这些用户权限不足的场景。在运维平台中，如果有涉及到数据变更的操作，必须要携带 Token，当这个 Token 被 ACL 的接口验证无权访问后，就会直接返回一个禁止访问的页面，让前端进行处理。以下是用户登录及权限验证场景的具体流程和其中更使用的相关组件。
 
@@ -111,7 +111,7 @@ tags: [Technology]
 
 因为在 Rewrite/Access 阶段，报文还没有转给 Upstream，所以可以在该阶段进行各种各样的数据预处理。从上图中我们可以看到有个 `access_by_lua`，在该阶段，可以使用 deny 命令进行权限的管理，包括接口权限以及 IP 准入白名单都可以在该阶段实现。后文所介绍的 `acl_plugin.lua` 的插件就是在该阶段实现的。
 
-其次在 `hard_filet_by_lua` 这个阶段，常用于在请求访问时，额外的在 HTTP 请求头插入一些 `key:value`，供后续使用。例如，当需要我们线上灰度发布时，就可以在用户的请求头中加入标志位，通过这些标志位，就可以控制这些请求转发哪些后端服务，从而实现灰度发布。当然我们也可以使用 APISIX 的 `traffic-split` 插件实现灰度发布。
+其次在 `hard_filet_by_lua` 这个阶段，常用于在请求访问时，额外的在 HTTP 请求头插入一些 `key:value`，供后续使用。例如，当需要我们线上灰度发布时，就可以在用户的请求头中加入标志位，通过这些标志位，就可以控制这些请求转发哪些后端服务，从而实现灰度发布。当然我们也可以使用 APISIX 的 [`traffic-split`](https://apisix.apache.org/zh/docs/apisix/plugins/traffic-split) 插件实现灰度发布。
 
 最后就是 `log_by_lua` 阶段，在该阶段，我们可以把一些 trace 信息或者一些故障信息可以直接输入到 log 文件中。同样的，针对 `Loggers`，APISIX 也提供了非常多的插件，包括 `skywalking-lo``g``ger`、`kafka-lo``gger`、`rocketmq-logger` 等等。
 
