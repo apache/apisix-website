@@ -233,4 +233,6 @@ We can see that, in this example, line `416` is reporting an error. Through the 
 
 ## Summary
 
-This article mainly introduces the relevant process of testing, as well as the composition of APISIX test cases and how to write test cases. I hope you can have a general understanding of APISIX test cases through this article. However, the text only mentions some core content in the APISIX test framework, and fails to cover all the content in the TEST::NGINX framework. In fact, there are many powerful capabilities in `TEST::NGINX`. We can use [Test::Nginx::Socket](https://metacpan.org/pod/Test::Nginx::Socket) documentation for more usage. If you want to learn more about writing test cases, you can also watch the [APISIX Test Cases Quick Start video].
+This article mainly introduces the relevant process of testing, as well as the composition of APISIX test cases and how to write test cases. I hope you can have a general understanding of APISIX test cases through this article. 
+
+However, the text only mentions some core content in the APISIX test framework, and fails to cover all the content in the TEST::NGINX framework. In fact, there are many powerful capabilities in `TEST::NGINX`. We can use [Test::Nginx::Socket](https://metacpan.org/pod/Test::Nginx::Socket) documentation for more usage. If you want to learn more about writing test cases, you can also watch the [APISIX Test Cases Quick Start video](https://www.bilibili.com/video/BV1qF411G78j?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=d427acb1117c07aeea8968e15736e375).

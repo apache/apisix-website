@@ -213,11 +213,11 @@ PATH=/usr/local/openresty/nginx/sbin:/usr/bin PERL5LIB=.:$PERL5LIB FLUSH_ETCD=1 
 
 ![network error/normal return result](https://static.apiseven.com/2022/blog/0627/5.png)
 
-  如果测试失败，则会出现以下信息：
+ 如果测试失败，则会出现以下信息：
 
 ![network error/fail return result](https://static.apiseven.com/2022/blog/0627/2.png)
 
-  以上信息则会告诉你具体是哪个测试文件中的哪个测试用例执行失败了。
+ 以上信息则会告诉你具体是哪个测试文件中的哪个测试用例执行失败了。
 
 ### Github 运行
 
@@ -233,4 +233,6 @@ PATH=/usr/local/openresty/nginx/sbin:/usr/bin PERL5LIB=.:$PERL5LIB FLUSH_ETCD=1 
 
 ## 总结
 
-本文主要为大家介绍了测试的相关流程，以及在 APISIX 测试案例的构成和如何进行测试案例的编写，希望通过本文你可以对 APISIX 的测试案例有一个大致的认识。然而本文只提到了 APISIX 测试框架中的一些核心内容，未能覆盖 `TEST::NGINX` 框架中的全部内容，实际上 `TEST::NGINX` 中还有很多强大的能力，我们可以通过 [`Test::Nginx::Socket` 的文档](https://metacpan.org/pod/Test::Nginx::Socket)了解更多用法。如果你想学习更多编写测试案例的知识，可以观看[APISIX测试案例快速入门视频](https://www.bilibili.com/video/BV1qF411G78j?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=d427acb1117c07aeea8968e15736e375)。
+本文主要为大家介绍了测试的相关流程，以及在 APISIX 测试案例的构成和如何进行测试案例的编写，希望通过本文你可以对 APISIX 的测试案例有一个大致的认识。
+
+然而本文只提到了 APISIX 测试框架中的一些核心内容，未能覆盖 `TEST::NGINX` 框架中的全部内容，实际上 `TEST::NGINX` 中还有很多强大的能力，我们可以通过 [`Test::Nginx::Socket` 的文档](https://metacpan.org/pod/Test::Nginx::Socket)了解更多用法。如果你想学习更多编写测试案例的知识，可以观看[APISIX 测试案例快速入门视频](https://www.bilibili.com/video/BV1qF411G78j?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=d427acb1117c07aeea8968e15736e375)。
