@@ -18,26 +18,26 @@ that have a specific focus on Apache APISIX.
 
 ### Conferences
 
-#### [CloudLand](https://www.cloudland.org/de/home/)
-
-* **Topic** Evolving your APIs
-* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 29-June-2022 to 02-July-2022
-* **Location** Germany
-
-#### [CloudLand](https://www.cloudland.org/de/home/)
-
-* **Topic** Chopping the monolith
-* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
-* **Dates** from 29-June-2022 to 02-July-2022
-* **Location** Germany
-
 #### [Apidays New York](https://www.apidays.global/new-york/)
 
 * **Topic** Evolving your APIs
 * **Speaker** Nicolas Fränkel
 * **Dates** from 27-July-2022 to 28-July-2022
 * **Location** USA
+
+#### [ApacheCon 2022 Asia](https://www.apachecon.com/acasia2022/)
+
+* **Topic** Starting Apache APISIX on the right foot
+* **Speaker** Bobur Umurzokov
+* **Dates** from 29-July-2022 to 31-July-2022
+* **Location** Online
+
+#### [ApacheCon 2022 Asia](https://www.apachecon.com/acasia2022/)
+
+* **Topic** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 29-July-2022 to 31-July-2022
+* **Location** Online
 
 #### [Code Palousa](https://www.codepalousa.com/)
 
@@ -59,6 +59,34 @@ that have a specific focus on Apache APISIX.
 * **Speaker** [Bobur Umurzokov](https://github.com/Boburmirzo)
 * **Dates** from 17-August-2022 to 19-August-2022
 * **Location** Louisville, KY, USA
+
+#### [DevCONF](https://www.devconf.info/us/)
+
+* **Topics** Chopping the monolith, Evolving your APIs
+* **Speaker** [Nicolas Fränkel](https://github.com/nfrankel)
+* **Dates** from 18-August-2022 to 20-August-2022
+* **Location** Boston, USA
+
+#### [DevCONF](https://www.devconf.info/us/)
+
+* **Topics** API Development Best Practices for a Cloud Native Future
+* **Speaker** Navendu Pottekkat
+* **Dates** from 18-August-2022 to 20-August-2022
+* **Location** Boston, USA
+
+#### [Apidays Hong Kong](https://www.apidays.global/hong-kong/)
+
+* **Topics** Why is API Gateway essential to business?
+* **Speaker** Zhiyuan Ju
+* **Dates** from 24-August-2022 to 25-August-2022
+* **Location** Online
+
+#### [Apidays Hong Kong](https://www.apidays.global/hong-kong/)
+
+* **Topics** Evolving your APIs
+* **Speaker** Nicolas Fränkel
+* **Dates** from 24-August-2022 to 25-August-2022
+* **Location** Online
 
 #### [Web Developer Conference](https://www.web-developer-conference.de/)
 
