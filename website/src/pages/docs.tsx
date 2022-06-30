@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
-import '../css/customTheme.css';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 

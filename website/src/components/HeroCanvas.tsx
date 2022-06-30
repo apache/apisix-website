@@ -18,7 +18,6 @@ import { gsap } from 'gsap/gsap-core';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import '../css/customTheme.css';
 // eslint-disable-next-line import/no-unresolved, import/no-webpack-loader-syntax, import/extensions
 import fragment from '!!raw-loader!../shaders/fragment.frag';
 // eslint-disable-next-line import/no-unresolved, import/no-webpack-loader-syntax, import/extensions

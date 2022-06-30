@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { gsap } from 'gsap/gsap-core';
@@ -8,8 +8,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Translate from '@docusaurus/Translate';
 import useWindowType from '@theme/hooks/useWindowSize';
 import ArrowAnim from '../ArrowAnim';
-
-import '../../css/customTheme.css';
 
 const DashboardPlayground = () => (
   <Link
@@ -36,6 +34,8 @@ const DashboardPlayground = () => (
 );
 
 const FeatDesktop: FC = () => {
+  gsap.registerPlugin(ScrollTrigger);
+
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
   const pluginDiv = useRef(null);
@@ -74,7 +74,7 @@ const FeatDesktop: FC = () => {
       .to(img3.current, {
         opacity: 1,
       });
-  });
+  }, [triggerDiv.current, pinDiv.current, img1.current, img2.current, img3.current]);
   return (
     <div className="feat-container-d" ref={triggerDiv}>
       <div className="left-pane" style={{ width: '50%', height: '100%' }}>
@@ -175,8 +175,9 @@ const FeatDesktop: FC = () => {
 };
 
 const FeatMobile: FC = () => {
+  gsap.registerPlugin(ScrollTrigger);
+
   const observers = [];
-  const triggerDivCol = useRef(null);
   const img1col = useRef(null);
   const img2col = useRef(null);
   const img3col = useRef(null);
@@ -219,12 +220,11 @@ const FeatMobile: FC = () => {
     observers.forEach((it, index) => {
       it.observe(elems[index]);
     });
-  }, []);
+  }, [img1col.current, img2col.current, img3col.current]);
 
   return (
     <div
       className="feat-container-m"
-      ref={triggerDivCol}
       style={{ width: '100%' }}
     >
       <div
@@ -299,7 +299,6 @@ const FeatMobile: FC = () => {
 };
 
 const FeatContainer: FC = () => {
-  gsap.registerPlugin(ScrollTrigger);
   const windowType = useWindowType();
 
   if (windowType === 'desktop') {
@@ -308,31 +307,26 @@ const FeatContainer: FC = () => {
 
   return <FeatMobile />;
 };
-const FeatContainerMemo = memo(FeatContainer);
 
-const Features: FC = () => {
-  const featPin = useRef(null);
-
-  return (
-    <>
-      <div ref={featPin} className="feat-top" style={{ padding: '50px 0' }}>
-        <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX Gateway?</Translate></h3>
-        <h2 className="feat-head add-left-margin">
-          <Translate id="features.component.why.subtitle">
-            Reduce time fighting bugs, focus on designing world-class systems with API Gateway
-          </Translate>
-        </h2>
-        <p className="feat-desc add-left-margin">
-          <Translate id="features.component.why.message">
-            Apache APISIX is the first open-source API Gateway
-            that includes a built-in low-code Dashboard,
-            which offers a powerful and flexible UI for developers to use.
-          </Translate>
-        </p>
-      </div>
-      <FeatContainerMemo />
-    </>
-  );
-};
+const Features: FC = () => (
+  <>
+    <div className="feat-top" style={{ padding: '50px 0' }}>
+      <h3 className="feat-head-desc"><Translate id="features.component.why.title">Why APISIX Gateway?</Translate></h3>
+      <h2 className="feat-head add-left-margin">
+        <Translate id="features.component.why.subtitle">
+          Reduce time fighting bugs, focus on designing world-class systems with API Gateway
+        </Translate>
+      </h2>
+      <p className="feat-desc add-left-margin">
+        <Translate id="features.component.why.message">
+          Apache APISIX is the first open-source API Gateway
+          that includes a built-in low-code Dashboard,
+          which offers a powerful and flexible UI for developers to use.
+        </Translate>
+      </p>
+    </div>
+    <FeatContainer />
+  </>
+);
 
 export default Features;
