@@ -5,9 +5,8 @@ import Layout from '@theme/Layout';
 
 import Translate from '@docusaurus/Translate';
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ChevronRight from '../assets/icons/chevron-right.svg';
-
-import '../css/customTheme.css';
 
 const PageTitle = styled.h1`
   margin-top: 2rem;
@@ -37,7 +36,7 @@ const Help: FC = () => (
         <div className="card">
           <div className="header">
             <h2>
-              <img
+              <LazyLoadImage
                 src="/img/documents.png"
                 id="documents-icon"
                 alt="documents icon"
@@ -60,7 +59,7 @@ const Help: FC = () => (
         <div className="card">
           <div className="header">
             <h2>
-              <img src="/img/community.png" alt="community icon" />
+              <LazyLoadImage src="/img/community.png" alt="community icon" />
               <Translate id="help.website.community.title">Join Community</Translate>
             </h2>
           </div>

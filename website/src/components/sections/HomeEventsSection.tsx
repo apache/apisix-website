@@ -4,7 +4,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import Translate from '@docusaurus/Translate';
 
-import '../../css/customTheme.css';
 import ChevronRight from '../../assets/icons/chevron-right.svg';
 
 interface EventInfo {

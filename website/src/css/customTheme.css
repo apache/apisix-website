@@ -512,6 +512,17 @@ a:hover {
   color: #615d5d;
 }
 
+.arch-card-caption > p {
+  width: 90%;
+  letter-spacing: 0.2px;
+  font-family: MaisonNeue-Light, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  bottom: -15px;
+  font-size: 1rem;
+}
+
 .arch-card-border {
   z-index: -10;
   position: absolute;
@@ -547,16 +558,6 @@ a:hover {
   letter-spacing: 0.2px;
   font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
-}
-
-.arch-card-caption > p {
-  letter-spacing: 0.2px;
-  font-family: MaisonNeue-Light, sans-serif;
-  font-weight: 700;
-  text-align: center;
-  position: relative;
-  bottom: -15px;
-  font-size: 1rem;
 }
 
 .add-left-margin {
@@ -1595,6 +1596,10 @@ a:hover {
 @media only screen and (min-width: 768px) {
   .react-toggle {
     display: none;
+  }
+
+  .arch-card-caption > p {
+    width: 50%;
   }
 }
 

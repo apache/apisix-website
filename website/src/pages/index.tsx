@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import Layout from '@theme/Layout';
 import Head from '@docusaurus/Head';
@@ -14,19 +14,6 @@ import OpensourcePromo from '../components/sections/OpensourcePromo';
 import HomeEventsSection from '../components/sections/HomeEventsSection';
 import EndCTA from '../components/sections/Endcta';
 import EventPosterCard from '../components/EventPosterCard';
-
-const useWindowSize = () => {
-  const [size, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    function updateSize() {
-      setSize([window.innerWidth, window.innerHeight]);
-    }
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return size;
-};
 
 const ThemeResetComponent = () => {
   const { isDarkTheme, setLightTheme } = useThemeContext();
@@ -57,41 +44,37 @@ const ThemeResetComponent = () => {
   return (null);
 };
 
-const Index: FC = () => {
-  const [screenWidth] = useWindowSize();
-
-  return (
-    <Layout>
-      <Head>
-        <meta
-          name="twitter:title"
-          content="Apache APISIX® - Cloud-Native API Gateway"
-        />
-        <meta
-          name="twitter:description"
-          content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
-        />
-        <meta
-          name="twitter:site"
-          content="@apacheapisix"
-        />
-        <meta
-          name="og:description"
-          content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
-        />
-      </Head>
-      <HeroSection />
-      <Architecture screenWidth={screenWidth} />
-      <Features />
-      <Benefits screenWidth={screenWidth} />
-      <Comparison />
-      <OpensourcePromo />
-      <HomeEventsSection />
-      <EndCTA />
-      <EventPosterCard />
-      <ThemeResetComponent />
-    </Layout>
-  );
-};
+const Index: FC = () => (
+  <Layout>
+    <ThemeResetComponent />
+    <Head>
+      <meta
+        name="twitter:title"
+        content="Apache APISIX® - Cloud-Native API Gateway"
+      />
+      <meta
+        name="twitter:description"
+        content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
+      />
+      <meta
+        name="twitter:site"
+        content="@apacheapisix"
+      />
+      <meta
+        name="og:description"
+        content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
+      />
+    </Head>
+    <HeroSection />
+    <Architecture />
+    <Features />
+    <Benefits />
+    <Comparison />
+    <OpensourcePromo />
+    <HomeEventsSection />
+    <EndCTA />
+    <EventPosterCard />
+  </Layout>
+);
 
 export default Index;

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 
 import useOutsideClick from '../hooks/useOutsideClick';
 
-import '../css/customTheme.css';
-
 import IconInfo from '../assets/icons/info.svg';
 import IconStar from '../assets/icons/star.svg';
 import IconDocumentText from '../assets/icons/document-text.svg';

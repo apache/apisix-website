@@ -3,7 +3,6 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-import '../css/customTheme.css';
 import Translate from '@docusaurus/Translate';
 
 const ArrowAnim: FC = () => (

@@ -3,7 +3,6 @@ import React from 'react';
 
 import Translate from '@docusaurus/Translate';
 
-import '../../css/customTheme.css';
 import Cross from '../../assets/icons/cross.svg';
 import Tick from '../../assets/icons/tick.svg';
 
@@ -16,13 +15,11 @@ const Comparison: FC = () => (
     </div>
     <div className="compare-subtitle">
       <p>
-        <strong>
-          <Translate id="comparison.component.subtitle">
-            Apache APISIX Gateway is open source and ever-evolving.
-            Here&apos;s a general comparison of APISIX with other API Gateway options,
-            choose your right API Gateway.
-          </Translate>
-        </strong>
+        <Translate id="comparison.component.subtitle">
+          Apache APISIX Gateway is open source and ever-evolving.
+          Here&apos;s a general comparison of APISIX with other API Gateway options,
+          choose your right API Gateway.
+        </Translate>
       </p>
     </div>
     <div>

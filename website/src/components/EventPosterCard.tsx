@@ -1,9 +1,8 @@
 import type { FC } from 'react';
 import React, { useState, useRef, useEffect } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import gsap from 'gsap';
-
-import '../css/customTheme.css';
+import { gsap } from 'gsap/gsap-core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface EventPosterCardInfo {
   show: boolean;
@@ -15,12 +14,8 @@ interface EventPosterCardInfo {
 const LANG_STOR_KEY = 'localLang';
 const SHOW_STORE_KEY = 'SHOW_EVENT_ENTRY';
 
-const EventPosterCard:FC = () => {
-  const { siteConfig } = useDocusaurusContext();
-  const {
-    show, expire, links, image,
-  } = siteConfig.customFields.eventPosterCard as EventPosterCardInfo;
-  const [display, setDisplay] = useState(false);
+const EventPosterCard:FC<Pick<EventPosterCardInfo, 'image' | 'links'>> = (props) => {
+  const { image, links } = props;
   const picRef = useRef(null);
   const [link, setLink] = useState<string>('');
 
@@ -41,34 +36,16 @@ const EventPosterCard:FC = () => {
     setLink(links[lang]);
   }, []);
 
-  useEffect(() => {
-    if (show) {
-      const expireTimestamp = new Date(expire).getTime();
-      if (
-        !sessionStorage.getItem(SHOW_STORE_KEY)
-         && (expireTimestamp > new Date().getTime())
-      ) {
-        setDisplay(true);
-      }
-    }
-  }, []);
-
   const onClose = () => {
     gsap.to(picRef.current, {
       x: 500,
       opacity: 0,
       onComplete: () => {
-        setDisplay(false);
+        if (typeof window === 'undefined') return;
+        sessionStorage.setItem(SHOW_STORE_KEY, 'true');
       },
     });
-
-    if (typeof window === 'undefined') return;
-    sessionStorage.setItem(SHOW_STORE_KEY, 'true');
   };
-
-  if (!display) {
-    return null;
-  }
 
   return (
     <div ref={picRef} className="pic-wrapper">
@@ -87,10 +64,28 @@ const EventPosterCard:FC = () => {
         </svg>
       </button>
       <a href={link} onClick={onClose} target="_blank" rel="noreferrer">
-        <img src={image} alt="" />
+        <LazyLoadImage src={image} alt={link} />
       </a>
     </div>
   );
 };
 
-export default EventPosterCard;
+const EventPosterCardWrapper: FC = () => {
+  if (typeof window === 'undefined') return null;
+
+  sessionStorage.setItem(SHOW_STORE_KEY, 'true');
+
+  const { siteConfig } = useDocusaurusContext();
+  const {
+    show, expire, links, image,
+  } = siteConfig.customFields.eventPosterCard as EventPosterCardInfo;
+
+  const expireTimestamp = new Date(expire).getTime();
+  if (show && !sessionStorage.getItem(SHOW_STORE_KEY) && (expireTimestamp > new Date().getTime())) {
+    return <EventPosterCard links={links} image={image} />;
+  }
+
+  return null;
+};
+
+export default EventPosterCardWrapper;

@@ -15,8 +15,6 @@ import IconPuzzle from '../assets/icons/puzzle.svg';
 import IconEye from '../assets/icons/eye.svg';
 import IconDocumentText from '../assets/icons/document-text.svg';
 
-import '../css/customTheme.css';
-
 const PageTitle = styled.h1`
   margin-top: 2rem;
   font-size: 4rem;
@@ -248,7 +246,7 @@ const ContributeCardRightSide = styled.div`
 
 const Team: FC = () => {
   const { siteConfig } = useDocusaurusContext();
-  const memberSections = siteConfig.customFields.team.map((section) => {
+  const memberSections = (siteConfig.customFields.team as any).map((section) => {
     const memberCards = section.members.map((member) => (
       <div key={member.username}>
         <MemberCard
@@ -273,7 +271,7 @@ const Team: FC = () => {
       </div>
     );
   });
-  const repoComponents = siteConfig.customFields.allRepos.map((repo) => (
+  const repoComponents = (siteConfig.customFields.allRepos as any).map((repo) => (
     <RepoCard
       className="team-repocard"
       href={`https://github.com/${repo}/graphs/contributors`}

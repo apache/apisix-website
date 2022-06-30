@@ -5,7 +5,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Translate from '@docusaurus/Translate';
 
-import '../../css/customTheme.css';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ArrowAnim from '../ArrowAnim';
 
 const EndCTA: FC = () => (
@@ -22,7 +22,7 @@ const EndCTA: FC = () => (
           {' '}
         </span>
         today
-        <img className="rocket" src="https://static.apiseven.com/202202/rocket.gif" alt="Rocket" />
+        <LazyLoadImage className="rocket" src="https://static.apiseven.com/202202/rocket.gif" alt="Rocket" width="6vw" height="6vw" />
       </p>
     </div>
     <div className="endcta-btns">

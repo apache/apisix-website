@@ -80,14 +80,11 @@ module.exports = {
           blogSidebarCount: 'ALL',
         },
         theme: {
-          customCss: '../src/css/customTheme.css',
+          customCss: require.resolve('./src/css/customTheme.css'),
         },
         sitemap: {
           changefreq: 'daily',
           priority: 0.5,
-        },
-        pages: {
-          exclude: ['**/downloads/ProjectCard.js'],
         },
       },
     ],

@@ -7,28 +7,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Translate from '@docusaurus/Translate';
 
-import '../../css/customTheme.css';
-
 import Performance from '../../assets/images/infographs/performance.svg';
 import Security from '../../assets/images/infographs/security.svg';
 import Scale from '../../assets/images/infographs/scale.svg';
 import Dynamic from '../../assets/images/infographs/dynamic.svg';
 import Multiplatform from '../../assets/images/infographs/multiplatform.svg';
+import useWindowSize from '../../hooks/useWindowSize';
 
-interface BenefitsProps {
-  screenWidth: number
-}
-const Benefits: FC<BenefitsProps> = (props) => {
+const Benefits: FC = () => {
   const triggerDiv = useRef(null);
   const performance = useRef(null);
   const security = useRef(null);
   const scale = useRef(null);
   const dynamic = useRef(null);
   const multiplatform = useRef(null);
+  const [screenWidth] = useWindowSize();
 
   gsap.registerPlugin(ScrollTrigger);
-
-  const { screenWidth } = props;
 
   useEffect(() => {
     const tweenTls = [];
@@ -371,7 +366,7 @@ const Benefits: FC<BenefitsProps> = (props) => {
               <Translate id="benefits.component.security.message">
                 Apache APISIX Gateway provides multiple security plugins for identity
                 authentication and API verification, including CORS, JWT, Key
-                Auth, OpenID Connect (OIDC), Keycloak, etc. We put stability and 
+                Auth, OpenID Connect (OIDC), Keycloak, etc. We put stability and
                 security first. For more information, check
               </Translate>
               {' '}
