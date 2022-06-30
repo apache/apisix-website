@@ -63,9 +63,9 @@ tags: [Technology]
 - 对接的第三方平台相关组件
   - CMDB（自研）：在开源的 CMDBuild 外包了一层 RESTful 的 API，方便交互；
 
-- OpenLDAP：用于用户的账号验证，不负责鉴权；
+  - OpenLDAP：用于用户的账号验证，不负责鉴权；
 
-- 工作流 [Activiti](https://github.com/Activiti/Activiti)：使用官方的 RestAPI 服务，由于是处于在网关后方，因此不需要考虑安全问题。
+  - 工作流 [Activiti](https://github.com/Activiti/Activiti)：使用官方的 RestAPI 服务，由于是处于在网关后方，因此不需要考虑安全问题。
 
 ## 业务场景
 

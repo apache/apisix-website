@@ -53,11 +53,11 @@ The overall architecture of the automation operation and maintenance platform is
 
 - API management tool YAPI: it is responsible for the specification definition of the interface, the preparation of test cases, and the data source of ACL;
 
-- Access control component Casbin: a lightweight, multi-mode, and strong paradigm cross-language open-source access control framework. We use PyCasbin based on RESTful;
+- Access control component [Casbin](https://github.com/casbin/casbin): a lightweight, multi-mode, and strong paradigm cross-language open-source access control framework. We use [PyCasbin](https://github.com/casbin/pycasbin) based on RESTful;
 
 - Data storage: MySQL 5.7;
 
-- Mug skeleton: the self-developed web framework is mainly used for deeper technical control.
+- [mug-skeleton](https://github.com/chenqing24/mug-skeleton): the self-developed web framework is mainly used for deeper technical control.
 
 - Connected third-party platform-related components
 
@@ -65,7 +65,7 @@ The overall architecture of the automation operation and maintenance platform is
 
   - OpenLDAP: used for user account authentication, not for authentication;
 
-  - Workflow Activiti: the official RestAPI service is used. Since it is behind the gateway, there is no need to consider security issues.
+  - Workflow [Activiti](https://github.com/Activiti/Activiti): the official RestAPI service is used. Since it is behind the gateway, there is no need to consider security issues.
 
 ## Business scenario
 
