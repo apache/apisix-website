@@ -120,11 +120,7 @@ const FooterLink = ({
   );
 };
 
-// const FooterLogo = ({ sources, alt }) => (
-//   <ThemedImage className="footer__logo" alt={alt} sources={sources} />
-// );
-
-const Footer:FC = () => {
+const Footer: FC = () => {
   const { copyright, links, logo } = footer;
 
   if (!footer) {
