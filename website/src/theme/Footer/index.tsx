@@ -10,10 +10,12 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { Icon } from '@iconify/react';
-import githubIcon from '@iconify/icons-carbon/logo-github';
-import twitterIcon from '@iconify/icons-carbon/logo-twitter';
-import slackIcon from '@iconify/icons-carbon/logo-slack';
-import youtubeIcon from '@iconify/icons-carbon/logo-youtube';
+import githubIcon from '@iconify/icons-akar-icons/github-fill';
+import twitterIcon from '@iconify/icons-akar-icons/twitter-fill';
+import slackIcon from '@iconify/icons-akar-icons/slack-fill';
+import youtubeIcon from '@iconify/icons-akar-icons/youtube-fill';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import style from './styles.module.scss';
 
 const footer = {
   links: [
@@ -109,14 +111,11 @@ const FooterLink = ({
     : { to: toUrl };
   return (
     <Link
-      className="footer__link-item"
       {...hrefObj}
       {...props}
     >
-      <span>
-        <Icon icon={icon} />
-        {label}
-      </span>
+      <Icon icon={icon} />
+      <span>{label}</span>
     </Link>
   );
 };
@@ -133,63 +132,28 @@ const Footer:FC = () => {
   }
 
   return (
-    <footer>
-      <div className="container">
-        {links && links.length > 0 && (
-          <div className="row footer__links">
-            {links.map((linkItem, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={i} className="col footer__col">
-                {linkItem.title != null ? (
-                  <div className="footer__title">{linkItem.title}</div>
-                ) : null}
-                {linkItem.items != null
-                && Array.isArray(linkItem.items)
-                && linkItem.items.length > 0 ? (
-                  <ul className="footer__items">
-                    {linkItem.items.map((item, key) => (item.html ? (
-                      <li
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={key}
-                        className="footer__item" // Developer provided the HTML, so assume it's safe.
-                          // eslint-disable-next-line react/no-danger
-                        dangerouslySetInnerHTML={{
-                          __html: item.html,
-                        }}
-                      />
-                    ) : (
-                      <li key={item.href || item.to} className="footer__item">
-                        <FooterLink {...item} />
-                      </li>
-                    )))}
-                  </ul>
-                  ) : null}
-              </div>
-            ))}
+    <footer className={style.container}>
+      {links && links.length > 0 && (
+      <div className={style.linksRow}>
+        {links.map(({ title, items }) => (
+          <div key={title} className={style.linksCol}>
+            <div>{title}</div>
+            <ul>
+              {items.map((v) => (
+                <li key={v.to} className="footer__item">
+                  <FooterLink {...v} />
+                </li>
+              ))}
+            </ul>
           </div>
-        )}
-        {(logo || copyright) && (
-          <div className="footer__bottom text--center">
-            {/* <div className="margin-bottom--sm">
-              {logo.href ? (
-                <Link href={logo.href} className={styles.footerLogoLink}>
-                  <FooterLogo alt={logo.alt} sources={sources} />
-                </Link>
-              ) : (
-                <FooterLogo alt={logo.alt} sources={sources} />
-              )}
-            </div> */}
-            {copyright ? (
-              <div
-                className="footer__copyright" // Developer provided the HTML, so assume it's safe.
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{
-                  __html: copyright,
-                }}
-              />
-            ) : null}
-          </div>
-        )}
+        ))}
+      </div>
+      )}
+      <div className={style.copyright}>
+        <Link href={logo.href}>
+          <LazyLoadImage alt={logo.alt} src={logo.src} height="40px" width="231.25px" />
+        </Link>
+        <div className={style.text}>{copyright}</div>
       </div>
     </footer>
   );

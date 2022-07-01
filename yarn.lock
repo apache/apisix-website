@@ -1655,17 +1655,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@iconify/icons-carbon@^1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@iconify/icons-carbon/-/icons-carbon-1.2.7.tgz#8a354d1f085ef34afe68b965544912d395eda7ea"
-  integrity sha512-xzbkY2XVp43idAwl1vK/6ty2dKaLbsCfDNHVszfSN7+ithEmVkiHWHQhj2WxWiJWLndNV+EDw6nNw15x86g9kA==
-  dependencies:
-    "@iconify/types" "*"
-
-"@iconify/icons-logos@^1.2.8":
+"@iconify/icons-akar-icons@^1.2.8":
   version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@iconify/icons-logos/-/icons-logos-1.2.8.tgz#7a1eb34cc2881f2a71edb442a0707359f43445e6"
-  integrity sha512-w1dYiIL9IoYvetptuIe+i1mWCTmNBg1zyliFh1Gyy2/ZG6hiPpbaFkb/ZJlOpL+cZfTPfBX9EJbG/vDwFcP0+w==
+  resolved "https://registry.yarnpkg.com/@iconify/icons-akar-icons/-/icons-akar-icons-1.2.8.tgz#ee384ff51baa8e09e5a4ac4e1d451ac9f0b3fc4f"
+  integrity sha512-bIjwq5+PUhKsMtOr5j+bu9ocvqC3lIgTyYE/gi5tUphK7Yw03ZZMSlkZSGg/r1guwuD+BKfj+/XxY1CqSMFliQ==
   dependencies:
     "@iconify/types" "*"
 
@@ -9862,7 +9855,7 @@ style-to-object@0.3.0, style-to-object@^0.3.0:
   dependencies:
     inline-style-parser "0.1.1"
 
-styled-components@^5, styled-components@^5.3.3:
+styled-components@^5.3.3:
   version "5.3.5"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.5.tgz#a750a398d01f1ca73af16a241dec3da6deae5ec4"
   integrity sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==

@@ -9,7 +9,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ArrowAnim from '../ArrowAnim';
 
 const EndCTA: FC = () => (
-  <div className="endcta" style={{ padding: '50px 0', background: '#FF90A3', margin: '0 0 -32px 0' }}>
+  <div className="endcta" style={{ padding: '50px 0', background: '#FF90A3' }}>
     <div className="endcta-text">
       <p style={{
         display: 'flex', justifyContent: 'center', alignItems: 'center', whiteSpace: 'pre',
