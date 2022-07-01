@@ -37,6 +37,6 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
     "*.{yml,yaml}": "eslint --cache --fix",
-    "*.css": "stylelint --cache --fix"
+    "*.{scss,css}": "stylelint --cache --fix"
   }
 }
