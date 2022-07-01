@@ -65,9 +65,9 @@ module.exports = [
     color: '#3B14A7',
     githubRepo: 'apache/apisix-go-plugin-runner',
     githubBranch: 'master',
-    downloadPath: 'apisix/go-plugin-runner/0.3.0/apisix-go-plugin-runner-0.3.0-src',
-    version: '0.3.0',
-    releaseDate: '2022-04-06',
+    downloadPath: 'apisix/go-plugin-runner/0.4.0/apisix-go-plugin-runner-0.4.0-src',
+    version: '0.4.0',
+    releaseDate: '2022-06-30',
     firstDocPath: '/getting-started',
   },
   {
