@@ -28,16 +28,14 @@ const EndCTA: FC = () => {
         {windowType === 'desktop'
          && (<LazyLoadImage className={style.rocket} src="https://static.apiseven.com/202202/rocket.gif" alt="Rocket" width="6vw" height="6vw" />)}
       </p>
-      <div>
-        <div className="hero-ctas">
-          <Link
-            to={useBaseUrl('downloads')}
-            className="btn btn-download"
-          >
-            <Translate id="hero.component.download.btn">Downloads</Translate>
-          </Link>
-          <ArrowAnim />
-        </div>
+      <div className={style.links}>
+        <Link
+          to={useBaseUrl('downloads')}
+          className="btn btn-download"
+        >
+          <Translate id="hero.component.download.btn">Downloads</Translate>
+        </Link>
+        <ArrowAnim />
       </div>
     </div>
   );

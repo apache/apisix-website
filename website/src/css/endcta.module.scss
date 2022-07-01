@@ -3,20 +3,14 @@
 $apisix-color: #e8433e;
 
 .endcta {
-  padding: max(14vh, 100px) 0;
+  padding: max(14vh, 100px) 2rem;
   margin: 0 10%;
   background-color: #f8f8f8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   overflow: hidden;
   border-radius: 1em;
-
-  &::after {
-    content: "";
-    margin-top: -2rem;
-  }
 
   & .text {
     display: flex;
@@ -46,9 +40,15 @@ $apisix-color: #e8433e;
     }
   }
 
+  & .links {
+    display: flex;
+  }
+
   @include respond-below(sm) {
     min-height: 50vh;
     margin: 0 1rem;
+    align-items: flex-start;
+    padding: 100px 2rem;
 
     & .text {
       flex-direction: column;
