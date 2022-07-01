@@ -24,6 +24,7 @@
     "@types/styled-components": "^5.1.24",
     "@types/video.js": "^7.3.40",
     "babel-plugin-styled-components": "^2.0.6",
+    "stylelint-config-standard-scss": "^4.0.0",
     "typescript": "^4.4.2"
   },
   "dependencies": {
