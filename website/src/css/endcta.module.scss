@@ -1,0 +1,63 @@
+@import "./util";
+
+$apisix-color: #e8433e;
+
+.endcta {
+  padding: max(14vh, 100px) 2rem;
+  margin: 0 10%;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 1em;
+
+  & .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: pre;
+    text-transform: capitalize;
+    font-size: 4.5rem;
+    font-weight: bolder;
+    font-family: MaisonNeue-ExtraBold, sans-serif;
+    position: relative;
+    width: fit-content;
+
+    & .apisix {
+      color: $apisix-color;
+    }
+
+    & .rocket {
+      $size: 10rem;
+
+      position: absolute;
+      right: -#{$size};
+      width: $size;
+      height: $size;
+      bottom: 0.3em;
+      transform: rotate(45deg);
+    }
+  }
+
+  & .links {
+    display: flex;
+  }
+
+  @include respond-below(sm) {
+    min-height: 50vh;
+    margin: 0 1rem;
+    align-items: flex-start;
+    padding: 100px 2rem;
+
+    & .text {
+      flex-direction: column;
+      font-size: 2.5rem;
+      align-items: flex-start;
+
+      & .apisix {
+        margin: -1rem 0;
+      }
+    }
+  }
+}
