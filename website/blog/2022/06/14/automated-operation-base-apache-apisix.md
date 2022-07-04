@@ -29,7 +29,7 @@ At the end of 2019, the company encountered some business pain points in the pro
 
 ## Why Apache APISIX?
 
-During the selection of gateway, we have carried out the actual test. Compared with other gateways, APISIX can basically achieve 90% of the functions of NGINX, and supports a variety of load balancing strategies and mechanisms that support multilingual plug-ins. It also supports soft WAF, which can cover 95% of our security business scenarios. As a cloud native API gateway, APISIX also provides powerful logging functions and supports custom log formats. Therefore, access log can be directly connected to elk. Since APISIX also supports the development of custom plug-ins, it can be flexibly extended according to our needs. Thanks to the basic functions of APISIX and the powerful plug-in system, the development cost can be effectively reduced.
+During the selection of gateway, we have carried out the actual test. Compared with other gateways, APISIX can basically achieve 90% of the functions of NGINX, and supports a variety of load balancing strategies and mechanisms that support multilingual plugins. It also supports soft WAF, which can cover 95% of our security business scenarios. As a cloud native API gateway, APISIX also provides powerful logging functions and supports custom log formats. Therefore, access log can be directly connected to elk. Since APISIX also supports the development of custom plugins, it can be flexibly extended according to our needs. Thanks to the basic functions of APISIX and the powerful plugin system, the development cost can be effectively reduced.
 
 ## Automation operation and maintenance platform architecture
 
@@ -49,7 +49,7 @@ The overall architecture of the automation operation and maintenance platform is
 
 ## Components used by the platform
 
-- Core gateway Apache APISIX: mainly responsible for logging, network security, and load balancing. In addition, we not only realize some functions of the advanced business gateway through custom plug-ins but also integrate with other services through APIs to quickly realize various specified functions and effectively reduce development costs;
+- Core gateway Apache APISIX: mainly responsible for logging, network security, and load balancing. In addition, we not only realize some functions of the advanced business gateway through custom plugins but also integrate with other services through APIs to quickly realize various specified functions and effectively reduce development costs;
 
 - API management tool YAPI: it is responsible for the specification definition of the interface, the preparation of test cases, and the data source of ACL;
 
@@ -79,11 +79,11 @@ First of all, we need to understand the relevant components we use in the scenar
 
 After understanding the above components, let's introduce the overall process:
 
-When users log in, they first need to query through the gateway to see if the page they visit is in the white list. Because some pages do not need permission verification, such as the default page or some error pages. If the accessed page needs to verify a login, these requests will be forwarded to the authority authentication service through the relevant plug-ins.
+When users log in, they first need to query through the gateway to see if the page they visit is in the white list. Because some pages do not need permission verification, such as the default page or some error pages. If the accessed page needs to verify a login, these requests will be forwarded to the authority authentication service through the relevant plugins.
 
-In authority authentication, the authentication service will query whether the account is correct from LDAP according to the incoming "user name" and "password". If it is correct, the organization to which the user belongs and which function modules can be viewed will be queried through the CMDB; After obtaining the result, use the JWT plug-in of APISIX to generate a token according to the user information, add the expiration time, and return it to the front end; The user stores tokens through cookies. If the user continues to access later, the gateway will call the previously stored token from the cookie to verify whether the current user can continue to access the following pages.
+In authority authentication, the authentication service will query whether the account is correct from LDAP according to the incoming "user name" and "password". If it is correct, the organization to which the user belongs and which function modules can be viewed will be queried through the CMDB; After obtaining the result, use the JWT plugin of APISIX to generate a token according to the user information, add the expiration time, and return it to the front end; The user stores tokens through cookies. If the user continues to access later, the gateway will call the previously stored token from the cookie to verify whether the current user can continue to access the following pages.
 
-Here, we use the [`consumer restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/consumer-restriction/)plug-in of APISIX. The authority authentication mentioned above is completed through the [`consumer restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/consumer-restriction/) plug-in, and we do not need to repeatedly authenticate in the background.
+Here, we use the [`consumer restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/consumer-restriction/) plugin of APISIX. The authority authentication mentioned above is completed through the [`consumer restriction`](https://apisix.apache.org/zh/docs/apisix/plugins/consumer-restriction/) plugin, and we do not need to repeatedly authenticate in the background.
 
 Through the above description, I believe you have a certain understanding of the normal request process. Next, I will introduce you to the scenarios of how to judge the insufficient permissions of these users. In the operation and maintenance platform, if there is an operation involving data change, a token must be carried. When the token is verified by the ACL interface that it has no access, it will directly return to a page that is forbidden to access for the front end to the process. The following is the specific process of user login and permission verification scenarios and the related components used more.
 
@@ -111,17 +111,17 @@ Because APISIX is implemented based on NGINX+Lua, some functions need to be impl
 
 In the rewrite/access phase, the message has not been transferred upstream, so various data preprocessing can be performed in this phase. From the above figure, we can see that there is an access_by_Lua. In this phase, the deny command can be used to manage permissions, including interface permissions and IP access white list. The plugin acl_plugin.lua, described later, is implemented at this stage.
 
-Second, in `access` stage is often used to insert some additional `key:values` in the HTTP request header for subsequent use when requesting access. For example, when we need online gray-scale publishing, we can add flag bits to the user's request header. Through these flag bits, we can control which back-end services these requests forward, to realize gray-scale publishing. Of course, we can also use the [`traffic split`](https://apisix.apache.org/zh/docs/apisix/plugins/traffic-split) plug-in of APISIX to realize grayscale publishing.
+Second, in `access` stage is often used to insert some additional `key:values` in the HTTP request header for subsequent use when requesting access. For example, when we need online gray-scale publishing, we can add flag bits to the user's request header. Through these flag bits, we can control which back-end services these requests forward, to realize gray-scale publishing. Of course, we can also use the [`traffic split`](https://apisix.apache.org/zh/docs/apisix/plugins/traffic-split) plugin of APISIX to realize grayscale publishing.
 
-Finally, `log_by_Lua` stage. In this stage, we can directly input some trace information or some fault information into the log file. Similarly, APISIX also provides many plug-ins for loggers, including `skywalking-logger`, `kafka-logger`, `rocketmq-logger`, and so on.
+Finally, `log_by_Lua` stage. In this stage, we can directly input some trace information or some fault information into the log file. Similarly, APISIX also provides many plugins for loggers, including `skywalking-logger`, `kafka-logger`, `rocketmq-logger`, and so on.
 
 ### Custom plugins `acl-plugin.lua`
 
-The implementation of the [`acl-plugin.lua`](https://raw.githubusercontent.com/chenqing24/ops-apisix/main/centos/acl-plugin.lua) plug-in is very simple. First, when the user is requesting, we will add the relevant JWT token to the user and store it in the cookie. Then the user will extract the JWT token from the accessed cookie, decode the token and obtain the user information.
+The implementation of the [`acl-plugin.lua`](https://raw.githubusercontent.com/chenqing24/ops-apisix/main/centos/acl-plugin.lua) plugin is very simple. First, when the user is requesting, we will add the relevant JWT token to the user and store it in the cookie. Then the user will extract the JWT token from the accessed cookie, decode the token and obtain the user information.
 
 In the rewrite phase, the user ID, method, and URI are used to send a request to the background ACL interface for permission verification. If it passes, relevant information will be recorded in the log for future security authentication. If it fails, it directly returns an error status code and records it in the error log.
 
-In APISIX version 1.1, the `cors` plug-in was not released at that time. Therefore, we also implement cross-domain requests through this plug-in. WWhen the request uses the GET and POST request methods, it will be processed. For other requests, they will be passed directly. Now, they can be implemented directly using the `cors` plug-in of APISIX. APISIX can also use multiple languages to develop plug-ins, not just Lua. For details, please refer to: https://apisix.apache.org/zh/docs/apisix/plugin-develop.
+In APISIX version 1.1, the `cors` plugin was not released at that time. Therefore, we also implement cross-domain requests through this plugin. WWhen the request uses the GET and POST request methods, it will be processed. For other requests, they will be passed directly. Now, they can be implemented directly using the `cors` plugin of APISIX. APISIX can also use multiple languages to develop plugins, not just Lua. For details, please refer to: https://apisix.apache.org/zh/docs/apisix/plugin-develop.
 
 ### Auth service
 
@@ -135,4 +135,4 @@ The core function of auth service is to load ACL rules from a database into memo
 
 ## Summary
 
-The above is an introduction to the architecture and some scenarios of the automatic operation and maintenance platform of Tongcheng Digital Technology Co., Ltd. based on Apache APISIX. Now, APISIX is becoming more and more powerful. It supports plug-in development using Wasm and Python. The ecology of Apache APISIX is also very strong. If you have any questions, you are welcome to communicate and discuss in the community.
+The above is an introduction to the architecture and some scenarios of the automatic operation and maintenance platform of Tongcheng Digital Technology Co., Ltd. based on Apache APISIX. Now, APISIX is becoming more and more powerful. It supports plugin development using Wasm and Python. The ecology of Apache APISIX is also very strong. If you have any questions, you are welcome to communicate and discuss in the community.
