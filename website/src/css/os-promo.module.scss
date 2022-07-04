@@ -1,3 +1,5 @@
+@import "./util";
+
 .osPromotion {
   display: flex;
   margin: 0 10%;
@@ -10,7 +12,6 @@
     background: #121010;
     color: #fff;
     display: flex;
-    justify-content: center;
     flex-direction: column;
     padding: 80px 40px;
     width: fit-content;
@@ -57,7 +58,7 @@
     display: flex;
     justify-content: center;
     background-color: #f8f8f8;
-    padding: 80px 40px;
+    padding: 80px 40px 50px;
     margin-left: 25px;
     border-radius: 1rem;
 
@@ -78,6 +79,24 @@
       letter-spacing: 0.2px;
       font-family: MaisonNeue-Light, sans-serif;
       font-weight: 700;
+    }
+  }
+
+  @include respond-below(sm) {
+    margin: 0 1rem;
+    flex-direction: column;
+
+    & .ossPromo {
+      min-width: unset;
+    }
+
+    & .docsPromo {
+      flex-direction: column;
+      margin: 4rem 0 0;
+
+      & .docsPromoHead {
+        margin-right: 0;
+      }
     }
   }
 }

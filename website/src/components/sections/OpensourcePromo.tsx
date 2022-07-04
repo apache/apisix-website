@@ -70,14 +70,14 @@ const OpensourcePromo: FC = () => (
             Contributors are always welcome, reach out to us on GitHub.
           </Translate>
         </p>
-        <div className={style.ossCta}>
-          <GitHub style={{ width: '20px', margin: '0 10px 0 0' }} />
-          <a href="https://github.com/apache/apisix">
-            <Translate id="openSourcePromo.component.link.Github">
-              Check us out
-            </Translate>
-          </a>
-        </div>
+      </div>
+      <div className={style.ossCta}>
+        <GitHub style={{ width: '20px', margin: '0 10px 0 0' }} />
+        <a href="https://github.com/apache/apisix">
+          <Translate id="openSourcePromo.component.link.Github">
+            Check us out
+          </Translate>
+        </a>
       </div>
     </div>
     <div className={style.docsPromo}>
