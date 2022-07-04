@@ -46,8 +46,7 @@
 
   & .events {
     display: flex;
-    justify-content: space-between;
-    width: 70%;
+    justify-content: center;
 
     & .eventCard {
       display: flex;
@@ -99,6 +98,23 @@
 
     p {
       margin: 2rem 0 1rem;
+    }
+  }
+
+  @include respond-below(sm) {
+    margin: 4rem 1rem;
+    align-items: flex-start;
+
+    & .events {
+      overflow-x: scroll;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      padding-bottom: 1rem;
+
+      & .eventCard {
+        flex-shrink: 0;
+      }
     }
   }
 }
