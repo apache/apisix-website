@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Translate from '@docusaurus/Translate';
 import useWindowType from '@theme/hooks/useWindowSize';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import ArrowAnim from '../ArrowAnim';
 
 const DashboardPlayground = () => (
@@ -297,12 +298,15 @@ const FeatMobile: FC = () => {
 const FeatContainer: FC = () => {
   gsap.registerPlugin(ScrollTrigger);
   const windowType = useWindowType();
+  console.log(windowType);
 
-  if (windowType === 'desktop') {
-    return <FeatDesktop />;
-  }
-
-  return <FeatMobile />;
+  return (
+    <BrowserOnly>
+      {() => (windowType === 'desktop'
+        ? <FeatDesktop />
+        : <FeatMobile />)}
+    </BrowserOnly>
+  );
 };
 
 const Features: FC = () => (
