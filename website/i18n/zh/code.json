@@ -309,11 +309,11 @@
     "message": "最近的一些活动"
   },
   "homeEventsSection.component.message.news": {
-    "message": "了解 Apache APISIX™ 的最新情况，请订阅我们的",
+    "message": "了解 Apache APISIX™ 的最新情况，",
     "description": "Stay up to date about all Apache APISIX™ News, subscribe to our"
   },
   "homeEventsSection.component.link.newsletter": {
-    "message": "邮件列表",
+    "message": "请订阅我们的邮件列表",
     "description": "newsletter."
   },
   "homeEventsSection.component.link.Subscribe": {
