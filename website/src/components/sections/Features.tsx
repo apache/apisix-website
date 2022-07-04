@@ -34,8 +34,6 @@ const DashboardPlayground = () => (
 );
 
 const FeatDesktop: FC = () => {
-  gsap.registerPlugin(ScrollTrigger);
-
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
   const pluginDiv = useRef(null);
@@ -175,8 +173,6 @@ const FeatDesktop: FC = () => {
 };
 
 const FeatMobile: FC = () => {
-  gsap.registerPlugin(ScrollTrigger);
-
   const observers = [];
   const img1col = useRef(null);
   const img2col = useRef(null);
@@ -299,6 +295,7 @@ const FeatMobile: FC = () => {
 };
 
 const FeatContainer: FC = () => {
+  gsap.registerPlugin(ScrollTrigger);
   const windowType = useWindowType();
 
   if (windowType === 'desktop') {
