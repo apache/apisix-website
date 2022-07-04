@@ -44,6 +44,14 @@ $apisix-color: #e8433e;
     display: flex;
   }
 
+  @include respond-below(lg) {
+    & .text {
+      & .rocket {
+        display: none;
+      }
+    }
+  }
+
   @include respond-below(sm) {
     min-height: 50vh;
     margin: 0 1rem;

@@ -82,21 +82,28 @@
     }
   }
 
-  @include respond-below(sm) {
-    margin: 0 1rem;
+  @include respond-below(lg) {
     flex-direction: column;
 
     & .ossPromo {
       min-width: unset;
+      width: auto;
     }
 
     & .docsPromo {
-      flex-direction: column;
       margin: 4rem 0 0;
 
       & .docsPromoHead {
         margin-right: 0;
       }
+    }
+  }
+
+  @include respond-below(sm) {
+    margin: 0 1rem;
+
+    & .docsPromo {
+      flex-direction: column;
     }
   }
 }
