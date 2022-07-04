@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useEffect, useRef } from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import { gsap } from 'gsap/gsap-core';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Translate from '@docusaurus/Translate';
