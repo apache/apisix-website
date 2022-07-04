@@ -298,7 +298,6 @@ const FeatMobile: FC = () => {
 const FeatContainer: FC = () => {
   gsap.registerPlugin(ScrollTrigger);
   const windowType = useWindowType();
-  console.log(windowType);
 
   return (
     <BrowserOnly>
