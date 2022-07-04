@@ -113,7 +113,7 @@ tags: [Technology]
 
 其次在 `access` 这个阶段，常用于在请求访问时，额外的在 HTTP 请求头插入一些 `key:value`，供后续使用。例如，当需要我们线上灰度发布时，就可以在用户的请求头中加入标志位，通过这些标志位，就可以控制这些请求转发哪些后端服务，从而实现灰度发布。当然我们也可以使用 APISIX 的 [`traffic-split`](https://apisix.apache.org/zh/docs/apisix/plugins/traffic-split) 插件实现灰度发布。
 
-最后就是 `log_by_lua` 阶段，在该阶段，我们可以把一些 trace 信息或者一些故障信息可以直接输入到 log 文件中。同样的，针对 `Loggers`，APISIX 也提供了非常多的插件，包括 `skywalking-logger`、`kafka-logger`、`rocketmq-logger` 等等。
+最后就是 `log_by_lua` 这个阶段，在该阶段，我们可以把一些 trace 信息或者一些故障信息可以直接输入到 log 文件中。同样的，针对 `Loggers`，APISIX 也提供了非常多的插件，包括 `skywalking-logger`、`kafka-logger`、`rocketmq-logger` 等等。
 
 ## 自定义插件 `acl-plugin.lua`
 
