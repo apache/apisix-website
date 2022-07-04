@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/media-has-caption */
 import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
@@ -9,20 +8,21 @@ import Translate from '@docusaurus/Translate';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import GitHub from '../../assets/icons/github-logo.svg';
 import type { VideoProps } from '../Video';
+import style from '../../css/os-promo.module.scss';
 
 const VideoChannel: FC = () => {
   const { i18n: { currentLocale } } = useDocusaurusContext();
 
   if (currentLocale.startsWith('zh')) {
     return (
-      <a style={{ color: '#e8433e' }} href="https://space.bilibili.com/551921247">
+      <a href="https://space.bilibili.com/551921247">
         哔哩哔哩官方账号
       </a>
     );
   }
 
   return (
-    <a style={{ color: '#e8433e' }} href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">
+    <a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">
       <Translate id="openSourcePromo.component.link.Youtube">
         YouTube channel
       </Translate>
@@ -53,13 +53,39 @@ const LazyLoadVideo = () => (
 );
 
 const OpensourcePromo: FC = () => (
-  <div className="ossPromotion">
-    <div className="docs-promo">
-      <div className="docs-promo-text">
-        <h3 className="docs-promo-head">
+  <div className={style.osPromotion}>
+    <div className={style.ossPromo}>
+      <h3>
+        <Translate id="openSourcePromo.component.ossPromo.title">
+          Building API Gateway Together
+        </Translate>
+      </h3>
+      <div className={style.ossPromoSubtitle}>
+        <p>
+          <Translate id="openSourcePromo.component.ossPromo.subtitle1">
+            Apache APISIX is open source and ever-growing.
+          </Translate>
+          <br />
+          <Translate id="openSourcePromo.component.ossPromo.subtitle2">
+            Contributors are always welcome, reach out to us on GitHub.
+          </Translate>
+        </p>
+        <div className={style.ossCta}>
+          <GitHub style={{ width: '20px', margin: '0 10px 0 0' }} />
+          <a href="https://github.com/apache/apisix">
+            <Translate id="openSourcePromo.component.link.Github">
+              Check us out
+            </Translate>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div className={style.docsPromo}>
+      <div className={style.docsPromoHead}>
+        <h3>
           <Translate id="openSourcePromo.component.title">Learn from developers</Translate>
         </h3>
-        <div className="docs-promo-subtitle">
+        <div className={style.docsPromoSubtitle}>
           <p>
             <Translate id="openSourcePromo.component.subtitle.fragment1">
               What are microservices? What is an API Gateway?
@@ -91,34 +117,6 @@ const OpensourcePromo: FC = () => (
       </div>
     </div>
 
-    <div className="oss-promo">
-      <div className="oss-promo-inwrapper">
-        <h3 className="oss-promo-head">
-          <Translate id="openSourcePromo.component.ossPromo.title">
-            Building API Gateway Together
-          </Translate>
-        </h3>
-        <div className="oss-promo-subtitle" style={{ color: 'rgb(199, 199, 199)' }}>
-          <p>
-            <Translate id="openSourcePromo.component.ossPromo.subtitle1">
-              Apache APISIX is open source and ever-growing.
-            </Translate>
-            <br />
-            <Translate id="openSourcePromo.component.ossPromo.subtitle2">
-              Contributors are always welcome, reach out to us on GitHub.
-            </Translate>
-          </p>
-          <div className="oss-promo-cta">
-            <GitHub style={{ width: '20px', margin: '0 10px 0 0' }} />
-            <a href="https://github.com/apache/apisix" style={{ textDecoration: 'none' }}>
-              <Translate id="openSourcePromo.component.link.Github">
-                Check us out
-              </Translate>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 );
 
