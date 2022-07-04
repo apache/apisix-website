@@ -111,7 +111,7 @@ tags: [Technology]
 
 因为在 Rewrite/Access 阶段，报文还没有转给 Upstream，所以可以在该阶段进行各种各样的数据预处理。从上图中我们可以看到有个 `access_by_lua`，在该阶段，可以使用 deny 命令进行权限的管理，包括接口权限以及 IP 准入白名单都可以在该阶段实现。后文所介绍的 `acl_plugin.lua` 的插件就是在该阶段实现的。
 
-其次在 `hard_filet_by_lua` 这个阶段，常用于在请求访问时，额外的在 HTTP 请求头插入一些 `key:value`，供后续使用。例如，当需要我们线上灰度发布时，就可以在用户的请求头中加入标志位，通过这些标志位，就可以控制这些请求转发哪些后端服务，从而实现灰度发布。当然我们也可以使用 APISIX 的 [`traffic-split`](https://apisix.apache.org/zh/docs/apisix/plugins/traffic-split) 插件实现灰度发布。
+其次在 `access` 这个阶段，常用于在请求访问时，额外的在 HTTP 请求头插入一些 `key:value`，供后续使用。例如，当需要我们线上灰度发布时，就可以在用户的请求头中加入标志位，通过这些标志位，就可以控制这些请求转发哪些后端服务，从而实现灰度发布。当然我们也可以使用 APISIX 的 [`traffic-split`](https://apisix.apache.org/zh/docs/apisix/plugins/traffic-split) 插件实现灰度发布。
 
 最后就是 `log_by_lua` 阶段，在该阶段，我们可以把一些 trace 信息或者一些故障信息可以直接输入到 log 文件中。同样的，针对 `Loggers`，APISIX 也提供了非常多的插件，包括 `skywalking-logger`、`kafka-logger`、`rocketmq-logger` 等等。
 
