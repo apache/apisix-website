@@ -2,11 +2,12 @@ import type { FC } from 'react';
 import React, { useEffect, useRef } from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import { gsap } from 'gsap/gsap-core';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Translate from '@docusaurus/Translate';
 import useWindowType from '@theme/hooks/useWindowSize';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import ArrowAnim from '../ArrowAnim';
 
 const DashboardPlayground = () => (
@@ -34,8 +35,6 @@ const DashboardPlayground = () => (
 );
 
 const FeatDesktop: FC = () => {
-  gsap.registerPlugin(ScrollTrigger);
-
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
   const pluginDiv = useRef(null);
@@ -175,8 +174,6 @@ const FeatDesktop: FC = () => {
 };
 
 const FeatMobile: FC = () => {
-  gsap.registerPlugin(ScrollTrigger);
-
   const observers = [];
   const img1col = useRef(null);
   const img2col = useRef(null);
@@ -299,13 +296,16 @@ const FeatMobile: FC = () => {
 };
 
 const FeatContainer: FC = () => {
+  gsap.registerPlugin(ScrollTrigger);
   const windowType = useWindowType();
 
-  if (windowType === 'desktop') {
-    return <FeatDesktop />;
-  }
-
-  return <FeatMobile />;
+  return (
+    <BrowserOnly>
+      {() => (windowType === 'desktop'
+        ? <FeatDesktop />
+        : <FeatMobile />)}
+    </BrowserOnly>
+  );
 };
 
 const Features: FC = () => (
