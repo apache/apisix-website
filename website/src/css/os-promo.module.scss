@@ -14,6 +14,7 @@
     flex-direction: column;
     padding: 80px 40px;
     width: fit-content;
+    min-width: 400px;
     border-radius: 1rem;
 
     h3 {
@@ -40,8 +41,9 @@
       width: fit-content;
 
       &:hover {
-        background: hsl(0deg 0% 100% / 80%);
+        background: hsl(0deg 0% 100%);
         color: #080808;
+        cursor: pointer;
       }
 
       & > a {
