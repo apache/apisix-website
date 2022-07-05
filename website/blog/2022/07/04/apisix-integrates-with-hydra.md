@@ -4,7 +4,11 @@ authors:
   - name: "Fei Han"
     title: "Technical Writer"
     url: "https://github.com/hf400159"
-    image_url: "https://github.com/hf400159.png"  
+    image_url: "https://github.com/hf400159.png"
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"  
 keywords: 
 - Apache APISIX
 - API Gateway
