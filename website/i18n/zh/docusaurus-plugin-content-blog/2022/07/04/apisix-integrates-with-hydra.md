@@ -11,7 +11,7 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
 - 身份认证
 - Hydra
 - OpenID Connect
