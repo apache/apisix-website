@@ -11,7 +11,7 @@ const ArrowAnim: FC = () => (
     className="btn-docs"
   >
     <div className="goto">
-      <Translate id="arrowAnim.component.link.btn">Go to docs...</Translate>
+      <Translate id="arrowAnim.component.link.btn">View the docs</Translate>
     </div>
     <div className="arrow">
       <svg width="70%" height="50%" viewBox="0 0 256 256">
