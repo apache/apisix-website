@@ -1,0 +1,10 @@
+{
+  "show": true,
+  "expire": "2022-07-31",
+  "image": "https://static.apiseven.com/apisix-website/apachecon-asia-2022.webp",
+  "links": {
+    "en": "https://apachecon.com/acasia2022/?ref=apisix",
+    "zh": "https://apachecon.com/acasia2022/zh/?ref=apisix"
+  },
+  "width": 400
+}
