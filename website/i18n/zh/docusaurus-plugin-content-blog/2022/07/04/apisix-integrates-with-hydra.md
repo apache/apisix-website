@@ -1,5 +1,5 @@
 ---
-title: "APISIX 如何与 Ory Hydra 集成"
+title: "APISIX 与 Ory Hydra 集成丰富身份认证方式"
 authors:
   - name: "Fei Han"
     title: "Technical Writer"
