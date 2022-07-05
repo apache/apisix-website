@@ -38,7 +38,7 @@ Ory Hydra 采用 Go 语言开发，为几乎所有开发语言都提供了 SDK�
 
 OpenID 是一种集中认证模式，它是一个去中心化的身份认证系统。使用 OpenID 的好处是：用户只需要在一个 OpenID 身份提供方的网站上注册和登录，使用一份账户密码信息即可访问不同应用。
 
-通过 APISIX 支持的 `openid-connect` 插件，我们可以与支持 OpenID Connect 协议的认证程序集成。比如：[Ory Hydra]。更多信息请参考：[集中身份认证](https://apisix.apache.org/zh/blog/2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/#%E4%BB%80%E4%B9%88%E6%98%AF%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81)。
+通过 APISIX 支持的 `openid-connect` 插件，我们可以与支持 OpenID Connect 协议的认证程序集成。比如 Ory Hydra。更多信息请参考：[集中身份认证](https://apisix.apache.org/zh/blog/2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication)。
 
 Ory Hydra 的最大优势之一是：它实现了 OAuth 和 OpenID Connect 标准，而不是强制你使用 “Hydra 用户管理”（登录、注销、配置文件管理、注册）、特定模板引擎或者预定义的前端。
 
@@ -74,9 +74,9 @@ docker run \
 
 ### 步骤二：部署 Hydra
 
-该步骤中将会把 `4444` 映射到 `5444` 和 `4445` 映射到 `5445` 端口，请确保这些端口未被占用。
+该步骤中会分别将 `4444` 和 `4445` 映射到 `5444` 和 `5445` 端口，请确保这些端口未被占用。
 
-1. 系统密钥只能针对新数据库设置，不支持密钥轮换。 此密钥用于加密数据库，每次进程（重新）启动时都需要设置为相同的值。 你可以使用 /dev/urandom 生成密钥。但请确保在你定义它的时候，该密钥都必须相同。例如，你可以将值存储在某处:
+1. 系统密钥只能针对新数据库设置，不支持密钥轮换。 此密钥用于加密数据库，每次进程（重新）启动时都需要设置为相同的值。 你可以使用 `/dev/urandom` 生成密钥。但请确保在你定义它的时候，该密钥都必须相同。例如，你可以将值存储在某处:
 
 ```shell
 export SECRETS_SYSTEM=$(export LC_CTYPE=C; cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
@@ -264,17 +264,17 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 
 ### 步骤六：访问 APISIX
 
-1. 在浏览器中输入 `http://127.0.0.1:9080/index.html`，由于已经开启了 `openid-connect` 插件，所以页面被重定向到登录页面。在此页面输入用户验证程序中默认的账号密码。
+  1. 在浏览器中输入 `http://127.0.0.1:9080/index.html`，由于已经开启了 `openid-connect` 插件，所以页面被重定向到登录页面。在此页面输入用户验证程序中默认的账号密码。
 
-![网络错误/认证页面](https://static.apiseven.com/2022/blog/0704/1.png)
+  ![网络错误/认证页面](https://static.apiseven.com/2022/blog/0704/1.png)
 
-2. 选择认证协议，并单击 `Allow Access`。
+  2. 选择认证协议，并单击 `Allow Access`。
 
-![网络错误/选择页面](https://static.apiseven.com/2022/blog/0704/2.png)
+  ![网络错误/选择页面](https://static.apiseven.com/2022/blog/0704/2.png)
 
-3. 验证成功之后，就可以访问到上游服务的页面。
+  3. 验证成功之后，就可以访问到上游服务的页面。
 
-![网络错误/上游页面](https://static.apiseven.com/2022/blog/0704/3.png)
+  ![网络错误/上游页面](https://static.apiseven.com/2022/blog/0704/3.png)
 
 ## 总结
 

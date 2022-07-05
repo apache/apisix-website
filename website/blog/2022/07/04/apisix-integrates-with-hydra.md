@@ -44,10 +44,10 @@ One of the biggest advantages of Ory Hydra is that it implements the OAuth and O
 
 It allows to use the authentication mechanisms required by your program (token-based 2FA, SMS 2FA, etc.) and implement user management and login in your technology stack. Of course, you can also use existing solutions, such as [authboss](https://github.com/go-authboss/authboss). It gives you all the great features of OAuth 2.0 and OpenID Connect while being minimally intrusive to your business logic and technology stack.
 
-OAuth 2.0 can be used in many environments for various purposes. This list might help you decide if OAuth 2.0 and Hydra are the right fit for a use case:
+OAuth 2.0 can be used in many environments for various purposes. The following information may help you decide whether OAuth 2.0 and Hydra are suitable for a certain scenario:
 
 1. enable third-party solutions to access your APIs.
-2. be an Identity Provider like Google, Facebook, or Microsoft: OpenID Connect, and thus Hydra is a perfect fit.
+2. be an Identity Provider like Google, Facebook, or Microsoft.
 3. enable your browser, mobile, or wearable applications to access your APIs: Running an OAuth2 Provider can work great for this. You don't have to store passwords on the device and can revoke access tokens at any time.
 4. you want to limit what type of information your backend services can read from each other. For example, the comment service should only be allowed to fetch user profile updates but shouldn't be able to read user passwords.
 
@@ -57,7 +57,7 @@ Next, I will show you how APISIX integrates with Hydra using a real example. In 
 
 ### Step 1: Create and deploy the database
 
-For quick deployment of the test environment, we will use Docker to run PostgreSQL as Hydra's database. Using Docker to run the database in production is not recommended.
+For quick deployment of the test environment, we will use Docker to run PostgreSQL as Hydra's database. It's not recommended to use Docker to run the database in production.
 
 ```shell
 docker network create hydraguide && \
@@ -70,7 +70,7 @@ docker run \
   -d postgres:9.6
 ```
 
-The above command will create a network named hydraguide and start a Postgres instance named ory-hydra-example--postgres which creates the database hydra, the user hydra, and the user password secret.
+The above command will create a network named `hydraguide` and start a Postgres instance named `ory-hydra-example--postgres` which creates the database `hydra`, the user `hydra`, and the user password `secret`.
 
 ### Step 2: Deploy Hydra
 
@@ -147,7 +147,7 @@ docker run -d \
   oryd/hydra-login-consent-node:v1.10.6
 ```
 
-You can check if the program is working properly with the command:
+You can use the following command to check whether the program runs normally:
 
 ```shell
 docker logs ory-hydra-example--consent
@@ -264,17 +264,17 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 
 ### Step 6: Visit the webpage
 
-1. Enter `http://127.0.0.1:9080/index.html` in the browser. Since the `openid-connect` plugin has been enabled, the page is redirected to the login page, enter the default account password into the user authentication program.
+  1. Enter `http://127.0.0.1:9080/index.html` in the browser. Since the `openid-connect` plugin has been enabled, the page is redirected to the login page, enter the default account password into the user authentication program.
 
-![network-error/Authentication page](https://static.apiseven.com/2022/blog/0704/1.png)
+  ![network-error/Authentication page](https://static.apiseven.com/2022/blog/0704/1.png)
 
-2. Select the authentication protocol and click `Allow Access`.
+  2. Select the authentication protocol and click `Allow Access`.
 
-![network-error/select page](https://static.apiseven.com/2022/blog/0704/2.png)
+  ![network-error/select page](https://static.apiseven.com/2022/blog/0704/2.png)
 
-3. After successful verification, you can access the upstream service page.
+  3. After successful verification, you can access the upstream service page.
 
-![network-error/upstream page](https://static.apiseven.com/2022/blog/0704/3.png)
+  ![network-error/upstream page](https://static.apiseven.com/2022/blog/0704/3.png)
 
 ## Summary
 
