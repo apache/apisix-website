@@ -4,13 +4,17 @@ authors:
   - name: "Fei Han"
     title: "Technical Writer"
     url: "https://github.com/hf400159"
-    image_url: "https://github.com/hf400159.png"  
+    image_url: "https://github.com/hf400159.png" 
+  - name: "Sylvia"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
 - API Gateway
 - 身份认证
 - Hydra
-- Openid Connect
+- OpenID Connect
 - OIDC
 description: 本文介绍了 API 网关 Apache APISIX 通过 OpenID Connect 插件 与 Ory Hydra 集成实现集中式身份认证。
 tags: [Authentication]
