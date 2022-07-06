@@ -23,7 +23,7 @@ tags: [Authentication]
 
 <!--truncate-->
 
-OpenID Connect referred to as OIDC, is an authentication protocol based on the OAuth 2.0. It allows the client to obtain user information from the identity provider (IdP), e.g., Keycloak, Ory, Okta, Auth0, etc. The open-source API Gateway Apache APISIX supports using the [openid-connect plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect) to integrate with the above Identify Providers. It will redirect all unauthenticated clients to IdP's login page. After the successful authentication, APISIX will pass the user information to the upstream service.
+OpenID Connect referred to as OIDC, is an authentication protocol based on the OAuth 2.0. It allows the client to obtain user information from the identity provider (IdP), e.g., Keycloak, Ory, Okta, Auth0, etc. The open-source API Gateway Apache APISIX supports using the [openid-connect plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect) to integrate with the above identity Providers. It will redirect all unauthenticated clients to IdP's login page. After the successful authentication, APISIX will pass the user information to the upstream service.
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/1.png)
 
