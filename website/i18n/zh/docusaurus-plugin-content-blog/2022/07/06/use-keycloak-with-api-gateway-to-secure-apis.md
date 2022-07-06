@@ -37,7 +37,7 @@ Keycloak 是一个开源的身份认证管理服务，可作为 IdP 来使用。
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/2.png)
 
-在重定向阶段（Redirect），IdP 将用户重定向到一个预先配置好的重定向 URL（redirect_url），例如 http://127.0.0.1:9080/callback。请注意：这是一个在 APISIX 中不存在的 API，它只用于捕获相关的请求，并在 OIDC 逻辑中完成 Token 交换的功能。请不要使用这个地址作为触发 OIDC 插件重定向的条件，否则，它将返回如下错误：the error request to the redirect_uri path, but there's no session state found.
+在重定向阶段（Redirect），IdP 将用户重定向到一个预先配置好的重定向 URL（redirect_url），例如 `http://127.0.0.1:9080/callback`。请注意：这是一个在 APISIX 中不存在的 API，它只用于捕获相关的请求，并在 OIDC 逻辑中完成 Token 交换的功能。请不要使用这个地址作为触发 OIDC 插件重定向的条件，否则，它将返回如下错误：`the error request to the redirect_uri path, but there's no session state found`。
 
 ## 相关术语
 
@@ -54,21 +54,21 @@ Keycloak 是一个开源的身份认证管理服务，可作为 IdP 来使用。
 
 ### 安装 Apache APISIX
 
-请参考 https://apisix.apache.org/docs/apisix/getting-started 安装、启动 APISIX，本示例中 APISIX 实例地址为 http://127.0.0.1:9080/。
+请参考 https://apisix.apache.org/docs/apisix/getting-started 安装、启动 APISIX，本示例中 APISIX 实例地址为 `http://127.0.0.1:9080/`。
 
 ### 配置 Keycloak
 
 请在服务器中执行如下命令安装 18.0.2 版本的 Keycloak：
 
-```sh
+```shell
 docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.2 start-dev
 ```
 
-启动完成后 Keycloak 将监听 8080 端口，并使用 admin 作为管理员账户与密码。
+启动完成后 Keycloak 将监听 `8080` 端口，并使用 admin 作为管理员账户与密码。
 
 #### 创建 Realm
 
-访问 http://127.0.0.1:8080/ 将显示如下界面，这表示 Keycloak 已成功运行。
+访问 `http://127.0.0.1:8080/` 将显示如下界面，这表示 Keycloak 已成功运行。
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/3.png)
 
@@ -86,7 +86,7 @@ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=ad
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/6.png)
 
-创建成功后将看到已切换至 myrealm，且底部存有 Endpoints -> OpenID Endpoint Configuration，地址为 http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration，这是一个服务发现的规范，稍后将使用该地址作为 OIDC 所需要使用的各个节点地址。
+创建成功后将看到已切换至 myrealm，且底部存有 Endpoints -> OpenID Endpoint Configuration，地址为 `http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration`，这是一个服务发现的规范，稍后将使用该地址作为 OIDC 所需要使用的各个节点地址。
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/7.png)
 
@@ -119,7 +119,7 @@ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=ad
 保存后需要配置 2 个参数：
 
 1. Access Type：默认为 public，请修改为 credential 以获取 Client Secret；
-2. Valid Redirect URIs：当登陆成功时，Keycloak 将携带 state 与 code 重定向客户端至该地址，因此设置为 Apache APISIX 的特定回调地址，例如 http://127.0.0.1:9080/anything/callback
+2. Valid Redirect URIs：当登陆成功时，Keycloak 将携带 state 与 code 重定向客户端至该地址，因此设置为 Apache APISIX 的特定回调地址，例如 `http://127.0.0.1:9080/anything/callback`
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/14.png)
 
@@ -131,20 +131,20 @@ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=ad
 
 #### Apache APISIX
 
-实例地址：http://127.0.0.1:9080/
+实例地址：`http://127.0.0.1:9080/`
 
 #### Keycloak
 
-1. 服务地址：http://127.0.0.1:8080/
-2. Realm：myrealm
-3. Client ID：myclient
+1. 服务地址：`http://127.0.0.1:8080/`
+2. Realm：`myrealm`
+3. Client ID：`myclient`
 4. Client Secret：e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq
-5. Redirect URI：http://127.0.0.1:9080/anything/callback
-6. Discovery：http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration
-7. Logout URL：/anything/logout
-8. Bearer Only: false
-9. Username：myuser
-10. Password：mypassword
+5. Redirect URI：`http://127.0.0.1:9080/anything/callback`
+6. Discovery：`http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration`
+7. Logout URL：`/anything/logout`
+8. Bearer Only: `false`
+9. Username：`myuser`
+10. Password：`mypassword`
 
 ## 场景示例
 
@@ -160,8 +160,8 @@ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=ad
 
 1. 使用如下命令创建一条 API：
 
-```sh
-$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
+```shell
+$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/anything/*",
     "plugins": {
         "openid-connect": {
@@ -186,15 +186,15 @@ $ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f1
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/17.png)
 
-2. 创建 API 成功后访问 http://127.0.0.1:9080/anything/test 时，由于未进行登录，因此将被引导到 Keycloak 的登录页面：
+2. 创建 API 成功后访问 `http://127.0.0.1:9080/anything/test` 时，由于未进行登录，因此将被引导到 Keycloak 的登录页面：
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/18.png)
 
-3. 输入账号（myuser）、密码（mypassword）完成登录后，成功跳转到 http://127.0.0.1:9080/anything/test 页面：
+3. 输入账号（myuser）、密码（mypassword）完成登录后，成功跳转到 `http://127.0.0.1:9080/anything/test` 页面：
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/19.png)
 
-4. 访问 http://127.0.0.1:9080/anything/logout 退出登录：
+4. 访问 `http://127.0.0.1:9080/anything/logout` 退出登录：
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/20.png)
 
@@ -204,8 +204,8 @@ $ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f1
 
 1. 使用如下命令创建一条 API：
 
-```sh
-$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
+```shell
+$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/anything/*",
     "plugins": {
         "openid-connect": {
@@ -236,7 +236,7 @@ $ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f1
 
 3. 调用 Keycloak API 获取 AccessToken：
 
-```sh
+```shell
 $ curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token" -d "grant_type=password&username=myuser&client_id=myclient&client_secret=e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq&password=mypassword"
 ```
 
@@ -244,7 +244,7 @@ $ curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/toke
 
 4. 将 AccessToken 放于 Authorization 头中请求 APISIX，可以认证成功：
 
-```sh
+```shell
 $ curl http://127.0.0.1:9080/anything/test -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ6eWlqWEdHZjFSdTI0TGRaenlGdGI4aXJJMDVDNWUzUVVaRGRMTUo3dzIwIn0.eyJleHAiOjE2NTcwMTUxODAsImlhdCI6MTY1NzAxNDg4MCwianRpIjoiODJjN2ExMzMtODI4OS00NTk4LWJkODctOGQ0NWQ3YjNhYjAzIiwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgwL3JlYWxtcy9teXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjQ0NWU1OWI2LWUwOWItNDAxNC05MTJkLWFiM2E1ZWQ2MjA4OCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im15Y2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1teXJlYWxtIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsInNpZCI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoibXl1c2VyIiwiZ2l2ZW5fbmFtZSI6IiJ9.YEwgMqyDGdOtUkBRXLcYURmOBViypmeHdL2Eue7wgIaoXZRA5sSJV1xvy3ShT2FgZKiGpZDpikfij06JRQeZ-qAkIe_YEIvoE8DCwhSuQdLAR1aASaTc3YUDanKgVHa0ZaEAZjX3iqAtsBqVXG_6q4N5z9adtExX4HFBPS2IfGE8zZAj7MyXIKCZGr4Zgm0l77QhXOSla3bkQCk9wn3ZrWfsssSk-Cr8XUZ49KsrV2NEj_4FhE4cg00sa_sdBWDnzn5IWDL7Io3TNilKvZ5vcXUD8QvNQzd50loKr6D5GHYDDuUBR1dERweoaqn4j_1xQt8-SLbnbVsDEIJLBfcW0w"
 ```
 
@@ -252,13 +252,13 @@ $ curl http://127.0.0.1:9080/anything/test -H "Authorization: Bearer eyJhbGciOiJ
 
 ### 场景三：上游服务解析 UserInfo 信息
 
-当启用 APISIX set_userinfo_header 配置后，认证成功后回调请求将携带 X-Userinfo 请求头，它包含了 User 的基本信息，可通过 base64_decode 获得用户内容。
+当启用 APISIX `set_userinfo_header` 配置后，认证成功后回调请求将携带 `X-Userinfo` 请求头，它包含了 User 的基本信息，可通过 `base64_decode` 获得用户内容。
 
 ## 常见问题
 
 1. **为什么 APISIX 中 Cookie 值非常长？**
 
-因为 APISIX 会将 id_token、access_token、refresh_token 等值写入 Cookie 中，因此整个 Cookie 内容比较长。具体实现可阅读 lua-resty-openidc 库中设置 session 的逻辑。
+因为 APISIX 会将 `id_token`、`access_token`、`refresh_token` 等值写入 Cookie 中，因此整个 Cookie 内容比较长。具体实现可阅读 `lua-resty-openidc` 库中设置 session 的逻辑。
 
 2. **如何修改 Session 存储的 Cookie 名称、存储位置？**
 

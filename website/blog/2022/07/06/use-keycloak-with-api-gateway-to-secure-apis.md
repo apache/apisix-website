@@ -35,7 +35,7 @@ The following diagram shows the OpenID-Connect protocol interaction flow.
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/2.png)
 
-In the Redirect stage, Identity Provider redirects users to a pre-configured Redirect URL, similar to http://127.0.0.1:9080/callback. But note: it is a non-existent API that only captures the relevant request and processes the code for Token exchange using OIDC logic. Please do not use this address as a condition to trigger OIDC plugin redirection; otherwise, it will return the error request to the redirect_uri path, but there's no session state found.
+In the Redirect stage, Identity Provider redirects users to a pre-configured Redirect URL, similar to `http://127.0.0.1:9080/callback`. But note: it is a non-existent API that only captures the relevant request and processes the code for Token exchange using OIDC logic. Please do not use this address as a condition to trigger OIDC plugin redirection; otherwise, it will return the error request to the redirect_uri path, but there's no session state found.
 
 ## Terminology
 
@@ -52,13 +52,13 @@ In the Redirect stage, Identity Provider redirects users to a pre-configured Red
 
 ### Apache APISIX
 
-Please refer to https://apisix.apache.org/docs/apisix/getting-started to install and start APISIX. After that, you could visit http://127.0.0.1:9080/ to access the APISIX instance.
+Please refer to https://apisix.apache.org/docs/apisix/getting-started to install and start APISIX. After that, you could visit `http://127.0.0.1:9080/` to access the APISIX instance.
 
 ### Keycloak
 
 Execute the following command to run Keycloak on the server, and we pass admin as Keycloak administrator's username and password.
 
-```sh
+```shell
 $ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.2 start-dev
 
 61a6d6cbfb1f9fe81a6a0dfde7e8ba15e58bf99303697c4e73ab249d005a6678
@@ -66,18 +66,18 @@ $ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=
 
 Check if the Keycloak container starts successfully.
 
-```sh
+```shell
 $ docker ps -a
 
 CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS          PORTS                                                 NAMES
 61a6d6cbfb1f   quay.io/keycloak/keycloak:18.0.2   "/opt/keycloak/bin/k…"   11 seconds ago   Up 10 seconds   0.0.0.0:8080->8080/tcp, :::8080->8080/tcp, 8443/tcp   heuristic_dirac
 ```
 
-Once started, Keycloak will be available on port 8080.
+Once started, Keycloak will be available on port `8080`.
 
 #### Create a Realm
 
-Visit http://127.0.0.1:8080/ in your browser to display the following screen, indicating that Keycloak has started successfully.
+Visit `http://127.0.0.1:8080/` in your browser to display the following screen, indicating that Keycloak has started successfully.
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/3.png)
 
@@ -93,7 +93,7 @@ Click Add realm when you mouse over the Master on the left and enter myrealm as 
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/6.png)
 
-After successful creation, you will see that you have switched to myrealm and at the bottom, you have Endpoints -> OpenID Endpoint Configuration at http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration.
+After successful creation, you will see that you have switched to myrealm and at the bottom, you have Endpoints -> OpenID Endpoint Configuration at `http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration`.
 
 This endpoint contains a Discovery file, which will be used later as the address of each node that OIDC needs to use.
 
@@ -128,7 +128,7 @@ Enter the Client ID and save it. This example uses myclient as the ID.
 After saving, 2 parameters need to be configured.
 
 1. Access Type: default is public, please change it to credential to obtain Client Secret.
-2. Valid Redirect URIs: When the login is successful, Keycloak will carry the state and code to redirect the client to this address, so set it to a specific callback address for Apache APISIX, for example: http://127.0.0.1:9080/anything/callback
+2. Valid Redirect URIs: When the login is successful, Keycloak will carry the state and code to redirect the client to this address, so set it to a specific callback address for Apache APISIX, for example: `http://127.0.0.1:9080/anything/callback`
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/14.png)
 
@@ -140,20 +140,20 @@ When the settings are complete and saved, the Credentials tab will appear at the
 
 #### Apache APISIX
 
-Service URL: http://127.0.0.1:9080/
+Service URL: `http://127.0.0.1:9080/`
 
 #### Keycloak
 
-1. Service URL: http://127.0.0.1:8080/
-2. Realm: myrealm
-3. Client ID: myclient
-4. Client Secret: e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq
-5. Redirect URI: http://127.0.0.1:9080/anything/callback
-6. Discovery: http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration
-7. Logout URL: /anything/logout
-8. Bearer Only: false
-9. Username: myuser
-10. Password: mypassword
+1. Service URL: `http://127.0.0.1:8080/`
+2. Realm: `myrealm`
+3. Client ID: `myclient`
+4. Client Secret: `e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq`
+5. Redirect URI: `http://127.0.0.1:9080/anything/callback`
+6. Discovery: `http://127.0.0.1:8080/realms/myrealm/.well-known/openid-configuration`
+7. Logout URL: `/anything/logout`
+8. Bearer Only: `false`
+9. Username: `myuser`
+10. Password: `mypassword`
 
 ## Scenarios
 
@@ -169,8 +169,8 @@ This example will direct the client to the login page to authenticate using a us
 
 1. Create an API:
 
-```sh
-$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
+```shell
+$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/anything/*",
     "plugins": {
         "openid-connect": {
@@ -195,15 +195,15 @@ $ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f1
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/17.png)
 
-2. When you visit http://127.0.0.1:9080/anything/test after successful API creation, APISIX will redirect your browser to Keycloak's login page because you need to log in.
+2. When you visit `http://127.0.0.1:9080/anything/test` after successful API creation, APISIX will redirect your browser to Keycloak's login page because you need to log in.
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/18.png)
 
-3. Enter username (myuser) and password (mypassword) to log in, and your browser will redirect to http://127.0.0.1:9080/anything/test.
+3. Enter username (myuser) and password (mypassword) to log in, and your browser will redirect to `http://127.0.0.1:9080/anything/test`.
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/19.png)
 
-4. Visit http://127.0.0.1:9080/anything/logout to log out:
+4. Visit `http://127.0.0.1:9080/anything/logout` to log out:
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/20.png)
 
@@ -213,8 +213,8 @@ By enabling the bearer_only parameter to authenticate calls between services, th
 
 1. Create an API:
 
-```sh
-$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1" -d '{
+```shell
+$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/anything/*",
     "plugins": {
         "openid-connect": {
@@ -245,7 +245,7 @@ $ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-Api-Key: edd1c9f034335f1
 
 3. Call the Keycloak API to obtain the AccessToken.
 
-```sh
+```shell
 $ curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token" -d "grant_type=password&username=myuser&client_id=myclient&client_secret=e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq&password=mypassword"
 ```
 
@@ -253,7 +253,7 @@ $ curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/toke
 
 4. Place the AccessToken in the Authorization header to request APISIX, and you can authenticate successfully.
 
-```sh
+```shell
 $ curl http://127.0.0.1:9080/anything/test -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ6eWlqWEdHZjFSdTI0TGRaenlGdGI4aXJJMDVDNWUzUVVaRGRMTUo3dzIwIn0.eyJleHAiOjE2NTcwMTUxODAsImlhdCI6MTY1NzAxNDg4MCwianRpIjoiODJjN2ExMzMtODI4OS00NTk4LWJkODctOGQ0NWQ3YjNhYjAzIiwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgwL3JlYWxtcy9teXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjQ0NWU1OWI2LWUwOWItNDAxNC05MTJkLWFiM2E1ZWQ2MjA4OCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im15Y2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1teXJlYWxtIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsInNpZCI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoibXl1c2VyIiwiZ2l2ZW5fbmFtZSI6IiJ9.YEwgMqyDGdOtUkBRXLcYURmOBViypmeHdL2Eue7wgIaoXZRA5sSJV1xvy3ShT2FgZKiGpZDpikfij06JRQeZ-qAkIe_YEIvoE8DCwhSuQdLAR1aASaTc3YUDanKgVHa0ZaEAZjX3iqAtsBqVXG_6q4N5z9adtExX4HFBPS2IfGE8zZAj7MyXIKCZGr4Zgm0l77QhXOSla3bkQCk9wn3ZrWfsssSk-Cr8XUZ49KsrV2NEj_4FhE4cg00sa_sdBWDnzn5IWDL7Io3TNilKvZ5vcXUD8QvNQzd50loKr6D5GHYDDuUBR1dERweoaqn4j_1xQt8-SLbnbVsDEIJLBfcW0w"
 ```
 
@@ -267,7 +267,7 @@ When APISIX's `set_userinfo_header` is enabled, the callback request after succe
 
 1. **Why is the cookie value very big in APISIX?**
 
-Because APISIX writes `id_token`, `access_token`, and `refresh_token` into the cookie, the entire cookie content is quite big. For detailed implementation, read the logic for [setting up a session](https://github.com/zmartzone/lua-resty-openidc/blob/b07330120ffe54dd3fbeac247726b76d0f9dc793/lib/resty/openidc.lua#L1179-L1188) in the lua-resty-openidc library.
+Because APISIX writes `id_token`, `access_token`, and `refresh_token` into the cookie, the entire cookie content is quite big. For detailed implementation, read the logic for [setting up a session](https://github.com/zmartzone/lua-resty-openidc/blob/b07330120ffe54dd3fbeac247726b76d0f9dc793/lib/resty/openidc.lua#L1179-L1188) in the `lua-resty-openidc` library.
 
 2. **How to change the name and location of the cookie stored in the Session?**
 
