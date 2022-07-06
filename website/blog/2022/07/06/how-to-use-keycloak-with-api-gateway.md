@@ -1,6 +1,10 @@
 ---
 title: "How to use Keycloak with API Gateway step by step?"
 authors:
+  - name: "Xinxin Zhu"
+    title: "Apache APISIX Committer"
+    url: "https://github.com/starsz"
+    image_url: "https://github.com/starsz.png"
   - name: "Zhiyuan Ju"
     title: "Apache Member"
     url: "https://github.com/juzhiyuan"
