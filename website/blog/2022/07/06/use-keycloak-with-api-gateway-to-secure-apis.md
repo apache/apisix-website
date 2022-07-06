@@ -59,7 +59,7 @@ Please refer to https://apisix.apache.org/docs/apisix/getting-started to install
 Execute the following command to run Keycloak on the server, and we pass admin as Keycloak administrator's username and password.
 
 ```shell
-$ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.2 start-dev
+docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.2 start-dev
 
 61a6d6cbfb1f9fe81a6a0dfde7e8ba15e58bf99303697c4e73ab249d005a6678
 ```
@@ -67,7 +67,7 @@ $ docker run -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=
 Check if the Keycloak container starts successfully.
 
 ```shell
-$ docker ps -a
+docker ps -a
 
 CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS          PORTS                                                 NAMES
 61a6d6cbfb1f   quay.io/keycloak/keycloak:18.0.2   "/opt/keycloak/bin/k…"   11 seconds ago   Up 10 seconds   0.0.0.0:8080->8080/tcp, :::8080->8080/tcp, 8443/tcp   heuristic_dirac
@@ -170,7 +170,7 @@ This example will direct the client to the login page to authenticate using a us
 1. Create an API:
 
 ```shell
-$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
+curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/anything/*",
     "plugins": {
         "openid-connect": {
@@ -214,7 +214,7 @@ By enabling the bearer_only parameter to authenticate calls between services, th
 1. Create an API:
 
 ```shell
-$ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
+curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -d '{
     "uri":"/anything/*",
     "plugins": {
         "openid-connect": {
@@ -246,7 +246,7 @@ $ curl -XPUT 127.0.0.1:9080/apisix/admin/routes/1 -H "X-API-KEY: edd1c9f034335f1
 3. Call the Keycloak API to obtain the AccessToken.
 
 ```shell
-$ curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token" -d "grant_type=password&username=myuser&client_id=myclient&client_secret=e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq&password=mypassword"
+curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token" -d "grant_type=password&username=myuser&client_id=myclient&client_secret=e91CKZQwhxyDqpkP0YFUJBxiXJ0ikJhq&password=mypassword"
 ```
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/23.png)
@@ -254,7 +254,7 @@ $ curl -XPOST "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/toke
 4. Place the AccessToken in the Authorization header to request APISIX, and you can authenticate successfully.
 
 ```shell
-$ curl http://127.0.0.1:9080/anything/test -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ6eWlqWEdHZjFSdTI0TGRaenlGdGI4aXJJMDVDNWUzUVVaRGRMTUo3dzIwIn0.eyJleHAiOjE2NTcwMTUxODAsImlhdCI6MTY1NzAxNDg4MCwianRpIjoiODJjN2ExMzMtODI4OS00NTk4LWJkODctOGQ0NWQ3YjNhYjAzIiwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgwL3JlYWxtcy9teXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjQ0NWU1OWI2LWUwOWItNDAxNC05MTJkLWFiM2E1ZWQ2MjA4OCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im15Y2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1teXJlYWxtIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsInNpZCI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoibXl1c2VyIiwiZ2l2ZW5fbmFtZSI6IiJ9.YEwgMqyDGdOtUkBRXLcYURmOBViypmeHdL2Eue7wgIaoXZRA5sSJV1xvy3ShT2FgZKiGpZDpikfij06JRQeZ-qAkIe_YEIvoE8DCwhSuQdLAR1aASaTc3YUDanKgVHa0ZaEAZjX3iqAtsBqVXG_6q4N5z9adtExX4HFBPS2IfGE8zZAj7MyXIKCZGr4Zgm0l77QhXOSla3bkQCk9wn3ZrWfsssSk-Cr8XUZ49KsrV2NEj_4FhE4cg00sa_sdBWDnzn5IWDL7Io3TNilKvZ5vcXUD8QvNQzd50loKr6D5GHYDDuUBR1dERweoaqn4j_1xQt8-SLbnbVsDEIJLBfcW0w"
+curl http://127.0.0.1:9080/anything/test -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ6eWlqWEdHZjFSdTI0TGRaenlGdGI4aXJJMDVDNWUzUVVaRGRMTUo3dzIwIn0.eyJleHAiOjE2NTcwMTUxODAsImlhdCI6MTY1NzAxNDg4MCwianRpIjoiODJjN2ExMzMtODI4OS00NTk4LWJkODctOGQ0NWQ3YjNhYjAzIiwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgwL3JlYWxtcy9teXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjQ0NWU1OWI2LWUwOWItNDAxNC05MTJkLWFiM2E1ZWQ2MjA4OCIsInR5cCI6IkJlYXJlciIsImF6cCI6Im15Y2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1teXJlYWxtIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsInNpZCI6IjdmNmU5ZmU1LTIxNDgtNDFiZC04YjI3LWNhMGNiM2FlZDc5YiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoibXl1c2VyIiwiZ2l2ZW5fbmFtZSI6IiJ9.YEwgMqyDGdOtUkBRXLcYURmOBViypmeHdL2Eue7wgIaoXZRA5sSJV1xvy3ShT2FgZKiGpZDpikfij06JRQeZ-qAkIe_YEIvoE8DCwhSuQdLAR1aASaTc3YUDanKgVHa0ZaEAZjX3iqAtsBqVXG_6q4N5z9adtExX4HFBPS2IfGE8zZAj7MyXIKCZGr4Zgm0l77QhXOSla3bkQCk9wn3ZrWfsssSk-Cr8XUZ49KsrV2NEj_4FhE4cg00sa_sdBWDnzn5IWDL7Io3TNilKvZ5vcXUD8QvNQzd50loKr6D5GHYDDuUBR1dERweoaqn4j_1xQt8-SLbnbVsDEIJLBfcW0w"
 ```
 
 ![screenshot](https://static.apiseven.com/2022/blog/0706/24.png)
