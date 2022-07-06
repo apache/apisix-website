@@ -9,8 +9,7 @@ RedirectMatch 404 /\.asf\.yaml
 ErrorDocument 404 /404.html
 
 RewriteEngine on
-CheckSpelling On 
-CheckCaseOnly On
+CheckSpelling on 
 
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin: https://apisix.apache.org
