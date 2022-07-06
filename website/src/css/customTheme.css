@@ -59,7 +59,7 @@ html[data-theme="dark"] {
     local("MaisonNeue-Medium"),
     url("https://static.apiseven.com/202202/MaisonNeue-Medium.otf")
     format("opentype");
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -68,7 +68,7 @@ html[data-theme="dark"] {
     local("MaisonNeue-Bold"),
     url("https://static.apiseven.com/202202/MaisonNeue-Bold.otf")
     format("opentype");
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -77,7 +77,7 @@ html[data-theme="dark"] {
     local("MaisonNeue-Light"),
     url("https://static.apiseven.com/202202/MaisonNeue-Light.otf")
     format("opentype");
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -86,7 +86,7 @@ html[data-theme="dark"] {
     local("MaisonNeue-Demi"),
     url("https://static.apiseven.com/202202/MaisonNeue-Demi.otf")
     format("opentype");
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -95,7 +95,7 @@ html[data-theme="dark"] {
     local("MaisonNeue-ExtraBold"),
     url("https://static.apiseven.com/202202/MaisonNeue-ExtraBold.otf")
     format("opentype");
-  font-display: swap;
+  font-display: optional;
 }
 
 ::-webkit-scrollbar {
@@ -118,7 +118,11 @@ body,
 h1,
 h2,
 h3 {
-  font-family: MaisonNeue-Medium, sans-serif;
+  font-family: MaisonNeue-Medium, apple-system, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+  text-size-adjust: 100%;
 }
 
 div.inner {
