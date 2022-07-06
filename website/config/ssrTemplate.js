@@ -13,6 +13,11 @@ module.exports = {
       <% it.metaAttributes.forEach((metaAttribute) => { %>
         <%~ metaAttribute %>
       <% }); %>
+      <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-Medium.otf" as="font" type="font/otf" crossorigin>
+      <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-Bold.otf" as="font" type="font/otf" crossorigin>
+      <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-Light.otf" as="font" type="font/otf" crossorigin>
+      <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-Demi.otf"  as="font" type="font/otf" crossorigin>
+      <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-ExtraBold.otf" as="font" type="font/otf" crossorigin>
       <% it.scripts.forEach((script) => { %>
         <link rel="preload" href="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= script %>" as="script">
       <% }); %>
