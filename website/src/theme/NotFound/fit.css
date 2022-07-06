@@ -1,0 +1,9 @@
+.fit-wrapper {
+  display: block;
+  width: 100%;
+}
+
+.fit {
+  display: inline-block;
+  white-space: nowrap;
+}

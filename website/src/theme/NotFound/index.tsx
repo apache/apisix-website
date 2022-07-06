@@ -1,7 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import type { FC } from 'react';
 import React from 'react';
 import Layout from '@theme/Layout';
-import Translate, { translate } from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
+import Link from '@docusaurus/Link';
+import style from './styles.module.scss';
+import Fitty from './Fitty';
 
 const NotFound: FC = () => (
   <Layout
@@ -10,38 +14,41 @@ const NotFound: FC = () => (
       message: 'Page Not Found',
     })}
   >
-    <main className="container margin-vert--xl">
-      <div className="row">
-        <div className="col col--6 col--offset-3">
-          <h1 className="hero__title">
-            <span>404</span>
-            <span />
-            <Translate
-              id="theme.NotFound.title"
-              description="The title of the 404 page"
-            >
-              Page Not Found
-            </Translate>
-          </h1>
-          <p>
-            <Translate
-              id="theme.NotFound.p1"
-              description="The first paragraph of the 404 page"
-            >
-              We could not find what you were looking for.
-            </Translate>
-          </p>
-          <p>
-            <Translate
-              id="theme.NotFound.p2"
-              description="The 2nd paragraph of the 404 page"
-            >
-              Please contact the owner of the site that linked you to the
-              original URL and let them know their link is broken.
-            </Translate>
-          </p>
-        </div>
-      </div>
+    <main className={style.container}>
+      <section>
+        <Fitty tagName="h1" contentEditable>404</Fitty>
+        <Fitty tagName="h2">
+          Page Not Found
+        </Fitty>
+      </section>
+      <p>
+        We could not find what you were looking for.
+      </p>
+      <p>
+        If you think this link should not be broken, please
+        {' '}
+        <Link href="https://github.com/apache/apisix-website/issues/new/choose" target="_blank" rel="noreferrer">submit an Issue</Link>
+        .
+      </p>
+      <p>
+        You can also return to
+        {' '}
+        <Link href="/">
+          the home page
+        </Link>
+        . Or, return to
+        {' '}
+        <a
+          role="button"
+          href="#"
+          onClick={() => {
+            window?.history.back();
+          }}
+        >
+          the source page
+        </a>
+        .
+      </p>
     </main>
   </Layout>
 );
