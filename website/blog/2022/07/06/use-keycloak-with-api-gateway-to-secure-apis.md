@@ -1,5 +1,5 @@
 ---
-title: "How to use Keycloak with API Gateway step by step?"
+title: "Use Keycloak with API Gateway to secure APIs"
 authors:
   - name: "Xinxin Zhu"
     title: "Apache APISIX Committer"
