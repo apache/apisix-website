@@ -6,7 +6,9 @@ const getEditUrl = ({
   locale,
   docPath,
   defaultBranch = 'master',
-}) => (version === 'current' ? `https://github.com/apache/${projectName}/edit/${defaultBranch}/docs/${locale}/latest/${docPath}` : null);
+}) => (version === 'current'
+  ? `https://github.com/apache/${projectName}/edit/${defaultBranch}/docs/${locale}/latest/${docPath}`
+  : null);
 
 module.exports = {
   title: 'Apache APISIX® -- Cloud-Native API Gateway',
@@ -22,7 +24,6 @@ module.exports = {
       'Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.',
     showcases: require('./static/data/showcases.json'),
     events: require('./static/data/events.json'),
-    eventPosterCard: require('./static/data/event-poster-card.json'),
     repoUrl: 'https://github.com/apache/apisix',
     docsUrl: '',
     docs: require('./config/docs.js'),
@@ -68,9 +69,7 @@ module.exports = {
           path: 'docs/general',
           routeBasePath: '/docs/general',
           sidebarPath: require.resolve('./docs/general/sidebars.json'),
-          editUrl({
-            docPath,
-          }) {
+          editUrl({ docPath }) {
             return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
           },
         },
@@ -117,11 +116,7 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/apisix',
         sidebarPath: require.resolve('./docs/apisix/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix',
             locale,
@@ -140,11 +135,7 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/dashboard',
         sidebarPath: require.resolve('./docs/apisix-dashboard/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-dashboard',
             locale,
@@ -165,11 +156,7 @@ module.exports = {
         sidebarPath: require.resolve(
           './docs/apisix-ingress-controller/sidebars.json',
         ),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-ingress-controller',
             locale,
@@ -188,11 +175,7 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/helm-chart',
         sidebarPath: require.resolve('./docs/apisix-helm-chart/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-helm-chart',
             locale,
@@ -211,11 +194,7 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/docker',
         sidebarPath: require.resolve('./docs/apisix-docker/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-docker',
             locale,
@@ -233,12 +212,10 @@ module.exports = {
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
         routeBasePath: '/docs/java-plugin-runner',
-        sidebarPath: require.resolve('./docs/apisix-java-plugin-runner/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        sidebarPath: require.resolve(
+          './docs/apisix-java-plugin-runner/sidebars.json',
+        ),
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-java-plugin-runner',
             locale,
@@ -257,12 +234,10 @@ module.exports = {
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
         routeBasePath: '/docs/go-plugin-runner',
-        sidebarPath: require.resolve('./docs/apisix-go-plugin-runner/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        sidebarPath: require.resolve(
+          './docs/apisix-go-plugin-runner/sidebars.json',
+        ),
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-go-plugin-runner',
             locale,
@@ -280,12 +255,10 @@ module.exports = {
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
         routeBasePath: '/docs/python-plugin-runner',
-        sidebarPath: require.resolve('./docs/apisix-python-plugin-runner/sidebars.json'),
-        editUrl({
-          docPath,
-          version,
-          locale,
-        }) {
+        sidebarPath: require.resolve(
+          './docs/apisix-python-plugin-runner/sidebars.json',
+        ),
+        editUrl({ docPath, version, locale }) {
           return getEditUrl({
             projectName: 'apisix-python-plugin-runner',
             locale,
@@ -366,6 +339,6 @@ module.exports = {
    * We need to check if we build site for preview env,
    * or preview site will load static assets from the asf-site branch.
    * See ssrTemplate -> jsDelivr
-  */
+   */
   ssrTemplate,
 };

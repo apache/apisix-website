@@ -1,61 +1,62 @@
 import type { FC } from 'react';
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useCallback, useMemo, useEffect,
+} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { gsap } from 'gsap/gsap-core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useSpring, animated } from 'react-spring';
+import useSessionStorage from 'react-use/lib/useSessionStorage';
+import config from '../../config/event-poster-card.json';
+import style from '../css/event-poster-card.module.scss';
 
 interface EventPosterCardInfo {
   show: boolean;
   expire: string;
   image: string;
-  links: { [key: string]: string };
+  links: { [key: string]: string } | 'string';
+  width: string | number;
 }
 
-const LANG_STOR_KEY = 'localLang';
 const SHOW_STORE_KEY = 'SHOW_EVENT_ENTRY';
 
-const EventPosterCard:FC<Pick<EventPosterCardInfo, 'image' | 'links'>> = (props) => {
-  const { image, links } = props;
-  const picRef = useRef(null);
-  const [link, setLink] = useState<string>('');
+const EventPosterCard:FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props) => {
+  const { image, links, width } = props;
+  const { i18n: { currentLocale } } = useDocusaurusContext();
+  const link = useMemo(() => (typeof links === 'string' ? links : links[currentLocale]), [currentLocale]);
+  const [, setStoreShow] = useSessionStorage(SHOW_STORE_KEY, 'true');
 
-  useEffect(() => {
-    gsap.fromTo(picRef.current, {
+  const [styles, api] = useSpring(() => ({
+    from: {
       x: 500,
       opacity: 0,
-    }, {
-      x: 0,
-      opacity: 1,
-      delay: 3.0,
-    });
-  }, []);
+    },
+  }));
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const lang = localStorage.getItem(LANG_STOR_KEY);
-    setLink(links[lang]);
-  }, []);
-
-  const onClose = () => {
-    gsap.to(picRef.current, {
-      x: 500,
-      opacity: 0,
-      onComplete: () => {
-        if (typeof window === 'undefined') return;
-        sessionStorage.setItem(SHOW_STORE_KEY, 'true');
+    api.start({
+      to: {
+        x: 0,
+        opacity: 1,
       },
+      delay: 800,
     });
-  };
+  }, []);
+
+  const onClose = useCallback(() => {
+    api.start({
+      to: {
+        x: 500,
+        opacity: 0,
+      },
+    }).then(() => {
+      setStoreShow('false');
+    });
+  }, [api]);
 
   return (
-    <div ref={picRef} className="pic-wrapper">
-      <button className="pic-wrapper-close" onClick={onClose} type="button">
+    <animated.div className={style.picWrapper} style={styles}>
+      <button className={style.closeBtn} onClick={onClose} type="button">
         <svg
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fas"
-          data-icon="times"
-          className="svg-inline--fa fa-times fa-w-11"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 352 512"
@@ -64,25 +65,19 @@ const EventPosterCard:FC<Pick<EventPosterCardInfo, 'image' | 'links'>> = (props)
         </svg>
       </button>
       <a href={link} onClick={onClose} target="_blank" rel="noreferrer">
-        <LazyLoadImage src={image} alt={link} />
+        <LazyLoadImage src={image} alt={link} width={width} />
       </a>
-    </div>
+    </animated.div>
   );
 };
 
 const EventPosterCardWrapper: FC = () => {
-  if (typeof window === 'undefined') return null;
-
-  sessionStorage.setItem(SHOW_STORE_KEY, 'true');
-
-  const { siteConfig } = useDocusaurusContext();
-  const {
-    show, expire, links, image,
-  } = siteConfig.customFields.eventPosterCard as EventPosterCardInfo;
-
+  const [storeShow] = useSessionStorage(SHOW_STORE_KEY, 'true');
+  const { show, expire, ...rest } = config;
   const expireTimestamp = new Date(expire).getTime();
-  if (show && !sessionStorage.getItem(SHOW_STORE_KEY) && (expireTimestamp > new Date().getTime())) {
-    return <EventPosterCard links={links} image={image} />;
+
+  if (show && (storeShow === 'true') && (expireTimestamp > Date.now())) {
+    return <EventPosterCard {...rest} />;
   }
 
   return null;
