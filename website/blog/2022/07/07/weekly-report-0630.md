@@ -9,7 +9,7 @@ description: The Apache APISIX Community Weekly Report hopes to help community m
 tags: [Events]
 ---
 
-> From Jun 1st to Jun 15th, 30 contributors submitted 73 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
+> From Jun 16th to Jun 30th, 29 contributors submitted 98 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
 
 <!--truncate-->
 
