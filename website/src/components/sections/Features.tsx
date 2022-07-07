@@ -8,30 +8,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Translate from '@docusaurus/Translate';
 import ArrowAnim from '../ArrowAnim';
 
-const DashboardPlayground = () => (
-  <Link
-    className="dashboard-playground-link add-left-margin-feat"
-    to="http://20.210.250.99:9000/user/login/"
-  >
-    <div className="dashboard-playground">
-      <h2 className="dashboard-title">Dashboard Playground</h2>
-
-      <div className="dashboard-account">
-        <div>
-          username
-          {' '}
-          <span>admin</span>
-        </div>
-        <div>
-          passwd
-          {' '}
-          <span>admin</span>
-        </div>
-      </div>
-    </div>
-  </Link>
-);
-
 const Features: FC = () => {
   const dashboardDiv = useRef(null);
   const userfDiv = useRef(null);
@@ -188,7 +164,6 @@ const Features: FC = () => {
                 </Link>
                 <ArrowAnim />
               </div>
-              <DashboardPlayground />
             </div>
           </div>
 

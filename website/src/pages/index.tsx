@@ -7,7 +7,7 @@ import useWindowType from '@theme/hooks/useWindowSize';
 
 import HeroSection from '../components/sections/HeroSection';
 import Architecture from '../components/sections/Architecture';
-import Features from '../components/sections/Features';
+import Features from '../components/sections/NewFeatures';
 import Benefits from '../components/sections/Benefits';
 import Comparison from '../components/sections/Comparison';
 import OpensourcePromo from '../components/sections/OpensourcePromo';
