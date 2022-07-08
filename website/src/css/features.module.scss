@@ -1,3 +1,5 @@
+@import "./util";
+
 .dashboardLink {
   color: hsl(0deg 0% 80%);
   width: fit-content;
@@ -63,7 +65,6 @@
         hsl(0deg 73% 50%),
         hsl(227deg 90% 65%)
       );
-    background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     width: fit-content;
@@ -162,7 +163,32 @@
 
 .features {
   width: 100%;
-  // overflow: hidden;
+  margin: 10rem 0;
+  hyphens: auto;
+  position: relative;
+
+  & .head {
+    padding: 0 10%;
+    margin-bottom: 8rem;
+
+    h2 {
+      background-color: rgb(232 67 62);
+      display: block;
+      width: fit-content;
+      color: white;
+      padding: 6px 20px;
+      border-radius: 50rem;
+    }
+
+    h3 {
+      font-size: 3.25rem;
+    }
+
+    p {
+      font-size: 1.5rem;
+      color: hsl(0deg 0% 78%);
+    }
+  }
 
   & .container {
     display: flex;
@@ -189,16 +215,16 @@
           width: 500px;
 
           h2 {
-            font-size: 4rem;
+            font-size: 3.25rem;
           }
 
-          p {
-            font-size: 1.2rem;
-            margin-bottom: 4rem;
+          & > div {
+            font-size: 1.25rem;
+            margin-bottom: 4em;
 
             & .action {
               display: flex;
-              margin-top: 1rem;
+              margin-top: 1em;
             }
           }
         }
@@ -211,10 +237,83 @@
           object-position: left top;
           object-fit: cover;
           height: 80vh;
-          margin-bottom: 5vh;
-          align-self: flex-end;
+          align-self: center;
           border: 1px solid hsl(0deg 0% 0% / 12%);
-          border-radius: 1rem;
+          border-radius: 1rem 0 0 1rem;
+        }
+      }
+    }
+  }
+
+  @include respond-below(md) {
+    margin: 4rem 1rem;
+    align-items: flex-start;
+
+    & .container {
+      & .feat {
+        flex-direction: column;
+        height: auto;
+
+        & .left,
+        & .right {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 0 10%;
+        }
+
+        & .left {
+          & > section {
+            width: auto;
+
+            div {
+              margin-bottom: 0;
+            }
+          }
+        }
+
+        & .right {
+          img {
+            height: 50vh;
+            border-radius: 1rem;
+            margin: 1rem 0 4rem;
+          }
+        }
+      }
+    }
+  }
+
+  @include respond-below(sm) {
+    width: auto;
+
+    & .head {
+      padding: 0;
+
+      h2 {
+        font-size: 1.25rem;
+      }
+
+      h3 {
+        font-size: 2.25rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    & .container {
+      & .feat {
+        & .left,
+        & .right {
+          padding: 0;
+        }
+
+        & .left {
+          & > section {
+            h2 {
+              font-size: 2.25rem;
+            }
+          }
         }
       }
     }
