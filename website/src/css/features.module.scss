@@ -1,0 +1,322 @@
+@import "./util";
+
+.dashboardLink {
+  color: hsl(0deg 0% 80%);
+  width: fit-content;
+
+  &:hover {
+    color: hsl(0deg 0% 80%);
+  }
+}
+
+.dashboard {
+  background-color: hsl(0deg 100% 0%);
+  font-family: MaisonNeue-Bold, sans-serif;
+  margin-left: -9px;
+
+  --height: 130px;
+  --width: calc(var(--height) * 2.048);
+  --radius: calc(var(--height) * 0.168);
+
+  height: var(--height);
+  width: var(--width);
+  border-radius: var(--radius);
+  padding: calc(var(--radius) - 6px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transform: scale3d(0.95, 0.95, 1);
+  transition: all 200ms cubic-bezier(0.65, 0.05, 0.36, 1);
+
+  &::before {
+    content: "";
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+    border-radius: inherit;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  &::after {
+    content: "APISIX";
+    position: absolute;
+    top: 5px;
+    left: -35%;
+    font-size: 8.5rem;
+    font-weight: bolder;
+    line-height: 1;
+    color: #fff;
+    opacity: 0.1;
+  }
+
+  & .dashboardTitle {
+    font-size: 1.35rem;
+    font-family: MaisonNeue-ExtraBold, sans-serif;
+    white-space: nowrap;
+    flex-grow: 1;
+    background-image:
+      linear-gradient(
+        135deg,
+        hsl(0deg 73% 50%),
+        hsl(227deg 90% 65%)
+      );
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: fit-content;
+    position: relative;
+  }
+
+  & .dashboardAccount {
+    font-variant: small-caps;
+    line-height: normal;
+    letter-spacing: 1px;
+    position: relative;
+    opacity: 0.8;
+
+    &::after {
+      content: "↑";
+      font-family: MaisonNeue-Light, sans-serif;
+      font-size: 2.5rem;
+      line-height: 2rem;
+      position: absolute;
+      top: 2px;
+      right: 8px;
+      opacity: 0;
+      color: hsl(0deg 0% 70%);
+      transform: rotate(90deg);
+      transition: opacity 300ms ease-in-out;
+    }
+  }
+
+  &:hover {
+    transform: scale3d(1, 1, 1);
+    box-shadow:
+      0 0 0 1px hsl(213deg 26% 28% / 2%),
+      0 3px 2px hsl(0deg 0% 0% / 14%),
+      0 7px 5px hsl(0deg 0% 0% / 12%),
+      0 13px 10px hsl(0deg 0% 0% / 5%),
+      0 22px 17px hsl(0deg 0% 0% / 8%);
+
+    & .dashboardTitle {
+      animation: pulse 3s linear infinite;
+    }
+
+    & .dashboardAccount {
+      opacity: 0.9;
+
+      &::after {
+        opacity: 0.6;
+        animation: bounce 1.8s ease-in-out infinite;
+      }
+    }
+  }
+
+  &:active {
+    transform: scale3d(0.95, 0.95, 1);
+  }
+}
+
+@keyframes pulse {
+  from {
+    filter: hue-rotate(0);
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  from,
+  20%,
+  53%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: rotate(90deg) translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: rotate(90deg) translate3d(0, 30px, 0) scaleY(1.1);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: rotate(90deg) translate3d(0, 15px, 0) scaleY(1.05);
+  }
+
+  80% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: rotate(90deg) translate3d(0, 0, 0) scaleY(0.95);
+  }
+
+  90% {
+    transform: rotate(90deg) translate3d(0, 4px, 0) scaleY(1.02);
+  }
+}
+
+.features {
+  width: 100%;
+  margin: 10rem 0;
+  hyphens: auto;
+  position: relative;
+
+  & .head {
+    padding: 0 10%;
+    margin-bottom: 8rem;
+
+    h2 {
+      background-color: rgb(232 67 62);
+      display: block;
+      width: fit-content;
+      color: white;
+      padding: 6px 20px;
+      border-radius: 50rem;
+    }
+
+    h3 {
+      font-size: 3.25rem;
+    }
+
+    p {
+      font-size: 1.5rem;
+      color: hsl(0deg 0% 78%);
+    }
+  }
+
+  & .container {
+    display: flex;
+    flex-direction: column;
+
+    & .feat {
+      display: flex;
+      height: 100vh;
+
+      & .left,
+      & .right {
+        display: flex;
+        width: 50%;
+      }
+
+      & .left {
+        padding-right: 5%;
+        justify-content: flex-end;
+        align-items: center;
+
+        & > section {
+          display: flex;
+          flex-direction: column;
+          width: 500px;
+
+          h2 {
+            font-size: 3.25rem;
+          }
+
+          & > div,
+          & > p {
+            font-size: 1.25rem;
+            margin-bottom: 4em;
+
+            & .action {
+              display: flex;
+              margin-top: 1em;
+            }
+          }
+        }
+      }
+
+      & .right {
+        flex-shrink: 0;
+
+        img {
+          object-position: left top;
+          object-fit: cover;
+          height: 80vh;
+          align-self: center;
+          border: 1px solid hsl(0deg 0% 0% / 12%);
+          border-radius: 1rem 0 0 1rem;
+        }
+      }
+    }
+  }
+
+  @include respond-below(md) {
+    margin: 4rem 1rem;
+    align-items: flex-start;
+
+    & .container {
+      & .feat {
+        flex-direction: column;
+        height: auto;
+
+        & .left,
+        & .right {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 0 10%;
+        }
+
+        & .left {
+          & > section {
+            width: auto;
+
+            div {
+              margin-bottom: 0;
+            }
+          }
+        }
+
+        & .right {
+          img {
+            height: 50vh;
+            border-radius: 1rem;
+            margin: 1rem 0 4rem;
+          }
+        }
+      }
+    }
+  }
+
+  @include respond-below(sm) {
+    width: auto;
+
+    & .head {
+      padding: 0;
+
+      h2 {
+        font-size: 1.25rem;
+      }
+
+      h3 {
+        font-size: 2.25rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    & .container {
+      & .feat {
+        & .left,
+        & .right {
+          padding: 0;
+        }
+
+        & .left {
+          & > section {
+            h2 {
+              font-size: 2.25rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
