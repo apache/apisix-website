@@ -2,7 +2,7 @@
 title: "如何使用 DataAnt 监控 Apache APISIX"
 authors:
   - name: "韩飞"
-    title: "Technical Writer"
+    title: "Author"
     url: "https://github.com/hf400159"
     image_url: "https://github.com/hf400159.png"
 keywords: 
@@ -75,7 +75,7 @@ DataAnt 全栈云监控系统通过大数据和机器学习能够汇总 IaaS、P
   2022-06-21 20:51:00:000        INFO        runtime/asm_amd64.s:1581        apisix_test9091:指标数:21
   ```
 
-5. 在 DataAnt 平台首页单击安装集成插件>监控插件，选择 APISIX，并单击`配置`下的`点击配置`。
+5. 在 DataAnt 平台首页单击`安装集成插件`>`监控插件`，选择 APISIX，并单击`配置`下的`点击配置`。
 
 6. 在 DataAnt 平台首页单击左侧导航栏的`仪表盘`并新建仪表盘。选择自己需要的指标，并拖拽到仪表盘上，配置完成的指标如下：
 

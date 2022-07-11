@@ -2,7 +2,7 @@
 title: "How to monitor Apache APISIX with DataAnt"
 authors:
   - name: "Fei Han"
-    title: "Technical Writer"
+    title: "Author"
     url: "https://github.com/hf400159"
     image_url: "https://github.com/hf400159.png"
 keywords: 
@@ -75,7 +75,7 @@ The DataAnt full-stack cloud monitoring system can aggregate all the operation a
   2022-06-21 20:51:00:000        INFO        runtime/asm_amd64.s:1581        apisix_test9091:指标数:21
   ```
 
-5. On the home page of the DataAnt platform, click Install Integration Plugin > Monitoring Plugin, select APISIX and click `Click to configure` under `Configuration`.
+5. On the home page of the DataAnt platform, click `Install Integration Plugin` > `Monitoring Plugin`, select APISIX and click `Click to configure` under `Configuration`.
 
 6. On the homepage of the DataAnt platform, click `Dashboard` in the left navigation bar and create a new dashboard. Select the indicators you need and drag them to the dashboard. The configured indicators are as follows:
 
