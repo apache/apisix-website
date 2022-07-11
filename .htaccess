@@ -11,6 +11,8 @@ ErrorDocument 404 /404.html
 RewriteEngine on
 CheckSpelling on 
 
+Options -Indexes
+
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin: https://apisix.apache.org
     Header set Access-Control-Allow-Methods "*"
