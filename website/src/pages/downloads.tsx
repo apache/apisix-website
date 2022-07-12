@@ -6,7 +6,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import type { DownloadInfo } from '../components/ProjectCard';
 import ProjectCard from '../components/ProjectCard';
 
@@ -56,7 +56,7 @@ const DownloadCards: FC = () => {
 };
 
 const Downloads: FC = () => (
-  <Layout>
+  <Layout title={translate({ message: 'Downloads' })}>
     <DownloadsPage>
       <PageTitle><Translate id="download.website.title">Downloads</Translate></PageTitle>
       <PageSubtitle><Translate id="download.website.subtitle">We love open source.</Translate></PageSubtitle>
