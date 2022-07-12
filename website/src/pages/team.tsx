@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 
 import GitHubLogo from '../assets/icons/github-logo.svg';
 import IconCode from '../assets/icons/code.svg';
@@ -246,7 +246,9 @@ const ContributeCardRightSide = styled.div`
 
 const Team: FC = () => {
   const { siteConfig } = useDocusaurusContext();
-  const memberSections = (siteConfig.customFields.team as any).map((section) => {
+  const { team, allRepos } = siteConfig.customFields as { team: any[]; allRepos: any[] };
+
+  const memberSections = team.map((section) => {
     const memberCards = section.members.map((member) => (
       <div key={member.username}>
         <MemberCard
@@ -271,7 +273,7 @@ const Team: FC = () => {
       </div>
     );
   });
-  const repoComponents = (siteConfig.customFields.allRepos as any).map((repo) => (
+  const repoComponents = allRepos.map((repo) => (
     <RepoCard
       className="team-repocard"
       href={`https://github.com/${repo}/graphs/contributors`}
@@ -284,7 +286,7 @@ const Team: FC = () => {
     </RepoCard>
   ));
   return (
-    <Layout>
+    <Layout title={translate({ message: 'Team' })}>
       <Page>
         <PageTitle><Translate id="team.webpage.title.Team">Team</Translate></PageTitle>
         <PageSubtitle><Translate id="team.webpage.title.DocumentSubtitle">We love open source.</Translate></PageSubtitle>

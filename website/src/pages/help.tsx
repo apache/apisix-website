@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
 
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ChevronRight from '../assets/icons/chevron-right.svg';
@@ -26,7 +26,7 @@ const Page = styled.div`
 `;
 
 const Help: FC = () => (
-  <Layout>
+  <Layout title={translate({ message: 'Help' })}>
     <Page className="help-page">
       <PageTitle><Translate id="help.website.title">NEED HELP?</Translate></PageTitle>
       <PageSubtitle>
