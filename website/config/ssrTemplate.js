@@ -54,13 +54,15 @@ module.exports = {
       <% }); %>
       <%~ it.postBodyTags %>
     </body>
-    <script>
-      window.onload = function() {
-        if (window.location.host.endsWith(".netlify.app")) {
-          var dom = document.querySelector("#__docusaurus");
-          dom.insertAdjacentHTML('afterend', '<div style="text-align: right;padding: 48px 32px 48px 0;">This site is powered by <a href="https://www.netlify.com/" target="_blank">Netlify</a></div>');
+    <% if(process.env.preview) { %>
+      <script>
+        window.onload = function() {
+          if (window.location.host.endsWith(".netlify.app")) {
+            var dom = document.querySelector("#__docusaurus");
+            dom.insertAdjacentHTML('afterend', '<div style="text-align: right;padding: 48px 32px 48px 0;">This site is powered by <a href="https://www.netlify.com/" target="_blank">Netlify</a></div>');
+          }
         }
-      }
-    </script>
+      </script>
+    <% } %>
   </html>`,
 };

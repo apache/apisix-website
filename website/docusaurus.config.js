@@ -16,6 +16,7 @@ module.exports = {
     'Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.',
   url: 'https://apisix.apache.org',
   baseUrl: '/',
+  trailingSlash: true,
   organizationName: 'Apache',
   projectName: 'apisix-website',
   favicon: 'https://static.apiseven.com/202202/favicon.png',
