@@ -8,6 +8,9 @@ const axiosConfig = {
   headers: {
     'content-type': 'application/json',
     Accept: 'application/vnd.github.v3+json',
+    ...(process.env.GITHUB_TOKEN
+      ? { Authorization: `token ${process.env.GITHUB_TOKEN}` }
+      : {}),
   },
 };
 
@@ -59,10 +62,7 @@ const tasks = new Listr([
   },
   {
     title: `Save repos' info and good first issues to json file`,
-    task: () => fs.writeFile(
-      '../website/config/repos-info.json',
-      JSON.stringify(res),
-    ),
+    task: () => fs.writeFile('../website/config/repos-info.json', JSON.stringify(res)),
   },
 ]);
 
