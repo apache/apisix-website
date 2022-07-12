@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import type { FC } from 'react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Layout from '@theme/Layout';
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
+import Head from '@docusaurus/Head';
 import Affix from '../components/UI/Affix';
 
 const PageTitle = styled.h1`
@@ -190,26 +191,15 @@ const SBeta = styled.div`
 `;
 
 const Plugins: FC = () => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = '/js/plugin-icon.js';
-    document.head.appendChild(script);
-  }, []);
   const { siteConfig } = useDocusaurusContext();
-  const sidebar = siteConfig.customFields.plugins.map((section) => (
+  const { plugins = [] } = siteConfig.customFields as { plugins: any[] };
+  const sidebar = plugins.map((section) => (
     <SidebarItem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></SidebarItem>
   ));
 
-  const plugins = siteConfig.customFields.plugins.map((section) => {
+  const pluginList = plugins.map((section) => {
     const pluginCards = section.plugins.map((plugin) => {
-      let pluginUrl;
-      if (plugin.name.indexOf('serverless') !== -1) {
-        pluginUrl = 'serverless';
-      } else {
-        pluginUrl = plugin.name;
-      }
+      const pluginUrl = plugin.name.indexOf('serverless') !== -1 ? 'serverless' : plugin.name;
       return (
         <div key={plugin.name}>
           <PluginCard href={plugin.beta ? `/docs/apisix/next/plugins/${pluginUrl}` : `/docs/apisix/plugins/${pluginUrl}`} target="_blank">
@@ -243,7 +233,10 @@ const Plugins: FC = () => {
   });
 
   return (
-    <Layout>
+    <Layout title={translate({ message: 'Plugin Hub' })}>
+      <Head>
+        <script src="/js/plugin-icon.js" defer />
+      </Head>
       <Page>
         <PageTitle>
           <Translate id="plugins.website.title">Apache APISIX®️ Plugin Hub</Translate>
@@ -257,7 +250,7 @@ const Plugins: FC = () => {
         >
           <SidebarContainer>{sidebar}</SidebarContainer>
         </Affix>
-        {plugins}
+        {pluginList}
       </Page>
     </Layout>
   );

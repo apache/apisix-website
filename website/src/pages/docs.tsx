@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 
 import IconTriangle from '../assets/icons/triangle.svg';
 import IconSquare from '../assets/icons/square.svg';
@@ -168,7 +168,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
 
 const Docs: FC = () => {
   const { siteConfig } = useDocusaurusContext();
-  const docs = siteConfig.customFields.docs as DocInfo[] | null;
+  const { docs } = siteConfig.customFields as { docs: DocInfo[] };
 
   if (!docs?.length) {
     return null;
@@ -176,7 +176,7 @@ const Docs: FC = () => {
   const projects = docs.map((project) => <ProjectCard key={project.name} {...project} />);
 
   return (
-    <Layout>
+    <Layout title={translate({ message: 'Documentation' })}>
       <Page>
         <PageTitle>
           <Translate id="docs.webpage.title.Document">Documentation</Translate>
