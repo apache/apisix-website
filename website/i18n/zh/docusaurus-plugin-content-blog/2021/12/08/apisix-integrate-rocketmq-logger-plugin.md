@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城"
+title: "API 网关 APISIX 集成 RocketMQ 扩展日志监控功能"
 authors: 
   - name: "余洲"
     title: "Author"

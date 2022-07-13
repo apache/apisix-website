@@ -1,5 +1,5 @@
 ---
-title: Webinar｜ See you at the Apache APISIX Ingress Community Meeting on Wednesday at 2pm!
+title: Webinar｜ Apache APISIX Ingress Community Meeting
 slug: 2021/08/30/ingress-meeting
 author: "Apache APISIX 社区"
 keywords:

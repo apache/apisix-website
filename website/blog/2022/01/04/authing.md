@@ -1,5 +1,5 @@
 ---
-title: "Use APISIX and Authing to implement centralized authentication Management"
+title: "Use APISIX and Authing to implement authentication"
 authors:
   - name: "Xinxin Zhu"
     title: "Author"

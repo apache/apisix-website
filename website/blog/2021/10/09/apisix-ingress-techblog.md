@@ -1,5 +1,5 @@
 ---
-title: A thoughtful tutorial to get started with Apache APISIX Ingress from concept to practice
+title: Get started with Apache APISIX Ingress from concept to practice
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"

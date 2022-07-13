@@ -1,5 +1,5 @@
 ---
-title: New milestone for the Apache APISIX community - over 300 contributors worldwide!
+title: New milestone for APISIX - over 300 contributors worldwide!
 author: Apache APISIX
 date: 2021-10-13
 keywords: 

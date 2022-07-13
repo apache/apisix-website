@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Integrates with SkyWalking to Create a Full Range of Log Processing"
+title: "Apache APISIX Integrates with SkyWalking for Log Processing"
 authors: 
   - name: "Haochao Zhuang"
     title: "Author"

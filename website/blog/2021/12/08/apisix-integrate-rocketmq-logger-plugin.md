@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX & RocketMQ Help API Log Monitoring Capabilities"
+title: "API Log Monitor with Apache APISIX & RocketMQ"
 authors: 
   - name: "Zhou Yu"
     title: "Author"
@@ -19,7 +19,7 @@ description: This article will introduce the latest integration of Apache APISIX
 tags: [Technology,Message Queue]
 ---
 
-> This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plug-in features and use. With this plug-in, you can connect to the RocketMQ cluster more easily when using Apache APISIX.
+> This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plugin features and use. With this plugin, you can connect to the RocketMQ cluster more easily when using Apache APISIX.
 
 <!--truncate-->
 

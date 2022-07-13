@@ -1,5 +1,5 @@
 ---
-title: Weekly Report｜10.15-10.31 Feature Highlights Update in Progress
+title: Weekly Report (Oct.15 - Oct.31)
 keywords:
 - Apache APISIX
 - Weekly Report

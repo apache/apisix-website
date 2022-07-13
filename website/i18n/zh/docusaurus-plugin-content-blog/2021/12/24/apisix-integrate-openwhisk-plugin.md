@@ -1,5 +1,5 @@
 ---
-title: "生态丰富持续进行中，Apache OpenWhisk 集成闪亮登场"
+title: "API 网关 APISIX 集成 OpenWhisk 丰富认证场景"
 authors:
   - name: "白泽平"
     title: "Author"

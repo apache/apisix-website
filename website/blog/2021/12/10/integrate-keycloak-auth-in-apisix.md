@@ -1,5 +1,5 @@
 ---
-title: "How to Integrate Keycloak for Authentication with Apache APISIX"
+title: "API Gateway APISIX Integrates Keycloak for Authentication"
 authors:
   - name: "Xinxin Zhu"
     title: "Author"

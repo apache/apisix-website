@@ -1,5 +1,5 @@
 ---
-title: "azure-functions 插件发布，Apache APISIX 支持 Azure Functions 集成"
+title: "API 网关 APISIX 现已支持 Azure Functions"
 author: "Bisakh Mondal"
 authorURL: "https://github.com/bisakhmondal"
 authorImageURL: "https://avatars.githubusercontent.com/u/41498427?v=4"
