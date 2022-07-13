@@ -1,5 +1,5 @@
 ---
-title: "API 网关 Apache APISIX 携手 CoreDNS 打开服务发现新大门"
+title: "API 网关 APISIX 携手 CoreDNS 打开服务发现新大门"
 authors:
   - name: "陈梓杰"
     title: "Author"

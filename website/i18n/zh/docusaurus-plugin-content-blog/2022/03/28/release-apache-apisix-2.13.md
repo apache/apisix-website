@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.13.0 发布，LTS 和新功能，我全都要"
+title: "Apache APISIX 2.13.0 正式发布"
 authors:
   - name: "罗泽轩"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.12.0 版本发布，新功能更适配新一年！"
+title: "Apache APISIX 2.12.0 正式发布"
 authors:
   - name: "罗泽轩"
     title: "Author"
