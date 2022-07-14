@@ -89,7 +89,7 @@ tar -zxvf prometheus-2.33.0-rc.0.linux-amd64.tar.gz && \
 cd /usr/local/prometheus-2.33.0-rc.0.linux-amd64/
 ```
 
-2. 通过在 Prometheus 的 `prometheus.yml` 配置文件中添加步骤一中的 URI 地址，Prometheus 就可以自动抓取指标数据。具体配置如下：
+2. 通过在 Prometheus 的 `prometheus.yml` 配置文件中添加相关配置，Prometheus 就可以自动抓取指标数据。具体配置如下：
 
 ```shell title="./prometheus.yml"
 scrape_configs:
