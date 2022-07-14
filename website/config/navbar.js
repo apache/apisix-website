@@ -50,17 +50,14 @@ module.exports = [
       {
         label: '中文博客',
         to: 'pathname:///zh/blog',
+        target: '_self',
       },
       {
         label: 'English Blog',
         to: 'pathname:///blog',
+        target: '_self',
       },
     ],
-  },
-  {
-    to: '/blog',
-    label: 'Blog',
-    position: 'right',
   },
   {
     to: '/blog/tags/user-case',
