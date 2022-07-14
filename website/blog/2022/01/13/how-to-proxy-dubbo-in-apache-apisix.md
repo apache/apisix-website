@@ -1,5 +1,5 @@
 ---
-title: "Makes it More Convenient for You to Proxy Dubbo Services in Apache APISIX"
+title: "Makes Convenienter to Proxy Dubbo in Apache APISIX"
 authors:
   - name: "Yong Qian"
     title: "Author"

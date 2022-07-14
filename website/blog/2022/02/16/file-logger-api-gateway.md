@@ -1,5 +1,5 @@
 ---
-title: "file logger practice in API Gateway"
+title: "How to develop plugin in API Gateway"
 authors:
   - name: "Qi Guo"
     title: "Author"

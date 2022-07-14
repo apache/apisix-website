@@ -1,5 +1,5 @@
 ---
-title: "Using Apache APISIX Ingress Gateway to access Custom Monitoring in KubeSphere"
+title: "Using APISIX Ingress to access custom monitoring in KubeSphere"
 author: "Haili Zhang"
 authorURL: "https://github.com/webup"
 authorImageURL: "https://avatars.githubusercontent.com/u/2936504?v=4"

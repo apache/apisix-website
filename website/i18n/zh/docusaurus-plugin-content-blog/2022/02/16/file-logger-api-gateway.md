@@ -1,5 +1,5 @@
 ---
-title: "后端新手如何从 0 到 1 在 API 网关上开发 file-logger 插件"
+title: "后端新手如何从 0 到 1 在 API 网关上开发 APISIX 插件"
 authors:
   - name: "郭奇"
     title: "Author"

@@ -1,5 +1,5 @@
 ---
-title: "社区双周报｜1.1-1.16 功能亮点更新进行中"
+title: "社区双周报（1.1-1.16）"
 keywords: 
 - Apache APISIX
 - 社区周报

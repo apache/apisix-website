@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.13.0 Is Released, Bringing LTS and New Features"
+title: "Release Apache APISIX 2.13.0"
 authors:
   - name: "Zexuan Luo"
     title: "Author"

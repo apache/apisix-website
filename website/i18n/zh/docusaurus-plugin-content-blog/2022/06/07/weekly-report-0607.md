@@ -1,5 +1,5 @@
 ---
-title: "社区双周报｜5.16 - 5.31 功能亮点更新进行中"
+title: "社区双周报（5.16 - 5.31）"
 keywords: 
 - Apache APISIX
 - API 网关

@@ -1,5 +1,5 @@
 ---
-title: "保姆级教程，从概念到实践帮你快速上手 Apache APISIX Ingress"
+title: "从概念到实践帮你快速上手 Apache APISIX Ingress"
 author: "张晋涛"
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"

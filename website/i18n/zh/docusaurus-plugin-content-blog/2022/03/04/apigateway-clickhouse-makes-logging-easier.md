@@ -1,5 +1,5 @@
 ---
-title: "化繁为简，Apache APISIX 集成 ClickHouse 插件提升全链路日志效率"
+title: "API 网关集成 ClickHouse 插件提升全链路日志效率"
 authors:
   - name: "祁振东"
     title: "Author"

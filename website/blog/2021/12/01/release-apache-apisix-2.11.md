@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 2.11.0 is officially released with more new features"
+title: "Release Apache APISIX 2.11.0"
 authors:
   - name: "Zexuan Luo"
     title: "Author"

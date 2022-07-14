@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 贡献者专访 | 普华永道华南数据安全与隐私保护团队高级安全顾问王鹏诚"
+title: "Apache APISIX 贡献者专访 | 普华永道高级安全顾问王鹏诚"
 slug: 2021/01/11/interview-apache-apisix-contributor-wang-pengcheng-senior-security-advisor-of-pwc-south-china-data-security-and-privacy-protection-team
 author: "温铭"
 authorURL: "https://github.com/moonming"

@@ -1,5 +1,5 @@
 ---
-title: "Based on Apache APISIX, iQIYI API Gateway Update and landing practice"
+title: "iQIYI API Gateway Update and Practice with Apache APISIX"
 slug: 2021/09/07/iqiyi-usercase
 author: "Cong He"
 keywords: 

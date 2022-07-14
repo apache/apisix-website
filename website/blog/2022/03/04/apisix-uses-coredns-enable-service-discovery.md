@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX and CoreDNS open new doors for service discovery"
+title: "Apache APISIX with CoreDNS enrich service discovery"
 authors:
   - name: "Zijie Chen"
     title: "Author"
