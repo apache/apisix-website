@@ -43,6 +43,21 @@ module.exports = [
     ],
   },
   {
+    label: 'Blog',
+    position: 'right',
+    to: '/blog',
+    items: [
+      {
+        label: '中文博客',
+        to: 'pathname:///zh/blog',
+      },
+      {
+        label: 'English Blog',
+        to: 'pathname:///blog',
+      },
+    ],
+  },
+  {
     to: '/blog',
     label: 'Blog',
     position: 'right',
