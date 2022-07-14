@@ -8,7 +8,7 @@ keywords:
 - APISIX
 - Apache APISIX
 - Kubernetes Service APIs
-description: 本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。
+description: 本文介绍了 Kubernetes Service APIs 的基本概念、主要特点、以及如何管理资源读写权限和主要的扩展点，以及推行会带来的改变。
 tags: [Technology]
 ---
 

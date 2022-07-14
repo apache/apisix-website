@@ -9,7 +9,7 @@ keywords:
 - APISIX
 - Apache APISIX
 - Release Notes
-description: Apache APISIX 2.6.0-Release is officially released! You are welcome to download and use it.
+description: Cloud native API gateway Apache APISIX 2.6.0-Release is officially released! Support more new functions, welcome to download and use.
 tags: [Release]
 ---
 

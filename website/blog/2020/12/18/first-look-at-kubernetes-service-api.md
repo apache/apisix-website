@@ -8,7 +8,7 @@ keywords:
 - APISIX
 - Apache APISIX
 - Kubernetes Service APIs
-description: This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine many ingress best practices, such as the enhanced expressiveness, which actually extends the capabilities of Route, and the BackendPolicy objects, which can specify almost any Kubernetes backend resource for upstream.
+description: This article introduces the basic concepts of Kubernetes Service APIs, their main features, and the changes brought about by their implementation.
 tags: [Technology]
 ---
 

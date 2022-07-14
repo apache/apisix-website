@@ -8,7 +8,7 @@ keywords:
 - Apache APISIX
 - 腾讯游戏
 - 基础设施
-description: 本文整理自腾讯游戏负责内部容器平台的工程师徐鑫在 Apache APISIX Meetup - 深圳站的演讲，通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
+description: 通过阅读本文，您不仅可以了解网关是什么、网关模式对传统服务架构的改进，还可以了解腾讯 OTeam 诞生的原因，以及 Apache APISIX 是如何在腾讯内部落地的。
 tags: [User Case]
 ---
 

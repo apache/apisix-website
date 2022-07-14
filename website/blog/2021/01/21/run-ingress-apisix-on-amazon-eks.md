@@ -9,7 +9,7 @@ keywords:
   - Apache APISIX
   - Ingress
   - Amazon EKS
-description: Amazon EKS provides flexibility to start, run, and scale Kubernetes applications in the AWS cloud or on-premises. This article explains how to run Ingress APISIX on it.This article explains how to run Ingress APISIX on Amazon EKS.
+description: This article details how to run the cloud-native API gateway Apache APISIX and apisix-ingress-controller on Amazon EKS.
 tags: [Practical Case]
 ---
 

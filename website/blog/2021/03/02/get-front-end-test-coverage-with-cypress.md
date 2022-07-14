@@ -8,6 +8,7 @@ keywords:
 - Apache APISIX
 - API Gateway
 - Cypress
+description: This article will explain how to use Cypress to get API Gateway Apache APISIX Dashboard front-end E2E coverage and what is code coverage.
 tags: [Technology]
 ---
 
