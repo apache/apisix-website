@@ -26,13 +26,13 @@ Prometheus 是一款开源的云原生监控报警系统，它为用户提供强
 
 ## 插件介绍
 
-APISIX 通过 Prometheus Exporter 以 HTTP 的方式向外暴露 APISIX 设定的监控指标，包括 APISIX 的连接数、HTTP 请求的状态码分布、HTTP 请求总数、HTTP 请求延时等重要指标。你可以使用 `prometheus` 插件，来监控 APISIX 的各个指标，及时地了解系统运行状态。
+APISIX 通过 Prometheus Exporter 以 HTTP 的方式向外暴露 APISIX 设定的监控指标，包括 APISIX 的连接数、HTTP 请求的状态码分布、HTTP 请求总数、HTTP 请求延时等重要指标。你可以使用 `prometheus` 插件，来监控 APISIX 的各个指标，以便及时地了解系统运行状态。
 
 ## 配置步骤
 
 ### 步骤一：启用 prometheus 插件
 
-首先，你需要安装完成 APISIX，本文所有步骤基于 CentOS 7.6 系统进行。你需要完成 APISIX 的安装，请参考 [APISIX 安装指南](https://apisix.apache.org/zh/docs/apisix/how-to-build/)。
+首先，你需要安装完成 APISIX，本文所有步骤基于 CentOS 7.6 系统进行。你需要完成 APISIX 的安装，具体细节可参考 [APISIX 安装指南](https://apisix.apache.org/zh/docs/apisix/how-to-build/)。
 
 APISIX 默认启用 `prometheus` 插件，该插件默认创建 `/apisix/prometheus/metrics` 接口，并通过独立的服务地址（默认为 `127.0.0.1:9091`）暴露指标，本文将使用该地址进行。
 
@@ -198,7 +198,7 @@ curl http://127.0.0.1:9080/index.html
 
 ### 步骤六：嵌入 APISIX Dashboard
 
-1. 安装并登录 APISIX Dashboard。默认地址是`127.0.0.1:9000`。请参考 [APISIX Dashboard 安装指南](https://apisix.apache.org/zh/docs/dashboard/install/)。
+1. 安装并登录 APISIX Dashboard，默认地址为 `127.0.0.1:9000`。具体细节可参考 [APISIX Dashboard 安装指南](https://apisix.apache.org/zh/docs/dashboard/install/)。
 2. 选择右上角 `APISIX USER >系统设置`。
 3. 在设置页面中的 Grafana 地址处填写 Grafana 的地址并单击提交。
 
