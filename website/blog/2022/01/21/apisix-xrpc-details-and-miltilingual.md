@@ -63,7 +63,7 @@ With the xRPC protocol framework in place, what scenarios can it address? Here a
 
 Of course, there are many similar application scenarios, and we hope that after the release of the feature, you can experience and practice more in the actual application. The process of invoking xPRC is shown in the following diagram.
 
-![Invoke process](https://static.apiseven.com/202108/1643103835579-d215a120-f62e-4ba5-aa14-59ea3d38a429.png)
+![Invoke process](https://static.apiseven.com/2022/blog/0121/179175317-5cf30a8b-aac2-4538-b9a9-27f99d8d13db.png)
 
 Once the upstream services are taken over by Apache APISIX, the different upstream application services can be managed in a unified manner. Functions such as logging, monitoring, security, and troubleshooting can all be accomplished through a standardized set of policies.
 
@@ -71,7 +71,7 @@ Once the upstream services are taken over by Apache APISIX, the different upstre
 
 The current design of the Apache APISIX xRPC framework is initially divided into 5 phases.
 
-![5 phases about xRPC](https://static.apiseven.com/202108/1643103835583-40afb0a0-ec20-40e8-84de-b34afee2724c.png)
+![5 phases about xRPC](https://static.apiseven.com/2022/blog/0121/179175336-3a229407-a9ac-418e-9bde-a48f4a42e056.png)
 
 - Phase 1: Read Read data and protocol decoding.
 - Phase 2: Access Phase Access phase. Provide plug-in access function, which can realize the demand scenarios of security, flow control and access.
@@ -107,7 +107,7 @@ Finally, we will show you how to develop APISIX plugins based on Java Plugin Run
 
 First of all, when developing the plugin, we need to implement the Interface of PluginFilter. `name` method in the Interface is mainly used to identify and extract the plugin name, and `filter` method is used to filter the request (i.e., execute the plugin body logic).
 
-![Plugin](https://static.apiseven.com/202108/1642733591297-642091b2-d4c7-4098-b7ff-41ffa5a2e00a.png)
+![Plugin](https://static.apiseven.com/2022/blog/0121/179175341-dfae292d-3aa2-42ed-a306-c87c47b5ace2.png)
 
 ![Interface](https://static.apiseven.com/202108/1642733657248-5b7db563-f95f-4683-997e-47e76eeda4d9.png)
 
