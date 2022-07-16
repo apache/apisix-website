@@ -14,6 +14,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useAlternatePageUtils } from '@docusaurus/theme-common';
 import { useLocation } from '@docusaurus/router';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 interface LocaleDropdownNavbarItemProps extends Omit<Props, 'items'>{
@@ -34,8 +35,12 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   const alternatePageUtils = useAlternatePageUtils();
   const { pathname } = useLocation();
 
-  if (pathname.startsWith('/zh/blog') || pathname.startsWith('/blog')) {
-    return null;
+  if (pathname.startsWith('/zh/blog')) {
+    return <Link isNavLink autoAddBaseUrl={false} to="pathname:///blog" target="_self">English Blog</Link>;
+  }
+
+  if (pathname.startsWith('/blog')) {
+    return <Link isNavLink autoAddBaseUrl={false} to="pathname:///zh/blog" target="_self">中文博客</Link>;
   }
 
   function getLocaleLabel(locale) {
