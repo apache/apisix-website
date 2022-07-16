@@ -36,11 +36,11 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   const { pathname } = useLocation();
 
   if (pathname.startsWith('/zh/blog')) {
-    return <Link to="pathname:///blog" target="_self">English Blog</Link>;
+    return <Link isNavLink autoAddBaseUrl={false} to="pathname:///blog" target="_self">English Blog</Link>;
   }
 
   if (pathname.startsWith('/blog')) {
-    return <Link to="pathname:///zh/blog" target="_self">中文博客</Link>;
+    return <Link isNavLink autoAddBaseUrl={false} to="pathname:///zh/blog" target="_self">中文博客</Link>;
   }
 
   function getLocaleLabel(locale) {
