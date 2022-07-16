@@ -42,16 +42,16 @@ const EventPosterCard:FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props)
     });
   }, []);
 
-  const onClose = useCallback(() => {
-    api.start({
+  const onClose = useCallback(
+    async () => Promise.all(api.start({
       to: {
         x: 500,
         opacity: 0,
       },
-    }).then(() => {
-      setStoreShow('false');
-    });
-  }, [api]);
+    }))
+      .then(() => setStoreShow('false')),
+    [api],
+  );
 
   return (
     <animated.div className={style.picWrapper} style={styles}>
@@ -72,11 +72,11 @@ const EventPosterCard:FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props)
 };
 
 const EventPosterCardWrapper: FC = () => {
-  const [storeShow] = useSessionStorage(SHOW_STORE_KEY, 'true');
+  const [storeShow] = useSessionStorage(SHOW_STORE_KEY);
   const { show, expire, ...rest } = config;
   const expireTimestamp = new Date(expire).getTime();
 
-  if (show && (storeShow === 'true') && (expireTimestamp > Date.now())) {
+  if (show && !storeShow && (expireTimestamp > Date.now())) {
     return <EventPosterCard {...rest} />;
   }
 
