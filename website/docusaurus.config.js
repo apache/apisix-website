@@ -57,8 +57,8 @@ module.exports = {
       },
     },
   },
-  onBrokenLinks: 'log',
-  onBrokenMarkdownLinks: 'log',
+  onBrokenLinks: 'ignore',
+  onBrokenMarkdownLinks: 'ignore',
   noIndex: false,
   presets: [
     [
@@ -74,11 +74,7 @@ module.exports = {
             return `https://github.com/apache/apisix-website/edit/master/website/docs/general/${docPath}`;
           },
         },
-        blog: {
-          path: 'blog',
-          blogSidebarTitle: 'All posts',
-          blogSidebarCount: 0,
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/customTheme.css'),
         },

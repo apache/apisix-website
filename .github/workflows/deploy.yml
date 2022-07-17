@@ -85,13 +85,17 @@ jobs:
             ./website/.docusaurus
             ./website/build
             ./website/node_modules
+            ./blog/.docusaurus
+            ./blog/node_modules
+            ./blog/en-build
+            ./blog/zh-build
           key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
           restore-keys: |
             ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Build
         run: |
-          yarn build && cp ./.asf.yaml ./.htaccess ./website/build/
+          yarn build && cp ./.asf.yaml ./.htaccess ./blog/en-build/blog ./blog/en-build/assets ./website/build/ -r && cp ./blog/zh-build/blog ./blog/zh-build/assets ./website/build/zh/ -r
 
       - name: Update sitemap.xml
         run: |

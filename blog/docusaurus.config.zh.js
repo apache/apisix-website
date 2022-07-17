@@ -10,8 +10,8 @@ module.exports = {
   organizationName: 'Apache',
   projectName: 'apisix-website',
   favicon: 'https://static.apiseven.com/202202/favicon.png',
-  onBrokenLinks: 'log',
-  onBrokenMarkdownLinks: 'log',
+  onBrokenLinks: 'ignore',
+  onBrokenMarkdownLinks: 'ignore',
   noIndex: false,
   i18n: {
     defaultLocale: 'zh',
@@ -31,9 +31,9 @@ module.exports = {
       {
         docs: false,
         blog: {
-          path: 'en',
+          path: 'zh',
           blogSidebarTitle: 'All posts',
-          blogSidebarCount: 0,
+          blogSidebarCount: 'ALL',
         },
         theme: {
           customCss: require.resolve('../website/src/css/customTheme.css'),

@@ -1,0 +1,112 @@
+@import "../../css/util";
+
+$links-color: #707279;
+$margin: 8px;
+
+.container {
+  margin: 4rem auto 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 25%;
+  min-width: 50%;
+
+  & .linksRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    & .linksCol {
+      display: flex;
+      flex-direction: column;
+
+      & div {
+        font-weight: bolder;
+        margin-bottom: $margin * 2;
+        margin-left: -0.5px;
+      }
+
+      & ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+
+        li {
+          line-height: 1.15em;
+          margin-bottom: calc($margin / 2);
+          padding: calc($margin / 4) 0;
+
+          a {
+            display: flex;
+            align-items: center;
+            color: $links-color;
+
+            &:hover {
+              color: var(--ifm-link-color);
+            }
+
+            svg {
+              $size: $margin * 2;
+
+              width: $size;
+              height: $size;
+              margin-right: $margin;
+            }
+
+            span {
+              font-size: 14px;
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include respond-below(sm) {
+    padding: 0;
+    margin: 4rem 1rem 1.5rem;
+
+    & .linksRow {
+      display: grid;
+      column-gap: 50px;
+      row-gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+
+      & .linksCol {
+        margin-bottom: $margin;
+
+        & div {
+          margin-bottom: $margin;
+          margin-left: 0;
+        }
+
+        & ul {
+          li {
+            a {
+              span {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.copyright {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 680px;
+  font-size: 12px;
+  color: $links-color;
+  margin-top: 2.4rem;
+
+  @include respond-below(sm) {
+    text-align: left;
+  }
+}
