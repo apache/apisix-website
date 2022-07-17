@@ -77,7 +77,7 @@ module.exports = {
         blog: {
           path: 'blog',
           blogSidebarTitle: 'All posts',
-          blogSidebarCount: 'ALL',
+          blogSidebarCount: 0,
         },
         theme: {
           customCss: require.resolve('./src/css/customTheme.css'),

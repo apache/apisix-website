@@ -105,7 +105,8 @@ module.exports = {
         'website/src/clientModules/**/*.js',
         'website/config/**/*.js',
         'website/babel.config.js',
-        'website/docusaurus.config.js',
+        'website/docusaurus.config.*',
+        'blog/docusaurus.config.*',
       ],
       env: {
         node: true,

@@ -1,0 +1,70 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "scripts": {
+    "examples": "docusaurus-examples",
+    "start-en": "docusaurus start --config docusaurus.config.en.js",
+    "start-zh": "docusaurus start --config docusaurus.config.zh.js",
+    "build-en": "docusaurus build --config docusaurus.config.en.js -l en --out-dir en-build",
+    "build-zh": "docusaurus build --config docusaurus.config.zh.js -l zh --out-dir zh-build",
+    "serve-en": "docusaurus serve --dir en-build --config docusaurus.config.en.js",
+    "serve-zh": "docusaurus serve --dir zh-build --config docusaurus.config.zh.js",
+    "swizzle": "docusaurus swizzle",
+    "docusaurus": "docusaurus"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-beta.6",
+    "@svgr/webpack": "^5.5.0",
+    "@tsconfig/docusaurus": "^1.0.4",
+    "@types/react": "^17.0.20",
+    "@types/react-helmet": "^6.1.2",
+    "@types/react-lazy-load-image-component": "^1.5.2",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/styled-components": "^5.1.24",
+    "@types/video.js": "^7.3.40",
+    "babel-plugin-styled-components": "^2.0.6",
+    "stylelint-config-standard-scss": "^4.0.0",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.6",
+    "@docusaurus/plugin-client-redirects": "2.0.0-beta.6",
+    "@docusaurus/preset-classic": "2.0.0-beta.6",
+    "@iconify/icons-akar-icons": "^1.2.8",
+    "@iconify/react": "^3.2.2",
+    "@use-gesture/react": "^10.2.16",
+    "change-case": "^4.1.2",
+    "clsx": "^1.1.1",
+    "docusaurus-plugin-sass": "^0.2.2",
+    "fitty": "^2.3.6",
+    "gsap": "^3.7.1",
+    "lethargy": "^1.0.9",
+    "raw-loader": "^4.0.2",
+    "rc-image": "^5.6.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-lazy-load-image-component": "^1.5.4",
+    "react-spring": "^9.4.5",
+    "react-transition-group": "^4.4.1",
+    "react-use": "^17.4.0",
+    "sass": "^1.53.0",
+    "styled-components": "^5.3.3",
+    "three": "^0.131.3",
+    "video.js": "^7.19.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "resolutions": {
+    "styled-components": "^5"
+  }
+}

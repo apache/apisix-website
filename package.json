@@ -5,7 +5,8 @@
   "private": "true",
   "workspaces": [
     "website",
-    "scripts"
+    "scripts",
+    "blog"
   ],
   "scripts": {
     "sync-doc": "yarn workspace scripts sync",

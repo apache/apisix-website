@@ -12,6 +12,13 @@ website/node_modules
 # generated files
 website/.docusaurus
 website/.cache-loader
+blog/.docusaurus
+blog/.cache-loader
+blog/en-build
+blog/zh-build
+blog/node_modules
+
+
 
 # misc
 .DS_Store
