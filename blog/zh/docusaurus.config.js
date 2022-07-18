@@ -1,4 +1,4 @@
-const { ssrTemplate } = require('../website/config/ssrTemplate');
+const { ssrTemplate } = require('../../website/config/ssrTemplate');
 
 module.exports = {
   title: 'Apache APISIX® -- Cloud-Native API Gateway',
@@ -31,12 +31,11 @@ module.exports = {
       {
         docs: false,
         blog: {
-          path: 'zh',
           blogSidebarTitle: 'All posts',
           blogSidebarCount: 'ALL',
         },
         theme: {
-          customCss: require.resolve('../website/src/css/customTheme.css'),
+          customCss: require.resolve('./src/css/customTheme.css'),
         },
         sitemap: {
           changefreq: 'daily',
@@ -53,7 +52,7 @@ module.exports = {
       logo: {
         src: 'img/logo2.svg',
       },
-      items: require('../website/config/navbar.js'),
+      items: require('../../website/config/navbar.js'),
     },
     hideableSidebar: true,
     announcementBar: {

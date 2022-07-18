@@ -5,19 +5,17 @@ lib/core/metadata.js
 lib/core/MetadataBlog.js
 
 # production
-website/translated_docs
-website/build/
-website/node_modules
+/**/*/translated_docs
+/**/*/build/
+/**/*/node_modules
 
 # generated files
-website/.docusaurus
-website/.cache-loader
-blog/.docusaurus
-blog/.cache-loader
-blog/en-build
-blog/zh-build
-blog/node_modules
-
+/**/*/.docusaurus
+/**/*/.cache-loader
+/blog/zh/src
+/blog/zh/static
+/blog/en/src
+/blog/en/static
 
 
 # misc

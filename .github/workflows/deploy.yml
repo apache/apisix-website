@@ -85,10 +85,11 @@ jobs:
             ./website/.docusaurus
             ./website/build
             ./website/node_modules
-            ./blog/.docusaurus
             ./blog/node_modules
-            ./blog/en-build
-            ./blog/zh-build
+            ./blog/en/.docusaurus
+            ./blog/en/build
+            ./blog/zh/.docusaurus
+            ./blog/zh/build
           key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
           restore-keys: |
             ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}

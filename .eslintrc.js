@@ -24,10 +24,7 @@ module.exports = {
     tsconfigRootDir: `${__dirname}/website`,
     projects: ['./tsconfig.json'],
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-  ],
+  plugins: ['react', '@typescript-eslint'],
   settings: {
     'import/resolver': {
       node: {
@@ -84,10 +81,7 @@ module.exports = {
     ],
     'no-lonely-if': OFF,
     'no-lone-blocks': OFF,
-    'react/jsx-filename-extension': [
-      ERROR,
-      { extensions: ['.jsx', '.tsx'] },
-    ],
+    'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [ERROR, { tsx: 'never', svg: 'always' }],
     'react/jsx-props-no-spreading': OFF,
     'react/function-component-definition': [
@@ -105,8 +99,8 @@ module.exports = {
         'website/src/clientModules/**/*.js',
         'website/config/**/*.js',
         'website/babel.config.js',
-        'website/docusaurus.config.*',
-        'blog/docusaurus.config.*',
+        'website/**/docusaurus.config.*',
+        'blog/**/docusaurus.config.*',
       ],
       env: {
         node: true,
@@ -122,9 +116,7 @@ module.exports = {
     },
     {
       files: ['*.yaml', '*.yml'],
-      extends: [
-        'plugin:yml/standard',
-      ],
+      extends: ['plugin:yml/standard'],
       parser: 'yaml-eslint-parser',
     },
   ],
