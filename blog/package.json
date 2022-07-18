@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "prepare-en": "cp -r src static en",
-    "prepare-zh": "cp -r src static zh",
+    "prepare-zh": "cp -r src static i18n zh",
     "start:en": "yarn run prepare-en && docusaurus start en",
     "start:zh": "yarn run prepare-zh && docusaurus start zh",
     "build:en": "yarn run prepare-en && docusaurus build en -l en",
