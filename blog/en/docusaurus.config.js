@@ -31,7 +31,6 @@ module.exports = {
       {
         docs: false,
         blog: {
-          path: 'en',
           blogSidebarTitle: 'All posts',
           blogSidebarCount: 'ALL',
         },
