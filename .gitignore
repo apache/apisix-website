@@ -5,13 +5,19 @@ lib/core/metadata.js
 lib/core/MetadataBlog.js
 
 # production
-website/translated_docs
-website/build/
-website/node_modules
+/**/*/translated_docs
+/**/*/build/
+/**/*/node_modules
 
 # generated files
-website/.docusaurus
-website/.cache-loader
+/**/*/.docusaurus
+/**/*/.cache-loader
+/blog/zh/src
+/blog/zh/static
+/blog/zh/i18n
+/blog/en/src
+/blog/en/static
+
 
 # misc
 .DS_Store

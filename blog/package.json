@@ -1,16 +1,16 @@
 {
-  "name": "website",
-  "version": "2.0.0",
+  "name": "blog",
+  "version": "1.0.0",
   "scripts": {
-    "examples": "docusaurus-examples",
-    "start": "docusaurus start",
-    "build": "node --max-old-space-size=4096 ../node_modules/@docusaurus/core/bin/docusaurus build",
-    "publish-gh-pages": "docusaurus-publish",
-    "write-translations": "docusaurus-write-translations",
-    "version": "docusaurus-version",
-    "rename-version": "docusaurus-rename-version",
+    "prepare-en": "cp -r src static en",
+    "prepare-zh": "cp -r src static i18n zh",
+    "start:en": "yarn run prepare-en && docusaurus start en",
+    "start:zh": "yarn run prepare-zh && docusaurus start zh",
+    "build:en": "yarn run prepare-en && docusaurus build en -l en",
+    "build:zh": "yarn run prepare-zh && docusaurus build zh -l zh",
+    "serve:en": "docusaurus serve en",
+    "serve:zh": "docusaurus serve zh",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
     "docusaurus": "docusaurus"
   },
   "devDependencies": {

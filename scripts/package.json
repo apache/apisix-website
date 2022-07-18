@@ -5,7 +5,8 @@
     "sync": "node sync-docs.js",
     "link-checker": "node link-checker.js",
     "generate-repos-info": "node generate-repos-info.js",
-    "update-sitemap": "node update-sitemap-loc.js"
+    "update-sitemap": "node update-sitemap-loc.js",
+    "generate-website": "node generate-website.js"
   },
   "devDependencies": {
     "@types/node": "^14.17.21",

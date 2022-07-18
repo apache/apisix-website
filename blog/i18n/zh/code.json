@@ -1,0 +1,337 @@
+{
+  "common.punctuation.anEnd": {
+    "message": "。",
+    "description": "."
+  },
+  "showcase.website.title": {
+    "message": "用户列表",
+    "description": "Showcase"
+  },
+  "showcase.website.tips.used": {
+    "message": "Apache APISIX 被众多产品与用户所信赖",
+    "description": "This project is used by all these folks"
+  },
+  "showcase.website.tips.wantUse": {
+    "message": "你也在使用它吗？请让我们知道！",
+    "description": "Are you using this project?&nbsp;"
+  },
+  "showcase.website.link.addYourCompany": {
+    "message": "加入使用者名单",
+    "description": "Add your company"
+  },
+  "docs.webpage.title.Document": {
+    "message": "产品文档",
+    "description": "Document"
+  },
+  "docs.webpage.title.DocumentSubtitle": {
+    "message": "让产品与技术背后的细节更加可视化",
+    "description": "We love open source."
+  },
+  "download.website.title": {
+    "message": "立即下载",
+    "description": "Downloads"
+  },
+  "download.website.subtitle": {
+    "message": "We love Open Source.",
+    "description": "We love open source."
+  },
+  "download.website.history.title": {
+    "message": "历史版本",
+    "description": "History Versions"
+  },
+  "download.website.history.all": {
+    "message": "如果你想要预览 Apache APISIX 已发布的所有版本，请查看 ",
+    "description": "Find all APISIX releases in the&nbsp;"
+  },
+  "download.website.link.archive": {
+    "message": "Archive repository",
+    "description": "Archive repository"
+  },
+  "download.website.link.incubator": {
+    "message": "Incubating Archive repository",
+    "description": "Incubating Archive repository"
+  },
+  "download.website.history.incubator": {
+    "message": " 存储着 Apache APISIX 旧版孵化器项目的备份归档，你也可以随时查阅它们。",
+    "description": "&nbsp;hosts older releases when APISIX was an incubator project."
+  },
+  "download.website.verify.title": {
+    "message": "验证 Apache APISIX 版本号",
+    "description": "Verify the releases"
+  },
+  "download.website.link.PGP_KEY": {
+    "message": "获取 PGP 签名密钥",
+    "description": "Get PGP signatures KEYS"
+  },
+  "download.website.verify.step1": {
+    "message": "你可以使用 PGP 或 SHA 签名验证 Apache APISIX 的文件完整性，使用 GPG 或 PGP 验证 PGP 签名的合法性， 建议从主目录获取密钥文件和 ASC 签名文件。",
+    "description": "It is essential that you verify the integrity of the downloaded files using the PGP or SHA signatures. The PGP signatures can be verified using GPG or PGP. Please download the KEYS as well as the asc signature files for relevant distribution. It is recommended to get these files from the main distribution directory and not from the mirrors."
+  },
+  "download.website.verify.step2": {
+    "message": "如果需要验证二进制文件/源代码，您可以从主目录下载相关的 ACS 文件，并遵循下面的指南。",
+    "description": "To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide."
+  },
+  "help.website.title": {
+    "message": "获取帮助",
+    "description": "NEED HELP?"
+  },
+  "help.website.subtitle": {
+    "message": "Apache APISIX 维护者们将积极为你答疑解惑",
+    "description": "This project is maintained by a dedicated group of people."
+  },
+  "help.website.docs.title": {
+    "message": "官方文档",
+    "description": "Browse Docs"
+  },
+  "help.website.docs.tips": {
+    "message": "访问官方技术文档以了解更多",
+    "description": "Learn more using the documentation on this site."
+  },
+  "help.website.link.docs": {
+    "message": "阅读文档",
+    "description": "Read Documents"
+  },
+  "help.website.community.title": {
+    "message": "加入社区",
+    "description": "Join Community"
+  },
+  "help.website.community.tips": {
+    "message": "告诉我们你遇到了什么问题？",
+    "description": "Ask questions about the documentation and project"
+  },
+  "plugins.website.title": {
+    "message": "Apache APISIX®️ 插件中心",
+    "description": "Apache APISIX®️ Plugin Hub"
+  },
+  "plugins.website.subtitle": {
+    "message": "功能强大，即插即用",
+    "description": "Powerful Plugins and Easy Integrations"
+  },
+  "team.webpage.title.Team": {
+    "message": "团队介绍",
+    "description": "Team"
+  },
+  "team.webpage.title.DocumentSubtitle": {
+    "message": "We love open source.",
+    "description": "We love open source."
+  },
+  "team.webpage.content.Contributors": {
+    "message": "贡献者列表",
+    "description": "Contributors"
+  },
+  "team.webpage.content.ContributorsSub": {
+    "message": "你可以从 GitHub 的贡献记录中查看所有 Apache APISIX 的贡献者列表",
+    "description": "You can find all contributors of Apache APISIX from GitHub contribution list."
+  },
+  "team.webpage.content.ContributorOverTime": {
+    "message": "贡献者变化趋势图",
+    "description": "Contributor Over Time"
+  },
+  "team.webpage.content.ContributorOverTimeNote": {
+    "message": "注：下图中的贡献者数量包含了 Apache APISIX 所有仓库的贡献者",
+    "description": "Note: This graph contains contributors from all repos under Apache APISIX"
+  },
+  "team.webpage.content.BecomeACommitter": {
+    "message": "成为 Apache APISIX Committer",
+    "description": "Become A Committer"
+  },
+  "team.webpage.content.BecomeACommitterInto": {
+    "message": "Apache APISIX 社区遵循并使用 Apache 社区提交规范，在贡献者积极参与 APISIX 社区后，项目管理委员会（PMC）将决定是否邀请贡献者加入 Committers 和 PMC。",
+    "description": "The Apache APISIX community follows the Apache Community process on accepting a new committer. After contributors actively participate in the APISIX community, PMC and Committers will decide to invite contributors to join Committers and PMC."
+  },
+  "team.webpage.content.StartContributeBtn": {
+    "message": "开始参与社区贡献",
+    "description": "Start Contribute"
+  },
+  "arrowAnim.component.link.btn": {
+    "message": "阅读文档",
+    "description": "Go to docs..."
+  },
+  "architecture.component.title.name": {
+    "message": "适用于超大规模、复杂的业务系统",
+    "description": "Building for large-scale, high value systems"
+  },
+  "architecture.component.title.subtitle": {
+    "message": "Apache APISIX 作为云原生架构的开源 API 网关，可以为海量 API 和微服务提供安全可靠的动态、高性能、可扩展的管理平台。",
+    "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
+  },
+  "architecture.component.card.caption": {
+    "message": "Apache APISIX 基于 NGINX 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力。",
+    "description": "Apache APISIX is based on NGINX and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
+  },
+  "features.component.why.title": {
+    "message": "为什么选择 Apache APISIX?"
+  },
+  "features.component.why.subtitle": {
+    "message": "Apache APISIX 值得信赖，你只需专注在具体业务中，而无需考虑 API 处理基础组件。",
+    "description": "Reduce time fighting bugs, focus on designing world-class systems"
+  },
+  "features.component.why.message": {
+    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会顶级项目，它也为开发人员提供强大且灵活的控制界面。"
+  },
+  "features.component.easyDashboard.title": {
+    "message": "简单易用的 Dashboard",
+    "description": "Easy-to-use dashboard"
+  },
+  "features.component.easyDashboard.message": {
+    "message": "Apache APISIX Dashboard 可以让用户尽可能直观、便捷地通过可视化界面操作 Apache APISIX。作为 Apache 软件基金会中持续迭代的开源项目，欢迎你随时提出新的想法。",
+    "description": "The Apache APISIX Dashboard is designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface. It’s opensource and ever evolving, feel free to contribute."
+  },
+  "features.component.easyDashboard.downloadBtn": {
+    "message": "立即下载",
+    "description": "Downloads"
+  },
+  "features.component.userFlexible.title": {
+    "message": "友好的用户体验",
+    "description": "User flexible"
+  },
+  "features.component.userFlexible.message": {
+    "message": "Apache APISIX Dashboard 极大地满足了用户需求，不仅提供了清晰的组织架构以适配二次开发，而且可以借助插件编排能力释放想象力！",
+    "description": "The Apache APISIX dashboard is flexible to User demand, providing option to create custom modules through code matching your requirements, alongside the existing no-code toolchain."
+  },
+  "features.component.pluginised.title": {
+    "message": "可视化配置",
+    "description": "Pluginised workflow"
+  },
+  "features.component.pluginised.message": {
+    "message": "拒绝重复造轮子。借助 Apache APISIX 内置插件，可以在极短时间内创建灵活、可靠、高性能的网关。无需编写代码，只需在编辑器中拖拽插件、配置条件，便可通过可视化的方式打造专属的 API 管理系统。",
+    "description": "No need to reinvent the wheel again and again. Use inbuilt plugins to create high performance systems in tight deadlines. For something custom, there is option of building custom plugins."
+  },
+  "benefits.component.performance.title": {
+    "message": "性能",
+    "description": "Performance"
+  },
+  "benefits.component.performance.subtitle": {
+    "message": "极致的性能体验",
+    "description": "Ultimate performance"
+  },
+  "benefits.component.performance.message": {
+    "message": "Apache APISIX 基于 Radixtree Route 和 etcd 提供路由极速匹配与配置快速同步的能力。从路由到插件，所有的设计和实现都是为了极速性能和超低延迟。",
+    "description": "Apache APISIX uses radixtree-route-matching and etcd under the hood to provide you the ability to create high speed synchronized systems. From routing to built-in plugins, all these are designed and implemented to be uber performant with the minimum latency possible."
+  },
+  "benefits.component.security.title": {
+    "message": "安全",
+    "description": "Security"
+  },
+  "benefits.component.security.subtitle": {
+    "message": "阻拦恶意程序",
+    "description": "Shield against the malicious"
+  },
+  "benefits.component.security.message": {
+    "message": "Apache APISIX 提供了多款身份认证与接口验证的插件，我们将稳定、安全放在首位。如需了解更多信息请查看",
+    "description": "Apache APISIX provides multiple security plugins for identity authentication and interface verification, putting stability and security first. For more information, check"
+  },
+  "benefits.component.security.link.here": {
+    "message": "安全类插件",
+    "description": "here"
+  },
+  "benefits.component.scalability.title": {
+    "message": "高可用与可扩展性",
+    "description": "Scalability and availability"
+  },
+  "benefits.component.scalability.subtitle": {
+    "message": "与用户一起扩容",
+    "description": "Scales with your users"
+  },
+  "benefits.component.scalability.message": {
+    "message": "Apache APISIX 提供了自定义插件的能力，你可以在 Balancer 阶段使用自定义负载均衡算法，并使用自定义路由算法对路由进行精细化控制。",
+    "description": "Apache APISIX provides the ability to write your own custom plugins, use custom Load Balancing Algorithms during the balancer phase for scaling and custom Routing algorithms for fine control on routing."
+  },
+  "benefits.component.fullyDynamic.title": {
+    "message": "全动态",
+    "description": "Fully dynamic"
+  },
+  "benefits.component.fullyDynamic.subtitle": {
+    "message": "节省选型、开发时间，只做最重要的业务设计"
+  },
+  "benefits.component.fullyDynamic.message": {
+    "message": "Apache APISIX 提供了配置热更新、插件热加载能力，在不重新启动实例的情况下可快速更新配置，这能够节省开发时间并降低服务压力。同时，健康检查、服务熔断以及其它功能可以让系统始终保持稳定、可靠。",
+    "description": "Apache APISIX provides Hot updates and Hot plugins, which continuosly update configurations without restarts,  saving development time and stress. Health checks, circuit breakers and many more features keep the system balanced at all times."
+  },
+  "benefits.component.multiPlatform.title": {
+    "message": "多平台、多协议",
+    "description": "Multi-platform and protocol"
+  },
+  "benefits.component.multiPlatform.subtitle": {
+    "message": "一次创建，随处运行"
+  },
+  "benefits.component.multiPlatform.message": {
+    "message": "Apache APISIX 提供了多平台解决方案，它不但支持在裸机运行，也支持在 Kubernetes 中使用。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。",
+    "description": "Platform agnostic, no vendor lock-in, Apache APISIX can run from bare-metal to kubernetes. It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo, MQTT proxy and multiple platforms including ARM64, don&apos;t worry about the lock-in of the infra technology."
+  },
+  "comparison.component.title": {
+    "message": "Apache APISIX 是 API 流量处理的最佳选择",
+    "description": "Among the best, and always improving"
+  },
+  "comparison.component.subtitle": {
+    "message": "Apache APISIX 是 Apache 软件基金会下的开源项目，并且在不断蓬勃发展。下方是 Apache APISIX 与其它 API 网关对比："
+  },
+  "openSourcePromo.component.title": {
+    "message": "向更多开发者学习"
+  },
+  "openSourcePromo.component.subtitle.fragment1": {
+    "message": "想学习 Apache APISIX 的使用，但不知道从哪里开始？请查阅我们的",
+    "description": "Want to learn Apache APISIX usage, but don&apos;t know where to start. Check out our"
+  },
+  "openSourcePromo.component.link.docs": {
+    "message": "官方技术文档。",
+    "description": "docs."
+  },
+  "openSourcePromo.component.subtitle.fragment2": {
+    "message": "如果你喜欢通过视频进行学习，可查看",
+    "description": "Like visual information, check out our"
+  },
+  "openSourcePromo.component.link.Youtube": {
+    "message": "YouTube 频道"
+  },
+  "openSourcePromo.component.subtitle.fragment3": {
+    "message": "以获取更多教程，欢迎你的订阅。",
+    "description": "for detailed tutorials. Subscribe for more."
+  },
+  "openSourcePromo.component.ossPromo.title": {
+    "message": "为 Apache APISIX 贡献你的力量！"
+  },
+  "openSourcePromo.component.ossPromo.subtitle1": {
+    "message": "Apache APISIX 完全开放源码并在不断发展！"
+  },
+  "openSourcePromo.component.ossPromo.subtitle2": {
+    "message": "我们欢迎任何形式的贡献，请在 GitHub 上与社区互动。"
+  },
+  "openSourcePromo.component.link.Github": {
+    "message": "立即访问",
+    "description": "Check us out"
+  },
+  "homeEventsSection.component.title": {
+    "message": "了解有关 Apache APISIX 的最新信息",
+    "description": "Stay updated about APISIX"
+  },
+  "homeEventsSection.component.subtitle": {
+    "message": "最近的一些活动"
+  },
+  "homeEventsSection.component.message.news": {
+    "message": "了解 Apache APISIX™ 的最新情况，",
+    "description": "Stay up to date about all Apache APISIX™ News, subscribe to our"
+  },
+  "homeEventsSection.component.link.newsletter": {
+    "message": "请订阅我们的邮件列表",
+    "description": "newsletter."
+  },
+  "homeEventsSection.component.link.Subscribe": {
+    "message": "立即订阅",
+    "description": "Subscribe"
+  },
+  "hero.component.title.fragment1": {
+    "message": "全生命周期 API 管理"
+  },
+  "hero.component.title.fragment2": {
+    "message": "API Gateway、Ingress Controller 等"
+  },
+  "hero.component.subtitle.content": {
+    "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
+    "description": "Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more..."
+  },
+  "hero.component.download.btn": {
+    "message": "立即体验",
+    "description": "Download"
+  }
+}

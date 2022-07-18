@@ -1,11 +1,11 @@
-/website/src/static/js/**/*.js
+/**/*/src/static/js/**/*.js
 /website/src/assets
 /website/src/fonts
 /website/src/shaders
-/website/.docusaurus
+/**/*/.docusaurus
 /website/articles
-/website/blog
-/website/build
+/blog/**/blog
+/**/*/build
 /website/docs
 /website/docs-apisix*
 /website/i18n
