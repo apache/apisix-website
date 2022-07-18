@@ -95,7 +95,7 @@ jobs:
 
       - name: Build
         run: |
-          yarn build 
+          yarn build
 
       - name: Update sitemap.xml
         run: |
