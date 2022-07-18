@@ -79,12 +79,15 @@ const footer = {
         {
           label: 'Blog',
           to: '/blog/',
+          target: '_parent',
         }, {
           label: 'Showcase',
           to: '/showcase',
+          target: '_parent',
         }, {
           label: 'Plugin Hub',
           to: '/plugins',
+          target: '_parent',
         },
       ],
     },
