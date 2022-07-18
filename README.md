@@ -8,6 +8,7 @@ The website of <a href="https://github.com/apache/apisix/">Apache APISIX®</a>
 A cloud-native microservices API Gateway
 
 <a href="https://apisix.apache.org/docs/general/join"><img  width="150" src="./website/static/img/join-slack.png"></a>
+
 </div>
 
 <br>
@@ -44,20 +45,31 @@ yarn
 
 # 3. sync docs and generate repos info
 yarn sync-doc && yarn generate-repos-info
+# or
+yarn prepare-data
 
-# 4. start dev mode
-yarn start
+# 4. start website's docs part in dev mode
+yarn start:docs
+# English Blog
+yarn start:blog:en
+# Chinese Blog
+yarn start:blog:zh
 
 # tip.
-# in development mode, only English site will be built
+# in dev, only English docs  will be built
 # it's a feature of docusaurus
 # if you want to specify the locale,
 # for example, Chinese, your should run
-yarn start --locale zh
+yarn start:docs --locale zh
 
 # tip.
 # if you want to preview the same site as online
-yarn build && yarn serve
+preview=true yarn build
+# or
+yarn build:preview
+
+# tip:
+# You can see all the commands you can run in package.json
 ```
 
 Next, you can modify the documentation or code, commit it and push it to GitHub when you're done. If you're not familiar with this, you can read [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) first.
@@ -78,9 +90,11 @@ apisix-website
 │   └── workflows # for GitHub CI, with steps to actually build the site
 ├── .husky # git hooks, currently only pre-commit is used
 ├── scripts # scripts to help build the site
+├── blog
+    ├── en
+    └── zh
 └── website # docusaurus
     ├── articles
-    ├── blog
     ├── config # are imported in scripts and docusaurus.config.js
     ├── docs
     │   └── general # https://apisix.apache.org/docs/general/join
