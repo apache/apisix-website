@@ -45,9 +45,7 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    ['docusaurus-plugin-sass', {}],
-  ],
+  plugins: [['docusaurus-plugin-sass', {}]],
   themeConfig: {
     navbar: {
       hideOnScroll: true,

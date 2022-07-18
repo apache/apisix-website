@@ -4,7 +4,7 @@
   "scripts": {
     "examples": "docusaurus-examples",
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "node --max-old-space-size=4096 ../node_modules/@docusaurus/core/bin/docusaurus build",
     "publish-gh-pages": "docusaurus-publish",
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",

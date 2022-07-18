@@ -95,7 +95,7 @@ jobs:
 
       - name: Build
         run: |
-          yarn build && cp ./.asf.yaml ./.htaccess ./blog/en-build/blog ./blog/en-build/assets ./website/build/ -r && cp ./blog/zh-build/blog ./blog/zh-build/assets ./website/build/zh/ -r
+          yarn build 
 
       - name: Update sitemap.xml
         run: |
