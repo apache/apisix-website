@@ -76,7 +76,7 @@ jobs:
       - name: Sync documents
         run: |
           yarn prepare-data && git status
-        with:
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Apply docusaurus cache
