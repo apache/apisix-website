@@ -28,6 +28,7 @@ import { ThemeClassNames, docVersionSearchTag } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
 import type { ImageProps } from 'rc-image';
 import Image from 'rc-image';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import styles from './styles.module.css';
 
@@ -53,7 +54,11 @@ const navbarLinkKeys = Object.keys(navbarLinkMap);
 
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => <Image {...props} preview={{ mask: 'Click to Preview' }} />,
+  img: (props: ImageProps) => (
+    <LazyLoadComponent>
+      <Image {...props} preview={{ mask: 'Click to Preview' }} />
+    </LazyLoadComponent>
+  ),
 };
 
 const DocPageContent = ({
