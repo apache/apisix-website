@@ -15,7 +15,7 @@ module.exports = {
   noIndex: false,
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh'],
+    locales: ['en'],
     localeConfigs: {
       en: {
         label: 'English',
