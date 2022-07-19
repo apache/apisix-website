@@ -77,7 +77,7 @@ jobs:
         run: |
           yarn prepare-data && git status
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Apply docusaurus cache
         id: docusaurus-cache
