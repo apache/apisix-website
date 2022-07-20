@@ -1,25 +1,25 @@
-const childProcess = require("child_process");
-const fs = require("fs/promises");
-const path = require("path");
-const process = require("process");
-const os = require("os");
-const Listr = require("listr");
-const simpleGit = require("simple-git");
-const semver = require("semver");
-const replace = require("replace-in-file");
+const childProcess = require('child_process');
+const fs = require('fs/promises');
+const path = require('path');
+const process = require('process');
+const os = require('os');
+const Listr = require('listr');
+const simpleGit = require('simple-git');
+const semver = require('semver');
+const replace = require('replace-in-file');
 
-const common = require("./common.js");
-const { versions } = require("../config/apisix-versions.js");
+const common = require('./common.js');
+const { versions } = require('../config/apisix-versions.js');
 
 const { projects, languages, projectPaths } = common;
-const tempPath = "./temp";
-const websitePath = "../doc";
+const tempPath = './temp';
+const websitePath = '../doc';
 const gitMap = {};
 const projectReleases = {};
 
 const tasks = new Listr([
   {
-    title: "Start documents sync",
+    title: 'Start documents sync',
     task: async () => {
       if (!(await isDirExisted(tempPath))) {
         await fs.mkdir(tempPath);
@@ -27,7 +27,7 @@ const tasks = new Listr([
     },
   },
   {
-    title: "Clone git repositories",
+    title: 'Clone git repositories',
     task: () => {
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
@@ -41,16 +41,16 @@ const tasks = new Listr([
             gitMap[project.name] = simpleGit();
             await gitMap[project.name]
               .clone(`https://github.com/apache/${project.name}.git`, dir, {
-                "--filter": "blob:none",
-                "--sparse": true,
+                '--filter': 'blob:none',
+                '--sparse': true,
               })
               .cwd(dir)
-              .raw(["sparse-checkout", "set", "docs"]);
+              .raw(['sparse-checkout', 'set', 'docs']);
 
-            if (project.name === "apisix") {
+            if (project.name === 'apisix') {
               await gitMap[project.name]
                 .cwd(dir)
-                .raw(["sparse-checkout", "add", "apisix/core", "autodocs"]);
+                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
             }
           }
         },
@@ -59,10 +59,10 @@ const tasks = new Listr([
     },
   },
   {
-    title: "Find project release",
+    title: 'Find project release',
     task: () => {
       const findReleaseTasks = projects
-        .filter((p) => p.name !== "apisix")
+        .filter((p) => p.name !== 'apisix')
         .map((project) => ({
           title: `Find ${project.name} releases`,
           task: async () => {
@@ -71,18 +71,12 @@ const tasks = new Listr([
               .branch();
             if (ret.all) {
               projectReleases[project.name] = ret.all
-                .filter((release) =>
-                  release.includes("remotes/origin/release/")
-                )
-                .map((release) =>
-                  release.replace("remotes/origin/release/", "")
-                )
-                .sort((a, b) =>
-                  semver.compare(
-                    semver.coerce(a).version,
-                    semver.coerce(b).version
-                  )
-                );
+                .filter((release) => release.includes('remotes/origin/release/'))
+                .map((release) => release.replace('remotes/origin/release/', ''))
+                .sort((a, b) => semver.compare(
+                  semver.coerce(a).version,
+                  semver.coerce(b).version,
+                ));
             }
           },
         }));
@@ -90,7 +84,7 @@ const tasks = new Listr([
     },
   },
   {
-    title: "Extract documents",
+    title: 'Extract documents',
     task: () => {
       // add apisix versions to release
       projectReleases.apisix = versions;
@@ -101,46 +95,45 @@ const tasks = new Listr([
         if (await isFileExisted(target)) await fs.rm(target);
         return fs.writeFile(
           target,
-          JSON.stringify(versions.reverse(), null, 2)
+          JSON.stringify(versions.reverse(), null, 2),
         );
       };
 
       const extractTasks = projectPaths.map((project) => ({
         title: `Extract ${project.name}`,
-        task: () =>
-          new Listr([
-            {
-              title: `Create target dir`,
-              task: async () => {
-                const projectName = project.name;
-                const docs = `${websitePath}/docs-${projectName}_versioned_docs`;
-                const sidebar = `${websitePath}/docs-${projectName}_versioned_sidebars`;
-                const versions = `${websitePath}/docs-${projectName}_versions.json`;
-                const i18nDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}`;
+        task: () => new Listr([
+          {
+            title: `Create target dir`,
+            task: async () => {
+              const projectName = project.name;
+              const docs = `${websitePath}/docs-${projectName}_versioned_docs`;
+              const sidebar = `${websitePath}/docs-${projectName}_versioned_sidebars`;
+              const versions = `${websitePath}/docs-${projectName}_versions.json`;
+              const i18nDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}`;
 
-                await Promise.allSettled([
-                  removeFolder(docs),
-                  removeFolder(sidebar),
-                  removeFolder(i18nDocs),
-                  writeVersion2File(versions, projectReleases[projectName]),
-                ]);
-              },
+              await Promise.allSettled([
+                removeFolder(docs),
+                removeFolder(sidebar),
+                removeFolder(i18nDocs),
+                writeVersion2File(versions, projectReleases[projectName]),
+              ]);
             },
-            {
-              title: `Extract ${project.name} release versions documents`,
-              task: () => {
-                const steps = projectReleases[project.name].map((version) => ({
-                  title: `Extract ${project.name} ${version} documents`,
-                  task: () => extractDocsVersionTasks(project, version),
-                }));
-                return new Listr(steps);
-              },
+          },
+          {
+            title: `Extract ${project.name} release versions documents`,
+            task: () => {
+              const steps = projectReleases[project.name].map((version) => ({
+                title: `Extract ${project.name} ${version} documents`,
+                task: () => extractDocsVersionTasks(project, version),
+              }));
+              return new Listr(steps);
             },
-            {
-              title: `Extract ${project.name} next version documents`,
-              task: () => extractDocsNextVersionTasks(project, project.branch),
-            },
-          ]),
+          },
+          {
+            title: `Extract ${project.name} next version documents`,
+            task: () => extractDocsNextVersionTasks(project, project.branch),
+          },
+        ]),
       }));
       return new Listr(extractTasks, { concurrent: projects.length });
     },
@@ -150,7 +143,7 @@ const tasks = new Listr([
 tasks
   .run()
   .then(() => {
-    console.log("[Finish] Documents synchronize success");
+    console.log('[Finish] Documents synchronize success');
   })
   .catch((err) => {
     console.error(err);
@@ -162,7 +155,7 @@ function log(text) {
   // console.log(text);
 }
 
-async function replaceMDElements(project, path, branch = "master") {
+async function replaceMDElements(project, path, branch = 'master') {
   const allMDFilePaths = path.map((p) => `${p}/**/*.md`);
 
   // replace the image urls inside markdown files
@@ -172,7 +165,7 @@ async function replaceMDElements(project, path, branch = "master") {
     // then can replace with absolute url path
     from: /(\.\.\/)+assets\/images\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,
     to: (match) => {
-      const imgPath = match.replace(/\(|\)|\.\.\/*/g, "");
+      const imgPath = match.replace(/\(|\)|\.\.\/*/g, '');
       const newUrl = `https://raw.githubusercontent.com/apache/${project}/${branch}/docs/${imgPath}`;
       log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
@@ -183,23 +176,22 @@ async function replaceMDElements(project, path, branch = "master") {
   const markdownOptions = {
     files: allMDFilePaths,
     from: RegExp(
-      `\\[.*\\]\\((\\.\\.\\/)*(${languages.join("|")})\\/.*\\.md\\)`,
-      "g"
+      `\\[.*\\]\\((\\.\\.\\/)*(${languages.join('|')})\\/.*\\.md\\)`,
+      'g',
     ),
     to: (match) => {
-      const markdownPath = match.replace(/\(|\)|\.\.\/*|\[.*\]|\.\//g, ""); // "en/latest/discovery/dns.md"
-      const lang = markdownPath.split("/")[0];
+      const markdownPath = match.replace(/\(|\)|\.\.\/*|\[.*\]|\.\//g, ''); // "en/latest/discovery/dns.md"
+      const lang = markdownPath.split('/')[0];
       const urlPath = markdownPath.replace(
-        RegExp(`(${languages.join("|")})\\/latest\\/|\\.md`, "g"),
-        ""
+        RegExp(`(${languages.join('|')})\\/latest\\/|\\.md`, 'g'),
+        '',
       ); // "discovery/dns"
-      const projectNameWithoutPrefix =
-        project === "apisix" ? "apisix" : project.replace("apisix-", "");
+      const projectNameWithoutPrefix = project === 'apisix' ? 'apisix' : project.replace('apisix-', '');
       const newUrl = match.replace(
         /\]\(.*\)/g,
         `](https://apisix.apache.org${
-          lang === "en" ? "" : `/${lang}`
-        }/docs/${projectNameWithoutPrefix}/${urlPath})`
+          lang === 'en' ? '' : `/${lang}`
+        }/docs/${projectNameWithoutPrefix}/${urlPath})`,
       );
       log(`${project}: ${match} 👉 ${newUrl}`);
       return newUrl;
@@ -247,7 +239,7 @@ async function copyFolder(srcDir, tarDir) {
         return fs.copyFile(srcPath, tarPath);
       }
       return Promise.resolve();
-    })
+    }),
   );
 }
 
@@ -266,18 +258,18 @@ function normalizeSidebar(sidebarList, version) {
     ...(block?.id ? { id: `version-${version}/${block.id}` } : {}),
     ...(block?.items?.length > 0
       ? {
-          collapsible: true,
-          collapsed: true,
-          items: block.items.map((v) => {
-            if (typeof v === "string") {
-              return {
-                type: "doc",
-                id: `version-${version}/${v}`,
-              };
-            }
-            return normalizeSidebar([v], version)[`version-${version}/docs`][0];
-          }),
-        }
+        collapsible: true,
+        collapsed: true,
+        items: block.items.map((v) => {
+          if (typeof v === 'string') {
+            return {
+              type: 'doc',
+              id: `version-${version}/${v}`,
+            };
+          }
+          return normalizeSidebar([v], version)[`version-${version}/docs`][0];
+        }),
+      }
       : {}),
   }));
 
@@ -293,17 +285,17 @@ async function handleConfig2Sidebar(source, target, version, versionedTarget) {
   const sidebar = JSON.stringify({ docs: config.sidebar || [] }, null, 2);
 
   const writeVersionedSidebar = async () => {
-    if (typeof version === "undefined") return Promise.resolve();
+    if (typeof version === 'undefined') return Promise.resolve();
 
     const versionedSidebar = JSON.stringify(
       normalizeSidebar(config.sidebar, version),
       null,
-      2
+      2,
     );
     await fs.mkdir(versionedTarget, { recursive: true });
     return fs.writeFile(
       `${versionedTarget}/version-${version}-sidebars.json`,
-      versionedSidebar
+      versionedSidebar,
     );
   };
 
@@ -324,15 +316,15 @@ function generateAPIDocs(project) {
   const dir = `./${tempPath}/${project.name}`;
   return new Listr([
     {
-      title: "Generate markdown files",
+      title: 'Generate markdown files',
       task: () => {
-        childProcess.spawnSync(`autodocs/generate.sh`, ["build"], {
+        childProcess.spawnSync(`autodocs/generate.sh`, ['build'], {
           cwd: dir,
         });
       },
     },
     {
-      title: "Copy API docs",
+      title: 'Copy API docs',
       task: async () => {
         if (
           await copyDocs(`${dir}/autodocs/output`, `${dir}/pdk-docs`)
@@ -351,17 +343,15 @@ function extractDocsVersionTasks(project, version) {
   return new Listr([
     {
       title: `Checkout ${project.name} version: ${version}`,
-      task: () =>
-        gitMap[project.name]
-          .cwd(projectPath)
-          .checkout(`remotes/origin/release/${version}`, ["-f"]),
+      task: () => gitMap[project.name]
+        .cwd(projectPath)
+        .checkout(`remotes/origin/release/${version}`, ['-f']),
     },
     {
-      title: "Generate API docs for APISIX",
-      enabled: () =>
-        project.name === "apisix" &&
-        os.platform() === "linux" &&
-        isFileExisted(`./${tempPath}/${project.name}/autodocs`),
+      title: 'Generate API docs for APISIX',
+      enabled: () => project.name === 'apisix'
+        && os.platform() === 'linux'
+        && isFileExisted(`./${tempPath}/${project.name}/autodocs`),
       task: () => generateAPIDocs(project),
     },
     {
@@ -378,20 +368,15 @@ function extractDocsVersionTasks(project, version) {
 
         await Promise.allSettled([
           copyDocs(enSrcDocs, enTargetDocs)
-            .then(() =>
-              replaceMDElements(projectName, [enTargetDocs], branchName)
-            )
-            .then(() =>
-              handleConfig2Sidebar(
-                enTargetDocs,
-                enTargetDocs,
-                version,
-                `${websitePath}/docs-${project.name}_versioned_sidebars`
-              )
-            ),
-          copyDocs(zhSrcDocs, zhTargetDocs).then(() =>
-            replaceMDElements(projectName, [zhTargetDocs], branchName)
-          ),
+            .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
+            .then(() => handleConfig2Sidebar(
+              enTargetDocs,
+              enTargetDocs,
+              version,
+              `${websitePath}/docs-${project.name}_versioned_sidebars`,
+            )),
+          copyDocs(zhSrcDocs, zhTargetDocs)
+            .then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
         ]).catch(() => {
           /* ignore */
         });
@@ -405,17 +390,15 @@ function extractDocsNextVersionTasks(project, version) {
   return new Listr([
     {
       title: `Checkout ${project.name} version: ${version}`,
-      task: () =>
-        gitMap[project.name]
-          .cwd(projectPath)
-          .checkout(`remotes/origin/${version}`, ["-f"]),
+      task: () => gitMap[project.name]
+        .cwd(projectPath)
+        .checkout(`remotes/origin/${version}`, ['-f']),
     },
     {
-      title: "Generate API docs for APISIX",
-      enabled: () =>
-        project.name === "apisix" &&
-        os.platform() === "linux" &&
-        isFileExisted(`./${projectPath}/autodocs`),
+      title: 'Generate API docs for APISIX',
+      enabled: () => project.name === 'apisix'
+        && os.platform() === 'linux'
+        && isFileExisted(`./${projectPath}/autodocs`),
       task: () => generateAPIDocs(project),
     },
     {
@@ -432,13 +415,10 @@ function extractDocsNextVersionTasks(project, version) {
 
         await Promise.all([
           copyDocs(enSrcDocs, enTargetDocs)
-            .then(() =>
-              replaceMDElements(projectName, [enTargetDocs], branchName)
-            )
+            .then(() => replaceMDElements(projectName, [enTargetDocs], branchName))
             .then(() => handleConfig2Sidebar(enTargetDocs, enTargetDocs)),
-          copyDocs(zhSrcDocs, zhTargetDocs).then(() =>
-            replaceMDElements(projectName, [zhTargetDocs], branchName)
-          ),
+          copyDocs(zhSrcDocs, zhTargetDocs)
+            .then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
         ]).catch(() => {
           /* ignore */
         });

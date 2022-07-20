@@ -25,7 +25,7 @@ const tasks = new Listr([
         { stdio: 'ignore' },
       ),
       exec(
-        'cp ./blog/zh/build/blog ./blog/zh/build/assets ./doc/zh/docs ./doc/zh/assets ./website/build/zh/ -r',
+        'cp ./blog/zh/build/blog ./blog/zh/build/assets ./doc/build/zh/docs ./doc/build/zh/assets ./website/build/zh/ -r',
         { stdio: 'ignore' },
       ),
     ]),

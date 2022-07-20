@@ -73,6 +73,7 @@
     ]
   },
   "resolutions": {
-    "styled-components": "^5"
+    "styled-components": "^5",
+    "react": "^17.0.2"
   }
 }
