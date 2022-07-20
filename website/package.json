@@ -4,14 +4,15 @@
   "scripts": {
     "examples": "docusaurus-examples",
     "start": "docusaurus start",
-    "build": "node --max-old-space-size=4096 ../node_modules/@docusaurus/core/bin/docusaurus build",
+    "build": "node --max-old-space-size=4096 @docusaurus/core/bin/docusaurus build",
     "publish-gh-pages": "docusaurus-publish",
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",
     "rename-version": "docusaurus-rename-version",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "docusaurus": "docusaurus"
+    "docusaurus": "docusaurus",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.0.0-beta.6",
@@ -29,6 +30,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.6",
+    "@docusaurus/logger": "^2.0.0-rc.1",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.6",
     "@docusaurus/preset-classic": "2.0.0-beta.6",
     "@iconify/icons-akar-icons": "^1.2.8",
@@ -48,10 +50,15 @@
     "react-spring": "^9.4.5",
     "react-transition-group": "^4.4.1",
     "react-use": "^17.4.0",
+    "remark": "^12.0.0",
+    "remark-mdx": "^1.6.22",
     "sass": "^1.53.0",
     "styled-components": "^5.3.3",
     "three": "^0.131.3",
-    "video.js": "^7.19.2"
+    "unist-util-visit": "^2.0.2",
+    "video.js": "^7.19.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0"
   },
   "browserslist": {
     "production": [

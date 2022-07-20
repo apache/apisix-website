@@ -1,0 +1,131 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+:root {
+  --collapse-button-bg-color-dark: #2e333a;
+}
+
+@media (min-width: 997px) {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    height: 100%;
+    position: sticky;
+    top: 0;
+    padding-top: var(--ifm-navbar-height);
+    width: var(--doc-sidebar-width);
+    transition: opacity 50ms ease;
+  }
+
+  .sidebarWithHideableNavbar {
+    padding-top: 0;
+  }
+
+  .sidebarHidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  .sidebarLogo {
+    display: flex !important;
+    align-items: center;
+    margin: 0 var(--ifm-navbar-padding-horizontal);
+    min-height: var(--ifm-navbar-height);
+    max-height: var(--ifm-navbar-height);
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  .sidebarLogo img {
+    margin-right: 0.5rem;
+    height: 2rem;
+  }
+
+  .menu {
+    flex-grow: 1;
+    padding: 0.5rem;
+  }
+
+  .menuWithAnnouncementBar {
+    margin-bottom: var(--docusaurus-announcement-bar-height);
+  }
+
+  .collapseSidebarButton {
+    display: block !important;
+    width: 100%;
+    margin: 0;
+    background-color: var(--ifm-button-background-color);
+    height: 40px;
+    position: sticky;
+    bottom: 0;
+    border-radius: 0;
+    border: 1px solid var(--ifm-toc-border-color);
+  }
+
+  .collapseSidebarButtonIcon {
+    transform: rotate(180deg);
+    margin-top: 4px;
+  }
+  html[dir='rtl'] .collapseSidebarButtonIcon {
+    transform: rotate(0);
+  }
+
+  html[data-theme='dark'] .collapseSidebarButton {
+    background-color: var(--collapse-button-bg-color-dark);
+  }
+
+  html[data-theme='dark'] .collapseSidebarButton:hover,
+  html[data-theme='dark'] .collapseSidebarButton:focus {
+    background-color: var(--ifm-color-emphasis-200);
+  }
+}
+
+.sidebarLogo,
+.collapseSidebarButton {
+  display: none;
+}
+
+.collapseSidebarButton {
+  min-height: 40px;
+  padding: 0 24px;
+}
+
+.sidebarMenuIcon {
+  vertical-align: middle;
+}
+
+.sidebarMenuCloseIcon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  font-size: 1.5rem;
+  font-weight: var(--ifm-font-weight-bold);
+  line-height: 0.9;
+  width: 24px;
+}
+
+.sidebarVersionSwitch {
+  display: flex;
+  align-items: center;
+  padding: 4px 1rem;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+.sidebarVersionSwitch a {
+  display: inline-block;
+}
+
+.sidebarVersionSwitch div {
+  display: inline-block !important;
+}
