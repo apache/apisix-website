@@ -42,7 +42,7 @@ scripts/yarn.lock
 
 /doc/docs/*
 /doc/docs-apisix*/**
-/doc/*.json
+/doc/docs-apisix*.json
 
 /doc/i18n/zh/docusaurus-plugin-content-docs-docs-*/**
 scripts/temp/**

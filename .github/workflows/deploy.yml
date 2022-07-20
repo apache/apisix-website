@@ -87,6 +87,9 @@ jobs:
             ./website/.docusaurus
             ./website/build
             ./website/node_modules
+            ./doc/.docusaurus
+            ./doc/build
+            ./doc/node_modules
             ./blog/node_modules
             ./blog/en/.docusaurus
             ./blog/en/build
