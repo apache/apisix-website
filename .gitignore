@@ -46,4 +46,4 @@ scripts/yarn.lock
 
 /doc/i18n/zh/docusaurus-plugin-content-docs-docs-*/**
 scripts/temp/**
-website/config/repos-info.json
+/config/repos-info.json
