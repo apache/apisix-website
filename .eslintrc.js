@@ -82,7 +82,10 @@ module.exports = {
     'no-lonely-if': OFF,
     'no-lone-blocks': OFF,
     'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
-    'import/extensions': [ERROR, { tsx: 'never', svg: 'always' }],
+    'import/extensions': [
+      ERROR,
+      { tsx: 'never', svg: 'always', json: 'never' },
+    ],
     'react/jsx-props-no-spreading': OFF,
     'react/function-component-definition': [
       ERROR,
@@ -97,10 +100,10 @@ module.exports = {
       files: [
         'scripts/**/*.js',
         'website/src/clientModules/**/*.js',
-        'website/config/**/*.js',
-        'website/babel.config.js',
-        'website/**/docusaurus.config.*',
-        'blog/**/docusaurus.config.*',
+        'config/**/*.js',
+        '**/*/babel.config.js',
+        '**/*/docusaurus.config.*',
+        'website/docusaurus.config.js',
       ],
       env: {
         node: true,

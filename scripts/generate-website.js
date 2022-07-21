@@ -13,18 +13,19 @@ const tasks = new Listr([
     task: () => Promise.allSettled([
       exec('yarn run build:blog:zh', { stdio: 'ignore' }),
       exec('yarn run build:blog:en', { stdio: 'ignore' }),
-      exec('yarn run build:docs', { stdio: 'ignore' }),
+      exec('yarn run build:doc', { stdio: 'ignore' }),
+      exec('yarn run build:website', { stdio: 'ignore' }),
     ]),
   },
   {
     title: `Copy website's all parts to website's root`,
     task: () => Promise.allSettled([
       exec(
-        'cp ./.asf.yaml ./.htaccess ./blog/en/build/blog ./blog/en/build/assets ./website/build/ -r',
+        'cp ./.asf.yaml ./.htaccess ./blog/en/build/blog ./blog/en/build/assets ./doc/build/assets ./doc/build/docs ./website/build/ -r',
         { stdio: 'ignore' },
       ),
       exec(
-        'cp ./blog/zh/build/blog ./blog/zh/build/assets ./website/build/zh/ -r',
+        'cp ./blog/zh/build/blog ./blog/zh/build/assets ./doc/build/zh/docs ./doc/build/zh/assets ./website/build/zh/ -r',
         { stdio: 'ignore' },
       ),
     ]),

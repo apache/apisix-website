@@ -51,8 +51,8 @@ module.exports = {
     pluginId: `docs-${project.name}`,
     branch: project.branch,
     latestDocs: {
-      en: `../website/docs/${project.name}`,
-      zh: `../website/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/current`,
+      en: `../doc/docs/${project.name}`,
+      zh: `../doc/i18n/zh/docusaurus-plugin-content-docs-docs-${project.name}/current`,
     },
   })),
 };

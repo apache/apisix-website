@@ -18,10 +18,15 @@ import type { ImageProps } from 'rc-image';
 import Image from 'rc-image';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => <Image {...props} preview={{ mask: 'Click to Preview' }} />,
+  img: (props: ImageProps) => (
+    <LazyLoadComponent>
+      <Image {...props} preview={{ mask: 'Click to Preview' }} />
+    </LazyLoadComponent>
+  ),
 };
 
 const BlogPostPage = (props: Props): JSX.Element => {

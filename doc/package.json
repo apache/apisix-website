@@ -1,10 +1,10 @@
 {
-  "name": "website",
+  "name": "doc",
   "version": "2.0.0",
   "scripts": {
     "examples": "docusaurus-examples",
     "start": "docusaurus start",
-    "build": "node --max-old-space-size=4096 ../node_modules/@docusaurus/core/bin/docusaurus build",
+    "build": "node --max-old-space-size=4096 ./node_modules/@docusaurus/core/bin/docusaurus build",
     "publish-gh-pages": "docusaurus-publish",
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",
@@ -73,6 +73,8 @@
     ]
   },
   "resolutions": {
-    "styled-components": "^5"
+    "styled-components": "^5",
+    "**/react": "^17.0.2",
+    "**/react-dom": "^17.0.2"
   }
 }

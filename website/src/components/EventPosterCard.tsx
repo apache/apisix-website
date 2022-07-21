@@ -6,7 +6,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useSpring, animated } from 'react-spring';
 import useSessionStorage from 'react-use/lib/useSessionStorage';
-import config from '../../config/event-poster-card.json';
+import config from '../../../config/event-poster-card.json';
 import style from '../css/event-poster-card.module.scss';
 
 interface EventPosterCardInfo {

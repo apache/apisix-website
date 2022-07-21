@@ -1,4 +1,4 @@
-const { ssrTemplate } = require('../../website/config/ssrTemplate');
+const { ssrTemplate } = require('../../config/ssrTemplate');
 
 module.exports = {
   title: 'Apache APISIX® -- Cloud-Native API Gateway',
@@ -52,7 +52,7 @@ module.exports = {
       logo: {
         src: 'img/logo2.svg',
       },
-      items: require('../../website/config/navbar.js'),
+      items: require('../../config/navbar.js'),
     },
     hideableSidebar: true,
     announcementBar: {

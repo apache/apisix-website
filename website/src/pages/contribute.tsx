@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import Head from '@docusaurus/Head';
 import ContributeCard from '../components/ContributeCard';
-import doc from '../../config/docs';
-import repoInfoList from '../../config/repos-info.json';
+import doc from '../../../config/docs';
+import repoInfoList from '../../../config/repos-info.json';
 
 const Page = styled.div`
   max-width: var(--ifm-container-width);

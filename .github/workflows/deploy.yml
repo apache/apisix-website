@@ -29,7 +29,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "16"
 
       - name: Get node version
         id: node-version
@@ -87,6 +87,9 @@ jobs:
             ./website/.docusaurus
             ./website/build
             ./website/node_modules
+            ./doc/.docusaurus
+            ./doc/build
+            ./doc/node_modules
             ./blog/node_modules
             ./blog/en/.docusaurus
             ./blog/en/build

@@ -14,7 +14,7 @@ const axiosConfig = {
   },
 };
 
-const repoList = require('../website/config/docs').map((v) => v.githubRepo);
+const repoList = require('../config/docs').map((v) => v.githubRepo);
 
 const res = {};
 
@@ -62,7 +62,7 @@ const tasks = new Listr([
   },
   {
     title: `Save repos' info and good first issues to json file`,
-    task: () => fs.writeFile('../website/config/repos-info.json', JSON.stringify(res)),
+    task: () => fs.writeFile('../config/repos-info.json', JSON.stringify(res)),
   },
 ]);
 

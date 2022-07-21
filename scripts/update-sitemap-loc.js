@@ -3,8 +3,16 @@ const { stat, readFile, writeFile } = require('node:fs/promises');
 const Listr = require('listr');
 
 const sitemapXMLs = [
-  ['../website/build/sitemap.xml', '../blog/en/build/sitemap.xml'],
-  ['../website/build/zh/sitemap.xml', '../blog/zh/build/sitemap.xml'],
+  [
+    '../website/build/sitemap.xml',
+    '../doc/build/sitemap.xml',
+    '../blog/en/build/sitemap.xml',
+  ],
+  [
+    '../website/build/zh/sitemap.xml',
+    '../doc/build/zh/sitemap.xml',
+    '../blog/zh/build/sitemap.xml',
+  ],
 ];
 
 const tasks = new Listr([

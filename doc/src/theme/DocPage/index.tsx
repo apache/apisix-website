@@ -9,13 +9,11 @@ import type { ReactNode } from 'react';
 import React, { useState, useCallback, useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
-
 import renderRoutes from '@docusaurus/renderRoutes';
 import type { PropVersionMetadata } from '@docusaurus/plugin-content-docs-types';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
-import NotFound from '@theme/NotFound';
 import type { DocumentRoute } from '@theme/DocItem';
 import type { Props } from '@theme/DocPage';
 import IconArrow from '@theme/IconArrow';
@@ -27,8 +25,8 @@ import clsx from 'clsx';
 import { ThemeClassNames, docVersionSearchTag } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
 import type { ImageProps } from 'rc-image';
-import Image from 'rc-image';
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import NotFound from '../NotFound';
 
 import styles from './styles.module.css';
 
@@ -54,11 +52,7 @@ const navbarLinkKeys = Object.keys(navbarLinkMap);
 
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => (
-    <LazyLoadComponent>
-      <Image {...props} preview={{ mask: 'Click to Preview' }} />
-    </LazyLoadComponent>
-  ),
+  img: (props: ImageProps) => <LazyLoadImage {...props as any} />,
 };
 
 const DocPageContent = ({

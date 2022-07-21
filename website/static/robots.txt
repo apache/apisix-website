@@ -3,3 +3,5 @@
 User-agent: *
 
 Sitemap: https://apisix.apache.org/sitemap.xml
+
+Sitemap: https://apisix.apache.org/zh/sitemap.xml

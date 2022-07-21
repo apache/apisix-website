@@ -3,11 +3,17 @@
   "repository": "https://github.com/apache/apisix-website.git",
   "license": "Apache-2.0",
   "private": "true",
-  "workspaces": [
-    "website",
-    "scripts",
-    "blog"
-  ],
+  "workspaces": {
+    "packages": [
+      "website",
+      "scripts",
+      "blog",
+      "doc"
+    ],
+    "nohoist": [
+      "doc/@docusaurus/**"
+    ]
+  },
   "scripts": {
     "sync-doc": "yarn workspace scripts sync",
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
@@ -16,11 +22,14 @@
     "start:blog:zh": "yarn workspace blog start:zh",
     "start:blog:en": "yarn workspace blog start:en",
     "build": "yarn workspace scripts generate-website",
-    "build:docs": "yarn workspace website build",
+    "build:website": "yarn workspace website build",
+    "build:doc": "yarn workspace doc build",
     "build:blog:zh": "yarn workspace blog build:zh",
     "build:blog:en": "yarn workspace blog build:en",
     "build:preview": "preview=true yarn run build",
-    "serve:docs": "yarn workspace website docusaurus serve",
+    "serve": "yarn workspace website docusaurus serve",
+    "serve:website": "yarn workspace website docusaurus serve",
+    "serve:doc": "yarn workspace doc docusaurus serve",
     "serve:blog:zh": "yarn workspace blog docusaurus serve zh",
     "serve:blog:en": "yarn workspace blog docusaurus serve en",
     "prepare": "husky install",

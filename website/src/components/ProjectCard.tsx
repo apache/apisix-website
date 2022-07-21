@@ -15,7 +15,7 @@ import IconStarSolid from '../assets/icons/star-solid.svg';
 import IconOctagon from '../assets/icons/octagon.svg';
 import IconShield from '../assets/icons/shield.svg';
 
-import repoInfoList from '../../config/repos-info.json';
+import repoInfoList from '../../../config/repos-info.json';
 
 import type { ContributeCardProps } from './ContributeCard';
 
