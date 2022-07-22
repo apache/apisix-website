@@ -91,9 +91,9 @@ HTTP/1.1 200 OK
 
 ## Google Cloud T2D vs Google Cloud T2A
 
-从上述操作来看，Apache APISIX 在 Google Cloud Tau T2A 上的安装和兼容性测试都能顺利完成。那么 Google Cloud T2A 的实际性能到底如何呢？接下来我们将使用 Apache APISIX 分别在  Google Cloud  T2A 和  Google Cloud T2D 上做性能测试对比，来看看其实际表现。
+从上述操作来看，Apache APISIX 在 Google Cloud Tau T2A 上的安装和兼容性测试都能顺利完成。那么 Google Cloud T2A 的实际性能到底如何呢？接下来我们将使用 Apache APISIX 分别在 Google Cloud T2A 和 Google Cloud T2D 上做性能测试对比，来看看其实际表现。
 
-Google Cloud T2D 是 Google Cloud Tau 系列的另一款机型，是基于 Intel® x86 架构的， 所以上述 etcd 安装步骤略有不同：
+Google Cloud T2D 是 Google Cloud Tau 系列的另一款机型，是基于 Intel® x86 架构的，所以上述 etcd 安装步骤略有不同：
 
 ````shell
 sudo docker run -d --name etcd \
