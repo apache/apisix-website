@@ -31,8 +31,8 @@ module.exports = {
       {
         docs: false,
         blog: {
-          blogSidebarTitle: 'All posts',
-          blogSidebarCount: 'ALL',
+          blogSidebarCount: 0,
+          postsPerPage: 9,
         },
         theme: {
           customCss: require.resolve('./src/css/customTheme.css'),
