@@ -25,7 +25,7 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 ![Contributors List](https://static.apiseven.com/2022/weeklyreport/0721/4.jpg)
 
-![New Contributors](https://static.apiseven.com/2022/weeklyreport/0721/2.png)
+![New Contributors](https://static.apiseven.com/2022/weeklyreport/0721/5yingwen.png)
 
 ## Good first issue
 
@@ -37,12 +37,12 @@ We have also compiled some issues suitable for newcomers to the community to par
 
 It should do something:
 
-- using kind create a new cluster
+- Use kind create a new cluster
 - Deploy APISIX + etcd
 - Build `apisix-ingress-controller`’s image
 - Deploy `apisix-ingress-controller`
 
-Most of them are already contained in the current Makefile, we need to organize them
+Most of them are already contained in the current Makefile, we need to organize them.
 
 ### Issue #1129
 

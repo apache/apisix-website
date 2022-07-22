@@ -1,5 +1,5 @@
 ---
-title: "社区双周报 7.1 - 7.15"
+title: "社区双周报 (7.1 - 7.15)"
 keywords: 
 - Apache APISIX
 - API 网关
@@ -25,7 +25,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ![本周贡献者名单](https://static.apiseven.com/2022/weeklyreport/0721/3.jpg)
 
-![本周新晋贡献者](https://static.apiseven.com/2022/weeklyreport/0721/1.png)
+![本周新晋贡献者](https://static.apiseven.com/2022/weeklyreport/0721/6.png)
 
 ## Good first issue
 
@@ -42,7 +42,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 - 构建 `apisix-ingress-controller` 的镜像
 - 部署 `apisix-ingress-controller`
 
-其中大多数已经包含在当前的 Makefile 中，需要对其进行组织
+其中大多数已经包含在当前的 Makefile 中，需要对其进行组织。
 
 ### Issue #1129
 
@@ -58,7 +58,7 @@ https://pkg.go.dev/k8s.io/apimachinery/pkg/util/wait 包提供了轮询（Pollin
 
 - [新增在 Ingress 资源中可以通过 annotation 绑定 ApisixPluginConfig 的能力，让 Ingress 资源可以直接使用 APISIX 的插件能力](https://github.com/apache/apisix-ingress-controller/pull/1139)（贡献者：[dickens7](https://github.com/dickens7)）
 
-- [- 修复 APISIX Dashboard 中路由复制时的 ID 冲突问题](https://github.com/apache/apisix-dashboard/pull/2501)（贡献者：[SkyeYoung](https://github.com/SkyeYoung)）
+- [修复 APISIX Dashboard 中路由复制时的 ID 冲突问题](https://github.com/apache/apisix-dashboard/pull/2501)（贡献者：[SkyeYoung](https://github.com/SkyeYoung)）
 
 - [`openid-connect` 插件中支持 PKCE](https://github.com/apache/apisix/pull/7370)（贡献者：[qihaiyan](https://github.com/qihaiyan)）
 
