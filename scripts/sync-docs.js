@@ -72,7 +72,7 @@ const tasks = new Listr([
               const isIngressController = project.name === 'apisix-ingress-controller';
               projectReleases[project.name] = ret.all
                 .filter((release) => (isIngressController
-                  ? release.includes('remotes/origin/v')
+                  ? release.includes('remotes/origin/v') && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
                   : release.includes('remotes/origin/release/')))
                 .map((release) => (isIngressController
                   ? release.replace('remotes/origin/v', '')
