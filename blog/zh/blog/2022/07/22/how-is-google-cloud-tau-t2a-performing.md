@@ -25,7 +25,7 @@ tags: [Technology]
 
 值得注意的是，Ampere® Altra® Arm 是一款云原生处理器，基于 Ampere® Altra® Arm 处理器的 Tau T2A 虚拟机也因此能以高效的方式运行横向扩展的云原生应用程序。
 
-那么具体实际体验和性能如何呢？我们以一个云原生的 API 网关为例，带大家一起看看一起 Google Cloud Tau T2A 虚拟机的表现。这里，我们选择了 Apache APISIX 在  Google Cloud Tau T2A 服务器环境上进行安装测试。
+那么具体实际体验和性能如何呢？我们以一个云原生的 API 网关为例，带大家一起看看 Google Cloud Tau T2A 虚拟机的表现。这里，我们选择了 Apache APISIX 在  Google Cloud Tau T2A 服务器环境上进行安装测试。
 
 Apache APISIX 是一个云原生、高性能、可扩展的 API 网关。基于 NGNIX + LuaJIT 和 etcd，APISIX 与传统 API 网关相比，具有动态路由和插件热加载特性，特别适合云原生架构下的 API 管理。
 

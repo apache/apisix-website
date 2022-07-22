@@ -15,11 +15,11 @@ keywords:
 - API 网关
 - Apache APISIX
 - 开源
-description: Apache APISIX 作为 Apache 基金会顶级项目，在项目快速发展的背后，进行了哪些探索？为什么会得到越来愈多开发者和企业用户的青睐？本文将从技术和社区两个层面带来详细解读。
+description: Apache APISIX 作为 Apache 软件基金会顶级项目，在项目快速发展的背后，进行了哪些探索？为什么会得到越来愈多开发者和企业用户的青睐？本文将从技术和社区两个层面带来详细解读。
 tags: [Technology,Community]
 ---
 
-> Apache APISIX 作为 Apache 基金会顶级项目，在项目快速发展的背后，进行了哪些探索？为什么会得到越来愈多开发者和企业用户的青睐？本文将从技术和社区两个层面带来详细解读。
+> Apache APISIX 作为 Apache 软件基金会顶级项目，在项目快速发展的背后，进行了哪些探索？为什么会得到越来愈多开发者和企业用户的青睐？本文将从技术和社区两个层面带来详细解读。
 
 <!--truncate-->
 
