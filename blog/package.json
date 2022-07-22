@@ -34,6 +34,7 @@
     "@iconify/icons-akar-icons": "^1.2.8",
     "@iconify/react": "^3.2.2",
     "@use-gesture/react": "^10.2.16",
+    "avvvatars-react": "^0.4.2",
     "change-case": "^4.1.2",
     "clsx": "^1.1.1",
     "docusaurus-plugin-sass": "^0.2.2",

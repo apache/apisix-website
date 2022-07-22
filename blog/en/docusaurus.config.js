@@ -31,8 +31,8 @@ module.exports = {
       {
         docs: false,
         blog: {
-          blogSidebarTitle: 'All posts',
-          blogSidebarCount: 'ALL',
+          blogSidebarCount: 0,
+          postsPerPage: 9,
         },
         theme: {
           customCss: require.resolve('./src/css/customTheme.css'),
@@ -82,8 +82,7 @@ module.exports = {
     metadatas: [
       {
         name: 'description',
-        content:
-          'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
+        content: 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
       },
       {
         name: 'robots',
