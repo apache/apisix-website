@@ -93,7 +93,7 @@ HTTP/1.1 200 OK
 
 From the previous steps, the installation and compatibility testing of Apache APISIX on Google Cloud Tau T2A can be successfully completed. So what is the actual performance of Google Cloud T2A? Next, we will use Apache APISIX to do a performance test on Google Cloud T2A and Google Cloud T2D to see their actual performance.
 
-Google Cloud T2D is another model of Google Cloud Tau series, which is based on Intel® x86 architecture, so the etcd installation steps are slightly different from above:
+Google Cloud T2D is another model of Google Cloud Tau series, which is based on AMD x86 architecture, so the etcd installation steps are slightly different from above:
 
 ```shell
 sudo docker run -d --name etcd \
