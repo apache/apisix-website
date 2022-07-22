@@ -202,6 +202,6 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 
 从以上数据也可以看出，在 API Gateway 等网络 IO 密集计算场景下，T2A 相比同系列的 T2D 虚拟机，在性能上仍然有差距。不过另一个好消息是，在同等配置情况下，T2A 的价格要比 T2D 便宜 10% 左右。在实际机器选型时，用户可以根据自己的业务体量来灵活决策。
 
-### 总结
+## 总结
 
-本文主要使用 Apache APISIX 对比 Google Cloud T2A 和 Google Cloud T2D 的性能。可以看出，在 API 网关等网络 IO 密集计算场景中，Google Cloud T2A 相比 T2D，表现虽然不是那么亮眼，但是作为 Google Cloud 在 Arm 架构下的第一次尝试，相信其会在 Arm 架构的虚拟机上持续发力，也期待它的后续迭代表现。
+本文主要使用 Apache APISIX 对比 Google Cloud T2A 和 Google Cloud T2D 的性能。可以看出，在 API 网关等网络 IO 密集计算场景中，Google Cloud T2A 相比 T2D，表现虽然不是那么亮眼，但是作为 Google Cloud 在 ARM 架构下的第一次尝试，相信其会在 ARM 架构的虚拟机上持续发力，也期待它的后续迭代表现。
