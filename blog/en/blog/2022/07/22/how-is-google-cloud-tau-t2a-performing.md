@@ -202,4 +202,4 @@ It can also be seen from the above data that in network IO-intensive computing s
 
 ## Summarize
 
-This article mainly uses Apache APISIX to compare the performance of Google Cloud T2A and Google Cloud T2D. It can be seen that in network IO-intensive computing scenarios such as API gateways, Google Cloud T2A is not so brilliant compared to T2D, but as the first attempt of Google Cloud VMs on the Arm architecture, I believe it will continue to evolve better.
+This article mainly uses Apache APISIX to compare the performance of Google Cloud T2A and Google Cloud T2D. It can be seen that in network IO-intensive computing scenarios such as API gateways, Google Cloud T2A is not so brilliant compared to T2D, but as the first attempt of Google Cloud VMs on the ARM architecture, I believe it will continue to evolve better.
