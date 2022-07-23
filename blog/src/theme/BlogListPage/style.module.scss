@@ -13,13 +13,23 @@
     article {
       margin: 0 1.25rem 2.5rem;
       border-radius: 1rem;
-      border: 1px solid #dfdfdf;
+      overflow: hidden;
+      background-color: #fffffd;
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
 
-      img {
-        border-radius: 1rem 1rem 0 0;
-        object-fit: cover;
+      & > a {
         width: 100%;
-        border-bottom: 1px solid #dfdfdf;
+        height: 100%;
+        overflow: hidden;
+
+        img {
+          object-fit: cover;
+          width: 100%;
+          max-width: unset;
+          filter: drop-shadow(0 1px 0px rgba(0, 0, 0, 0.04));
+          transform-origin: center center;
+          transition: all 0.3s ease-in-out;
+        }
       }
 
       & .content {
@@ -35,10 +45,12 @@
 
             & > a {
               color: var(--ifm-link-color);
-              margin-right: 1rem;
+              margin-right: 0.5rem;
+              text-transform: uppercase;
+              font-size: 0.66rem;
 
               &:hover {
-                opacity: 0.8; 
+                opacity: 0.6;
               }
             }
           }
@@ -47,7 +59,13 @@
             font-size: 1.375rem;
             line-height: 1.2em;
             color: #222;
+            margin-top: 0.8rem;
             margin-bottom: 0.5em;
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+              opacity: 0.6;
+            }
           }
 
           p {
@@ -83,6 +101,86 @@
 
         & .divider {
           margin: 0 0.5rem;
+        }
+      }
+
+      &:hover {
+        & > a {
+          img {
+            transform: scale3d(1.05, 1.05, 1);
+          }
+        }
+
+        h2 {
+          opacity: 0.6;
+        }
+
+        & .tags:hover + a > h2 {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.firstPage {
+  main {
+    grid-template-columns: repeat(2, 645px);
+
+    article {
+      & > a {
+        img {
+          height: auto;
+          width: 100%;
+        }
+      }
+
+      .content {
+        padding: 0 1.875rem 1.875rem;
+      }
+
+      &:first-of-type {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        display: flex;
+        filter: none;
+        margin-top: 0;
+        margin-bottom: 5rem;
+
+        & > a {
+          border: 1px solid #fdfdfb;
+          border-radius: 1rem;
+          height: 22rem;
+          width: unset;
+          flex-shrink: 0;
+
+          img {
+            height: 100%;
+          }
+        }
+
+        .content {
+          padding: 1rem 2rem;
+
+          header {
+            &::before {
+              content: "LATEST POST";
+              font-size: 0.5rem;
+              font-weight: 800;
+            }
+
+            h2 {
+              font-size: 2.25rem;
+            }
+          }
+        }
+
+        &:hover {
+          & > a {
+            img {
+              transform: scale3d(1.2, 1.2, 1) rotate3d(0, 0, 1, -2deg);
+            }
+          }
         }
       }
     }
