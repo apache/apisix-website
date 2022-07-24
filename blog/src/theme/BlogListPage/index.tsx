@@ -115,7 +115,7 @@ const BlogListPage = (props: Props): JSX.Element => {
 
   return (
     <BlogLayout
-      title={title}
+      title={metadata.page > 1 ? `Page ${metadata.page}-${title}` : title}
       description={blogDescription}
       wrapperClassName={clsx({
         [style.normalPage]: true, [style.firstPage]: !metadata.previousPage,
