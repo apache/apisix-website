@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 .normalPage {
   margin: 5rem 2rem;
   box-sizing: content-box;
@@ -15,7 +16,7 @@
       border-radius: 1rem;
       overflow: hidden;
       background-color: #fffffd;
-      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+      filter: drop-shadow(0 1px 1px rgb(0 0 0 / 10%));
 
       & > a {
         width: 100%;
@@ -26,14 +27,14 @@
           object-fit: cover;
           width: 100%;
           max-width: unset;
-          filter: drop-shadow(0 1px 0px rgba(0, 0, 0, 0.04));
+          filter: drop-shadow(0 1px 0 rgb(0 0 0 / 4%));
           transform-origin: center center;
           transition: all 0.3s ease-in-out;
         }
       }
 
       & .content {
-        padding: 0rem 1rem 1rem;
+        padding: 0 1rem 1rem;
 
         header {
           & .tags {
@@ -85,16 +86,16 @@
 
         & .authors {
           display: flex;
+          flex-direction: row-reverse;
 
           & .author {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-
             margin-left: -1rem;
 
-            &:first-child {
-              margin-left: 0rem;
+            &:last-child {
+              margin-left: 0;
             }
           }
         }
@@ -140,15 +141,14 @@
       }
 
       &:first-of-type {
-        grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column: 1 3;
         display: flex;
         filter: none;
         margin-top: 0;
         margin-bottom: 5rem;
 
         & > a {
-          border: 1px solid #fdfdfb;
+          border: 1px solid #efefef;
           border-radius: 1rem;
           height: 22rem;
           width: unset;

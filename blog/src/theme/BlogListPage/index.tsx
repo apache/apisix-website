@@ -12,13 +12,10 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type { Props } from '@theme/BlogListPage';
-import Translate, { translate } from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
-import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import type { Props as BlogPostItemProps } from '@theme/BlogPostItem';
-import BlogPostAuthors from '@theme/BlogPostAuthors';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
-import MDXComponents from '@theme/MDXComponents';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
@@ -78,7 +75,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
             && (
               <>
                 <div className={style.authors}>
-                  {authors.map((author) => (
+                  {authors.reverse().map((author) => (
                     author.imageURL
                       ? (
                         <LazyLoadImage
