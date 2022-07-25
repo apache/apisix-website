@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Seo from '@theme/Seo';
-import BlogLayout from '@theme-original/BlogLayout';
+import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme-original/BlogPostItem';
 import BlogPostPaginator from '@theme-original/BlogPostPaginator';
 import type { Props } from '@theme-original/BlogPostPage';

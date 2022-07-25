@@ -17,7 +17,7 @@ import type { Props as OldBlogPostItemProps } from '@theme/BlogPostItem';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
 import type { ScrollPosition } from 'react-lazy-load-image-component';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { trackWindowScroll, LazyLoadImage } from 'react-lazy-load-image-component';
 import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
 import style from './style.module.scss';
@@ -108,11 +108,8 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
                         />
                       )
                       : (
-                        <div className={style.author}>
-                          <Avvvatars
-                            key={author.name}
-                            value={author.name as string}
-                          />
+                        <div className={style.author} key={author.name}>
+                          <Avvvatars value={author.name as string} />
                         </div>
                       )
                   ))}
@@ -173,4 +170,4 @@ const BlogListPage: FC<BlogListPageProps> = (props) => {
   );
 };
 
-export default BlogListPage;
+export default trackWindowScroll(BlogListPage);

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -11,43 +13,82 @@ import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
+import {
+  LinkedinIcon,
+  LinkedinShareButton,
+  RedditIcon,
+  RedditShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+} from 'react-share';
 
 import type { Props } from '@theme/BlogLayout';
-import type { FrontMatter, Metadata } from '@theme/BlogPostPage'
-import { TwitterShareButton, LinkedinShareButton, RedditShareButton, WeiboShareButton, } from 'react-share'
+import style from './style.module.scss';
 
-type BlogLayoutProps = Props & {
-  frontMatter?: FrontMatter,
-  metadata?: Metadata
-}
+const Share = ({ metadata }) => {
+  const { title, description, permalink } = metadata;
+  const url = `https://apisix.apache.org${permalink}`;
+  return (
+    <section className={style.shareSection}>
+      <h4>Share</h4>
+      <div>
+        <LinkedinShareButton title={title} summary={description} url={url}>
+          <LinkedinIcon size={32} round />
+        </LinkedinShareButton>
+        <TwitterShareButton url={url} title={title} via="ApacheAPISIX">
+          <TwitterIcon size={32} round />
+        </TwitterShareButton>
+        <RedditShareButton title={title} url={url}>
+          <RedditIcon size={32} round />
+        </RedditShareButton>
+      </div>
+    </section>
+  );
+};
 
-function BlogLayout(props: BlogLayoutProps ): JSX.Element {
-  const {sidebar, toc, children, metadata, frontMatter, ...layoutProps} = props;
+const BlogLayout = (props: Props): JSX.Element => {
+  const {
+    sidebar, toc, children, metadata, ...layoutProps
+  } = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
 
   return (
     <Layout {...layoutProps}>
-      {hasSidebar && (
-        <aside className="col col--3">
-          <BlogSidebar sidebar={sidebar!} />
-        </aside>
-      )}
-      {children}
-      {toc && (
-        <div className="col col--2">
-          <div>
-            <LinkedinShareButton
-              title={metadata.title}
-              summary={`${metadata.description} - ${metadata.permalink}`}
-              source={'Apache APISIX'}
-              children={''}
-              url={metadata.permalink} />
+      <div className="container margin-vert--lg">
+        <div className="row">
+          {hasSidebar && (
+            <aside className="col col--3">
+              <BlogSidebar sidebar={sidebar!} />
+            </aside>
+          )}
+          <div
+            className={clsx('col', {
+              'col--7': hasSidebar,
+              'col--9 col--offset-1': !hasSidebar,
+            })}
+          >
+            {children}
           </div>
-          <TOC toc={toc} />
+          {toc && (
+            <div
+              className="col col--2"
+              style={{
+                position: 'sticky',
+                top: 'calc(var(--ifm-navbar-height) + 1rem)',
+                height: 'fit-content',
+              }}
+            >
+              {metadata && <Share metadata={metadata} />}
+              <section className={style.tocSection}>
+                <h4>Table of Contents</h4>
+                <TOC toc={toc} style={{ position: 'static' }} />
+              </section>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </Layout>
   );
-}
+};
 
 export default BlogLayout;
