@@ -15,8 +15,9 @@
       margin: 0 1.25rem 2.5rem;
       border-radius: 1rem;
       overflow: hidden;
-      background-color: #fffffd;
-      filter: drop-shadow(0 1px 1px rgb(0 0 0 / 10%));
+      border: 2px solid transparent;
+      transition: all 0.3s ease-in-out;
+      // filter: drop-shadow(0 1px 1px rgb(0 0 0 / 10%));
 
       & > a {
         width: 100%;
@@ -27,7 +28,7 @@
           object-fit: cover;
           width: 100%;
           max-width: unset;
-          filter: drop-shadow(0 1px 0 rgb(0 0 0 / 4%));
+          // filter: drop-shadow(0 1px 0 rgb(0 0 0 / 4%));
           transform-origin: center center;
           transition: all 0.3s ease-in-out;
         }
@@ -70,7 +71,7 @@
           }
 
           p {
-            color: #999;
+            color: #1d1d1f;
             max-height: #{1.7 * 3}em;
             overflow-y: hidden;
             text-overflow: ellipsis;
@@ -106,6 +107,9 @@
       }
 
       &:hover {
+        border-color: var(--ifm-color-primary);
+        transform: translateY(-20px);
+
         & > a {
           img {
             transform: scale3d(1.05, 1.05, 1);
@@ -148,14 +152,14 @@
         margin-bottom: 5rem;
 
         & > a {
-          border: 1px solid #efefef;
           border-radius: 1rem;
-          height: 22rem;
-          width: unset;
+          width: 601px;
+          height: auto;
           flex-shrink: 0;
 
           img {
             height: 100%;
+            width: 100%;
           }
         }
 
@@ -164,18 +168,29 @@
 
           header {
             &::before {
-              content: "LATEST POST";
-              font-size: 0.5rem;
+              content: 'LATEST POST';
+              font-size: 0.7rem;
               font-weight: 800;
             }
 
+            & .tags > a {
+              font-size: 0.8rem;
+            }
+
             h2 {
-              font-size: 2.25rem;
+              font-size: 2.55rem;
+            }
+
+            p {
+              font-size: 1.2rem;
             }
           }
         }
 
         &:hover {
+          border-color: transparent;
+          transform: none;
+
           & > a {
             img {
               transform: scale3d(1.2, 1.2, 1) rotate3d(0, 0, 1, -2deg);

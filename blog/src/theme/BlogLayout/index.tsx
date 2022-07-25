@@ -12,10 +12,17 @@ import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
 
-import type {Props} from '@theme/BlogLayout';
+import type { Props } from '@theme/BlogLayout';
+import type { FrontMatter, Metadata } from '@theme/BlogPostPage'
+import { TwitterShareButton, LinkedinShareButton, RedditShareButton, WeiboShareButton, } from 'react-share'
 
-function BlogLayout(props: Props): JSX.Element {
-  const {sidebar, toc, children, ...layoutProps} = props;
+type BlogLayoutProps = Props & {
+  frontMatter?: FrontMatter,
+  metadata?: Metadata
+}
+
+function BlogLayout(props: BlogLayoutProps ): JSX.Element {
+  const {sidebar, toc, children, metadata, frontMatter, ...layoutProps} = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
 
   return (
@@ -28,6 +35,14 @@ function BlogLayout(props: Props): JSX.Element {
       {children}
       {toc && (
         <div className="col col--2">
+          <div>
+            <LinkedinShareButton
+              title={metadata.title}
+              summary={`${metadata.description} - ${metadata.permalink}`}
+              source={'Apache APISIX'}
+              children={''}
+              url={metadata.permalink} />
+          </div>
           <TOC toc={toc} />
         </div>
       )}

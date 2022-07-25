@@ -13,10 +13,10 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type { Props } from '@theme/BlogListPage';
 import Link from '@docusaurus/Link';
-import type { Props as BlogPostItemProps } from '@theme/BlogPostItem';
+import type { Props as OldBlogPostItemProps } from '@theme/BlogPostItem';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage, ScrollPosition } from 'react-lazy-load-image-component';
 import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
 import style from './style.module.scss';
@@ -27,12 +27,23 @@ const components = {
   a: ({ children }) => children,
 };
 
+const defaultImg = '/img/default-blog-header.jpg'
+
+type BlogPostItemProps = OldBlogPostItemProps & {
+  scrollPosition: ScrollPosition
+}
+
+type BlogListPageProps = Props & {
+  scrollPosition: ScrollPosition
+}
+
 const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const {
     children,
     frontMatter,
     assets,
     metadata,
+    scrollPosition
   } = props;
   const {
     date,
@@ -43,7 +54,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
     authors,
   } = metadata;
 
-  const image = assets.image ?? frontMatter.image ?? '/img/default-blog-header.jpg';
+  const image = assets.image ?? frontMatter.image ?? defaultImg;
 
   return (
     <article
@@ -52,7 +63,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
       itemType="http://schema.org/BlogPosting"
     >
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
-        <LazyLoadImage src={image} alt={title} height={203} width={384} />
+        <LazyLoadImage src={image} alt={title} effect="opacity" visibleByDefault={image === defaultImg} scrollPosition={scrollPosition} />
       </Link>
       <div className={style.content}>
         <header>
@@ -82,6 +93,9 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
                           className={style.author}
                           key={author.name}
                           src={author.imageURL}
+                          width={32}
+                          height={32}
+                          scrollPosition={scrollPosition}
                         />
                       )
                       : (
@@ -104,8 +118,8 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   );
 };
 
-const BlogListPage = (props: Props): JSX.Element => {
-  const { metadata, items, sidebar } = props;
+const BlogListPage: FC<BlogListPageProps> = (props) => {
+  const { metadata, items, sidebar, scrollPosition } = props;
   const {
     siteConfig: { title: siteTitle },
   } = useDocusaurusContext();
@@ -115,7 +129,7 @@ const BlogListPage = (props: Props): JSX.Element => {
 
   return (
     <BlogLayout
-      title={metadata.page > 1 ? `Page ${metadata.page}-${title}` : title}
+      title={title}
       description={blogDescription}
       wrapperClassName={clsx({
         [style.normalPage]: true, [style.firstPage]: !metadata.previousPage,
@@ -137,6 +151,7 @@ const BlogListPage = (props: Props): JSX.Element => {
             assets={BlogPostContent.assets}
             metadata={BlogPostContent.metadata}
             truncated={BlogPostContent.metadata.truncated}
+            scrollPosition={scrollPosition}
           >
             <BlogPostContent />
           </BlogPostItem>

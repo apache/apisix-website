@@ -55,6 +55,8 @@ const BlogPostPage = (props: Props): JSX.Element => {
           ? BlogPostContents.toc
           : undefined
       }
+      frontMatter={frontMatter}
+      metadata={metadata}
     >
       <Seo
         // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
