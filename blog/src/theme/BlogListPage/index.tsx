@@ -52,7 +52,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
     <article itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
-          height={203}
+          height={232}
           width={605}
           src={image}
           alt={title}
