@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-
+import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
@@ -60,16 +60,9 @@ const BlogLayout = (props: Props): JSX.Element => {
               <BlogSidebar sidebar={sidebar!} />
             </aside>
           )}
-          <div className="col">{children}</div>
+          <div className="col col--10">{children}</div>
           {toc && (
-            <div
-              className="col col--2"
-              style={{
-                position: 'sticky',
-                top: 'calc(var(--ifm-navbar-height) + 1rem)',
-                height: 'fit-content',
-              }}
-            >
+            <div className={clsx('col col--2', style.section)}>
               {metadata && <Share metadata={metadata} />}
               <section className={style.tocSection}>
                 <h4>Table of Contents</h4>
