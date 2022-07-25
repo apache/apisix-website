@@ -60,7 +60,7 @@ const BlogLayout = (props: Props): JSX.Element => {
               <BlogSidebar sidebar={sidebar!} />
             </aside>
           )}
-          <div className="col col--10">{children}</div>
+          <div className={clsx({ col: true, 'col--10': toc })}>{children}</div>
           {toc && (
             <div className={clsx('col col--2', style.section)}>
               {metadata && <Share metadata={metadata} />}

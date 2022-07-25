@@ -31,38 +31,25 @@ const components = {
 const defaultImg = '/img/default-blog-header.jpg';
 
 type BlogPostItemProps = OldBlogPostItemProps & {
-  scrollPosition: ScrollPosition
-}
+  scrollPosition: ScrollPosition;
+};
 
 type BlogListPageProps = Props & {
-  scrollPosition: ScrollPosition
-}
+  scrollPosition: ScrollPosition;
+};
 
 const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const {
-    children,
-    frontMatter,
-    assets,
-    metadata,
-    scrollPosition,
+    children, frontMatter, assets, metadata, scrollPosition,
   } = props;
   const {
-    date,
-    formattedDate,
-    permalink,
-    tags,
-    title,
-    authors,
+    date, formattedDate, permalink, tags, title, authors,
   } = metadata;
 
   const image = assets.image ?? frontMatter.image ?? defaultImg;
 
   return (
-    <article
-      itemProp="blogPost"
-      itemScope
-      itemType="http://schema.org/BlogPosting"
-    >
+    <article itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
           height={203}
@@ -91,33 +78,30 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
           </Link>
         </header>
         <footer className={style.footer}>
-          {authors.length > 0
-            && (
-              <>
-                <div className={style.authors}>
-                  {authors.reverse().map((author) => (
-                    author.imageURL
-                      ? (
-                        <LazyLoadImage
-                          className={style.author}
-                          key={author.name}
-                          src={author.imageURL}
-                          width={32}
-                          height={32}
-                          scrollPosition={scrollPosition}
-                        />
-                      )
-                      : (
-                        <div className={style.author} key={author.name}>
-                          <Avvvatars value={author.name as string} />
-                        </div>
-                      )
-                  ))}
-                </div>
-                <div className={style.divider}>•</div>
-              </>
-            )}
-          <time dateTime={date} itemProp="datePublished">{formattedDate}</time>
+          {authors.length > 0 && (
+            <>
+              <div className={style.authors}>
+                {authors.reverse().map((author) => (author.imageURL ? (
+                  <LazyLoadImage
+                    className={style.author}
+                    key={author.name}
+                    src={author.imageURL}
+                    width={32}
+                    height={32}
+                    scrollPosition={scrollPosition}
+                  />
+                ) : (
+                  <div className={style.author} key={author.name}>
+                    <Avvvatars value={author.name as string} />
+                  </div>
+                )))}
+              </div>
+              <div className={style.divider}>•</div>
+            </>
+          )}
+          <time dateTime={date} itemProp="datePublished">
+            {formattedDate}
+          </time>
         </footer>
       </div>
     </article>
@@ -140,18 +124,17 @@ const BlogListPage: FC<BlogListPageProps> = (props) => {
       title={title}
       description={blogDescription}
       wrapperClassName={clsx({
-        [style.normalPage]: true, [style.firstPage]: !metadata.previousPage,
+        [style.normalPage]: true,
+        [style.firstPage]: !metadata.previousPage,
       })}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_posts_list',
       }}
       sidebar={sidebar}
+      toc={false}
     >
-      <main
-        itemScope
-        itemType="http://schema.org/Blog"
-      >
+      <main itemScope itemType="http://schema.org/Blog">
         {items.map(({ content: BlogPostContent }) => (
           <BlogPostItem
             key={BlogPostContent.metadata.permalink}
