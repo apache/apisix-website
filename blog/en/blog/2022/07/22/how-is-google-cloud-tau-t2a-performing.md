@@ -11,7 +11,7 @@ keywords:
     - Google Cloud
     - Google Cloud T2A
     - ARM64
-description:This article mainly uses the cloud native API gateway Apache APISIX to compare the performance of Google Cloud T2A and Google Cloud T2D.
+description: This article mainly uses the cloud native API gateway Apache APISIX to compare the performance of Google Cloud T2A and Google Cloud T2D.
 tags: [Technology]
 ---
 
