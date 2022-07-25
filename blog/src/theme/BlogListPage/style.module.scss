@@ -135,7 +135,6 @@
     article {
       & > a {
         img {
-          height: auto;
           width: 100%;
         }
       }
@@ -168,7 +167,7 @@
 
           header {
             &::before {
-              content: 'LATEST POST';
+              content: "LATEST POST";
               font-size: 0.7rem;
               font-weight: 800;
             }

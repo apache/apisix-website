@@ -16,7 +16,8 @@ import Link from '@docusaurus/Link';
 import type { Props as OldBlogPostItemProps } from '@theme/BlogPostItem';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
-import { LazyLoadImage, ScrollPosition } from 'react-lazy-load-image-component';
+import type { ScrollPosition } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
 import style from './style.module.scss';
@@ -27,7 +28,7 @@ const components = {
   a: ({ children }) => children,
 };
 
-const defaultImg = '/img/default-blog-header.jpg'
+const defaultImg = '/img/default-blog-header.jpg';
 
 type BlogPostItemProps = OldBlogPostItemProps & {
   scrollPosition: ScrollPosition
@@ -43,7 +44,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
     frontMatter,
     assets,
     metadata,
-    scrollPosition
+    scrollPosition,
   } = props;
   const {
     date,
@@ -63,7 +64,15 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
       itemType="http://schema.org/BlogPosting"
     >
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
-        <LazyLoadImage src={image} alt={title} effect="opacity" visibleByDefault={image === defaultImg} scrollPosition={scrollPosition} />
+        <LazyLoadImage
+          height={203}
+          width={605}
+          src={image}
+          alt={title}
+          effect="opacity"
+          visibleByDefault={image === defaultImg}
+          scrollPosition={scrollPosition}
+        />
       </Link>
       <div className={style.content}>
         <header>
@@ -119,7 +128,9 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
 };
 
 const BlogListPage: FC<BlogListPageProps> = (props) => {
-  const { metadata, items, sidebar, scrollPosition } = props;
+  const {
+    metadata, items, sidebar, scrollPosition,
+  } = props;
   const {
     siteConfig: { title: siteTitle },
   } = useDocusaurusContext();
