@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
@@ -61,14 +60,7 @@ const BlogLayout = (props: Props): JSX.Element => {
               <BlogSidebar sidebar={sidebar!} />
             </aside>
           )}
-          <div
-            className={clsx('col', {
-              'col--7': hasSidebar,
-              'col--9 col--offset-1': !hasSidebar,
-            })}
-          >
-            {children}
-          </div>
+          <div className="col">{children}</div>
           {toc && (
             <div
               className="col col--2"
