@@ -20,7 +20,7 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from 'react-share';
-
+import useWindowType from '@theme/hooks/useWindowSize';
 import type { Props } from '@theme/BlogLayout';
 import style from './style.module.scss';
 
@@ -50,6 +50,7 @@ const BlogLayout = (props: Props): JSX.Element => {
     sidebar, toc, children, metadata, ...layoutProps
   } = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
+  const windowType = useWindowType();
 
   return (
     <Layout {...layoutProps}>
@@ -61,7 +62,7 @@ const BlogLayout = (props: Props): JSX.Element => {
             </aside>
           )}
           <div className={clsx({ col: true, 'col--10': toc })}>{children}</div>
-          {toc && (
+          {toc && windowType !== 'mobile' && (
             <div className={clsx('col col--2', style.section)}>
               {metadata && <Share metadata={metadata} />}
               <section className={style.tocSection}>

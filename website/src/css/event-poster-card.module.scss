@@ -1,3 +1,5 @@
+@import "./util";
+
 .picWrapper {
   position: fixed;
   display: flex;
@@ -8,6 +10,11 @@
   overflow: auto;
   border: 0;
   box-shadow: 0 0 20px -12px #626365;
+
+  @include respond-below(sm) {
+    right: 0;
+    bottom: 0;
+  }
 
   & > a {
     display: flex;
