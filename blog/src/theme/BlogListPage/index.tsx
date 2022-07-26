@@ -21,6 +21,7 @@ import { trackWindowScroll, LazyLoadImage } from 'react-lazy-load-image-componen
 import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
 import style from './style.module.scss';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const components = {
   blockquote: ({ children }) => children,
@@ -56,7 +57,22 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
           width={605}
           src={image}
           alt={title}
-          effect="opacity"
+          effect="blur"
+          placeholder={(
+            <div>
+              <noscript>
+                <img src={image} alt={title} />
+              </noscript>
+              <div
+                style={{
+                  width: 605,
+                  height: 232,
+                  borderRadius: '1rem',
+                  backgroundColor: '#d2d2d7',
+                }}
+              />
+            </div>
+          )}
           visibleByDefault={image === defaultImg}
           scrollPosition={scrollPosition}
         />
@@ -89,6 +105,22 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
                     width={32}
                     height={32}
                     scrollPosition={scrollPosition}
+                    effect="blur"
+                    placeholder={(
+                      <div>
+                        <noscript>
+                          <img src={author.name} alt={author.imageURL} />
+                        </noscript>
+                        <div
+                          style={{
+                            width: 32,
+                            height: 32,
+                            borderRadius: '50%',
+                            backgroundColor: '#d2d2d7',
+                          }}
+                        />
+                      </div>
+                      )}
                   />
                 ) : (
                   <div className={style.author} key={author.name}>

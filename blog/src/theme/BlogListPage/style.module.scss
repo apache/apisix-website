@@ -1,4 +1,6 @@
 /* stylelint-disable no-descending-specificity */
+@import "../../css/util";
+
 .normalPage {
   margin: 5rem 2rem;
   box-sizing: content-box;
@@ -89,7 +91,8 @@
           display: flex;
           flex-direction: row-reverse;
 
-          & .author {
+          & .author,
+          & > span {
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -128,75 +131,89 @@
   }
 }
 
-.firstPage {
-  main {
-    grid-template-columns: repeat(2, 645px);
+@include respond-above(sm) {
+  .firstPage {
+    main {
+      grid-template-columns: repeat(2, 645px);
 
-    article {
-      & > a {
-        img {
-          width: 100%;
-        }
-      }
-
-      .content {
-        padding: 0 1.875rem 1.875rem;
-      }
-
-      &:first-of-type {
-        grid-column: 1 / 3;
-        display: flex;
-        filter: none;
-        margin-top: 0;
-        margin-bottom: 5rem;
-
+      article {
         & > a {
-          border-radius: 1rem;
-          width: 601px;
-          height: auto;
-          flex-shrink: 0;
-
           img {
-            height: 100%;
             width: 100%;
           }
         }
 
         .content {
-          padding: 1rem 2rem;
-
-          header {
-            &::before {
-              content: "LATEST POST";
-              font-size: 0.7rem;
-              font-weight: 800;
-            }
-
-            & .tags > a {
-              font-size: 0.8rem;
-            }
-
-            h2 {
-              font-size: 2.55rem;
-            }
-
-            p {
-              font-size: 1.2rem;
-            }
-          }
+          padding: 0 1.875rem 1.875rem;
         }
 
-        &:hover {
-          border-color: transparent;
-          transform: none;
+        &:first-of-type {
+          grid-column: 1 / 3;
+          display: flex;
+          filter: none;
+          margin-top: 0;
+          margin-bottom: 5rem;
 
           & > a {
+            border-radius: 1rem;
+            width: 601px;
+            height: auto;
+            flex-shrink: 0;
+
             img {
-              transform: scale3d(1.2, 1.2, 1) rotate3d(0, 0, 1, -2deg);
+              height: 100%;
+              width: 100%;
+            }
+          }
+
+          .content {
+            padding: 1rem 2rem;
+
+            header {
+              &::before {
+                content: "LATEST POST";
+                font-size: 0.7rem;
+                font-weight: 800;
+              }
+
+              & .tags > a {
+                font-size: 0.8rem;
+              }
+
+              h2 {
+                font-size: 2.55rem;
+              }
+
+              p {
+                font-size: 1.2rem;
+              }
+            }
+          }
+
+          &:hover {
+            border-color: transparent;
+            transform: none;
+
+            & > a {
+              img {
+                transform: scale3d(1.2, 1.2, 1) rotate3d(0, 0, 1, -2deg);
+              }
             }
           }
         }
       }
+    }
+  }
+}
+
+@include respond-below(sm) {
+  .normalPage {
+    margin: 0;
+
+    main {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
     }
   }
 }
