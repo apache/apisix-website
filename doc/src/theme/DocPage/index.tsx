@@ -59,7 +59,7 @@ const components = {
     <LazyLoadImage
       effect="blur"
       placeholder={(
-        <>
+        <div>
           <noscript>
             <img alt="placeholder" {...(props as any)} />
           </noscript>
@@ -71,7 +71,7 @@ const components = {
               backgroundColor: '#d2d2d7',
             }}
           />
-        </>
+        </div>
       )}
       {...(props as any)}
     />
