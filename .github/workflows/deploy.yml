@@ -50,7 +50,11 @@ jobs:
       - name: Cache install
         uses: actions/cache@v3
         with:
-          path: ./node_modules
+          path: |
+            ./node_modules
+            ./doc/node_modules
+            ./website/node_modules
+            ./blog/node_modules
           key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
@@ -86,11 +90,8 @@ jobs:
           path: |
             ./website/.docusaurus
             ./website/build
-            ./website/node_modules
             ./doc/.docusaurus
             ./doc/build
-            ./doc/node_modules
-            ./blog/node_modules
             ./blog/en/.docusaurus
             ./blog/en/build
             ./blog/zh/.docusaurus

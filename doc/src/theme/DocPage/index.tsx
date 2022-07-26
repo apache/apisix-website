@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -29,12 +31,13 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import NotFound from '../NotFound';
 
 import styles from './styles.module.css';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
- type DocPageContentProps = {
-   readonly currentDocRoute: DocumentRoute;
-   readonly versionMetadata: PropVersionMetadata;
-   readonly children: ReactNode;
- };
+type DocPageContentProps = {
+  readonly currentDocRoute: DocumentRoute;
+  readonly versionMetadata: PropVersionMetadata;
+  readonly children: ReactNode;
+};
 
 const navbarLinkMap = {
   general: 'General',
@@ -52,7 +55,27 @@ const navbarLinkKeys = Object.keys(navbarLinkMap);
 
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => <LazyLoadImage {...props as any} />,
+  img: (props: ImageProps) => (
+    <LazyLoadImage
+      effect="blur"
+      placeholder={(
+        <div>
+          <noscript>
+            <img alt="placeholder" {...(props as any)} />
+          </noscript>
+          <div
+            style={{
+              width: 500,
+              height: 300,
+              borderRadius: '1rem',
+              backgroundColor: '#d2d2d7',
+            }}
+          />
+        </div>
+      )}
+      {...(props as any)}
+    />
+  ),
 };
 
 const DocPageContent = ({
@@ -62,20 +85,23 @@ const DocPageContent = ({
 }: DocPageContentProps): JSX.Element => {
   const { pluginId, version } = versionMetadata;
   const sidebarName = currentDocRoute.sidebar;
-  const sidebar = sidebarName
-    ? versionMetadata.docsSidebars[sidebarName]
-    : undefined;
+  const sidebar = sidebarName ? versionMetadata.docsSidebars[sidebarName] : undefined;
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
 
   useEffect(() => {
     const childrenCount = document.querySelector('.navbar__items--right').childElementCount;
-    const el = document.querySelector('.navbar__items--right').childNodes[childrenCount - 2] as HTMLDivElement;
+    const el = document.querySelector('.navbar__items--right').childNodes[
+      childrenCount - 2
+    ] as HTMLDivElement;
     el.style.display = window.innerWidth > 745 ? 'block' : 'none';
 
     const pathArr = currentDocRoute.path.split('/').slice(2, 4);
-    const currentPage = pathArr.reduce((res, cur) => (navbarLinkKeys.includes(cur) ? cur : res), '');
+    const currentPage = pathArr.reduce(
+      (res, cur) => (navbarLinkKeys.includes(cur) ? cur : res),
+      '',
+    );
     const navbarLink = document.querySelectorAll('.navbar__link')[0] as HTMLAnchorElement;
     navbarLink.innerText = navbarLinkMap[currentPage];
 
@@ -94,8 +120,8 @@ const DocPageContent = ({
 
   return (
     <Layout
-       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsDocPage}
       searchMetadatas={{
@@ -107,76 +133,69 @@ const DocPageContent = ({
         <BackToTopButton />
 
         {sidebar && (
-        <aside
-          className={clsx(styles.docSidebarContainer, {
-            [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
-          })}
-          onTransitionEnd={(e) => {
-            if (
-              !e.currentTarget.classList.contains(styles.docSidebarContainer)
-            ) {
-              return;
-            }
-
-            if (hiddenSidebarContainer) {
-              setHiddenSidebar(true);
-            }
-          }}
-        >
-          <DocSidebar
-            key={
-                 // Reset sidebar state on sidebar changes
-                 // See https://github.com/facebook/docusaurus/issues/3414
-                 sidebarName
-               }
-            sidebar={sidebar}
-            path={currentDocRoute.path}
-            onCollapse={toggleSidebar}
-            isHidden={hiddenSidebar}
-               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-               // @ts-ignore
-            docsPluginId={pluginId}
-          />
-
-          {hiddenSidebar && (
-          <div
-            className={styles.collapsedDocSidebar}
-            title={translate({
-              id: 'theme.docs.sidebar.expandButtonTitle',
-              message: 'Expand sidebar',
-              description:
-                     'The ARIA label and title attribute for expand button of doc sidebar',
+          <aside
+            className={clsx(styles.docSidebarContainer, {
+              [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
             })}
-            aria-label={translate({
-              id: 'theme.docs.sidebar.expandButtonAriaLabel',
-              message: 'Expand sidebar',
-              description:
-                     'The ARIA label and title attribute for expand button of doc sidebar',
-            })}
-            tabIndex={0}
-            role="button"
-            onKeyDown={toggleSidebar}
-            onClick={toggleSidebar}
+            onTransitionEnd={(e) => {
+              if (!e.currentTarget.classList.contains(styles.docSidebarContainer)) {
+                return;
+              }
+
+              if (hiddenSidebarContainer) {
+                setHiddenSidebar(true);
+              }
+            }}
           >
-            <IconArrow className={styles.expandSidebarButtonIcon} />
-          </div>
-          )}
-        </aside>
+            <DocSidebar
+              key={
+                // Reset sidebar state on sidebar changes
+                // See https://github.com/facebook/docusaurus/issues/3414
+                sidebarName
+              }
+              sidebar={sidebar}
+              path={currentDocRoute.path}
+              onCollapse={toggleSidebar}
+              isHidden={hiddenSidebar}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              docsPluginId={pluginId}
+            />
+
+            {hiddenSidebar && (
+              <div
+                className={styles.collapsedDocSidebar}
+                title={translate({
+                  id: 'theme.docs.sidebar.expandButtonTitle',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
+                aria-label={translate({
+                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
+                  message: 'Expand sidebar',
+                  description:
+                    'The ARIA label and title attribute for expand button of doc sidebar',
+                })}
+                tabIndex={0}
+                role="button"
+                onKeyDown={toggleSidebar}
+                onClick={toggleSidebar}
+              >
+                <IconArrow className={styles.expandSidebarButtonIcon} />
+              </div>
+            )}
+          </aside>
         )}
         <main
           className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]:
-               hiddenSidebarContainer || !sidebar,
+            [styles.docMainContainerEnhanced]: hiddenSidebarContainer || !sidebar,
           })}
         >
           <div
-            className={clsx(
-              'container padding-top--md padding-bottom--lg',
-              styles.docItemWrapper,
-              {
-                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
-              },
-            )}
+            className={clsx('container padding-top--md padding-bottom--lg', styles.docItemWrapper, {
+              [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+            })}
           >
             <MDXProvider components={components}>{children}</MDXProvider>
           </div>
@@ -205,10 +224,7 @@ const DocPage = (props: Props): JSX.Element => {
         {/* eslint-disable-next-line jsx-a11y/html-has-lang */}
         <html className={versionMetadata.className} />
       </Head>
-      <DocPageContent
-        currentDocRoute={currentDocRoute}
-        versionMetadata={versionMetadata}
-      >
+      <DocPageContent currentDocRoute={currentDocRoute} versionMetadata={versionMetadata}>
         {renderRoutes(docRoutes, { versionMetadata })}
       </DocPageContent>
     </>
