@@ -5,7 +5,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useSpring, animated } from 'react-spring';
 import useSessionStorage from 'react-use/lib/useSessionStorage';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import config from 'apisix-website/config/event-poster-card.json';
+import config from '../../../config/event-poster-card.json';
 import style from '../css/event-poster-card.module.scss';
 
 interface EventPosterCardInfo {
@@ -25,7 +25,7 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
   } = useDocusaurusContext();
   const link = useMemo(
     () => (typeof links === 'string' ? links : links[currentLocale]),
-    [currentLocale],
+    [currentLocale]
   );
   const [, setStoreShow] = useSessionStorage(SHOW_STORE_KEY, 'true');
 
@@ -47,15 +47,16 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
   }, []);
 
   const onClose = useCallback(
-    async () => Promise.all(
-      api.start({
-        to: {
-          x: 500,
-          opacity: 0,
-        },
-      }),
-    ).then(() => setStoreShow('false')),
-    [api],
+    async () =>
+      Promise.all(
+        api.start({
+          to: {
+            x: 500,
+            opacity: 0,
+          },
+        })
+      ).then(() => setStoreShow('false')),
+    [api]
   );
 
   return (
