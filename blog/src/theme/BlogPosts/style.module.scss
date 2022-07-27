@@ -91,6 +91,7 @@ main.normalPage {
           width: 32px;
           height: 32px;
           border-radius: 50%;
+          transform: rotateZ(180deg);
         }
         
         & > .author,
