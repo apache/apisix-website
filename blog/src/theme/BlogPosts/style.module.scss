@@ -87,7 +87,7 @@ main.normalPage {
         display: flex;
         flex-direction: row-reverse;
 
-        & .author,
+        & > .author,
         & > span {
           width: 32px;
           height: 32px;
@@ -96,6 +96,7 @@ main.normalPage {
 
           &:last-child {
             margin-left: 0;
+            z-index: 1;
           }
         }
       }
