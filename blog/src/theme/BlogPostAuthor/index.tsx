@@ -7,20 +7,23 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import type {Props} from '@theme/BlogPostAuthor';
-
+import type { Props } from '@theme/BlogPostAuthor';
+import Avvvatars from 'avvvatars-react';
 import styles from './styles.module.css';
 
-function BlogPostAuthor({author}: Props): JSX.Element {
-  const {name, title, url, imageURL} = author;
+const BlogPostAuthor = ({ author }: Props): JSX.Element => {
+  const {
+    name, title, url, imageURL,
+  } = author;
   return (
     <div className="avatar margin-bottom--sm">
-      {imageURL && (
-        <Link className="avatar__photo-link avatar__photo" href={url}>
+      <Link className="avatar__photo-link avatar__photo" href={url}>
+        {imageURL ? (
           <img className={styles.image} src={imageURL} alt={name} />
-        </Link>
-      )}
-
+        ) : (
+          name && <Avvvatars value={name} size={48} />
+        )}
+      </Link>
       {
         // Note: only legacy author frontmatter allow empty name (not frontMatter.authors)
         name && (
@@ -28,7 +31,8 @@ function BlogPostAuthor({author}: Props): JSX.Element {
             className="avatar__intro"
             itemProp="author"
             itemScope
-            itemType="https://schema.org/Person">
+            itemType="https://schema.org/Person"
+          >
             <div className="avatar__name">
               <Link href={url} itemProp="url">
                 <span itemProp="name">{name}</span>
@@ -44,6 +48,6 @@ function BlogPostAuthor({author}: Props): JSX.Element {
       }
     </div>
   );
-}
+};
 
 export default BlogPostAuthor;
