@@ -28,9 +28,8 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.6",
-    "@docusaurus/plugin-client-redirects": "2.0.0-beta.6",
-    "@docusaurus/preset-classic": "2.0.0-beta.6",
+    "@docusaurus/core": "2.0.0-beta.8",
+    "@docusaurus/preset-classic": "2.0.0-beta.8",
     "@iconify/icons-akar-icons": "^1.2.8",
     "@iconify/react": "^3.2.2",
     "@use-gesture/react": "^10.2.16",
@@ -50,6 +49,7 @@
     "react-spring": "^9.4.5",
     "react-transition-group": "^4.4.1",
     "react-use": "^17.4.0",
+    "reading-time": "^1.5.0",
     "sass": "^1.53.0",
     "styled-components": "^5.3.3",
     "three": "^0.131.3",

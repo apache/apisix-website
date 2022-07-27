@@ -1,3 +1,4 @@
+const readingTime = require('reading-time');
 const { ssrTemplate } = require('../../config/ssrTemplate');
 
 module.exports = {
@@ -33,6 +34,7 @@ module.exports = {
         blog: {
           blogSidebarCount: 0,
           postsPerPage: 9,
+          readingTime: ({ content }) => readingTime(content).minutes,
         },
         theme: {
           customCss: require.resolve('./src/css/customTheme.css'),
@@ -75,15 +77,14 @@ module.exports = {
     },
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: false,
+      disableSwitch: true,
       respectPrefersColorScheme: false,
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
     metadatas: [
       {
         name: 'description',
-        content:
-          'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
+        content: 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
       },
       {
         name: 'robots',

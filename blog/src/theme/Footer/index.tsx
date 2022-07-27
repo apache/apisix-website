@@ -59,7 +59,8 @@ const footer = {
         {
           icon: slackIcon,
           label: 'Slack',
-          to: '/docs/general/join',
+          to: '/docs/general/join/#join-the-slack-channel',
+          target: '_parent',
         },
         {
           icon: twitterIcon,
@@ -80,11 +81,13 @@ const footer = {
           label: 'Blog',
           to: '/blog/',
           target: '_parent',
-        }, {
+        },
+        {
           label: 'Showcase',
           to: '/showcase',
           target: '_parent',
-        }, {
+        },
+        {
           label: 'Plugin Hub',
           to: '/plugins',
           target: '_parent',
@@ -99,7 +102,7 @@ const footer = {
   },
 
   copyright:
-        'Copyright © 2019-2022 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.',
+    'Copyright © 2019-2022 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.',
 };
 
 const FooterLink = ({
@@ -109,14 +112,9 @@ const FooterLink = ({
   const normalizedHref = useBaseUrl(href, {
     forcePrependBaseUrl: true,
   });
-  const hrefObj = href
-    ? { href: prependBaseUrlToHref ? normalizedHref : href }
-    : { to: toUrl };
+  const hrefObj = href ? { href: prependBaseUrlToHref ? normalizedHref : href } : { to: toUrl };
   return (
-    <Link
-      {...hrefObj}
-      {...props}
-    >
+    <Link {...hrefObj} {...props}>
       <Icon icon={icon} />
       <span>{label}</span>
     </Link>
@@ -133,20 +131,20 @@ const Footer: FC = () => {
   return (
     <footer className={style.container}>
       {links && links.length > 0 && (
-      <div className={style.linksRow}>
-        {links.map(({ title, items }) => (
-          <div key={title} className={style.linksCol}>
-            <div>{title}</div>
-            <ul>
-              {items.map((v) => (
-                <li key={v.to} className="footer__item">
-                  <FooterLink {...v} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+        <div className={style.linksRow}>
+          {links.map(({ title, items }) => (
+            <div key={title} className={style.linksCol}>
+              <div>{title}</div>
+              <ul>
+                {items.map((v) => (
+                  <li key={v.to} className="footer__item">
+                    <FooterLink {...v} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       )}
       <div className={style.copyright}>
         <Link href={logo.href}>

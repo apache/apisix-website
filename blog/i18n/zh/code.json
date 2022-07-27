@@ -333,5 +333,8 @@
   "hero.component.download.btn": {
     "message": "立即体验",
     "description": "Download"
+  },
+  "theme.blog.post.readingTime.plurals": {
+    "message": "阅读需约 {readingTime} 分钟"
   }
 }

@@ -5,23 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type { FC } from 'react';
 import React from 'react';
 import clsx from 'clsx';
-import type {Props} from '@theme/BlogPostAuthors';
+import type { Props } from '@theme/BlogPostAuthors';
 import BlogPostAuthor from '@theme/BlogPostAuthor';
-
 import styles from './styles.module.css';
 
 // Component responsible for the authors layout
-export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
+const BlogPostAuthors: FC<Props> = ({ authors, assets }) => {
   const authorsCount = authors.length;
   if (authorsCount === 0) {
-    return <></>;
+    return null;
   }
+
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
-        <div className={clsx('col col--6', styles.authorCol)} key={idx}>
+        <div className={clsx('col col--6', styles.authorCol)} key={author.name}>
           <BlogPostAuthor
             author={{
               ...author,
@@ -33,4 +34,6 @@ export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
       ))}
     </div>
   );
-}
+};
+
+export default BlogPostAuthors;

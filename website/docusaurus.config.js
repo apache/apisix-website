@@ -95,17 +95,6 @@ module.exports = {
       },
     ],
     ['docusaurus-plugin-sass', {}],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            from: ['/docs/general/community', '/docs/general/subscribe-guide'],
-            to: '/docs/general/join',
-          },
-        ],
-      },
-    ],
   ],
   themeConfig: {
     navbar: {
@@ -144,8 +133,7 @@ module.exports = {
     metadatas: [
       {
         name: 'description',
-        content:
-          'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
+        content: 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
       },
       {
         name: 'robots',
