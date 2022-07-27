@@ -85,15 +85,18 @@ main.normalPage {
 
       & .authors {
         display: flex;
-        transform: scale3d(-1, 1, 1);
+        transform: rotateZ(180deg);
 
-        & .author,
-        & > span {
+        & .author {
           width: 32px;
           height: 32px;
           border-radius: 50%;
+        }
+        
+        & > .author,
+        & > span {
           margin-right: -1rem;
-
+          
           &:last-child {
             margin-right: 0;
             z-index: 1;
