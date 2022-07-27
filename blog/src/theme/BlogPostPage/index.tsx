@@ -9,7 +9,6 @@ import React from 'react';
 import Seo from '@theme/Seo';
 import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme-original/BlogPostItem';
-import BlogPostPaginator from '@theme-original/BlogPostPaginator';
 import type { Props } from '@theme-original/BlogPostPage';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThemeClassNames } from '@docusaurus/theme-common';
@@ -19,6 +18,7 @@ import Image from 'rc-image';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import BlogPostPaginator from '../BlogPostPaginator';
 
 const components = {
   ...MDXComponents,
@@ -33,13 +33,7 @@ const BlogPostPage = (props: Props): JSX.Element => {
   const { content: BlogPostContents, sidebar } = props;
   const { frontMatter, assets, metadata } = BlogPostContents;
   const {
-    title,
-    description,
-    nextItem,
-    prevItem,
-    date,
-    tags,
-    authors,
+    title, description, nextItem, prevItem, date, tags, authors,
   } = metadata;
   const { hide_table_of_contents: hideTableOfContents, keywords } = frontMatter;
 
@@ -50,11 +44,7 @@ const BlogPostPage = (props: Props): JSX.Element => {
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
       pageClassName={ThemeClassNames.page.blogPostPage}
       sidebar={sidebar}
-      toc={
-        !hideTableOfContents && BlogPostContents.toc
-          ? BlogPostContents.toc
-          : undefined
-      }
+      toc={!hideTableOfContents && BlogPostContents.toc ? BlogPostContents.toc : undefined}
       frontMatter={frontMatter}
       metadata={metadata}
     >
@@ -80,27 +70,17 @@ const BlogPostPage = (props: Props): JSX.Element => {
           />
         )}
         {tags.length > 0 && (
-          <meta
-            property="article:tag"
-            content={tags.map((tag) => tag.label).join(',')}
-          />
+          <meta property="article:tag" content={tags.map((tag) => tag.label).join(',')} />
         )}
       </Seo>
 
-      <BlogPostItem
-        frontMatter={frontMatter}
-        assets={assets}
-        metadata={metadata}
-        isBlogPostPage
-      >
+      <BlogPostItem frontMatter={frontMatter} assets={assets} metadata={metadata} isBlogPostPage>
         <MDXProvider components={components}>
           <BlogPostContents />
         </MDXProvider>
       </BlogPostItem>
 
-      {(nextItem || prevItem) && (
-        <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
-      )}
+      {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
     </BlogLayout>
   );
 };

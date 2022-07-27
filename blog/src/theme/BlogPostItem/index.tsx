@@ -11,7 +11,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { MDXProvider } from '@mdx-js/react';
 import MDXComponents from '@theme/MDXComponents';
-import Translate, { translate } from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import { usePluralForm } from '@docusaurus/theme-common';
@@ -117,21 +117,6 @@ const BlogPostItem = (props: Props): JSX.Element => {
           {isBlogPostPage && editUrl && (
             <div className="col margin-top--sm">
               <EditThisPage editUrl={editUrl} />
-            </div>
-          )}
-
-          {!isBlogPostPage && truncated && (
-            <div className="col col--3 text--right">
-              <Link to={metadata.permalink} aria-label={`Read more about ${title}`}>
-                <b>
-                  <Translate
-                    id="theme.blog.post.readMore"
-                    description="The label used in blog post item excerpts to link to full blog posts"
-                  >
-                    Read More
-                  </Translate>
-                </b>
-              </Link>
             </div>
           )}
         </footer>
