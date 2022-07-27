@@ -75,7 +75,7 @@ module.exports = {
     },
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: false,
+      disableSwitch: true,
       respectPrefersColorScheme: false,
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',

@@ -144,8 +144,7 @@ module.exports = {
     metadatas: [
       {
         name: 'description',
-        content:
-          'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
+        content: 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
       },
       {
         name: 'robots',
