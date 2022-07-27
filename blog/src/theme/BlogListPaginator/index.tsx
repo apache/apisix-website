@@ -10,7 +10,15 @@ import Link from '@docusaurus/Link';
 import Translate, { translate } from '@docusaurus/Translate';
 import type { Props } from '@theme/BlogListPaginator';
 import clsx from 'clsx';
+import { Icon } from '@iconify/react';
+import arrowLeft from '@iconify/icons-akar-icons/arrow-left';
+import arrowRight from '@iconify/icons-akar-icons/arrow-right';
 import style from './style.module.scss';
+
+const iconSize = {
+  width: '1.2em',
+  height: '1.2em',
+};
 
 const BlogListPaginator = (props: Props): JSX.Element => {
   const { metadata } = props;
@@ -28,14 +36,14 @@ const BlogListPaginator = (props: Props): JSX.Element => {
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>
-            <div className="pagination-nav__label">
-              &laquo;
+            <div className={clsx('pagination-nav__label', style.alignMiddle)}>
+              <Icon icon={arrowLeft} {...iconSize} />
               {' '}
               <Translate
                 id="theme.blog.paginator.newerEntries"
                 description="The label used to navigate to the newer blog posts page (previous page)"
               >
-                Newer Entries
+                Newer Posts
               </Translate>
             </div>
           </Link>
@@ -44,15 +52,15 @@ const BlogListPaginator = (props: Props): JSX.Element => {
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
-            <div className="pagination-nav__label">
+            <div className={clsx('pagination-nav__label', style.alignMiddle, style.justifyEnd)}>
               <Translate
                 id="theme.blog.paginator.olderEntries"
                 description="The label used to navigate to the older blog posts page (next page)"
               >
-                Older Entries
+                Older Posts
               </Translate>
               {' '}
-              &raquo;
+              <Icon icon={arrowRight} {...iconSize} />
             </div>
           </Link>
         )}

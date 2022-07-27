@@ -1,3 +1,16 @@
 .nav {
-  margin: 4rem 15% 0;
+  margin: 3rem 0% 4rem;
+}
+
+.alignMiddle {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin: 0 0.3rem;
+  }
+}
+
+.justifyEnd {
+  justify-content: flex-end;
 }
