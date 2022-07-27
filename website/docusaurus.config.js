@@ -95,17 +95,6 @@ module.exports = {
       },
     ],
     ['docusaurus-plugin-sass', {}],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            from: ['/docs/general/community', '/docs/general/subscribe-guide'],
-            to: '/docs/general/join',
-          },
-        ],
-      },
-    ],
   ],
   themeConfig: {
     navbar: {
