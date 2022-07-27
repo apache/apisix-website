@@ -9,6 +9,7 @@ import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
 import type { FC, HTMLAttributes, DetailedHTMLProps } from 'react';
 import React from 'react';
+import useWindowType from '@theme/hooks/useWindowSize';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import style from './style.module.scss';
 
@@ -54,6 +55,8 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const {
     date, formattedDate, permalink, tags, title, authors,
   } = metadata;
+  const windowType = useWindowType();
+  const effect = windowType === 'mobile' ? 'opacity' : 'blur';
 
   const image = assets.image ?? frontMatter.image ?? defaultImg;
 
@@ -65,7 +68,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
           width={605}
           src={image}
           alt={title}
-          effect="blur"
+          effect={effect}
           placeholder={(
             <div>
               <noscript>
@@ -112,7 +115,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
                     src={author.imageURL}
                     width={32}
                     height={32}
-                    effect="blur"
+                    effect={effect}
                     placeholder={(
                       <div>
                         <noscript>
