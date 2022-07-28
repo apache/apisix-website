@@ -35,7 +35,7 @@ During the selection of gateway, we have carried out the actual test. Compared w
 
 The overall architecture of the automation operation and maintenance platform is as follows:
 
-![Architecture Diagram](https://static.apiseven.com/2022/06/blog/1/173292289-2986c1b4-3704-4d34-a30a-df4ee6f09da7.png)
+![Architecture Diagram](https://static.apiseven.com/2022/blog/0614/auto-en1.png)
 
 - Storage layer: the core is CMDB. Its main function is to record and manage the attributes of the organization's business and its resources, as well as the relationships between them. Not only is it responsible for querying the initial status of all business changes, but also all business resource changes should be fed back and recorded in it to realize the control of business standards and specifications. The storage layer also contains some authority management data, business work order flow data, and monitoring alarm time sequence data;
 
@@ -73,7 +73,7 @@ The overall architecture of the automation operation and maintenance platform is
 
 For all Web frameworks, user login is a mandatory option, and I will introduce this scenario to you next.
 
-![User Logins](https://static.apiseven.com/2022/06/blog/1/173294822-ade65508-842e-450c-bcda-d8400e102f7a.png)
+![User Logins](https://static.apiseven.com/2022/blog/0614/auto-en2.png)
 
 First of all, we need to understand the relevant components we use in the scenario. The first is the access front end, which is outside the gateway. Secondly, we use the APISIX cloud native API gateway as the business boundary. Then the auth service, which is a self-defined microservice, is used to verify the front-end URL request and user login request, and issue tokens to authenticated users. LDAP stores the company's internal password information. CMDB stores some business-related information, including organizational structure, some organizational information about the permissions that can be accessed, and finally the pages that the front end needs to access.
 
@@ -87,11 +87,11 @@ Here, we use the [`consumer restriction`](https://apisix.apache.org/zh/docs/apis
 
 Through the above description, I believe you have a certain understanding of the normal request process. Next, I will introduce you to the scenarios of how to judge the insufficient permissions of these users. In the operation and maintenance platform, if there is an operation involving data change, a token must be carried. When the token is verified by the ACL interface that it has no access, it will directly return to a page that is forbidden to access for the front end to the process. The following is the specific process of user login and permission verification scenarios and the related components used more.
 
-![Schematic Diagram](https://static.apiseven.com/2022/06/blog/1/173295581-983d945f-76da-4cc1-b9f3-5531f60e9af3.png)
+![Schematic Diagram](https://static.apiseven.com/2022/blog/0614/auto-en3.png)
 
 ### New service microservice access
 
-![Microservice Access](https://static.apiseven.com/2022/06/blog/1/173296472-4048d0fc-247c-4855-a407-3d270d366a52.png)
+![Microservice Access](https://static.apiseven.com/2022/blog/0614/auto-en4.png)
 
 In our daily work, we often launch some microservices, so how can we connect this microservice to the automatic operation and maintenance platform?
 

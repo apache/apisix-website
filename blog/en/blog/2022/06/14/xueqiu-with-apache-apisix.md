@@ -30,7 +30,7 @@ Among them, the real-time quotes service is docked to a variety of upstream data
 
 Apache APISIX can greatly simplify the complexity of implementing a dual-active architecture. APISIX's own cloud-native features, rich community ecology and plug-ins also lay a good foundation for the future evolution of Xueqiu's cloud-native architecture. In this article, we will introduce how Xueqiu is using Apache APISIX to evolve its internal dual-active architecture.
 
-![Original architecture](https://static.apiseven.com/2022/06/blog/xueqiu-1.png)
+![Original architecture](https://static.apiseven.com/2022/blog/0614/xueqiu-en1.png)
 
 The diagram above depicts the simple architecture of Xueqiu single room period, user traffic comes in from the cloud portal (SLB), and is processed by the gateway for simple public nature logic and forwarded to the back-end service. The back-end service will be through the SDK, the authentication module integrated in the service to the Xueqiu user center to initiate user authentication, and then continue to follow the business processing.
 
@@ -58,13 +58,13 @@ So on top of these pain points, Xueqiu wanted to be as transparent as possible t
 
 Based on the pain points that became apparent in the business practice scenarios, the Xueqiu Infrastructure team began researching gateway products. Through internal requirements and the comparison of current market gateway products, the final choice of the subsequent architecture based on Apache APISIX adjustment and use.
 
-![Ecological](https://static.apiseven.com/2022/06/blog/xueqiu-2.png)
+![Ecological](https://static.apiseven.com/2022/blog/0614/xueqiu-en2.png)
 
 ## Apache APISIX Practice
 
 ### Adjusted architecture
 
-![New architecture](https://static.apiseven.com/2022/06/blog/xueqiu-4.png)
+![New architecture](https://static.apiseven.com/2022/blog/0614/xueqiu-en3.png)
 
 The above figure shows the current dual-active architecture of Xueqiu Quotes. The left side shows the corresponding architecture in the original server room without much change; the right side shows the multi-live architecture designed based on multiple regions after going to the cloud.
 
@@ -120,7 +120,7 @@ Currently, Xueqiu gRPC service calls are based on the Zookeeper registry for reg
 
 The specific implementation is mainly on a content node of APISIX, when the worker process starts to poll the ZK-Rest cluster like in the figure below, and then regularly pull the source data information and actual information of the whole service, update to the local cache in the worker process, and use it to update the service list.
 
-![Extend ZooKeeper](https://static.apiseven.com/2022/06/blog/xueqiu-8.png)
+![Extend ZooKeeper](https://static.apiseven.com/2022/blog/0614/xueqiu-en4.png)
 
 As you can see from the above diagram, the ZK-Rest cluster is equivalent to accessing the data of ZooKeeper through the form of Rest. Therefore, the whole process is actually less functional (mainly based on its own business scenario requirements), and only one instance of it needs to be added to achieve the high availability feature, eliminating some complex operations.
 
