@@ -1,7 +1,7 @@
 ---
 title: First Experience with Apache APISIX Shared by Student in OSPP 2020
 slug: /blog/2021/06/03/firsthand-experience-with-apache-apisix-from-ospp-2020-students
-author: "赵若妃"
+author: "Ruofei Zhao"
 authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
@@ -14,7 +14,7 @@ keywords:
 - Firsthand Experience
 
 description: In this interview, we invited two Apache APISIX committers to share their experience with Apache APISIX in the Summer 2020 of Open Source Promotion Plan.
-tags: [Interview]
+tags: [Community]
 ---
 
 > This interview features two students who participated in the Summer 2020 of Open Source Promotion Plan, both of whom are now Apache APISIX committers and OSPP 2021 mentors for APISIX-related projects.

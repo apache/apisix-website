@@ -9,8 +9,8 @@ keywords:
 - Apache APISIX
 - Envoy
 - Envoy filter
-description: Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures. A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.
-tags: [Technology]
+description: This article describes extending Envoy with new functionality and concrete examples using the base library of the cloud-native API gateway Apache APISIX.
+tags: [Ecosystem]
 ---
 
 > This article explains how to run Apache APISIX plugins in Envoy.

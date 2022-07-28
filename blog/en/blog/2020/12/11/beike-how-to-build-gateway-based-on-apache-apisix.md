@@ -7,8 +7,8 @@ keywords:
 - Apache APISIX
 - Kong
 - Nginx
-description: Beike uses Apache APISIX as the API gateway of the production system, processing over 100 million production traffic every day, with excellent performance and stability. It happens that Apache APISIX has just joined the Apache incubator. In addition to congratulations, I would like to share why I chose Apache APISIX in the first place and some experiences in the process of using it.
-tags: [User Case]
+description: Beike chose to use the API gateway Apache APISIX as the API gateway, which handles hundreds of millions of traffic every day with excellent and stable performance.
+tags: [Case Studies]
 ---
 
 > This article describes why Beike chose Apache APISIX as the API gateway at the beginning, and some experiences in the process of using it.

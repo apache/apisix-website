@@ -8,8 +8,8 @@ keywords:
   - APISIX
   - Apache APISIX
   - Helm Chart
-description: This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), Apache APISIX Committer from [API7.ai](https://www.apiseven.com/), implements stable product delivery with Cypress.
-tags: [Technology]
+description: This article describes what E2E testing is and why the API Gateway Apache APISIX dashboard uses Cypress for stable product delivery.
+tags: [Ecosystem]
 ---
 
 > This article explains how Yi Sun, GitHub ID [@LiteSun](https://github.com/LiteSun), became Apache APISIX Committer from [API7.ai](https://www.apiseven.com/), implements stable product delivery with Cypress.
