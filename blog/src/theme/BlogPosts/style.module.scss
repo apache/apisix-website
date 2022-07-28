@@ -112,7 +112,10 @@ main.normalPage {
 
     &:hover {
       border-color: var(--ifm-color-primary);
-      transform: translateY(-20px);
+      
+      @include respond-above(sm) {
+        transform: translateY(-20px);
+      }
 
       & > a {
         img {
