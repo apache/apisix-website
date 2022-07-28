@@ -85,17 +85,28 @@ main.normalPage {
 
       & .authors {
         display: flex;
-        flex-direction: row-reverse;
 
-        & .author,
-        & > span {
+        & .author {
           width: 32px;
           height: 32px;
           border-radius: 50%;
+        }
+
+        & > .author,
+        & > span {
           margin-left: -1rem;
 
-          &:last-child {
+          &:first-child {
             margin-left: 0;
+            z-index: 3;
+          }
+
+          &:nth-child(2) {
+            z-index: 2;
+          }
+
+          &:nth-child(3) {
+            z-index: 1;
           }
         }
       }
@@ -107,7 +118,10 @@ main.normalPage {
 
     &:hover {
       border-color: var(--ifm-color-primary);
-      transform: translateY(-20px);
+
+      @include respond-above(sm) {
+        transform: translateY(-20px);
+      }
 
       & > a {
         img {

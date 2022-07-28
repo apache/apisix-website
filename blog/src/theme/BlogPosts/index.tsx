@@ -108,7 +108,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
           {authors.length > 0 && (
             <>
               <div className={style.authors}>
-                {authors.reverse().map((author) => (author.imageURL ? (
+                {authors.map((author) => (author.imageURL ? (
                   <LazyLoadImage
                     className={style.author}
                     key={author.name}
