@@ -13,13 +13,13 @@ keywords:
 - Apache APISIX
 - Release
 - Custom plugin
-- Plugin
+- API Gateway
 - Flexibility
-description: Apache APISIX 2.15 is officially released! This release brings some new features at the plugin level to provide more flexibility when using plugins.
+description: API Gateway Apache APISIX 2.15 is officially released! You can customize plugin priority and whether the plugin is executed, custom error response, and indicators to support the monitoring of four layers of traffic.
 tags: [Community]
 ---
 
-> Apache APISIX 2.15 is officially released! This release brings some new features at the plugin level to provide more flexibility when using plugins.
+> Apache APISIX 2.15 is officially released! You can customize plugin priority and whether the plugin is executed, custom error response, and indicators to support the monitoring of four layers of traffic.
 
 <!--truncate-->
 
@@ -29,7 +29,7 @@ Since the first 2.0 version was released two years ago, APISIX has released 15 m
 
 ![Update summary](https://static.apiseven.com/2022/blog/0729/blog-en1.png)
 
-### Custom plugin priority
+## Custom plugin priority
 
 The new version allows users to customize the priority of the plugin instead of directly applying the plugin's default priority properties.
 
@@ -60,8 +60,13 @@ By default, the `serverless-post-function` plugin is executed after the `serverl
 }
 ```
 
+:::note
+
 If a plugin configuration does not indicate priority, it is sorted by the priority property value in the plugin code.
+
 If you specify the priority of the plugin in the plugin configuration of the Service or Plugin Config, it will still take effect after merging into the route.
+
+:::
 
 ## Custom plugin whether to execute
 
@@ -69,7 +74,7 @@ In addition to being able to adjust the execution order, you can also dynamicall
 
 In the configuration below, the `http-logger` plugin will only be executed if the variable `$status` is greater than or equal to 400. This way, only 4xx and 5xx requests will be reported to the remote HTTP log server.
 
-```
+```json
 {
     "http-logger": {
         "_meta": {
@@ -110,7 +115,7 @@ A major change in this release is to allow metrics to be collected on Stream Rou
 
 This feature is turned off by default, if you need to enable it, build on the [APISIX-Base](https://apisix.apache.org/docs/apisix/FAQ/#how-do-i-build-the-apisix-base-environment) version and enable the `prometheus` plugin in config.yaml, an example is as follows:
 
-```yaml  
+```yaml  title="./conf/config.yaml"
 stream_plugins:
   - ...
   - prometheus
@@ -121,7 +126,8 @@ When the plugin is enabled, even if only APISIX is used to proxy TCP traffic on 
 As with the `prometheus` plugin in the HTTP proxy subsystem section, the next step is to configure the plugin on the Stream Route that needs to collect metrics:
 
 ```shell
-curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins": {
         "prometheus":{}
@@ -137,7 +143,7 @@ curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f03
 
 After connecting to the Stream Route, you can click http://127.0.0.1:9091/apisix/prometheus/metrics to see the following TCP proxy statistics:
 
-```
+```shell
 ...
 # HELP apisix_node_info Info of APISIX node
 # TYPE apisix_node_info gauge
@@ -158,6 +164,5 @@ At the level of new features, in addition to the several functions mentioned abo
 * Supports Upstream objects to reference certificates from SSL objects
 * `prometheus` available in the `ngx.shared.dict` statistics
 * `openid-connect` plugin supports PKCE extension
-* ……
 
 For more specific release details, please refer to [2.15 Changelog](https://github.com/apache/apisix/blob/release/2.15/CHANGELOG.md#2150).

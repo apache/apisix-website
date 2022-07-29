@@ -15,11 +15,11 @@ keywords:
 - 插件配置
 - 自定义插件
 - 灵活性
-description: Apache APISIX 2.15 版本正式发布！此版本带来插件层面的一些新增功能，在使用插件时提供更高的灵活性。
+description: API 网关 Apache APISIX 2.15 版本正式发布！此版本新增插件相关的自定义优先级、执行策略、错误响应及支持监控四层流量的指标等功能。
 tags: [Community]
 ---
 
-> Apache APISIX 2.15 版本正式发布！此版本带来插件层面的一些新增功能，在使用插件时提供更高的灵活性。
+> Apache APISIX 2.15 版本正式发布！用户可以自定义插件优先级和执行策略、自定义错误响应以及支持监控四层流量的指标等功能。
 
 <!--truncate-->
 
@@ -32,6 +32,7 @@ tags: [Community]
 ## 自定义插件优先级
 
 新版本支持用户自定义插件的优先级，而非直接应用插件默认的优先级属性。
+
 有了这个功能，我们可以在某个特定的路由上调整某几个插件的执行顺序，从而打破之前插件优先级属性的束缚。
 
 例如，在默认情况下，`serverless-post-function` 插件是在 `serverless-pre-function` 插件之后执行的。但是通过此功能，可以让 `serverless-post-function` 插件优先执行。配置示例如下：
@@ -59,11 +60,15 @@ tags: [Community]
 }
 ```
 
+:::note 注意
+
 如果一个插件配置中没有注明优先级，则会根据插件代码中的优先级属性值进行排序。
 
 如果你在 Service 或者 Plugin Config 的插件配置中指定了插件的优先级，那么在合并到路由后依然生效。
 
-### 自定义插件是否执行
+:::
+
+## 自定义插件是否执行
 
 除了能够调整执行顺序外，还可以动态决定插件是否需要执行。2.15 版本中引入了插件配置级别的过滤器，由过滤器的执行结果控制插件执行与否。
 
@@ -87,6 +92,7 @@ tags: [Community]
 ### 自定义错误响应
 
 该功能也是在具体插件层面配置的新功能，属于插件配置级别上的错误信息。
+
 如果需求方对特定路由上的错误响应有所要求，那么这一功能就能派上用场了。无论是什么插件，通过该配置都能设置一个固定的响应结果，避免因为插件内置的错误响应信息而带来困扰。
 
 如下述配置所示，不管 `jwt-auth` 插件返回了什么错误信息，都会被改写成 "Missing credential in request" 返回给客户端。
@@ -109,7 +115,7 @@ tags: [Community]
 
 该功能默认为关闭状态，如果需要启用，请在 [APISIX-Base](https://apisix.apache.org/zh/docs/apisix/FAQ/#%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA-apisix-base-%E7%8E%AF%E5%A2%83) 版本上构建 APISIX，并在 `config.yaml` 中启用 `prometheus` 插件，示例如下：
 
-```yaml  
+```yaml  title="./conf/config.yaml"
 stream_plugins:
   - ...
   - prometheus
@@ -120,7 +126,8 @@ stream_plugins:
 跟 HTTP 代理子系统部分的 `prometheus` 插件一样，下一步则是在需要采集指标的 Stream Route 上配置该插件：
 
 ```shell
-curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "plugins": {
         "prometheus":{}
@@ -136,7 +143,7 @@ curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f03
 
 在对该 Stream Route 发起连接之后，访问 http://127.0.0.1:9091/apisix/prometheus/metrics 就会看到如下 TCP 代理统计数据：
 
-```
+```shell
 ...
 # HELP apisix_node_info Info of APISIX node
 # TYPE apisix_node_info gauge
@@ -157,6 +164,5 @@ apisix_stream_connection_total{route="1"} 1
 * 支持 Upstream 对象从 SSL 对象中引用证书
 * `prometheus` 指标中提供 `ngx.shared.dict` 统计信息
 * `openid-connect` 插件支持 PKCE 拓展
-* ……
 
 更多具体发版细节，请参考 [2.15 Changelog](https://github.com/apache/apisix/blob/release/2.15/docs/zh/latest/CHANGELOG.md#2150)。
