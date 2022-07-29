@@ -29,15 +29,16 @@ const badgeObj = {
 
 interface LabelWithBadgeProps {
   version: GlobalVersion;
+  isApisx: boolean;
 }
 const LabelWithBadge: FC<LabelWithBadgeProps> = (props) => {
-  const { version } = props;
+  const { version, isApisx } = props;
   return (
     <div>
       {version.label}
       {(() => {
         if (version.isLast) return badgeObj.Latest;
-        if (LTSVersions.includes(version.label)) return badgeObj.LTS;
+        if (isApisx && LTSVersions.includes(version.label)) return badgeObj.LTS;
         return null;
       })()}
     </div>
@@ -66,7 +67,7 @@ const DocsVersionDropdownNavbarItem = ({
       const versionDoc = activeDocContext?.alternateDocVersions[version.name] || getVersionMainDoc(version);
       return {
         isNavLink: true,
-        label: isApisix ? <LabelWithBadge version={version} /> : version.label,
+        label: <LabelWithBadge version={version} isApisx={isApisix} />,
         to: versionDoc.path,
         isActive: () => version === activeDocContext?.activeVersion,
         onClick: () => {
