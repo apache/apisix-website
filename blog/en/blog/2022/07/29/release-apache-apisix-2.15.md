@@ -156,7 +156,7 @@ In addition to the normal Stream Route, this version also provides statistical i
 At the level of new features, in addition to the several functions mentioned above, this version also contains many detailed changes:
 
 * Supports Upstream objects to reference certificates from SSL objects
-* `prometheus` available in the `ngx.shared.dict` statistics 
+* `prometheus` available in the `ngx.shared.dict` statistics
 * `openid-connect` plugin supports PKCE extension
 * ……
 

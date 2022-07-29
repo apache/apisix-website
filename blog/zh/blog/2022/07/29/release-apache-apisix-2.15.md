@@ -117,7 +117,7 @@ stream_plugins:
 
 在启用该插件后，即使只用 APISIX 来代理四层上的 TCP 流量，也会专门监听 9091 的端口，响应 Prometheus 发来的 HTTP 请求。
 
-跟 HTTP 代理子系统部分的 `prometheus` 插件一样，下一步则是在需要采集指标的 Stream Route 上配置该插件： 
+跟 HTTP 代理子系统部分的 `prometheus` 插件一样，下一步则是在需要采集指标的 Stream Route 上配置该插件：
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
