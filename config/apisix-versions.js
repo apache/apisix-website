@@ -3,11 +3,7 @@
 /**
  * @type {Array<string>} version list
  */
-const versions = [
-  '2.12',
-  '2.13',
-  '2.14'
-];
+const versions = ['2.12', '2.13', '2.14', '2.15'];
 
 /**
  * @type {Array<{label: string, href: string}>}
