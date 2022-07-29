@@ -5,18 +5,18 @@ author: "屠正松"
 authorURL: "https://github.com/tzssangglass"
 authorImageURL: "https://avatars.githubusercontent.com/u/30819887?v=4"
 keywords:
-- APISIX
 - Apache APISIX
+- API 网关
 - Java
 - 插件
-description: Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
-tags: [Practical Case]
+- Spring Cloud
+description: 云原生 API 网关 Apache APISIX 已经支持了 Java 编写插件，使用者不仅可以使用 Java 语言编写插件，还可以融入 Spring Cloud 生态圈，广泛使用生态圈内的各种技术组件。
+tags: [Ecosystem]
 ---
 
 > Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有视频教程。
 
 <!--truncate-->
-Apache APISIX 支持多语言编写插件了！不会 Lua 也没关系，现在可以用你熟悉的语言编写插件，文末还有**视频教程**。
 
 ## 1. 简介
 

@@ -8,7 +8,7 @@ keywords:
 - APISIX
 - Apache APISIX
 - Ingress Controller
-description: Apache APISIX Ingress Controller v1.0 has been released, supporting the use of custom resources including ApisixRoute and ApisixUpstream, as well as Kubernetes native Ingress resources to control external traffic access to services deployed in Kubernetes.
+description: Apache APISIX Ingress Controller released, supports resources such as ApisixRoute and ApisixUpstream, and also supports control of external traffic.
 tags: [Release]
 ---
 
