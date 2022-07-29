@@ -24,7 +24,7 @@ tags: [Case Studies]
 在单体服务时代，使用 NGINX 可以应对大多数的场景，而到了云原生时代，NGINX 因为其自身架构的原因则会出现两个问题：
 
 - 首先是 NGINX 不支持集群管理。几乎每家互联网厂商都有自己的 NGINX 配置管理系统，系统虽然大同小异但是一直没有统一的方案。
-- 其次是 NGINX 不支持配置的热加载。很多公司一旦修改了配置，重新加载 NGINX 的时间可能需要半个小时以上。并且在 Kubernetes 体系下，上游会经常会发生变化，如果使用 NGINX 来处理就需要频繁重启服务，这对于企业是不可接受的。
+- 其次是 NGINX 不支持配置的热加载。很多公司一旦修改了配置，重新加载 NGINX 的时间可能需要半个小时以上。并且在 Kubernetes 体系下，上游会经常发生变化，如果使用 NGINX 来处理就需要频繁重启服务，这对于企业是不可接受的。
 
 而 Kong 的出现则解决了 NGINX 的痛点，但是又带来了新的问题：
 
@@ -51,7 +51,7 @@ tags: [Case Studies]
 
 ### 完善的生态
 
-下图为 APISIX 的生态图，从该图可以准确看到 APISIX 已经支持了 7 层协议有 HTTP(S)、HTTP2、Dubbo、QUIC 和物联网协议 MQTT 等等，4 层协议有 TCP/UDP。
+下图为 APISIX 的生态图，从该图可以准确看到 APISIX 已经支持的 7 层协议有 HTTP(S)、HTTP2、Dubbo、QUIC 和物联网协议 MQTT 等等，4 层协议有 TCP/UDP。
 右侧部分则是一些开源或者 SaaS 服务，比如 SkyWalking、Prometheus 、Vault 等等。而最下面则是比较常见的操作系统环境、云厂商和硬件环境。而作为一个开源软件，APISIX 也支持在 ARM64 的服务器上运行。
 
 ![APISIX's Ecosystem](https://static.apiseven.com/2022/blog/0729/2.PNG)
