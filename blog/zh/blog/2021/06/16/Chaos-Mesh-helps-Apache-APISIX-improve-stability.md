@@ -10,7 +10,7 @@ keywords:
 - API 网关
 - Chaos Mesh
 - 稳定性
-description: 本文介绍了如何使用 Chaos Mesh 测试 API 网关 Apache APISIX的相关流程及场景，用来提升 APISIX 的稳定性。并且介绍了 APISIX 未来的测试计划。
+description: 本文介绍了如何使用 Chaos Mesh 测试 API 网关 Apache APISIX 的相关流程及场景，用来提升 APISIX 的稳定性。并且介绍了未来 APISIX 的测试计划。
 tags: [Ecosystem]
 ---
 
