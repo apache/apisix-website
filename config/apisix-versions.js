@@ -6,6 +6,11 @@
 const versions = ['2.12', '2.13', '2.14', '2.15'];
 
 /**
+ * @type {Array<string>} LTS version list
+ */
+const LTSVersions = ['2.13'];
+
+/**
  * @type {Array<{label: string, href: string}>}
  */
 const archivedVersions = [
@@ -43,4 +48,4 @@ const archivedVersions = [
   },
 ];
 
-module.exports = { versions, archivedVersions };
+module.exports = { versions, LTSVersions, archivedVersions };

@@ -1,0 +1,17 @@
+.badge {
+  padding: 0 8px;
+  margin-left: 9px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+
+  &.LTS {
+    color: hsl(198deg 77% 20%);
+    background-color: hsl(198deg 100% 92%);
+  }
+
+  &.Latest {
+    color: hsl(129deg 81% 14%);
+    background-color: hsl(130deg 71% 93%);
+  }
+}

@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable import/no-extraneous-dependencies, max-len */
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import clsx from 'clsx';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   useThemeConfig,
   useAnnouncementBar,
@@ -23,7 +23,8 @@ import { translate } from '@docusaurus/Translate';
 import { DocSidebarItems } from '@theme/DocSidebarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type { Props } from '@theme/DocSidebar';
-import { archivedVersions } from '../../../../config/apisix-versions';
+// eslint-disable-next-line import/no-unresolved
+import { archivedVersions } from 'apisix-website/config/apisix-versions';
 
 import styles from './styles.module.css';
 
@@ -38,7 +39,7 @@ function useShowAnnouncementBar() {
   return showAnnouncementBar;
 }
 
-const HideableSidebarButton = ({ onClick }: {onClick: React.MouseEventHandler}) => (
+const HideableSidebarButton = ({ onClick }: { onClick: React.MouseEventHandler }) => (
   <button
     type="button"
     title={translate({
@@ -51,17 +52,14 @@ const HideableSidebarButton = ({ onClick }: {onClick: React.MouseEventHandler}) 
       message: 'Collapse sidebar',
       description: 'The title attribute for collapse button of doc sidebar',
     })}
-    className={clsx(
-      'button button--secondary button--outline',
-      styles.collapseSidebarButton,
-    )}
+    className={clsx('button button--secondary button--outline', styles.collapseSidebarButton)}
     onClick={onClick}
   >
     <IconArrow className={styles.collapseSidebarButtonIcon} />
   </button>
 );
 
-const DocsVersionWrapper = (props: {docsPluginId: string}) => {
+const DocsVersionWrapper = (props: { docsPluginId: string }) => {
   const { docsPluginId } = props;
   return (
     <div className={styles.sidebarVersionSwitch}>
@@ -78,10 +76,10 @@ const DocsVersionWrapper = (props: {docsPluginId: string}) => {
 
 const DocsVersionWrapperMemo = React.memo(DocsVersionWrapper);
 
- interface DocSidebarMobileSecondaryMenuProps extends Props {
-   docsPluginId: string,
-   toggleSidebar: () => void
- }
+interface DocSidebarMobileSecondaryMenuProps extends Props {
+  docsPluginId: string;
+  toggleSidebar: () => void;
+}
 
 const DocSidebarMobileSecondaryMenu: FC<DocSidebarMobileSecondaryMenuProps> = ({
   toggleSidebar,
@@ -92,25 +90,22 @@ const DocSidebarMobileSecondaryMenu: FC<DocSidebarMobileSecondaryMenuProps> = ({
   <>
     <DocsVersionWrapperMemo docsPluginId={docsPluginId} />
     <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-      <DocSidebarItems
-        items={sidebar}
-        activePath={path}
-        onItemClick={() => toggleSidebar()}
-      />
+      <DocSidebarItems items={sidebar} activePath={path} onItemClick={() => toggleSidebar()} />
     </ul>
   </>
 );
 
 const DocSidebarMobile = (props: Props) => (
-  <MobileSecondaryMenuFiller
-    component={DocSidebarMobileSecondaryMenu}
-    props={props}
-  />
+  <MobileSecondaryMenuFiller component={DocSidebarMobileSecondaryMenu} props={props} />
 );
 
 const DocSidebarDesktop = ({
-  path, sidebar, onCollapse, isHidden, docsPluginId,
-}: Props & {docsPluginId: string}) => {
+  path,
+  sidebar,
+  onCollapse,
+  isHidden,
+  docsPluginId,
+}: Props & { docsPluginId: string }) => {
   const showAnnouncementBar = useShowAnnouncementBar();
   const {
     navbar: { hideOnScroll },
@@ -129,8 +124,7 @@ const DocSidebarDesktop = ({
       <DocsVersionWrapperMemo docsPluginId={docsPluginId} />
       <nav
         className={clsx('menu thin-scrollbar', styles.menu, {
-          [styles.menuWithAnnouncementBar]:
-             !isAnnouncementBarClosed && showAnnouncementBar,
+          [styles.menuWithAnnouncementBar]: !isAnnouncementBarClosed && showAnnouncementBar,
         })}
       >
         <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
@@ -145,7 +139,7 @@ const DocSidebarDesktop = ({
 const DocSidebarMobileMemo = React.memo(DocSidebarMobile);
 const DocSidebarDesktopMemo = React.memo(DocSidebarDesktop);
 
-const DocSidebar: FC<Props & {docsPluginId: string}> = (props) => {
+const DocSidebar: FC<Props & { docsPluginId: string }> = (props) => {
   const windowSize = useWindowSize();
 
   // Desktop sidebar visible on hydration: need SSR rendering
