@@ -24,7 +24,7 @@ import { DocSidebarItems } from '@theme/DocSidebarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import type { Props } from '@theme/DocSidebar';
 // eslint-disable-next-line import/no-unresolved
-import { archivedVersions } from 'apisix-website/config/apisix-versions';
+import { archivedVersions } from '../../../../config/apisix-versions';
 
 import styles from './styles.module.css';
 

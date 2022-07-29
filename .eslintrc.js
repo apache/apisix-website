@@ -9,11 +9,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: [
-    'airbnb',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['airbnb', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -36,25 +32,13 @@ module.exports = {
     quotes: [ERROR, 'single', { allowTemplateLiterals: true }],
     'no-unused-vars': OFF,
     '@typescript-eslint/no-unused-vars': [ERROR, { ignoreRestSiblings: true }],
-    '@typescript-eslint/ban-ts-comment': [
-      ERROR,
-      { 'ts-expect-error': 'allow-with-description' },
-    ],
-    '@typescript-eslint/consistent-indexed-object-style': [
-      WARNING,
-      'index-signature',
-    ],
-    '@typescript-eslint/consistent-type-imports': [
-      WARNING,
-      { disallowTypeAnnotations: false },
-    ],
+    '@typescript-eslint/ban-ts-comment': [ERROR, { 'ts-expect-error': 'allow-with-description' }],
+    '@typescript-eslint/consistent-indexed-object-style': [WARNING, 'index-signature'],
+    '@typescript-eslint/consistent-type-imports': [WARNING, { disallowTypeAnnotations: false }],
     '@typescript-eslint/explicit-module-boundary-types': WARNING,
     '@typescript-eslint/method-signature-style': ERROR,
     '@typescript-eslint/no-empty-function': OFF,
-    '@typescript-eslint/no-empty-interface': [
-      ERROR,
-      { allowSingleExtends: true },
-    ],
+    '@typescript-eslint/no-empty-interface': [ERROR, { allowSingleExtends: true }],
     '@typescript-eslint/no-inferrable-types': OFF,
     '@typescript-eslint/no-namespace': [WARNING, { allowDeclarations: true }],
     'no-use-before-define': OFF,
@@ -70,22 +54,14 @@ module.exports = {
     'import/no-unresolved': [
       ERROR,
       {
-        ignore: [
-          '^@theme',
-          '^@docusaurus',
-          '^@generated',
-          '^@site',
-          '^@testing-utils',
-        ],
+        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site', '^@testing-utils'],
       },
     ],
     'no-lonely-if': OFF,
     'no-lone-blocks': OFF,
     'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
-    'import/extensions': [
-      ERROR,
-      { tsx: 'never', svg: 'always', json: 'never' },
-    ],
+    'import/extensions': [ERROR, { tsx: 'never', svg: 'always', json: 'never' }],
+    'import/no-relative-packages': OFF,
     'react/jsx-props-no-spreading': OFF,
     'react/function-component-definition': [
       ERROR,

@@ -17,7 +17,7 @@ import { useDocsPreferredVersion } from '@docusaurus/theme-common';
 import { translate } from '@docusaurus/Translate';
 import type { GlobalDataVersion } from '@docusaurus/plugin-content-docs-types';
 import clsx from 'clsx';
-import { LTSVersions } from 'apisix-website/config/apisix-versions';
+import { LTSVersions } from '../../../../config/apisix-versions';
 import style from './style.module.scss';
 
 const getVersionMainDoc = (version: GlobalDataVersion) => version.docs.find((doc) => doc.id === version.mainDocId)!;
