@@ -3972,7 +3972,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.1, classnames@^2.2.5, classnames@^2.2.6:
+classnames@^2.0.0, classnames@^2.2.1, classnames@^2.2.5, classnames@^2.2.6:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
@@ -4333,7 +4333,7 @@ core-js-pure@^3.20.2:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.23.5.tgz#23daaa9af9230e50f10b0fa4b8e6b87402be4c33"
   integrity sha512-8t78LdpKSuCq4pJYCYk8hl7XEkAX+BP16yRIwL3AanTksxuEf7CM83vRyctmiEL8NDZ3jpUcv56fk9/zG3aIuw==
 
-core-js@^3.18.0:
+core-js@^3.18.0, core-js@^3.6.5:
   version "3.24.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.24.0.tgz#4928d4e99c593a234eb1a1f9abd3122b04d3ac57"
   integrity sha512-IeOyT8A6iK37Ep4kZDD423mpi6JfPRoPUdQwEWYiGolvn4o6j2diaRzNfDfpTdu3a5qMbrGUzKUpYpRY8jXCkQ==
@@ -5339,6 +5339,11 @@ eval@^0.1.8:
   dependencies:
     "@types/node" "*"
     require-like ">= 0.1.1"
+
+eventemitter3@^3.0.0:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
+  integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
 
 eventemitter3@^4.0.0:
   version "4.0.7"
@@ -7499,7 +7504,7 @@ lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
 
-lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
+lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8593,6 +8598,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+performance-now@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
+  integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -9069,7 +9079,7 @@ prompts@^2.4.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.0, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -9164,6 +9174,13 @@ quick-lru@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
+
+raf@^3.0.0:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
+  integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
+  dependencies:
+    performance-now "^2.1.0"
 
 randombytes@^2.1.0:
   version "2.1.0"
@@ -9430,6 +9447,17 @@ react-spring@^9.4.5:
     "@react-spring/three" "~9.5.0"
     "@react-spring/web" "~9.5.0"
     "@react-spring/zdog" "~9.5.0"
+
+react-stickynode@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-stickynode/-/react-stickynode-4.1.0.tgz#ecd80987f64b98f999c589cd4b992eee6bed9562"
+  integrity sha512-zylWgfad75jLfh/gYIayDcDWIDwO4weZrsZqDpjZ/axhF06zRjdCWFBgUr33Pvv2+htKWqPSFksWTyB6aMQ1ZQ==
+  dependencies:
+    classnames "^2.0.0"
+    core-js "^3.6.5"
+    prop-types "^15.6.0"
+    shallowequal "^1.0.0"
+    subscribe-ui-event "^2.0.6"
 
 react-textarea-autosize@^8.3.2:
   version "8.3.4"
@@ -10294,7 +10322,7 @@ shallow-clone@^3.0.0:
   dependencies:
     kind-of "^6.0.2"
 
-shallowequal@^1.1.0:
+shallowequal@^1.0.0, shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
   integrity sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==
@@ -11000,6 +11028,15 @@ stylis@^4.0.6:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.1.1.tgz#e46c6a9bbf7c58db1e65bb730be157311ae1fe12"
   integrity sha512-lVrM/bNdhVX2OgBFNa2YJ9Lxj7kPzylieHd3TNjuGE0Re9JB7joL5VUKOVH1kdNNJTgGPpT8hmwIAPLaSyEVFQ==
+
+subscribe-ui-event@^2.0.6:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/subscribe-ui-event/-/subscribe-ui-event-2.0.7.tgz#8d18b6339c35b25246a5335775573f0e5dc461f8"
+  integrity sha512-Acrtf9XXl6lpyHAWYeRD1xTPUQHDERfL4GHeNuYAtZMc4Z8Us2iDBP0Fn3xiRvkQ1FO+hx+qRLmPEwiZxp7FDQ==
+  dependencies:
+    eventemitter3 "^3.0.0"
+    lodash "^4.17.15"
+    raf "^3.0.0"
 
 supports-color@^2.0.0:
   version "2.0.0"
