@@ -60,13 +60,13 @@ APISIX 不仅支持众多协议与操作系统，而且也支持多语言编程�
 
 ![programming language](https://static.apiseven.com/2022/blog/0729/3.png)
 
-活跃的社区
+### 活跃的社区
 
 下图是贡献者增长曲线，其中横坐标代表时间线，纵坐标代表贡献者总数。我们可以看到 APISIX 和 Kong 这两个项目相对更活跃，APISIX 的增长速度从开源第一天就保持着非常不错的增长率，在以接近 Kong 两倍的速度快速成长，并且贡献者数量已经超过了 Kong，由此可见 APISIX 受欢迎程度。当然评价一个项目活跃度还有很多其他方法，比如查看每月活跃 Issue、PR 总数等方式，值得高兴的是 APISIX 在这些方面也是一骑绝尘。
 
 ![Contributor graph](https://static.apiseven.com/2022/blog/0729/4.png)
 
-## APISIX 应用场景
+## APISIX 的应用场景
 
 从下图中，相信你已经看出 APISIX 的目标：**统一代理基础设施**。
 
