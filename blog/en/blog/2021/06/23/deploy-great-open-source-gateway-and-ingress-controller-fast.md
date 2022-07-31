@@ -9,7 +9,7 @@ keywords:
 - Helm Chart
 - API Gateway
 description: Through the cloud-native API gateway Apache APISIX Helm repository, you can directly deploy Apache APISIX and APISIX Ingress controller in Rancher.
-tags: [Tutorials,Ecosystem,Plugins ]
+tags: [Tutorials,Ecosystem ]
 ---
 > This article shows the procedure of installing and deploying Apache APISIX and Apache APISIX Ingress Controller in the Rancher App Store (Catalog), and how to proxy Kubernetes services through them.
 

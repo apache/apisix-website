@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Ingress Controller
 description: Apache APISIX Ingress Controller 正式发布，支持 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 K8s 原生 Ingress 资源等控制外部流量访问部署在 K8s 中的服务。
-tags: [Release]
+tags: [Community]
 ---
 
 > Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 `ApisixRoute`、`ApisixUpstream` 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。
