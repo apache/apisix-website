@@ -10,7 +10,7 @@ keywords:
 - Apache APISIX Dashboard
 - API Gateway
 description: Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.
-tags: [Practical Case]
+tags: [Ecosystem]
 ---
 
 > Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.

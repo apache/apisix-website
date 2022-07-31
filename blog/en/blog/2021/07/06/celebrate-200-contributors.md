@@ -6,9 +6,9 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - APISIX
 - Apache APISIX
-- News
-Description: Apache APISIX has over 200 contributors in GitHub main repo!
-tags: [Events]
+- API Gateway
+Description: The cloud-native API gateway Apache APISIX already has 200 contributors in the main GitHub repository! Looking forward to your joining.
+tags: [Community]
 ---
 
 > Apache APISIX has over 200 contributors in GitHub main repo!

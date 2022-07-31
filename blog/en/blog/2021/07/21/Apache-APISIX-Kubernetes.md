@@ -1,13 +1,14 @@
 ---
 title: "Live | Apache APISIX x Kubernetes"
 slug: 2021/07/21/apache-apisix-kubernetes
-author: Apache APISIX
+author: APISIX
 keywords:
 - API Gateway
 - APISIX
+- Apache APISIX
 - Kubernetes
-description: 'Live Preview: On Friday, July 23rd, 2021 at 00:00 GMT, Apache APISIX committer Jintao Zhang will present "Run Apache APISIX in Kubernetes" at the Data on Kubernetes Community Meetup for global developers. The topic will be "Run Apache APISIX in Kubernetes".'
-tags: [Events]
+description: On Friday, July 23rd, 2021 at 00:00 GMT, Apache APISIX committer Jintao Zhang will present "Run Apache APISIX in Kubernetes" at the Data on Kubernetes Community Meetup for global developers. 
+tags: [Community]
 ---
 
 > On Friday, July 23rd, 2021 at 00:00 GMT, Apache APISIX committer Jintao Zhang will share the topic "Run Apache APISIX in Kubernetes" at the Data on Kubernetes Community Meetup for developers around the world.
