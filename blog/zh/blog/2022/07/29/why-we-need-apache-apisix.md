@@ -5,10 +5,10 @@ authorURL: "https://github.com/hf400159"
 authorImageURL: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
-- Kong
-- NGINX
 - API 网关
-- 开源
+- NGINX
+- Kong
+- 开源网关
 description: 本文介绍了云原生 API 网关 Apache APISIX 的特点，以及 Kong 和 NGINX 的存在的痛点，并介绍了 Apache APISIX 如何解决 NGINX 和 Kong 所带来的业务痛点。
 tags: [Case Studies]
 ---
@@ -28,10 +28,10 @@ tags: [Case Studies]
 
 而 Kong 的出现则解决了 NGINX 的痛点，但是又带来了新的问题：
 
-- Kong 需要依赖于 PostgreSQL 或 Cassandra 数据库，这使 Kong 的整个架构非常臃肿，并且会给企业带来一个高可用的问题。如果数据库故障了，那么整个 API 网关都会出现故障。
+- Kong 需要依赖于 PostgreSQL 或 Cassandra 数据库，这使 Kong 的整个架构非常臃肿，并且会给企业带来高可用的问题。如果数据库故障了，那么整个 API 网关都会出现故障。
 - Kong 的路由使用的是遍历查找，当网关内有超过上千个路由时，它的性能就会出现比较急剧的下降。
 
-而 APISIX 的出现则解决了上述所有问题，成为了云原生时代最完美的 API 网关。那么 Apache APISIX 的优势到底什么呢？为什么可以在短短三年的时间里成为全世界最活跃的网关？
+而 APISIX 的出现则解决了上述所有问题，成为了云原生时代最完美的 API 网关。那么 Apache APISIX 的优势到底是什么？为什么可以在短短三年的时间里成为全世界最活跃的网关？
 
 ## APISIX 的优势
 
@@ -62,7 +62,7 @@ APISIX 不仅支持众多协议与操作系统，而且也支持多语言编程�
 
 ### 活跃的社区
 
-下图是贡献者增长曲线，其中横坐标代表时间线，纵坐标代表贡献者总数。我们可以看到 APISIX 和 Kong 这两个项目相对更活跃，APISIX 的增长速度从开源第一天就保持着非常不错的增长率，在以接近 Kong 两倍的速度快速成长，并且贡献者数量已经超过了 Kong，由此可见 APISIX 受欢迎程度。当然评价一个项目活跃度还有很多其他方法，比如查看每月活跃 Issue、PR 总数等方式，值得高兴的是 APISIX 在这些方面也是一骑绝尘。
+下图是贡献者增长曲线，其中横坐标代表时间线，纵坐标代表贡献者总数。我们可以看到 APISIX 和 Kong 这两个项目相对更活跃，APISIX 的增长速度从开源第一天就保持着非常不错的增长率，在以接近 Kong 两倍的速度快速成长，并且贡献者数量已经远远超过了 Kong，由此可见 APISIX 受欢迎程度。当然评价一个项目活跃度还有很多其他方法，比如查看每月活跃 Issue、PR 总数等方式，值得高兴的是 APISIX 在这些方面也是一骑绝尘。
 
 ![Contributor graph](https://static.apiseven.com/2022/blog/0729/4.png)
 
@@ -74,7 +74,7 @@ APISIX 不仅支持众多协议与操作系统，而且也支持多语言编程�
 
 也许你会有疑问：APISIX 要支持这么多场景，是否会让 APISIX 变得四不像？
 
-因为 APISIX 的核心是高性能代理服务，自身不绑定任何环境属性。当它演变为 Ingress、服务网格等产品时，都是外部服务与 APISIX 配合，变化的是外部程序而不是 APISIX 自身。下面将逐步为大家介绍 APISIX 是如何支持这些场景的。
+因为 APISIX 的核心是高性能代理服务，自身不绑定任何环境属性。当它演变为 Ingress、服务网格等产品时，都是外部服务与 APISIX 配合，变化的是外部程序而不是 APISIX 自身，下面将逐步为大家介绍 APISIX 是如何支持这些场景的。
 
 ### Load Balancer 和 API 网关
 
@@ -86,20 +86,21 @@ APISIX 目前支持多种语言编写扩展插件，可以解决东西向微服�
 
 ### Kubernetes Ingress
 
-目前 K8s 官方 Kubernetes Ingress Controller 项目主要基于 NGINX 配置文件方式，所以在路由能力和加载模式上稍显不足，并存在一些明显劣势。比如添加、修改任何 API 时，需要重启服务才能完成新 NGINX 配置的更新，但服务的重启，对线上流量的影响是非常大的。
-而 APISIX Ingress Controller 则完美解决了上面提到的所有问题：支持全动态，无需重启加载。同时继承了 APISIX 的所有优势，还支持原生 Kubernetes CRD，方便用户迁移。
+目前 K8s 官方 Kubernetes Ingress Controller 项目主要基于 NGINX 配置文件的方式，所以在路由能力和加载模式上稍显不足，并且存在一些明显劣势。比如添加、修改任何 API 时，需要重启服务才能完成新 NGINX 配置的更新，但重启服务，对线上流量的影响是非常大的。
+
+而 [APISIX Ingress Controller](https://apisix.apache.org/zh/docs/ingress-controller/getting-started/) 则完美解决了上面提到的所有问题：支持全动态，无需重启加载。同时继承了 APISIX 的所有优势，还支持原生 Kubernetes CRD，方便用户迁移。
 
 ![Apisix Kubernetes Ingress](https://static.apiseven.com/2022/blog/0729/6.png)
 
 ### 服务网格
 
-未来五到十年，基于云原生模式架构下的服务网格架构开始崭露头角。APISIX 也提前开始锁定赛道，通过调研和技术分析后，APISIX 已支持 xDS 协议，APISIX Mesh 就此诞生，在服务网格领域  APISIX 也拥有了一席之地。
+未来五到十年，基于云原生模式架构下的服务网格架构开始崭露头角。APISIX 也提前开始锁定赛道，通过调研和技术分析后，APISIX 已经支持了 xDS 协议，APISIX Mesh 就此诞生，在服务网格领域  APISIX 也拥有了一席之地。
 
 ![apisix mesh](https://static.apiseven.com/2022/blog/0729/7.png)
 
 ## 总结
 
-Apache APISIX 自开源第一天，迄今为止已经有三年的时间了，高活跃度的社区以及实际的用户案例证明了 APISIX 是云原生时代最完美的 API 网关。通过阅读本文，相信你已经对 APISIX 有了更全面的认识，期待你在生产环境中使用 APISIX 作为你的 API 网关。
+Apache APISIX 自开源第一天，迄今为止已经有三年的时间了，高活跃度的社区以及实际的[用户案例](https://apisix.apache.org/zh/blog/tags/user-case/)证明了 APISIX 是云原生时代最完美的 API 网关。通过阅读本文，相信你已经对 APISIX 有了更全面的认识，期待你在生产环境中使用 APISIX 作为你的 API 网关。
 
 下图为 Apache APISIX 社区的 QQ 群，有任何问题都可以在该群或者 [Github issue](https://github.com/apache/apisix/issues) 留言，社区贡献者将会快速响应，当然你也可以加入 APISIX Slack 频道和邮件列表，请参考[加入我们](https://apisix.apache.org/zh/docs/general/join/)。
 
