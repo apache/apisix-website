@@ -15,7 +15,7 @@ keywords:
 - Proxy
 - API Gateway
 description: This article describes how to use APISIX to implement a proxy for Dubbo. You can use dubbo-proxy plugin to build backend system of Dubbo framework.
-tags: [Ecosystem]
+tags: [Ecosystem,Plugin]
 ---
 
 > This article describes how to use APISIX to implement a proxy for Dubbo. You can use dubbo-proxy plugin to build backend system of Dubbo framework.

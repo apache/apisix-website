@@ -15,7 +15,7 @@ keywords:
 - Authentication
 - Ecosystem
 description: This article describes `forward-auth`, a new plugin in APISIX, and show the details on how to use this cleanly designed authentication model.
-tags: [Authentication]
+tags: [Authentication,Plugin]
 ---
 
 > This article describes the use of `forward-auth`, a new plugin in Apache APISIX, and provides detailed instructions on how to use this cleanly designed authentication model.

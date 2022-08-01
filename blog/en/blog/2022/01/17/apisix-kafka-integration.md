@@ -16,7 +16,7 @@ keywords:
 - logging
 - monitoring
 description: This article describes how to use the kafka-logger plugin with APISIX. Wiht enhancements, the plugin now has mature and complete functions.
-tags: [Ecosystem]
+tags: [Ecosystem,Plugin]
 ---
 
 > This article describes how to use the kafka-logger plugin with APISIX. Wiht enhancements, the plugin now has mature and complete functions.

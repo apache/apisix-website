@@ -16,7 +16,7 @@ keywords:
 - Authentication
 - API Gateway
 description: 通过阅读本文，你可以了解集中式身份认证的相关细节，以及如何在 Apache APISIX 中使用 Authing 的具体操作步骤。
-tags: [Authentication]
+tags: [Authentication,Ecosystem]
 ---
 
 > 通过阅读本文，你可以了解集中式身份认证的相关细节，以及如何在 Apache APISIX 中使用 Authing 的具体操作步骤。

@@ -16,7 +16,7 @@ keywords:
 - jwt auth
 - 认证
 description: 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关使用细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。
-tags: [Authentication]
+tags: [Authentication,Ecosystem]
 ---
 
 > 本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。

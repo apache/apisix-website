@@ -15,7 +15,7 @@ keywords:
 - 认证
 - 生态
 description: 本文将介绍 Apache APISIX 中新增插件 `forward-auth` 的使用方法，为大家详细说明如何使用这款设计简洁的认证模型。
-tags: [Authentication]
+tags: [Authentication,Plugin]
 ---
 
 > 本文将介绍 Apache APISIX 中新增插件 `forward-auth` 的使用方法，为大家详细说明如何使用这款设计简洁的认证模型。
