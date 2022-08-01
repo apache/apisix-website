@@ -8,8 +8,8 @@ keywords:
 - Lua
 - Dynamic Management
 date: "2021-08-10"
-description: This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3 to implement a REST API for remote control of Nginx clusters.
-tags: [Technology]
+description: This article mainly introduces the principle of APISIX to implement REST API remote control of Nginx cluster based on APISIX 2.8, OpenResty 1.19.3.2 and Nginx 1.19.3.
+tags: [Ecosystem]
 ---
 
 > This article is re-posted from Tao Hui's personal blog, and introduces the principles of Apache APISIX for REST API remote control of Nginx clusters based on APISIX version 2.8, OpenResty version 1.19.3.2, and Nginx version 1.19.3.

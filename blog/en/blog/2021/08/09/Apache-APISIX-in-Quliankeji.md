@@ -8,8 +8,8 @@ keywords:
 - Nginx
 - Hyperchain
 - BaaS
-description: This article introduces the landing practice of Apache APISIX in Hyperchain Blockchain BaaS platform, and explains why Hyperchain Technology has chosen Apache APISIX among many gateway applications.
-tags: [User Case]
+description: This article introduces the implementation of cloud-native API gateway Apache APISIX in the Hyperchain Blockchain BaaS platform, and the reasons for choosing Apache APISIX.
+tags: [Case Studies]
 ---
 
 > This article introduces the landing practice of Apache APISIX in Hyperchain Blockchain BaaS platform, and explains why Hyperchain Technology has chosen Apache APISIX among many gateway applications.

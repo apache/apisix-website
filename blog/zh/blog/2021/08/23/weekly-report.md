@@ -8,8 +8,8 @@ keywords:
 - Good first issue
 - contributor
 - API Gateway
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: 本周 Apache APISIX 新增了 gzip 插件支持特殊的 * 来匹配任何类型，ext-plugin 插件支持 ExtraInfo，uri-blocker 插件支持自定义失败响应等功能。
+tags: [Community]
 ---
 
 > “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。我们还整理了一些适合新来社区的小伙伴们参加的 issue ！感兴趣的同学们，走过路过不要错过！

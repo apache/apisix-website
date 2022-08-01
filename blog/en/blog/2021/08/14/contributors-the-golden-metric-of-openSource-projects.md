@@ -10,7 +10,7 @@ keywords:
 - Apache APISIX
 - contributor graph
 - open-source project
-description: This article explains why changes in the number of contributors is the golden metric for measuring open source projects. While GitHub already has a number of metrics, such as Star count, Issue count, and PR count, none of these metrics can visually reflect the trends and activity of an open source project over time. So Yiyiyimu proposed new metrics, such as contributor growth and monthly active contributors, and created an open-source tool called the Contributor Graph that allows GitHub users to use these metrics to identify how active a project is. Currently, the Contributor Graph is used in many other used in open source projects.
+description: This article explains why change in the number of contributors is a golden measure of open source projects, and analyzes trends in contributors to Apache APISIX.
 tags: [Community]
 ---
 

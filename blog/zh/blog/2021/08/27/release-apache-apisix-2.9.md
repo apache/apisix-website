@@ -10,8 +10,8 @@ keywords:
 - Lua
 - Nginx
 - APISIX 2.9
-description: Apache APISIX 2.9 版本正式发布！该版本新增了 2 个新功能，进一步完善了对插件的支持。
-tags: [Events]
+description: 云原生 API 网关 Apache APISIX 2.9 版本正式发布！该版本新增了 authz-casbin 插件、路由级别上 real-ip 的动态配置以及完善外部插件机制。
+tags: [Community]
 ---
 
 > Apache APISIX 2.9 版本正式发布！

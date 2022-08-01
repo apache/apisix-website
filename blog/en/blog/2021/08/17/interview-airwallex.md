@@ -6,8 +6,8 @@ keywords:
 - Airwallex
 - Financial
 - Data Sovereignty
-description: In this article, we interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. In the interview, he introduced in detail why Airwallex chose Apache APISIX when making technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in production environment. 
-tags: [Interview]
+description: This article introduces why SkyCloud chooses API gateway Apache APISIX and the usage scenarios and production environment performance of APISIX.
+tags: [Case Studies]
 ---
 
 > This article interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. The interview details why Airwallex chose Apache APISIX when making the technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in the production environment.

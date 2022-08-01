@@ -7,8 +7,8 @@ keywords:
 - Meetup
 - 上海站
 - 回顾
-description: 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。
-tags: [Events]
+description: 本次 Apache APISIX meetup 上海分享了关于爱奇艺 API 网关的落地实践，使用 Apache APISIX 进行集中式身份认证以及数据主权与 APISIX 网关落地实践等相关话题。
+tags: [Community]
 ---
 
 > 活动回顾：Apache APISIX Meetup 上海站议题分享及视频回顾。

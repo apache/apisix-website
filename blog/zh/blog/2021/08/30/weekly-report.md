@@ -1,12 +1,13 @@
 ---
 title: "社区周报（8.23-8.29）"
 keywords:
-- APISIX
+- Apache APISIX
+- API 网关
 - 社区周报
 - 贡献者
 - Good first issue
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: 本周 Apache APISIX 新增了 uri-blocker 支持匹配请求 URI 时忽略大小写，kafka-logger 支持配置 kafka 生产者的 acks 和 cluster name 参数等功能。
+tags: [Community]
 ---
 
 <!--truncate-->

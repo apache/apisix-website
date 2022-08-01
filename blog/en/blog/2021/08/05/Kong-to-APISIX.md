@@ -9,8 +9,8 @@ keywords:
 - Kong
 - Migration Tool
 - API Gateway
-description: Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.
-tags: [Technology]
+description: You can use the Kong-To-APISIX migration tool to migrate Kong's configuration to the cloud-native API gateway Apache APISIX with one click.
+tags: [Ecosystem]
 ---
 
 > Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.

@@ -11,7 +11,8 @@ keywords:
 - APISIX Go plugin
 - apisix-go-plugin-runner
 - Golang
-tags: [Practical Case]
+description: This article explains in detail how to use Go to develop the plug-in and specific operation steps of the cloud native API gateway Apache APISIX.
+tags: [Ecosystem, Plugins]
 ---
 
 > This article will explain in detail how to use Go to develop Apache APISIX plugins. By embracing the Go ecosystem and breaking new ground for Apache APISIX, we hope that Go will make Apache APISIX even better!

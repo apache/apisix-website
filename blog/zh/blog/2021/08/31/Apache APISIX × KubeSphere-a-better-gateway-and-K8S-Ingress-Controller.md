@@ -6,11 +6,11 @@ authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
 keywords:
 - API 网关
-- APISIX
+- Apache APISIX
 - KubeSphere
 - Ingress
-description: 本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller 。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress Controller 的数据面来承载业务流量。
-tags: [Practical Case]
+description: 本文介绍了在 KubeSphere 中使用云原生 API 网关 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller。
+tags: [Ecosystem]
 ---
 
 > 本文介绍了在 KubeSphere 中使用 Apache APISIX 的官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller 。并且 Apache APISIX 可通过作为网关，或者 APISIX Ingress Controller 的数据面来承载业务流量。

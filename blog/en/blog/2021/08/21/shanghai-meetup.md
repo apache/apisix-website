@@ -5,8 +5,8 @@ keywords:
 - APISIX
 - Apache APISIX
 - Meetup
-description: This Meetup was initiated by api7.ai https://www.apiseven.com/, and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics. 
-tags: [Events]
+description: This meetup will share with you the origin of the API gateway Apache APISIX community, iQIYI's user cases and how to implement centralized authentication on APISIX.
+tags: [Community]
 ---
 
 > This Meetup is initiated by [api7.ai](https://www.apiseven.com/), and invited partners such as iQiYi and Airwallex to present it. Apache APISIX PMC members, contributors, and community technical experts gathered to discuss Apache APISIX community development, industry practices, and other topics.

@@ -16,8 +16,9 @@ keywords:
   - Apache APISIX
   - Okta
   - Authorization
-description: This article demonstrates the process of centralized Okta authentication using the Apache APISIX OpenID Connect Plugin. This article contains a conceptual introduction to Apache APISIX and Okta centralized authentication, showing the process of establishing centralized authentication from Okta directly in Apache APISIX. This centralized authentication approach reduces learning and maintenance costs for developers and provides a secure and streamlined user experience.
-tags: [Practical Case]
+description: Using the openid-connect plugin of the cloud-native API gateway Apache APISIX can quickly interface with the centralized authentication solution OKat.
+tags: [Authentication, Plugins, Ecosystem]
+
 ---
 
 > Compared with the traditional authentication mode, the centralized authentication mode has the following advantages: first, it simplifies the application development process, reduces the development application workload and maintenance costs, and avoids repeated development of authentication code for each application; second, it improves business security, and the centralized authentication mode can intercept unauthenticated requests at the gateway level in time to protect back-end applications.

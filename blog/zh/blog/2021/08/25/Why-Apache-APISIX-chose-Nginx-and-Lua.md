@@ -10,8 +10,8 @@ keywords:
 - Apache APISIX
 - Lua
 - Nginx
-description: 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
-tags: [Technology]
+description: 本文介绍了云原生 API 网关 Apache APISIX 选用 Nginx + Lua 技术栈的历史背景和该技术栈为 APISIX 带来的优势，以及 LuaJIT 和 Go 的对比。
+tags: [Ecosystem]
 ---
 
 > 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 Apache APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。

@@ -10,8 +10,8 @@ keywords:
 - Apache APISIX
 - Community
 - Open Source
-description: "This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community."
-tags: [Interview]
+description: This article introduces Apache APISIX Zhengsong Tu's growth experience as a committer, and why he should participate in the Apache APISIX community and his contributions to the community.
+tags: [Community]
 ---
 
 > This interview is about Zhengsong Tu's journey from an open source community nerd to an APISIX committer for Apache's top open source project. Zhengsong Tu (GitHub ID: tzssangglass) was elected as an Apache APISIX committer on July 22, 2021 for his deep involvement in Apache APISIX development and his many contributions to the community.
