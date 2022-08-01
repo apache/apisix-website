@@ -7,8 +7,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type { FC } from 'react';
 import React from 'react';
-import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
 import TOC from '@theme/TOC';
@@ -22,6 +22,9 @@ import {
 } from 'react-share';
 import useWindowType from '@theme/hooks/useWindowSize';
 import type { Props } from '@theme/BlogLayout';
+import Link from '@docusaurus/Link';
+import Sticky from 'react-stickynode';
+import clsx from 'clsx';
 import style from './style.module.scss';
 
 const Share = ({ metadata }) => {
@@ -45,7 +48,44 @@ const Share = ({ metadata }) => {
   );
 };
 
-const BlogLayout = (props: Props): JSX.Element => {
+const tags = [
+  {
+    label: 'Community',
+    url: '/blog/tags/community/',
+  },
+  {
+    label: 'Case Studies',
+    url: '/blog/tags/user-case/',
+  },
+  {
+    label: 'Ecosystem',
+    url: '/blog/tags/ecosystem/',
+  },
+  {
+    label: 'Authentication',
+    url: '/blog/tags/authentication/',
+  },
+  {
+    label: 'Security',
+    url: '/blog/tags/security/',
+  },
+];
+
+const TagsHeader: FC = () => (
+  <Sticky innerZ={199}>
+    {(s) => (
+      <div className={clsx(style.tagsHeader, s.status === Sticky.STATUS_FIXED && style.expand)}>
+        {tags.map((tag) => (
+          <Link key={tag.url} to={tag.url} target="_parent">
+            {tag.label}
+          </Link>
+        ))}
+      </div>
+    )}
+  </Sticky>
+);
+
+const BlogLayout: FC<Props> = (props) => {
   const {
     sidebar, toc, children, metadata, ...layoutProps
   } = props;
@@ -54,6 +94,8 @@ const BlogLayout = (props: Props): JSX.Element => {
 
   return (
     <Layout {...layoutProps}>
+      <TagsHeader />
+
       <div className="container margin-vert--lg">
         <div className="row">
           {hasSidebar && (

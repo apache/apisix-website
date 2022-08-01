@@ -165,6 +165,11 @@ header h2 {
   color: var(--color-primary);
 }
 
+.navbar {
+  box-shadow: none;
+  border-bottom: 1px solid #e8e8ed;
+}
+
 .navbar__title {
   font-size: 18px;
   height: 30px;

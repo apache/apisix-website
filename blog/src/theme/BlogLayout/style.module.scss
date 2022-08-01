@@ -14,3 +14,47 @@
   height: fit-content;
   margin-left: 1rem;
 }
+
+.tagsHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.25rem 1rem;
+  transition: all 0.5s ease-in-out;
+  border-bottom: 1px solid #e8e8ed;
+  font-family: apple-system, system-ui, sans-serif;
+
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    backdrop-filter: blur(12px);
+  }
+
+  > a {
+    display: inline-block;
+    padding: 0 0.5rem;
+    font-weight: 400;
+    font-size: 14px;
+    transition: inherit;
+
+    &:default {
+      color: #1d1d1f;
+    }
+  }
+
+  &.expand {
+    padding: 1rem;
+    box-shadow: none;
+
+    &::before {
+      background-color: hsl(100deg 100% 100% / 85%);
+    }
+
+    > a {
+      padding: 0 1rem;
+    }
+  }
+}
