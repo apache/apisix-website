@@ -279,10 +279,18 @@
 }
 
 @include respond-below(sm) {
-  main.normalPage {
+  %mobile-posts {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin: 0;
+  }
+
+  main.normalPage {
+    @extend %mobile-posts;
+
+    & .pickedPosts {
+      @extend %mobile-posts;
+    }
   }
 }
