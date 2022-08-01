@@ -223,8 +223,7 @@ article.pickedPosts {
   grid-column: initial;
   position: relative;
 
-  &::before {
-    content: "Featured";
+  & .featuredPost {
     background-color: $bg-color;
     display: block;
     width: fit-content;
@@ -253,10 +252,6 @@ article.pickedPosts {
 
     border-color: transparent;
     margin: 2rem 0 5rem;
-
-    &::before {
-      content: none;
-    }
 
     .content {
       header {

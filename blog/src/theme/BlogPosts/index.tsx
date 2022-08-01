@@ -12,6 +12,7 @@ import React from 'react';
 import useWindowType from '@theme/hooks/useWindowSize';
 import shuffle from 'lodash.shuffle';
 import { useLocation } from '@docusaurus/router';
+import { translate } from '@docusaurus/Translate';
 
 // pickedPosts will be auto generated
 // eslint-disable-next-line import/no-unresolved
@@ -201,6 +202,12 @@ const BlogPosts: FC<BlogPostsProps> = ({
           truncated={info.summary}
           {...{ delayMethod, delayTime, useIntersectionObserver }}
         >
+          <div className={style.featuredPost}>
+            {translate({
+              id: 'blog.picked.posts.component.title',
+              message: 'Featured',
+            })}
+          </div>
           <p>{info.summary}</p>
         </BlogPostItem>
       )),
