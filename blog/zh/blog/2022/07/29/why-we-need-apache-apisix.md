@@ -39,7 +39,7 @@ tags: [Case Studies]
 
 首先 Apache APISIX 拥有优异的架构，现在很多应用都在向微服务、容器化迁移，形成新的云原生时代。云原生作为当下的技术潮流，将重写传统企业的技术架构。而 APISIX 自诞生之初就跟随技术潮流，并将其设计为云原生架构：
 
-![apisix](https://static.apiseven.com/2022/blog/0729/1.png)
+![APISIX](https://static.apiseven.com/2022/blog/0729/1.png)
 
 如上图所示，左右分别是 APISIX 的数据面（Data Plane）和控制面（Control Plane）：
 
@@ -70,7 +70,7 @@ APISIX 不仅支持众多协议与操作系统，而且也支持多语言编程�
 
 从下图中，相信你已经看出 APISIX 的目标：**统一代理基础设施**。
 
-![apisix Application scenarios](https://static.apiseven.com/2022/blog/0729/5.png)
+![APISIX Application scenarios](https://static.apiseven.com/2022/blog/0729/5.png)
 
 也许你会有疑问：APISIX 要支持这么多场景，是否会让 APISIX 变得四不像？
 
@@ -90,13 +90,13 @@ APISIX 目前支持多种语言编写扩展插件，可以解决东西向微服�
 
 而 [APISIX Ingress Controller](https://apisix.apache.org/zh/docs/ingress-controller/getting-started/) 则完美解决了上面提到的所有问题：支持全动态，无需重启加载。同时继承了 APISIX 的所有优势，还支持原生 Kubernetes CRD，方便用户迁移。
 
-![Apisix Kubernetes Ingress](https://static.apiseven.com/2022/blog/0729/6.png)
+![APISIX Kubernetes Ingress](https://static.apiseven.com/2022/blog/0729/6.png)
 
 ### 服务网格
 
 未来五到十年，基于云原生模式架构下的服务网格架构开始崭露头角。APISIX 也提前开始锁定赛道，通过调研和技术分析后，APISIX 已经支持了 xDS 协议，APISIX Mesh 就此诞生，在服务网格领域  APISIX 也拥有了一席之地。
 
-![apisix mesh](https://static.apiseven.com/2022/blog/0729/7.png)
+![APISXI Mesh](https://static.apiseven.com/2022/blog/0729/7.png)
 
 ## 总结
 
