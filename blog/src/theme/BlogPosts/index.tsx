@@ -179,11 +179,13 @@ const BlogPosts: FC<BlogPostsProps> = ({
   ));
 
   if (isFirstPage) {
+    // eslint-disable-next-line max-len
+    const endIdx = 2 * Math.floor((pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length) / 2);
     posts.splice(
       1,
       0,
       <section key="picked-posts" className={style.pickedPosts}>
-        {pickedPosts.slice(0, 5).map((info) => (
+        {pickedPosts.slice(0, endIdx).map((info) => (
           <BlogPostItem
             key={info.title}
             frontMatter={info}
