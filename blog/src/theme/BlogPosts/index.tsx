@@ -10,6 +10,8 @@ import clsx from 'clsx';
 import type { FC, HTMLAttributes, DetailedHTMLProps } from 'react';
 import React from 'react';
 import useWindowType from '@theme/hooks/useWindowSize';
+import shuffle from 'lodash.shuffle';
+import { useLocation } from '@docusaurus/router';
 
 // pickedPosts will be auto generated
 // eslint-disable-next-line import/no-unresolved
@@ -50,6 +52,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
     delayMethod,
     delayTime,
     useIntersectionObserver,
+    className,
   } = props;
   const delayProps = {
     scrollPosition,
@@ -66,7 +69,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const image = assets?.image ?? frontMatter.image ?? defaultImg;
 
   return (
-    <article itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
+    <article className={className} itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
           height={232}
@@ -165,7 +168,7 @@ const BlogPosts: FC<BlogPostsProps> = ({
   useIntersectionObserver,
   ...props
 }) => {
-  const posts = items.map(({ content: BlogPostContent }) => (
+  let posts = items.map(({ content: BlogPostContent }) => (
     <BlogPostItem
       key={BlogPostContent.metadata.permalink}
       frontMatter={BlogPostContent.frontMatter}
@@ -178,27 +181,34 @@ const BlogPosts: FC<BlogPostsProps> = ({
     </BlogPostItem>
   ));
 
-  if (isFirstPage) {
-    // eslint-disable-next-line max-len
-    const endIdx = 2 * Math.floor((pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length) / 2);
+  const max = (pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length);
+  const endIdx = isFirstPage
+    ? 2 * Math.floor(max / 2)
+    : 3 * Math.floor(max / 3);
+  const { pathname } = useLocation();
+
+  if (!pathname.includes('/tags/')) {
     posts.splice(
       1,
       0,
-      <section key="picked-posts" className={style.pickedPosts}>
-        {pickedPosts.slice(0, endIdx).map((info) => (
-          <BlogPostItem
-            key={info.title}
-            frontMatter={info}
-            assets={undefined}
-            metadata={info}
-            truncated={info.summary}
-            {...{ delayMethod, delayTime, useIntersectionObserver }}
-          >
-            <p>{info.summary}</p>
-          </BlogPostItem>
-        ))}
-      </section>,
+      (isFirstPage ? pickedPosts : shuffle(pickedPosts)).slice(0, endIdx).map((info) => (
+        <BlogPostItem
+          className={style.pickedPosts}
+          key={info.title}
+          frontMatter={info}
+          assets={undefined}
+          metadata={info}
+          truncated={info.summary}
+          {...{ delayMethod, delayTime, useIntersectionObserver }}
+        >
+          <p>{info.summary}</p>
+        </BlogPostItem>
+      )),
     );
+
+    if (!isFirstPage) {
+      posts = shuffle(posts);
+    }
   }
 
   return (
