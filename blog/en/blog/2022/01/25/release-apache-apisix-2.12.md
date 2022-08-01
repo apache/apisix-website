@@ -14,9 +14,9 @@ keywords:
 - 2.12.0
 - Release
 - Serverless
-- Plugin
-description: Following the release of version 2.11.0, Apache APISIX will also bring you the first version with new features in 2022 during the upcoming Spring Festival.
-tags: [Release,Technology,Ecosystem]
+- API Gateway
+description: The first version with new features in 2022. Support more authentication plugins and Serverless integration, rich log functions and more details.
+tags: [Community]
 ---
 
 > Following the release of version 2.11.0, Apache APISIX will also bring you the first version with new features in 2022 during the upcoming Spring Festival.

@@ -15,8 +15,8 @@ keywords:
 - Kafka
 - 日志
 - 监控
-description: Apache APISIX 早在 1.2 版本开始就已经提供了 kafka-logger 插件的支持，其后又经过多次功能强化，目前已具备非常成熟且完善的功能。支持将 API 请求日志，甚至请求体和响应体以 JSON 格式推送至 Kafka 集群中。
-tags: [Technology]
+description: 本文介绍了如何在 Apache APISIX 中使用 kafka-logger 插件。经过多次功能强化后，目前该插件已具备非常成熟且完善的功能。
+tags: [Ecosystem]
 ---
 
 > Apache APISIX 早在 1.2 版本开始就已经提供了 `kafka-logger` 插件的支持，其后又经过多次功能强化，目前已具备非常成熟且完善的功能。支持将 API 请求日志，甚至请求体和响应体以 JSON 格式推送至 Kafka 集群中。

@@ -12,14 +12,14 @@ authors:
 keywords: 
 - Apache APISIX
 - Authing
-- OpenID
+- OpenID Connect
 - Authentication
-- Ecosystem
-description: This article describes the detailed steps for interfacing Apache APISIX and Authing.
-tags: [Technology,Authentication]
+- API Gateway
+description: This article shows the details of centralized authentication and how to use Authing in Apache APISIX.
+tags: [Authentication]
 ---
 
-> This article describes the detailed steps for interfacing Apache APISIX and Authing.
+> This article shows the details of centralized authentication and how to use Authing in Apache APISIX.
 
 <!--truncate-->
 

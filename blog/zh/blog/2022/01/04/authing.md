@@ -12,14 +12,14 @@ authors:
 keywords: 
 - Apache APISIX
 - Authing
-- OpenID
+- OpenID Connect
 - Authentication
-- 插件
-description: 本文为大家描述了 Apache APISIX 和 Authing 对接的详细操作步骤，通过阅读本文，大家对于在 Apache APISIX 中使用 Authing 有了更清晰的理解。
-tags: [Technology,Authentication]
+- API Gateway
+description: 通过阅读本文，你可以了解集中式身份认证的相关细节，以及如何在 Apache APISIX 中使用 Authing 的具体操作步骤。
+tags: [Authentication]
 ---
 
-> 本文为大家描述了 Apache APISIX 和 Authing 对接的详细操作步骤，通过阅读本文，大家会对于在 Apache APISIX 中使用 Authing 有更清晰的理解。
+> 通过阅读本文，你可以了解集中式身份认证的相关细节，以及如何在 Apache APISIX 中使用 Authing 的具体操作步骤。
 
 <!--truncate-->
 

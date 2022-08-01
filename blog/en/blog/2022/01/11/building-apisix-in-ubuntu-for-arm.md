@@ -11,7 +11,7 @@ keywords:
 - ubuntu
 - Apple Macbook Pro M1
 description: By reading this article, you will learn how to build Apache APISIX (M1 chip environment) in ARM Ubuntu from source code.
-tags: [Technology]
+tags: [Ecosystem]
 ---
 
 > By reading this article you will learn how to build Apache APISIX (M1 chip environment) in ARM Ubuntu from source code. The ARM Ubuntu system is installed with the help of [https://multipass.run/](https://multipass.run/).

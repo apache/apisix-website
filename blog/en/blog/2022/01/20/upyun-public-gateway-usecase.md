@@ -9,8 +9,8 @@ keywords:
 - Apache APISIX
 - Gateway
 - Open Source
-description: In the previous sharing, we brought you the application of cloud at the Ingress level. This time, we will introduce you to the current cloud application examples under the public network gateway scenario, hoping to bring you some practical Apache APISIX scenarios to share in the cloud storage industry.
-tags: [User Case]
+description: In the public network gateway scenario, UPYUN linked the internal platform and Feishu reminder function based on APISIX.
+tags: [Case Studies]
 ---
 
 > In the previous sharing, we brought you the application of cloud at the Ingress level. This time, we will introduce you to the current cloud application examples under the public network gateway scenario, hoping to bring you some practical Apache APISIX scenarios to share in the cloud storage industry.

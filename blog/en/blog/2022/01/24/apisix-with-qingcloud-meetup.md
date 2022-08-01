@@ -6,7 +6,7 @@ keywords:
 - cloud native
 - API Gateway
 description: On January 28th, the Apache APISIX community is joining forces with QingCloud to bring you an online sharing session.
-tags: [Events]
+tags: [Community]
 ---
 
 > on January 28th,the Apache APISIX community is joining forces with the QingCloud to bring you an online sharing session.

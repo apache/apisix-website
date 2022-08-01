@@ -15,8 +15,8 @@ keywords:
 - Java
 - Multilingual
 - Ecology
-description: This article brings you Apache APISIX's upcoming xRPC framework and related details, as well as a detailed presentation of Apache APISIX in multi-language development support.
-tags: [Technology,Ecosystem]
+description: This article brings you APISIX's upcoming xRPC framework, as well as a detailed presentation of Apache APISIX in multi-language development support.
+tags: [Ecosystem]
 ---
 
 > This article brings you Apache APISIX's upcoming xRPC framework and related details, as well as a detailed presentation of Apache APISIX in multi-language development support.

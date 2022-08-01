@@ -5,11 +5,11 @@ keywords:
 - QingCloud
 - cloud native
 - API Gateway
-description: 1 月 28 日，Apache APISIX 社区将联合青云为大家带来线上分享，快来看看有哪些精彩的议题吧
-tags: [Events]
+description: 1 月 28 日，Apache APISIX 社区将联合青云为大家带来线上分享，快来看看有哪些精彩的议题吧!
+tags: [Community]
 ---
 
-> 1 月 28 日，Apache APISIX 社区将联合青云为大家带来线上分享，快来看看有哪些精彩的议题吧
+> 1 月 28 日，Apache APISIX 社区将联合青云为大家带来线上分享，快来看看有哪些精彩的议题吧!
 
 <!--truncate-->
 

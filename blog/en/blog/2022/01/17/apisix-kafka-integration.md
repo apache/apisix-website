@@ -15,11 +15,11 @@ keywords:
 - Kafka
 - logging
 - monitoring
-description: Apache APISIX has been providing support for Apache Kafka since version 1.2 with the kafka-logger plugin release. kafka-logger has been enhanced several times since then to provide very mature and complete functionality. It supports pushing API request logs, request bodies, and response bodies, to a Kafka cluster in JSON format.
-tags: [Technology]
+description: This article describes how to use the kafka-logger plugin with APISIX. Wiht enhancements, the plugin now has mature and complete functions.
+tags: [Ecosystem]
 ---
 
-> Apache APISIX has been providing support for Apache Kafka since version 1.2 with the `kafka-logger` plugin release. `kafka-logger` has been enhanced several times since then to provide very mature and complete functionality. It supports pushing API request logs, request bodies, and response bodies, to a Kafka cluster in JSON format.
+> This article describes how to use the kafka-logger plugin with APISIX. Wiht enhancements, the plugin now has mature and complete functions.
 
 <!--truncate-->
 

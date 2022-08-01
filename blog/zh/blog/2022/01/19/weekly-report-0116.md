@@ -5,12 +5,12 @@ keywords:
 - 社区周报
 - APISIX
 - API Gateway
-- 贡献者
+- 开源
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+tags: [Community]
 ---
 
-> 从 1.1 到 1.16, 有 29 位开发者为 Apache APISIX 提交了 81 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 1.1 到 1.16, 有 29 位开发者为 Apache APISIX 提交了 81 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦！
 
 <!--truncate-->
 

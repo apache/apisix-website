@@ -7,7 +7,7 @@ keywords:
 - 数据库
 - CyborgFlow
 description: 1 月 15 日，Apache APISIX 社区将联合 Apache Shardingshpere 社区为大家带来线上分享，快来看看有哪些精彩的议题吧。
-tags: [Events]
+tags: [Community]
 ---
 
 > 1 月 15 日，Apache APISIX 社区将联合 Apache Shardingshpere 社区为大家带来线上分享，快来看看有哪些精彩的议题吧。

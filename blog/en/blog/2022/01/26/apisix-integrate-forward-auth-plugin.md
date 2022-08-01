@@ -11,11 +11,11 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Authentication
-- Plugin
 - Ecosystem
-description: This article describes the use of `forward-auth`, a new plugin in Apache APISIX, and provides detailed instructions on how to use this cleanly designed authentication model.
-tags: [Technology,Ecosystem,Authentication]
+description: This article describes `forward-auth`, a new plugin in APISIX, and show the details on how to use this cleanly designed authentication model.
+tags: [Authentication]
 ---
 
 > This article describes the use of `forward-auth`, a new plugin in Apache APISIX, and provides detailed instructions on how to use this cleanly designed authentication model.

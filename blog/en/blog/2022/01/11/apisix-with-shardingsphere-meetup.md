@@ -7,7 +7,7 @@ keywords:
 - CyborgFlow
 - Database
 description: On January 15th, the Apache APISIX community is joining forces with the Apache Shardingsphere community to bring you an online sharing session.
-tags: [Events]
+tags: [Community]
 ---
 
 > On January 15th, the Apache APISIX community is joining forces with the Apache Shardingsphere community to bring you an online sharing session.
