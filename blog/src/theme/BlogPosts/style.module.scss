@@ -241,7 +241,7 @@ article.pickedPosts {
   &:hover {
     border-color: var(--ifm-color-primary);
 
-    &::before {
+    & .featuredPost {
       background-color: var(--ifm-color-primary);
       color: #fff;
     }
