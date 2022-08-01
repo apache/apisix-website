@@ -10,7 +10,7 @@ keywords:
 - API 网关
 - 性能
 description: 云原生 API 网关 Apache APISIX 的性能在开启多个 worker 进行时，性能比 Envoy强大。APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力。
-tags: [Technology]
+tags: [Community]
 ---
 
 > 本文介绍了在一定条件下，Apache APISIX 和 Envoy 的性能对比，总体来说 Apache APISIX 在响应延迟和 QPS 层面都略优于 Envoy，Apache APISIX 在开启多个 worker 进程后性能提升较 Enovy 更为明显；而且 Apache APISIX 在性能和延迟上的表现使它在处理南北向流量上具有海量的吞吐能力。

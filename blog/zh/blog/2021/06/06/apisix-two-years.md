@@ -8,7 +8,7 @@ keywords:
 - API 网关
 - opensource
 description: 云原生 API 网关 Apache APISIX 开源两年了，在这期间，APISIX 实现了健康检查、服务熔断、分布式追踪、支持 etcd v3 协议、服务发现等新功能。
-tags: [Release]
+tags: [Community]
 ---
 
 > Apache APISIX 开源 2 周年啦！
