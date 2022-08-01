@@ -10,6 +10,11 @@ import clsx from 'clsx';
 import type { FC, HTMLAttributes, DetailedHTMLProps } from 'react';
 import React from 'react';
 import useWindowType from '@theme/hooks/useWindowSize';
+
+// pickedPosts will be auto generated
+// eslint-disable-next-line import/no-unresolved
+import pickedPosts from '../../../config/picked-posts-info';
+
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import style from './style.module.scss';
 
@@ -58,7 +63,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const windowType = useWindowType();
   const effect = windowType === 'mobile' ? 'opacity' : 'blur';
 
-  const image = assets.image ?? frontMatter.image ?? defaultImg;
+  const image = assets?.image ?? frontMatter.image ?? defaultImg;
 
   return (
     <article itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
@@ -159,28 +164,53 @@ const BlogPosts: FC<BlogPostsProps> = ({
   delayTime,
   useIntersectionObserver,
   ...props
-}) => (
-  <main
-    className={clsx({
-      [style.normalPage]: true,
-      [style.firstPage]: isFirstPage,
-    })}
-    itemScope
-    {...props}
-  >
-    {items.map(({ content: BlogPostContent }) => (
-      <BlogPostItem
-        key={BlogPostContent.metadata.permalink}
-        frontMatter={BlogPostContent.frontMatter}
-        assets={BlogPostContent.assets}
-        metadata={BlogPostContent.metadata}
-        truncated={BlogPostContent.metadata.truncated}
-        {...{ delayMethod, delayTime, useIntersectionObserver }}
-      >
-        <BlogPostContent />
-      </BlogPostItem>
-    ))}
-  </main>
-);
+}) => {
+  const posts = items.map(({ content: BlogPostContent }) => (
+    <BlogPostItem
+      key={BlogPostContent.metadata.permalink}
+      frontMatter={BlogPostContent.frontMatter}
+      assets={BlogPostContent.assets}
+      metadata={BlogPostContent.metadata}
+      truncated={BlogPostContent.metadata.truncated}
+      {...{ delayMethod, delayTime, useIntersectionObserver }}
+    >
+      <BlogPostContent />
+    </BlogPostItem>
+  ));
+
+  if (isFirstPage) {
+    posts.splice(
+      1,
+      0,
+      <section key="picked-posts" className={style.pickedPosts}>
+        {pickedPosts.slice(0, 5).map((info) => (
+          <BlogPostItem
+            key={info.title}
+            frontMatter={info}
+            assets={undefined}
+            metadata={info}
+            truncated={info.summary}
+            {...{ delayMethod, delayTime, useIntersectionObserver }}
+          >
+            <p>{info.summary}</p>
+          </BlogPostItem>
+        ))}
+      </section>,
+    );
+  }
+
+  return (
+    <main
+      className={clsx({
+        [style.normalPage]: true,
+        [style.firstPage]: isFirstPage,
+      })}
+      itemScope
+      {...props}
+    >
+      {posts}
+    </main>
+  );
+};
 
 export default trackWindowScroll(BlogPosts);
