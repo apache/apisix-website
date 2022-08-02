@@ -70,7 +70,12 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const image = assets?.image ?? frontMatter.image ?? defaultImg;
 
   return (
-    <article className={className} itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
+    <article
+      className={className}
+      itemProp="blogPost"
+      itemScope
+      itemType="http://schema.org/BlogPosting"
+    >
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
           height={232}
@@ -169,7 +174,7 @@ const BlogPosts: FC<BlogPostsProps> = ({
   useIntersectionObserver,
   ...props
 }) => {
-  let posts = items.map(({ content: BlogPostContent }) => (
+  const posts = items.map(({ content: BlogPostContent }) => (
     <BlogPostItem
       key={BlogPostContent.metadata.permalink}
       frontMatter={BlogPostContent.frontMatter}
@@ -182,10 +187,8 @@ const BlogPosts: FC<BlogPostsProps> = ({
     </BlogPostItem>
   ));
 
-  const max = (pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length);
-  const endIdx = isFirstPage
-    ? 2 * Math.floor(max / 2)
-    : 3 * Math.floor(max / 3);
+  const max = pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length;
+  const endIdx = isFirstPage ? 2 * Math.floor(max / 2) : 3;
   const { pathname } = useLocation();
 
   if (!pathname.includes('/tags/')) {
@@ -212,10 +215,6 @@ const BlogPosts: FC<BlogPostsProps> = ({
         </BlogPostItem>
       )),
     );
-
-    if (!isFirstPage) {
-      posts = shuffle(posts);
-    }
   }
 
   return (
