@@ -7,7 +7,7 @@ keywords:
 - Apache APISIX
 - API 网关
 - Release Notes
-- APISIX 2.10.0
+- Python
 description: 云原生 API 网关 Apache APISIX 2.10.0 版本正式发布！这是 Apache APISIX 首个 LTS 版本，同时支持了 service 增加 hosts 属性、支持设置镜像请求的比例等新功能。
 tags: [Community]
 ---

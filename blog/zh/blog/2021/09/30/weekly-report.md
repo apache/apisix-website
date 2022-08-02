@@ -2,9 +2,8 @@
 title: "社区双周报（9.13-9.30）"
 keywords:
 - Apache APISIX
-- 社区周报
-- APISIX
-- API Gateway
+- APISIX 社区周报
+- API 网关
 - 贡献者
 description: 云原生 API 网关 Apache APISIX 最近两周新增了stream_route 支持在 IP 匹配中使用 CIDR，debug 模式支持动态请求过滤，hmac-auth 支持校验请求体等新功能。
 tags: [Community]
