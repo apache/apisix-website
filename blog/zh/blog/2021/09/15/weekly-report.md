@@ -5,7 +5,7 @@ keywords:
   - API 网关
   - contributor
   - Good first issue
-description: Apache APISIX 社区最近两周新增了proxy-mirror 支持按比例镜像请求、Admin API 支持返回 stream 类型的插件信息、dashboard 支持 Service Discovery 配置等功能。
+description: Apache APISIX 社区最近两周新增了 proxy-mirror 支持按比例镜像请求、Admin API 支持返回 stream 类型的插件信息、dashboard 支持 Service Discovery 配置等功能。
 tags: [Community]
 ---
 
