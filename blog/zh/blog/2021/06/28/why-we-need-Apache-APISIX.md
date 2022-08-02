@@ -10,8 +10,8 @@ keywords:
 - Nginx
 - API 网关
 - 开源
-description: 本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么。
-tags: [Technology]
+description: 本文介绍了云原生 API 网关 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么，并且介绍 APISIX 未来的趋势。
+tags: [Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 架构演进历史，对比 Nginx 和 Kong 这两个框架 Apache APISIX 的优势是什么。

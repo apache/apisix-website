@@ -12,7 +12,7 @@ keywords:
 - Open Source
 - API Management
 description: This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and Nginx.
-tags: [Technology]
+tags: [Ecosystem]
 ---
 
 > This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and Nginx.
