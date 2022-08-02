@@ -55,7 +55,7 @@ const tags = [
   },
   {
     label: 'Case Studies',
-    url: '/blog/tags/user-case/',
+    url: '/blog/tags/case-studies/',
   },
   {
     label: 'Ecosystem',
@@ -69,10 +69,14 @@ const tags = [
     label: 'Security',
     url: '/blog/tags/security/',
   },
+  {
+    label: 'Plugins',
+    url: '/blog/tags/plugins/',
+  },
 ];
 
 const TagsHeader: FC = () => (
-  <Sticky innerZ={199}>
+  <Sticky innerZ={199} className={style.placeholder}>
     {(s) => (
       <div className={clsx(style.tagsHeader, s.status === Sticky.STATUS_FIXED && style.expand)}>
         {tags.map((tag) => (

@@ -15,11 +15,15 @@
   margin-left: 1rem;
 }
 
+.placeholder {
+  min-height: 57px;
+}
+
 .tagsHeader {
   display: flex;
   justify-content: flex-end;
   padding: 0.25rem 1rem;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
   border-bottom: 1px solid #e8e8ed;
   font-family: apple-system, system-ui, sans-serif;
 
