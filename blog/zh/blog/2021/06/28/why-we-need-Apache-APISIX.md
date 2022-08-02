@@ -18,7 +18,11 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-> Source: https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX
+:::tip 提示
+
+最新文章请参考：[为什么有了 NGINX 和 Kong，还需要 Apache APISIX？](https://apisix.apache.org/zh/blog/2022/07/30/why-we-need-apache-apisix/)
+
+:::
 
 大家好，非常开心给大家分享一个让我激动的主题《有了 NGINX 和 Kong，为什么还需要 Apache APISIX》。
 
