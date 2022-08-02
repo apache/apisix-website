@@ -7,8 +7,8 @@ keywords:
 - 空中云汇
 - 金融
 - 数据主权
-description: 本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。
-tags: [Interview]
+description: 本文介绍了 Airwallex 空中云汇在做技术选型时为什么选择云原生 API 网关 Apache APISIX以及 APISIX 在 Airwallex 空中云汇的使用场景和生产环境的表现等内容。
+tags: [Case Studies]
 ---
 
 > 本文采访了 Airwallex 空中云汇 Technical Platform Lead 李杨，李杨负责公司技术平台的演进。采访中详细介绍了 Airwallex 空中云汇在做技术选型时为什么选择 Apache APISIX、Apache APISIX 在 Airwallex 空中云汇的使用场景、Apache APISIX 在生产环境的表现等。

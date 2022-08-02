@@ -10,8 +10,8 @@ keywords:
 - Lua
 - Nginx
 - API Gateway
-description: Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language. So why do Apache APISIX and other well-known gateways choose Lua?
-tags: [Technology]
+description: This article introduces the historical background of Apache APISIX's choice of Nginx + Lua technology stack and the advantages they bring to APISIX.
+tags: [Ecosystem]
 ---
 
 > Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language. So why do Apache APISIX and other well-known gateways choose Lua?

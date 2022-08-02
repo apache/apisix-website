@@ -10,8 +10,8 @@ keywords:
 - Apache APISIX
 - 开源社区
 - 开源项目
-description: 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。
-tags: [Interview]
+description: 本文介绍了云原生 API 网关 Apache APISIX 社区屠正松成为 Apache APISIX committer 的成长经历，以及为什么要参与 Apache APISIX 社区以及他为社区做的贡献。
+tags: [Community]
 ---
 
 > 这篇采访稿讲述了屠正松从开源社区小白成长为 Apache 顶级开源项目 APISIX committer 的历程。屠正松（GitHub ID：tzssangglass）因深度参与 Apache APISIX 的开发，在社区中贡献很多，2021 年 7 月 22 日被推选为 Apache APISIX committer。

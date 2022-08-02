@@ -5,10 +5,11 @@ authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
 - APISIX
+- API Gateway
 - Apache APISIX
 - Release Notes
-description: Apache APISIX version 2.9 is released!
-tags: [Release]
+description: The Apache APISIX 2.9 version of the cloud native API gateway adds the authz-casbin plugin and the dynamic configuration of real-ip at the routing level.
+tags: [Community]
 ---
 
 > Apache APISIX version 2.9 is released!

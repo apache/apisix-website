@@ -5,8 +5,8 @@ keywords:
 - API Gateway
 - APISIX
 - Meetup
-description: "Event Review: Apache APISIX Meetup Shanghai Topic Sharing and Video Review."
-tags: [Events]
+description: This Apache APISIX Meetup (Shanghai) shared topics related to iQIYI's application practice, centralized identity authentication, and data sovereignty.
+tags: [Community]
 ---
 
 > Event review: Apache APISIX Meetup Shanghai topic sharing and video review.

@@ -9,8 +9,8 @@ keywords:
 - Kong
 - 迁移工具
 - API 网关
-description: Apache APISIX 是一个生产可用的开源七层全流量处理平台，可作为 API 网关处理业务入口流量，具有极高性能、超低延迟，官方支持 dashboard 以及超过五十种插件。如果你正在使用 Kong，对 APISIX 感兴趣又苦于难以上手，不妨试试我们刚开源的迁移工具 Kong-To-APISIX，助你一键平滑迁移。
-tags: [Technology]
+description: 你可以使用 Kong-To-APISIX 迁移工具，一键将 Kong 的配置迁移到云原生 API 网关 Apache APISIX 中，实现服务的无缝切换。本文介绍了详细的使用方法以及测试示例。
+tags: [Ecosystem]
 ---
 
 > Apache APISIX 是一个生产可用的开源七层全流量处理平台，可作为 API 网关处理业务入口流量，具有极高性能、超低延迟，官方支持 dashboard 以及超过五十种插件。如果你正在使用 Kong，对 APISIX 感兴趣又苦于难以上手，不妨试试我们刚开源的迁移工具 Kong-To-APISIX，助你一键平滑迁移。

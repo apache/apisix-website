@@ -2,11 +2,12 @@
 title: Weekly Report (Aug 23 - Aug 29)
 keywords:
 - APISIX
+- API Gateway
 - Community Weekly
 - Contributor
 - Good first issue
-description: The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.
-tags: [Events]
+description: The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community.
+tags: [Community]
 ---
 
 <!--truncate-->

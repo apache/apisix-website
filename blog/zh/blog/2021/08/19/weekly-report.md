@@ -8,8 +8,8 @@ keywords:
 - Good first issue
 - contributor
 - API Gateway
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: 本周 Apache APISIX 新增了流量控制类插件增加降级处理、log-rotate 插件支持压缩已切割的日志文件、real-ip 插件及 consumer-restriction 支持根据 Route 对象做限制。
+tags: [Community]
 ---
 
 > 本周，有 26 位开发者为 Apache APISIX 提交了 96 个 commit 。感谢本周以下小伙伴为 Apache APISIX 添砖加瓦（排名不分先后），是你们的无私付出，让 Apache APISIX 变得更好！

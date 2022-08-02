@@ -6,8 +6,8 @@ keywords:
 - API 网关
 - APISIX
 - Ingress
-description: Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。 
-tags: [Events]
+description: Apache APISIX Ingress 社区会议，建立与社区用户和开发者们的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划。
+tags: [Community]
 ---
 
 > 随着 [Apache APISIX Ingress Controller 1.0 版本](https://apisix.apache.org/blog/2021/06/18/first-GA-version-v1.0-of-Apache-APISIX-Ingress-Controller-released) 发布，越来越多的开发者开始关注 Apache APISIX Ingress 方案，Apache APISIX 社区希望能够建立与社区用户和开发者们更直接的沟通渠道，帮助大家了解 Apache APISIX Ingress 的发展方向和开发计划，希望每一位用户、每一位开发者的声音都可以被听见。 因此，Apache APISIX 社区开始组织每两周线上社区会议。

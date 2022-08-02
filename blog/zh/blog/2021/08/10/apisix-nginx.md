@@ -4,12 +4,12 @@ author: "陶辉"
 keywords: 
 - API 网关
 - Apache APISIX
-- Nginx
+- NGINX
 - Lua
 - 动态管理
 date: "2021-08-10"
-description: 本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
-tags: [Technology]
+description: 本文主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
+tags: [Ecosystem]
 ---
 
 > 本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。
@@ -34,6 +34,7 @@ Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动
 
 * etcd 采用类 Paxos 的 Raft 协议保障了数据一致性，它是去中心化的分布式数据库，可靠性高于关系数据库
 * etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种 key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：
+
 ![基于 etcd 同步 nginx 配置](https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg)
 
 因此，不同于 Orange 和 Kong，Apache APISIX 采用了 etcd 作为中心化的配置组件。你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：

@@ -5,8 +5,8 @@ keywords:
 - APISIX
 - Apache APISIX
 - Meetup
-description: 本次 Meetup 由 api7.ai https://www.apiseven.com/ 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。
-tags: [Events]
+description: 本次 Meetup 将为大家分享关于 API 网关 Apache APISIX 社区的由来，爱奇艺使用 APISIX 的用户案例，集中式身份认证的优点以及如何在 APISIX 上进行集中式身份认证。
+tags: [Community]
 ---
 
 > 本次 Meetup 由 [api7.ai](https://www.apiseven.com/) 发起，并邀请爱奇艺、空中云汇等合作伙伴共同为大家呈现。Apache APISIX PMC 成员、贡献者、社区技术专家汇聚一堂，共同探讨 Apache APISIX 社区发展、行业实践等话题。

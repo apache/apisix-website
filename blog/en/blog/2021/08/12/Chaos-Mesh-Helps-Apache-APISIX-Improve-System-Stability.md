@@ -10,8 +10,8 @@ keywords:
 - Apache APISIX
 - Chaos Mesh
 - System Stability
-description: This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.
-tags: [Practical Case]
+description: This article explains why Chaos Mesh was chosen as the ultimate solution for stability testing, and how to use Chaos Mesh in Apache APISIX.
+tags: [Ecosystem]
 ---
 
 > This article explains how system stability create some pain points in different scenarios. Then it tells the stories of why the author chose Chaos Mesh as the ultimate solution,and how to use Chaos Mesh in Apache APISIX. In the end, there is also future plans for this solution, including run a chaos test in E2E simulation scenarios, add chaos tests to more Apache APISIX projects, and add features to Chaos Mesh.
