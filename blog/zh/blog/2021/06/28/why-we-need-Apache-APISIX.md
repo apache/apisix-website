@@ -20,7 +20,7 @@ tags: [Ecosystem]
 
 :::tip 提示
 
-最新文章请参考：[为什么有了 NGINX 和 Kong，还需要 Apache APISIX？](https://apisix.apache.org/zh/blog/2022/07/30/why-we-need-apache-apisix/)
+最新文章请查看：[有了 NGINX 和 Kong，为什么还需要 Apache APISIX？](https://apisix.apache.org/zh/blog/2022/07/30/why-we-need-apache-apisix/)
 
 :::
 
