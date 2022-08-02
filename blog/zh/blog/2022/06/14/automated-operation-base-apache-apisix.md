@@ -16,8 +16,8 @@ keywords:
 - 运维
 - 微服务
 - 权限
-description: 本文由前同程数科运维经理陈庆介绍了如何基于 Apache APISIX 实现自动化运维平台。
-tags: [Technology]
+description: 本文由前同程数科运维经理陈庆介绍了如何基于 Apache APISIX 实现自动化运维平台，并从用户登录及鉴权场景，带来更多细节展示。
+tags: [Case Studies]
 ---
 
 > 本文由前同程数科运维经理陈庆介绍了如何基于 Apache APISIX 实现自动化运维平台。

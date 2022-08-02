@@ -1,15 +1,24 @@
 ---
 title: "Getting Started with APISIX Test Cases"
+authors:
+  - name: "Zeping Bai"
+    title: "Author"
+    url: "https://github.com/bzp2010"
+    image_url: "https://github.com/bzp2010.png"
+  - name: "Fei Han"
+    title: "Technical Writer"
+    url: "https://github.com/hf400159"
+    image_url: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
 - API Gateway
 - Test cases
-- Test
-description: This article mainly introduces how to write test cases for Apache APISIX API Gateway.
-tags: [Technology]
+- GitHub
+description: This article introduces the test case of APISIX and how to write the test case, and shows the actual operation effect from the local and GitHub.
+tags: [Community,Ecosystem]
 ---
 
-> This article mainly introduces how to write test cases for Apache APISIX API Gateway.
+> This article introduces the test case of APISIX and how to write the test case, and shows the actual operation effect from the local and GitHub.
 
 <!--truncate-->
 

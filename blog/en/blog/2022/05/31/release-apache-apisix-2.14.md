@@ -14,8 +14,9 @@ keywords:
 - 2.14.1
 - Release Notes
 - API Gateway
-description: Exploratory release - Apache APISIX 2.14.1 is officially released. This release supports not only service discovery on the control plane, but also Istio, a WebSocket-based pubsub proxy framework, and an xRPC-based framework for managing non-HTTP layer 7 protocols.
-tags: [Release]
+- WebSocket
+description: 2.14.1 is officially released! This release supports service discovery on CP and Web Socket-based pubsub proxy and non-HTTP Layer 7 protocols.
+tags: [Community]
 ---
 
 > Exploratory release - Apache APISIX 2.14.1 is officially released. This release supports not only service discovery on the control plane, but also Istio, a WebSocket-based pubsub proxy framework, and an xRPC-based framework for managing non-HTTP layer 7 protocols.

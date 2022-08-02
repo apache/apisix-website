@@ -13,8 +13,8 @@ keywords:
 - 投资
 - 鉴权
 - ZooKeeper
-description: 本文整理自雪球基础组件团队在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。
-tags: [User Case]
+description: 本文整理自雪球基础组件团队在 Apache APISIX Summit ASIA 2022 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。
+tags: [Case Studies]
 ---
 
 > 本文整理自雪球基础组件团队在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 上的分享，介绍了雪球在双活架构的调整中如何借助 APISIX 实现更灵活的业务。

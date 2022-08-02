@@ -14,8 +14,8 @@ keywords:
 - Open Source
 - Remote Work
 - Full-Stack Web Developer
-description: In this interview, we invited JU Zhiyuan, a PMC member of Apache APISIX, to share his feeling about becoming an ASF member, his experience with open source, and his self-learning journey in technology.
-tags: [Interview]
+description: Become an Apache Member in 2022, we invited Ju Zhiyuan to talk about his open source experience and technology growth.
+tags: [Community]
 ---
 
 > JU Zhiyuan, a PPMC member of Apache APISIX, was elected to be one of the 918 ASF Members in March 2022. In this interview, Zhiyuan shared his experience with open source and his self-learning journey in technology.

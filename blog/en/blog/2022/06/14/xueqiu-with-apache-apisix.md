@@ -14,8 +14,8 @@ keywords:
 - Authentication
 - Investment
 - Observability
-description: This article is compiled from the sharing at [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/). It introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.
-tags: [User Case]
+description: This article introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.
+tags: [Case Studies]
 ---
 
 > This article is compiled from the sharing at [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/). It introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.

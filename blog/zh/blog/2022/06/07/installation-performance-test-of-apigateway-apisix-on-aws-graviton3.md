@@ -15,8 +15,8 @@ keywords:
 - AWS
 - AWS Graviton3
 - ARM64
-description: 目前 Apache APISIX 进行了 ARM64 平台下的完整回归测试，修复了构建脚本在 ARM64 平台下的一些兼容性问题。本文通过简要的部署测试描述，呈现了在 AWS Graviton 环境下，无论是稳定性还是流量处理层面，APISIX 的表现都十分亮眼。
-tags: [Technology]
+description: 本文使用 APISIX 进行了 AWS Graviton3 与 AWS Graviton2 的性能对比，在 API 网关这种网络 IO 密集型的计算场景下，AWS Graviton3 可谓展示了性能怪兽的属性。
+tags: [Ecosystem]
 ---
 
 > 目前 Apache APISIX 进行了 ARM64 平台下的完整回归测试，修复了构建脚本在 ARM64 平台下的一些兼容性问题。本文通过简要的部署测试描述，呈现了在 AWS Graviton 环境下，无论是稳定性还是流量处理层面，APISIX 的表现都十分亮眼。
