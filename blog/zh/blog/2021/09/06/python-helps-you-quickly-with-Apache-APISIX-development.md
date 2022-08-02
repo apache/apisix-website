@@ -10,8 +10,7 @@ keywords:
   - Python
   - APISIX Python Plugin Runner
 tags: [Ecosystem]
-description: 
-
+description: 云原生 API 网关 Apache APISIX 目前已经支持了 Java、Go 以及 Python 等语言编写插件。本文将为你介绍如何使用 Python 在 APISIX 上开发自定义插件。
 ---
 
 > 在 Apache APISIX Python Runner 之前社区中已经支持了 [Java](https://github.com/apache/apisix-java-plugin-runner) 和 [Go](https://github.com/apache/apisix-go-plugin-runner) 语言的 Runner，今天 Python Runner 也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。
@@ -34,15 +33,11 @@ description:
 
 ### Apache APISIX Python Runner
 
-[apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner) 这个项目可以理解为 `Apache APISIX`
-和 `Python`
-之间的一道桥梁，通过 `Python Runner` 可以把 `Python` 直接应用到 `APISIX` 的插件开发中，最重要的还是希望让更多对 `Apache APISIX` 和 `API 网关` 感兴趣的 `Python开发者`
-通过这个项目更多的了解使用 `Apache APISIX`，以下为 `Apache APISIX` 多语言支持的架构图。
+[apache-apisix-python-runner](https://github.com/apache/apisix-python-plugin-runner) 这个项目可以理解为 `Apache APISIX` 和 `Python`之间的一道桥梁，通过 `Python Runner` 可以把 `Python` 直接应用到 `APISIX` 的插件开发中，最重要的还是希望让更多对 `Apache APISIX` 和 `API 网关` 感兴趣的 `Python 开发者`通过这个项目更多的了解使用 `Apache APISIX`，以下为 `Apache APISIX` 多语言支持的架构图。
 
 ![Apache APISIX work flow](https://static.apiseven.com/202108/1639468460315-bb51d913-be72-4329-a47b-7e987dff21ba.png)
 
-上图左边是 `Apache APISIX` 的工作流程，右边的 `Plugin Runner` 是各语言的插件运行器，本文介绍的 `apisix-python-plugin-runner` 就是支持 `Python`
-语言的 `Plugin Runner`。
+上图左边是 `Apache APISIX` 的工作流程，右边的 `Plugin Runner` 是各语言的插件运行器，本文介绍的 `apisix-python-plugin-runner` 就是支持 `Python`语言的 `Plugin Runner`。
 
 当你在 `Apache APISIX` 中配置一个 `Plugin Runner` 时，`Apache APISIX` 会启动一个子进程运行 `Plugin Runner`，该子进程与 `Apache APISIX`
 进程属于同一个用户，当我们重启或重新加载 `Apache APISIX` 时，`Plugin Runner` 也将被重启。

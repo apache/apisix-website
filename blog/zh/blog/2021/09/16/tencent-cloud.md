@@ -6,8 +6,8 @@ keywords:
 - 腾讯云
 - Kong
 - Nginx
-description: 本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。
-tags: [User Case]
+description: 本文主要介绍了腾讯云智能钛平台使用云原生 API 网关 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体示例。
+tags: [Case Studies]
 ---
 
 > 本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。

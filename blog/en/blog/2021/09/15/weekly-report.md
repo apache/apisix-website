@@ -5,8 +5,8 @@ keywords:
   - API Gateway
   - contributor
   - Good first issue
-description: The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.
-tags: [Events]
+description: The Apache APISIX community has added features related to the APISIX Dashboard, the Admin API and Control API, and the proxy-mirror plugin in the last two weeks.
+tags: [Community]
 ---
 
 > 33 developers have committed 130 commits to Apache APISIX in the last two weeks since 8.30. Thank you to the following people for adding to Apache APISIX (in no particular order), your selfless work makes the Apache APISIX project better!

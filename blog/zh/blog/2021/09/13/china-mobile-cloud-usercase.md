@@ -2,12 +2,13 @@
 title: "APISIX 在移动云公司的应用实践"
 author: "陈焱山"
 keywords: 
-- 移动云存储
 - Apache APISIX
+- 中国移动
+- 对象存储
 - 云服务
 - API 网关
-description: 本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。
-tags: [User Case]
+description: 通过阅读本文，您可以了解到中国移动云是如何基于云原生 API 网关 Apache APISIX 进行对象存储产品的开发和功能改进与更新，打造出更完善的移动云对象存储。
+tags: [Case Studies]
 ---
 
 > 本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。

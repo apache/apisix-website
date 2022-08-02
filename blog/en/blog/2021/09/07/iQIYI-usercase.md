@@ -7,8 +7,8 @@ keywords:
 - iQIYI
 - API Gateway
 - Service discovery
-description: In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.
-tags: [User Case]
+description: This article introduces why iQIYI abandoned Kong and chose the cloud native API gateway Apache APISIX as the company gateway and application scenarios.
+tags: [Case Studies]
 ---
 
 > In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.

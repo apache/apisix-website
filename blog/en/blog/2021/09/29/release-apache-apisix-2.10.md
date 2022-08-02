@@ -8,8 +8,8 @@ keywords:
 - API Gateway
 - Release Notes
 - APISIX 2.10
-description: Apache APISIX 2.10.0 is released! This is the first LTS release of Apache APISIX.
-tags: [Release]
+description: API Gateway Apache APISIX 2.10.0 is officially released! This is the first LTS release of Apache APISIX and supports more than 10 features and plugins at the same time.
+tags: [Community]
 ---
 
 > Apache APISIX 2.10.0 is released!
