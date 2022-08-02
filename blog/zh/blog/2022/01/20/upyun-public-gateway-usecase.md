@@ -7,7 +7,7 @@ keywords:
 - 又拍云
 - CDN
 - Apache APISIX
-- 公网网关
+- API 网关
 - 开源
 description: 在公网网关场景下，又拍云基于 APISIX 联动了公司内部平台以及飞书提醒功能的接入。同时从开源和可拓展性方面也带来了一些企业角度参考。
 tags: [Case Studies]

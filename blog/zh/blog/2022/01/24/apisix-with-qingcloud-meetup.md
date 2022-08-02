@@ -4,7 +4,7 @@ keywords:
 - Apache APISIX
 - QingCloud
 - cloud native
-- API Gateway
+- API 网关
 description: 1 月 28 日，Apache APISIX 社区将联合青云为大家带来线上分享，快来看看有哪些精彩的议题吧!
 tags: [Community]
 ---

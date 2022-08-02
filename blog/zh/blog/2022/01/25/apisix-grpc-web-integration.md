@@ -12,7 +12,7 @@ authors:
 keywords: 
 - Apache APISIX
 - gRPC
-- API Gateway
+- API 网关
 - Ecosystem
 description: 通过社区的积极讨论和贡献，Apache APISIX 又拓宽了 gRPC 生态的支持范围。本文将介绍 gRPC Web 协议请求代理的具体使用步骤及细节。
 tags: [Ecosystem,Plugin]
