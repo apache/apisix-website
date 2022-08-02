@@ -7,7 +7,7 @@ keywords:
 - Apache APISIX
 - Kong
 - Nginx
-description: Beike chose to use the API gateway Apache APISIX as the API gateway, which handles hundreds of millions of traffic every day with excellent and stable performance.
+description: Beike chose to use the Apache APISIX as the API gateway, which handles hundreds of millions of traffic every day with excellent and stable performance.
 tags: [Case Studies]
 ---
 
