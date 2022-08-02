@@ -21,7 +21,7 @@ tags: [Ecosystem]
 
 :::tip
 
-For the latest articles, please see: [Why do you need Apache APISIX when you have NGINX and Kong?](https://apisix.apache.org/blog/2022/07/30/why-we-need-apache-apisix/)
+For the latest version, please see: [Why do you need Apache APISIX when you have NGINX and Kong?](https://apisix.apache.org/blog/2022/07/30/why-we-need-apache-apisix/)
 
 :::
 
