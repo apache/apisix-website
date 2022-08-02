@@ -6,9 +6,10 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - APISIX
 - Release Notes
+- API Gateway
 - Apache APISIX 
-description: Apache APISIX version 2.8 is released!
-tags: [Release]
+description: API Gateway Apache APISIX 2.8 version released independent keepalive connection pool, stream proxy enhancement, support for custom balancer and other functions.
+tags: [Community]
 ---
 
 > Apache APISIX version 2.8 is released!

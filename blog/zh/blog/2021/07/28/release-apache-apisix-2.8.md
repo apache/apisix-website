@@ -7,8 +7,9 @@ keywords:
 - APISIX
 - Release Notes
 - Apache APISIX 
-description: Apache APISIX 2.8 版本正式发布！
-tags: [Events]
+- API 网关
+description: Apache APISIX 2.8 版本发布了以下功能：独立的 Keepalive 连接池、stream 代理功能增强、gzip 插件、支持通过插件的方式执行特定逻辑、支持自定义 balancer。
+tags: [Community]
 ---
 
 > Apache APISIX 2.8 版本正式发布！

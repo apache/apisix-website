@@ -3,11 +3,12 @@ title: "ApacheCon Asia 2021：Apache APISIX 技术议题一览"
 author: "Apache APISIX 社区"
 keywords:
 - API 网关
-- APISIX
 - Apache APISIX
 - ApacheCon
-description: ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。
-tags: [Events]
+- Service Mesh
+- K8s
+description: 本文介绍了云原生 API 网关 Apache APISIX 在 ApacheCon Asia 中相关的主题，包括在移动云使用 APISIX、身份认证、限流限速、服务网格、Kubernetes Ingress 等。
+tags: [Community]
 ---
 
 > ApacheCon 是 Apache 软件基金会的官方全球系列会议。自 1998 年以来，ApacheCon 一直吸引着各个层次的参与者，在 350 多个 Apache 项目及其不同的社区中探索 “明日的技术”。ApacheCon Asia 是 ApacheCon 组委会针对亚太地区举办的 ApacheCon 在线会议，主要目标在于更好地服务亚太地区快速增长的 Apache 用户和贡献者。ApacheCon Asia 2021 将于今年 8 月 6-8 日在线举办。

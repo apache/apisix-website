@@ -6,8 +6,8 @@ keywords:
 - APISIX
 - Apache APISIX
 - ApacheCon
-description: ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore "tomorrow's technologies" across more than 350 Apache projects and their diverse communities. ApacheCon Asia is the ApacheCon organizing committee's online conference for the Asia-Pacific region. ApacheCon Asia is an online ApacheCon conference organized by the ApacheCon organizing committee for the Asia-Pacific region with the primary goal of better serving the rapidly growing number of Apache users and contributors in the Asia-Pacific region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
-tags: [Events]
+description: This article introduces the topics shared by the cloud native API gateway Apache APISIX at ApacheCon Asia, including identity authentication, current limit and speed limit, etc.
+tags: [Community]
 ---
 
 > ApacheCon is the official global conference series of the Apache Software Foundation. Since 1998, ApacheCon has been attracting participants at all levels to explore the "technologies of tomorrow" across more than 350 Apache projects and their diverse communities. ApacheCon Asia is the ApacheCon organizing committee's online conference for the Asia-Pacific region. ApacheCon Asia 2021 will be held online from August 6-8 this year.
