@@ -51,7 +51,7 @@ tags: [Case Studies]
 
 ### 完善的生态
 
-下图为 APISIX 的生态图，从该图可以准确看到 APISIX 已经支持的 7 层协议有 HTTP(S)、HTTP2、Dubbo、QUIC 和物联网协议 MQTT 等等，4 层协议有 TCP/UDP。
+下图为 APISIX 的生态图，从该图可以准确看到 APISIX 已经支持的 7 层协议有 HTTP(S)、HTTP2、Dubbo 和物联网协议 MQTT 等等，4 层协议有 TCP/UDP。
 右侧部分则是一些开源或者 SaaS 服务，比如 SkyWalking、Prometheus 、Vault 等等。而最下面则是比较常见的操作系统环境、云厂商和硬件环境。而作为一个开源软件，APISIX 也支持在 ARM64 的服务器上运行。
 
 ![APISIX's Ecosystem](https://static.apiseven.com/2022/blog/0729/2.PNG)
