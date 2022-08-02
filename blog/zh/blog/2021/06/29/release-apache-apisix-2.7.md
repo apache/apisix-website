@@ -6,15 +6,12 @@ authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords:
 - Apache APISIX
 - Release Notes
-Description: Apache APISIX 2.7.0-Release 正式发布！
-tags: [Release]
+Description: 云原生 API 网关 Apache APISIX 2.7.0 版本正式发布！该版本支持了多语言插件、增强了四层 TCP 代理以及 NGINX 功能。
+tags: [Community]
 ---
 
-> Apache APISIX 2.7.0-Release 正式发布！
-
+> Apache APISIX 2.7.0 版本正式发布！欢迎大家下载使用。
 <!--truncate-->
-
-Apache APISIX 2.7.0-Release 正式发布！欢迎大家下载使用。
 
 这个版本支持了多语言插件、增强了四层 TCP 代理、增强了 Nginx 功能，有 20+ 开发者参与，共提交了 70+ PR，下面是重点功能的介绍。
 

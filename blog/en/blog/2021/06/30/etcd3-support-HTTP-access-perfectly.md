@@ -9,8 +9,8 @@ keywords:
 - etcd
 - HTTP
 - gRPC
-Description: It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd's HTTP API that interoperate with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.
-tags: [Technology]
+Description: When Apache APISIX synchronizes etcd data in full, if there is enough configuration, the data size that can be read by a single request, which is the default limit of gRPC, is reached.
+tags: [Ecosystem]
 ---
 
 > It has been 8 months since the release of Apache APISIX version 2.0 last October. In the course of practice, we have also discovered some issues with etcd's HTTP API that interoperate with the gRPC API. In fact, having a gRPC-gateway does not mean that HTTP access is perfectly supported, there are some nuances here.

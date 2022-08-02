@@ -9,8 +9,8 @@ keywords:
 - etcd
 - HTTP
 - gRPC
-Description: 从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。
-tags: [Technology]
+Description: Apache APISIX 全量同步 etcd 数据时，假如配置够多，则会达到 gRPC 默认限制的一次请求可以读取的数据大小，但是 APISIX 在给etcd 贡献相关代码后解决了这个问题。
+tags: [Ecosystem]
 ---
 
 > 从去年 10 月发布 Apache APISIX 2.0 版本以来，现在已经过去了 8 个月。在实践过程中，我们也发现了 etcd 的 HTTP API 的一些跟 gRPC API 交互的问题。事实上，拥有 gRPC-gateway 并不意味着能够完美支持 HTTP 访问，这里还是有些细微的差别。

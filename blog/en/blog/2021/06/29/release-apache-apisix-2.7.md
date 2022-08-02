@@ -6,15 +6,13 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - Apache APISIX
 - Release Notes
-Description: Apache APISIX 2.7.0 has been released!
-tags: [Release]
+Description: API Gateway Apache APISIX 2.7.0-Release is officially released! This release supports multilingual plugins, enhanced L4 TCP proxy, and NGINX functionality.
+tags: [Community]
 ---
 
-> Apache APISIX 2.7.0 has been released!
+> Apache APISIX 2.7.0 has been released! Welcome to download and use it.
 
 <!--truncate-->
-
-Apache APISIX 2.7.0 has been released! Welcome to download and use it.
 
 This version supports multi-language plugins, enhances the four-layer TCP proxy and Nginx configuration. More than 20 developers participated, and 70 plus pull requests have been submitted. The following is an introduction to the key features.
 
