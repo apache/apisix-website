@@ -17,6 +17,7 @@
   "scripts": {
     "sync-doc": "yarn workspace scripts sync",
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
+    "generate-picked-posts": "yarn workspace scripts generate-picked-posts",
     "update-sitemap": "yarn workspace scripts update-sitemap",
     "start:doc": "yarn workspace doc start",
     "start:website": "yarn workspace website start",
@@ -34,7 +35,7 @@
     "serve:blog:zh": "yarn workspace blog docusaurus serve zh",
     "serve:blog:en": "yarn workspace blog docusaurus serve en",
     "prepare": "husky install",
-    "prepare-data": "yarn sync-doc && yarn generate-repos-info"
+    "prepare-data": "yarn sync-doc && yarn generate-repos-info && yarn generate-picked-posts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.17.0",

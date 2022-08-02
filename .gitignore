@@ -17,6 +17,8 @@ lib/core/MetadataBlog.js
 /blog/zh/i18n
 /blog/en/src
 /blog/en/static
+/blog/en/config/picked-posts-info.js
+/blog/zh/config/picked-posts-info.js
 
 
 # misc

@@ -10,6 +10,14 @@ import clsx from 'clsx';
 import type { FC, HTMLAttributes, DetailedHTMLProps } from 'react';
 import React from 'react';
 import useWindowType from '@theme/hooks/useWindowSize';
+import shuffle from 'lodash.shuffle';
+import { useLocation } from '@docusaurus/router';
+import { translate } from '@docusaurus/Translate';
+
+// pickedPosts will be auto generated
+// eslint-disable-next-line import/no-unresolved
+import pickedPosts from '../../../config/picked-posts-info';
+
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import style from './style.module.scss';
 
@@ -45,6 +53,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
     delayMethod,
     delayTime,
     useIntersectionObserver,
+    className,
   } = props;
   const delayProps = {
     scrollPosition,
@@ -58,10 +67,10 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const windowType = useWindowType();
   const effect = windowType === 'mobile' ? 'opacity' : 'blur';
 
-  const image = assets.image ?? frontMatter.image ?? defaultImg;
+  const image = assets?.image ?? frontMatter.image ?? defaultImg;
 
   return (
-    <article itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
+    <article className={className} itemProp="blogPost" itemScope itemType="http://schema.org/BlogPosting">
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
           height={232}
@@ -159,28 +168,68 @@ const BlogPosts: FC<BlogPostsProps> = ({
   delayTime,
   useIntersectionObserver,
   ...props
-}) => (
-  <main
-    className={clsx({
-      [style.normalPage]: true,
-      [style.firstPage]: isFirstPage,
-    })}
-    itemScope
-    {...props}
-  >
-    {items.map(({ content: BlogPostContent }) => (
-      <BlogPostItem
-        key={BlogPostContent.metadata.permalink}
-        frontMatter={BlogPostContent.frontMatter}
-        assets={BlogPostContent.assets}
-        metadata={BlogPostContent.metadata}
-        truncated={BlogPostContent.metadata.truncated}
-        {...{ delayMethod, delayTime, useIntersectionObserver }}
-      >
-        <BlogPostContent />
-      </BlogPostItem>
-    ))}
-  </main>
-);
+}) => {
+  let posts = items.map(({ content: BlogPostContent }) => (
+    <BlogPostItem
+      key={BlogPostContent.metadata.permalink}
+      frontMatter={BlogPostContent.frontMatter}
+      assets={BlogPostContent.assets}
+      metadata={BlogPostContent.metadata}
+      truncated={BlogPostContent.metadata.truncated}
+      {...{ delayMethod, delayTime, useIntersectionObserver }}
+    >
+      <BlogPostContent />
+    </BlogPostItem>
+  ));
+
+  const max = (pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length);
+  const endIdx = isFirstPage
+    ? 2 * Math.floor(max / 2)
+    : 3 * Math.floor(max / 3);
+  const { pathname } = useLocation();
+
+  if (!pathname.includes('/tags/')) {
+    posts.splice(
+      1,
+      0,
+      (isFirstPage ? pickedPosts : shuffle(pickedPosts)).slice(0, endIdx).map((info) => (
+        <BlogPostItem
+          className={style.pickedPosts}
+          key={info.title}
+          frontMatter={info}
+          assets={undefined}
+          metadata={info}
+          truncated={info.summary}
+          {...{ delayMethod, delayTime, useIntersectionObserver }}
+        >
+          <div className={style.featuredPost}>
+            {translate({
+              id: 'blog.picked.posts.component.title',
+              message: 'Featured',
+            })}
+          </div>
+          <p>{info.summary}</p>
+        </BlogPostItem>
+      )),
+    );
+
+    if (!isFirstPage) {
+      posts = shuffle(posts);
+    }
+  }
+
+  return (
+    <main
+      className={clsx({
+        [style.normalPage]: true,
+        [style.firstPage]: isFirstPage,
+      })}
+      itemScope
+      {...props}
+    >
+      {posts}
+    </main>
+  );
+};
 
 export default trackWindowScroll(BlogPosts);

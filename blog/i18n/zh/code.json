@@ -336,5 +336,9 @@
   },
   "theme.blog.post.readingTime.plurals": {
     "message": "阅读需约 {readingTime} 分钟"
+  },
+  "blog.picked.posts.component.title": {
+    "message": "精选",
+    "description": "Picked posts"
   }
 }
