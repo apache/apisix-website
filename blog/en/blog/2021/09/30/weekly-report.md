@@ -6,8 +6,8 @@ keywords:
   - APISIX
   - API Gateway
   - Contributor
-description: The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.
-tags: [Events]
+description: The cloud native API gateway Apache APISIX has added functions related to stream_route, debug mode, and hmac-auth plugin in the past two weeks.
+tags: [Community]
 ---
 
 > From 9.13 to 9.30, 32 developers have committed 93 commits to Apache APISIX. Thank you to these folks for making the Apache APISIX project better with your selfless efforts!

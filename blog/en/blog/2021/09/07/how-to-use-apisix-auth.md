@@ -8,8 +8,8 @@ keywords:
 - Casbin
 - Authorization
 - Practical Case
-description: This article introduces the authentication feature of Apache APISIX, in terms of importance and playful use, with detailed descriptions and details on its use.
-tags: [Practical Case]
+description: This article introduces the authentication function of the cloud native API gateway Apache APISIX, and introduces the importance and usage in detail.
+tags: [Authentication, Ecosystem]
 ---
 
 > This article describes the authentication features of Apache APISIX, in terms of importance and usage.

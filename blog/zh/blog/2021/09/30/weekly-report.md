@@ -2,12 +2,11 @@
 title: "社区双周报（9.13-9.30）"
 keywords:
 - Apache APISIX
-- 社区周报
-- APISIX
-- API Gateway
+- APISIX 社区周报
+- API 网关
 - 贡献者
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: 云原生 API 网关 Apache APISIX 最近两周新增了 stream_route 支持在 IP 匹配中使用 CIDR，debug 模式支持动态请求过滤，hmac-auth 支持校验请求体等新功能。
+tags: [Community]
 ---
 > 从 9.13 到 9.30, 有 32 位开发者为 Apache APISIX 提交了 93 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 <!--truncate-->

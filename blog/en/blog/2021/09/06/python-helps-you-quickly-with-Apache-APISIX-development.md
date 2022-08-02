@@ -5,13 +5,12 @@ author: Jinchao Shuai
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
 keywords:
-- Python
-- APISIX
-- Python plugin
-- apisix-python-plugin-runner
-- APISIX Python Plugin Runner
-tags: [Practical Case]
-
+  - APISIX
+  - API Gateway
+  - Python
+  - APISIX Python Plugin Runner
+tags: [Ecosystem]
+description: This article will introduce you how to use Python to develop custom plugins and environment deployment on the cloud-native API gateway Apache APISIX.
 ---
 
 > The [Java Plugin](https://github.com/apache/apisix-java-plugin-runner) and [Go Plugin](https://github.com/apache/apisix-java-plugin-runner) languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.

@@ -7,7 +7,7 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords: 
 - Open Source
 - Contribution
-description: This article introduces many ways to contribute to open source projects without writing code. You can participate in open source projects by writing articles, making videos, sharing them externally, building local communities, and actively participating in community discussions.
+description: You can participate in open source projects by writing articles, making videos, sharing them externally, building local communities.
 tags: [Community]
 ---
 

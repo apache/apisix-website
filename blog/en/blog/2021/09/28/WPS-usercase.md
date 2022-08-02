@@ -7,7 +7,7 @@ keywords:
 - API Gateway
 - WPS
 description: In this article, Zhang Qiang, head of SRE network in WPS, explains how WPS can use Apache APISIX to handle Mega QPS, and update and improve gateway practices based on Apache APISIX.
-tags: [User Case]
+tags: [Case Studies]
 ---
 
 > In this article, Zhang Qiang, head of SRE network in WPS, explains how WPS can use Apache APISIX to handle Mega QPS, and update and improve gateway practices based on Apache APISIX.

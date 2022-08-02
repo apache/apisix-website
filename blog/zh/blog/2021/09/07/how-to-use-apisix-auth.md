@@ -5,9 +5,11 @@ authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
 keywords: 
 - APISIX
+- API 网关
 - 集中式身份认证
-description: 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。
-tags: [Practical Case]
+- OpenID-Connect 
+description: 本文介绍了身份认证的相关概念和身份认证的意义以及使用云原生 API 网关 Apache APISIX 进行集中式身份认证优点，并用实际示例展示了 APISIX 中身份认证的玩法。
+tags: [Authentication, Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍。

@@ -4,10 +4,11 @@ author: "Nuojing Dai"
 keywords: 
 - Apache APISIX
 - Youzan
-- Micro-service
+- API Gateway
+- Microservice
 - Cloud native
-description: This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.
-tags: [User Case]
+description: This article introduces how Youzan cloud-native PaaS platform uses cloud-native API gateway Apache APISIX as a product traffic gateway and the benefits it brings.
+tags: [Case Studies]
 ---
 
 > This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.

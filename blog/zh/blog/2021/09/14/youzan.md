@@ -3,11 +3,12 @@ title: "APISIX 在有赞云原生 PaaS 平台的应用实践"
 author: "戴诺璟"
 keywords: 
 - Apache APISIX
+- API 网关
 - 有赞
 - 微服务治理
 - 云原生
-description: 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。
-tags: [User Case]
+description: 本文介绍了有赞云原生 PaaS 平台如何使用云原生 API 网关 Apache APISIX 作为产品流量网关的具体示例，以及为什么选择 Apache APISIX作为业务网关及其带来的好处。
+tags: [Case Studies]
 ---
 
 > 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。
