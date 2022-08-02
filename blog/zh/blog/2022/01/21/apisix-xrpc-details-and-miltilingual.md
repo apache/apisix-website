@@ -16,7 +16,7 @@ keywords:
 - 多语言
 - 生态
 description: 本文为大家带来了 Apache APISIX 即将发布的 xRPC 框架以及相关细节，同时介绍了 Apache APISIX 在多语言开发支持中的细节展示。
-tags: [Technology,Ecosystem]
+tags: Ecosystem]
 ---
 
 > 本文为大家带来了 Apache APISIX 即将发布的 xRPC 框架以及相关细节，同时介绍了 Apache APISIX 在多语言开发支持中的细节展示。

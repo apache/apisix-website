@@ -13,12 +13,12 @@ keywords:
 - Apache APISIX
 - Apache Dubbo
 - Proxy
-- Plugin
-description: In this article, we introduced how to use Apache APISIX to implement a proxy for Dubbo Service. By introducing the dubbo-proxy plugin, you can build a simpler and more efficient traffic link for the back-end system of Dubbo framework.
-tags: [Technology]
+- API Gateway
+description: This article describes how to use APISIX to implement a proxy for Dubbo. You can use dubbo-proxy plugin to build backend system of Dubbo framework.
+tags: [Ecosystem,Plugin]
 ---
 
-> In this article, we introduced how to use Apache APISIX to implement a proxy for Dubbo Service. By introducing the dubbo-proxy plugin, you can build a simpler and more efficient traffic link for the back-end system of Dubbo framework.
+> This article describes how to use APISIX to implement a proxy for Dubbo. You can use dubbo-proxy plugin to build backend system of Dubbo framework.
 
 <!--truncate-->
 

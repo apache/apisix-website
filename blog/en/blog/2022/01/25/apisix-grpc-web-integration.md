@@ -12,10 +12,10 @@ authors:
 keywords: 
 - Apache APISIX
 - gRPC
-- gRPC-Web
+- API Gateway
 - Ecology
-description: Apache APISIX already supports gRPC protocol proxies, as well as HTTP(s) to gRPC Server proxies via the gRPC Transcode plugin. Through active community discussion and contributions, Apache APISIX has broadened the scope of support for the gRPC ecosystem, support for the gRPC Web Protocol Request Proxy.
-tags: [Technology,Ecosystem]
+description: APISIX has broadened the scope of support for the gRPC ecosystem. This article will introduce details of using the gRPC web protocol request proxy.
+tags: [Ecosystem,Plugin]
 ---
 
 > Apache APISIX already supports gRPC protocol proxies, as well as HTTP(s) to gRPC Server proxies via the gRPC Transcode plugin. Through active community discussion and contributions, Apache APISIX has broadened the scope of support for the gRPC ecosystem: support for the gRPC Web Protocol Request Proxy.

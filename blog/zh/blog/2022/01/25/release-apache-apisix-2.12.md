@@ -14,9 +14,9 @@ keywords:
 - 2.12.0
 - 版本发布
 - Serverless
-- 插件
-description: 继 2.11.0 版本发布之后，Apache APISIX 也在即将到来的新春佳节，为大家带来 2022 年第一个带有新功能的版本。
-tags: [Release,Technology,Ecosystem]
+- API 网关
+description: APISIX 在即将到来的新春佳节，带来 2022 年第一个带有新功能的版本。支持更多鉴权插件和 Serverless 集成，丰富日志功能及多语言插件等细节。
+tags: [Community]
 ---
 
 > 继 2.11.0 版本发布之后，Apache APISIX 也在即将到来的新春佳节，为大家带来 2022 年第一个带有新功能的版本。

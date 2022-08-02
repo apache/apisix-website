@@ -11,11 +11,11 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API 网关
 - 认证
-- 插件
 - 生态
 description: 本文将介绍 Apache APISIX 中新增插件 `forward-auth` 的使用方法，为大家详细说明如何使用这款设计简洁的认证模型。
-tags: [Technology,Ecosystem,Authentication]
+tags: [Authentication,Plugin]
 ---
 
 > 本文将介绍 Apache APISIX 中新增插件 `forward-auth` 的使用方法，为大家详细说明如何使用这款设计简洁的认证模型。
