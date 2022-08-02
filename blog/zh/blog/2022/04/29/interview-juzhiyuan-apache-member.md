@@ -13,8 +13,8 @@ keywords:
 - 开源
 - 远程
 - web 全栈工程师
-description: 2022 年 3 月，Apache APISIX PPMC 成员琚致远（GitHub ID：juzhiyuan）入选 Apache Member 和中国开源码力榜。Apache APISIX 社区对此表示祝贺，也邀请了致远做客访谈，聊聊他的开源经历和技术成长之路。
-tags: [Interview]
+description: 2022 年 3 月，Apache APISIX PPMC 成员琚致远入选 Apache Member 和中国开源码力榜。Apache APISIX 社区邀请了致远聊聊他的开源经历和技术成长之路。
+tags: [Community]
 ---
 
 > 2022 年 3 月，Apache APISIX PPMC 成员琚致远（GitHub ID：juzhiyuan）入选 Apache Member 和中国开源码力榜。Apache APISIX 社区对此表示祝贺，也邀请了致远做客访谈，聊聊他的开源经历和技术成长之路。

@@ -15,8 +15,8 @@ keywords:
 - TiDB
 - 高可用
 - TiDB Hackathon
-description: 在 TiDB Hackathon 2021 的比赛中，APISIX 参赛团队以四人组队方式呈现了 TiDB 与 Apache APISIX 对接实现通用配置中心的能力。本文将为大家带来该项目背后的一些故事以及未来展望。
-tags: [Technology]
+description: APISIX 参赛团队以四人组队方式在 TiDB Hackathon 2021 中呈现了 TiDB 与 APISIX 对接实现通用配置中心的能力。本文将带来该项目背后的一些故事以及未来展望。
+tags: [Ecosystem]
 ---
 
 > 在 TiDB Hackathon 2021 的比赛中，APISIX 参赛团队以四人组队方式（队长：张超，队员：白泽平、屠正松、陈婧晗）呈现了 TiDB 与 Apache APISIX 对接实现通用配置中心的能力。本文将为大家带来该项目背后的一些故事以及未来展望，如果您对该项目感兴趣，也欢迎随时参与到项目中来。

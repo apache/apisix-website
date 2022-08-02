@@ -9,10 +9,11 @@ authors:
     title: "Author"
     url: "https://github.com/Boburmirzo"
     image_url: "https://avatars.githubusercontent.com/u/14247607?v=4"
-description: In this blog post, we can leverage the power of some Apache APISIX Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact our users.
+description: This article describes the power of some Apache APISIX Observability Plugins, how to set up these plugins and use them to understand API behavior.
+tags: [Plugins]
 ---
 
-> In this blog post, we can leverage the power of some Apache APISIX Observability Plugins and take a look at how to set up these plugins, how to use them to understand API behavior, and later solve problems that impact APISIX's users.
+> This article describes the power of some Apache APISIX Observability Plugins, how to set up these plugins and use them to understand API behavior.
 
 <!--truncate-->
 

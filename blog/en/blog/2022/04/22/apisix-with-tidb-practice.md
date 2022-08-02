@@ -15,11 +15,11 @@ keywords:
 - TiDB
 - High Availability Configuration
 - TiDB Hackathon
-description: In the TiDB Hackathon 2021, the APISIX team presented the ability of TiDB to interface with Apache APISIX to implement a universal configuration center. In this article, we will bring you some stories behind the project and the future outlook.
-tags: [Technology]
+description: The APISIX team presented TiDB and APISIX to realize configuration center in TiDB Hackathon 2021. This article will bring stories behind the project.
+tags: [Ecosystem]
 ---
 
->In the TiDB Hackathon 2021, the APISIX team (team leader: Chao Zhang, team members: Zeping Bai, Zhengsong Tu, Jinghan Chen) presented the ability of TiDB to interface with Apache APISIX to implement a universal configuration center. In this article, we will bring you some stories behind the project and the future outlook, if you are interested in the project, please feel free to participate in the project.
+> In the TiDB Hackathon 2021, the APISIX team (team leader: Chao Zhang, team members: Zeping Bai, Zhengsong Tu, Jinghan Chen) presented the ability of TiDB to interface with Apache APISIX to implement a universal configuration center. In this article, we will bring you some stories behind the project and the future outlook, if you are interested in the project, please feel free to participate in the project.
 
 <!--truncate-->
 
