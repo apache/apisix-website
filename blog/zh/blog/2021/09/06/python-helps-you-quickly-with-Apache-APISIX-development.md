@@ -5,13 +5,12 @@ author: "帅进超"
 authorURL: "https://github.com/shuaijinchao"
 authorImageURL: "https://avatars.githubusercontent.com/u/8529452?v=4"
 keywords:
-- Python
-- APISIX
-- APISIX Python 插件
-- APISIX Python plugin
-- apisix-python-plugin-runner
-- APISIX Python Plugin Runner 
-tags: [Practical Case]
+  - APISIX
+  - API 网关
+  - Python
+  - APISIX Python Plugin Runner
+tags: [Ecosystem]
+description: 
 
 ---
 
