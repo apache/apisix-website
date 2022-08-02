@@ -165,6 +165,35 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   );
 };
 
+type PickedBlogItemProps = Omit<LazyProps, 'scrollPosition'> & {
+  info: any;
+};
+
+const PickedBlogItem: FC<PickedBlogItemProps> = ({
+  info,
+  delayMethod,
+  delayTime,
+  useIntersectionObserver,
+}) => (
+  <BlogPostItem
+    className={style.pickedPosts}
+    key={info.title}
+    frontMatter={info}
+    assets={undefined}
+    metadata={info}
+    truncated={info.summary}
+    {...{ delayMethod, delayTime, useIntersectionObserver }}
+  >
+    <div className={style.featuredPost}>
+      {translate({
+        id: 'blog.picked.posts.component.title',
+        message: 'Featured',
+      })}
+    </div>
+    <p>{info.summary}</p>
+  </BlogPostItem>
+);
+
 const BlogPosts: FC<BlogPostsProps> = ({
   items,
   isFirstPage = false,
@@ -192,29 +221,32 @@ const BlogPosts: FC<BlogPostsProps> = ({
   const { pathname } = useLocation();
 
   if (!pathname.includes('/tags/')) {
-    posts.splice(
-      1,
-      0,
-      (isFirstPage ? pickedPosts : shuffle(pickedPosts)).slice(0, endIdx).map((info) => (
-        <BlogPostItem
-          className={style.pickedPosts}
-          key={info.title}
-          frontMatter={info}
-          assets={undefined}
-          metadata={info}
-          truncated={info.summary}
-          {...{ delayMethod, delayTime, useIntersectionObserver }}
-        >
-          <div className={style.featuredPost}>
-            {translate({
-              id: 'blog.picked.posts.component.title',
-              message: 'Featured',
-            })}
-          </div>
-          <p>{info.summary}</p>
-        </BlogPostItem>
-      )),
-    );
+    if (isFirstPage) {
+      posts.splice(
+        1,
+        0,
+        pickedPosts
+          .slice(0, endIdx)
+          .map((info) => (
+            <PickedBlogItem
+              key={info.title}
+              info={info}
+              {...{ delayMethod, delayTime, useIntersectionObserver }}
+            />
+          )),
+      );
+    } else {
+      const finalPickedPosts = shuffle(pickedPosts).slice(0, endIdx);
+      const positions = shuffle(Array.from({ length: 9 }, (_, idx) => idx)).slice(0, 3);
+      positions.forEach((fromIdx) => {
+        const info = finalPickedPosts.pop();
+        posts.splice(
+          fromIdx,
+          0,
+          <PickedBlogItem info={info} {...{ delayMethod, delayTime, useIntersectionObserver }} />,
+        );
+      });
+    }
   }
 
   return (
