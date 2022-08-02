@@ -11,8 +11,8 @@ keywords:
 - Service Mesh
 - API Gateway
 - Performance
-description: This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.
-tags: [Technology]
+description: The performance of the cloud native API gateway Apache APISIX is stronger than that of Envoy when multiple workers are enabled. 
+tags: [Ecosystem]
 ---
 
 > This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.

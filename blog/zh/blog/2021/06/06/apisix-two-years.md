@@ -5,9 +5,10 @@ authorURL: "https://github.com/Serendipity96"
 authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - APISIX
+- API 网关
 - opensource
-description: Apache APISIX is now two years old, thanks for all contributors.
-tags: [Release]
+description: 云原生 API 网关 Apache APISIX 开源两年了，在这期间，APISIX 实现了健康检查、服务熔断、分布式追踪、支持 etcd v3 协议、服务发现等新功能。
+tags: [Community]
 ---
 
 > Apache APISIX 开源 2 周年啦！

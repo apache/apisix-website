@@ -9,8 +9,8 @@ keywords:
 - APISIX
 - Apache APISIX
 - Release Notes
-description: Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。
-tags: [Release]
+description: 云原生 API 网关 Apache APISIX 2.6.0-Release 正式发布！支持使用其他语言编写自定义插件、Nacos 服务发现、支持配置 IPv6 DNS 解析 ，欢迎大家下载使用。
+tags: [Community]
 ---
 
 > Apache APISIX 2.6.0-Release 正式发布！欢迎大家下载使用。

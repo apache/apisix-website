@@ -6,9 +6,9 @@ keywords:
 - APISIX
 - Apache APISIX
 - Kong
-- Nginx
-description: 贝壳找房使用 Apache APISIX 作为生产系统的 API 网关，每天处理过亿的生产流量，性能优异，而且很稳定。正好 Apache APISIX 刚刚加入 Apache 孵化器，除了恭喜之外，我想来分享下贝壳找房当初为什么选择 Apache APISIX，以及使用过程中的一些心得。
-tags: [User Case]
+- NGINX
+description: 贝壳找房选择使用云原生 API 网关 Apache APISIX 作为 API 网关，每天处理上亿流量，性能优异而且非常稳定，并且相比于 Kong，Apache APISIX 更容易入门。
+tags: [Case Studies]
 ---
 
 > 本文讲述了贝壳找房当初为什么选择 Apache APISIX 作为 API 网关，以及使用过程中的一些心得。

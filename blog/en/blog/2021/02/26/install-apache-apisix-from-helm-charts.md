@@ -8,8 +8,8 @@ keywords:
   - APISIX
   - Apache APISIX
   - Helm Chart
-description: A few days ago, Zhiliu Inc released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).
-tags: [Practical Case]
+description: API7.ai released a Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard, and Apache apisix-ingress-controller from it.
+tags: [Ecosystem]
 ---
 
 > A few days ago, [API7.ai](https://www.apiseven.com/) released an online Helm Charts repository. Users can easily install Apache APISIX, Apache apisix-dashboard and Apache apisix-ingress-controller from it (rather than cloning the corresponding project in advance).

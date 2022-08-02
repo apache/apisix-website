@@ -6,8 +6,8 @@ authorImageURL: "https://avatars.githubusercontent.com/u/23514812?v=4"
 keywords:
 - APISIX
 - opensource
-description: Apache APISIX is now two years old, thanks for all contributors.
-tags: [Release]
+description: API gateway Apache APISIX has been open source for two years, during which time health checks, service interruption, service discovery, etc. have been implemented.
+tags: [Community]
 ---
 
 > Apache APISIX is open for 2 years!
