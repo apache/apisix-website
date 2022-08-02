@@ -14,8 +14,8 @@ keywords:
 - Microservice
 - MSE
 - Traffic
-description: This article describes how Alibaba Cloud's microservice engine MSE is based on the flexible routing capabilities of Apache APISIX, cooperates with MSE's full-link grayscale capabilities, and achieves full-link grayscale through minimal configuration and code-free intrusion. 
-tags: [Technology]
+description: This article describes how Alibaba Cloud's MSE based on APISIX's flexible route capabilities, with MSE to release new value from APISIX.
+tags: [Ecosystem]
 ---
 
 > This article describes how Alibaba Cloud's microservice engine MSE is based on the flexible routing capabilities of Apache APISIX, cooperates with MSE's full-link grayscale capabilities, and achieves full-link grayscale through minimal configuration and code-free intrusion.

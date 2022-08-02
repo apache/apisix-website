@@ -12,10 +12,10 @@ authors:
 keywords: 
 - Apache APISIX
 - 2.14.1
-- 版本发布
+- WebSocket
 - API 网关
-description: 探索性版本—— Apache APISIX 2.14.1 正式发布。该版本不仅支持了在控制面实现服务发现，还支持了 Istio、基于 WebSocket 的 pubsub 代理框架和基于 xRPC 框架管理非 HTTP 的 7 层协议。
-tags: [Release]
+description: Apache APISIX 2.14.1 正式发布！该版本支持在控制面实现服务发现，还支持 Istio、基于 WebSocket 的 pubsub 代理框架和基于 xRPC 框架管理非 HTTP 七层协议。
+tags: [Community]
 ---
 
 > 探索性版本—— Apache APISIX 2.14.1 正式发布。该版本不仅支持了在控制面实现服务发现，还支持了 Istio、基于 WebSocket 的 pubsub 代理框架和基于 xRPC 框架管理非 HTTP 的 7 层协议。

@@ -14,8 +14,8 @@ keywords:
 - the Middle East
 - Traffic
 - Security
-description: This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/), and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.
-tags: [User Case]
+description: This article introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment in security and scalability.
+tags: [Case Studies]
 ---
 
 > This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/), and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.

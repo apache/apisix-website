@@ -15,11 +15,11 @@ keywords:
 - Operation
 - Microservice
 - Lua
-description: In this article, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
-tags: [Technology]
+description: This article introduces how to implement an automatic operation based on APISIX, and more details from the user login and authentication scenarios.
+tags: [Case Studies]
 ---
 
-> In this article, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
+> In this article, Chen Qing, the former operation and maintenance manager of Tongcheng Digital Technology, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.
 
 <!--truncate-->
 

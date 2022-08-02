@@ -3,13 +3,14 @@ title: Biweekly Report (Jun 1 - Jun 15)
 keywords:
 - Apache APISIX
 - API Gateway
-- Weekly Report
+- AWS
+- OIDC
 - Contributor
-description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
-tags: [Events]
+description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community.
+tags: [Community]
 ---
 
-> From Jun 1st to Jun 15th, 30 contributors submitted 73 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
+> From Jun 1st to Jun 15th, 30 contributors submitted 73 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX!
 
 <!--truncate-->
 

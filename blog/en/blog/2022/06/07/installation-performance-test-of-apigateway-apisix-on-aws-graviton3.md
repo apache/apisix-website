@@ -15,8 +15,8 @@ keywords:
 - AWS
 - AWS Graviton3
 - ARM64
-description: Apache APISIX has carried out regression tests under the ARM64 platform, and fixed some compatibility issues of the build scripts under the ARM64 platform. Through a brief deployment test description, this article shows that in the AWS Graviton environment, both in terms of stability and traffic processing, APISIX's performance is very dazzling.
-tags: [Technology]
+description: This article uses APISIX to compare the performance of AWS Graviton3 and AWS Graviton2. AWS Graviton3 shows the power performance in the API gateway.
+tags: [Ecosystem]
 ---
 
 > Apache APISIX has carried out regression tests under the ARM64 platform, and fixed some compatibility issues of the build scripts under the ARM64 platform. Through a brief deployment test description, this article shows that in the AWS Graviton environment, both in terms of stability and traffic processing, APISIX's performance is very dazzling.

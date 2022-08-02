@@ -1,15 +1,24 @@
 ---
 title: "助力开发者，全方位解读 APISIX 测试案例"
+authors:
+  - name: "白泽平"
+    title: "Author"
+    url: "https://github.com/bzp2010"
+    image_url: "https://github.com/bzp2010.png"
+  - name: "韩飞"
+    title: "Technical Writer"
+    url: "https://github.com/hf400159"
+    image_url: "https://github.com/hf400159.png"
 keywords: 
 - Apache APISIX
 - API 网关
 - 测试案例
-- 测试
-description: 本文主要介绍了如何编写 API 网关 Apache APISIX 的测试案例。
-tags: [Technology]
+- GitHub
+description: 本文主要介绍了 APISIX 的测试案例和如何编写 API 网关 Apache APISIX 的测试案例，并从本地和 GitHub 层面展示了实际运行效果。
+tags: [Community,Ecosystem]
 ---
 
-> 本文主要介绍了如何编写以及运行 APISIX 的测试案例。
+> 本文主要介绍了 APISIX 的测试案例和如何编写 API 网关 Apache APISIX 的测试案例，并从本地和 GitHub 层面展示了实际运行效果。
 
 <!--truncate-->
 
