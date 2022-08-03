@@ -19,7 +19,11 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-> Source: https://api7.ai/blog/why-do-you-need-apache-apisix-when-you-have-nginx-and-kong
+:::tip
+
+For the latest version, please see: [Why do you need Apache APISIX when you have NGINX and Kong?](https://apisix.apache.org/blog/2022/07/30/why-we-need-apache-apisix/)
+
+:::
 
 Hello everyone, I'm happy to share, "Why do you need Apache APISIX when you have NGINX and Kong."
 

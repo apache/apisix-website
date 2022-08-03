@@ -1,5 +1,6 @@
 [
-    "blog/en/blog/2022/07/29/release-apache-apisix-2.15.md",
-    "blog/en/blog/2022/07/22/how-is-google-cloud-tau-t2a-performing.md",
-    "blog/en/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis.md"
+    "blog/en/blog/2021/12/30/apisix-proxy-grpc-service.md",
+    "blog/en/blog/2022/01/11/building-apisix-in-ubuntu-for-arm.md",
+    "blog/en/blog/2022/02/21/nacos-api-gateway.md",
+    "blog/en/blog/2022/02/16/file-logger-api-gateway.md"
 ]

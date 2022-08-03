@@ -1,5 +1,6 @@
 [
-    "blog/zh/blog/2022/07/29/release-apache-apisix-2.15.md",
-    "blog/zh/blog/2022/07/22/how-is-google-cloud-tau-t2a-performing.md",
-    "blog/zh/blog/2022/07/22/exploration-of-apisix-in-api-and-microservices.md"
+    "blog/zh/blog/2021/12/30/apisix-proxy-grpc-service.md",
+    "blog/zh/blog/2022/01/11/building-apisix-in-ubuntu-for-arm.md",
+    "blog/zh/blog/2022/02/21/nacos-api-gateway.md",
+    "blog/zh/blog/2022/02/16/file-logger-api-gateway.md"
 ]
