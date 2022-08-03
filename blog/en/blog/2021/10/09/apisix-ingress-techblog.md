@@ -9,7 +9,7 @@ keywords:
 - Ingress
 - API Gateway
 - Kubernetes
-description: This article introduces the definition of API gateway Apache APISIX Ingress and its differences and advantages with K8s Ingress Nginx.
+description: This article introduces the definition of API gateway Apache APISIX Ingress and its differences and advantages with K8s Ingress NGINX.
 tags: [Ecosystem, Community]
 ---
 

@@ -10,7 +10,7 @@ keywords:
 - Ingress
 - Kubernetes
 - 自定义资源
-description: 本文详细讲解了 API 网关 Apache APISIX Ingress 的定义以及该项目与 K8s Ingress Nginx 不同和优势，也为大家介绍了流量切分，配置认证、资源扩展等多个场景。
+description: 本文详细讲解了 API 网关 Apache APISIX Ingress 的定义以及该项目与 K8s Ingress NGINX 不同和优势，也为大家介绍了流量切分，配置认证、资源扩展等多个场景。
 tags: [Ecosystem, Community]
 ---
 
