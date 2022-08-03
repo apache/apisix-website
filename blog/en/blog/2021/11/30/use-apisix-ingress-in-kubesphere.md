@@ -6,11 +6,12 @@ authorImageURL: "https://avatars.githubusercontent.com/u/2936504?v=4"
 keywords: 
 - KubeSphere
 - Apache APISIX
+- API Gateway
 - Kubenetes
 - Ingress Controller
 - Monitor
-description: This article will take Apache APISIX Ingress Controller as an example to show you in detail how to quickly use different types of gateways and status monitoring for Kubernetes clusters through KubeSphere.
-tags: [Technology,Monitoring,Kubernetes]
+description: This article uses Apache APISIX Ingress Controller as an example to introduce how to quickly use different gateways for Kubernetes clusters and monitor status through KubeSphere.
+tags: [Ecosystem]
 ---
 
 > This article will take Apache APISIX Ingress Controller as an example to show you in detail how to quickly use different types of gateways and status monitoring for Kubernetes clusters through KubeSphere.

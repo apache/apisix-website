@@ -6,9 +6,10 @@ authorImageURL: "https://avatars.githubusercontent.com/u/57267960?v=4"
 keywords:
 - Open Source
 - Apache APISIX
+- API Gateway
 - Community
 - User story
-description: In this article, Shivam Singh ([@1502shivam-singh](https://github.com/1502shivam-singh)) gives a brief of his journey from starting out in the Apache APISIX community, from a contributor to an Apache member and APISIX committer. His journey can help other people looking to startup in the Apache APISIX community or Open Source in general.
+description: This article describes how Shivam Singh has grown from contributor to Apache Committer in the Apache APISIX community from a personal perspective.
 tags: [Community]
 ---
 

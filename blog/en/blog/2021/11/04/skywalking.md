@@ -12,11 +12,12 @@ authors:
 keywords: 
 - Apache APISIX
 - observability
+- API Gateway
 - SkyWalking
 - Apache
 - Prometheus
 description: This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.
-tags: [Technology,Observability]
+tags: [Plugins,Ecosystem]
 ---
 
 > This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.

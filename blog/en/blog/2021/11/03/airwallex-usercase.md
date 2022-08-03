@@ -3,11 +3,12 @@ title: "API Gateway Practice in Airwallex with APISIX"
 author: "Yang Li"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Airwallex
 - Data Sovereignty
 - Data
 description: This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.
-tags: [User Case]
+tags: [Case Studies]
 ---
 
 > This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.

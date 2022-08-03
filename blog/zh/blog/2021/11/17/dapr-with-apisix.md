@@ -7,10 +7,10 @@ keywords:
 - Apache APISIX
 - Dapr
 - Kubernetes
-- 网关
+- API 网关
 - Sidecar
-description: 本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器。包括项目概念以及具体操作步骤。
-tags: [Technology]
+description: 本文为大家介绍了 Dapr 和 Apache APISIX Ingress Controller 的相关概念，并展示了集成 Dapr 创建一个 Apache APISIX 控制器的具体步骤及测试示例项目。
+tags: [Ecosystem]
 ---
 
 > 本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器。包括项目概念以及具体操作步骤。

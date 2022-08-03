@@ -9,8 +9,8 @@ keywords:
 - WebAssembly
 - Ecosystem
 - Plugin
-description: Support for WASM will be added in the upcoming Apache APISIX version (2.11.0)! By reading this article you will learn how Apache APISIX deploys the support and development of this feature from 0 to 1.
-tags: [Technology,Ecosystem]
+description: This article introduces why the cloud native API gateway Apache APISIX chooses Proxy Wasm for its functionality and how to use Wasm in Apache APISIX.
+tags: [Ecosystem]
 ---
 
 > Support for WASM will be added in the upcoming Apache APISIX version (2.11.0)! By reading this article you will learn how Apache APISIX deploys the support and development of this feature from 0 to 1.

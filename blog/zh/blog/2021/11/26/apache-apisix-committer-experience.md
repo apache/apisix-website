@@ -8,7 +8,7 @@ keywords:
 - Apache APISIX
 - 社区
 - 人物故事
-description: 本文将从 Shivam Singh（@1502shivam-singh）个人角度，简要描述了他是如何在 Apache APISIX 社区中从贡献者成长为 Apache Committer。希望他的个人参与历程可以帮助到那些希望在 Apache APISIX 社区或其他开源社区进行项目贡献的朋友。
+description: 本文从 Shivam Singh个人角度，介绍了他是如何在 Apache APISIX 社区中从贡献者成长为 Apache Committer。希望他的个人经历可以帮助你参与开源社区进行项目贡献。
 tags: [Community]
 ---
 

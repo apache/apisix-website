@@ -7,8 +7,8 @@ keywords:
 - APISIX
 - API Gateway
 - Apache
-description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
-tags: [Events]
+description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community.
+tags: [Community]
 ---
 
 > From 10.15 to 10.31, 31 contributors submitted 93 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
