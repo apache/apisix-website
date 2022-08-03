@@ -8,7 +8,7 @@ keywords:
 - API Gateway
 - OpenResty
 description: Zexuan Luo and Ming Wen from the Apache APISIX community did a lot of work in the first community innovation release of openEuler on September 30 (openEuler 21.09) to migrate OpenResty to run smoothly and efficiently on the Euler open source OS.
-tags: [Community]
+tags: [Events]
 ---
 > [Zexuan Luo](https://github.com/spacewander) and [Ming Wen](https://github.com/moonming) from the Apache APISIX community have done a lot of work in the first community innovation release of openEuler on September 30 ([openEuler 21.09](https://openeuler.org/)), contributed a lot to the [OpenResty](https://github.com/openresty/openresty) migration effort, allowing OpenResty to run smoothly and efficiently on the Euler open source OS. The stable operation of OpenResty also means that [Apache APISIX](https://github.com/apache/apisix) can run smoothly on the openEuler system, and the underlying Apache APISIX is based on OpenResty for some development.
 <!--truncate-->
