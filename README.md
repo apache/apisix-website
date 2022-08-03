@@ -17,7 +17,7 @@ A cloud-native microservices API Gateway
 
 > If you want to write a blog or fix some blog-related issues, please read [Apache APISIX Blog Contributing Guide](http://apisix.apache.org/docs/general/blog) first.
 
-### Preparation
+### Pre-preparation
 
 First, you need to install `Node.js`, `Yarn`, `Git`.
 
@@ -97,11 +97,11 @@ preview=true yarn build
 # or
 yarn build:preview
 
-# The above commands only build the site, 
+# The above commands only build the site,
 # to preview it locally you need the following commands
 yarn serve
 
-# You can also build and preview each part individually, 
+# You can also build and preview each part individually,
 # just like in development mode
 preview=true yarn build:doc && yarn serve:doc
 preview=true yarn build:blog:en && yarn serve:blog:en
@@ -132,7 +132,7 @@ apisix-website
 │   └── zh
 ├── config
 ├── doc
-└── website 
+└── website
     ├── articles
     ├── docs
     │   └── general # https://apisix.apache.org/docs/general/join
