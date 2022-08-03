@@ -17,7 +17,7 @@ A cloud-native microservices API Gateway
 
 > If you want to write a blog or fix some blog-related issues, please read [Apache APISIX Blog Contributing Guide](http://apisix.apache.org/docs/general/blog) first.
 
-### Pre-preparation
+### Pre-requisites
 
 First, you need to install `Node.js`, `Yarn`, `Git`.
 
