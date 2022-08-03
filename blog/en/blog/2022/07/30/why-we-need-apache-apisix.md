@@ -105,4 +105,4 @@ In the next five to ten years, the service mesh architecture based on the cloud-
 
 It has been three years since the first day when Apache APISIX was open-sourced. The highly active community and actual user cases have proved that APISIX is the most perfect API gateway in the cloud-native era. By reading this article, I believe you have a more comprehensive understanding of APISIX and look forward to using APISIX as your API gateway in a production environment.
 
-If you have any questions, you can leave a message in [Github issue](https://github.com/apache/apisix/issues), community contributors will respond quickly, of course, you can also join the APISIX Slack channel and mailing list, Please refer to [Join Us](https://apisix.apache.org/en/docs/general/join/).
+If you have any questions, you can leave a message in [Github issue](https://github.com/apache/apisix/issues), community contributors will respond quickly, of course, you can also join the APISIX Slack channel and mailing list, Please refer to [Join Us](https://apisix.apache.org/docs/general/join/).
