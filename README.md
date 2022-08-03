@@ -17,7 +17,7 @@ A cloud-native microservices API Gateway
 
 > If you want to write a blog or fix some blog-related issues, please read [Apache APISIX Blog Contributing Guide](http://apisix.apache.org/docs/general/blog) first.
 
-### Preparation
+### Pre-requisites
 
 First, you need to install `Node.js`, `Yarn`, `Git`.
 
@@ -31,45 +31,82 @@ git clone git@github.com:${your GitHub name}/apisix-website.git
 
 # add this repo as upstream
 git remote add upstream https://github.com/apache/apisix-website.git
+
+# default dir should be apisix-website
+cd apisix-website
 ```
 
 ### Basic
 
-```sh
-# 1. cd
-# default dir should be apisix-website
-cd apisix-website
+When you find that some commands do not run, or cannot be found, look at the package.json file.
 
-# 2. install deps
+This may be because the project is being updated quickly, but there is no time to make updates to the relevant documentation.
+
+#### Preparation
+
+Except for the following commands that you need to run after downloading the project for the first time, you can **try running them again** when you encounter any problems.
+
+```sh
+# 1. Install deps
 yarn
 
-# 3. sync docs and generate repos info
-yarn sync-doc && yarn generate-repos-info
-# or
+# 2. Prepare necessory data
 yarn prepare-data
 
-# 4. start website's docs part in dev mode
-yarn start:docs
-# English Blog
-yarn start:blog:en
-# Chinese Blog
-yarn start:blog:zh
+# Tip.
+# The `yarn prepare-data` command contains the following three commands
+# If necessary, you can run any of the following commands individually
+yarn sync-doc # Sync all project documents
+yarn generate-repos-info # Generate repository information for each project
+yarn generate-picked-posts # Generate frontmatter information for featured blogs
+```
 
-# tip.
-# in dev, only English docs  will be built
+#### Preview documentation, Development
+
+When you modify a document, blog, or page code, the preview in development mode is the fastest.
+
+```sh
+# Start docs part
+yarn start:doc
+
+# Tip.
+# in dev, only English docs will be built
 # it's a feature of docusaurus
 # if you want to specify the locale,
 # for example, Chinese, your should run
-yarn start:docs --locale zh
+yarn start:doc --locale zh
 
-# tip.
-# if you want to preview the same site as online
+# Start English Blog
+yarn start:blog:en
+
+# Start Chinese Blog
+yarn start:blog:zh
+
+# Start general docs, other pages part
+yarn start:website
+```
+
+#### Build locally
+
+When you want to build or preview a site that looks the same as it does online, run the following commands.
+
+```bash
+# Since the local environment is slightly different from the online one,
+# you must add the environment variable `preview`
 preview=true yarn build
 # or
 yarn build:preview
 
-# tip:
-# You can see all the commands you can run in package.json
+# The above commands only build the site,
+# to preview it locally you need the following commands
+yarn serve
+
+# You can also build and preview each part individually,
+# just like in development mode
+preview=true yarn build:doc && yarn serve:doc
+preview=true yarn build:blog:en && yarn serve:blog:en
+preview=true yarn build:blog:zh && yarn serve:blog:zh
+preview=true yarn build:website && yarn serve:website
 ```
 
 Next, you can modify the documentation or code, commit it and push it to GitHub when you're done. If you're not familiar with this, you can read [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) first.
@@ -91,11 +128,12 @@ apisix-website
 ├── .husky # git hooks, currently only pre-commit is used
 ├── scripts # scripts to help build the site
 ├── blog
-    ├── en
-    └── zh
-└── website # docusaurus
+│   ├── en
+│   └── zh
+├── config
+├── doc
+└── website
     ├── articles
-    ├── config # are imported in scripts and docusaurus.config.js
     ├── docs
     │   └── general # https://apisix.apache.org/docs/general/join
     ├── i18n
