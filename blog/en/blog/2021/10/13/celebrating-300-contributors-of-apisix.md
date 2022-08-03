@@ -4,10 +4,11 @@ author: Apache APISIX
 date: 2021-10-13
 keywords: 
 - Apache APISIX
+- API Gateway
 - contributor
 - milestone
-description: The Apache APISIX community has reached a new milestone, surpassing 300 contributors worldwide to projects related to Apache APISIX!
-tags: [Events]
+description: The API Gateway Apache APISIX community has reached a new milestone, surpassing 300 contributors worldwide to projects related to Apache APISIX!
+tags: [Community]
 ---
 
 > The Apache APISIX community has reached a new milestone of 300 contributors worldwide to projects related to Apache APISIX! Only 3 months have passed since the Apache APISIX main repository reached the [200 contributor milestone](https://apisix.apache.org/blog/2021/07/06/celebrate-200-contributors/)! Thank you to the community contributors for their outstanding contributions in all aspects of code, documentation, operations, and more.

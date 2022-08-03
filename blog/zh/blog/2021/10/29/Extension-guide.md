@@ -7,10 +7,11 @@ authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords: 
 - Apache APISIX
 - Plugin
+- API 网关
 - HTTP
 - Apache
-description: 本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。
-tags: [Technology]
+description: 本文提供了 Apache APISIX 的拓展指南，并且介绍了 Rewrite 还是 Access、配置服务发现、配置负载均衡、处理响应以及上报日志和监控参数等六个拓展方向。
+tags: [Ecosystem]
 ---
 
 > 本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。

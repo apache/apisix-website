@@ -6,10 +6,11 @@ authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
 keywords: 
 - Apache APISIX Ingress Controller
 - Apache APISIX
+- API Gateway
 - Cert Manager
 - Kubernetes
 description: This article shows how to create a certificate and pair it with Apache APISIX Ingress Controller via the Cert Manager.
-tags: [Technology]
+tags: [Ecosystem]
 ---
 
 > This article shows how to create a certificate and pair it with Apache APISIX Ingress Controller via the Cert Manager.

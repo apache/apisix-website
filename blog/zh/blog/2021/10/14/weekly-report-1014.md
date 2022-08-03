@@ -4,10 +4,10 @@ keywords:
 - Apache APISIX
 - 社区周报
 - APISIX
-- API Gateway
+- API 网关
 - 贡献者
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: 本周云原生 API 网关 Apache APISIX 社区新增了 ldap-auth 插件，并支持测试配置文件以及支持配置 Service 中 host 字段提供路由默认值等功能。
+tags: [Community]
 ---
 > 从 10.1 到 10.14, 有 27 位开发者为 Apache APISIX 提交了 67 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 <!--truncate-->
