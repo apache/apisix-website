@@ -15,8 +15,8 @@ keywords:
 - Kubernetes
 - APISIX Ingress Controller
 - Service Mesh
-description: This article shows you step by step how to use Istio Service Mesh and Apache APISIX, to expose services in a Service Mesh-enabled Kubernetes cluster to the outside of the cluster through very detailed steps.
-tags: [Technology]
+description: This article shows how to use Istio Service Mesh and API Gateway Apache APISIX to expose services from a Service Mesh-enabled Kubernetes cluster outside the cluster.
+tags: [Ecosystem]
 ---
 
 > This article shows you step by step how to use Istio Service Mesh and Apache APISIX, to expose services in a Service Mesh-enabled Kubernetes cluster to the outside of the cluster through very detailed steps.

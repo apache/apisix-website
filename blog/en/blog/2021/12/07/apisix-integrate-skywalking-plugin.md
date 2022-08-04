@@ -11,11 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Apache SkyWalking
 - Log Process
 - Plugin
-description: This paper mainly introduces two Apache APISIX integrated SkyWalking log plug-ins to provide a more convenient operation and environment for log processing in Apache APISIX.
-tags: [Technology]
+description: This paper mainly introduces two Apache APISIX integrated SkyWalking log plugins to provide a more convenient operation and environment for log processing in Apache APISIX.
+tags: [Plugins]
 ---
 
 > This paper mainly introduces two Apache APISIX integrated SkyWalking log plug-ins to provide a more convenient operation and environment for log processing in Apache APISIX.

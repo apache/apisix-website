@@ -15,8 +15,8 @@ keywords:
 - WASM
 - Azure
 - LDAP
-description: Apache APISIX 2.11.0 is officially released, which is the first version with new features after 2.10.0 LTS.
-tags: [Release]
+description: API Gateway Apache APISIX 2.11.0 version is released, which supports LDAP and datadog plugins and provides Wasm related support and other functions.
+tags: [Community]
 ---
 
 > Apache APISIX 2.11.0 is officially released, which is the first version with new features after 2.10.0 LTS.

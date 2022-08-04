@@ -11,12 +11,13 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Kubernetes
 - APISIX Dashboard
 - Deployment
 - Cluster
-description: Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apache APISIX and APISIX-Dashboard in a Kubernetes environment.
-tags: [Technology,Kubernetes]
+description: API Gateway Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy APISIX and Dashboard in a Kubernetes environment.
+tags: [Ecosystem]
 ---
 
 > Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy Apache APISIX and APISIX-Dashboard in a Kubernetes environment.

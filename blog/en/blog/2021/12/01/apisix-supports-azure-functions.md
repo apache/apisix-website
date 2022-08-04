@@ -5,11 +5,12 @@ authorURL: "https://github.com/bisakhmondal"
 authorImageURL: "https://avatars.githubusercontent.com/u/41498427?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Azure Functions
 - Microsoft
 - Serverless
-description: This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.
-tags: [Technology]
+description: This article  gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.
+tags: [Ecosystem]
 ---
 
 > This article talks about the recent addition of a new plugin `azure-functions`, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.

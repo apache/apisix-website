@@ -7,8 +7,8 @@ keywords:
 - APISIX
 - API Gateway
 - Apache
-description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
-tags: [Events]
+description: Apache APISIX adds the azure-functions, google-cloud-logging and openwhisk plugins, and the kafka-logger plugin to support logging request and response bodies and many other functions.
+tags: [Community]
 ---
 
 > From 11.15 to 11.30, 37 contributors submitted 87 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!

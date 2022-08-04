@@ -6,8 +6,8 @@ keywords:
 - Kubernetes
 - 小红书
 - WASM
-description: 12 月 26 日，Apache APISIX 社区联合 Apache RockMQ 社区为大家带来线上分享，快来看看有哪些精彩的议题吧。
-tags: [Events]
+description: API 网关 Apache APISIX 社区联合 Apache RockMQ 社区为大家带来线上分享，包含了小红书消息中间件的运维实践与治理之路, 基于 WASM 的 Apache APISIX 多语言插件方案等主题演讲。
+tags: [Community]
 ---
 
 > 12 月 26 日，Apache APISIX 社区联合 Apache RockMQ 社区为大家带来线上分享，快来看看有哪些精彩的议题吧。

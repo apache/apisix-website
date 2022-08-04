@@ -11,12 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
-- 版本发布
+- API 网关
 - WASM
 - Azure
 - LDAP
-description: Apache APISIX 2.11.0 版本正式发布，这是继 2.10.0 LTS 版本后第一版带有新功能的版本。
-tags: [Release]
+description: API 网关 Apache APISIX 2.11.0 版本正式发布，该版本支持了 LDAP 认证插件，datadog 监控插件，通过网关暴露 Azure 的 FaaS 函数以及提供 WASM 相关支持等功能。
+tags: [Community]
 ---
 
 > Apache APISIX 2.11.0 版本正式发布，这是继 2.10.0 LTS 版本后第一版带有新功能的版本。
