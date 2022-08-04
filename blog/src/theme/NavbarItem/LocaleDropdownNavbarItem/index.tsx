@@ -14,33 +14,42 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useAlternatePageUtils } from '@docusaurus/theme-common';
 import { useLocation } from '@docusaurus/router';
+import useWindowType from '@theme/hooks/useWindowSize';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
-interface LocaleDropdownNavbarItemProps extends Omit<Props, 'items'>{
-  readonly dropdownItemsBefore: readonly LinkLikeNavbarItemProps[],
-  readonly dropdownItemsAfter: readonly LinkLikeNavbarItemProps[]
+interface LocaleDropdownNavbarItemProps extends Omit<Props, 'items'> {
+  readonly dropdownItemsBefore: readonly LinkLikeNavbarItemProps[];
+  readonly dropdownItemsAfter: readonly LinkLikeNavbarItemProps[];
 }
 
 const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   const {
-    mobile,
-    dropdownItemsBefore,
-    dropdownItemsAfter,
-    ...others
+    mobile, dropdownItemsBefore, dropdownItemsAfter, ...others
   } = props;
   const {
     i18n: { currentLocale, locales, localeConfigs },
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
   const { pathname } = useLocation();
+  const windowType = useWindowType();
 
-  if (pathname.startsWith('/zh/blog')) {
-    return <Link autoAddBaseUrl={false} to="pathname:///blog" target="_parent">English Blog</Link>;
-  }
+  if (windowType !== 'mobile') {
+    if (pathname.startsWith('/zh/blog')) {
+      return (
+        <Link autoAddBaseUrl={false} to="pathname:///blog" target="_parent">
+          English Blog
+        </Link>
+      );
+    }
 
-  if (pathname.startsWith('/blog')) {
-    return <Link autoAddBaseUrl={false} to="pathname:///zh/blog" target="_parent">中文博客</Link>;
+    if (pathname.startsWith('/blog')) {
+      return (
+        <Link autoAddBaseUrl={false} to="pathname:///zh/blog" target="_parent">
+          中文博客
+        </Link>
+      );
+    }
   }
 
   function getLocaleLabel(locale) {
