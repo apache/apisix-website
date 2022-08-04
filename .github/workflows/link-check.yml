@@ -34,7 +34,7 @@ jobs:
 
       - name: Pull Docs
         run: |
-          yarn sync-doc && git status
+          yarn sync-docs && git status
 
       - name: Check Links
         run: |
