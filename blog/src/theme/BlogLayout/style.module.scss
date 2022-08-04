@@ -1,3 +1,5 @@
+@import "../../css/util";
+
 .shareSection {
   button {
     margin-right: 0.5rem;
@@ -22,6 +24,8 @@
 .tagsHeader {
   display: flex;
   justify-content: flex-end;
+  width: 100%;
+  flex-wrap: wrap;
   padding: 0.25rem 1rem;
   transition: all 0.3s ease-in-out;
   border-bottom: 1px solid #e8e8ed;
@@ -59,6 +63,14 @@
 
     > a {
       padding: 0 1rem;
+    }
+  }
+
+  @include respond-below(sm) {
+    justify-content: space-between;
+
+    a {
+      min-width: 110px;
     }
   }
 }

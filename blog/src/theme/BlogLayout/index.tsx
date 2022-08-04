@@ -75,19 +75,22 @@ const tags = [
   },
 ];
 
-const TagsHeader: FC = () => (
-  <Sticky innerZ={199} className={style.placeholder}>
-    {(s) => (
-      <div className={clsx(style.tagsHeader, s.status === Sticky.STATUS_FIXED && style.expand)}>
-        {tags.map((tag) => (
-          <Link key={tag.url} to={tag.url} target="_parent">
-            {tag.label}
-          </Link>
-        ))}
-      </div>
-    )}
-  </Sticky>
-);
+const TagsHeader: FC = () => {
+  const windowType = useWindowType();
+  return (
+    <Sticky innerZ={199} className={style.placeholder} enabled={windowType !== 'mobile'}>
+      {(s) => (
+        <div className={clsx(style.tagsHeader, s.status === Sticky.STATUS_FIXED && style.expand)}>
+          {tags.map((tag) => (
+            <Link key={tag.url} to={tag.url} target="_parent">
+              {tag.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </Sticky>
+  );
+};
 
 const BlogLayout: FC<Props> = (props) => {
   const {
