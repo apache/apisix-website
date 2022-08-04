@@ -21,7 +21,6 @@
   "dependencies": {
     "date-fns": "^2.29.1",
     "remark": "^14.0.2",
-    "remark-mdx": "^2.1.2",
     "unist-util-visit": "^4.1.0"
   }
 }
