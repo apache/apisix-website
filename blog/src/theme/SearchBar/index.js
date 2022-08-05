@@ -9,7 +9,6 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { useHistory } from '@docusaurus/router';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
@@ -22,7 +21,11 @@ import styles from './styles.module.css';
 let DocSearchModal = null;
 
 function Hit({ hit, children }) {
-  return <a href={hit.url}>{children}</a>;
+  return (
+    <a href={hit.url} target="_parent">
+      {children}
+    </a>
+  );
 }
 
 function ResultsFooter({ state, onClose }) {
@@ -55,7 +58,6 @@ function DocSearch({ contextualSearch, ...props }) {
   };
 
   const { withBaseUrl } = useBaseUrlUtils();
-  const history = useHistory();
   const searchContainer = useRef(null);
   const searchButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -100,7 +102,7 @@ function DocSearch({ contextualSearch, ...props }) {
 
   const navigator = useRef({
     navigate({ itemUrl }) {
-      history.push(itemUrl);
+      location.assign(itemUrl);
     },
   }).current;
 
