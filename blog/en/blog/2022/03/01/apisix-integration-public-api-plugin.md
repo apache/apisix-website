@@ -14,7 +14,7 @@ keywords:
 - API Gateway
 - Security
 - Ecosystem
-description: You can protect custom APIs in APISIX plug-ins through the public-api plug-in of Apache APISIX, a cloud-native API gateway, and introduce its application scenarios.
+description: You can protect custom APIs in APISIX plugins through the public-api plug-in of Apache APISIX, a cloud-native API gateway, and introduce its application scenarios.
 tags: [Plugins,Ecosystem]
 ---
 

@@ -16,7 +16,7 @@ keywords:
 - Service Discovery
 - Service Register
 - Ecosystem
-description: The cloud native API gateway Apache APISIX integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in APISIX.
+description: The cloud-native API Gateway Apache APISIX integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in APISIX.
 tags: [Ecosystem]
 ---
 
