@@ -16,7 +16,7 @@ keywords:
 - Log Process
 - Plugin
 description: This paper mainly introduces two Apache APISIX integrated SkyWalking log plugins to provide a more convenient operation and environment for log processing in Apache APISIX.
-tags: [Plugins]
+tags: [Plugins,Ecosystem]
 ---
 
 > This paper mainly introduces two Apache APISIX integrated SkyWalking log plug-ins to provide a more convenient operation and environment for log processing in Apache APISIX.
