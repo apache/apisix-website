@@ -5,7 +5,7 @@ keywords:
 - API Gateway
 - Weekly Report
 - Contributor
-description: In the past two weeks, the Apache APISIX community has added many functions about plugins such as open-connect, authz-keycloak, cors, csrf, and jwt-auth.
+description: In the past two weeks, the Apache APISIX community has added many functions about plugins such as openid-connect, authz-keycloak, cors, csrf, and jwt-auth.
 tags: [Community]
 ---
 
