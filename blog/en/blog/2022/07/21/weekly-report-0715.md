@@ -5,7 +5,7 @@ keywords:
 - API Gateway
 - Weekly Report
 - Contributor
-description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
+description: The cloud native API gateway Apache APISIX has added functions such as supporting custom plugin priorities and checking plugin_metadata in configuration files in the past two weeks.
 tags: [Community]
 ---
 
