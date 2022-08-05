@@ -15,8 +15,8 @@ keywords:
 - OpenTelemetry
 - Observability
 - Ecosystem
-description: 本文为您介绍了  API 网关 Apache APISIX 中的 opentelemetry 插件的概念以及如何部署 opentelemetry 插件。
-tags: [Technology,Ecosystem,Observability]
+description: 本文为您介绍了云原生 API 网关 Apache APISIX 的 opentelemetry 插件的概念以及如何在 APISIX 使用 opentelemetry 插件对接 OpenTelemetry，实现 trace 数据采集。
+tags: [Plugins,Ecosystem]
 ---
 
 > 本文为您介绍了 API 网关 Apache APISIX 中的 `opentelemetry` 插件的概念以及如何部署 `opentelemetry` 插件。

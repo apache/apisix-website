@@ -16,8 +16,8 @@ keywords:
 - Service Discovery
 - Service Registry
 - Ecosystem
-description: 本文为您介绍 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 API 网关基于 Nacos 实现服务发现的具体操作。
-tags: [Technology,Ecosystem,Service Discovery]
+description: 本文为你介绍了云原生 API 网关 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 APISIX 基于 Nacos 实现服务发现的具体操作。
+tags: [Plugins,Ecosystem]
 ---
 
 > 本文为您介绍 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 API 网关基于 Nacos 实现服务发现的具体操作。

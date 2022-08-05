@@ -15,9 +15,8 @@ keywords:
 - cross-site request forgery
 - CSRF
 - API Gateway
-
-description: This article introduces `csrf`, the CSRF security plugin for API Gateway, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.
-tags: [Technology,Ecosystem]
+description: This article introduces `csrf`, the CSRF security plugin for API Gateway, and details how to secure your API information in APISIX with the help of the `csrf` plugin.
+tags: [Plugins,Ecosystem]
 ---
 
 > This article introduces `csrf`, the CSRF security plugin for Apache APISIX, and details how to secure your API information in Apache APISIX with the help of the `csrf` plugin.

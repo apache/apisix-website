@@ -15,8 +15,8 @@ keywords:
 - OpenTelemetry
 - Observability
 - Ecosystem
-description: This article introduces you to the Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.
-tags: [Technology,Ecosystem,Observability]
+description: This article introduces you to the API Gateway Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.
+tags: [Plugins,Ecosystem]
 ---
 
 > This article introduces you to the Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.

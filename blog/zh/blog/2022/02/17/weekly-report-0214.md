@@ -6,8 +6,8 @@ keywords:
 - APISIX
 - API Gateway
 - 贡献者
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: API 网关 Apache APISIX 近两周新增了 csrf、file-logger、public-api、opentelemetry、loggly 等插件，并且也支持记录 apisix_latency 和 upstream_latency。
+tags: [Community]
 ---
 
 > 从 2.1 到 2.14, 有 25 位开发者为 Apache APISIX 提交了 55 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
