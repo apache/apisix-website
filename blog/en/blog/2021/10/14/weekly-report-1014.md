@@ -6,8 +6,8 @@ keywords:
 - APISIX
 - API Gateway
 - Contributor
-description: The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community and facilitate your participation in the Apache APISIX community.
-tags: [Events]
+description: The Apache APISIX Community Weekly Newsletter hopes to help community members better understand the weekly progress of the Apache APISIX community.
+tags: [Community]
 ---
 > From 10.1 to 10.14, 27 developers have committed 67 commits to Apache APISIX. Thank you to these folks for making the Apache APISIX project better with your selfless efforts!
 <!--truncate-->

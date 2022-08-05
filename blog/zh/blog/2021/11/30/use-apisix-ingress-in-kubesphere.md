@@ -6,11 +6,12 @@ authorImageURL: "https://avatars.githubusercontent.com/u/2936504?v=4"
 keywords: 
 - KubeSphere
 - Apache APISIX
+- API 网关
 - Kubenetes
 - Ingress Controller
 - 监控
 description: 本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。
-tags: [Technology,Monitoring,Kubernetes]
+tags: [Ecosystem]
 ---
 
 > 本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。

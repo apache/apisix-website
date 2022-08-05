@@ -3,13 +3,14 @@ title: "APISIX 社区成员助力 openEuler 发布第一个社区创新版"
 slug: 2021/10/01/openeuler
 keywords:
 - Apache APISIX
+- API 网关
 - openEuler
 - APISIX
 - API Gateway
 - OpenResty
 - 欧拉
-description: 来自 Apache APISIX 社区的罗泽轩和温铭在 openEuler 9 月 30 日发布的第一个社区创新版（ openEuler 21.09）中，为 OpenResty 迁移工作中做了非常多的贡献，让 OpenResty 可以在欧拉开源操作系统上平稳高效的运行。
-tags: [Events]
+description: Apache APISIX 社区罗泽轩和温铭在 openEuler 9 月 30 日发布的第一个社区创新版中，为 OpenResty 迁移工作做了非常多的贡献，让 OpenResty 在欧拉开源操作系统上平稳高效的运行。
+tags: [Community]
 ---
 > 来自 Apache APISIX 社区的[罗泽轩](https://github.com/spacewander)和[温铭](https://github.com/moonming)在 openEuler 9 月 30 日发布的第一个社区创新版（ [openEuler 21.09](https://openeuler.org/) ）中，为 [OpenResty](https://github.com/openresty/openresty) 迁移工作中做了非常多的贡献，让 OpenResty 可以在欧拉开源操作系统上平稳高效的运行。OpenResty 的稳定运行也意味着 [Apache APISIX](https://github.com/apache/apisix) 可以顺畅地运行在 openEuler 系统上，Apache APISIX 底层基于 OpenResty 做了一定开发。
 <!--truncate-->

@@ -4,8 +4,9 @@ keywords:
 - Apache APISIX
 - Apache SkyWalking
 - Meetup
-- 分享
-description: 10 月 23 日，Apache APISIX 社区联合 Apache SkyWalking 社区为大家带来线上分享。
+- API 网关
+- APISIX Ingress Controller
+description: 云原生 API 网关 Apache APISIX 联合 Apache SkyWalking 社区为大家带来线上分享，包含了 Apache APISIX 可观测性介绍和APISIX Ingress Controller 项目相关情况。
 tags: [Events]
 ---
 > 10 月 23 日，Apache APISIX 社区联合 Apache SkyWalking 社区为大家带来线上分享，快来看看有哪些精彩的议题吧。

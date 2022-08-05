@@ -12,11 +12,12 @@ authors:
 keywords: 
 - Apache APISIX
 - 可观测性
+- API 网关
 - SkyWalking
 - Apache
 - Prometheus
-description: 本文介绍了 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力。
-tags: [Technology,Observability]
+description: 本文介绍了云原生 API 网关 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力及未来规划。
+tags: [Plugins,Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力。

@@ -7,9 +7,10 @@ date: 2021-10-09
 keywords: 
 - Apache APISIX
 - Ingress
+- API Gateway
 - Kubernetes
-description: This article describes and explains Apache APISIX Ingress in detail from both theoretical and practical perspectives.
-tags: [Technology]
+description: This article introduces the definition of API gateway Apache APISIX Ingress and its differences and advantages with K8s Ingress NGINX.
+tags: [Ecosystem, Community]
 ---
 
 > Jintao Zhang, Apache APISIX Committer, Kubernetes Ingress Nginx Reviewer, and contributor to several cloud-native open source projects.

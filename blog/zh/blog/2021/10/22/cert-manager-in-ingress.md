@@ -6,10 +6,11 @@ authorImageURL: "https://avatars.githubusercontent.com/u/10428333?v=4"
 keywords: 
 - Apache APISIX Ingress Controller
 - Apache APISIX
+- API 网关
 - Cert Manager
 - Kubernetes
-description: 本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。
-tags: [Technology]
+description: Apache APISIX Ingress Controller 已经实现了证书管理、负载均衡、金丝雀发布等功能，本文介绍了如何通过 Cert Manager 在 APISIX Ingress Controller 里进行证书管理。
+tags: [Ecosystem]
 ---
 
 > 本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。

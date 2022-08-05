@@ -6,11 +6,12 @@ authorURL: "https://github.com/spacewander"
 authorImageURL: "https://avatars.githubusercontent.com/u/4161644?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Plugin
 - HTTP
 - Apache
-description: This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.
-tags: [Technology]
+description: This article introduces the expansion direction of Rewrite or Access, configuring service discovery, configuring load balancing, and processing responses.
+tags: [Ecosystem]
 ---
 
 > This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.

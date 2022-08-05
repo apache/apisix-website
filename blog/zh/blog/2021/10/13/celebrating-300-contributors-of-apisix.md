@@ -5,9 +5,10 @@ date: 2021-10-13
 keywords: 
 - Apache APISIX
 - contributor
-- milestone
-description: Apache APISIX 社区达成新的里程碑，与 Apache APISIX 相关的项目全球贡献者突破 300 位！
-tags: [Events]
+- API 网关
+- Apache APISIX Ingress
+description: API 网关 Apache APISIX 社区达成新的里程碑，与 Apache APISIX 相关的项目全球贡献者突破 300 位！社区会定期举办活动及 Meetup 以促进社区成员之间的交流。
+tags: [Community]
 ---
 
 >Apache APISIX 社区达成新的里程碑，与 Apache APISIX 相关的项目全球贡献者突破 300 位！ 距离 Apache APISIX 主库达到 [200 位贡献者里程碑](https://apisix.apache.org/blog/2021/07/06/celebrate-200-contributors/)，**仅仅间隔 3 个月**！感谢社区贡献者们在代码、文档、运营等方方面面做出的卓越贡献。
@@ -40,7 +41,7 @@ Apache APISIX Ingress 项目每两周举办一次线上讨论，大家一同讨�
 ### Weekly Report
 
 汇总每双周 Apache APISIX 项目功能开发、Bug 修复、社区活动、实践案例等内容，帮助大家更快了解 Apache APISIX 最新进展。
-在 Apache APISIX 官网点击 Blog 选择 Events tag 即可查看双周 Weekly report。
+在 Apache APISIX 官网点击 Blog 选择 Community tag 即可查看双周 Weekly report。
 
 往期推荐：
 

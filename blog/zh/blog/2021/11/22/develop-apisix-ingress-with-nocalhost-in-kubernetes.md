@@ -5,12 +5,13 @@ authorURL: "https://github.com/neaped"
 authorImageURL: "https://avatars.githubusercontent.com/u/3713305?v=4"
 keywords: 
 - Kubernetes
+- API 网关
 - Apache APISIX Ingress
 - Nocalhost
 - Controller
 - 部署开发
-description: 本文将为您介绍如何使用 Nocalhost 将本地开发机无缝连接到一个远程 Kubernetes 集群，同时配合 IDE 来开发和调试 Apache APISIX Ingress Controller。利用现有技术栈更顺畅地开发和调试远程应用。
-tags: [Technology,Kubernetes]
+description: 本文将为您介绍如何使用 Nocalhost 将本地开发机无缝连接到一个远程 Kubernetes 集群，同时配合 IDE 来开发和调试 Apache APISIX Ingress Controller。
+tags: [Ecosystem]
 ---
 
 > 本文将为您介绍如何使用 Nocalhost 将本地开发机无缝连接到一个远程 Kubernetes 集群，同时配合 IDE 来开发和调试 Apache APISIX Ingress Controller。利用现有技术栈更顺畅地开发和调试远程应用。

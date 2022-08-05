@@ -9,8 +9,9 @@ keywords:
 - APISIX Ingress Controller
 - Kubernetes
 - Apache
+- API Gateway
 description: This article describes the growth of APISIX Ingress and the details of the enhancements and community help that APISIX Ingress has received since joining the community.
-tags: [Technology]
+tags: [Ecosystem, Community]
 ---
 
 > This article describes the growth of APISIX Ingress and the details of the enhancements and community help that APISIX Ingress has received since joining the community.

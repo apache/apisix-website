@@ -6,11 +6,12 @@ authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
 date: 2021-10-09
 keywords: 
 - Apache APISIX
+- API 网关
 - Ingress
 - Kubernetes
 - 自定义资源
-description: 本文从理论和实践两个角度，对 Apache APISIX Ingress 进行了详细的描述与讲解
-tags: [Technology]
+description: 本文详细讲解了 API 网关 Apache APISIX Ingress 的定义以及该项目与 K8s Ingress NGINX 不同和优势，也为大家介绍了流量切分，配置认证、资源扩展等多个场景。
+tags: [Ecosystem, Community]
 ---
 
 >作者张晋涛，Apache APISIX Committer、Kubernetes Ingress Nginx Reviewer，多个云原生开源项目的贡献者。

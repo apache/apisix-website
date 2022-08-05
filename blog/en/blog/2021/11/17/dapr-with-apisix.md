@@ -9,8 +9,8 @@ keywords:
 - Kubernetes
 - API Gateway
 - Sidecar
-description: This article will show you how to create an Apache APISIX controller by integrating Dapr, includes the concept of the project and the specific operation steps.
-tags: [Technology]
+description: This article introduces the concepts of Dapr and Apache APISIX Ingress Controller, and shows how to integrate Dapr to create an Apache APISIX controller.
+tags: [Ecosystem]
 ---
 
 > This article will show you how to create an Apache APISIX controller by integrating Dapr, includes the concept of the project and the specific operation steps.

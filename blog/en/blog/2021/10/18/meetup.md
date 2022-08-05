@@ -3,9 +3,11 @@ title: Webinar | Apache APISIX × Apache SkyWalking Online Meetup
 keywords:
 - Apache APISIX
 - Apache SkyWalking
+- API Gateway
 - Meetup
-description: On October 23rd, the Apache APISIX community is joining forces with the Apache SkyWalking community to bring you an online sharing session.
-tags: [Events]
+- APISIX Ingress Controller
+description: Cloud native API gateway Apache APISIX and Apache SkyWalking community bring you online sharing, covering APISIX observability and Ingress projects, E2E testing, etc.
+tags: [Community]
 ---
 > On October 23rd, the Apache APISIX community is joining forces with the Apache SkyWalking community to bring you an online sharing session.
 <!--truncate-->

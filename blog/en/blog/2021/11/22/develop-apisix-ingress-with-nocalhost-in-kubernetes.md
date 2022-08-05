@@ -5,11 +5,12 @@ authorURL: "https://github.com/neaped"
 authorImageURL: "https://avatars.githubusercontent.com/u/3713305?v=4"
 keywords: 
 - Kubernetes
+- API Gateway
 - Apache APISIX Ingress
 - Nocalhost
 - Controller
 - Development
-description: This article walks you through using Nocalhost to seamlessly connect your local development machine to a remote Kubernetes cluster, allowing you to use IDE to develop and debug Apache APISIX Ingress Controller. Giving you the ability to comfortably develop and debug your remote apps with your existing skills.
+description: This article introduces the use of Nocalhost to seamlessly connect a local development machine to a remote K8s and develop and debug APISIX Ingress Controller with IDE.
 tags: [Technology,Kubernetes]
 ---
 

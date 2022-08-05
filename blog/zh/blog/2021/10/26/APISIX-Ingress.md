@@ -8,9 +8,10 @@ keywords:
 - Apache APISIX
 - APISIX Ingress Controller
 - Kubernetes
+- API 网关
 - Apache
-description: 本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。
-tags: [Technology]
+description: 本文详细描述了 Apache APISIX Ingress Controller 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。
+tags: [Ecosystem, Community]
 ---
 
 > 本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。
