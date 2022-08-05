@@ -11,12 +11,12 @@ authors:
     image_url: "https://github.com/yzeng25.png"
 keywords: 
 - Apache APISIX
-- 2.13.0
-- Release Notes
 - API Gateway
+- Service Discovery
+- Release Notes
 - LTS version
-description: Apache APISIX community has rolled out a new LTS version, 2.13.0. This version not only delivers more stable performance, but also supports more observability and service discovery plugins, as well as a more robust multilingual development system.
-tags: [Release]
+description: Apache APISIX 2.13.0 LTS version is released. This version not only has more stable performance, but also supports more observability and service discovery plugins.
+tags: [Community]
 ---
 
 > Apache APISIX community has rolled out a new LTS version, 2.13.0. This version not only delivers more stable performance, but also supports more observability and service discovery plugins, as well as a more robust multilingual development system.

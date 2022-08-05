@@ -5,8 +5,8 @@ keywords:
 - API Gateway
 - Weekly Report
 - Contributor
-description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
-tags: [Events]
+description: In the past two weeks, the Apache APISIX community has added many functions about plugins such as open-connect, authz-keycloak, cors, csrf, and jwt-auth.
+tags: [Community]
 ---
 
 > From March 1st to  March 14th, 44 contributors submitted 131 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!

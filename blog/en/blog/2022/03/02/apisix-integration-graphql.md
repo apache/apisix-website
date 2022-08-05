@@ -14,8 +14,8 @@ keywords:
 - API Gateway
 - GraphQL
 - Ecosystem
-description: This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.
-tags: [Technology,Ecosystem]
+description: This article describes the features of the cloud-native API gateway Apache APISIX and GraphQL, and how to use Apache APISIX to proxy GraphQL requests.
+tags: [Ecosystem]
 ---
 
 > This article introduces the features of Apache APISIX and GraphQL, and how to use the API gateway Apache APISIX to proxy GraphQL requests, and proposes solutions to solve the pain points of practical scenarios.

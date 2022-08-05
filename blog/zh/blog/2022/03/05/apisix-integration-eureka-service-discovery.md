@@ -11,12 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
 - Eureka
 - 服务发现
 - 服务注册
-description: 本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具快速发现链路中出现的问题。
-tags: [Technology,Ecosystem,Service Discovery]
+description: 本文介绍了如何在云原生 API 网关 Apache APISIX 中启用 Eureka 作为服务发现，并且介绍了如何使用诊断工具快速发现链路中出现的问题。
+tags: [Ecosystem]
 ---
 
 > 本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具发现链路中出现的问题。

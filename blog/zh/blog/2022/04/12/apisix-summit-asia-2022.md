@@ -3,6 +3,7 @@ title: "Apache APISIX Summit ASIA 2022 重磅来袭"
 keywords:
 - Apache APISIX
 - API 网关
+- 开源网关
 description: 云原生 API 网关 Apache APISIX 社区将于 2022 年 5 月 20-21 日通过「线上直播」的方式举办 Apache APISIX Summit ASIA 2022。
 tags: [Community]
 ---

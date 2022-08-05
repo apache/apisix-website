@@ -8,8 +8,8 @@ keywords:
 - Internet Insurance
 - Apache APISIX
 - Zhongan
-description: In this article, we will introduce some business scenarios and practical cases of zhongan and bring you the gateway selection and implementation operation under the "Internet Insurance" scenario.
-tags: [User Case]
+description: we will introduce some business scenarios and practical cases of zhongan and bring you the gateway selection and implementation operation under the "Internet Insurance" scenario.
+tags: [Case Studies]
 ---
 
 > The content of this article is sorted out from the relevant sharing brought by Xu Min, head of Zhongan Insurance and Technology Infrastructure in Apache APISIX Weekly Meeting.

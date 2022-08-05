@@ -5,11 +5,12 @@ authorURL: "https://github.com/SylviaBABY"
 authorImageURL: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API 网关
-- 互联网保险
-- 众安保险
 - Apache APISIX
-description: 本文将通过介绍众安保险的一些业务场景与实践案例，为大家带来关于互联网保险场景下的网关选型与落地操作。
-tags: [User Case]
+- 众安保险
+- 互联网保险
+- Apache APISIX
+description: 本文将通过介绍云原生 API 网关 Apache APISIX 在众安保险的一些使用场景与实践案例，为大家带来关于互联网保险场景下的网关选型与落地操作。
+tags: [Case Studies]
 ---
 
 > 本文内容整理自 Apache APISIX Weekly Meeting 中众安保险和科技基础架构负责人徐敏带来的相关分享。

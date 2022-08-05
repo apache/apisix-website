@@ -16,7 +16,7 @@ keywords:
 - Service Discovery
 - Servici Register
 description: This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
-tags: [Technology,Ecosystem,Service Discovery]
+tags: [Ecosystem]
 ---
 
 > This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.

@@ -16,8 +16,8 @@ keywords:
 - Service Discovery
 - Service Register
 - Ecosystem
-description: Apache APISIX is a dynamic, real-time, high-performance cloud-native API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, grayscale publishing, service interruption, identity authentication, and observability. As a cloud native API gateway, Apache APISIX also integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in Apache APISIX.
-tags: [Technology,Ecosystem,Service Discovery]
+description: The cloud native API gateway Apache APISIX integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in APISIX.
+tags: [Ecosystem]
 ---
 
 > Apache APISIX is a dynamic, real-time, high-performance cloud-native API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, grayscale publishing, service interruption, identity authentication, and observability. As a cloud native API gateway, Apache APISIX also integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in Apache APISIX.
