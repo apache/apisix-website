@@ -15,7 +15,7 @@ keywords:
 - API
 - Log processing
 - Monitoring function
-description: This article will introduce the latest integration of Apache APISIX and Apache RocketMQ rocketmq-logger plugin features and use.
+description: The rocketmq-logger log plugin added by the API gateway Apache APISIX can help you connect with the RocketMQ cluster more conveniently when using APISIX.
 tags: [Plugins,Ecosystem]
 ---
 

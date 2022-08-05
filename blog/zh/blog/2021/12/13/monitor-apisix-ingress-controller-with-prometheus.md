@@ -12,6 +12,7 @@ authors:
 keywords: 
 - Apache APISIX
 - APISIX Ingress Controller
+- API 网关
 - Prometheus
 - Metrics
 - Grafana

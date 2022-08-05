@@ -12,7 +12,7 @@ authors:
 keywords: 
 - Apache APISIX
 - Apache RocketMQ
-- API
+- API 网关
 - 日志处理
 - 监控功能
 description: 本文介绍了 API 网关 Apache APISIX 新增的 rocketmq-logger 日志插件，通过该插件可以帮助你在使用 Apache APISIX 时更方便的与 RocketMQ 集群连接。
