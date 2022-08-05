@@ -70,7 +70,7 @@ In the Apache APISIX Ingress Controller project, Kubernetes native Ingress resou
 
 This approach limits the plugin capabilities of the Ingress resource, and developing Annotaion separately for each plugin is a relatively expensive affair.
 
-In the v1.5 release, we made it possible to enable the Ingress resource by adding a new Annotaion `k8s.apisix.apache.org/plugin-config-name`, which allows to refer to any `Apisix Plugin Config` resource Ingress resources are free to use the ability of any APISIX plugin. 
+In the v1.5 release, we made it possible to enable the Ingress resource by adding a new Annotaion `k8s.apisix.apache.org/plugin-config-name`, which allows to refer to any `Apisix Plugin Config` resource Ingress resources are free to use the ability of any APISIX plugin.
 
 This will greatly increase the ease of use of APISIX Ingress Controller, and will also reduce the cost for users to migrate from other Ingress controllers to APISIX Ingress Controller.
 

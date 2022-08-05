@@ -76,5 +76,3 @@ spec:
 - 将所有依赖更新到最新版本，以便减少安全隐患；
 
 更多具体发版细节，请参考 v1.5-rc1 的 [Changelog](https://github.com/apache/apisix-ingress-controller/blob/v1.5.0/CHANGELOG.md#150-rc1)。
-
- 
