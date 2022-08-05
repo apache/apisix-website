@@ -7,7 +7,7 @@ keywords:
 - Contributor
 - OpenTelemetry
 - Apache
-description: The cloud-native API gateway Apache APISIX has supported plugins such as csrf, file-logger, public-api, opentelemetry, and loggly in the past two weeks.
+description: The cloud-native API gateway Apache APISIX has supported plugins such as csrf, file-logger, public-api, opentelemetry, and logging in the past two weeks.
 tags: [Community]
 ---
 

@@ -15,7 +15,7 @@ keywords:
 - Service Discovery
 - Servici Register
 description: Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in APISIX.
-tags: [Ecosystem,Service Discovery]
+tags: [Ecosystem]
 ---
 
 > Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.

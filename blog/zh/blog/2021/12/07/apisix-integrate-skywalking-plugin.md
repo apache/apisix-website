@@ -16,7 +16,7 @@ keywords:
 - 日志处理
 - 插件集成
 description: 本文主要介绍云原生 API 网关 Apache APISIX 集成 SkyWalking 的日志插件，为之后用户在 Apache APISIX 中进行日志处理提供更方便的操作与环境。
-tags: [Plugins]
+tags: [Plugins,Ecosystem]
 ---
 
 > 本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。
