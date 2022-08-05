@@ -33,15 +33,15 @@ Apache APISIX Ingress Controller v1.5-rc1 版本正式发布。此版本历时 7
 
 Gateway API 可以说是下一代的 Ingress 定义，具有更加丰富的表现能力。我们已经在 APISIX Ingress 中完成其中大多数资源的支持。
 
-:::caution 注意
+:::note 注意
 
 此特性目前还在实验阶段，默认不启用。
 
 :::
 
-如果想要在 APISIX Ingress 中使用 Gateway API，可以在 controller 的配置文件中传递 enable_gateway_api: true 配置项来开启此功能。
+如果想要在 APISIX Ingress 中使用 Gateway API，可以在 controller 的配置文件中传递 `enable_gateway_api: true` 配置项来开启此功能。
 
-在安装完 Gateway API 的 CRD 后，即可通过创建 HTTPRoute 资源来完成 7 层代理的配置。如下所示：
+在安装完 Gateway API 的 CRD 后，即可通过创建 `HTTPRoute` 资源来完成 7 层代理的配置。如下所示：
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2

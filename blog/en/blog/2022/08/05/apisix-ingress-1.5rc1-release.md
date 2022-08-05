@@ -33,7 +33,7 @@ So starting from the v1.3 version, we have proposed a [proposal](https://github.
 
 Gateway API can be said to be the next generation Ingress definition with richer performance capabilities. We have completed support for most of these resources in APISIX Ingress.
 
-:::caution
+:::note
 
 This feature is currently experimental and not enabled by default.
 
