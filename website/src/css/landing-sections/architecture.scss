@@ -1,0 +1,118 @@
+@import '../util';
+
+.hldesign {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hldesign-graphic {
+  width: 60%;
+  height: auto;
+}
+
+.Architecture_svg__architecture {
+  font-family: MaisonNeue-Medium, sans-serif;
+}
+
+.arch {
+  background: linear-gradient(180deg, #e2ecff 15%, #fff 90%);
+  position: relative;
+  z-index: 1;
+  padding: 50px 0;
+  overflow: hidden;
+}
+
+.arch-card-caption {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  color: #615d5d;
+}
+
+.arch-card-caption > p {
+  width: 90%;
+  letter-spacing: 0.2px;
+  font-family: MaisonNeue-Light, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  bottom: -15px;
+  font-size: 1rem;
+}
+
+.arch-card-border {
+  z-index: -10;
+  position: absolute;
+  width: 66%;
+  height: 100%;
+  border-style: solid;
+  top: 15px;
+  left: 17%;
+  border-color: white;
+  background: white;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
+}
+
+.arch-head,
+.compare-head,
+.testimonials-head,
+.docs-promo-head {
+  font-size: 2.4rem;
+  position: relative;
+  left: 16.8%;
+  width: 83.2%;
+}
+
+.arch-subtitle,
+.compare-subtitle,
+.testimonials-subtitle,
+.docs-promo-subtitle {
+  font-size: 1.13rem;
+  position: relative;
+  left: 16.8%;
+  width: 70%;
+  color: #615d5d;
+  letter-spacing: 0.2px;
+  font-family: MaisonNeue-Light, sans-serif;
+  font-weight: 700;
+}
+
+.add-left-margin {
+  position: relative;
+  left: 16.8%;
+}
+
+@include respond-between(sm, md) {
+  .hldesign-graphic {
+    width: 100%;
+  }
+
+  .arch-scale-svg {
+    display: none;
+  }
+
+  .arch-card-border {
+    width: 100%;
+    left: 0;
+    top: 10px;
+  }
+
+  .arch-head,
+  .compare-head,
+  .testimonials-head,
+  .docs-promo-head,
+  .oss-promo-head {
+    left: 7%;
+    width: 83%;
+  }
+
+  .arch-subtitle,
+  .compare-subtitle,
+  .testimonials-subtitle,
+  .docs-promo-subtitle,
+  .oss-promo-subtitle {
+    left: 7%;
+    width: 85%;
+  }
+}

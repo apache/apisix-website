@@ -1,0 +1,67 @@
+.showcase {
+  padding-left: 0;
+  padding-right: 0;
+
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: unset;
+  }
+
+  .user-logos {
+    margin-top: 48px;
+    &:hover span {
+      animation-play-state: paused !important;
+    }
+  }
+
+  .logo-row {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 5rem;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .user-logos-container {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+
+    section {
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+
+      span {
+        animation: 36s linear 0s infinite reverse none running logo-animation;
+        white-space: nowrap;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .user-logo {
+    max-width: 128px;
+    max-height: 50px;
+    margin: 0 16px;
+  }
+
+  @keyframes logo-animation {
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(0%);
+    }
+  }
+}

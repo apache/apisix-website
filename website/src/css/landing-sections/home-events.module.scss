@@ -1,4 +1,4 @@
-@import "./util";
+@import '../util';
 
 $transition-duration: 200ms;
 
@@ -95,11 +95,35 @@ $transition-duration: 200ms;
 
   .newsletter {
     display: flex;
+    font-family: MaisonNeue-Light, sans-serif;
+    font-size: 0.95rem;
+    color: #615d5d;
+    letter-spacing: 0.2px;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
+    margin: 25px 0;
 
     p {
       margin: 2rem 0 1rem;
+    }
+  }
+
+  .newsButton {
+    border: none;
+    padding: 5px 30px;
+    border-style: solid;
+    border-radius: 20px;
+    background: #030c16;
+    color: white;
+    margin: 0;
+    text-decoration: none;
+    transition: all 0.3s;
+
+    &:hover {
+      background: #9b9b9b;
+      color: white;
+      text-decoration: none;
     }
   }
 

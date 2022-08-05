@@ -1,4 +1,4 @@
-@import "./util";
+@import '../util';
 
 .osPromotion {
   display: flex;
@@ -25,7 +25,6 @@
     & .ossPromoSubtitle {
       color: hsl(0deg 0% 78%);
       font-size: 1.13rem;
-      font-weight: 700;
       letter-spacing: 0.2px;
       font-family: MaisonNeue-Light, sans-serif;
     }
