@@ -3,54 +3,19 @@ import { join, dirname } from 'path';
 import Listr from 'listr';
 import matter from 'gray-matter';
 import { remark } from 'remark';
-import mdx from 'remark-mdx';
-import remarkComment from 'remark-comment';
 import { visit } from 'unist-util-visit';
 import { format } from 'date-fns';
 
 const configs = ['../blog/en/config/picked-posts.json', '../blog/zh/config/picked-posts.json'];
-
-const parser = remark().use(mdx).use(remarkComment);
-const isImage = (node) => node.type === 'image';
-const isHeading = (node) => node.type === 'heading';
-const isParagraph = (node) => node.type === 'paragraph';
-const isText = (node) => node.type === 'text';
-
-function toText(node) {
-  let excerpt = '';
-  visit(node, ['text', 'inlineCode'], (child, index, parent) => {
-    if (parent?.type !== 'linkReference') {
-      excerpt += child.value;
-    }
-  });
-  return excerpt;
-}
+const parser = remark();
 
 function createExcerpt(fileString) {
   const mdast = parser.parse(fileString);
   let excerpt = '';
-  visit(mdast, ['paragraph', 'heading', 'image'], (node) => {
-    const isAdmonitionFence =
-      isParagraph(node) && isText(node.children[0]) && node.children[0].value.startsWith(':::');
-    const isMainHeading = isHeading(node) && node.depth === 1;
-    if (isAdmonitionFence || isMainHeading) {
-      return true;
-    }
-    if (isImage(node)) {
-      if (node.alt) {
-        excerpt = node.alt;
-        return false;
-      }
-    } else if (isParagraph(node)) {
-      excerpt = toText(node);
-    }
-    if (excerpt) {
-      return false;
-    }
-    return true;
+  visit(mdast, ['text', 'inlineCode'], (node) => {
+    excerpt += node.value;
   });
-
-  return excerpt || undefined;
+  return excerpt;
 }
 
 const tasks = new Listr([
@@ -78,7 +43,11 @@ const tasks = new Listr([
                 Promise.all(
                   paths.map((path) =>
                     readFile(`../${path}`, 'utf8').then((content) => {
-                      const { data, content: c } = matter(content);
+                      const { data, excerpt } = matter(content, {
+                        excerpt: true,
+                        excerpt_separator: '<!--truncate-->',
+                      });
+                      const summary = createExcerpt(excerpt);
                       const locale = path.includes('/zh/blog') ? 'zh-CN' : 'en-US';
                       const rawDate = new Date(
                         path.substring('blog/en/blog/'.length, 'blog/en/blog/2022/07/30'.length)
@@ -103,7 +72,7 @@ const tasks = new Listr([
                             permalink:
                               locale === 'zh-CN' ? '/zh/blog/tags/' + v : '/blog/tags/' + v,
                           })) || [],
-                        summary: createExcerpt(c),
+                        summary,
                         permalink: path
                           .substring(locale === 'zh-CN' ? 'blog'.length : 'blog/en'.length)
                           .slice(0, -'.md'.length),

@@ -2,7 +2,7 @@
   "name": "scripts",
   "version": "1.0.0",
   "scripts": {
-    "sync": "node sync-docs.js",
+    "sync-docs": "node sync-docs.js",
     "link-checker": "node link-checker.js",
     "generate-repos-info": "node generate-repos-info.js",
     "update-sitemap": "node update-sitemap-loc.js",
@@ -21,8 +21,6 @@
   "dependencies": {
     "date-fns": "^2.29.1",
     "remark": "^14.0.2",
-    "remark-comment": "^1.0.0",
-    "remark-mdx": "^2.1.2",
     "unist-util-visit": "^4.1.0"
   }
 }

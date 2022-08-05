@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const { writeFile } = require('fs/promises');
 const axios = require('axios');
 const Listr = require('listr');
 
@@ -8,9 +8,7 @@ const axiosConfig = {
   headers: {
     'content-type': 'application/json',
     Accept: 'application/vnd.github.v3+json',
-    ...(process.env.GITHUB_TOKEN
-      ? { Authorization: `token ${process.env.GITHUB_TOKEN}` }
-      : {}),
+    ...(process.env.GITHUB_TOKEN ? { Authorization: `token ${process.env.GITHUB_TOKEN}` } : {}),
   },
 };
 
@@ -62,7 +60,7 @@ const tasks = new Listr([
   },
   {
     title: `Save repos' info and good first issues to json file`,
-    task: () => fs.writeFile('../config/repos-info.json', JSON.stringify(res)),
+    task: () => writeFile('../config/repos-info.json', JSON.stringify(res)),
   },
 ]);
 
