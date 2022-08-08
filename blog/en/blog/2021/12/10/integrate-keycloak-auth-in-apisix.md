@@ -15,7 +15,7 @@ keywords:
 - Authentication
 - Integration
 description: This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in Apache APISIX through detailed steps.
-tags: [Technology,Authentication]
+tags: [Plugins,Authentication]
 ---
 
 > This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in Apache APISIX through detailed steps.

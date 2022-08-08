@@ -12,7 +12,7 @@ keywords:
     - Google Cloud T2A
     - ARM64
 description: 本文主要使用云原生 API 网关 Apache APISIX 分别在 Google Cloud T2A 和 Google Cloud T2D 进行性能测试，并且进行对比两者的性能。
-tags: [Technology]
+tags: [Ecosystem]
 ---
 
 > 本文主要使用 Apache APISIX 来对比 Google Cloud T2A 和 Google Cloud T2D 的性能。
