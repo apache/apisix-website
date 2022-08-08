@@ -7,7 +7,7 @@ keywords:
 - APISIX
 - API Gateway
 - Apache
-description: The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.
+description: The API gateway Apache APISIX has added rocketmq-logger and opa plugins in the past two weeks, as well as Wasm support to run in the rewrite phase.
 tags: [Community]
 ---
 
