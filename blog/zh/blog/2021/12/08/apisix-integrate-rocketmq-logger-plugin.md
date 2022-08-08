@@ -12,11 +12,11 @@ authors:
 keywords: 
 - Apache APISIX
 - Apache RocketMQ
-- API
+- API 网关
 - 日志处理
 - 监控功能
-description: 本文将为大家介绍 Apache APISIX 与 Apache RocketMQ 最新集成的 rocketmq-logger 插件功能与使用介绍。借助该插件，可以帮助您在使用 APISIX 中更方便的与 RocketMQ 集群连接。
-tags: [Technology,Message Queue]
+description: 本文介绍了 API 网关 Apache APISIX 新增的 rocketmq-logger 日志插件，通过该插件可以帮助你在使用 Apache APISIX 时更方便的与 RocketMQ 集群连接。
+tags: [Ecosystem,Plugins]
 ---
 
 > 本文将为大家介绍 Apache APISIX 与 Apache RocketMQ 最新集成的 rocketmq-logger 插件功能与使用介绍。借助该插件，可以帮助您在使用 APISIX 中更方便的与 RocketMQ 集群连接。
@@ -103,7 +103,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 | 名称             |  默认值        |  描述                                             |
 | ---------------- |  ------------- | ------------------------------------------------ |
-| log_format       |  {"host": "$host", "@timestamp": "$time_iso8601", "client_ip": "$remote_addr"} |    以 JSON 格式的键值对来声明日志格式。对于值部分，仅支持字符串。如果是以 `$` 开头，则表明是要获取 __APISIX__ 变量或 [Nginx 内置变量](http://nginx.org/en/docs/varindex.html)。特别的，**该设置是全局生效的**，意味着指定 log_format 后，将对所有绑定 http-logger 的 Route 或 Service 生效。 |
+| log_format       |  {"host": "$host", "@timestamp": "$time_iso8601", "client_ip": "$remote_addr"} |    以 JSON 格式的键值对来声明日志格式。对于值部分，仅支持字符串。如果是以 `$` 开头，则表明是要获取 __APISIX__ 变量或 [Nginx 内置变量](http://nginx.org/en/docs/varindex.html)。特别的，__该设置是全局生效的__，意味着指定 log_format 后，将对所有绑定 http-logger 的 Route 或 Service 生效。 |
 
 日志格式调整完成后，需要向 `/apisix/admin/plugin_metadata` 端点发出请求来更新元数据，具体可参考下方代码。
 

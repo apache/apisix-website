@@ -10,12 +10,13 @@ authors:
     url: "https://github.com/yzeng25"
     image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
-- API Gateway
+- 插件开发
+- 二次开发
+- API 网关
 - Logging
 - file logger
-
-description: 本篇文章记录了一个没有后端经验的前端工程师在云原生 API 网关 Apache APISIX 上开发 `file-logger` 插件的过程。
-tags: [Technology,Logging]
+description: 本文介绍了没有后端经验的前端工程师如何在云原生 API 网关 Apache APISIX 上开发 file-logger 插件的具体步骤，从中你可以学习到在 APISIX 上进行开发插件。
+tags: [Plugins, Ecosystem]
 ---
 
 > 本篇文章记录了一个没有后端经验的前端工程师开发 `file-logger` 插件的过程。

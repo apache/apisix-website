@@ -11,11 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Apache OpenWhisk
 - Serverless
 - Plugin
-description: This article introduces the feature prospect and usage steps of the `openwhisk` plug-in, which is combined with a variety of identity authentication plug-ins provided by Apache APISIX to achieve authentication and authorization and other functions.
-tags: [Technology]
+description: The `openwhisk` plugin is combined with the API Gateway Apache APISIX authentication plugin to achieve authentication and authorization functions.
+tags: [Plugins,Ecosystem]
 ---
 
 > This article introduces the feature prospect and usage steps of the `openwhisk` plug-in, which is combined with a variety of identity authentication plug-ins provided by Apache APISIX to achieve authentication and authorization and other functions.

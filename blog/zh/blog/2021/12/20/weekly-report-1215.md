@@ -6,7 +6,7 @@ keywords:
 - APISIX
 - API Gateway
 - 贡献者
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
+description: API 网关 Apache APISIX 近两周新增了 rocketmq-logger、opa 插件，以及 Wasm 支持在 rewrite 阶段运行，mqtt-proxy 插件支持使用 route 上配置的上游信息等功能。
 tags: [Events]
 ---
 

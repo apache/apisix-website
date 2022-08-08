@@ -16,7 +16,7 @@ keywords:
 - proto
 - 插件
 description: 本文为大家介绍如何在 Apache APISIX 中通过 `grpc-transcode`插件来将客户端的 HTTP 流量代理到后端 gRPC 服务上。
-tags: [Technology]
+tags: [Plugins]
 ---
 
 > 本文为大家介绍如何在 Apache APISIX 中通过 `grpc-transcode`插件来将客户端的 HTTP 流量代理到后端 gRPC 服务上。

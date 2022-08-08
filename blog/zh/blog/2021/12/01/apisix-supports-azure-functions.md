@@ -5,11 +5,12 @@ authorURL: "https://github.com/bisakhmondal"
 authorImageURL: "https://avatars.githubusercontent.com/u/41498427?v=4"
 keywords: 
 - Apache APISIX
+- API 网关
 - Azure Functions
 - Microsoft
 - Serverless
-description: 本文介绍了最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 Apache APISIX 中。
-tags: [Technology]
+description: 本文介绍了 API 网关 Apache APISIX 新增的插件 `azure-functions`，并展示了如何将 Azure Functions（一种广泛使用的 serverless 解决方案）集成到 APISIX 中。
+tags: [Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 最近新增的插件 `azure-functions`，并详细说明了如何将 Azure Functions 集成到 Apache APISIX 中。

@@ -14,8 +14,8 @@ keywords:
 - Open Policy Agent
 - OPA
 - API 网关
-description: 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
-tags: [Technology,Authentication]
+description: 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 API 网关 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。
+tags: [Plugins,Authentication]
 ---
 
 > 本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。

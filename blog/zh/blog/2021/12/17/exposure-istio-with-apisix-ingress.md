@@ -11,12 +11,13 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Istio
 - Kubernetes
 - APISIX Ingress Controller
 - Service Mesh
-description: 本文将通过非常详细的操作步骤，向大家一步步地展示了如何使用 Istio Service Mesh 和 Apache APISIX，将启用 Service Mesh 的 Kubernetes 集群中服务暴露至集群外。
-tags: [Technology]
+description: 本文将通过详细的操作步骤，向大家展示了如何使用 Istio Service Mesh 和 API 网关 Apache APISIX，将启用 Service Mesh 的 Kubernetes 集群中的服务暴露至集群外。
+tags: [Ecosystem]
 ---
 
 > 本文将通过非常详细的操作步骤，向大家一步步地展示了如何使用 Istio Service Mesh 和 Apache APISIX，将启用 Service Mesh 的 Kubernetes 集群中服务暴露至集群外。

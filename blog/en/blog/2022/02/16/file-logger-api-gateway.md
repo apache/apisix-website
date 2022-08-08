@@ -13,9 +13,8 @@ keywords:
 - API Gateway
 - Logging
 - file logger
-
-description: This article documents the process of developing the `file-logger` plugin by a front-end engineer with no back-end experience.
-tags: [Technology,Logging]
+description: This article introduces the specific steps for front-end engineers to develop file-logger plugins on the cloud-native API gateway Apache APISIX.
+tags: [Plugins,Ecosystem]
 ---
 
 > This article documents the process of developing the `file-logger` plugin by a front-end engineer with no back-end experience.

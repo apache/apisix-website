@@ -12,11 +12,11 @@ authors:
 keywords:
 - Apache APISIX
 - Google Cloud
+- API 网关
 - Google Logging
 - APISIX
-- API Gateway
-description: 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。
-tags: [Technology,Logging]
+description: 本文介绍了如何通过 API 网关 Apache APISIX 的 google-cloud-logging 插件与 Google Cloud Logging 服务对接，并将 Apache APISIX 的日志上传到 Google 云中。
+tags: [Plugins, Ecosystem]
 ---
 
 > 本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。

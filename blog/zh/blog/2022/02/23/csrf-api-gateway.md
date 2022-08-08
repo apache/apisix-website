@@ -16,7 +16,7 @@ keywords:
 - 伪造跨站点请求
 - CSRF
 description: 本文介绍了云原生 API 网关 Apache APISIX 的 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。
-tags: [Technology,Ecosystem]
+tags: [Plugins,Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 的 CSRF 安全插件 `csrf`，并详细说明如何在 Apache APISIX 中借助 `csrf` 插件来保护您的 API 信息安全。

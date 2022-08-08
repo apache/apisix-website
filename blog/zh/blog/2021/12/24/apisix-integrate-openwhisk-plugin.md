@@ -11,11 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API 网关
 - Apache OpenWhisk
 - Serverless
 - 插件
-description: 本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，结合 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。
-tags: [Technology]
+description: 本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，结合 API 网关 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。
+tags: [Plugins,Ecosystem]
 ---
 
 > 本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，结合 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。

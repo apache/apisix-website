@@ -11,12 +11,13 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - APISIX Ingress Controller
 - Prometheus
 - Metrics
 - Grafana
 description: This article introduces the relevant steps of how to use Prometheus to monitor APISIX Ingress Controller and the display effect of some indicators.
-tags: [Technology,Monitoring]
+tags: [Ecosystem]
 ---
 
 > This article introduces the relevant steps of how to use Prometheus to monitor APISIX Ingress Controller and the display effect of some indicators.

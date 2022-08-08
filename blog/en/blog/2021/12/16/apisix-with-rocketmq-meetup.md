@@ -1,13 +1,14 @@
 ---
 title: "Webinar | Apache APISIX × Apache RocketMQ Online Meetup"
 keywords: 
+- API Gateway
 - Apache APISIX
 - Apache RocketMQ
 - Kubernetes
 - Meetup
-- WASM
-description: On December 26th, the Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.
-tags: [Events]
+- Wasm
+description: On December 26th, the API Gateway Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.
+tags: [Community]
 ---
 
 > On December 26th, the Apache APISIX community is joining forces with the Apache RocketMQ community to bring you an online sharing session.

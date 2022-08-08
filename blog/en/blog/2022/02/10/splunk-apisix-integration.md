@@ -11,12 +11,11 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"
 keywords: 
 - Apache APISIX
+- API Gateway
 - Splunk
 - Observability
-- API Gateway
-
-description: This article explains how to configure and use the Splunk HEC service in Cloud-native API Gateway Apache APISIX.
-tags: [Technology,Ecosystem,Logging]
+description: This article describes how to interface with the Splunk HEC service through the splunk-hec-logging plugin in the cloud-native API gateway Apache APISIX.
+tags: [Ecosystem,Plugins]
 ---
 
 > This article explains how to configure and use the Splunk HEC service in Apache APISIX.
