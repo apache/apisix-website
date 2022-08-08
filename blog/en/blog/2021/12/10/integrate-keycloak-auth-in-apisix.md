@@ -14,7 +14,7 @@ keywords:
 - Keycloak
 - Authentication
 - Integration
-description: description: This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in API Gateway Apache APISIX through detailed steps.
+description: This article shows you how to use OpenID-Connect protocol and Keycloak for identity authentication in API Gateway Apache APISIX through detailed steps.
 tags: [Plugins,Authentication]
 ---
 
