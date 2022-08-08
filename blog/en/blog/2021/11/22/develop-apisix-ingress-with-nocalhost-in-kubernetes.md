@@ -11,7 +11,7 @@ keywords:
 - Controller
 - Development
 description: This article introduces the use of Nocalhost to seamlessly connect a local development machine to a remote K8s and develop and debug APISIX Ingress Controller with IDE.
-tags: [Technology,Kubernetes]
+tags: [Ecosystem]
 ---
 
 > This article walks you through using Nocalhost to seamlessly connect your local development machine to a remote Kubernetes cluster, allowing you to use IDE to develop and debug Apache APISIX Ingress Controller. Giving you the ability to comfortably develop and debug your remote apps with your existing skills.
