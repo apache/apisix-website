@@ -11,15 +11,16 @@ authors:
     image_url: "https://github.com/yzeng25.png"
 keywords: 
 - Apache APISIX
-- 2.13.0
-- 版本发布
 - API 网关
+- 服务发现
+- 可观测性
+- 版本发布
 - LTS version
-description: 全新的 LTS 版本—— Apache APISIX 2.13.0 正式发布。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
-tags: [Release]
+description: 全新的 LTS 版本 Apache APISIX 2.13.0 正式发布。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
+tags: [Community]
 ---
 
-> 全新的 LTS 版本—— Apache APISIX 2.13.0 正式发布。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
+> 全新的 LTS 版本 Apache APISIX 2.13.0 正式发布。该 LTS 版本不仅性能更加稳定，而且支持了更多的可观测性、服务发现插件和更完善的多语言开发体系。
 
 <!--truncate-->
 

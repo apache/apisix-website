@@ -11,11 +11,11 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
 - Security
-- Ecosystem
-description: 本文为您介绍了 API 网关 Apache APISIX `public-api` 插件的原理及使用方法。
-tags: [Technology,Ecosystem]
+- 插件
+description: 你可以通过 API 网关 Apache APISIX 的 public-api 插件保护 APISIX 插件中的自定义 API，本文着重介绍了 `public-api` 插件两种使用方法和一种场景示例。
+tags: [Plugins, Ecosystem]
 ---
 
 > 本文为您介绍了 API 网关 Apache APISIX `public-api` 插件的原理及使用方法。

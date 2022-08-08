@@ -14,8 +14,8 @@ keywords:
 - API Gateway
 - Security
 - Ecosystem
-description: This article introduces the principle and usage of API gateway Apache APISIX native plugin `public-api`.
-tags: [Technology,Ecosystem]
+description: You can protect custom APIs in APISIX plugins through the public-api plugin of Apache APISIX, a cloud-native API gateway, and introduce its application scenarios.
+tags: [Plugins,Ecosystem]
 ---
 
 > This article introduces the principle and usage of API gateway Apache APISIX native plugin `public-api`.

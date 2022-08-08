@@ -11,11 +11,11 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
 - GraphQL
 - Ecosystem
-description: 本文介绍了 Apache APISIX 和 GraphQL 的特性，以及如何使用云原生 API 网关 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。
-tags: [Technology,Ecosystem]
+description: 本文介绍了云原生 API 网关 Apache APISIX 和 GraphQL 的特性，以及如何使用 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。
+tags: [Ecosystem]
 ---
 
 > 本文介绍了 Apache APISIX 和 GraphQL 的特性，以及如何使用 API 网关 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。

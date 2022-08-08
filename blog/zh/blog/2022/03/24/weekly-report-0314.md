@@ -5,8 +5,8 @@ keywords:
 - API 网关
 - 社区周报
 - 贡献者
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。
-tags: [Events]
+description: API 网关 Apache APISIX 社区近两周新增了 authz-keycloak 插件支持重定向非授权用户、csrf 插件支持检查令牌是否过期、proxy-mirror 插件支持设置超时时间等功能。
+tags: [Community]
 ---
 
 > 从 3.1 到 3.14， 有 44 位开发者为 Apache APISIX 提交了 131 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！

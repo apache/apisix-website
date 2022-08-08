@@ -16,7 +16,7 @@ keywords:
 - IDE
 - Develop
 description: This article introduces the open source cloud IDE product - Gitpod, and demonstrates how to use Gitpod to develop API gateway Apache APISIX and solutions to common problems.
-tags: [Technology]
+tags: [Ecosystem]
 ---
 
 > This article introduces the open source cloud IDE product - Gitpod, and demonstrates how to use Gitpod to develop API gateway Apache APISIX and solutions to common problems.

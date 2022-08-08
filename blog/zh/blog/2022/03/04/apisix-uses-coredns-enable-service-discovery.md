@@ -11,13 +11,13 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/97138894?v=4"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
 - CoreDNS
 - 服务发现
 - 服务注册
 - Ecosystem
-description: Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为云原生 API 网关，Apache APISIX 也集成了多种服务发现的能力，本文将为您展示在 Apache APISIX 中如何配置 CoreDNS。
-tags: [Technology,Ecosystem,Service Discovery]
+description: 云原生 API 网关 Apache APISIX 集成了多种服务发现的能力，本文将为您展示如何在 APISIX 中配置 CoreDNS 并且为你介绍了服务发现的模式以及使用 CoreDNS 的优势。
+tags: [Ecosystem]
 ---
 
 > Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为云原生 API 网关，Apache APISIX 也集成了多种服务发现的能力，本文将为您展示在 Apache APISIX 中如何配置 CoreDNS。

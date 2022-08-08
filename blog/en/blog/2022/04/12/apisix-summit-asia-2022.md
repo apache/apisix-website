@@ -2,6 +2,8 @@
 title: "Apache APISIX Summit ASIA 2022 is coming"
 keywords:
 - Apache APISIX
+- API Gateway
+- Open Source
 description: The Apache APISIX community will organize the Apache APISIX Summit ASIA 2022 on May 20-21, 2022 via "Live Streaming".
 tags: [Community]
 ---

@@ -15,8 +15,8 @@ keywords:
 - ClickHouse
 - 日志
 - Ecosystem
-description: 本文讲述了社区贡献者祁振东为 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
-tags: [Technology,Logging,Ecosystem]
+description: 本文讲述了社区贡献者祁振东为云原生 API 网关 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
+tags: [Ecosystem]
 ---
 
 > 本文作者祁振东，来自中国移动云能力中心。从事分布式对象存储软件开发工作，参与移动云多个资源池的建设工作，在对象存储领域有丰富的实战经验。本文讲述了社区贡献者祁振东为 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。

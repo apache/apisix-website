@@ -11,12 +11,12 @@ authors:
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - Apache APISIX
-- API Gateway
+- API 网关
 - Gitpod
 - IDE
 - Develop
 description: 本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。
-tags: [Technology]
+tags: [Ecosystem]
 ---
 
 > 本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示了如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。

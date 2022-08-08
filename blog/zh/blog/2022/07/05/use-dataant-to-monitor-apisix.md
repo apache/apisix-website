@@ -8,9 +8,11 @@ authors:
 keywords: 
 - Apache APISIX
 - API 网关
+- 可观测性
+- 监控
 - DataAnt
-description: 本文主要介绍如何通过 DataAnt Agent 将 API Gateway Apache APISIX 的指标数据上传到 DataAnt 监控系统。
-tags: [Authentication]
+description: 本文主要介绍了如何通过 DataAnt Agent 将云原生 API Gateway Apache APISIX 的指标数据上传到 DataAnt 监控系统，实现对 Apache APISIX 进行监控。
+tags: [Ecosystem]
 ---
 
 > 本文主要介绍如何通过 DataAnt Agent 将 API Gateway Apache APISIX 的指标数据上传到 DATAANT 监控系统。
