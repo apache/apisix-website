@@ -59,7 +59,7 @@ module.exports = [
     target: '_parent',
   },
   {
-    to: '/blog/tags/user-case',
+    to: '/blog/tags/case-studies',
     label: 'Case Studies',
     position: 'right',
     target: '_parent',
