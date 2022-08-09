@@ -1,4 +1,5 @@
 /* stylelint-disable custom-property-pattern */
+
 :root {
   --ifm-color-primary-lightest: rgb(228 222 222);
   --ifm-color-primary-lighter: #d0312d;
@@ -98,27 +99,15 @@ html[data-theme="dark"] {
   font-display: optional;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+body {
+  overflow-x: hidden;
 }
 
 body,
 h1,
 h2,
 h3 {
-  font-family: MaisonNeue-Demi, apple-system, system-ui, sans-serif;
+  font-family: MaisonNeue-Medium, apple-system, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizelegibility;
@@ -253,64 +242,6 @@ a:hover {
 .arrow-btn {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1002;
-}
-
-/* Comparison table section */
-.compare {
-  padding: 50px 0;
-}
-
-.table tbody td:nth-child(even) {
-  background: rgb(14 30 37 / 2%);
-}
-
-.table tbody tr:nth-child(odd) {
-  background: rgb(14 30 37 / 2%);
-}
-
-.table thead {
-  font-size: 1.13rem;
-}
-
-.table {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 10%), 0 2px 4px 0 rgb(14 30 37 / 12%);
-  color: rgb(14 30 37 / 87%);
-  font-size: 1.13rem;
-  margin: 1em auto;
-  border-collapse: collapse;
-  max-width: 100%;
-  overflow-x: auto;
-  table-layout: fixed;
-  width: 66.4%;
-  font-family: MaisonNeue-Light, sans-serif;
-  display: table;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.table td,
-.table th {
-  font-weight: 700;
-  min-width: 11.089em;
-  padding: 0.85rem 1rem;
-  text-align: center;
-}
-
-.table-head {
-  font-weight: 900;
-  font-family: MaisonNeue-Demi, sans-serif;
-  font-size: 1.25rem;
-}
-
-.table tbody th {
-  font-weight: 700;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.table td:first-child,
-.table th:first-child {
-  text-align: left;
 }
 
 /* Sidebar Section */
@@ -537,15 +468,6 @@ a:hover {
 }
 
 @media (min-width: 1600px) and (max-width: 2080px) {
-  .hero-title {
-    width: 40vw;
-    font-size: 5.2rem;
-  }
-
-  .hero-subtitle {
-    width: 40vw;
-  }
-
   .bottom-pos {
     bottom: 38%;
   }

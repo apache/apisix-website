@@ -7,7 +7,7 @@ import Translate from '@docusaurus/Translate';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import useWindowType from '@theme/hooks/useWindowSize';
 import ArrowAnim from '../ArrowAnim';
-import '../../css/hero.scss';
+import '../../css/landing-sections/hero.scss';
 
 const LazyLoadHeroCanvas = () => {
   const windowType = useWindowType();

@@ -1,0 +1,56 @@
+.compare {
+  padding: 50px 0;
+}
+
+.table tbody td:nth-child(even) {
+  background: rgb(14 30 37 / 2%);
+}
+
+.table tbody tr:nth-child(odd) {
+  background: rgb(14 30 37 / 2%);
+}
+
+.table thead {
+  font-size: 1.13rem;
+}
+
+.table {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 10%), 0 2px 4px 0 rgb(14 30 37 / 12%);
+  color: rgb(14 30 37 / 87%);
+  font-size: 1.13rem;
+  margin: 1em auto;
+  border-collapse: collapse;
+  max-width: 100%;
+  overflow-x: auto;
+  table-layout: fixed;
+  width: 66.4%;
+  font-family: MaisonNeue-Light, sans-serif;
+  display: table;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.table td,
+.table th {
+  font-weight: 700;
+  min-width: 11.089em;
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+.table-head {
+  font-weight: 900;
+  font-family: MaisonNeue-Demi, sans-serif;
+  font-size: 1.25rem;
+}
+
+.table tbody th {
+  font-weight: 700;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.table td:first-child,
+.table th:first-child {
+  text-align: left;
+}

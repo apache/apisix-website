@@ -1,3 +1,5 @@
+@import "../util";
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -144,4 +146,15 @@
 .btn-docs:hover .arrow rect {
   transform: translateX(240px);
   opacity: 1;
+}
+
+@include respond-between(md, lg) {
+  .hero-title {
+    width: 40vw;
+    font-size: 5.2rem;
+  }
+
+  .hero-subtitle {
+    width: 40vw;
+  }
 }
