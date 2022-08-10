@@ -12,9 +12,17 @@
     border-radius: 1rem;
     width: fit-content;
     flex-shrink: 0;
+    
+    span {
+      display: block !important;
+      width: fit-content !important;
+      height: fit-content !important;
+    }
 
     img {
+      display: block;
       width: 625px;
+      transition: all 0.25s ease-in-out;
     }
   }
 
