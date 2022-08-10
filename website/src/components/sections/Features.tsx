@@ -5,9 +5,10 @@ import { animated } from 'react-spring';
 import Translate from '@docusaurus/Translate';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import styles from '../../css/features.module.scss';
 import ArrowAnim from '../ArrowAnim';
 import useWindowSize from '../../hooks/useWindowSize';
+
+import styles from '../../css/landing-sections/features.module.scss';
 
 const DashboardPlayground = () => {
   const [width] = useWindowSize();
@@ -28,14 +29,10 @@ const DashboardPlayground = () => {
 
         <div className={styles.dashboardAccount}>
           <div>
-            username
-            {' '}
-            <span>admin</span>
+            username <span>admin</span>
           </div>
           <div>
-            passwd
-            {' '}
-            <span>admin</span>
+            passwd <span>admin</span>
           </div>
         </div>
       </div>
@@ -44,26 +41,23 @@ const DashboardPlayground = () => {
 };
 
 interface FeatProps {
-  style?: CSSProperties
+  style?: CSSProperties;
 }
 
-type Feat = FC<FeatProps>
+type Feat = FC<FeatProps>;
 
 const DashboardFeat: Feat = (props) => (
   <animated.div className={styles.feat} {...props}>
     <div className={styles.left}>
       <section>
         <h2>
-          <Translate id="features.component.easyDashboard.title">
-            Easy-to-use Dashboard
-          </Translate>
+          <Translate id="features.component.easyDashboard.title">Easy-to-use Dashboard</Translate>
         </h2>
         <div>
           <Translate id="features.component.easyDashboard.message">
-            The Apache APISIX Dashboard is designed to make it as easy as
-            possible for users to operate Apache APISIX through a frontend
-            interface. It’s opensource and ever evolving, feel free to
-            contribute.
+            The Apache APISIX Dashboard is designed to make it as easy as possible for users to
+            operate Apache APISIX through a frontend interface. It’s opensource and ever evolving,
+            feel free to contribute.
           </Translate>
           <div className={styles.action}>
             <Link to={useBaseUrl('downloads')} className="btn btn-download">
@@ -94,19 +88,16 @@ const CodeFeat: Feat = (props) => (
         </h2>
         <p>
           <Translate id="features.component.userFlexible.message">
-            The Apache APISIX dashboard is flexible to User demand,
-            providing option to create custom modules through code matching
-            your requirements, alongside the existing no-code toolchain.
+            The Apache APISIX dashboard is flexible to User demand, providing option to create
+            custom modules through code matching your requirements, alongside the existing no-code
+            toolchain.
           </Translate>
         </p>
       </section>
     </div>
 
     <div className={styles.right}>
-      <LazyLoadImage
-        src="https://static.apiseven.com/202202/code-sample.png"
-        alt="code-snippet"
-      />
+      <LazyLoadImage src="https://static.apiseven.com/202202/code-sample.png" alt="code-snippet" />
     </div>
   </animated.div>
 );
@@ -120,10 +111,9 @@ const PluginFeat: Feat = (props) => (
         </h2>
         <p>
           <Translate id="features.component.pluginised.message">
-            No need to reinvent the wheel again and again. Use inbuilt
-            plugins to create high performance systems in tight deadlines.
-            For something custom, there is option of building custom
-            plugins.
+            No need to reinvent the wheel again and again. Use inbuilt plugins to create high
+            performance systems in tight deadlines. For something custom, there is option of
+            building custom plugins.
           </Translate>
         </p>
       </section>
@@ -140,9 +130,10 @@ const PluginFeat: Feat = (props) => (
 
 const Features: FC = () => (
   <div className={styles.features}>
-
     <section className={styles.head}>
-      <h2><Translate id="features.component.why.title">Why APISIX Gateway?</Translate></h2>
+      <h2>
+        <Translate id="features.component.why.title">Why APISIX Gateway?</Translate>
+      </h2>
       <h3>
         <Translate id="features.component.why.subtitle">
           Reduce time fighting bugs, focus on designing world-class systems with API Gateway
@@ -150,9 +141,8 @@ const Features: FC = () => (
       </h3>
       <p>
         <Translate id="features.component.why.message">
-          Apache APISIX is the first open-source API Gateway
-          that includes a built-in low-code Dashboard,
-          which offers a powerful and flexible UI for developers to use.
+          Apache APISIX is the first open-source API Gateway that includes a built-in low-code
+          Dashboard, which offers a powerful and flexible UI for developers to use.
         </Translate>
       </p>
     </section>

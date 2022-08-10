@@ -7,6 +7,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ChevronRight from '../assets/icons/chevron-right.svg';
+import '../css/help.scss';
 
 const PageTitle = styled.h1`
   margin-top: 2rem;

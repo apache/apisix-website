@@ -1,0 +1,119 @@
+/* stylelint-disable no-descending-specificity */
+
+.showcase {
+  padding-left: 0;
+  padding-right: 0;
+
+  .header {
+    padding-top: 0;
+
+    .title {
+      color: var(--color-primary);
+      font-size: 50px;
+      font-weight: bold;
+    }
+
+    .tips {
+      font-size: 18px;
+    }
+  }
+
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: unset;
+  }
+
+  .user-logos {
+    margin-top: 48px;
+
+    &:hover span {
+      animation-play-state: paused !important;
+    }
+  }
+
+  .logo-row {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 5rem;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .content {
+    width: 100%;
+    padding: 50px 200px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .user-card {
+    padding: 30px 10px;
+
+    .logo {
+      max-width: 100px;
+      max-height: 40px;
+    }
+  }
+
+  .row {
+    margin: 0;
+  }
+
+  .user-logos-container {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+
+    section {
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+
+      span {
+        animation: 36s linear 0s infinite reverse none running logo-animation;
+        white-space: nowrap;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .user-logo {
+    max-width: 128px;
+    max-height: 50px;
+    margin: 0 16px;
+  }
+
+  @keyframes logo-animation {
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 50px;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}

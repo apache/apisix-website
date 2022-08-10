@@ -37,7 +37,7 @@ module.exports = {
           readingTime: ({ content }) => readingTime(content).minutes,
         },
         theme: {
-          customCss: require.resolve('./src/css/customTheme.css'),
+          customCss: require.resolve('./src/css/customTheme.scss'),
         },
         sitemap: {
           changefreq: 'daily',

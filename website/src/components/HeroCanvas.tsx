@@ -13,6 +13,7 @@ import {
   BufferAttribute,
   Scene,
   DoubleSide,
+  Clock,
 } from 'three';
 import { gsap } from 'gsap/gsap-core';
 
@@ -35,6 +36,9 @@ const HeroCanvas: FC = () => {
   let isLoaded = false;
   let isRendering = false;
   let animationFrame: number;
+  const clock = new Clock();
+  let delta = 0;
+  const interval = 1 / 30;
 
   useEffect(() => {
     screenWidth = window.innerWidth;
@@ -100,7 +104,7 @@ const HeroCanvas: FC = () => {
 
     const canvasObserver = new IntersectionObserver(onCanvasIntersection, {
       root: null,
-      threshold: 0.01,
+      threshold: 0.1,
     });
 
     init(canvasWidth, canvasHeight);
@@ -231,10 +235,17 @@ const HeroCanvas: FC = () => {
 
     function animate() {
       animationFrame = requestAnimationFrame(animate);
-      material.uniforms.u_time.value += 0.05;
-      controls.update();
-      renderer.render(scene, camera);
-      isRendering = true;
+      delta += clock.getDelta();
+
+      if (delta > interval) {
+        // The draw or time dependent code are here
+        material.uniforms.u_time.value += 0.05;
+        controls.update();
+        renderer.render(scene, camera);
+        isRendering = true;
+
+        delta %= interval;
+      }
     }
 
     return () => {

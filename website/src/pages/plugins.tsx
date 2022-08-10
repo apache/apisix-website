@@ -25,6 +25,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import Head from '@docusaurus/Head';
 import Affix from '../components/UI/Affix';
+import '../css/plugins.scss';
 
 const PageTitle = styled.h1`
   text-align: center;

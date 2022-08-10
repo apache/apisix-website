@@ -4,7 +4,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate, { translate } from '@docusaurus/Translate';
 
 import Layout from '@theme/Layout';
-import './styles.scss';
+import '../css/showcase.scss';
 
 const Container: FC = (props) => {
   const { children } = props;

@@ -1,0 +1,39 @@
+.row-benefit {
+  margin: 100px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+.benefit {
+  background: #fff8f6;
+  padding: 50px 0;
+}
+
+.benefit-infograph {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feat-head-desc {
+  font-size: 1.4rem;
+  color: #363130;
+  opacity: 0.5;
+  position: relative;
+  left: 17%;
+  margin: 0;
+  line-height: 1.8;
+  width: fit-content;
+}
+
+.feat-desc {
+  margin: 10px 0;
+  font-size: 1.13rem;
+  color: #615d5d;
+  font-family: MaisonNeue-Light, sans-serif;
+  width: 65%;
+  left: 17%;
+}

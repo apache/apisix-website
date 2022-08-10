@@ -1,0 +1,160 @@
+@import "../util";
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 50%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-title,
+.hero-subtitle,
+.hero-ctas {
+  animation-name: fade-in-up;
+  animation-fill-mode: both;
+  animation-delay: 0s;
+  animation-duration: 1s;
+}
+
+.hero-subtitle {
+  z-index: 100;
+  font-size: 1.1rem;
+  font-family: MaisonNeue-Light, sans-serif;
+  position: relative;
+  color: #615d5d;
+  line-height: 30px;
+  letter-spacing: 0.2px;
+  margin: 25px 0;
+  padding-right: 20px;
+  animation-delay: 0.25s;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  animation-delay: 0.5;
+}
+
+.hero-sec-wrap {
+  display: flex;
+  background: #f4f4f4ad;
+  height: 100vh;
+}
+
+.homeCanvas-overlay {
+  position: absolute;
+  width: 50vw;
+  height: 100vh;
+  background: #fff;
+  top: -1px;
+  right: 0;
+}
+
+.homeCanvas {
+  width: 50vw;
+  height: 100vh;
+}
+
+.hero-text {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  width: 50%;
+  padding: 0 0 0 6vw;
+}
+
+.hero-title {
+  font-family: MaisonNeue-Bold, sans-serif;
+  color: #121212;
+  width: 42vw;
+  font-size: 4.2rem;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.btn {
+  background: #030c16;
+  border-style: solid;
+  border-width: 1px;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-decoration: none;
+  margin: 0 10px 0 0;
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  background: #9b9b9b;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-docs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.btn-docs:hover {
+  text-decoration: none;
+}
+
+.btn-docs .goto {
+  color: #000;
+}
+
+.btn-docs:hover .goto,
+.btn-docs:active .goto {
+  opacity: 0.8;
+}
+
+.btn-docs .arrow {
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.btn-docs .arrow svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-docs .arrow polygon,
+.btn-docs .arrow rect {
+  transition: all 250ms;
+}
+
+.btn-docs .arrow rect {
+  opacity: 0;
+}
+
+.btn-docs:hover .arrow polygon {
+  transform: translateX(100px);
+}
+
+.btn-docs:hover .arrow rect {
+  transform: translateX(240px);
+  opacity: 1;
+}
+
+@include respond-between(md, lg) {
+  .hero-title {
+    width: 40vw;
+    font-size: 5.2rem;
+  }
+
+  .hero-subtitle {
+    width: 40vw;
+  }
+}

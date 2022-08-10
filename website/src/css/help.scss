@@ -1,0 +1,159 @@
+.help-page .cards {
+  margin-top: 38px;
+  margin-bottom: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 36px;
+}
+
+.help-page .card {
+  padding: 24px 28px 18px;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);
+}
+
+.help-page .card .header {
+  padding: 0;
+}
+
+.help-page .card h2 {
+  display: flex;
+  align-items: center;
+}
+
+.help-page .card h2 img {
+  padding-bottom: 2px;
+  height: 28px;
+  margin-right: 14px;
+}
+
+.help-page #documents-icon {
+  margin-right: 10px;
+  margin-left: -6px;
+}
+
+.help-page .card p {
+  color: var(--color-help-subtitle);
+}
+
+.help-page .card .buttons {
+  margin-top: 18px;
+  display: flex;
+}
+
+.help-page .card .buttons svg {
+  height: 12px;
+  margin-left: 4px;
+  transition: transform 0.3s;
+}
+
+.help-page .card .buttons a {
+  font-size: 18px;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-right: 32px;
+}
+
+.help-page .card .buttons a:hover {
+  text-decoration: none;
+}
+
+.help-page .card .buttons a:hover svg {
+  transform: translateX(2px);
+}
+
+.team-githubLogo {
+  height: 24px;
+}
+
+.downloads-subtitle {
+  color: var(--color-downloads-subtitle);
+}
+
+.downloads-leftsidelinks {
+  color: var(--color-downloads-leftsidelinks);
+}
+
+.downloads-leftsidelink:hover {
+  color: var(--color-downloads-leftsidelink-hover);
+}
+
+.downloads-versioninfo {
+  color: var(--color-downloads-rightside-versioninfo);
+}
+
+.downloads-versioninfo-span {
+  color: var(--color-downloads-rightside-versioninfo-span);
+}
+
+.downloads-dropdown {
+  background-color: var(--color-downloads-dropdown);
+}
+
+.download-dropdown-item:hover {
+  background-color: var(--color-downloads-dropdown-items);
+}
+
+.team-repocard {
+  color: var(--color-team-repocard);
+}
+
+.team-repocard:hover {
+  color: var(--color-team-repocard-hover);
+}
+
+.docs-subtitle {
+  color: var(--color-docs-subtitle);
+}
+
+.docs-versioninfo {
+  color: var(--color-docs-versioninfo);
+}
+
+.pic-wrapper {
+  width: 350px;
+  position: fixed;
+  display: flex;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  outline: 0;
+  overflow: auto;
+  border: 0;
+  box-shadow: 0 0 20px -12px #626365;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.pic-wrapper a {
+  display: flex;
+}
+
+.pic-wrapper-close {
+  position: absolute;
+  z-index: 1000;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  font-weight: 900;
+  color: rgb(135 151 172);
+  font-size: 16px;
+  outline: none;
+  border-radius: 100px;
+  border: 1px solid transparent;
+}
+
+.pic-wrapper-close:hover {
+  cursor: pointer;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.pic-wrapper-close svg {
+  width: 10px;
+  height: 10px;
+  display: inherit;
+}
+@media only screen and (max-width: 440px) {
+  .pic-wrapper {
+    width: 70%;
+  }
+}

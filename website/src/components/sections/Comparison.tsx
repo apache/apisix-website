@@ -6,6 +6,8 @@ import Translate from '@docusaurus/Translate';
 import Cross from '../../assets/icons/cross.svg';
 import Tick from '../../assets/icons/tick.svg';
 
+import '../../css/landing-sections/comparison.scss';
+
 const Comparison: FC = () => (
   <div className="compare">
     <div>
