@@ -55,7 +55,7 @@ sudo apt-get update && sudo apt-get install docker.io
 
 ## Deploy Apache APISIX
 
-1. Apache APISIX uses etcd as the configuration center, so you need to start an etcd instance first.
+Apache APISIX uses etcd as the configuration center, so you need to start an etcd instance first.
 
 ```shell
 sudo docker run -d --name etcd \
@@ -66,13 +66,13 @@ sudo docker run -d --name etcd \
     rancher/coreos-etcd:v3.4.16-arm64
 ```
 
-2. Start an instance of Apache APISIX.
+Then start an instance of Apache APISIX.
 
 ```shell
 sudo docker run --net=host -d apache/apisix:2.14.1-alpine
 ```
 
-3. Create routes.
+Create routes.
 
 ```shell
 curl "http://127.0.0.1:9080/apisix/admin/routes/1" \
@@ -88,7 +88,7 @@ curl "http://127.0.0.1:9080/apisix/admin/routes/1" \
 }'
 ```
 
-4. Access the test.
+Access the test.
 
 ```shell
 curl -i http://127.0.0.1:9080/anything/das
@@ -123,7 +123,7 @@ Use a single upstream, without any plugins. It mainly tests the performance of A
 ```shell
 # apisix: 1 worker + 1 upstream + no plugin
 
-# 注册路由
+# create route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
@@ -146,7 +146,7 @@ Using a single upstream, two plugins. It mainly tests the performance of APISIX 
 ```shell
 # apisix: 1 worker + 1 upstream + 2 plugins (limit-count + prometheus)
 
-# 注册路由
+# create route
 curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
@@ -180,7 +180,7 @@ In the above two scenarios, relevant tests and comparisons were carried out from
 
     ![Latency](https://static.apiseven.com/2022/blog/0808/5.png)
 
-<table>
+<table align="center" valign="center" border="1px">
     <tr>
         <td><b>  </b></td>
         <td colspan="2">Single upstream + no plugin</td>

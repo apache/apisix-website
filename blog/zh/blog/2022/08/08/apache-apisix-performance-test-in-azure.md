@@ -51,7 +51,7 @@ sudo apt-get update && sudo apt-get install docker.io
 
 ## 部署 Apache APISIX
 
-1. Apache APISIX 使用 etcd 作为配置中心，因此需要先启动一个 etcd 实例。
+Apache APISIX 使用 etcd 作为配置中心，因此需要先启动一个 etcd 实例。
 
 ```shell
 sudo docker run -d --name etcd \
@@ -62,13 +62,13 @@ sudo docker run -d --name etcd \
     rancher/coreos-etcd:v3.4.16-arm64
 ```
 
-2. 启动 Apache APISIX 实例。
+启动 Apache APISIX 实例。
 
 ```shell
 sudo docker run --net=host -d apache/apisix:2.14.1-alpine
 ```
 
-3. 创建路由。
+创建路由。
 
 ```shell
 curl "http://127.0.0.1:9080/apisix/admin/routes/1" \
@@ -84,7 +84,7 @@ curl "http://127.0.0.1:9080/apisix/admin/routes/1" \
 }'
 ```
 
-4. 访问测试。
+进行访问测试。
 
 ```shell
 curl -i http://127.0.0.1:9080/anything/das
@@ -179,7 +179,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 
     ![Latency](https://static.apiseven.com/2022/blog/0808/5.png)
 
-<table>
+<table align="center" valign="center" border="1px">
     <tr>
         <td><b>  </b></td>
         <td colspan="2">单个上游</td>
