@@ -157,6 +157,6 @@ that have a specific focus on Apache APISIX.
 
 #### Apache APISIX Global Community Meetup
 
-* **Topic** Global Communit Meeting
+* **Topic** Global Community Meeting
 * **Activity schedule** 17 August 2022, at 13:00 by UTC
 * **Location** Online, [Zoom link](https://us06web.zoom.us/j/87992775211?pwd=aHg3UW5wVU0vZlFDS1hjSjl1anVBZz09) to join
