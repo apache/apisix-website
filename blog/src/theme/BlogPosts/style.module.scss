@@ -6,6 +6,7 @@
   display: flex;
   filter: none;
   margin-top: 0;
+  margin-bottom: 6rem;
   align-items: center;
 
   & > a {
@@ -21,7 +22,7 @@
 
     img {
       display: block;
-      width: 625px;
+      width: 605px;
       height: auto;
       transition: all 0.25s ease-in-out;
     }
