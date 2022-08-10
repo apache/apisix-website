@@ -7,7 +7,7 @@ keywords:
 - 贡献者
 description: 云原生 API 网关 Apache APISIX 近两周新增了 openid-connect 插件中支持 PKCE、Ingress 资源可以直接使用 APISIX 的插件等功能。
 tags: [Community]
-image: https://static.apiseven.com/2022/weeklyreport/0809/0731.png
+image: https://static.apiseven.com/2022/weeklyreport/0809/biweekly-2022.7.16-2022.7.31-zh.png
 ---
 
 > 从 7.16 - 7.31，有 28 位开发者为 Apache APISIX 提交了 93 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！

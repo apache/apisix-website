@@ -7,7 +7,7 @@ keywords:
 - Contributor
 description: The cloud native API gateway Apache APISIX has added functions such as supporting custom plugin priorities and checking plugin_metadata in configuration files in the past two weeks.
 tags: [Community]
-image: https://static.apiseven.com/2022/weeklyreport/0809/0731-en.png
+image: https://static.apiseven.com/2022/weeklyreport/0809/biweekly-2022.7.16-2022.7.31-en.png
 ---
 
 > From Jul 16th to Jul 31th, 28 contributors submitted 93 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!
