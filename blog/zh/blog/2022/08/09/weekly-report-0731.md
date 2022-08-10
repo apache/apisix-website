@@ -58,12 +58,12 @@ Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰
 
 - [Apache APISIX Ingress v1.5-rc1 正式发布](https://apisix.apache.org/zh/blog/2022/08/05/apisix-ingress-1.5rc1-release/)
 
-历时 7 个月，Apache APISIX Ingress Controller v1.5-rc1 版本正式发布。带来 API Version 升级、Gateway API 支持以及 Ingress 相关资源的更新与调整。
+    历时 7 个月，Apache APISIX Ingress Controller v1.5-rc1 版本正式发布。带来 API Version 升级、Gateway API 支持以及 Ingress 相关资源的更新与调整。
 
 - [Apache APISIX 2.15 正式发布](https://apisix.apache.org/zh/blog/2022/07/29/release-apache-apisix-2.15/)
 
-Apache APISIX 2.15 版本正式发布！用户可以自定义插件优先级和执行策略、自定义错误响应以及支持监控四层流量的指标等功能。
+    Apache APISIX 2.15 版本正式发布！用户可以自定义插件优先级和执行策略、自定义错误响应以及支持监控四层流量的指标等功能。
 
 - [有了 NGINX 和 Kong，为什么还需要 Apache APISIX？](https://apisix.apache.org/zh/blog/2022/07/30/why-we-need-apache-apisix/)
 
-本文介绍了 Kong 和 NGINX 的痛点，以及 Apache APISIX 如何解决它们的痛点，并且为你介绍了 Apache APISIX 的应用场景。
+    本文介绍了 Kong 和 NGINX 的痛点，以及 Apache APISIX 如何解决它们的痛点，并且为你介绍了 Apache APISIX 的应用场景。
