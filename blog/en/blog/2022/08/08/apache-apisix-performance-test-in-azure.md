@@ -24,7 +24,7 @@ tags: [Ecosystem]
 <!--truncate-->
 
 <head>
-    <link rel="canonical" href="https://opentelemetry.io/blog/2022/apisix/" />
+    <link rel="canonical" href="https://api7.ai/2022/08/08/apache-apisix-performance-test-in-azure/" />
 </head>
 
 ## Background

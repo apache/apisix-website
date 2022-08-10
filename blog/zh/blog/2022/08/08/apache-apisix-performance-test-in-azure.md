@@ -23,10 +23,6 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-<head>
-    <link rel="canonical" href="https://opentelemetry.io/blog/2022/apisix/" />
-</head>
-
 ## 背景
 
 今年 4 月，微软宣布推出基于 Ampere® Altra® Arm 处理器的 Azure 虚拟机系列预览版。新的 VM 系列包括通用 Dpsv5 和内存优化的 Epsv5 VM，具体信息参考下图：
@@ -178,7 +174,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 1. QPS 比较
 
     ![QPS](https://static.apiseven.com/2022/blog/0808/4.png)
-    
+
 2. 请求延迟比较
 
     ![Latency](https://static.apiseven.com/2022/blog/0808/5.png)
