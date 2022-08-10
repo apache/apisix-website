@@ -6,16 +6,25 @@
   display: flex;
   filter: none;
   margin-top: 0;
+  margin-bottom: 6rem;
+  align-items: center;
 
   & > a {
     border-radius: 1rem;
-    width: 601px;
-    height: auto;
+    width: fit-content;
     flex-shrink: 0;
+    
+    span {
+      display: block !important;
+      width: fit-content !important;
+      height: fit-content !important;
+    }
 
     img {
-      height: 100%;
-      width: 100%;
+      display: block;
+      width: 605px;
+      height: auto;
+      transition: all 0.25s ease-in-out;
     }
   }
 
