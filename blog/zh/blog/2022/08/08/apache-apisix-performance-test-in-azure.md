@@ -216,4 +216,4 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 
 ## 参考链接
 
-https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/
+[Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)

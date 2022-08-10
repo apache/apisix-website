@@ -217,4 +217,4 @@ This article mainly uses Apache APISIX to compare the performance of Azure Ddsv5
 
 ## Reference
 
-https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/
+[Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
