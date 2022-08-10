@@ -179,7 +179,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 \
 
     ![Latency](https://static.apiseven.com/2022/blog/0808/5.png)
 
-<table align="center" valign="center" border="1px">
+<table>
     <tr>
         <td><b>  </b></td>
         <td colspan="2">单个上游</td>

@@ -180,7 +180,7 @@ In the above two scenarios, relevant tests and comparisons were carried out from
 
     ![Latency](https://static.apiseven.com/2022/blog/0808/5.png)
 
-<table align="center" valign="center" border="1px">
+<table>
     <tr>
         <td><b>  </b></td>
         <td colspan="2">Single upstream + no plugin</td>
