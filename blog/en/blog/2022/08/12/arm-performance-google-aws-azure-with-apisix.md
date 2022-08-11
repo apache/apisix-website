@@ -1,5 +1,5 @@
 ---
-title: "ARM is trending! Performance between Google&AWS&Azure"
+title: "ARM is trending! Performance Comparisons among Google, AWS, and Azure"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
@@ -16,11 +16,11 @@ keywords:
 - AWS
 - Google
 - Apache APISIX
-description: This article uses API Gateway Apache APISIX to compare the performance in ARM between Google&AWS&Azure in network IO-intensive scenarios.
+description: This article uses API Gateway Apache APISIX to compare the performance in ARM among Google, AWS, and Azure in network IO-intensive scenarios.
 tags: [Ecosystem]
 ---
 
-> This article uses API Gateway Apache APISIX to compare the performance in ARM between Google&AWS&Azure in network IO-intensive scenarios.
+> This article uses API Gateway Apache APISIX to compare the performance in ARM among Google, AWS, and Azure in network IO-intensive scenarios.
 
 <!--truncate-->
 

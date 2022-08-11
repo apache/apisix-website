@@ -16,11 +16,11 @@ keywords:
 - AWS
 - Google
 - Apache APISIX
-description: 本文使用 API Gateway Apache APISIX 来比较 Google&AWS&Azure 在网络 IO 密集型场景下的 ARM 架构性能。
+description: 本文使用 API Gateway Apache APISIX 来比较 Google、AWS 和 Azure 在网络 IO 密集型场景下的 ARM 架构性能。
 tags: [Ecosystem]
 ---
 
-> 本文使用 API Gateway Apache APISIX 来比较 Google&AWS&Azure 在网络 IO 密集型场景下的 ARM 架构性能。
+> 本文使用 API Gateway Apache APISIX 来比较 Google、AWS 和 Azure 在网络 IO 密集型场景下的 ARM 架构性能。
 
 <!--truncate-->
 
