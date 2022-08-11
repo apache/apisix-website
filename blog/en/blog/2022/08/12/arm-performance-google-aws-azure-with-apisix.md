@@ -38,11 +38,11 @@ Therefore, mainstream cloud vendors led by AWS, Google Cloud Platform (GCP) and 
 
 ### AWS Graviton
 
-AWS Graviton is a series of server processors based on the [ARM architecture](https://www.arm.com/) released by AWS in 2018\. The first generation of AWS Graviton processors uses custom chips and 64-bit Neoverse cores.
+AWS Graviton is a series of server processors based on the [ARM architecture](https://www.arm.com/) released by AWS in 2018. The first generation of AWS Graviton processors uses custom chips and 64-bit Neoverse cores.
 
 Released in 2020, AWS Graviton2 processors represent a major leap forward in performance and functionality compared to first-generation AWS Graviton processors. 7x faster performance, 4x more cores, 2x cache, 5x faster memory, and more.
 
-The latest AWS Graviton3 processors to be released at the end of May 2022 are based on the more advanced Neoverse V1 design, they offer up to twice the floating point performance, twice the cryptographic performance, and three times the ML compared to the AWS Graviton2 processors performance, including support for bfloat16\. The following figure shows the main models equipped with AWS Graviton3 processors:
+The latest AWS Graviton3 processors to be released at the end of May 2022 are based on the more advanced [Neoverse V1](https://www.arm.com/zh-TW/products/silicon-ip-cpu/neoverse/neoverse-v1) design, they offer up to twice the floating point performance, twice the cryptographic performance, and three times the ML compared to the AWS Graviton2 processors performance, including support for bfloat16. The following figure shows the main models equipped with AWS Graviton3 processors:
 
 ![AWS Graviton3 processors](https://static.apiseven.com/2022/blog/0812/1.png)
 
@@ -116,13 +116,13 @@ The following table summarizes the cost and cost–performance ratio of AWS c7g.
 | GCP t2a-standard-2 | $674.5          | 16.8               |
 | Azure D2ps v5      | $398.0（41% off) | 33.6               |
 
-From the test results, AWS C7g is more cost-effective than GCP T2A and Azure Dpsv5\. Although Azure Dpsv5 has only a 15% performance improvement compared to GCP T2A, the cost performance is nearly double.
+From the test results, AWS C7g is more cost-effective than GCP T2A and Azure Dpsv5. Although Azure Dpsv5 has only a 15% performance improvement compared to GCP T2A, the cost performance is nearly double.
 
 ## Summary
 
-AWS launched the first ARM-based processor, AWS Graviton, in 2018\. It was about 4 years ahead of GCP for the deployment of the ARM-based server field. Now the AWS Graviton processor has developed to the third generation.
+AWS launched the first ARM-based processor, AWS Graviton, in 2018. It was about 4 years ahead of GCP for the deployment of the ARM-based server field. Now the AWS Graviton processor has developed to the third generation.
 
-Through the performance test results and price–performance ratio analysis of Apache APISIX, we can see that AWS Graviton3 has higher performance and cost-effective than GCP T2A and Azure Dpsv5\. This is inseparable from the fact that AWS has been deeply involved in the field of ARM-based servers for many years.
+Through the performance test results and price–performance ratio analysis of Apache APISIX, we can see that AWS Graviton3 has higher performance and cost-effective than GCP T2A and Azure Dpsv5. This is inseparable from the fact that AWS has been deeply involved in the field of ARM-based servers for many years.
 
 In addition, we used Apache APISIX bound single-core tests during our testing, and the price-performance ratio of AWS Graviton 3 may be further improved if multiple cores are used.
 
