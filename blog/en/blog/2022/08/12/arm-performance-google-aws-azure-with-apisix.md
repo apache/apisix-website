@@ -108,7 +108,6 @@ The table below compares server hourly prices for different cores for AWS C7g (U
 | GCP T2A          | $0.0385 | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
 | Azure Dpsv5      | *       | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
 
-
 The following table summarizes the cost and cost–performance ratio of AWS c7g.large and GCP t2a-standard-2 running for one year, referring to the QPS data for a single upstream in the Apache APISIX performance test. The larger the number, the higher the QPS can be obtained at the unit price.
 
 |                    | Annual cost         | Cost performance (QPS/cost) |
@@ -129,6 +128,6 @@ In addition, we used Apache APISIX bound single-core tests during our testing, a
 
 ## Reference
 
-- [New – Amazon EC2 C7g Instances, Powered by AWS Graviton3 Processors](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)
-- [Tau T2A machine series (Preview)](https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines)
-- [Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
+* [New – Amazon EC2 C7g Instances, Powered by AWS Graviton3 Processors](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)
+* [Tau T2A machine series (Preview)](https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines)
+* [Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
