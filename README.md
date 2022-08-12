@@ -35,6 +35,7 @@ cd apisix-website
 ```
 
 ### Getting started in a Dev Container
+
 If you are using **VS Code**, **Docker**, and **Remote - Containers** plugin, you can use this to get started quickly.
 
 > No, but want to try this way? Please read [Developing inside a Container#Installation](https://code.visualstudio.com/docs/remote/containers#_installation).
