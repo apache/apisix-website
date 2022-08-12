@@ -13,15 +13,20 @@ A cloud-native microservices API Gateway
 
 <br>
 
-## Usage
+## Getting Started
 
 > If you want to write a blog or fix some blog-related issues, please read [Apache APISIX Blog Contributing Guide](http://apisix.apache.org/docs/general/blog) first.
 
+> If you get a 403 error `Rate Limit Exceeded` from GitHub, that means you have hit the GitHub API rate limit. the project needs your [personal access token](https://github.com/settings/tokens) to unlimit it.
+> 
+> If you don't already have one, [create one](https://github.com/settings/tokens/new), and run below command in your terminal (no scope to your personal data is needed)
+> ```bash
+> export GITHUB_TOKEN=${your token}
+> ```
+
 ### Pre-requisites
 
-First, you need to install `Node.js`, `Yarn`, `Git`.
-
-Since the installation method may change, we recommend that you check the installation method on the corresponding official website. If you encounter any problems, please feel free to create an issue.
+First, you need to install **Git**.
 
 Then you should fork this repo, and clone your fork:
 
@@ -36,13 +41,32 @@ git remote add upstream https://github.com/apache/apisix-website.git
 cd apisix-website
 ```
 
-### Basic
+### Getting started in a Dev Container
+If you are using **VS Code**, **Docker**, and **Remote - Containers** plugin, you can use this to get started quickly.
+
+> No, but want to try this way? Please read [Developing inside a Container#Installation](https://code.visualstudio.com/docs/remote/containers#_installation).
+
+Then, start **VS Code**, run the `Remote-Containers: Open Folder in Container...` command.
+
+> **Tip:** For details on how to do this, see the documentation [Developing inside a Container#Quick Start](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container).
+
+After the initialization, you can skip the installation part of the commands below and read [the rest](#previewing-documents-developing) directly.
+
+### Getting started in the conventional way
+
+First, you need to install **Node.js**, **Yarn**.
+
+> **Tip:** Since the installation method may change, we recommend that you check the installation method on the corresponding official website. If you encounter any problems, please feel free to create an issue.
+
+Then you can read [the commands](#commands) below.
+
+## Commands
 
 When you find that some commands do not run, or cannot be found, look at the package.json file.
 
-This may be because the project is being updated quickly, but there is no time to make updates to the relevant documentation.
+This may be because the project is being updated quickly, but the corresponding developer did not find the time to update the corresponding documentation.
 
-#### Preparation
+### Installation
 
 Except for the following commands that you need to run after downloading the project for the first time, you can **try running them again** when you encounter any problems.
 
@@ -50,7 +74,7 @@ Except for the following commands that you need to run after downloading the pro
 # 1. Install deps
 yarn
 
-# 2. Prepare necessory data
+# 2. Prepare necessary data
 yarn prepare-data
 
 # Tip.
@@ -61,7 +85,7 @@ yarn generate-repos-info # Generate repository information for each project
 yarn generate-picked-posts # Generate frontmatter information for featured blogs
 ```
 
-#### Preview documentation, Development
+### Previewing documents, Developing
 
 When you modify a document, blog, or page code, the preview in development mode is the fastest.
 
@@ -86,7 +110,7 @@ yarn start:blog:zh
 yarn start:website
 ```
 
-#### Build locally
+### Building
 
 When you want to build or preview a site that looks the same as it does online, run the following commands.
 
@@ -111,13 +135,13 @@ preview=true yarn build:website && yarn serve:website
 
 Next, you can modify the documentation or code, commit it and push it to GitHub when you're done. If you're not familiar with this, you can read [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) first.
 
-### Advance
+## Advance Guide
 
 If you only want to modify the `*.md` files, the above guide may be sufficient.
 
 But if you need to develop, please read the guide below.
 
-#### Project Structure
+### Project Structure
 
 Omitted some documents that may not be important.
 
