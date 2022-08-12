@@ -17,13 +17,6 @@ A cloud-native microservices API Gateway
 
 > If you want to write a blog or fix some blog-related issues, please read [Apache APISIX Blog Contributing Guide](http://apisix.apache.org/docs/general/blog) first.
 
-> If you get a 403 error `Rate Limit Exceeded` from GitHub, that means you have hit the GitHub API rate limit. the project needs your [personal access token](https://github.com/settings/tokens) to unlimit it.
-> 
-> If you don't already have one, [create one](https://github.com/settings/tokens/new), and run below command in your terminal (no scope to your personal data is needed)
-> ```bash
-> export GITHUB_TOKEN=${your token}
-> ```
-
 ### Pre-requisites
 
 First, you need to install **Git**.
@@ -50,7 +43,7 @@ Then, start **VS Code**, run the `Remote-Containers: Open Folder in Container...
 
 > **Tip:** For details on how to do this, see the documentation [Developing inside a Container#Quick Start](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container).
 
-After the initialization, you can skip the installation part of the commands below and read [the rest](#previewing-documents-developing) directly.
+After the initialization, you can skip the preparation part of the commands below and read [the rest](#previewing-documents-developing) directly.
 
 ### Getting started in the conventional way
 
@@ -66,7 +59,7 @@ When you find that some commands do not run, or cannot be found, look at the pac
 
 This may be because the project is being updated quickly, but the corresponding developer did not find the time to update the corresponding documentation.
 
-### Installation
+### Preparation
 
 Except for the following commands that you need to run after downloading the project for the first time, you can **try running them again** when you encounter any problems.
 
@@ -84,6 +77,14 @@ yarn sync-doc # Sync all project documents
 yarn generate-repos-info # Generate repository information for each project
 yarn generate-picked-posts # Generate frontmatter information for featured blogs
 ```
+
+> If you get a 403 error `Rate Limit Exceeded` from GitHub, that means you have hit the GitHub API rate limit. the project needs your [personal access token](https://github.com/settings/tokens) to unlimit it.
+>
+> If you don't already have one, [create one](https://github.com/settings/tokens/new), and run below command in your terminal (no scope to your personal data is needed)
+>
+> ```bash
+> export GITHUB_TOKEN=${your token}
+> ```
 
 ### Previewing documents, Developing
 
