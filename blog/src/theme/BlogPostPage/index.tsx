@@ -17,16 +17,54 @@ import type { ImageProps } from 'rc-image';
 import Image from 'rc-image';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { parseSrcset, stringifySrcset } from 'srcset';
 import BlogPostPaginator from '../BlogPostPaginator';
+
+const urlParse = (url: string) => {
+  const urlParseArr = url.split('/');
+  const name = urlParseArr.at(-1) as string;
+  return {
+    host: urlParseArr.slice(0, 3).join('/'),
+    folderPath: urlParseArr.slice(3, -1).join('/'),
+    name,
+    ext: name.split('.').at(-1) as string,
+  };
+};
 
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => (
-    <LazyLoadComponent>
-      <Image {...props} preview={{ mask: 'Click to Preview' }} />
-    </LazyLoadComponent>
-  ),
+  img: (props: ImageProps) => {
+    const { src, srcSet } = props;
+    const isFromCDN = src?.includes('static.apis');
+    let otherProps = {};
+
+    if (isFromCDN && src) {
+      const u = urlParse(src);
+      const webpSrc = `${u.host}/apisix-webp/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
+      otherProps = {
+        src: webpSrc,
+        type: 'image/webp',
+        srcSet: stringifySrcset([
+          ...parseSrcset(srcSet || ''),
+          {
+            url: webpSrc,
+          }, {
+            url: src,
+          },
+        ]),
+        placeholder: <Image
+          {...props}
+          src={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`}
+          srcSet={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name}`}
+          preview={false}
+        />,
+      };
+    }
+
+    return (
+      <Image {...props} {...otherProps} preview={{ mask: 'Click to Preview' }} loading="lazy" />
+    );
+  },
 };
 
 const BlogPostPage = (props: Props): JSX.Element => {
