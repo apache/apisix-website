@@ -47,7 +47,7 @@ The order of execution of multiple programming languages plugins is defined in t
 
 ## Building Development Environment
 
-First, you need to build the Apache APISIX runtime or development environment, please refer to [Build Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md), and [Build apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/development.md).
+First, you need to build the Apache APISIX runtime or development environment, please refer to [Build Apache APISIX](https://github.com/apache/apisix/blob/master/docs/en/latest/building-apisix.md), and [Build apisix-java-plugin-runner](https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/en/latest/deployment-guide.md).
 
 Note: Apache APISIX and apisix-java-plugin-runner need to be located on the same instance.
 
