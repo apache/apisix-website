@@ -89,7 +89,7 @@ tags: [Community]
 
 同时，借助 APISIX 的另一个功能[自定义变量](https://apisix.apache.org/zh/docs/apisix/next/plugin-develop/#%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F)，则可以玩出更多花样。比如客户端地址为内网地址，则跳过某个 Logger 之类的场景。
 
-### 自定义错误响应
+## 自定义错误响应
 
 该功能也是在具体插件层面配置的新功能，属于插件配置级别上的错误信息。
 
