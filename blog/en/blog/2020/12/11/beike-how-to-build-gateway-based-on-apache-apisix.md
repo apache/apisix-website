@@ -19,7 +19,7 @@ My name is Hui Wang, and I am responsible for the development of the API gateway
 
 ## Choose Kong or Apache APISIX
 
-![Apache APISIX vs Kong in QPS](https://static.apiseven.com/2020/05/1588752135-Snipaste_2020-05-06_16-02-04.png)
+![Apache APISIX vs Kong in QPS](https://static.apiseven.com/2020/1211/20220816-202641.jpg)
 
 For the technical requirements of the gateway, the first is to have good performance and be able to support the access of large traffic, and the second is to be stable without problems.
 
