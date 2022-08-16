@@ -61,13 +61,13 @@ Of course, as an open source project, Apache APISIX has a very active community 
 
 Our current product architecture is broadly similar to using Apache APISIX in K8s. The main idea is to expose Apache APISIX’s Service as a LoadBalancer type. The user then transfers the request access to Apache APISIX and forwards the route to the upstream related service.
 
-![Overall architecture](https://static.apiseven.com/202108/1632293465988-e166530d-c82c-4676-8d6c-3ccafd60e703.37)
+![Overall architecture](https://static.apiseven.com/2021/0918/20220816-171733.jpg)
 
 One additional point is why we put the ETCD outside the technology stack. The ETCD was taken out separately because of errors in resolving domain names in earlier versions, and because the internal maintenance and backup process was cumbersome.
 
 ### Business Model
 
-![Business model](https://static.apiseven.com/202108/1632293498420-77c63400-7afc-4774-97ee-540bd670f4fe.37)
+![Business model](https://static.apiseven.com/2021/0918/20220816-172217.jpg)
 
 The image above shows the business environment transformation model after accessing Apache APISIX. As each development or project changes, the DNA creates a change and converts it into a K8s Namespace resource.
 
@@ -85,7 +85,7 @@ In a change environment we have two scenarios, one is point-to-point mode, where
 
 Another scenario is multilevel path routing. In this scenario, we use Apache APISIX to point multiple APP routes required in project changes to the current Namespace environment, and their associated APP routes to a Stable set of Namespace environments (usually Stable) .
 
-![Multilevel path](https://static.apiseven.com/202108/1632293571396-564db5f5-eef5-45d1-80d8-1d0dded8b9da.38)
+![Multilevel path](https://static.apiseven.com/2021/0918/20220816-172458.jpg)
 
 #### Function 2: Automate the Process
 
