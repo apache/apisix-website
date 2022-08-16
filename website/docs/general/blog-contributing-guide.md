@@ -16,11 +16,11 @@ Please [submit an issue](/docs/general/submit-issue) if you find any issues in t
 
 The blogs are written in both [English](/blog/) and [Chinese](/zh/blog/). Contributors are encouraged to write blogs in their preferred language. Translations can be handled later and you can review the pull request.
 
-English blogs are located in the `website/blog` directory, in which they are categorized by year, month and date.
+English blogs are located in the `/apisix-website/blog/en/blog`  directory, in which they are categorized by year, month and date.
 
-For example, `website/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes.md` means that a blog named `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` was published on November 22nd, 2021, and it is located in the `website/blog/2021/11/22` directory. Once it is reviewed and megered, the URL should be: `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`.
+For example, `/apisix-website/blog/en/blog/2022/03/01/apisix-integration-public-api-plugin.md` means that a blog named `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` was published on November 22nd, 2021, and it is located in the `/apisix-website/blog/en/blog/2021/11/22` directory. Once it is reviewed and megered, the URL should be: `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`.
 
-Similarly, Chinese blogs are located in `website/i18n/zh/docusaurus-plugin-content-blog` directory and follow the same patterns described above.
+Similarly, Chinese blogs are located in `/apisix-website/blog/zh/blog` directory and follow the same patterns described above.
 
 ## Areas to contribute
 
@@ -33,8 +33,8 @@ You can also update the existing blogs by updating the content or fixing issues 
 Writing a new blog post is one of the best ways to contribute to Apache APISIX. Users and contributors of the project will be able to learn from your experience through your content.
 
 1. To create a post, first find the right place to store it.
-    1. If you are submitting a blog written in **English**, create a markdown file under the `website/blog` directory.
-    2. If you are submitting a blog written in **Chinese**, create a markdown file under the `website/i18n/zh/docusaurus-plugin-content-blog` directory.
+    1. If you are submitting a blog written in **English**, create a markdown file under the `/apisix-website/blog/en/blog` directory.
+    2. If you are submitting a blog written in **Chinese**, create a markdown file under the `/apisix-website/blog/zh/blog` directory.
     3. If you don't find a directory that matches the year, month or date, you can create one yourself to store your post.
 
 2. Once you find a place to store your post, you can create a markdown file in the directory. Note that the file name should be in English with no capitalized letters. Reviewers might suggest changing the file name to improve SEO (some of the file names contain capital letters and this is being fixed in [#713](https://github.com/apache/apisix-website/issues/713)).
@@ -139,14 +139,12 @@ Each post can have multiple tags. The tags used currently are given below and ea
 
 Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and rules of applying tags could change over time.
 
-- **Community**: Everything related to community, for example, "How to contribute to an open source project without writing code?".
-- **Events**: Related to events, for example, live streams, event previews, meetups and project meetings.
-- **Interview**: For example, Dr. Yang Li interview, Summer of Programming interview.
-- **Practical Case**: Includes best practices to follow. This is easily confused with **Technology**. The content of the article determines which tag the post belongs to. For example, "Running Apache APISIX on the xxx platform" would belong to the Practical Case tag and "Apache APISIX vs Envoy" would belong to the Technology tag.
-- **Release**: Tag for release notes. Note that the release notes in blog posts are polished whereas inline release notes are written by developers.
-- **Security**: Security vulnerability notifications and methods to bypass security vulnerabilities. Currently there are [six articles](/blog/tags/security/), and they generally have CVE-xxxxxxx in its title.
-- **Technology**: Technical articles. Should not be confused with **Practical Case** (see above).
-- **User Case**: Posts about using Apache APISIX. Tell us how you are using Apache APISIX!
+- **Community**: content related to community, community activities, and version release tags, such as: "How to contribute to the community in a form other than code?", live broadcast preview, event preview, meeting content and project meeting content.
+- **Security**: Security Vulnerability Notifications and Methods to Address Security Vulnerabilities. There are currently [six articles](/blog/tags/security/), and they all have the same title as CVE-xxxxxxx.
+- **Technology**: technical articles. Needs to be distinguished from **Practical Case** (see above).
+- **Case Studies**: Blog about using Apache APISIX in the enterprise, let us know how you are using Apache APISIX!
+- **Plugins**: Blog related to Apache APISIX plugins.
+- **Ecosystem**: Content related to the surrounding ecology of Apache APISIX.
 
 Reviewers will help you find the right tags while reviewing your PR.
 
