@@ -7,7 +7,9 @@ import type { ScrollPosition } from 'react-lazy-load-image-component';
 import { trackWindowScroll, LazyLoadImage } from 'react-lazy-load-image-component';
 import Avvvatars from 'avvvatars-react';
 import clsx from 'clsx';
-import type { FC, HTMLAttributes, DetailedHTMLProps } from 'react';
+import type {
+  FC, HTMLAttributes, DetailedHTMLProps, ImgHTMLAttributes,
+} from 'react';
 import React from 'react';
 import useWindowType from '@theme/hooks/useWindowSize';
 import shuffle from 'lodash.shuffle';
@@ -20,6 +22,7 @@ import pickedPosts from '../../../config/picked-posts-info';
 
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import style from './style.module.scss';
+import { imgPropsParse } from '../BlogPostPage';
 
 const components = {
   blockquote: ({ children }) => children,
@@ -42,6 +45,32 @@ type BlogPostsProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement
   items: any;
   isFirstPage?: boolean;
 } & LazyProps;
+
+const Placeholder = (props: ImgHTMLAttributes<HTMLImageElement>) => {
+  const { title, src, alt } = props;
+  const innerStyle = {
+    width: 605,
+    height: 232,
+    borderRadius: '1rem',
+    backgroundColor: '#d2d2d7',
+  };
+
+  if (src?.endsWith('webp')) {
+    return (
+      <div style={innerStyle}>
+        <img {...props} alt={alt} style={innerStyle} />
+      </div>
+    );
+  }
+  return (
+    <div>
+      <noscript>
+        <img {...props} alt={title} />
+      </noscript>
+      <div style={innerStyle} />
+    </div>
+  );
+};
 
 const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const {
@@ -80,24 +109,9 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
         <LazyLoadImage
           height={232}
           width={605}
-          src={image}
           alt={title}
+          {...imgPropsParse({ src: image }, Placeholder)}
           effect={effect}
-          placeholder={(
-            <div>
-              <noscript>
-                <img src={image} alt={title} />
-              </noscript>
-              <div
-                style={{
-                  width: 605,
-                  height: 232,
-                  borderRadius: '1rem',
-                  backgroundColor: '#d2d2d7',
-                }}
-              />
-            </div>
-          )}
           visibleByDefault={image === defaultImg}
           {...delayProps}
         />

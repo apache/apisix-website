@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type { HTMLAttributes } from 'react';
 import React from 'react';
 import Seo from '@theme/Seo';
 import BlogLayout from '@theme/BlogLayout';
@@ -31,40 +32,57 @@ const urlParse = (url: string) => {
   };
 };
 
+const imgPropsParse = (
+  props: Omit<ImageProps, 'placeholder'>,
+  Placeholder: |
+    ((props: ImageProps) => JSX.Element) |
+    ((props: HTMLAttributes<HTMLImageElement>) => JSX.Element),
+): any => {
+  const {
+    src, srcSet, ...restProps
+  } = props;
+  const isFromCDN = src?.includes('static.apis');
+
+  if (!isFromCDN || !src) {
+    return props;
+  }
+
+  const otherProps = {};
+  const u = urlParse(src);
+  const webpSrc = `${u.host}/apisix-webp/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
+  const thumbnailSrc = `${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
+
+  Object.assign(otherProps, {
+    src: webpSrc,
+    type: 'image/webp',
+    srcSet: stringifySrcset([
+      ...parseSrcset(srcSet || ''),
+      {
+        url: webpSrc,
+      }, {
+        url: src,
+      },
+    ]),
+    placeholderSrc: thumbnailSrc,
+    placeholder: <Placeholder
+      {...restProps}
+      src={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`}
+      srcSet={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name}`}
+    />,
+  });
+
+  return { ...restProps, ...otherProps };
+};
+
 const components = {
   ...MDXComponents,
-  img: (props: ImageProps) => {
-    const { src, srcSet } = props;
-    const isFromCDN = src?.includes('static.apis');
-    let otherProps = {};
-
-    if (isFromCDN && src) {
-      const u = urlParse(src);
-      const webpSrc = `${u.host}/apisix-webp/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
-      otherProps = {
-        src: webpSrc,
-        type: 'image/webp',
-        srcSet: stringifySrcset([
-          ...parseSrcset(srcSet || ''),
-          {
-            url: webpSrc,
-          }, {
-            url: src,
-          },
-        ]),
-        placeholder: <Image
-          {...props}
-          src={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`}
-          srcSet={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name}`}
-          preview={false}
-        />,
-      };
-    }
-
-    return (
-      <Image {...props} {...otherProps} preview={{ mask: 'Click to Preview' }} loading="lazy" />
-    );
-  },
+  img: (props: ImageProps) => (
+    <Image
+      {...imgPropsParse(props, (ps) => <Image {...ps} preview={false} />)}
+      preview={{ mask: 'Click to Preview' }}
+      loading="lazy"
+    />
+  ),
 };
 
 const BlogPostPage = (props: Props): JSX.Element => {
@@ -123,4 +141,5 @@ const BlogPostPage = (props: Props): JSX.Element => {
   );
 };
 
+export { imgPropsParse };
 export default BlogPostPage;
