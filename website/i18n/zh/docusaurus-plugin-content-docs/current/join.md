@@ -30,7 +30,7 @@ Apache APISIX 是一个由 Apache 软件基金会下的社区成员维护的项�
 
 你可以通过以下两种方式加入 Apache APISIX 的 Slack 频道：
 
-- 通过此[邀请链接](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)加入 Apache 软件基金会 Slack 工作区，然后加入 **#apisix** 频道（频道 -> 浏览频道 -> 搜索 "apisix"）。
+- 通过此[邀请链接](https://join.slack.com/t/the-asf/shared_invite/zt-1egxjz7lw-lWl142XNDopj4FlqNMUM5g)加入 Apache 软件基金会 Slack 工作区，然后加入 **#apisix** 频道（频道 -> 浏览频道 -> 搜索 "apisix"）。
 
 :::tip
 
