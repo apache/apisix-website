@@ -19,7 +19,7 @@ tags: [Case Studies]
 
 ## 选择 Kong 还是 Apache APISIX
 
-![Apache APISIX vs Kong in QPS](https://static.apiseven.com/2020/05/1588752135-Snipaste_2020-05-06_16-02-04.png)
+![Apache APISIX vs Kong in QPS](https://static.apiseven.com/2020/1211/20220816-202641.jpg)
 
 对于网关的技术要求，一是要性能好，能够支撑大流量的接入，二是要稳定，不能出问题。
 
@@ -42,7 +42,7 @@ tags: [Case Studies]
 
 官网的理由如下图所示：
 
-![Apache APISIX 技术亮点](https://static.apiseven.com/2020/05/1588756618-Snipaste_2020-05-06_17-16-13.png)
+![Apache APISIX 技术亮点](https://static.apiseven.com/2020/1211/20220816-202705.jpg)
 
 ## Apache APISIX 能提供哪些能力
 
@@ -60,7 +60,7 @@ tags: [Case Studies]
 
 Apache APISIX 已经发布了接近十个版本了，它所支持的功能远不止这些了。结合业务情况绘制了架构图，如下：
 
-![Apache APISIX 架构图](https://static.apiseven.com/2020/05/1588756665-Snipaste_2020-05-06_17-17-29.png)
+![Apache APISIX 架构图](https://static.apiseven.com/2020/1211/20220816-202709.jpg)
 
 ## 集成 APISIX 的点点滴滴
 
@@ -68,7 +68,7 @@ Apache APISIX 已经发布了接近十个版本了，它所支持的功能远不
 
 在键盘上敲打了两周，我的“小金刚”终于有些模样了，该看看它跑的有多快、省不省油了，就这样压测开始了。服务部署在 8CPU 32G 内存的腾讯云上面了，上游是真实的线上生产环境，因此不能压的太狠，性能报告如下：
 
-![Apache APISIX 性能测试](https://static.apiseven.com/2020/05/1588756713-Snipaste_2020-05-06_17-18-13.png)
+![Apache APISIX 性能测试](https://static.apiseven.com/2020/1211/20220816-202712.jpg)
 
 性能报告小结：接口耗时减少了 47%，没有错误产生稳定性有所提升，TPS 峰值提升了 82%，没有错误产生，稳定性有所提升。
 

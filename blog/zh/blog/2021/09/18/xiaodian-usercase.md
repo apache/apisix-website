@@ -62,13 +62,13 @@ OpenShift 3.0 开始引入 OpenShift Route ，作用是通过 Ingress Operator �
 
 我们目前的产品架构与在 K8s 中使用 Apache APISIX 大体类似。主要是将 Apache APISIX 的 Service 以 LoadBalancer 类型暴露到外部。然后用户通过请求访问传输到 Apache APISIX，再将路由转发到上游的相关服务中。
 
-![整体架构](https://static.apiseven.com/202108/1632293465988-e166530d-c82c-4676-8d6c-3ccafd60e703.37)
+![整体架构](https://static.apiseven.com/2021/0918/20220816-171733.jpg)
 
 额外要提的一点是，为什么我们把 etcd 放在了技术栈外。一是因为早些版本解析域名时会出现偏差，二是因为在内部我们进行维护和备份的过程比较繁琐，所以就把 etcd 单独拿了出来。
 
 ### 业务模型
 
-![业务模型](https://static.apiseven.com/202108/1632293498420-77c63400-7afc-4774-97ee-540bd670f4fe.37)
+![业务模型](https://static.apiseven.com/2021/0918/20220816-172217.jpg)
 
 上图是接入 Apache APISIX 后的业务环境改造模型。每个开发或项目进行变更时，DNA 都会创建一个变更，同时转化为 k8s Namespace 资源。
 
@@ -82,11 +82,11 @@ OpenShift 3.0 开始引入 OpenShift Route ，作用是通过 Ingress Operator �
 
 在变更环境中我们有两种场景，一个是点对点模式，即一个域名对应一个应用。开发只需要启用域名，DNA 里就会利用 Apache APISIX 去生成对应路由，这种就是单一路径的路由规则。
 
-![单一路径](https://static.apiseven.com/202108/1632293545058-511768bc-b9b9-4f2d-ad58-73f206f1b7c2.38)
+![单一路径](https://static.apiseven.com/2021/0918/20220816-172249.jpg)
 
 另一种场景就是多级路径路由。在这种场景下我们基于 Apache APISIX 将项目变更中需要的多个 APP 路由指向到当前 Namespace 环境，其关联 APP 路由则指向到一套稳定的 Namespace 环境中（通常为 Stable 环境）。
 
-![多级路径](https://static.apiseven.com/202108/1632293571396-564db5f5-eef5-45d1-80d8-1d0dded8b9da.38)
+![多级路径](https://static.apiseven.com/2021/0918/20220816-172458.jpg)
 
 #### 功能二：自动化流程
 
@@ -94,11 +94,11 @@ OpenShift 3.0 开始引入 OpenShift Route ，作用是通过 Ingress Operator �
 
 比如某个新应用上线时，可以申请一条相应的路由规则，然后把规则加到控制中心中。需要请求路由时，就可以一键启用这条路由规则并自动同步到 Apache APISIX。
 
-![自动化流程](https://static.apiseven.com/202108/1632294540198-e0a21138-b0ec-490d-966b-55d5bbddd33d.06)
+![自动化流程](https://static.apiseven.com/2021/0918/20220816-172538.jpg)
 
 另外我们也提供了单一普通路由申请，包括线上环境和测试环境，或者一些对外公网的暴露与测试需求等，也可以调用 Apache APISIX 接口。
 
-![普通路由](https://static.apiseven.com/202108/1632294623255-1a9762ab-59b4-4798-82b8-e9fc3e32f571.07)
+![普通路由](https://static.apiseven.com//2021/0918/20220816-172610.jpg)
 
 ## 基于 Apache APISIX 的具体实践
 
