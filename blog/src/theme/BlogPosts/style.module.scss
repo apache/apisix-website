@@ -13,7 +13,7 @@
     border-radius: 1rem;
     width: fit-content;
     flex-shrink: 0;
-    
+
     span {
       display: block !important;
       width: fit-content !important;
@@ -65,9 +65,11 @@
 }
 
 .normalPage {
+  $width: 430px;
+
   width: fit-content;
   display: grid;
-  grid-template-columns: repeat(3, 430px);
+  grid-template-columns: repeat(3, $width);
   margin: 5rem auto 0;
   align-items: start;
   font-family: apple-system, system-ui, sans-serif;
@@ -88,10 +90,10 @@
       img {
         object-fit: cover;
         width: 100%;
-        max-width: unset;
+        max-width: $width;
         // filter: drop-shadow(0 1px 0 rgb(0 0 0 / 4%));
         transform-origin: center center;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out !important;
       }
     }
 
@@ -211,6 +213,7 @@
       & > a {
         img {
           width: 100%;
+          max-width: unset;
         }
       }
 
