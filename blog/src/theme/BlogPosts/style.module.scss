@@ -86,11 +86,15 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      
+      span {
+        width: fit-content !important;
+      }
 
       img {
         object-fit: cover;
-        width: 100%;
-        max-width: $width;
+        max-width: 100%;
+        width: $width !important;
         // filter: drop-shadow(0 1px 0 rgb(0 0 0 / 4%));
         transform-origin: center center;
         transition: all 0.3s ease-in-out !important;
