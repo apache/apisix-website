@@ -80,7 +80,6 @@
     overflow: hidden;
     border: 2px solid transparent;
     transition: all 0.3s ease-in-out;
-    // filter: drop-shadow(0 1px 1px rgb(0 0 0 / 10%));
 
     & > a {
       width: 100%;
@@ -95,7 +94,6 @@
         object-fit: cover;
         max-width: 100%;
         width: $width !important;
-        // filter: drop-shadow(0 1px 0 rgb(0 0 0 / 4%));
         transform-origin: center center;
         transition: all 0.3s ease-in-out !important;
       }
@@ -216,7 +214,7 @@
     > article {
       & > a {
         img {
-          width: 100%;
+          width: 605px !important;
           max-width: unset;
         }
       }
