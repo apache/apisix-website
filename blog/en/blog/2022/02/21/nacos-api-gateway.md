@@ -16,7 +16,7 @@ keywords:
 - Service Discovery
 - Service Registry
 description: This article introduces the basic concepts of Apache APISIX and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
-tags: [Plugins,Ecosystem]
+tags: [Ecosystem]
 ---
 
 > This article introduces the basic concepts of Apache APISIX and the Service Registry, and shows you the practice of Nacos service discovery on API Gateway.

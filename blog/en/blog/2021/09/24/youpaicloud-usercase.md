@@ -9,6 +9,7 @@ keywords:
 - Container gateway
 description: This article describes the update and adjustment of UPYUN's internal gateway architecture after you selected Apache Apisix Ingress, and shares some of the practice scenarios in use.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/Upyun.png
 ---
 
 > This article describes the update and adjustment of UPYUN's internal gateway architecture after you selected Apache Apisix Ingress, and shares some of the practice scenarios in use. Chen Zhuo, a cloud development engineer, is responsible for cloud storage, cloud processing, and gateway application development.

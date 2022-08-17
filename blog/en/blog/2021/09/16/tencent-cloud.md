@@ -8,6 +8,7 @@ keywords:
 - Nginx
 description: This article mainly introduces the enterprise case of Tencent Cloud Intelligent Titanium Platform using the cloud-native API gateway Apache APISIX.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E8%85%BE%E8%AE%AF%E4%BA%91.png
 ---
 
 > This article is a practical case of implementing Apache APISIX in Tencent Cloud’s production environment.

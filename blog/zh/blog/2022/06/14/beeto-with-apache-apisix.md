@@ -16,6 +16,7 @@ keywords:
 - 动态转发
 description: 本文整理自胡丽麟（Beeto 平台研发）在 Apache APISIX Summit ASIA 2022 中进行的分享，介绍了中东社交软件 Beeto 如何使用 APISIX 实现本地化部署。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/beeto.png
 ---
 
 > 本文整理自胡丽麟（Beeto 平台研发）在 [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/) 中进行的分享，介绍了中东社交软件 Beeto 如何使用 APISIX 实现本地化部署。

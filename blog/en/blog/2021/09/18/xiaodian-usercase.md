@@ -9,6 +9,7 @@ keywords:
 - container
 description: This article introduces the background and practice of using the cloud native API gateway Apache APISIX to build the cloud native project in DIAN.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E5%B0%8F%E7%94%B5.png
 ---
 
 > This article introduces the background and practice of using Apache APISIX to build the cloud native project in DIAN. The author is Sun ran, an expert in operation and maintenance. Currently working in DIAN, mainly responsible for the deployment of K8s cluster and API Gateway.

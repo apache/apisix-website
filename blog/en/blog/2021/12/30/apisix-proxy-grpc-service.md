@@ -16,7 +16,7 @@ keywords:
 - proto
 - plugin
 description: This article shows you how to proxy client HTTP traffic to the back-end gRPC service via the `grpc-transcode` plugin in API Gateway Apache APISIX.
-tags: [Plugins]
+tags: [Ecosystem]
 ---
 
 > This article shows you how to proxy client HTTP traffic to the back-end gRPC service via the `grpc-transcode` plugin in Apache APISIX.

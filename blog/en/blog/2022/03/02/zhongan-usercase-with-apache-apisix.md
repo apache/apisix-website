@@ -10,6 +10,7 @@ keywords:
 - Zhongan
 description: we will introduce some business scenarios and practical cases of zhongan and bring you the gateway selection and implementation operation under the "Internet Insurance" scenario.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E4%BC%97%E5%AE%89%E4%BF%9D%E9%99%A9.png
 ---
 
 > The content of this article is sorted out from the relevant sharing brought by Xu Min, head of Zhongan Insurance and Technology Infrastructure in Apache APISIX Weekly Meeting.

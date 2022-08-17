@@ -9,6 +9,7 @@ keywords:
 - Service discovery
 description: This article introduces why iQIYI abandoned Kong and chose the cloud native API gateway Apache APISIX as the company gateway and application scenarios.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E7%88%B1%E5%A5%87%E8%89%BA.png
 ---
 
 > In this article, you can understand how iQIYI's technical team updates and integrates the company structure based on Apache APISIX gateway to create a brand-new gateway service.

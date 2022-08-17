@@ -9,6 +9,7 @@ keywords:
 - Data
 description: This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/Airwallex.png
 ---
 
 > This article will bring you about how Airwallex uses Apache APISIX for gateway layer deployment to strengthen the construction of data sovereignty.

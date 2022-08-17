@@ -11,6 +11,7 @@ keywords:
 - Open Source
 description: In the public network gateway scenario, UPYUN linked the internal platform and Feishu reminder function based on APISIX.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/Upyun.png
 ---
 
 > In the previous sharing, we brought you the application of cloud at the Ingress level. This time, we will introduce you to the current cloud application examples under the public network gateway scenario, hoping to bring you some practical Apache APISIX scenarios to share in the cloud storage industry.

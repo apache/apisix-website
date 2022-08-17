@@ -9,6 +9,7 @@ keywords:
 - Cloud native
 description: This article introduces how Youzan cloud-native PaaS platform uses cloud-native API gateway Apache APISIX as a product traffic gateway and the benefits it brings.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E6%9C%89%E8%B5%9E%E4%BA%91.png
 ---
 
 > This article focuses on the enterprise case of using Apache APISIX for PaaS platform with Youzanyun native platform and how to use Apache APISIX as a specific example of the product traffic gateway.

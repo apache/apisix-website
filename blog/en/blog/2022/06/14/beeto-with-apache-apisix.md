@@ -16,6 +16,7 @@ keywords:
 - Security
 description: This article introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment in security and scalability.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/beeto.png
 ---
 
 > This article is based on the sharing made by Hu Lilin (Beeto Platform R&D) at the [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/), and introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment.

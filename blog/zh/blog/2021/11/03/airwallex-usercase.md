@@ -9,6 +9,7 @@ keywords:
 - 数据中心
 description: 本文介绍了 Airwallex 空中云汇是如何使用云原生 API 网关 Apache APISIX 进行网关层部署来加固数据主权方面的建设以及登录与密码重置、复杂场景下的业务操作等场景。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/Airwallex.png
 ---
 
 > 本文将为大家带来关于 Airwallex 空中云汇是如何使用 Apache APISIX 进行网关层部署来加固数据主权方面的建设。
