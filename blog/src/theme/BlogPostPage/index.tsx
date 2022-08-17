@@ -50,7 +50,7 @@ const imgPropsParse = (
   const otherProps = {};
   const u = urlParse(src);
   const webpSrc = `${u.host}/apisix-webp/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
-  const thumbnailSrc = `${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
+  const thumbnailWebpSrc = `${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`;
 
   Object.assign(otherProps, {
     src: webpSrc,
@@ -63,11 +63,15 @@ const imgPropsParse = (
         url: src,
       },
     ]),
-    placeholderSrc: thumbnailSrc,
+    placeholderSrc: thumbnailWebpSrc,
     placeholder: <Placeholder
       {...restProps}
-      src={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name.replace(u.ext, 'webp')}`}
-      srcSet={`${u.host}/apisix-thumbnail/${u.folderPath}/${u.name}`}
+      src={thumbnailWebpSrc}
+      srcSet={stringifySrcset([{
+        url: thumbnailWebpSrc,
+      }, {
+        url: `${u.host}/apisix-thumbnail/${u.folderPath}/${u.name}`,
+      }])}
     />,
   });
 
