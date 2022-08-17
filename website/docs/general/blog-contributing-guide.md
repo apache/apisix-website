@@ -18,7 +18,7 @@ The blogs are written in both [English](/blog/) and [Chinese](/zh/blog/). Contri
 
 English blogs are located in the `/apisix-website/blog/en/blog`  directory, in which they are categorized by year, month and date.
 
-For example, `/apisix-website/blog/en/blog/2022/03/01/apisix-integration-public-api-plugin.md` means that a blog named `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` was published on November 22nd, 2021, and it is located in the `/apisix-website/blog/en/blog/2021/11/22` directory. Once it is reviewed and megered, the URL should be: `https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes`.
+For example, `/apisix-website/blog/en/blog/2022/03/01/apisix-integration-public-api-plugin.md` means that a blog named `develop-apisix-ingress-with-nocalhost-in-kubernetes.md` was published on November 22nd, 2021, and it is located in the `/apisix-website/blog/en/blog/2021/11/22` directory. Once it is reviewed and megered, the URL should be: `https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/`.
 
 Similarly, Chinese blogs are located in `/apisix-website/blog/zh/blog` directory and follow the same patterns described above.
 
