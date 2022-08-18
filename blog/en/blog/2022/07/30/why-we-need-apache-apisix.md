@@ -12,6 +12,7 @@ keywords:
 - API Management
 description: This article introduces how the cloud native API gateway Apache APISIX solves the business pain points and usage scenarios brought by Nginx and Kong.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/APISIX.png
 ---
 
 > This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and Nginx.
