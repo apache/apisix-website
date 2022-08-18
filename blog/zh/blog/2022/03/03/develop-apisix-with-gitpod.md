@@ -17,6 +17,7 @@ keywords:
 - Develop
 description: 本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/%E6%96%87%E6%A1%88%2BGitpod.png
 ---
 
 > 本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示了如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。

@@ -17,6 +17,7 @@ keywords:
 - Ecosystem
 description: This article describes how Zhendong Qi contributed `clickhouse-logger` to API gateway Apache APISIX, and how to use this plugin to simplify business architecture.
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/clickhouse.png
 ---
 
 > The author of this article, Zhendong Qi, is from China Mobile Cloud Competence Center. He has extensive experience in distributed object storage software development and has participated in the construction of several resource pools in the mobile cloud. This article describes how community contributor Zhendong Qi contributed `clickhouse-logger` to Apache APISIX and how he used the plugin to simplify the business architecture and improve the efficiency of logging.

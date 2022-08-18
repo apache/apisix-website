@@ -12,6 +12,7 @@ keywords:
 - Apple Macbook Pro M1
 description: 通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX（M1 芯片环境）。
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/ubuntu.png
 ---
 
 > 通过阅读本文，您将了解如何在 ARM Ubuntu 中通过源码构建 Apache APISIX（M1 芯片环境）。ARM Ubuntu 系统借助了 [https://multipass.run/](https://multipass.run/) 安装。
