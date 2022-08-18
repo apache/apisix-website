@@ -16,7 +16,7 @@ keywords:
 - Logging
 - Ecosystem
 description: This article describes how Zhendong Qi contributed `clickhouse-logger` to API gateway Apache APISIX, and how to use this plugin to simplify business architecture.
-tags: [Plugins,Ecosystem]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/clickhouse.png
 ---
 
