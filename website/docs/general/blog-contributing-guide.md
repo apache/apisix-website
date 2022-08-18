@@ -129,7 +129,7 @@ Usually the first three keywords are "APISIX", "Apache APISIX" and "API Gateway"
 
 This is also a required field used to enhance SEO performance.
 
-A brief summary of the blog post would be a good description. A good rule of thumb is to keep the number of characters in the description between 150 and 170.
+A brief summary of the blog post would be a good description. A good rule of thumb is to keep the number of characters in the description between 150 and 160. You can calculate with [Character Statistics Software](https://charactercalculator.com/).
 
 ##### tags
 
