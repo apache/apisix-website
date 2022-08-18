@@ -139,9 +139,8 @@ Each post can have multiple tags. The tags used currently are given below and ea
 
 Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and rules of applying tags could change over time.
 
-- **Community**: content related to community, community activities, and version release tags, such as: "How to contribute to the community in a form other than code?", live broadcast preview, event preview, meeting content and project meeting content.
+- **Community**: Content related to community, community activities, and version release tags, such as: "How to contribute to the community in a form other than code?", live broadcast preview, event preview, meeting content and project meeting content.
 - **Security**: Security Vulnerability Notifications and Methods to Address Security Vulnerabilities. There are currently [six articles](/blog/tags/security/), and they all have the same title as CVE-xxxxxxx.
-- **Technology**: technical articles. Needs to be distinguished from **Practical Case** (see above).
 - **Case Studies**: Blog about using Apache APISIX in the enterprise, let us know how you are using Apache APISIX!
 - **Plugins**: Blog related to Apache APISIX plugins.
 - **Ecosystem**: Content related to the surrounding ecology of Apache APISIX.
