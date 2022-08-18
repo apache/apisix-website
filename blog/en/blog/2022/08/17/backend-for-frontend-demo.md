@@ -10,7 +10,7 @@ keywords:
 - Apache APISIX
 - System architecture
 - Mciroservices
-description: This article describes a demo code to implement the Backend-For-Frontend pattern.
+description: The Backend-For-Frontend pattern describes how to return different data for each client in a microservices architecture. This article goes through the code required to implement the different possible implementations.
 tags: [Case Studies]
 ---
 
@@ -56,7 +56,7 @@ def home():
   }
 ```
 
-1. Somehow get the data internally, _e.g._, from the database
+Somehow get the data internally, _e.g._, from the database.
 
 At this point, everything is fine. We can provide different data depending on the client:
 
@@ -96,9 +96,7 @@ def get_news():
     return jsonify(news)         #1
 ```
 
-1. As above
-
-Now, each client needs two calls, and filter out data that are not relevant.
+As shown above, now each client needs two calls, and filter out data that are not relevant.
 
 ## Dedicated backend-for-frontend
 
