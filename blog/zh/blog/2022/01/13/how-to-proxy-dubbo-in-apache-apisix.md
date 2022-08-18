@@ -16,6 +16,7 @@ keywords:
 - API 网关
 description: 本文为介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 dubbo-proxy 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。
 tags: [Ecosystem,Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/Dubbo.png
 ---
 
 > 本文介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 dubbo-proxy 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。

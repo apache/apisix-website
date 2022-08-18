@@ -17,6 +17,7 @@ keywords:
 - 生态
 description: 本文介绍了如何通过云原生 API 网关 Apache APISIX 中的 splunk-hec-logging 插件与 Splunk HEC 服务实现对接，从而将 APISIX 的日志发送到 Splunk HEC 服务中。
 tags: [Ecosystem,Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/splunk.png
 ---
 
 > 本文将为大家介绍如何在云原生 API 网关 Apache APISIX 中配置和使用 Splunk HEC 服务。

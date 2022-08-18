@@ -18,6 +18,7 @@ keywords:
 - Prometheus
 description: This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png
 ---
 
 > This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.

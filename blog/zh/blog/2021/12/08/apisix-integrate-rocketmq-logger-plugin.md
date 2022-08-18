@@ -17,6 +17,7 @@ keywords:
 - 监控功能
 description: 本文介绍了 API 网关 Apache APISIX 新增的 rocketmq-logger 日志插件，通过该插件可以帮助你在使用 Apache APISIX 时更方便的与 RocketMQ 集群连接。
 tags: [Ecosystem,Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/RocketMQy.png
 ---
 
 > 本文将为大家介绍 Apache APISIX 与 Apache RocketMQ 最新集成的 rocketmq-logger 插件功能与使用介绍。借助该插件，可以帮助您在使用 APISIX 中更方便的与 RocketMQ 集群连接。

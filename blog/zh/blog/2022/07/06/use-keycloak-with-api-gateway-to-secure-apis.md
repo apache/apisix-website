@@ -17,6 +17,7 @@ keywords:
   - Keycloak
 description: 本篇文章将一步一步引导你如何使用 API 网关 Apache APISIX 与 Keycloak 保护你的 API，并且介绍了 OpenID Connect 相关概念以及交互流程和相关术语。
 tags: [Authentication, Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 ---
 
 > 本篇文章将一步一步引导你如何使用 API 网关与 Keycloak 保护你的 API。

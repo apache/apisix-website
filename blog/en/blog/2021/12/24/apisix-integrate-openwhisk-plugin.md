@@ -17,6 +17,7 @@ keywords:
 - Plugin
 description: The `openwhisk` plugin is combined with the API Gateway Apache APISIX authentication plugin to achieve authentication and authorization functions.
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png
 ---
 
 > This article introduces the feature prospect and usage steps of the `openwhisk` plug-in, which is combined with a variety of identity authentication plug-ins provided by Apache APISIX to achieve authentication and authorization and other functions.

@@ -17,6 +17,7 @@ keywords:
 - API Gateway
 description: This article describes how to interface with the Google Cloud Logging service through the google-cloud-logging plugin of API Gateway Apache APISIX.
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/Google-cloud.png
 ---
 
 > This article will explain how to configure and use the Google Cloud Logging service in Apache APISIX.

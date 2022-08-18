@@ -18,6 +18,7 @@ keywords:
 - Prometheus
 description: 本文介绍了云原生 API 网关 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力及未来规划。
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png
 ---
 
 > 本文介绍了 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力。
