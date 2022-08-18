@@ -17,6 +17,7 @@ keywords:
 - Lua
 description: This article introduces how to implement an automatic operation based on APISIX, and more details from the user login and authentication scenarios.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E5%90%8C%E7%A8%8B%E6%95%B0%E7%A7%91.png
 ---
 
 > In this article, Chen Qing, the former operation and maintenance manager of Tongcheng Digital Technology, introduces how to implement an automated operation and maintenance platform based on Apache APISIX.

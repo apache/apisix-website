@@ -9,6 +9,7 @@ keywords:
 - API Gateway
 description: This article introduces how China Mobile Cloud develops products and improves and updates its functions based on the cloud-native API gateway Apache APISIX.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E7%A7%BB%E5%8A%A8%E4%BA%91.png
 ---
 
 > This article is compiled from a presentation given by Yanshan Chen from China Mobile Cloud Competence Center at ApacheCon 2021 Asia. By reading this article, you can learn how China Mobile Cloud is developing and improving and updating its products based on Apache APISIX to create a better mobile cloud object storage.

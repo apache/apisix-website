@@ -10,6 +10,7 @@ keywords:
 - BaaS
 description: 本文介绍了云原生 API 网关 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E8%B6%A3%E9%93%BE%E7%A7%91%E6%8A%80.png
 ---
 
 > 本文介绍了 Apache APISIX 在趣链科技 BaaS 平台中的落地实践情况，以及趣链科技在众多网关应用中选择 Apache APISIX 的原因。

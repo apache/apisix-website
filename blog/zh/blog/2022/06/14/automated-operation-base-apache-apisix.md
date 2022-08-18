@@ -18,6 +18,7 @@ keywords:
 - 权限
 description: 本文由前同程数科运维经理陈庆介绍了如何基于 Apache APISIX 实现自动化运维平台，并从用户登录及鉴权场景，带来更多细节展示。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E5%90%8C%E7%A8%8B%E6%95%B0%E7%A7%91.png
 ---
 
 > 本文由前同程数科运维经理陈庆介绍了如何基于 Apache APISIX 实现自动化运维平台。
