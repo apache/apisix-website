@@ -16,7 +16,7 @@ keywords:
 - 日志
 - Ecosystem
 description: 本文讲述了社区贡献者祁振东为云原生 API 网关 Apache APISIX 贡献 `clickhouse-logger` 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。
-tags: [Ecosystem, Plugins]
+tags: [Plugins, Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/clickhouse.png
 ---
 
