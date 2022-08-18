@@ -8,6 +8,7 @@ keywords:
 - 金融
 - 数据主权
 description: 本文介绍了 Airwallex 空中云汇在做技术选型时为什么选择云原生 API 网关 Apache APISIX以及 APISIX 在 Airwallex 空中云汇的使用场景和生产环境的表现等内容。
+image: https://static.apiseven.com/2022/blog/0817/Airwallex.png
 tags: [Case Studies]
 ---
 

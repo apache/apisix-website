@@ -10,6 +10,7 @@ keywords:
 - API Gateway
 description: This article analyzes the pain points of NGINX Sina Weibo when using NGINX, and why the cloud-native API gateway Apache APISIX was chosen as the company's API gateway.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/weibo.png
 ---
 
 > Sina Weibo’s previous HTTP API gateway was built based on Nginx, which brought up a series of problems. After some research, we chose Apache APISIX, which is dynamic, efficient and stable to meet the fast response requirements of the business.

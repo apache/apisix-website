@@ -11,6 +11,7 @@ keywords:
 - 开源网关
 description: 本文介绍了Kong 和 NGINX 的不足，以及云原生 API 网关 Apache APISIX 如何解决 NGINX 和 Kong 所带来的业务痛点、Apache APISIX 的优势和使用场景。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/APISIX.png
 ---
 
 > 本文介绍了 Kong 和 NGINX 的痛点，以及 Apache APISIX 如何解决它们的痛点，并且为你介绍了 Apache APISIX 的应用场景。

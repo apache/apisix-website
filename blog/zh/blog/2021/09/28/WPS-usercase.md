@@ -9,6 +9,7 @@ keywords:
 - WPS
 description: 本文介绍了金山办公如何使用云原生 API 网关 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/wps.png
 ---
 
 > 本文由金山办公中台部门 SRE 网络负责人张强介绍了金山办公如何使用 Apache APISIX 应对百万级 QPS 业务，同时基于 Apache APISIX 更新与改进网关实践层面的内容。

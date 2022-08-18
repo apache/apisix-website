@@ -9,6 +9,7 @@ keywords:
 - 容器化
 description: 本文介绍了国内便利充电创领者——小电通过应用云原生 API 网关 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍以及对公司网关未来的规划。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E5%B0%8F%E7%94%B5.png
 ---
 
 > 本文介绍了国内便利充电创领者——小电通过应用 Apache APISIX，进行公司产品架构的云原生项目搭建的相关背景和实践介绍

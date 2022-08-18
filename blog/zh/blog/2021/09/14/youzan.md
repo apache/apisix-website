@@ -9,6 +9,7 @@ keywords:
 - 云原生
 description: 本文介绍了有赞云原生 PaaS 平台如何使用云原生 API 网关 Apache APISIX 作为产品流量网关的具体示例，以及为什么选择 Apache APISIX作为业务网关及其带来的好处。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E6%9C%89%E8%B5%9E%E4%BA%91.png
 ---
 
 > 本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。

@@ -9,6 +9,7 @@ keywords:
 - 中国移动
 description: 本文介绍了移动云为什么选择云原生 API 网关 Apache APISIX 作为负载均衡网关，以及使用 Apache APISIX 所解决的场景，并且介绍了移动云后续的发展规划。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E7%A7%BB%E5%8A%A8%E4%BA%91.png
 ---
 
 > 我们有幸采访了中国移动云能力中心的陈焱山，在采访中我们了解到中国移动公有云建设发展演进历程，了解了中国移动云为什么选择 Apache APISIX 作为负载均衡网关，并且知晓移动云后续的发展规划。

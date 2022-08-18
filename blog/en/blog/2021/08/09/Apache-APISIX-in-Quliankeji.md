@@ -10,6 +10,7 @@ keywords:
 - BaaS
 description: This article introduces the implementation of cloud-native API gateway Apache APISIX in the Hyperchain Blockchain BaaS platform, and the reasons for choosing Apache APISIX.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E8%B6%A3%E9%93%BE%E7%A7%91%E6%8A%80.png
 ---
 
 > This article introduces the landing practice of Apache APISIX in Hyperchain Blockchain BaaS platform, and explains why Hyperchain Technology has chosen Apache APISIX among many gateway applications.

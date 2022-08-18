@@ -9,6 +9,7 @@ keywords:
 - API Gateway
 description: 本文分析了 NGINX 新浪微博使用 NGINX 时的痛点和为什么选择 Apache APISIX 作为公司的 API 网关，以及对 Apache APISIX 进行了哪些二次开发。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A.png
 ---
 
 > 新浪微博之前的 HTTP API 网关基于 NGINX 搭建，所有路由规则存放在 NGINX conf 配置文件中，带来一系列问题：升级步骤长，对服务增、删、改或跟踪问题时，不够灵活且难以排查问题。经过一番调研之后，我们选择了最接近预期、基于云原生的微服务 API 网关：Apache APISIX，借助其动态、高效、稳定等特性以满足业务的快速响应要求。

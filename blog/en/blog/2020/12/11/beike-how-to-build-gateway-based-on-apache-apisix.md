@@ -9,6 +9,7 @@ keywords:
 - Nginx
 description: Beike chose to use the Apache APISIX as the API gateway, which handles hundreds of millions of traffic every day with excellent and stable performance.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E8%B4%9D%E5%A3%B3.png
 ---
 
 > This article describes why Beike chose Apache APISIX as the API gateway at the beginning, and some experiences in the process of using it.

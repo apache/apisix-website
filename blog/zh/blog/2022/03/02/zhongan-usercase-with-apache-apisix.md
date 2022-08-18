@@ -11,6 +11,7 @@ keywords:
 - Apache APISIX
 description: 本文将通过介绍云原生 API 网关 Apache APISIX 在众安保险的一些使用场景与实践案例，为大家带来关于互联网保险场景下的网关选型与落地操作。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E4%BC%97%E5%AE%89%E4%BF%9D%E9%99%A9.png
 ---
 
 > 本文内容整理自 Apache APISIX Weekly Meeting 中众安保险和科技基础架构负责人徐敏带来的相关分享。

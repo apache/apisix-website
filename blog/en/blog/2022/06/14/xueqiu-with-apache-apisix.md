@@ -16,6 +16,7 @@ keywords:
 - Observability
 description: This article introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E9%9B%AA%E7%90%83.png
 ---
 
 > This article is compiled from the sharing at [Apache APISIX Summit ASIA 2022](https://apisix-summit.org/). It introduces how Xueqiu uses APISIX to achieve more flexible services in adjusting the active-active architecture.

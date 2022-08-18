@@ -9,6 +9,7 @@ keywords:
 - 服务发现
 description: 本文介绍了爱奇艺为何放弃 Kong 而选择云原生 API 网关 Apache APISIX 作为公司网关以及 APISIX 在爱奇艺公司内部的应用场景。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E7%88%B1%E5%A5%87%E8%89%BA.png
 ---
 
 > 爱奇艺在之前有开发了一款网关——Skywalker，它是基于 Kong 做的二次开发，目前流量使用也是比较大的，网关存量业务日常峰值为百万级别 QPS，API 路由数量上万。但这款产品的不足随着使用也开始逐步体现。今年在交接到此项目后，我们根据上述问题和困境，开始对相关网关类产品做了一些调研，然后发现了 Apache APISIX。在选择 Apache APISIX 之前，爱奇艺平台已经在使用 Kong 了，但是后来 Kong 被放弃了。

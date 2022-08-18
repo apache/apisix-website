@@ -9,6 +9,7 @@ keywords:
 - NGINX
 description: 贝壳找房选择使用云原生 API 网关 Apache APISIX 作为 API 网关，每天处理上亿流量，性能优异而且非常稳定，并且相比于 Kong，Apache APISIX 更容易入门。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E8%B4%9D%E5%A3%B3.png
 ---
 
 > 本文讲述了贝壳找房当初为什么选择 Apache APISIX 作为 API 网关，以及使用过程中的一些心得。

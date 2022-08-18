@@ -11,6 +11,7 @@ keywords:
 - 开源
 description: 在公网网关场景下，又拍云基于 APISIX 联动了公司内部平台以及飞书提醒功能的接入。同时从开源和可拓展性方面也带来了一些企业角度参考。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/Upyun.png
 ---
 
 > 在之前的分享中，我们为大家带来了又拍云在 Ingress 层面的应用。而这次我们会在公网网关场景下，给大家介绍目前又拍云的应用实例，希望能在云存储行业领域，给大家带来一些实用的 Apache APISIX 场景分享。

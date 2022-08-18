@@ -10,6 +10,7 @@ keywords:
 - Infrastructure
 description: This article introduces what a gateway is and its improvement to the traditional service architecture, and the implementation of APISIX within Tencent.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E8%85%BE%E8%AE%AF.png
 ---
 
 > This article is a lecture note from the speech given by Xin Xu, an engineer in charge of internal container platform of Tencent Games, at the Apache APISIX Meetup - Shenzhen. By reading this article, you can not only learn what a gateway is and how the gateway model improves the traditional service architecture, but also understand the reasons for the birth of Tencent OTeam and how Apache APISIX is implemented inside Tencent.

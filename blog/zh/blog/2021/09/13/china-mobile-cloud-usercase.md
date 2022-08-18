@@ -9,6 +9,7 @@ keywords:
 - API 网关
 description: 通过阅读本文，您可以了解到中国移动云是如何基于云原生 API 网关 Apache APISIX 进行对象存储产品的开发和功能改进与更新，打造出更完善的移动云对象存储。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/%E7%A7%BB%E5%8A%A8%E4%BA%91.png
 ---
 
 > 本文整理自中国移动云能力中心陈焱山在 ApacheCon 2021 亚洲站的演讲，通过阅读本文，您可以了解到中国移动云是如何基于 Apache APISIX 进行产品的开发和功能改进与更新，打造出更完善的移动云对象存储。

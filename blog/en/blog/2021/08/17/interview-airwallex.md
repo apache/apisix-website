@@ -8,6 +8,7 @@ keywords:
 - Data Sovereignty
 description: This article introduces why SkyCloud chooses API gateway Apache APISIX and the usage scenarios and production environment performance of APISIX.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/blog/0817/Airwallex.png
 ---
 
 > This article interviewed Airwallex Technical Platform Lead Yang Li, who is responsible for the evolution of the company's technology platform. The interview details why Airwallex chose Apache APISIX when making the technology selection, the usage scenarios of Apache APISIX in Airwallex, and the performance of Apache APISIX in the production environment.
