@@ -1,5 +1,5 @@
 ---
-title: Centralized authentication using the OpenID Connect plug-in for Apache APISIX
+title: Centralized authentication using the OpenID Connect plugin for Apache APISIX
 slug: 2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication
 authors:
   - name: "Xinxin Zhu"

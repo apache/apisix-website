@@ -16,7 +16,7 @@ keywords:
 - Authentication
 - API Gateway
 description: This article shows the details of centralized authentication and how to use Authing in Apache APISIX.
-tags: [Authentication,Ecosystem]
+tags: [Plugins,Authentication,Ecosystem]
 ---
 
 > This article shows the details of centralized authentication and how to use Authing in Apache APISIX.

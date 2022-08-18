@@ -16,7 +16,8 @@ keywords:
 - jwt-auth
 - authentication
 description: This article describe the upcoming release of the Vault with Apache APISIX integration, and show the details of configuration.
-tags: [Authentication,Ecosystem]
+tags: [Authentication,Ecosystem,Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/okta.png
 ---
 
 > This article describe the upcoming release of the Vault with Apache APISIX integration, and show the details of configuration.
