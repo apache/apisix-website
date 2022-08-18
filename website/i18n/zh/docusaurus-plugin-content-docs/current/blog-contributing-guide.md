@@ -147,7 +147,6 @@ tags: [tag1,tag2,...,tagn]
 
 - **Community**：社区、社区活动有关的内容以及版本发布的标签，比如说："如何以代码之外形式给社区做贡献？"，直播预告、活动预告、会议内容和项目会议内容。
 - **Security**：安全漏洞通知和解决安全漏洞的方法。目前有[六篇文章](/blog/tags/security/)，他们都同样有形如 CVE-xxxxxxx 的标题。
-- **Technology**：技术文章。需要与 **Practical Case** 区分（见上）。
 - **Case Studies**：关于在企业内使用 Apache APISIX 的博客，让我们知道你是如何使用 Apache APISIX 的！
 - **Plugins**：与 Apache APISIX 插件相关的博客。
 - **Ecosystem**：与 Apache APISIX 周边生态相关的内容。
