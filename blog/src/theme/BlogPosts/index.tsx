@@ -50,7 +50,6 @@ const Placeholder = (props: ImgHTMLAttributes<HTMLImageElement>) => {
   const { title, src, alt } = props;
   const innerStyle = {
     width: 605,
-    height: 232,
     borderRadius: '1rem',
     backgroundColor: '#d2d2d7',
   };
