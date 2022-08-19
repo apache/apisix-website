@@ -16,7 +16,8 @@ keywords:
 - 部署安装
 - 集群
 description: 云原生 API 网关 Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apache APISIX 以及 APISIX-Dashboard。
-tags: [Plugins,Ecosystem]
+tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/kubernetes.png
 ---
 
 > Apache APISIX 目前支持多种方式进行安装部署，本文主要介绍如何在 Kubernetes 环境中部署 Apache APISIX 以及 APISIX-Dashboard。

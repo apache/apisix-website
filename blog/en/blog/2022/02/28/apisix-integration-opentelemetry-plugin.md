@@ -17,6 +17,7 @@ keywords:
 - Ecosystem
 description: This article introduces you to the API Gateway Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png
 ---
 
 > This article introduces you to the Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.

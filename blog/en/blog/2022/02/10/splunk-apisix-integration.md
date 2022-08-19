@@ -16,6 +16,7 @@ keywords:
 - Observability
 description: This article describes how to interface with the Splunk HEC service through the splunk-hec-logging plugin in the cloud-native API gateway Apache APISIX.
 tags: [Ecosystem,Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/splunk.png
 ---
 
 > This article explains how to configure and use the Splunk HEC service in Apache APISIX.

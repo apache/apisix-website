@@ -18,6 +18,7 @@ keywords:
 - OIDC
 description: 本文介绍了 API 网关 Apache APISIX 通过 OpenID Connect 插件与 Ory Hydra 集成实现集中式身份认证，并且介绍了关于 Ory Hydra 的应用场景及 OpenID 相关知识。
 tags: [Authentication, Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/ory.png
 ---
 
 > 本文介绍了 Apache APISIX 如何与 Ory Hydra 集成实现集中式身份认证。

@@ -12,6 +12,7 @@ keywords:
   - Grafana
 description: 本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。
 tags: [Ecosystem, Plugins]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png
 ---
 
 > 本文将为你介绍 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，并且也为你演示了如何在 APISIX Dashboard 中配置 Grafana。

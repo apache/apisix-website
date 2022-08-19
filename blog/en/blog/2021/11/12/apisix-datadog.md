@@ -10,6 +10,7 @@ keywords:
 - Cloud Monitoring
 description: This article introduces how the cloud-native API gateway Apache APISIX uses the datadog plugin to integrate with the Datadog monitoring platform.
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png
 ---
 
 > Apache APISIX recently released a new plugin: [APISIX-Datadog](http://apisix.apache.org/docs/apisix/next/plugins/datadog), to provide a deeper integration with Datadog. This article introduces the APISIX-Datadog Plugin and its capabilities.

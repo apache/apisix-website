@@ -1,5 +1,5 @@
 ---
-title: Centralized authentication using the OpenID Connect plug-in for Apache APISIX
+title: Centralized authentication using the OpenID Connect plugin for Apache APISIX
 slug: 2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication
 authors:
   - name: "Xinxin Zhu"
@@ -18,6 +18,7 @@ keywords:
   - Authorization
 description: Using the openid-connect plugin of the cloud-native API gateway Apache APISIX can quickly interface with the centralized authentication solution OKat.
 tags: [Authentication, Plugins, Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/openid%20connect.png
 ---
 
 > Compared with the traditional authentication mode, the centralized authentication mode has the following advantages: first, it simplifies the application development process, reduces the development application workload and maintenance costs, and avoids repeated development of authentication code for each application; second, it improves business security, and the centralized authentication mode can intercept unauthenticated requests at the gateway level in time to protect back-end applications.

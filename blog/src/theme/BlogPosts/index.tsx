@@ -107,7 +107,6 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
     >
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
-          height={232}
           width={605}
           alt={title}
           {...imgPropsParse({ src: image }, Placeholder)}

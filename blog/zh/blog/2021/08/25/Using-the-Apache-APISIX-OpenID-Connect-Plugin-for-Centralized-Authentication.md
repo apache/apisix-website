@@ -18,6 +18,7 @@ keywords:
 - 集中认证
 description: 通过云原生 API 网关 Apache APISIX 的 openid-connect 插件，你可以快速对接集中式认证软件 OKat，以简化应用开发流程及提高业务的安全性，保护后端的应用。
 tags: [Authentication, Plugins, Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/openid%20connect.png
 ---
 
 > 相比较传统认证模式，集中认证模式下有如下优点：第一，简化应用开发流程，降低开发应用工作量和维护成本，避免各个应用重复开发身份认证代码；第二，提高业务的安全性，集中身份认证模式在网关层面能够及时拦截未经身份认证的请求，保护后端的应用。

@@ -16,6 +16,7 @@ keywords:
 - API Gateway
 description: This article takes HTTP API as an example to introduce the `opa` plugin, and explains in detail how to integrate the API gateway Apache APISIX with OPA.
 tags: [Plugins,Authentication]
+image: https://static.apiseven.com/2022/blog/0818/plugins/opa.png
 ---
 
 > This article introduces the `opa` plug-in as an example of HTTP API and details how to integrate Apache APISIX with OPA to decouple the authentication authorization of back-end services.

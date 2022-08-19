@@ -17,6 +17,7 @@ keywords:
   - Keycloak
 description: This article describes how to secure your API with API Gateway Apache APISIX and Keycloak, and introduces OpenID Connect related concepts and interaction flow.
 tags: [Authentication, Plugins]
+image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 ---
 
 > This article describes how Apache APISIX integrates with Keycloak (OpenID Connect Provider) to secure your APIs.

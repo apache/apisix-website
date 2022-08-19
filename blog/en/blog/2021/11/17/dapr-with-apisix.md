@@ -11,6 +11,7 @@ keywords:
 - Sidecar
 description: This article introduces the concepts of Dapr and Apache APISIX Ingress Controller, and shows how to integrate Dapr to create an Apache APISIX controller.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/dapr.png
 ---
 
 > This article will show you how to create an Apache APISIX controller by integrating Dapr, includes the concept of the project and the specific operation steps.

@@ -12,6 +12,7 @@ keywords:
   - Centralized Authentication
 description: Using the openid-connect plugin of the cloud-native API gateway Apache APISIX can quickly interface with the centralized authentication solution OKat.
 tags: [Authentication, Plugins, Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/okta.png
 ---
 
 > This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication. This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.

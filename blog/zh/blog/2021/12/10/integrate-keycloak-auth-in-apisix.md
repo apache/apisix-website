@@ -17,6 +17,7 @@ keywords:
 - 集成
 description: 通过 API 网关 Apache APISIX 的 openid-connect 插件可以与 Keycloak 进行身份认证。通过该插件，APISIX 仅需通过配置即可实现对使用者和应用服务进行认证与鉴权。
 tags: [Plugins,Authentication]
+image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 ---
 
 > 本文通过详细的步骤为大家展示了如何在 Apache APISIX 使用 OpenID-Connect 协议和 Keycloak 进行身份认证。通过对接 Keycloak，Apache APISIX 仅需通过配置即可实现对使用者和应用服务进行认证与鉴权，从而大大减少了相关开发工作。

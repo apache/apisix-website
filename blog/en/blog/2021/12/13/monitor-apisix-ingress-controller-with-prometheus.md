@@ -18,6 +18,7 @@ keywords:
 - Grafana
 description: This article introduces the relevant steps of how to use Prometheus to monitor APISIX Ingress Controller and the display effect of some indicators.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png
 ---
 
 > This article introduces the relevant steps of how to use Prometheus to monitor APISIX Ingress Controller and the display effect of some indicators.

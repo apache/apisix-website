@@ -10,6 +10,7 @@ keywords:
 - Cloud Monitoring
 description: 本文介绍了云原生 API 网关 Apache APISIX 如何使用 datadog 插件与 Datadog 监控平台的进行集成，并且也介绍了 datadog 插件的实现原理、功能以及具体参数。
 tags: [Plugins,Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png
 ---
 
 > Apache APISIX 最近发布了一个新的插件：[APISIX-Datadog](http://apisix.apache.org/docs/apisix/next/plugins/datadog)，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。
