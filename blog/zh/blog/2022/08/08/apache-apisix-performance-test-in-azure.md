@@ -1,5 +1,5 @@
 ---
-title: "API 网关 Apache APISIX 在 Azure 的性能测试"
+title: "Azure ARM 架构服务器性能如何？"
 authors:
   - name: "赵士瑞"
     title: "Author"
@@ -14,7 +14,6 @@ keywords:
 - Azure
 - 微软
 - Apache APISIX
-- 虚拟机
 description: 本文使用 API 网关 Apache APISIX 来对比 Azure Ddsv5 和 Azure Dpdsv5 在网络 IO 密集型场景下的性能。
 tags: [Ecosystem]
 ---
