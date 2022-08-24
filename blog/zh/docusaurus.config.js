@@ -1,6 +1,27 @@
 const readingTime = require('reading-time');
 const { ssrTemplate } = require('../../config/ssrTemplate');
 
+const description = 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.';
+
+const metadatas = [
+  {
+    name: 'description',
+    content: description,
+  },
+  {
+    property: 'og:description',
+    content: description,
+  },
+  {
+    name: 'robots',
+    content: 'index,follow',
+  },
+  {
+    name: 'twitter:card',
+    content: 'summary',
+  },
+];
+
 module.exports = {
   title: 'Apache APISIX® -- Cloud-Native API Gateway',
   tagline:
@@ -81,20 +102,7 @@ module.exports = {
       respectPrefersColorScheme: false,
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
-    metadatas: [
-      {
-        name: 'description',
-        content: 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.',
-      },
-      {
-        name: 'robots',
-        content: 'index,follow',
-      },
-      {
-        name: 'twitter:card',
-        content: 'summary',
-      },
-    ],
+    metadatas,
     gtag: {
       trackingID: 'GTM-K24PRPS',
     },

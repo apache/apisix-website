@@ -15,6 +15,7 @@ import useWindowType from '@theme/hooks/useWindowSize';
 import shuffle from 'lodash.shuffle';
 import { useLocation } from '@docusaurus/router';
 import { translate } from '@docusaurus/Translate';
+import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 
 // pickedPosts will be auto generated
 // eslint-disable-next-line import/no-unresolved
@@ -95,8 +96,9 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   } = metadata;
   const windowType = useWindowType();
   const effect = windowType === 'mobile' ? 'opacity' : 'blur';
+  const { withBaseUrl } = useBaseUrlUtils();
 
-  const image = assets?.image ?? frontMatter.image ?? defaultImg;
+  const image = assets?.image ?? frontMatter.image ?? withBaseUrl(defaultImg, { absolute: true });
 
   return (
     <article
@@ -108,10 +110,11 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
       <Link itemProp="url" to={permalink} aria-label={`Read more about ${title}`}>
         <LazyLoadImage
           width={605}
+          style={{ minHeight: 232 }}
           alt={title}
           {...imgPropsParse({ src: image }, Placeholder)}
           effect={effect}
-          visibleByDefault={image === defaultImg}
+          visibleByDefault={image === defaultImg || defaultImg.includes(image)}
           {...delayProps}
         />
       </Link>
