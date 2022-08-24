@@ -54,7 +54,7 @@ const BlogPostItem = (props: Props): JSX.Element => {
     date, formattedDate, permalink, tags, readingTime, title, editUrl, authors,
   } = metadata;
 
-  const image = assets.image ?? frontMatter.image ?? defaultImg;
+  const image = assets.image ?? frontMatter.image ?? withBaseUrl(defaultImg, { absolute: true });
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';

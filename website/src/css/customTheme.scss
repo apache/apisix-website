@@ -101,8 +101,8 @@ html[data-theme="dark"] {
   font-display: optional;
 }
 
-body {
-  overflow-x: hidden;
+body, #__docusaurus {
+  overflow-x: hidden !important;
 }
 
 body,
