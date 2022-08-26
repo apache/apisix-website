@@ -1,5 +1,5 @@
 ---
-title: "How does the Azure ARM architecture server perform?"
+title: "How is the Azure ARM architecture server perform?"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
