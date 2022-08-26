@@ -13,6 +13,7 @@ keywords:
 - API 网关
 - Azure
 - 微软云
+- ARM
 - Apache APISIX
 description: 本文使用 API 网关 Apache APISIX 来对比 Azure Ddsv5 和 Azure Dpdsv5 在网络 IO 密集型场景下的性能。
 tags: [Ecosystem]

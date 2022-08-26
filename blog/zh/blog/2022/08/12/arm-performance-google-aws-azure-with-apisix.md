@@ -10,7 +10,7 @@ authors:
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
-- API gateway
+- API 网关
 - ARM
 - Azure
 - AWS
