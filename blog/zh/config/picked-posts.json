@@ -2,5 +2,14 @@
     "blog/zh/blog/2021/12/30/apisix-proxy-grpc-service.md",
     "blog/zh/blog/2022/01/11/building-apisix-in-ubuntu-for-arm.md",
     "blog/zh/blog/2022/02/21/nacos-api-gateway.md",
-    "blog/zh/blog/2022/02/16/file-logger-api-gateway.md"
+    "blog/zh/blog/2022/02/16/file-logger-api-gateway.md",
+    "blog/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery.md",
+    "blog/zh/blog/2022/02/25/consul-api-gateway.md",
+    "blog/zh/blog/2022/02/10/splunk-apisix-integration.md",
+    "blog/zh/blog/2021/12/22/google-logging.md",
+    "blog/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua.md",
+    "blog/zh/blog/2021/08/18/auth-with-casbin-in-apache-apisix.md",
+    "blog/zh/blog/2021/11/03/airwallex-usercase.md",
+    "blog/zh/blog/2021/09/07/iqiyi-usercase.md",
+    "blog/zh/blog/2021/11/19/apisix-supports-wasm.md"
 ]
