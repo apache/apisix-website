@@ -1,5 +1,5 @@
 ---
-title: "Google Cloud、AWS 和 Azure ARM 架构服务器性能测试对比"
+title: "GCP、AWS 和 Azure ARM 架构服务器性能测试对比"
 authors:
   - name: "赵士瑞"
     title: "Author"
@@ -16,11 +16,11 @@ keywords:
 - AWS
 - Google
 - Apache APISIX
-description: 本文使用 API 网关 Apache APISIX 来比较 Google、AWS 和 Azure  ARM 架构服务器在网络 IO 密集型场景下的性能。
+description: 本文使用 API 网关 Apache APISIX 来比较 GCP、AWS 和 Azure ARM 架构服务器在网络 IO 密集型场景下的性能。
 tags: [Ecosystem]
 ---
 
-> 本文使用 Apache APISIX 来比较 Google、AWS 和 Azure  ARM 架构服务器在网络 IO 密集型场景下的性能。
+> 本文使用 Apache APISIX 来比较 GCP、AWS 和 Azure ARM 架构服务器在网络 IO 密集型场景下的性能。
 
 <!--truncate-->
 
