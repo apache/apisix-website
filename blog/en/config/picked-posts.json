@@ -7,8 +7,9 @@
     "blog/en/blog/2022/02/25/consul-api-gateway.md",
     "blog/en/blog/2022/02/10/splunk-apisix-integration.md",
     "blog/en/blog/2021/12/22/google-logging.md",
-    "blog/en/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua.md",
+    "blog/en/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua.md",
+    "blog/en/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX.md",
     "blog/en/blog/2021/11/03/airwallex-usercase.md",
-    "blog/en/blog/2021/09/07/iqiyi-usercase.md",
+    "blog/en/blog/2021/09/07/iQIYI-usercase.md",
     "blog/en/blog/2021/11/19/apisix-supports-wasm.md"
 ]
