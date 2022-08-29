@@ -16,6 +16,7 @@ keywords:
 - 服务注册
 description: 云原生 API 网关 Apache APISIX 支持基于 Consul KV 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul_kv 的相关原理。
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---
 
 > Apache APISIX 支持基于 Consul KV 的服务发现注册表。这篇文章讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程。

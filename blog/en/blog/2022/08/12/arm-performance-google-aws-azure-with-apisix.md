@@ -1,5 +1,5 @@
 ---
-title: "ARM is trending! Performance Comparisons among Google, AWS, and Azure"
+title: "GCP, AWS, and Azure ARM-based server performance comparison"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
@@ -16,21 +16,17 @@ keywords:
 - AWS
 - Google
 - Apache APISIX
-description: This article uses API Gateway Apache APISIX to compare the performance in ARM among Google, AWS, and Azure in network IO-intensive scenarios.
+description: This article compares the performance of Google, AWS, and Azure ARM-based servers in network IO-intensive scenarios through the API gateway Apache APISIX.
 tags: [Ecosystem]
 ---
 
-> This article uses API Gateway Apache APISIX to compare the performance in ARM among Google, AWS, and Azure in network IO-intensive scenarios.
+> This article uses  Apache APISIX to compare the performance of Google, AWS, and Azure ARM-based servers in network IO-intensive scenarios.
 
 <!--truncate-->
 
 <head>
     <link rel="canonical" href="https://api7.ai/2022/08/12/arm-performance-google-aws-azure-with-apisix/" />
 </head>
-
-## Background
-
-The ARM architecture belongs to the [RISC](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer). The RISC microprocessor architecture design uses a highly optimized set of instructions to enable small processors to efficiently handle complex tasks.
 
 ARM has become the cornerstone of the world's largest computing ecosystem and mobile devices, and is considered by many experts to be the future of cloud computing due to its low power consumption, flexible licensing and low cost.
 
