@@ -12,7 +12,7 @@ keywords:
 - Fault Injection
 - Microservices
 description: 
-The blog post describes how an **API Gateway** like [Apache APISIX](https://apisix.apache.org/) is useful for testing the robustness and resilience of microservices APIs. Throughout the post, we also get to know the types of possible failure injections with the **[Fault Injection Plugin](https://apisix.apache.org/docs/apisix/plugins/fault-injection/)** 🔌 and simulate failures on our existing [Product backend service](https://github.com/Boburmirzo/apisix-dotnet-docker/tree/main/ProductApi) (developed by using [ASP.NET Core WEB API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0)).
+The blog post describes how Apache APISIX is useful for testing the robustness and resilience of microservices APIs. Throughout the post, we also get to know the types of possible failure injections with the Fault Injection Plugin.
 tags: [Case Studies]
 ---
 
@@ -20,17 +20,19 @@ tags: [Case Studies]
 
 <!--truncate-->
 
-## Explore distributed system stability💪
+## Explore distributed system stability 💪
 
 [Distributed systems](https://azure.microsoft.com/en-us/resources/designing-distributed-systems/) such as [microservices](https://docs.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices) have led to an increase in the complexity of the systems we work with. It is difficult to have full confidence in this architecture when there are many components and “a lot of moving parts” that could potentially fail. It is critical to handle failures in service-to-service calls gracefully. Also, we want to be sure that any resilience mechanisms we have in place such as error handling code, [circuit breaker](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-circuit-breaker-ggk), [health checks](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c), [retry](https://docs.microsoft.com/en-us/azure/architecture/patterns/retry), fallback, redundant instances, and so on. We can verify this with the help of the testing method **[Fault Injection](https://en.wikipedia.org/wiki/Fault_injection)** 💉.
 
 ![Fault Injection Testing with Apache APISIX](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/afe53i95g4tt82rx8gwp.jpg)
 
-### Here is a quick overview of what we cover👇
+Throughout the post, we get to know the types of possible failure injections with the **[Fault Injection Plugin](https://apisix.apache.org/docs/apisix/plugins/fault-injection/)** 🔌 and simulate failures on our existing [Product backend service](https://github.com/Boburmirzo/apisix-dotnet-docker/tree/main/ProductApi) (developed by using [ASP.NET Core WEB API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0)).
+
+### Here is a quick overview of what we cover 👇
 
 - ✅ [Software Fault Injection](https://www.intechopen.com/chapters/56668).
 - ✅ Fault injection testing (FIT) with API Gateway.
-- ✅ Apache APISIX [Fault Injection Plugin](https://apisix.apache.org/docs/apisix/plugins/ltfa -injection/).
+- ✅ Apache APISIX [Fault Injection Plugin](https://apisix.apache.org/docs/apisix/plugins/fault-injection/).
 - ✅ Fault injection different types of failures.
 - ✅ Experiment with Fault Injection Plugin.
 
@@ -38,15 +40,15 @@ tags: [Case Studies]
 
 ## Software Fault Injection 💻💉
 
-Among the many methods to perform Fault Injection, the technique of **Software Fault Injection** is especially getting more popular among companies managing large, complex, and distributed systems. In this sort of software testing technique, a special piece of code, associated with the system under test, tries to simulate faults. It is normally completed before deployment to identify any potential flaws that might happen in the running software😱. Fault injection can better identify the nature and cause of production failures.
+Among the many methods to perform Fault Injection, the technique of **Software Fault Injection** is especially getting more popular among companies managing large, complex, and distributed systems. In this software testing technique, a special piece of code associated with the system under test tries to simulate faults. It is usually completed before deployment to identify potential flaws in the running software 😱. Fault injection can better identify the nature and cause of production failures.
 
 ## Fault Injection Testing with API Gateway
 
 The **fault injection** approach at the [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) level can be used to test the resiliency of application or microservices APIs against various forms of failures to build confidence in the production environment. The technique can be used to inject delays and abort requests with user-specified error codes, thereby providing the ability to stage different failure scenarios such as service failures, service overloads, high network latency, network partitions, etc. Fault injection can be limited to a specific set of requests based on the (destination) upstream cluster of a request and/or a set of pre-defined request headers.
 
-For a streaming giant like [Netflix](https://www.netflix.com/), the migration to a complex cloud-based microservices architecture would not have been possible without a revolutionary testing method known as fault injection👊. There is a very well-known strategy like [Chaos engineering](https://en.wikipedia.org/wiki/Chaos_engineering) which uses fault injection to accomplish the goal of more reliable systems. And Netflix teams built their own _Chaos engineering tool_ called [Chaos Monkey](https://netflix.github.io/chaosmonkey/).
+For a streaming giant like [Netflix](https://www.netflix.com/), the migration to a complex cloud-based microservices architecture would not have been possible without a revolutionary testing method known as fault injection 👊. There is a very well-known strategy like [Chaos engineering](https://en.wikipedia.org/wiki/Chaos_engineering) which uses fault injection to accomplish the goal of more reliable systems. And Netflix teams built their own _Chaos engineering tool_ called [Chaos Monkey](https://netflix.github.io/chaosmonkey/).
 
-## Apache APISIX Fault Injection Plugin🔌
+## Apache APISIX Fault Injection Plugin 🔌
 
 [Apache APISIX Fault Injection Plugin](https://apisix.apache.org/docs/apisix/plugins/fault-injection/) also offers a _mechanism_ to inject some errors into our APIs and ensures that our resilience measures are effective.
 
@@ -58,11 +60,11 @@ Apache APISIX works in **two different modes**, both configured using the `fault
 
 For detailed instructions on how to configure delays and aborts, see [Fault Injection](https://apisix.apache.org/docs/apisix/plugins/fault-injection/). You can also try out a centralized platform [API7 Cloud](https://www.api7.cloud/) ☁️ to use more advanced API Gateway [features](https://www.api7.cloud/docs/overview/api7-cloud). API7 Cloud provides a fully managed chaos engineering service with the dashboard to configure the [Fault Injection policy](https://www.api7.cloud/docs/references/policies/traffic-management/fault-injection) easily👍🏻.
 
-## Experiment with the Fault Injection Plugin🔬
+## Experiment with the Fault Injection Plugin 🔬
 
 This part shows you how to inject faults to test the resiliency of your application.
 
-### Before you begin🙅
+### Before you begin 🙅
 
 ☝️ Familiarize yourself with the [fault injection concept](https://microsoft.github.io/code-with-engineering-playbook/automated-testing/fault-injection-testing/).
 ☝️ If you followed the previous blog post about [Manage .NET Microservices APIs with Apache APISIX API Gateway](https://dev.to/apisix/manage-net-microservices-apis-with-apache-apisix-api-gateway-2cbk), make sure you have read it and completed the steps to set up `APISIX, etcd and ASP.NET WEB API` before continuing with a demo session. Or you can see the complete source code on [Github](https://github.com/Boburmirzo/apisix-dotnet-docker) and the instruction on how to build a multi-container APISIX via Docker CLI.
@@ -92,22 +94,24 @@ The following route configuration example creates a new upstream for our backend
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "name": "Route for Fault Injection with the delay",
-  "methods": ["GET"],
+  "methods": [
+    "GET"
+  ],
   "uri": "/api/products",
   "plugins": {
-     "fault-injection": {
-         "delay": {
-            "duration": 5,
-   "percentage": 10
-         }
-     }
+    "fault-injection": {
+      "delay": {
+        "duration": 5,
+        "percentage": 10
+      }
+    }
   },
- "upstream": {
- "type": "roundrobin",
- "nodes": {
- "productapi:80": 1
+  "upstream": {
+    "type": "roundrobin",
+    "nodes": {
+      "productapi:80": 1
+    }
   }
- }
 }'
 ```
 
@@ -143,23 +147,25 @@ We can test it in action. Now we can enable abort injection with the following r
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "name": "Route for Fault Injection with the abort",
-  "methods": ["GET"],
+  "methods": [
+    "GET"
+  ],
   "uri": "/api/products",
   "plugins": {
-     "fault-injection": {
-         "abort": {
-            "http_status": 503,
-   "body": "The product service is currently unavailable.",
-   "percentage": 100
-         }
-     }
+    "fault-injection": {
+      "abort": {
+        "http_status": 503,
+        "body": "The product service is currently unavailable.",
+        "percentage": 100
+      }
+    }
   },
- "upstream": {
- "type": "roundrobin",
- "nodes": {
- "productapi:80": 1
+  "upstream": {
+    "type": "roundrobin",
+    "nodes": {
+      "productapi:80": 1
+    }
   }
- }
 }'
 ```
 
