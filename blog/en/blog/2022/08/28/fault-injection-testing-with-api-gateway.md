@@ -24,6 +24,8 @@ tags: [Case Studies]
 
 [Distributed systems](https://azure.microsoft.com/en-us/resources/designing-distributed-systems/) such as [microservices](https://docs.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices) have led to an increase in the complexity of the systems we work with. It is difficult to have full confidence in this architecture when there are many components and “a lot of moving parts” that could potentially fail. It is critical to handle failures in service-to-service calls gracefully. Also, we want to be sure that any resilience mechanisms we have in place such as error handling code, [circuit breaker](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-circuit-breaker-ggk), [health checks](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c), [retry](https://docs.microsoft.com/en-us/azure/architecture/patterns/retry), fallback, redundant instances, and so on. We can verify this with the help of the testing method **[Fault Injection](https://en.wikipedia.org/wiki/Fault_injection)** 💉.
 
+![Fault Injection Testing with Apache APISIX](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/afe53i95g4tt82rx8gwp.jpg)
+
 ### Here is a quick overview of what we cover👇
 
 - ✅ [Software Fault Injection](https://www.intechopen.com/chapters/56668).
@@ -70,6 +72,8 @@ This part shows you how to inject faults to test the resiliency of your applicat
  I assume that you have the demo project [apisix-dotnet-docker](https://github.com/Boburmirzo/apisix-dotnet-docker) up and running. In the ASP.NET Core project, there is a simple API to get all products list from the service layer in [ProductsController.cs](https://github.com/Boburmirzo/apisix-dotnet-docker/blob/main/ProductApi/Controllers/ProductsController.cs) file.
 
 Let’s suppose that we have an _online shopping sample application_ that consists of many microservices such as `Catalog, Product, Order and etc`. When we are retrieving data about products belonging to a specific catalog, there will be service-to-service interaction between Catalog and Product services. In this case, something might go wrong due to any number of reasons.
+
+![FIT with Apache APISIX](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s3a82cmrr84vyqvceuwp.jpg)
 
 To test the shopping application’s microservices for resiliency, we are going to simulate the product service misbehaving as a faulty service:
 
