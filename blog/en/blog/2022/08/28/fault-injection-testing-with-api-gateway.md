@@ -91,17 +91,17 @@ The following route configuration example creates a new upstream for our backend
 ``` bash
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "name": "Route for Fault Injection with the delay",
-    "methods": ["GET"], 
-    "uri": "/api/products",
-    "plugins": {
-       "fault-injection": {
-           "delay": {
-              "duration": 5,
-     "percentage": 10
-           }
-       }
-    },
+  "name": "Route for Fault Injection with the delay",
+  "methods": ["GET"], 
+  "uri": "/api/products",
+  "plugins": {
+     "fault-injection": {
+         "delay": {
+            "duration": 5,
+   "percentage": 10
+         }
+     }
+  },
  "upstream": {
  "type": "roundrobin",
  "nodes": {
@@ -142,18 +142,18 @@ We can test it in action. Now we can enable abort injection with the following r
 ``` bash
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "name": "Route for Fault Injection with the abort",
-    "methods": ["GET"], 
-    "uri": "/api/products",
-    "plugins": {
-       "fault-injection": {
-           "abort": {
-              "http_status": 503,
-     "body": "The product service is currently unavailable.",
-     "percentage": 100
-           }
-       }
-    },
+  "name": "Route for Fault Injection with the abort",
+  "methods": ["GET"], 
+  "uri": "/api/products",
+  "plugins": {
+     "fault-injection": {
+         "abort": {
+            "http_status": 503,
+   "body": "The product service is currently unavailable.",
+   "percentage": 100
+         }
+     }
+  },
  "upstream": {
  "type": "roundrobin",
  "nodes": {
