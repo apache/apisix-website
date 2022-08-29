@@ -92,7 +92,7 @@ The following route configuration example creates a new upstream for our backend
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "name": "Route for Fault Injection with the delay",
-  "methods": ["GET"], 
+  "methods": ["GET"],
   "uri": "/api/products",
   "plugins": {
      "fault-injection": {
@@ -143,7 +143,7 @@ We can test it in action. Now we can enable abort injection with the following r
 curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "name": "Route for Fault Injection with the abort",
-  "methods": ["GET"], 
+  "methods": ["GET"],
   "uri": "/api/products",
   "plugins": {
      "fault-injection": {
