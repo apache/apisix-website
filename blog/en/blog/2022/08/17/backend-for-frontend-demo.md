@@ -26,7 +26,7 @@ In [one of my earlier posts](https://blog.frankel.ch/backend-for-frontend/), I d
 
 ## The use-case
 
-Imagine the following use-case. In a e-commerce shop, the home page should display multiple *unrelated* data at once.
+Imagine the following use-case. In a e-commerce shop, the home page should display multiple _unrelated_ data at once.
 
 * Products: The business could configure which items are shown on the home page. They could be generic, "hero" products, or personalized, products that the customer ordered previously.
 * News: Again, the newsfeed could be generic or personalized.
@@ -67,7 +67,7 @@ As it doesn't add anything to the demo, I won't provide different data depending
 
 ## Migrating to microservices
 
-At one point, the organization decides to migrate to a microservices architecture. The reason might be because the CTO read about microservices in a blog post, because the team lead wants to add microservices on its resume, or even because the development grew too big and the organization do need to evolve. In any case, the monolith has to be split in *two* microservices: a catalog providing products and a newsfeed providing... news.
+At one point, the organization decides to migrate to a microservices architecture. The reason might be because the CTO read about microservices in a blog post, because the team lead wants to add microservices on its resume, or even because the development grew too big and the organization do need to evolve. In any case, the monolith has to be split in _two_ microservices: a catalog providing products and a newsfeed providing... news.
 
 Here's the code for each microservice:
 
