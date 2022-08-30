@@ -156,7 +156,6 @@ Reviewers 将在 Review 你的 PR 时帮助你选择合适的标签。
 
   作者 Github URL：https://github.com/hf400159
 
-
   作者头像 URL：https://github.com/hf400159.png
 
   ```
