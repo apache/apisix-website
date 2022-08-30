@@ -197,7 +197,7 @@ But this is not part of the summary.
 
   :::note 注意
 
-  中文博客则存放在 `/apisix-website/blog/zh/blog` 目录下，而英文博客则存放在 `/apisix-website/blog/en/blog` 目录下。
+  中文博客存放在 `/apisix-website/blog/zh/blog` 目录下，而英文博客则存放在 `/apisix-website/blog/en/blog` 目录下。
 
   :::
 
