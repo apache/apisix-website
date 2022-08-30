@@ -71,7 +71,7 @@ This part shows you how to inject faults to test the resiliency of your applicat
 
 ### Understand the demo scenario
 
- I assume that you have the demo project [apisix-dotnet-docker](https://github.com/Boburmirzo/apisix-dotnet-docker) up and running. In the ASP.NET Core project, there is a simple API to get all products list from the service layer in [ProductsController.cs](https://github.com/Boburmirzo/apisix-dotnet-docker/blob/main/ProductApi/Controllers/ProductsController.cs) file.
+I assume that you have the demo project [apisix-dotnet-docker](https://github.com/Boburmirzo/apisix-dotnet-docker) up and running. In the ASP.NET Core project, there is a simple API to get all products list from the service layer in [ProductsController.cs](https://github.com/Boburmirzo/apisix-dotnet-docker/blob/main/ProductApi/Controllers/ProductsController.cs) file.
 
 Let’s suppose that we have an _online shopping sample application_ that consists of many microservices such as `Catalog, Product, Order and etc`. When we are retrieving data about products belonging to a specific catalog, there will be service-to-service interaction between Catalog and Product services. In this case, something might go wrong due to any number of reasons.
 
@@ -90,8 +90,9 @@ In the first example, we introduce a 5-second delay for every request to the pro
 
 The following route configuration example creates a new upstream for our backend service (productapi) that runs on port `80`, and registers a route with the `fault-injection` plugin enabled. You can notice that we set the delay injection in the plugin settings:
 
-``` bash
-curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+``` shell
+curl http://127.0.0.1:9080/apisix/admin/routes/1 \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "name": "Route for Fault Injection with the delay",
   "methods": [
@@ -102,7 +103,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
     "fault-injection": {
       "delay": {
         "duration": 5,
-        "percentage": 10
+        "percentage": 100
       }
     }
   },
@@ -143,8 +144,9 @@ In the following example, we will introduce an HTTP abort to the product microse
 
 We can test it in action. Now we can enable abort injection with the following route settings.
 
-``` bash
-curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+``` shell
+curl http://127.0.0.1:9080/apisix/admin/routes/1 \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
   "name": "Route for Fault Injection with the abort",
   "methods": [
@@ -171,7 +173,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 If you run `curl cmd` to hit the APISIX route, now it quickly responds with HTTP 503 error which in turn very comfortable to test catalog service how it reacts to such kind of server errors from downstream services.
 
-``` bash
+``` shell
 curl  http://127.0.0.1:9080/api/products -i
 
 HTTP/1.1 503 Service Temporarily Unavailable
@@ -195,14 +197,18 @@ As we learned, by using the fault injection method, engineers can build better a
 
 ## Recommended content 💁
 
-➔ Watch Video Tutorial [Getting Started with Apache APISIX](https://youtu.be/dUOjJkb61so).
+➔ Watch Video Tutorial:
 
-➔ Watch Video Tutorial [Manage .NET Microservice API with Apache APISIX API Gateway](https://youtu.be/nU8-uQkAHA4).
+- [Getting Started with Apache APISIX](https://youtu.be/dUOjJkb61so).
+  
+- [Manage .NET Microservice API with Apache APISIX API Gateway](https://youtu.be/nU8-uQkAHA4).
 
-➔ Read the blog post [Overview of Apache APISIX API Gateway Plugins](https://dev.to/apisix/overview-of-apache-apisix-api-gateway-plugins-2m8o).
+➔ Read the blog posts:
 
-➔ Read the blog post [Run Apache APISIX on Microsoft Azure Container Instance](https://dev.to/apisix/run-apache-apisix-on-microsoft-azure-container-instance-1gdk).
+- [Overview of Apache APISIX API Gateway Plugins](https://dev.to/apisix/overview-of-apache-apisix-api-gateway-plugins-2m8o).
 
-➔ Read the blog post [API Security with OIDC by using Apache APISIX and Microsoft Azure AD](https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3).
+- [Run Apache APISIX on Microsoft Azure Container Instance](https://dev.to/apisix/run-apache-apisix-on-microsoft-azure-container-instance-1gdk).
 
-➔ Read the blog post [API Observability with Apache APISIX Plugins](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm).
+- [API Security with OIDC by using Apache APISIX and Microsoft Azure AD](https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3).
+
+- [API Observability with Apache APISIX Plugins](https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm).
