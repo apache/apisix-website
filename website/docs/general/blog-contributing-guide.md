@@ -53,12 +53,7 @@ Writing a new blog post is one of the best ways to contribute to Apache APISIX. 
   :::
 
 <!-- Future: Move this to the contributing guide -->
-To build the website locally, run:
-
-```sh
-cd website
-yarn start
-```
+You can check your changes by building the web environment locally. This ensures no typos or lingering issues before you submit a PR. Although the Apache APISIX Website will run CI to check and report these errors, it is recommended to test in the local environment first. For the specific construction process, please refer to [Building a Webpage Environment](https://github.com/apache/apisix-website/blob/master/README.md).
 
 #### Configuring blog headers
 
