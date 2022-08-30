@@ -23,11 +23,11 @@ description: 如何在 Apache APISIX 官网提交或更新博客？
 - `website/blog/2022/03/01` 是该博客所在的目录。
 - `https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin` 是该博客 PR 合并后的 URL。
 
-:::note
+  :::note 注意
 
-同样的，你可以在 `/apisix-website/blog/zh/blog` 目录下提交中文博客。
+  同样的，你可以在 `/apisix-website/blog/zh/blog` 目录下提交中文博客。
 
-:::
+  :::
 
 ## 博客类型
 
@@ -47,16 +47,16 @@ description: 如何在 Apache APISIX 官网提交或更新博客？
 2. 当你找到了一个存放你的博客的目录，你就可以在该目录中创建一个 Markdown 文件。请注意，文件名请使用英文，并且避免大写字母。Reviewers 可能会建议你改变文件名以提升 SEO（部分文件名含有大写字母，已经在 [#713](https://github.com/apache/apisix-website/issues/713) 中被修复）。
 
 3. 你可以通过编辑 Markdown 文件把文字、图片、图表添加到你的博客中。你可以从 [Markdown 指南](https://www.markdownguide.org/)了解更多关于 Markdown 格式的信息。
-    - 添加图片前请先将图片上传到[公共图片 CDN 服务](https://markdown-editor-chi.vercel.app/#/)然后在 Markdown 文件中添加图片链接。
-    - 表格及图片蕴涵了大量信息，我们很乐意看到它们。从经验来看小于等于4列的表格在网页上显得更加美观。
+    - 添加图片前，你可以在 Github 上，先创建一个 [issue 的草稿](https://github.com/apache/apisix-website/issues/new?assignees=&labels=documentation&template=documentation.yaml&title=%5BDocs%5D%3A+)，然后将图片上传到 Current State，请先将图片上传到 Github 的 issue 中，然后在 Markdown 文件中添加图片链接。
+    - 表格及图片蕴涵了大量信息，我们很乐意看到它们。从经验来看小于等于 4 列的表格在网页上显得更加美观。
 
 4. 根据你新建的博客[创建一个 PR](/docs/general/contributor-guide/#创建一个-pr)。
 
-:::note
+  :::note 注意
 
-你可以通过在本地构建网页环境检查你的修改。这可以确保在你提交 PR 之前没有任何错别字或遗留问题。虽然 Apache APISIX Website 会运行 CI 来检查并反馈这些错误，但更推荐优先在本地环境进行测试。具体构建流程请参考[构建网页环境](https://github.com/apache/apisix-website/blob/master/README.md)
+  你可以通过在本地构建网页环境检查你的修改。这可以确保在你提交 PR 之前没有任何错别字或遗留问题。虽然 Apache APISIX Website 会运行 CI 来检查并反馈这些错误，但更推荐优先在本地环境进行测试。具体构建流程请参考[构建网页环境](https://github.com/apache/apisix-website/blob/master/README.md)。
 
-:::
+  :::
 
 ### 配置博客元数据
 
@@ -139,12 +139,6 @@ tags: [tag1,tag2,...,tagn]
 
 每篇博客可以有多个标签。下面列举了一些常用的标签和相应解释，一篇博客通常会涵盖其中部分标签。如果无法找到适合的标签，请在提交 PR 时留下评论，我们将一起处理。
 
-:::note
-
-标签和应用标签的规则可能会随着时间而改变。
-
-:::
-
 - **Community**：社区、社区活动有关的内容以及版本发布的标签，比如说："如何以代码之外形式给社区做贡献？"，直播预告、活动预告、会议内容和项目会议内容。
 - **Security**：安全漏洞通知和解决安全漏洞的方法。目前有[六篇文章](/blog/tags/security/)，他们都同样有形如 CVE-xxxxxxx 的标题。
 - **Case Studies**：关于在企业内使用 Apache APISIX 的博客，让我们知道你是如何使用 Apache APISIX 的！
@@ -156,11 +150,18 @@ Reviewers 将在 Review 你的 PR 时帮助你选择合适的标签。
 #### 获取作者头像 URL
 
 1. 打开你的浏览器。
-2. 输入作者的 GitHub 页面的 URL，在 URL 结尾加一个 `.png`，例如：https://github.com/${author-username}.png。
+2. 输入作者的 GitHub 页面的 URL，在 URL 结尾添加 `.png`，例如：
+
+  ```text
+
+  作者 Github URL：https://github.com/hf400159
+
+  作者头像 URL：https://github.com/hf400159.png
+
+  ```
+
 3. 这时将会打开作者的头像图片，请复制该图片的 URL。
 4. 复制图片 URL 到 `authors.image_url` 字段。
-
-![获取作者头像 URL](https://user-images.githubusercontent.com/49474499/155665803-198d1be0-2878-4c46-9ce1-7e39697eebe8.gif)
 
 ### 摘要
 
@@ -194,11 +195,11 @@ But this is not part of the summary.
 
 1. 首先你需要找到对应的博客文件。
 
-:::note
+  :::note 注意
 
-中文博客则存放在 `website/i18n/zh/docusaurus-plugin-content-blog` 目录下，而英文博客则存放在 `website/blog` 目录下。
+  中文博客存放在 `/apisix-website/blog/zh/blog` 目录下，而英文博客则存放在 `/apisix-website/blog/en/blog` 目录下。
 
-:::
+  :::
 
 2. 当你找到博客文件后，就可以修改对应的内容了。
 3. 提交一个带有更新信息的 [PR](/docs/general/contributor-guide#创建一个-pr)。

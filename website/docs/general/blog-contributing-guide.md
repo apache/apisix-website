@@ -46,15 +46,14 @@ Writing a new blog post is one of the best ways to contribute to Apache APISIX. 
 
 4. [Open a pull request](/docs/general/contributor-guide/#open-a-pull-request) with your new blog post.
 
-**Note**: You can inspect your changes locally by building the website. This can ensure that there aren't any typos or issues left behind before you make a PR. We run CI checks to catch these errors but it is a recommended practice to test it locally.
+  :::note
+
+  You can inspect your changes locally by building the website. This can ensure that there aren't any typos or issues left behind before you make a PR. We run CI checks to catch these errors but it is a recommended practice to test it locally.
+
+  :::
 
 <!-- Future: Move this to the contributing guide -->
-To build the website locally, run:
-
-```sh
-cd website
-yarn start
-```
+You can check your changes by building the web environment locally. This ensures no typos or lingering issues before you submit a PR. Although the Apache APISIX Website will run CI to check and report these errors, it is recommended to test in the local environment first. For the specific construction process, please refer to [Building a Webpage Environment](https://github.com/apache/apisix-website/blob/master/README.md).
 
 #### Configuring blog headers
 
@@ -150,11 +149,18 @@ Reviewers will help you find the right tags while reviewing your PR.
 ##### Obtaining authors.image_url
 
 1. Open your browser.
-2. Enter the url to author's GitHub page followed by a .png (https://github.com/author-username.png).
+2. Enter the URL of the author's GitHub page, adding `.png` to the end of the URL, for example:
+
+  ```text
+
+  Author Github URL: https://github.com/yzeng25
+
+  Author Avatar URL: https://github.com/yzeng25.png
+  
+  ```
+
 3. This will open the author's avatar image and you can copy the url to the image.
 4. Paste this image url to the `authors.image_url` field.
-
-![How to get the authors.image_url](https://user-images.githubusercontent.com/49474499/155665803-198d1be0-2878-4c46-9ce1-7e39697eebe8.gif)
 
 #### Truncate and summary
 
