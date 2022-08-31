@@ -120,7 +120,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
       </Link>
       <div className={style.content}>
         <header>
-          {tags.length > 0 && (
+          {tags?.length > 0 && (
             <div className={style.tags}>
               {tags.slice(0, 3).map((tag) => (
                 <a key={tag.permalink} href={tag.permalink}>
@@ -135,7 +135,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
           </Link>
         </header>
         <footer className={style.footer}>
-          {authors.length > 0 && (
+          {authors?.length > 0 && (
             <>
               <div className={style.authors}>
                 {authors.map((author) => (author.imageURL ? (
@@ -232,12 +232,15 @@ const BlogPosts: FC<BlogPostsProps> = ({
     </BlogPostItem>
   ));
 
-  const max = pickedPosts.length > 10 ? pickedPosts.length - 10 : pickedPosts.length;
+  // max 6 picked posts
+  const max = pickedPosts.length > 6 ? 6 : pickedPosts.length;
   const endIdx = isFirstPage ? 2 * Math.floor(max / 2) : 3;
   const { pathname } = useLocation();
 
   if (!pathname.includes('/tags/')) {
     if (isFirstPage) {
+       // In the first page, all selected articles will be inserted between
+       // the original first and second article
       posts.splice(
         1,
         0,
@@ -252,6 +255,7 @@ const BlogPosts: FC<BlogPostsProps> = ({
           )),
       );
     } else {
+      // Starting from the second page, the picked article will be mixed in all articles
       const finalPickedPosts = shuffle(pickedPosts).slice(0, endIdx);
       const positions = shuffle(Array.from({ length: 9 }, (_, idx) => idx)).slice(0, 3);
       positions.forEach((fromIdx) => {
