@@ -75,7 +75,7 @@ I assume that you have the demo project [apisix-dotnet-docker](https://github.co
 
 Let’s suppose that we have an _online shopping sample application_ that consists of many microservices such as `Catalog, Product, Order and etc`. When we are retrieving data about products belonging to a specific catalog, there will be service-to-service interaction between Catalog and Product services. In this case, something might go wrong due to any number of reasons.
 
-![FIT with Apache APISIX](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s3a82cmrr84vyqvceuwp.jpg)
+![FIT with Apache APISIX](https://static.apiseven.com/2022/blog/0831/s3a82cmrr84vyqvceuwp.jpg)
 
 To test the shopping application’s microservices for resiliency, we are going to simulate the product service misbehaving as a faulty service:
 
