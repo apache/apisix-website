@@ -232,8 +232,8 @@ const BlogPosts: FC<BlogPostsProps> = ({
     </BlogPostItem>
   ));
 
-  // max 6 picked posts
-  const max = pickedPosts.length > 6 ? 6 : pickedPosts.length;
+  // max picked posts
+  const max = pickedPosts.length > 4 ? 4 : pickedPosts.length;
   const endIdx = isFirstPage ? 2 * Math.floor(max / 2) : 3;
   const { pathname } = useLocation();
 
