@@ -1,0 +1,42 @@
+type: object
+additionalProperties: false
+properties:
+  title:
+    type: string
+  tags:
+    type: array
+    items:
+      type: string
+      enum:
+        - Case Studies
+        - Community
+        - Ecosystem
+        - Authentication
+        - Security
+        - Plugins
+  keywords:
+    type: array
+  image:
+    type: string
+  description:
+    type: string
+  authors:
+    type: array
+    items:
+      type: object
+      required:
+        - name
+        - title
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+        image_url:
+          type: string
+required:
+  - title
+  - tags
+  - keywords

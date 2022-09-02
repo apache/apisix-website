@@ -38,6 +38,7 @@
     "prepare-data": "yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts"
   },
   "devDependencies": {
+    "@julian_cataldo/remark-lint-frontmatter-schema": "^3.6.2",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "eslint": "^8.2.0",
@@ -49,12 +50,19 @@
     "eslint-plugin-yml": "^0.14.0",
     "husky": ">=6",
     "lint-staged": ">=10",
+    "remark": "^14.0.2",
+    "remark-cli": "^11.0.0",
+    "remark-frontmatter": "^4.0.1",
+    "remark-preset-lint-consistent": "^5.1.1",
+    "remark-preset-lint-markdown-style-guide": "^5.1.2",
+    "remark-preset-lint-recommended": "^6.1.2",
     "stylelint": "^14.6.1",
     "stylelint-config-standard": "^25.0.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
     "*.{yml,yaml}": "eslint --cache --fix",
-    "*.{scss,css}": "stylelint --cache --fix"
+    "*.{scss,css}": "stylelint --cache --fix",
+    "*.{md}": "remark ./blog/{en,zh}/blog/**/*.md --quiet"
   }
 }
