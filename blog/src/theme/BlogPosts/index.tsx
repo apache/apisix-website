@@ -12,7 +12,6 @@ import type {
 } from 'react';
 import React from 'react';
 import useWindowType from '@theme/hooks/useWindowSize';
-import shuffle from 'lodash.shuffle';
 import { useLocation } from '@docusaurus/router';
 import { translate } from '@docusaurus/Translate';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
@@ -239,8 +238,8 @@ const BlogPosts: FC<BlogPostsProps> = ({
 
   if (!pathname.includes('/tags/')) {
     if (isFirstPage) {
-       // In the first page, all selected articles will be inserted between
-       // the original first and second article
+      // In the first page, all selected articles will be inserted between
+      // the original first and second article
       posts.splice(
         1,
         0,
@@ -254,18 +253,6 @@ const BlogPosts: FC<BlogPostsProps> = ({
             />
           )),
       );
-    } else {
-      // Starting from the second page, the picked article will be mixed in all articles
-      const finalPickedPosts = shuffle(pickedPosts).slice(0, endIdx);
-      const positions = shuffle(Array.from({ length: 9 }, (_, idx) => idx)).slice(0, 3);
-      positions.forEach((fromIdx) => {
-        const info = finalPickedPosts.pop();
-        posts.splice(
-          fromIdx,
-          0,
-          <PickedBlogItem info={info} {...{ delayMethod, delayTime, useIntersectionObserver }} />,
-        );
-      });
     }
   }
 
