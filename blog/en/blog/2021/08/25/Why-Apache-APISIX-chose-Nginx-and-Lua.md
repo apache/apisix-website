@@ -14,7 +14,7 @@ description: This article introduces the historical background of Apache APISIX'
 tags: [Ecosystem]
 ---
 
-> This article was written by Zexuan Luo, engineer of API7.ai(https://api7.ai/), and introduced the historical background of Apache APISIX's selection of Nginx + Lua technology stack and the advantages this technology stack brings to Apache APISIX. Zexuan Luo is an OpenResty developer and Apache APISIX PMC.
+> This article was written by Zexuan Luo, engineer of [API7.ai](https://api7.ai/), and introduced the historical background of Apache APISIX's selection of Nginx + Lua technology stack and the advantages this technology stack brings to Apache APISIX. Zexuan Luo is an OpenResty developer and Apache APISIX PMC.
 
 <!--truncate-->
 
