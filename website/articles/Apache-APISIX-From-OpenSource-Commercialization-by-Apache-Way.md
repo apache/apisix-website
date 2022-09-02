@@ -15,7 +15,7 @@ description: Apache Way 是被无数开源项目证实的社区成功之道，�
 
 ## 分享人简介
 
-温铭，Apache 基金会 Member，Apache APISIX PMC 主席，支流科技联合创始人。
+温铭，Apache 基金会 Member，Apache APISIX PMC 主席，[支流科技](https://api7.ai/)联合创始人。
 
 ## 分享主题介绍
 

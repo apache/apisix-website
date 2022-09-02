@@ -20,7 +20,7 @@ Rancher 是一个开源的企业级多集群 Kubernetes 管理平台，实现了
 
 ## Apache APISIX 介绍
 
-Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳支流科技有限公司于 2019 年捐赠给 Apache 基金会，当前已经成为 Apache 基金会的顶级开源项目，也是 GitHub 上最活跃的开源网关项目。Apache APISIX 当前已经覆盖了 API 网关，LB，Kubernetes Ingress，Service Mesh 等多种场景。
+Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳[支流科技](https://api7.ai/)有限公司于 2019 年捐赠给 Apache 基金会，当前已经成为 Apache 基金会的顶级开源项目，也是 GitHub 上最活跃的开源网关项目。Apache APISIX 当前已经覆盖了 API 网关，LB，Kubernetes Ingress，Service Mesh 等多种场景。
 
 ## 前置条件
 

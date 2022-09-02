@@ -3,7 +3,7 @@ title: "在 KubeSphere 中使用 APISIX Ingress 接入自定义监控"
 author: "张海立"
 authorURL: "https://github.com/webup"
 authorImageURL: "https://avatars.githubusercontent.com/u/2936504?v=4"
-keywords: 
+keywords:
 - KubeSphere
 - Apache APISIX
 - API 网关
@@ -103,7 +103,7 @@ KubeSphere 最小化安装版本已经包含了监控模块，因此不需要额
 
 ## 快速使用 Apache APISIX Ingress Controller
 
-Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳支流科技有限公司于 2019 年捐赠给 Apache 基金会，目前已成为 Apache 基金会的顶级开源项目，也是 GitHub 上最活跃的网关项目。Apache APISIX 目前已覆盖 API 网关、LB、Kubernetes Ingress、Service Mesh 等多种场景。
+Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳[支流科技](https://api7.ai/)有限公司于 2019 年捐赠给 Apache 基金会，目前已成为 Apache 基金会的顶级开源项目，也是 GitHub 上最活跃的网关项目。Apache APISIX 目前已覆盖 API 网关、LB、Kubernetes Ingress、Service Mesh 等多种场景。
 
 ### 如何部署
 
@@ -126,7 +126,7 @@ Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳支
 ```yaml
 global:
   imagePullSecrets: []
-  
+
 apisix:
   enabled: true
   customLuaSharedDicts: []

@@ -53,7 +53,7 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 分享者：温铭
 
-温铭，api7.ai 创始人，Apache APISIX PMC 主席，Apache 基金会 member，他演讲的题目是“Apache APISIX 从开源项目到商业化之路”。
+温铭，[api7.ai](api7.ai) 创始人，Apache APISIX PMC 主席，Apache 基金会 member，他演讲的题目是“Apache APISIX 从开源项目到商业化之路”。
 
 [**查看分享**](/articles/Apache-APISIX-From-OpenSource-Commercialization)
 
@@ -69,7 +69,7 @@ Apache APISIX 是领先的 API 网关 OSS 之一。为了确保一切按计划�
 
 分享者：温铭
 
-Apache Way 是被无数开源项目证实的社区成功之道，那么对于开源商业公司而言，Apache Way 是否可行呢？它在商业社会是否行得通？ 通过 2 年开源商业公司的经营，支流科技希望用公司的切身经历来回答这个问题。
+Apache Way 是被无数开源项目证实的社区成功之道，那么对于开源商业公司而言，Apache Way 是否可行呢？它在商业社会是否行得通？ 通过 2 年开源商业公司的经营，[支流科技](https://api7.ai/)希望用公司的切身经历来回答这个问题。
 
 [**查看分享**](/articles/Apache-APISIX-From-OpenSource-Commercialization-by-Apache-Way)
 

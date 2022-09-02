@@ -14,7 +14,7 @@ description: 本文介绍了云原生 API 网关 Apache APISIX 选用 Nginx + Lu
 tags: [Ecosystem]
 ---
 
-> 本文由深圳支流科技工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 Apache APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
+> 本文由深圳[支流科技](https://api7.ai/)工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 Apache APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。
 
 <!--truncate-->
 
@@ -31,7 +31,7 @@ tags: [Ecosystem]
 严谨认真的读者必然会指出，Apache APISIX 并非基于 Nginx + Lua 的技术栈，而是 Nginx + LuaJIT（又称 OpenResty，以下为了避免混乱，会仅仅采用 Nginx + Lua 这样的称呼）。
 
 LuaJIT 是 Lua 的一个 JIT 实现，性能比 Lua 好很多，而且额外添加了 FFI 的功能，能方便高效地调用 C 代码。
-由于现行的主流 API 网关，如果不是基于 OpenResty 实现，就是使用 Go 编写，所以时不时会看到各种 Go 和 Lua 谁的性能更好的比较。  
+由于现行的主流 API 网关，如果不是基于 OpenResty 实现，就是使用 Go 编写，所以时不时会看到各种 Go 和 Lua 谁的性能更好的比较。
 
 **就我个人观点看，脱离场景比较语言的性能，是没有意义的。**
 

@@ -22,7 +22,7 @@ tags: [Community]
 
 **Q：舒旸，请简单介绍一下自己。**
 
-**舒旸**：Hello，大家好~ 我是吴舒旸（Github ID: yiyiyimu），去年本科毕业于上海交通大学环境学院，今年八月会在佐治亚理工学院开始读计算机硕士。现在在 APISIX 背后的商业公司——支流科技全职维护开源社区，也是 Apache APISIX 和 Chaos Mesh 两个项目的 committer。去年参与“编程之夏 2020”在 Apache APISIX 完成了“支持 etcd v3 协议”这个项目，这也作为了 APISIX v2.0 的主要更新点，之后也有幸被评上了“编程之夏 2020”的优秀学生，今年也会作为 mentor 继续参与“编程之夏 2021”。
+**舒旸**：Hello，大家好~ 我是吴舒旸（Github ID: yiyiyimu），去年本科毕业于上海交通大学环境学院，今年八月会在佐治亚理工学院开始读计算机硕士。现在在 APISIX 背后的商业公司——[支流科技](https://api7.ai/)全职维护开源社区，也是 Apache APISIX 和 Chaos Mesh 两个项目的 committer。去年参与“编程之夏 2020”在 Apache APISIX 完成了“支持 etcd v3 协议”这个项目，这也作为了 APISIX v2.0 的主要更新点，之后也有幸被评上了“编程之夏 2020”的优秀学生，今年也会作为 mentor 继续参与“编程之夏 2021”。
 
 **Q：去年为什么会选择参加编程之夏？**
 
