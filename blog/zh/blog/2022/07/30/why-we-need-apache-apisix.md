@@ -3,7 +3,7 @@ title: "有了 NGINX 和 Kong，为什么还需要 Apache APISIX？"
 author: "韩飞"
 authorURL: "https://github.com/hf400159"
 authorImageURL: "https://github.com/hf400159.png"
-keywords: 
+keywords:
 - Apache APISIX
 - API 网关
 - NGINX
@@ -102,9 +102,5 @@ APISIX 目前支持多种语言编写扩展插件，可以解决东西向微服�
 ## 总结
 
 Apache APISIX 自开源第一天，迄今为止已经有三年的时间了，高活跃度的社区以及实际的[用户案例](https://apisix.apache.org/zh/blog/tags/case-studies/)证明了 APISIX 是云原生时代最完美的 API 网关。通过阅读本文，相信你已经对 APISIX 有了更全面的认识，期待你在生产环境中使用 APISIX 作为你的 API 网关。
-
-下图为 Apache APISIX 社区的 QQ 群，有任何问题都可以在该群或者 [Github issue](https://github.com/apache/apisix/issues) 留言，社区贡献者将会快速响应，当然你也可以加入 APISIX Slack 频道和邮件列表，请参考[加入我们](https://apisix.apache.org/zh/docs/general/join/)。
-
-![QQ group: 578997126](https://static.apiseven.com/2022/blog/0729/8.PNG)
 
 更多信息请观看[有了 NGINX 和 Kong，为什么还需要 Apache APISIX?](https://www.bilibili.com/video/BV1w54y1V73Z?p=1&share_medium=android&share_plat=android&share_source=COPY&share_tag=s_i&timestamp=1621812452&unique_k=PEusrt)

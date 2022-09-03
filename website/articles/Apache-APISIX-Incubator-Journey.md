@@ -13,7 +13,7 @@ description: Apache APISIX 的孵化过程。
 
 ## 分享人简介
 
-温铭，Apache Member，Apache APISIX PMC 主席，支流科技联合创始人。
+温铭，Apache Member，Apache APISIX PMC 主席，[支流科技](https://api7.ai/)联合创始人。
 
 ## 分享主题介绍
 

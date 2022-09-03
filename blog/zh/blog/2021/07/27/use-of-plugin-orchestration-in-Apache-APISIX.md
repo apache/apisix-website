@@ -13,7 +13,7 @@ description: 通过阅读本文，你可以了解云原生 API 网关 Apache API
 tags: [Ecosystem]
 ---
 
-> 通过阅读本文，您可以了解 Apache APISIX 与基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。本文作者琚致远，Apache APISIX PMC，在支流科技负责企业产品与大前端技术。
+> 通过阅读本文，您可以了解 Apache APISIX 与基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。本文作者琚致远，Apache APISIX PMC，在[支流科技](https://api7.ai/)负责企业产品与大前端技术。
 
 <!--truncate-->
 

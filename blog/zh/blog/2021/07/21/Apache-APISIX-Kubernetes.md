@@ -29,7 +29,7 @@ Meetup 结束后，我们会在 Apache APISIX 的 bilibili 账号上传 Meetup �
 
 ## 讲师介绍
 
-张晋涛，支流科技云原生技术专家、Apache APISIX committer、Kubernetes ingress-nginx reviewer。他同时作为 containerd/Docker/Helm/Kubernetes/KIND 等众多开源项目 contributor 在开源社区活跃，是 『K8S 生态周报』的维护者之一。
+张晋涛，[支流科技](https://api7.ai/)云原生技术专家、Apache APISIX committer、Kubernetes ingress-nginx reviewer。他同时作为 containerd/Docker/Helm/Kubernetes/KIND 等众多开源项目 contributor 在开源社区活跃，是 『K8S 生态周报』的维护者之一。
 从业 7 年，张晋涛对 Docker 和 Kubernetes 等容器化技术有大量实践和深入源码的研究，是业内多个知名大会讲师，PyCon China 核心组织者之一。同时著有 《Kubernetes 上手实践》和 《Docker 核心知识必知必会》等专栏。运营有公众号：MoeLove。
 
 ![讲师介绍-张晋涛](https://static.apiseven.com/202108/1630382172445-cf20986b-c939-497e-86a4-92da7064ae97.PNG)
