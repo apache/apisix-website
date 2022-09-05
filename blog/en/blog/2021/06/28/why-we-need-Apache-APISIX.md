@@ -1,5 +1,5 @@
 ---
-title: Why would you choose Apache APISIX instead of Nginx or Kong?
+title: Why would you choose Apache APISIX instead of NGINX or Kong?
 slug: 2021/06/28/why-we-need-apache-apisix
 author: Yuansheng Wang
 authorURL: "https://github.com/membphis"
@@ -7,21 +7,21 @@ authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords:
 - APISIX
 - Kong
-- Nginx
+- NGINX
 - API Gateway
 - Open Source
 - API Management
-description: Many companies used to use Nginx or Kong as their API gateway but switched to Apache APISIX now. As an Open Source API Gateway, Apache APISIX solves a lot of pain points for businesses.
+description: Many companies used to use NGINX or Kong as their API gateway but switched to Apache APISIX now. As an Open Source API Gateway, Apache APISIX solves a lot of pain points for businesses.
 tags: [Ecosystem]
 ---
 
-> This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and Nginx.
+> This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and NGINX.
 
 <!--truncate-->
 
-API gateway is an important infrastructure component in the cloud-native era. There are two common criteria to evaluate an API gateway: how dynamic it is, and how mature its observability is. Many companies used to use Nginx or Kong as their API gateway, but then later switched to Apache APISIX. As an API gateway born for the cloud-native era, Apache APISIX indeed solves a lot of pain points for businesses in various dimensions. Now you might wonder, why?
+API gateway is an important infrastructure component in the cloud-native era. There are two common criteria to evaluate an API gateway: how dynamic it is, and how mature its observability is. Many companies used to use NGINX or Kong as their API gateway, but then later switched to Apache APISIX. As an API gateway born for the cloud-native era, Apache APISIX indeed solves a lot of pain points for businesses in various dimensions. Now you might wonder, why?
 
-## Nginx and Kong's Limitations
+## NGINX and Kong's Limitations
 
 In the era of monolithic services, NGINX can handle most scenarios. While in the cloud-native era, NGINX has two shortcomings due to its architecture:
 
