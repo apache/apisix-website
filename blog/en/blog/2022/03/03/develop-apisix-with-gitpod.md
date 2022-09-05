@@ -75,7 +75,18 @@ sudo OPENRESTY_VERSION=default ./ci/linux_openresty_1_17_runner.sh do_install
 sudo ./ci/linux_openresty_1_17_runner.sh script
 ```
 
-The whole process will be very silky smooth because there is a hidden advantage here: Gitpod runs in a foreign environment, so downloading various dependencies will be very fast and you won't encounter network problems.
+:::tip
+
+If you get the following error:
+
+````
+OPENRESTY_VERSION=default ./ci/linux_openresty_1_19_runner.sh do_install
+bash: ./ci/linux_openresty_1_19_runner.sh: No such file or directory
+````
+
+Please see the `linux_openresty_1_19_runner.sh` script corresponding to the latest version of APISIX in the `ci` directory.
+
+:::
 
 ### Step 2: Accessing HTTP services
 
