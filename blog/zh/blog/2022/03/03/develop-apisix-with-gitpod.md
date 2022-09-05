@@ -88,7 +88,6 @@ bash: ./ci/linux_openresty_1_19_runner.sh: No such file or directory
 
 :::
 
-
 整个过程会非常流畅，因为这里有一个隐藏的优势：Gitpod 运行环境是在国外的，所以下载各种依赖的速度会非常的快，不会遇到网络问题。
 
 ### 步骤二：访问 HTTP 服务
