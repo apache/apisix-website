@@ -75,6 +75,19 @@ sudo OPENRESTY_VERSION=default ./ci/linux_openresty_1_17_runner.sh do_install
 sudo ./ci/linux_openresty_1_17_runner.sh script
 ```
 
+:::tip 提示
+
+如果出现以下错误：
+
+```
+OPENRESTY_VERSION=default ./ci/linux_openresty_1_19_runner.sh do_install
+bash: ./ci/linux_openresty_1_19_runner.sh: No such file or directory
+```
+
+请查看 `ci` 目录下 APISIX 最新版本所对应的 `linux_openresty_1_19_runner.sh` 脚本。
+
+:::
+
 整个过程会非常流畅，因为这里有一个隐藏的优势：Gitpod 运行环境是在国外的，所以下载各种依赖的速度会非常的快，不会遇到网络问题。
 
 ### 步骤二：访问 HTTP 服务
