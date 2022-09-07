@@ -139,7 +139,7 @@ Once you have verified that the APISIX gateway and Ingress controller is running
 
 This will route traffic between the two application versions based on the client request:
 
-![Configuring APISIX Ingress](https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDcVutpdQXARwRNaFJG2F4LxIs1O29Ac1hxaStv38FF8Hp_E7G61imiufub_8s8MyZJwUyDJyUiaOZ8w6-GuRzVvXUiB2u_BSZKcwoqSHr7kcDBL4fpqQKnuoStzuEEpDYysUXD20IVZut_ZoWQFjGoG9cWeCR5X4NIWJe-vbzBkFhMltFBBJawUySylZO8Td9mfWFZjgm-A2K7ffYSuHlt0DrjR3hop0UYsRiVQ_gSr8cbM45wt6iDnFxKhBBevTTGHXTzK0uyYain0tF-bnf_M9D_z8LdJNcTjwnBsWTmB6VMz3W0YotXoMa4gg_PV_M8NWx22lS79prNGoy5-JbOY3Oz8I6kQFrkXRsPgfFsVfKvLr0zSJgqtYqKI_2JZlSnxE1RISR5lweyUknZTd_gSUPPaWjYJsTgx8_7GuA8qrugq39uAFbKmeh17hLKID3JVCG8syUdMOmwTFrzpLzQneUV_QpeCxe3Uhlp_ACxz3uU)
+![Configuring APISIX Ingress](https://static.apiseven.com/2022/09/05/6315bd0296577.jpg)
 
 ![Configuring APISIX](https://static.apiseven.com/2022/09/05/6315bd04c542c.jpg)
 
