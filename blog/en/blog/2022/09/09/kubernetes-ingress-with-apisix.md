@@ -47,7 +47,7 @@ We will use a sample HTTP server application ([bare-minimum-api](https://github.
 
 While running the application, you can set a "version" and a port to listen to. For this example, we will create two "versions" of this application which will return different responses as shown below:
 
-![Sample application](https://mermaid.ink/img/pako:eNptj01PwzAMhv9K8GmTWmh6mnpAQmwCJIQQ45iLl7g0WpOMNNmE2v53WtqKy3yy3o_HcgvSKYICytpdZIU-sNcPYdkwcvVYa7KhWbM0vWddsck22R172n12DPnqgJ5So6020aR40umZr6ci8qnwTHXtWOmdYQ_vL-zMb7ObjsmZ_g_lCzS_As0XaH4dmk9QSMCQN6jV8Es7VgSEigwJKIZVoT8KSCa9oe9IVv5Z7UQfxMpd9rPxFs2BfDP6wUcaI72w_XAjnhQG2ikdnIeixLqhBDAGt_-xEooxvYS2Gr88mjnV_wJ9J3Dr)
+![Sample application](https://static.apiseven.com/2022/09/05/6315bd05e15cd.jpg)
 
 You can deploy the application on your Kubernetes cluster by running:
 
