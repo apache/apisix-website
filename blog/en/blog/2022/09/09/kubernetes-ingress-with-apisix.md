@@ -31,7 +31,7 @@ In Kubernetes, [Ingress](https://kubernetes.io/docs/concepts/services-networking
 
 The [Apache APISIX Ingress controller](https://apisix.apache.org/docs/ingress-controller/next/getting-started/) sits between the defined Ingress rules and the APISIX API gateway. It configures the proxy to route traffic based on the defined rules.
 
-![APISIX Ingress controller](https://mermaid.ink/img/pako:eNp9kktqwzAQhq8i1E0CDtQ2FOpFoa9FaCml7qJQdaHIk1hYllw9GkLIPXqUnqcn6dhO84Roo5__-5nRSFpSYQqgGZ0qMxclt548vjAtBrdKgvZuSEajK8KZ5p1w8YDR3-8fkoP9kgJIzOhwA5MDmOzC9ACmHZRibV8_j_PxGxnrmQXniDDaW6MUWIxhgRFp9oO4kRn3MOeLNkGYJs4vFJAGd2sqyMgZXCRxcsm0krrKO3h-CsanYHIKpscQz4PLhcnM8qYk1Xt_-ocwAavBA46ogvPtfB99tl18K128o5MdnfYadHHUhWOX_n72qhbSgvDSaPJ6s3Wl2OpmU5NGtAZbc1ngp1i2NqO-hBoYzVAW3FaMRr3v4DOAFh1a9hXQLM08X4OnUOO4ruXeBmgjK6ZX2CM0BT7efSG9sTSbcuUgojx4ky-0oFmb_g_dSY7T1evU6g9bN9tk)
+![APISIX Ingress controller](https://static.apiseven.com/2022/09/05/6315bd04245df.jpg)
 
 This hands-on tutorial will teach you how to set up the APISIX Ingress controller on your Kubernetes cluster and route traffic to your services.
 
@@ -47,7 +47,7 @@ We will use a sample HTTP server application ([bare-minimum-api](https://github.
 
 While running the application, you can set a "version" and a port to listen to. For this example, we will create two "versions" of this application which will return different responses as shown below:
 
-![Sample application](https://mermaid.ink/img/pako:eNptj01PwzAMhv9K8GmTWmh6mnpAQmwCJIQQ45iLl7g0WpOMNNmE2v53WtqKy3yy3o_HcgvSKYICytpdZIU-sNcPYdkwcvVYa7KhWbM0vWddsck22R172n12DPnqgJ5So6020aR40umZr6ci8qnwTHXtWOmdYQ_vL-zMb7ObjsmZ_g_lCzS_As0XaH4dmk9QSMCQN6jV8Es7VgSEigwJKIZVoT8KSCa9oe9IVv5Z7UQfxMpd9rPxFs2BfDP6wUcaI72w_XAjnhQG2ikdnIeixLqhBDAGt_-xEooxvYS2Gr88mjnV_wJ9J3Dr)
+![Sample application](https://static.apiseven.com/2022/09/05/6315bd05e15cd.jpg)
 
 You can deploy the application on your Kubernetes cluster by running:
 
@@ -139,9 +139,9 @@ Once you have verified that the APISIX gateway and Ingress controller is running
 
 This will route traffic between the two application versions based on the client request:
 
-![Configuring APISIX Ingress](https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDcVutpdQXARwRNaFJG2F4LxIs1O29Ac1hxaStv38FF8Hp_E7G61imiufub_8s8MyZJwUyDJyUiaOZ8w6-GuRzVvXUiB2u_BSZKcwoqSHr7kcDBL4fpqQKnuoStzuEEpDYysUXD20IVZut_ZoWQFjGoG9cWeCR5X4NIWJe-vbzBkFhMltFBBJawUySylZO8Td9mfWFZjgm-A2K7ffYSuHlt0DrjR3hop0UYsRiVQ_gSr8cbM45wt6iDnFxKhBBevTTGHXTzK0uyYain0tF-bnf_M9D_z8LdJNcTjwnBsWTmB6VMz3W0YotXoMa4gg_PV_M8NWx22lS79prNGoy5-JbOY3Oz8I6kQFrkXRsPgfFsVfKvLr0zSJgqtYqKI_2JZlSnxE1RISR5lweyUknZTd_gSUPPaWjYJsTgx8_7GuA8qrugq39uAFbKmeh17hLKID3JVCG8syUdMOmwTFrzpLzQneUV_QpeCxe3Uhlp_ACxz3uU)
+![Configuring APISIX Ingress](https://static.apiseven.com/2022/09/05/6315bd0296577.jpg)
 
-![Configuring APISIX](https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDctdLVdQXARwRNaFJFuLwTjRZqdtqE5rDm0lLbv4aP4PD6J2W61ithc_cz_5Z8ZkgXhpkCSkaE0Mz5m1sN9j2reuJQCtW_CaZKcwZKSHr5mcDhN4ea6T6nuoSszuEUpDQytUXD-2IVpetDeo2QJjGoG1UXXaVDy8fYOA2YxUUILFVTCSpFMO5Q0v7BlzwSPS3Dpv3i6xgXfALFd3n2Crh5ZdA640d4aKdFGLEYmUP4Gq_FGzOOMzddBzs8lQgkuXptgBvt4nHbSE6ql0JN8bbZ3meku8-ivSTXE48JgZFk5hslzPd1dGKDV6DGuIIPz1fwvNVsdtpWu80OntUZd_ElmMbne-VdSISxyL4yG_sW2KvhWl9-ZpEUUWsVEEf_FoipT4seokJIsyoLZCSWtuu7wNaDma2tRJ8Ti2MzyjfEQVFzRVb63AStkRfUq9ghlER_kuhDeWJINmXTYIix4k881J1lFf0FXgsXt1IZafQIiC97o)
+![Configuring APISIX](https://static.apiseven.com/2022/09/05/6315bd04c542c.jpg)
 
 To configure Routes, APISIX comes with declarative and easy-to-use [custom resource](https://apisix.apache.org/docs/ingress-controller/next/references/apisix_route_v2beta3/):
 
