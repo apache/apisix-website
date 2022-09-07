@@ -12,7 +12,7 @@ keywords:
 - APISIX ingress controller
 description: A tutorial on using Ingress in your Kubernetes cluster with Apache APISIX.
 tags: [Ingress, Kubernetes]
-image: https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDctdLVdQXARwRNaFJFuLwTjRZqdtqE5rDm0lLbv4aP4PD6J2W61ithc_cz_5Z8ZkgXhpkCSkaE0Mz5m1sN9j2reuJQCtW_CaZKcwZKSHr5mcDhN4ea6T6nuoSszuEUpDQytUXD-2IVpetDeo2QJjGoG1UXXaVDy8fYOA2YxUUILFVTCSpFMO5Q0v7BlzwSPS3Dpv3i6xgXfALFd3n2Crh5ZdA640d4aKdFGLEYmUP4Gq_FGzOOMzddBzs8lQgkuXptgBvt4nHbSE6ql0JN8bbZ3meku8-ivSTXE48JgZFk5hslzPd1dGKDV6DGuIIPz1fwvNVsdtpWu80OntUZd_ElmMbne-VdSISxyL4yG_sW2KvhWl9-ZpEUUWsVEEf_FoipT4seokJIsyoLZCSWtuu7wNaDma2tRJ8Ti2MzyjfEQVFzRVb63AStkRfUq9ghlER_kuhDeWJINmXTYIix4k881J1lFf0FXgsXt1IZafQIiC97o
+image: https://static.apiseven.com/2022/09/05/6315bd71d6846.png
 ---
 
 > A tutorial on using Ingress in your Kubernetes cluster with Apache APISIX.
