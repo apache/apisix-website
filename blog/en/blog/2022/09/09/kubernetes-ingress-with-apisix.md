@@ -20,7 +20,7 @@ image: https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDctdLVdQXARwRNaFJFuLwTjRZqd
 <!--truncate-->
 
 <head>
-    <link rel="canonical" href="https://blog.frankel.ch/backend-for-frontend-demo/" />
+    <link rel="canonical" href="https://navendu.me/posts/hands-on-set-up-ingress-on-kubernetes-with-apache-apisix-ingress-controller/" />
 </head>
 
 In Kubernetes, [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) is a native object that allows you to access your services externally by defining a set of rules. Using a reverse proxy, an [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) implements these defined rules and routes external traffic to your services.
