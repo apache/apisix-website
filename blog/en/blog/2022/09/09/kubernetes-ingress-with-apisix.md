@@ -25,7 +25,7 @@ image: https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDctdLVdQXARwRNaFJFuLwTjRZqd
 
 In Kubernetes, [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) is a native object that allows you to access your services externally by defining a set of rules. Using a reverse proxy, an [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) implements these defined rules and routes external traffic to your services.
 
-![Ingress controller](https://mermaid.ink/img/pako:eNpdkEFOwzAQRa9iDZtWShdJJCSyYENZIBALssQsXHvaWEns4rGpqij34Cich5PgJEaq6s23_vsz9swA0iqECvadPclGOM9e3riRq4dOo_G0ZpvNPdMrDr_fP-zJHBwScVhzo2dCeUI1ui8tkeWXsLiCxSUsr2A5Q_LnDplm5J1tsWI3eFvkxR033LB4KOwOThwb1r4v1c9hh86gR2KyC-TRcfhYsjqV5EmLpOWiaBRk0KPrhVZxA8Nkc_AN9sihilclXMshW3zCz4BGzmhYOkSzsac6gdfQx6_QxL0LOEVGbsb4Rjgq4fFRaW8dVHvREWYggrf12UiopvR_aKtFnK9PqfEPNiyJpg)
+![Ingress controller](https://static.apiseven.com/2022/09/05/6315bd0573d30.jpg)
 
 [Apache APISIX](https://apisix.apache.org/) is an open source API gateway (a souped-up reverse proxy) that provides features like authentication, traffic routing, load balancing, canary releases, monitoring, and more. APISIX also supports custom Plugins and integrates with popular open source projects like [Apache SkyWalking](https://apisix.apache.org/docs/apisix/next/plugins/skywalking/) and [Prometheus](https://apisix.apache.org/docs/apisix/next/plugins/prometheus/). To learn more about APISIX, you can see the [official documentation](https://apisix.apache.org/docs/apisix/getting-started/).
 
