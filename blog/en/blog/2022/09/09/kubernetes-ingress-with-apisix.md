@@ -19,6 +19,10 @@ image: https://mermaid.ink/img/pako:eNp9kttKAzEQhl9ljDctdLVdQXARwRNaFJFuLwTjRZqd
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://blog.frankel.ch/backend-for-frontend-demo/" />
+</head>
+
 In Kubernetes, [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) is a native object that allows you to access your services externally by defining a set of rules. Using a reverse proxy, an [Ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) implements these defined rules and routes external traffic to your services.
 
 ![Ingress controller](https://mermaid.ink/img/pako:eNpdkEFOwzAQRa9iDZtWShdJJCSyYENZIBALssQsXHvaWEns4rGpqij34Cich5PgJEaq6s23_vsz9swA0iqECvadPclGOM9e3riRq4dOo_G0ZpvNPdMrDr_fP-zJHBwScVhzo2dCeUI1ui8tkeWXsLiCxSUsr2A5Q_LnDplm5J1tsWI3eFvkxR033LB4KOwOThwb1r4v1c9hh86gR2KyC-TRcfhYsjqV5EmLpOWiaBRk0KPrhVZxA8Nkc_AN9sihilclXMshW3zCz4BGzmhYOkSzsac6gdfQx6_QxL0LOEVGbsb4Rjgq4fFRaW8dVHvREWYggrf12UiopvR_aKtFnK9PqfEPNiyJpg)
@@ -93,7 +97,7 @@ helm install apisix apisix/apisix \
   --set ingress-controller.enabled=true \
   --namespace ingress-apisix \
   --set ingress-controller.config.apisix.serviceNamespace=ingress-apisix
-kubectl get service --namespace ingress-apisix
+kubectl get pods --namespace ingress-apisix
 ```
 
 :::note
@@ -112,14 +116,8 @@ Helm will create five resources in your cluster:
 Once all the pods and services are running, you can test APISIX by accessing the Admin API:
 
 ```shell
-kubectl exec -it -n ingress-apisix apisix-<rest of the pod name> -- curl http://127.0.0.1:9180/apisix/admin/routes -H 'X-API-Key: edd1c9f034335f136f87ad84b625c8f1'
+kubectl exec -n ingress-apisix deploy/apisix -- curl -s http://127.0.0.1:9180/apisix/admin/routes -H 'X-API-Key: edd1c9f034335f136f87ad84b625c8f1'
 ```
-
-:::note
-
-Replace the pod name with your APISIX gateway pod name.
-
-:::
 
 If you get a response similar to the one shown below, APISIX is up and running:
 
@@ -148,7 +146,7 @@ This will route traffic between the two application versions based on the client
 To configure Routes, APISIX comes with declarative and easy-to-use [custom resource](https://apisix.apache.org/docs/ingress-controller/next/references/apisix_route_v2beta3/):
 
 ```yaml {title="apisix-ingress-manifest.yaml"}
-apiVersion: apisix.apache.org/v2beta2
+apiVersion: apisix.apache.org/v2beta3
 kind: ApisixRoute
 metadata:
   name: api-routes
