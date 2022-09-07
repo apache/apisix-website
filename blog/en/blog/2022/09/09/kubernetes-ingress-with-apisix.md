@@ -31,7 +31,7 @@ In Kubernetes, [Ingress](https://kubernetes.io/docs/concepts/services-networking
 
 The [Apache APISIX Ingress controller](https://apisix.apache.org/docs/ingress-controller/next/getting-started/) sits between the defined Ingress rules and the APISIX API gateway. It configures the proxy to route traffic based on the defined rules.
 
-![APISIX Ingress controller](https://mermaid.ink/img/pako:eNp9kktqwzAQhq8i1E0CDtQ2FOpFoa9FaCml7qJQdaHIk1hYllw9GkLIPXqUnqcn6dhO84Roo5__-5nRSFpSYQqgGZ0qMxclt548vjAtBrdKgvZuSEajK8KZ5p1w8YDR3-8fkoP9kgJIzOhwA5MDmOzC9ACmHZRibV8_j_PxGxnrmQXniDDaW6MUWIxhgRFp9oO4kRn3MOeLNkGYJs4vFJAGd2sqyMgZXCRxcsm0krrKO3h-CsanYHIKpscQz4PLhcnM8qYk1Xt_-ocwAavBA46ogvPtfB99tl18K128o5MdnfYadHHUhWOX_n72qhbSgvDSaPJ6s3Wl2OpmU5NGtAZbc1ngp1i2NqO-hBoYzVAW3FaMRr3v4DOAFh1a9hXQLM08X4OnUOO4ruXeBmgjK6ZX2CM0BT7efSG9sTSbcuUgojx4ky-0oFmb_g_dSY7T1evU6g9bN9tk)
+![APISIX Ingress controller](https://static.apiseven.com/2022/09/05/6315bd04245df.jpg)
 
 This hands-on tutorial will teach you how to set up the APISIX Ingress controller on your Kubernetes cluster and route traffic to your services.
 
