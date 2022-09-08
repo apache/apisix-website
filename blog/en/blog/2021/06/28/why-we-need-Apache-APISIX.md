@@ -33,7 +33,7 @@ Kong solves the shortcomings of NGINX but brings new limitations:
 - Kong needs to rely on a PostgreSQL or Cassandra database, which makes Kong's entire architecture very bloated and would bring a high availability limitation to the enterprise. If the database fails, the whole API Gateway fails.
 - Kong's routing uses traversal search. When there are more than a thousand routes in the gateway, its performance will dramatically drop.
 
-The APISIX resolves all the above limitations and becomes the best API gateway in the cloud-native era. 
+The APISIX resolves all the above limitations and becomes the best API gateway in the cloud-native era.
 
 ## Advantages of Apache APISIX
 
