@@ -25,7 +25,7 @@ tags: [Case Studies]
 
 ## API Monetization
 
-As an owner of API, you develop some code and deploy it to a server that server might have a bunch of HTTP/HTTPs endpoints that do something useful.  Maybe like retrieving data about all current discounts and voucher information from different markets in your city. And other developers want to use this data but they do not want to implement the same solution on their own. So, they reach out to you for permission to make requests to your server.
+As an owner of API, you develop some code and deploy it to a server. That server might have a bunch of HTTP/HTTPs endpoints that do something useful. Maybe like retrieving data about all current discounts and voucher information from different markets in your city. And other developers want to use this data but they do not want to implement the same solution on their own. So, they reach out to you for permission to make requests to your server.
 
 Using **APIs** is an ideal way to **monetize your services**. An API lets you reach customers through multiple channels and allows third-party applications or developers to consume your data. API monetization is a way that businesses can use APIs to convert usages of the data into money 💸. When it comes to making money from your APIs, there are multiple ways. Most often you think about how to get started with the right tools and how to set up billing for your APIs.
 
@@ -100,7 +100,7 @@ There are many popular open-source projects available like [Apache APISIX](https
 
 Resources cost money 💰. We can protect an API by adding _a rate limit policy_ with Apache APISIX as it is a basic step toward API Monetization. Apache APISIX allows you to set throttling limits per each API consumer and quotas to your APIs and allows you to control third-party usage of your API by ensuring you are able to monetize your API.
 
-APISIX uses its `limit-count` (_rate limiting_) plugin. A[PI rate limiting plugin](https://apisix.apache.org/docs/apisix/plugins/limit-count/) can prevent an API not only from being overwhelmed or from possible malicious attacks but also it can enforce a limit on the number of data clients can consume. Later you can charge API consumers by the quantity of data used (the number of requests).
+APISIX uses its `limit-count` (_rate limiting_) plugin. [API rate limiting plugin](https://apisix.apache.org/docs/apisix/plugins/limit-count/) can prevent an API not only from being overwhelmed or from possible malicious attacks but also it can enforce a limit on the number of data clients can consume. Later you can charge API consumers by the quantity of data used (the number of requests).
 
 With the help of APISIX `rate-limiting` plugin, you can also configure the different rate limits for authenticated and unauthenticated requests. It also defines the limit quota in the [response headers](https://apisix.apache.org/docs/apisix/plugins/limit-count/) to track the maximum number of requests you are permitted to make or the number of requests remaining in the current rate limit window.
 
