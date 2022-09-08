@@ -43,7 +43,7 @@ const imgPropsParse = (
   } = props;
   const isFromCDN = src?.includes('static.apis');
 
-  if (!isFromCDN || !src) {
+  if (!isFromCDN || !src || !['png', 'jpg', 'jpeg'].some((s) => src.endsWith(s))) {
     return props;
   }
 
