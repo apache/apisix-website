@@ -48,13 +48,13 @@ There are several pricing approaches you can take for monetization. When you are
 
 Some API billing models for monetization include:
 
-- Freemium.
-- Pay as you go.
-- Subscription.
-- Pay-per-transaction.
-- Revenue share.
-- Pay for ad-free content.
-- Paid partner.
+- [Freemium](https://en.wikipedia.org/wiki/Freemium).
+- [Pay as you go](https://en.wikipedia.org/wiki/Pay-as-you-use).
+- [Subscription](https://en.wikipedia.org/wiki/Subscription_business_model).
+- [Pay-per-transaction](https://en.wikipedia.org/wiki/Pay_per_sale).
+- [Revenue share](https://en.wikipedia.org/wiki/Revenue_sharing).
+- [Pay for ad-free content](https://en.wikipedia.org/wiki/Pay-per-click).
+- [Paid partner](https://www.softwareag.com/en_corporate/resources/what-is/api-monetization.html#:~:text=low%2Dcost%20apps.-,Paid%20partner%3A,-In%20this%20model).
 
 ![API Monetization models](https://static.apiseven.com/2022/09/08/63199c603bd09.png)
 
