@@ -21,7 +21,7 @@ tags: [Case Studies]
 
 <!--truncate-->
 
-![Api Monetization Technological Stack](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dich85qdwt7kr7cfzc6h.png)
+![Api Monetization Technological Stack](https://static.apiseven.com/2022/09/08/63199c499a244.png)
 
 ## API Monetization
 
@@ -38,13 +38,13 @@ Using **APIs** is an ideal way to **monetize your services**. An API lets you re
 - ✅ How to apply rate limiting policies.
 - ✅ How Apache APISIX can be useful to monitor and limit API usage.
 
-![APISIX API Monetization](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uiu8rz6k4gxw4e2wkx42.png)
+![APISIX API Monetization](https://static.apiseven.com/2022/09/08/63199c4a813a7.png)
 
 ## API monetization models
 
 There are several pricing approaches you can take for monetization. When you are developing **API monetization strategies**, you should always consider that you deliver high-quality, consistent value to your API users. As the API Provider, you talk to your current API users to identify problems your service is solving and offer pricing models according to the target customer. For example, if customers use one specific feature of your API more than others, you could spin that feature off into its own product with its own pricing plan.
 
-![API Monetization customer agreement](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xq19scop7xvmf31gbqpw.png)
+![API Monetization customer agreement](https://static.apiseven.com/2022/09/08/63199c4a07f63.png)
 
 Some API billing models for monetization include:
 
@@ -56,7 +56,7 @@ Some API billing models for monetization include:
 - Pay for ad-free content.
 - Paid partner.
 
-![API Monetization models](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/r8h0ezm0j0gxf02luth9.png)
+![API Monetization models](https://static.apiseven.com/2022/09/08/63199c603bd09.png)
 
 In the freemium model, Developers have access to a basic API for free up to a specific threshold and transition to pay-per-use in a tiered pricing model when they exceed that limit. This model is quite often used to explore API use cases, test your APIs, or make quick a proof of concept. You can learn more about other models in depth [here](https://www.softwareag.com/en_corporate/resources/what-is/api-monetization.html).
 
@@ -76,7 +76,7 @@ With a **Metered Billing model**, API Consumers can make as many calls as they w
 
 Calculating bills in subscription-based pricing model is very straightforward because you don’t need to count how many API calls were made. Instead, you charge each user a flat monthly fee. However, calculating bills for metered users might be a little bit challenging since we need to have custom code in your API service that not only tracks API usage but it should be also capable of applying rate limiting policies to the APIs depending on users accessing your APIs.
 
-![Calculating bills](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/endhqf41x711jdl8r2ky.png)
+![Calculating bills](https://static.apiseven.com/2022/09/08/63199ca23e5bc.png)
 
 In this case, we might need to consider a suitable API monetization stack with existing solutions to build a solid foundation for your API monetization that reduces the time and investment required to build your own service to measure API usage.
 
@@ -94,7 +94,7 @@ For example, [Apache APISIX](https://apisix.apache.org/) can also integrate with
 
 There are many popular open-source projects available like [Apache APISIX](https://apisix.apache.org/) or alternative enterprise SaaS solutions such as [Azure API Management](https://docs.microsoft.com/en-us/azure/api-management/), [API7 Cloud](https://api7.ai/cloud) in a public cloud. You can investigate the pros and cons of each to choose the more suitable one for your needs.
 
-![Apache APISIX API Gateway](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yybu74a2ys0f2u6low7z.png)
+![Apache APISIX API Gateway](https://static.apiseven.com/2022/09/08/63199cc33bd68.png)
 
 #### Apply rate limit policies
 
