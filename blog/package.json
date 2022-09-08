@@ -2,8 +2,9 @@
   "name": "blog",
   "version": "1.0.0",
   "scripts": {
-    "prepare-en": "cp -r src static en",
-    "prepare-zh": "cp -r src static i18n zh",
+    "copy-folder": "node --experimental-modules copy-folder.mjs",
+    "prepare-en": "yarn copy-folder src en",
+    "prepare-zh": "yarn copy-folder src static i18n zh",
     "start:en": "yarn run prepare-en && docusaurus start en",
     "start:zh": "yarn run prepare-zh && docusaurus start zh",
     "build:en": "yarn run prepare-en && docusaurus build en -l en",
@@ -24,6 +25,7 @@
     "@types/styled-components": "^5.1.24",
     "@types/video.js": "^7.3.40",
     "babel-plugin-styled-components": "^2.0.6",
+    "hexo-fs": "^3.1.0",
     "stylelint-config-standard-scss": "^4.0.0",
     "typescript": "^4.4.2"
   },
