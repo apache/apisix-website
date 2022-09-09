@@ -62,7 +62,7 @@ In the freemium model, Developers have access to a basic API for free up to a sp
 
 ## Two common ways to monetize APIs
 
-Let’s take a look closely at the most common ways to directly monetize your APIs like the [Subscription billing model](url), where you charge your customers a flat monthly fee to access your APIs; and [Metered billing model](url), where you charge your customers based on the number of API calls they make.
+Let’s take a look closely at the most common ways to directly monetize your APIs like the **Subscription billing model**, where you charge your customers a flat monthly fee to access your APIs; and **Metered billing model**, where you charge your customers based on the number of API calls they make.
 
 ### Subscription Billing Model
 
