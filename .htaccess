@@ -34,6 +34,8 @@ Options -Indexes
 
 </IfModule>
 
+Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1egxjz7lw-lWl142XNDopj4FlqNMUM5g"
+
 Redirect 301 "/docs/apisix/install" "/docs/apisix/how-to-build/"
 Redirect 301 "/docs/apisix/architecture-design/plugin/" "/docs/apisix/architecture-design/plugin-config/"
 Redirect 301 "/docs/apisix/2.13/FAQ/plugins.md/" "/docs/apisix/2.13/architecture-design/plugin/"
