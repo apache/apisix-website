@@ -1,5 +1,5 @@
 ---
-title: Why do you need Apache APISIX when you have NGINX and Kong?
+title: Why would you choose Apache APISIX instead of NGINX or Kong?
 slug: 2021/06/28/why-we-need-apache-apisix
 author: Yuansheng Wang
 authorURL: "https://github.com/membphis"
@@ -7,103 +7,101 @@ authorImageURL: "https://avatars.githubusercontent.com/u/6814606?v=4"
 keywords:
 - APISIX
 - Kong
-- Nginx
+- NGINX
 - API Gateway
 - Open Source
 - API Management
-description: This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and Nginx.
+description: Many companies used to use NGINX or Kong as their API gateway but switched to Apache APISIX now. As an Open Source API Gateway, Apache APISIX solves a lot of pain points for businesses.
 tags: [Ecosystem]
 ---
 
-> This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and Nginx.
+> This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and NGINX.
 
 <!--truncate-->
 
-In the cloud-native era, dynamic capability and observability have become the standards for measuring API gateways. Apache APISIX has been following in the footsteps of cloud-native since its inception. However, as a new-generation API gateway that was born just three years ago, why can Apache APISIX stand out from NGINX, which has been born for more than 20 years, and Kong, which has been open source for 8 years, and become the most popular and active gateway in the cloud-native era? The most important reason is that it solves the pain points of developers and enterprises in using NGINX and Kong.
+API gateway is an important infrastructure component in the cloud-native era. There are two common criteria to evaluate an API gateway: how dynamic it is, and how mature its observability is. Many companies used to use NGINX or Kong as their API gateway, but then later switched to Apache APISIX. As an API gateway born for the cloud-native era, Apache APISIX indeed solves a lot of pain points for businesses in various dimensions. Now you might wonder, why?
 
-## NGINX and Kong's Disadvantages
+## NGINX and Kong's Limitations
 
-In the era of monolithic services, NGINX can handle most scenarios, but in the cloud-native era, NGINX has two problems due to its architecture:
+In the era of monolithic services, NGINX can handle most scenarios. While in the cloud-native era, NGINX has two shortcomings due to its architecture:
 
-- First, NGINX does not support cluster management. Almost every Internet manufacturer has its own NGINX configuration management system, and there is no unified solution.
-- The second is that NGINX does not support hot reloading of configurations. If a company modifies the configuration of NGINX, it can take more than half an hour to reload NGINX. And under the Kubernetes system, the upstream will change frequently. If NGINX is used, the service needs to be restarted frequently, which is unacceptable for enterprises.
+- NGINX does not support cluster management. Almost every company has its own NGINX configuration management system. Although the systems are similar, there is no unified solution.
+- NGINX does not support hot reloading of configurations. If the user modifies the configuration of NGINX, it will be necessary to reload NGINX. Also, in Kubernetes, the services will change frequently. So if NGINX is used to handle the traffic, you must restart the service often, which is unacceptable for enterprises.
 
-The emergence of Kong solves the shortcomings of NGINX, but brings new problems:
+Kong solves the shortcomings of NGINX but brings new limitations:
 
-- Kong needs to rely on PostgreSQL or Cassandra database, which makes Kong's entire architecture very bloated and will bring a high availability problem to the enterprise. If the database fails, the entire API Gateway fails.
-- Kong's routing uses traversal lookup. When there are more than a thousand routes in the gateway, its performance will drop dramatically.
+- Kong needs to rely on a PostgreSQL or Cassandra database, which makes Kong's entire architecture very bloated and would bring a high availability limitation to the enterprise. If the database fails, the whole API Gateway fails.
+- Kong's routing uses traversal search. When there are more than a thousand routes in the gateway, its performance will dramatically drop.
 
-The emergence of APISIX solves all the above problems and becomes the most perfect API gateway in the cloud-native era. So what exactly are the advantages of Apache APISIX? Why can it become the most active API gateway in the world in just three years?
+The APISIX resolves all the above limitations and becomes the best API gateway in the cloud-native era.
 
 ## Advantages of Apache APISIX
 
-### Excellent architecture
+### Well designed architecture
 
-First, Apache APISIX has excellent architecture, and many applications are now migrating to microservices and containerization, forming a new cloud-native era. Cloud-native, as the current technology trend, will rewrite the technical architecture of traditional enterprises. And APISIX has followed the technology trend since its inception and designed it as cloud-native architecture:
+First, Apache APISIX has an excellent architecture. Cloud-native, as the current technology trend, will change the technical architecture of traditional enterprises. Many applications are migrating to microservices and containerization. APISIX has followed the technology trend since its inception:
 
-![APISIX](https://static.apiseven.com/2022/blog/0729/1.png)
+![image](https://api7.ai/wp-content/uploads/2022/07/1.png)
 
 As shown in the figure above, the left and right are the Data Plane and the Control Plane of APISIX:
 
-- Data Plane: Based on NGINX's network library (without using NGINX's route matching, static configuration, and C modules), use Lua and NGINX to dynamically control request traffic;
-- Control Plane: use etcd to store and synchronize gateway configuration data, administrators can notify all data plane nodes in milliseconds through Admin API or Dashboard.
+- Data Plane: Based on NGINX's network library (without using NGINX's route matching, static configuration, and C modules), it uses Lua and NGINX to dynamically control request traffic;
+- Control Plane: Administrators can operate etcd through the built-in RESTful API. With the help of the etcd's Watch mechanism, APISIX can synchronize the configuration to each node within milliseconds.
 
-When updating data, Kong uses the polling method of the database, but it may take 5-10 seconds to obtain the latest configuration; while APISIX uses the method of monitoring etcd configuration changes, which can control the time in milliseconds.
+For updating data, Kong uses the database polling method; it may take 5-10 seconds to get the latest configuration, while APISIX achieves the same by monitoring etcd configuration changes, which can control the time in milliseconds.
 
-Since both APISIX and etcd support multi-point deployment, in the current architecture of APISIX, any unexpected downtime of any service will not affect the ability of APISIX to provide services accurately.
+Since both APISIX and etcd support multi-instance deployment, there is no single point of failure.
 
-### Perfect ecosystem
+### Rich ecosystem
 
-The following figure shows the ecological map of APISIX. From this figure, we can accurately see that the L7 protocols that APISIX already supports include HTTP(S), HTTP2, Dubbo and IoT protocol MQTT, etc. The L4 protocol includes TCP/UDP.
+The following figure shows the ecosystem map of APISIX. From this figure, we can see that APISIX supports L7 protocols including HTTP(S), HTTP2, Dubbo, IoT protocol MQTT, etc. In addition, APISIX supports L4 protocols such as TCP/UDP.
 
-The right part is some open source or SaaS services, such as SkyWalking, Prometheus, Vault, etc. At the bottom are the more common operating system environments, cloud vendors, and hardware environments. As open source software, APISIX also supports running on ARM64 servers.
+The right part of the figure contains some open-source or SaaS services, such as Apache SkyWalking, Prometheus, HashiCorp Vault, etc. At the bottom of the figure are the more common operating system environments, cloud vendors, and hardware environments. As an open-source software, APISIX can also be run on ARM64 servers.
 
-![APISIX's Ecosystem](https://static.apiseven.com/2022/blog/0729/2.PNG)
+![image](https://api7.ai/wp-content/uploads/2022/07/2.png)
 
-APISIX not only supports many protocols and operating systems, but also supports multi-language programming plug-ins. When it first came out, APISIX only supported the use of the Lua language to write plug-ins. In this case, developers need to master the technology stack related to Lua and NGINX. However, Lua and NGINX are relatively niche technologies with few developers. Therefore, we have supported multi-language development plug-ins on APISIX, and have officially supported languages such as Java, Golang, Node.js, and Python.
+APISIX supports not only many protocols and operating systems but also supports [multi-language programming plugins](https://apisix.apache.org/docs/). When it first came out, APISIX only supported using the Lua language to write plugins. In this case, developers need to master the technology stack related to Lua and NGINX. However, Lua and NGINX are relatively niche technologies familiar to few developers. Therefore, we have then enabled plugin development on APISIX with multiple languages, and have officially supported languages such as [Java](https://apisix.apache.org/docs/java-plugin-runner/development/), [Golang](https://apisix.apache.org/docs/go-plugin-runner/getting-started/), Node.js, and [Python](https://apisix.apache.org/docs/python-plugin-runner/getting-started/).
 
-![programming language](https://static.apiseven.com/2022/blog/0729/3.png)
+![image](https://api7.ai/wp-content/uploads/2022/07/3.png)
 
 ### Active community
 
-The figure below is the contributor growth curve, where the horizontal axis represents the timeline and the vertical axis represents the total number of contributors. We can see that the two projects, Apache APISIX and Kong, are relatively more active. Apache APISIX has maintained a very good growth rate from the first day, and is growing rapidly at a rate close to twice that of Kong, and the number of contributors has exceeded Kong, which shows the popularity of APISIX. Of course, there are many other ways to evaluate the activity of a project, such as checking the monthly active issues, the total number of PRs, etc. The good news is that APISIX is also unrivaled in these aspects.
+The figure below is the contributor growth curve, where the horizontal axis represents the timeline, and the vertical axis represents the total number of contributors. We can see that the two projects, Apache APISIX and Kong, are relatively more active. Apache APISIX has maintained an excellent growth rate from the first day and is growing rapidly at a rate close to twice that of Kong. As of July 2022, the number of contributors to APISIX has exceeded Kong, which shows the popularity of APISIX. Of course, there are many other ways to evaluate the activity of a project, such as the monthly active issues, the total number of PRs, etc. The good news is that APISIX is also unrivaled in these aspects.
 
-![Contributor graph](https://static.apiseven.com/2022/blog/0729/4.png)
+![image](https://api7.ai/wp-content/uploads/2022/07/4.png)
 
-## APISIX Application Scenario
+## Unified proxy infrastructure
 
-From the figure below, I believe you have already seen the goal of APISIX: **unified proxy infrastructure**.
+From the figure below, I believe you have already understood the goal of APISIX: unifying the proxy infrastructure.
 
-![APISIX Application scenarios](https://static.apiseven.com/2022/blog/0729/5.png)
+![image](https://api7.ai/wp-content/uploads/2022/07/5.png)
 
-You may have questions: APISIX has to support so many scenarios, will APISIX become different?
+Because the core of APISIX is a high-performance proxy service, it does not bind any environment properties. Therefore, when it evolves into products such as Ingress and Service Mesh, you don't have to change the internal structure of APISIX. The following will introduce to you step-by-step how APISIX supports these scenarios.
 
-Because the core of APISIX is a high-performance proxy service, it does not bind any environment properties. When it evolves into products such as Ingress, service mesh, etc., all external services cooperate with APISIX, and it is the external program that changes rather than APISIX itself. The following will introduce to you step-by-step how APISIX supports these scenarios.
+### Load balance and API gateway
 
-### Load Balancer and API Gateway
-
-The first is for traditional LB and API gateway scenarios. Because APISIX is implemented based on NGINX + LuaJIT, it has features such as high performance and security, and also supports dynamic SSL certificate offloading, SSL handshake optimization and other functions. In terms of load balancing service capabilities, it also performs better. Switching from NGINX to APISIX will not degrade performance, but also enjoy the improved management efficiency brought about by features such as dynamic and unified management.
+The first is for traditional LB and API gateway scenarios. Because APISIX is implemented based on NGINX + LuaJIT, it has high-performance and security features, and supports the dynamically loading of an SSL certificate, SSL handshake optimization, and other functions. In terms of load balancing, APISIX also performs better. Switching from NGINX to APISIX will not degrade performance but rather improve management efficiency brought about by features such as unified management.
 
 ### Microservice Gateway
 
-APISIX currently supports the writing of extension plug-ins in multiple languages, which can solve the main problems faced by east-west microservice API gateways - heterogeneous multi-language and general problems. The built-in supported service registries include Nacos, etcd, Eureka, etc., as well as the standard DNS method, which can smoothly replace the microservice API gateways such as Zuul, Spring Cloud Gateway, and Dubbo.
+APISIX allows you to write extension plugins in multiple languages, which can solve the main problem faced by east-west microservice API gateways - how to manage in a unified way in heterogeneous environments. APISIX also supports service discovery like Nacos, etcd and Eureka, and standard DNS methods, which can completely replace microservice API gateways such as Zuul, Spring Cloud Gateway, and Dubbo.
 
 ### Kubernetes Ingress
 
-At present, the official Kubernetes Ingress Controller project of K8s is mainly based on the NGINX configuration file method, so it is slightly insufficient in routing capability and loading mode and has some obvious disadvantages. For example, when adding or modifying any API, you need to restart the service to complete the update of the new NGINX configuration, but the restart of the service has a great impact on the online traffic.
+Currently, the official Kubernetes Ingress Controller project of K8s is mainly developed based on the NGINX configuration file, so it is slightly insufficient in routing capability and loading mode and has some obvious limitations. For example, when adding or modifying any API, you need to restart the service to complete the update of the new NGINX configuration. Restarting the service has a great impact on online traffic.
 
-The [APISIX Ingress Controller](https://apisix.apache.org/zh/docs/ingress-controller/getting-started/) perfectly solves all the problems mentioned above: it supports full dynamics and does not need to restart loading. At the same time, it inherits all the advantages of APISIX and also supports native Kubernetes CRD, which is convenient for users to migrate.
+The [APISIX Ingress Controller](https://apisix.apache.org/docs/ingress-controller/getting-started/) perfectly resolves all the limitations mentioned above: it supports fully hot reloading. At the same time, it inherits all the advantages of APISIX and also supports native Kubernetes CRD, which is convenient for users to migrate.
 
-![APISIX Kubernetes Ingress](https://static.apiseven.com/2022/blog/0729/6.png)
+![image](https://api7.ai/wp-content/uploads/2022/09/6.png)
 
 ### Service mesh
 
-In the next five to ten years, the service mesh architecture based on the cloud-native model architecture will begin to emerge. APISIX also started to lock the track in advance. After research and technical analysis, APISIX has supported the xDS protocol, and APISIX Mesh was born, and APISIX also has a place in the field of service mesh.
+In the next five to ten years, the service mesh architecture based on the cloud-native model will begin to emerge. APISIX has also started to lock the track in advance. After abundant research and technical analysis, APISIX has supported the xDS protocol. APISIX Mesh was born, and APISIX also has a place in the field of service mesh.
 
-![APISXI Mesh](https://static.apiseven.com/2022/blog/0729/7.png)
+![image](https://api7.ai/wp-content/uploads/2022/09/7.png)
 
 ## Summary
 
-It has been three years since the first day when Apache APISIX was open-sourced. The highly active community and actual user cases have proved that APISIX is the most perfect API gateway in the cloud-native era. By reading this article, I believe you have a more comprehensive understanding of APISIX and look forward to using APISIX as your API gateway in a production environment.
+It has been three years since the first day Apache APISIX was open-sourced. The highly active community and [case studies](https://apisix.apache.org/blog/tags/case-studies/) have proved that APISIX is the perfect API gateway in the cloud-native era. By reading this article, I believe you have a more comprehensive understanding of APISIX.
 
-If you have any questions, you can leave a message in [Github issue](https://github.com/apache/apisix/issues), community contributors will respond quickly, of course, you can also join the APISIX Slack channel and mailing list, Please refer to [Join Us](https://apisix.apache.org/docs/general/join/).
+If you have any questions, you can leave a message in [GitHub issue](https://github.com/apache/apisix/issues); community contributors will respond quickly; of course, you can also join the APISIX Slack channel and mailing list; please refer to [Join Us](https://apisix.apache.org/docs/general/join/).
