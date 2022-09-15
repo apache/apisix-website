@@ -73,7 +73,7 @@ networks:
 
 ### 步骤2：创建路由并开启插件
 
-APISIX 默认不启用 `elasticsearch-logger` 插件，因此你可以通过下方命令进行路由创建和 `elasticsearch-logger` 插件的开启。
+APISIX 默认已经启用 `elasticsearch-logger` 插件，所以你只需要通过下方命令创建路由并开启 `elasticsearch-logger` 插件就可以正常使用了
 
 ```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/1 \
@@ -116,7 +116,9 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 ```shell
 curl -i http://127.0.0.1:9080/elasticsearch.do\?q\=hello
 HTTP/1.1 200 OK
-...
+```
+
+```shell {title="output"}
 hello, world
 ```
 
