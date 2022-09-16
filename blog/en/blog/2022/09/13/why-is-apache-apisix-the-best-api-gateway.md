@@ -72,7 +72,7 @@ A frequently asked question in the community: which one has the better performan
 | **API Gateway** |                              Apache APISIX                               |                               Gloo Edge                                |
 | :-------------: | :----------------------------------------------------------------------: | :--------------------------------------------------------------------: |
 |     **QPS**     |                                  59122                                   |                                 12903                                  |
-|   **Latency**   | 50.000% 470.00us<br>75.000% 648.00us<br>90.000% 0.89ms<br>99.000% 1.60ms | 50.000% 6.80ms<br>75.000% 9.25ms<br>90.000% 11.32ms<br>99.000% 17.06ms |
+|   **Latency**   | 50.000% 470.00us<br/>75.000% 648.00us<br/>90.000% 0.89ms<br/>99.000% 1.60ms | 50.000% 6.80ms<br/>75.000% 9.25ms<br/>90.000% 11.32ms<br/>99.000% 17.06ms |
 
 The choice of NGINX or Envoy is not the main factor of the performance difference, but the underlying optimization APISIX did in its source code. Even compared to KONG, which is also NGINX-based, APISIX has a huge performance upper hand. The graph below is extracted from [GigaOm’s](https://gigaom.com/) report on testing Kong’s Enterprise Edition and AP7 Enterprise Edition ([You can contact us for the complete data](https://api7.ai/request-demo/)).
 
