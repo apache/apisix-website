@@ -1,8 +1,10 @@
 ---
 title: "API 网关 Apache APISIX 集成 Elasticsearch 实现实时日志监控"
-author: "王程程"
-authorURL: "https://github.com/ccxhwmy"
-authorImageURL: "https://github.com/ccxhwmy.png"
+authors:
+  - name: 王程程
+    title: Author
+    url: https://github.com/ccxhwmy
+    image_url: https://github.com/ccxhwmy.png
 keywords: 
 - API 网关
 - Apache APISIX
