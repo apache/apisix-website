@@ -71,9 +71,9 @@ networks:
     driver: bridge
 ```
 
-### 步骤2：创建路由并开启插件
+### 步骤2：创建路由并配置插件
 
-APISIX 默认已经启用 `elasticsearch-logger` 插件，所以你只需要通过下方命令创建路由并开启 `elasticsearch-logger` 插件就可以正常使用了
+APISIX 默认配置文件中已启用 `elasticsearch-logger` 插件，所以你只需要通过下方命令创建路由并配置 `elasticsearch-logger` 插件就可以在 APISIX 中正常使用了。
 
 ```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/1 \
