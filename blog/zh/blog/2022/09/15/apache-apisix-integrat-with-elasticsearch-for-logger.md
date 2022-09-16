@@ -164,7 +164,8 @@ curl http://127.0.0.1:9180/apisix/admin/plugin_metadata/elasticsearch-logger \
 如使用完毕，只需移除路由配置中 `elasticsearch-logger` 插件相关的配置并保存，即可关闭路由上的插件。得益于 Apache APISIX 的动态化优势，开启和关闭插件的过程都不需要重启 Apache APISIX。
 
 ```shell
-curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9080/apisix/admin/routes/1 \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
     "methods": ["GET"],
     "uri": "/hello",
