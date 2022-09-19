@@ -159,7 +159,7 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
                           }}
                         />
                       </div>
-                      )}
+                    )}
                     {...delayProps}
                   />
                 ) : (
@@ -232,40 +232,70 @@ const BlogPosts: FC<BlogPostsProps> = ({
   ));
 
   // max picked posts
-  const max = pickedPosts.length > 4 ? 4 : pickedPosts.length;
-  const endIdx = isFirstPage ? 2 * Math.floor(max / 2) : 3;
+  const max = pickedPosts.length > 6 ? 6 : pickedPosts.length;
+  const endIdx = isFirstPage ? 3 * Math.floor(max / 3) : 3;
   const { pathname } = useLocation();
-
-  if (!pathname.includes('/tags/')) {
-    if (isFirstPage) {
-      // In the first page, all selected articles will be inserted between
-      // the original first and second article
-      posts.splice(
-        1,
-        0,
-        pickedPosts
-          .slice(0, endIdx)
-          .map((info) => (
-            <PickedBlogItem
-              key={info.title}
-              info={info}
-              {...{ delayMethod, delayTime, useIntersectionObserver }}
-            />
-          )),
-      );
-    }
-  }
 
   return (
     <main
       className={clsx({
-        [style.normalPage]: true,
-        [style.firstPage]: isFirstPage,
+        [style.normalPage]: !isFirstPage,
       })}
       itemScope
       {...props}
     >
-      {posts}
+      {(!pathname.includes('/tags/') && isFirstPage)
+        ? (
+          <>
+            <section
+              className={clsx({
+                [style.normalPage]: true,
+                [style.firstPage]: isFirstPage,
+              })}
+            >
+              {posts[0]}
+            </section>
+
+            <section className={style.sec}>
+              <h2>
+                {translate({
+                  id: 'blog.posts.section.picked.title',
+                  message: 'Editors\' Picks',
+                })}
+              </h2>
+              <div className={clsx({
+                [style.normalPage]: true,
+              })}
+              >
+                {pickedPosts
+                  .slice(0, endIdx)
+                  .map((info) => (
+                    <PickedBlogItem
+                      key={info.title}
+                      info={info}
+                      {...{ delayMethod, delayTime, useIntersectionObserver }}
+                    />
+                  ))}
+              </div>
+            </section>
+
+            <section className={style.sec}>
+              <h2>
+                {translate({
+                  id: 'blog.posts.section.normal.title',
+                  message: 'All Posts',
+                })}
+              </h2>
+              <div className={clsx({
+                [style.normalPage]: true,
+              })}
+              >
+                {posts}
+              </div>
+            </section>
+          </>
+        )
+        : (posts)}
     </main>
   );
 };

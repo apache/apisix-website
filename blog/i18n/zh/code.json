@@ -337,8 +337,12 @@
   "theme.blog.post.readingTime.plurals": {
     "message": "阅读需约 {readingTime} 分钟"
   },
-  "blog.picked.posts.component.title": {
-    "message": "精选",
+  "blog.posts.section.picked.title": {
+    "message": "编辑精选",
     "description": "Picked posts"
+  },
+  "blog.posts.section.normal.title": {
+    "message": "全部文章",
+    "description": "All Posts"
   }
 }
