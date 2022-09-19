@@ -7,7 +7,7 @@ The website of <a href="https://github.com/apache/apisix/">Apache APISIX®</a>
 
 A cloud-native microservices API Gateway
 
-<a href="https://apisix.apache.org/docs/general/join"><img  width="150" src="./website/static/img/join-slack.png"></a>
+<a href="https://apisix.apache.org/slack"><img  width="150" src="./website/static/img/join-slack.png"></a>
 
 </div>
 
