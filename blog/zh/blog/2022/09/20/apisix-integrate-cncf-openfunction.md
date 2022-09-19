@@ -53,6 +53,7 @@ OpenFunction 是一个云原生的开源 FaaS 平台，旨在让用户专注于�
 正如前文提到的 OpenFunction 核心功能，[K8s Gateway API](https://gateway-api.sigs.k8s.io/)  提供了函数的入口。OpenFunction 的认证方式取决于 K8s 网关，且随网关的选择而变化。因此这个插件只支持标准的 Basic Auth 认证方式。
 
 ## 如何使用插件
+
 ### 步骤一：安装与运行 APISIX
 
 在这里，我们推荐使用 Docker 快速安装 APISIX，因此你需要预先安装 [Docker](https://www.docker.com/) 和 [Docker Compose](https://docs.docker.com/compose/)。
@@ -199,7 +200,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
         }
     }
 }'
-``` 
+```
 
 ## 总结
 
