@@ -8,6 +8,7 @@ authors:
 keywords: 
 - API 网关
 - Apache APISIX
+- Kubernetes
 - CNCF
 - OpenFunction
 - Serverless
@@ -64,7 +65,6 @@ OpenFunction 是一个云原生的开源 FaaS 平台，旨在让用户专注于�
 
 ```shell
 git clone https://github.com/apache/apisix-docker.git
-
 cd apisix-docker/example
 ```
 
@@ -73,17 +73,13 @@ cd apisix-docker/example
 对于 **x86** 系统，可以参考：
 
 ```shell
-
 docker-compose -p docker-apisix up -d
-
 ```
 
 对于 **ARM/M1** 系统，可以参考：
 
-```
-
+```shell
 docker-compose -p docker-apisix -f docker-compose-arm64.yml up -d
-
 ```
 
 后续的使用步骤请参考 [快速入门指南](https://apisix.apache.org/zh/docs/apisix/getting-started/)。
@@ -94,17 +90,13 @@ docker-compose -p docker-apisix -f docker-compose-arm64.yml up -d
 
 ```shell
 # 添加 OpenFunction 到 Chart 存储库
-
 helm repo add openfunction https://openfunction.github.io/charts/
-
 helm repo update
 ```
 
 ```shell
 # 安装 OpenFunction chart
-
 kubectl create namespace openfunction
-
 helm install openfunction openfunction/openfunction -n openfunction
 ```
 
@@ -120,13 +112,9 @@ kubectl get pods --namespace openfunction
 
 ```shell
 REGISTRY_SERVER=https://index.docker.io/v1/ REGISTRY_USER=<your_registry_user> REGISTRY_PASSWORD=<your_registry_password>
-
 kubectl create secret docker-registry push-secret \
-
     --docker-server=$REGISTRY_SERVER \
-
     --docker-username=$REGISTRY_USER \
-
     --docker-password=$REGISTRY_PASSWORD
 ```
 
@@ -137,27 +125,16 @@ kubectl create secret docker-registry push-secret \
 ```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-
 {
-
     "uri": "/hello",
-
     "plugins": {
-
         "openfunction": {
-
             "function_uri": "http://localhost:30583/default/function-sample/test",
-
             "authorization": {
-
                 "service_token": "test:test"
-
             }
-
         }
-
     }
-
 }'
 
 ```
@@ -189,7 +166,6 @@ hello, test!
 ```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-
 {
 
     "uri": "/hello",
