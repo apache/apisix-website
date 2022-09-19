@@ -12,11 +12,11 @@ keywords:
 - CNCF
 - OpenFunction
 - Serverless
-description: 本文为大家介绍了 Apache APISIX `openfunction` 插件的功能与使用步骤，为 APISIX 的无服务领域功能再添一员。
+description: 本文介绍了 Apache APISIX openfunction 插件的功能与使用步骤，为 APISIX 的无服务领域功能再添一员。
 tags: [Plugins,Ecosystem]
 ---
 
-> 本文作者李从旺，开源爱好者与云原生技术爱好者，目前于佐治亚理工学院深圳校区进修硕士学位。本篇文章是在参与 APISIX 开源之夏项目「集成 OpenFunction 至 Apache APISIX」的功能呈现，希望此功能可以让你在使用 APISIX 进行扩展事时更加便捷。
+> 本文作者李从旺，开源爱好者与云原生技术爱好者，目前于佐治亚理工学院深圳校区进修硕士学位。本篇文章是在参与 APISIX 开源之夏项目「集成 OpenFunction 至 Apache APISIX」的功能呈现，希望此功能可以让你在使用 APISIX 进行扩展时更加便捷。
 
 <!--truncate-->
 
