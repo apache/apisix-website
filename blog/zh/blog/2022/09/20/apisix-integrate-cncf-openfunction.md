@@ -51,7 +51,7 @@ OpenFunction 是一个云原生的开源 FaaS 平台，旨在让用户专注于�
 
 无服务具有高度可扩展和成本低等优势，使用这种方式部署业务服务能够极大降低资源使用和投入成本。如果你正在使用 OpenFunction 作为无服务平台，你就可以使用 Apache APISIX 去代理这些函数的请求，为函数请求追加服务治理的能力。
 
-正如前文提到的 OpenFunction 核心功能，[K8s Gateway API](https://gateway-api.sigs.k8s.io/)  提供了函数的入口。OpenFunction 的认证方式取决于 K8s 网关，且随网关的选择而变化。因此这个插件只支持标准的 Basic Auth 认证方式。
+正如前文提到的 OpenFunction 核心功能，[K8s Gateway API](https://gateway-api.sigs.k8s.io/) 提供了函数的入口。OpenFunction 的认证方式取决于 K8s 网关，且随网关的选择而变化。因此该插件只支持标准的 Basic Auth 认证方式。
 
 ## 如何使用插件
 
@@ -59,30 +59,7 @@ OpenFunction 是一个云原生的开源 FaaS 平台，旨在让用户专注于�
 
 在这里，我们推荐使用 Docker 快速安装 APISIX，因此你需要预先安装 [Docker](https://www.docker.com/) 和 [Docker Compose](https://docs.docker.com/compose/)。
 
-安装详情以及更多安装方式请参考[APISIX 安装指南](https://apisix.apache.org/zh/docs/apisix/installation-guide/)。
-
-首先下载 [apisix-docker](https://github.com/apache/apisix-docker) 仓库。
-
-```shell
-git clone https://github.com/apache/apisix-docker.git
-cd apisix-docker/example
-```
-
-然后使用 `docker-compose` 启用 APISIX。
-
-对于 **x86** 系统，可以参考：
-
-```shell
-docker-compose -p docker-apisix up -d
-```
-
-对于 **ARM/M1** 系统，可以参考：
-
-```shell
-docker-compose -p docker-apisix -f docker-compose-arm64.yml up -d
-```
-
-后续的使用步骤请参考 [快速入门指南](https://apisix.apache.org/zh/docs/apisix/getting-started/)。
+安装详情以及更多安装方式请参考[APISIX 安装指南](https://apisix.apache.org/zh/docs/apisix/installation-guide/)，后续的使用步骤请参考 [快速入门指南](https://apisix.apache.org/zh/docs/apisix/getting-started/)。
 
 ### 步骤二： 通过 Helm Chart 安装 OpenFunction
 
@@ -111,7 +88,7 @@ kubectl get pods --namespace openfunction
 你可以参考 [OpenFunction 官方示例](https://github.com/OpenFunction/samples) 创建函数。构建函数时，你需要使用以下命令为容器仓库生成一个密钥，才可以将函数容器镜像推送到容器仓库 ( 例如 Docker Hub 或 Quay.io）。
 
 ```shell
-REGISTRY_SERVER=https://index.docker.io/v1/ REGISTRY_USER=<your_registry_user> REGISTRY_PASSWORD=<your_registry_password>
+REGISTRY_SERVER=https://index.docker.io/v1/ REGISTRY_USER=${your_registry_user} REGISTRY_PASSWORD=${your_registry_password}
 kubectl create secret docker-registry push-secret \
     --docker-server=$REGISTRY_SERVER \
     --docker-username=$REGISTRY_USER \
@@ -136,7 +113,6 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
         }
     }
 }'
-
 ```
 
 其中 `9180`是 APISIX admin API 暴露的端口 ，而 `localhost:30583` 是假设本次通过 NodePort 方式映射的网关入口。
@@ -149,7 +125,6 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 ```shell
 # 9080 是 APISIX 除 admin API 以外暴露的端口
-
 curl -i http://127.0.0.1:9080/hello
 ```
 
@@ -180,6 +155,6 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 ## 总结
 
-本文为大家介绍了 Apache APISIX `openfunction` 插件的功能与使用步骤，更多关于 `openfunction` 插件说明和完整配置列表，可以参考[官方文档](https://apisix.apache.org/docs/apisix/next/plugins/openfunction)。
+本文为大家介绍了 Apache APISIX `openfunction` 插件的功能与使用步骤，更多关于 `openfunction` 插件说明和完整配置列表，可以参考[官方文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/openfunction/)。
 
 目前，APISIX 社区也在开发其他 Serverless 插件以便与更多云服务进行集成。如果你对此类集成项目感兴趣，也欢迎随时在 [GitHub Discussions](https://github.com/apache/apisix/discussions) 中发起讨论，或通过[邮件列表](https://apisix.apache.org/zh/docs/general/join)进行交流。
