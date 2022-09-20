@@ -19,6 +19,8 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
+Test Deploy
+
 API gateway is an important infrastructure component in the cloud-native era. There are two common criteria to evaluate an API gateway: how dynamic it is, and how mature its observability is. Many companies used to use NGINX or Kong as their API gateway, but then later switched to Apache APISIX. As an API gateway born for the cloud-native era, Apache APISIX indeed solves a lot of pain points for businesses in various dimensions. Now you might wonder, why?
 
 ## NGINX and Kong's Limitations
