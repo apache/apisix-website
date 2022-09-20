@@ -32,7 +32,7 @@
 
     header {
       &::before {
-        content: "LATEST POST";
+        content: "FEATURED POST";
         font-size: 0.7rem;
         font-weight: 800;
       }
@@ -253,7 +253,7 @@
 article.pickedPosts {
   $bg-color: #f5f5f7;
 
-  border-color: $bg-color;
+  // border-color: $bg-color;
   grid-column: initial;
   position: relative;
 

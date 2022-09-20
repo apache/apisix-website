@@ -199,12 +199,12 @@ const PickedBlogItem: FC<PickedBlogItemProps> = ({
     truncated={info.summary}
     {...{ delayMethod, delayTime, useIntersectionObserver }}
   >
-    <div className={style.featuredPost}>
+    {/* <div className={style.featuredPost}>
       {translate({
         id: 'blog.picked.posts.component.title',
         message: 'Featured',
       })}
-    </div>
+    </div> */}
     <p>{info.summary}</p>
   </BlogPostItem>
 );
@@ -233,7 +233,7 @@ const BlogPosts: FC<BlogPostsProps> = ({
 
   // max picked posts
   const max = pickedPosts.length > 6 ? 6 : pickedPosts.length;
-  const endIdx = isFirstPage ? 3 * Math.floor(max / 3) : 3;
+  const endIdx = 3 * Math.floor(max / 3);
   const { pathname } = useLocation();
 
   return (
@@ -253,7 +253,11 @@ const BlogPosts: FC<BlogPostsProps> = ({
                 [style.firstPage]: isFirstPage,
               })}
             >
-              {posts[0]}
+              <PickedBlogItem
+                key={pickedPosts[0].title}
+                info={pickedPosts[0]}
+                {...{ delayMethod, delayTime, useIntersectionObserver }}
+              />
             </section>
 
             <section className={style.sec}>
@@ -268,7 +272,7 @@ const BlogPosts: FC<BlogPostsProps> = ({
               })}
               >
                 {pickedPosts
-                  .slice(0, endIdx)
+                  .slice(1, endIdx + 1)
                   .map((info) => (
                     <PickedBlogItem
                       key={info.title}
