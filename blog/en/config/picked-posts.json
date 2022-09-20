@@ -1,16 +1,8 @@
 [
     "blog/en/blog/2022/09/13/why-is-apache-apisix-the-best-api-gateway.md",
-    "blog/en/blog/2021/12/30/apisix-proxy-grpc-service.md",
-    "blog/en/blog/2022/02/16/file-logger-api-gateway.md",
-    "blog/en/blog/2022/03/05/apisix-integration-eureka-service-discovery.md",
+    “blog/en/blog/2021/06/28/why-we-need-apache-apisix.md",
+    “blog/en/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis.md”,
     "blog/en/blog/2022/02/25/consul-api-gateway.md",
     "blog/en/blog/2022/02/10/splunk-apisix-integration.md",
-    "blog/en/blog/2022/01/11/building-apisix-in-ubuntu-for-arm.md",
-    "blog/en/blog/2022/02/21/nacos-api-gateway.md",
-    "blog/en/blog/2021/12/22/google-logging.md",
-    "blog/en/blog/2021/08/25/Why-Apache-APISIX-chose-Nginx-and-Lua.md",
-    "blog/en/blog/2021/08/18/Auth-with-Casbin-in-Apache-APISIX.md",
-    "blog/en/blog/2021/11/03/airwallex-usercase.md",
-    "blog/en/blog/2021/09/07/iQIYI-usercase.md",
     "blog/en/blog/2021/11/19/apisix-supports-wasm.md"
 ]
