@@ -13,7 +13,7 @@ keywords:
 - 数据管理
 description: 本文将为你介绍 Apache APISIX 的 elasticsearch-logger 插件的相关信息，以及如何通过此插件获取 APISIX 的实时日志。
 tags: [Plugins,Ecosystem]
-images: https://static.apiseven.com/2022/09/15/6322cf190ef2d.png
+image: https://static.apiseven.com/2022/09/20/63296a9ba9a7d.png
 ---
 
 > 本文将为你介绍 Apache APISIX 的 elasticsearch-logger 插件的相关信息，以及如何通过此插件获取 APISIX 的实时日志。
