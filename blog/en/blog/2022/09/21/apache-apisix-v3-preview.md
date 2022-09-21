@@ -70,31 +70,35 @@ APISIX plans to launch beta version 3.0 at the end of September. Here, we have s
 
 ### Full Support of ARM64
 
-ARM64 has become a very mainstream server architecture selection for cloud manufacturers. From AWS Graviton, GCP Tau T2A to Huawei Kunpeng and other products, it can be seen that various cloud manufacturers have begun to launch servers based on Arm architecture. The following graph shows the stress test performance of APISIX on popular Arm-based servers:
+ARM64 has become a very mainstream server architecture selection for cloud manufacturers. From [AWS Graviton](https://apisix.apache.org/blog/2022/06/07/installation-performance-test-of-apigateway-apisix-on-aws-graviton3/), [GCP Tau T2A](https://apisix.apache.org/blog/2022/07/22/how-is-google-cloud-tau-t2a-performing/) to Huawei Kunpeng and other products, it can be seen that various cloud manufacturers have begun to launch servers based on Arm architecture. The following graph shows the stress testing performance of APISIX on popular Arm-based servers:
 
 ![04.png](https://static.apiseven.com/2022/09/21/632ab5beacad4.png)
+
 According to the current data, the performance of Arm-based servers is slightly better than the performance of the x86. In order to conform to the technological trend of the times, APISIX also did comprehensive CI regression testing on ARM64 to ensure that users can still run various functions smoothly when running APISIX in the Arm architecture.
 
 ### Adding gRPC Client
 
-In version 3.0, a new core.grpc module will be added. If you are familiar with NGINX and OpenResty, you should know that their support for gRPC is fairly limited, only providing basic features like reverse proxy or load balancing.
+In version 3.0, a new `core.grpc` module will be supported. If you are familiar with NGINX and OpenResty, you should know that their support for gRPC is fairly limited, only providing basic features like reverse proxy or load balancing.
+
 APISIX has already implemented the transcode between gRPC and HTTP protocols in the current 2.x version. In version 3.0, a new gRPC client will be added to allow developers to directly call third-party gRPC services without introducing additional components or requiring service providers to use additional HTTP interfaces, making the process much simpler.
 
 ### Redesigning Admin API
 
 When using APISIX today, you may find that the response body of APISIX is mixed with a lot of meaningless data, such as some etcd return values that are passed directly to the client without any tailoring. Also, the entire response body’s architectural design is not ideal, with many redundant fields.
+
 In APISIX 3.0 version, the response body’s structure has been improved. The new structure makes the overall request format and return body more RESTful, making it easier for users to use the new version of Admin API. Of course, this process also allows you to set which version of the Admin API to use through parameters, freeing users from fears of upgrading to incompatible versions.
 
 ### Data Plane(DP) and Control Plane(CP) Separation
 
 APISIX has suffered a number of security-related vulnerabilities in the last two years. The root cause of most of the vulnerabilities is that the DP and the CP are deployed together in the default deployment mode. Once there is a security vulnerability on the data plane, an attacker can directly invade the CP through the DP, thereby affecting all other DPs.
-Therefore, in version 3.0, the deployment mode configuration is supported, and the default deployment mode is traditional, that is, the DP and the CP are deployed together. Of course, the new deployment mode recommends that you set the attribute to data_plane or control_plane to completely separate them.
+
+Therefore, in version 3.0, the [deployment mode](https://apisix.apache.org/docs/apisix/next/deployment-modes/) configuration is supported, and the default deployment mode is `traditional`, that is, the DP and the CP are deployed together. Of course, the new deployment mode recommends that you set the attribute to data_plane or control_plane to completely separate them.
 
 When they are separated completely, not only the security risks mentioned above can be solved but function iterations on the DP and CP are also easier without affecting each other.
 
 ### Improved Service Discovery Support
 
-In the current version, APISIX has supported the integration of many service discovery components, such as Apache ZooKeeper, Consul, Nacos, and so on. But at the moment, these integrations are all done on the data plane. Once you have a lot of nodes on the DP, it will put a lot of pressure on the subsequent service discovery components. At the same time, in the actual production environment of users, what they want is not only a simple integration like Consul KV or DNS integration but a more complete integration of functions such as health checks.
+In the current version, APISIX has supported the integration of many service discovery components, such as Apache ZooKeeper, [Consul](https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/), [Nacos](https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/), and so on. But at the moment, these integrations are all done on the data plane. Once you have a lot of nodes on the DP, it will put a lot of pressure on the subsequent service discovery components. At the same time, in the actual production environment of users, what they want is not only a simple integration like Consul KV or DNS integration but a more complete integration of functions such as health checks.
 Therefore, in APISIX 3.0, we added a layer of abstraction by adding a sub-project APISIX-SEED to achieve the service discovery support at the control plane level and reduce the pressure on the service discovery component.
 
 ![05.png](https://static.apiseven.com/2022/09/21/632ab5bf916e4.png)
