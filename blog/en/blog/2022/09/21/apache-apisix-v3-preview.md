@@ -20,7 +20,7 @@ image: https://static-site.apiseven.com/wp-content/uploads/2022/09/APISIX.webp
 
 <!--truncate-->
 
-[API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) acts as a basic component for a long time, and it has been committed to providing various functions such as [rate limiting](https://apisix.apache.org/docs/apisix/plugins/limit-req/), authentication (e.g., [OpenID Provider](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)), and observability at the business level.
+[API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) acts as a basic component for a long time, and it has been committed to providing various functions such as [rate limiting](https://apisix.apache.org/docs/apisix/plugins/limit-req/), authentication (e.g., [Use Keycloak to secure APIs](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)), and observability at the business level.
 
 With the iteration of server-side technologies, more and more services have begun to migrate from bare metal to Kubernetes, and the original monolithic architecture has gradually evolved into a microservice architecture. At the same time, enterprises have begun to migrate their on-premise data centers to multi-cloud or hybrid clouds.
 
