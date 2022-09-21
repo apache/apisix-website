@@ -99,32 +99,37 @@ When they are separated completely, not only the security risks mentioned above 
 ### Improved Service Discovery Support
 
 In the current version, APISIX has supported the integration of many service discovery components, such as Apache ZooKeeper, [Consul](https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/), [Nacos](https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/), and so on. But at the moment, these integrations are all done on the data plane. Once you have a lot of nodes on the DP, it will put a lot of pressure on the subsequent service discovery components. At the same time, in the actual production environment of users, what they want is not only a simple integration like Consul KV or DNS integration but a more complete integration of functions such as health checks.
+
 Therefore, in APISIX 3.0, we added a layer of abstraction by adding a sub-project APISIX-SEED to achieve the service discovery support at the control plane level and reduce the pressure on the service discovery component.
 
 ![05.png](https://static.apiseven.com/2022/09/21/632ab5bf916e4.png)
 
 ### Adding xRPC Framework
 
-TCP Proxy is supported in the current version of APISIX, but there are times when a pure TCP protocol proxy is not enough. What users need is a proxy for specific application protocols, such as Redis Proxy, Kafka Proxy, etc, because some functions can only be implemented after the protocol is encoded and decoded.
+TCP Proxy is supported in the current version of APISIX, but there are times when a pure TCP protocol proxy is not enough. What users need is a proxy for specific application protocols, such as Redis Proxy, Kafka Proxy, etc., because some functions can only be implemented after the protocol is encoded and decoded.
+
 Therefore, in version 3.0, APISIX implements a transport layer protocol extension framework called xRPC that allows developers to customize specific application protocols. Based on xRPC, developers can encode and decode requests and responses through Lua codes, and then realize fault injection, log reporting, and dynamic routing on the basis of understanding the content of the protocol.
 
 Based on the xRPC framework, APISIX can provide proxy implementations for several mainstream application protocols. At the same time, users can also support their own private TCP-based application protocols based on this framework, enabling them to have precise granularity and higher order application layer control similar to HTTP protocol proxy. On top of different protocols, some common factors can be abstracted to implement related plugin features, so that different protocols can share these features.
 
 ### Supporting More Observability on Transport Layer Protocols
 
-APISIX has always invested heavily in observability support, supporting almost all observability components, such as Zipkin, Apache SkyWalking, Datadog, and more. A variety of logging components are also supported, but most of these are carried out in the application layer.
+APISIX has always invested heavily in observability support, supporting almost all observability components, such as [Zipkin](https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin), [Apache SkyWalking](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/), [Datadog](https://apisix.apache.org/blog/2021/11/12/apisix-datadog/), and more. A variety of logging components are also supported, but most of these are carried out in the application layer.
 
-More transport layer observability support will be added in APISIX 3.0. For example, the support for Prometheus and various logs has been added, which not only enables users to easily observe the problems of application layer traffic but also enables users to check the operation status of transport layer traffic.
+More transport layer observability support will be added in APISIX 3.0. For example, the support for [Prometheus](https://apisix.apache.org/docs/apisix/plugins/prometheus/) and various logs has been added, which not only enables users to easily observe the problems of application layer traffic but also enables users to check the operation status of transport layer traffic.
 
 ### Integrating the OpenAPI Specification
 
 API is an element that involves the entire lifecycle of development from designing to coding, testing, and deploying. In APISIX 3.0, the standard OpenAPI 3.0 specification will be supported.
+
 Therefore, if you are managing the APIs on API design and testing software, it is very easy to manage and maintain the data in APISIX by exporting and importing it. At the same time, various APIs in APISIX can also be exported through the OpenAPI 3.0 specification, and then imported into other systems for use.
+
 In addition, APISIX 3.0 also supports Postman-related custom formats (Postman Collection Format v2), enabling data transfer between the two, thus making integration easier.
 
 ### Full Support for Gateway API and Service Mesh
 
-Support for the Gateway API has begun in the APISIX Ingress release version, and nearly all Gateway API configurations are supported in the latest 1.5 release.
+Support for the [Gateway API](https://gateway-api.sigs.k8s.io/) has begun in the [APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller/issues?q=gateway+api), and nearly all Gateway API configurations are supported in the latest 1.5 release.
+
 In this case, the APISIX Ingress can be configured using the Gateway API, which means you can switch between different data planes. By the end of this year, APISIX Ingress will have more complete support for the Gateway API and additional features for the transport layer and application layer.
 
 Different from most service mesh solutions, APISIX's service mesh solution has advantages in the data plane (due to the high performance of APISIX itself). So, in the selection of the control plane, we hope it to be compatible with some mainstream solutions in the community. Finally, by using the xDS protocol to integrate with Istio and writing the obtained configuration to the xDS configuration center of APISIX, then the specific routing rules are generated by APISIX to complete the corresponding routing requests.
@@ -135,9 +140,53 @@ This solution not only makes the entire service mesh lighter but also makes cust
 
 In addition to the OpenAPI standard mentioned above, a lot of ecosystem plugins will be added in version 3.0, such as OpenFunction, ClickHouse, Elasticsearch, SAML, and CAS, etc., to integrate more support for authentication, security, and observability.
 
-One of the interesting plugins, Workflow, is about traffic scheduling, through which you can do some granular processing at the traffic control level.
+One of the interesting plugins, [workflow](https://apisix.apache.org/docs/apisix/next/plugins/workflow/), is about traffic scheduling, through which you can do some granular processing at the traffic control level.
 
-![06.png](https://static.apiseven.com/2022/09/21/632ab5c01580e.png)
+```shell
+curl http://127.0.0.1:9180/apisix/admin/routes/1 \
+-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+{
+  "uri":"/hello/*",
+  "plugins":{
+    "workflow":{
+      "rules":[
+        {
+          "case": [
+            ["uri", "==", "/hello/rejected"]
+          ],
+          "actions": [
+            [
+              "return",
+              {"code": 403}
+            ]
+          ]
+        },
+        {
+          "case": [
+            ["uri", "==", "/hello/v2/appid"]
+          ],
+          "actions": [
+            [
+              "limit-count",
+              {
+                "count": 2,
+                "time_window": 60,
+                "rejected_code": 429
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "upstream": {
+    "type": "roundrobin",
+    "nodes": {
+      "127.0.0.1:1980": 1
+    }
+  }
+}'
+```
 
 For example, perform a certain action when condition A is true, perform another action when condition B is true, etc. In this way, users can schedule various business traffic more conveniently.
 
