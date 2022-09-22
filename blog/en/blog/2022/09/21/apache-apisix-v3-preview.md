@@ -194,7 +194,7 @@ For example, perform a specific action when condition A is true, perform another
 
 APISIX has grown a lot from the beginning to the upcoming 3.0 version. However, APISIX has not changed much in terms of architecture, but more in terms of ecology, compatibility, and product application.
 
-An open source project may not be judged solely on performance and functionality but on the perspective of users, developers, and enterprises to consider whether they can use the product to quickly and effectively solve their current pain points quickly and effectively.
+An open source project may not be judged solely on performance and functionality but on the perspective of users, developers, and enterprises to consider whether they can use the product to solve their current pain points quickly and effectively.
 
 The highlights and new features mentioned in this article are all created through the open source community, receiving feedback from different developers and enterprise users, making open source products more useful and vibrant.
 
