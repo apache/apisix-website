@@ -58,11 +58,11 @@ We embedded [Wasm](https://apisix.apache.org/docs/apisix/wasm/) into APISIX, and
 
 As a result, users can use Lua, Go, Python, Wasm, etc., to write custom plugins on APISIX. Furthermore, making development easy opens doors for APISIX plugin development.
 
-Thanks to APISIX's architecture and performance upper hand, APISIX's global user growth has far exceeded expectations in the three years since its inception. For example, Chinese big tech companies such as [WPS](https://apisix.apache.org/blog/2021/09/28/wps-usercase/), [Sina Weibo](https://apisix.apache.org/blog/2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix/), and [iQiyi](https://apisix.apache.org/blog/2021/09/07/iqiyi-usercase/) are all enterprise-level users who carry tens of billions of API requests per day. In addition, there are also many users in the field of scientific research institutions such as NASA and European Factory Platformwho are using it.
+Thanks to APISIX's architecture and performance upper hand, APISIX's global user growth has far exceeded expectations in the three years since its inception. For example, big Chinese tech companies such as [WPS](https://apisix.apache.org/blog/2021/09/28/wps-usercase/), [Sina Weibo](https://apisix.apache.org/blog/2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix/), and [iQiyi](https://apisix.apache.org/blog/2021/09/07/iqiyi-usercase/) are enterprise-level users carrying tens of billions of API requests daily. In addition, there are also many users in the field of scientific research institutions such as NASA and European Factory Platformwho are using it.
 
 ## 10 New Highlights of APISIX 3.0
 
-APISIX proposed a new [3.0 Roadmap](https://github.com/apache/apisix/issues/6473) in early 2022. In version 3.0, its iterations and updates will focus on adaptability and the ecosystem.
+APISIX proposed a new [3.0 Roadmap](https://github.com/apache/apisix/issues/6473) in early 2022. In version 3.0, its iterations and updates will focus on usability and the ecosystem.
 
 ![03.png](https://static.apiseven.com/2022/09/22/632bd6f95717a.png)
 
@@ -70,7 +70,7 @@ APISIX plans to launch beta version 3.0 at the end of September. Here, we have s
 
 ### Full Support of ARM64
 
-ARM64 has become a very mainstream server architecture selection for cloud manufacturers. From [AWS Graviton](https://apisix.apache.org/blog/2022/06/07/installation-performance-test-of-apigateway-apisix-on-aws-graviton3/), [GCP Tau T2A](https://apisix.apache.org/blog/2022/07/22/how-is-google-cloud-tau-t2a-performing/) to Huawei Kunpeng and other products, it can be seen that various cloud manufacturers have begun to launch servers based on Arm architecture. The following graph shows the stress testing performance of APISIX on popular Arm-based servers:
+ARM64 has become a very mainstream server architecture selection for cloud manufacturers. From [AWS Graviton](https://apisix.apache.org/blog/2022/06/07/installation-performance-test-of-apigateway-apisix-on-aws-graviton3/), [GCP Tau T2A](https://apisix.apache.org/blog/2022/07/22/how-is-google-cloud-tau-t2a-performing/) to Huawei Kunpeng and other products, we can see that various cloud manufacturers have begun to launch servers based on Arm architecture. The following graph shows the stress testing performance of APISIX on popular Arm-based servers:
 
 ![04.png](https://static.apiseven.com/2022/09/21/632ab5beacad4.png)
 
@@ -86,7 +86,7 @@ APISIX has already implemented the transcode between gRPC and HTTP protocols in 
 
 When using APISIX today, you may find that the response body of APISIX is mixed with a lot of meaningless data, such as some etcd return values that are passed directly to the client without any tailoring. Also, the entire response body’s architectural design is not ideal, with many redundant fields.
 
-In APISIX 3.0 version, the response body’s structure has been improved. The new design makes the overall request format and returns body more RESTful, making it easier for users to use the latest version of Admin API. Of course, this process also allows you to set which version of the Admin API to use through parameters, freeing users from fears of upgrading to incompatible versions.
+In APISIX 3.0 version, the response body’s structure has been improved. In addition, the new design makes the overall request format and returns body more RESTful, making it easier for users to use the latest version of Admin API. Of course, this process also allows you to set which version of the Admin API to use through parameters, freeing users from fears of upgrading to incompatible versions.
 
 ### Data Plane(DP) and Control Plane(CP) Separation
 
@@ -116,7 +116,7 @@ Based on the xRPC framework, APISIX can provide proxy implementations for severa
 
 APISIX has always invested heavily in observability support, supporting almost all observability components, such as [Zipkin](https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin), [Apache SkyWalking](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/), [Datadog](https://apisix.apache.org/blog/2021/11/12/apisix-datadog/), and more. Various logging components are also supported, but most are carried out in the application layer.
 
-Apache APISIX will add more transport layer observability support in 3.0. For example, the support for [Prometheus](https://apisix.apache.org/docs/apisix/plugins/prometheus/) and various logs has been added, which not only enables users to observe the problems of application layer traffic easily but also enables users to check the operation status of transport layer traffic.
+Apache APISIX will add more transport layer observability support in 3.0. For example, the support for [Prometheus](https://apisix.apache.org/docs/apisix/plugins/prometheus/) and various logs has been added, enabling users to observe the problems of application layer traffic easily and enabling users to check the operation status of transport layer traffic.
 
 ### Integrating the OpenAPI Specification
 
@@ -140,7 +140,7 @@ This solution not only makes the entire service mesh lighter but also makes cust
 
 In addition to the OpenAPI standard mentioned above, many ecosystem plugins will be added in version 3.0, such as OpenFunction, ClickHouse, Elasticsearch, SAML, CAS, etc., to integrate more support for authentication, security, and observability.
 
-One of the exciting plugins, [workflow](https://apisix.apache.org/docs/apisix/next/plugins/workflow/), is about traffic scheduling you can do some granular processing at the traffic control level.
+One of the exciting plugins, [workflow](https://apisix.apache.org/docs/apisix/next/plugins/workflow/), is used for traffic scheduling: we can do some granular processing at the traffic control level.
 
 ```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/1 \
