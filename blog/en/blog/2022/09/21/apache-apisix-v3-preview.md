@@ -20,7 +20,7 @@ image: https://static-site.apiseven.com/wp-content/uploads/2022/09/APISIX.webp
 
 <!--truncate-->
 
-[API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) has acted as an essential component for a long time, and it has been committed to providing various functions such as [rate limiting](https://apisix.apache.org/docs/apisix/plugins/limit-req/), authentication (e.g., [Use Keycloak to secure APIs](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)), and observability at the business level.
+[API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) has acted as an essential component for a long time. It has been committed to providing various functions such as [rate limiting](https://apisix.apache.org/docs/apisix/plugins/limit-req/), authentication (e.g., [Use Keycloak to secure APIs](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)), and observability at the business level.
 
 With the iteration of server-side technologies, more and more services have begun to migrate from bare metal to Kubernetes, and the original monolithic architecture has gradually evolved into a microservice architecture. At the same time, enterprises have started to migrate their on-premise data centers to multi-cloud or hybrid clouds.
 
@@ -28,19 +28,19 @@ With these technological advancements in the environment, the requirements for A
 
 ## API Gateway Apache APISIX
 
-When [Apache APISIX](http://github.com/apache/apisix) was born, it hoped to help enterprises solve new problems in cloud-native environments and microservices. For example, it provides auto-expansion and contraction of the business traffic through the fully dynamic feature and one-time modification to more conveniently achieve cluster management.
+When [Apache APISIX](http://github.com/apache/apisix) was born, it hoped to help enterprises solve new problems in cloud-native environments and microservices. For example, it provides autoscaling of the business traffic through the fully dynamic feature and one-time modification to more conveniently achieve cluster management.
 
 Therefore, in the architectural design of APISIX, the data plane and the control plane are separated to achieve fully dynamic and cluster management, which is mainly accomplished by etcd components.
 
 ![01.png](https://static.apiseven.com/2022/09/21/632ab5bd35b73.png)
 
-APISIX stores and manage routing-related and plugin-related configurations in etcd. As shown in the figure above, the configurations from [Admin API](https://apisix.apache.org/docs/apisix/admin-api/) (Control Plane) are stored in etcd, while the data plane on the left mainly monitors and listens for the changes of etcd. The data plane can quickly observe changes without needing to modify configuration files.
+APISIX stores and manages routing-related and plugin-related configurations in etcd. As shown in the figure above, the configurations from [Admin API](https://apisix.apache.org/docs/apisix/admin-api/) (Control Plane) are stored in etcd, while the data plane on the left mainly monitors and listens for the changes of etcd. The data plane can quickly observe changes without needing to modify configuration files.
 
 But just solving these problems is not enough. As a middleware with requests from both [upstream](https://apisix.apache.org/docs/apisix/terminology/upstream/) and downstream, the API gateway plays a crucial position in the enterprise architecture as the traffic entrance and the connection between the service layers. API gateway's role differs from databases that only receive requests from the user's business level.
 
 In addition to business-level requirements, API gateways also have requirements for customization and integration. So how to make custom development easier for developers when using APISIX is another significant pain point that APISIX solves, lowering the threshold for developers to code.
 
-In APISIX, the development of plugins is mainly done through Lua and [LuaJIT](https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/) (a Just-In-Time Compiler for Lua) is used to ensure that the compiled code performance is good enough. However, as a relatively minor language, the learning cost of Lua is high for most backend engineers. To solve this problem, APISIX provides two solutions.
+In APISIX, plugins are developed mainly through Lua, and [LuaJIT](https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/) (a Just-In-Time Compiler for Lua) is used to ensure that the compiled code performance is good enough. However, as a relatively minor language, the learning cost of Lua is high for most backend engineers. To solve this problem, APISIX provides two solutions.
 
 ## Support more languages
 
