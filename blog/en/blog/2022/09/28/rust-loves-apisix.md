@@ -37,7 +37,7 @@ Before I dive into the "how", let me first describe a bit of context surrounding
 
 It starts with the Envoy proxy.
 
->Envoy is an open source edge and service proxy, designed for cloud-native applications
+> Envoy is an open source edge and service proxy, designed for cloud-native applications
 >
 > -- https://www.envoyproxy.io/
 
