@@ -95,11 +95,11 @@ The command creates a `lib` project with the expected structure.
 
 Let me first say that the available documentation is pretty sparse. For example, `proxy-wasm`'s is limited to the [methods' signature](https://github.com/proxy-wasm/spec/tree/master/abi-versions/vNEXT) (think JavaDocs). Rust SDK is sample-based. However, one can get some information from the [C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md).
 
->WASM module is running in a stack-based virtual machine and its memory is isolated from the host environment. All interactions between host and WASM module are through functions and callbacks wrapped by context object.
+> WASM module is running in a stack-based virtual machine and its memory is isolated from the host environment. All interactions between host and WASM module are through functions and callbacks wrapped by context object.
 >
->At bootstrap time, a root context is created. The root context has the same lifetime as the VM/runtime instance and acts as a target for any interactions which happen at initial setup. It is also used for interactions that outlive a request.
+> At bootstrap time, a root context is created. The root context has the same lifetime as the VM/runtime instance and acts as a target for any interactions which happen at initial setup. It is also used for interactions that outlive a request.
 >
->At request time, a context with incremental is created for each stream. Stream context has the same lifetime as the stream itself and acts as a target for interactions that are local to that stream.
+> At request time, a context with incremental is created for each stream. Stream context has the same lifetime as the stream itself and acts as a target for interactions that are local to that stream.
 
 The Rust code maps to the same abstractions.
 
