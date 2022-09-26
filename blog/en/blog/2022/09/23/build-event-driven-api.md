@@ -44,7 +44,7 @@ Some of the following challenges you can think of:
 
 -⛔️ The application can perform a majority of reading queries (for example, searches) where your logic is not optimized for only read operations.
 
--⛔️ As both read and write activities are permitted, security and permissions become more complicated to manage.
+- ⛔️ As both read and write activities are permitted, security and permissions become more complicated to manage.
 
 - ⛔️ Different data representations are required in order to address the multiple API consumer needs.
 
