@@ -46,7 +46,7 @@ Some of the following challenges you can think of:
 
 -⛔️ As both read and write activities are permitted, security and permissions become more complicated to manage.
 
--⛔️ Different data representations are required in order to address the multiple API consumer needs.
+- ⛔️ Different data representations are required in order to address the multiple API consumer needs.
 
 As a result of these difficulties, a new set of data manipulation patterns known as **CQRS** has arisen to enhance the classic CRUD methodology.
 
