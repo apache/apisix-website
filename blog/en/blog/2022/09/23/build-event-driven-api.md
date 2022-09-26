@@ -34,7 +34,7 @@ This architecture has several benefits such as you completely **decoupling** pro
 
 ![Event driven diagram](https://static.apiseven.com/2022/09/20/63289f6bb3090.png)
 
-## Why not use simply CRUD❓😕
+## Why not use simply CRUD
 
 Usually, we use the same data model to query and update a database that is similar to the basic **CRUD** operations (**“CREATE”, “READ”, “UPDATE”, and “DELETE”**) and it is the most straightforward way of dealing with data manipulation. We can build API services by following this simple principle. Any tool or framework that advertises itself as a quick method to bring your application to the market. But modern applications involve more complex business processes with workflows, validation, and business logic that are difficult to express using the classic CRUD paradigm.
 
@@ -102,7 +102,7 @@ Since our example is based on traditional REST APIs all use HTTP as the transpor
 
 ➔ [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/).
 
-### Recommended content 💁
+### Recommended content
 
 ➔ Watch Video Tutorial:
 
