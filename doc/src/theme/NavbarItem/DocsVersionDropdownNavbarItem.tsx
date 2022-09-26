@@ -36,11 +36,8 @@ const LabelWithBadge: FC<LabelWithBadgeProps> = (props) => {
   return (
     <div>
       {version.label}
-      {(() => {
-        if (version.isLast) return badgeObj.Latest;
-        if (isApisx && LTSVersions.includes(version.label)) return badgeObj.LTS;
-        return null;
-      })()}
+      {version.isLast && badgeObj.Latest}
+      {isApisx && LTSVersions.includes(version.label) && badgeObj.LTS}
     </div>
   );
 };

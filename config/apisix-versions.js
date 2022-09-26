@@ -8,7 +8,7 @@ const versions = ['2.12', '2.13', '2.14', '2.15'];
 /**
  * @type {Array<string>} LTS version list
  */
-const LTSVersions = ['2.13'];
+const LTSVersions = ['2.15'];
 
 /**
  * @type {Array<{label: string, href: string}>}
