@@ -12,11 +12,11 @@ keywords:
 - Event driven
 - CQRS
 - Serverless
-description: 💁🏼 This blog post explores how to build event-driven API Services using these 3 well-known patterns to build a highly scalable and distributed system.
+description: This blog post explores how to build event-driven API Services using these 3 well-known patterns to build a highly scalable and distributed system.
 tags: [Case Studies]
 ---
 
-> 💁🏼 This blog post explores how to build event-driven API Services using these 3 well-known patterns to build a highly scalable and distributed system. We will break down each concept and understand the role of each in our particular approach.
+> This blog post explores how to build event-driven API Services using these 3 well-known patterns to build a highly scalable and distributed system. We will break down each concept and understand the role of each in our particular approach.
 
 <!--truncate-->
 
