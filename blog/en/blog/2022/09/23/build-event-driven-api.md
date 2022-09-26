@@ -40,9 +40,9 @@ Usually, we use the same data model to query and update a database that is simil
 
 Some of the following challenges you can think of:
 
--⛔️ Since for both read and write operations, and the same DTO or data transfer object are used, there’s a chance that read and write operations will be out of sync.
+- ⛔️ Since for both read and write operations, and the same DTO or data transfer object are used, there’s a chance that read and write operations will be out of sync.
 
--⛔️ The application can perform a majority of reading queries (for example, searches) where your logic is not optimized for only read operations.
+- ⛔️ The application can perform a majority of reading queries (for example, searches) where your logic is not optimized for only read operations.
 
 - ⛔️ As both read and write activities are permitted, security and permissions become more complicated to manage.
 
