@@ -66,7 +66,7 @@ Now that we have explained how everything fits together, it's time to code.
 
 Before developing the first line of code, we need to give Rust <abbr title="WebAssembly">WASM</abbr> compilation capabilities.
 
-```bash
+```shell
 rustup target add wasm32-wasi
 ```
 
