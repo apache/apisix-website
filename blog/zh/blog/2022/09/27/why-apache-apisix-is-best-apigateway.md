@@ -10,20 +10,18 @@ keywords:
   - 开源 API 网关
   - API 管理平台
   - Apache APISIX
-description: 为什么 Apache APISIX 是最好的 API 网关？本文将从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
+description: 本文从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
 tags: [Technology]
 image: https://static-site.apiseven.com/wp-content/uploads/2022/09/APISIX.webp
 ---
 
-> 为什么 Apache APISIX 是最好的 API 网关？本文将从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
+> 本文首发于 [API7.ai](https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway)，从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
 
 <!--truncate-->
 
 <head>
-  <link rel="canonical" href="https://api7.ai/blog/why-is-apache-apisix-the-best-api-gateway" />
+  <link rel="canonical" href="https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway" />
 </head>
-
-> 本文首发于 [API7.ai](https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway)。
 
 今天，我们可以通过手机和各种 APP 完成各种各样的事情，比如社交，网购等。这些行为的背后，API 起到了关键的作用。作为 API 的使用者，我们并不关心 API 的稳定、安全和高效，但是通过 API 提供数据服务的企业则需要选择一个合适的 API 网关，用来保证数千乃至数万的 API 为提供快速和安全的服务。
 
