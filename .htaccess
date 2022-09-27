@@ -34,6 +34,8 @@ Options -Indexes
 
 </IfModule>
 
+Redirect 302 "/twitter" "https://twitter.com/ApacheAPISIX"
+Redirect 302 "/youtube" "https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"
 Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1g9ghsrol-v4hkkV8uKbGrDqRuPEq7fg"
 Redirect 302 "/community-meeting-signup" "https://docs.google.com/forms/d/1wK1AqUIFfXDveNolqZmlwKOcJN1aGq8G9rfYmtHdB0I/"
 
