@@ -17,7 +17,7 @@ import { useDocsPreferredVersion } from '@docusaurus/theme-common';
 import { translate } from '@docusaurus/Translate';
 import type { GlobalDataVersion } from '@docusaurus/plugin-content-docs-types';
 import clsx from 'clsx';
-import { LTSVersions } from '../../../../config/apisix-versions';
+import { LTSVersions, versionMap } from '../../../../config/apisix-versions';
 import style from './style.module.scss';
 
 const getVersionMainDoc = (version: GlobalDataVersion) => version.docs.find((doc) => doc.id === version.mainDocId)!;
@@ -35,7 +35,7 @@ const LabelWithBadge: FC<LabelWithBadgeProps> = (props) => {
   const { version, isApisx } = props;
   return (
     <div>
-      {version.label}
+      { (isApisx && versionMap?.[version.label]) || version.label}
       {version.isLast && badgeObj.Latest}
       {isApisx && LTSVersions.includes(version.label) && badgeObj.LTS}
     </div>
