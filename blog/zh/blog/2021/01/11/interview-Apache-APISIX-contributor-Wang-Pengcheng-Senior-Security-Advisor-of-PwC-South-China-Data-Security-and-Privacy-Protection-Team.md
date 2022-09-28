@@ -10,7 +10,7 @@ keywords:
 - 普华永道
 - 漏洞
 description: 普华永道报告了 API 网关 Apache APISIX 的 Admin API 默认 Token 漏洞，为了感谢鹏诚对 Apache APISIX 社区做的贡献，我们也特意对鹏诚进行了专访。
-tags: [Security]
+tags: [Vulnerabilities]
 image: https://static.apiseven.com/2022/blog/0818/cve/CVE-2020-13945.png
 ---
 
