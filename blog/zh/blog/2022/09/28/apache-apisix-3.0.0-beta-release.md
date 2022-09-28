@@ -1,10 +1,14 @@
 ---
 title: "APISIX 3.0.0 预览版现已发布！带来丰富功能与迭代细节"
 authors:
-  - name: 罗泽轩
-    title: Author
-    url: https://github.com/moonming
-    image_url: https://avatars.githubusercontent.com/u/26448043
+  - name: "罗泽轩"
+    title: "Author"
+    url: "https://github.com/spacewander"
+    image_url: "https://github.com/spacewander.png"
+  - name: "苏钰"
+    title: "Technical Writer"
+    url: "https://github.com/SylviaBABY"
+    image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords:
   - Apache APISIX
   - API 网关
@@ -166,7 +170,7 @@ for i = 1, 5 do
 end
 ```
 
-更多详细细节可参考 [相关文档](https://github.com/api7/grpc-client-nginx-module)。
+更多详细细节可参考[相关文档](https://github.com/api7/grpc-client-nginx-module)。
 
 目前 APISIX 对 `grpc-client-nginx-module` 的整合只是个开始，后续将会在 APISIX 中进行更多改造工作，比如直接使用 gRPC 来连接 APISIX 的控制面。
 
