@@ -50,10 +50,6 @@ const Share = ({ metadata }) => {
 
 const tags = [
   {
-    label: 'Community',
-    url: '/blog/tags/community/',
-  },
-  {
     label: 'Case Studies',
     url: '/blog/tags/case-studies/',
   },
@@ -66,12 +62,16 @@ const tags = [
     url: '/blog/tags/authentication/',
   },
   {
-    label: 'Security',
-    url: '/blog/tags/security/',
-  },
-  {
     label: 'Plugins',
     url: '/blog/tags/plugins/',
+  },
+  {
+    label: 'Community',
+    url: '/blog/tags/community/',
+  },
+  {
+    label: 'Vulnerabilities',
+    url: '/blog/tags/vulnerabilities/',
   },
 ];
 
