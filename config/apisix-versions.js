@@ -11,6 +11,13 @@ const versions = ['2.12', '2.13', '2.14', '2.15', '2.99'];
 const LTSVersions = ['2.15'];
 
 /**
+ * @type {{[origin: string]: string}} version display name mapping to origin name
+ */
+const versionMap = {
+  '2.99': '3.0.0-beta',
+};
+
+/**
  * @type {Array<{label: string, href: string}>}
  */
 const archivedVersions = [
@@ -48,4 +55,6 @@ const archivedVersions = [
   },
 ];
 
-module.exports = { versions, LTSVersions, archivedVersions };
+module.exports = {
+  versions, LTSVersions, versionMap, archivedVersions,
+};

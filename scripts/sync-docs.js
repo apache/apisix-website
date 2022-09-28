@@ -10,7 +10,7 @@ const semver = require('semver');
 const replace = require('replace-in-file');
 
 const common = require('./common.js');
-const { versions } = require('../config/apisix-versions.js');
+const { versions, versionMap } = require('../config/apisix-versions.js');
 
 const { projects, languages, projectPaths } = common;
 const tempPath = './temp';
@@ -94,7 +94,7 @@ const tasks = new Listr([
         if (versions.length === 0) return Promise.resolve();
 
         if (await isFileExisted(target)) await fs.rm(target);
-        return fs.writeFile(target, JSON.stringify(versions.reverse(), null, 2));
+        return fs.writeFile(target, JSON.stringify(versions.map((v) => versionMap[v] || v).reverse(), null, 2));
       };
 
       const extractTasks = projectPaths.map((project) => ({
@@ -354,8 +354,9 @@ function extractDocsVersionTasks(project, version) {
         const docsPath = `${projectPath}/docs`;
         const enSrcDocs = `${docsPath}/en/latest`;
         const zhSrcDocs = `${docsPath}/zh/latest`;
-        const enTargetDocs = `${websitePath}/docs-${projectName}_versioned_docs/version-${version}`;
-        const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${version}`;
+        const displayVersionName = (projectName === 'apisix' && versionMap?.[version]) || version;
+        const enTargetDocs = `${websitePath}/docs-${projectName}_versioned_docs/version-${displayVersionName}`;
+        const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${displayVersionName}`;
 
         await Promise.allSettled([
           copyDocs(enSrcDocs, enTargetDocs)
@@ -363,7 +364,7 @@ function extractDocsVersionTasks(project, version) {
             .then(() => handleConfig2Sidebar(
               enTargetDocs,
               enTargetDocs,
-              version,
+              displayVersionName,
               `${websitePath}/docs-${project.name}_versioned_sidebars`,
             )),
           copyDocs(zhSrcDocs, zhTargetDocs).then(() => replaceMDElements(projectName, [zhTargetDocs], branchName)),
