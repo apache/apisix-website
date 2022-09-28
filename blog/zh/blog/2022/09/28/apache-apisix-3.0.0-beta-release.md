@@ -54,9 +54,9 @@ tags: [Community]
 
 - 移除 `apisix.ssl` 中的 `enable_http2` 和 `listen_port`（[#7717](https://github.com/apache/apisix/pull/7717)）
 - 移除 `apisix.port_admin`（[#7716](https://github.com/apache/apisix/pull/7716)）
-- 移除 `etcd.health_check_retry` ([#7676](https://github.com/apache/apisix/pull/7676))
-- 移除 `nginx_config.http.lua_shared_dicts` ([#7677](https://github.com/apache/apisix/pull/7677))
-- 移除 `nginx_config.http.real_ip_header` ([#7696](https://github.com/apache/apisix/pull/7696))
+- 移除 `etcd.health_check_retry`（[#7676](https://github.com/apache/apisix/pull/7676)）
+- 移除 `nginx_config.http.lua_shared_dicts`（[#7677](https://github.com/apache/apisix/pull/7677)）
+- 移除 `nginx_config.http.real_ip_header`（[#7696](https://github.com/apache/apisix/pull/7696)）
 
 在动态配置中，进行了以下调整：
 
@@ -65,11 +65,11 @@ tags: [Community]
 
 此外还有具体插件级别上的改动：
 
-- authz-keycloak 中移除了 `audience` 字段 ([#7683](https://github.com/apache/apisix/pull/7683))
-- mqtt-proxy 中移除了 `upstream` 字段 ([#7694](https://github.com/apache/apisix/pull/7694))
-- error-log-logger 中把 TCP 相关配置放到 `tcp` 字段中 ([#7700](https://github.com/apache/apisix/pull/7700))
-- syslog 中移除了 `max_retry_times` 和 `retry_interval` 字段 ([#7699](https://github.com/apache/apisix/pull/7699))
-- proxy-rewrite 中移除了 `scheme` 字段 ([#7695](https://github.com/apache/apisix/pull/7695))
+- authz-keycloak 中移除了 `audience` 字段（[#7683](https://github.com/apache/apisix/pull/7683)）
+- mqtt-proxy 中移除了 `upstream` 字段（[#7694](https://github.com/apache/apisix/pull/7694)）
+- error-log-logger 中把 TCP 相关配置放到 `tcp` 字段中（[#7700](https://github.com/apache/apisix/pull/7700)）
+- syslog 中移除了 `max_retry_times` 和 `retry_interval` 字段（[#7699](https://github.com/apache/apisix/pull/7699)）
+- proxy-rewrite 中移除了 `scheme` 字段（[#7695](https://github.com/apache/apisix/pull/7695)）
 
 ### 调整 Admin API 响应格式
 
