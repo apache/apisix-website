@@ -29,15 +29,15 @@ const badgeObj = {
 
 interface LabelWithBadgeProps {
   version: GlobalVersion;
-  isApisx: boolean;
+  isApisix: boolean;
 }
 const LabelWithBadge: FC<LabelWithBadgeProps> = (props) => {
-  const { version, isApisx } = props;
+  const { version, isApisix } = props;
   return (
     <div>
-      { (isApisx && versionMap?.[version.label]) || version.label}
+      { (isApisix && versionMap?.[version.label]) || version.label}
       {version.isLast && badgeObj.Latest}
-      {isApisx && LTSVersions.includes(version.label) && badgeObj.LTS}
+      {isApisix && LTSVersions.includes(version.label) && badgeObj.LTS}
     </div>
   );
 };
@@ -64,7 +64,7 @@ const DocsVersionDropdownNavbarItem = ({
       const versionDoc = activeDocContext?.alternateDocVersions[version.name] || getVersionMainDoc(version);
       return {
         isNavLink: true,
-        label: <LabelWithBadge version={version} isApisx={isApisix} />,
+        label: <LabelWithBadge version={version} isApisix={isApisix} />,
         to: versionDoc.path,
         isActive: () => version === activeDocContext?.activeVersion,
         onClick: () => {
@@ -87,7 +87,7 @@ const DocsVersionDropdownNavbarItem = ({
       message: 'Versions',
       description: 'The label for the navbar versions dropdown on mobile view',
     })
-    : dropdownVersion.label;
+    : ((isApisix && versionMap?.[dropdownVersion.label]) || dropdownVersion.label);
   const dropdownTo = mobile && items ? undefined : getVersionMainDoc(dropdownVersion).path;
 
   // We don't want to render a version dropdown with 0 or 1 item
