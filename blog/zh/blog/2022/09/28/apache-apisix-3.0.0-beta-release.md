@@ -44,7 +44,7 @@ tags: [Community]
   - admin_api_mtls
   - admin_api_version
 
-更多详情可参考最新的 config-default.yaml 文件。
+更多详情可参考最新的 `[config-default.yaml](https://github.com/apache/apisix/blob/master/conf/config-default.yaml)` 文件。
 
 ### 移除多个已废弃配置
 
