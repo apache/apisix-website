@@ -29,16 +29,16 @@ tags: [Community]
 
 在 3.0 版本中，调整了静态配置文件中的配置，所以你需要同步更新下 `config.yaml` 文件内的配置。
 
--  `config_center` 功能改由 `deployment` 中的 `config_provider` 实现（[#7901](https://github.com/apache/apisix/pull/7901)）
+- `config_center` 功能改由 `deployment` 中的 `config_provider` 实现（[#7901](https://github.com/apache/apisix/pull/7901)）
 - `etcd` 字段整体搬迁到 `deployment` 中（[#7860](https://github.com/apache/apisix/pull/7860)）
 - 以下 Admin API 配置移动到 `deployment` 中的 `admin` 字段（[#7823](https://github.com/apache/apisix/pull/7823)）：
-    - admin_key
-    - enable_admin_cors
-    - allow_admin
-    - admin_listen
-    - https_admin
-    - admin_api_mtls
-    - admin_api_version
+  - admin_key
+  - enable_admin_cors
+  - allow_admin
+  - admin_listen
+  - https_admin
+  - admin_api_mtls
+  - admin_api_version
 
 更多详情可参考最新的 config-default.yaml 文件。
 
@@ -74,9 +74,9 @@ tags: [Community]
 - [#7630](https://github.com/apache/apisix/pull/7630)
 - [#7622](https://github.com/apache/apisix/pull/7622)
 
-新的响应格式如下所示：
+新的响应格式调整为以下类型。
 
-**返回单个配置**
+返回单个配置：
 
 ```yaml
 {
@@ -90,7 +90,7 @@ tags: [Community]
 }
 ```
 
-**返回多个配置**
+返回多个配置：
 
 ```yaml
 {
@@ -132,7 +132,7 @@ tags: [Community]
 
 在下方代码中，我们连接了监听 50051 端口的 gRPC 服务，发送一次 `{ name = "apisix" }` 来创建对应的 stream，然后发送三次请求，最后接收到了五次响应。
 
-```
+```lua
 local core = require "apisix.core"
 local gcli = core.grpc
 assert(gcli.load("t/grpc_server_example/proto/helloworld.proto"))
@@ -170,7 +170,7 @@ end
 
 目前 APISIX 对 `grpc-client-nginx-module` 的整合只是个开始，后续将会在 APISIX 中进行更多改造工作，比如直接使用 gRPC 来连接 APISIX 的控制面。
 
-### 新插件：elasticsearch-logger 和 tencent-cloud-cls 
+### 新插件：elasticsearch-logger 和 tencent-cloud-cls
 
 APISIX 几乎每个新版本的发布都会引入新的日志插件，此次也不例外，引入了两个新的日志插件。
 
@@ -216,9 +216,9 @@ APISIX 几乎每个新版本的发布都会引入新的日志插件，此次也�
 
 除了上面提到的几个大的新变化外，此次版本发布也包含很多值得一提的特性：
 
-* K8s 服务发现支持配置多个集群；
-* log-rotate 时支持限制日志文件的上限大小；
-* 新增 `openfunction` 插件，可以调用 OpenFunction 平台的 FaaS 函数；
-* 新增 `workflow` 插件，可以灵活执行更多逻辑。
+- K8s 服务发现支持配置多个集群；
+- log-rotate 时支持限制日志文件的上限大小；
+- 新增 `openfunction` 插件，可以调用 OpenFunction 平台的 FaaS 函数；
+- 新增 `workflow` 插件，可以灵活执行更多逻辑。
 
 如果你对此次发版的完整内容感兴趣，请参考 3.0.0-beta 发布的 [changelog](https://github.com/apache/apisix/blob/release/2.99/docs/zh/latest/CHANGELOG.md#300-beta)。
