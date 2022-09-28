@@ -73,7 +73,7 @@ tags: [Community]
 
 ### 调整 Admin API 响应格式
 
-我们在以下若干个 PR 中调整了 Admin API 的响应格式：
+我们在以下两个 PR 中调整了 Admin API 的响应格式：
 
 - [#7630](https://github.com/apache/apisix/pull/7630)
 - [#7622](https://github.com/apache/apisix/pull/7622)
