@@ -11,7 +11,7 @@ keywords:
 - PricewaterhouseCoopers 
 - CVE
 description: PricewaterhouseCoopers reported a vulnerability in the Admin API default token of the API gateway Apache APISIX.
-tags: [Security]
+tags: [Vulnerabilities]
 image: https://static.apiseven.com/2022/blog/0818/cve/CVE-2020-13945.png
 ---
 

@@ -9,11 +9,11 @@ properties:
       type: string
       enum:
         - Case Studies
-        - Community
+        - Plugins
         - Ecosystem
         - Authentication
-        - Security
-        - Plugins
+        - Community
+        - Vulnerabilities
   keywords:
     type: array
   image:
