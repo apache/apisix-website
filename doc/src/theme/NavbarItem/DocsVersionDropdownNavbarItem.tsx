@@ -17,7 +17,7 @@ import { useDocsPreferredVersion } from '@docusaurus/theme-common';
 import { translate } from '@docusaurus/Translate';
 import type { GlobalDataVersion } from '@docusaurus/plugin-content-docs-types';
 import clsx from 'clsx';
-import { LTSVersions, versionMap } from '../../../../config/apisix-versions';
+import { LTSVersions } from '../../../../config/apisix-versions';
 import style from './style.module.scss';
 
 const getVersionMainDoc = (version: GlobalDataVersion) => version.docs.find((doc) => doc.id === version.mainDocId)!;
@@ -29,15 +29,15 @@ const badgeObj = {
 
 interface LabelWithBadgeProps {
   version: GlobalVersion;
-  isApisix: boolean;
+  isApisx: boolean;
 }
 const LabelWithBadge: FC<LabelWithBadgeProps> = (props) => {
-  const { version, isApisix } = props;
+  const { version, isApisx } = props;
   return (
     <div>
-      { (isApisix && versionMap?.[version.label]) || version.label}
+      {version.label}
       {version.isLast && badgeObj.Latest}
-      {isApisix && LTSVersions.includes(version.label) && badgeObj.LTS}
+      {isApisx && LTSVersions.includes(version.label) && badgeObj.LTS}
     </div>
   );
 };
@@ -64,7 +64,7 @@ const DocsVersionDropdownNavbarItem = ({
       const versionDoc = activeDocContext?.alternateDocVersions[version.name] || getVersionMainDoc(version);
       return {
         isNavLink: true,
-        label: <LabelWithBadge version={version} isApisix={isApisix} />,
+        label: <LabelWithBadge version={version} isApisx={isApisix} />,
         to: versionDoc.path,
         isActive: () => version === activeDocContext?.activeVersion,
         onClick: () => {
@@ -87,7 +87,7 @@ const DocsVersionDropdownNavbarItem = ({
       message: 'Versions',
       description: 'The label for the navbar versions dropdown on mobile view',
     })
-    : ((isApisix && versionMap?.[dropdownVersion.label]) || dropdownVersion.label);
+    : dropdownVersion.label;
   const dropdownTo = mobile && items ? undefined : getVersionMainDoc(dropdownVersion).path;
 
   // We don't want to render a version dropdown with 0 or 1 item
