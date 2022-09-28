@@ -12,7 +12,7 @@ properties:
         - Plugins
         - Ecosystem
         - Authentication
-        - Community        
+        - Community
         - Vulnerabilities
   keywords:
     type: array
