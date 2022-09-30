@@ -36,7 +36,7 @@ image: https://static.apiseven.com/2022/blog/0818/ecosystem/dapr.png
 
 而 APISIX Ingress 则是另一种 Ingress Controller 的实现。跟 Kubernetes Ingress Nginx 的区别主要在于 APISIX Ingress 是以 Apache APISIX 作为实际承载业务流量的数据面。如下图所示，当用户请求到具体的某一个服务/API/网页时，通过外部代理将整个业务流量/用户请求传输到 K8s 集群，然后经过 APISIX Ingress 进行后续处理。
 
-![APISIX Ingress](https://static.apiseven.com/202108/1637119221119-71bbe219-dd19-46be-90fb-20cd667d9805.png)
+![APISIX Ingress](https://static.apiseven.com/2022/09/30/6336a25db849f.png)
 
 从上图可以看到，APISIX Ingress 分成了两部分。一部分是 APISIX Ingress Controller，作为控制面它将完成配置管理与分发。另一部分 APISIX Proxy Pod 负责承载业务流量，它是通过 CRD(Custom Resource Definitions) 的方式实现的。Apache APISIX Ingress 除了支持自定义资源外，还支持原生的 K8s Ingress 资源。
 
@@ -132,9 +132,17 @@ dashboard:
 helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 ```
 
+将启动的 APISIX Dashboard Pod 向外暴露，便于后续使用：
+
+```shell
+# 可以通过 kubectl get pods -n ingress-apisix 获取 dashboard-pod-name
+kubectl port-forward ${dashboard-pod-name} 9000:9000
+```
+
+
 ### 步骤四：创建 Apache APISIX 的 Dapr Sidecar 资源
 
-首先，配置 Apache APISIX upstream-apisix-dapr。
+首先，通过 `http://localhost:9000` 访问 APISIX Dashboard 配置 Apache APISIX upstream-apisix-dapr。
 
 ![配置上游业务](https://static.apiseven.com/202108/1637119221106-e57ae8b8-38ed-46ea-b219-401619fadbe3.png)
 

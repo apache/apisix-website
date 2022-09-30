@@ -26,8 +26,7 @@ Essentially, the Apache APISIX controller will configure the same standard DAPR 
 
 The following diagram shows the architectural flow of the actual project:
 
-![Overview](https://static.apiseven.com/202108/1638855752235-121756ab-f5b7-489f-af42-0c3f962b3036.png)
-
+![Overview](https://static.apiseven.com/2022/09/30/6336a25db849f.png)
 ## Overview
 
 ### Apache APISIX Ingress
@@ -132,9 +131,16 @@ Next, run the following command (referencing the above file).
 helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 ```
 
+Expose the launched APISIX Dashboard Pod to the outside world for subsequent use:
+
+```shell
+# You can get the dashboard-pod-name via kubectl get pods -n ingress-apisix
+kubectl port-forward ${dashboard-pod-name} 9000:9000
+```
+
 ### Step 4: Create the Dapr Sidecar resource for Apache APISIX
 
-First, configure Apache APISIX upstream-apisix-dapr.
+First, access the APISIX Dashboard via `http://localhost:9000` to configure Apache APISIX upstream-apisix-dapr.
 
 ![Create the Dapr Sidecar](https://static.apiseven.com/202108/1638855797186-a9b940e2-4d56-4a6d-a621-ea615ddba0dd.png)
 
