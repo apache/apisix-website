@@ -88,6 +88,11 @@ module.exports = {
             version,
           });
         },
+        versions: {
+          2.15: {
+            banner: 'none',
+          },
+        },
       },
     ],
     [
