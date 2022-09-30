@@ -139,7 +139,6 @@ helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 kubectl port-forward ${dashboard-pod-name} 9000:9000
 ```
 
-
 ### 步骤四：创建 Apache APISIX 的 Dapr Sidecar 资源
 
 首先，通过 `http://localhost:9000` 访问 APISIX Dashboard 配置 Apache APISIX upstream-apisix-dapr。

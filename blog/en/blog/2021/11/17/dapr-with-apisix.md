@@ -27,6 +27,7 @@ Essentially, the Apache APISIX controller will configure the same standard DAPR 
 The following diagram shows the architectural flow of the actual project:
 
 ![Overview](https://static.apiseven.com/202108/1638855752235-121756ab-f5b7-489f-af42-0c3f962b3036.png)
+
 ## Overview
 
 ### Apache APISIX Ingress
