@@ -36,7 +36,7 @@ In the K8s ecosystem, Ingress is a resource that represents the entry point for 
 
 APISIX Ingress is another implementation of the Ingress Controller. The main difference from Kubernetes Ingress Nginx is that APISIX Ingress uses Apache APISIX as the actual data plane for hosting business traffic. As shown in the figure below, when a user requests a specific service/API/web page, the entire business traffic/user request is transferred to the K8s cluster through an external proxy and then processed by APISIX Ingress.
 
-![APISIX Ingress](https://static.apiseven.com/202108/1637119221119-71bbe219-dd19-46be-90fb-20cd667d9805.png)
+![APISIX Ingress](https://static.apiseven.com/2022/09/30/6336a25db849f.png)
 
 As you can see from the above diagram, APISIX Ingress is divided into two parts. One part is the APISIX Ingress Controller, which serves as the control plane for configuration management and distribution. The other part is the APISIX Proxy Pod, which is responsible for carrying business traffic and is implemented through CRD (Custom Resource Definitions). Apache APISIX Ingress supports not only custom resources but also native K8s Ingress resources.
 
@@ -132,9 +132,16 @@ Next, run the following command (referencing the above file).
 helm install apisix apisix/apisix -f dapr-annotations.yaml -n ingress-apisix
 ```
 
+Expose the launched APISIX Dashboard Pod to the outside world for subsequent use:
+
+```shell
+# You can get the dashboard-pod-name via kubectl get pods -n ingress-apisix
+kubectl port-forward ${dashboard-pod-name} 9000:9000
+```
+
 ### Step 4: Create the Dapr Sidecar resource for Apache APISIX
 
-First, configure Apache APISIX upstream-apisix-dapr.
+First, access the APISIX Dashboard via `http://localhost:9000` to configure Apache APISIX upstream-apisix-dapr.
 
 ![Create the Dapr Sidecar](https://static.apiseven.com/202108/1638855797186-a9b940e2-4d56-4a6d-a621-ea615ddba0dd.png)
 
