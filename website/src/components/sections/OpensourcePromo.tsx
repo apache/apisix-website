@@ -86,7 +86,8 @@ const OpensourcePromo: FC = () => (
             <Translate id="openSourcePromo.component.subtitle.fragment1">
               What are microservices? What is an API Gateway? Want to learn Apache APISIX usage, but
               don&apos;t know where to start? Check out our
-            </Translate>{' '}
+            </Translate>
+            {' '}
             <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs')}>
               <Translate id="openSourcePromo.component.link.docs">Docs.</Translate>
             </Link>
@@ -94,8 +95,10 @@ const OpensourcePromo: FC = () => (
           <p>
             <Translate id="openSourcePromo.component.subtitle.fragment2">
               Like visual information, check out our
-            </Translate>{' '}
-            <VideoChannel />{' '}
+            </Translate>
+            {' '}
+            <VideoChannel />
+            {' '}
             <Translate id="openSourcePromo.component.subtitle.fragment3">
               for detailed tutorials. Subscribe for more.
             </Translate>

@@ -43,7 +43,7 @@ const Benefits: FC = () => {
             ease: 'power3.inOut',
             yoyoEase: 'power3.out',
           },
-        })
+        }),
       );
     }
 
@@ -73,7 +73,7 @@ const Benefits: FC = () => {
           ease: 'power2.in',
           yoyoEase: 'power2.out',
           repeat: -1,
-        }
+        },
       )
       .fromTo(
         '.performance_svg__lightning',
@@ -85,7 +85,7 @@ const Benefits: FC = () => {
           duration: 1,
           repeat: -1,
         },
-        '-=1'
+        '-=1',
       );
 
     // Security anim
@@ -99,7 +99,7 @@ const Benefits: FC = () => {
         duration: 0.5,
         repeat: -1,
         repeatDelay: 0.1,
-      }
+      },
     );
     for (let i = 1; i < 4; i += 1) {
       tweenTls[1].fromTo(
@@ -115,7 +115,7 @@ const Benefits: FC = () => {
           repeat: -1,
           ease: 'linear',
           yoyoEase: 'linear',
-        }
+        },
       );
     }
 
@@ -131,7 +131,7 @@ const Benefits: FC = () => {
           duration: 0.3,
           repeat: -1,
           repeatDelay: 0.1,
-        }
+        },
       );
       tweenTls[2].fromTo(
         links[i],
@@ -143,7 +143,7 @@ const Benefits: FC = () => {
           duration: 0.3,
           repeat: -1,
           repeatDelay: 0.1,
-        }
+        },
       );
     }
 
@@ -161,7 +161,7 @@ const Benefits: FC = () => {
           x: 0,
           ease: 'sin.inOut',
           duration: 1.5,
-        }
+        },
       )
       .fromTo(
         '.dynamic_svg__arrow',
@@ -172,7 +172,7 @@ const Benefits: FC = () => {
           opacity: 1,
           ease: 'power3.out',
           duration: 0.5,
-        }
+        },
       )
       .fromTo(
         '.dynamic_svg__lightning',
@@ -185,7 +185,7 @@ const Benefits: FC = () => {
           y: 0,
           duration: 1,
           ease: 'power2.inOut',
-        }
+        },
       );
 
     // Multiplatform anim
@@ -198,7 +198,7 @@ const Benefits: FC = () => {
         {
           fill: '#ffdc21',
           duration: 0.5,
-        }
+        },
       );
     }
 
@@ -223,7 +223,7 @@ const Benefits: FC = () => {
         onComplete: () => {
           rot -= 360;
         },
-      }
+      },
     );
     const tweenFloat = gsap.fromTo(
       '.multiplatform_svg__lightning',
@@ -238,7 +238,7 @@ const Benefits: FC = () => {
         yoyo: true,
         paused: true,
         yoyoEase: 'linear',
-      }
+      },
     );
 
     function onIntersection(entries) {
@@ -277,8 +277,8 @@ const Benefits: FC = () => {
           {
             root: null,
             threshold: 0.2,
-          }
-        )
+          },
+        ),
       );
     }
 
@@ -327,7 +327,7 @@ const Benefits: FC = () => {
           },
           {
             opacity: 0,
-          }
+          },
         )
           .fromTo(
             security.current,
@@ -336,7 +336,7 @@ const Benefits: FC = () => {
             },
             {
               opacity: 1,
-            }
+            },
           )
           .to(security.current, {
             opacity: 0,
@@ -348,7 +348,7 @@ const Benefits: FC = () => {
             },
             {
               opacity: 1,
-            }
+            },
           )
           .to(scale.current, {
             opacity: 0,
@@ -360,7 +360,7 @@ const Benefits: FC = () => {
             },
             {
               opacity: 1,
-            }
+            },
           )
           .to(dynamic.current, {
             opacity: 0,
@@ -372,7 +372,7 @@ const Benefits: FC = () => {
             },
             {
               opacity: 1,
-            }
+            },
           );
       },
       '(min-width: 1101px)': () => {
@@ -447,7 +447,8 @@ const Benefits: FC = () => {
                 Apache APISIX Gateway provides multiple security plugins for identity authentication
                 and API verification, including CORS, JWT, Key Auth, OpenID Connect (OIDC),
                 Keycloak, etc. We put stability and security first. For more information, check
-              </Translate>{' '}
+              </Translate>
+              {' '}
               <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs/apisix/plugins/cors/')}>
                 <Translate id="benefits.component.security.link.here">here</Translate>
               </Link>
