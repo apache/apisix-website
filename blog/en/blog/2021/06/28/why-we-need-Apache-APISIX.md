@@ -13,6 +13,7 @@ keywords:
 - API Management
 description: Many companies used to use NGINX or Kong as their API gateway but switched to Apache APISIX now. As an Open Source API Gateway, Apache APISIX solves a lot of pain points for businesses.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/10/08/634113b21a4aa.png
 ---
 
 > This article describes the history of the open source API Gateway Apache APISIX architecture's evolution and compares the advantages of the two frameworks, Apache APISIX and NGINX.
