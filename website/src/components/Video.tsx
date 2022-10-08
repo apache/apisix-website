@@ -3,6 +3,7 @@ import React from 'react';
 import videojs from 'video.js';
 import type { VideoJsPlayerOptions, VideoJsPlayer } from 'video.js';
 import 'video.js/dist/video-js.min.css';
+import '../css/landing-sections/video.css';
 
 export interface VideoProps {
     options: VideoJsPlayerOptions,

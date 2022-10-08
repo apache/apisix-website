@@ -68,12 +68,12 @@
 
   width: fit-content;
   display: grid;
-  grid-template-columns: repeat(3, $width);
+  grid-template-columns: repeat(3, min($width, 30%));
   margin: 5rem auto 0;
   align-items: start;
   font-family: apple-system, system-ui, sans-serif;
-  column-gap: 1.25rem;
   row-gap: 3rem;
+  justify-content: space-between;
 
   article {
     border-radius: 1rem;
@@ -217,7 +217,7 @@
   }
 }
 
-@include respond-above(sm) {
+@include respond-above(lg) {
   .firstPage {
     grid-template-columns: repeat(2, 645px);
 
@@ -225,6 +225,21 @@
       & > a {
         img {
           width: 605px !important;
+          max-width: unset;
+        }
+      }
+    }
+  }
+}
+
+@include respond-above(sm) {
+  .firstPage {
+    grid-template-columns: repeat(2, min(645px, 50%));
+
+    > article {
+      & > a {
+        img {
+          // width: min(605px, 50%) !important;
           max-width: unset;
         }
       }

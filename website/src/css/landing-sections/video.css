@@ -1,0 +1,7 @@
+.video-js.vjs-playing .vjs-big-play-button {
+  display: none !important;
+}
+
+.video-js.vjs-paused .vjs-big-play-button {
+  display: inline-block !important;
+}
