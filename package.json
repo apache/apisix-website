@@ -38,6 +38,10 @@
     "serve:doc": "yarn workspace doc docusaurus serve",
     "serve:blog:zh": "yarn workspace blog docusaurus serve zh",
     "serve:blog:en": "yarn workspace blog docusaurus serve en",
+    "build:website:preview:serve": "yarn build:website:preview && yarn serve:website",
+    "build:doc:preview:serve": "yarn build:doc:previw && yarn serve:doc",
+    "build:blog:zh:preview:serve": "yarn build:blog:zh:preview && yarn serve:blog:zh",
+    "build:blog:en:preview:serve": "yarn build:blog:en:preview && yarn serve:blog:en",
     "prepare": "husky install",
     "prepare-data": "yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts"
   },
