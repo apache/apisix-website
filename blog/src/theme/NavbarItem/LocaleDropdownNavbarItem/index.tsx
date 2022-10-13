@@ -37,7 +37,12 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   if (windowType !== 'mobile') {
     if (pathname.startsWith('/zh/blog')) {
       return (
-        <Link autoAddBaseUrl={false} to="pathname:///blog" target="_parent">
+        <Link
+          className={styles.localizedBlogLink}
+          autoAddBaseUrl={false}
+          to="pathname:///blog"
+          target="_parent"
+        >
           English Blog
         </Link>
       );
@@ -45,7 +50,12 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
 
     if (pathname.startsWith('/blog')) {
       return (
-        <Link autoAddBaseUrl={false} to="pathname:///zh/blog" target="_parent">
+        <Link
+          className={styles.localizedBlogLink}
+          autoAddBaseUrl={false}
+          to="pathname:///zh/blog"
+          target="_parent"
+        >
           中文博客
         </Link>
       );
