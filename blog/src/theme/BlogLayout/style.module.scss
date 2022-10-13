@@ -28,8 +28,12 @@
   flex-wrap: wrap;
   padding: 0.25rem 1rem;
   transition: all 0.3s ease-in-out;
-  border-bottom: 1px solid #e8e8ed;
   font-family: apple-system, system-ui, sans-serif;
+  border-bottom: 1px solid #e8e8ed;
+
+  html[data-theme="dark"] & {
+    border-bottom: 1px solid #252525;
+  }
 
   &::before {
     content: "";
@@ -59,6 +63,10 @@
 
     &::before {
       background-color: hsl(100deg 100% 100% / 85%);
+
+      html[data-theme="dark"] & {
+        background-color: hsl(0deg 0% 0% / 85%);
+      }
     }
 
     > a {
