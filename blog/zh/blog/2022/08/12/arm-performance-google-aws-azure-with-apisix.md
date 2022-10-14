@@ -14,9 +14,10 @@ keywords:
 - ARM
 - Azure
 - AWS
+- Oracle
 - Google
 - Apache APISIX
-description: 本文使用 API 网关 Apache APISIX 来比较 GCP、AWS 和 Azure ARM 架构服务器在网络 IO 密集型场景下的性能。
+description: 本文使用 API 网关 Apache APISIX 来比较 GCP、AWS、Azure 和 OCI ARM 架构服务器在网络 IO 密集型场景下的性能。
 tags: [Ecosystem]
 ---
 
@@ -54,9 +55,14 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 ![Dpsv5 和 Epsv5 VM](https://static.apiseven.com/2022/blog/0812/3.png)
 
-## 三大云厂商 ARM 服务器性能测试
 
-在本文中，我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 Apache APISIX，分别在 AWS c7g.large、GCP t2a-standard-2 和 Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）三款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
+### Oracle Cloud Infrastructure Ampere A1 Compute
+
+2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure, 以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1）， CPU 核心和内存都可以灵活配置。为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 [Arm 开发人员生态系统](https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy)，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。在价格方面，甲骨文更是唯一以每核心每小时 0.01 美元的价格提供其 Arm 运算实例的大型云端供应商。
+
+## 四大云厂商 ARM 服务器性能测试
+
+在本文中，我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 Apache APISIX，分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
 
 [Apache APISIX](https://github.com/apache/apisix) 是一个云原生、高性能、可扩展的 API 网关。基于 NGNIX + LuaJIT 和 etcd，APISIX 与传统 API 网关相比，具有动态路由和插件热加载特性，特别适合云原生架构下的 API 管理。
 
@@ -75,13 +81,13 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 下图是 QPS（每秒查询数）测试结果， 数字越大代表其性能越好。
 
-![QPS 结果](https://static.apiseven.com/2022/blog/0812/5.png)
+![QPS 结果](https://static.apiseven.com/2022/10/14/6348f70deefc4.png)
 
 下图是响应延迟测试结果，单位为毫秒。数字越小代表其性能越好。
 
-![响应延迟结果](https://static.apiseven.com/2022/blog/0812/6.png)
+![响应延迟结果](https://static.apiseven.com/2022/10/14/6348f70d506dd.png)
 
-从 QPS 和响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，AWS C7g 相比 GCP T2A 有 100% 的性能提升，Azure Dpsv5 相比 GCP T2A 则有 15% 左右的性能领先。
+从 QPS 和响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，AWS C7g 相比 GCP T2A 有 100% 的性能提升，Azure Dpsv5 相比 GCP T2A 则有 15% 左右的性能领先，OCI A1 和 GCP T2A 性能相当。
 
 ## 机器性价比比较
 
@@ -101,6 +107,20 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 | GCP T2A          | $0.0385 | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
 | Azure Dpsv5      | *       | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
 
+由于 OCI VM.Standard.A1.Flex 可以灵活配置内存和 CPU 核心数，因此下面计算性价比时选取的机器内存大小为：
+
+:::note
+
+内存 = CPU 核心数 * 4 GB
+
+:::
+
+:::note
+
+根据 Oracle 云免费套餐（https://www.oracle.com/cloud/free/），每个租户每月可免费获得前 3,000 个 OCPU 小时和 18,000 GB 小时（相当于 4 个 OCPU 和 24 GB 内存），以使用 VM.Standard.A1.Flex 创建 Ampere A1 Compute 实例
+
+:::
+
 参考前文中对 Apache APISIX 性能测试中的单个上游时的 QPS 数据，下表则汇总了 AWS c7g.large、GCP t2a-standard-2 和 Azure Dpsv5 运行一年的成本和性价比。其中只有微软官方公布了对应虚拟机的折扣。其中数字越大，则表明在单位价格能获取到更高的 QPS。
 
 |                    | 一年成本         | 性价比（QPS / 成本） |
@@ -111,11 +131,15 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 从测试结果来看，AWS C7g 相比 GCP T2A 和 Azure Dpsv5 拥有更高的性价比。虽然 Azure Dpsv5 相比 GCP T2A 只有 15% 的性能提升， 但是性价比却高了接近一倍。
 
+由于在 Oracle 云免费套餐中，搭载 2 核心 CPU、8 GB 内存的的虚拟机可以免费使用，这意味着如果要获得和 GCP T2A 同等的性能，OCI A1 的成本为零，性价比简直令人振奋！
+
 ## 总结
 
 AWS 在 2018 年就推出了首款 ARM 架构的处理器 AWS Graviton，比 GCP 提前了大约 4 年进行了基于 ARM 架构的服务器领域的布局，如今 AWS Graviton 处理器已经发展到了第三代。
 
 通过 Apache APISIX 的性能测试结果和性价比分析，我们可以看出 AWS Graviton3 拥有比 GCP T2A 和 Azure Dpsv5 更高的性能和性价比。这于 AWS 在 ARM 服务器领域深耕多年是分不开的。
+
+由于 Oracle 的慷慨，在业务性能允许的情况下，OCI A1 绝对是个非常好的选择，因为这基本上没有成本（你仍然需要为磁盘付费）。
 
 此外，我们在测试过程中仅使用了 Apache APISIX 绑定单核心测试。如果使用多核，AWS Graviton 3 所呈现的性价比可能会进一步提高。
 
