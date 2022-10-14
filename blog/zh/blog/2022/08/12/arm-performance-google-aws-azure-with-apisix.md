@@ -55,7 +55,6 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 ![Dpsv5 和 Epsv5 VM](https://static.apiseven.com/2022/blog/0812/3.png)
 
-
 ### Oracle Cloud Infrastructure Ampere A1 Compute
 
 2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure, 以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1）， CPU 核心和内存都可以灵活配置。为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 [Arm 开发人员生态系统](https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy)，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。在价格方面，甲骨文更是唯一以每核心每小时 0.01 美元的价格提供其 Arm 运算实例的大型云端供应商。
