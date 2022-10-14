@@ -117,7 +117,7 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 :::note
 
-根据 Oracle 云免费套餐（https://www.oracle.com/cloud/free/），每个租户每月可免费获得前 3,000 个 OCPU 小时和 18,000 GB 小时（相当于 4 个 OCPU 和 24 GB 内存），以使用 VM.Standard.A1.Flex 创建 Ampere A1 Compute 实例
+根据[Oracle 云免费套餐](https://www.oracle.com/cloud/free/)，每个租户每月可免费获得前 3,000 个 OCPU 小时和 18,000 GB 小时（相当于 4 个 OCPU 和 24 GB 内存），以使用 VM.Standard.A1.Flex 创建 Ampere A1 Compute 实例
 
 :::
 
