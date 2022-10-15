@@ -16,6 +16,14 @@ that have a specific focus on Apache APISIX.
 
 ## Upcoming
 
+### Meetups
+
+#### Apache APISIX Global Community Meetup
+
+* **Topic** Global Community Meeting
+* **Activity schedule** Every month (Will be announced 2 weeks before the event)
+* **Location** Online
+
 ### Conferences
 
 #### [Momentum](https://momentumdevcon.com/)
@@ -125,10 +133,4 @@ that have a specific focus on Apache APISIX.
 
 ### Workshops
 
-### Meetups
-
-#### Apache APISIX Global Community Meetup
-
-* **Topic** Global Community Meeting
-* **Activity schedule** 17 August 2022, at 13:00 by UTC
-* **Location** Online, [Zoom link](https://us06web.zoom.us/j/87992775211?pwd=aHg3UW5wVU0vZlFDS1hjSjl1anVBZz09) to join
+More workshops will be announced soon.
