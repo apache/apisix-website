@@ -98,7 +98,7 @@
         transition: all 0.3s ease-in-out !important;
 
         html[data-theme="dark"] & {
-          filter: brightness(0.9);
+          filter: brightness(0.85);
         }
       }
     }
