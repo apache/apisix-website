@@ -56,6 +56,10 @@
     &:default {
       color: #1d1d1f;
     }
+
+    &:hover {
+      color: var(--ifm-color-primary);
+    }
   }
 
   &.expand {
