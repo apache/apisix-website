@@ -155,6 +155,10 @@
       & .authors {
         display: flex;
 
+        html[data-theme="dark"] & img {
+          filter: brightness(0.85);
+        }
+
         & .author {
           width: 32px;
           height: 32px;
