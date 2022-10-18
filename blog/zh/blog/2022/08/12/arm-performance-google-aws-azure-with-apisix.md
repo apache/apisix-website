@@ -1,5 +1,5 @@
 ---
-title: "GCP、AWS 和 Azure ARM 架构服务器性能测试对比"
+title: "GCP、AWS、Azure 和 OCI ARM 架构服务器性能测试对比"
 authors:
   - name: "赵士瑞"
     title: "Author"
@@ -57,7 +57,7 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 ### Oracle Cloud Infrastructure Ampere A1 Compute
 
-2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure, 以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1）， CPU 核心和内存都可以灵活配置。为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 [Arm 开发人员生态系统](https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy)，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。在价格方面，甲骨文更是唯一以每核心每小时 0.01 美元的价格提供其 Arm 运算实例的大型云端供应商。
+2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure, 以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1），CPU 核心和内存都可以灵活配置。为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 [Arm 开发人员生态系统](https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy)，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。在价格方面，甲骨文更是唯一以每核心每小时 0.01 美元的价格提供其 Arm 运算实例的大型云端供应商。
 
 ## 四大云厂商 ARM 服务器性能测试
 
@@ -107,9 +107,10 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 | Azure Dpsv5      | *       | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
 | OCI A1           | 0       |0        |0        | $0.051 | $0.179  | $0.435  | $0.947  |
 
-由于 OCI VM.Standard.A1.Flex 可以灵活配置内存和 CPU 核心数，因此下面计算性价比时选取的机器内存大小为：
 
 :::note
+
+由于 OCI VM.Standard.A1.Flex 可以灵活配置内存和 CPU 核心数，因此下面计算性价比时选取的机器内存大小为：
 
 内存 = CPU 核心数 * 4 GB
 
@@ -117,7 +118,7 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 :::note
 
-根据[Oracle 云免费套餐](https://www.oracle.com/cloud/free/)，每个租户每月可免费获得前 3,000 个 OCPU 小时和 18,000 GB 小时（相当于 4 个 OCPU 和 24 GB 内存），以使用 VM.Standard.A1.Flex 创建 Ampere A1 Compute 实例
+根据 [Oracle 云免费套餐](https://www.oracle.com/cloud/free/)，每个租户每月可免费获得前 3,000 个 OCPU 小时和 18,000 GB 小时（相当于 4 个 OCPU 和 24 GB 内存），以使用 VM.Standard.A1.Flex 创建 Ampere A1 Compute 实例。
 
 :::
 
@@ -148,3 +149,4 @@ AWS 在 2018 年就推出了首款 ARM 架构的处理器 AWS Graviton，比 GCP
 - [New – Amazon EC2 C7g Instances, Powered by AWS Graviton3 Processors](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)
 - [Tau T2A machine series (Preview)](https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines)
 - [Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
+- [Ampere A1 Compute](https://www.oracle.com/hk/cloud/compute/arm/)
