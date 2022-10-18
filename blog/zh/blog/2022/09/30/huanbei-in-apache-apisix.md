@@ -86,7 +86,7 @@ Spring Cloud Gateway 是 Spring Cloud 生态下为更好管理微服务而诞生
 ```dockerfile
 FROM registry.xxx.net:5001/apisix-shuhe:v1.5
 ENV APP_NAME={{APP_NAME}}
-COPY {{PRODUCT_FILE}} /tmp/deploy2/artifact.tar.gz 
+COPY {{PRODUCT_FILE}} /tmp/deploy2/artifact.tar.gz
 
 RUN mkdir /tmp/deploy/ && tar -xf /tmp/deploy2/artifact.tar.gz -C /tmp/deploy/ && \
 cp -R /tmp/deploy/apisix/ /usr/local/apisix/ && \
