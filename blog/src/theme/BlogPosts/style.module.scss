@@ -96,6 +96,10 @@
         width: $width !important;
         transform-origin: center center;
         transition: all 0.3s ease-in-out !important;
+
+        html[data-theme="dark"] & {
+          filter: brightness(0.85);
+        }
       }
     }
 
@@ -125,18 +129,12 @@
         h2 {
           font-size: 1.375rem;
           line-height: 1.2em;
-          color: #222;
           margin-top: 0.8rem;
           margin-bottom: 0.5em;
           transition: all 0.3s ease-in-out;
-
-          &:hover {
-            opacity: 0.6;
-          }
         }
 
         p {
-          color: #1d1d1f;
           max-height: #{1.7 * 3}em;
           overflow-y: hidden;
           text-overflow: ellipsis;
@@ -148,10 +146,18 @@
       & .footer {
         display: flex;
         align-items: center;
+
+        & > time {
+          opacity: 0.9;
+        }
       }
 
       & .authors {
         display: flex;
+
+        html[data-theme="dark"] & img {
+          filter: brightness(0.85);
+        }
 
         & .author {
           width: 32px;
@@ -197,7 +203,7 @@
       }
 
       h2 {
-        opacity: 0.6;
+        opacity: 0.8;
       }
 
       & .tags:hover + a > h2 {
