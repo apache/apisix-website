@@ -115,7 +115,7 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 
 AWS 在 2018 年就推出了首款 ARM 架构的处理器 AWS Graviton，比 GCP 提前了大约 4 年进行了基于 ARM 架构的服务器领域的布局，如今 AWS Graviton 处理器已经发展到了第三代。
 
-通过 Apache APISIX 的性能测试结果和性价比分析，我们可以看出 AWS Graviton3 拥有比 GCP T2A 和 Azure Dpsv5 更高的性能和性价比。这于 AWS 在 ARM 服务器领域深耕多年是分不开的。
+通过 Apache APISIX 的性能测试结果和性价比分析，我们可以看出 AWS Graviton3 拥有比 GCP T2A 和 Azure Dpsv5 更高的性能和性价比。这与 AWS 在 ARM 服务器领域深耕多年是分不开的。
 
 此外，我们在测试过程中仅使用了 Apache APISIX 绑定单核心测试。如果使用多核，AWS Graviton 3 所呈现的性价比可能会进一步提高。
 
