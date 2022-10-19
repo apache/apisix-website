@@ -233,7 +233,7 @@ Now we are ready to test ingress by creating a new route the same as below
 
 ``` shell
 kubectl apply -f - <<EOF
-apiVersion: apisix.apache.org/v2beta3
+apiVersion: apisix.apache.org/v2
 kind: ApisixRoute
 metadata:
   name: httpbin-route
