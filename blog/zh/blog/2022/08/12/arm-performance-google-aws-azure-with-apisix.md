@@ -124,7 +124,7 @@ Tau T2A VM 有多种预定义的 VM 形状，每个 VM 最多 48 个 vCPU，每�
 | Azure D2ps v5      | $398.0（41%折扣） | 33.6               |
 | OCI A1       | $0.0 | /               |
 
-从测试结果来看，AWS C7g 性价比高于 GCP T2A 和 Azure Dpsv5。将后两者进行对比，虽然 Azure Dpsv5 比 GCP T2A 的性能只提升了 15% ，但性价比几乎翻了一番。最后来看OCI A1，由于在 Oracle 云免费套餐中，搭载 2 核心 CPU、8 GB 内存的虚拟机可以免费使用，这意味着使用OCI A1 的成本基本为零，但能获得和上述 GCP T2A 同等的性能。
+从测试结果来看，AWS C7g 性价比高于 GCP T2A 和 Azure Dpsv5。将后两者进行对比，虽然 Azure Dpsv5 比 GCP T2A 的性能只提升了 15% ，但性价比几乎翻了一番。最后来看 OCI A1，由于在 Oracle 云免费套餐中，搭载 2 核心 CPU、8 GB 内存的虚拟机可以免费使用，这意味着使用 OCI A1 的成本基本为零，但能获得和上述 GCP T2A 同等的性能。
 
 ## 总结
 
