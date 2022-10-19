@@ -30,7 +30,7 @@ Firstly, let’s understand what is Apache APISIX and Scaleway, how you can leve
 
 [Apache APISIX](https://apisix.apache.org/) is an open-source  **API Gateway** under [Apache Software Foundation](https://www.apache.org/) that is lightweight, independently deployable, and scalable that can run anywhere that allows developers to manage API endpoints. You can also leverage APISIX as [Kubernetes Ingress Controller](url) to deliver high performance and get the benefits of stateful load balancing, traffic split, hot reloading, and expansion capabilities by means of its offered diverse plug-ins to satisfy your specific needs.  You can read more about the use cases and features offered by Apache APISIX in the [documentation](https://apisix.apache.org/docs/apisix/getting-started/).
 
-![photo_2022-04-03_22-38-23.jpg](https://static.apiseven.com/2022/10/17/634d545743b1a.jpg)
+![Apache APISIX](https://static.apiseven.com/2022/10/17/634d545743b1a.jpg)
 
 It is also possible to install Apache APISIX by [different methods](https://apisix.apache.org/docs/apisix/installation-guide/) ([Docker](https://www.docker.com/), [Helm](https://helm.sh/), or [RPM](https://rpm.org/)) and run it in the various public cloud providers because of its [cloud-native](https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/definition) behavior.
 
