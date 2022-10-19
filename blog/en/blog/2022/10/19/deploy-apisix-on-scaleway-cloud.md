@@ -229,7 +229,7 @@ kubectl run httpbin --image kennethreitz/httpbin --port 80
 kubectl expose pod httpbin --port 80
 ```
 
-Now we are ready to test ingress by creating a new route the same as below
+Now we are ready to test ingress by creating a new route the same as below:
 
 ``` shell
 kubectl apply -f - <<EOF
