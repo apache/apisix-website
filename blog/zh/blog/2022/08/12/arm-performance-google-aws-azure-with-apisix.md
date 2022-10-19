@@ -36,7 +36,7 @@ AWS Graviton 是 AWS 于 2018 年发布的基于 ARM 架构的一系列服务器
 
 AWS Graviton2 于 2020 年发布，与第一代 AWS Graviton 处理器相比，AWS Graviton2 处理器在性能和功能方面实现了重大飞跃：性能提升 7 倍、计算核心数量达到 4 倍、缓存达到 2 倍、内存速度提升 5 倍等等。
 
-最新的 AWS Graviton3 处理器在 2022 年 5 月底发布，基于更加先进的 [Neoverse V1](https://www.arm.com/zh-TW/products/silicon-ip-cpu/neoverse/neoverse-v1) 设计，与前代处理器相比，提升了两倍的浮点性能、两倍的加密性能和三倍的 ML 性能，包括对 bfloat16 的支持。下图展示了搭载 AWS Graviton3 处理器的主要机型：
+最新的 AWS Graviton3 处理器在 2022 年 5 月底发布，基于更加先进的 [Neoverse V1](https://www.arm.com/zh-TW/products/silicon-ip-cpu/neoverse/neoverse-v1) 设计，与前代处理器相比，提升了两倍的浮点性能、两倍的加密性能和三倍的 ML 性能，并支持 bfloat16 。下图展示了搭载 AWS Graviton3 处理器的主要机型：
 
 ![AWS Graviton3 处理器主要机型](https://static.apiseven.com/2022/blog/0812/1.png)
 
