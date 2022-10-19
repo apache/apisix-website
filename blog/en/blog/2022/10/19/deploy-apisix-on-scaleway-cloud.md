@@ -32,7 +32,7 @@ Firstly, let’s understand what is Apache APISIX and Scaleway, how you can leve
 
 ![photo_2022-04-03_22-38-23.jpg](https://static.apiseven.com/2022/10/17/634d545743b1a.jpg)
 
-It is also possible to install Apache APISIX by [different method](https://apisix.apache.org/docs/apisix/installation-guide/)s ([Docker](https://www.docker.com/), [Helm](https://helm.sh/), or [RPM](https://rpm.org/)) and run it in the various public cloud providers because of its [cloud-native](https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/definition) behavior.
+It is also possible to install Apache APISIX by [different methods](https://apisix.apache.org/docs/apisix/installation-guide/) ([Docker](https://www.docker.com/), [Helm](https://helm.sh/), or [RPM](https://rpm.org/)) and run it in the various public cloud providers because of its [cloud-native](https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/definition) behavior.
 
 ## What is Scaleway?
 
