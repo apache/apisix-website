@@ -28,15 +28,15 @@ tags: [Ecosystem]
 
 ARM 架构属于 [RISC 设计家族](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer)。RISC 微处理器架构设计使用一组高度优化的指令，使小型处理器能够有效地处理复杂的任务。
 
-ARM 已成为全球最大的计算机生态系统和移动设备的基石，以其低功耗、灵活的许可和低成本等特点，被许多专家认为是云计算的未来。因此，以 AWS、Google Cloud Platform（GCP） 和 Azure 为首的主流云厂商都陆续推出了 ARM 架构的服务器，其中 AWS 早在 2018 年就推出了第一款基于 ARM 架构的服务器处理器 AWS Graviton。
+ARM 已成为全球最大的计算机生态系统和移动设备的基石，它以其低功耗、灵活的许可和低成本等特点，被许多专家认为是云计算的未来。因此，以 AWS、Google Cloud Platform（GCP） 和 Azure 为首的主流云厂商都陆续推出了 ARM 架构的服务器，其中 AWS 早在 2018 年就推出了第一款基于 ARM 架构的服务器处理器 AWS Graviton。下面让我们来详细看看。
 
 ### AWS Graviton
 
 AWS Graviton 是 AWS 于 2018 年发布的基于 ARM 架构的一系列服务器处理器，第一代 AWS Graviton 处理器采用定制芯片和 64 位 Neoverse 内核。
 
-AWS Graviton2 于 2020 年发布，与第一代 AWS Graviton 处理器相比，AWS Graviton2 处理器在性能和功能方面实现了重大飞跃。性能提升 7 倍、计算核心数量达到 4 倍、缓存达到 2 倍、内存速度提升 5 倍等等。
+AWS Graviton2 于 2020 年发布，与第一代 AWS Graviton 处理器相比，AWS Graviton2 处理器在性能和功能方面实现了重大飞跃：性能提升 7 倍、计算核心数量达到 4 倍、缓存达到 2 倍、内存速度提升 5 倍等等。
 
-最新的 AWS Graviton3 处理器在 2022 年 5 月底发布，基于更加先进的 [Neoverse V1](https://www.arm.com/zh-TW/products/silicon-ip-cpu/neoverse/neoverse-v1) 设计，与前代处理器相比，更是提升了高达两倍的浮点性能、两倍的加密性能和三倍的 ML 性能，包括对 bfloat16 的支持。下图展示了搭载 AWS Graviton3 处理器的主要机型：
+最新的 AWS Graviton3 处理器在 2022 年 5 月底发布，基于更加先进的 [Neoverse V1](https://www.arm.com/zh-TW/products/silicon-ip-cpu/neoverse/neoverse-v1) 设计，与前代处理器相比，提升了两倍的浮点性能、两倍的加密性能和三倍的 ML 性能，包括对 bfloat16 的支持。下图展示了搭载 AWS Graviton3 处理器的主要机型：
 
 ![AWS Graviton3 处理器主要机型](https://static.apiseven.com/2022/blog/0812/1.png)
 
