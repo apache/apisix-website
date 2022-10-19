@@ -120,7 +120,7 @@ apisix-etcd-0             1/1     Running   0          3m9s
 apisix-etcd-1             1/1     Running   0          3m9s
 apisix-etcd-2             1/1     Running   0          3m9s
 
-$ kubectl get service -n apisix 
+$ kubectl get service -n apisix
 
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 apisix-admin           ClusterIP      10.33.189.212   <none>        9180/TCP            3m29s
@@ -170,10 +170,10 @@ Then, we can verify access and if the newly created route is functioning correct
 $ curl http://51.159.10.6:80/get -H 'Host: httpbin.org'
 {
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.68.0", 
-    "X-Amzn-Trace-Id": "Root=1-63228c4e-0388e1b61255180620195210", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.68.0",
+    "X-Amzn-Trace-Id": "Root=1-63228c4e-0388e1b61255180620195210",
     "X-Forwarded-Host": "httpbin.org"
   }
 }
@@ -254,12 +254,12 @@ EOF
 Finally, we can verify the route is working correctly by running the following command:
 
 ``` shell
-$ curl http://51.159.206.46:80/get -H 'Host: httpbin.org' 
+$ curl http://51.159.206.46:80/get -H 'Host: httpbin.org'
 {
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.68.0", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.68.0",
     "X-Forwarded-Host": "httpbin.org"
   }
 }
