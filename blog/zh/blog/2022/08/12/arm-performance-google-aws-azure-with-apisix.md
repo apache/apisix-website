@@ -28,7 +28,7 @@ tags: [Ecosystem]
 
 ARM 架构属于 [RISC 设计家族](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer)。RISC 微处理器架构设计使用一组高度优化的指令，使小型处理器能够有效地处理复杂的任务。
 
-ARM 已成为全球最大的计算机生态系统和移动设备的基石，以其低功耗、灵活的许可和低成本等特点，被许多专家认为是云计算的未来。因此，以 AWS、Google Cloud Platform（GCP） 和 Azure 为首的主流云厂商都陆续推出了 ARM 架构的服务器。其中 AWS 更是早在 2018 年就推出了第一款基于 ARM 架构的服务器处理器 AWS Graviton。
+ARM 已成为全球最大的计算机生态系统和移动设备的基石，以其低功耗、灵活的许可和低成本等特点，被许多专家认为是云计算的未来。因此，以 AWS、Google Cloud Platform（GCP） 和 Azure 为首的主流云厂商都陆续推出了 ARM 架构的服务器，其中 AWS 早在 2018 年就推出了第一款基于 ARM 架构的服务器处理器 AWS Graviton。
 
 ### AWS Graviton
 
