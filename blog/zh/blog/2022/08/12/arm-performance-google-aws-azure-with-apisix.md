@@ -98,21 +98,20 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 ![响应延迟结果](https://static.apiseven.com/2022/10/14/6348f70d506dd.png)
 
 从 QPS 来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
-
-- 将性能从优至劣进行排序：
+- 将性能从优至劣进行排序：<br> 
 **场景一：AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
-在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍， Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大， OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。
+在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍， Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大， OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。<br> 
 **场景二：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 在单个上游及两个插件的场景下， AWS c7g.large 的 QPS 达 18000 次/秒，仍保持领先，但差距有所缩小，Azure D2ps v5 的性能略高于 OCI A1，仅相差 400 次/秒。
 
 从响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
-- 将性能从优至劣进行排序：
+- 将性能从优至劣进行排序：<br> 
 **场景一和场景二均为：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 在这两个场景下，AWS c7g.large 的性能几乎都是 OCI A1 的两倍，后三者的差距不大。
 
 ## 总结
 
-通过 Apache APISIX 的性能测试结果分析，我们可以看出 AWS Graviton3 拥有比 GCP T2A、Azure Dpsv5 和 OCI A1 更高的性能。我们在测试过程中仅使用了 Apache APISIX 绑定单核心测试，如果使用多核，这四者所呈现的性价比可能会有所不同。
+通过 Apache APISIX 的性能测试结果分析，我们可以看出 AWS Graviton3 拥有比 GCP T2A、Azure Dpsv5 和 OCI A1 更高的性能。我们在测试过程中仅使用了 Apache APISIX 绑定单核心测试，如果使用多核，这四者所呈现的性能可能会有所不同。
 
 后续有可能会使用多核进行更多测试，敬请关注！
 
