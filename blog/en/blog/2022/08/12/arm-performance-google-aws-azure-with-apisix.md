@@ -83,6 +83,7 @@ We use Apache APISIX to bind a single CPU on AWS c7g.large, GCP t2a-standard-2, 
 We use  [Apache APISIX’s official open-source performance benchmark](https://github.com/apache/apisix/blob/master/benchmark/run.sh) for testing.
 
 ### Test Cases
+
 In this article, we test the performance of Apache APISIX in the following two typical scenarios, thus obtaining more realistic test data for comparison.
 
 **Scenario 1: A single upstream**
