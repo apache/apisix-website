@@ -13,6 +13,7 @@ keywords:
 - Microservices
 description: The blog post describes how Apache APISIX is useful for testing the robustness and resilience of microservices APIs. Throughout the post, we also get to know the types of possible failure injections with the Fault Injection Plugin.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/10/20/6350b3f63a715.png
 ---
 
 > 💁 This blog post describes how an **API Gateway** like [Apache APISIX](https://apisix.apache.org/) is useful for testing the robustness and resilience of microservices APIs.
