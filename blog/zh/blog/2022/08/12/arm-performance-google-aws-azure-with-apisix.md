@@ -67,7 +67,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 [Arm 开发人员生态系统](https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy)，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。此外，Oracle 已与 Ampere Computing、Arm、GitLab、Jenkins 等公司合作，以加速 Arm 开发者生态系统。Arm 处理器已从移动设备发展为云端服务器，为开发人员提供工具和平台，以过渡、构建和运行基于 Arm 的工作负载。
 
 
-## 四大云厂商 ARM 服务器性能测试
+## 云厂商 ARM 服务器性能测试
 
 介绍完以上四大服务器，接下来我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 [Apache APISIX](https://apisix.apache.org/)，分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
  <br>
