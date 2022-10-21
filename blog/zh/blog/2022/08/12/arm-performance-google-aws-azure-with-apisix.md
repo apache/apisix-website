@@ -91,12 +91,6 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 ![QPS 结果](https://static.apiseven.com/2022/10/14/6348f70deefc4.png)
 
-下图是响应延迟测试结果，单位为毫秒。数值越小代表其性能越好。
-
-![响应延迟结果](https://static.apiseven.com/2022/10/14/6348f70d506dd.png)
-
-从 QPS 来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
-
 - 将性能从优至劣进行排序：
 
 	**场景一：AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
@@ -106,6 +100,12 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 	**场景二：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 
 	在单个上游及两个插件的场景下， AWS c7g.large 的 QPS 达 18000 次/秒，仍保持领先，但差距有所缩小，Azure D2ps v5 的性能略高于 OCI A1，仅相差 400 次/秒。
+
+下图是响应延迟测试结果，单位为毫秒。数值越小代表其性能越好。
+
+![响应延迟结果](https://static.apiseven.com/2022/10/14/6348f70d506dd.png)
+
+从 QPS 来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
 
 从响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
 
