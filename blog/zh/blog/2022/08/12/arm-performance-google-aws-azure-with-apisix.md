@@ -33,7 +33,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 ### AWS Graviton
 
-自2018年起，经历四年的发展，AWS Graviton 已经发展到第三代，AWS 设计的 AWS Graviton 处理器为 Amazon EC2 中运行的云工作负载提供最佳性价比。这三代处理器的特征如下：
+自 2018 年起，经历四年的发展，AWS Graviton 已经发展到第三代，AWS 设计的 AWS Graviton 处理器为 Amazon EC2 中运行的云工作负载提供最佳性价比。这三代处理器的特征如下：
 
 - AWS Graviton1 处理器采用定制芯片和 64 位 Neoverse 内核。
 - AWS Graviton2 处理器基于 Graviton2 的实例支持广泛的通用型、突发型、计算优化型、内存优化型、存储优化型和加速计算型工作负载，包括应用程序服务器、微服务、高性能计算 (HPC)、基于 CPU 的机器学习 (ML) 推理、视频编码、电子设计自动化、游戏、开源数据库和内存中的缓存。同时为提供一站式服务体验，许多 AWS 服务也支持基于 Graviton2 的实例。
