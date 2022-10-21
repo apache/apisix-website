@@ -3,11 +3,11 @@ title: "GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比"
 authors:
   - name: "赵士瑞"
     title: "Author"
-    url: "https://github.com/soulbird"
+    url: "soulbird - Overview"
     image_url: "https://github.com/soulbird.png"
   - name: "苏钰"
     title: "Technical Writer"
-    url: "https://github.com/SylviaBABY"
+    url: "SylviaBABY - Overview"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API 网关
@@ -69,14 +69,14 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 ## 云厂商 ARM 服务器性能测试
 
 下面我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 [Apache APISIX](https://apisix.apache.org/)，分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
- 
+
 [Apache APISIX](https://github.com/apache/apisix) 是一个云原生、高性能、可扩展、开源的 API 网关。与传统 API 网关相比，Apache APISIX 基于 NGINX 与 LuaJIT 开发，具有动态路由和插件热加载等特性，非常适合云原生架构下的 API 管理。架构图如下所示：
 
 ![Apache APISIX](https://static.apiseven.com/2022/blog/0812/4.png)
 
 我们将使用 Apache APISIX 分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5 （虽然名称含D2ps，但实际是属于 Dpsv5 系列的双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
 
-我们将使用 APISIX 官方开源的[性能测试脚本](https://github.com/apache/apisix/blob/master/benchmark/run.sh)进行测试。
+我们将使用 APISIX 官方开源的[性能测试脚本](apisix/run.sh at master · apache/apisix)进行测试。
 
 ### 测试用例
 
@@ -93,13 +93,13 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 - 将性能从优至劣进行排序：
 
-	**场景一：AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
+    **场景一：AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
 
-	在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍， Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大， OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。
+    在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍， Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大， OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。
 
-	**场景二：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
+    **场景二：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 
-	在单个上游及两个插件的场景下， AWS c7g.large 的 QPS 达 18000 次/秒，仍保持领先，但差距有所缩小，Azure D2ps v5 的性能略高于 OCI A1，仅相差 400 次/秒。
+    在单个上游及两个插件的场景下， AWS c7g.large 的 QPS 达 18000 次/秒，仍保持领先，但差距有所缩小，Azure D2ps v5 的性能略高于 OCI A1，仅相差 400 次/秒。
 
 下图是响应延迟测试结果，单位为毫秒。数值越小代表其性能越好。
 
@@ -111,9 +111,9 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 - 将性能从优至劣进行排序：
 
-	**场景一和场景二均为：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
+    **场景一和场景二均为：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 
-	在这两个场景下，AWS c7g.large 的性能几乎都是 OCI A1 的两倍，后三者的差距不大。
+ 在这两个场景下，AWS c7g.large 的性能几乎都是 OCI A1 的两倍，后三者的差距不大。
 
 ## 总结
 
