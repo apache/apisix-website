@@ -69,7 +69,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 ## 四大云厂商 ARM 服务器性能测试
 
-介绍完以上四大服务器，接下来我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 Apache APISIX，分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
+介绍完以上四大服务器，接下来我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 [Apache APISIX](https://apisix.apache.org/)，分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。
  <br>
  
 [Apache APISIX](https://github.com/apache/apisix) 是一个云原生、高性能、可扩展的 API 网关。与传统 API 网关相比，Apache APISIX 基于 NGNIX + LuaJIT 和 etcd开发，具有动态路由和插件热加载等特性，非常适合云原生架构下的 API 管理。架构图如下所示：
