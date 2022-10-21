@@ -21,7 +21,7 @@ keywords:
 tags: [Ecosystem]
 ---
 
-> 本文使用 Apache APISIX 来比较 GCP、AWS、Azure 和 OCI ARM 架构服务器在网络 IO 密集型场景下的性能。
+> 本文使用 Apache APISIX 来比较 GCP、AWS、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。
 
 <!--truncate-->
 
