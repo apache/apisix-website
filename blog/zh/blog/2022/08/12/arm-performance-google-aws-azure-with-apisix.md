@@ -1,5 +1,5 @@
 ---
-title: "GCP、AWS、Azure 和 OCI ARM 架构服务器性能测试对比"
+title: "GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比"
 authors:
   - name: "赵士瑞"
     title: "Author"
