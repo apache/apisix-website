@@ -97,10 +97,6 @@ The figure below is the QPS (queries per second) test result of AWS c7g.large, G
 
 [![QPS Value Comparison of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241290d787.webp)](https://static.apiseven.com/2022/10/21/635241290d787.webp)
 
-The figure below is the response latency test results in milliseconds. The smaller the value, the better the performance.
-
-[![Response Latency of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241298c145.webp)](https://static.apiseven.com/2022/10/21/635241298c145.webp)
-
 From the perspective of QPS, under the network IO-intensive API gateway like Apache APISIX, the performance of these four servers is as follows:
 
 #### Sort performance from best to worst:
@@ -110,6 +106,10 @@ With a single upstream without any plugins, AWS c7g.large achieves a QPS of 23,0
 
 - **Scenario 2: AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 In the scenario of a single upstream and two plug-ins, the QPS of AWS c7g.large reaches 18,000 times/sec, still leading while narrowing the gap with the other three servers. The performance of Azure D2ps v5 is slightly higher than that of OCI A1, with a difference of only 400 times/sec.
+
+The figure below is the response latency test results in milliseconds. The smaller the value, the better the performance.
+
+[![Response Latency of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241298c145.webp)](https://static.apiseven.com/2022/10/21/635241298c145.webp)
 
 From the perspective of response latency, under the network IO-intensive API gateway like Apache APISIX, the performance of these four servers is as follows:
 
