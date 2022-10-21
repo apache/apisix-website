@@ -109,9 +109,11 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 	在单个上游及两个插件的场景下， AWS c7g.large 的 QPS 达 18000 次/秒，仍保持领先，但差距有所缩小，Azure D2ps v5 的性能略高于 OCI A1，仅相差 400 次/秒。
 
 从响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
-- 将性能从优至劣进行排序：<br> 
-**场景一和场景二均为：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
-在这两个场景下，AWS c7g.large 的性能几乎都是 OCI A1 的两倍，后三者的差距不大。
+- 将性能从优至劣进行排序：
+
+	**场景一和场景二均为：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
+
+	在这两个场景下，AWS c7g.large 的性能几乎都是 OCI A1 的两倍，后三者的差距不大。
 
 ## 总结
 
