@@ -48,7 +48,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 2022年7月，谷歌云首次推出 ARM 架构的虚拟机预览版，它由 Ampere® Altra® 处理器提供支持，提供卓越的单线程性能。T2A VM 有多种预定义的 VM 产品形态，每个 VM 最多有 48 个 vCPU，每个 vCPU 有 4GB 内存。它们可以提供高达 32 Gbps 的网络带宽和广泛的网络附加存储选项，使 T2A VM 非常适合横向扩展工作负载，包括 Web 服务器、容器化微服务、数据记录处理、媒体转码和大型 Java 应用程序。另外，它还具备以下两大特点：
 
 - 与谷歌云生态系统集成：T2A 虚拟机支持大多数流行的Linux操作系统，例如 RHEL、CentOS、Ubuntu 和 Rocky Linux；还支持 Container-Optimized OS，以快速、高效、安全地启动 Docker 容器；同时，在 Google Cloud 上构建应用程序的开发人员可以将多个 Google Cloud 服务与 T2A 虚拟机一起使用。
-- ISV合作伙伴和生态系统：Ampere 当前已罗列了 100 多个已经在基于 Ampere 的 T2A 虚拟机上运行的应用程序、数据库、云原生软件和编程语言，数量还在不断增加。
+- ISV 合作伙伴和生态系统：Ampere 当前已罗列了 100 多个已经在基于 Ampere 的 T2A 虚拟机上运行的应用程序、数据库、云原生软件和编程语言，数量还在不断增加。
 
 主要机型如下图所示：
 
