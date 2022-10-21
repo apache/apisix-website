@@ -29,7 +29,7 @@ tags: [Ecosystem]
 
 ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer)，RISC 微处理器架构设计通过使用一组高度优化的指令，使小型处理器能够有效地处理复杂的任务。ARM 架构被广泛地使用在许多嵌入式系统设计中，已成为全球最大的计算机生态系统和移动设备的基石，由于它功耗低、成本低、效能高以及许可灵活，许多专家视其为云计算的未来。因此，以 AWS（Amazon Web Services）、GCP（Google Cloud Platform）、Azure（Microsoft Azure）和 Oracle 为首的主流云厂商都陆续推出了 ARM 架构的服务器，本文将选取这几个厂商的服务器进行性能测试。首先让我们了解下这四大厂商及其产品。
 
-## 四大云厂商 ARM 服务器
+## 云厂商 ARM 服务器介绍
 
 ### AWS Graviton
 
