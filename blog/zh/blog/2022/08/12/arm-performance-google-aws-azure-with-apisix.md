@@ -62,7 +62,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 ### Oracle Cloud Infrastructure Ampere A1 Compute
 
-2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure, 以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1），其CPU 核心和内存都可以灵活配置。
+2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure，以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1），其CPU 核心和内存都可以灵活配置。
 
 为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 [Arm 开发人员生态系统](https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy)，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。此外，Oracle 已与 Ampere Computing、Arm、GitLab、Jenkins 等公司合作，以加速 Arm 开发者生态系统。Arm 处理器已从移动设备发展为云端服务器，为开发人员提供工具和平台，以过渡、构建和运行基于 Arm 的工作负载。
 
