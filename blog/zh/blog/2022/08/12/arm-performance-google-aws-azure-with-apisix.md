@@ -10,19 +10,24 @@ authors:
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
-- API 网关
-- ARM
-- Azure
-- AWS
-- Oracle
-- Google
-- Apache APISIX
+  - API 网关
+  - ARM
+  - Azure
+  - AWS
+  - Oracle
+  - Google
+  - Apache APISIX
+tags: 
+  - Apache APISIX
+  - GCP 
+  - AWS
+  - Azure
+  - Oracle
+  - Performance Comparison
 description: 本文使用 API 网关 Apache APISIX 来比较 GCP、AWS 、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。
-category: [Ecosystem]
+category: 
+  - Ecosystem
 published_at: 2022-10-25T00:00:00Z
-tags: ["Apache APISIX", "GCP", "AWS", "Azure", "Oracle", "performance comparison"]
-keywords: ["Apache APISIX", "GCP", "AWS", "Azure", "Oracle", "performance comparison"]
-
 ---
 
 > 本文使用 Apache APISIX 来比较 GCP、AWS、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。
