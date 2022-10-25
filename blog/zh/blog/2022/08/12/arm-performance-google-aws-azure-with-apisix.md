@@ -3,11 +3,11 @@ title: "GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比"
 authors:
   - name: "赵士瑞"
     title: "Author"
-    url: "soulbird - Overview"
+    url: "https://github.com/soulbird"
     image_url: "https://github.com/soulbird.png"
   - name: "苏钰"
     title: "Technical Writer"
-    url: "SylviaBABY - Overview"
+    url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
 keywords: 
 - API 网关
