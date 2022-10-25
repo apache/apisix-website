@@ -105,7 +105,6 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 ![响应延迟结果](https://static.apiseven.com/2022/10/14/6348f70d506dd.png)
 
-从 QPS 来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
 
 从响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：
 
