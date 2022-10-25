@@ -95,7 +95,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
     **场景一：AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
 
-    在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍， Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大， OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。
+    在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍，Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大，OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。
 
     **场景二：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 
