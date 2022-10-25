@@ -87,7 +87,7 @@ ARM 架构属于 [RISC（Reduced instruction set computer）设计家族](https:
 
 ### 测试结果
 
-下图是AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5 和 OCI A1 四款机型的 QPS（每秒查询数）测试结果， QPS数值越大代表该服务器的性能越好。
+下图是AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5 和 OCI A1 四款机型的 QPS（每秒查询数）测试结果，QPS 数值越大代表该服务器的性能越好。
 
 ![QPS 结果](https://static.apiseven.com/2022/10/14/6348f70deefc4.png)
 
