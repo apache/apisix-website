@@ -80,7 +80,7 @@ Apache APISIX is a cloud-native, high-performance, scalable, open-source API gat
 
 We use Apache APISIX to bind a single CPU on AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5 (although the name includes D2ps, but it is a dual-core CPU belonging to the Dpsv5 series), and OCI A1 to conduct stress testing and analyze the performance of the server through QPS and response latency.
 
-We use  [Apache APISIX’s official open-source performance benchmark](https://github.com/apache/apisix/blob/master/benchmark/run.sh) for testing.
+We use [Apache APISIX’s official open-source performance benchmark](https://github.com/apache/apisix/blob/master/benchmark/run.sh) for testing.
 
 ### Test Cases
 
