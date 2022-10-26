@@ -103,10 +103,12 @@ From the perspective of QPS, under the network IO-intensive API gateway like Apa
 #### Sort performance from best to worst:
 
 - **Scenario 1: AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
-With a single upstream without any plugins, AWS c7g.large achieves a QPS of 23,000 times/sec, almost twice the performance of GCP t2a-standard-2 (11,300 times/sec QPS). There is a small gap among Azure D2ps v5, OCI A1, and GCP t2a-standard-2. OCI A1 and GCP t2a-standard-2 have almost the same performance, with a difference of only 200 times/sec.
+
+  With a single upstream without any plugins, AWS c7g.large achieves a QPS of 23,000 times/sec, almost twice the performance of GCP t2a-standard-2 (11,300 times/sec QPS). There is a small gap among Azure D2ps v5, OCI A1, and GCP t2a-standard-2. OCI A1 and GCP t2a-standard-2 have almost the same performance, with a difference of only 200 times/sec.
 
 - **Scenario 2: AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
-In the scenario of a single upstream and two plug-ins, the QPS of AWS c7g.large reaches 18,000 times/sec, still leading while narrowing the gap with the other three servers. The performance of Azure D2ps v5 is slightly higher than that of OCI A1, with a difference of only 400 times/sec.
+
+  In the scenario of a single upstream and two plug-ins, the QPS of AWS c7g.large reaches 18,000 times/sec, still leading while narrowing the gap with the other three servers. The performance of Azure D2ps v5 is slightly higher than that of OCI A1, with a difference of only 400 times/sec.
 
 The figure below is the response latency test results in milliseconds. The smaller the value, the better the performance.
 
@@ -117,7 +119,8 @@ From the perspective of response latency, under the network IO-intensive API gat
 #### Sort performance from best to worst:
 
 - **Scenario 1 and Scenario 2: AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
-In these two scenarios, the performance of AWS c7g.large is almost twice that of OCI A1, and there is little difference among the latter three.
+
+  In these two scenarios, the performance of AWS c7g.large is almost twice that of OCI A1, and there is little difference among the latter three.
 
 ## Conclusion
 
