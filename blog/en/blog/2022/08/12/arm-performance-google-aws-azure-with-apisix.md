@@ -76,9 +76,9 @@ To support the new Ampere A1 Compute instances in OCI, Oracle has created an [Ar
 
 ## Cloud Vendors ARM Server Performance Test
 
-After introducing the above four servers, we will reflect the overall performance of each server by testing single-core performance. Here the network IO-intensive API gateway Apache APISIX is selected to bind a single CPU core for stress testing on the four models: AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5 (Although the name contains D2ps, it is a dual-core CPU belonging to the Dpsv5 series.) and OCI A1 to conduct stress testings and analyze server performance through two metrics: QPS and response latency.
+After introducing the above four servers, we will reflect the overall performance of each server by testing single-core performance. Here the network IO-intensive API gateway [Apache APISIX](https://apisix.apache.org/) is selected to bind a single CPU core for stress testing on the four models: AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5 (Although the name contains D2ps, it is a dual-core CPU belonging to the Dpsv5 series.) and OCI A1 to conduct stress testings and analyze server performance through two metrics: QPS and response latency.
 
-Apache APISIX is a cloud-native, high-performance, scalable, open-source API gateway. Compared with traditional API gateways, Apache APISIX is developed based on NGINX and LuaJIT, with features such as dynamic routing and plugin hot reloading, which is very suitable for API management under cloud-native architecture. The architecture diagram is shown below:
+[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable, open-source API gateway. Compared with traditional API gateways, Apache APISIX is developed based on NGINX and LuaJIT, with features such as dynamic routing and plugin hot reloading, which is very suitable for API management under cloud-native architecture. The architecture diagram is shown below:
 
 ![Apache APISIX's Architecture Diagram](https://static.apiseven.com/2022/10/21/635241c9d2c35.jpeg)
 
