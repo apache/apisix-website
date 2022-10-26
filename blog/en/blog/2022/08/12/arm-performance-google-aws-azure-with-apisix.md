@@ -123,7 +123,7 @@ In these two scenarios, the performance of AWS c7g.large is almost twice that of
 
 Through the analysis of the performance test results of Apache APISIX, we can see that AWS Graviton3 has higher performance than GCP T2A, Azure Dpsv5, and OCI A1. However, we only used the Apache APISIX binding single-core test during the test. The performance presented by the four may be different if multi-core is used.
 
-There will have more tests using multi-core in the future, so stay tuned!
+We will reveal multi-core test results in the future, please stay tuned!
 
 ## References
 
