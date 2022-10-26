@@ -96,7 +96,7 @@ This scenario uses a single upstream with two plugins. It mainly tests the perfo
 
 The figure below is the QPS (queries per second) test result of AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5, and OCI A1. The higher the QPS value, the better the performance of the server.
 
-[![QPS Value Comparison of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241290d787.webp)](https://static.apiseven.com/2022/10/21/635241290d787.webp)
+![QPS Value Comparison of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241290d787.webp)
 
 From the perspective of QPS, under the network IO-intensive API gateway like Apache APISIX, the performance of these four servers is as follows:
 
