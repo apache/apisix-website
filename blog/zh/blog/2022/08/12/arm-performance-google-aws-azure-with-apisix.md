@@ -9,7 +9,7 @@ authors:
     title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
-  - name: "Yilia"
+  - name: "林亚俊"
     title: "Technical Writer"
     url: "https://github.com/Yilialinn"
     image_url: "https://avatars.githubusercontent.com/u/114121331?v=4"
