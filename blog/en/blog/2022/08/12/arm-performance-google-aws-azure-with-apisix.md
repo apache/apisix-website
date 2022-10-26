@@ -45,7 +45,7 @@ After four years of development since 2018, AWS Graviton has entered its third g
 
 The following figure shows the main models equipped with AWS Graviton3 processors:
 
-[![AWS Graviton3 processors](https://static.apiseven.com/2022/10/21/6352412740665.webp)](https://static.apiseven.com/2022/10/21/6352412740665.webp)
+![AWS Graviton3 processors](https://static.apiseven.com/2022/10/21/6352412740665.webp)
 
 ### Google Cloud Platform T2A
 
