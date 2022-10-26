@@ -110,7 +110,7 @@ In the scenario of a single upstream and two plug-ins, the QPS of AWS c7g.large 
 
 The figure below is the response latency test results in milliseconds. The smaller the value, the better the performance.
 
-[![Response Latency of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241298c145.webp)](https://static.apiseven.com/2022/10/21/635241298c145.webp)
+![Response Latency of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241298c145.webp)
 
 From the perspective of response latency, under the network IO-intensive API gateway like Apache APISIX, the performance of these four servers is as follows:
 
