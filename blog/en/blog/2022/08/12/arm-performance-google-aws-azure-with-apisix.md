@@ -56,7 +56,7 @@ The Google Cloud Platform (GCP) Tau T2A VM is a preview of Google’s first ARM-
 
 The main models are as follows:
 
-[![Google Cloud Platform T2A Models](https://static.apiseven.com/2022/10/21/6352412815275.webp)](https://static.apiseven.com/2022/10/21/6352412815275.webp)
+![Google Cloud Platform T2A Models](https://static.apiseven.com/2022/10/21/6352412815275.webp)
 
 ### Azure ARM-based Virtual Machines
 
