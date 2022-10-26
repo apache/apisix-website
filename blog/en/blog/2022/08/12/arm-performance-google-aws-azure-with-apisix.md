@@ -62,7 +62,7 @@ The main models are as follows:
 
 In April 2022, Microsoft announced a preview of its family of Azure virtual machines based on Ampere® Altra® Arm processors. The new VMs are designed to efficiently run scale-out workloads, web servers, application servers, open-source databases, cloud-native and rich .NET applications, Java applications, game servers, media servers, and more. The new VM series includes general-purpose Dpsv5 and memory-optimized Epsv5 VMs. The main models are as follows:
 
-[![Azure ARM-based Virtual Machines](https://static.apiseven.com/2022/10/21/635241c219ef7.jpeg)](https://static.apiseven.com/2022/10/21/635241c219ef7.jpeg)
+![Azure ARM-based Virtual Machines](https://static.apiseven.com/2022/10/21/635241c219ef7.jpeg)
 
 ### Oracle Cloud Infrastructure Ampere A1 Compute
 
