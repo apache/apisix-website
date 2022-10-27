@@ -64,7 +64,7 @@ The first in the list is the **API resource routing** method which uses an API G
 
 ![API resource routing](https://static.apiseven.com/2022/10/25/635788a124bf4.png)
 
-It reduces complexity on the API consumer side because they do not need to track and consume functionality from multiple HTTP endpoints in case there are many services in the system.  Also, no need to implement all cross-cutting concerns, such as authentication/authorization, throttling, and rate limiting separately for each service. Most API Gateways like [Apache APISIX](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) has already these core features.
+It reduces complexity on the API consumer side because the client applications do not need to consume functionality from multiple HTTP endpoints in case there are many services in the system.  Also, **no need to implement all cross-cutting concerns, such as authentication/authorization, throttling, and rate limiting separately for each service**. Most API Gateways like [Apache APISIX](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) has already these core features.
 
 ## API content-based routing
 
