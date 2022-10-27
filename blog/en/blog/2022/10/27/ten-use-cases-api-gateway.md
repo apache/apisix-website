@@ -174,7 +174,7 @@ For example, I explained in another blog post how to [develop API services using
 
 ### Community⤵️
 
-🙋 [Join the Apache APISIX Community](https://apisix.apache.org/docs/general/join/)
-🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
-📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
-📧 [Mail to us](dev@apisix.apache.org) with your questions.
+- 🙋 [Join the Apache APISIX Community](https://apisix.apache.org/docs/general/join/)
+- 🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
+- 📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
+- 📧 [Mail to us](dev@apisix.apache.org) with your questions.
