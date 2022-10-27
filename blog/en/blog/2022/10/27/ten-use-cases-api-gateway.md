@@ -38,13 +38,13 @@ Here is the summary of 10 patterns that uses the API Gateway (but not all):
 
 First of all, let’s revise once again these 3 terms like: **API Gateway**, **API-Led architecture**, and **API-Led Connectivity**.
 
-[API Gateway](https://wikitech.wikimedia.org/wiki/API_Gateway) is a _pattern_ formed by adding a layer between the client and the server that acts as a reverse proxy forwarding request from the client to the server. It allows all clients to access the services they want to access with a single API Gateway layer.
+[API Gateway](https://wikitech.wikimedia.org/wiki/API_Gateway) is a _pattern_ formed by adding a layer between the client and the server that acts as a single entry point forwarding request from the client to the server. It allows all clients to access the services they want to access with a single API Gateway layer.
 
 [API-led](https://dzone.com/articles/mulesoft-api-led-connectivity-architectural-and-de) is an _architectural approach_ that puts APIs at the heart of communications between applications and the business capabilities they need to access, in order to consistently deliver seamless functionality across all digital channels.
 
 ![api-led-connectivity.png](https://static.apiseven.com/2022/10/25/635783f5bb228.png)
 
-**API-led connectivity** refers to _the technique_ of using reusable and well-designed APIs to link data and applications which in turn it is based on **API-Led architecture**. It’s _a modern approach_ that looks at the best ways of reusing APIs to boost your innovation and move quickly in the market.  At the most basic level, API-led architecture should address things like:
+**API-led connectivity** refers to _the technique_ of using reusable and well-designed APIs to link data and applications which in turn it is based on **API-Led architecture**. It’s _an architectural approach_ that looks at the best ways of reusing APIs to boost your innovation and move quickly in the market.  At the most basic level, API-led architecture should address things like:
 
 - Securing APIs from unauthorized access and significant security threats.
 - Ensuring that consuming applications can always find the right API endpoint.
