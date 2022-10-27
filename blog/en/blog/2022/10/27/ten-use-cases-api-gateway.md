@@ -116,8 +116,6 @@ For example, Apache APISIX is able to receive an HTTP request, then transcode it
 
 By now, we know that an API gateway offers a central control point for incoming traffic to a variety of destinations but it can also be a central point for observation as well since it is uniquely qualified to know about all the traffic moving between clients and our service networks. There is always the possibility to instrument the API gateways so observability data (structured logs, metrics, and traces) can be collected in order to use specialized monitoring tools.
 
-![Apisix API Observability plugins](https://static.apiseven.com/2022/10/25/6357abafd8961.jpg)
-
 For example, Apache APISIX provides [pre-built connectors](https://apisix.apache.org/docs/apisix/plugins/prometheus/) (plug-ins) that you can easily integrate with external monitoring tools. You can leverage these connectors to ingest log data from your API gateways to further derive useful metrics and gain complete visibility into the usage, you can manage performance, and security of your APIs in your environment. There is also a dedicated post on [how to use these observability plugins](https://medium.com/@ApacheAPISIX/api-observability-with-apache-apisix-plugins-34584dc1ce3a).
 
 ## API Caching
@@ -136,13 +134,13 @@ It is critical to handle failures in service-to-service calls gracefully. Also, 
 
 For example, APISIX acts as an orchestrator that can use this status report to decide how to manage the traffic, load balance to a healthy node, fail-fast due to some cascading failures or simply alerts you when it notices something goes wrong. API Gateway also ensures that routing and other network-level components work together successfully to deliver a request to the API process. It helps you to detect in the early stage and fix issues for your running application much more easily.
 
-## Sidecar API gateway
+## API Versioning
 
-**Sidecar** implements an API gateway as a container attached to a service in an independent runtime, such as [Kubernetes](https://kubernetes.io/). Sidecar is a pattern that corresponds to a [sidecar](https://en.wikipedia.org/wiki/Sidecar) attached to a motorcycle, similarly, it is attached to a parent application and provides supporting features for the application. The sidecar also shares the same lifecycle as the parent application, is created and retired alongside the parent, and introduces additional features such as monitoring, logging, configuration, and networking services. The benefits of adopting this pattern are that each service runtime can configure its own API gateway in the best way. Because the requirement to enable the API gateway functionalities and setups can vary from service to service. At the same time, it separates concerns if an issue occurs in the shared API gateway infrastructure then all services will not be impacted.
+This refers to having the ability to define and run multiple concurrent versions of an API. This is particularly important as APIs will evolve over time, and having the ability to manage concurrent versions of an API will enable API consumers to incrementally switch to newer versions of an API, so older versions can be deprecated and ultimately retired. This is important as an API, just like any other software application, should be able to evolve either in support of new features or simply just in response to bug fixes.
 
-![Sidecar API gateway](https://static.apiseven.com/2022/10/27/635a420142e36.png)
+![API Versioning](https://static.apiseven.com/2022/10/27/635a6e2f27291.jpg)
 
-The preceding diagram illustrates an ingress acting as an API load balancer and resource router into each service endpoint. The entry point for the service is not the service endpoint itself but rather a sidecar API gateway. The sidecar can then perform any of the capabilities offered by the API gateway in addition to routing traffic to the service endpoint.
+You can use an API Gateway to implement API versioning (Header, Query parameter, or Path) based. [Evolving your RESTful APIs, a step-by-step approach](https://blog.frankel.ch/evolve-apis/) blog post explains how to achieve versioning by configuring two routes in the API Gateway, one versioned and the other non-versioned, switching between them by enabling [proxy-rewrite](https://apisix.apache.org/docs/apisix/plugins/proxy-rewrite/) plugin of Apache APISIX.
 
 ## Summary
 
