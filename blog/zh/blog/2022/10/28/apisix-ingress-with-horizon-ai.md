@@ -93,7 +93,7 @@ tags: [Case Studies]
 
 ![缓存反应](https://static.apiseven.com/2022/10/25/6357960182c2b.png)
 
-经过不断的调试，发现是因为 APISIX 没有开启流式上传，针对这个场景，我们将 APISIX 版本由 2.11 升级至 2.13，并且对 APISIX 的参数进行了调整，首先更改 `apisix configmap`启用流式上传的参数 `proxy_request_bufferin``g off`，其次再通过 APISIX Ingress Controller 提供的 CRD `ApisixPluginConfig` 将可复用的配置抽离出来，作为 `namespace` 级别的配置为需要此场景的路由动态设置 `client_max_body_size` 的大小。
+经过不断的调试，发现是因为 APISIX 没有开启流式上传，针对这个场景，我们将 APISIX 版本由 2.11 升级至 2.13，并且对 APISIX 的参数进行了调整，首先更改 `apisix configmap`启用流式上传的参数 `proxy_request_buffering off`，其次再通过 APISIX Ingress Controller 提供的 CRD `ApisixPluginConfig` 将可复用的配置抽离出来，作为 `namespace` 级别的配置为需要此场景的路由动态设置 `client_max_body_size` 的大小。
 
 ![数据细节](https://static.apiseven.com/2022/10/25/6357960290e3f.png)
 
