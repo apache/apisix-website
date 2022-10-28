@@ -77,7 +77,7 @@ tags: [Case Studies]
 
 ## 使用场景
 
-了解完整体架构后，接下来将分享几个公司目前利用 APISIX Ingress 实现的场景。
+了解完整体架构后，接下来将分享几个我们公司目前利用 APISIX Ingress 实现的场景。
 
 ### 超大文件上传
 
