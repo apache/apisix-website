@@ -6,18 +6,18 @@ authors:
   - name: "韩飞"
     title: "Technical Writer"
     url: "https://github.com/hf400159"
-    image_url: "https://github.com/hf400159"
+    image_url: "https://github.com/hf400159.png"
 keywords: 
 - 汽车智能
 - AI 芯片
 - 地平线
 - Apache APISIX
 - Ingress
-description: 地平线作为一家致力于汽车自动驾驶芯片的公司，在业务迭代中为何从 Traefik 切换到了 APISIX Ingress 去支撑业务。本文从一些背景和实践场景中为大家带来了解读。
+description: 地平线作为一家致力于汽车自动驾驶芯片的公司，在业务迭代中为何从 Traefik 切换到了 APISIX Ingress 去支撑业务。
 tags: [Case Studies]
 ---
 
-> 地平线作为一家致力于汽车自动驾驶芯片的公司，在业务迭代中为何从 Traefik 切换到了 APISIX Ingress 去支撑业务。本文从一些背景和实践场景中为大家带来了解读。
+> 地平线作为一家致力于汽车自动驾驶芯片的公司，在业务迭代中为何从 Traefik 切换到了 APISIX Ingress 去支撑业务？
 
 <!--truncate-->
 
@@ -107,9 +107,9 @@ tags: [Case Studies]
 
 ### 使用 `forward-auth` 实现外部认证
 
-在我们刚开始使用 APISIX Ingress 时，APISIX 并没有支持 `forward-auth` 插件，因此我们基于 `[apisix-go-plugin-runner](https://apisix.apache.org/zh/docs/go-plugin-runner/getting-started/)` 自定义了一个插件，但是这样做就多了一层 gRPC 的调用，调试比较困难，很多日志都无法看到。
+在我们刚开始使用 APISIX Ingress 时，APISIX 并没有支持 `forward-auth` 插件，因此我们基于 [`apisix-go-plugin-runner`](https://apisix.apache.org/zh/docs/go-plugin-runner/getting-started/) 自定义了一个插件，但是这样做就多了一层 gRPC 的调用，调试比较困难，很多日志都无法看到。
 
-而在今年年初 APISIX 支持了 `[forward-auth](https://apisix.apache.org/zh/docs/apisix/plugins/forward-auth/)` 插件，我们就将自定义插件更换为官方插件，这样就减少一层 gRPC 的调用，也更加方便进行监控。
+而在今年年初 APISIX 支持了 [`forward-auth`](https://apisix.apache.org/zh/docs/apisix/plugins/forward-auth/) 插件，我们就将自定义插件更换为官方插件，这样就减少一层 gRPC 的调用，也更加方便进行监控。
 
 ![外部认证流程](https://static.apiseven.com/2022/10/25/635796062d19a.png)
 
