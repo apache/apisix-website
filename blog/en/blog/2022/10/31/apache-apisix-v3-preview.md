@@ -36,7 +36,7 @@ But just solving these problems is not enough. As a middleware with requests fro
 
 In addition to business-level requirements, API gateways also have requirements for customization and integration. So how to make custom development easier for developers when using APISIX is another significant pain point that APISIX solves, lowering the threshold for developers to code.
 
-In APISIX, plugins are developed mainly through Lua, and [LuaJIT](https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/) (a Just-In-Time Compiler for Lua) is used to ensure that the compiled code performance is good enough. 
+In APISIX, plugins are developed mainly through Lua, and [LuaJIT](https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/) (a Just-In-Time Compiler for Lua) is used to ensure that the compiled code performance is good enough.
 
 If you are not familiar with Lua, you can use Plugin Runner, developing APISIX plugins using the programming languages you are familiar with. We also embedded [Wasm](https://apisix.apache.org/docs/apisix/wasm/) into APISIX, and you can utilize Wasm to compile Wasm bytecode to run in APISIX. As a result, users can use Lua, Go, Python, Wasm, etc., to create custom plugins on APISIX.
 
@@ -61,6 +61,7 @@ According to the current data, the performance of Arm-based servers is slightly 
 ### 2. AI Plane
 
 Apache APISIX adds an AI plane in the 3.0 version, improving the performance by 30% (measured by QPS under stress testing). The AI plane would dynamically optimize the data plane configuration, utilizing comprehensive data such as users' settings on routes and plugins, as well as log metrics. For example, the following three scenarios can be automatically optimized by the AI plane:
+
 1. When the matching requirement is simple (e.g. only containing uri or host), cache is enabled to accelerate the route matching process
 2. If there is no plugin, only the code related to the upstream would be run
 3. If there is only one upstream node and no other configuration option is enabled, the upstream would be configured in a lightweight way
@@ -183,10 +184,8 @@ For example, perform a specific action when condition A is true, perform another
 
 ## Get Started with Apache APISIX 3.0
 
-You can now check out APISIX 3.0 on the [GitHub Release page](https://github.com/apache/apisix/releases) and [Download page](https://apisix.apache.org/downloads/)! 
+You can now check out APISIX 3.0 on the [GitHub Release page](https://github.com/apache/apisix/releases) and [Download page](https://apisix.apache.org/downloads/)!
 
 APISIX has grown a lot from the beginning to the 3.0 version. An open source project may not be judged solely on performance and functionality but on the perspective of users, developers, and enterprises to consider whether they can use the product to solve their current pain points quickly and effectively.
 
 The highlights and new features mentioned in this article are all created through the open source community. Apache APISIX has become more vibrant by receiving feedback from different developers and enterprise users. If you want to join the vibe, check out the community [here](https://apisix.apache.org/docs/general/join/)!
-
-
