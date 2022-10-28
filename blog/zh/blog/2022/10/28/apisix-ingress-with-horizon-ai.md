@@ -61,7 +61,7 @@ tags: [Case Studies]
 
 * 社区活跃：Issue 的响应速度很快，相对其他社区， APISIX 活跃开发者数量多。
 
-* 高性能：从下图中，可以看到在和 Envoy 进行压测对比时，APISIX 性能是 Envoy 的 120% 左右，核心数越多 QPS 差距越大。
+* 高性能：从下图中，可以看到在和 Envoy 进行压测对比时，APISIX 的性能是 Envoy 的 120% 左右，并且核心数越多 QPS 差距越大。
 
 ![性能对比图](https://static.apiseven.com/2022/10/25/6357960098fe0.png)
 
