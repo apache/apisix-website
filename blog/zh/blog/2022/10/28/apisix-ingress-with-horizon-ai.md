@@ -85,7 +85,7 @@ tags: [Case Studies]
 
 ![文件数据](https://static.apiseven.com/2022/10/25/63579603ed287.png)
 
-因为默认 `client_body_buffer_size` 是 `1M``B`，缓冲区满了就会把临时文件写入磁盘，因此造成磁盘 IO 过高。
+因为默认 `client_body_buffer_size` 是 `1MB`，缓冲区满了就会把临时文件写入磁盘，因此造成磁盘 IO 过高。
 
 ![磁盘反应](https://static.apiseven.com/2022/10/25/63579600a13fd.png)
 
