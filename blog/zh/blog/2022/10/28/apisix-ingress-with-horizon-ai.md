@@ -57,7 +57,7 @@ tags: [Case Studies]
 
 * 细粒度校验：APISIX Ingress Controller 会对其管理的 CRD 声明的资源进行校验，假如在 CRD 中声明了不存在的 Service，则会将报错信息存储在 `ApisixRoute` 的 `event` 中，此次变更也不会生效，在一定程度上减少了一些因误操作造成的问题。
 
-* 功能丰富：APISIX 支持热更新和热插件、代理请求重写、多种身份认证、多语言插件开发等诸多特性，更多功能请参考 [APISIX 的功能](https://github.com/apache/apisix#features)。
+* 功能丰富：APISIX 支持热更新和热插件、代理请求重写、多种身份认证、多语言插件开发等诸多特性，更多功能请参考 [APISIX 的功能](https://github.com/apache/apisix/tree/master/docs/zh/latest#%E7%89%B9%E6%80%A7)。
 
 * 社区活跃：Issue 的响应速度很快，相对其他社区， APISIX 活跃开发者数量多。
 
