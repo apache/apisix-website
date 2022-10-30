@@ -47,6 +47,8 @@ const tasks = new Listr([
                 '--sparse': true,
                 '--remote-submodules': true,
                 '--shallow-submodules': true,
+                // just for ignore submodules
+                '--recurse-submodules': 'docs',
               })
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
