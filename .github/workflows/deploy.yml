@@ -73,9 +73,9 @@ jobs:
         with:
           path: |
             ./scripts/temp
-          key: ${{ runner.os }}-doc-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
+          key: ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
           restore-keys: |
-            ${{ runner.os }}-doc-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+            ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Sync documents
         run: |
