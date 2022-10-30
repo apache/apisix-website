@@ -37,11 +37,11 @@ const tasks = new Listr([
           const dir = `${tempPath}/${name}/`;
           const exist = await isDirExisted(dir);
           if (exist) {
-            console.log('old');
+            console.log('old'.repeat(100));
             gitMap[name] = simpleGit(dir);
             await gitMap[name].cwd(dir).fetch();
           } else {
-            console.log('dod');
+            console.log('dod'.repeat(100));
             gitMap[name] = simpleGit();
             await gitMap[name]
               .clone(`https://github.com/apache/${name}.git`, dir, {
