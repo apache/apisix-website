@@ -39,7 +39,14 @@ const tasks = new Listr([
           if (exist) {
             console.log('old'.repeat(100));
             gitMap[name] = simpleGit(dir);
-            await gitMap[name].cwd(dir).fetch();
+            await gitMap[name]
+              .cwd(dir)
+              .fetch([
+                'no-checkout',
+                '--filter=blob:none',
+                '--also-filter-submodules',
+                '--recurse-submodules=no',
+              ]);
           } else {
             console.log('dod'.repeat(100));
             gitMap[name] = simpleGit();
