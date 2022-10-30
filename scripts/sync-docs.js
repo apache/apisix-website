@@ -45,7 +45,7 @@ const tasks = new Listr([
               .clone(`https://github.com/apache/${name}.git`, dir, {
                 '--filter': 'blob:none',
                 '--sparse': true,
-                '--depth': 1,
+                '--no-remote-submodules': true,
               })
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
