@@ -40,6 +40,7 @@ const tasks = new Listr([
             gitMap[name] = simpleGit(dir);
             await gitMap[name].cwd(dir).fetch();
           } else {
+            console.log('dod');
             gitMap[name] = simpleGit();
             await gitMap[name]
               .clone(`https://github.com/apache/${name}.git`, dir, {
