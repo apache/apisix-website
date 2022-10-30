@@ -45,9 +45,11 @@ const tasks = new Listr([
               .clone(`https://github.com/apache/${name}.git`, dir, {
                 '--filter': 'blob:none',
                 '--sparse': true,
-                '--remote-submodules': true,
-                '--shallow-submodules': true,
+                // '--remote-submodules': true,
+                // '--shallow-submodules': true,
                 // just for ignore submodules
+                '--also-filter-submodules': true,
+                // '--reject-shallow': true,
                 '--recurse-submodules': 'docs',
               })
               .cwd(dir)
