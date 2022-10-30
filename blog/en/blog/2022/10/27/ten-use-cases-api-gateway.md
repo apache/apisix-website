@@ -100,7 +100,7 @@ In this design, an API Gateway acts as a **centralized authentication gateway**.
 
 Centralized authentication with the API Gateway can solve many problems and have some benefits as it completely offloads user management from an application and it improves performance by responding quickly to authentication requests received from client applications.
 
-![identityprovider](https://static.apiseven.com/2022/10/25/6357a75d9da89.jpg)
+![identityprovider and APISIX](https://static.apiseven.com/2022/10/30/635e2933c70e4.png)
 
 For example, [Apache APISIX](https://apisix.apache.org/) offers a variety of [plugins](https://apisix.apache.org/docs/apisix/plugins/openid-connect/) to enable different methods of API gateway authentication. We looked at some of the most commonly used in this blog post [Centralized Authentication with Apache APISIX Plugins](https://dev.to/apisix/centralized-authentication-with-apache-apisix-plugins-30fo). You can even enable multiple methods for authentication for the given API.
 
@@ -108,7 +108,7 @@ For example, [Apache APISIX](https://apisix.apache.org/) offers a variety of [pl
 
 This refers to having the ability to convert payloads from one format to another over the same transport. For example, from XML/SOAP over HTTPS to JSON over HTTPS and vice versa. API Gateways, by default offer capabilities in support of REST API and some specialized API gateways support, in addition to payload conversions, transport conversions such as converting from Message Queuing Telemetry Transport (MQTT) over TCP (a very popular transport in IoT) to JSON over HTTPS.
 
-![gRPC Transcode plugin](https://static.apiseven.com/2022/10/25/6357aa9e88593.png)
+![gRPC Transcode plugin](https://static.apiseven.com/2022/10/30/635e29814fac2.png)
 
 For example, Apache APISIX is able to receive an HTTP request, then transcode it and forwards it to a gRPC service, gets the response, and return it back to the client in HTTP format by means of its [gRPC Transcode](https://apisix.apache.org/docs/apisix/plugins/grpc-transcode/) plug-in.
 
@@ -122,7 +122,7 @@ For example, Apache APISIX provides [pre-built connectors](https://apisix.apache
 
 **API Caching** is yet another level of caching that is usually implemented inside API Gateway. It can reduce the number of calls made to your endpoint and also improve the latency of requests to your API by caching a response from the upstream. If the API Gateway cache has a fresh copy of the requested resource, it uses that copy to satisfy the request directly instead of making a request to the endpoint. If the cached data is not found, the request travels to the intended upstream services (backend services).
 
-![API Caching with APISIX Api Gateway](https://static.apiseven.com/2022/10/25/6357acd141b49.jpg)
+![API Caching with APISIX Api Gateway](https://static.apiseven.com/2022/10/30/635e29c9a7656.png)
 
 You can read more about [API Gateway Caching with Apache APISIX](https://medium.com/@ApacheAPISIX/api-gateway-caching-for-asp-net-core-web-api-cf24d0e598fc) in the dedicated blog post.
 
@@ -130,7 +130,7 @@ You can read more about [API Gateway Caching with Apache APISIX](https://medium.
 
 API services fail due to any number of reasons, such as networks issues, connection (failed to open a connection to a data source like a SQL Server database), API performance issues, or failure to authenticate to dependencies.  In such scenarios, our API services should be resilient enough to deal with predictable failures. Also, we want to be sure that any resilience mechanisms we have in place such as error handling code, [circuit breaker](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-circuit-breaker-ggk), [health checks](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c), [retry](https://docs.microsoft.com/en-us/azure/architecture/patterns/retry), fallback, redundant instances, and so on. Modern API Gateways support all the above error-handling features including automatic retries and timeouts.
 
-![API Fault handling with Apache APISIX](https://static.apiseven.com/2022/10/25/6357b63234ace.png)
+![API Fault handling with Apache APISIX](https://static.apiseven.com/2022/10/30/635e2a003c27f.png)
 
 API Gateway acts as an orchestrator that can use this status report to decide how to manage the traffic, load balance to a healthy node, fail-fast due to some cascading failures or simply alerts you when it notices something goes wrong. API Gateway also ensures that routing and other network-level components work together successfully to deliver a request to the API process. It helps you to detect in the early stage and fix issues for your running application much more easily. Or the [fault injection](https://apisix.apache.org/blog/2022/08/28/fault-injection-testing-with-api-gateway/) mechanism at the API Gateway level can be used to test the resiliency of application or microservices APIs against various forms of failures to build confidence in the production environment.
 
@@ -138,7 +138,7 @@ API Gateway acts as an orchestrator that can use this status report to decide ho
 
 This refers to having the ability to define and run multiple concurrent versions of an API. This is particularly important as APIs will evolve over time, and having the ability to manage concurrent versions of an API will enable API consumers to incrementally switch to newer versions of an API, so older versions can be deprecated and ultimately retired. This is important as an API, just like any other software application, should be able to evolve either in support of new features or simply just in response to bug fixes.
 
-![API Versioning](https://static.apiseven.com/2022/10/27/635a6e2f27291.jpg)
+![API Versioning](https://static.apiseven.com/2022/10/30/635e2a3c85aa5.png)
 
 You can use an API Gateway to implement API versioning (Header, Query parameter, or Path) based. [Evolving your RESTful APIs, a step-by-step approach](https://blog.frankel.ch/evolve-apis/) blog post explains how to achieve versioning by configuring two routes in the API Gateway, one versioned and the other non-versioned, switching between them by enabling [proxy-rewrite](https://apisix.apache.org/docs/apisix/plugins/proxy-rewrite/) plugin of Apache APISIX.
 
