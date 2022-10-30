@@ -48,6 +48,8 @@ const tasks = new Listr([
                 // '--remote-submodules': true,
                 // '--shallow-submodules': true,
                 // just for ignore submodules
+
+                '--no-checkout': true,
                 '--also-filter-submodules': true,
                 // '--reject-shallow': true,
                 '--recurse-submodules': 'docs',
