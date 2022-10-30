@@ -33,15 +33,16 @@ const tasks = new Listr([
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
         task: async () => {
-          const dir = `${tempPath}/${project.name}/`;
+          const { name } = project;
+          const dir = `${tempPath}/${name}/`;
           const exist = await isDirExisted(dir);
           if (exist) {
-            gitMap[project.name] = simpleGit(dir);
-            await gitMap[project.name].cwd(dir).fetch();
+            gitMap[name] = simpleGit(dir);
+            await gitMap[name].cwd(dir).fetch();
           } else {
-            gitMap[project.name] = simpleGit();
-            await gitMap[project.name]
-              .clone(`https://github.com/apache/${project.name}.git`, dir, {
+            gitMap[name] = simpleGit();
+            await gitMap[name]
+              .clone(`https://github.com/apache/${name}.git`, dir, {
                 '--filter': 'blob:none',
                 '--sparse': true,
                 '--depth': 1,
@@ -49,8 +50,8 @@ const tasks = new Listr([
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
 
-            if (project.name === 'apisix') {
-              await gitMap[project.name]
+            if (name === 'apisix') {
+              await gitMap[name]
                 .cwd(dir)
                 .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
             }
