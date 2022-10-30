@@ -37,26 +37,17 @@ const tasks = new Listr([
           const dir = `${tempPath}/${name}/`;
           const exist = await isDirExisted(dir);
           if (exist) {
-            console.log('old'.repeat(100));
             gitMap[name] = simpleGit(dir);
             await gitMap[name]
               .cwd(dir)
               .fetch(['--prune', '--filter=blob:none', '--recurse-submodules=no']);
           } else {
-            console.log('dod'.repeat(100));
             gitMap[name] = simpleGit();
             await gitMap[name]
               .clone(`https://github.com/apache/${name}.git`, dir, {
                 '--filter': 'blob:none',
                 '--sparse': true,
-                // '--remote-submodules': true,
-                // '--shallow-submodules': true,
-                // just for ignore submodules
-
-                '--no-checkout': true,
-                '--also-filter-submodules': true,
-                // '--reject-shallow': true,
-                '--recurse-submodules': 'docs',
+                '--recurse-submodules': 'no',
               })
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
