@@ -37,6 +37,7 @@ const tasks = new Listr([
           const dir = `${tempPath}/${name}/`;
           const exist = await isDirExisted(dir);
           if (exist) {
+            console.log('old');
             gitMap[name] = simpleGit(dir);
             await gitMap[name].cwd(dir).fetch();
           } else {
