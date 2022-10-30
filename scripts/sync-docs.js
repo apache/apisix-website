@@ -35,28 +35,26 @@ const tasks = new Listr([
         task: async () => {
           const { name } = project;
           const dir = `${tempPath}/${name}/`;
-          const exist = await isDirExisted(dir);
-          if (exist) {
-            gitMap[name] = simpleGit(dir);
-            await gitMap[name].cwd(dir).fetch();
-          } else {
-            gitMap[name] = simpleGit();
-            await gitMap[name]
-              .clone(`https://github.com/apache/${name}.git`, dir, {
-                '--filter': 'blob:none',
-                '--sparse': true,
-                '--no-remote-submodules': true,
-                '--no-shallow-submodules': true,
-              })
-              .cwd(dir)
-              .raw(['sparse-checkout', 'set', 'docs']);
+          // const exist = await isDirExisted(dir);
+          // if (exist) {
+          //   gitMap[name] = simpleGit(dir);
+          //   await gitMap[name].cwd(dir).fetch();
+          // } else {
+          gitMap[name] = simpleGit();
+          await gitMap[name]
+            .clone(`https://github.com/apache/${name}.git`, dir, {
+              '--filter': 'blob:none',
+              '--sparse': true,
+              '--remote-submodules': true,
+              '--shallow-submodules': true,
+            })
+            .cwd(dir)
+            .raw(['sparse-checkout', 'set', 'docs']);
 
-            if (name === 'apisix') {
-              await gitMap[name]
-                .cwd(dir)
-                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
-            }
+          if (name === 'apisix') {
+            await gitMap[name].cwd(dir).raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
           }
+          // }
         },
       }));
       return new Listr(gitTasks, { concurrent: projects.length });
