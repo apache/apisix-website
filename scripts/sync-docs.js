@@ -44,6 +44,7 @@ const tasks = new Listr([
               .clone(`https://github.com/apache/${project.name}.git`, dir, {
                 '--filter': 'blob:none',
                 '--sparse': true,
+                '--recurse-submodules': false,
               })
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
@@ -72,7 +73,8 @@ const tasks = new Listr([
               const isIngressController = project.name === 'apisix-ingress-controller';
               projectReleases[project.name] = ret.all
                 .filter((release) => (isIngressController
-                  ? release.includes('remotes/origin/v') && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
+                  ? release.includes('remotes/origin/v')
+                      && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
                   : release.includes('remotes/origin/release/')))
                 .map((release) => (isIngressController
                   ? release.replace('remotes/origin/v', '')
@@ -94,7 +96,10 @@ const tasks = new Listr([
         if (versions.length === 0) return Promise.resolve();
 
         if (await isFileExisted(target)) await fs.rm(target);
-        return fs.writeFile(target, JSON.stringify(versions.map((v) => versionMap[v] || v).reverse(), null, 2));
+        return fs.writeFile(
+          target,
+          JSON.stringify(versions.map((v) => versionMap[v] || v).reverse(), null, 2),
+        );
       };
 
       const extractTasks = projectPaths.map((project) => ({
