@@ -11,7 +11,7 @@ on:
     branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
-    - cron: "0 5 * * *"
+    - cron: '0 5 * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -29,7 +29,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: '16'
 
       - name: Get node version
         id: node-version
@@ -73,9 +73,9 @@ jobs:
         with:
           path: |
             ./scripts/temp
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
+          key: ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
           restore-keys: |
-            ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+            ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Sync documents
         run: |
@@ -112,9 +112,9 @@ jobs:
         uses: ./.github/actions/actions-netlify
         if: ${{ false }}
         with:
-          publish-dir: "./website/build"
+          publish-dir: './website/build'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "${{ github.event.pull_request.title }}, Deploy from GitHub Actions"
+          deploy-message: '${{ github.event.pull_request.title }}, Deploy from GitHub Actions'
           enable-pull-request-comment: true
           enable-commit-comment: true
           overwrites-pull-request-comment: true
