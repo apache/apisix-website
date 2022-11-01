@@ -14,6 +14,7 @@ keywords:
 - Serverless
 description: This blog post explores how to build event-driven API Services using these 3 well-known patterns to build a highly scalable and distributed system.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/11/01/63612aab60c8d.png
 ---
 
 > This blog post explores how to build event-driven API Services using these 3 well-known patterns to build a highly scalable and distributed system. We will break down each concept and understand the role of each in our particular approach.
