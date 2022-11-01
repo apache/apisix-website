@@ -1,5 +1,5 @@
 ---
-title: "10 most use cases of an API Gateway in API-Led architecture"
+title: "10 most common use cases of an API Gateway"
 authors:
   - name: Bobur Umurzokov
     title: Author
@@ -32,7 +32,7 @@ Here is the summary of 10 patterns that uses the API Gateway (but not all):
 7. API Observability.
 8. API Caching.
 9. API Fault handling.
-10. Sidecar API Gateway.
+10. API Versioning.
 
 ## API-Led Architecture
 
