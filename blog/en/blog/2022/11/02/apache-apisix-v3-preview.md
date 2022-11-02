@@ -13,7 +13,7 @@ keywords:
   - Apache APISIX
 description: The open source API Gateway Apache APISIX version 3.0 is coming! We have selected 11 essential features to give a brief overview.
 tags: [Products]
-image: https://static-site.apiseven.com/wp-content/uploads/2022/09/APISIX.webp
+image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
 > The open source API Gateway Apache APISIX version 3.0 is coming! We have selected 11 essential features to give a brief overview.
