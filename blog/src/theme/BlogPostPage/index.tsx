@@ -136,6 +136,13 @@ const BlogPostPage = (props: Props): JSX.Element => {
 
       <BlogPostItem frontMatter={frontMatter} assets={assets} metadata={metadata} isBlogPostPage>
         <MDXProvider components={components}>
+          <img
+            src={image}
+            alt={title}
+            style={{
+              display: 'none',
+            }}
+          />
           <BlogPostContents />
         </MDXProvider>
       </BlogPostItem>
