@@ -23,6 +23,7 @@ keywords:
 - Apache APISIX
 description: This article compares the performance of Google, AWS, Azure, and Oracle ARM-based servers in network IO-intensive scenarios through the API gateway Apache APISIX.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/10/18/634e6963ea45f.png
 ---
 
 > This article uses  Apache APISIX to compare the performance of AWS, Google, Azure, and Oracle ARM-based servers in network IO-intensive scenarios.
