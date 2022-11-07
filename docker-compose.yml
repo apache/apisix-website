@@ -7,7 +7,7 @@ services:
       - 3000:3000
       - 35729:35729
     volumes:
-      - ./docs:/app/docs
+      - ./doc:/app/doc
       - ./website/blog:/app/website/blog
       - ./website/core:/app/website/core
       - ./website/i18n:/app/website/i18n

@@ -17,6 +17,7 @@ keywords:
 - Arm
 description: This article uses API Gateway Apache APISIX to compare the performance of Azure Ddsv5 and Azure Dpdsv5 in network IO-intensive scenarios.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/10/28/635b53794f32a.png
 ---
 
 > This article uses API Gateway Apache APISIX to compare the performance of Azure Ddsv5 and Azure Dpdsv5 in network IO-intensive scenarios.

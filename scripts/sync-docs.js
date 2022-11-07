@@ -33,23 +33,27 @@ const tasks = new Listr([
       const gitTasks = projects.map((project) => ({
         title: `Clone ${project.name} repository`,
         task: async () => {
-          const dir = `${tempPath}/${project.name}/`;
+          const { name } = project;
+          const dir = `${tempPath}/${name}/`;
           const exist = await isDirExisted(dir);
           if (exist) {
-            gitMap[project.name] = simpleGit(dir);
-            await gitMap[project.name].cwd(dir).fetch();
+            gitMap[name] = simpleGit(dir);
+            await gitMap[name]
+              .cwd(dir)
+              .fetch(['--prune', '--filter=blob:none', '--recurse-submodules=no']);
           } else {
-            gitMap[project.name] = simpleGit();
-            await gitMap[project.name]
-              .clone(`https://github.com/apache/${project.name}.git`, dir, {
+            gitMap[name] = simpleGit();
+            await gitMap[name]
+              .clone(`https://github.com/apache/${name}.git`, dir, {
                 '--filter': 'blob:none',
                 '--sparse': true,
+                '--recurse-submodules': 'no',
               })
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
 
-            if (project.name === 'apisix') {
-              await gitMap[project.name]
+            if (name === 'apisix') {
+              await gitMap[name]
                 .cwd(dir)
                 .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
             }
@@ -72,7 +76,8 @@ const tasks = new Listr([
               const isIngressController = project.name === 'apisix-ingress-controller';
               projectReleases[project.name] = ret.all
                 .filter((release) => (isIngressController
-                  ? release.includes('remotes/origin/v') && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
+                  ? release.includes('remotes/origin/v')
+                      && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
                   : release.includes('remotes/origin/release/')))
                 .map((release) => (isIngressController
                   ? release.replace('remotes/origin/v', '')
@@ -94,7 +99,10 @@ const tasks = new Listr([
         if (versions.length === 0) return Promise.resolve();
 
         if (await isFileExisted(target)) await fs.rm(target);
-        return fs.writeFile(target, JSON.stringify(versions.map((v) => versionMap[v] || v).reverse(), null, 2));
+        return fs.writeFile(
+          target,
+          JSON.stringify(versions.map((v) => versionMap[v] || v).reverse(), null, 2),
+        );
       };
 
       const extractTasks = projectPaths.map((project) => ({

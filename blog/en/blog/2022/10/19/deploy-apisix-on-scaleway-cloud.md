@@ -14,6 +14,7 @@ keywords:
 - Deployment
 description: In this post, you will learn how easily deploy and run both Apache APISIX API Gateway and Ingress Controller on Scaleway Cloud Managed Kubernetes to efficiently manage, protect and observe your APIs in the cloud.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/10/25/6357addcaa23e.png
 ---
 
 > In this post, you will learn how easily deploy and run both [Apache APISIX API Gateway](https://apisix.apache.org/docs/apisix/getting-started/) and [Ingress Controller](https://apisix.apache.org/docs/ingress-controller/getting-started/) on [Scaleway Cloud Managed Kubernetes](https://www.scaleway.com/en/docs/) to efficiently manage, protect and observe your APIs in the cloud.

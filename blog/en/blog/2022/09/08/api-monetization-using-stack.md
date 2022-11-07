@@ -15,6 +15,7 @@ keywords:
 - Quota
 description: 💁🏼 This blog post gives you an idea of building your technology stack with an API Gateway and a payment provider that can help you run quickly and securely your API monetization system which simply provides flexibility for your customers.
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/10/25/6357addd22a01.png
 ---
 
 > 💁🏼 This blog post gives you an idea of building your technology stack with an [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) and a [payment provider](https://en.wikipedia.org/wiki/List_of_online_payment_service_providers) that can help you run quickly and securely your API monetization system which simply provides flexibility for your customers.

@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 3.0: 10 Highlights of Open Source API Gateway"
+title: "Apache APISIX 3.0: 11 Highlights of Open Source API Gateway"
 authors:
   - name: Ming Wen
     title: Author
@@ -11,20 +11,16 @@ keywords:
   - API Management Platform
   - The Best API Gateway
   - Apache APISIX
-description: The open source API Gateway Apache APISIX beta version 3.0 is coming! We have selected ten essential features to give a brief introduction before the official release.
+description: The open source API Gateway Apache APISIX version 3.0 is coming! We have selected 11 essential features to give a brief overview.
 tags: [Products]
-image: https://static-site.apiseven.com/wp-content/uploads/2022/09/APISIX.webp
+image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
-> The open source API Gateway Apache APISIX beta version 3.0 is coming! We have selected ten essential features to give a brief introduction before the official release.
+> The open source API Gateway Apache APISIX version 3.0 is coming! We have selected 11 essential features to give a brief overview.
 
 <!--truncate-->
 
 [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) has acted as an essential component for a long time. It has been committed to providing various functions such as [rate limiting](https://apisix.apache.org/docs/apisix/plugins/limit-req/), authentication (e.g., [Use Keycloak to secure APIs](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)), and observability at the business level.
-
-With the iteration of server-side technologies, more and more services have begun to migrate from bare metal to Kubernetes, and the original monolithic architecture has gradually evolved into a microservice architecture. At the same time, enterprises have started to migrate their on-premise data centers to multi-cloud or hybrid clouds.
-
-With these technological advancements in the environment, the requirements for API gateways at the business level have become increasingly complex.
 
 ## API Gateway Apache APISIX
 
@@ -40,35 +36,21 @@ But just solving these problems is not enough. As a middleware with requests fro
 
 In addition to business-level requirements, API gateways also have requirements for customization and integration. So how to make custom development easier for developers when using APISIX is another significant pain point that APISIX solves, lowering the threshold for developers to code.
 
-In APISIX, plugins are developed mainly through Lua, and [LuaJIT](https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/) (a Just-In-Time Compiler for Lua) is used to ensure that the compiled code performance is good enough. However, as a relatively minor language, the learning cost of Lua is high for most backend engineers. To solve this problem, APISIX provides two solutions.
+In APISIX, plugins are developed mainly through Lua, and [LuaJIT](https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/) (a Just-In-Time Compiler for Lua) is used to ensure that the compiled code performance is good enough.
 
-## Support More Programming Languages
+If you are not familiar with Lua, you can use Plugin Runner, developing APISIX plugins using the programming languages you are familiar with. We also embedded [Wasm](https://apisix.apache.org/docs/apisix/wasm/) into APISIX, and you can utilize Wasm to compile Wasm bytecode to run in APISIX. As a result, users can use Lua, Go, Python, Wasm, etc., to create custom plugins on APISIX.
 
-The first solution is to support more widely-used programming languages ​​(such as [Java](https://github.com/apache/apisix-java-plugin-runner), [Python](https://github.com/apache/apisix-python-plugin-runner), [Go](https://apisix.apache.org/blog/2021/08/19/go-makes-apache-apisix-better/), etc.) through [Plugin Runner](https://apisix.apache.org/docs/apisix/external-plugin/). You will know at least one of these languages if you are a backend engineer. Using Plugin Runner, backend engineers can communicate through local RPC to develop APISIX plugins using the programming languages they are familiar with.
+Thanks to APISIX's architecture and performance upper hand, APISIX's global user growth has far exceeded expectations in the three years since its inception. For example, big tech companies such as [WPS](https://apisix.apache.org/blog/2021/09/28/wps-usercase/), [Sina Weibo](https://apisix.apache.org/blog/2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix/), and [iQiyi](https://apisix.apache.org/blog/2021/09/07/iqiyi-usercase/) are enterprise-level users carrying tens of billions of API requests daily. In addition, scientific research institutions such as NASA and European Factory Platform are using APISIX.
 
-The advantage of this is to reduce development costs and improve development efficiency. The disadvantage will be performance losses. So, is there a way to achieve the near-native performance of Lua using high-level languages that developers are familiar with?
-
-![Apache APISIX Plugin Runner](https://static.apiseven.com/2022/09/21/632ab5bddbb29.png)
-
-## Support WASM
-
-The second solution is to use Wasm to develop plugins, as shown in the left part of the above figure. Wasm (WebAssembly) was first used as a new type of technology that runs in browsers, but now it is also gradually showing its advantages on the server side.
-
-We embedded [Wasm](https://apisix.apache.org/docs/apisix/wasm/) into APISIX, and users can use Wasm to compile Wasm bytecode to run in APISIX. Furthermore, to use Wasm, we developed a Wasm plugin where users can establish near-native APISIX plugins using high-level programming languages.
-
-As a result, users can use Lua, Go, Python, Wasm, etc., to write custom plugins on APISIX. Furthermore, making development easy opens doors for APISIX plugin development.
-
-Thanks to APISIX's architecture and performance upper hand, APISIX's global user growth has far exceeded expectations in the three years since its inception. For example, big Chinese tech companies such as [WPS](https://apisix.apache.org/blog/2021/09/28/wps-usercase/), [Sina Weibo](https://apisix.apache.org/blog/2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix/), and [iQiyi](https://apisix.apache.org/blog/2021/09/07/iqiyi-usercase/) are enterprise-level users carrying tens of billions of API requests daily. In addition, scientific research institutions such as NASA and European Factory Platform are using APISIX.
-
-## 10 New Highlights of APISIX 3.0
+## 11 New Highlights of APISIX 3.0
 
 APISIX proposed a new [3.0 Roadmap](https://github.com/apache/apisix/issues/6473) in early 2022. In version 3.0, its iterations and updates will focus on usability and the ecosystem.
 
 ![Apache APISIX 3.0 Roadmap](https://static.apiseven.com/2022/09/22/632bd6f95717a.png)
 
-APISIX plans to launch beta version 3.0 by the end of September. Here, we have selected the following ten eye-catching features to give a brief introduction before the official release.
+APISIX 3.0 has been officially released in late October 2022. Let's have an overview of the exciting new highlights!
 
-### Full Support of ARM64
+### 1. Full Support of ARM64
 
 ARM64 has become a very mainstream server architecture selection for cloud manufacturers. From [AWS Graviton](https://apisix.apache.org/blog/2022/06/07/installation-performance-test-of-apigateway-apisix-on-aws-graviton3/), [GCP Tau T2A](https://apisix.apache.org/blog/2022/07/22/how-is-google-cloud-tau-t2a-performing/) to Huawei Kunpeng and other products, we can see that various cloud manufacturers have begun to launch servers based on the Arm architecture. The following graph shows the stress testing performance of APISIX on popular Arm-based servers:
 
@@ -76,19 +58,29 @@ ARM64 has become a very mainstream server architecture selection for cloud manuf
 
 According to the current data, the performance of Arm-based servers is slightly better than the performance of the x86. To conform to the technological trend of the times, APISIX also did comprehensive CI regression testing on ARM64 to ensure that users can still run various functions smoothly when running APISIX in the Arm architecture.
 
-### Adding gRPC Client
+### 2. AI Plane
+
+Apache APISIX adds an AI plane in the 3.0 version, improving the performance by 30% (measured by QPS under stress testing). The AI plane would dynamically optimize the data plane configuration, utilizing comprehensive data such as users' settings on routes and plugins, as well as log metrics. For example, the following three scenarios can be automatically optimized by the AI plane:
+
+1. When the matching requirement is simple (e.g. only containing uri or host), cache is enabled to accelerate the route matching process
+2. If there is no plugin, only the code related to the upstream would be run
+3. If there is only one upstream node and no other configuration option is enabled, the upstream would be configured in a lightweight way
+
+The AI plane brings new possibilities to traffic processing. In the future, an automatic warm-up of upstream services and security threat detection can all be processed through the AI plane.
+
+### 3. Adding gRPC Client
 
 In version 3.0, Apache APISIX will support a new `core.grpc` module. However, if you are familiar with NGINX and OpenResty, you should know that their support for gRPC is pretty limited, only providing basic features like reverse proxy or load balancing.
 
 APISIX has already implemented the transcode between gRPC and HTTP protocols in the current 2.x version. In version 3.0, Apache APISIX will add a new gRPC client to allow developers to directly call third-party gRPC services without introducing additional components or requiring service providers to use different HTTP interfaces, making the process much simpler.
 
-### Redesigning Admin API
+### 4. Redesigning Admin API
 
 When using APISIX today, you may find that the response body of APISIX is mixed with a lot of meaningless data, such as some etcd return values that are passed directly to the client without any tailoring. Also, the entire response body’s architectural design is not ideal, with many redundant fields.
 
 In APISIX 3.0 version, the response body’s structure has been improved. In addition, the new design makes the overall request format and returns body more RESTful, making it easier for users to use the latest version of Admin API. Of course, this process also allows you to set which version of the Admin API to use through parameters, freeing users from fears of upgrading to incompatible versions.
 
-### Data Plane(DP) and Control Plane(CP) Separation
+### 5. Data Plane(DP) and Control Plane(CP) Separation
 
 APISIX has suffered several security-related vulnerabilities in the last two years. The root cause of most vulnerabilities is that the DP and the CP are deployed together in the default deployment mode. Therefore, once a security vulnerability exists on the data plane, an attacker can directly invade the CP through the DP, affecting all other DPs.
 
@@ -96,7 +88,7 @@ Therefore, in version 3.0, the [deployment mode](https://apisix.apache.org/docs/
 
 When they are separated, not only can the security risks mentioned above be solved, but function iterations on the DP and CP are also more manageable without affecting each other.
 
-### Improved Service Discovery Support
+### 6. Improved Service Discovery Support
 
 In the current version, APISIX has supported the integration of many service discovery components, such as Apache ZooKeeper, [Consul](https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/), [Nacos](https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/), and so on. But at the moment, these integrations are all done on the data plane. Once you have a lot of nodes on the DP, it will put much pressure on the following service discovery components. At the same time, in the actual production environment of users, they want a simple integration like Consul KV or DNS integration and complete integration of functions such as health checks.
 
@@ -104,7 +96,7 @@ Therefore, in APISIX 3.0, we added a layer of abstraction by adding a sub-projec
 
 ![Apache APISIX with Service Discovery](https://static.apiseven.com/2022/09/21/632ab5bf916e4.png)
 
-### Adding xRPC Framework
+### 7. Adding xRPC Framework
 
 TCP Proxy is supported in the current version of APISIX, but there are times when a pure TCP protocol proxy is insufficient. Users need a proxy for specific application protocols, such as Redis Proxy, Kafka Proxy, etc., because some functions can only be implemented after the protocol is encoded and decoded.
 
@@ -112,13 +104,13 @@ Therefore, in version 3.0, APISIX implements a transport layer protocol extensio
 
 Based on the xRPC framework, APISIX can provide proxy implementations for several mainstream application protocols. At the same time, users can also support their own private TCP-based application protocols based on this framework, enabling them to have precise granularity and higher order application layer control similar to HTTP protocol proxy. Furthermore, on top of different protocols, some common factors can be abstracted to implement related plugin features so that other protocols can share these features.
 
-### Supporting More Observability on Transport Layer Protocols
+### 8. Supporting More Observability on Transport Layer Protocols
 
 APISIX has always invested heavily in observability support, supporting almost all observability components, such as [Zipkin](https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin), [Apache SkyWalking](https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/), [Datadog](https://apisix.apache.org/blog/2021/11/12/apisix-datadog/), and more. Various logging components are also supported, but most are carried out in the application layer.
 
 Apache APISIX will add more transport layer observability support in 3.0. For example, the support for [Prometheus](https://apisix.apache.org/docs/apisix/plugins/prometheus/) and various logs has been added, enabling users to observe the problems of application layer traffic easily and enabling users to check the operation status of transport layer traffic.
 
-### Integrating the OpenAPI Specification
+### 9. Integrating the OpenAPI Specification
 
 API is an element that involves the entire lifecycle of development, from designing to coding, testing, and deploying. In APISIX 3.0, Apache APISIX will support the standard OpenAPI 3.0 specification.
 
@@ -126,7 +118,7 @@ Therefore, if you manage the APIs on API design and testing software, it is stra
 
 In addition, APISIX 3.0 also supports Postman-related custom formats (Postman Collection Format v2), enabling data transfer between the two, thus making integration easier.
 
-### Full Support for Gateway API and Service Mesh
+### 10. Full Support for Gateway API and Service Mesh
 
 Support for the [Gateway API](https://gateway-api.sigs.k8s.io/) has begun in the [APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller/issues?q=gateway+api), and nearly all Gateway API configurations are supported in the latest 1.5 release.
 
@@ -136,7 +128,7 @@ Unlike most service mesh solutions, APISIX's service mesh solution has advantage
 
 This solution not only makes the entire service mesh lighter but also makes custom development and migration more convenient with the high scalability of APISIX.
 
-### Integrate with More Ecosystems
+### 11. Integrate with More Ecosystems
 
 In addition to the OpenAPI standard mentioned above, many ecosystem plugins will be added in version 3.0, such as OpenFunction, ClickHouse, Elasticsearch, SAML, CAS, etc., to integrate more support for authentication, security, and observability.
 
@@ -190,12 +182,10 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 For example, perform a specific action when condition A is true, perform another action when condition B is true, etc. In this way, users can schedule various business traffic more conveniently.
 
-## Summary
+## Get Started with Apache APISIX 3.0
 
-APISIX has grown a lot from the beginning to the upcoming 3.0 version. However, APISIX has not changed much in architecture but more in ecology, compatibility, and product application.
+You can now check out APISIX 3.0 on the [GitHub Release page](https://github.com/apache/apisix/releases) and [Download page](https://apisix.apache.org/downloads/)!
 
-An open source project may not be judged solely on performance and functionality but on the perspective of users, developers, and enterprises to consider whether they can use the product to solve their current pain points quickly and effectively.
+APISIX has grown a lot from the beginning to the 3.0 version. An open source project may not be judged solely on performance and functionality but on the perspective of users, developers, and enterprises to consider whether they can use the product to solve their current pain points quickly and effectively.
 
-The highlights and new features mentioned in this article are all created through the open source community, receiving feedback from different developers and enterprise users, making open source products more useful and vibrant.
-
-Finally, APISIX 3.0 is expected to be released later this year, and we can look forward to a lot of technical excitement with the new version!
+The highlights and new features mentioned in this article are all created through the open source community. Apache APISIX has become more vibrant by receiving feedback from different developers and enterprise users. If you want to join the vibe, check out the community [here](https://apisix.apache.org/docs/general/join/)!

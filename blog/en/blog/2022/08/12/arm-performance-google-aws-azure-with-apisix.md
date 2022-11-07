@@ -1,5 +1,5 @@
 ---
-title: "GCP, AWS, and Azure ARM-based server performance comparison"
+title: "GCP, AWS, Azure, and OCI ARM-Based Server Performance Comparison"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
@@ -9,18 +9,24 @@ authors:
     title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
+  - name: "Yilia"
+    title: "Technical Writer"
+    url: "https://github.com/Yilialinn"
+    image_url: "https://avatars.githubusercontent.com/u/114121331?v=4"
 keywords: 
 - API gateway
 - ARM
 - Azure
 - AWS
 - Google
+- Oracle
 - Apache APISIX
-description: This article compares the performance of Google, AWS, and Azure ARM-based servers in network IO-intensive scenarios through the API gateway Apache APISIX.
+description: This article compares the performance of Google, AWS, Azure, and Oracle ARM-based servers in network IO-intensive scenarios through the API gateway Apache APISIX.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/10/18/634e6963ea45f.png
 ---
 
-> This article uses  Apache APISIX to compare the performance of Google, AWS, and Azure ARM-based servers in network IO-intensive scenarios.
+> This article uses  Apache APISIX to compare the performance of AWS, Google, Azure, and Oracle ARM-based servers in network IO-intensive scenarios.
 
 <!--truncate-->
 
@@ -28,102 +34,108 @@ tags: [Ecosystem]
     <link rel="canonical" href="https://api7.ai/2022/08/12/arm-performance-google-aws-azure-with-apisix/" />
 </head>
 
-ARM has become the cornerstone of the world's largest computing ecosystem and mobile devices, and is considered by many experts to be the future of cloud computing due to its low power consumption, flexible licensing and low cost.
+## Background
 
-Therefore, mainstream cloud vendors led by AWS, Google Cloud Platform (GCP) and Azure have successively launched servers with ARM architecture. Among them, AWS launched the first server processor AWS Graviton based on ARM architecture in 2018.
+The ARM architecture is a member of the [RISC (Reduced instruction set computer)](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer) design family. The RISC microprocessor architecture design enables small processors to efficiently handle complex tasks by using a set of highly optimized instructions. Being widely used in many embedded system designs, the ARM architecture has become the cornerstone of the world’s largest computing ecosystem and mobile devices. Many experts regard it as the future of cloud computing due to its advantages of low power consumption, low cost, high performance, and flexible licensing. Therefore, mainstream cloud vendors led by AWS (Amazon Web Services), GCP (Google Cloud Platform), Azure (Microsoft Azure), and OCI (Oracle Cloud Infrastructure) have successively launched ARM-based servers. This article selects servers from these vendors to conduct performance testing. Let’s first examine the four major manufacturers and their products.
+
+## ARM Servers of Major Cloud Vendors
 
 ### AWS Graviton
 
-AWS Graviton is a series of server processors based on the [ARM architecture](https://www.arm.com/) released by AWS in 2018. The first generation of AWS Graviton processors uses custom chips and 64-bit Neoverse cores.
+After four years of development since 2018, AWS Graviton has entered its third generation age. The characteristics of these three generations of processors are as follows:
 
-Released in 2020, AWS Graviton2 processors represent a major leap forward in performance and functionality compared to first-generation AWS Graviton processors. 7x faster performance, 4x more cores, 2x cache, 5x faster memory, and more.
+- **AWS Graviton1** processors feature custom silicon and 64-bit Neoverse cores.
+- **AWS Graviton2**-based instances support a wide range of general purpose, burstable, compute-optimized, memory-optimized, storage-optimized, and accelerated computing workloads, including application servers, microservices, high-performance computing (HPC), CPU-based machine learning (ML) inference, video encoding, electronic design automation, gaming, open-source databases, and in-memory caches. In order to provide a one-stop service experience, many AWS services also support Graviton2-based instances.
+- **AWS Graviton3** processors are the latest in the AWS Graviton processor family. They provide up to 25% better compute performance, **2 times** higher floating-point performance, and up to **2 times** faster cryptographic workload performance compared to AWS Graviton2 processors. AWS Graviton3 processors deliver **3 times** better performance compared to AWS Graviton2 processors for ML workloads, including support for bfloat16. They also support DDR5 memory, which provides **50%** more memory bandwidth compared to DDR4.
 
-The latest AWS Graviton3 processors to be released at the end of May 2022 are based on the more advanced [Neoverse V1](https://www.arm.com/zh-TW/products/silicon-ip-cpu/neoverse/neoverse-v1) design, they offer up to twice the floating point performance, twice the cryptographic performance, and three times the ML compared to the AWS Graviton2 processors performance, including support for bfloat16. The following figure shows the main models equipped with AWS Graviton3 processors:
+The following figure shows the main models equipped with AWS Graviton3 processors:
 
-![AWS Graviton3 processors](https://static.apiseven.com/2022/blog/0812/1.png)
+![AWS Graviton3 processors](https://static.apiseven.com/2022/10/21/6352412740665.webp)
 
 ### Google Cloud Platform T2A
 
-The Google Cloud Platform(GCP) Tau T2A VM is a preview of Google's first ARM-based virtual machine in July 2022, powered by Ampere® Altra® Arm processors based on the Neoverse N1 design. Tau T2A VMs come in a variety of predefined VM shapes with up to 48 vCPUs per VM and 4GB of memory per vCPU.
+The Google Cloud Platform (GCP) Tau T2A VM is a preview of Google’s first ARM-based virtual machine in July 2022, powered by Ampere® Altra® Arm processors based on the Neoverse N1 design. Tau T2A VMs come in various predefined VM shapes with up to 48 vCPUs per VM and 4GB of memory per vCPU. They offer 32 Gbps of network bandwidth and a wide range of network-attached storage options, making the Tau T2A VM suitable for scale-out workloads including web servers, containerized microservices, data record processing, media transcoding, and Java applications. In addition, it also has the following two characteristics:
 
-They offer up to 32 Gbps of network bandwidth and a wide range of network-attached storage options, making the Tau T2A VM suitable for scale-out workloads including web servers, containerized microservices, data record processing, media transcoding, and Java applications. The main models are as follows:
+- **Integration with Google Cloud services**: T2A VMs support the most popular Linux operating systems such as RHEL, SUSE Linux Enterprise Server, CentOS, Ubuntu, and Rocky Linux. In addition, T2A VMs also support Container-optimized OS to bring up Docker containers quickly, efficiently, and securely. Further, developers building applications on Google Cloud can already use several Google Cloud services with T2A VMs.
+- **Extensive ISV partner ecosystem**: Ampere lists more than 100 applications, databases, cloud-native software, and programming languages that are already running on Ampere-based T2A VMs, with more being added all the time.
 
-![Tau T2A VM](https://static.apiseven.com/2022/blog/0812/2.png)
+The main models are as follows:
 
-### Azure Arm-based Virtual Machines
+![Google Cloud Platform T2A Models](https://static.apiseven.com/2022/10/21/6352412815275.webp)
 
-In April, Microsoft announced a preview of its family of Azure virtual machines based on Ampere® Altra® Arm processors. The new VMs are designed to efficiently run scale-out workloads, web servers, application servers, open source databases, cloud-native and rich .NET applications, Java applications, game servers, media servers, and more. The new VM series includes general Dpsv5 and memory-optimized Epsv5 VMs. The main models are as follows:
+### Azure ARM-based Virtual Machines
 
-![Dpsv5 and Epsv5 VMs](https://static.apiseven.com/2022/blog/0812/3.png)
+In April 2022, Microsoft announced a preview of its family of Azure virtual machines based on Ampere® Altra® Arm processors. The new VMs are designed to efficiently run scale-out workloads, web servers, application servers, open-source databases, cloud-native and rich .NET applications, Java applications, game servers, media servers, and more. The new VM series includes general-purpose Dpsv5 and memory-optimized Epsv5 VMs. The main models are as follows:
 
-## Three cloud vendors ARM server performance test
+![Azure ARM-based Virtual Machines](https://static.apiseven.com/2022/10/21/635241c219ef7.jpeg)
 
-In this article, we will reflect the overall performance of each server by testing single-core performance. Here, the network IO-intensive API gateway Apache APISIX is selected to bind a single CPU core for stress testing on three models: AWS c7g.large, GCP t2a-standard-2 and Azure D2ps v5 (belonging to the Dpsv5-series, dual-core CPU), and analyze the performance of the server through the two indicators of QPS and response delay.
+### Oracle Cloud Infrastructure Ampere A1 Compute
 
-[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable API gateway. Based on NGNIX + LuaJIT and etcd, APISIX has the characteristics of dynamic routing and plug-in hot loading compared with traditional API gateways, which is especially suitable for API management under cloud native architecture.
+At the end of May 2021, Oracle released its first Arm-based computing product: the OCI Ampere A1 Compute. The product can run on Oracle Cloud Infrastructure (OCI). The main model is VM.Standard.A1.Flex (OCI A1), whose CPU core and memory can be flexibly configured.
 
-![Apache APISIX](https://static.apiseven.com/2022/blog/0812/4.png)
+To support the new Ampere A1 Compute instances in OCI, Oracle has created an [Arm developer ecosystem](https://blogs.oracle.com/cloud-infrastructure/post/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy) that enables developers to seamlessly convert, build and run applications on OCI Arm instances. Additionally, Oracle has partnered with Ampere Computing, Arm, GitLab, Jenkins, and others to accelerate the Arm developer ecosystem. As a result, Arm processors have evolved from mobile devices to cloud servers, providing developers with the tools and platforms to transit, build and run Arm-based workloads.
 
-Next, we will use the APISIX official open source performance [test script for testing](https://github.com/apache/apisix/blob/master/benchmark/run.sh).
+## Cloud Vendors ARM Server Performance Test
 
-### Test case
+After introducing the above four servers, we will reflect the overall performance of each server by testing single-core performance. Here the network IO-intensive API gateway [Apache APISIX](https://apisix.apache.org/) is selected to bind a single CPU core for stress testing on the four models: AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5 (Although the name contains D2ps, it is a dual-core CPU belonging to the Dpsv5 series.) and OCI A1 to conduct stress testings and analyze server performance through two metrics: QPS and response latency.
 
-We will test the performance of Apache APISIX under two typical scenarios in order to obtain more realistic and rich test data:
+[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scalable, open-source API gateway. Compared with traditional API gateways, Apache APISIX is developed based on NGINX and LuaJIT, with features such as dynamic routing and plugin hot reloading, which is very suitable for API management under cloud-native architecture. The architecture diagram is shown below:
 
-* **Scenario 1: Single upstream.** In this scenario, a single upstream (without any plugins) is used to test the performance of APISIX in pure proxy back-to-origin mode.
+![Apache APISIX's Architecture Diagram](https://static.apiseven.com/2022/10/21/635241c9d2c35.jpeg)
 
-* **Scenario 2: Single upstream + multiple plugins.** This scenario uses a single upstream with multiple plugins and two plugins are used here. It mainly tests the performance of APISIX when the two core consumption performance plugins, `limit-count` and `prometheus`, are enabled.
+We use Apache APISIX to bind a single CPU on AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5 (although the name includes D2ps, but it is a dual-core CPU belonging to the Dpsv5 series), and OCI A1 to conduct stress testing and analyze the performance of the server through QPS and response latency.
+
+We use [Apache APISIX’s official open-source performance benchmark](https://github.com/apache/apisix/blob/master/benchmark/run.sh) for testing.
+
+### Test Cases
+
+In this article, we test the performance of Apache APISIX in the following two typical scenarios, thus obtaining more realistic test data for comparison.
+
+**Scenario 1: A single upstream**
+In this scenario, a single upstream without any plugins is used to test the performance of Apache APISIX in pure proxy back-to-origin mode.
+
+**Scenario 2: Single upstream + multiple plugins**
+This scenario uses a single upstream with two plugins. It mainly tests the performance of APISIX when the two core consumption performance plugins, `limit-count` and `prometheus`, are operating.
 
 ### Test Results
 
-The figure below is the QPS (queries per second) test result and the higher the number, the better the performance.
+The figure below is the QPS (queries per second) test result of AWS c7g.large, GCP t2a-standard-2, Azure D2ps v5, and OCI A1. The higher the QPS value, the better the performance of the server.
 
-![QPS result](https://static.apiseven.com/2022/blog/0812/5.png)
+![QPS Value Comparison of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241290d787.webp)
 
-The figure below is the response delay test results in milliseconds. The smaller the number, the better the performance.
+From the perspective of QPS, under the network IO-intensive API gateway like Apache APISIX, the performance of these four servers is as follows:
 
-![Response delay results](https://static.apiseven.com/2022/blog/0812/6.png)
+#### Sort performance from best to worst:
 
-From the perspective of QPS and response delay, under network IO-intensive API gateways like Apache APISIX, AWS C7g has a 100% performance improvement compared to GCP T2A, and Azure Dpsv5 has a performance lead of about 15% compared to GCP T2A.
+- **Scenario 1: AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2**
 
-## Cost-performance comparison
+  With a single upstream without any plugins, AWS c7g.large achieves a QPS of 23,000 times/sec, almost twice the performance of GCP t2a-standard-2 (11,300 times/sec QPS). There is a small gap among Azure D2ps v5, OCI A1, and GCP t2a-standard-2. OCI A1 and GCP t2a-standard-2 have almost the same performance, with a difference of only 200 times/sec.
 
-Since this article only focuses on testing the performance of ARM machines from different cloud vendors, so we will ignore the change of "the same number of CPU cores with different memory", and analyze the cost-performance ratio of AWS Graviton3 and GCP T2A only from the perspective of the number of CPU cores.
+- **Scenario 2: AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 
-:::note
+  In the scenario of a single upstream and two plug-ins, the QPS of AWS c7g.large reaches 18,000 times/sec, still leading while narrowing the gap with the other three servers. The performance of Azure D2ps v5 is slightly higher than that of OCI A1, with a difference of only 400 times/sec.
 
-In the current test scenario, the cost-performance ratio can be understood as: QPS/cost.
+The figure below is the response latency test results in milliseconds. The smaller the value, the better the performance.
 
-:::
+![Response Latency of AWS c7g, GCP, Azure and OCI A1](https://static.apiseven.com/2022/10/21/635241298c145.webp)
 
-The table below compares server hourly prices for different cores for AWS C7g (US East Ohio), GCP T2A (us-central1) and Azure Dpsv5 (East US):
+From the perspective of response latency, under the network IO-intensive API gateway like Apache APISIX, the performance of these four servers is as follows:
 
-| VM series / vCPU | 1       | 2       | 4       | 8      | 16      | 32      | 64      |
-|------------------|---------|---------|:--------|:-------|:--------|:--------|:--------|
-| AWS C7g          | $0.0361 | $0.0723 | $0.1445 | $0.289 | $0.5781 | $1.1562 | $1.7342 |
-| GCP T2A          | $0.0385 | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
-| Azure Dpsv5      | *       | $0.077  | $0.154  | $0.308 | $0.616  | $1.232  | $1.848  |
+#### Sort performance from best to worst:
 
-The following table summarizes the cost and cost–performance ratio of AWS c7g.large and GCP t2a-standard-2 running for one year, referring to the QPS data for a single upstream in the Apache APISIX performance test. The larger the number, the higher the QPS can be obtained at the unit price.
+- **Scenario 1 and Scenario 2: AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1**
 
-|                    | Annual cost         | Cost performance (QPS/cost) |
-|--------------------|-----------------|--------------------|
-| AWS c7g.large      | $633.3          | 36.3               |
-| GCP t2a-standard-2 | $674.5          | 16.8               |
-| Azure D2ps v5      | $398.0（41% off) | 33.6               |
+  In these two scenarios, the performance of AWS c7g.large is almost twice that of OCI A1, and there is little difference among the latter three.
 
-From the test results, AWS C7g is more cost-effective than GCP T2A and Azure Dpsv5. Although Azure Dpsv5 has only a 15% performance improvement compared to GCP T2A, the cost performance is nearly double.
+## Conclusion
 
-## Summary
+Through the analysis of the performance test results of Apache APISIX, we can see that AWS Graviton3 has higher performance than GCP T2A, Azure Dpsv5, and OCI A1. However, we only used the Apache APISIX binding single-core test during the test. The performance presented by the four may be different if multi-core is used.
 
-AWS launched the first ARM-based processor, AWS Graviton, in 2018. It was about 4 years ahead of GCP for the deployment of the ARM-based server field. Now the AWS Graviton processor has developed to the third generation.
+We will reveal multi-core test results in the future, please stay tuned!
 
-Through the performance test results and price–performance ratio analysis of Apache APISIX, we can see that AWS Graviton3 has higher performance and cost-effective than GCP T2A and Azure Dpsv5. This is inseparable from the fact that AWS has been deeply involved in the field of ARM-based servers for many years.
+## References
 
-In addition, we used Apache APISIX bound single-core tests during our testing, and the price-performance ratio of AWS Graviton 3 may be further improved if multiple cores are used.
-
-## Reference
-
-* [New – Amazon EC2 C7g Instances, Powered by AWS Graviton3 Processors](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)
-* [Tau T2A machine series (Preview)](https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines)
-* [Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
+- [New – Amazon EC2 C7g Instances, Powered by AWS Graviton3 Processors](https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/)
+- [Tau T2A machine series (Preview)](https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines)
+- [Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
+- [Ampere A1 Compute](https://www.oracle.com/hk/cloud/compute/arm/)
