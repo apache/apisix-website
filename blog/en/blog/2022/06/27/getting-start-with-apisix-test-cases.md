@@ -16,6 +16,7 @@ keywords:
 - GitHub
 description: This article introduces the test case of APISIX and how to write the test case, and shows the actual operation effect from the local and GitHub.
 tags: [Community,Ecosystem]
+image: https://static.apiseven.com/2022/11/13/637053d67a0d4.png
 ---
 
 > This article introduces the test case of APISIX and how to write the test case, and shows the actual operation effect from the local and GitHub.
