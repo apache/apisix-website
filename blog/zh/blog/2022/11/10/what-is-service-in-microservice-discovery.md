@@ -25,7 +25,7 @@ tags: [Ecosystem]
 
 如下图，IP 地址的变更，会让访问者无所适从。
 
-![IP 变更](https://static.apiseven.com/2022/10/16/634bf34909674.png)
+![IP 变更](https://static.apiseven.com/2022/11/14/637210cb18c04.png)
 
 通过引入域名系统作为服务发现机制，现在可以灵活对待 IP 的变更了。
 
@@ -37,12 +37,12 @@ tags: [Ecosystem]
 
 作为一个服务发现系统，它需要满足至少四个功能：
 
-1. 提供注册的 API
-2. 提供查询的 API
+1. 提供注册的 API。
+2. 提供查询的 API。
 3. 高可用，毕竟服务发现系统是整个系统的神经，不能麻痹甚至瘫痪。
-4. 生态。众所周知，程序员是一群很懒惰的人，最好希望有个库，引入进来就能跟 API 完成对接。
+4. 生态完整。众所周知，程序员是一群很懒惰的人，最好有一个库，引入进来就能跟 API 完成对接。
 
-下面让我们来看看市面上主流的几个开源服务发现系统：
+下面让我们来看看市面上主流的几个开源服务发现系统。
 
 ### Consul
 
@@ -54,7 +54,7 @@ Consul 的部署方式比较有趣。Consul 的每个实例叫做 agent，它既
 
 ### Eureka
 
-[Eureka](https://github.com/Netflix/eureka) 是由 Netflix 开源出来的项目。它也是相当地古老 —— 有迹可循的[提交](https://github.com/Netflix/eureka/commit/53939453474e39a8a68236f940c72de043ea20bd)可以追溯到 2012 年。不过这个项目已经有 1 年不维护了。许多用户迁移到下文会提到的 Nacos 上面。
+[Eureka](https://github.com/Netflix/eureka) 是由 Netflix 开源出来的项目。它也是相当的古老，有迹可循的[提交](https://github.com/Netflix/eureka/commit/53939453474e39a8a68236f940c72de043ea20bd)可以追溯到 2012 年。不过这个项目已经有 1 年不维护了。许多用户迁移到下文会提到的 Nacos 上面。
 
 Eureka 支持通过 HTTP API 和 Java SDK 来交互。许多 Eureka 的用户，其实是通过 Spring Cloud 等 Java 生态圈里的项目带进来的。Eureka 高可用的设计，如果要用 CAP 的术语来描述，属于 AP，即允许网络分裂时客户端看到过期的数据，避免因为网络问题出现次生灾害。
 
