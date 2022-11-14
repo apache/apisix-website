@@ -8,7 +8,9 @@
  */
 
 import type { ReactNode } from 'react';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, {
+  useState, useCallback, useEffect,
+} from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
 import renderRoutes from '@docusaurus/renderRoutes';
@@ -28,6 +30,7 @@ import { ThemeClassNames, docVersionSearchTag } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
 import type { ImageProps } from 'rc-image';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Link from '@docusaurus/Link';
 import NotFound from '../NotFound';
 
 import styles from './styles.module.css';
@@ -53,8 +56,18 @@ const navbarLinkMap = {
 
 const navbarLinkKeys = Object.keys(navbarLinkMap);
 
-const components = {
+const components = (currentPage: string) => ({
   ...MDXComponents,
+  a: (props) => {
+    const { children, ...others } = props;
+    const inCurrent = props.href?.includes(currentPage) || props.href?.startsWith('#');
+
+    return (
+      <Link {...others} {...{ target: inCurrent ? null : '_blank' }}>
+        {children as any}
+      </Link>
+    );
+  },
   img: (props: ImageProps) => (
     <LazyLoadImage
       effect="blur"
@@ -76,7 +89,7 @@ const components = {
       {...(props as any)}
     />
   ),
-};
+});
 
 const DocPageContent = ({
   currentDocRoute,
@@ -89,6 +102,11 @@ const DocPageContent = ({
 
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
+  const pathArr = currentDocRoute.path.split('/').slice(2, 4);
+  const currentPage = pathArr.reduce(
+    (res, cur) => (navbarLinkKeys.includes(cur) ? cur : res),
+    '',
+  );
 
   useEffect(() => {
     const childrenCount = document.querySelector('.navbar__items--right').childElementCount;
@@ -97,11 +115,6 @@ const DocPageContent = ({
     ] as HTMLDivElement;
     el.style.display = window.innerWidth > 745 ? 'block' : 'none';
 
-    const pathArr = currentDocRoute.path.split('/').slice(2, 4);
-    const currentPage = pathArr.reduce(
-      (res, cur) => (navbarLinkKeys.includes(cur) ? cur : res),
-      '',
-    );
     const navbarLink = document.querySelectorAll('.navbar__link')[0] as HTMLAnchorElement;
     navbarLink.innerText = navbarLinkMap[currentPage];
 
@@ -197,7 +210,9 @@ const DocPageContent = ({
               [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
             })}
           >
-            <MDXProvider components={components}>{children}</MDXProvider>
+            <MDXProvider components={() => components(currentPage)}>
+              {children}
+            </MDXProvider>
           </div>
         </main>
       </div>
