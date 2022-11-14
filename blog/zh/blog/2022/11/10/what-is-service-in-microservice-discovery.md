@@ -33,7 +33,7 @@ tags: [Ecosystem]
 
 ## 常见服务发现系统介绍
 
-鉴于本人的能力有限，本文内容仅介绍了与 APISIX 相关的，还请给位多多见谅。
+鉴于本人的能力有限，本文内容仅介绍了与 APISIX 相关的，还请各位多多见谅。
 
 作为一个服务发现系统，它需要满足至少四个功能：
 
@@ -60,7 +60,7 @@ Eureka 支持通过 HTTP API 和 Java SDK 来交互。许多 Eureka 的用户，
 
 ### Nacos
 
-[Nacos](https://github.com/alibaba/nacos) 是由阿里巴巴开发的服务发现系统。其名称来自于  Naming and Configuration Service 前几个字母的汇总。自 2018 年 7 月 20 日发布了 0.1.0 版本以来，Nacos 目前已经发展到了 2.1 版本。
+[Nacos](https://github.com/alibaba/nacos) 是由阿里巴巴开发的服务发现系统。其名称来自于 Naming and Configuration Service 前几个字母的汇总。自 2018 年 7 月 20 日发布了 0.1.0 版本以来，Nacos 目前已经发展到了 2.1 版本。
 
 就像阿里巴巴的许多开源项目一样，Nacos 在中国的 Java 开发者中相当流行，其知名度甚至比 Eureka 还要大不少。
 
@@ -88,11 +88,11 @@ HTTP long poll 或 gRPC server stream 是三者中最有实时性的，另外由
 
 ### 数据面
 
-APISIX 在数据面上支持跟 DNS、Eureka、Consul（KV 模式）、Nacos、k8s 对接。
+APISIX 在数据面上支持跟 DNS、Eureka、Consul（KV 模式）、Nacos、K8s 对接。
 
 在对接 DNS 服务发现，APISIX 会通过 DNS 的 SRV 或 A/AAAA 记录获取某个服务具体的上游节点。当请求访问上游时，会先尝试从 DNS cache 中获取，如果没有，则发起 DNS 查询，得到对应记录里面的具体 IP 地址。
 
-至于其他的服务发现类型，则是在后台同步的。当请求访问上游时，从当前同步到的数据里获取服务名对应的那一部分数据。对于 k8s 和 Consul KV，由于他们支持 HTTP long polling，所以我们可以通过该方式实时获取变更的 IP 地址。而对于 Eureka 和 Nacos，目前我们只是通过轮询的方式来获取数据。
+至于其他的服务发现类型，则是在后台同步的。当请求访问上游时，从当前同步到的数据里获取服务名对应的那一部分数据。对于 K8s 和 Consul KV，由于他们支持 HTTP long polling，所以我们可以通过该方式实时获取变更的 IP 地址。而对于 Eureka 和 Nacos，目前我们只是通过轮询的方式来获取数据。
 
 ### 控制面
 
@@ -119,4 +119,4 @@ APISIX 同时还支持在控制面上做服务发现。我们正在开发 [apisi
 
 如果你现在是直接在 APISIX 上配置上游节点，也可以考虑另外部署服务发现系统，并改由服务发现系统来存储具体的节点配置。将上游节点的配置，由 APISIX 移动到专门的服务发现系统，好处在于客户端可以自己来完成服务的注册，而且专门的服务发现系统往往会提供额外的功能，如更丰富的健康检查等。
 
-未来，我们也会在 APISIX Ingress Controller 上支持集成各种服务注册发现组件，便于用户使用。到那时，用户将不仅仅能在 APISIX Ingress Controller 上指定 k8s service 的 endpoints 作为上游节点，还能够把服务发现得到的节点整合进来。
+未来，我们也会在 APISIX Ingress Controller 上支持集成各种服务注册发现组件，便于用户使用。到那时，用户将不仅仅能在 APISIX Ingress Controller 上指定 K8s service 的 endpoints 作为上游节点，还能够把服务发现得到的节点整合进来。
