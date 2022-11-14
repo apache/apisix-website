@@ -106,7 +106,7 @@ APISIX 同时还支持在控制面上做服务发现。我们正在开发 [apisi
 
 举个例子，假设你的公司正在使用 Nacos 来作为服务发现系统，那么你只需要配置 APISIX，启用 Nacos 服务发现功能，后面只要把服务名配置到 APISIX 的上游，APISIX 就会自动获取该上游对应的具体 IP 节点。
 
-这一优势在需要在网关迁移时，比如从 Spring Cloud Gateway 迁移到 APISIX 上来，可以明显减少所需的工作量。如果过去用的 Spring Cloud Gateway 使用了 Eureka 抑或 Nacos 来做服务发现，那么迁移到新系统时，仅需在 APISIX 里面启用对 Eureka 或 Nacos 的支持，即可完成过渡工作。 
+这一优势在需要在网关迁移时，比如从 Spring Cloud Gateway 迁移到 APISIX 上来，可以明显减少所需的工作量。如果过去用的 Spring Cloud Gateway 使用了 Eureka 抑或 Nacos 来做服务发现，那么迁移到新系统时，仅需在 APISIX 里面启用对 Eureka 或 Nacos 的支持，即可完成过渡工作。
 
 下图是「还呗」在这方面的技术实践，替换 Spring Cloud Gateway 是为了进一步提升稳定性、强监管以及准确性和有效性：
 
