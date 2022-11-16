@@ -42,7 +42,7 @@ The APISIX resolves all the above limitations and becomes the best API gateway i
 
 First, Apache APISIX has an excellent architecture. Cloud-native, as the current technology trend, will change the technical architecture of traditional enterprises. Many applications are migrating to microservices and containerization. APISIX has followed the technology trend since its inception:
 
-![image](https://api7.ai/wp-content/uploads/2022/07/1.png)
+![image](https://static.apiseven.com/2022/10/03/633a40c31bfe9.png)
 
 As shown in the figure above, the left and right are the Data Plane and the Control Plane of APISIX:
 
@@ -59,23 +59,23 @@ The following figure shows the ecosystem map of APISIX. From this figure, we can
 
 The right part of the figure contains some open-source or SaaS services, such as Apache SkyWalking, Prometheus, HashiCorp Vault, etc. At the bottom of the figure are the more common operating system environments, cloud vendors, and hardware environments. As an open-source software, APISIX can also be run on ARM64 servers.
 
-![image](https://api7.ai/wp-content/uploads/2022/07/2.png)
+![image](https://static.apiseven.com/2022/10/03/633a40c2e47c3.png)
 
 APISIX supports not only many protocols and operating systems but also supports [multi-language programming plugins](https://apisix.apache.org/docs/). When it first came out, APISIX only supported using the Lua language to write plugins. In this case, developers need to master the technology stack related to Lua and NGINX. However, Lua and NGINX are relatively niche technologies familiar to few developers. Therefore, we have then enabled plugin development on APISIX with multiple languages, and have officially supported languages such as [Java](https://apisix.apache.org/docs/java-plugin-runner/development/), [Golang](https://apisix.apache.org/docs/go-plugin-runner/getting-started/), Node.js, and [Python](https://apisix.apache.org/docs/python-plugin-runner/getting-started/).
 
-![image](https://api7.ai/wp-content/uploads/2022/07/3.png)
+![image](https://static.apiseven.com/2022/10/03/633a3fc3ebe67.png)
 
 ### Active community
 
 The figure below is the contributor growth curve, where the horizontal axis represents the timeline, and the vertical axis represents the total number of contributors. We can see that the two projects, Apache APISIX and Kong, are relatively more active. Apache APISIX has maintained an excellent growth rate from the first day and is growing rapidly at a rate close to twice that of Kong. As of July 2022, the number of contributors to APISIX has exceeded Kong, which shows the popularity of APISIX. Of course, there are many other ways to evaluate the activity of a project, such as the monthly active issues, the total number of PRs, etc. The good news is that APISIX is also unrivaled in these aspects.
 
-![image](https://api7.ai/wp-content/uploads/2022/07/4.png)
+![image](https://static.apiseven.com/2022/10/03/633a3fc6ef2f7.png)
 
 ## Unified proxy infrastructure
 
 From the figure below, I believe you have already understood the goal of APISIX: unifying the proxy infrastructure.
 
-![image](https://api7.ai/wp-content/uploads/2022/07/5.png)
+![image](https://static.apiseven.com/2022/10/03/633a40c31027f.png)
 
 Because the core of APISIX is a high-performance proxy service, it does not bind any environment properties. Therefore, when it evolves into products such as Ingress and Service Mesh, you don't have to change the internal structure of APISIX. The following will introduce to you step-by-step how APISIX supports these scenarios.
 
@@ -93,13 +93,13 @@ Currently, the official Kubernetes Ingress Controller project of K8s is mainly d
 
 The [APISIX Ingress Controller](https://apisix.apache.org/docs/ingress-controller/getting-started/) perfectly resolves all the limitations mentioned above: it supports fully hot reloading. At the same time, it inherits all the advantages of APISIX and also supports native Kubernetes CRD, which is convenient for users to migrate.
 
-![image](https://api7.ai/wp-content/uploads/2022/09/6.png)
+![image](https://static.apiseven.com/2022/10/03/633a3fc73575c.png)
 
 ### Service mesh
 
 In the next five to ten years, the service mesh architecture based on the cloud-native model will begin to emerge. APISIX has also started to lock the track in advance. After abundant research and technical analysis, APISIX has supported the xDS protocol. APISIX Mesh was born, and APISIX also has a place in the field of service mesh.
 
-![image](https://api7.ai/wp-content/uploads/2022/09/7.png)
+![image](https://static.apiseven.com/2022/10/03/633a3fc7373ff.png)
 
 ## Summary
 

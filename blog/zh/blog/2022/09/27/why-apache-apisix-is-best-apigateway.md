@@ -12,7 +12,7 @@ keywords:
   - Apache APISIX
 description: 本文从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
 tags: [Technology]
-image: https://static-site.apiseven.com/wp-content/uploads/2022/09/APISIX.webp
+image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
 > 本文首发于 [API7.ai](https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway)，从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
