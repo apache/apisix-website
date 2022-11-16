@@ -57,7 +57,8 @@ The Apache APISIX project decided to integrate `proxy-wasm` into the product to 
 
 APISIX doesn't implement `proxy-wasm` but integrates [wasm-nginx-module](https://github.com/api7/wasm-nginx-module). It's an Apache v2-licensed project provided by [api7.ai](https://api7.ai/), one of the main contributors to Apache APISIX. As its name implies, integration is done at the NGINX level.
 
-![Apache APISIX and WebAssemby architecture overview](https://api7.ai/wp-content/uploads/2022/09/architecture-diagram.png)
+
+![Apache APISIX and WebAssemby architecture overview](https://static.apiseven.com/2022/09/30/architecture-diagram.svg)
 
 ## Let's code!
 
@@ -104,7 +105,7 @@ Let me first say that the available documentation is pretty sparse. For example,
 
 The Rust code maps to the same abstractions.
 
-![Rust's 'structure diagram'](https://api7.ai/wp-content/uploads/2022/09/struct-diagram.png)
+![Rust's 'structure diagram'](https://static.apiseven.com/2022/09/30/struct-diagram.svg)
 
 Here's the code for a **very** simple plugin that logs to prove that it's invoked:
 
