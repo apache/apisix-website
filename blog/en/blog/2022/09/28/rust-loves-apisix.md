@@ -57,7 +57,6 @@ The Apache APISIX project decided to integrate `proxy-wasm` into the product to 
 
 APISIX doesn't implement `proxy-wasm` but integrates [wasm-nginx-module](https://github.com/api7/wasm-nginx-module). It's an Apache v2-licensed project provided by [api7.ai](https://api7.ai/), one of the main contributors to Apache APISIX. As its name implies, integration is done at the NGINX level.
 
-
 ![Apache APISIX and WebAssemby architecture overview](https://static.apiseven.com/2022/09/30/architecture-diagram.svg)
 
 ## Let's code!
