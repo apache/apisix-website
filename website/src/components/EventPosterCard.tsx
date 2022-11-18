@@ -8,25 +8,35 @@ import useSessionStorage from 'react-use/lib/useSessionStorage';
 import config from '../../../config/event-poster-card.json';
 import style from '../css/event-poster-card.module.scss';
 
+type CardConfig =
+  | {
+      image: string;
+      link: string;
+      description: string;
+      disable?: false;
+    }
+  | {
+      disable: true;
+    };
+
 interface EventPosterCardInfo {
   show: boolean;
   expire: string;
-  image: string;
-  links: { [key: string]: string } | 'string';
+  config: {
+    en: CardConfig;
+    zh: CardConfig;
+  };
   width: string | number;
 }
 
 const SHOW_STORE_KEY = 'SHOW_EVENT_ENTRY';
 
 const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props) => {
-  const { image, links, width } = props;
+  const { config: cardConfig, width } = props;
   const {
     i18n: { currentLocale },
   } = useDocusaurusContext();
-  const link = useMemo(
-    () => (typeof links === 'string' ? links : links[currentLocale]),
-    [currentLocale]
-  );
+  const currentConfig = useMemo<CardConfig>(() => cardConfig[currentLocale], [currentLocale]);
   const [, setStoreShow] = useSessionStorage(SHOW_STORE_KEY, 'true');
 
   const [styles, api] = useSpring(() => ({
@@ -47,17 +57,20 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
   }, []);
 
   const onClose = useCallback(
-    async () =>
-      Promise.all(
-        api.start({
-          to: {
-            x: 500,
-            opacity: 0,
-          },
-        })
-      ).then(() => setStoreShow('false')),
-    [api]
+    async () => Promise.all(
+      api.start({
+        to: {
+          x: 500,
+          opacity: 0,
+        },
+      }),
+    ).then(() => setStoreShow('false')),
+    [api],
   );
+
+  if (currentConfig?.disable === true) {
+    return null;
+  }
 
   return (
     <animated.div className={style.picWrapper} style={styles}>
@@ -69,8 +82,13 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
           />
         </svg>
       </button>
-      <a href={link} onClick={onClose} target="_blank" rel="noreferrer">
-        <LazyLoadImage src={image} alt={link} width={width} style={{ maxWidth: '100vw' }} />
+      <a href={currentConfig.link} onClick={onClose} target="_blank" rel="noreferrer">
+        <LazyLoadImage
+          src={currentConfig.image}
+          alt={currentConfig.description}
+          width={width}
+          style={{ maxWidth: '100vw' }}
+        />
       </a>
     </animated.div>
   );
@@ -82,7 +100,7 @@ const EventPosterCardWrapper: FC = () => {
   const expireTimestamp = new Date(expire).getTime();
 
   if (show && !storeShow && expireTimestamp > Date.now()) {
-    return <EventPosterCard {...rest} />;
+    return <EventPosterCard {...(rest as Omit<EventPosterCardInfo, 'show' | 'expire'>)} />;
   }
 
   return null;

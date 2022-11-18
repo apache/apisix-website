@@ -1,10 +1,16 @@
 {
+  "$schema": "../website/src/components/event-poster-card-schema.json",
   "show": true,
   "expire": "2022-11-20",
-  "image": "https://static.apiseven.com/2022/11/16/6374a2e12ff52.jpeg",
-  "links": {
-    "en": "",
-    "zh": "https://mp.weixin.qq.com/s/qx9F483mILJrxW-Rd3Blag"
-  },
-  "width": 400
+  "width": 400,
+  "config": {
+    "en": {
+      "disable": true
+    },
+    "zh": {
+      "image": "https://static.apiseven.com/2022/11/16/6374a2e12ff52.jpeg",
+      "link": "https://mp.weixin.qq.com/s/qx9F483mILJrxW-Rd3Blag",
+      "description": "直播预告｜Apache APISIX x Apache EventMesh 在线 Meetup 来袭"
+    }
+  }
 }
