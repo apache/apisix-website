@@ -1,6 +1,5 @@
 ---
 title: "实践一年之久，vivo 如何基于 APISIX 进行业务基础架构的演进"
-
 authors:
   - name: "赵旭"
     title: "Speaker"
@@ -18,6 +17,9 @@ description: 本文从应用 APISIX 后的调整与实践困难角度入手，�
 tags: [Case Studies]
 ---
 
+> 本文从应用 APISIX 后的调整与实践困难角度入手，为大家带来了 vivo 基于 APISIX 的企业实践细节。
+
+<!--truncate-->
 
 > 分享嘉宾赵旭，vivo 互联网架构师，主要专注于基础架构研发方向。
 
