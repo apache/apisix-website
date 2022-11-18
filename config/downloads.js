@@ -10,9 +10,9 @@ module.exports = [
     downloadPath: 'apisix/3.0.0/apache-apisix-3.0.0-src',
     dockerhubPath: 'apisix',
     version: '3.0.0',
-    LTSDownloadPath: 'apisix/2.15.0/apache-apisix-2.15.0-src',
-    LTSVersion: '2.15.0',
-    releaseDate: '2022-11-02',
+    LTSDownloadPath: 'apisix/2.15.1/apache-apisix-2.15.1-src',
+    LTSVersion: '2.15.1',
+    releaseDate: '2022-11-17',
     firstDocPath: '/getting-started',
   },
   {
