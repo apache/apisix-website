@@ -11,6 +11,7 @@ keywords:
 - DataAnt
 description: This article mainly introduces how to upload the API Gateway Apache APISIX indicator data to the DataAnt monitoring system through the DataAnt Agent.
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/11/19/6378c1cf6c6c7.png
 ---
 
 > This article mainly introduces how to upload the APISIX indicator data to the DATA ANT monitoring system through the DataAnt Agent.
