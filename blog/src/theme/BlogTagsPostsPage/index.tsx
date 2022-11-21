@@ -58,7 +58,7 @@ const BlogTagsPostsPage = (props: Props): JSX.Element => {
       <header className={style.header}>
         <h1>{title}</h1>
 
-        <Link href={allTagsPath}>
+        <Link href={allTagsPath} className={style.link}>
           <Translate
             id="theme.tags.tagsPageLink"
             description="The label of the link targeting the tag list page"
