@@ -375,7 +375,7 @@
     "description": "Pluralized label for \"{count} post·s\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
   },
   "theme.blog.tagTitle": {
-    "message": "{nPosts}标记为\"{tagName}\"",
+    "message": "{nPosts}被标记为 “{tagName}”",
     "description": "The title of the page for a blog tag"
   },
   "theme.tags.tagsPageLink": {
