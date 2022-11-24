@@ -42,7 +42,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **问题描述**：希望 Kubernetes 的服务发现可以支持更多的配置项，用以应对不同的验证场景。
 
-
 ## 近期功能特性亮点
 
 - [`jwt-auth` 支持隐藏客户端认证凭据](https://github.com/apache/apisix/pull/8206)（贡献者：[pixeldin](https://github.com/pixeldin)）
@@ -67,5 +66,3 @@ Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰
 - [从 Traefik 到 APISIX，汽车智能计算平台公司「地平线」在 Ingress Controller 的探索和实践](https://apisix.apache.org/zh/blog/2022/10/28/apisix-ingress-with-horizon-ai/)
 
     地平线作为一家致力于汽车自动驾驶芯片的公司，在业务迭代中为何从 Traefik 切换到了 APISIX Ingress 去支撑业务？
-
-

@@ -48,7 +48,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **问题描述**：在某些情况下，5000 端口可能会被其它进程占用，是否可以支持自定义端口。
 
-
 ## 近期功能特性亮点
 
 - [添加上游轮询策略默认类型 roundrobin](https://github.com/apache/apisix/pull/8180)（贡献者：[Hazel6869](https://github.com/Hazel6869)）
@@ -62,7 +61,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
 
 ## 近期博文推荐
-
 
 - [腾讯蓝鲸 API 网关如何借助 APISIX 实现产品升级与业务完善](https://apisix.apache.org/zh/blog/2022/11/05/tencent-blueking-with-apisix/)
 
@@ -79,4 +77,3 @@ Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰
 - [为什么说 Apache APISIX 是最好的 API 网关？](https://apisix.apache.org/zh/blog/2022/09/27/why-apache-apisix-is-best-apigateway/)
 
     本文首发于 [API7.ai](https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway)，从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
-
