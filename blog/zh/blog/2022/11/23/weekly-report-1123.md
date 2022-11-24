@@ -64,5 +64,5 @@ Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰
     本文从蓝鲸网关的迭代过程和应用 APISIX 后的产品实践角度，为大家呈现了基于 APISIX 的网关应用实例。
 
 - [从 Traefik 到 APISIX，汽车智能计算平台公司「地平线」在 Ingress Controller 的探索和实践](https://apisix.apache.org/zh/blog/2022/10/28/apisix-ingress-with-horizon-ai/)
-
+    
     地平线作为一家致力于汽车自动驾驶芯片的公司，在业务迭代中为何从 Traefik 切换到了 APISIX Ingress 去支撑业务？
