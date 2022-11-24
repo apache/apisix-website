@@ -1,16 +1,16 @@
 {
   "$schema": "../website/src/components/event-poster-card-schema.json",
   "show": true,
-  "expire": "2022-11-20",
+  "expire": "2022-11-27",
   "width": 400,
   "config": {
     "en": {
       "disable": true
     },
     "zh": {
-      "image": "https://static.apiseven.com/2022/11/16/6374a2e12ff52.jpeg",
-      "link": "https://mp.weixin.qq.com/s/qx9F483mILJrxW-Rd3Blag",
-      "description": "直播预告｜Apache APISIX x Apache EventMesh 在线 Meetup 来袭"
+      "image": "https://static.apiseven.com/2022/11/22/637c9b44eb861.png",
+      "link": "http://hdxu.cn/M7hd7",
+      "description": "直播预告｜Apache APISIX x Apache SeaTunnel 助力探索提升数据价值之道"
     }
   }
 }
