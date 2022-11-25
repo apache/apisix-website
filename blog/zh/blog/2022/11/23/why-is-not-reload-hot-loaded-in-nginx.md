@@ -66,14 +66,14 @@ NGINX 在执行 reload 指令时，会在旧的 worker 进程上处理已经存�
 
 ```shell
 # 一直存在旧 worker 进程：
-nobody 6246 6241 0 10:51 ? 00:00:00 nginx: worker process 
-nobody 6247 6241 0 10:51 ? 00:00:00 nginx: worker process 
-nobody 6247 6241 0 10:51 ? 00:00:00 nginx: worker process 
-nobody 6248 6241 0 10:51 ? 00:00:00 nginx: worker process 
-nobody 6249 6241 0 10:51 ? 00:00:00 nginx: worker process 
-nobody 7995 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down  <= here 
-nobody 7995 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down 
-nobody 7996 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down 
+nobody 6246 6241 0 10:51 ? 00:00:00 nginx: worker process
+nobody 6247 6241 0 10:51 ? 00:00:00 nginx: worker process
+nobody 6247 6241 0 10:51 ? 00:00:00 nginx: worker process
+nobody 6248 6241 0 10:51 ? 00:00:00 nginx: worker process
+nobody 6249 6241 0 10:51 ? 00:00:00 nginx: worker process
+nobody 7995 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down  <= here
+nobody 7995 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down
+nobody 7996 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down
 ```
 
 从上述内容可以看到，通过 `nginx -s reload` 方式支持的“热加载”，虽然在以往的技术场景中够用，但是在微服务和云原生迅速发展的今天，它已经捉襟见肘且不合时宜。

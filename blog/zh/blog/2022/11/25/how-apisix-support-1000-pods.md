@@ -64,7 +64,7 @@ httpbin-deployment-fdd7d8dfb-r5nf9   1/1     Running   0               49m   10.
 
 创建 httpbin 服务，并查看应 Endpoints 端点情况。
 
-```bash
+```shell
 $ kubectl get endpoints httpbin
 NAME      ENDPOINTS                                      AGE
 httpbin   10.1.36.125:80,10.1.36.131:80,10.1.36.133:80   23d
