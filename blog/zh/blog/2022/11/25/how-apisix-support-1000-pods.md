@@ -68,6 +68,7 @@ httpbin-deployment-fdd7d8dfb-r5nf9   1/1     Running   0               49m   10.
 $ kubectl get endpoints httpbin
 NAME      ENDPOINTS                                      AGE
 httpbin   10.1.36.125:80,10.1.36.131:80,10.1.36.133:80   23d
+
 ```
 
 **从上述示例可以看到，Endpoints 中 httpbin 资源对象的所有网络端点，分别对应了每个 Pod 的 IP 地址。**
