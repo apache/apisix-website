@@ -86,7 +86,7 @@ nobody 7996 10419 0 10:30 ? 00:20:37 nginx: worker process is shutting down
 
 在 Apache APISIX 诞生之初，就是希望来解决 NGINX 热加载这个问题的。
 
-Apache APISIX 是基于 NGINX + Lua 的技术栈，以  ETCD 作为配置中心实现的云原生、高性能、全动态的微服务 API 网关，提供负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。
+Apache APISIX 是基于 NGINX + Lua 的技术栈，以  etcd 作为配置中心实现的云原生、高性能、全动态的微服务 API 网关，提供负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。
 
 使用 APISIX 你不需要重启服务就可以更新配置，这意味着修改上游、路由、插件时都不用重启。既然是基于 NGINX，APISIX 又是如何摆脱 NGINX 的限制实现完美热更新？我们先看下 APISIX 的架构。
 
