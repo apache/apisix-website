@@ -64,7 +64,7 @@ NGINX 在执行 reload 指令时，会在旧的 worker 进程上处理已经存�
 
 这就导致旧 worker 进程的回收时间特别长，尤其是在直播、新闻媒体活语音识别等行业。旧 worker 进程的回收时间通常能达到半小时甚至更长，这时如果再频繁 reload，将会导致 shutting down 进程持续增加，最终甚至会导致 NGINX OOM，严重影响业务。
 
-```bash
+```shell
 # 一直存在旧 worker 进程：
 nobody 6246 6241 0 10:51 ? 00:00:00 nginx: worker process 
 nobody 6247 6241 0 10:51 ? 00:00:00 nginx: worker process 
