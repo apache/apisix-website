@@ -2,3 +2,17 @@
   text-align: center;
   margin-bottom: 4rem;
 }
+
+.link {
+  border-bottom: 1px solid black;
+
+  &:hover {
+    color: #f56b69 !important;
+    border-bottom: 1px solid rgb(232 67 62) !important;
+  }
+
+  &:visited {
+    color: blueviolet;
+    border-bottom: 1px solid blueviolet;
+  }
+}
