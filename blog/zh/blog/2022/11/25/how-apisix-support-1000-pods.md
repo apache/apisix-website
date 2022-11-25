@@ -209,7 +209,7 @@ helm install apisix apisix/apisix \
   --set ingress-controller.enabled=true \
   --namespace ingress-apisix \
   --set ingress-controller.config.apisix.serviceNamespace=ingress-apisix \
-  --set ingress-controller.config.kubernetes.watchEndpointSlice=true 
+  --set ingress-controller.config.kubernetes.watchEndpointSlice=true
 ```
 
 第二步，使用 CRD 资源进行代理。注意，APISIX Ingress 中对 Endpoints 和 Endpointslice 特性的支持，使用者是感知不到的，它们的配置都是一致的。
