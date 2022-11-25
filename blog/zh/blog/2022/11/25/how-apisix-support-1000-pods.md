@@ -404,6 +404,6 @@ ports:
 
 ## 总结
 
-本文介绍了 Kubnertes 需要部署大量 Pod 的场景和遇到的问题，对比了 Endpoints 和 Endpointslice 之间区别，以及如何安装 APISIX Ingress 来使用 Endpointslice 的特性。
+本文介绍了 Kubernetes 需要部署大量 Pod 的场景和遇到的问题，对比了 Endpoints 和 Endpointslice 之间区别，以及如何安装 APISIX Ingress 来使用 Endpointslice 的特性。
 
 如果你的集群版本为 Kubernetes v1.21+，推荐在安装 APISIX Ingress 时开启 Endpointslice 特性支持，这样就不用关注 `--max-endpoints-per-slice` 标志设定的值，从而避免配置丢失。
