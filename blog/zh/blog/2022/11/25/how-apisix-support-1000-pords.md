@@ -30,6 +30,7 @@ tags: [Ecosystem]
 为了解决这个局限性问题，在 Kubernetes v1.21 的版本中引入了对 Endpointslice API 的支持，解决了 Endpoints API 处理大量网络端点带来的性能问题，同时提供了可扩展和可伸缩的能力。
 
 通过下图我们可以明显看到它们之间的区别：
+
 - Endpoints 在流量高峰时的变化：
 
 ![Endpoints 在流量高峰时的变化](https://static.apiseven.com/2022/11/25/638039cf30502.png)
@@ -72,6 +73,7 @@ httpbin   10.1.36.125:80,10.1.36.131:80,10.1.36.133:80   23d
 **从上述示例可以看到，Endpoints 中 httpbin 资源对象的所有网络端点，分别对应了每个 Pod 的 IP 地址。**
 
 当然， Endpoints 也有它的一些不足之处，比如：
+
 1. Endpoints 具有容量限制，如果某个 Endpoints 资源中端口的个数超过 1000，那么 Endpoints 控制器会将其截断为 1000。
 2. 一个 Service 只有一个 Endpoints 资源，这意味着它需要为支持相应服务的每个 Pod 存储 IP 等网络信息。这导致 Endpoints 资源变的十分巨大，其中一个端点发生了变更，将会导致整个 Endpoints 资源更新。当业务需要进行频繁端点更新时，一个巨大的 API 资源被相互传递，而这会影响到 Kubernetes 组件的性能，并且会产生大量的网络流量和额外的处理。
 
@@ -101,10 +103,12 @@ EndpointSlice 旨在通过分片的方式来解决此问题，并没有使用单
 通过上文的描述我们总结一下两种资源的适用情况。
 
 Endpoints 适用场景：
+
 - 有弹性伸缩需求，Pod 数量较少，传递资源不会造成大量网络流量和额外处理。
 - 无弹性伸缩需求，Pod 数量不会太多。哪怕 Pod 数量是固定，但是总是要滚动更新或者出现故障的。
 
 Endpointslice 适用场景:
+
 - 有弹性需求，且 Pod 数量较多（几百上千）。
 - Pod 数量很多（几百上千），因为 Endpoints 网络端点最大数量限制为 1000，所以超过 1000 的 Pod 必须得用 Endpointslice。
 
@@ -398,6 +402,7 @@ ports:
 ```
 
 ## 总结
+
 本文介绍了 Kubnertes 需要部署大量 Pod 的场景和遇到的问题，对比了 Endpoints 和 Endpointslice 之间区别，以及如何安装 APISIX Ingress 来使用 Endpointslice 的特性。
 
 如果你的集群版本为 Kubernetes v1.21+，推荐在安装 APISIX Ingress 时开启 Endpointslice 特性支持，这样就不用关注 `--max-endpoints-per-slice` 标志设定的值，从而避免配置丢失。
