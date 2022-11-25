@@ -90,7 +90,7 @@ EndpointSlice 旨在通过分片的方式来解决此问题，并没有使用单
 
 首先，我们考虑具有 2000 个 Pod 的服务它最终可能具有 1.0 MB 的 Endpoints 资源。在生产环境中，如果该服务发生滚动更新或节点迁移，那么 Endpoints 资源将会频繁变更。
 
-想象一下，如果滚动更新会导致全部 Pod 都被替换，[由于 etcd 具有最大请求大小限制](https://etcd.io/docs/v3.3/dev-guide/limit/#request-size-limit)，Kubernets 对 Endpoints 最大容量限制为 1000，如果网络端点数量超出了 1000，那么多出来的网络端点，将不会被 Endpoints 资源记录。
+想象一下，如果滚动更新会导致全部 Pod 都被替换，[由于 etcd 具有最大请求大小限制](https://etcd.io/docs/v3.3/dev-guide/limit/#request-size-limit)，Kubernetes 对 Endpoints 最大容量限制为 1000，如果网络端点数量超出了 1000，那么多出来的网络端点，将不会被 Endpoints 资源记录。
 
 当然也可能因为一些需求，需要多次进行滚动更新，那么这个巨大的 API 资源对象将会 Kubernetes 组件中来回传递，极大影响了 Kubernetes 组件的性能。
 如果使用了 Endpointslices，假设一个服务后端有 2000 个 Pod。如果将配置修改为每个  Endpointslices 存储 100 个端点，最终将获得 20 个 Endpointslices。添加或删除 Pod 时，只需要更新其中 1 个 Endpointslice 资源即可，这样操作后，可扩展性和网络可伸缩有了很大的提升。
