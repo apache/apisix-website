@@ -10,7 +10,8 @@ const getEditUrl = (props) => {
     : projectName === 'apisix-ingress-controller'
       ? `v${version}`
       : `release/${version}`;
-  return `https://github.com/apache/${projectName}/edit/${ver}/docs/${locale}/latest/${docPath}`;
+
+  return `/edit#https://github.com/apache/${projectName}/edit/${ver}/docs/${locale}/latest/${docPath}`;
 };
 
 module.exports = {
@@ -83,12 +84,10 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/apisix',
         sidebarPath: require.resolve('./docs/apisix/sidebars.json'),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix',
-            locale,
-            docPath,
-            version,
           });
         },
         versions: {
@@ -107,12 +106,10 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/dashboard',
         sidebarPath: require.resolve('./docs/apisix-dashboard/sidebars.json'),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-dashboard',
-            locale,
-            docPath,
-            version,
           });
         },
       },
@@ -128,12 +125,10 @@ module.exports = {
         sidebarPath: require.resolve(
           './docs/apisix-ingress-controller/sidebars.json',
         ),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-ingress-controller',
-            locale,
-            docPath,
-            version,
           });
         },
       },
@@ -147,12 +142,10 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/helm-chart',
         sidebarPath: require.resolve('./docs/apisix-helm-chart/sidebars.json'),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-helm-chart',
-            locale,
-            docPath,
-            version,
           });
         },
       },
@@ -166,12 +159,10 @@ module.exports = {
         showLastUpdateTime: true,
         routeBasePath: '/docs/docker',
         sidebarPath: require.resolve('./docs/apisix-docker/sidebars.json'),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-docker',
-            locale,
-            docPath,
-            version,
           });
         },
       },
@@ -187,12 +178,10 @@ module.exports = {
         sidebarPath: require.resolve(
           './docs/apisix-java-plugin-runner/sidebars.json',
         ),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-java-plugin-runner',
-            locale,
-            docPath,
-            version,
             defaultBranch: 'main',
           });
         },
@@ -209,12 +198,10 @@ module.exports = {
         sidebarPath: require.resolve(
           './docs/apisix-go-plugin-runner/sidebars.json',
         ),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-go-plugin-runner',
-            locale,
-            docPath,
-            version,
           });
         },
       },
@@ -230,12 +217,10 @@ module.exports = {
         sidebarPath: require.resolve(
           './docs/apisix-python-plugin-runner/sidebars.json',
         ),
-        editUrl({ docPath, version, locale }) {
+        editUrl(props) {
           return getEditUrl({
+            ...props,
             projectName: 'apisix-python-plugin-runner',
-            locale,
-            docPath,
-            version,
           });
         },
       },
