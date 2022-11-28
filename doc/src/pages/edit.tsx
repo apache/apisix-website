@@ -100,11 +100,7 @@ const Edit: FC = () => {
           )}
           {currentLocale.startsWith('zh') && (
             <>
-              <p>
-                First, thank you for your willingness to contribute to the documentation of Apache
-                APISIX and affiliated projects. 首先，感谢您愿意向 Apache APISIX
-                及其相关项目贡献文档。
-              </p>
+              <p>首先，感谢您愿意向 Apache APISIX 及其相关项目贡献文档。</p>
               <p>
                 但在开始之前，请先阅读并充分理解
                 {' '}
@@ -132,12 +128,13 @@ const Edit: FC = () => {
                     </Link>
                     。
                   </p>
-                  <p>
-                    如果不存在，欢迎您点击下方按钮，向 Apache APISIX
-                    社区贡献英文对应的中文文档。或者您也可以先尝试编辑英文文档。
-                  </p>
                 </>
               )}
+              <p>
+                {pathExist
+                  ? '当您准备完成后，单击下方按钮，以开始编辑文档'
+                  : '如果不存在，欢迎您点击下方按钮，向 Apache APISIX 社区贡献英文对应的中文文档。或者您也可以先尝试编辑英文文档。'}
+              </p>
               <button className="edit-btn" type="button" onClick={edit}>
                 {pathExist ? '开始编辑' : '创建翻译'}
               </button>
