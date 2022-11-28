@@ -1,14 +1,17 @@
 const { ssrTemplate } = require('../config/ssrTemplate');
 
-const getEditUrl = ({
-  projectName,
-  version,
-  locale,
-  docPath,
-  defaultBranch = 'master',
-}) => (version === 'current'
-  ? `https://github.com/apache/${projectName}/edit/${defaultBranch}/docs/${locale}/latest/${docPath}`
-  : null);
+const getEditUrl = (props) => {
+  const {
+    projectName, version, locale, docPath, defaultBranch = 'master',
+  } = props;
+  // eslint-disable-next-line no-nested-ternary
+  const ver = version === 'current'
+    ? defaultBranch
+    : projectName === 'apisix-ingress-controller'
+      ? `v${version}`
+      : `release/${version}`;
+  return `https://github.com/apache/${projectName}/edit/${ver}/docs/${locale}/latest/${docPath}`;
+};
 
 module.exports = {
   title: 'Apache APISIX® -- Cloud-Native API Gateway',
