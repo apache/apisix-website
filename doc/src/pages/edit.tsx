@@ -132,7 +132,7 @@ const Edit: FC = () => {
               )}
               <p>
                 {pathExist
-                  ? '当您准备完成后，单击下方按钮，以开始编辑文档'
+                  ? '当您准备完成后，单击下方按钮，以开始编辑文档。'
                   : '如果不存在，欢迎您点击下方按钮，向 Apache APISIX 社区贡献英文对应的中文文档。或者您也可以先尝试编辑英文文档。'}
               </p>
               <button className="edit-btn" type="button" onClick={edit}>
