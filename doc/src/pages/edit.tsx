@@ -26,8 +26,13 @@ const Edit: FC = () => {
   }, []);
 
   const edit = useCallback(() => {
-    const path = getPath();
-    window.location.replace(pathExist ? path : path.replace('edit', 'new'));
+    let path = getPath();
+    if (!pathExist) {
+      const pathArr = path.replace('edit', 'new').split('/');
+      pathArr[pathArr.length - 1] = `?filename=${pathArr.at(-1)}`;
+      path = pathArr.join('/');
+    }
+    window.location.replace(path);
   }, [pathExist]);
 
   return (
