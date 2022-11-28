@@ -11,7 +11,7 @@ const getEditUrl = (props) => {
       ? `v${version}`
       : `release/${version}`;
 
-  return `/edit#https://github.com/apache/${projectName}/edit/${ver}/docs/${locale}/latest/${docPath}`;
+  return `${locale === 'zh' ? '/zh' : ''}/edit#https://github.com/apache/${projectName}/edit/${ver}/docs/${locale}/latest/${docPath}`;
 };
 
 module.exports = {
