@@ -55,8 +55,6 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
           path: 'docs/general',
           routeBasePath: '/docs/general',
           sidebarPath: require.resolve('./docs/general/sidebars.json'),

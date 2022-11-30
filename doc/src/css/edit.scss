@@ -1,0 +1,48 @@
+.page {
+  max-width: var(--ifm-container-width);
+  margin: 0 auto;
+  padding: 2rem var(--ifm-spacing-horizontal);
+  width: 45%;
+
+  a {
+    color: var(--color-primary) !important;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+    color: #666;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 2rem;
+  }
+
+  .edit-btn {
+    padding: 12px 18px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease 0s;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 8rem;
+
+    &:hover {
+      filter: brightness(105%);
+    }
+  }
+}
