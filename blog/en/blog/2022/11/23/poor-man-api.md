@@ -13,7 +13,7 @@ keywords:
   - MVP
 description: "Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don't know whether it's worth it: you'd like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code."
 tags: [Case Studies]
-image: https://blog.frankel.ch/assets/resources/poor-man-api/jar-g19c1e6973.jpg
+image: https://static.apiseven.com/2022/11/28/63841cb4ad10a.png
 ---
 
 > Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don't know whether it's worth it: you'd like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code.
