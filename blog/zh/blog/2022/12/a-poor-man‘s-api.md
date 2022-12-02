@@ -47,13 +47,13 @@ tags: [Ecosystem]
 ***Dockerfile***
 
 ```dockerfile
-FROM debian:bookworm-slim                                                   
-ARG POSTGREST_VERSION=v10.1.1                                               
-ARG POSTGREST_FILE=postgrest-$POSTGREST_VERSION-linux-static-x64.tar.xz     
+FROM debian:bookworm-slim
+ARG POSTGREST_VERSION=v10.1.1
+ARG POSTGREST_FILE=postgrest-$POSTGREST_VERSION-linux-static-x64.tar.xz
 RUN mkdir postgrest
 WORKDIR postgrest
 ADD https://github.com/PostgREST/postgrest/releases/download/$POSTGREST_VERSION/$POSTGREST_FILE \
-    .                                                                       
+    .
 RUN apt-get update && \
     apt-get install -y libpq-dev xz-utils && \
     tar xvf $POSTGREST_FILE && \
@@ -68,13 +68,13 @@ RUN apt-get update && \
 version: "3"
 services:
   postgrest:
-    build: ./postgrest                                   
+    build: ./postgrest
     volumes:
-      - ./postgrest/product.conf:/etc/product.conf:ro    
+      - ./postgrest/product.conf:/etc/product.conf:ro
     ports:
       - "3000:3000"
-    entrypoint: ["/postgrest/postgrest"]                 
-    command: ["/etc/product.conf"]                       
+    entrypoint: ["/postgrest/postgrest"]
+    command: ["/etc/product.conf"]
     depends_on:
       - postgres
   postgres:
@@ -115,7 +115,7 @@ PostgREST 的官网[使用文档](https://postgrest.org/en/stable/admin.html)中
 version: "3"
 services:
   apisix:
-    image: apache/apisix:2.15.0-alpine                              
+    image: apache/apisix:2.15.0-alpine
     volumes:
       - ./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro
     ports:
@@ -125,7 +125,7 @@ services:
       - etcd
       - postgrest
   etcd:
-    image: bitnami/etcd:3.5.2                                       
+    image: bitnami/etcd:3.5.2
     environment:
       ETCD_ENABLE_V2: "true"
       ALLOW_NONE_AUTHENTICATION: "yes"
@@ -136,14 +136,14 @@ services:
 然后将 APISIX 配置为  `postgrest`  的代理进行调用。
 
 ```shell
-curl http://apisix:9080/apisix/admin/upstreams/1 -H 'X-API-KEY: 123xyz' -X PUT -d ' 
+curl http://apisix:9080/apisix/admin/upstreams/1 -H 'X-API-KEY: 123xyz' -X PUT -d '
 {
   "type": "roundrobin",
   "nodes": {
-    "postgrest:3000": 1                                                             
+    "postgrest:3000": 1
   }
 }'
-curl http://apisix:9080/apisix/admin/routes/1 -H 'X-API-KEY: 123xyz' -X PUT -d '    
+curl http://apisix:9080/apisix/admin/routes/1 -H 'X-API-KEY: 123xyz' -X PUT -d '
 {
   "uri": "/*",
   "upstream_id": 1
@@ -170,10 +170,10 @@ API 作为一个连接属性的组件，必然要保证其过程中的传输安�
 curl http://apisix:9080/apisix/admin/global_rules/1 -H 'X-API-KEY: 123xyz' -X PUT -d '
 {
   "plugins": {
-    "limit-count": {                 
-      "count": 1,                    
-      "time_window": 5,              
-      "rejected_code": 429           
+    "limit-count": {
+      "count": 1,
+      "time_window": 5,
+      "rejected_code": 429
     }
   }
 }'
@@ -206,12 +206,12 @@ APISIX 提供了几种[身份验证方法](https://apisix.apache.org/plugins/#au
 以下代码展示了如何新建一个 Consumer：
 
 ```shell
-curl http://apisix:9080/apisix/admin/consumers -H 'X-API-KEY: 123xyz' -X PUT -d '    
+curl http://apisix:9080/apisix/admin/consumers -H 'X-API-KEY: 123xyz' -X PUT -d '
 {
-  "username": "admin",                                                               
+  "username": "admin",
   "plugins": {
     "key-auth": {
-      "key": "admin"                                                                 
+      "key": "admin"
     }
   }
 }'
@@ -220,14 +220,14 @@ curl http://apisix:9080/apisix/admin/consumers -H 'X-API-KEY: 123xyz' -X P
 同样的，我们需要对 Consumer  `user`  和 Key  `user`   进行相关操作。现在可以创建一个专用路由来配置它们，以便只有来自  `admin`  的请求才能通过：
 
 ```shell
-curl http://apisix:9080/apisix/admin/routes -H 'X-API-KEY: 123xyz' -X POST -d ' 
+curl http://apisix:9080/apisix/admin/routes -H 'X-API-KEY: 123xyz' -X POST -d '
 {
   "uri": "/",
   "upstream_id": 1,
   "plugins": {
-    "key-auth": {},                                                             
-    "consumer-restriction": {                                                   
-      "whitelist": [ "admin" ]                                                  
+    "key-auth": {},
+    "consumer-restriction": {
+      "whitelist": [ "admin" ]
     }
   }
 }'
@@ -269,17 +269,16 @@ curl -H "apikey: user" localhost:9080
 version: "3"
 services:
   prometheus:
-    image: prom/prometheus:v2.40.1                                    
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml    
+    image: prom/prometheus:v2.40.1
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
       - apisix
   grafana:
-    image: grafana/grafana:8.5.15                                     
+    image: grafana/grafana:8.5.15
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning              
-      - ./grafana/dashboards:/var/lib/grafana/dashboards              
-      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini         
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
     ports:
       - "3001:3000"
     depends_on:
@@ -296,7 +295,7 @@ config.yaml
 plugin_attr:
   prometheus:
     export_addr:
-      ip: "0.0.0.0"             
+      ip: "0.0.0.0"
       port: 9091
 ```
 
