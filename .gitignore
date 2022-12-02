@@ -20,7 +20,6 @@ lib/core/MetadataBlog.js
 /blog/en/config/picked-posts-info.js
 /blog/zh/config/picked-posts-info.js
 
-
 # misc
 .DS_Store
 .env.local
@@ -49,3 +48,5 @@ scripts/yarn.lock
 /doc/i18n/zh/docusaurus-plugin-content-docs-docs-*/**
 scripts/temp/**
 /config/repos-info.json
+/website/src/pages/edit.*
+/website/src/css/edit.*

@@ -9,6 +9,13 @@ const tasks = new Listr([
     task: () => chdir('../'),
   },
   {
+    title: `Copy docs edit to website`,
+    task: () => Promise.allSettled([
+      exec('cp ./doc/src/css/edit.scss ./website/src/css'),
+      exec('cp ./doc/src/pages/edit.tsx ./website/src/pages'),
+    ]),
+  },
+  {
     title: `Build website's all parts`,
     task: () => Promise.allSettled([
       exec('yarn run build:blog:zh', { stdio: 'ignore' }),

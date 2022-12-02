@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "show": {
+      "type": "boolean"
+    },
+    "expire": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "config": {
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "string"
+            },
+            "link": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "disable": {
+              "type": "boolean"
+            }
+          },
+          "if": {
+            "properties": {
+              "disable": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "required": ["image", "link", "description"]
+          },
+          "else": {
+            "required": ["disable"],
+            "not": {
+              "required": ["image", "link", "description"]
+            }
+          }
+        },
+        "zh": {
+          "$ref": "#/properties/config/properties/en"
+        }
+      },
+      "required": ["en", "zh"]
+    }
+  },
+  "required": ["show", "expire", "width", "config"]
+}

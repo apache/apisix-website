@@ -18,6 +18,13 @@ that have a specific focus on Apache APISIX.
 
 ### Meetups
 
+#### ALC Indore Meetup
+
+* **Topic** Getting started with Apache APISIX
+* **Date** 11-November-2022
+* **Speaker** Navendu Pottekkat
+* **RSVP** [Eventbrite](https://www.eventbrite.com/e/getting-started-with-apache-apisix-tickets-461630026837)
+
 #### Apache APISIX Global Community Meetup
 
 * **Topic** Global Community Meeting

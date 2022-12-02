@@ -54,5 +54,41 @@
   "item.label.APISIX Dashboard": {
     "message": "APISIX Dashboard",
     "description": "Navbar item with label APISIX Dashboard"
+  },
+  "item.label.Apache APISIX®️": {
+    "message": "Apache APISIX®️",
+    "description": "Navbar item with label Apache APISIX®️"
+  },
+  "item.label.Apache APISIX®️ Dashboard": {
+    "message": "Apache APISIX®️ Dashboard",
+    "description": "Navbar item with label Apache APISIX®️ Dashboard"
+  },
+  "item.label.Apache APISIX®️ Ingress Controller": {
+    "message": "Apache APISIX®️ Ingress Controller",
+    "description": "Navbar item with label Apache APISIX®️ Ingress Controller"
+  },
+  "item.label.Apache APISIX®️ Helm Charts": {
+    "message": "Apache APISIX®️ Helm Charts",
+    "description": "Navbar item with label Apache APISIX®️ Helm Charts"
+  },
+  "item.label.Apache APISIX®️ Docker": {
+    "message": "Apache APISIX®️ Docker",
+    "description": "Navbar item with label Apache APISIX®️ Docker"
+  },
+  "item.label.Apache APISIX®️ Java Plugin Runner": {
+    "message": "Apache APISIX®️ Java Plugin Runner",
+    "description": "Navbar item with label Apache APISIX®️ Java Plugin Runner"
+  },
+  "item.label.Apache APISIX®️ Go Plugin Runner": {
+    "message": "Apache APISIX®️ Go Plugin Runner",
+    "description": "Navbar item with label Apache APISIX®️ Go Plugin Runner"
+  },
+  "item.label.Apache APISIX®️ Python Plugin Runner": {
+    "message": "Apache APISIX®️ Python Plugin Runner",
+    "description": "Navbar item with label Apache APISIX®️ Python Plugin Runner"
+  },
+  "item.label.General": {
+    "message": "General",
+    "description": "Navbar item with label General"
   }
 }

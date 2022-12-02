@@ -62,8 +62,8 @@ module.exports = [
     shape: 'star',
     color: '#FB9300',
     githubRepo: 'apache/apisix-java-plugin-runner',
-    version: '0.3.0',
-    releaseDate: '2022-08-19',
+    version: '0.4.0',
+    releaseDate: '2022-11-11',
     firstDocPath: '/development',
   },
   {
@@ -73,8 +73,8 @@ module.exports = [
     shape: 'octagon',
     color: '#3B14A7',
     githubRepo: 'apache/apisix-go-plugin-runner',
-    version: '0.4.0',
-    releaseDate: '2022-06-30',
+    version: '0.5.0',
+    releaseDate: '2022-11-10',
     firstDocPath: '/getting-started',
   },
   {
