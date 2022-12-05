@@ -449,7 +449,11 @@ const Benefits: FC = () => {
                 Keycloak, etc. We put stability and security first. For more information, check
               </Translate>
               {' '}
-              <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs/apisix/plugins/cors/')}>
+              <Link
+                style={{ color: '#e8433e' }}
+                to={useBaseUrl('docs/apisix/plugins/cors/')}
+                target="_blank"
+              >
                 <Translate id="benefits.component.security.link.here">here</Translate>
               </Link>
               <Translate id="common.punctuation.anEnd">.</Translate>
