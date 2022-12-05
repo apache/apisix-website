@@ -41,7 +41,7 @@ jobs:
           yarn workspace scripts link-checker && git status
 
       - name: Archive Broken Links List
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: broken-links.json
