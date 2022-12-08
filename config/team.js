@@ -289,6 +289,12 @@ module.exports = [
         githubUsername: 'SkyeYoung',
         avatarUrl: 'https://avatars.githubusercontent.com/u/48400568?v=4',
       },
+      {
+        name: 'Xin Rong',
+        username: 'AlinsRan',
+        githubUsername: 'AlinsRan',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/79972061?v=4',
+      },
     ],
   },
 ];
