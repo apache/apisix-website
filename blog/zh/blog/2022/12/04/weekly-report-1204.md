@@ -34,7 +34,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **链接**：https://github.com/apache/apisix/issues/8413
 
-**问题描述**：问题描述：将限制计数插件与支持 tls/ssl 的 Redis Cluster 一起使用。
+**问题描述**：将限制计数插件与支持 tls/ssl 的 Redis Cluster 一起使用。
 
 ## 近期功能特性亮点
 
