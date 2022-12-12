@@ -16,6 +16,7 @@ keywords:
 - 流量
 description: 本文描述了阿里云微服务引擎 MSE 如何基于 APISIX 灵活的路由能力，配合 MSE 全链路灰度能力来实现全链路灰度，释放基于 APISIX 的微服务架构的新价值。
 tags: [Ecosystem]
+image: https://static.apiseven.com/2022/12/12/63969c5eb411d.png
 ---
 
 > 本篇文章描述了阿里云微服务引擎 MSE 如何基于 Apache APISIX 灵活的路由能力，配合 MSE 全链路灰度能力，通过极简的配置与无代码侵入的方式，来实现全链路灰度，释放基于 APISIX 的微服务架构的新价值。
