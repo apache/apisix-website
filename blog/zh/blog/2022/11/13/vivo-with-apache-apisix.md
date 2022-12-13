@@ -15,6 +15,7 @@ keywords:
 - etcd
 description: 本文从应用 APISIX 后的调整与实践困难角度入手，为大家带来了 vivo 基于 APISIX 的企业实践细节。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/11/25/638055946ca56.png
 ---
 
 > 本文从应用 APISIX 后的调整与实践困难角度入手，为大家带来了 vivo 基于 APISIX 的企业实践细节。
