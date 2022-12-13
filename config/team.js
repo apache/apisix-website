@@ -283,6 +283,18 @@ module.exports = [
         githubUsername: 'guoqqqi',
         avatarUrl: 'https://avatars.githubusercontent.com/u/72343596?v=4',
       },
+      {
+        name: 'Tao Yang',
+        username: 'Young',
+        githubUsername: 'SkyeYoung',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/48400568?v=4',
+      },
+      {
+        name: 'Xin Rong',
+        username: 'AlinsRan',
+        githubUsername: 'AlinsRan',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/79972061?v=4',
+      },
     ],
   },
 ];
