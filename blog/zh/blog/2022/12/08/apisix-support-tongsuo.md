@@ -35,7 +35,7 @@ tags: [Ecosystem]
 * **政府和金融的身份认证终端**。依照现行有关规定，许多涉及政府和金融的身份认证终端（诸如 USBKey、智能 IC 卡、银行卡终端等）都需要提供对国密的支持。
 * **国产开源操作系统**。许多主打国产替代的开源操作系统，会提供基于国密的安全加固功能。比如龙蜥操作系统 (Anolis OS) 提到自己实现了全栈国密能力；OpenEuler 也在做国密相关的一些功能，比如基于国密数字证书扩展了 EFI 的数字签名。
 * **信创产品**。还有许多做信创生意的厂商，围绕国密推出符合相关标准的产品。例如支持使用国密算法做数字签名的 PDF 工具、支持国密接入标准的音视频软件等等。
-* **基于国密 TLS 协议的生态**。也是在日常开发中接触得最多的。譬如各种国产 CA 厂商、支持了国密TLS的许许多多密码库和浏览器，以及国密接入的VPN和网关等等。
+* **基于国密 TLS 协议的生态**。也是在日常开发中接触得最多的。譬如各种国产 CA 厂商、支持了国密 TLS 的许许多多密码库和浏览器，以及国密接入的 VPN 和网关等等。
 
 ## APISIX 对国密的探索与支持
 
@@ -48,14 +48,14 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 * GMSSL：北京大学开源的项目。原版基于 OpenSSL 1.0.2 修改而来。新的 GMSSL 3.0 基本上是重新开发，跟 OpenSSL 的目录结构差别很大。
 * gm-BoringSSL：个人开源项目，在 BoringSSL 上增加国密支持。已有两年未改动。
 * TaSSL：北京江南天安科技有限公司开源的项目。基于 OpenSSL 1.1.1 修改而来。
-* Tongsuo：蚂蚁集团开源的项目。基于 OpenSSL 3.0 修改而来，项目前身是 BabaSSL，现已 **改名为铜锁/Tongsuo**。
+* Tongsuo：蚂蚁集团开源的项目。基于 OpenSSL 3.0 修改而来，项目前身是 BabaSSL，现已**改名为铜锁/Tongsuo**。
 由于 GMSSL 3.0 并不基于 OpenSSL，即使能保证 API 兼容，也没办法确保能 100% 替换现有 OpenSSL 的行为，所以被首先排除。其次 gm-BoringSSL 疏于维护，也被排除。
 
-在 TaSSL 和 Tongsuo 之中，我倾向于选择 Tongsuo[1]。因为 Tongsuo 在标准上拥有更强的话语权，比如 RFC 8998（TLS 1.3 中支持 SM 套件）就是由 Tongsuo 的开发者制定的。TaSSL 则是每出一个版本，就公布一个新的仓库。比如前一个 版本[2]，感觉不太靠谱。
+在 TaSSL 和 Tongsuo 之中，我倾向于选择 [Tongsuo](https://github.com/Tongsuo-Project/Tongsuo)。因为 Tongsuo 在标准上拥有更强的话语权，比如 RFC 8998（TLS 1.3 中支持 SM 套件）就是由 Tongsuo 的开发者制定的。TaSSL 则是每出一个版本，就公布一个新的仓库。比如[前一个 版本](https://github.com/jntass/TASSL-1.1.1k)，感觉不太靠谱。
 
 对于选择 Tongsuo，我个人存在一个顾虑，就是他目前基于 OpenSSL 3.0 的版本还没有发布正式的 Release 版本（第一个版本预计在 2023 年 2 月发布）。由于 Tongsuo 当前还没有一个固定的版本，因此社区决定先把国密相关的功能独立出来，以插件形式存在，有相关需求时可单独启用。
 
-目前已在插件层面实现了服务端一侧国密双证书的支持，感兴趣的读者可以在官网查看  `gm` 插件介绍文档 插件介绍文档[3]，自行完成 APISIX 的编译和对应插件的安装配置工作。当然，如果想即刻预览该插件的使用过程，也可以直接参考下文内容。
+目前已在插件层面实现了服务端一侧国密双证书的支持，感兴趣的读者可以在官网查看 `gm` [插件介绍文档](https://apisix.apache.org/zh/docs/apisix/next/plugins/gm/)，自行完成 APISIX 的编译和对应插件的安装配置工作。当然，如果想即刻预览该插件的使用过程，也可以直接参考下文内容。
 
 ## 快速参考：APISIX 国密插件的使用
 
@@ -111,7 +111,7 @@ apisix:
 
 ## 测试插件
 
-在测试插件之前，需要准备好国密双证书。Tongsuo 提供了生成 【SM2 双证书】 的 教程[4]。
+在测试插件之前，需要准备好国密双证书。Tongsuo 提供了[生成 SM2 双证书](https://www.yuque.com/tsdoc/ts/sulazb)的教程。
 
 在下面的例子中，我们将用到如下的证书：
 
@@ -214,14 +214,4 @@ New, NTLSv1.1, Cipher is ECDHE-SM2-SM4-CBC-SM3
 
 如果不再使用此插件，可将 `gm` 插件从 `./conf/config.yaml` 配置文件中移除，然后重启 APISIX 或者通过插件热加载的接口触发插件的卸载。
 
-## 相关链接
-
 如果你对该功能或者插件感兴趣，欢迎在随时在社区进行交流。
-
-[1] [https://github.com/Tongsuo-Project/Tongsuo](https://github.com/Tongsuo-Project/Tongsuo)
-
-[2] [https://github.com/jntass/TASSL-1.1.1k](https://github.com/jntass/TASSL-1.1.1k)
-
-[3] [https://apisix.apache.org/zh/docs/apisix/next/plugins/gm/](https://apisix.apache.org/zh/docs/apisix/next/plugins/gm/)
-
-[4] [https://www.yuque.com/tsdoc/ts/sulazb](https://www.yuque.com/tsdoc/ts/sulazb)
