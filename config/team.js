@@ -295,6 +295,12 @@ module.exports = [
         githubUsername: 'AlinsRan',
         avatarUrl: 'https://avatars.githubusercontent.com/u/79972061?v=4',
       },
+      {
+        name: 'Navendu Pottekkat',
+        username: 'navendu-pottekkat',
+        githubUsername: 'Navendu Pottekkat',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/49474499?v=4',
+      },
     ],
   },
 ];
