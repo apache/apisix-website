@@ -52,7 +52,7 @@ APISIX 目前支持通过 GraphQL 的一些属性进行动态路由。通过该�
 
 以下面的 GraphQL 语句为例：
 
-```plain
+```graphql
   query getRepo {
       owner {
           name
@@ -77,7 +77,7 @@ APISIX 会提取 GraphQL 以下三个属性，用在路由当中：
 
 让我们来创建一个路由，展示下 APISIX 对 GraphQL 的精细化路由能力。
 
-```plain
+```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/1 \
   -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
   {
@@ -99,7 +99,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 接下来使用带有 GraphQL 语句的请求去访问：
 
-```plain
+```shell
 curl -i -H 'content-type: application/graphql' \
 -X POST http://127.0.0.1:9080/graphql -d '
 query getRepo {
@@ -116,7 +116,7 @@ HTTP/1.1 200 OK
 
 我们可以看到请求到达了上游，这是因为查询语句匹配了全部三个条件。 反之，如果我们使用不匹配的语句来访问，比如不包含 `owner` 字段：
 
-```plain
+```shell
 curl -i -H 'content-type: application/graphql' \
 -X POST http://127.0.0.1:9080/graphql -d '
 query getRepo {
@@ -132,7 +132,7 @@ HTTP/1.1 404 Not Found
 
 接下来，我们可以另外创建一个路由，让不包含 `owner` 字段的语句路由到别的上游：
 
-```plain
+```shell
 curl http://127.0.0.1:9180/apisix/admin/routes/2 \
   -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
   {
@@ -173,7 +173,7 @@ HTTP/1.1 200 OK
 
 举个例子，现在有两个 API。一个叫 GetEvent，另一个叫 GetLocation。他们返回的类型分别是 Event 和 Location。
 
-```plain
+```grahphql
 type Event {
   id: string
   location_id: string
@@ -192,7 +192,7 @@ type Query {
 
 我们可以加一个配置，由这两个 API 组合成新的 API 叫 `GetEventWithLocation`。新的 API 是这样的：
 
-```plain
+```grahphql
 type EventWithLocation {
   id: string
   location: Location
