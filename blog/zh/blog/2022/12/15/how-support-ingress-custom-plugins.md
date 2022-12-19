@@ -70,7 +70,7 @@ Ingress controller 会持续地监控或监听 Kubernetes 集群中 Ingress 资�
 
 在 Ingress-NGINX 项目中，可以为 Ingress 资源增加一些 Annotation 来描述其需要使用的扩展能力。比如使用如下配置便可开启 cors 能力。
 
-```plain
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
