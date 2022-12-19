@@ -114,8 +114,8 @@ spec:
 
 关于 APISIX 插件的开发，可参考官方文档：
 
-* 插件开发 [https://apisix.apache.org/docs/apisix/plugin-develop/](https://apisix.apache.org/docs/apisix/plugin-develop/)
-* External Plugin 开发：[https://apisix.apache.org/docs/apisix/external-plugin/](https://apisix.apache.org/docs/apisix/external-plugin/)
+* [插件开发](https://apisix.apache.org/docs/apisix/plugin-develop/)
+* [External Plugin 开发](https://apisix.apache.org/docs/apisix/external-plugin/)
 
 了解了 APISIX 的插件开发模式后，接下来将介绍 3 种在 APISIX Ingress 中使用 Lua 语言开发插件的方式。
 
