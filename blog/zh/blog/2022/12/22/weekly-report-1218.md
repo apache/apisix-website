@@ -42,7 +42,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 **问题描述**：正常情况下，CHANGELOG 文件应该由 release-tools 自动生成。而在最近的情况中，make update-all 指令可以修改 CHANGELOG 文件，这个问题需要修复。
 
-
 ## 近期功能特性亮点
 
 ### Apache APISIX
