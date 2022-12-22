@@ -167,7 +167,7 @@ OpenID 是一个去中心化的网上身份认证系统。对于支持 OpenID �
 
 此时我们可以使用 APISIX 提供的 `consumer-restriction` 插件去实现一个访问控制机制。
 
-```plain
+```bash
 curl http://127.0.0.1:9180/apisix/admin/routes -H 'X-API-KEY: your-API-key' -X POST -i -d '
 {
     "uri": "/api/v1/users/admin",

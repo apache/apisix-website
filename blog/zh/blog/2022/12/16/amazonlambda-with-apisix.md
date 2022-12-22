@@ -27,6 +27,8 @@ Serverless 的基础概念是将运行服务所需的基础设施交由云服务
 
 如下图所示，和传统的开发、编译、部署运行方式不同，使用 Amazon Serverless 计算服务 Lambda，仅需要上传源文件，选择执行环境并执行，便能得到运行结果。在该过程中，服务器部署、runtime 安装、编译等，都由 Amazon Serverless 计算平台管理执行。
 
+![download_image.png](https://static.apiseven.com/2022/11/29/6386054bc6c9c.png)
+
 对工程师来说，只需要维护源代码和 Amazon Serverless 执行环境的相关配置即可。与此相关的技术还有 BaaS（Backend as a Service，后端即服务），是指我们无需编写或者管理所有服务端组件，把应用中的各个部分完全外包出去，而 Serverless 则是一种新的运行代码的托管环境。
 
 ### **为什么需要 Serverless**
@@ -45,6 +47,8 @@ Serverless 的基础概念是将运行服务所需的基础设施交由云服务
 
 这里以 Apache APISIX 为例，它为流行的云服务提供商（AWS、Azure）提供 Serverless 框架支持；可以定义一个路由去启用 Serverless 插件，而不是将函数 URL 硬编码到应用程序中；同时，为开发人员提供了热更新函数 URI 的灵活性，更新不同的 FaaS 云服务提供商也没有什么额外的麻烦；此外，这种方法也减轻了应用程序逻辑的授权和身份验证问题。
 
+![download_image (1).png](https://static.apiseven.com/2022/11/29/6385ff2ce13c3.png)
+
 ## **Apache APISIX 与 Serverless**
 
 [Apache APISIX](https://apisix.apache.org/) 是 Apache 软件基金会下的云原生 API 网关，它兼具动态、实时、高性能等特点，提供了负载均衡、动态上游、灰度发布（金丝雀发布）、服务熔断、身份认证、可观测性等丰富的流量管理功能。
@@ -61,7 +65,14 @@ Serverless 的基础概念是将运行服务所需的基础设施交由云服务
 
 除了 Amazon Lambda，Apache APISIX 目前还支持与 Azure Function、Lua 函数和 Apache OpenWhisk 等 Serverless 相关生态的集成，从而提供了相应的 Serverless 插件，具体如下表所示。
 
-表格 还在加载中，请等待加载完成后再尝试复制
+|    插件名称   | 描述 |
+| :--------: | :------------ |
+| [serverless](https://apisix.apache.org/docs/apisix/plugins/serverless/) |     用户可以通过 Serverless 插件上传自定义的 Lua 脚本，并根据配置中的 phase 来指定代码运行阶段。例如在 access 阶段对请求进行访问控制，在 header filter，body filter 阶段，对响应头或响应体进行修改，或者在 log 阶段打印个性化日志等。另外，由于 Serverless 插件是热加载的，因此我们不需要重新启动 Apache APISIX 便可立即生效。      |
+| [Azure Function](https://apisix.apache.org/docs/apisix/plugins/azure-functions/)  |   用于将 Azure Serverless Function 作为动态上游集成至 APISIX，从而实现将访问指定 URI 的请求代理到 Microsoft Azure 云服务。启用 azure-functions 插件后，该插件会终止对已配置 URI 的请求，并代表客户端向 Azure Functions 发起一个新的请求。该新请求中携带了之前配置的授权详细信息，包括请求头、请求体和参数（以上参数都是从原始请求中传递的）。之后便会通过 azure-functions 插件，将带有响应头、状态码和响应体的信息返回给使用 APISIX 发起请求的客户端。  |
+| [OpenWhisk](https://apisix.apache.org/docs/apisix/plugins/openwhisk/)|   用于将开源的分布式无服务器平台 Apache OpenWhisk 作为动态上游集成至 APISIX。启用 openwhisk 插件后，该插件会终止对已配置 URI 的请求，并代表客户端向 OpenWhisk 的 API Host 端点发起一个新的请求，然后 openwhisk 插件会将响应信息返回至客户端。    |
+|[OpenFunction](https://apisix.apache.org/docs/apisix/plugins/openfunction/)    | 用于将开源的分布式无服务器平台 CNCF OpenFunction 作为动态上游集成至 APISIX。启用 openfunction 插件后，该插件会终止对已配置 URI 的请求，并代表客户端向 OpenFunction 的 function 发起一个新的请求，然后 openfunction 插件会将响应信息返回至客户端。  |
+
+![download_image (2).png](https://static.apiseven.com/2022/12/01/638842425ec60.png)
 
 ## **总结**
 

@@ -51,8 +51,6 @@ Client <----> Ingress <----> Upstream Service
 
 当前的协议多种多样，以下简单汇总了两个项目对协议的支持，仅供参考。
 
-（如 md 文件可引用下方格式）
-
 |    协议    | APISIX Ingress | Traefik |
 | :--------: | :------------: | :-----: |
 | HTTP/HTTPS |      支持      |  支持   |
@@ -128,7 +126,7 @@ moduleName: github.com/traefik/pluginproviderdemo
 
 ## 来自用户的声音
 
-在今年，我们也看到了很多来自用户的声音，他们开始在业务架构中用上了 APISIX Ingress。比如 [地平线使用 APISIX Ingress 替换了 Traefik](https://www.apiseven.com/usercase/apisix-ingress-with-horizon-ai)，主要是考虑如下方面：
+在今年，我们也看到了很多来自用户的声音，他们开始在业务架构中用上了 APISIX Ingress。比如[地平线使用 APISIX Ingress 替换了 Traefik](https://www.apiseven.com/usercase/apisix-ingress-with-horizon-ai)，主要是考虑如下方面：
 
 * 通过 Annotation 增加的配置不易重用；
 * Traefik 中默认的行为与 NGINX 中不同，用户在使用时候会产生困惑；
@@ -139,7 +137,7 @@ moduleName: github.com/traefik/pluginproviderdemo
 
 APISIX Ingress 的数据面性能更佳，能高效地应对日益增长的业务流量，而不会陷入性能瓶颈。
 
-除地平线以外，包括 [少年得到](http://www.igetcool.com/)，[观为智慧](http://www.gwwisdom.com/) 等公司也都使用 APISIX Ingress 替换了 Traefik，更多用户案例请参考 [用户案例](https://www.apiseven.com/usercases)。
+除地平线以外，包括[少年得到](http://www.igetcool.com/)，[观为智慧](http://www.gwwisdom.com/)等公司也都使用 APISIX Ingress 替换了 Traefik，更多用户案例请参考[用户案例](https://www.apiseven.com/usercases)。
 
 此外，Apache APISIX 社区非常活跃，在 GitHub 和 Slack 等频道上都会快速响应。也期待各位在社区积极进行反馈与讨论。
 
