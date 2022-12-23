@@ -7,7 +7,7 @@ keywords:
 - APISIX
 - 君润人力
 description: 本文从君润人力业务快速扩张的背景入手，重点介绍开源 API 网关 APISIX 对其自研平台系统架构的多样化应用场景支持。
-tags: [Usercase]
+tags: [Case Studies]
 image: https://static.apiseven.com/2022/12/06/638ef9ee2c067.png
 ---
 
