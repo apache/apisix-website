@@ -132,7 +132,7 @@ spec:
 kubectl apply -f ./podinfo-apisixroute.yaml
 ```
 
-接下来可以创建 Flagger 的自定义资源 Canary，如下所示（示例中的 `app.example.com`可以替换成你的实际域名）。
+接下来可以创建 Flagger 的自定义资源 Canary，如下所示（示例中的 `app.example.com` 可以替换成你的实际域名）。
 
 ```yaml
 apiVersion: flagger.app/v1beta1
@@ -215,7 +215,7 @@ service/podinfo-primary
 apisixroute/podinfo-podinfo-canary
 ```
 
-此时你通过域名 app.example.com 访问应用（示例中的`app.example.com`可以替换成你的实际域名），你将会看到当前版本的应用细节。
+此时你通过域名 app.example.com 访问应用（示例中的 `app.example.com` 可以替换成你的实际域名），你将会看到当前版本的应用细节。
 
 ![filename (1).png](https://static.apiseven.com/2022/12/26/63a9a4798e616.png)
 
@@ -270,11 +270,11 @@ Events:
   Normal   Synced  9s (x3 over 50s)       flagger  (combined from similar events): Promotion completed! Scaling down podinfo.test
 ```
 
-在新版本金丝雀发布的过程中，你可以通过域名 app.example.com 访问应用（示例中的`app.example.com`可以替换成你的实际域名），这里将会出现不同版本的响应切换。
+在新版本金丝雀发布的过程中，你可以通过域名 app.example.com 访问应用（示例中的 `app.example.com` 可以替换成你的实际域名），这里将会出现不同版本的响应切换。
 
 ![filename (3).png](https://static.apiseven.com/2022/12/26/63a9a47b281b0.png)
 
-通过查看由 Flagger 自动创建出来的 Apache APISIX 的`ApisixRoute` 资源 `podinfo-podinfo-canary`，会发现 service `podinfo-primary` 和 service `podinfo-canary` 的权重跟随着发布过程一起变化。
+通过查看由 Flagger 自动创建出来的 Apache APISIX 的 `ApisixRoute` 资源 `podinfo-podinfo-canary`，会发现 service `podinfo-primary` 和 service `podinfo-canary` 的权重跟随着发布过程一起变化。
 
 ```yaml
 spec:
@@ -294,7 +294,11 @@ spec:
 
 ![filename (4).png](https://static.apiseven.com/2022/12/26/63a9a479d5bbe.png)
 
->**注意：**如若在金丝雀发布期间再次变更了 deployment，Flagger 将会重新进行金丝雀分析。你可以通过以下命令来观察到所有的金丝雀发布细节。
+:::note 注意
+
+如若在金丝雀发布期间再次变更了 deployment，Flagger 将会重新进行金丝雀分析。你可以通过以下命令来观察到所有的金丝雀发布细节。
+
+:::
 
 ```bash
 watch kubectl get canaries --all-namespaces
@@ -383,7 +387,7 @@ spec:
         }[{{ interval }}]
       )
     ) * 100
-修改金丝雀发布中的analysis，添加上面创建的指标模版。
+# 修改金丝雀发布中的 analysis，添加上面创建的指标模版。
   analysis:
     metrics:
       - name: "404s percentage"

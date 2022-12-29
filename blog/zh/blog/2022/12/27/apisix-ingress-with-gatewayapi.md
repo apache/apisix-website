@@ -1,5 +1,5 @@
 ---
-title: "Gateway API 对 APISIX Ingress 的支持和应用"
+title: "APISIX Ingress 对 Gateway API 的支持和应用"
 author: "lingsamuel"
 authorURL: "https://github.com/lingsamuel"
 authorImageURL: "https://github.com/lingsamuel.png"
@@ -42,7 +42,7 @@ Gateway API 不仅是 Ingress 的功能父集，还具有如下改进：
 
 ### **1 安装 Gateway API CRD**
 
-要使用 Gateway API，需要先安装 Gateway API 的 CRD，有两种安装方式：APISIX Ingress Controller 仓库下的副本 或 官方仓库 [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api/tree/main/config/crd/experimental)。
+要使用 Gateway API，需要先安装 Gateway API 的 CRD，有两种安装方式：APISIX Ingress Controller 仓库下的副本或官方仓库 [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api/tree/main/config/crd/experimental)。
 
 此处以 APISIX Ingress Controller 仓库的 CRD 副本为例，安装命令如下：
 
@@ -70,7 +70,12 @@ helm install apisix apisix/apisix --namespace apisix-ingress \
   --set ingress-controller.config.kubernetes.enableGatewayAPI=true
 ```
 
-注：参数 `--set ingress-controller.config.kubernetes.enableGatewayAPI=true` 用于开启 Gateway API 支持。
+:::note 注意
+
+参数 `--set ingress-controller.config.kubernetes.enableGatewayAPI=true` 用于开启 Gateway API 支持。
+
+:::
+
 这些命令将在 `apisix-ingress` 命名空间下创建完整的测试环境，包括 APISIX、etcd 与 APISIX Ingress Controller。
 
 ### **3 部署测试负载**
