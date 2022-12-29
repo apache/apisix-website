@@ -10,7 +10,7 @@ keywords:
 - APISIX
 - Serverless
 description: 本文通过介绍了 Serverless 的相关内容，引出了一个好的网关在 Serverless 架构下的重要性。而 APISIX 就是这样的一个网关。
-tags: [Case Studies]
+tags: [Ecosystem]
 ---
 
 > 本文通过介绍了 Serverless 的相关内容，引出了一个好的网关在 Serverless 架构下的重要性。而 APISIX 就是这样的一个网关。
