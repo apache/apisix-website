@@ -146,7 +146,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: podinfo
-  # 引用 apisix route 
+  # 引用 apisix route
   routeRef:
     apiVersion: apisix.apache.org/v2
     kind: ApisixRoute
@@ -238,7 +238,7 @@ podinfod=stefanprodan/podinfo:6.0.1
 
 ```shell
 kubectl -n test describe canary/podinfo
- 
+
 Status:
   Canary Weight:  0
   Conditions:
@@ -249,7 +249,7 @@ Status:
   Failed Checks:           1
   Iterations:              0
   Phase:                   Succeeded
- 
+
 Events:
   Type     Reason  Age                    From     Message
   ----     ------  ----                   ----     -------
@@ -298,7 +298,7 @@ spec:
 
 ```bash
 watch kubectl get canaries --all-namespaces
- 
+
 NAMESPACE   NAME      STATUS      WEIGHT   LASTTRANSITIONTIME
 test        podinfo-2   Progressing   10       2022-11-23T05:00:54Z
 test        podinfo     Succeeded     0        2022-11-23T06:00:54Z
@@ -333,7 +333,7 @@ watch -n 1 curl -H \"host: app.example.com\" http://apisix-gateway.apisix/delay/
 
 ```bash
 kubectl -n apisix logs deploy/flagger -f | jq .msg
- 
+
 "New revision detected! Scaling up podinfo.test"
 "canary deployment podinfo.test not ready: waiting for rollout to finish: 0 of 1 (readyThreshold 100%) updated replicas are available"
 "Starting canary analysis for podinfo.test"
