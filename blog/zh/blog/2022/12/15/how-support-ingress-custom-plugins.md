@@ -19,11 +19,11 @@ tags: [Ecosystem]
 
 > 作者：张晋涛，API7.ai 云原生技术专家，Apache APISIX PMC 成员，Apache APISIX Ingress Controller 项目维护者。
 
-## Ingress 和 Ingress controller
+## Ingress 和 Ingress Controllers
 
 Kubernetes 中的 Ingress 是一种资源对象，用于定义如何从 Kubernetes 集群外访问到 Kubernetes 集群内的服务，其中包含了具体的访问规则，通常情况下客户端使用 HTTP/HTTPS 协议进行访问。
 
-客户端可按照 Ingress 资源定义的规则，将客户端请求路由到 Kubernetes 集群中的服务或具体的 Pod中。
+客户端可按照 Ingress 资源定义的规则，将客户端请求路由到 Kubernetes 集群中的服务或具体的 Pod 中。
 
 ![3df3234c-7ae7-48de-8dbb-0449226e4f2e.png](https://static.apiseven.com/2022/12/14/63996e81521dc.png)
 
@@ -184,7 +184,7 @@ spec:
               number: 80
 ```
 
-上述配置在 Ingress 资源中增加了 cors 相关的一些信息。APISIX Ingress controller 可以识别这些信息，并将这些信息转换为数据面中 cors 的配置，进而完成对 Ingress 资源的扩展。
+上述配置在 Ingress 资源中增加了 `cors` 相关的一些信息。APISIX Ingress controller 可以识别这些信息，并将这些信息转换为数据面中 `cors` 的配置，进而完成对 Ingress 资源的扩展。
 
 **但是这种模式下，需要确保在 APISIX Ingress controller 中已经实现了对这些 Annotations 的处理逻辑，如果尚未实现，则需要进行一些二次开发。**
 
