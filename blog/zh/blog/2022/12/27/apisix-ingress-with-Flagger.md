@@ -41,7 +41,7 @@ Flagger 是一个 CNCF 云原生计算基金会项目，是 GitOps 工具 Flux �
 
 经过 Apache APISIX 和 Flux 两个社区的合作与努力，Flagger 在近期也发布了 v1.27.0 版本，支持使用 Apache APISIX Ingress 和 Flagger 进行自动化的金丝雀发布。
 
-![filename.png](https://static.apiseven.com/2022/12/26/63a9a47945eda.png)
+![金丝雀发布流程](https://static.apiseven.com/2022/12/26/63a9a47945eda.png)
 
 下文将通过实践，一步步为大家展示下这个顺滑的金丝雀发布过程。
 
@@ -217,7 +217,7 @@ apisixroute/podinfo-podinfo-canary
 
 此时你通过域名 app.example.com 访问应用（示例中的 `app.example.com` 可以替换成你的实际域名），你将会看到当前版本的应用细节。
 
-![filename (1).png](https://static.apiseven.com/2022/12/26/63a9a4798e616.png)
+![版本 1](https://static.apiseven.com/2022/12/26/63a9a4798e616.png)
 
 ## 具体功能实践
 
@@ -225,7 +225,7 @@ apisixroute/podinfo-podinfo-canary
 
 Flagger 实现了一个控制循环，在持续测量 HTTP 请求成功率、请求平均持续时间和 Pod 健康状况等关键性能指标的同时，逐渐将流量转移至金丝雀节点。根据对相关指标的分析，发布或中止金丝雀部署，并将分析结果发布到相关平台例如 Slack、MS Teams 或者 Prometheus Alert Manager 等。
 
-![filename (2).png](https://static.apiseven.com/2022/12/26/63a9a47bb7a3d.png)
+![Flagger 控制循环](https://static.apiseven.com/2022/12/26/63a9a47bb7a3d.png)
 
 具体可通过更新容器镜像版本，来触发金丝雀发布。
 
@@ -272,7 +272,7 @@ Events:
 
 在新版本金丝雀发布的过程中，你可以通过域名 app.example.com 访问应用（示例中的 `app.example.com` 可以替换成你的实际域名），这里将会出现不同版本的响应切换。
 
-![filename (3).png](https://static.apiseven.com/2022/12/26/63a9a47b281b0.png)
+![版本 2](https://static.apiseven.com/2022/12/26/63a9a47b281b0.png)
 
 通过查看由 Flagger 自动创建出来的 Apache APISIX 的 `ApisixRoute` 资源 `podinfo-podinfo-canary`，会发现 service `podinfo-primary` 和 service `podinfo-canary` 的权重跟随着发布过程一起变化。
 
@@ -292,7 +292,7 @@ spec:
 
 当最终发布完成后，将会看到稳定的最新版本。
 
-![filename (4).png](https://static.apiseven.com/2022/12/26/63a9a479d5bbe.png)
+![版本 3](https://static.apiseven.com/2022/12/26/63a9a479d5bbe.png)
 
 :::note 注意
 
