@@ -38,9 +38,9 @@ Gateway API 不仅是 Ingress 的功能父集，还具有如下改进：
 
 不同的角色配置不同层级的 Gateway API 资源，这些资源相互配合，共同作用：
 
-## **如何在 APISIX Ingress 中使用 Gateway API**
+## 如何在 APISIX Ingress 中使用 Gateway API
 
-### **1 安装 Gateway API CRD**
+### 第一步：安装 Gateway API CRD
 
 要使用 Gateway API，需要先安装 Gateway API 的 CRD，有两种安装方式：APISIX Ingress Controller 仓库下的副本或官方仓库 [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api/tree/main/config/crd/experimental)。
 
@@ -52,7 +52,7 @@ cd apisix-ingress-controller
 kubectl apply -f ./samples/deploy/gateway-api/
 ```
 
-### **2 安装 APISIX Ingress Controller**
+### 第二步：安装 APISIX Ingress Controller
 
 在 APISIX Ingress Controller 中，默认不启用 Gateway API 支持，可通过参数 `--enable-gateway-api=true` 启用。随后在使用 Helm 安装时，可通过配置 values 来启用。
 
@@ -78,7 +78,7 @@ helm install apisix apisix/apisix --namespace apisix-ingress \
 
 这些命令将在 `apisix-ingress` 命名空间下创建完整的测试环境，包括 APISIX、etcd 与 APISIX Ingress Controller。
 
-### **3 部署测试负载**
+### 第三步：部署测试负载
 
 使用 `kennethreitz/httpbin` 镜像作为测试负载。
 
@@ -89,7 +89,7 @@ kubectl run httpbin --image kennethreitz/httpbin --port 80
 kubectl expose pod httpbin --port 80
 ```
 
-### **4 配置 HTTPRoute**
+### 第四步：配置 HTTPRoute
 
 目前，APISIX Ingress Controller 支持 `v1alpha2` 版本的 Gateway API 资源。
 
@@ -120,7 +120,7 @@ spec:
 kubectl apply -f ./httproute.yaml
 ```
 
-### **5 验证**
+### 第五步：验证
 
 在 APISIX 的 Pod 中直接验证，执行以下命令：
 
@@ -140,12 +140,12 @@ kubectl -n apisix-ingress exec -it \
 
 由此，配置成功生效。
 
-## **APISIX Ingress 对 Gateway API 的支持状态**
+## APISIX Ingress 对 Gateway API 的支持状态
 
 APISIX Ingress Controller 正在对 Gateway API 添加支持，现已处于 Alpha 阶段，支持 HTTPRoute、TCPRoute 等资源。
 
 目前 Gateway API 已更新至 v0.5.1 版本，但对于 Gateway 与 Gateway Class 的支持还处于开发阶段，因此目前这些资源的配置暂时不会生效。
 
-## **总结**
+## 总结
 
 在本文中，我们介绍了 Gateway API 这个将服务暴露到集群之外的全新规范，并且介绍了如何在 APISIX Ingress Controller 中使用它。APISIX Ingress Controller 对 Gateway API 的完整支持仍在积极开发中，欢迎感兴趣的朋友参与贡献。
