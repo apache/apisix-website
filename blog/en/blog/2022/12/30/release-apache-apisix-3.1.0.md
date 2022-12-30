@@ -15,11 +15,11 @@ keywords:
 - Custom plugin
 - gRPC
 - Consul
-description: Apache APISIX 3.1.0 is officially released! This version brings a lot of functional support on the security level, and adds a built-in debugging plugin to optimize the experience of using APISIX.
+description: Apache APISIX 3.1.0 is officially released! This version brings a lot of functional support on the security level and adds a built-in debugging plugin, to optimize the experience of using APISIX.
 tags: [Community]
 ---
 
-> Apache APISIX 3.1.0 is officially released! This version brings a lot of functional support on the security level, and adds a built-in debugging plugin to optimize the experience of using APISIX.
+> Apache APISIX 3.1.0 is officially released! This version brings a lot of functional support on the security level and adds a built-in debugging plugin, to optimize the experience of using APISIX.
 
 <!--truncate-->
 
@@ -199,7 +199,7 @@ plugin_attr:
     hooks_file: "/usr/local/apisix/plugin_inspect_hooks.lua"
 ```
 
-APISIX periodically looks at the configured hooks_file (in this case "/usr/local/apisix/plugin_inspect_hooks.lua") after startup. If there is the content inside the file, it sets breakpoints and callbacks based on the content inside. For example, the following will set a breakpoint on line 88 of limit-req.lua and register the callback function `function(info) ... end`.
+APISIX periodically looks at the configured hooks_file (in this case is `/usr/local/apisix/plugin_inspect_hooks.lua` file) after startup. If there is the content inside the file, it sets breakpoints and callbacks based on the content inside. For example, the following will set a breakpoint on line 88 of `limit-req.lua` file and register the callback function `function(info) ... end`.
 
 ```lua
 local dbg = require "apisix.inspect.dbg"
@@ -217,4 +217,4 @@ In addition to the big features mentioned above, this release contains several c
 - Optimization of resource usage for Prometheus metrics collection
 - Support for configuring domain names as upstream in L4 proxies
 
-If you are interested in the full update details of the new release, please refer to the [changelog](https://github.com/apache/apisix/blob/master/CHANGELOG.md#310) of the 3.1.0 release.
+If you are interested in the full update details of the new release, please refer to the [CHANGELOG](https://github.com/apache/apisix/blob/master/CHANGELOG.md#310) of the 3.1.0 release.

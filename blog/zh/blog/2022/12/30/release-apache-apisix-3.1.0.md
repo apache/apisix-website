@@ -160,7 +160,6 @@ discovery:
   consul:
     servers:
       - "http://127.0.0.1:8500"
-
 ```
 
 然后在具体的 upstream 中配置对应的 `service_name` 和 `discovery_type`：
@@ -193,7 +192,7 @@ plugin_attr:
     hooks_file: "/usr/local/apisix/plugin_inspect_hooks.lua"
 ```
 
-APISIX 在启动后，会定期查看配置的 hooks_file （这里是 "/usr/local/apisix/plugin_inspect_hooks.lua"），如果文件里面有内容，就会根据里面的内容设置断点和回调。比如下方内容会给 limit-req.lua 的 88 行上设置一个断点，并在该断点上注册了回调函数 `function(info) ... end`。
+APISIX 在启动后，会定期查看配置的 hooks_file （这里是 `/usr/local/apisix/plugin_inspect_hooks.lua` 文件），如果文件里面有内容，就会根据里面的内容设置断点和回调。比如下方内容会给 `limit-req.lua` 文件的 88 行上设置一个断点，并在该断点上注册了回调函数 `function(info) ... end`。
 
 ```lua
 local dbg = require "apisix.inspect.dbg"
@@ -211,4 +210,4 @@ end)
 - 优化 Prometheus 指标采集的资源占用
 - 支持在 L4 的代理中，配置域名作为上游
 
-如果你对新版本的完整更新细节感兴趣，请参考 3.1.0 发布的 [changelog](https://github.com/apache/apisix/blob/release/3.1/docs/zh/latest/CHANGELOG.md#310)。
+如果你对新版本的完整更新细节感兴趣，请参考 3.1.0 发布的 [CHANGELOG](https://github.com/apache/apisix/blob/release/3.1/docs/zh/latest/CHANGELOG.md#310)。
