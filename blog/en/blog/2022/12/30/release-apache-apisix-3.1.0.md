@@ -55,7 +55,7 @@ apisix:
 
 Then the secret and private_key in the configuration of the `jwt-auth` plugin written to etcd will be stored encrypted. The configuration seen via `etcdctl get --prefix /` will be something like ""secret": "77+NmbYqNfN+oL..."" Instead of the original configuration information, this is the data.
 
-## `New feature: storing sensitive information in an external security service
+## New feature: storing sensitive information in an external security service
 
 In addition to storing sensitive information encrypted in etcd, there is also the option to dynamically retrieve sensitive information from another system instead of requiring it to be stored in APISIX's configuration store (e.g. etcd).
 
