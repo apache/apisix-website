@@ -31,7 +31,7 @@ This release, 3.1.0, adds support for encrypted storage of plugin configurations
 
 The new version supports encrypted storage of plugin-specific fields in etcd.
 
-In previous versions, APISIX provided a `key_encrypt_salt` configuration item to support encryption of SSL keys stored inside etcd to avoid storing private key data in plaintext. 
+In previous versions, APISIX provided a `key_encrypt_salt` configuration item to support encryption of SSL keys stored inside etcd to avoid storing private key data in plaintext.
 
 After all, for sensitive data such as private keys, one less place to store plaintext can provide more peace of mind. So for other equally sensitive configurations, such as the secret in the `jwt-auth` plugin, can we also encrypt it to avoid storing it in plaintext in etcd?
 
@@ -214,7 +214,7 @@ end)
 
 In addition to the big features mentioned above, this release contains several changes worth mentioning.
 
-* Optimization of resource usage for Prometheus metrics collection
-* Support for configuring domain names as upstream in L4 proxies
+- Optimization of resource usage for Prometheus metrics collection
+- Support for configuring domain names as upstream in L4 proxies
 
 If you are interested in the full update details of the new release, please refer to the [changelog](https://github.com/apache/apisix/blob/master/CHANGELOG.md#310) of the 3.1.0 release.

@@ -208,7 +208,7 @@ end)
 
 除了上面提到的几个大的功能外，此次发布也包含许多值得述说的改动：
 
-* 优化 Prometheus 指标采集的资源占用
-* 支持在 L4 的代理中，配置域名作为上游
+- 优化 Prometheus 指标采集的资源占用
+- 支持在 L4 的代理中，配置域名作为上游
 
 如果你对新版本的完整更新细节感兴趣，请参考 3.1.0 发布的 [changelog](https://github.com/apache/apisix/blob/release/3.1/docs/zh/latest/CHANGELOG.md#310)。
