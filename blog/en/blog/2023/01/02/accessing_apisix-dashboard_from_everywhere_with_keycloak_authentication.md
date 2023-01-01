@@ -15,7 +15,7 @@ keywords:
   - openid-connect
 description: This article describes how to expose Apisix-dashboard using Apisix to authenticate the access using openid-connect plugin and a Keycloak server to manage identities
 tags: [Authentication, Plugins]
-image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
+image: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01.png
 ---
 
 > This article describes .
@@ -28,4 +28,7 @@ image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 # Accessing Apisix-dashboard from everywhere with Keycloak authentication
 
 > Work in progress
+
+
+![framework](https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01.png)
 
