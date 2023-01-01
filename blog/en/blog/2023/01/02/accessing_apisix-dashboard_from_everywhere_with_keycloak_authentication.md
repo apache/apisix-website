@@ -18,7 +18,7 @@ tags: [Authentication, Plugins]
 image: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01.png
 ---
 
-> This article describes .
+> This article describes how to setup an external access to apisix dashboard protecting the URL with authentication managed by a keycloak server.
 
 <!--truncate-->
 
