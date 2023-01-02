@@ -30,14 +30,17 @@ image: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png
 > Work in progress
 
 ![framework](https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png)
+
 This article presents how to setup a framework where a user can access the Apisix-dashboard protected by authentication managed by a Keycloak server.
 
 # Prerequisites
 
 Basic understanding of nginx reverse proxy, kubernetes, apisix and openid connect.
 
-> A lot of information can be found in ["Use Keycloak with API Gateway to secure APIs"](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/) 
+> A lot of information can be found in ["Use Keycloak with API Gateway to secure APIs"](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/) blog post
 
+Here I'll present instructions, examples, code and screenshots taken from my home lab.
+My framework consists of some KVM virtual machines:
 
 
 
