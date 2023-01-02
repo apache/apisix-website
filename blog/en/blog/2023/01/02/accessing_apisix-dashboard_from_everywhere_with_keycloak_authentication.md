@@ -36,7 +36,7 @@ This article presents how to setup a framework where a user can access the Apisi
 
 Basic understanding of nginx reverse proxy, kubernetes, apisix and openid connect.
 
-> A lot of information can be found in ["Use Keycloak with API Gateway to secure APIs"](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)
+> A lot of information can be found in ["Use Keycloak with API Gateway to secure APIs"](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/) 
 
 
 
