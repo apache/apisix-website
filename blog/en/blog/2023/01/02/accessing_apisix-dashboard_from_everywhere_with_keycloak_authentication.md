@@ -41,13 +41,16 @@ Basic understanding of nginx reverse proxy, kubernetes, apisix and openid connec
 
 Here I'll present instructions, examples, code and screenshots taken from my home lab.
 
-
-
 My framework consists of some KVM virtual machines:
 
-
-
-
+| VM Name | Role | Services | Description |
+|-------------|------|----------|-------------|
+|   hdev      |  Development    |kubectl, istioctl, helm          | workstation from where manage the cluster   |
+|   hserv     |  external services    | DNS server, Nginx, Keycloak          | services used by the cluster vm and external users            |
+|   hkm       | Kubernetes master     | master node         | control plane manager for K8S            |
+|   hkw1      | K8S worker 1    | first worker node         |     node for hosting pods        |
+|   hkw2      | K8S worker 2    | second worker node         |     node for hosting pods        |
+|   hkw3      | K8S worker 3    | third worker node         |     node for hosting pods        |
 
 
 
