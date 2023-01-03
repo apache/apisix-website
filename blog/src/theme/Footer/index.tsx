@@ -102,7 +102,7 @@ const footer = {
   },
 
   copyright:
-    'Copyright © 2019-2022 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.',
+    `Copyright © 2019-${new Date().getFullYear()} The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.`,
 };
 
 const FooterLink = ({
