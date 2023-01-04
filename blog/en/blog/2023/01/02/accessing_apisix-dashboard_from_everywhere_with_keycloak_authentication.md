@@ -108,8 +108,30 @@ Settings -> Advanced -> Privacy and security -> Manage certificates -> Authoriti
 and import **"hservca.pem"** (remember to flag all options)
 
 ## Add the CA to the operating system
+> Working on hdev
+ 
+Copy the "hservca.pem" file in the "/home/sysop" directory.
+Copy this file on any other machine that will use sertificates signed by this CA.
 
+> Work on any machine
 
+Then on any host and hserv do the following:
+> Attention:
+> 
+>    • "dpkg-reconfigure ca-certificates" do not recognize the ".pem" extension. Copy "*.pem" to "*.crt"
+>    
+>    • select the new certificate in "dpkg-reconfigure ca-certificates" (extra/hservca.crt is not selected)
+
+```
+cd
+sudo mkdir -p /usr/share/ca-certificates/extra
+sudo cp hservca.pem /usr/share/ca-certificates/extra/hservca.crt
+sudo dpkg-reconfigure ca-certificates
+```
+
+Confirm that you want to proceed: select “yes” and click “Ok”. Select the new “hservca.crt” entry and click “Ok”
+
+![confirm](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ca-certificates.png)
 
 
 
