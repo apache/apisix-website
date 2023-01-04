@@ -116,9 +116,9 @@ Copy this file on any other machine that will use sertificates signed by this CA
 > Work on any machine
 
 Then on any host and hserv do the following:
-> Attention:
+> **Attention**:
 > 
->    • "dpkg-reconfigure ca-certificates" do not recognize the ".pem" extension. Copy "*.pem" to "*.crt"
+>    • "dpkg-reconfigure ca-certificates" do not recognize the ".pem" extension. Copy the **"hservca.pem"** file to **"hservca.crt"**
 >    
 >    • select the new certificate in "dpkg-reconfigure ca-certificates" (extra/hservca.crt is not selected)
 
@@ -133,6 +133,33 @@ Confirm that you want to proceed: select “yes” and click “Ok”. Select th
 
 ![confirm](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ca-certificates.png)
 
+# Install nginx-mainline
 
+Verify the system is updated
+```
+sudo apt update
+sudo apt full-upgrade
+```
+Install prerequisites
+```
+sudo apt install wget gnupg2 ca-certificates lsb-release ubuntu-keyring software-properties-common -y
+```
+Download the Nginx GPG key
+```
+wget -O- https://nginx.org/keys/nginx_signing.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg
+```
+Add the Nginx mainline apt repository
+```
+echo deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx | sudo tee /etc/apt/sources.list.d/nginx-mainline.list
+```
+Pin the Nginx repository
+```
+echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
+```
+Update apt and install nginx
+```
+sudo apt update
+sudo apt install nginx
+```
 
 
