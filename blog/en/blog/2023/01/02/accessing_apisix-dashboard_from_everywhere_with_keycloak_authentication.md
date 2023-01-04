@@ -54,7 +54,10 @@ My framework consists of some KVM virtual machines:
 
 The **hserv** vm have two lan cards: one on an external lan to expose services and one an internal lan to communicate with the Kubernetes (from now K8S) cluster.
 All the other VM are only connected to the internal lan.
+
 All the machines resolve the IP addresses using the DNS server installed on **hserv**
+
+**Hserv** and **hdev** machines have a Graphical User Interface (from now GUI). All the other machines have only the character console.
 
 > The real framework is more complex. Here are reported only the relevant components
 
@@ -161,5 +164,43 @@ Update apt and install nginx
 sudo apt update
 sudo apt install nginx
 ```
+
+# Install Keycloak
+> Work on **hserv**
+
+## Prerequisites
+Install jdk
+```
+sudo apt install default-jdk
+```
+Remove anacron
+```
+sudo apt remove anacron
+```
+Reboot the **hserv** machine
+
+##  10.2  Keycloak installation
+Go in base installation directory and get keycloak installation files (verify what is the last release)
+```
+cd ~/H/
+wget https://github.com/keycloak/keycloak/releases/download/20.0.1/keycloak-20.0.1.zip
+```
+Extract the files
+```
+unzip keycloak-20.0.1.zip
+```
+Go to the bin directory and start keycloak in standalone mode
+```
+cd ~/H/keycloak-20.0.1/bin/
+./kc.sh start-dev
+```
+Verify that Keycloak is accessible from hserv at the URL **"http://localhost:8080"**
+
+Create the admin user as name **"admin"** and password **"1357Togo"**
+
+![k6k01](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k01.png)
+
+
+
 
 
