@@ -52,6 +52,64 @@ My framework consists of some KVM virtual machines:
 |   hkw2      | K8S worker 2    | second worker node         |     node for hosting pods        |
 |   hkw3      | K8S worker 3    | third worker node         |     node for hosting pods        |
 
+The **hserv** vm have two lan cards: one on an external lan to expose services and one an internal lan to communicate with the Kubernetes (from now K8S) cluster.
+All the other VM are only connected to the internal lan.
+All the machines resolve the IP addresses using the DNS server installed on **hserv**
+
+> The real framework is more complex. Here are reported only the relevant components
+
+All machines use Ubuntu distribution but commands reported here should worh for other distributions with some modifications.
+The username used throughout this article will be **"sysop"** So the home directory will be indicated as **"/home/sysop"** or **"~/"**.
+
+# Create a Certification authority and certificates
+
+For all the VM the DNS server will resolve **"apisix.h.net"** to the external address of **hserv**.
+For all others machine that will access the the services exposed by **hserv** there will be a line in the **"/etc/hosts"** file resolving **"apisix.h.net"** to the external address of **hserv**.
+
+> Working on **hserv**
+
+Create the directory for the entire project software
+```
+cd
+mkdir H
+```
+Create the directory to hold the Certification authority (from now CA) certificates and the web sites certificates
+```
+cd ~/H
+mkdir hservcerts
+cd hservcerts
+```
+Create a private key for **"hservca"**
+```
+sudo openssl genrsa -out hservca.key 2048
+```
+This generates a **hservca.key** key file. Using this fiile generate the CA certificate
+```
+sudo openssl req -x509 -new -nodes -key hservca.key -sha256 -days 3650 -out hservca.pem
+```
+This generates a **hservca.pem"** certificate file. These two files will be used to create the web sites certificates
+
+
+## Add the CA to browsers
+To be able to access the web sites with certidicates issued by this private CA, the CA certificate file have to be added to the web browser that will access these sites.
+
+Copy the **"hservca.pem"** file in any machine that will access these sites.
+
+For **Firefox** browser go to:
+```
+Preferences -> Privacy & Security -> Certificates -> View Certificates -> Authorities -> Import 
+```
+and import **"hservca.pem"** (remember to flag all options)
+
+For **Chromium** or **Chrome** browsers go to:
+```
+Settings -> Advanced -> Privacy and security -> Manage certificates -> Authorities -> Import (flag all options)
+```
+and import **"hservca.pem"** (remember to flag all options)
+
+## Add the CA to the operating system
+
+
 
 
 
