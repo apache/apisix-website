@@ -484,7 +484,7 @@ vi apisix-values.yaml
 You have to change:
 - the gateway type to **LoadBalancer** (my home lab is powered off every day and with the default gateway type of NodePort the Apisix gateway starts every day on a different node changing IP address)
 - set the **tls** section to use the kubernetes secret with the private CA reference
-- set the discovery section to use the kube-dns address found before (doing this enables apisix upstream definition to use the service name instrad of the IP address)
+- set the discovery section to use the kube-dns address found before (doing this enables apisix upstream definition to use the service name instead of the IP address)
 - set a session secret in the httpSrv section as a workaround cited in the [#8068](https://github.com/apache/apisix/pull/8068) feature request
 - enable (set to true) apisix dashboard and ingress-controller
 
