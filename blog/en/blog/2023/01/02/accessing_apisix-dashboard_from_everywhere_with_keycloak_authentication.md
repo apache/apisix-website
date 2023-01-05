@@ -204,5 +204,36 @@ Go to the administration console
 
 ![k6k02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k02.png)
 
+Login and the “Master” realm appears. Note the Keycloak version
+
+
+![k6k03](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k03.png)
+
+## Automatic Keycloak startup
+
+> Work on **hserv**
+
+Create in **“/usr/lib/systemd/system”** a file named **“keycloak.service”** containing
+```
+[Unit]
+Description=keycloak service
+After=network.service
+
+[Service]
+ExecStart=/home/sysop/H/keycloak-20.0.1/bin/kc.sh start-dev >/var/log/keycloak.log 2>&1
+PIDFile=/var/run/keycloak.pid
+
+[Install]
+WantedBy=multi-user.target
+```
+Enable and activate the service
+```
+sudo systemctl enable keycloak
+sudo systemctl start keycloak
+```
+Reboot hserv and verify Keycloak is accessible at startup
+
+## Create site and certificates for "https://k6k.h.net"
+> Work on **hserv**
 
 
