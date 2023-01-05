@@ -245,5 +245,164 @@ In the **"/etc/hosts"** fle add the line
 192.168.100.20 k6k k6k.h.net
 ```
 
+In the DNS server on **hserv** add the k6k entry in the **“h.net”** DNS zone with address **“192.168.100.20”**
+
+![dns01](https://github.com/MirtoBusico/assets-for-blogs/blob/main/dns01.png)
+
+Create the certificate for **"k6k.h.net"**
+
+In **"~/H/hservcerts"** create a file called **"k6kssl.cnf"** containing
+```
+[req]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+C = IT
+ST = Italy
+L = Rome
+O = Busico Mirto
+OU = Laboratory
+CN = k6k.h.net
+
+[v3_ca]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = k6k
+# other names
+DNS.2 = k6k.h.net
+DNS.3 = k6k.ext.h.net
+DNS.4 = k6k.int.h.net
+```
+Create the server private key and csr certificate request
+```
+cd ~/H/hservcerts
+sudo openssl req -new -sha256 -nodes -newkey rsa:2048 -keyout k6k.key -out k6k.csr -config k6kssl.cnf
+```
+
+Create the certificate signed by the **"hservca"** certification authority
+```
+sudo openssl x509 -req -in k6k.csr -CA hservca.pem -CAkey hservca.key -CAcreateserial -out k6k.crt -sha256 -days 3650 -extfile k6kssl.cnf -extensions v3_ca
+```
+Now you have the key file **k6k.key** and the certificate file **k6k.cert** to be used in the nginx reverse proxy
+
+Change the access rights for k6k.key file to permit nginx access
+```
+cd ~/H/hservcerts
+sudo chmod a+r k6k.key
+```
+Create the root directory for k6k under nginx and create an index.html file in that directory
+```
+sudo mkdir /usr/share/nginx/k6k
+sudo chmod 777 /usr/share/nginx/k6k
+vi /usr/share/nginx/k6k/index.html
+```
+Put in index.html filke the "K6K" base document
+```
+<!DOCTYPE html>
+<html>
+<text>
+
+<h1>K6K default page</h1>
+
+</text>
+</html>
+```
+In the directory **“/etc/nginx/conf.d”** create the file **“k6k.conf”**
+```
+cd /etc/nginx/conf.d
+sudo vi k6k.conf
+```
+The file contains
+```
+server {
+
+    listen 443 ssl http2;
+    server_name k6k.h.net;
+    root   /usr/share/nginx/k6k;
+    
+    access_log  /var/log/nginx/k6k.access.log;
+    error_log  /var/log/nginx/k6k.error.log;
+
+    ssl_certificate     /home/sysop/H/hservcerts/k6k.crt;
+    ssl_certificate_key /home/sysop/H/hservcerts/k6k.key;
+
+    
+    location / {
+        index  index.html index.htm;
+    }
+
+    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}
+```
+Restart Nginx
+```
+sudo systemctl restart nginx
+```
+Try to access “https://k6k.h.net” from a browser: the k6k base document will be showed
+
+## Add keycloak reverse proxy
+
+In the directory **“/etc/nginx/conf.d”** change the file **“k6k.conf”** to proxy keycloak
+```
+cd /etc/nginx/conf.d
+sudo vi k6k.conf
+```
+The file now contains
+```
+server {
+
+    listen 443 ssl http2;
+    server_name k6k.h.net;
+    root   /usr/share/nginx/k6k;
+    
+    access_log  /var/log/nginx/k6k.access.log;
+    error_log  /var/log/nginx/k6k.error.log;
+
+    ssl_certificate     /home/sysop/H/hservcerts/k6k.crt;
+    ssl_certificate_key /home/sysop/H/hservcerts/k6k.key;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}
+```
+Restart Nginx
+```
+sudo systemctl restart nginx
+```
+Rebuild keycloak for production
+```
+cd ~/H/keycloak-20.0.1/bin/
+./kc.sh --verbose build
+```
+
+
 
 
