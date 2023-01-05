@@ -1,6 +1,6 @@
 ---
 title: "2022 Apache APISIX 年度记忆"
-author: "苏钰"
+author: "Sylvia"
 authorURL: "https://github.com/SylviaBABY"
 authorImageURL: "https://github.com/SylviaBABY.png"
 keywords: 

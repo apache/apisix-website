@@ -5,7 +5,7 @@ keywords:
 - API 网关
 - 社区周报
 - 贡献者
-description: 
+description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
 image: https://static.apiseven.com/2023/01/05/63b66c8388a6c.png
 ---
