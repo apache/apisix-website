@@ -403,6 +403,39 @@ cd ~/H/keycloak-20.0.1/bin/
 ./kc.sh --verbose build
 ```
 
+Change in **“/usr/lib/systemd/system”** the file named **“keycloak.service”** with this content
+```
+[Unit]
+Description=keycloak service
+After=network.service
+
+[Service]
+ExecStart=/home/sysop/H/keycloak-20.0.1/bin/kc.sh start --proxy edge --hostname-strict=false >/var/log/keycloak.log 2>&1
+PIDFile=/var/run/keycloak.pid
+
+[Install]
+WantedBy=multi-user.target
+```
+Enable and activate the service
+```
+sudo systemctl daemon-reload
+sudo systemctl restart keycloak
+```
+
+# Apisix api gateway
+
+## Addresses for apisix-dashboard
+
+The address used is the exsternal address o the **hsrv** machine
+
+In the **"/etc/hosts"** file of any machine accessing the cluster through the nginx reverse proxy add the line
+```
+192.168.100.20 apisix apisix.h.net
+```
+
+In the DNS server on **hserv** add the apisix entry in the **“h.net”** DNS zone with address **“192.168.100.20”**
+
+![dns02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/dns02.png)
 
 
 
