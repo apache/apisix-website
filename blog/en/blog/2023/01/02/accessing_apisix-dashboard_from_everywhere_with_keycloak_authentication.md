@@ -179,7 +179,7 @@ sudo apt remove anacron
 ```
 Reboot the **hserv** machine
 
-##  10.2  Keycloak installation
+## Keycloak installation
 Go in base installation directory and get keycloak installation files (verify what is the last release)
 ```
 cd ~/H/
@@ -200,7 +200,9 @@ Create the admin user as name **"admin"** and password **"1357Togo"**
 
 ![k6k01](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k01.png)
 
+Go to the administration console
 
+![k6k02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k02.png)
 
 
 
