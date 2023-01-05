@@ -437,5 +437,119 @@ In the DNS server on **hserv** add the apisix entry in the **“h.net”** DNS z
 
 ![dns02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/dns02.png)
 
+## Apisix deployment
+
+> Working on **hdev**
+
+create a namespace for apisix
+```
+kubectl create ns apisix
+```
+Add apisix helm repo
+```
+mkdir ~/H/software/apisisx
+cd ~/H/software/apisisx
+helm repo add apisix https://charts.apiseven.com
+helm repo update
+helm repo list
+```
+
+> work on **hserv**
+
+On **“hserv”** create the CA kubernetes secret (make readable hservca.key)
+```
+cd ~/H/hservcerts
+ls -lh hservca.*
+kubectl -n apisix create secret generic hservcacert --from-file=cert=./hservca.pem
+kubectl describe secret hservcacert -n apisix
+```
+
+> work on “hdev”
+
+Get the core_dns service address and port (in this example 10.43.0.10:53)
+```
+sysop@hdev:~/H/software/apisisx$ kubectl get svc -n kube-system
+NAME              TYPE           CLUSTER-IP     EXTERNAL-IP                                                   PORT(S)                  AGE
+kube-dns          ClusterIP      10.43.0.10     <none>                                                        53/UDP,53/TCP,9153/TCP   97d
+metrics-server    ClusterIP      10.43.64.71    <none>                                                        443/TCP                  97d
+docker-registry   LoadBalancer   10.43.183.18   192.168.101.21,192.168.101.22,192.168.101.23,192.168.101.24   5000:31397/TCP           92d
+sysop@hdev:~/H/software/apisisx$
+```
+Get the apisic helm chart the default values and put the output in a file named **apisix-values.yaml** then edit this file
+```
+cd ~/H/software/apisisx
+helm show values apisix/apisix > apisix-values.yaml
+vi apisix-values.yaml
+```
+You have to change:
+- the gateway type to **LoadBalancer** (my home lab is powered off every day and with the default gateway type of NodePort the Apisix gateway starts every day on a different node changing IP address)
+- set the **tls** section to use the kubernetes secret with the private CA reference
+- set the discovery section to use the kube-dns address found before (doing this enables apisix upstream definition to une the service name instrad of the IP address)
+- set a session secret in the httpSrv section as a workaround cited in the [#8068](https://github.com/apache/apisix/pull/8068) feature request
+- enable (set to true) apisix dashboard and ingress-controller
+
+The relevant tiles changed are:
+
+```
+gateway:
+  type: LoadBalancer
+...
+  tls:
+    enabled: true
+    servicePort: 443
+    containerPort: 9443
+    existingCASecret: "hservcacert"
+    certCAFilename: "cert"
+...
+discovery:
+  enabled: true
+  registry:
+    dns:
+        servers:
+            - "10.43.0.10:53"
+...
+   httpSrv: |
+    set $session_secret 0123456789a5bac9bb3c868ec8b202e93;
+...
+
+dashboard:
+  enabled: true
+
+ingress-controller:
+  enabled: true
+```
+
+Install apisix using the new values.yaml file
+```
+helm install apisix apisix/apisix -f apisix-values.yaml \
+--set ingress-controller.config.apisix.serviceNamespace=apisix \
+--set ingress-controller.config.apisix.serviceName=apisix-admin \
+--set ingress-controller.config.kubernetes.apisixRouteVersion=apisix.apache.org/v2beta3 \
+--namespace apisix
+```
+
+Wait for the pods to start (it can take some time)
+```
+kubectl -n apisix wait --for=condition=Ready pods --all
+kubectl get pods -n apisix
+```
+
+When all the Apisix pods will be in **Running** state the installation is completed
+
+
+## Create Apisix resources for apisix-dashboard
+
+### Create the certificate for **"apisix.h.net"**
+
+> Work on **hserv**
+
+
+
+
+
+
+
+
+
 
 
