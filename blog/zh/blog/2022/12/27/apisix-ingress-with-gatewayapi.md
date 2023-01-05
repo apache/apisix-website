@@ -18,7 +18,7 @@ tags: [Ecosystem]
 
 > 作者@lingsamuel，API7.ai 云原生技术专家，Apache APISIX Committer。
 
-Gateway API 是除原生 Service 与 Ingress 之外，APISIX 社区发起的独立规范，帮助用户将 Kubernetes 中的服务暴露到集群之外，由  [sig-network](https://github.com/kubernetes/community/tree/master/sig-network) （特别兴趣小组）管理。
+Gateway API 是除原生 Service 与 Ingress 之外，APISIX 社区发起的独立规范，帮助用户将 Kubernetes 中的服务暴露到集群之外，由 [sig-network](https://github.com/kubernetes/community/tree/master/sig-network) （特别兴趣小组）管理。
 
 Gateway API 支持大部分常用网络协议（HTTP、TCP、UDP 等）和对 TLS 的支持。此外，Gateway API 中的 Gateway 资源能够通过 Kubernetes API 来管理代理和网关的生命周期。
 

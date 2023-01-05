@@ -17,7 +17,7 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-> 作者：谭恒亮，Github ID:  Gallardot。开源项目爱好者，CNCF Chaos Mesh 项目 Maintainer，CNCF KubeVela、Apache APISIX、CNCF Flagger、CNCF Argo Rollouts 等项目 Contributor。目前在小鹏汽车任职基础架构研发专家。
+> 作者：谭恒亮，Github ID: Gallardot。开源项目爱好者，CNCF Chaos Mesh 项目 Maintainer，CNCF KubeVela、Apache APISIX、CNCF Flagger、CNCF Argo Rollouts 等项目 Contributor。目前在小鹏汽车任职基础架构研发专家。
 
 在日常的项目开发过程中时，我们时常会面临服务变更的挑战，为了不影响用户体验，我们往往尽可能需要规避服务不可用的风险。因此，持续交付便应运而生，其被接受为一种企业软件实践，并且是完善的持续集成原则的自然演变。
 
