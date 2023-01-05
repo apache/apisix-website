@@ -9,7 +9,7 @@ keywords:
 - APISIX
 - 开源社区
 description: 本文介绍了 Apache APISIX 社区在 2022 年取得的成绩。
-tags: [Ecosystem]
+tags: [Community]
 ---
 
 > 本文将带您回顾 Apache APISIX 社区在 2022 年在各领域取得的成绩。
@@ -46,7 +46,7 @@ tags: [Ecosystem]
 
 ![contributor](https://static.apiseven.com/2023/01/03/63b3ea8cc7637.png)
 
-除了国内外开发者的认可外，今年 APISIX 也收获了很多企业级的技术赞誉。比如在互联网保险领域，众安保险在整个 DevOps 的全生命周期中，将 APISIX 作为流量治理的关键环节去处理，实现了更好的多渠道流量隔离；在智能汽车 AI 领域，地平线则选择了 APISIX Ingress 替换 Traefic 作为公司的统一流量网关，丰富了多云环境下的服务调用等功能；在国产手机领军队伍中，vivo 使用 APISIX 替换了之前传统的 NGINX，同时基于 APISIX 还自研了内部业务配置管理系统，在 vivo 业务架构的实践和场景支持上都表现得十分出色。
+除了国内外开发者的认可外，今年 APISIX 也收获了很多企业级的技术赞誉。比如在互联网保险领域，[众安保险](https://apisix.apache.org/zh/blog/2022/03/02/zhongan-usercase-with-apache-apisix/) 在整个 DevOps 的全生命周期中，将 APISIX 作为流量治理的关键环节去处理，实现了更好的多渠道流量隔离；在智能汽车 AI 领域，[地平线](https://apisix.apache.org/zh/blog/2022/10/28/apisix-ingress-with-horizon-ai/) 则选择了 APISIX Ingress 替换 Traefik 作为公司的统一流量网关，丰富了多云环境下的服务调用等功能；在国产手机领军队伍中，[vivo](https://apisix.apache.org/zh/blog/2022/11/13/vivo-with-apache-apisix/) 使用 APISIX 替换了之前传统的 NGINX，同时基于 APISIX 还自研了内部业务配置管理系统，在 vivo 业务架构的实践和场景支持上都表现得十分出色。
 
 ![usercase](https://static.apiseven.com/2023/01/03/63b3ead0d9004.png)
 
@@ -90,6 +90,6 @@ tags: [Ecosystem]
 
 ## 新的一年，新的展望
 
-在过去的时间里，Apache APISIX 先后获得云计算开源产业联盟评选的「尖峰开源项目及开源社区」、CSDN 机构评选的「年度云原生技术产品」等，并被 Stackshare 评为「2021 年全球 Top100 开发者工具」。非常感谢来自全球视角的用户肯定，新的一年，APISIX 社区会更加努力地为全世界用户提供更多的惊喜。
+在过去的时间里，Apache APISIX 先后获得云计算开源产业联盟评选的[「尖峰开源项目及开源社区」](https://mp.weixin.qq.com/s/YcCgbfbMTz7R3abHaI-p2Q)、CSDN 机构评选的[「年度云原生技术产品」](https://mp.weixin.qq.com/s/V40SxXoPxvHLIUIx4lxX-g)等，并被 [Stackshare 评为「2021 年全球 Top100 开发者工具」](https://mp.weixin.qq.com/s/CY4YH3JwQBiLeFHPGhyiaw)。非常感谢来自全球视角的用户肯定，新的一年，APISIX 社区会更加努力地为全世界用户提供更多的惊喜。
 
 不管是产品方面的功能迭代与生态集成，还是社区层面的全球化布道，亦或是加强与学生群体的开源技术交流。开源世界内，人依旧是最重要的组成因素。所以我们希望在未来的时间里，APISIX 社区会出现更多种族、更多语言、更多行业的人们来献计献策，一起让 APISIX 变得更加多姿多彩。
