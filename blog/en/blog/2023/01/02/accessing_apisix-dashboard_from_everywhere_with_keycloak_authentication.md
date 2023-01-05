@@ -439,7 +439,7 @@ In the DNS server on **hserv** add the apisix entry in the **“h.net”** DNS z
 
 ## Apisix deployment
 
-> Working on **hdev**
+> Work on **hdev**
 
 create a namespace for apisix
 ```
@@ -464,7 +464,7 @@ kubectl -n apisix create secret generic hservcacert --from-file=cert=./hservca.p
 kubectl describe secret hservcacert -n apisix
 ```
 
-> work on “hdev”
+> work on **hdev**
 
 Get the core_dns service address and port (in this example 10.43.0.10:53)
 ```
