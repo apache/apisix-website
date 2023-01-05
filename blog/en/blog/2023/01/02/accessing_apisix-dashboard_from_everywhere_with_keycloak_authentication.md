@@ -236,4 +236,14 @@ Reboot hserv and verify Keycloak is accessible at startup
 ## Create site and certificates for "https://k6k.h.net"
 > Work on **hserv**
 
+Verify that the keycloak address was added in "/etc/hosts" on any machine that will access the service and is reported in the DNS server hosted on **hserv**.
+
+The address used is the exsternal address o the **hsrv** machine
+
+In the **"/etc/hosts"** fle add the line
+```
+192.168.100.20 k6k k6k.h.net
+```
+
+
 
