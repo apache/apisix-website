@@ -857,11 +857,52 @@ The ssl resource appear in the list (note the SNI values)
 
 Configure the “apisix-dashboard” route to enable http to https redirection
 
-![ad15](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad15.png)
+![ad18](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad18.png)
 
-![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+Set the **“Redirect”** field to **“Enable HTTPS”**. Then click “Next” until you see “Submit”. Click “Submit”
 
-![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+![ad19](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad19.png)
+
+View the route configuration and verify that the redirect plugin is enabled
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+Now from any machine you can access the apisix-dashboard at the url **“https://apisix.h.net”** nd verify that the apisix-dashboard login page is showed
+
+![ad21](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad21.png)
+
+Login with “admin” / “admin”
+
+![ad22](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad22.png)
+
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+
+![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
 
 
 
