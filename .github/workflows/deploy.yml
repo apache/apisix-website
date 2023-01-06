@@ -124,7 +124,7 @@ jobs:
         timeout-minutes: 10
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3.9.0
+        uses: peaceiris/actions-gh-pages@v3.9.1
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.event_name == 'schedule'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
