@@ -667,6 +667,7 @@ Restart Nginx
 sudo systemctl restart nginx
 ```
 Add the apisix line in “/etc/hosts” on any machine that will access apisix-dashboard
+```
 192.168.100.20 apisix.h.net
 ```
 Add the apisix A record in the DNS in “h.net” zone
