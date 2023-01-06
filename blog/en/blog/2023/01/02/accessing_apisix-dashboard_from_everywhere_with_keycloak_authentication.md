@@ -536,6 +536,29 @@ kubectl get pods -n apisix
 
 When all the Apisix pods will be in **Running** state the installation is completed
 
+##  Accessing apisix dashboard
+> Work on **hdev**
+
+Port forward apisix-dashboard
+```
+kubectl -n apisix port-forward service/apisix-dashboard 9090:80
+```
+The command output should be something like
+```
+sysop@hdev:~$ kubectl -n apisix port-forward service/apisix-dashboard 9090:80
+Forwarding from 127.0.0.1:8080 -> 9000
+Forwarding from [::1]:8080 -> 9000
+```
+
+Then access the dashboard on **“hdev”** pointing the web browser to the url “http://localhost:9090”
+Login with **“admin / admin”**
+
+![ad01](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad01.png)
+
+Verify the dashboard version
+
+![ad02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad02.png)
+
 
 ## Create Apisix resources for apisix-dashboard
 
