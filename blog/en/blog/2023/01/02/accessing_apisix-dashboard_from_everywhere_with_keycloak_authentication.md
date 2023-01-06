@@ -787,13 +787,45 @@ sysop@hdev:~/H/hservcerts$
 
 Create an upstream
 
+![ad04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad04.png)
 
+Set the name to **“apisix-dashboard”**, upstream type to **“service discovery”**, discovery type to **“dns”** and servicename to **“apisix-dashboard.apisix.svc.cluster.local:80”**.
 
+![ad05](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad05.png)
 
+Then click “Next” and after click “Submit”
 
+Click “View” to see the json upstream definition
 
+![ad06](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad06.png)
 
+Note the upstream name to be used in the next route definition
 
+![ad07](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad07.png)
+
+Now click “Create” on the “Route” page
+
+![ad08](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad08.png)
+
+Create a route ("Define api request" - on top): set name to “apisix-dashboard” and add a description
+
+![ad09](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad09.png)
+
+Create a route ("Define api request" - below): set host to **“apisix.h.net”** and path to **“/*”**. Then click **“Next”**
+
+![ad11](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad11.png)
+
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
 
 
 
