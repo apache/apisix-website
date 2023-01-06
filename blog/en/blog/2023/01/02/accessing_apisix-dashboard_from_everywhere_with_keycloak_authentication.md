@@ -813,20 +813,55 @@ Create a route ("Define api request" - on top): set name to “apisix-dashboard�
 
 Create a route ("Define api request" - below): set host to **“apisix.h.net”** and path to **“/*”**. Then click **“Next”**
 
+![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+
+Select the previous defined “apisix” upstream from the dropdown list. Then click “Next”
+
 ![ad11](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad11.png)
 
-![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
+For now don’t use plugins and click “Next”. Then click “Submit”
+
+![ad12](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad12.png)
+
+### Enable https in apisix
+
+> Work on **hserv**
+
+Copy the certificates from hserv to hdev. From hserv:
+```
+sysop@hserv:~$ cd ~/H
+sysop@hserv:~/H$ rsync -vau --stats ./hservcerts/* hdev.int.h.net://home/sysop/H/hservcerts/
+```
+> Work on **hdev**
+
+Port forward apisix-dashboard and access it ah “http://localhost:9090” and login with “admin” / admin“
+```
+kubectl -n apisix port-forward service/apisix-dashboard 9090:80
+```
+
+Select the “SSL” page and click Create
+
+![ad14](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad14.png)
+
+Select **“Way: Upload”**, then click **“upload certificate”** and **“upload key”**. Clik “Next” (Take certificate and key files from **~/H/hservcerts**)
+
+![ad15](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad15.png)
+
+Preview the SSL resource and click “Submit”
+
+![ad16](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad16.png)
+
+The ssl resource appear in the list (note the SNI values)
+
+![ad17](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad17.png)
+
+Configure the “apisix-dashboard” route to enable http to https redirection
+
+![ad15](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad15.png)
 
 ![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
 
 ![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
-
-![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
-
-![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
-
-![ad10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad10.png)
-
 
 
 
