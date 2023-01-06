@@ -875,9 +875,29 @@ Login with “admin” / “admin”
 
 ![ad22](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad22.png)
 
+### Create keycloak definitions for openid-connect
+
+> Work on any machine
+
+Working on any machine, access the keycloak console at  “https://k6k.h.net” and login with “admin” / "1357Togo“
+
+Click “Add realm”
+
+![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+
+![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+
+![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+
+![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+
+![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+
+![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+
+
 
 
 ![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
