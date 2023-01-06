@@ -675,7 +675,117 @@ Add the apisix A record in the DNS in “h.net” zone
 ![ad03](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad03.png)
 
 
-Access “https://apisix.h.net” from a browser
+Access “https://apisix.h.net” from a browser and the apisix default page should be presented
+
+### Create the load balancer definition
+> Work on **hserv**
+
+In the directory **“/etc/nginx/conf.d”** modify the file **“apisix.conf”**
+```
+cd /etc/nginx/conf.d
+sudo vi apisix.conf
+```
+
+Put in the file this content
+```
+upstream hcluster {
+    ip_hash;
+    server 192.168.101.22:443;
+    server 192.168.101.23:443;
+    server 192.168.101.24:443;
+}
+
+
+server {
+
+    listen 443 ssl http2;
+    server_name apisix.h.net;
+    root   /usr/share/nginx/apisix;
+    
+    access_log  /var/log/nginx/apisix.access.log;
+    error_log  /var/log/nginx/apisix.error.log;
+
+    ssl_certificate     /home/sysop/H/hservcerts/apisix.crt;
+    ssl_certificate_key /home/sysop/H/hservcerts/apisix.key;
+
+    proxy_busy_buffers_size   512k;
+    proxy_buffers   4 512k;
+    proxy_buffer_size   256k;
+
+    proxy_set_header Host $host;
+    proxy_ssl_server_name on;
+    proxy_ssl_name apisix.h.net;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    location / {
+        proxy_pass https://hcluster;
+    }
+
+    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}
+```
+
+> **Note:**
+> 
+> the lines
+```
+upstream hcluster {
+    ip_hash;
+    server 192.168.101.22:443;
+    server 192.168.101.23:443;
+    server 192.168.101.24:443;
+}
+```   
+> use the internal address of the three kubernetes worker nodes and it is necessary to specify the 443 port to enable https traffic
+>
+> The lines
+```
+    proxy_busy_buffers_size   512k;
+    proxy_buffers   4 512k;
+    proxy_buffer_size   256k;
+```
+> are required because, after the Keycloak authentication, the apisix server replyes with the state in the URL. With the default values nginx replies with a "response too big" error
+> 
+
+Restart Nginx
+```
+sudo systemctl restart nginx
+```
+
+Access “https://apisix.h.net” from a browser. You should receive page not found error because there is no route in Apisix
+
+### Create “apisix-dashboard” route and upstream with apisix-dashboard
+> Work on **hdev**
+
+port forward apisix-dashboard and access it at “http://localhost:9090” and login with “admin” / admin“
+```
+kubectl -n apisix port-forward service/apisix-dashboard 9090:80
+```
+Find the apisix-dashboard service name and port
+```
+sysop@hdev:~/H/hservcerts$ kubectl get svc -n apisix
+NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                   PORT(S)                      AGE
+apisix-etcd-headless        ClusterIP      None            <none>                                                        2379/TCP,2380/TCP            12h
+apisix-etcd                 ClusterIP      10.43.75.4      <none>                                                        2379/TCP,2380/TCP            12h
+apisix-ingress-controller   ClusterIP      10.43.170.105   <none>                                                        80/TCP                       12h
+apisix-dashboard            ClusterIP      10.43.48.202    <none>                                                        80/TCP                       12h
+apisix-admin                ClusterIP      10.43.169.123   <none>                                                        9180/TCP                     12h
+apisix-gateway              LoadBalancer   10.43.161.47    192.168.101.21,192.168.101.22,192.168.101.23,192.168.101.24   80:30508/TCP,443:32653/TCP   12h
+sysop@hdev:~/H/hservcerts$
+```
+
+Create an upstream
 
 
 
