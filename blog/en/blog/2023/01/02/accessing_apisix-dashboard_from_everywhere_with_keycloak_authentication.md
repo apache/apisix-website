@@ -566,6 +566,118 @@ Verify the dashboard version
 
 > Work on **hserv**
 
+In the “~/H/hservcerts/” folder create the key and certificate for apisix.h.net
+
+Create a file called **"apisixssl.cnf"** containing
+```
+[req]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+C = IT
+ST = Italy
+L = Rome
+O = Busico Mirto
+OU = Laboratory
+CN = apisix.h.net
+
+[v3_ca]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = apisix
+# other names
+DNS.2 = apisix.h.net
+DNS.3 = apisix.ext.h.net
+DNS.4 = apisix.int.h.net
+```
+Create the server private key and csr
+```
+sudo openssl req -new -sha256 -nodes -newkey rsa:2048 -keyout apisix.key -out apisix.csr -config apisixssl.cnf
+```
+
+Create the certificate file.
+```
+sudo openssl x509 -req -in apisix.csr -CA hservca.pem -CAkey hservca.key -CAcreateserial -out apisix.crt -sha256 -days 3650 -extfile apisixssl.cnf -extensions v3_ca
+```
+Change the access rights for apisix key to permit nginx access
+```
+sudo chmod a+r apisix.key
+```
+
+### Apply certificates Nginx and enable HTTPS
+> Work on **hserv**
+
+Create the root directory for apisix under nginx and create an index.html file in that directory
+```
+sudo mkdir /usr/share/nginx/apisix
+sudo chmod 777 /usr/share/nginx/apisix
+vi /usr/share/nginx/apisix/index.html
+```
+Create a **index.html** file containing
+```
+<!DOCTYPE html>
+<html>
+<text>
+
+<h1>apisix https default page</h1>
+
+</text>
+</html>
+```
+In the directory **“/etc/nginx/conf.d”** create the file named **“apisix.conf”**
+```
+cd /etc/nginx/conf.d
+sudo vi apisix.conf
+```
+Put in the **“apisix.conf”** file this content
+```
+server {
+
+    listen 443 ssl http2;
+    server_name apisix.h.net;
+    root   /usr/share/nginx/apisix;
+    
+    access_log  /var/log/nginx/apisix.access.log;
+    error_log  /var/log/nginx/apisix.error.log;
+
+    ssl_certificate     /home/sysop/H/hservcerts/apisix.crt;
+    ssl_certificate_key /home/sysop/H/hservcerts/apisix.key;
+
+    
+    location / {
+        index  index.html index.htm;
+    }
+
+    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}
+```
+Restart Nginx
+```
+sudo systemctl restart nginx
+```
+Add the apisix line in “/etc/hosts” on any machine that will access apisix-dashboard
+192.168.100.20 apisix.h.net
+```
+Add the apisix A record in the DNS in “h.net” zone
+
+![ad03](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad03.png)
+
+
+Access “https://apisix.h.net” from a browser
+
+
+
 
 
 
