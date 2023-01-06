@@ -881,11 +881,11 @@ Login with “admin” / “admin”
 
 Working on any machine, access the keycloak console at  “https://k6k.h.net” and login with “admin” / "1357Togo“
 
-Click “Add realm”
+Click “Create Realm”
 
 ![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
 
-
+XXX Here
 
 ![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
 
