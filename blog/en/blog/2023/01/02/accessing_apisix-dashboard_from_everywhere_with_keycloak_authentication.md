@@ -921,38 +921,71 @@ Set a permanent (Temporary set to Off) password to **“hcadmin”** (equal to t
 
 ![k6k13](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k13.png)
 
+#### Get client ID and secret
 
+Select **hcadmins** client. Go to **Credentials** tab; show the Secret and copy the client id and secret to be used in the next steps
+
+client ID: **hcadmins**
+Secret: **MoqLUhwgsEDi36II0KuJldKq4YGLHxl3*
 
 ![k6k14](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k14.png)
+
+In the **“Realm settings”**, **“General”** tab click on the link **“OpenID Endpoint Configuration”**
+
 ![k6k15](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k15.png)
+
+This is the shown page
+
 ![k6k16](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k16.png)
-![k6k17](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k17.png)
-![k6k18](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k18.png)
+
+Copy the link 
+```
+https://k6k.h.net/realms/hcluster_admins/.well-known/openid-configuration
+```
+Prepare a json client definition using the previous copied information
+```
+{
+    "client_id":"hcadmins",
+    "client_secret":"MoqLUhwgsEDi36II0KuJldKq4YGLHxl3",
+    "discovery":"https://k6k.h.net/realms/hcluster_admins/.well-known/openid-configuration",
+    "scope":"openid profile",
+    "bearer_only":false,
+    "realm":"hcluster_admins",
+    "introspection_endpoint_auth_method":"client_secret_post",
+    "redirect_uri":"https://apisix.h.net/*",
+    "access_token_in_authorization_header":true
+}
+```
+
+### Openid-connect for apisix dashboard
+> Work on any machine
+
+Configure kiali route.
+Go to “3 Plugin config” 
 
 
-
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
-
-
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad23](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad23.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad24](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad24.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad25](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad25.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad26](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad26.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad27](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad27.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad28](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad28.png)
 
 
-![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
+![ad29](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad29.png)
+
+
+![ad30](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad30.png)
 
 
 
