@@ -885,18 +885,49 @@ Click “Create Realm”
 
 ![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
 
-XXX Here
+Create a realm named **“hcluster_admins”**
 
-![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+![k6k05](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k05.png)
 
-![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+Create a client named **“hcadmins”**
 
-![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+![k6k06](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k06.png)
 
-![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+Verify that the client protocol is **“openid-connect”** and click “Next”
 
-![k6k04](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k04.png)
+![k6k07](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k07.png)
 
+Set “Client authentication” to "on" (means OIDC type confidential). Click “Save”
+
+![k6k08](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k08.png)
+
+In **“Cient details”**, **“Settings”** tab, **“access settings”** section, set **“Valid redirect URI”** to **“*”**. Click **“Save”**
+
+![k6k09](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k09.png)
+
+Create a new user 
+
+![k6k10](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k10.png)
+
+Set the username to **“hcadmin”** and click **“Create”**
+
+![k6k11](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k11.png)
+
+In the **“Credentials”** tab click **“Set password”** (same procedure for "Reset" password)
+
+![k6k12](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k12.png)
+
+Set a permanent (Temporary set to Off) password to **“hcadmin”** (equal to the username)
+
+![k6k13](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k13.png)
+
+
+
+![k6k14](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k14.png)
+![k6k15](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k15.png)
+![k6k16](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k16.png)
+![k6k17](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k17.png)
+![k6k18](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k18.png)
 
 
 
