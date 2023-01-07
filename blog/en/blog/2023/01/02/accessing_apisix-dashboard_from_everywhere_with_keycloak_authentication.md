@@ -961,13 +961,14 @@ Prepare a json client definition using the previous copied information
 > Work on any machine
 
 Configure kiali route.
-Go to “3 Plugin config” 
-
+Go to **“3 Plugin config”**
 
 ![ad23](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad23.png)
 
+Click **“Enable”** on openid-connect plugin (if you have already defined the plugin you'll see "Edit" instead of "Enable")
 
 ![ad24](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad24.png)
+
 
 
 ![ad25](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad25.png)
