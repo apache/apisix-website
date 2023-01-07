@@ -969,10 +969,12 @@ Click **“Enable”** on openid-connect plugin (if you have already defined the
 
 ![ad24](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad24.png)
 
-
+Enable the plugin. Copy the previous defined json definition and click **“Submit”**
 
 ![ad25](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad25.png)
 
+Clik "next" and then clik "Submit" to complete the route configuration
+The "view" the route to see the plugin configuration
 
 ![ad26](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad26.png)
 
