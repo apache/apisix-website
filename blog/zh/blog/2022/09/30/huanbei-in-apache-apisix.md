@@ -11,6 +11,7 @@ keywords:
 - Spring Cloud
 description: 本文将介绍作为金融企业的还呗，为何弃用 Spring Cloud Gateway 而选择 APISIX 作为他们的网关。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/12/06/638ef1af90551.png
 ---
 
 > 本文将介绍作为金融企业的还呗，为何弃用 Spring Cloud Gateway 而选择 APISIX 作为他们的网关。

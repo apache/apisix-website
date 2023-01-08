@@ -39,6 +39,7 @@ Redirect 302 "/youtube" "https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8
 Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1g9ghsrol-v4hkkV8uKbGrDqRuPEq7fg"
 Redirect 302 "/community-meeting-signup" "https://docs.google.com/forms/d/1C9bIJ3eh0bQrBdv4rPGxHDUvX4giNQ_IRCmDDOQ2mgE/"
 Redirect 302 "/contributor-workshop-signup" "https://docs.google.com/forms/d/1LUER3R9-aFsUm7MhjVd_CM1xAGnkuWIe62prFH5aqAE/"
+Redirect 302 "/guest-blog-post" "https://forms.gle/unQpSm7FyqkfaSSP8/"
 
 
 Redirect 301 "/docs/apisix/install" "/docs/apisix/how-to-build/"

@@ -15,6 +15,7 @@ keywords:
 - 架构
 description: 本文从蓝鲸网关的迭代过程和应用 APISIX 后的产品实践角度，为大家呈现了基于 APISIX 的网关应用实例。
 tags: [Case Studies]
+image: https://static.apiseven.com/2022/12/06/638ef9eda7617.png
 ---
 
 > 本文从蓝鲸网关的迭代过程和应用 APISIX 后的产品实践角度，为大家呈现了基于 APISIX 的网关应用实例。

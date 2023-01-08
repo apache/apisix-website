@@ -1,0 +1,36 @@
+name: 📅 Add an Event
+description: Add your event to the APISIX Community Calendar
+title: "[Event]: "
+labels: ["Discuss"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for adding your event to the [community calendar](https://apisix.apache.org/docs/general/events/)!
+
+        Please make sure that your event is related to APISIX. [Committers and PMC members](https://apisix.apache.org/team/) will discuss this event before adding it to the community calendar.
+
+  - type: textarea
+    id: "event-title"
+    attributes:
+      label: Event Title
+      description: Title of the event.
+      placeholder: Apache APISIX Global Community Meetup
+  - type: textarea
+    id: "event-description"
+    attributes:
+      label: Event Description
+      description: Describe the event in detail for review and for the calendar.
+      placeholder: Monthly, global virtual meeting of all APISIX community members.
+  - type: textarea
+    id: "event-venue"
+    attributes:
+      label: Event Venue
+      description: Add the venue/conference details/online meeting link.
+      placeholder: apisix.apache.org/community-meeting-signup
+  - type: textarea
+    id: "event-date"
+    attributes:
+      label: Event Date
+      description: Date(s) of the event/conference.
+      placeholder: 25th January 2022
