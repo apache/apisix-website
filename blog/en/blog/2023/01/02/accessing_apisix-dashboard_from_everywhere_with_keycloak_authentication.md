@@ -1010,6 +1010,8 @@ In this article were presented the intruction to:
 - set up the nginx load balancer for apisix-dashboard inside kubernetes
 - the apisix set-up, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
 
+Note that this set up is only for educational purpose. Do not use in production.
+
 
 
 
