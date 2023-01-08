@@ -783,7 +783,7 @@ Access “https://apisix.h.net” from a browser. You should receive page not fo
 ### Create “apisix-dashboard” route and upstream with apisix-dashboard
 > Work on **hdev**
 
-port forward apisix-dashboard and access it at “http://localhost:9090” and login with “admin” / admin“
+port forward apisix-dashboard and access it at “http://localhost:9090” and login with **“admin” / "admin“**
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80
 ```
@@ -849,7 +849,7 @@ sysop@hserv:~/H$ rsync -vau --stats ./hservcerts/* hdev.int.h.net://home/sysop/H
 ```
 > Work on **hdev**
 
-Port forward apisix-dashboard and access it ah “http://localhost:9090” and login with “admin” / admin“
+Port forward apisix-dashboard and access it ah “http://localhost:9090” and login with **“admin” / "admin“**
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80
 ```
@@ -941,7 +941,8 @@ Set a permanent (Temporary set to Off) password to **“hcadmin”** (equal to t
 Select **hcadmins** client. Go to **Credentials** tab; show the Secret and copy the client id and secret to be used in the next steps
 
 client ID: **hcadmins**
-Secret: **MoqLUhwgsEDi36II0KuJldKq4YGLHxl3*
+
+Secret: **MoqLUhwgsEDi36II0KuJldKq4YGLHxl3**
 
 ![k6k14](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k14.png)
 
