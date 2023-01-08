@@ -27,7 +27,6 @@ image: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png
 
 # Accessing Apisix-dashboard from everywhere with Keycloak authentication
 
-> Work in progress
 
 ![framework](https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png)
 
