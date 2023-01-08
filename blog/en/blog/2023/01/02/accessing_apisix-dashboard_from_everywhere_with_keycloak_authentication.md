@@ -770,6 +770,7 @@ upstream hcluster {
     proxy_buffer_size   256k;
 ```
 > are required because, after the Keycloak authentication, the apisix server replyes with the state in the URL.
+> 
 > With the default values nginx replies with a "response too big" error
 
 Restart Nginx
