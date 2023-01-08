@@ -96,6 +96,8 @@ This generates a **hservca.pem"** certificate file. These two files will be used
 ## Add the CA to browsers
 To be able to access the web sites with certidicates issued by this private CA, the CA certificate file have to be added to the web browser that will access these sites.
 
+> Working on hdev
+
 Copy the **"hservca.pem"** file in any machine that will access these sites.
 ```
 cd
@@ -120,6 +122,11 @@ and import **"hservca.pem"** (remember to flag all options)
  
 Copy the "hservca.pem" file in the "/home/sysop" directory.
 Copy this file on any other machine that will use sertificates signed by this CA.
+```
+cd
+cp ~/H/hservcerts/hservca.pem .
+rcp hservca.pem mirto@_any_machine_name_://home/_your_username_/
+```
 
 > Work on any machine
 
