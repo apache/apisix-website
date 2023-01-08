@@ -18,7 +18,7 @@ tags: [Authentication, Plugins]
 image: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png
 ---
 
-> This article describes how to setup an external access to apisix dashboard protecting the URL with authentication managed by a keycloak server.
+> This article describes how to setup an external access to apisix-dashboard protecting the URL with authentication managed by a keycloak server.
 
 <!--truncate-->
 
@@ -31,28 +31,28 @@ image: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png
 
 ![framework](https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png)
 
-This article presents how to setup a framework where a user can access the Apisix-dashboard protected by authentication managed by a Keycloak server.
+This article presents how to setup a framework where a user can access the Apisix-dashboard protected using an authentication system managed by a Keycloak server.
 
 # Prerequisites
 
 Basic understanding of nginx reverse proxy, kubernetes, apisix and openid connect.
 
-> A lot of information can be found in ["Use Keycloak with API Gateway to secure APIs"](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/) blog post
+> A lot of information on this matter can be found in ["Use Keycloak with API Gateway to secure APIs"](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/) blog post
 
 Here I'll present instructions, examples, code and screenshots taken from my home lab.
 
-My framework consists of some KVM virtual machines:
+The framework used in this article consists of some KVM virtual machines (from now VM):
 
 | VM Name | Role | Services | Description |
 |-------------|------|----------|-------------|
 |   hdev      |  Development    |kubectl, istioctl, helm          | workstation from where manage the cluster   |
-|   hserv     |  external services    | DNS server, Nginx, Keycloak          | services used by the cluster vm and external users            |
+|   hserv     |  external services    | DNS server, Nginx, Keycloak          | services used by the cluster VM and external users            |
 |   hkm       | Kubernetes master     | master node         | control plane manager for K8S            |
 |   hkw1      | K8S worker 1    | first worker node         |     node for hosting pods        |
 |   hkw2      | K8S worker 2    | second worker node         |     node for hosting pods        |
 |   hkw3      | K8S worker 3    | third worker node         |     node for hosting pods        |
 
-The **hserv** vm have two lan cards: one on an external lan to expose services and one an internal lan to communicate with the Kubernetes (from now K8S) cluster.
+The **hserv** VM have two lan cards: one on an external lan to expose services and one an internal lan to communicate with the Kubernetes (from now K8S) cluster.
 All the other VM are only connected to the internal lan.
 
 All the machines resolve the IP addresses using the DNS server installed on **hserv**
@@ -67,7 +67,7 @@ The username used throughout this article will be **"sysop"** So the home direct
 # Create a Certification authority and certificates
 
 For all the VM the DNS server will resolve **"apisix.h.net"** to the external address of **hserv**.
-For all others machine that will access the the services exposed by **hserv** there will be a line in the **"/etc/hosts"** file resolving **"apisix.h.net"** to the external address of **hserv**.
+In all others machine that will access the the services exposed by **hserv** there will be a line in the **"/etc/hosts"** file resolving **"apisix.h.net"** to the external address of **hserv**.
 
 > Working on **hserv**
 
@@ -97,6 +97,11 @@ This generates a **hservca.pem"** certificate file. These two files will be used
 To be able to access the web sites with certidicates issued by this private CA, the CA certificate file have to be added to the web browser that will access these sites.
 
 Copy the **"hservca.pem"** file in any machine that will access these sites.
+```
+cd
+cp ~/H/hservcerts/hservca.pem .
+rcp hservca.pem mirto@_any_machine_name_://home/_your_username_/
+```
 
 For **Firefox** browser go to:
 ```
