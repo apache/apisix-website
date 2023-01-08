@@ -1003,7 +1003,7 @@ Go to the URL
 ```
 https://apisix.h.net
 ```
-You woll be redirected to the Keycloak login page for the "HCLUSTER_ADMINS" realm.
+You will be redirected to the Keycloak login page for the "HCLUSTER_ADMINS" realm.
 Login with the previous defined user "hcadmin" / "hcadmin"
 
 ![ad27](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad27.png)
@@ -1012,7 +1012,7 @@ The apisix-dashboard login will be presented. Login with "admin" / "admin"
 
 ![ad28](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad28.png)
 
-And here you can see the apisix dashboard
+And now you can see the apisix dashboard
 
 ![ad29](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad29.png)
 
@@ -1020,13 +1020,13 @@ And here you can see the apisix dashboard
 
 In this article were presented the intruction to:
 
-- set up a Certification authority and create key and certificates fo various sites
+- set up a Certification authority and create key and certificates for various sites
 - set up a nginx server as reverse proxy and load balancer
 - set up a Keycloak server accessible through a nginx reverse proxy
 - set up Apisix in a kubernetes cluster with ingress-controller and apisix-dashboard
 - set up the authentication framework in Keycloak to access the apisix-dashboard
 - set up the nginx load balancer for apisix-dashboard inside kubernetes
-- the apisix set-up, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
+- set up the apisix resources, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
 
 Note that this set up is only for educational purpose. Do not use in production.
 
