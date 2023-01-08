@@ -976,7 +976,8 @@ Prepare a json client definition using the previous copied information
 ### Openid-connect for apisix dashboard
 > Work on any machine
 
-Configure kiali route.
+Configure the apisix-dashboard route.
+
 Go to **“3 Plugin config”**
 
 ![ad23](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad23.png)
@@ -990,7 +991,8 @@ Enable the plugin. Copy the previous defined json definition and click **“Subm
 ![ad25](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad25.png)
 
 Clik "next" and then clik "Submit" to complete the route configuration
-The "view" the route to see the plugin configuration
+
+Then "view" the route to see the plugin configuration
 
 ![ad26](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad26.png)
 
