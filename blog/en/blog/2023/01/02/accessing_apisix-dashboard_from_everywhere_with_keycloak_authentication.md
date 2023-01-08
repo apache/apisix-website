@@ -247,6 +247,7 @@ Reboot hserv and verify Keycloak is accessible at startup
 
 ## Create site and certificates for "https://k6k.h.net"
 > Work on **hserv**
+> 
 > Nothe that keycloak will be abbreviated in **k6k**
 
 Verify that the keycloak address was added in "/etc/hosts" on any machine that will access the service and is reported in the DNS server hosted on **hserv**.
