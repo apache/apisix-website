@@ -206,7 +206,7 @@ Go to the bin directory and start keycloak in standalone mode
 cd ~/H/keycloak-20.0.1/bin/
 ./kc.sh start-dev
 ```
-Verify that Keycloak is accessible from hserv at the URL **"http://localhost:8080"**
+Verify that Keycloak is accessible from **hserv** at the URL **"http://localhost:8080"**
 
 Create the admin user as name **"admin"** and password **"1357Togo"**
 
@@ -247,6 +247,7 @@ Reboot hserv and verify Keycloak is accessible at startup
 
 ## Create site and certificates for "https://k6k.h.net"
 > Work on **hserv**
+> Nothe that keycloak will be abbreviated in **k6k**
 
 Verify that the keycloak address was added in "/etc/hosts" on any machine that will access the service and is reported in the DNS server hosted on **hserv**.
 
