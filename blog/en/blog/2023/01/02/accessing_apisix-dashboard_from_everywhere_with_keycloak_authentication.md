@@ -130,12 +130,7 @@ rcp hservca.pem mirto@_any_machine_name_://home/_your_username_/
 
 > Work on any machine
 
-Then on any host and hserv do the following:
-> **Attention**:
-> 
->    • "dpkg-reconfigure ca-certificates" do not recognize the ".pem" extension. Copy the **"hservca.pem"** file to **"hservca.crt"**
->    
->    • select the new certificate in "dpkg-reconfigure ca-certificates" (extra/hservca.crt is not selected)
+Then on any machine and hserv do the following:
 
 ```
 cd
@@ -143,6 +138,11 @@ sudo mkdir -p /usr/share/ca-certificates/extra
 sudo cp hservca.pem /usr/share/ca-certificates/extra/hservca.crt
 sudo dpkg-reconfigure ca-certificates
 ```
+> **Attention**:
+> 
+>    • "dpkg-reconfigure ca-certificates" do not recognize the ".pem" extension. Copy the **"hservca.pem"** file to **"hservca.crt"**
+>    
+>    • select the new certificate in "dpkg-reconfigure ca-certificates" (extra/hservca.crt is not selected)
 
 Confirm that you want to proceed: select “yes” and click “Ok”. Select the new “hservca.crt” entry and click “Ok”
 
