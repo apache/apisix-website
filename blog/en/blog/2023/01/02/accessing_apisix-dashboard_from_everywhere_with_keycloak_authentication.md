@@ -248,9 +248,9 @@ Reboot hserv and verify Keycloak is accessible at startup
 ## Create site and certificates for "https://k6k.h.net"
 > Work on **hserv**
 > 
-> Nothe that keycloak will be abbreviated in **k6k**
+> Note that keycloak will be abbreviated in **k6k**
 
-Verify that the keycloak address was added in "/etc/hosts" on any machine that will access the service and is reported in the DNS server hosted on **hserv**.
+Verify that the keycloak address was added in **"/etc/hosts"** file on any machine that will access the service and is reported in the DNS server hosted on **hserv**.
 
 The address used is the exsternal address o the **hsrv** machine
 
@@ -769,8 +769,8 @@ upstream hcluster {
     proxy_buffers   4 512k;
     proxy_buffer_size   256k;
 ```
-> are required because, after the Keycloak authentication, the apisix server replyes with the state in the URL. With the default values nginx replies with a "response too big" error
-> 
+> are required because, after the Keycloak authentication, the apisix server replyes with the state in the URL.
+> With the default values nginx replies with a "response too big" error
 
 Restart Nginx
 ```
