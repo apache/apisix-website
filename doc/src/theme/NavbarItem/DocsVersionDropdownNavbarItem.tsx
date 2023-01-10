@@ -111,6 +111,9 @@ const DocsVersionDropdownNavbarItem = ({
   return (
     <DropdownNavbarItem
       {...props}
+      style={{
+        width: '100%',
+      }}
       mobile={mobile}
       label={dropdownLabel}
       to={dropdownTo}
