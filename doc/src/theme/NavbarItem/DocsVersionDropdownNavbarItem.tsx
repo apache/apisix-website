@@ -19,6 +19,7 @@ import type { GlobalDataVersion } from '@docusaurus/plugin-content-docs-types';
 import clsx from 'clsx';
 import { LTSVersions } from '../../../../config/apisix-versions';
 import style from './style.module.scss';
+import './style.scss';
 
 const getVersionMainDoc = (version: GlobalDataVersion) => version.docs.find((doc) => doc.id === version.mainDocId)!;
 
