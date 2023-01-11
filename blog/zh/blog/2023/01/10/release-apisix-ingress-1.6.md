@@ -22,7 +22,7 @@ tags: [Community]
 
 在该版本中，共有 **29 位贡献者** 参与代码提交，其中 **17 位是新晋贡献者** ，感谢大家的支持和参与！
 
-![新晋贡献者](https://static.apiseven.com/uploads/2023/01/11/fmvWhgIO_230110_1.png)
+![新晋贡献者](https://static.apiseven.com/uploads/2023/01/11/7ALBS8mi_blog1.png)
 
 本次发布的 Apache APISIX Ingress v1.6 版本带来了众多新特性，主要集中在对 Gateway API 的支持，同时也在扩展 APISIX Ingress 的使用场景和易用性方面的提升。以下是一些重点特性的介绍。
 
@@ -30,7 +30,7 @@ tags: [Community]
 
 Gateway API 是 Kubernetes 中下一代的 Ingress 规范，致力于提供富有表现力，可扩展和面向角色的接口来发展 Kubernetes 的网络，各个 Ingress controller 项目都在积极推进对该规范的支持。Apache APISIX Ingress 项目自 2021 年开始就在积极地紧跟上游社区的发展，并积极推进 Gateway API 在 APISIX Ingress 项目中的实现。
 
-![Gateway API](https://static.apiseven.com/uploads/2023/01/11/5oRAW9Zn_230110_2.png)
+![Gateway API](https://static.apiseven.com/uploads/2023/01/11/ru9yoUrn_blog2.png)
 
 当前，Apache APISIX Ingress 项目中通过 Gateway API 进行配置的特性尚处于 beta 阶段，欢迎大家在测试环境中积极进行测试，并提供反馈，我们将持续的对此特性进行优化和改进，尽早完成此特性的 GA。
 
