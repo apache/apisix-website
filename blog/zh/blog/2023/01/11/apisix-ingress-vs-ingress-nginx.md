@@ -212,9 +212,9 @@ access_key: papa
 secret_key: fatpa
 algorithm: "hmac-sha256"
 clock_skew: 0
- 
+
 ---
- 
+
 apiVersion: apisix.apache.org/v2
 kind: ApisixRoute
 metadata:
