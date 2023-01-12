@@ -54,7 +54,7 @@ tags: [Community]
 
 ## 活动形式多样，持续践行 Apache Way
 
-在 2022 年中旬，APISIX 社区举办了第一次全球性质的大会—— Apache APISIX Summit Asia 2022。在为期两天的活动中，我们见证了不同行业领域下的 APISIX 实践用例。由来自腾讯云、阿里云、VMvare Tanzu Labs 等顶级科技公司的工程师以及 APISIX PMC 成员们，带来了干货满满又富有借鉴意义的技术展示。
+在 2022 年中旬，APISIX 社区举办了第一次全球性质的大会—— Apache APISIX Summit Asia 2022。在为期两天的活动中，我们见证了不同行业领域下的 APISIX 实践用例。由来自腾讯云、阿里云、VMware Tanzu Labs 等顶级科技公司的工程师以及 APISIX PMC 成员们，带来了干货满满又富有借鉴意义的技术展示。
 
 除此之外，还有许多深入但有趣的圆桌研讨会，众多的开源贡献者和投资者就构建社区优先开源软件的原因和方法分享了他们的想法，帮助组织和企业更好地理解和使用开源 API 管理工具。
 

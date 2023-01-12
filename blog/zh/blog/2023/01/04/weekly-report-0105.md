@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/2023/01/05/63b66c8388a6c.png
 ---
 
-> 从 2022.12.19 - 2023.1.1，有 21 位开发者为 Apache APISIX 提交了 64 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 2022.12.19 - 2023.1.1，有 21 位开发者为 Apache APISIX 提交了 64 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 <!--truncate-->
 
