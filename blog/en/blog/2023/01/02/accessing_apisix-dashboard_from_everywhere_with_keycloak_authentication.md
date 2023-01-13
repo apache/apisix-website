@@ -884,7 +884,7 @@ Login with “admin” / “admin”
 
 ![ad22](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad22.png)
 
-### Create keycloak definitions for openid-connect
+#### Create Keycloak Definitions for OpenID-Connect
 
 > Work on any machine
 
