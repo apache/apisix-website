@@ -967,7 +967,7 @@ Prepare a json client definition using the previous copied information
 }
 ```
 
-### Openid-connect for apisix dashboard
+#### OpenID-Connect for APISIX Dashboard
 > Work on any machine
 
 Configure the apisix-dashboard route.
