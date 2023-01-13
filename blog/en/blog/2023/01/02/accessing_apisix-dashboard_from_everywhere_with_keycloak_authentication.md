@@ -881,7 +881,7 @@ View the route configuration and verify that the redirect plugin is enabled
 
 ![ad20](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad20.png)
 
-Now from any machine you can access the apisix-dashboard at the url **“https://apisix.h.net”** nd verify that the apisix-dashboard login page is showed
+Now from any machine you can access the apisix-dashboard at the url **“https://apisix.h.net”** and verify that the apisix-dashboard login page is showed
 
 ![ad21](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad21.png)
 
