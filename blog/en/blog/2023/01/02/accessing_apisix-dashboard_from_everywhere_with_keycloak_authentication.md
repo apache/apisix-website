@@ -23,12 +23,6 @@ cover: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png
 
 <!--truncate-->
 
-
-
-
-# Accessing Apisix-dashboard from everywhere with Keycloak authentication
-
-
 ![framework](https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png)
 
 This article presents how to setup a framework where a user can access the Apisix-dashboard protected using an authentication system managed by a Keycloak server.
