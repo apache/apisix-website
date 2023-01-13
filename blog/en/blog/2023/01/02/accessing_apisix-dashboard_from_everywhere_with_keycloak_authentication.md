@@ -990,7 +990,7 @@ Then "view" the route to see the plugin configuration
 
 ![ad26](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad26.png)
 
-## Accessing the protected apisix-dashboard route
+### Accessing the Protected APISIX Dashboard Route
 > Work on any machine
 
 Go to the URL
