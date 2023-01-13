@@ -1010,7 +1010,7 @@ And now you can see the apisix dashboard
 
 ![ad29](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad29.png)
 
-# Recap
+## Recap
 
 In this article were presented the intruction to:
 
