@@ -930,7 +930,7 @@ Set a permanent (Temporary set to Off) password to **“hcadmin”** (equal to t
 
 ![k6k13](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k13.png)
 
-#### Get client ID and secret
+#### Get Client ID and Secret
 
 Select **hcadmins** client. Go to **Credentials** tab; show the Secret and copy the client id and secret to be used in the next steps
 
