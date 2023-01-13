@@ -1,5 +1,5 @@
 ---
-title: "Accessing Apisix-dashboard from everywhere with Keycloak authentication"
+title: "Accessing APISIX-Dashboard from Everywhere with Keycloak Authentication"
 authors:
   - name: "Busico Mirto Silvio"
     title: ""
