@@ -1023,9 +1023,3 @@ In this article were presented the intruction to:
 - set up the APISIX resources, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
 
 Note that this set up is only for educational purpose. Do not use in production.
-
-
-
-
-
-
