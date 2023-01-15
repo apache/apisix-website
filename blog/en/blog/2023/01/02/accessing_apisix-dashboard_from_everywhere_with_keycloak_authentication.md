@@ -55,7 +55,7 @@ All the machines resolve the IP addresses using the DNS server installed on **hs
 
 > The real framework is more complex. Here are reported only the relevant components
 
-All machines use Ubuntu distribution but commands reported here should worh for other distributions with some modifications.
+All machines use Ubuntu distribution but commands reported here should work for other distributions with some modifications.
 The username used throughout this article will be **"sysop"** So the home directory will be indicated as **"/home/sysop"** or **"~/"**.
 
 # Create a Certification authority and certificates
@@ -70,7 +70,7 @@ Create the directory for the entire project software
 cd
 mkdir H
 ```
-Create the directory to hold the Certification authority (from now CA) certificates and the web sites certificates
+Create the directory to hold the Certification Authority (from now CA) certificates and the web sites certificates
 ```
 cd ~/H
 mkdir hservcerts
@@ -96,7 +96,7 @@ Copy the **"hservca.pem"** file in any machine that will access these sites.
 ```
 cd
 cp ~/H/hservcerts/hservca.pem .
-rcp hservca.pem mirto@_any_machine_name_://home/_your_username_/
+rcp hservca.pem _your_username@_any_machine_name_://home/_your_username_/
 ```
 
 For **Firefox** browser go to:
@@ -119,7 +119,7 @@ Copy this file on any other machine that will use sertificates signed by this CA
 ```
 cd
 cp ~/H/hservcerts/hservca.pem .
-rcp hservca.pem mirto@_any_machine_name_://home/_your_username_/
+rcp hservca.pem _your_username@_any_machine_name_://home/_your_username_/
 ```
 
 > Work on any machine
@@ -290,7 +290,7 @@ cd ~/H/hservcerts
 sudo openssl req -new -sha256 -nodes -newkey rsa:2048 -keyout k6k.key -out k6k.csr -config k6kssl.cnf
 ```
 
-Create the certificate signed by the **"hservca"** certification authority
+Create the certificate signed by the **"hservca"** Certification Authority
 ```
 sudo openssl x509 -req -in k6k.csr -CA hservca.pem -CAkey hservca.key -CAcreateserial -out k6k.crt -sha256 -days 3650 -extfile k6kssl.cnf -extensions v3_ca
 ```
@@ -430,11 +430,11 @@ sudo systemctl daemon-reload
 sudo systemctl restart keycloak
 ```
 
-# Apisix api gateway
+# APISIX api gateway
 
 ## Addresses for apisix-dashboard
 
-The address used is the exsternal address o the **hsrv** machine
+The address used is the external address o the **hsrv** machine
 
 In the **"/etc/hosts"** file of any machine accessing the cluster through the nginx reverse proxy add the line
 ```
@@ -445,7 +445,7 @@ In the DNS server on **hserv** add the apisix entry in the **“h.net”** DNS z
 
 ![dns02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/dns02.png)
 
-## Apisix deployment
+## APISIX deployment
 
 > Work on **hdev**
 
@@ -483,7 +483,7 @@ metrics-server    ClusterIP      10.43.64.71    <none>                          
 docker-registry   LoadBalancer   10.43.183.18   192.168.101.21,192.168.101.22,192.168.101.23,192.168.101.24   5000:31397/TCP           92d
 sysop@hdev:~/H/software/apisisx$
 ```
-Get the apisic helm chart the default values and put the output in a file named **apisix-values.yaml** then edit this file
+Get the APISIX helm chart the default values and put the output in a file named **apisix-values.yaml** then edit this file
 ```
 cd ~/H/software/apisisx
 helm show values apisix/apisix > apisix-values.yaml
@@ -527,7 +527,7 @@ ingress-controller:
   enabled: true
 ```
 
-Install apisix using the new values.yaml file
+Install APISIX using the new values.yaml file
 ```
 helm install apisix apisix/apisix -f apisix-values.yaml \
 --set ingress-controller.config.apisix.serviceNamespace=apisix \
@@ -542,7 +542,7 @@ kubectl -n apisix wait --for=condition=Ready pods --all
 kubectl get pods -n apisix
 ```
 
-When all the Apisix pods will be in **Running** state the installation is completed
+When all the APISIX pods will be in **Running** state the installation is completed
 
 ##  Accessing apisix dashboard
 > Work on **hdev**
@@ -568,7 +568,7 @@ Verify the dashboard version
 ![ad02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad02.png)
 
 
-## Create Apisix resources for apisix-dashboard
+## Create APISIX resources for apisix-dashboard
 
 ### Create the certificate for **"apisix.h.net"**
 
@@ -763,7 +763,7 @@ upstream hcluster {
     proxy_buffers   4 512k;
     proxy_buffer_size   256k;
 ```
-> are required because, after the Keycloak authentication, the apisix server replyes with the state in the URL.
+> are required because, after the Keycloak authentication, the APISIX server replyes with the state in the URL.
 > 
 > With the default values nginx replies with a "response too big" error
 
@@ -1017,10 +1017,10 @@ In this article were presented the intruction to:
 - set up a Certification authority and create key and certificates for various sites
 - set up a nginx server as reverse proxy and load balancer
 - set up a Keycloak server accessible through a nginx reverse proxy
-- set up Apisix in a kubernetes cluster with ingress-controller and apisix-dashboard
+- set up APISIX in a kubernetes cluster with ingress-controller and apisix-dashboard
 - set up the authentication framework in Keycloak to access the apisix-dashboard
 - set up the nginx load balancer for apisix-dashboard inside kubernetes
-- set up the apisix resources, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
+- set up the APISIX resources, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
 
 Note that this set up is only for educational purpose. Do not use in production.
 
