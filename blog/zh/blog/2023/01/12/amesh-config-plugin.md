@@ -1,8 +1,10 @@
 ---
 title: "如何使用 Amesh 配置插件"
-author: "lingsamuel"
-authorURL: "https://github.com/lingsamuel"
-authorImageURL: "https://github.com/lingsamuel.png"
+authors: 
+  - name: "lingsamuel"
+    title: "Author"
+    url: "https://github.com/lingsamuel"
+    image_url: "https://github.com/lingsamuel.png"
 keywords: 
 - Apache APISIX
 - Amesh
@@ -55,7 +57,7 @@ kubectl -n test exec -it -c istio-proxy consumer -- curl -i -XGET "http://produc
 
 输出细节类似如下所示：
 
-```html
+```bash
 <title>Simple Bookstore App</title>
 ```
 

@@ -1,8 +1,10 @@
 ---
 title: "为什么 APISIX Ingress 是比 Ingress NGINX 更好的选择？"
-author: "容鑫"
-authorURL: "https://github.com/AlinsRan"
-authorImageURL: "https://github.com/AlinsRan.png"
+author:
+  - name: "容鑫"
+    title: "Author"
+    url: "https://github.com/AlinsRan"
+    image_url: "https://github.com/AlinsRan.png"
 keywords: 
 - Apache APISIX
 - Ingress
@@ -13,7 +15,7 @@ description: 本文将会对比两个比较流行的 Ingress controller 实现�
 tags: [Ecosystem]
 ---
 
-> Kubernetes 中的服务可以通过 Ingress 暴露出来，流量路由由 Ingress 资源上定义的规则控制，通常需要 Ingress controller 负责实现。
+> 本文将会对比两个比较流行的 Ingress controller 实现，希望能对读者进行 Ingress controller 选型中有所帮助。
 
 <!--truncate-->
 
@@ -117,7 +119,7 @@ tags: [Ecosystem]
 
 ### 协议支持
 
-两者都对 HTTP/HTTPS 协议提供完整支持，APISIX Ingress 在协议支持上更丰富一些，能够的使用 TLS 来加密 TCP 流量，还支持 [MQTT](https://apisix.apache.org/docs/apisix/next/plugins/mqtt-proxy/)，[Dubbo](https://apisix.apache.org/docs/apisix/next/plugins/dubbo-proxy/)、[Kafka](https://apisix.apache.org/docs/apisix/next/plugins/kafka-proxy/) 等协议进行代理。
+两者都对 HTTP/HTTPS 协议提供完整支持，APISIX Ingress 在协议支持上更丰富一些，能够的使用 TLS 来加密 TCP 流量，还支持 [MQTT](https://apisix.apache.org/docs/apisix/plugins/mqtt-proxy/)，[Dubbo](https://apisix.apache.org/docs/apisix/plugins/dubbo-proxy/)、[Kafka](https://apisix.apache.org/docs/apisix/plugins/kafka-proxy/) 等协议进行代理。
 
 ### 服务治理能力
 
@@ -245,7 +247,7 @@ Ingress NGINX 在扩展方式上比较单一，只能通过嵌入 Lua 程序的�
 
 1. 编写 Lua 程序 example-plugin
 2. 将插件安装到 ingress-nginx pod 中的 `/etc/nginx/lua/plugins/<your plugin name>` → `/etc/nginx/lua/plugins/example-plugin`
-3. 在 ConfigMap 中启用 example-plugin 插件，需要在安装 Ingress NGINX 时引用此 ConfigMap 对象
+3. 在 ConfigMap 中启用 `example-plugin` 插件，需要在安装 Ingress NGINX 时引用此 ConfigMap 对象
 
 ```yaml
 apiVersion: v1
@@ -263,13 +265,13 @@ APISIX Ingress 提供了多种扩展方式，企业用户可以根据自身情�
 
 * 通过 [Lua 进行插件开发](https://apisix.apache.org/docs/apisix/plugin-develop/)：这种方式相对简单，并且几乎没有性能损耗；
 * 通过 plugin-runner 开发：这种模式下支持 Java/Python/Go 等语言进行开发，这可以方便用户利用一些现有的业务逻辑，并且无需学习新语言；
-* 通过 WASM 进行插件插件：这种模式下，可以使用任何支持构建出 WASM 的语言进行插件开发；
+* 通过 Wasm 进行插件插件：这种模式下，可以使用任何支持构建出 Wasm 的语言进行插件开发；
 
 此外还可以通过 Serverless 插件来直接编写 Lua 代码，快速满足业务需求。
 
 ## 为什么 APISIX Ingress 选择维护 CRD
 
-目前 APISIX Ingress 支持三种声明式配置：Ingress 、CRD 和 Gateway API。这里主要对比 Ingress 和 CRD，Gateway API 将在后续展开。
+目前 APISIX Ingress 支持三种声明式配置：Ingress、CRD 和 Gateway API。这里主要对比 Ingress 和 CRD，Gateway API 将在后续展开。
 
 Ingress 比较适合从 Ingress NGINX 迁移的企业用户，其转换成本较低。但缺点也较明显，比如语义化能力弱、没有细致规范等，同时也只能通过 Annotations 方式扩展，且 Annotations 无法支撑复杂配置场景。相对的使用 CRD 主要有以下好处：
 
@@ -323,4 +325,4 @@ Gateway API 作为一种扩展 Kubernetes 服务网络的标准，其 Gateway �
 
 总体来看，两款开源软件均非常优秀，Ingress NGINX 主要特点是简单、易接入，但缺点也十分明显；APISIX Ingress 作为后来者解决了 NGINX 不支持热加载的痛点，在扩展能力和功能上相比 Ingress NGINX 也具有很大的优势。从项目发展角度而言，支持 Gateway API 和 CRD 能够扩展和丰富 Ingress controller 基础能力。
 
-如果读者正在进行 Ingress controller 选型，倾向于功能丰富和更强的扩展能力，推荐使用 APISIX Ingress 。如果只是刚接触 Ingress controller，没有更多的功能需求，Ingress NGINX 也是一个比较好的选择。
+如果读者正在进行 Ingress controller 选型，倾向于功能丰富和更强的扩展能力，推荐使用 APISIX Ingress。如果只是刚接触 Ingress controller，没有更多的功能需求，Ingress NGINX 也是一个比较好的选择。
