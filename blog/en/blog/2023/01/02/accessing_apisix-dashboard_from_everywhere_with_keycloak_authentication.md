@@ -27,7 +27,7 @@ cover: https://github.com/MirtoBusico/assets-for-blogs/blob/main/blog01a.png
 
 This article presents how to setup a framework where a user can access the Apisix-dashboard protected using an authentication system managed by a Keycloak server.
 
-# Prerequisites
+## Prerequisites
 
 Basic understanding of nginx reverse proxy, kubernetes, apisix and openid connect.
 
@@ -58,7 +58,7 @@ All the machines resolve the IP addresses using the DNS server installed on **hs
 All machines use Ubuntu distribution but commands reported here should worh for other distributions with some modifications.
 The username used throughout this article will be **"sysop"** So the home directory will be indicated as **"/home/sysop"** or **"~/"**.
 
-# Create a Certification authority and certificates
+## Create a Certification authority and certificates
 
 For all the VM the DNS server will resolve **"apisix.h.net"** to the external address of **hserv**.
 In all others machine that will access the the services exposed by **hserv** there will be a line in the **"/etc/hosts"** file resolving **"apisix.h.net"** to the external address of **hserv**.
@@ -66,33 +66,41 @@ In all others machine that will access the the services exposed by **hserv** the
 > Working on **hserv**
 
 Create the directory for the entire project software
+
 ```
 cd
 mkdir H
 ```
+
 Create the directory to hold the Certification authority (from now CA) certificates and the web sites certificates
+
 ```
 cd ~/H
 mkdir hservcerts
 cd hservcerts
 ```
+
 Create a private key for **"hservca"**
+
 ```
 sudo openssl genrsa -out hservca.key 2048
 ```
+
 This generates a **hservca.key** key file. Using this fiile generate the CA certificate
+
 ```
 sudo openssl req -x509 -new -nodes -key hservca.key -sha256 -days 3650 -out hservca.pem
 ```
+
 This generates a **hservca.pem"** certificate file. These two files will be used to create the web sites certificates
 
-
-## Add the CA to browsers
+### Add the CA to browsers
 To be able to access the web sites with certidicates issued by this private CA, the CA certificate file have to be added to the web browser that will access these sites.
 
 > Working on hdev
 
 Copy the **"hservca.pem"** file in any machine that will access these sites.
+
 ```
 cd
 cp ~/H/hservcerts/hservca.pem .
@@ -100,22 +108,27 @@ rcp hservca.pem mirto@_any_machine_name_://home/_your_username_/
 ```
 
 For **Firefox** browser go to:
+
 ```
 Preferences -> Privacy & Security -> Certificates -> View Certificates -> Authorities -> Import 
 ```
+
 and import **"hservca.pem"** (remember to flag all options)
 
 For **Chromium** or **Chrome** browsers go to:
+
 ```
 Settings -> Advanced -> Privacy and security -> Manage certificates -> Authorities -> Import (flag all options)
 ```
+
 and import **"hservca.pem"** (remember to flag all options)
 
-## Add the CA to the operating system
+### Add the CA to the operating system
 > Working on hdev
  
 Copy the "hservca.pem" file in the "/home/sysop" directory.
 Copy this file on any other machine that will use sertificates signed by this CA.
+
 ```
 cd
 cp ~/H/hservcerts/hservca.pem .
@@ -132,6 +145,7 @@ sudo mkdir -p /usr/share/ca-certificates/extra
 sudo cp hservca.pem /usr/share/ca-certificates/extra/hservca.crt
 sudo dpkg-reconfigure ca-certificates
 ```
+
 > **Attention**:
 > 
 >    • "dpkg-reconfigure ca-certificates" do not recognize the ".pem" extension. Copy the **"hservca.pem"** file to **"hservca.crt"**
@@ -142,64 +156,85 @@ Confirm that you want to proceed: select “yes” and click “Ok”. Select th
 
 ![confirm](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ca-certificates.png)
 
-# Install nginx-mainline
+## Install nginx-mainline
 
 Verify the system is updated
+
 ```
 sudo apt update
 sudo apt full-upgrade
 ```
+
 Install prerequisites
+
 ```
 sudo apt install wget gnupg2 ca-certificates lsb-release ubuntu-keyring software-properties-common -y
 ```
+
 Download the Nginx GPG key
+
 ```
 wget -O- https://nginx.org/keys/nginx_signing.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg
 ```
+
 Add the Nginx mainline apt repository
+
 ```
 echo deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx | sudo tee /etc/apt/sources.list.d/nginx-mainline.list
 ```
+
 Pin the Nginx repository
+
 ```
 echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
 ```
+
 Update apt and install nginx
+
 ```
 sudo apt update
 sudo apt install nginx
 ```
-
-# Install Keycloak
+ 
+## Install Keycloak
 > Work on **hserv**
 
-## Prerequisites
+### Prerequisites
 Install jdk
+
 ```
 sudo apt install default-jdk
 ```
+
 Remove anacron
+
 ```
 sudo apt remove anacron
 ```
+
 Reboot the **hserv** machine
 
-## Keycloak installation
+### Keycloak installation
 Go in base installation directory and get keycloak installation files (verify what is the last release)
+
 ```
 cd ~/H/
 wget https://github.com/keycloak/keycloak/releases/download/20.0.1/keycloak-20.0.1.zip
 ```
+
 Extract the files
+
 ```
 unzip keycloak-20.0.1.zip
 ```
+
 Go to the bin directory and start keycloak in standalone mode
+
 ```
 cd ~/H/keycloak-20.0.1/bin/
 ./kc.sh start-dev
 ```
+
 Verify that Keycloak is accessible from **hserv** at the URL **"http://localhost:8080"**
 
 Create the admin user as name **"admin"** and password **"1357Togo"**
@@ -212,14 +247,14 @@ Go to the administration console
 
 Login and the “Master” realm appears. Note the Keycloak version
 
-
 ![k6k03](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k03.png)
 
-## Automatic Keycloak startup
+### Automatic Keycloak startup
 
 > Work on **hserv**
 
 Create in **“/usr/lib/systemd/system”** a file named **“keycloak.service”** containing
+
 ```
 [Unit]
 Description=keycloak service
@@ -232,14 +267,17 @@ PIDFile=/var/run/keycloak.pid
 [Install]
 WantedBy=multi-user.target
 ```
+
 Enable and activate the service
+
 ```
 sudo systemctl enable keycloak
 sudo systemctl start keycloak
 ```
+
 Reboot hserv and verify Keycloak is accessible at startup
 
-## Create site and certificates for "https://k6k.h.net"
+### Create site and certificates for "https://k6k.h.net"
 > Work on **hserv**
 > 
 > Note that keycloak will be abbreviated in **k6k**
@@ -249,6 +287,7 @@ Verify that the keycloak address was added in **"/etc/hosts"** file on any machi
 The address used is the exsternal address o the **hsrv** machine
 
 In the **"/etc/hosts"** fle add the line
+
 ```
 192.168.100.20 k6k k6k.h.net
 ```
@@ -260,6 +299,7 @@ In the DNS server on **hserv** add the k6k entry in the **“h.net”** DNS zone
 Create the certificate for **"k6k.h.net"**
 
 In **"~/H/hservcerts"** create a file called **"k6kssl.cnf"** containing
+
 ```
 [req]
 default_bits = 2048
@@ -284,30 +324,39 @@ DNS.2 = k6k.h.net
 DNS.3 = k6k.ext.h.net
 DNS.4 = k6k.int.h.net
 ```
+
 Create the server private key and csr certificate request
+
 ```
 cd ~/H/hservcerts
 sudo openssl req -new -sha256 -nodes -newkey rsa:2048 -keyout k6k.key -out k6k.csr -config k6kssl.cnf
 ```
 
 Create the certificate signed by the **"hservca"** certification authority
+
 ```
 sudo openssl x509 -req -in k6k.csr -CA hservca.pem -CAkey hservca.key -CAcreateserial -out k6k.crt -sha256 -days 3650 -extfile k6kssl.cnf -extensions v3_ca
 ```
+
 Now you have the key file **k6k.key** and the certificate file **k6k.cert** to be used in the nginx reverse proxy
 
 Change the access rights for k6k.key file to permit nginx access
+
 ```
 cd ~/H/hservcerts
 sudo chmod a+r k6k.key
 ```
+
 Create the root directory for k6k under nginx and create an index.html file in that directory
+
 ```
 sudo mkdir /usr/share/nginx/k6k
 sudo chmod 777 /usr/share/nginx/k6k
 vi /usr/share/nginx/k6k/index.html
 ```
+
 Put in index.html filke the "K6K" base document
+
 ```
 <!DOCTYPE html>
 <html>
@@ -318,12 +367,16 @@ Put in index.html filke the "K6K" base document
 </text>
 </html>
 ```
+
 In the directory **“/etc/nginx/conf.d”** create the file **“k6k.conf”**
+
 ```
 cd /etc/nginx/conf.d
 sudo vi k6k.conf
 ```
+
 The file contains
+
 ```
 server {
 
@@ -353,20 +406,26 @@ server {
 
 }
 ```
+
 Restart Nginx
+
 ```
 sudo systemctl restart nginx
 ```
+
 Try to access “https://k6k.h.net” from a browser: the k6k base document will be showed
 
-## Add keycloak reverse proxy
+### Add keycloak reverse proxy
 
 In the directory **“/etc/nginx/conf.d”** change the file **“k6k.conf”** to proxy keycloak
+
 ```
 cd /etc/nginx/conf.d
 sudo vi k6k.conf
 ```
+
 The file now contains
+
 ```
 server {
 
@@ -401,17 +460,22 @@ server {
 
 }
 ```
+
 Restart Nginx
+
 ```
 sudo systemctl restart nginx
 ```
+
 Rebuild keycloak for production
+
 ```
 cd ~/H/keycloak-20.0.1/bin/
 ./kc.sh --verbose build
 ```
 
 Change in **“/usr/lib/systemd/system”** the file named **“keycloak.service”** with this content
+
 ```
 [Unit]
 Description=keycloak service
@@ -424,19 +488,22 @@ PIDFile=/var/run/keycloak.pid
 [Install]
 WantedBy=multi-user.target
 ```
+
 Enable and activate the service
+
 ```
 sudo systemctl daemon-reload
 sudo systemctl restart keycloak
 ```
 
-# Apisix api gateway
+## Apisix api gateway
 
-## Addresses for apisix-dashboard
+### Addresses for apisix-dashboard
 
 The address used is the exsternal address o the **hsrv** machine
 
 In the **"/etc/hosts"** file of any machine accessing the cluster through the nginx reverse proxy add the line
+
 ```
 192.168.100.20 apisix apisix.h.net
 ```
@@ -445,15 +512,18 @@ In the DNS server on **hserv** add the apisix entry in the **“h.net”** DNS z
 
 ![dns02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/dns02.png)
 
-## Apisix deployment
+### Apisix deployment
 
 > Work on **hdev**
 
 create a namespace for apisix
+
 ```
 kubectl create ns apisix
 ```
+
 Add apisix helm repo
+
 ```
 mkdir ~/H/software/apisisx
 cd ~/H/software/apisisx
@@ -465,6 +535,7 @@ helm repo list
 > work on **hserv**
 
 On **“hserv”** create the CA kubernetes secret (make readable hservca.key)
+
 ```
 cd ~/H/hservcerts
 ls -lh hservca.*
@@ -475,6 +546,7 @@ kubectl describe secret hservcacert -n apisix
 > work on **hdev**
 
 Get the core_dns service address and port (in this example 10.43.0.10:53)
+
 ```
 sysop@hdev:~/H/software/apisisx$ kubectl get svc -n kube-system
 NAME              TYPE           CLUSTER-IP     EXTERNAL-IP                                                   PORT(S)                  AGE
@@ -483,12 +555,15 @@ metrics-server    ClusterIP      10.43.64.71    <none>                          
 docker-registry   LoadBalancer   10.43.183.18   192.168.101.21,192.168.101.22,192.168.101.23,192.168.101.24   5000:31397/TCP           92d
 sysop@hdev:~/H/software/apisisx$
 ```
+
 Get the apisic helm chart the default values and put the output in a file named **apisix-values.yaml** then edit this file
+
 ```
 cd ~/H/software/apisisx
 helm show values apisix/apisix > apisix-values.yaml
 vi apisix-values.yaml
 ```
+
 You have to change:
 - the gateway type to **LoadBalancer** (my home lab is powered off every day and with the default gateway type of NodePort the Apisix gateway starts every day on a different node changing IP address)
 - set the **tls** section to use the kubernetes secret with the private CA reference
@@ -528,6 +603,7 @@ ingress-controller:
 ```
 
 Install apisix using the new values.yaml file
+
 ```
 helm install apisix apisix/apisix -f apisix-values.yaml \
 --set ingress-controller.config.apisix.serviceNamespace=apisix \
@@ -537,6 +613,7 @@ helm install apisix apisix/apisix -f apisix-values.yaml \
 ```
 
 Wait for the pods to start (it can take some time)
+
 ```
 kubectl -n apisix wait --for=condition=Ready pods --all
 kubectl get pods -n apisix
@@ -544,14 +621,17 @@ kubectl get pods -n apisix
 
 When all the Apisix pods will be in **Running** state the installation is completed
 
-##  Accessing apisix dashboard
+###  Accessing apisix dashboard
 > Work on **hdev**
 
 Port forward apisix-dashboard
+
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80
 ```
+
 The command output should be something like
+
 ```
 sysop@hdev:~$ kubectl -n apisix port-forward service/apisix-dashboard 9090:80
 Forwarding from 127.0.0.1:8080 -> 9000
@@ -567,7 +647,6 @@ Verify the dashboard version
 
 ![ad02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad02.png)
 
-
 ## Create Apisix resources for apisix-dashboard
 
 ### Create the certificate for **"apisix.h.net"**
@@ -577,6 +656,7 @@ Verify the dashboard version
 In the “~/H/hservcerts/” folder create the key and certificate for apisix.h.net
 
 Create a file called **"apisixssl.cnf"** containing
+
 ```
 [req]
 default_bits = 2048
@@ -601,16 +681,21 @@ DNS.2 = apisix.h.net
 DNS.3 = apisix.ext.h.net
 DNS.4 = apisix.int.h.net
 ```
+
 Create the server private key and csr
+
 ```
 sudo openssl req -new -sha256 -nodes -newkey rsa:2048 -keyout apisix.key -out apisix.csr -config apisixssl.cnf
 ```
 
 Create the certificate file.
+
 ```
 sudo openssl x509 -req -in apisix.csr -CA hservca.pem -CAkey hservca.key -CAcreateserial -out apisix.crt -sha256 -days 3650 -extfile apisixssl.cnf -extensions v3_ca
 ```
+
 Change the access rights for apisix key to permit nginx access
+
 ```
 sudo chmod a+r apisix.key
 ```
@@ -619,12 +704,15 @@ sudo chmod a+r apisix.key
 > Work on **hserv**
 
 Create the root directory for apisix under nginx and create an index.html file in that directory
+
 ```
 sudo mkdir /usr/share/nginx/apisix
 sudo chmod 777 /usr/share/nginx/apisix
 vi /usr/share/nginx/apisix/index.html
 ```
+
 Create a **index.html** file containing
+
 ```
 <!DOCTYPE html>
 <html>
@@ -635,12 +723,16 @@ Create a **index.html** file containing
 </text>
 </html>
 ```
+
 In the directory **“/etc/nginx/conf.d”** create the file named **“apisix.conf”**
+
 ```
 cd /etc/nginx/conf.d
 sudo vi apisix.conf
 ```
+
 Put in the **“apisix.conf”** file this content
+
 ```
 server {
 
@@ -670,14 +762,19 @@ server {
 
 }
 ```
+
 Restart Nginx
+
 ```
 sudo systemctl restart nginx
 ```
+
 Add the apisix line in “/etc/hosts” on any machine that will access apisix-dashboard
+
 ```
 192.168.100.20 apisix.h.net
 ```
+
 Add the apisix A record in the DNS in “h.net” zone
 
 ![ad03](https://github.com/MirtoBusico/assets-for-blogs/blob/main/ad03.png)
@@ -689,12 +786,14 @@ Access “https://apisix.h.net” from a browser and the apisix default page sho
 > Work on **hserv**
 
 In the directory **“/etc/nginx/conf.d”** modify the file **“apisix.conf”**
+
 ```
 cd /etc/nginx/conf.d
 sudo vi apisix.conf
 ```
 
 Put in the file this content
+
 ```
 upstream hcluster {
     ip_hash;
@@ -747,6 +846,7 @@ server {
 > **Note:**
 > 
 > the lines
+
 ```
 upstream hcluster {
     ip_hash;
@@ -755,19 +855,23 @@ upstream hcluster {
     server 192.168.101.24:443;
 }
 ```   
+
 > use the internal address of the three kubernetes worker nodes and it is necessary to specify the 443 port to enable https traffic
 >
 > The lines
+
 ```
     proxy_busy_buffers_size   512k;
     proxy_buffers   4 512k;
     proxy_buffer_size   256k;
 ```
+
 > are required because, after the Keycloak authentication, the apisix server replyes with the state in the URL.
 > 
 > With the default values nginx replies with a "response too big" error
 
 Restart Nginx
+
 ```
 sudo systemctl restart nginx
 ```
@@ -778,10 +882,13 @@ Access “https://apisix.h.net” from a browser. You should receive page not fo
 > Work on **hdev**
 
 port forward apisix-dashboard and access it at “http://localhost:9090” and login with **“admin” / "admin“**
+
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80
 ```
+
 Find the apisix-dashboard service name and port
+
 ```
 sysop@hdev:~/H/hservcerts$ kubectl get svc -n apisix
 NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                   PORT(S)                      AGE
@@ -837,13 +944,16 @@ For now don’t use plugins and click “Next”. Then click “Submit”
 > Work on **hserv**
 
 Copy the certificates from hserv to hdev. From hserv:
+
 ```
 sysop@hserv:~$ cd ~/H
 sysop@hserv:~/H$ rsync -vau --stats ./hservcerts/* hdev.int.h.net://home/sysop/H/hservcerts/
 ```
+
 > Work on **hdev**
 
 Port forward apisix-dashboard and access it ah “http://localhost:9090” and login with **“admin” / "admin“**
+
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80
 ```
@@ -949,10 +1059,13 @@ This is the shown page
 ![k6k16](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k16.png)
 
 Copy the link 
+
 ```
 https://k6k.h.net/realms/hcluster_admins/.well-known/openid-configuration
 ```
+
 Prepare a json client definition using the previous copied information
+
 ```
 {
     "client_id":"hcadmins",
@@ -994,9 +1107,11 @@ Then "view" the route to see the plugin configuration
 > Work on any machine
 
 Go to the URL
+
 ```
 https://apisix.h.net
 ```
+
 You will be redirected to the Keycloak login page for the "HCLUSTER_ADMINS" realm.
 Login with the previous defined user "hcadmin" / "hcadmin"
 
@@ -1023,9 +1138,3 @@ In this article were presented the intruction to:
 - set up the apisix resources, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
 
 Note that this set up is only for educational purpose. Do not use in production.
-
-
-
-
-
-
