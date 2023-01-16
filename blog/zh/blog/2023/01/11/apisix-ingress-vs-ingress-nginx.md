@@ -1,6 +1,6 @@
 ---
 title: "为什么 APISIX Ingress 是比 Ingress NGINX 更好的选择？"
-author:
+authors:
   - name: "容鑫"
     title: "Author"
     url: "https://github.com/AlinsRan"
