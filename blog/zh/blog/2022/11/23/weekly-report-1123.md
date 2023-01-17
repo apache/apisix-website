@@ -55,6 +55,7 @@ Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰
 - [微服务中的服务发现是什么](https://apisix.apache.org/zh/blog/2022/11/10/what-is-service-in-microservice-discovery/)
 
     本文通过服务发现的相关背景和 APISIX 对于服务发现的应用与实践，来介绍微服务中的服务发现内容。
+
 - [实践一年之久，vivo 如何基于 APISIX 进行业务基础架构的演进](https://apisix.apache.org/zh/blog/2022/11/13/vivo-with-apache-apisix/)
 
     本文从应用 APISIX 后的调整与实践困难角度入手，为大家带来了 vivo 基于 APISIX 的企业实践细节。
