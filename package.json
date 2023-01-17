@@ -17,6 +17,7 @@
   "scripts": {
     "sync-docs": "yarn workspace scripts sync-docs",
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
+    "generate-dashboard-latest-version": "yarn workspace scripts generate-dashboard-latest-version",
     "generate-picked-posts": "yarn workspace scripts generate-picked-posts",
     "update-sitemap": "yarn workspace scripts update-sitemap",
     "start:doc": "yarn workspace doc start",

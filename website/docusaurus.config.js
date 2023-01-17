@@ -17,8 +17,8 @@ module.exports = {
     events: require('./static/data/events.json'),
     repoUrl: 'https://github.com/apache/apisix',
     docsUrl: '',
-    docs: require('../config/docs.js'),
-    downloads: require('../config/downloads.js'),
+    docs: require('../config/docs.json'),
+    downloads: require('../config/downloads.json'),
     team: require('../config/team.js'),
     plugins: require('./static/data/plugins.json'),
 

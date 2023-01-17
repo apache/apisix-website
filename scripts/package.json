@@ -5,6 +5,7 @@
     "sync-docs": "node sync-docs.js",
     "link-checker": "node link-checker.js",
     "generate-repos-info": "node generate-repos-info.js",
+    "generate-dashboard-latest-version": "node generate-dashboard-latest-version.js",
     "update-sitemap": "node update-sitemap-loc.js",
     "generate-website": "node generate-website.js",
     "generate-picked-posts": "node --experimental-modules generate-picked-posts-info.mjs"
