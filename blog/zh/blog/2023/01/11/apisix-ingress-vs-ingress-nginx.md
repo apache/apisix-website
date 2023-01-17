@@ -31,73 +31,73 @@ tags: [Ecosystem]
 
 下列表格中，对比了 Ingress NGINX 和 APISIX Ingress 基本功能，包括协议支持、鉴权方式、上游探针/策略、负载均衡策略、Kubenertes 集成等。以下表格数据取自 [learnk8s.io](https://docs.google.com/spreadsheets/d/191WWNpjJ2za6-nbG4ZoUMXMpUK8KlCIosvQB0f-oq3k)。
 
-|Product/Project|    |Ingress NGINX|Apache APISIX Ingress|
-|:----|:----|:----|:----|
-|1. General info|    |    |    |
-|    |Based on|nginx|nginx|
-|2. Protocols|    |    |    |
-|    |HTTP/HTTPS|✔️|✔️|
-|    |HTTP2|✔️|✔️|
-|    |gRPC|✔️|✔️|
-|    |TCP|Partial|✔️|
-|    |TCP+TLS|✖︎|✔️|
-|    |UDP|Partial|✔️|
-|    |Websockets|✔️|✔️|
-|    |Proxy Protocol|✔️|✔️|
-|    |QUIC/HTTP3|Preview|Preview|
-|3. Clients|    |    |    |
-|    |Rate limiting (L7)|✔️|✔️|
-|    |WAF|✔️|Partial|
-|    |Timeouts|✔️|✔️|
-|    |Safe-list/Block-list|✔️|✔️|
-|    |Authentication|✔️|✔️|
-|    |Authorisation|✖︎|✔️|
-|4. Traffic routing|    |    |    |
-|    |Host|✔️|✔️|
-|    |Path|✔️|✔️|
-|    |Headers|✔️|✔️|
-|    |Querystring|✔️|✔️|
-|    |Method|✔️|✔️|
-|    |ClientIP|✔️|✔️|
-|5. Upstream probes/resiliency|    |    |    |
-|    |Healthchecks|✖︎|✔️|
-|    |Retries|✔️|✔️|
-|    |Circuit Breaker|✖︎|✔️|
-|6.Load balancer strategies|    |    |    |
-|    |Round robin|✔️|✔️|
-|    |Sticky sessions|✔️|✔️|
-|    |Least connections|✖︎|✔️|
-|    |Ring hash|✔️|✔️|
-|    |Custom load balancing|✖︎|✔️|
-|7. Authentication|    |    |    |
-|    |Basic auth|✔️|✔️|
-|    |External Auth|✔️|✔️|
-|    |Client certificate - mTLS|✔️|✔️|
-|    |OAuth|✔️|✔️|
-|    |OpenID|✖︎|✔️|
-|    |JWT|✖︎|✔️|
-|    |LDAP|✖︎|✔️|
-|    |HMAC|✖︎|✔️|
-|8. Observability|    |    |    |
-|    |Logging|✔️|✔️|
-|    |Metrics|✔️|✔️|
-|    |Tracing|✔️|✔️|
-|9. Kubernetes Integration|    |    |    |
-|    |State|Kubernetes|Kubernetes|
-|    |CRD|✖︎|✔️|
-|    |Scope|Clusterwide<br>namespace|namespace|
-|    |Support for the Gateway API|✖︎|Preview|
-|    |Integrates with service meshes|✔️|✔️|
-|10. Traffic shaping|    |    |    |
-|    |Canary|✔️|✔️|
-|    |Session Affinity|✔️|✔️|
-|    |Traffic Mirroring|✔️|✔️|
-|11. Other|    |    |    |
-|    |Hot reloading|✔️|✔️|
-|    |LetsEncrypt Integration|✔️|✔️|
-|    |Wildcard certificate support|✔️|✔️|
-|    |Configure hot reloading|Preview|✔️|
-|    |Service Discovery|✖|✔️|
+| Product/Project               |                                | Ingress NGINX             | Apache APISIX Ingress |
+| :---------------------------- | :----------------------------- | :------------------------ | :-------------------- |
+| 1. General info               |                                |                           |                       |
+|                               | Based on                       | nginx                     | nginx                 |
+| 2. Protocols                  |                                |                           |                       |
+|                               | HTTP/HTTPS                     | ✔️                         | ✔️                     |
+|                               | HTTP2                          | ✔️                         | ✔️                     |
+|                               | gRPC                           | ✔️                         | ✔️                     |
+|                               | TCP                            | Partial                   | ✔️                     |
+|                               | TCP+TLS                        | ✖︎                         | ✔️                     |
+|                               | UDP                            | Partial                   | ✔️                     |
+|                               | Websockets                     | ✔️                         | ✔️                     |
+|                               | Proxy Protocol                 | ✔️                         | ✔️                     |
+|                               | QUIC/HTTP3                     | Preview                   | Preview               |
+| 3. Clients                    |                                |                           |                       |
+|                               | Rate limiting (L7)             | ✔️                         | ✔️                     |
+|                               | WAF                            | ✔️                         | Partial               |
+|                               | Timeouts                       | ✔️                         | ✔️                     |
+|                               | Safe-list/Block-list           | ✔️                         | ✔️                     |
+|                               | Authentication                 | ✔️                         | ✔️                     |
+|                               | Authorisation                  | ✖︎                         | ✔️                     |
+| 4. Traffic routing            |                                |                           |                       |
+|                               | Host                           | ✔️                         | ✔️                     |
+|                               | Path                           | ✔️                         | ✔️                     |
+|                               | Headers                        | ✔️                         | ✔️                     |
+|                               | Querystring                    | ✔️                         | ✔️                     |
+|                               | Method                         | ✔️                         | ✔️                     |
+|                               | ClientIP                       | ✔️                         | ✔️                     |
+| 5. Upstream probes/resiliency |                                |                           |                       |
+|                               | Healthchecks                   | ✖︎                         | ✔️                     |
+|                               | Retries                        | ✔️                         | ✔️                     |
+|                               | Circuit Breaker                | ✖︎                         | ✔️                     |
+| 6.Load balancer strategies    |                                |                           |                       |
+|                               | Round robin                    | ✔️                         | ✔️                     |
+|                               | Sticky sessions                | ✔️                         | ✔️                     |
+|                               | Least connections              | ✖︎                         | ✔️                     |
+|                               | Ring hash                      | ✔️                         | ✔️                     |
+|                               | Custom load balancing          | ✖︎                         | ✔️                     |
+| 7. Authentication             |                                |                           |                       |
+|                               | Basic auth                     | ✔️                         | ✔️                     |
+|                               | External Auth                  | ✔️                         | ✔️                     |
+|                               | Client certificate - mTLS      | ✔️                         | ✔️                     |
+|                               | OAuth                          | ✔️                         | ✔️                     |
+|                               | OpenID                         | ✖︎                         | ✔️                     |
+|                               | JWT                            | ✖︎                         | ✔️                     |
+|                               | LDAP                           | ✖︎                         | ✔️                     |
+|                               | HMAC                           | ✖︎                         | ✔️                     |
+| 8. Observability              |                                |                           |                       |
+|                               | Logging                        | ✔️                         | ✔️                     |
+|                               | Metrics                        | ✔️                         | ✔️                     |
+|                               | Tracing                        | ✔️                         | ✔️                     |
+| 9. Kubernetes Integration     |                                |                           |                       |
+|                               | State                          | Kubernetes                | Kubernetes            |
+|                               | CRD                            | ✖︎                         | ✔️                     |
+|                               | Scope                          | Clusterwide<br/>namespace | namespace             |
+|                               | Support for the Gateway API    | ✖︎                         | Preview               |
+|                               | Integrates with service meshes | ✔️                         | ✔️                     |
+| 10. Traffic shaping           |                                |                           |                       |
+|                               | Canary                         | ✔️                         | ✔️                     |
+|                               | Session Affinity               | ✔️                         | ✔️                     |
+|                               | Traffic Mirroring              | ✔️                         | ✔️                     |
+| 11. Other                     |                                |                           |                       |
+|                               | Hot reloading                  | ✔️                         | ✔️                     |
+|                               | LetsEncrypt Integration        | ✔️                         | ✔️                     |
+|                               | Wildcard certificate support   | ✔️                         | ✔️                     |
+|                               | Configure hot reloading        | Preview                   | ✔️                     |
+|                               | Service Discovery              | ✖                         | ✔️                     |
 
 ### 功能差异
 
@@ -109,17 +109,17 @@ tags: [Ecosystem]
 
 在微服务架构中，应用被拆分为很多微服务，无论是微服务故障，还是对应用服务进行扩缩容，都需要尽快的通知到调用方，以免调用失败。因此，在微服务架构中，服务注册和发现机制就显得很重要了，通常这会通过注册中心来完成。
 
-|Service Discovery|Ingress NGINX|Apache APISIX Ingress|
-|:----|:----|:----|
-|Kubernetes|✔️|✔️|
-|DNS|✖|✔️|
-|nacos|✖|✔️|
-|exureka|✖|✔️|
-|consul_kv|✖|✔️|
+| Service Discovery | Ingress NGINX | Apache APISIX Ingress |
+| :---------------- | :------------ | :-------------------- |
+| Kubernetes        | ✔️             | ✔️                     |
+| DNS               | ✖             | ✔️                     |
+| nacos             | ✖             | ✔️                     |
+| exureka           | ✖             | ✔️                     |
+| consul_kv         | ✖             | ✔️                     |
 
 ### 协议支持
 
-两者都对 HTTP/HTTPS 协议提供完整支持，APISIX Ingress 在协议支持上更丰富一些，能够的使用 TLS 来加密 TCP 流量，还支持 [MQTT](https://apisix.apache.org/docs/apisix/plugins/mqtt-proxy/)，[Dubbo](https://apisix.apache.org/docs/apisix/plugins/dubbo-proxy/)、[Kafka](https://apisix.apache.org/docs/apisix/plugins/kafka-proxy/) 等协议进行代理。
+两者都对 HTTP/HTTPS 协议提供完整支持，APISIX Ingress 在协议支持上更丰富一些，能够的使用 TLS 来加密 TCP 流量，还支持 [MQTT](https://apisix.apache.org/docs/apisix/plugins/mqtt-proxy/)、[Dubbo](https://apisix.apache.org/docs/apisix/plugins/dubbo-proxy/)、[Kafka](https://apisix.apache.org/docs/apisix/plugins/kafka-proxy/) 等协议进行代理。
 
 ### 服务治理能力
 
@@ -265,7 +265,7 @@ APISIX Ingress 提供了多种扩展方式，企业用户可以根据自身情�
 
 * 通过 [Lua 进行插件开发](https://apisix.apache.org/docs/apisix/plugin-develop/)：这种方式相对简单，并且几乎没有性能损耗；
 * 通过 plugin-runner 开发：这种模式下支持 Java/Python/Go 等语言进行开发，这可以方便用户利用一些现有的业务逻辑，并且无需学习新语言；
-* 通过 Wasm 进行插件插件：这种模式下，可以使用任何支持构建出 Wasm 的语言进行插件开发；
+* 通过 Wasm 进行插件插件：这种模式下，可以使用任何支持构建出 Wasm 的语言进行插件开发。
 
 此外还可以通过 Serverless 插件来直接编写 Lua 代码，快速满足业务需求。
 
@@ -280,7 +280,7 @@ Ingress 比较适合从 Ingress NGINX 迁移的企业用户，其转换成本较
 * 功能性和可扩展能力有了巨大提升；
 * 数据面 APISIX 有着活跃的社区，更新和发布版本快，CRD 的方式能够轻易支持数据面的更多能力；
 
-## Ingress NGXIN 的痛点：不支持配置热加载
+## Ingress NGINX 的痛点：不支持配置热加载
 
 ### 静态配置带来的问题
 
@@ -292,12 +292,12 @@ Ingress NGINX 主要基于 NGINX 配置文件的方式，尽管使用 NGINX + Lu
 
 以下这些情况，涵盖了 Ingress controller 大量的使用场景：
 
-* 创建新的 Inresss 资源；
+* 创建新的 Ingress 资源；
 * 将TLS 部分添加到现有 Ingress；
 * Ingress Annotations 的变化可能影响上游配置（例如 load-balance 注释不需要重新加载）；
 * 在 Ingress 中添加或删除 path；
 * Ingress、Service、Secret 资源被删除；
-* Secret 发生更新；
+* Secret 发生更新。
 
 在上述场景下，具有频繁部署应用程序的集群环境中，会不断触发 Ingress、Secret 等资源的操作（创建、更新、删除等），导致 NGINX 重新加载次数剧增，给生产环境带来了极大的影响。
 
@@ -317,7 +317,7 @@ Gateway API 相比 Ingress 的功能性更强，旨在通过由许多供应商�
 
 ### 支持情况
 
-Gateway API 作为一种扩展 Kubernetes 服务网络的标准，其 Gateway 资源能够实现作为 Kubernetes API 来管理网关的生命周期，功能十分强大。目前许多 Ingress controller 都在积极支持它，包括 Istio、Kong、Traefik 等。在目前 [Gateway API 实现情况](https://gateway-api.sigs.k8s.io/implementations/#implementation-status)中，很遗憾的是，**Ingress NGXIN 尚未计划支持 Gateway API** 。而 APISIX Ingress 已经支持了 Gateway API 的大部分特性：包括 HTTPRoute、TCPRoute、TLSRoute、UDPRoute 等。
+Gateway API 作为一种扩展 Kubernetes 服务网络的标准，其 Gateway 资源能够实现作为 Kubernetes API 来管理网关的生命周期，功能十分强大。目前许多 Ingress controller 都在积极支持它，包括 Istio、Kong、Traefik 等。在目前 [Gateway API 实现情况](https://gateway-api.sigs.k8s.io/implementations/#implementation-status)中，很遗憾的是，**Ingress NGINX 尚未计划支持 Gateway API** 。而 APISIX Ingress 已经支持了 Gateway API 的大部分特性：包括 HTTPRoute、TCPRoute、TLSRoute、UDPRoute 等。
 
 ## 总结
 

@@ -19,9 +19,9 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-> 作者@lingsamuel，API7.ai 云原生技术专家，Apache APISIX Committer。
+> 作者[@lingsamuel](https://github.com/lingsamuel)，API7.ai 云原生技术专家，Apache APISIX Committer。
 
-在上一篇 Amesh 产品介绍中，我们有提到在 Amesh v2.0 版本新增了一个可选的控制面组件，即 amesh-controller 及相应的 CRD。Amesh controller 为用户提供了配置 APISIX 插件的能力，使 APISIX 众多的插件在服务网格场景下也能开箱即用，而无需用户进行自定义的开发。那么如何使用这些组件，来进行 APISIX 插件能力的使用呢？
+在上一篇 Amesh 产品介绍中，我们有提到在 Amesh v2.0 版本新增了一个可选的控制面组件，即 `amesh-controller` 及相应的 CRD。`amesh controller` 为用户提供了配置 APISIX 插件的能力，使 APISIX 众多的插件在服务网格场景下也能开箱即用，而无需用户进行自定义的开发。那么如何使用这些组件，来进行 APISIX 插件能力的使用呢？
 
 本文在假设已经成功安装 Amesh 后，如何在 Amesh 中进行部署、配置和更新插件等操作。
 

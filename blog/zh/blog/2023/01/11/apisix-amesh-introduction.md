@@ -41,7 +41,7 @@ Amesh 通过适配 xDS 协议，可以让 APISIX 替代 Istio 所使用的 envoy
 
 而网格内部的所有流量都将由 APISIX 接管。其中，APISIX 的配置中心被设置为 Amesh，这使得 APISIX 脱离 etcd 的依赖。Amesh 为 APISIX 提供了一种从 xDS 协议中获取配置信息的方式。
 
-此外，Amesh 在 v0.2 中提供了额外的可选控制面组件：`amesh-controller` ，它增加了 Amesh 专用的 CRD，可以为 APISIX 配置一些 Istio 所不支持的额外功能。额外带有 amesh-controller 的架构如下图所示：
+此外，Amesh 在 v0.2 中提供了额外的可选控制面组件：`amesh-controller` ，它增加了 Amesh 专用的 CRD，可以为 APISIX 配置一些 Istio 所不支持的额外功能。额外带有 `amesh-controller` 的架构如下图所示：
 
 ![amesh-controller 架构](https://static.apiseven.com/uploads/2023/01/10/uMIuFFRI_image%20%2831%29.png)
 
@@ -63,7 +63,7 @@ Amesh 通过适配 xDS 协议，可以让 APISIX 替代 Istio 所使用的 envoy
 
 ### 应用示例
 
-在 Amesh v0.2 版本中，可以通过安装 amesh-controller 并使用提供的 `AmeshPluginConfig` CRD 来进行 APISIX 的插件配置。
+在 Amesh v0.2 版本中，可以通过安装 `amesh-controller` 并使用提供的 `AmeshPluginConfig` CRD 来进行 APISIX 的插件配置。
 
 例如，我们可以为请求的响应添加特定的 header，这里可以通过配置 APISIX 的 `response-rewrite` 插件实现。
 
