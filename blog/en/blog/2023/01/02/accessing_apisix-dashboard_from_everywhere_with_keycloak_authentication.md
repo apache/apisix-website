@@ -58,7 +58,7 @@ All the machines resolve the IP addresses using the DNS server installed on **hs
 All machines use Ubuntu distribution but commands reported here should worh for other distributions with some modifications.
 The username used throughout this article will be **"sysop"** So the home directory will be indicated as **"/home/sysop"** or **"~/"**.
 
-## Create a Certification authority and certificates
+## Create a Certification Authority and Certificates
 
 For all the VM the DNS server will resolve **"apisix.h.net"** to the external address of **hserv**.
 In all others machine that will access the the services exposed by **hserv** there will be a line in the **"/etc/hosts"** file resolving **"apisix.h.net"** to the external address of **hserv**.
