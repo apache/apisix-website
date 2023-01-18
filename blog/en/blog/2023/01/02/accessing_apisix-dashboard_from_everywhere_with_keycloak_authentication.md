@@ -124,7 +124,7 @@ Settings -> Advanced -> Privacy and security -> Manage certificates -> Authoriti
 
 and import **"hservca.pem"** (remember to flag all options)
 
-### Add the CA to the operating system
+### Add the CA to the Operating System
 
 > Working on hdev
 
