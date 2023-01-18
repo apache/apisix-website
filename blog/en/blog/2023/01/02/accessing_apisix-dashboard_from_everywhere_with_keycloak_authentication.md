@@ -502,7 +502,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart keycloak
 ```
 
-## Apisix api gateway
+## Apisix API Gateway
 
 ### Addresses for apisix-dashboard
 
