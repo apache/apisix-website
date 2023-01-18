@@ -94,7 +94,7 @@ sudo openssl req -x509 -new -nodes -key hservca.key -sha256 -days 3650 -out hser
 
 This generates a **hservca.pem"** certificate file. These two files will be used to create the web sites certificates
 
-### Add the CA to browsers
+### Add the CA to Browsers
 
 To be able to access the web sites with certidicates issued by this private CA, the CA certificate file have to be added to the web browser that will access these sites.
 
