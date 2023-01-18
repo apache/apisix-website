@@ -1,6 +1,5 @@
 ---
-title: "马蜂窝如何利用 APISIX 网关实现微服务架构升级
-"
+title: "马蜂窝如何利用 APISIX 网关实现微服务架构升级"
 authors:
   - name: "董红帅"
     title: "Author"
@@ -20,7 +19,7 @@ image: https://static.apiseven.com/uploads/2023/01/17/GhQuQxSZ_20230117-111941.p
 
 <!--truncate-->
 
->作者：[董红帅](https://github.com/hansedong)，马蜂窝微服务体系建设以及基础服务能力建设专家。
+> 作者：[董红帅](https://github.com/hansedong)，马蜂窝微服务体系建设以及基础服务能力建设专家。
 
 马蜂窝作为旅行社交平台，是数据驱动的新型旅行电商。基于十余年的内容积累，马蜂窝通过 AI 技术与大数据算法，将个性化旅行信息与来自全球各地的旅游产品供应商实现连接，为用户提供与众不同的旅行体验。
 
