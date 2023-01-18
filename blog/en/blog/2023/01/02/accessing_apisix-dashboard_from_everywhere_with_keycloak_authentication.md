@@ -218,7 +218,7 @@ sudo apt remove anacron
 
 Reboot the **hserv** machine
 
-### Keycloak installation
+### Keycloak Installation
 
 Go in base installation directory and get keycloak installation files (verify what is the last release)
 
