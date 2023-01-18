@@ -421,7 +421,7 @@ sudo systemctl restart nginx
 
 Try to access “https://k6k.h.net” from a browser: the k6k base document will be showed
 
-### Add keycloak reverse proxy
+### Add Keycloak Reverse Proxy
 
 In the directory **“/etc/nginx/conf.d”** change the file **“k6k.conf”** to proxy keycloak
 
