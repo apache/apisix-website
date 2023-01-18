@@ -254,7 +254,7 @@ Login and the “Master” realm appears. Note the Keycloak version
 
 ![k6k03](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k03.png)
 
-### Automatic Keycloak startup
+### Automatic Keycloak Startup
 
 > Work on **hserv**
 
