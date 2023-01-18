@@ -518,7 +518,7 @@ In the DNS server on **hserv** add the apisix entry in the **“h.net”** DNS z
 
 ![dns02](https://github.com/MirtoBusico/assets-for-blogs/blob/main/dns02.png)
 
-### Apisix deployment
+### APISIX Deployment
 
 > Work on **hdev**
 
