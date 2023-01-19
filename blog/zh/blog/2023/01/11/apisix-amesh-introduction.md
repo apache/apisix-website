@@ -35,7 +35,7 @@ Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提�
 
 Amesh 通过适配 xDS 协议，可以让 APISIX 替代 Istio 所使用的 envoy 组件来接管集群流量。在实际使用中，APISIX 将作为 Pod 的 Sidecar 接管网格内的所有流量。目前 Amesh 的架构如下图所示：
 
-![Amesh 架构](https://static.apiseven.com/uploads/2023/01/10/VMKr49uF_image%20%2830%29.png)
+![Amesh 架构](https://static.apiseven.com/uploads/2023/01/19/99lIgVfj_image42fix.png)
 
 通过架构图可以看到，通过 xDS 协议，Amesh 可以将 Istio 作为控制面，从 Istio 侧获取配置信息，并将其转义为 APISIX 所需的配置。
 
@@ -43,7 +43,7 @@ Amesh 通过适配 xDS 协议，可以让 APISIX 替代 Istio 所使用的 envoy
 
 此外，Amesh 在 v0.2 中提供了额外的可选控制面组件：`amesh-controller` ，它增加了 Amesh 专用的 CRD，可以为 APISIX 配置一些 Istio 所不支持的额外功能。额外带有 `amesh-controller` 的架构如下图所示：
 
-![amesh-controller 架构](https://static.apiseven.com/uploads/2023/01/10/uMIuFFRI_image%20%2831%29.png)
+![amesh-controller 架构](https://static.apiseven.com/uploads/2023/01/19/AQCRwtA8_image43fix.png)
 
 正如前文所提到的，`amesh controller` 是可选组件。在未安装时，Amesh 也能正常使用 Istio 的原生能力提供服务。在安装了 amesh-controller 后，Amesh 能自动检测到控制面的加入，并动态地从中获取配置，而无需重启。
 
