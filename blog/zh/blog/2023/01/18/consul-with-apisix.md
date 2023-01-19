@@ -52,7 +52,7 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
    # ... other config
    discovery:
      consul:
-       servers: 
+       servers:
          - "http://127.0.0.1:8500"
    ```
 
@@ -89,7 +89,7 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
          "Warning": 1
       }
    }'
-   
+
    $ curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
    --header 'Content-Type: application/json' \
    --data '{
