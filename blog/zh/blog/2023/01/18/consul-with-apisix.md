@@ -5,16 +5,12 @@ authors:
     title: "Author"
     url: "https://github.com/Fabriceli"
     image_url: "https://github.com/Fabriceli.png"
-  - name: "李奕浩"
-    title: "Technical Writer"
-    url: "https://github.com/Fabriceli"
-    image_url: "https://github.com/Fabriceli.png"
 keywords:
 - API Gateway
 - Consul
 - 服务发现
 - 服务注册
-description: 云原生 API 网关 Apache APISIX 支持基于 Consul 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul 的相关原理。
+description: 云原生 API 网关 Apache APISIX 支持基于 Consul 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---
@@ -45,7 +41,7 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
    docker run --rm --name consul_1 -d -p 8500:8500 consul:1.8 consul agent -server -bootstrap-expect=1 -node=agent-one -client 0.0.0.0 -log-level info -data-dir=/consul/data -enable-script-checks
    ```
 
-3. 更新 Apache APISIX 中的配置文件`apisix_conf/config.yaml`
+3. 更新 Apache APISIX 中的配置文件 `apisix_conf/config.yaml`
 
    ```yaml
    # config.yml
@@ -111,7 +107,7 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
    $ curl --location --request GET 'http://127.0.0.1:8500/v1/catalog/service/service_a'
    ```
 
-   其中，`/v1/catalog/service/`后的路径是服务名称，即服务注册时候的`name`。
+   其中，`/v1/catalog/service/` 后的路径是服务名称，即服务注册时候的 `name` 。
    返回消息体如下则表示成功注册。
 
   ```json
@@ -208,7 +204,7 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
 
 ### 添加路由
 
-在添加之前需要确认 `X-API-KEY`，属于 APISIX Admin API 的访问 Token，在该示例中，使用默认的即可：`edd1c9f034335f136f87ad84b625c8f1`，这里将 URL 为`/consul/web/*`的请求路由分配到 Consul 的 service_a。
+在添加之前需要确认 `X-API-KEY`，属于 APISIX Admin API 的访问 Token，在该示例中，使用默认的即可：`edd1c9f034335f136f87ad84b625c8f1`，这里将 URL 为 `/consul/web/*` 的请求路由分配到 Consul 的 service_a。
 
 ```sh
 $ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
@@ -248,7 +244,7 @@ $ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f
 
 ## 验证配置结果
 
-通过请求结果可以看到，Apache APISIX 中新增的路由通过 Consul 命中了正确的服务地址，并根据`roundrobin`负载均衡策略请求到两个节点上。
+通过请求结果可以看到，Apache APISIX 中新增的路由通过 Consul 命中了正确的服务地址，并根据 `roundrobin` 负载均衡策略请求到两个节点上。
 
 ```sh
 # 第一次请求
