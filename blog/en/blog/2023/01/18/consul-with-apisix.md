@@ -1,24 +1,22 @@
 ---
 title: "How to Integrate API Gateway and Consul? Not Consul K/V"
 authors:
-
-- name: "Yihao LI"
-  title: "Author"
-  url: "https://github.com/Fabriceli"
-  image_url: "https://github.com/Fabriceli.png"
-- name: "Yihao LI"
-  title: "Technical Writer"
-  url: "https://github.com/Fabriceli"
-  image_url: "https://github.com/Fabriceli.png"
-- keywords:
+  - name: "Yihao LI"
+    title: "Author"
+    url: "https://github.com/Fabriceli"
+    image_url: "https://github.com/Fabriceli.png"
+  - name: "Yihao LI"
+    title: "Technical Writer"
+    url: "https://github.com/Fabriceli"
+    image_url: "https://github.com/Fabriceli.png"
+keywords:
 - API Gateway
 - Consul
 - Service Discovery
 - Service Register
-  description: Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in APISIX.
-  tags: [Ecosystem]
-  image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
-
+description: Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in APISIX.
+tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---
 
 ## Background
@@ -39,183 +37,183 @@ The test environments in this article are built in Docker using docker-compose.
 
 1. Download Apache APISIX
 
-   ```sh
-   git clone https://github.com/apache/apisix-docker.git
-   ```
+  ```sh
+  git clone https://github.com/apache/apisix-docker.git
+  ```
 
 2. Create and run Consul
 
-   ```sh
-   docker run --rm --name consul_1 -d -p 8500:8500 consul:1.8 consul agent -server -bootstrap-expect=1 -node=agent-one -client 0.0.0.0 -log-level info -data-dir=/consul/data -enable-script-checks
+  ```sh
+  docker run --rm --name consul_1 -d -p 8500:8500 consul:1.8 consul agent -server -bootstrap-expect=1 -node=agent-one -client 0.0.0.0 -log-level info -data-dir=/consul/data -enable-script-checks
    ```
 
 3. Update Apache APISIX config file `apisix_conf/config.yaml`
 
-   ```yaml
-   # config.yml
-   # ... other config
-   discovery:
-     consul:
-       servers: 
-         - "http://127.0.0.1:8500"
-   ```
+  ```yaml
+  # config.yml
+  # ... other config
+  discovery:
+    consul:
+      servers: 
+        - "http://127.0.0.1:8500"
+  ```
 
 4. Start Apache APISIX
 
-   ```sh
-   # cd example folder，and start APISIX
-   docker-compose -f docker-compose.yml -p apisix-docker  up -d
-   ```
+  ```sh
+  # cd example folder，and start APISIX
+  docker-compose -f docker-compose.yml -p apisix-docker  up -d
+  ```
 
 5. Example contains two web services that you can use directly to test.
 
-   ```sh
-   $ sudo docker inspect -f='{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(sudo docker ps -aq) | grep web
-   # Outputs
-   /apisix-docker-web1-1 - 172.21.0.5
-   /apisix-docker-web2-1 - 172.21.0.6
-   ```
+  ```sh
+  sudo docker inspect -f='{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(sudo docker ps -aq) | grep web
+  # Outputs
+  /apisix-docker-web1-1 - 172.21.0.5
+  /apisix-docker-web2-1 - 172.21.0.6
+  ```
 
 6. Register the test service to Consul via Consul HTTP API.
 
-   ```sh
-   # Register with the corresponding IP and port
-   $ curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
-   --header 'Content-Type: application/json' \
-   --data '{
-   	"ID": "service_a1",
-   	"Name": "service_a",
-   	"Tags": ["primary", "v1"],
-   	"Address": "172.21.0.5",
-   	"Port": 9081,
-   	"Weights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	}
-   }'
+  ```shell
+  # Register with the corresponding IP and port
+  curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "ID": "service_a1",
+        "Name": "service_a",
+       "Tags": ["primary", "v1"],
+       "Address": "172.21.0.5",
+       "Port": 9081,
+       "Weights": {
+           "Passing": 10,
+           "Warning": 1
+       }
+    }'
    
-   $ curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
-   --header 'Content-Type: application/json' \
-   --data '{
-   	"ID": "service_a2",
-   	"Name": "service_a",
-   	"Tags": ["primary", "v1"],
-   	"Address": "172.21.0.6",
-   	"Port": 9082,
-   	"Weights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	}
+  curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "ID": "service_a2",
+      "Name": "service_a",
+      "Tags": ["primary", "v1"],
+      "Address": "172.21.0.6",
+      "Port": 9082,
+      "Weights": {
+        "Passing": 10,
+        "Warning": 1
+      }
    }'
-   ```
+  ```
 
 7. Check whether the test service is registered successfully.
 
-   ```sh
-   $ curl --location --request GET 'http://127.0.0.1:8500/v1/catalog/service/service_a'
-   ```
+  ```shell
+  curl --location --request GET 'http://127.0.0.1:8500/v1/catalog/service/service_a'
+  ```
 
    The URL `/v1/catalog/service/:service_name` end with the path parameters which specifies the name of the service.
    The following return message indicates successful registration.
 
-   ```sh
+  ```json
    [{
-   	"ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
-   	"Node": "agent-one",
-   	"Address": "172.23.0.2",
-   	"Datacenter": "dc1",
-   	"TaggedAddresses": {
-   		"lan": "172.23.0.2",
-   		"lan_ipv4": "172.23.0.2",
-   		"wan": "172.23.0.2",
-   		"wan_ipv4": "172.23.0.2"
-   	},
-   	"NodeMeta": {
-   		"consul-network-segment": ""
-   	},
-   	"ServiceKind": "",
-   	"ServiceID": "service_a1",
-   	"ServiceName": "service_a",
-   	"ServiceTags": ["primary", "v1"],
-   	"ServiceAddress": "172.20.10.2",
-   	"ServiceTaggedAddresses": {
-   		"lan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9082
-   		},
-   		"wan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9082
-   		}
-   	},
-   	"ServiceWeights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	},
-   	"ServiceMeta": {},
-   	"ServicePort": 9082,
-   	"ServiceEnableTagOverride": false,
-   	"ServiceProxy": {
-   		"MeshGateway": {},
-   		"Expose": {}
-   	},
-   	"ServiceConnect": {},
-   	"CreateIndex": 46,
-   	"ModifyIndex": 124
+     "ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
+     "Node": "agent-one",
+     "Address": "172.23.0.2",
+     "Datacenter": "dc1",
+     "TaggedAddresses": {
+       "lan": "172.23.0.2",
+       "lan_ipv4": "172.23.0.2",
+       "wan": "172.23.0.2",
+       "wan_ipv4": "172.23.0.2"
+     },
+     "NodeMeta": {
+       "consul-network-segment": ""
+     },
+     "ServiceKind": "",
+     "ServiceID": "service_a1",
+     "ServiceName": "service_a",
+     "ServiceTags": ["primary", "v1"],
+     "ServiceAddress": "172.20.10.2",
+     "ServiceTaggedAddresses": {
+       "lan_ipv4": {
+         "Address": "172.20.10.2",
+         "Port": 9082
+       },
+       "wan_ipv4": {
+         "Address": "172.20.10.2",
+         "Port": 9082
+       }
+     },
+     "ServiceWeights": {
+       "Passing": 10,
+       "Warning": 1
+     },
+     "ServiceMeta": {},
+     "ServicePort": 9082,
+     "ServiceEnableTagOverride": false,
+     "ServiceProxy": {
+       "MeshGateway": {},
+       "Expose": {}
+     },
+     "ServiceConnect": {},
+     "CreateIndex": 46,
+     "ModifyIndex": 124
    }, {
-   	"ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
-   	"Node": "agent-one",
-   	"Address": "172.23.0.2",
-   	"Datacenter": "dc1",
-   	"TaggedAddresses": {
-   		"lan": "172.23.0.2",
-   		"lan_ipv4": "172.23.0.2",
-   		"wan": "172.23.0.2",
-   		"wan_ipv4": "172.23.0.2"
-   	},
-   	"NodeMeta": {
-   		"consul-network-segment": ""
-   	},
-   	"ServiceKind": "",
-   	"ServiceID": "service_a2",
-   	"ServiceName": "service_a",
-   	"ServiceTags": ["primary", "v1"],
-   	"ServiceAddress": "172.20.10.2",
-   	"ServiceTaggedAddresses": {
-   		"lan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9081
-   		},
-   		"wan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9081
-   		}
-   	},
-   	"ServiceWeights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	},
-   	"ServiceMeta": {},
-   	"ServicePort": 9081,
-   	"ServiceEnableTagOverride": false,
-   	"ServiceProxy": {
-   		"MeshGateway": {},
-   		"Expose": {}
-   	},
-   	"ServiceConnect": {},
-   	"CreateIndex": 47,
-   	"ModifyIndex": 125
+     "ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
+     "Node": "agent-one",
+     "Address": "172.23.0.2",
+     "Datacenter": "dc1",
+     "TaggedAddresses": {
+       "lan": "172.23.0.2",
+       "lan_ipv4": "172.23.0.2",
+       "wan": "172.23.0.2",
+       "wan_ipv4": "172.23.0.2"
+     },
+     "NodeMeta": {
+       "consul-network-segment": ""
+     },
+     "ServiceKind": "",
+     "ServiceID": "service_a2",
+     "ServiceName": "service_a",
+     "ServiceTags": ["primary", "v1"],
+     "ServiceAddress": "172.20.10.2",
+     "ServiceTaggedAddresses": {
+       "lan_ipv4": {
+         "Address": "172.20.10.2",
+         "Port": 9081
+       },
+       "wan_ipv4": {
+         "Address": "172.20.10.2",
+         "Port": 9081
+       }
+     },
+     "ServiceWeights": {
+       "Passing": 10,
+       "Warning": 1
+     },
+     "ServiceMeta": {},
+     "ServicePort": 9081,
+     "ServiceEnableTagOverride": false,
+     "ServiceProxy": {
+       "MeshGateway": {},
+       "Expose": {}
+     },
+     "ServiceConnect": {},
+     "CreateIndex": 47,
+     "ModifyIndex": 125
    }]
-   ```
+  ```
+
 ## Add a Route
 
 The `X-API-KEY` need to be determined before adding them. `X-API-KEY`: For the Admin API access token, in this example, we use the default `edd1c9f034335f136f87ad84b625c8f1`.
 Here the request with URL `/consul/web/*` is routed to Consul service `service_a`. Also, the `discovery_type` must be set to `consul` to start the corresponding module.
 Add Consul to the route using the Admin API provided by Apache APISIX.
 
-
 ```sh
-$ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
+curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '
 {
     "uri": "/consul/web/*",
     "upstream": {
@@ -230,23 +228,23 @@ The following return message indicates successful addition.
 
 ```json
 {
-	"value": {
-		"status": 1,
-		"uri": "\/*",
-		"update_time": 1674029322,
-		"id": "1",
-		"upstream": {
-			"hash_on": "vars",
-			"discovery_type": "consul",
-			"pass_host": "pass",
-			"scheme": "http",
-			"service_name": "service_a",
-			"type": "roundrobin"
-		},
-		"create_time": 1674029322,
-		"priority": 0
-	},
-	"key": "\/apisix\/routes\/1"
+  "value": {
+    "status": 1,
+    "uri": "\/*",
+    "update_time": 1674029322,
+    "id": "1",
+    "upstream": {
+      "hash_on": "vars",
+      "discovery_type": "consul",
+      "pass_host": "pass",
+      "scheme": "http",
+      "service_name": "service_a",
+      "type": "roundrobin"
+    },
+    "create_time": 1674029322,
+    "priority": 0
+  },
+  "key": "\/apisix\/routes\/1"
 }
 ```
 

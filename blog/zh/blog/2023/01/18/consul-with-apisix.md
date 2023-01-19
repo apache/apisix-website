@@ -1,24 +1,22 @@
 ---
 title: "Apache APISIX 集成原生 Consul 服务发现能力"
 authors:
-
-- name: "李奕浩"
-  title: "Author"
-  url: "https://github.com/Fabriceli"
-  image_url: "https://github.com/Fabriceli.png"
-- name: "李奕浩"
-  title: "Technical Writer"
-  url: "https://github.com/Fabriceli"
-  image_url: "https://github.com/Fabriceli.png"
-- keywords:
+  - name: "李奕浩"
+    title: "Author"
+    url: "https://github.com/Fabriceli"
+    image_url: "https://github.com/Fabriceli.png"
+  - name: "李奕浩"
+    title: "Technical Writer"
+    url: "https://github.com/Fabriceli"
+    image_url: "https://github.com/Fabriceli.png"
+keywords:
 - API Gateway
 - Consul
 - 服务发现
 - 服务注册
-  description: 云原生 API 网关 Apache APISIX 支持基于 Consul 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul 的相关原理。
-  tags: [Ecosystem]
-  image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
-
+description: 云原生 API 网关 Apache APISIX 支持基于 Consul 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul 的相关原理。
+tags: [Ecosystem]
+image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---
 
 ## 背景
@@ -81,29 +79,29 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
    $ curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
    --header 'Content-Type: application/json' \
    --data '{
-   	"ID": "service_a1",
-   	"Name": "service_a",
-   	"Tags": ["primary", "v1"],
-   	"Address": "172.21.0.5",
-   	"Port": 9081,
-   	"Weights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	}
+      "ID": "service_a1",
+      "Name": "service_a",
+      "Tags": ["primary", "v1"],
+      "Address": "172.21.0.5",
+      "Port": 9081,
+      "Weights": {
+         "Passing": 10,
+         "Warning": 1
+      }
    }'
    
    $ curl --location --request PUT 'http://127.0.0.1:8500/v1/agent/service/register' \
    --header 'Content-Type: application/json' \
    --data '{
-   	"ID": "service_a2",
-   	"Name": "service_a",
-   	"Tags": ["primary", "v1"],
-   	"Address": "172.21.0.6",
-   	"Port": 9082,
-   	"Weights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	}
+      "ID": "service_a2",
+      "Name": "service_a",
+      "Tags": ["primary", "v1"],
+      "Address": "172.21.0.6",
+      "Port": 9082,
+      "Weights": {
+         "Passing": 10,
+         "Warning": 1
+      }
    }'
    ```
 
@@ -116,95 +114,96 @@ Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统�
    其中，`/v1/catalog/service/`后的路径是服务名称，即服务注册时候的`name`。
    返回消息体如下则表示成功注册。
 
-   ```sh
+  ```json
    [{
-   	"ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
-   	"Node": "agent-one",
-   	"Address": "172.23.0.2",
-   	"Datacenter": "dc1",
-   	"TaggedAddresses": {
-   		"lan": "172.23.0.2",
-   		"lan_ipv4": "172.23.0.2",
-   		"wan": "172.23.0.2",
-   		"wan_ipv4": "172.23.0.2"
-   	},
-   	"NodeMeta": {
-   		"consul-network-segment": ""
-   	},
-   	"ServiceKind": "",
-   	"ServiceID": "service_a1",
-   	"ServiceName": "service_a",
-   	"ServiceTags": ["primary", "v1"],
-   	"ServiceAddress": "172.20.10.2",
-   	"ServiceTaggedAddresses": {
-   		"lan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9082
-   		},
-   		"wan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9082
-   		}
-   	},
-   	"ServiceWeights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	},
-   	"ServiceMeta": {},
-   	"ServicePort": 9082,
-   	"ServiceEnableTagOverride": false,
-   	"ServiceProxy": {
-   		"MeshGateway": {},
-   		"Expose": {}
-   	},
-   	"ServiceConnect": {},
-   	"CreateIndex": 46,
-   	"ModifyIndex": 124
+      "ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
+      "Node": "agent-one",
+      "Address": "172.23.0.2",
+      "Datacenter": "dc1",
+      "TaggedAddresses": {
+         "lan": "172.23.0.2",
+         "lan_ipv4": "172.23.0.2",
+         "wan": "172.23.0.2",
+         "wan_ipv4": "172.23.0.2"
+      },
+      "NodeMeta": {
+         "consul-network-segment": ""
+      },
+      "ServiceKind": "",
+      "ServiceID": "service_a1",
+      "ServiceName": "service_a",
+      "ServiceTags": ["primary", "v1"],
+      "ServiceAddress": "172.20.10.2",
+      "ServiceTaggedAddresses": {
+         "lan_ipv4": {
+            "Address": "172.20.10.2",
+            "Port": 9082
+         },
+         "wan_ipv4": {
+            "Address": "172.20.10.2",
+            "Port": 9082
+         }
+      },
+      "ServiceWeights": {
+         "Passing": 10,
+         "Warning": 1
+      },
+      "ServiceMeta": {},
+      "ServicePort": 9082,
+      "ServiceEnableTagOverride": false,
+      "ServiceProxy": {
+         "MeshGateway": {},
+         "Expose": {}
+      },
+      "ServiceConnect": {},
+      "CreateIndex": 46,
+      "ModifyIndex": 124
    }, {
-   	"ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
-   	"Node": "agent-one",
-   	"Address": "172.23.0.2",
-   	"Datacenter": "dc1",
-   	"TaggedAddresses": {
-   		"lan": "172.23.0.2",
-   		"lan_ipv4": "172.23.0.2",
-   		"wan": "172.23.0.2",
-   		"wan_ipv4": "172.23.0.2"
-   	},
-   	"NodeMeta": {
-   		"consul-network-segment": ""
-   	},
-   	"ServiceKind": "",
-   	"ServiceID": "service_a2",
-   	"ServiceName": "service_a",
-   	"ServiceTags": ["primary", "v1"],
-   	"ServiceAddress": "172.20.10.2",
-   	"ServiceTaggedAddresses": {
-   		"lan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9081
-   		},
-   		"wan_ipv4": {
-   			"Address": "172.20.10.2",
-   			"Port": 9081
-   		}
-   	},
-   	"ServiceWeights": {
-   		"Passing": 10,
-   		"Warning": 1
-   	},
-   	"ServiceMeta": {},
-   	"ServicePort": 9081,
-   	"ServiceEnableTagOverride": false,
-   	"ServiceProxy": {
-   		"MeshGateway": {},
-   		"Expose": {}
-   	},
-   	"ServiceConnect": {},
-   	"CreateIndex": 47,
-   	"ModifyIndex": 125
+      "ID": "7a36c6f1-f701-9c67-8db8-7b8551d36b4a",
+      "Node": "agent-one",
+      "Address": "172.23.0.2",
+      "Datacenter": "dc1",
+      "TaggedAddresses": {
+         "lan": "172.23.0.2",
+         "lan_ipv4": "172.23.0.2",
+         "wan": "172.23.0.2",
+         "wan_ipv4": "172.23.0.2"
+      },
+      "NodeMeta": {
+         "consul-network-segment": ""
+      },
+      "ServiceKind": "",
+      "ServiceID": "service_a2",
+      "ServiceName": "service_a",
+      "ServiceTags": ["primary", "v1"],
+      "ServiceAddress": "172.20.10.2",
+      "ServiceTaggedAddresses": {
+         "lan_ipv4": {
+            "Address": "172.20.10.2",
+            "Port": 9081
+         },
+         "wan_ipv4": {
+            "Address": "172.20.10.2",
+            "Port": 9081
+         }
+      },
+      "ServiceWeights": {
+         "Passing": 10,
+         "Warning": 1
+      },
+      "ServiceMeta": {},
+      "ServicePort": 9081,
+      "ServiceEnableTagOverride": false,
+      "ServiceProxy": {
+         "MeshGateway": {},
+         "Expose": {}
+      },
+      "ServiceConnect": {},
+      "CreateIndex": 47,
+      "ModifyIndex": 125
    }]
-   ```
+  ```
+
 ## 创建路由
 
 ### 添加路由
@@ -227,23 +226,23 @@ $ curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f
 
 ```json
 {
-	"value": {
-		"status": 1,
-		"uri": "\/*",
-		"update_time": 1674029322,
-		"id": "1",
-		"upstream": {
-			"hash_on": "vars",
-			"discovery_type": "consul",
-			"pass_host": "pass",
-			"scheme": "http",
-			"service_name": "service_a",
-			"type": "roundrobin"
-		},
-		"create_time": 1674029322,
-		"priority": 0
-	},
-	"key": "\/apisix\/routes\/1"
+   "value": {
+      "status": 1,
+      "uri": "\/*",
+      "update_time": 1674029322,
+      "id": "1",
+      "upstream": {
+         "hash_on": "vars",
+         "discovery_type": "consul",
+         "pass_host": "pass",
+         "scheme": "http",
+         "service_name": "service_a",
+         "type": "roundrobin"
+      },
+      "create_time": 1674029322,
+      "priority": 0
+   },
+   "key": "\/apisix\/routes\/1"
 }
 ```
 
