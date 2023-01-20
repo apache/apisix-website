@@ -13,9 +13,7 @@ keywords:
   - Keycloak
 description: This guest blog shares how to expose the APISIX Dashboard using APISIX to authenticate access with the OpenID-Connect plugin and Keycloak server to manage identities.
 tags:
-  - APISIX Basics
-  - API Gateway Concepts
-  - Authorization & Authentication
+  - Ecosystem
 cover: https://static.apiseven.com/uploads/2023/01/19/FKDU7U6j_blog01a.png
 ---
 
