@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX 集成原生 Consul 服务发现能力"
+title: "Apache APISIX 集成原生 Consul 的服务发现能力"
 authors:
   - name: "李奕浩"
     title: "Author"
@@ -10,10 +10,14 @@ keywords:
 - Consul
 - 服务发现
 - 服务注册
-description: 云原生 API 网关 Apache APISIX 支持基于 Consul 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。
+description: 云原生 API 网关 Apache APISIX 支持原生 Consul 的服务发现能力。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---
+
+> Apache APISIX 支持原生 Consul 的服务发现能力。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。
+
+<!--truncate-->
 
 ## 背景
 

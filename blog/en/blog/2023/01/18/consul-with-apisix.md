@@ -15,6 +15,10 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---
 
+> Apache APISIX supports the Consul service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.
+
+<!--truncate-->
+
 ## Background
 
 ### About Apache APISIX
