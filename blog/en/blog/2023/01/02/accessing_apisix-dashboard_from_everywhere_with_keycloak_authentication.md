@@ -2,7 +2,7 @@
 title: "Accessing APISIX-Dashboard from Everywhere with Keycloak Authentication"
 authors:
   - name: "Busico Mirto Silvio"
-    title: ""
+    title: "Author"
     url: "https://github.com/MirtoBusico"
     image_url: "https://avatars.githubusercontent.com/u/11090934?s=400&u=644e4f87c2fad56760f6eb4f46cbcb4db059880a&v=4"
 keywords:
@@ -37,14 +37,14 @@ Here I'll present instructions, examples, code and screenshots taken from my hom
 
 The framework used in this article consists of some KVM virtual machines (from now VM):
 
-| VM Name | Role | Services | Description |
-|-------------|------|----------|-------------|
-|   hdev      |  Development    |kubectl, istioctl, helm          | workstation from where manage the cluster   |
-|   hserv     |  external services    | DNS server, Nginx, Keycloak          | services used by the cluster VM and external users            |
-|   hkm       | Kubernetes master     | master node         | control plane manager for K8S            |
-|   hkw1      | K8S worker 1    | first worker node         |     node for hosting pods        |
-|   hkw2      | K8S worker 2    | second worker node         |     node for hosting pods        |
-|   hkw3      | K8S worker 3    | third worker node         |     node for hosting pods        |
+| VM Name | Role              | Services                    | Description                                        |
+| ------- | ----------------- | --------------------------- | -------------------------------------------------- |
+| hdev    | Development       | kubectl, istioctl, helm     | workstation from where manage the cluster          |
+| hserv   | external services | DNS server, Nginx, Keycloak | services used by the cluster VM and external users |
+| hkm     | Kubernetes master | master node                 | control plane manager for K8S                      |
+| hkw1    | K8S worker 1      | first worker node           | node for hosting pods                              |
+| hkw2    | K8S worker 2      | second worker node          | node for hosting pods                              |
+| hkw3    | K8S worker 3      | third worker node           | node for hosting pods                              |
 
 The **hserv** VM have two lan cards: one on an external lan to expose services and one an internal lan to communicate with the Kubernetes (from now K8S) cluster.
 All the other VM are only connected to the internal lan.
