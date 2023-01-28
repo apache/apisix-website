@@ -1038,7 +1038,7 @@ Create a new user
 
 Set the username to **“hcadmin”** and click **“Create”**
 
-![k6k11](https://github.com/MirtoBusico/assets-for-blogs/blob/main/k6k11.png)
+![k6k11](https://static.apiseven.com/uploads/2023/01/28/YEwkpnnp_k6k11.png)
 
 In the **“Credentials”** tab click **“Set password”** (same procedure for "Reset" password)
 
