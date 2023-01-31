@@ -25,12 +25,12 @@ module.exports = [
   {
     name: 'APISIX® Ingress Controller',
     nameInParamCase: 'ingress-controller',
-    description: 'An Apache APISIX control plane component.',
+    description: 'APISIX Ingress Controller for Kubernetes.',
     shape: 'hexagon',
     color: '#2563EB',
     githubRepo: 'apache/apisix-ingress-controller',
-    version: '1.3.0',
-    releaseDate: '2021-10-17',
+    version: '1.6.0',
+    releaseDate: '2022-12-30',
     firstDocPath: '/getting-started',
   },
   {
