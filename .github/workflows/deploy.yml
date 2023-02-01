@@ -55,7 +55,7 @@ jobs:
             ./doc/node_modules
             ./website/node_modules
             ./blog/node_modules
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-deps-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
         run: |
@@ -96,9 +96,9 @@ jobs:
             ./blog/en/build
             ./blog/zh/.docusaurus
             ./blog/zh/build
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
+          key: ${{ runner.os }}-deps-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
           restore-keys: |
-            ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+            ${{ runner.os }}-deps-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Build
         run: |
