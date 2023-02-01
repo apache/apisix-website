@@ -24,3 +24,6 @@ MD040: false
 
 # MD041/first-line-heading/first-line-h1 First line in file should be a top level heading
 MD041: false
+
+# MD036/emphasis used instead of a header
+MD036: false
