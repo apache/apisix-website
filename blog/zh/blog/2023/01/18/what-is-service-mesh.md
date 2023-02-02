@@ -25,7 +25,7 @@ tags: [Ecosystem]
 <!--truncate-->
 
 > 作者[lingsamuel](https://github.com/lingsamuel)，API7.ai 云原生技术专家，Apache APISIX Committer。
-> 
+>
 > 作者[林志煌](https://github.com/oil-oil)，API7.ai 技术工程师，Apache APISIX contributor。
 
 **服务网格是一种技术架构，它用于管理微服务系统中各个服务之间的通信，旨在处理微服务间的流量（也称为东西向流量）。**
