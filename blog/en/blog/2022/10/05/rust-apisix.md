@@ -11,7 +11,7 @@ keywords:
 - Rust
 - WebAssembly
 description: This article describes how to redevelop the response-rewrite plugin using Rust and WebAssembly.
-tags: [Case Studies]
+tags: [Plugins]
 image: https://static.apiseven.com/2022/10/28/635b5378cdd1f.png
 ---
 
