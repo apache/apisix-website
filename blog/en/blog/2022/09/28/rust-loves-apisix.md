@@ -11,7 +11,7 @@ keywords:
 - Rust
 - WebAssembly
 description: This article shows the steps to perform to develop and deploy WebAssembly plugins from Rust.
-tags: [Case Studies]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/08/634113b161cce.png
 ---
 
