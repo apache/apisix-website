@@ -18,7 +18,7 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
->作者[暴渊](https://github.com/Baoyuantop)，API7.ai 技术工程师，Apache APISIX Committer。
+> 作者[暴渊](https://github.com/Baoyuantop)，API7.ai 技术工程师，Apache APISIX Committer。
 
 近些年随着云原生和微服务架构的日趋发展，API 网关以流量入口的角色在技术架构中扮演着越来越重要的作用。**API 网关主要负责接收所有请求的流量并进行处理转发至上游服务，API 网关的策略决定了 API 网关处理这些流量的逻辑与规则，直接决定了实际的业务流量行为。**
 
@@ -88,7 +88,7 @@ curl -i http://127.0.0.1:8080/hello -H 'apikey: jack-key'
 
 APISIX 在收到这一请求后会从请求中解析出 Key，然后从配置的所有 Key 中找到和这个请求匹配的 Consumer `jack`，这样网关就清楚这个请求是 `jack` 发出的。如果没有找到匹配的 Key 即可判定为非法请求。
 
-### JSON Web Token
+### JSON Web Token（JWT）
 
 JSON Web Token (JWT) 是一个开放的[标准](https://www.rfc-editor.org/rfc/rfc7519)，它定义了一种以 json 对象形式在各方之间安全传递信息的方式。JWT 策略可以集认证和授权于一身，在用户取得授权后会向用户传输一个 JWT Token，在后面的所有请求中调用方都会携带这个 Token 从而保证请求是被授权的。
 
