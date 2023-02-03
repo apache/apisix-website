@@ -11,7 +11,7 @@ keywords:
 - Open Source
 - API Management
 description: This article introduces how the cloud native API gateway Apache APISIX solves the business pain points and usage scenarios brought by Nginx and Kong.
-tags: [Case Studies]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/07/636916ea65769.png
 ---
 

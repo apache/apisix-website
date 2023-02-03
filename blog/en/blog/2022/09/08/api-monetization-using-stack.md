@@ -14,7 +14,7 @@ keywords:
 - Rate limiting
 - Quota
 description: 💁🏼 This blog post gives you an idea of building your technology stack with an API Gateway and a payment provider that can help you run quickly and securely your API monetization system which simply provides flexibility for your customers.
-tags: [Case Studies]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/25/6357addd22a01.png
 ---
 

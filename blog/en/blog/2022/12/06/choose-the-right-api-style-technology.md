@@ -12,7 +12,7 @@ keywords:
   - API Technologies
   - API resources
 description: "How to decide on the right API style and which technology to choose for a style."
-tags: [Case Studies]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/12/06/638e30968ec3e.png
 ---
 

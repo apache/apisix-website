@@ -11,7 +11,7 @@ keywords:
   - Cache
   - Performance
 description: "The subject of Web resource caching is as old as the World Wide Web itself. However, I'd like to offer an as-exhaustive-as-possible catalog of how one can improve performance by caching. Web resource caching can happen in two different places: client-side - on the browser and server-side. This post is dedicated to the former; the next post will focus on the latter."
-tags: [Case Studies]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/12/13/63981dcbe4b0c.jpg
 ---
 

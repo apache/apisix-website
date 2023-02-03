@@ -11,7 +11,7 @@ keywords:
 - System architecture
 - Mciroservices
 description: The Backend-For-Frontend pattern describes how to return different data for each client in a microservices architecture. This article goes through the code required to implement the different possible implementations.
-tags: [Case Studies]
+tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/03/63634494405e7.png
 ---
 
