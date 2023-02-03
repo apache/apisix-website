@@ -44,6 +44,33 @@ const ThemeResetComponent = () => {
   return (null);
 };
 
+// structured data for improved SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "softwareApplication",
+  name: "Apache APISIX",
+  alternateName: "APISIX",
+  description: "Open source and cloud native API gateway, based on the Nginx library and etcd.",
+  abstract: "High-performance, cloud-native, open source API Gateway from the Apache Software Foundation.",
+  url: "https://apisix.apache.org",
+  thumbnailUrl:
+    "https://raw.githubusercontent.com/apache/apisix/master/logos/apisix-white-bg.jpg",
+  sameAs: [
+    "https://twitter.com/ApacheAPISIX",
+    "https://github.com/apache/apisix",
+    "https://www.youtube.com/@apacheapisix",
+    "https://www.linkedin.com/company/apache-apisix/",
+  ],
+  isPartOf: "Apache Software Foundation",
+  maintainer: "Apache Software Foundation",
+  contributor: [
+    "API7.ai",
+    "Tencent",
+    "Zhihu",
+    "Alibaba Cloud",
+  ],
+};
+
 const Index: FC = () => (
   <Layout>
     <ThemeResetComponent />
@@ -64,6 +91,11 @@ const Index: FC = () => (
         name="og:description"
         content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
       />
+
+      <script type="application/ld+json">
+        { JSON.stringify(structuredData) }
+      </script>
+
     </Head>
     <HeroSection />
     <Architecture />
