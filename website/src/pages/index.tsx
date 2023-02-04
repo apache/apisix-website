@@ -63,12 +63,6 @@ const structuredData = {
   ],
   isPartOf: "Apache Software Foundation",
   maintainer: "Apache Software Foundation",
-  contributor: [
-    "API7.ai",
-    "Tencent",
-    "Zhihu",
-    "Alibaba Cloud",
-  ],
 };
 
 const Index: FC = () => (
