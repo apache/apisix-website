@@ -16,11 +16,11 @@ description: 本文中介绍了 Kubernetes 中证书的默认存储方式，以�
 tags: [Ecosystem]
 ---
 
-> 本文中介绍了 Kubernetes 中证书的默认存储方式，以及这种方式存在的一些痛点。cert-manager 的出现比较好的解决了这些问题，逐步成为了 Kubernetes 生态中证书签发/管理领域中的事实标准。
+> Cert Manager 解决了 Kubernetes 中证书的默认存储方式的痛点，并逐步成为了 Kubernetes 生态中证书签发和管理领域中的事实标准。
 
 <!--truncate-->
 
-> 作者[张晋涛](https://github.com/tao12345666333)，API7.ai 云原生工程师，Apache APISIX Committer。
+> 作者[张晋涛](https://github.com/tao12345666333)，API7.ai 云原生工程师，Apache APISIX PMC。
 
 [Apache APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller) 是一款以 [Apache APISIX](http://apisix.apache.org/) 作为数据面的 [Kubernetes Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) 开源工具，目前已经更新到 [v1.3](https://github.com/apache/apisix-ingress-controller/blob/master/CHANGELOG.md#130) 版本，实现了如证书管理、负载均衡、金丝雀发布等功能。
 
@@ -38,7 +38,7 @@ tags: [Ecosystem]
 2. 安装 [kubectl](https://kubernetes.io/docs/tutorials/hello-minikube/)
 3. 安装 [Helm v3](https://helm.sh/)
 
->请注意，下文所有的操作都将在 ingress-apisix 命名空间中执行，因此需要先创建该命名空间：`kubectl create namespace ingress-apisix`
+> 请注意，下文所有的操作都将在 ingress-apisix 命名空间中执行，因此需要先创建该命名空间：`kubectl create namespace ingress-apisix`
 
 ## 步骤二：安装 Apache APISIX Ingress Controller
 
@@ -113,7 +113,7 @@ NAME                                     COMPLETIONS   DURATION   AGE
 job.batch/cert-manager-startupapicheck   1/1           6m24s      45m
 ```
 
->[Kubernetes Controller Manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/) 的机制决定了 Pod 名称会有所不同。
+> [Kubernetes Controller Manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/) 的机制决定了 Pod 名称会有所不同。
 
 ## 步骤四：申请证书并测试
 
@@ -136,7 +136,8 @@ spec:
 kubectl apply -f issuer.yaml
 ```
 
->请注意，自签名颁发对象不推荐使用在生产环境中！更多证书颁发对象的配置请参考[这里](https://cert-manager.io/docs/configuration/)。
+> 请注意，自签名颁发对象不推荐使用在生产环境中！更多证书颁发对象的配置请参考[这里](https://cert-manager.io/docs/configuration/)。
+
 然后为域名 `httpbin.org` 创建一张证书。
 
 ```yaml
