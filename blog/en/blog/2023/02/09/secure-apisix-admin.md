@@ -1,13 +1,14 @@
 ---
-title: Securing Admin access to Apache APISIX
+title: Securing Admin Access to Apache APISIX
 authors:
   - name: Nicolas Fränkel
     title: Author
     url: https://github.com/nfrankel
     image_url: https://avatars.githubusercontent.com/u/752258
 keywords:
-  - Security
+  - API gateway security
   - Admin API
+  - how to secure API gateway
 description: >
   API Gateways are critical components in one's infrastructure. If an attacker could change the configuration of routes, they could direct traffic to their infrastructure. Consequences could range from data theft to financial losses. Worse, data theft could only be noticed after a long time by mirroring the load. Hence, protecting your API Gateway is of utmost importance
 tags: [Ecosystem]
@@ -22,7 +23,7 @@ image: https://blog.frankel.ch/assets/resources/secure-apisix-admin/security-g85
     <link rel="canonical" href="https://blog.frankel.ch/secure-apisix-admin/" />
 </head>
 
-In this short blog post, I'll list a couple of ways to secure your Apache APISIX admin access.
+In this short blog post, I'll list a couple of ways to secure your [Apache APISIX](https://apisix.apache.org/) admin access.
 
 ## Change admin tokens
 
@@ -72,7 +73,7 @@ A server can have multiple IPs from different network adapters. For example, an 
 * One public-facing adapter to be reachable from the Internet
 * One internal for inside access
 
-By default, Apache APISIX will bind itself to all network adapters found on the server at startup. The above scenario means it will be reachable **from the Internet**. We should restrict access from the inside only.
+By default, [Apache APISIX](https://github.com/apache/apisix) will bind itself to all network adapters found on the server at startup. The above scenario means it will be reachable **from the Internet**. We should restrict access from the inside only.
 
 We can set which network interface Apache APISIX can bind to in the configuration:
 
