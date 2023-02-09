@@ -9,13 +9,12 @@ keywords:
   - API gateway security
   - Admin API
   - how to secure API gateway
-description: >
-  API Gateways are critical components in one's infrastructure. If an attacker could change the configuration of routes, they could direct traffic to their infrastructure. Consequences could range from data theft to financial losses. Worse, data theft could only be noticed after a long time by mirroring the load. Hence, protecting your API Gateway is of utmost importance
+description: API Gateways are critical components in one's infrastructure. If an attacker could change the configuration of routes, they could direct traffic to their infrastructure. Consequences could range from data theft to financial losses. Worse, data theft could only be noticed after a long time by mirroring the load. Hence, protecting your API Gateway is of utmost importance
 tags: [Ecosystem]
 image: https://blog.frankel.ch/assets/resources/secure-apisix-admin/security-g85f9e284f.jpg
 ---
 
->API Gateways are critical components in one's infrastructure. If an attacker could change the configuration of routes, they could direct traffic to their infrastructure. Consequences could range from data theft to financial losses. Worse, data theft could only be noticed after a long time by mirroring the load. Hence, protecting your API Gateway is of utmost importance.
+> API Gateways are critical components in one's infrastructure. If an attacker could change the configuration of routes, they could direct traffic to their infrastructure. Consequences could range from data theft to financial losses. Worse, data theft could only be noticed after a long time by mirroring the load. Hence, protecting your API Gateway is of utmost importance.
 
 <!--truncate-->
 
@@ -102,7 +101,7 @@ deployment:
       #- "::/64"                                                                #1
 ```
 
-1. Change it according to your network topology
+1. Change it according to your network topology.
 
 ## Mutual TLS
 
