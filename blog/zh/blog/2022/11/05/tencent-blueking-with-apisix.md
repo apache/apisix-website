@@ -162,7 +162,7 @@ image: https://static.apiseven.com/2022/12/06/638ef9eda7617.png
 
 ![服务发现实践](https://static.apiseven.com/2022/11/14/6371a5d9e162f.png)
 
-将上述 CRD 资源写入 K8s 集群后，就会触发服务发现ff相关的控制器的相关动作。之后调和器（Reconciler）会捕获到对应的服务发现配置，创建服务发现相关的程序对象。
+将上述 CRD 资源写入 K8s 集群后，就会触发服务发现相关的控制器的相关动作。之后调和器（Reconciler）会捕获到对应的服务发现配置，创建服务发现相关的程序对象。
 
 然后它会通过内置的服务发现接口（包含 Watcher、Lister）读取服务发现中心的相关地址信息，将获取到的地址通过 BkGatewayEndpoints 这个 CRD 资源重新写回到 K8s 集群内。再经由右侧的核心 Operator 进行一些复杂处理后，这些 endpoints 最终被同步到 APISIX 对应的上游中，一次完整的服务发现流程就此完成。
 
