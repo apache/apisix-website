@@ -56,7 +56,7 @@ Here’s a list of activities you can do to get started contributing:
 Have you already contributed to some of the above activities during the last 2 months?
 Please, claim your [Recognition of Valuable Contribution](https://docs.google.com/forms/d/e/1FAIpQLSeulo9oMf7PIsSeJwPnlZwNdPiWqPN_VgoCSd8cd8g9n8JmRg/viewform) Certification from the Apache APISIX PMC Chair.
 
-![Certification Apache APISIX](https://static.apiseven.com/uploads/2023/01/28/P0DOwR0Z_image.png)
+![Certification Apache APISIX](https://static.apiseven.com/uploads/2023/02/09/5ZjlxCPK_Certificate111.psd.png)
 
 ## Become a Committer
 
