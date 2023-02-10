@@ -260,6 +260,6 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 例如，这个例子表示将请求 /orders 路径的 API 中响应为 200 的状态的请求修改为 201。
 APISIX 支持非常丰富的插件，期待你去挖掘更多的玩法。
 
-## **总结**
+## 总结
 
 本文详细说明了什么是 API，什么是 RESTful API 以及其最佳实践。另外还介绍了如何通过 APISIX 来实现业务逻辑和安全逻辑分离，如何使用 APISIX 在不改动原有业务代码的情况下将历史 API 服务更加 RESTful。希望本文对你了解 RESTful API 有所帮助，也欢迎你来 GitHub 一起玩耍。
