@@ -12,7 +12,7 @@ keywords:
 - Apache APISIX
 description: 本文整理盘点了 2022 年度 Top10 高阅读量文章，其中包括技术原理、生态共建、行业知识科普、流行插件实操教程等，建议收藏。
 tags: [Ecosystem]
-image: https://static.apiseven.com/uploads/2023/02/07/ykW3pViS_top10.png
+image: https://static.apiseven.com/uploads/2023/02/10/mIPzfTQf_top10_2.png
 ---
 
 > 本文整理盘点了 2022 年度 Top10 高阅读量文章，其中包括技术原理、生态共建、行业知识科普、流行插件实操教程等，建议收藏。
