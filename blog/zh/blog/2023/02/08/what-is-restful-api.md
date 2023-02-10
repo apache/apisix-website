@@ -18,7 +18,7 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-> 作者孙毅，API7.ai 技术工程师，Apache APISIX Committer
+> 作者[孙毅](https://github.com/litesun)，API7.ai 技术工程师，Apache APISIX Committer
 
 万物互联的世界充满着各式各样的 API ，如何统筹规范 API 至关重要。[RESTful API](https://en.wikipedia.org/wiki/Representational_state_transfer) 是目前世界上最流行的 API 架构风格之一，它可以帮助你实现客户端与服务端关注点分离，让前后端各自迭代，提升管理效率；其无状态的特性可以让应用更容易扩展，更容易的实现缓存策略从而提升系统性能和用户体验。本文将介绍什么是 RESTful API 以及我们如何使用它。
 
