@@ -63,27 +63,27 @@ Roy Fielding 在他 2000 年的博士论文《建筑风格和基于网络的软�
 使用 HTTP 方法来表达资源操作行为，而不是将行为动词定义到路径中。
 
 ```shell
-// Good
+# Good
 curl -X GET http://httpbin.org/orders
 
-// Bad
+# Bad
 curl -X GET "http://httpbin.org/getOrders"
 ```
 
 * GET 获取指定 URI 的资源信息
 
 ```shell
-// 代表获取当前系统的所有订单信息
+# 代表获取当前系统的所有订单信息
 curl -X GET http://httpbin.org/orders
 
-// 代表获取订单编号为 1 的订单详情信息
+# 代表获取订单编号为 1 的订单详情信息
 curl -X GET http://httpbin.org/orders/1
 ```
 
 * POST 通过指定的 URI 创建资源
 
 ```plain
- // 代表创建一个名称为 order 的资源
+# 代表创建一个名称为 order 的资源
 curl -X POST http://httpbin.org/orders \
   -d '{"name": "awesome", region: "A"}' \
 ```
@@ -91,7 +91,7 @@ curl -X POST http://httpbin.org/orders \
 * PUT 创建或全量替换指定 URI 上的资源
 
 ```shell
- // 代表将 id 为 1 的 order 进行数据替换
+# 代表将 id 为 1 的 order 进行数据替换
 curl -X PUT http://httpbin.org/orders/1 \
   -d '{"name": "new awesome", region: "B"}' \
 ```
@@ -99,7 +99,7 @@ curl -X PUT http://httpbin.org/orders/1 \
 * PATCH 执行一个资源的部分更新
 
 ```shell
- // 代表将 id 为 1 的 order 中的 region 字段进行更改，其他数据保持不变
+# 代表将 id 为 1 的 order 中的 region 字段进行更改，其他数据保持不变
 curl -X PATCH http://httpbin.org/orders/1 \
   -d '{region: "B"}' \
 ```
@@ -107,7 +107,7 @@ curl -X PATCH http://httpbin.org/orders/1 \
 * DELETE 通过指定的 URI 移除资源
 
 ```shell
- // 代表将 id 为 1 的 order 删除
+# 代表将 id 为 1 的 order 删除
 curl -X DELETE http://httpbin.org/orders/1
 ```
 
@@ -180,9 +180,9 @@ curl  http://httpbin.org/orders -H "custom-version: v2"
 
 ### 分层系统：支持业务逻辑和安全逻辑的分割
 
-你可以只用关注业务逻辑的实现，接口的安全逻辑可以交给 APISIX Authentication 类插件处理，例如 [key-auth](https://apisix.apache.org/docs/apisix/plugins/key-auth)。APISIX 支持大量的 Authentication 插件，我们以 [openid-connet](https://apisix.apache.org/docs/apisix/plugins/openid-connect/)为例如下图所示：
+你可以只用关注业务逻辑的实现，接口的安全逻辑可以交给 APISIX Authentication 类插件处理，例如 [key-auth](https://apisix.apache.org/docs/apisix/plugins/key-auth)。APISIX 支持大量的 Authentication 插件，我们以 [openid-connet](https://apisix.apache.org/docs/apisix/plugins/openid-connect/) 为例如下图所示：
 
-![APISIX的作用](https://static.apiseven.com/uploads/2023/02/10/YP0k3mhR_3873553149.png)
+![APISIX 的作用](https://static.apiseven.com/uploads/2023/02/10/YP0k3mhR_3873553149.png)
 
  我们可以看到，使用 APISIX（API Gateway）在业务服务器前面加一层认证逻辑，就可以起到保护上游服务的作用，让你的业务逻辑和安全逻辑高效解耦。
 
@@ -257,7 +257,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 }'
 ```
 
-例如，这个例子表示将请求 /orders 路径的 API 中响应为 200 的状态的请求修改为 201。
+例如，这个例子表示将请求 `/orders` 路径的 API 中响应为 `200` 的状态的请求修改为 `201`。
 APISIX 支持非常丰富的插件，期待你去挖掘更多的玩法。
 
 ## 总结
