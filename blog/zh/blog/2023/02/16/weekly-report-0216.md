@@ -36,7 +36,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 问题描述：对 OIDC 认证相关的自定义配置进行验证，以便用户对不合规配置限制其向后端访问。
 
-### Issue 1075
+### Issue #1075
 
 链接：[https://github.com/apache/apisix-ingress-controller/issues/1075](https://github.com/apache/apisix-ingress-controller/issues/1075)
 
