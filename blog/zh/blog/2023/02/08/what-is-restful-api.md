@@ -146,30 +146,30 @@ HTTP 标准定义个状态码，大致可以分为以下几类：
 * 通过请求中路径来做版本控制
 
 ```shell
-// 请求 v1 版本的API
+# 请求 v1 版本的API
 curl  http://httpbin.org/v1/orders
 
-// 请求 v2 版本的API
+# 请求 v2 版本的API
 curl  http://httpbin.org/v2/orders
 ```
 
 * 通过 Query 参数来做版本控制
 
 ```shell
-// 请求 v1 版本的API
+# 请求 v1 版本的API
 curl  http://httpbin.org/orders?version=v1
 
-// 请求 v2 版本的API
+# 请求 v2 版本的API
 curl  http://httpbin.org/v2/orders?version=v2
 ```
 
 * 通过 Header 来做版本控制
 
 ```shell
-// 请求 v1 版本的API
+# 请求 v1 版本的API
 curl  http://httpbin.org/orders -H "custom-version: v1"
 
-// 请求 v2 版本的API
+# 请求 v2 版本的API
 curl  http://httpbin.org/orders -H "custom-version: v2"
 ```
 
