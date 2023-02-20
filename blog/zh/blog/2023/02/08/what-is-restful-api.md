@@ -10,7 +10,6 @@ keywords:
 - Apache APISIX
 - API
 description: 本文将介绍什么是 RESTful API 以及我们如何使用它。
-
 tags: [Ecosystem]
 ---
 
