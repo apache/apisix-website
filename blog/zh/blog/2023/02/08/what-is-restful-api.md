@@ -231,7 +231,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 
 #### 使用 [response-rewrite](https://apisix.apache.org/docs/apisix/plugins/response-rewrite/) 插件改写服务端响应
 
-当我们的历史 API 存在响应状态码不规范时，我们可以通过 response-rewrite 代理 response 响应从而达到修改响应状态码的目的。
+当我们的历史 API 存在响应状态码不规范时，我们可以通过 `response-rewrite` 代理 response 响应从而达到修改响应状态码的目的。
 
 ```shell
 curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
