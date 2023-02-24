@@ -301,6 +301,12 @@ module.exports = [
         githubUsername: 'Navendu Pottekkat',
         avatarUrl: 'https://avatars.githubusercontent.com/u/49474499?v=4',
       },
+      {
+        name: 'Hengliang Tan',
+        username: 'gallardot',
+        githubUsername: 'Gallardot',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/329265?v=4',
+      },
     ],
   },
 ];
