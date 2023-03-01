@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/02/01/Uoq4Nykd_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%A4%B4%E5%9B%BE-02%E5%91%A8.png
 ---
 
-> 从 2023.1.2 - 2023.1.15，有 21 位开发者为 Apache APISIX 提交了 41 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 2023.1.16 - 2023.1.29，有 21 位开发者为 Apache APISIX 提交了 41 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 
 <!--truncate-->
 
@@ -27,6 +27,20 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 ![贡献者名单](https://static.apiseven.com/uploads/2023/02/01/AL9SEc50_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5-02%E5%91%A8.png)
 
 ![新晋贡献者](https://static.apiseven.com/uploads/2023/02/01/jQX92Uq2_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E6%96%B0%E6%99%8B%E6%B5%B7%E6%8A%A5-02%E5%91%A8.png)
+
+## Good First Issue
+
+### Issue #8772
+
+**链接**：https://github.com/apache/apisix/issues/8772
+
+**问题描述**：对 OIDC 认证相关的自定义配置进行验证，以便用户对不合规配置限制其向后端访问。
+
+### Issue #1075
+
+**链接**：https://github.com/apache/apisix-ingress-controller/issues/1075
+
+**问题描述**：为 APISIX Ingress 增加使用 apisix:dev 的回归测试，以便尽早发现与 APISIX 最新修改的兼容问题。
 
 ## 近期功能特性亮点
 
