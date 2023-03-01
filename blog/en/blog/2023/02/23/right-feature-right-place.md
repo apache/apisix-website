@@ -18,7 +18,7 @@ description: >
 
   It seems logical that people in this situation try to solve problems with the solutions they are most familiar with. However, it doesn't mean it's the best approach. It's a bad one in most cases.
 tags: [Ecosystem]
-image: https://blog.frankel.ch/assets/resources/right-feature-right-place/choice-geedae7b7e.jpg
+image: https://static.apiseven.com/uploads/2023/03/01/UTBANOhW_choice-geedae7b7e1.jpg
 ---
 
 > Before moving to Developer Relations, I transitioned from Software Architect to Solution Architect long ago. It's a reasonably common career move. The problem in this situation is two-fold:
