@@ -193,20 +193,20 @@ You write policies in a specific interpreted language named [Rego](https://www.o
 ```rego
 package ch.frankel.blog.secureboot
 
-employees := data.hierarchy                                 //1
+employees := data.hierarchy                                 #1
 
 default allow := false
 
 # Allow users to get their own salaries.
 allow {
-    input.path == ["finance", "salary", input.user]         //2
+    input.path == ["finance", "salary", input.user]         #2
 }
 
 # Allow managers to get their subordinates' salaries.
 allow {
     some username
-    input.path = ["finance", "salary", username]            //3
-    employees[input.user][_] == username                    //3
+    input.path = ["finance", "salary", username]            #3
+    employees[input.user][_] == username                    #3
 }
 ```
 
