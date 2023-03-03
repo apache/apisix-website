@@ -10,6 +10,8 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/03/01/8dHeqsLZ_%E9%A3%9E%E4%B9%A620230301-134627.png
 ---
 
+<!--truncate-->
+
 ## Introduction
 
 Apache APISIX grew up as a community from the first day it was open-sourced, and quickly became the most active open-source API gateway project in the world. These achievements are inseparable from the joint efforts of community partners.
