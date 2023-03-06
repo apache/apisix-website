@@ -3,7 +3,7 @@
 /**
  * @type {Array<string>} version list
  */
-const versions = ['2.12', '2.13', '2.14', '2.15', '3.0', '3.1'];
+const versions = ['2.12', '2.13', '2.14', '2.15', '3.0', '3.1', '3.2'];
 
 /**
  * @type {Array<string>} LTS version list
