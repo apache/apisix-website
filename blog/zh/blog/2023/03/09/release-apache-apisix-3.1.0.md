@@ -95,7 +95,7 @@ curl --location --request PUT 'http://localhost:9180/apisix/admin/routes/1' \
 }'
 ```
 
-这里 query 是我们要用到的查询语句，variables 是事先声明的变量列表。
+这里 `query` 是我们要用到的查询语句，`variables` 是事先声明的变量列表。
 
 接下来就能像 RESTful 接口一样访问它：
 
