@@ -52,7 +52,7 @@ $ curl http://127.0.0.1:9180/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f
 
 在 3.2 版本中，APISIX 新增了一个能将 RESTful 请求转成 graphQL 的插件。假如你有这样的 GraphQL 查询语句：
 
-```json
+```
 query($name: String!, $githubAccount: String!) {
   persons(filter: { name: $name, githubAccount: $githubAccount }) {
     id
@@ -201,7 +201,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 假设你有下面的 JSON 模板：`{"foo":"{{name .. " world"}}","bar":{{age+10}}}`，并把它配置到 body-transformer 插件的 `request.template` 字段中：
 
-```json
+```
       ...
       "body-transformer": {
           "request": {
