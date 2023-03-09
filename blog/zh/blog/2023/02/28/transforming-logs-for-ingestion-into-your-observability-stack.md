@@ -19,7 +19,6 @@ tags: [Ecosystem]
 
 > 作者[钱勇](https://github.com/nic-6443)，API7.ai 技术工程师，Apache APISIX Committer
 
-
 ## 网关日志的价值
 
 在数字化时代，软件架构随着业务成长而变得越来越复杂，这给故障的发现和排查都带来了非常大的挑战，进一步倒逼软件重视自身的可观测性能力。
