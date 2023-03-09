@@ -50,7 +50,7 @@ $ curl http://127.0.0.1:9180/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f
 
 ## 新插件：RESTful 请求转 graphQL
 
-在 3.2 版本中，APISIX 新增了一个能将 RESTful 请求转成 graphQL 的插件。假如你有这样的 GraphQL 查询语句：
+在 3.2 版本中，APISIX 新增了一个能将 RESTful 请求转成 GraphQL 的插件。假如你有这样的 GraphQL 查询语句：
 
 ```
 query($name: String!, $githubAccount: String!) {
@@ -221,6 +221,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 * `error-log-logger` 插件支持发送错误日志到 Kafka
 * `limit-count` 插件支持返回 `X-RateLimit-Reset` 响应头
+
 等等。
 
 如果你对完整的内容感兴趣，请参考 3.2 发布的 CHANGELOG：[https://github.com/apache/apisix/blob/release/3.2/docs/zh/latest/CHANGELOG.md#320](https://github.com/apache/apisix/blob/release/3.2/docs/zh/latest/CHANGELOG.md#320)
