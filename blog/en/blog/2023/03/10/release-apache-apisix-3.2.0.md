@@ -219,7 +219,7 @@ Then when the request content is `{"name":"hello","age":20}`, the rewritten `{"f
 
 The rewriting of upstream output is similar, except that the `response.template` field of the plugin needs to be configured.
 
-## New features: optimizations and more small features
+## More new features: optimizations and more small features
 
 In addition to the several big features mentioned above, this release contains several changes worth mentioning.
 
