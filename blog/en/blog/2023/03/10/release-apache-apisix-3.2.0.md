@@ -143,7 +143,7 @@ You can also use the GET request to access the same interface, then the paramete
 curl 'http://localhost:9080/graphql?name=Niek&githubAccount=npalm'
 ```
 
-## New feature: Support for setting log format on each log plugin
+## New feature: support for setting log format on each log plugin
 
 In version 3.2.0, we sorted out more than ten existing access log plugins of APISIX. Each plugin now supports configuring custom log formats:
 
