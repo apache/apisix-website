@@ -50,7 +50,7 @@ $ curl http://127.0.0.1:9180/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f
 
 In this way, when accessing stream_routes, the upstream node will obtain it from the APISIX-NACOS service of Nacos.
 
-## New plugin: RESTful request to graphQL
+## New plugin: RESTful request to GraphQL
 
 In version 3.2.0, APISIX added a plugin that converts RESTful requests into GraphQL. For example, suppose you have a GraphQL query like this:
 
