@@ -48,7 +48,7 @@ $ curl http://127.0.0.1:9180/apisix/admin/stream_routes/1 -H 'X-API-KEY: edd1c9f
 
 这样访问 stream_routes 时，上游的节点会从 Nacos 的 APISIX-NACOS 服务中获取。
 
-## 新插件：RESTful 请求转 graphQL
+## 新插件：RESTful 请求转 GraphQL
 
 在 3.2 版本中，APISIX 新增了一个能将 RESTful 请求转成 GraphQL 的插件。假如你有这样的 GraphQL 查询语句：
 
