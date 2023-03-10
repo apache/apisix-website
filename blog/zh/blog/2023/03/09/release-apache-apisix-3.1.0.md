@@ -199,7 +199,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 `body-transformer` 插件支持 JSON 和 XML 之间的互相转换。不过这并非是它唯一能做的事。它还支持通过模板配置输入输出的内容的具体格式。举个例子，
 
-假设你有下面的 JSON 模板：`{"foo":"{{name .. " world"}}","bar":{{age+10}}}`，并把它配置到 body-transformer 插件的 `request.template` 字段中：
+假设你有下面的 JSON 模板：`{"foo":"{{name .. " world"}}","bar":{{age+10}}}`，并把它配置到 `body-transformer` 插件的 `request.template` 字段中：
 
 ```
       ...
