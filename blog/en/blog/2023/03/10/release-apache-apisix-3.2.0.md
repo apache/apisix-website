@@ -52,7 +52,7 @@ In this way, when accessing stream_routes, the upstream node will obtain it from
 
 ## New plugin: RESTful request to graphQL
 
-In version 3.2.0, APISIX added a plugin that converts RESTful requests into graphQL. For example, suppose you have a GraphQL query like this:
+In version 3.2.0, APISIX added a plugin that converts RESTful requests into GraphQL. For example, suppose you have a GraphQL query like this:
 
 ```
 query($name: String!, $githubAccount: String!) {
