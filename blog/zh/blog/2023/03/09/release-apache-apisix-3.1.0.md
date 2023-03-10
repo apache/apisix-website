@@ -211,7 +211,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
       ...
 ```
 
-那么当请求内容为 `{"name":"hello","age":20}`，发送给上游的是改写之后的 `{"foo":"hello world","bar":30}`。我们采用了 lua-resty-template 来渲染模板，所以你可以在模板中嵌入 Lua 表达式来实现改写逻辑。
+那么当请求内容为 `{"name":"hello","age":20}`，发送给上游的是改写之后的 `{"foo":"hello world","bar":30}`。我们采用了 `lua-resty-template` 来渲染模板，所以你可以在模板中嵌入 Lua 表达式来实现改写逻辑。
 
 对上游输出的改写也是类似的，只是需要配置的是插件的 `response.template` 字段。
 
