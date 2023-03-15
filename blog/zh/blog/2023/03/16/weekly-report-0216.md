@@ -36,6 +36,8 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [增加 `degraphql` 插件，允许用户通过配置将请求映射至固定的 GraphQL 查询](https://github.com/apache/apisix/pull/8959)（贡献者：[spacewander](https://github.com/spacewander)）
 
+### Apache APISIX Ingress Controller
+
 - 为 APISIX Ingress 的自定义资源增加 IngressClass 支持，允许同一集群中同时部署多套 Ingress controller 并使用自定义资源。贡献者：[AlinsRan](https://github.com/AlinsRan)，[lingsamuel](https://github.com/lingsamuel)，[Donghui0](https://github.com/Donghui0)，相关 PR：
 
 - [feat: make multiple controllers handle different ApisixRoute CRDs](https://github.com/apache/apisix/pull/8696)
