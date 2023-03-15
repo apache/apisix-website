@@ -1,7 +1,7 @@
 ---
 title: "当 Amazon Lambda 遇上 Apache APISIX 可以擦出什么火花？"
 authors:
-  - name: "陈小兰"
+  - name: "程小兰"
     title: "Author"
     url: "https://github.com/Hazel6869"
     image_url: "https://github.com/Hazel6869.png"
