@@ -40,7 +40,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - 为 APISIX Ingress 的自定义资源增加 IngressClass 支持，允许同一集群中同时部署多套 Ingress controller 并使用自定义资源。贡献者：[AlinsRan](https://github.com/AlinsRan)，[lingsamuel](https://github.com/lingsamuel)，[Donghui0](https://github.com/Donghui0)，相关 PR：
 
-- [feat: make multiple controllers handle different ApisixRoute CRDs](https://github.com/apache/apisix/pull/8696)
+- [feat: make multiple controllers handle different ApisixRoute CRDs](https://github.com/apache/apisix-ingress-controller/pull/593)
 - [feat: ApisixUpstream support IngressClass](https://github.com/apache/apisix-ingress-controller/pull/1674)
 - [feat: ApisixTls suuport ingressClass](https://github.com/apache/apisix-ingress-controller/pull/1714)
 - [feat: support ingressClass for ApisixPluginConfig](https://github.com/apache/apisix-ingress-controller/pull/1716)
