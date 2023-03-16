@@ -43,7 +43,8 @@
     "build:blog:zh:preview:serve": "yarn build:blog:zh:preview && yarn serve:blog:zh",
     "build:blog:en:preview:serve": "yarn build:blog:en:preview && yarn serve:blog:en",
     "prepare": "husky install",
-    "prepare-data": "yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts"
+    "prepare-data": "yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@julian_cataldo/remark-lint-frontmatter-schema": "^3.6.2",
@@ -73,5 +74,9 @@
     "*.{yml,yaml}": "eslint --cache --fix",
     "*.{scss,css}": "stylelint --cache --fix",
     "*.{md}": "remark ./blog/{en,zh}/blog/**/*.md --quiet"
+  },
+  "dependencies": {
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

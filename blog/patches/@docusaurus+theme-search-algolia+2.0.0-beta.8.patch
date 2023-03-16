@@ -1,0 +1,238 @@
+diff --git a/node_modules/@docusaurus/theme-search-algolia/src/theme/SearchPage/index.js b/node_modules/@docusaurus/theme-search-algolia/src/theme/SearchPage/index.js
+index 8c3ac8b..046f990 100644
+--- a/node_modules/@docusaurus/theme-search-algolia/src/theme/SearchPage/index.js
++++ b/node_modules/@docusaurus/theme-search-algolia/src/theme/SearchPage/index.js
+@@ -7,7 +7,7 @@
+ 
+ /* eslint-disable jsx-a11y/no-autofocus */
+ 
+-import React, {useEffect, useState, useReducer, useRef} from 'react';
++import React, { useEffect, useState, useReducer, useRef } from 'react';
+ 
+ import algoliaSearch from 'algoliasearch/lite';
+ import algoliaSearchHelper from 'algoliasearch-helper';
+@@ -22,15 +22,15 @@ import {
+   useDynamicCallback,
+ } from '@docusaurus/theme-common';
+ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+-import {useAllDocsData} from '@theme/hooks/useDocs';
++import { useAllDocsData } from '@theme/hooks/useDocs';
+ import useSearchQuery from '@theme/hooks/useSearchQuery';
+ import Layout from '@theme/Layout';
+-import Translate, {translate} from '@docusaurus/Translate';
++import Translate, { translate } from '@docusaurus/Translate';
+ import styles from './styles.module.css';
+ 
+ // Very simple pluralization: probably good enough for now
+ function useDocumentsFoundPlural() {
+-  const {selectMessage} = usePluralForm();
++  const { selectMessage } = usePluralForm();
+   return (count) =>
+     selectMessage(
+       count,
+@@ -41,7 +41,7 @@ function useDocumentsFoundPlural() {
+             'Pluralized label for "{count} documents found". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+           message: 'One document found|{count} documents found',
+         },
+-        {count},
++        { count },
+       ),
+     );
+ }
+@@ -53,13 +53,13 @@ function useDocsSearchVersionsHelpers() {
+   // docsPluginId -> versionName map
+   const [searchVersions, setSearchVersions] = useState(() => {
+     return Object.entries(allDocsData).reduce((acc, [pluginId, pluginData]) => {
+-      return {...acc, [pluginId]: pluginData.versions[0].name};
++      return { ...acc, [pluginId]: pluginData.versions[0].name };
+     }, {});
+   });
+ 
+   // Set the value of a single select menu
+   const setSearchVersion = (pluginId, searchVersion) =>
+-    setSearchVersions((s) => ({...s, [pluginId]: searchVersion}));
++    setSearchVersions((s) => ({ ...s, [pluginId]: searchVersion }));
+ 
+   const versioningEnabled = Object.values(allDocsData).some(
+     (docsData) => docsData.versions.length > 1,
+@@ -74,7 +74,7 @@ function useDocsSearchVersionsHelpers() {
+ }
+ 
+ // We want to display one select per versioned docs plugin instance
+-const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
++const SearchVersionSelectList = ({ docsSearchVersionsHelpers }) => {
+   const versionedPluginEntries = Object.entries(
+     docsSearchVersionsHelpers.allDocsData,
+   )
+@@ -121,15 +121,15 @@ function SearchPage() {
+   const {
+     siteConfig: {
+       themeConfig: {
+-        algolia: {appId, apiKey, indexName},
++        algolia: { appId, apiKey, indexName },
+       },
+     },
+-    i18n: {currentLocale},
++    i18n: { currentLocale },
+   } = useDocusaurusContext();
+   const documentsFoundPlural = useDocumentsFoundPlural();
+ 
+   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
+-  const {searchQuery, setSearchQuery} = useSearchQuery();
++  const { searchQuery, setSearchQuery } = useSearchQuery();
+   const initialSearchResultState = {
+     items: [],
+     query: null,
+@@ -140,13 +140,13 @@ function SearchPage() {
+     loading: null,
+   };
+   const [searchResultState, searchResultStateDispatcher] = useReducer(
+-    (prevState, {type, value: state}) => {
++    (prevState, { type, value: state }) => {
+       switch (type) {
+         case 'reset': {
+           return initialSearchResultState;
+         }
+         case 'loading': {
+-          return {...prevState, loading: true};
++          return { ...prevState, loading: true };
+         }
+         case 'update': {
+           if (searchQuery !== state.query) {
+@@ -186,9 +186,9 @@ function SearchPage() {
+ 
+   algoliaHelper.on(
+     'result',
+-    ({results: {query, hits, page, nbHits, nbPages}}) => {
++    ({ results: { query, hits, page, nbHits, nbPages } }) => {
+       if (query === '' || !(hits instanceof Array)) {
+-        searchResultStateDispatcher({type: 'reset'});
++        searchResultStateDispatcher({ type: 'reset' });
+         return;
+       }
+ 
+@@ -202,10 +202,10 @@ function SearchPage() {
+       const items = hits.map(
+         ({
+           url,
+-          _highlightResult: {hierarchy},
++          _highlightResult: { hierarchy },
+           _snippetResult: snippet = {},
+         }) => {
+-          const {pathname, hash} = new URL(url);
++          const { pathname, hash } = new URL(url);
+           const titles = Object.keys(hierarchy).map((key) => {
+             return sanitizeValue(hierarchy[key].value);
+           });
+@@ -240,40 +240,40 @@ function SearchPage() {
+   const prevY = useRef(0);
+   const observer = useRef(
+     ExecutionEnvironment.canUseDOM &&
+-      new IntersectionObserver(
+-        (entries) => {
+-          const {
+-            isIntersecting,
+-            boundingClientRect: {y: currentY},
+-          } = entries[0];
+-
+-          if (isIntersecting && prevY.current > currentY) {
+-            searchResultStateDispatcher({type: 'advance'});
+-          }
++    new IntersectionObserver(
++      (entries) => {
++        const {
++          isIntersecting,
++          boundingClientRect: { y: currentY },
++        } = entries[0];
++
++        if (isIntersecting && prevY.current > currentY) {
++          searchResultStateDispatcher({ type: 'advance' });
++        }
+ 
+-          prevY.current = currentY;
+-        },
+-        {threshold: 1},
+-      ),
++        prevY.current = currentY;
++      },
++      { threshold: 1 },
++    ),
+   );
+ 
+   const getTitle = () =>
+     searchQuery
+       ? translate(
+-          {
+-            id: 'theme.SearchPage.existingResultsTitle',
+-            message: 'Search results for "{query}"',
+-            description: 'The search page title for non-empty query',
+-          },
+-          {
+-            query: searchQuery,
+-          },
+-        )
++        {
++          id: 'theme.SearchPage.existingResultsTitle',
++          message: 'Search results for "{query}"',
++          description: 'The search page title for non-empty query',
++        },
++        {
++          query: searchQuery,
++        },
++      )
+       : translate({
+-          id: 'theme.SearchPage.emptyResultsTitle',
+-          message: 'Search the documentation',
+-          description: 'The search page title for empty query',
+-        });
++        id: 'theme.SearchPage.emptyResultsTitle',
++        message: 'Search the documentation',
++        description: 'The search page title for empty query',
++      });
+ 
+   const makeSearch = useDynamicCallback((page = 0) => {
+     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+@@ -302,10 +302,10 @@ function SearchPage() {
+   }, [loaderRef]);
+ 
+   useEffect(() => {
+-    searchResultStateDispatcher({type: 'reset'});
++    searchResultStateDispatcher({ type: 'reset' });
+ 
+     if (searchQuery) {
+-      searchResultStateDispatcher({type: 'loading'});
++      searchResultStateDispatcher({ type: 'loading' });
+ 
+       setTimeout(() => {
+         makeSearch();
+@@ -414,10 +414,10 @@ function SearchPage() {
+         {searchResultState.items.length > 0 ? (
+           <main>
+             {searchResultState.items.map(
+-              ({title, url, summary, breadcrumbs}, i) => (
++              ({ title, url, summary, breadcrumbs }, i) => (
+                 <article key={i} className={styles.searchResultItem}>
+                   <h2 className={styles.searchResultItemHeading}>
+-                    <Link to={url} dangerouslySetInnerHTML={{__html: title}} />
++                    <Link to={url} dangerouslySetInnerHTML={{ __html: title }} target="__blank" />
+                   </h2>
+ 
+                   {breadcrumbs.length > 0 && (
+@@ -433,7 +433,7 @@ function SearchPage() {
+                             className="breadcrumbs__item"
+                             // Developer provided the HTML, so assume it's safe.
+                             // eslint-disable-next-line react/no-danger
+-                            dangerouslySetInnerHTML={{__html: html}}
++                            dangerouslySetInnerHTML={{ __html: html }}
+                           />
+                         ))}
+                       </ul>
+@@ -445,7 +445,7 @@ function SearchPage() {
+                       className={styles.searchResultItemSummary}
+                       // Developer provided the HTML, so assume it's safe.
+                       // eslint-disable-next-line react/no-danger
+-                      dangerouslySetInnerHTML={{__html: summary}}
++                      dangerouslySetInnerHTML={{ __html: summary }}
+                     />
+                   )}
+                 </article>
