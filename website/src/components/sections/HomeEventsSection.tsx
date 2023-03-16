@@ -12,8 +12,11 @@ interface EventInfo {
 }
 
 const Events: FC = () => {
-  const { siteConfig } = useDocusaurusContext();
-  const events = (siteConfig.customFields.events as EventInfo[]).slice(0, 4).map((event) => {
+  const { siteConfig, i18n: { currentLocale } } = useDocusaurusContext();
+
+  const currentEvent = (siteConfig.customFields.events[currentLocale]
+    || siteConfig.customFields.events.en) as EventInfo[];
+  const events = currentEvent.slice(0, 4).map((event) => {
     const publishTime = event.fileName.slice(0, 10);
     const fileNameArr = event.fileName.split('-');
     const url = `/blog/${fileNameArr.slice(0, 3).join('/')}/${fileNameArr.slice(3).join('-')}`;
@@ -22,7 +25,7 @@ const Events: FC = () => {
         <time dateTime={publishTime}>{publishTime}</time>
         <h4>{event.title}</h4>
         <div>
-          Read More
+          <Translate id="homeEventsSection.component.readMore">Read More</Translate>
           <div className={style.arrow}>
             <svg width="50%" height="100%" viewBox="0 0 256 256">
               <polygon
@@ -53,7 +56,8 @@ const HomeEventsSection: FC = () => (
       <p>
         <Translate id="homeEventsSection.component.message.news">
           Stay up to date about all Apache APISIX® News,
-        </Translate>{' '}
+        </Translate>
+        {' '}
         <a href="/docs/general/join/">
           <Translate id="homeEventsSection.component.link.newsletter">
             subscribe to our newsletter.

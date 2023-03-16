@@ -316,6 +316,9 @@
     "message": "请订阅我们的邮件列表",
     "description": "newsletter."
   },
+  "homeEventsSection.component.readMore": {
+    "message": "阅读更多"
+  },
   "homeEventsSection.component.link.Subscribe": {
     "message": "立即订阅",
     "description": "Subscribe"
