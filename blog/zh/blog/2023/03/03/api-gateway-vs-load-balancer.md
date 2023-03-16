@@ -1,8 +1,10 @@
 ---
 title: "API Gateway vs Load Balancer：选择适合你的网络流量管理组件"
-author: "陈泵"
-authorURL: "https://github.com/mscb402"
-authorImageURL: "https://github.com/mscb402.png"
+authors:
+  - name: "陈泵"
+    title: "Author"
+    url: "https://github.com/mscb402"
+    image_url: "https://github.com/mscb402.png"
 keywords: 
 - Apache APISIX
 - API 网关
