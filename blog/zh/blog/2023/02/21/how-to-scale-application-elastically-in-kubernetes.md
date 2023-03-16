@@ -1,8 +1,10 @@
 ---
 title: "如何使用 Kubernetes 实现应用程序的弹性伸缩"
-author: "张晋涛"
-authorURL: "https://github.com/tao12345666333"
-authorImageURL: "https://github.com/tao12345666333.png"
+authors:
+  - name: "张晋涛"
+    title: "Author"
+    url: "https://github.com/tao12345666333"
+    image_url: "https://github.com/tao12345666333.png"
 keywords: 
 - APISIX Ingress
 - Ingress
