@@ -20,8 +20,6 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
-We have also sorted out some issues for newcomers to the community to participate in! If you are interested, don't miss it!
-
 ## Contributor Statistics
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/03/14/0rjys38r_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5-05%E6%9C%9F.png)
