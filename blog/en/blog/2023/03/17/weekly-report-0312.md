@@ -60,14 +60,14 @@ Contributors：[AlinsRan](https://github.com/AlinsRan)，[lingsamuel](https://gi
 
 - [Make your security policy auditable](https://apisix.apache.org/blog/2023/03/02/security-policy-auditable/)
 
-This blog shows how you can leverage OPA and Apache APISIX to move your authentication and authorization logic from the code to the infrastructure. The former allows you to audit your security policies, the latter coherence among all your upstream across all tech stacks.
+	This blog shows how you can leverage OPA and Apache APISIX to move your authentication and authorization logic from the code to the infrastructure. The former allows you to audit your security policies, the latter coherence among all your upstream across all tech stacks.
 
 - [The right feature at the right place](https://apisix.apache.org/blog/2023/01/18/consul-with-apisix/)
 
-This blog takes the example of per-user rate limiting to show how one can implement it in a library and an infrastructure component. Then, the author generalized this example and gave a couple of guidelines.
+	This blog takes the example of per-user rate limiting to show how one can implement it in a library and an infrastructure component. Then, the author generalized this example and gave a couple of guidelines.
 
 - [How to Integrate API Gateway and Consul? Not Consul K/V](https://apisix.apache.org/blog/2023/01/18/consul-with-apisix/)
 
-Apache APISIX supports the Consul service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.
+	Apache APISIX supports the Consul service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
