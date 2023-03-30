@@ -48,6 +48,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [插件 `proxy-rewrite` 支持保存正则改写路由中间变量，提供 $ 开头的变量访问方式](https://github.com/apache/apisix/pull/9112)（贡献者：[monkeyDluffy6017](https://github.com/monkeyDluffy6017)）
 
-- [APISIX 默认路由匹配模式由 `radixtree_uri` 改为 `radixtree_host_uri`](https://github.com/apache/apisix/pull/9112)（贡献者：[monkeyDluffy6017](https://github.com/monkeyDluffy6017)）
+- [APISIX 默认路由匹配模式由 `radixtree_uri` 改为 `radixtree_host_uri`](https://github.com/apache/apisix/pull/9047)（贡献者：[monkeyDluffy6017](https://github.com/monkeyDluffy6017)）
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
