@@ -20,7 +20,7 @@ const DashboardPlayground = () => {
   return (
     <Link
       className={styles.dashboardLink}
-      to="http://20.210.250.99:9000/user/login/"
+      to="https://apisix-dashboard.apiseven.com/user/login/"
       target="_blank"
       rel="noopener noreferrer"
     >
