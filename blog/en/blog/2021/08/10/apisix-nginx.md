@@ -30,7 +30,7 @@ Apache APISIX is based on the Lua timer and the lua-resty-etcd module for dynami
 
 ## Configuration synchronization scheme based on etcd watch mechanism
 
-Managing a cluster must rely on a centralized configuration, and etcd is one such database. etcd was not chosen as the configuration center for Apache APISIX because it has two advantages.
+Managing a cluster must rely on a centralized configuration, and etcd is one such database. etcd was chosen as the configuration center for Apache APISIX because it has two advantages.
 
 * etcd uses the Paxos-like Raft protocol to guarantee data consistency, and it is a decentralized, distributed database that is more reliable than relational databases
 * etcd's watch mechanism allows clients to monitor changes to a key, i.e., if the value of a key like /nginx/http/upstream changes, the watch client will be notified immediately, as shown in the following figure.
