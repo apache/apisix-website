@@ -1,14 +1,14 @@
-import type { FC } from 'react';
-import React from 'react';
-import videojs from 'video.js';
-import type { VideoJsPlayerOptions, VideoJsPlayer } from 'video.js';
-import 'video.js/dist/video-js.min.css';
-import '../css/landing-sections/video.css';
+import type { FC } from "react";
+import React from "react";
+import videojs from "video.js";
+import type { VideoJsPlayerOptions, VideoJsPlayer } from "video.js";
+import "video.js/dist/video-js.min.css";
+import "../css/landing-sections/video.css";
 
 export interface VideoProps {
-    options: VideoJsPlayerOptions,
-    // eslint-disable-next-line react/require-default-props
-    onReady?: ((player: VideoJsPlayer) => void) | undefined
+  options: VideoJsPlayerOptions;
+  // eslint-disable-next-line react/require-default-props
+  onReady?: ((player: VideoJsPlayer) => void) | undefined;
 }
 
 export const Video: FC<VideoProps> = (props) => {
@@ -24,7 +24,7 @@ export const Video: FC<VideoProps> = (props) => {
       if (!videoElement) return;
 
       const player = videojs(videoElement, options, () => {
-        videojs.log('player is ready');
+        videojs.log("player is ready");
         onReady?.(player);
       });
       playerRef.current = player;
@@ -49,7 +49,10 @@ export const Video: FC<VideoProps> = (props) => {
   return (
     <div data-vjs-player>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video ref={videoRef} className="video-js vjs-big-play-centered" />
+      <video
+        ref={videoRef}
+        className="video-js vjs-big-play-centered video-player"
+      />
     </div>
   );
 };
