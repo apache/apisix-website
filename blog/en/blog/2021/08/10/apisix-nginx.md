@@ -1,7 +1,7 @@
 ---
 title: "APISIX Architecture: How to Dynamically Manage NGINX Cluster?"
 author: Hui Tao
-keywords: 
+keywords:
 - API Gateway
 - Apache APISIX
 - Nginx
@@ -48,7 +48,7 @@ Where the prefix /apisix can be changed in conf/config.yaml, e.g.
 
 ```yaml
 etcd:
-  host:  
+  host:
     - "http://127.0.0.1:2379"
   prefix: /apisix # apisix configurations prefix
 ```
