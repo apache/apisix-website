@@ -16,7 +16,6 @@ We are honored to have Lukasz Biegaj, the System Architect of Unity Group, as ou
 
 ## Background Information
 
-
 **1. Would you give me a quick overview of Unity Group?**
 
 Unity Group is one of the largest providers of e-commerce solutions in Poland. The company exists for 25 years and has been providing technology for the digital transformation of enterprises. Most of our clients are e-commerce companies. We offer support in business and technology consulting, as well as software development. 
