@@ -2,13 +2,12 @@
 title: "Simple to use, powerful, and enjoyable to use-Unity Group's user experience of APISIX in interview"
 description: "This is an interview with Lukasz Biegaj, a system architect of Unity Group. The interview is presented in a Q&A format. In this interview, Lukasz Biegaj will focus on the changes that APISIX has brought to their company."
 slug: "/blog/apisix-unity-group-q&a"
-category: "Technology & Products"
-site: ["api7.ai"]
+category: "Case Studies"
 cover_url: ""
 published_at: "2023-04-07 00:00:00 UTC"
-tags: ["APISIX", "Unity Group","AWS","Separation of Roles"]
-author_name: Zeng Qi
-author_avatar_url: ""
+tags: ["APISIX", "Unity Group", "AWS", "Separation of Roles"]
+author_name: Qi Zeng
+author_avatar_url: "https://avatars.githubusercontent.com/u/129834194?v=4"
 author_bio: ""
 canonical_url: ""
 ---
