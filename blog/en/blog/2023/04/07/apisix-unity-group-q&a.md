@@ -32,7 +32,7 @@ A few years ago, we had a process of designing and implementing applications tha
 
 This separation has become very blurred in recent years. Roles such as DevOps have emerged, and even developers themselves often want to be involved in deployment preparation or component selection.
 
-From the technical view, almost all components that we deploy require some form of HTTP communication. A few years ago, we used simple web servers, like the Apache Web Server. As the projects grew, we started using load balancers, like for example haproxy or nginx as they supported HTTP/2 before Apache2 and could be used as a reverse proxy. 
+From the technical view, almost all components that we deploy require some form of HTTP communication. A few years ago, we used simple web servers, like the Apache Web Server. As the projects grew, we started using load balancers, like for example HAProxy or NGINX as they supported HTTP/2 before Apache2 and could be used as a reverse proxy. 
 
 We also tried some strictly API Gateway solutions, but most were expensive and difficult to deploy and support.
 
