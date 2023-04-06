@@ -181,14 +181,13 @@ I'd say it's a Kubernetes-native, powerful, and simple-to-use API Gateway.
 
 **5. Could you please use one sentence to summarize your feeling about APISIX?**
 
-
 Simple to use, powerful, and enjoyable to use.
+
 ## Summary
-"Simple to use, powerful, and enjoyable to use." - This is the evaluation of APISIX by Lukasz Biegaj, the system architect of Unity Group. With its superior performance and Kubernetes-native and open-source features, APISIX has become the ultimate choice for Unity Group. APISIX allows Unity Group to easily set up an environment that can be accessed by development teams in multiple projects to quickly prototype, create, and deploy production-ready workloads, addressing the problem of strong separation of roles and reducing time costs. If you are facing the same problem as Unity Group, please feel free to contact us. By choosing APISIX, you will solve your problems effortlessly!
 
+"Simple to use, powerful, and enjoyable to use." - This is the evaluation of APISIX by Lukasz Biegaj, the system architect of Unity Group.
 
+With its superior performance and Kubernetes-native and open-source features, APISIX has become the ultimate choice for Unity Group. APISIX allows Unity Group to easily set up an environment that can be accessed by development teams in multiple projects to quickly prototype, create, and deploy production-ready workloads, addressing the problem of strong separation of roles and reducing time costs.
 
-
-
-
+If you are facing the same problem as Unity Group, please feel free to contact us. By choosing APISIX, you will solve your problems effortlessly!
 
