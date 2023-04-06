@@ -23,7 +23,7 @@ Unity Group is one of the largest providers of e-commerce solutions in Poland. T
 **2. Can you describe your role and your team?**
 
 
-I'm a System Architect working with a team of 11 devops engineers. We design, implement and launch large-scale sites mainly related to eCommerce.We often use cloud services and Kubernetes as a platform to launch applications.
+I'm a System Architect working with a team of 11 DevOps engineers. We design, implement and launch large-scale sites mainly related to eCommerce.We often use cloud services and Kubernetes as a platform to launch applications.
 
 **3. What was your team's process before using APISIX?**
 
