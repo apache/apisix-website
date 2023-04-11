@@ -1,6 +1,6 @@
 ---
 title: "Unity Group's APISIX Experience: User-friendly, Robust, and Delightful"
-description: "This is an interview with Lukasz Biegaj, a system architect of Unity Group. The interview is presented in a Q&A format. In this interview, Lukasz Biegaj will focus on the changes that APISIX has brought to their company."
+description: "Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview."
 slug: "/blog/apisix-unity-group-q&a"
 category: "Case Studies"
 cover_url: ""
