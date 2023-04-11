@@ -1,5 +1,5 @@
 ---
-title: "Unity Group's APISIX Experience: User-friendly, Robust, and Delightful"
+title: "Utilize APISIX in E-commerce: User-friendly, Robust, and Delightful"
 authors:
   - name: Qi Zeng
     title: Author
