@@ -13,6 +13,7 @@ description: Lukasz Biegaj, System Architect of Unity Group, shares the changes 
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/04/11/ezfWGPrZ_img_v2_a46a7006-fb19-4a45-a8f3-ac195e5cbcfg.png
 
+---
 > Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview.
 
 <!--truncate-->
