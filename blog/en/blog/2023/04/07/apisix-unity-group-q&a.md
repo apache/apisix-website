@@ -110,7 +110,7 @@ For projects using the APISIX, the time-to-market is considerably shorter and we
 
 **2. In the beginning, you had concerns about the maturity of APISIX; how do you feel about them now?**
 
-We're very used to using open-source projects, and it is of great concern for us for the projects to be actively maintained. We've run into some issues with the helm charts at the beginning, but there either were fixed quickly (a bug report for one was already being fixed and merged) or our patches were quickly accepted into the main branch. In summary, we feel that the project is active, that it cares about its users and we currently have no concerns about its development.
+We're very used to using open-source projects, and it is of great concern for us for the projects to be actively maintained. We've run into some issues with the helm charts at the beginning, but they either were fixed quickly (a bug report for one was already being fixed and merged) or our patches were quickly accepted into the main branch. In summary, we feel that the project is active, that it cares about its users and we currently have no concerns about its development.
 
 ## Future Goals
 
