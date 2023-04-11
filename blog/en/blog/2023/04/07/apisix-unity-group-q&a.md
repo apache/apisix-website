@@ -1,16 +1,21 @@
 ---
 title: "Unity Group's APISIX Experience: User-friendly, Robust, and Delightful"
-description: "Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview."
-slug: "/blog/apisix-unity-group-q&a"
-category: "Case Studies"
-cover_url: ""
-published_at: "2023-04-11T00:00:00Z"
-tags: ["APISIX", "Unity Group", "AWS", "Separation of Roles"]
-author_name: Qi Zeng
-author_avatar_url: "https://avatars.githubusercontent.com/u/129834194?v=4"
-author_bio: ""
-canonical_url: ""
----
+authors:
+  - name: Qi Zeng
+    title: Author
+    url: https://github.com/Qizeng-api7
+    image_url: https://github.com/Qizeng-api7.png
+keywords:
+  - APISIX
+  - Unity Group
+  - AWS
+description: Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview.
+tags: [Ecosystem]
+image: https://static.apiseven.com/uploads/2023/04/11/ezfWGPrZ_img_v2_a46a7006-fb19-4a45-a8f3-ac195e5cbcfg.png
+
+> Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview.
+
+<!--truncate-->
 
 We are honored to have Lukasz Biegaj, the System Architect of Unity Group, as our guest in this interview. Unity Group is one of the leading providers of e-commerce solutions in Poland. They have been facing the challenge of strong separation of roles, which has significantly increased their workload. This interview is presented in a Q&A format. Lukasz Biegaj will provide us with a detailed overview of the challenges that their company faced before adopting APISIX, the reasons behind selecting APISIX after comparing it with other alternatives, how APISIX resolved their pain points, and an overall assessment of their experience using APISIX.
 
