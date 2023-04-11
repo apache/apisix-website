@@ -128,7 +128,7 @@ Second challenge: Artificial Intelligence and Machine Learning in general. Every
 
 Create and deploy great projects. Provide more globally-used services. It's great to see your software used worldwide. 
 
-**3. Is there anything we can do to improve our product or process for working together in the future?**
+**3. Is there anything we can do to improve APISIX or process for working together in the future?**
 
 I don't like to nitpick, but if you're really interested, I have mixed feelings regarding the bitnami's etcd dependency. I'd like it replaced to not rely on a component delivered by a 3rd party.
 
