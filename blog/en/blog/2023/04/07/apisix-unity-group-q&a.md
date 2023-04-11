@@ -24,7 +24,7 @@ We are honored to have Lukasz Biegaj, the System Architect of Unity Group, as ou
 
 **1. Would you give me a quick overview of Unity Group?**
 
-Unity Group is one of the largest providers of e-commerce solutions in Poland. The company exists for 25 years and has been providing technology for the digital transformation of enterprises. Most of our clients are e-commerce companies. We offer support in business and technology consulting, as well as software development. 
+Unity Group is one of the largest providers of e-commerce solutions in Poland. The company exists for 25 years and has been providing technology for the digital transformation of enterprises. Most of our clients are e-commerce companies. We offer support in business and technology consulting, as well as software development.
 
 **2. Can you describe your role and your team?**
 
@@ -36,7 +36,7 @@ A few years ago, we had a process of designing and implementing applications tha
 
 This separation has become very blurred in recent years. Roles such as DevOps have emerged, and even developers themselves often want to be involved in deployment preparation or component selection.
 
-From the technical view, almost all components that we deploy require some form of HTTP communication. A few years ago, we used simple web servers, like the Apache Web Server. As the projects grew, we started using load balancers, like for example Haproxy or NGINX as they supported HTTP/2 before Apache2 and could be used as a reverse proxy. 
+From the technical view, almost all components that we deploy require some form of HTTP communication. A few years ago, we used simple web servers, like the Apache Web Server. As the projects grew, we started using load balancers, like for example Haproxy or NGINX as they supported HTTP/2 before Apache2 and could be used as a reverse proxy.
 
 We also tried some strictly API Gateway solutions, but most were expensive and difficult to deploy and support.
 
@@ -45,7 +45,6 @@ We also tried some strictly API Gateway solutions, but most were expensive and d
 I am not privy to the cost aspects and do not want to be. My focus is on technicalities and solutions that are good in a technical way.
 
 What I do know is that we rejected many closed-source solutions because the cost of implementing and maintaining them was high. Even leaving aside the licensing issues, just maintaining the knowledge was expensive.
-
 
 **5. What were the major pain points of your process before using APISIX?**
 
@@ -124,7 +123,7 @@ Second challenge: Artificial Intelligence and Machine Learning in general. Every
 
 **2. What’s your plan for the next half year?**
 
-Create and deploy great projects. Provide more globally-used services. It's great to see your software used worldwide. 
+Create and deploy great projects. Provide more globally-used services. It's great to see your software used worldwide.
 
 **3. Is there anything we can do to improve APISIX or process for working together in the future?**
 
@@ -140,8 +139,8 @@ Simple to use, powerful, and enjoyable to use.
 
 ## Summary
 
-"Simple to use, powerful, and enjoyable to use." - This is the evaluation of APISIX by Lukasz Biegaj, a System Architect of Unity Group. 
+"Simple to use, powerful, and enjoyable to use." - This is the evaluation of APISIX by Lukasz Biegaj, a System Architect of Unity Group.
 
-With its superior performance and Kubernetes-native and open-source features, APISIX has become the ultimate choice for Unity Group. APISIX allows Unity Group to easily set up an environment that can be accessed by development teams in multiple projects to quickly prototype, create, and deploy production-ready workloads, addressing the problem of strong separation of roles and reducing time costs. 
+With its superior performance and Kubernetes-native and open-source features, APISIX has become the ultimate choice for Unity Group. APISIX allows Unity Group to easily set up an environment that can be accessed by development teams in multiple projects to quickly prototype, create, and deploy production-ready workloads, addressing the problem of strong separation of roles and reducing time costs.
 
 If you are facing the same problem as Unity Group, please feel free to contact us. By choosing APISIX, you will solve your problems effortlessly!
