@@ -15,7 +15,7 @@ image: https://static.apiseven.com/uploads/2023/04/11/ezfWGPrZ_img_v2_a46a7006-f
 
 ---
 > Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview.
-
+"Simple to use, powerful, and enjoyable to use." - This is the evaluation of APISIX by Lukasz Biegaj
 <!--truncate-->
 
 We are honored to have Lukasz Biegaj, the System Architect of Unity Group, as our guest in this interview. Unity Group is one of the leading providers of e-commerce solutions in Poland. They have been facing the challenge of strong separation of roles, which has significantly increased their workload. This interview is presented in a Q&A format. Lukasz Biegaj will provide us with a detailed overview of the challenges that their company faced before adopting APISIX, the reasons behind selecting APISIX after comparing it with other alternatives, how APISIX resolved their pain points, and an overall assessment of their experience using APISIX.
@@ -115,8 +115,6 @@ We're very used to using open-source projects, and it is of great concern for us
 ## Future Goals
 
 **1. What are the biggest challenges on the horizon for your industry?**
-
-There is a great document describing trends that my company foresees: https://www.unitygroup.com/blog/e-commerce-development-in-2023-trends-and-expert-tips/
 
 From my perspective, the key challenges are:
 
