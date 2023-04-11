@@ -4,7 +4,7 @@ description: "Lukasz Biegaj, System Architect of Unity Group, shares the changes
 slug: "/blog/apisix-unity-group-q&a"
 category: "Case Studies"
 cover_url: ""
-published_at: "2023-04-11 12:30:00"
+published_at: "2023-04-11T00:00:00Z"
 tags: ["APISIX", "Unity Group", "AWS", "Separation of Roles"]
 author_name: Qi Zeng
 author_avatar_url: "https://avatars.githubusercontent.com/u/129834194?v=4"
