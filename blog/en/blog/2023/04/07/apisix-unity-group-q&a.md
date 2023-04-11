@@ -101,7 +101,7 @@ It allows us to easily set up an environment that can be perused by development 
 Single most obvious advanteage: the ease of use.
 More advantages: being Kubernetes-native and open-source.
 
-## Achievements after Using Our Products
+## Achievements after Using APISIX
 
 **1. By using APISIX, can you measure any improvements in productivity or time savings?**
 
