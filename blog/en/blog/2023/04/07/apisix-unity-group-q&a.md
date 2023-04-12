@@ -11,7 +11,7 @@ keywords:
   - AWS
 description: Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview.
 tags: [Ecosystem]
-image: https://static.apiseven.com/uploads/2023/04/11/ezfWGPrZ_img_v2_a46a7006-fb19-4a45-a8f3-ac195e5cbcfg.png
+image: https://static.apiseven.com/uploads/2023/04/12/3nO2O6PU_img_v2_9b8e4b36-7a1b-49ca-817d-baa509f2761g.png
 
 ---
 > Lukasz Biegaj, System Architect of Unity Group, shares the changes that APISIX has brought to their company in the interview.
