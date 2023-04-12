@@ -98,7 +98,7 @@ It allows us to easily set up an environment that can be perused by development 
 
 **4. What was the most obvious advantage you felt about APISIX?**
 
-Single most obvious advanteage: the ease of use.
+Single most obvious advantage: the ease of use.
 More advantages: being Kubernetes-native and open-source.
 
 ## Achievements after Using APISIX
