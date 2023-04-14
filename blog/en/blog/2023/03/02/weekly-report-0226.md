@@ -10,6 +10,8 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/03/01/8dHeqsLZ_%E9%A3%9E%E4%B9%A620230301-134627.png
 ---
 
+> From 2.13 to 2.26, 23 contributors submitted 51 commits for Apache APISIX. Thank you for your contributions to Apache APISIX.
+
 <!--truncate-->
 
 ## Introduction
