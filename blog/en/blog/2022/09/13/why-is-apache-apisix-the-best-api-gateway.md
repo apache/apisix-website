@@ -12,7 +12,17 @@ keywords:
   - The Best API Gateway
   - Apache APISIX
 description: Why is Apache APISIX the best API Gateway? We will compare multiple API gateways (Kong, Tyk, Gloo) in terms of the popularity among developers, open source licenses, performances, and the ecosystem as a whole.
-tags: [Technology, Products]
+tags:
+  [
+    Technology,
+    Products,
+    Case Studies,
+    Ecosystem,
+    Authentication,
+    Plugins,
+    Community,
+    Vulnerabilities,
+  ]
 image: https://static.apiseven.com/2022/11/05/6365f2b8be5a7.png
 ---
 
@@ -69,9 +79,9 @@ Under such circumstances, choosing an Apache Software Foundation(ASF)'s open sou
 
 A frequently asked question in the community: which one has the better performance, Envoy-based Gloo or NGINX-based APISIX? Although performance is not the most critical metric, it is inarguably the most direct metric. The table below shows the benchmark scores of Apache APISIX and Gloo. The QPS of Apache APISIX is 4.6 times that of Gloo, and the latency of Apache APISIX is merely 7% of Gloo’s.
 
-| **API Gateway** |                              Apache APISIX                               |                               Gloo Edge                                |
-| :-------------: | :----------------------------------------------------------------------: | :--------------------------------------------------------------------: |
-|     **QPS**     |                                  59122                                   |                                 12903                                  |
+| **API Gateway** |                                Apache APISIX                                |                                 Gloo Edge                                 |
+| :-------------: | :-------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
+|     **QPS**     |                                    59122                                    |                                   12903                                   |
 |   **Latency**   | 50.000% 470.00us<br/>75.000% 648.00us<br/>90.000% 0.89ms<br/>99.000% 1.60ms | 50.000% 6.80ms<br/>75.000% 9.25ms<br/>90.000% 11.32ms<br/>99.000% 17.06ms |
 
 The choice of NGINX or Envoy is not the main factor of the performance difference, but the underlying optimization APISIX did in its source code. Even compared to KONG, which is also NGINX-based, APISIX has a huge performance upper hand. The graph below is extracted from [GigaOm’s](https://gigaom.com/) report on testing Kong’s Enterprise Edition and AP7 Enterprise Edition ([You can contact us for the complete data](https://api7.ai/request-demo/)).
