@@ -142,10 +142,6 @@
         "description": "The plugin allows you to restrict access to a Service or a Route by either whitelisting or blacklisting IP addresses"
       },
       {
-        "name": "ip-restriction",
-        "description": "The plugin allows you to restrict access to a Service or a Route by either whitelisting or blacklisting IP addresses"
-      },
-      {
         "name": "ua-restriction",
         "description": "The plugin allows you to restrict access to a Route or Service based on the User-Agent header with an allowlist and a denylist"
       },
