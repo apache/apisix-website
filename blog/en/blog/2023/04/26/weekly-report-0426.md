@@ -32,9 +32,9 @@ We have also sorted out some issues for newcomers to the community to participat
 
 ### Apache APISIX
 
-- [Support bypassing Admin API Auth by configuration](https://github.com/apache/apisix/pull/9147)（Contributor:  [An-DJ](https://github.com/An-DJ)）
+- [Support bypassing Admin API Auth by configuration](https://github.com/apache/apisix/pull/9147)(Contributor: [An-DJ](https://github.com/An-DJ))
 
-- [Support store route's cert in secrets manager](https://github.com/apache/apisix/pull/9247)（Contributor:  [soulbird](https://github.com/soulbird)）
+- [Support store route's cert in secrets manager](https://github.com/apache/apisix/pull/9247)(Contributor: [soulbird](https://github.com/soulbird))
 
 ## Recent Blog Recommendations
 
