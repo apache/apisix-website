@@ -36,7 +36,7 @@ Options -Indexes
 
 Redirect 302 "/twitter" "https://twitter.com/ApacheAPISIX"
 Redirect 302 "/youtube" "https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"
-Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1pyti2k2u-8Mr0kw1~a6eP1o1y52cOKw"
+Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1ugrg37is-mFrbRqBEdpGWZ7_cuvvv0A"
 Redirect 302 "/community-meeting-signup" "https://docs.google.com/forms/d/1C9bIJ3eh0bQrBdv4rPGxHDUvX4giNQ_IRCmDDOQ2mgE/"
 Redirect 302 "/contributor-workshop-signup" "https://docs.google.com/forms/d/1LUER3R9-aFsUm7MhjVd_CM1xAGnkuWIe62prFH5aqAE/"
 Redirect 302 "/guest-blog-post" "https://forms.gle/unQpSm7FyqkfaSSP8/"
