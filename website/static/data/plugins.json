@@ -347,7 +347,7 @@
         "description": "The dubbo-proxy Plugin allows you to proxy HTTP requests to Apache Dubbo"
       },
       {
-        "name": "mqtt-proxye",
+        "name": "mqtt-proxy",
         "description": "The mqtt-proxy Plugin is used for dynamic load balancing with client_id of MQTT. It only works in stream mode"
       },
       {
