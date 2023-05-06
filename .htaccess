@@ -40,8 +40,8 @@ Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1ugrg37
 Redirect 302 "/community-meeting-signup" "https://docs.google.com/forms/d/1C9bIJ3eh0bQrBdv4rPGxHDUvX4giNQ_IRCmDDOQ2mgE/"
 Redirect 302 "/contributor-workshop-signup" "https://docs.google.com/forms/d/1LUER3R9-aFsUm7MhjVd_CM1xAGnkuWIe62prFH5aqAE/"
 Redirect 302 "/guest-blog-post" "https://forms.gle/unQpSm7FyqkfaSSP8/"
-Redirect 302 "/docs/apisix/getting-started" "/docs/apisix/getting-started/README"
-Redirect 302 "/zh/docs/apisix/getting-started" "/zh/docs/apisix/getting-started/README"
+Redirect 302 "/docs/apisix/getting-started/$" "/docs/apisix/getting-started/README/"
+Redirect 302 "/zh/docs/apisix/getting-started/$" "/zh/docs/apisix/getting-started/README/"
 
 Redirect 301 "/docs/apisix/install" "/docs/apisix/how-to-build/"
 Redirect 301 "/docs/apisix/architecture-design/plugin/" "/docs/apisix/architecture-design/plugin-config/"
