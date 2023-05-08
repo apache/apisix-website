@@ -89,4 +89,4 @@ In addition to the several major features mentioned above, this release also inc
 * Provide support for referencing variables captured by route rewrite in proxy-rewrite plugin in other plugins
 * The limit-count plugin provides username and ssl redis authentication methods
 
-If you are interested in the complete update details of the new release, please refer to the [CHANGELOG](https://github.com/apache/apisix/blob/release/3.3/docs/zh/latest/CHANGELOG.md released in 3.3.0 #330) of the 3.3.0 release.
+If you are interested in the complete update details of the new release, please refer to the [CHANGELOG](https://github.com/apache/apisix/blob/master/CHANGELOG.md#330) of the 3.3.0 release.
