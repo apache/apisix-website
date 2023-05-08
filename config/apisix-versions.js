@@ -8,7 +8,7 @@ const versions = ['2.12', '2.13', '2.14', '2.15', '3.0', '3.1', '3.2', '3.3'];
 /**
  * @type {Array<string>} LTS version list
  */
-const LTSVersions = ['2.15'];
+const LTSVersions = ['3.3'];
 
 /**
  * @type {{[origin: string]: string}} version display name mapping to origin name
