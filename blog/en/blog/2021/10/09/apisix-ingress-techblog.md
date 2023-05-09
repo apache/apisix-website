@@ -141,13 +141,13 @@ By using APISIX Ingress, you can achieve the effect of proportional traffic slic
 
 #### Step 1: Configure APISIX Upstream
 
-![Configure APISIX Upstream](https://static.apiseven.com/202108/1633765722480-edf8b1ec-98a4-4c18-bd3d-843c73f132bc.png)
+![Configure APISIX Upstream](https://static.apiseven.com/uploads/2023/05/09/BpWGcRfs_au.png)
 
 #### Step 2: Configure APISIX Route
 
 Configure `subset` and `weight` in `backends` to split the incoming user request traffic. The example below shows that 90% of the traffic will go to v1 and 10% of the traffic will go to v2.
 
-![Configure APISIX Route](https://static.apiseven.com/202108/1633765771090-1e51e66c-0979-43b4-852b-28f2284a5d4e.png)
+![Configure APISIX Route](https://static.apiseven.com/uploads/2023/05/09/PoSvDlQJ_ar.png)
 
 With the above two steps, it is very easy to slice and dice traffic proportionally to achieve scenarios like canary release.
 For more details, please refer to: [Traffic Segmentation in Apache APISIX Ingress Controller](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress-controller).

@@ -142,13 +142,13 @@ APISIX TLS 主要是为了进行证书的管理。如示例所示，用户可以
 
 #### 步骤一：配置 APISIX Upstream
 
-![配置 APISIX Upstream](https://static.apiseven.com/202108/1633765722480-edf8b1ec-98a4-4c18-bd3d-843c73f132bc.png)
+![配置 APISIX Upstream](https://static.apiseven.com/uploads/2023/05/09/BpWGcRfs_au.png)
 
 #### 步骤二：配置 APISIX Route
 
 通过在 `backends` 中去配置 `subset` 和 `weight`，来实现用户请求流量进入时的分流。如下图示例就是 90% 的流量会进入到 v1 中，10% 的流量进入到 v2 中。
 
-![配置 APISIX Route](https://static.apiseven.com/202108/1633765771090-1e51e66c-0979-43b4-852b-28f2284a5d4e.png)
+![配置 APISIX Route](https://static.apiseven.com/uploads/2023/05/09/PoSvDlQJ_ar.png)
 
 通过以上两步，就可以十分方便地按比例进行流量切分，实现类似灰度发布等场景需求。
 更多具体操作细节也可参考：[Apache APISIX Ingress Controller 中的流量切分](https://www.apiseven.com/zh/blog/traffic-split-in-apache-apisix-ingress-controller)。
