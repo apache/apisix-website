@@ -19,7 +19,7 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-> 作者[朱欣欣](https://github.com/ronething)，API7.ai 技术工程师。
+> 作者[郑玩星](https://github.com/ronething)，API7.ai 技术工程师。
 
 ## 什么是 API？什么是 API 管理？
 
