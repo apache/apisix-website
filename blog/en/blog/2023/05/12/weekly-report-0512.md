@@ -19,7 +19,6 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
-
 ## Contributor Statistics
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/05/12/E6TtjF4h_%E5%85%A8%E9%83%A8%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
@@ -35,7 +34,6 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 - [Support skipping mTLS authentication through whitelist](https://github.com/apache/apisix/pull/9322)（Contributor：[kingluo](https://github.com/kingluo)）
 
 - [Proxy-rewrite plugin supports multiple regex rewrite rules](https://github.com/apache/apisix/pull/9194)（Contributor：[fengxsong](https://github.com/fengxsong)）
-
 
 ## Recent Blog Recommendations
 
