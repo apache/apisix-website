@@ -23,7 +23,7 @@ We have also sorted out some issues for newcomers to the community to participat
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/05/24/lzFXl1Nk_contributors%20%282%29.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/05/24/yYk0cpo5_20230524.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/05/24/YL1CWg4i_new-contributors%20%281%29.png)
 
