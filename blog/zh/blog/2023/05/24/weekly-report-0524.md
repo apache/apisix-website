@@ -32,7 +32,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 - [Proxy-mirror 插件提供 grpc 与 grpcs 流量代理支持](https://github.com/apache/apisix/pull/9388)（贡献者：[Sn0rt](https://github.com/Sn0rt)）
 
 - [复用 etcd 链接，提升 etcd 读写吞吐](https://github.com/apache/apisix/pull/9420)（贡献者：[kingluo](https://github.com/kingluo)）
-  
-- [APISIX Ingress controller 项目移除了 v2beta3 版本的自定义资源支持](https://github.com/apache/apisix-ingress-controller/pull/1817)（贡献者：[tao12345666333](https://github.com/tao12345666333)）
+ 
+### Apache APISIX Ingress Controller
+
+- [Apache APISIX Ingress Controller 项目移除了 v2beta3 版本的自定义资源支持](https://github.com/apache/apisix-ingress-controller/pull/1817)（贡献者：[tao12345666333](https://github.com/tao12345666333)）
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
