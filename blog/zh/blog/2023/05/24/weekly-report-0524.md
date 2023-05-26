@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/05/21/MUFArk4t_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE.png
 ---
 
-> 从 2023.5.08 - 2023.5.22，有 33 位开发者为 Apache APISIX 提交了 92 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+> 从 2023.5.08 - 2023.5.22，有 24 位开发者为 Apache APISIX 提交了 44 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 <!--truncate-->
 
 ## 导语
@@ -21,9 +21,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 贡献者统计
 
-![贡献者名单](https://static.apiseven.com/uploads/2023/05/24/yYk0cpo5_20230524.png)
+![贡献者名单](https://static.apiseven.com/uploads/2023/05/26/NXSJe8NY_Untitled.png)
 
-![新晋贡献者](https://static.apiseven.com/uploads/2023/05/24/YL1CWg4i_new-contributors%20%281%29.png)
+![新晋贡献者](https://static.apiseven.com/uploads/2023/05/26/nrrzBEPe_Untitled%20%281%29.png)
 
 ## 近期亮点功能
 
