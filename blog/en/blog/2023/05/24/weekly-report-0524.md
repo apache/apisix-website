@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/05/21/Y0065svK_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> From 5.08 to 5.22, 33 contributors submitted 92 commits for Apache APISIX. Thank you for your contributions to Apache APISIX.
+> From 5.08 to 5.22, 24 contributors submitted 44 commits for Apache APISIX. Thank you for your contributions to Apache APISIX.
 <!--truncate-->
 
 ## Introduction
@@ -23,9 +23,9 @@ We have also sorted out some issues for newcomers to the community to participat
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/05/24/yYk0cpo5_20230524.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/05/26/NXSJe8NY_Untitled.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/05/24/YL1CWg4i_new-contributors%20%281%29.png)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/05/26/nrrzBEPe_Untitled%20%281%29.png)
 
 ## Highlights of Recent Features
 
