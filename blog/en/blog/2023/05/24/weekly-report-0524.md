@@ -33,7 +33,7 @@ We have also sorted out some issues for newcomers to the community to participat
 
 - [Proxy-mirror plugin provides support for grpc and grpcs traffic proxying](https://github.com/apache/apisix/pull/9388)（contributor：[Sn0rt](https://github.com/Sn0rt)）
 
-- [Reuse etcd connections to improve etcd read-write throughput](https://github.com/apache/apisix/pull/9420)（contributor：[kingluo](https://github.com/kingluo)）
+- [Reuse etcd connections to improve etcd read-write throughput](https://github.com/apache/apisix/pull/9420)(contributor: [kingluo](https://github.com/kingluo))
 
 ### Apache APISIX Ingress Controller
 
