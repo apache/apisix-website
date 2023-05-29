@@ -31,12 +31,12 @@ We have also sorted out some issues for newcomers to the community to participat
 
 ### Apache APISIX
 
-- [Proxy-mirror plugin provides support for grpc and grpcs traffic proxying](https://github.com/apache/apisix/pull/9388)（贡献者：[Sn0rt](https://github.com/Sn0rt)）
+- [Proxy-mirror plugin provides support for grpc and grpcs traffic proxying](https://github.com/apache/apisix/pull/9388) (contributor: [Sn0rt](https://github.com/Sn0rt))
 
-- [Reuse etcd connections to improve etcd read-write throughput](https://github.com/apache/apisix/pull/9420)（贡献者：[kingluo](https://github.com/kingluo)）
+- [Reuse etcd connections to improve etcd read-write throughput](https://github.com/apache/apisix/pull/9420)(contributor: [kingluo](https://github.com/kingluo))
 
 ### Apache APISIX Ingress Controller
 
-- [Apache APISIX Ingress Controller project removes support for custom resources in version v2beta3](https://github.com/apache/apisix-ingress-controller/pull/1817)（贡献者：[tao12345666333](https://github.com/tao12345666333)）
+- [Apache APISIX Ingress Controller project removes support for custom resources in version v2beta3](https://github.com/apache/apisix-ingress-controller/pull/1817) (contributor: [tao12345666333](https://github.com/tao12345666333))
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
