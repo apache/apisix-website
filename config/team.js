@@ -164,6 +164,12 @@ module.exports = [
         githubUsername: 'tzssangglass',
         avatarUrl: 'https://avatars.githubusercontent.com/u/30819887?v=4',
       },
+      {
+        name: 'Shirui Zhao',
+        username: 'zhaoshirui',
+        githubUsername: 'soulbird',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/11553520?v=4',
+      },
     ],
   },
   {
