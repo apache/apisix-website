@@ -30,7 +30,7 @@ tags: [Community]
 - 修复 etcd 数据同步异常 [#8493](https://github.com/apache/apisix/pull/8493)
 
 - 修复由 healthcheck 引起的高 cpu 和内存使用 [#9016](https://github.com/apache/apisix/pull/9016)
-  > 修复如果 APISIX 在 `cancel_clean_handler` 失败后，create_checker 中 `healthcheck.new` 创建的 healthchecker 泄漏问题
+  > 修复 APISIX 在 `cancel_clean_handler` 失败后，create_checker 中 `healthcheck.new` 创建的 healthchecker 泄漏问题
 
 - 防止非 `127.0.0.0/24` 的请求用空的 `admin_key` 访问 Admin API [#9146](https://github.com/apache/apisix/pull/9146)
 
