@@ -22,7 +22,7 @@ tags: [Community]
 > APISIX 3.2.1 version is officially released, fixing many bugs and improving user experience.
 <!--truncate-->
 
-## bugfixes
+## bugfix
 
 - Fix invalid cache in `core.request.add_header` [#8824](https://github.com/apache/apisix/pull/8824)
    > Provide a new implementation to avoid the problem that nginx built-in header variable cache is not refreshed
