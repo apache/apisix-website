@@ -5,7 +5,7 @@ authors:
     title: "Author"
     url: "https://github.com/leslie-tsang"
     image_url: "https://avatars.githubusercontent.com/u/59061168?v=4"
-  - name: "Yilialinn"
+  - name: "Yilia Lin"
     title: "Technical Writer"
     url: "https://github.com/Yilialinn"
     image_url: "https://avatars.githubusercontent.com/u/114121331?v=4"
@@ -24,12 +24,12 @@ tags: [Community]
 
 ## bugfix
 
-- 修复 `core.request.add_header` 中的无效缓存 [#8824](https://github.com/apache/apisix/pull/8824)
-  > 提供新的实现避免了 nginx 内置 header 变量缓存未被刷新的问题
+- 修复 `core.request.add_header` 中的无效缓存问题 [#8824](https://github.com/apache/apisix/pull/8824)
+  > 提供新的实现，避免了 nginx 内置 header 变量缓存未被刷新的问题
 
-- 修复 etcd 数据同步异常 [#8493](https://github.com/apache/apisix/pull/8493)
+- 修复 etcd 数据同步异常问题 [#8493](https://github.com/apache/apisix/pull/8493)
 
-- 修复由 healthcheck 引起的高 cpu 和内存使用 [#9016](https://github.com/apache/apisix/pull/9016)
+- 修复由 healthcheck 引起的高 CPU 和内存使用问题 [#9016](https://github.com/apache/apisix/pull/9016)
   > 修复 APISIX 在 `cancel_clean_handler` 失败后，create_checker 中 `healthcheck.new` 创建的 healthchecker 泄漏问题
 
 - 防止非 `127.0.0.0/24` 的请求用空的 `admin_key` 访问 Admin API [#9146](https://github.com/apache/apisix/pull/9146)
