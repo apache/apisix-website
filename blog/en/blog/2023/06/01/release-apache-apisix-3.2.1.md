@@ -19,7 +19,8 @@ description: The Apache APISIX 3.2.1 version is officially released on May 30. T
 tags: [Community]
 ---
 
-APISIX 3.2.1 version is officially released, fixing many bugs and improving user experience.
+> APISIX 3.2.1 version is officially released, fixing many bugs and improving user experience.
+<!--truncate-->
 
 ## bugfixes
 
