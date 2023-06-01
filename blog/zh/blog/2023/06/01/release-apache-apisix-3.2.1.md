@@ -19,9 +19,8 @@ description: APISIX 3.2.1 版本正式发布，修复了诸多 bug，提升用�
 tags: [Community]
 ---
 
-# APISIX 3.2.1 新功能
-
-APISIX 3.2.1 版本正式发布，修复了诸多 bug，提升用户体验。
+> APISIX 3.2.1 版本正式发布，修复了诸多 bug，提升用户体验。
+<!--truncate-->
 
 ## bugfix
 
