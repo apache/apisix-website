@@ -92,6 +92,11 @@ const footer = {
           to: '/plugins',
           target: '_parent',
         },
+        {
+          label: 'Milestones',
+          to: 'https://github.com/apache/apisix/milestones',
+          target: '_parent',
+        },
       ],
     },
   ],
