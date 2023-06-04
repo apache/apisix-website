@@ -24,12 +24,14 @@ To add your event to the calendar, please open an issue in the [specified format
 Apache APISIX Community Meetups are a place where APISIX users, contributors, and maintainers come together to discuss everything APISIX.
 
 As an attendee, you can expect talks and workshops related to but not limited to:
-API management
-API-first design
-APISIX best practices
-Apache community
-Open source
-To reserve a seat at the APISIX Community Meetup Malaysia, please submit this form.
+
+- API management
+- API-first design
+- APISIX best practices
+- Apache community
+- Open source
+
+See below to learn more about the events.
 
 ### Malaysia Meetup
 
