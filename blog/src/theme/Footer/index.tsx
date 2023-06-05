@@ -93,7 +93,7 @@ const footer = {
           target: '_parent',
         },
         {
-          label: 'Milestones',
+          label: 'Roadmap',
           to: 'https://github.com/apache/apisix/milestones',
           target: '_parent',
         },
