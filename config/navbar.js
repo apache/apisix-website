@@ -106,6 +106,11 @@ module.exports = [
         label: 'Events',
         target: '_parent',
       },
+      {
+        to: 'https://github.com/apache/apisix/milestones',
+        label: 'Roadmap',
+        target: '_parent',
+      },
     ],
   },
   {
