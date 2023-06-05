@@ -7,53 +7,57 @@ published_at: 2023-05-30T00:00:00Z
 tags:
   - APISIX Basics
   - Best API Gateway
-  - Finance
+  - Lenovo
+  - API gateway case study
+  - Kong Alternatives
 author_name: Leon Yang
 author_avatar_url: ""
 author_bio: ""
 canonical_url: ""
-cover_url: ""
+cover_url: "https://static.apiseven.com/uploads/2023/06/05/PBdaOToi_Lenovo-cover-APISIX.png"
 ---
 
 ## Overview
 
-### About Lenovo and Author
+I'm Leon Yang, a Senior IT Architect at Lenovo, dedicated to promoting the reuse of software engineering components and building a sharing technology ecosystem. In the past two years, I have published more than 20 patents in enterprise software, big data, and artificial intelligence.
 
 Lenovo Group Limited, which was founded on November 1, 1984, as Legend and is commonly referred to as Lenovo, is an American-Chinese multinational technology company specializing in designing, manufacturing, and marketing consumer electronics, personal computers, software, business solutions, and related services.
 
-The author, Leon Yang, is a Senior IT Architect at Lenovo, who has been dedicated to promoting the reuse of software engineering components and building a sharing technology ecosystem. In the past two years, Leon has published more than 20 patents in the fields of enterprise software, big data, and artificial intelligence.
-
-### Challenges
-
-- A large number of scattered and poorly managed API interfaces, as well as improper use of APIs within the enterprise, leads to high IT operational costs.
-
-- A centralized API Gateway architecture can cause a single point of failure and hinder the scalability and availability of the system, potentially leading to downtime and disruptions in the services provided.
-
-- Deploying too many API scenarios and routes in a single gateway node can cause latency issues and overwhelm the system while installing an etcd/ZK for each API gateway can make the architecture too heavy.
-
-- Heterogeneous system architectures with multiple API authorizations from various providers can add complexity to API usage, making it harder to manage and maintain.
-
-### Results
-
-- The gateway performance can be improved to more than 20,000 TPS with proper tuning.
-- Over 100 low-code business applications have leveraged this lightweight API gateway component architecture, which has enhanced their performance and resilience.
-- Efficiently manage the full API lifecycle in a unified manner for all gateways.
-- Saved great time and effort for developers by providing a unified API management marketplace.
-- Established comprehensive API analysis and monitoring
-
 ## Background
 
-Nowadays, businesses are becoming more and more complex. Technologies are changing with each passing day, which has had a huge impact on software development. We have been looking for a more efficient way for project delivery at a lower cost, that is reusing original system resources by componentization.
+Nowadays, businesses are becoming more and more complex. Technologies are changing with each passing day, which has greatly impacted software development. We have been looking for a more efficient way for project delivery at a lower cost, that is reusing original system resources by componentization.
 
-The first step is to build an out-of-the-box reusable internal API ecosystem with a large number of components. Therefore, our team can reuse existing software assets by componentizing technical functions and standardizing the architecture.
+![Lenovo-system-architecture](https://static.apiseven.com/uploads/2023/06/05/qTyereco_Lenovo-system-architecture.jpeg)
 
-It is an effective way for enterprises, enabling developers no longer need to face a variety of technology selections.
+The first step is to build an out-of-the-box reusable internal API ecosystem with a large number of components. Therefore, our team can reuse existing software assets by componentizing technical functions and standardizing the architecture. It is an effective way for enterprises, enabling developers no longer need to face a variety of technology selections.
 
-Consequently, our team started developing its internal applications based on component-based patterns, reducing engineering application development costs, and improving software delivery quality and efficiency. Meantime, we established a high-quality enterprise API service ecosystem for fully reusing the capabilities of internal systems and external partners, thus constructing powerful business solutions.
+Consequently, our team started developing its internal applications based on component-based patterns, reducing engineering application development costs, and improving software delivery with quality and efficiency. Meantime, we established a high-quality enterprise API service ecosystem for fully reusing the capabilities of internal systems and external partners, thus constructing powerful business solutions.
+
+## Challenges of Centralized API Gateway Architecture in Complex Enterprise Environments
+
+The API gateway plays a vital role in the API ecosystem. The following picture shows how we use the API gateway in different scenarios.
+
+![Challenges-of-Centralized-API-Gateway](https://static.apiseven.com/uploads/2023/06/05/gI5G0TAE_Challenges-of-Centralized-API-Gateway.jpeg)
+
+In a large enterprise, there will be an intranet and a DMZ (demilitarized zone). In the intranet, if hundreds of application systems need to implement API calls through the API gateway, a centralized intranet gateway will be established to be responsible for API routing, authentication, WAF control, etc. If the API service is to provide external network services, according to the strict architecture design, a centralized gateway needs to be deployed in the DMZ. The API call goes through the DMZ and then will be exposed to the public network through the relevant firewall.
+
+There are many challenges in this process. 
+
+- Distributed API information and incorrect use of API bring **high operational costs**. 
+
+- **Limited scalability and availability** because of a single point of failure. If the gateway fails, all requests will be blocked, resulting in downtime and disruption of services (centralized team resource). 
+
+- Too many API scenarios and routes deployed in one gateway node can **easily become overwhelming and cause latency issues**. 
+
+- **Excessive resource usage or failure** by an API can negatively impact the performance of all APIs. 
+
+- Installing an etcd / ZK for each API gateway makes the **architecture too heavy** (using admin console) 
+
+- Heterogeneous system architecture has **multiple API authorizations** from API gateway and API service providers, which adds complexity to API usage. 
 
 ## Why Lenovo Opted for APISIX
 
-Lenovo chose APISIX mainly because APISIX has merits in the below aspects.
+We chose APISIX mainly because APISIX has merits in the below aspects.
 
 - Built with NGINX and LuaJIT, APISIX has **high performance, rich OpenResty library, and is easy for customization**. In the past, we adopted multiple commercial API gateway products that were positioned in the leading quadrant of Gartner. However, these products posed challenges in meeting the unique needs of enterprises, such as customizing authorization flows and dashboards.
 
@@ -73,9 +77,13 @@ Lenovo chose APISIX mainly because APISIX has merits in the below aspects.
 
 Our team adopted several measures to integrate its architecture with APISIX.
 
+![API-Dev-Portal](https://static.apiseven.com/uploads/2023/06/05/hkkTZixS_API%20Dev%20Portal.jpeg)
+
 ### Build Centralized API Dev Portal
 
 We established its Centralized API Dev Portal to improve the efficiency and quality of API management and use of API.
+
+![Build-Centralized-API-Dev-Portal](https://static.apiseven.com/uploads/2023/06/05/3V2Xea7k_Build%20Centralized%20API%20Dev%20Portal.jpeg)
 
 The Dev Portal has the following features.
 
@@ -88,6 +96,8 @@ The Dev Portal has the following features.
 - Use API analytics to track API usage, measure the performance of API gateways and API services (exception, throughput, latency, etc.)
 
 ### Build Centralized Registry Center
+
+![Build-Centralized-Registry-Center](https://static.apiseven.com/uploads/2023/06/05/CvfRTSda_Build%20Centralized%20Registry%20Center.jpeg)
 
 Set up a Centralized Registry Center (etcd) for gateway health-check and API subscription synchronization to deploy multiple registry centers.
 
