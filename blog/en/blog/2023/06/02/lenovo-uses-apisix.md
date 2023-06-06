@@ -41,19 +41,19 @@ The API gateway plays a vital role in the API ecosystem. The following picture s
 
 In a large enterprise, there will be an intranet and a DMZ (demilitarized zone). In the intranet, if hundreds of application systems need to implement API calls through the API gateway, a centralized intranet gateway will be established to be responsible for API routing, authentication, WAF control, etc. If the API service is to provide external network services, according to the strict architecture design, a centralized gateway needs to be deployed in the DMZ. The API call goes through the DMZ and then will be exposed to the public network through the relevant firewall.
 
-There are many challenges in this process. 
+There are many challenges in this process.
 
-- Distributed API information and incorrect use of API bring **high operational costs**. 
+- Distributed API information and incorrect use of API bring **high operational costs**.
 
-- **Limited scalability and availability** because of a single point of failure. If the gateway fails, all requests will be blocked, resulting in downtime and disruption of services (centralized team resource). 
+- **Limited scalability and availability** because of a single point of failure. If the gateway fails, all requests will be blocked, resulting in downtime and disruption of services (centralized team resource).
 
-- Too many API scenarios and routes deployed in one gateway node can **easily become overwhelming and cause latency issues**. 
+- Too many API scenarios and routes deployed in one gateway node can **easily become overwhelming and cause latency issues**.
 
-- **Excessive resource usage or failure** by an API can negatively impact the performance of all APIs. 
+- **Excessive resource usage or failure** by an API can negatively impact the performance of all APIs.
 
-- Installing an etcd / ZK for each API gateway makes the **architecture too heavy** (using admin console) 
+- Installing an etcd / ZK for each API gateway makes the **architecture too heavy**. (using admin console)
 
-- Heterogeneous system architecture has **multiple API authorizations** from API gateway and API service providers, which adds complexity to API usage. 
+- Heterogeneous system architecture has **multiple API authorizations** from API gateway and API service providers, which adds complexity to API usage.
 
 ## Why Lenovo Opted for APISIX
 
@@ -121,11 +121,11 @@ After implementing APISIX, a significant number of changes were made within Leno
 
 ### Improved Performance with Flexible Configuration
 
-Decentralized gateway architecture provides high-performance and highly scalable enterprise-level API gateway solutions, thus **completely solving the bottleneck caused by centralization.**
+**APISIX's remarkable scalability offers Lenovo the necessary flexibility for customization.** With APISIX,  Lenovo's decentralized gateway architecture provides high-performance and highly scalable enterprise-level API gateway solutions, effectively eliminating the bottleneck caused by centralization.
 
 Previously, the system resources constrain the number of APIs that can be deployed in a single cluster to less than 1,000. The gateway performance is bottlenecked by some resource-intensive APIs, resulting in an average throughput of **less than 4,000 TPS**. Furthermore, any API failure will degrade the overall API routing performance and affect all clients.
 
-The decentralized gateway architecture enables flexible and efficient deployment of gateway nodes and APIs based on business scenarios. Each gateway node can be configured and optimized independently according to its system resources and workload. Therefore, there is no limit on the total number of APIs that can be deployed across the network, and **the gateway performance can be improved to more than 20,000 TPS with proper tuning**.
+However, by leveraging APISIX, Lenovo's decentralized gateway architecture enables the efficient deployment of gateway nodes and APIs based on specific business scenarios. Each gateway node can be configured and optimized independently according to its system resources and workload. Consequently, there is no longer a limit on the total number of APIs that can be deployed across the network. Moreover, with proper tuning, **the gateway performance can be significantly improved to exceed 20,000 TPS**.
 
 ### Inreased Security and Scalability
 
@@ -139,24 +139,22 @@ So far, **more than 100 low-code business applications have leveraged this light
 
 **Centralized API Dev Portal enables API providers to efficiently manage the full API lifecycle in a unified manner for all gateways.**
 
-Utilizing an API Dev Portal to manage API information can effectively prevent various business teams from duplicating their API admin tools. Additionally, it enables the possibility of establishing unified API technical standards, documentation standards, and security standards. To integrate complex heterogeneous systems or legacy systems from different business domains, the API Dev Portal also provides various authorization processes extended from the APISIX plugin for the backend services of APIs, such as Basic Authorization, oAuth2, Customized Header, and so on. So far, **100+ developers are using the API Dev Portal for API management**.
+Utilizing an API Dev Portal to manage API information can effectively prevent various business teams from duplicating their API admin tools. Additionally, it enables the possibility of establishing unified API technical standards, documentation standards, and security standards. To integrate complex heterogeneous systems or legacy systems from different business domains, the API Dev Portal also provides various [authorization](https://api7.ai/blog/apisix-permission-policy) processes extended from the APISIX plugin for the backend services of APIs, such as Basic Authorization, oAuth2, Customized Header, and so on. So far, **100+ developers are using the API Dev Portal for API management**.
 
 ### Provided Unified API Management Marketplace
 
-API Marketplaces make it easier for developers to quickly find the API they need, while also enabling efficient API information sharing and discovery across departments in large enterprises, thus reducing the amount of time spent searching for them.
+API Marketplaces, such as the one facilitated by APISIX, play a vital role in simplifying the process of finding the required APIs for developers. These marketplaces also facilitate efficient sharing and discovery of API information across departments in large enterprises, thereby reducing the time spent on searching for APIs.
 
-Until now, **1000+ developers from different business domains are using the API market** to search and check the API information of their needs. The API market is becoming an essential tool for developers in their development process, which has been proven to be a valuable resource for streamlining the development process and ensuring access to the most up-to-date and accurate API information. As the API market continues to expand its functionality and coverage, it is likely that even more developers will turn to it as a valuable resource for their development needs. **The API market provides developers with a centralized location to search for and access the APIs they need, saving them time and effort in the development process.** Additionally, the API market provides developers with a platform to share their own APIs, allowing for collaboration and innovation within the development community.
+Currently, **the API market is already being leveraged by over 1000 developers from various business domains to search and access the necessary API information**. It has proven to be an indispensable tool for streamlining the development process and ensuring access to the most up-to-date and accurate API information.
+
+As APISIX continues to expand its functionality and coverage within the API market, more developers are expected to rely on it as a valuable resource for their development needs. **APISIX provides developers with a centralized platform to search for and access the APIs they require, significantly saving them time and effort during the development process.** Furthermore, the API market powered by APISIX offers developers a collaborative environment to share their own APIs, fostering innovation and collaboration within the development community.
 
 ### Achieved Enhanced Monitoring
 
-API Analytics and Monitoring provides businesses with valuable insights into how their API is performing. **This allows developers to optimize API for better performance, scalability, and reliability. It also helps them identify potential risks, such as errors and latency, before they become a problem.**
+API Analytics and [Monitoring](https://api7.ai/blog/apache-apisix-datadog-integration) provides businesses with valuable insights into the performance of their APIs. **APISIX plays a crucial role in assisting Lenovo in monitoring its platforms, enabling developers to optimize APIs for enhanced performance, scalability, and reliability.** Additionally, it aids in the early detection of potential risks, such as errors and latency, preventing them from becoming significant problems.
 
 ## Summary and Outlook
 
-We also have some expectations for APISIX and its community.
+I believe that the combination of a high-performance tech stack and a flexible open-source architecture empowers organizations, including ours, to create robust and efficient solutions. This powerful combination equips us with the necessary tools and capabilities to tackle complex challenges and deliver exceptional outcomes.
 
-- Add a centralized Dev Portal for API management, API market, and gateway management.
-- Add monitoring and analytics of gateway and API, and provide the in-deep traffic control and security protection telemetry
-- Enhanced centralized etcd Registry Center for publishing API configurations by the gateway
-- Add the update flow to the gateway for pulling updates from etcd registry center
-- Enhance WAF (Web Application Firewall) functions, especially for defending DDoS and SQL/JSON/XML injection
+Considering these remarkable capabilities, we at Lenovo have immense confidence in APISIX and its vibrant community. With the unwavering support of APISIX, we are in a favorable position to achieve remarkable milestones and maintain our leadership in technological advancements within the industry. By leveraging the strengths of APISIX, we can drive innovation, foster growth, and continue to lead the way in delivering cutting-edge solutions that cater to the evolving needs of the market.
