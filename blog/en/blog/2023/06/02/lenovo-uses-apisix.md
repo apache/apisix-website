@@ -17,6 +17,8 @@ canonical_url: ""
 cover_url: "https://static.apiseven.com/uploads/2023/06/05/PBdaOToi_Lenovo-cover-APISIX.png"
 ---
 
+<!--truncate-->
+
 ## Overview
 
 I'm Leon Yang, a Senior IT Architect at Lenovo, dedicated to promoting the reuse of software engineering components and building a sharing technology ecosystem. In the past two years, I have published more than 20 patents in enterprise software, big data, and artificial intelligence.
