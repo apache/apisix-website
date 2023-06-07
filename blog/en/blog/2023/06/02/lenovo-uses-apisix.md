@@ -1,22 +1,25 @@
 ---
 title: APISIX Boosts Lenovo to Build Lightweight and Decentralized Gateway
-description: "Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system."
-slug: /blog/lenovo-uses-apisix
-category: Case Study
-published_at: 2023-05-30T00:00:00Z
-tags:
-  - APISIX Basics
-  - Best API Gateway
+authors:
+  - name: Leon Yang
+    title: Author
+    url: https://github.com/leonyaa
+    image_url: https://avatars.githubusercontent.com/u/2486554?v=4
+  - name: "Yilia Lin"
+    title: "Technical Writer"
+    url: "https://github.com/Yilialinn"
+    image_url: "https://avatars.githubusercontent.com/u/114121331?v=4"
+keywords:
+  - APISIX
   - Lenovo
-  - API gateway case study
+  - Full API Lifecycle Management
   - Kong Alternatives
-author_name: Leon Yang
-author_avatar_url: ""
-author_bio: ""
-canonical_url: ""
-cover_url: "https://static.apiseven.com/uploads/2023/06/05/PBdaOToi_Lenovo-cover-APISIX.png"
+description: Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.
+tags: [Case Studies]
+image: https://static.apiseven.com/uploads/2023/06/05/PBdaOToi_Lenovo-cover-APISIX.png
 ---
 
+> Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.
 <!--truncate-->
 
 ## Overview
