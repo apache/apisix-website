@@ -7,7 +7,7 @@ keywords:
 - 贡献者
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: https://static.apiseven.com/uploads/2023/04/26/OQ9oHj6h_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE20230426.png
+image: https://static.apiseven.com/uploads/2023/06/08/YJ5EFPM8_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
 
 > 从 2023.5.23 - 2023.6.05，有 20 位开发者为 Apache APISIX 提交了 37 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
