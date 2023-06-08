@@ -36,7 +36,7 @@ Instead of writing our REST API, we use the PostgREST component:
 
 Let's apply it to a simple use case. Here's a `product` table that I want to expose via a CRUD API:
 
-![Product table]https://blog.frankel.ch/assets/generated/poor-man-api/table.svg
+![Product table](https://blog.frankel.ch/assets/generated/poor-man-api/table.svg)
 
 Note that you can find the whole source code on [GitHub](https://github.com/ajavageek/poor-man-api) to follow along.
 
@@ -345,7 +345,7 @@ curl http://apisix:9080/apisix/admin/global_rules/2 -H 'X-API-KEY: 123xyz' -X PU
 
 Send a couple of queries and open the Grafana dashboard. It should look similar to this:
 
-![Grafana dashboard]https://blog.frankel.ch/assets/resources/poor-man-api/grafana.jpg
+![Grafana dashboard](https://blog.frankel.ch/assets/resources/poor-man-api/grafana.jpg)
 
 ## Conclusion
 
