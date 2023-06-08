@@ -13,7 +13,7 @@ keywords:
 description: >
   Security in one's information system has always been among the most critical Non-Functional Requirements. Transport Secure Layer, aka TLS, formerly SSL, is among its many pillars. In this post, I'll show how to configure TLS for Apache APISIX.
 tags: [Ecosystem]
-image: https://blog.frankel.ch/assets/resources/mtls-everywhere/data-key-gcce68039d_large.jpg
+image: https://static.apiseven.com/uploads/2023/06/08/JXRmK9nZ_keys.jpeg
 ---
 
 >Security in one's information system has always been among the most critical Non-Functional Requirements. Transport Secure Layer, _aka_ TLS, formerly SSL, is among its many pillars. In this post, I'll show how to configure TLS for [Apache APISIX](https://apisix.apache.org/).
@@ -143,7 +143,7 @@ The certificate infrastructure is ready; let's look at Apache APISIX.
 
 [Apache APISIX](https://apisix.apache.org/) is an API Gateway. By default, it stores its configuration in [etcd](https://etcd.io/), a distributed key-value store - the same one used by Kubernetes. Note that in real-world scenarios, we should set up etcd clustering to improve the resiliency of the solution. For this post, we will limit ourselves to a single etcd instance. Apache APISIX offers an admin API via HTTP endpoints. Finally, the gateway forwards calls from the client to an upstream. Here's an overview of the architecture and the required certificates:
 
-![Apache APISIX architecture](http://blog.frankel.ch/assets/resources/mtls-everywhere/apisix-architecture.svg)
+![Apache APISIX architecture](https://static.apiseven.com/uploads/2023/06/08/dplOhFAt_apisix-architecture.svg)
 
 Let's start with the foundational bricks: etcd and Apache APISIX. We need two certificates: one for etcd, in the server role, and one for Apache APISIX, as the etcd client.
 
