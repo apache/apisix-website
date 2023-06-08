@@ -145,7 +145,7 @@ We shall use Maven to generate the Java boilerplate code:
 
 After compilation, the structure should look something like the following:
 
-![Proto model project structure](https://blog.frankel.ch/assets/resources/grpc-client-side/model-project-structure.jpg)
+![Proto model project structure](https://static.apiseven.com/uploads/2023/06/08/JkWtxWqP_model.jpeg)
 
 We can package the classes in a JAR and use it in a web app project. The latter is in Kotlin, but only because it's my favourite JVM language.
 
