@@ -21,7 +21,7 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://security.feishu.cn/link/safety?target=https%3A%2F%2Fstatic.apiseven.com%2Fuploads%2F2023%2F06%2F08%2FG1yIQjyj_%25E6%2589%2580%25E6%259C%2589%25E8%25B4%25A1%25E7%258C%25AE%25E8%2580%2585%25E6%25B5%25B7%25E6%258A%25A5.png&scene=ccm&logParams=%7B%22location%22%3A%22ccm_default%22%7D&lang=zh-CN)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/06/09/XavQu9xL_contributor%20list0609.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/06/08/MOxcew0f_%E6%96%B0%E6%99%8B%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
 
