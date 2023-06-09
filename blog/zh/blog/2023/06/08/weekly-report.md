@@ -27,8 +27,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 近期亮点功能
 
-### Apache APISIX
-
 - [使用单个 http 长链接 watch 所有资源](https://github.com/apache/apisix/pull/9456)（贡献者：[kingluo](https://github.com/kingluo)）
 
 - [skywalking-logger 与 error-log-logger 提供 $hostname 变量名支持](https://github.com/apache/apisix/pull/9401)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek)）
