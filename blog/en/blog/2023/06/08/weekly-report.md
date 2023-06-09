@@ -27,8 +27,6 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 ## Highlights of Recent Features
 
-### Apache APISIX
-
 - [Use a single http long connection to watch all resources](https://github.com/apache/apisix/pull/9456) (Contributor: [kingluo](https://github.com/kingluo))
 
 - [skywalking-logger and error-log-logger support $hostname variable name](https://github.com/apache/apisix/pull/9401) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
