@@ -345,7 +345,7 @@ curl http://apisix:9080/apisix/admin/global_rules/2 -H 'X-API-KEY: 123xyz' -X PU
 
 Send a couple of queries and open the Grafana dashboard. It should look similar to this:
 
-![Grafana dashboard](https://blog.frankel.ch/assets/resources/poor-man-api/grafana.jpg)
+![Grafana dashboard](https://static.apiseven.com/uploads/2023/06/08/VU9tQ69R_grafana.jpeg)
 
 ## Conclusion
 

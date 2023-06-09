@@ -14,7 +14,7 @@ keywords:
 description: >
   Last week, I wrote about putting the right feature at the right place. I used rate limiting as an example, moving it from a library inside the application to the API Gateway. Today, I'll use another example: authentication and authorization.
 tags: [Ecosystem]
-image: https://blog.frankel.ch/assets/resources/security-policy-auditable/opa-horizontal-color.svg
+image: https://static.apiseven.com/uploads/2023/06/08/pzULiHZO_opa-horizontal-color.svg
 ---
 
 >Last week, I wrote about [putting the right feature at the right place](https://blog.frankel.ch/right-feature-right-place/). I used rate limiting as an example, moving it from a library inside the application to the API Gateway. Today, I'll use another example: authentication and authorization.
