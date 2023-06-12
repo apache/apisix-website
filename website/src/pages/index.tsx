@@ -13,7 +13,6 @@ import Comparison from '../components/sections/Comparison';
 import OpensourcePromo from '../components/sections/OpensourcePromo';
 import HomeEventsSection from '../components/sections/HomeEventsSection';
 import EndCTA from '../components/sections/Endcta';
-import EventPosterCard from '../components/EventPosterCard';
 
 const ThemeResetComponent = () => {
   const { isDarkTheme, setLightTheme } = useThemeContext();
@@ -73,7 +72,6 @@ const Index: FC = () => (
     <OpensourcePromo />
     <HomeEventsSection />
     <EndCTA />
-    <EventPosterCard />
   </Layout>
 );
 
