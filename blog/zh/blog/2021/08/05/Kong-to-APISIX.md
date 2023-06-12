@@ -41,7 +41,7 @@ make build
 # migrate succeed
 ```
 
-3. 使用 `apisix.yaml`配置 APISIX， 点击查看[具体步骤](https://apisix.apache.org/docs/apisix/stand-alone)。
+3. 使用 `apisix.yaml`配置 APISIX， 点击查看[具体步骤](https://apisix.apache.org/docs/apisix/deployment-modes/#standalone)。
 
 ## Demo 测试
 
