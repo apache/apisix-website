@@ -143,7 +143,7 @@ routes:
 ```
 
 1. For demo purposes, I preferred to set it at the root instead of `/bff/*`
-2. Declare the two plugins. Note that I'm using the [stand-alone mode](https://apisix.apache.org/docs/apisix/stand-alone/).
+2. Declare the two plugins. Note that I'm using the [stand-alone mode](https://apisix.apache.org/docs/apisix/deployment-modes/#standalone).
 
 First, we need to describe the plugin and not forget to return it at the end of the file:
 

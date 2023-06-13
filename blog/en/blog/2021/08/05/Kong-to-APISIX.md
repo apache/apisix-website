@@ -41,7 +41,7 @@ Apache APISIX is a production-ready open source seven-layer full traffic process
       # migrate succeed
       ```
 
-1. Use `apisix.yaml` to configure APISIX, refer to [Apache APISIX Official Document: Stand-alone mode](https://apisix.apache.org/docs/apisix/stand-alone).
+1. Use `apisix.yaml` to configure APISIX, refer to [Apache APISIX Official Document: Stand-alone mode](https://apisix.apache.org/docs/apisix/deployment-modes/#standalone).
 
 ## Demo Test
 
