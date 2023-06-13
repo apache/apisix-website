@@ -13,7 +13,7 @@ keywords:
 description: >
   Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.
 tags: [Ecosystem]
-image: https://blog.frankel.ch/assets/resources/authenticate-openid-connect/eye-gd82fef23c.jpg
+image: https://static.apiseven.com/uploads/2023/06/13/OZebsxXL_eye-gd82fef23c.jpg
 ---
 
 >Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.
@@ -133,15 +133,15 @@ If you didn't do it already, customize the [OAuth Consent Screen](https://consol
 
 In the project context, navigate _APIs & Services | Credentials_.
 
-![Google Cloud - Credentials menu](https://blog.frankel.ch/assets/resources/authenticate-openid-connect/google-cloud-credentials.jpg)
+![Google Cloud - Credentials menu](https://static.apiseven.com/uploads/2023/06/13/bYAZa9TL_google-cloud-credentials.jpg)
 
 Then, press the _+ CREATE CREDENTIALS_ button in the upper menu bar.
 
-![Google Cloud - Create Credentials button](https://blog.frankel.ch/assets/resources/authenticate-openid-connect/google-cloud-create-credentials.jpg)
+![Google Cloud - Create Credentials button](https://static.apiseven.com/uploads/2023/06/13/k9I8i35H_google-cloud-create-credentials.jpg)
 
 Select _OAuth Client Id_ in the scrolling menu.
 
-![Google Cloud - Choose credentials type](https://blog.frankel.ch/assets/resources/authenticate-openid-connect/google-cloud-choose-credentials.jpg)
+![Google Cloud - Choose credentials type](https://static.apiseven.com/uploads/2023/06/13/8J3eCFDY_google-cloud-choose-credentials.jpg)
 
 Fill in the fields:
 
@@ -149,11 +149,11 @@ Fill in the fields:
 * Name: whatever you want
 * Authorized redirect URIs: `<URL>/callback`, _e.g._, `http://localhost:9080/callback`
 
-![Google Cloud - Create OAuth Client id](https://blog.frankel.ch/assets/resources/authenticate-openid-connect/google-cloud-create-oauth-client-id.jpg)
+![Google Cloud - Create OAuth Client id](https://static.apiseven.com/uploads/2023/06/13/FS4fntju_google-cloud-create-oauth-client-id.jpg)
 
 `URL` should be the URL of the web application. Likewise, `/callback` should match the `openid-connect` plugin configuration above. Note that Google doesn't allow relative URLs, so if you need to reuse the application in different environments, you need to add the URL of each environment. Click the _Create_ button.
 
-![Google Cloud - OAuth client created](https://blog.frankel.ch/assets/resources/authenticate-openid-connect/google-cloud-oauth-client-created.jpg)
+![Google Cloud - OAuth client created](https://static.apiseven.com/uploads/2023/06/13/0CRBKPtt_google-cloud-oauth-client-created.jpg)
 
 In the Docker Compose configuration above, use the Client ID and Client Secret as `OIDC_CLIENTID` and `OIDC_SECRET`. I wrote them down as environment variables in a `.env` file.
 
@@ -161,7 +161,7 @@ The last missing variable is `OIDC_ISSUER`: it's `accounts.google.com`. If you n
 
 At this point, we can start our setup with `docker compose up`. When we navigate to <http://localhost:9080/>, the browser redirects us to the Google authentication page. Since I'm already authenticated, I can choose my ID - and I need one bound to the organization of the project I created above.
 
-![Choose the Google account you want to authenticate with](https://blog.frankel.ch/assets/resources/authenticate-openid-connect/google-auth-choose-account.jpg)
+![Choose the Google account you want to authenticate with](https://static.apiseven.com/uploads/2023/06/13/yckQhlJf_google-auth-choose-account.jpg)
 
 Then, I can freely access the resource.
 
