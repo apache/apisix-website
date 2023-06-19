@@ -1,0 +1,60 @@
+@use "sass:map";
+
+$breakpoints: (
+  xs: 369px,
+  sm: 736px,
+  md: 1025px,
+  lg: 1500px,
+);
+
+// @include respond-above() {}
+@mixin respond-above($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map.get($breakpoints, $breakpoint);
+
+    @media only screen and (min-width: $breakpoint-value) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Invalid #{$breakpoint}.";
+  }
+}
+
+// @include respond-below() {}
+@mixin respond-below($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map.get($breakpoints, $breakpoint);
+
+    @media only screen and (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Invalid #{$breakpoint}.";
+  }
+}
+
+// @include respond-between(sm, md) {}
+@mixin respond-between($lower, $upper) {
+  @if map.has-key($breakpoints, $lower) and map.has-key($breakpoints, $upper) {
+    $lower-breakpoint: map.get($breakpoints, $lower);
+    $upper-breakpoint: map.get($breakpoints, $upper);
+
+    @media only screen and (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+      @content;
+    }
+  }
+
+  @else {
+    @if (map.has-key($breakpoints, $lower) == false) {
+      @warn "Lower breakpoint invalid: #{$lower}.";
+    }
+
+    @if (map.has-key($breakpoints, $upper) == false) {
+      @warn "Upper breakpoint invalid: #{$upper}.";
+    }
+  }
+}

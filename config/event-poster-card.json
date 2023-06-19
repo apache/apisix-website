@@ -1,5 +1,5 @@
 {
-  "$schema": "../website/src/components/event-poster-card-schema.json",
+  "$schema": "./event-poster-card-schema.json",
   "show": true,
   "expire": "2023-07-04",
   "width": 400,
