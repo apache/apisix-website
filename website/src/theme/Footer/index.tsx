@@ -16,6 +16,7 @@ import slackIcon from '@iconify/icons-akar-icons/slack-fill';
 import youtubeIcon from '@iconify/icons-akar-icons/youtube-fill';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import style from './styles.module.scss';
+import EventPosterCardWrapper from './EventPosterCard';
 
 const footer = {
   links: [
@@ -159,6 +160,7 @@ const Footer: FC = () => {
         </Link>
         <div className={style.text}>{copyright}</div>
       </div>
+      <EventPosterCardWrapper />
     </footer>
   );
 };

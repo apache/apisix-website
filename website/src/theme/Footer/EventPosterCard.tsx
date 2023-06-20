@@ -5,8 +5,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useSpring, animated } from 'react-spring';
 import useSessionStorage from 'react-use/lib/useSessionStorage';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import config from '../../../config/event-poster-card.json';
-import style from '../css/event-poster-card.module.scss';
+import config from './event-poster-card.json';
+import style from './event-poster-card.module.scss';
 
 type CardConfig =
   | {
