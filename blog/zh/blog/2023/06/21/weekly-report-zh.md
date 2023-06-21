@@ -29,6 +29,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Apache APISIX
 
-- [确保 pb 状态可以被正确恢复](https://github.com/apache/apisix/pull/9606)（贡献者：[kingluo](https://github.com/kingluo)）
+- [重新编译 protobuffer 时，确保正确重载旧状态](https://github.com/apache/apisix/pull/9606)（贡献者：[kingluo](https://github.com/kingluo)）
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
