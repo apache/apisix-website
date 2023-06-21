@@ -19,27 +19,11 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 
-我们还整理了一些适合新来社区的小伙伴们参加的 Issue！感兴趣的同学们，走过路过不要错过！
-
 ## 贡献者统计
 
 ![贡献者名单](https://static.apiseven.com/uploads/2023/06/20/Z6yEOnRT_%E5%90%8D%E5%8D%95.png)
 
 ![新晋贡献者](https://static.apiseven.com/uploads/2023/06/20/zvIq9JId_%E6%96%B0%E6%99%8B%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
-
-## Good First Issue​
-
-### Issue #9676
-
-链接：https://github.com/apache/apisix/issues/9676
-
-问题描述：为 loki 插件增加中文文档
-
-### Issue #9691
-
-链接：https://github.com/apache/apisix/issues/9691
-
-问题描述：为 proxy-mirror 增加定制 header 转发能力
 
 ## 近期亮点功能
 
