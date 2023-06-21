@@ -19,29 +19,13 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
-We have also sorted out some issues for newcomers to the community to participate in! If you are interested, don't miss it!
-
 ## Contributor Statistics
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/06/20/Z6yEOnRT_%E5%90%8D%E5%8D%95.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/06/20/zvIq9JId_%E6%96%B0%E6%99%8B%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
 
-## Good First Issue
-
-### Issue #9676
-
-Link: https://github.com/apache/apisix/issues/9676
-
-Description: Add Chinese documentation for the loki plugin
-
-### Issue #9691
-
-Link: https://github.com/apache/apisix/issues/9691
-
-Description: Add custom header forwarding capability for the proxy-mirror
-
-## Highlights of Recent Features
+## Highlight of Recent Features
 
 ### Apache APISIX
 
