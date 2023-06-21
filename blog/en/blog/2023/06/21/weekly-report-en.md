@@ -29,7 +29,7 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 ### Apache APISIX
 
-- [Ensure pb status can be properly restored](https://github.com/apache/apisix/pull/9606) (Contributor: [kingluo](https://github.com/kingluo))
+- [Ensure proper reloading of old state when recompiling protobuffer](https://github.com/apache/apisix/pull/9606) (Contributor: [kingluo](https://github.com/kingluo))
 
 ## Recent Blog Recommendations
 
