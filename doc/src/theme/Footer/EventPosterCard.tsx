@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import config from './event-poster-card.json';
@@ -33,7 +33,7 @@ interface EventPosterCardInfo {
 
 const SHOW_STORE_KEY = 'SHOW_EVENT_ENTRY';
 
-const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'> & StoreCardProps> = (props) => {
+const EventPosterCardDoc: FC<Omit<EventPosterCardInfo, 'show' | 'expire'> & StoreCardProps> = (props) => {
   const { config: cardConfig, width, setShowStore } = props;
   const {
     i18n: { currentLocale },
@@ -41,11 +41,9 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'> & StoreCa
   const currentConfig = useMemo<CardConfig>(() => cardConfig[currentLocale], [currentLocale]);
 
   const onClose = () => {
-    window.sessionStorage.setItem(SHOW_STORE_KEY, 'true');
-    setShowStore(true);
+    window.sessionStorage.setItem(SHOW_STORE_KEY, 'false');
+    setShowStore(false);
   };
-
-  console.log('currentConfig?.disable: ', currentConfig?.disable);
 
   if (currentConfig?.disable === true) {
     return null;
@@ -82,17 +80,24 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'> & StoreCa
   );
 };
 
-const EventPosterCardWrapper: FC = () => {
+const EventPosterCardDocWrapper: FC = () => {
   const { show, expire, ...rest } = config;
   const expireTimestamp = new Date(expire).getTime();
-  const defaultValue = window.sessionStorage.getItem(SHOW_STORE_KEY) || false;
-  const [storeShow, setSotreShow] = useState(defaultValue);
+  const [storeShow, setSotreShow] = useState<string | boolean>(true);
 
-  if (show && !storeShow && expireTimestamp > Date.now()) {
-    return <EventPosterCard setShowStore={setSotreShow} {...(rest as Omit<EventPosterCardInfo, 'show' | 'expire'>)} />;
+  const getShowValue = () => window.sessionStorage.getItem(SHOW_STORE_KEY);
+
+  useEffect(() => {
+    // sessionStorage cannot store boolean, use parse to serialize the value
+    const showValue = JSON.parse(getShowValue());
+    setSotreShow(showValue);
+  }, []);
+
+  if (show && storeShow && expireTimestamp > Date.now()) {
+    return <EventPosterCardDoc setShowStore={setSotreShow} {...(rest as Omit<EventPosterCardInfo, 'show' | 'expire'>)} />;
   }
 
   return null;
 };
 
-export default EventPosterCardWrapper;
+export default EventPosterCardDocWrapper;

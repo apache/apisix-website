@@ -37,7 +37,7 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
     i18n: { currentLocale },
   } = useDocusaurusContext();
   const currentConfig = useMemo<CardConfig>(() => cardConfig[currentLocale], [currentLocale]);
-  const [, setStoreShow] = useSessionStorage(SHOW_STORE_KEY, 'true');
+  const [, setStoreShow] = useSessionStorage(SHOW_STORE_KEY, true);
 
   const [styles, api] = useSpring(() => ({
     from: {
@@ -64,7 +64,7 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
           opacity: 0,
         },
       }),
-    ).then(() => setStoreShow('false')),
+    ).then(() => setStoreShow(false)),
     [api],
   );
 
@@ -95,11 +95,11 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
 };
 
 const EventPosterCardWrapper: FC = () => {
-  const [storeShow] = useSessionStorage(SHOW_STORE_KEY);
+  const [storeShow] = useSessionStorage(SHOW_STORE_KEY, true);
   const { show, expire, ...rest } = config;
   const expireTimestamp = new Date(expire).getTime();
 
-  if (show && !storeShow && expireTimestamp > Date.now()) {
+  if (show && storeShow && expireTimestamp > Date.now()) {
     return <EventPosterCard {...(rest as Omit<EventPosterCardInfo, 'show' | 'expire'>)} />;
   }
 
