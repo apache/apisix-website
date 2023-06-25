@@ -16,6 +16,7 @@ import slackIcon from '@iconify/icons-akar-icons/slack-fill';
 import youtubeIcon from '@iconify/icons-akar-icons/youtube-fill';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import style from './styles.module.scss';
+import EventPosterCardWrapper from './EventPosterCard';
 
 const footer = {
   links: [
@@ -59,8 +60,7 @@ const footer = {
         {
           icon: slackIcon,
           label: 'Slack',
-          to: '/docs/general/join/#join-the-slack-channel',
-          target: '_parent',
+          to: '/docs/general/join',
         },
         {
           icon: twitterIcon,
@@ -81,13 +81,11 @@ const footer = {
           label: 'Blog',
           to: '/blog/',
           target: '_parent',
-        },
-        {
+        }, {
           label: 'Showcase',
           to: '/showcase',
           target: '_parent',
-        },
-        {
+        }, {
           label: 'Plugin Hub',
           to: '/plugins',
           target: '_parent',
@@ -117,9 +115,14 @@ const FooterLink = ({
   const normalizedHref = useBaseUrl(href, {
     forcePrependBaseUrl: true,
   });
-  const hrefObj = href ? { href: prependBaseUrlToHref ? normalizedHref : href } : { to: toUrl };
+  const hrefObj = href
+    ? { href: prependBaseUrlToHref ? normalizedHref : href }
+    : { to: toUrl };
   return (
-    <Link {...hrefObj} {...props}>
+    <Link
+      {...hrefObj}
+      {...props}
+    >
       <Icon icon={icon} />
       <span>{label}</span>
     </Link>
@@ -157,6 +160,7 @@ const Footer: FC = () => {
         </Link>
         <div className={style.text}>{copyright}</div>
       </div>
+      <EventPosterCardWrapper />
     </footer>
   );
 };

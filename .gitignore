@@ -51,4 +51,5 @@ scripts/temp/**
 /website/src/pages/edit.*
 /website/src/css/edit.*
 /blog/src/theme/Footer/
+/doc/src/theme/Footer/event-poster-card.json
 website/src/theme/Footer/event-poster-card.json

@@ -1,0 +1,53 @@
+@import "./util";
+
+.picWrapper {
+  position: fixed;
+  display: flex;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1000;
+  outline: 0;
+  overflow: auto;
+  border: 0;
+  box-shadow: 0 0 20px -12px #626365;
+
+  @include respond-below(sm) {
+    right: 0;
+    bottom: 0;
+  }
+
+  & > a {
+    display: flex;
+  }
+
+  & .closeBtn {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    font-weight: 900;
+    color: rgb(135 151 172);
+    font-size: 16px;
+    outline: none;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 300ms;
+
+    &:hover {
+      transform: scale3d(1.2, 1.2, 1);
+    }
+
+    &:active,
+    &:focus {
+      transform: scale(0.6, 0.6, 1);
+    }
+  }
+
+  & svg {
+    width: 10px;
+    height: 10px;
+    display: inherit;
+  }
+}
