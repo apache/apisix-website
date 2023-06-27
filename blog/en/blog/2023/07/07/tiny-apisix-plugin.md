@@ -89,23 +89,23 @@ type pluginContext struct {
 func (ctx *pluginContext) OnPluginStart(pluginConfigurationSize int) types.OnPluginStartStatus {
     data, err := proxywasm.GetPluginConfiguration()
     if err != nil {
-		proxywasm.LogErrorf("error reading plugin configuration: %v", err)
-		return types.OnPluginStartStatusFailed
+        proxywasm.LogErrorf("error reading plugin configuration: %v", err)
+        return types.OnPluginStartStatusFailed
     }
 
     var p fastjson.Parser
     v, err := p.ParseBytes(data)
     if err != nil {
-		proxywasm.LogErrorf("error decoding plugin configuration: %v", err)
-		return types.OnPluginStartStatusFailed
+        proxywasm.LogErrorf("error decoding plugin configuration: %v", err)
+        return types.OnPluginStartStatusFailed
     }
     headers := v.GetArray("headers")
     ctx.Headers = make([]header, len(headers))
     for i, hdr := range headers {
-		ctx.Headers[i] = header{
-			Name:  string(hdr.GetStringBytes("name")),
-			Value: string(hdr.GetStringBytes("value")),
-		}
+        ctx.Headers[i] = header{
+            Name:  string(hdr.GetStringBytes("name")),
+            Value: string(hdr.GetStringBytes("value")),
+        }
 	}
     return types.OnPluginStartStatusOK
 }
@@ -123,7 +123,7 @@ type httpContext struct {
 func (ctx *httpContext) OnHttpResponseHeaders(numHeaders int, endOfStream bool) types.Action {
     plugin := ctx.parent
     for _, hdr := range plugin.Headers {
-		proxywasm.ReplaceHttpResponseHeader(hdr.Name, hdr.Value)
+        proxywasm.ReplaceHttpResponseHeader(hdr.Name, hdr.Value)
     }
 
     return types.ActionContinue
