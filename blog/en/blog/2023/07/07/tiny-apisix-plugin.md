@@ -106,7 +106,7 @@ func (ctx *pluginContext) OnPluginStart(pluginConfigurationSize int) types.OnPlu
             Name:  string(hdr.GetStringBytes("name")),
             Value: string(hdr.GetStringBytes("value")),
         }
-	}
+    }
     return types.OnPluginStartStatusOK
 }
 
