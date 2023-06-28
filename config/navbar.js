@@ -92,6 +92,11 @@ module.exports = [
         target: '_parent',
       },
       {
+        to: '/docs/general/code-samples',
+        label: 'Code Samples',
+        target: '_parent',
+      },
+      {
         to: '/plugins',
         label: 'PluginHub',
         target: '_parent',
