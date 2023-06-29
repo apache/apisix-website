@@ -65,7 +65,7 @@ To join the event for FREE, [submit this form](https://forms.gle/JSzVmfXon9HCTSe
 #### Schedule
 
 | Welcome remarks | Navendu Pottekkat | 10:15 |
-| How companies using APISIX | Yuansheng Wang | 10:30 |
+| How companies use APISIX | Yuansheng Wang | 10:30 |
 | Best practices for building reliable APIs | Navendu Pottekkat | 11:00 |
 | Hands-on with Apache APISIX | Zhiyuan Ju | 11:30 |
 | Contributing to an Apache Software Foundation project | Apache APISIX maintainers | 12:00 |
