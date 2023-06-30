@@ -7,7 +7,7 @@ module.exports = [
     color: '#e8433e',
     githubRepo: 'apache/apisix',
     version: '3.4.0',
-    releaseDate: '2023-05-05',
+    releaseDate: '2023-06-30',
     firstDocPath: '/getting-started',
   },
   {
