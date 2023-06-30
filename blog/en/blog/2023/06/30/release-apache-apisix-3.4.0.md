@@ -1,5 +1,5 @@
 ---
-title: "Release Apache APISIX 3.2.1"
+title: "Release Apache APISIX 3.4.0"
 authors:
   - name: "Xin Rong"
     title: "Author"
