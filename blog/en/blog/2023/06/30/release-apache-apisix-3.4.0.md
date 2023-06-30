@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: The Apache APISIX 3.4.0 version is released on June 30, 2023. This version adds a new plugin for Grafana Loki, allows for mTLS connection on the route level, and made performace optimization to continuously enhance the user experience of APISIX.
+description: The Apache APISIX 3.4.0 version is released on June 30, 2023. This version adds a new plugin for Grafana Loki, allows for mTLS connection on the route level, and made performance optimization to continuously enhance the user experience of APISIX.
 tags: [Community]
 ---
 
