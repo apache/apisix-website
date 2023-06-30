@@ -19,6 +19,10 @@ image: https://static.apiseven.com/uploads/2023/06/23/kdd9TigM_mqtt-apisix-cover
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://navendu.me/posts/iot-to-cloud/" />
+</head>
+
 People typically use the [MQTT protocol](https://mqtt.org/) when transferring data from IoT devices because of its low overhead and ease of implementation.
 
 MQTT was created for sending small chunks of data over unreliable networks and uses a binary format rather than the typical text-based format used in protocols like HTTP or SMTP. With [client libraries](https://mqtt.org/software/) in multiple programming languages, you are unlikely to have to implement the protocol on your own but use an existing library.
