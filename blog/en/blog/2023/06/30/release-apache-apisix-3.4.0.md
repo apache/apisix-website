@@ -21,6 +21,8 @@ tags: [Community]
 
 We are pleased to present Apache APISIX 3.4.0 with exciting new features and performance improvements.
 
+<!--truncate-->
+
 This release provides a new plugin `loki-logger` to forward logs to [Grafana Loki](https://grafana.com/oss/loki/), and allows for mTLS connection on the route level. In addition, the release also includes many other updates to continuously enhance the user experience of APISIX.
 
 ## New Features
