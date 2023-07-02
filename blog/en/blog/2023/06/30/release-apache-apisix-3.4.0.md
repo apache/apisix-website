@@ -97,7 +97,7 @@ curl http://127.0.0.1:9180/apisix/admin/ssls/1 \
 }'
 ```
 
-If the URI of a request is in the `skip_mtls_uri_regex` list, then the client certificate will not be checked. Note that other URIs of the associated SNI will get HTTP 400 response instead of an alert error in the SSL handshake phase, if the client certificate is missing or invalid. 
+If the URI of a request is in the `skip_mtls_uri_regex` list, then the client certificate will not be checked. Note that other URIs of the associated SNI will get HTTP 400 response instead of an alert error in the SSL handshake phase, if the client certificate is missing or invalid.
 
 For a detailed example, see [Tutorial: mTLS bypass based on regular expression matching against URI](https://github.com/apache/apisix/blob/release/3.4/docs/en/latest/tutorials/client-to-apisix-mtls.md#mtls-bypass-based-on-regular-expression-matching-against-uri).
 
