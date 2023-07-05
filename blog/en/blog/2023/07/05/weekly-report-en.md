@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/03/o1PFlwn0_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently fixed or improved some features, and the updated summary is as follows:
+> We have recently fixed or improved some features, and the summary of the updates is as follows:
 > 1. APISIX allows customizing prometheus default bucket
 > 2. Fix the problem that body-transformer plugin cannot convert empty tables properly
 > 3. Fix the issue that max_kept configuration of the log-rotate plugin does not work when using a custom name
