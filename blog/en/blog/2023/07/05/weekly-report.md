@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/03/o1PFlwn0_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently fixed and improved some features of Apache APISIX, including optimizing Prometheus, fixing the `body-transformer` and `log-rotate` plugins, and adding an `annotation` to allow rewriting of the response header. For more details, please read this bi-weekly report. Meanwhile, We are pleased to present Apache APISIX 3.4.0 with exciting new features and performance improvements.
+> We have recently fixed and improved some features of Apache APISIX and Apache APISIX Ingress Controller, including optimizing Prometheus, fixing the body-transformer and log-rotate plugins, and adding an annotation to allow rewriting of the response header. For more details, please read this bi-weekly report. Meanwhile, We are pleased to present Apache APISIX 3.4.0 with exciting new features and performance improvements.
 
 <!--truncate-->
 
@@ -24,11 +24,11 @@ We have recently fixed and improved some features, and the summary of the update
 
 1. APISIX now allows customizing Prometheus default bucket.
 
-2. Fixed the problem that `body-transformer` plugin cannot convert empty tables properly.
+2. Fixed the problem that body-transformer plugin cannot convert empty tables properly.
 
-3. Fixed the issue that `max_kept` configuration of the `log-rotate` plugin does not work when using a custom name.
+3. Fixed the issue that max_kept configuration of the log-rotate plugin does not work when using a custom name.
 
-4. With recently added `annotation`, APISIX Ingress now allows rewriting of response headers.
+4. With recently added annotation, APISIX Ingress now allows rewriting of response headers.
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
