@@ -48,7 +48,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [修复使用自定义名称时 log-rotate 插件的 max_kept 配置无法生效问题](https://github.com/apache/apisix/pull/9749)（贡献者：[monkeyDluffy6017](https://github.com/monkeyDluffy6017)）
 
-### Apache APISIX Ingress
+### Apache APISIX Ingress Controller
 
 - [APISIX Ingress 新增 annotation 允许重写 response header](https://github.com/apache/apisix-ingress-controller/pull/1861)（贡献者：[Revolyssup ](https://github.com/Revolyssup )）
 
