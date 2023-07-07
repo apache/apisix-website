@@ -23,6 +23,16 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 从 2023.6.19 - 2023.7.02，有 22 位开发者为 Apache APISIX 提交了 35 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
 
+我们近期对部分功能进行了修复或改善，更新内容汇总如下：
+
+1. APISIX 允许自定义 Prometheus 默认 bucket。
+
+2. 修复 `body-transformer` 插件无法正常转换空的 table 问题。
+
+3. 修复使用自定义名称时 `log-rotate` 插件的 `max_kept` 配置无法生效问题。
+
+4. APISIX Ingress 新增 `annotation` 允许重写 response header。
+
 “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 
 ## 贡献者统计
