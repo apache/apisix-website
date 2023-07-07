@@ -28,7 +28,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 3. 修复使用自定义名称时 log-rotate 插件的 max_kept 配置无法生效问题。
 
-4. APISIX Ingress 新增 annotation 允许重写 response header。
+4. APISIX Ingress Controller 新增 annotation 允许重写 response header。
 
 “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 
