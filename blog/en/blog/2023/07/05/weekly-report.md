@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/03/o1PFlwn0_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently fixed and improved some features of Apache APISIX, please read this blog for details!
+> We have recently fixed and improved some features of Apache APISIX, please read this blog for details! Meanwhile, We are pleased to present Apache APISIX 3.4.0 with exciting new features and performance improvements.
 
 <!--truncate-->
 
@@ -51,5 +51,15 @@ We have recently fixed and improved some features, and the summary of the update
 ### Apache APISIX Ingress Controller
 
 - [APISIX Ingress adds annotation to allow rewriting of response headers](https://github.com/apache/apisix-ingress-controller/pull/1861) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+
+## Recent Blog Recommendations
+
+- [Release Apache APISIX 3.4.0](https://apisix.apache.org/blog/2023/06/30/release-apache-apisix-3.4.0/)
+
+  This release provides a new plugin loki-logger to forward logs to Grafana Loki, and allows for mTLS connection on the route level. In addition, the release also includes many other updates to continuously enhance the user experience of APISIX.
+
+- [Connecting IoT Devices to the Cloud with APISIX MQTT Proxy](https://apisix.apache.org/blog/2023/06/30/apisix-mqtt-proxy/)
+
+  APISIX's support for stream routes and, in extension, the MQTT protocol is often overlooked. Let's change this by looking at an end-to-end example of how APISIX can act as an MQTT proxy.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
