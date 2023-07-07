@@ -21,7 +21,7 @@ tags: [Community]
 
 我们很高兴地介绍 Apache APISIX 3.4.0，它带来了令人兴奋的新功能和性能改进。
 
-`<!--truncate-->`
+<!--truncate-->
 
 此版本提供了一个新的插件 `loki-logger`，可将日志转发到 [Grafana Loki](https://grafana.com/oss/loki/)，并允许在路由级别上建立 mTLS 连接。此外，此版本还还引入了许多新的特性，旨在优化对 APISIX 的使用体验。
 
