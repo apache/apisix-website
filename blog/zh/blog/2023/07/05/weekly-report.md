@@ -50,7 +50,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Apache APISIX Ingress Controller
 
-- [APISIX Ingress Controller 新增 annotation 允许重写 response header](https://github.com/apache/apisix-ingress-controller/pull/1861)（贡献者：[Revolyssup ](https://github.com/Revolyssup )）
+- [APISIX Ingress Controller 新增 annotation 允许重写 response header](https://github.com/apache/apisix-ingress-controller/pull/1861)（贡献者：[Revolyssup](https://github.com/Revolyssup )）
 
 ## 最新博客速览
 
