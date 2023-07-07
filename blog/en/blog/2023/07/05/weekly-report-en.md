@@ -23,6 +23,16 @@ Apache APISIX grew up as a community from the first day it was open-sourced, and
 
 From 6.19 to 7.02, 22 contributors submitted 35 commits for Apache APISIX. Thank you for your contributions to Apache APISIX.
 
+We have recently fixed and improved some features, and the summary of the updates is as follows:
+
+1. APISIX now allows customizing Prometheus default bucket.
+
+2. Fixed the problem that `body-transformer` plugin cannot convert empty tables properly.
+
+3. Fixed the issue that `max_kept` configuration of the `log-rotate` plugin does not work when using a custom name.
+
+4. With recently added `annotation`, APISIX Ingress now allows rewriting of response headers.
+
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
 ## Contributor Statistics
