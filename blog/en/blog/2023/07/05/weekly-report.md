@@ -28,7 +28,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 3. Fixed the issue that max_kept configuration of the log-rotate plugin does not work when using a custom name.
 
-4. With recently added annotation, APISIX Ingress now allows rewriting of response headers.
+4. With recently added annotation, APISIX Ingress Controller now allows rewriting of response headers.
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
