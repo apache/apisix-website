@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/03/eFGYTgLd_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
 
-> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，详情请阅读本期双周报。与此同时，我们还发布了Apache APISIX 3.4.0，它的功能更加强大，性能更加优越。
+> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括优化Prometheus、修复 `body-transformer` 和`log-rotate` 插件、新增 `annotation`允许重写 response header，详情请阅读本期双周报。与此同时，我们还发布了Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
 
 <!--truncate-->
 
