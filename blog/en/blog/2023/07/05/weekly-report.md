@@ -50,7 +50,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 ### Apache APISIX Ingress Controller
 
-- [APISIX Ingress adds annotation to allow rewriting of response headers](https://github.com/apache/apisix-ingress-controller/pull/1861) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+- [APISIX Ingress Controller adds annotation to allow rewriting of response headers](https://github.com/apache/apisix-ingress-controller/pull/1861) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
 ## Recent Blog Recommendations
 
