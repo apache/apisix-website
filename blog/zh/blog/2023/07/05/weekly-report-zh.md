@@ -10,11 +10,8 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/03/eFGYTgLd_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
 
-> 我们近期对部分功能进行了修复或改善，更新内容汇总如下：
-> 1. APISIX 允许自定义 prometheus 默认 bucket 
-> 2. 修复 body-transformer 插件无法正常转换空的 table 问题 
-> 3. 修复使用自定义名称时 log-rotate 插件的 max_kept 配置无法生效问题 
-> 4. APISIX Ingress 新增 annotation 允许重写 response header
+> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，详情请阅读本期双周报。
+
 <!--truncate-->
 
 ## 导语
