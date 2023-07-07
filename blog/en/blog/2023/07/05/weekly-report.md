@@ -48,7 +48,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 - [Fix the issue that max_kept configuration of the log-rotate plugin does not work when using a custom name](https://github.com/apache/apisix/pull/9749) (Contributor: [monkeyDluffy6017](https://github.com/monkeyDluffy6017))
 
-### Apache APISIX Ingress
+### Apache APISIX Ingress Controller
 
 - [APISIX Ingress adds annotation to allow rewriting of response headers](https://github.com/apache/apisix-ingress-controller/pull/1861) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
