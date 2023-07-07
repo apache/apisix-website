@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/03/eFGYTgLd_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
 
-> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括优化Prometheus、修复 `body-transformer` 和`log-rotate` 插件、新增 `annotation`允许重写 response header，详情请阅读本期双周报。与此同时，我们还发布了Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
+> 我们近期对 Apache APISIX 和 Apache APISIX Ingress Controller 的部分功能进行了修复或改善，包括优化 Prometheus 、修复 body-transformer 和 log-rotate 插件、新增 annotation 允许重写 response header，详情请阅读本期双周报。与此同时，我们还发布了 Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
 
 <!--truncate-->
 
@@ -24,11 +24,11 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 1. APISIX 允许自定义 Prometheus 默认 bucket。
 
-2. 修复 `body-transformer` 插件无法正常转换空的 table 问题。
+2. 修复 body-transformer 插件无法正常转换空的 table 问题。
 
-3. 修复使用自定义名称时 `log-rotate` 插件的 `max_kept` 配置无法生效问题。
+3. 修复使用自定义名称时 log-rotate 插件的 max_kept 配置无法生效问题。
 
-4. APISIX Ingress 新增 `annotation` 允许重写 response header。
+4. APISIX Ingress 新增 annotation 允许重写 response header。
 
 “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 
