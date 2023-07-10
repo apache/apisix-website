@@ -39,10 +39,10 @@ tags: [Ecosystem]
 
 Roy Fielding 在他 2000 年的博士论文《建筑风格和基于网络的软件架构设计》中定义了REST（Representational state transfer），REST 架构风格定义了六个指导性约束。一个符合**部分**或**全部**约束的系统被松散地称为 RESTful。
 
-![RESTful API](https://static.apiseven.com/uploads/2023/02/10/mRPLIAud_3291947742.png)
+![RESTful API](https://static.apiseven.com/uploads/2023/02/10/mRPLIAud_3291947742.png)  
  (图片来源：Seobility)
 
-### REST 的约束条件（长龙在排版时可以考虑一键截图 or 分点>横向叙述）
+### REST 的约束条件
 
 |约束条件|详述|优势|
 |:----|:----|:----|
