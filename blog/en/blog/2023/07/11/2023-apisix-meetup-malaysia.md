@@ -113,7 +113,7 @@ In comparison to local devices, API7 Cloud offers heightened security, improved 
 
 > [Nicolas Fränkel](https://www.linkedin.com/in/nicolasfrankel/), Engineer, APISIX Developer Advocate, API7 Developer Advocate
 
-![Nicolas Fränkel](https://static.apiseven.com/uploads/2023/07/07/iRbFTwOT_meetup8.jpeg)
+![Nicolas Fränkel](https://static.apiseven.com/uploads/2023/07/11/cUPX0toG_nicolas.jpeg)
 
 Data residency poses significant concerns due to varying laws and regulations related to data storage and processing across different countries and regions. Additionally, cloud providers may not have data centers in specific locations, leading to the need for effective data residency management strategies.
 
