@@ -10,10 +10,14 @@ keywords:
   - Community
   - Meetup
   - Apache APISIX
-description: 
+description: Kuala Lumpur, the capital of Malaysia, witnessed the success of the 2023 APISIX open-source Community Meetup on July 4th. 
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/06/28/6T1RUrwQ_img_v2_6e1d6a11-db2a-4236-b715-38b20c2c12bg.png
 ---
+
+Kuala Lumpur, the capital of Malaysia, witnessed the success of the 2023 APISIX open-source Community Meetup on July 4th. 
+
+<!--truncate-->
 
 Kuala Lumpur, the vibrant capital of Malaysia, recently witnessed the grand opening of the highly anticipated technical extravaganza hosted by [Apache APISIX](https://apisix.apache.org/). This momentous event, brought to life through the collaboration of [API7.ai (API7)](https://api7.ai/), [N2N Connect Berhad (N2N)](https://www.n2nconnect.com/), and [Advanced Micro Devices, Inc. (AMD)](https://www.amd.com/en.html), saw the convergence of numerous API gateway technology experts and enthusiasts. The impact of APISIX resonates across multiple sectors, including finance and IT, attracting users from Malaysia and Singapore, who enthusiastically joined both on-site and online.
 
@@ -21,7 +25,7 @@ Distinguished by the presence of [APISIX PMC members](https://apisix.apache.org/
 
 ## Audience Raves
 
-The meetup garnered widespread acclaim, captivating attendees with its engaging program and fostering a spirit of knowledge exchange. Notably, Bryan, the esteemed business development manager of N2N, the foremost stock trading platform in Malaysia, shared his insights:
+The meetup garnered widespread acclaim, captivating attendees with its engaging program and fostering a spirit of knowledge exchange. Notably, Bryan, the esteemed Business Development Manager of N2N, the foremost stock trading platform in Malaysia, shared his insights:
 
 > "In Malaysia's developer community, there has been a recurring challenge where most individuals learn development skills online but struggle to find local connections with other developers. Consequently, this has led to a shift in how ideas are shared, particularly when facing real-life development challenges.
 > 
@@ -31,11 +35,11 @@ The meetup garnered widespread acclaim, captivating attendees with its engaging 
 > 
 > Speaking specifically about APISIX, we see a promising future for the product overall. We are genuinely excited and confident that it will excel, especially considering the positive feedback we received from attendees at this event. Additionally, the global interest from clients eager to utilize APISIX further strengthens our belief that the technological landscape in Malaysia will continue to thrive. We are truly delighted to have had the opportunity to connect with you all and eagerly await your future endeavors."
 
-Michael, the esteemed head of SRE at a multinational fintech company, said:
+Michael, Head of SRE at a multinational fintech company, said:
 
 > "We are actively seeking a new API gateway, and we have a keen interest in APISIX's exceptional traffic governance capabilities. The valuable insights and use cases presented at the conference, particularly within the financial services industry, provide invaluable references for our decision-making process. We eagerly look forward to experiencing the captivating features of APISIX at the earliest opportunity."
 
-Joey, an accomplished software engineer, enthusiastically praised the Meetup:
+Joey, an accomplished Software Engineer, enthusiastically praised the Meetup:
 
 > "The event is incredibly informative, with a remarkably detailed demo that left me enriched with knowledge. Prior to this, he was more familiar with platforms such as GCP and AWS, but the introduction to APISIX has opened up a plethora of prospects for my future work."
 
