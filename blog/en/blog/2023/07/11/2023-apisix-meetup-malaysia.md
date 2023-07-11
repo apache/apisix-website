@@ -65,7 +65,7 @@ Furthermore, APISIX aims to streamline API design processes and provide develope
 
 ## Yuansheng Wang: How Do Financial Services Companies Use APISIX?
 
-> [Yuansheng Wang](https://www.linkedin.com/in/yuansheng-wang-84014022a/), member of Apache APISIX PMC, co-founder and CTO of API7.ai, one of the authors of Apache APISIX in Action
+> [Yuansheng Wang](https://www.linkedin.com/in/yuansheng-wang-84014022a/), member of Apache APISIX PMC, co-founder and CTO of API7.ai, one of the authors of *Apache APISIX in Action*
 
 ![Yuansheng (right) is discussing technical details with the audience](https://static.apiseven.com/uploads/2023/07/07/3kshxsgx_3.jpeg)
 
