@@ -23,7 +23,7 @@ Kuala Lumpur, the vibrant capital of Malaysia, recently witnessed the grand open
 
 Distinguished by the presence of [APISIX PMC members](https://apisix.apache.org/team/) and a diverse array of contributors, the gathering served as a forum for discussing cutting-edge advancements and evolving trends in API gateway technology. The event proved invaluable for the exchange of experiences, insights, and practical knowledge, fostering an atmosphere brimming with warmth and intellectual synergy. Through this dynamic meetup, the development of API gateway technology received a rejuvenating boost, nourished by fresh wisdom and innovative ideas.
 
-## Audience Raves
+## The Voice of the Audience
 
 The meetup garnered widespread acclaim, captivating attendees with its engaging program and fostering a spirit of knowledge exchange. Notably, Bryan, the esteemed Business Development Manager of N2N, the foremost stock trading platform in Malaysia, shared his insights:
 
