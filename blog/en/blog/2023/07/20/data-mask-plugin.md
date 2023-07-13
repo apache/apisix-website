@@ -87,9 +87,9 @@ return _M
 
 There are three functions (interfaces for the plugin) declared on the structure `_M`:
 
-1.  `check_schema`: used for validating the plugin configuration and is called when this plugin is enabled on a route.
-2.  `header_filter` and
-3.  `body_filter`: for modifying the response header and body, respectively, before sending it to the client.
+1. `check_schema`: used for validating the plugin configuration and is called when this plugin is enabled on a route.
+2. `header_filter` and
+3. `body_filter`: for modifying the response header and body, respectively, before sending it to the client.
 
 In the end, this returns `_M`, and the APISIX can use the data from this to get the metadata and functions from the plugin.
 
@@ -99,9 +99,9 @@ Like every sound engineer, let's first design the plugin before we start writing
 
 The goal of this plugin is simple:
 
-1.  The user should be able to define what sensitive data would look like in the plugin configuration (maybe RegEx?).
-2.  They should be able to define what sensitive data should be replaced with (like `*******`).
-3.  APISIX should then modify requests and responses based on these configurations.
+1. The user should be able to define what sensitive data would look like in the plugin configuration (maybe RegEx?).
+2. They should be able to define what sensitive data should be replaced with (like `*******`).
+3. APISIX should then modify requests and responses based on these configurations.
 
 So each rule can contain a regular expression and a replacement string. This rule will be applied to the response, and the masked data will be returned to the client:
 
