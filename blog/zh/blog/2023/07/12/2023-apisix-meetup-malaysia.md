@@ -15,7 +15,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/06/28/6T1RUrwQ_img_v2_6e1d6a11-db2a-4236-b715-38b20c2c12bg.png
 ---
 
-> 7 月 4 日，2023 APISIX 开源社区 Meetup 在马来西亚首都吉隆坡成功举办。 
+> 7 月 4 日，2023 APISIX 开源社区 Meetup 在马来西亚首都吉隆坡成功举办。
 
 <!--truncate-->
 

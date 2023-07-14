@@ -15,7 +15,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/06/28/6T1RUrwQ_img_v2_6e1d6a11-db2a-4236-b715-38b20c2c12bg.png
 ---
 
-Kuala Lumpur, the capital of Malaysia, witnessed the success of the 2023 APISIX open-source Community Meetup on July 4th. 
+Kuala Lumpur, the capital of Malaysia, witnessed the success of the 2023 APISIX open-source Community Meetup on July 4th.
 
 <!--truncate-->
 
@@ -28,11 +28,11 @@ Distinguished by the presence of [APISIX PMC members](https://apisix.apache.org/
 The meetup garnered widespread acclaim, captivating attendees with its engaging program and fostering a spirit of knowledge exchange. Notably, Bryan, the esteemed Business Development Manager of N2N, the foremost stock trading platform in Malaysia, shared his insights:
 
 > "In Malaysia's developer community, there has been a recurring challenge where most individuals learn development skills online but struggle to find local connections with other developers. Consequently, this has led to a shift in how ideas are shared, particularly when facing real-life development challenges.
-> 
+>
 > For example, while online learning is great for acquiring new programming languages, it falls short when it comes to addressing specific situations like making decisions on system architecture within the business landscape. These are instances where direct conversations with peers become essential. I strongly emphasize the importance of collaborative work for everyone's growth.
-> 
+>
 > Furthermore, I firmly believe that the open-source community plays a significant role in the lives of software developers. Projects like APISIX within the [Apache Software Foundation](https://www.apache.org/) are invaluable. That's why N2N is wholeheartedly supportive of open-source initiatives, including those led by the Apache Software Foundation. We are also enthusiastic about supporting any future open-source projects, non-profit or otherwise, as well as participating in open-source meetups.
-> 
+>
 > Speaking specifically about APISIX, we see a promising future for the product overall. We are genuinely excited and confident that it will excel, especially considering the positive feedback we received from attendees at this event. Additionally, the global interest from clients eager to utilize APISIX further strengthens our belief that the technological landscape in Malaysia will continue to thrive. We are truly delighted to have had the opportunity to connect with you all and eagerly await your future endeavors."
 
 Michael, Head of SRE at a multinational fintech company, said:
