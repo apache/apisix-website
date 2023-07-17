@@ -19,7 +19,7 @@ tags: [Ecosystem]
 
 > 作者[孙毅](https://github.com/litesun)，API7.ai 技术工程师，Apache APISIX Committer
 
-万物互联的世界充满着各式各样的 API ，如何统筹规范 API 至关重要。[RESTful API](https://en.wikipedia.org/wiki/Representational_state_transfer) 是目前世界上最流行的 API 架构风格之一，它可以帮助你实现客户端与服务端关注点分离，让前后端各自迭代，提升管理效率；其无状态的特性可以让应用更容易扩展，更容易的实现缓存策略从而提升系统性能和用户体验。本文将介绍什么是 RESTful API 以及我们如何使用它。
+万物互联的世界充满着各式各样的 API ，如何统筹规范 API 至关重要。[RESTful API](https://en.wikipedia.org/wiki/Representational_state_transfer) 是目前世界上最流行的 API 架构风格之一，它可以帮助你实现客户端与服务端关注点分离，让前后端各自迭代，提升管理效率；其无状态的特性可以让应用更容易扩展，更容易地实现缓存策略从而提升系统性能和用户体验。本文将介绍什么是 RESTful API 以及我们如何使用它。
 
 首先，抛开 API 这个概念，我们来聊聊在生活中如何传递信息。
 
@@ -49,13 +49,13 @@ Roy Fielding 在他 2000 年的博士论文《建筑风格和基于网络的软�
 |Client–server architecture|通过将用户界面问题与数据存储问题分开，提高了跨多个平台的用户界面的可移植性，并通过简化服务器组件提高了可扩展性。|1. 客户端、服务端解耦。<br />2. 提升用户平台跨平台的可移植性。<br />3. 提升服务器端的可拓展性。|
 |Statelessness|客户端的每个请求到服务器必须包含请求所需的所有信息，并且不能利用服务器上存储的任何上下文，会话状态完全保存在客户端。|1. 易扩展，无会话依赖，任何服务器可以处理任何请求。<br />2. 易缓存，提升程序性能。|
 |Cacheability|要求请求响应中的数据被隐式或显式标记为可缓存或不可缓存。如果一个响应是可缓存的，那么客户端缓存就被授予为以后的等效请求重用该响应数据的权利。|1. 减少带宽。<br />2. 减少延迟。<br />3. 减少服务器负载。<br />4. 隐藏网络状态。|
-|Layered system|通过约束组件行为允许架构由分层层组成，这样每个组件都不能“看到”超出它们与之交互的直接层。通过将系统知识限制在单个层，降低了整个系统的复杂性并促进了底层独立性。|1. 降低整个系统的复杂性。<br />2. 促进底层的独立性。<br />3. 可方便的实施负载均衡。<br />4. 可将业务逻辑和安全策略解耦。|
+|Layered system|通过约束组件行为允许架构由分层层组成，这样每个组件都不能“看到”超出它们与之交互的直接层。通过将系统知识限制在单个层，降低了整个系统的复杂性并促进了底层独立性。|1. 降低整个系统的复杂性。<br />2. 促进底层的独立性。<br />3. 可方便地实施负载均衡。<br />4. 可将业务逻辑和安全策略解耦。|
 |Code on demand (optional)|允许通过下载和执行小程序或脚本形式的代码来扩展客户端功能。|1. 提高系统的可扩展性。|
 |Uniform interface|主要包含四点：<br />1. Resource identification in requests.<br />客户能够通过请求中包含的 URI 来识别一个资源，将服务端资源和客户端请求资源解耦。<br />2. Resource manipulation through representations.<br />当客户端拥有一个资源的表示，如 URI，那么就有足够的信息来修改或者删除资源。<br />3. Self-descriptive messages.<br />每个消息都包括足够的信息来告知客户客户端该如何处理该信息。<br />4. Hypermedia as the engine of application state ([HATEOAS](https://github.com/api7/contents/blob/691305a1293991d7b0b39a0ac9a7a655c935778a/blog/https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FHATEOAS)).<br />客户端不需要任何额外的编码通过服务端返回的资源链接，就可以使得用户获取所有的资源。|1. 简化了整体系统架构。<br />2. 提高了交互的可见性。|
 
 ## RESTful API 最佳实践
 
-强调组件间的 **统一接口** 是 REST 架构风格与其他基于网络的风格区分开来的核心特征，基于此特征，本文梳理了RSETful 最佳实践，以帮助你更好的设计 API。
+强调组件间的 **统一接口** 是 REST 架构风格与其他基于网络的风格区分开来的核心特征，基于此特征，本文梳理了RSETful 最佳实践，以帮助你更好地设计 API。
 
 ### 路径名称避免动词
 
@@ -175,7 +175,7 @@ curl  http://httpbin.org/orders -H "custom-version: v2"
 
 ## APISIX 如何助力 RESTful API
 
-作为一个动态、实时、高性能的 API 网关，Apache APISIX 可以在任何 RESTful API 服务上运行，并使用插件来添加新的服务和扩展其功能，这符合 RESTful 定义中的 **Layered system**。此外，对于一些没有遵循 RESTful API 定义的历史服务， APISIX 也可以帮你在**不改动原有业务代码**的情况下完成接口的转换，使你的接口完成 **Uniform interface** 这一 REST 限制条件，使你的 API 可以更好的遵守 RESTful API 规范。
+作为一个动态、实时、高性能的 API 网关，Apache APISIX 可以在任何 RESTful API 服务上运行，并使用插件来添加新的服务和扩展其功能，这符合 RESTful 定义中的 **Layered system**。此外，对于一些没有遵循 RESTful API 定义的历史服务， APISIX 也可以帮你在**不改动原有业务代码**的情况下完成接口的转换，使你的接口完成 **Uniform interface** 这一 REST 限制条件，使你的 API 可以更好地遵守 RESTful API 规范。
 
 ### 分层系统：支持业务逻辑和安全逻辑的分割
 
@@ -199,7 +199,7 @@ APISIX 作为 API 网关，可以设立在客户端和服务端之间，完成�
 
 ### 统一接口：使历史 API 更加 RESTful
 
-对于已经存在很久的历史 API，如果没有很好的遵循 RESTful API 准则。你可以在不改造原有 API 逻辑的情况下重新通过 APISIX 来封装新的 API 以满足不同的业务场景。
+对于已经存在很久的历史 API，如果没有很好地遵循 RESTful API 准则。你可以在不改造原有 API 逻辑的情况下重新通过 APISIX 来封装新的 API 以满足不同的业务场景。
 
 #### 使用 [proxy-rewrite](https://apisix.apache.org/docs/apisix/plugins/proxy-rewrite/) 改写客户端请求
 
