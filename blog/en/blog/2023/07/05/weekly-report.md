@@ -1,5 +1,5 @@
 ---
-title: "Biweekly Report (June 19 - July 05)"
+title: "Biweekly Report (June 19 - July 02)"
 keywords: 
 - Apache APISIX
 - API Gateway
