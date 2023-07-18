@@ -3,7 +3,7 @@
 /**
  * @type {Array<string>} version list
  */
-const versions = ['2.12', '2.13', '2.14', '2.15', '3.0', '3.1', '3.2', '3.3', '3.4'];
+const versions = ['2.13', '2.14', '2.15', '3.0', '3.1', '3.2', '3.3', '3.4'];
 
 /**
  * @type {Array<string>} LTS version list
@@ -21,6 +21,10 @@ const versionMap = {
  * @type {Array<{label: string, href: string}>}
  */
 const archivedVersions = [
+  {
+    label: '2.12',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.12/getting-started/',
+  },
   {
     label: '2.11',
     href: 'https://625a9090d04b9a6953165811--2-11-old-docs-apache-apisix.netlify.app/docs/apisix/getting-started/',
