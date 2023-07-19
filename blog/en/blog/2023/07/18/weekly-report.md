@@ -34,9 +34,9 @@ We have recently fixed and improved some features, and the summary of the update
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/07/17/ndDgARK1_%E6%89%80%E6%9C%89%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/07/19/a5J3z3cg_%E6%89%80%E6%9C%89%E8%B4%A1%E7%8C%AE%E8%80%85.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/07/17/D7RXpWLf_%E6%96%B0%E6%99%8B%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/07/19/2u1sjWCn_%E6%96%B0%E6%99%8B%E8%B4%A1%E7%8C%AE%E8%80%85.png)
 
 ## Highlights of Recent Features
 
@@ -49,7 +49,6 @@ We have recently fixed and improved some features, and the summary of the update
 - [Fixed the conflict issue of update_count in etcd watch implementation](https://github.com/apache/apisix/pull/9811) (Contributor: [kingluo](https://github.com/kingluo))
 
 - [Added the ability to force delete resources through the admin API](https://github.com/apache/apisix/pull/9810) (Contributor: [lingsamuel](https://github.com/lingsamuel))
-
 
 ## Recent Blog Recommendations
 
