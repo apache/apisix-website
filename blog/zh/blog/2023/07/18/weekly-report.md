@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/17/shxmVhkq_%E8%8B%B1%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
-> 我们近期对 Apache APISIX 和 Apache APISIX Ingress Controller 的部分功能进行了修复或改善，包括优化 mock 插件、修复 limit-count 插件、解决 update_count 冲突、增加通过 force 参数进行强制删除的功能，详情请阅读本期双周报。与此同时，我们还发布了 Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
+> 我们近期对 Apache APISIX 和 Apache APISIX Ingress Controller 的部分功能进行了修复或改善，包括优化 mock 插件、修复 limit-count 插件、解决缓存键冲突、增加通过 force 参数进行强制删除的功能，详情请阅读本期双周报。与此同时，我们还发布了 Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
 
 <!--truncate-->
 
@@ -23,20 +23,20 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 我们近期对部分功能进行了修复或改善，更新内容汇总如下：
 
 1. mock 插件支持添加 header
-   
+ 
 2. 修复 limit-count 插件在 stream 代理模式下使用 http 模式变量报错问题
-   
-3. 修复 etcd watch 实现中 update_count 冲突问题
-   
+
+3. 修复 update_count 重置导致的缓存键冲突问题
+
 4. admin API 增加通过 force 参数强制删除资源特性
 
 “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 
 ## 贡献者统计
 
-![贡献者名单](https://static.apiseven.com/uploads/2023/07/17/ndDgARK1_%E6%89%80%E6%9C%89%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
+![贡献者名单](https://static.apiseven.com/uploads/2023/07/19/a5J3z3cg_%E6%89%80%E6%9C%89%E8%B4%A1%E7%8C%AE%E8%80%85.png)
 
-![新晋贡献者](https://static.apiseven.com/uploads/2023/07/17/D7RXpWLf_%E6%96%B0%E6%99%8B%E8%B4%A1%E7%8C%AE%E8%80%85%E6%B5%B7%E6%8A%A5.png)
+![新晋贡献者](https://static.apiseven.com/uploads/2023/07/19/y2VSsYjg_contributor0719.png)
 
 ## 近期亮点功能
 
@@ -46,7 +46,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [修复 limit-count 插件在 stream 代理模式下使用 http 模式变量报错问题](https://github.com/apache/apisix/pull/9816)（贡献者：[Sn0rt](https://github.com/Sn0rt)）
 
-- [修复 etcd watch 实现中 update_count 冲突问题](https://github.com/apache/apisix/pull/9811)（贡献者：[kingluo](https://github.com/kingluo)）
+- [修复 update_count 重置导致的缓存键冲突问题](https://github.com/apache/apisix/pull/9811)（贡献者：[kingluo](https://github.com/kingluo)）
 
 - [admin API 增加通过 force 参数强制删除资源特性](https://github.com/apache/apisix/pull/9810)（贡献者：[lingsamuel](https://github.com/lingsamuel)）
 
