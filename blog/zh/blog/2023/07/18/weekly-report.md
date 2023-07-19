@@ -23,7 +23,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 我们近期对部分功能进行了修复或改善，更新内容汇总如下：
 
 1. mock 插件支持添加 header
- 
+
 2. 修复 limit-count 插件在 stream 代理模式下使用 http 模式变量报错问题
 
 3. 修复 update_count 重置导致的缓存键冲突问题
