@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/07/17/shxmVhkq_%E8%8B%B1%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
-> 我们近期对 Apache APISIX 和 Apache APISIX Ingress Controller 的部分功能进行了修复或改善，包括优化 mock 插件、修复 limit-count 插件、解决缓存键冲突、增加通过 force 参数进行强制删除的功能，详情请阅读本期双周报。与此同时，我们还发布了 Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
+> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括优化 mock 插件、修复 limit-count 插件、解决缓存键冲突、增加通过 force 参数进行强制删除的功能，详情请阅读本期双周报。与此同时，我们还发布了 Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
 
 <!--truncate-->
 
