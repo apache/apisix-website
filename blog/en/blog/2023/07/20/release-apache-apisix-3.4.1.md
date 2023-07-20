@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: The Apache APISIX 3.4.0 version is released on July 18, 2023. This version fixes a security vulnerability in JWT.
+description: The Apache APISIX 3.4.0 version is released on July 20, 2023. This version fixes a security vulnerability in JWT.
 tags: [Community]
 ---
 
