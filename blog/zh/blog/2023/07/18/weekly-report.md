@@ -7,7 +7,7 @@ keywords:
 - 贡献者
 description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: https://static.apiseven.com/uploads/2023/07/17/shxmVhkq_%E8%8B%B1%E6%96%87%E5%A4%B4%E5%9B%BE.png
+image: https://static.apiseven.com/uploads/2023/07/17/luZ77X5W_%E4%B8%AD%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
 > 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括优化 mock 插件、修复 limit-count 插件、解决缓存键冲突、增加通过 force 参数进行强制删除的功能，详情请阅读本期双周报。与此同时，我们还发布了 Apache APISIX 3.4.0。它的功能更加强大，性能更加优越。
