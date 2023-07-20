@@ -57,4 +57,4 @@ tags: [Community]
 
 ## 更新日志
 
-有关此版本中包含的所有更新，请参见 [CHANGELOG](https://github.com/apache/apisix/blob/master/CHANGELOG.md).
+有关此版本中包含的所有更新，请参见 [CHANGELOG](https://github.com/apache/apisix/blob/release/3.2/CHANGELOG.md#322).
