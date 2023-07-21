@@ -1,5 +1,5 @@
 ---
-title: "Release Apache APISIX 3.4.1"
+title: "Apache APISIX 3.4.1 正式发布"
 authors:
   - name: "Guohao Wang"
     title: "Author"
