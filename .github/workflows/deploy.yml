@@ -129,3 +129,11 @@ jobs:
           publish_dir: website/build
           publish_branch: asf-site
           force_orphan: true
+
+      - name: Run linkinator
+        uses: JustinBeckwith/linkinator-action@v1
+        with:
+          path: website/build
+          recursive: true
+          verbosity: error
+          skip: "^(?!http://localhost)"
