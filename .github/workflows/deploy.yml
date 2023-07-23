@@ -137,4 +137,3 @@ jobs:
           recursive: true
           verbosity: error
           skip: "^(?!http://localhost)"
-gi
