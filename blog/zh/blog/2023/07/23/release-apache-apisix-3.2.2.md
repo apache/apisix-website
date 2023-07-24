@@ -31,9 +31,9 @@ tags: [Community]
 
 ### etcd 优化
 
-支持单个 HTTP 长连接 watch etcd 的全部资源，该优化降低了访问 etcd 的资源损耗，使 watch 性能可达到 与 gRPC 一样的效果。（[PR ＃9456](https://github.com/apache/apisix/pull/9456)）
+支持单个 HTTP 长连接监听 etcd 的全部资源，该优化降低了访问 etcd 的资源损耗，使 watch 性能可达到 与 gRPC 一样的效果。（[PR ＃9456](https://github.com/apache/apisix/pull/9456)）
 
-为 etcd calls 启用长连接。([PR #9420](https://github.com/apache/apisix/pull/9420))
+为 etcd calls 启用 keep-alive 连接。([PR #9420](https://github.com/apache/apisix/pull/9420))
 
 ### 修复 `opentelemetry` 和 `grpc-transcode` 插件同时使用时的问题
 
