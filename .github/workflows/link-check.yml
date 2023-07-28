@@ -36,14 +36,23 @@ jobs:
         run: |
           yarn sync-docs && git status
 
-      - name: Check Links
-        run: |
-          yarn workspace scripts link-checker && git status
-
-      - name: Archive Broken Links List
-        uses: actions/upload-artifact@v3
-        if: always()
+      - name: Run link check
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
-          name: broken-links.json
-          path: scripts/brokenLinks.json
-          retention-days: 5
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          config-file: '.github/mlc_config.json'
+          folder-path: 'doc/docs/, doc/i18n/zh/'
+      
+      # - name: Check Links
+      #   run: |
+      #     yarn workspace scripts link-checker && git status
+
+      # - name: Archive Broken Links List
+      #   uses: actions/upload-artifact@v3
+      #   if: always()
+      #   with:
+      #     name: broken-links.json
+      #     path: scripts/brokenLinks.json
+      #     retention-days: 5
+
