@@ -1,8 +1,8 @@
 ---
 title: Your API Requests Should Be Validated
 authors:
-  - name: "Navendu Pottekkat"
-    title: "Author"
+  - name: Navendu Pottekkat
+    title: Author
     url: "https://github.com/navendu-pottekkat"
     image_url: "https://avatars.githubusercontent.com/u/49474499"
 keywords:
@@ -157,7 +157,7 @@ routes:
 #END
 ```
 
-You can also use the Admin API for this exact configuration:
+If you are not using APISIX in standalone mode, you can use the Admin API for this exact configuration:
 
 ```shell
 curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT -d '
@@ -403,7 +403,7 @@ It is fair to assume that you now understand why request validation might be nec
 
 A key point is that you might not always own your clients, or modifying client requests might be relatively easy. Adding validation in a layer you have absolute control of is the better alternative.
 
-So why can't you validate requests in your services directly? Well, after a point, it becomes too complex for the application developer to configure both request validation and application/business-specific validation. Without an API gateway layer, invalid requests still end up adding load to your backend services.
+So why can't you validate requests in your services directly? Well, after a point, it becomes too complex for the application developer to configure both request validation (header/body validation) and application/business-specific validation. Without an API gateway layer, invalid requests still end up adding load to your backend services.
 
 Ideally, you should validate requests in all three layers with only business-specific validation in your services. The [APISIX Dashboard](https://apisix.apache.org/docs/dashboard/USER_GUIDE/) can export the configured routes to [OpenAPI format](https://spec.openapis.org/oas/latest.html), which can be used for client-side validation.
 
