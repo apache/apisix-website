@@ -319,6 +319,12 @@ module.exports = [
         githubUsername: 'kingluo',
         avatarUrl: 'https://avatars.githubusercontent.com/u/4401042?v=4',
       },
+      {
+        name: 'Fucheng Jiang',
+        username: 'jiangfucheng',
+        githubUsername: 'jiangfucheng',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/33349046?v=4'
+      },
     ],
   },
 ];
