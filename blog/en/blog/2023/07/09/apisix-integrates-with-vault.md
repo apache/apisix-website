@@ -14,7 +14,7 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/07/isIAWmKT_How%20to%20Use%20Vault%20to%20Manage%20Certificates%20in%20APISIX.png
 ---
 
->In order to securely store the SSL certificates in APISIX, APISIX has achieved integration with HashiCorp Vault, thus realizing the unified management of SSL certificates by taking advantage of Vault's secret security storage. This article takes configuring HTTPS communication between the downstream client and APISIX as an example to introduce how APISIX integrates Vault to implement SSL certificate management.
+>This article takes configuring HTTPS communication between the downstream client and APISIX as an example to introduce how APISIX integrates Vault to implement SSL certificate management.
 <!--truncate-->
 
 API gateway is a key basic component in API lifecycle management. It is the entrance of all traffic and is responsible for routing API requests from downstream clients to the correct upstream service for processing. Therefore, the API gateway works for the network communication between the upstream services and the downstream clients.
