@@ -31,7 +31,7 @@ Rate limiting can also be part of your business requirement where you want separ
 
 If you are using [Apache APISIX](https://apisix.apache.org) as your API gateway, you can leverage the rate limiting plugins, [limit-req](https://apisix.apache.org/docs/apisix/plugins/limit-req/), [limit-conn](https://apisix.apache.org/docs/apisix/plugins/limit-conn/), and [limit-count](https://apisix.apache.org/docs/apisix/plugins/limit-count/) to achieve this.
 
-You can always set this up in your services directly without configuring it in APISIX. But as the number of your services increases, with each service having different constraints, setting up and managing different rate limits and updating them might become difficult.
+You can always set this up in your services directly without configuring it in APISIX. But as the number of your services increases, with each service having different constraints, setting up and managing different rate limits and updating them in each of these services becomes a pain point for development teams.
 
 In this article, we will look at examples of how we can use the rate limiting plugins in APISIX. You can find the complete configuration files and instructions to deploy for this article in [this repository](https://github.com/navendu-pottekkat/rate-limit).
 
@@ -89,7 +89,9 @@ curl localhost:9180/apisix/admin/routes/rate_limit_route -X PUT -d '
 
 This will allow only ten requests in a minute, and this will be reset every minute.
 
-A global and route level limit combo can be used to set hard limits on top of use case-specific limits, which is particularly helpful in many practical scenarios.
+A global and route level limit combo can be used to set hard limits on top of use case-specific limits, which is particularly helpful in many practical scenarios. For example, you can configure the `limit-rate` plugin in a global rule based on how much traffic your upstream services can handle and then configure `limt-count` plugins on specific routes to handle business specific rate limits.
+
+If the same plugin is configured globally and at a route level, the lower of the two is used by APISIX.
 
 ## Limits for Consumers
 
@@ -218,7 +220,7 @@ curl localhost:9180/apisix/admin/consumers -X PUT -d '
 }'
 ```
 
-Now consumers in the `team_acme` group can only send ten requests per minute to your API, while consumers in the `team_rocket` group can send 100.
+Now consumers in the `team_acme` group can only send ten requests per minute to your API, while consumers in the `team_rocket` group can send 100. So when `alice` from `team_acme` sends nine requests in a minute another user in the team, `bob` can only send one more request before the rate-limit quota is met.
 
 ## Multi-Node Rate Limits
 
