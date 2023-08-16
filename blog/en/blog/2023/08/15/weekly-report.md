@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/08/15/cOgKwDgK_%E8%8B%B1%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
-> We have recently made fixes and improvements to certain features of Apache APISIX. These include the addition of the `chaitin-waf` plugin, support for configuring TLS handshake protocol features for specified SNI, YAML configuration file support for rendering configurations from environment variables, and ensuring that the `Limit-count` plugin returns the correct X-RateLimit-Reset when rejecting requests. For more details, please refer to the current bi-weekly report.
+> We have recently made fixes and improvements to certain features of Apache APISIX. These include supporting the `chaitin-waf` plugin, configuring TLS handshake protocol for specified SNI, configuring YAML file for rendering environment variables, and ensuring that the `limit-count` plugin returns the correct X-RateLimit-Reset when rejecting requests. For more details, please refer to the biweekly report.
 
 <!--truncate-->
 
