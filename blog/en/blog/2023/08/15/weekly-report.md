@@ -48,7 +48,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 - [YAML configuration file supports rendering configurations from environment variables](https://github.com/apache/apisix/pull/9855) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-- [`Limit-count` plugin returns the correct X-RateLimit-Reset when rejecting requests](https://github.com/apache/apisix/pull/9978) (Contributor: [jiangfucheng](https://github.com/jiangfucheng))
+- [`limit-count` plugin returns the correct X-RateLimit-Reset when rejecting requests](https://github.com/apache/apisix/pull/9978) (Contributor: [jiangfucheng](https://github.com/jiangfucheng))
 
 ## Recent Blog Recommendations
 
