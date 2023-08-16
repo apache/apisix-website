@@ -28,7 +28,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 3. apisix.yaml 配置文件支持从环境变量渲染配置
 
-4. `Limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset
+4. `limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset
 
 “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
 
