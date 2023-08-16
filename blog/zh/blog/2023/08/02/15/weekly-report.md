@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/08/15/onL0VVoC_%E4%B8%AD%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
-> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括增加 `chaitin-waf` 插件、增加为指定 SNI 配置 TLS 握手协议特性支持、YAML 配置文件支持从环境变量渲染配置、`Limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset，详情请阅读本期双周报。
+> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括增加 `chaitin-waf` 插件、增加为指定 SNI 配置 TLS 握手协议特性支持、YAML 配置文件支持从环境变量渲染配置、`limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset，详情请阅读本期双周报。
 
 <!--truncate-->
 
