@@ -62,6 +62,6 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [Release Apache APISIX 3.4.0](https://apisix.apache.org/zh/blog/2023/06/30/release-apache-apisix-3.4.0/)
   
-    此版本提供了一个新的插件 loki-logger，可将日志转发到 Grafana Loki，并允许在路由级别上建立 mTLS 连接。此外，此版本还还引入了许多新的特性，旨在优化对 APISIX 的使用体验。
+    此版本提供了一个新的插件 `loki-logger`，可将日志转发到 Grafana Loki，并允许在路由级别上建立 mTLS 连接。此外，此版本还还引入了许多新的特性，旨在优化对 APISIX 的使用体验。
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
