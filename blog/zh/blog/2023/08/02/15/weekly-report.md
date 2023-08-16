@@ -48,7 +48,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 - [YAML 配置文件支持从环境变量渲染配置](https://github.com/apache/apisix/pull/9855)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek)）
 
-- [`Limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset](https://github.com/apache/apisix/pull/9978)（贡献者：[jiangfucheng](https://github.com/jiangfucheng)）
+- [`Limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset 数据](https://github.com/apache/apisix/pull/9978)（贡献者：[jiangfucheng](https://github.com/jiangfucheng)）
 
 ## 最新博客速览
 
