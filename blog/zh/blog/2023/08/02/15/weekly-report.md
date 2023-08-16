@@ -26,7 +26,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 2. 增加为指定 SNI 配置 TLS 握手协议特性支持
 
-3. YAML 配置文件支持从环境变量渲染配置
+3. apisix.yaml 配置文件支持从环境变量渲染配置
 
 4. `Limit-count` 插件在拒绝请求时返回正确的 X-RateLimit-Reset
 
