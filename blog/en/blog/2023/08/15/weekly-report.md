@@ -26,7 +26,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 2. Support host-level dynamic setting of TLS protocol version
 
-3. YAML configuration file supports rendering configurations from environment variables
+3. apisix.yaml configuration supports rendering configurations from environment variables
 
 4. X-RateLimit-Reset shouldn't be set to 0 after request be rejected
 
