@@ -28,7 +28,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 3. apisix.yaml configuration supports rendering configurations from environment variables
 
-4. X-RateLimit-Reset shouldn't be set to 0 after request be rejected
+4. `limit-count` plugin returns the correct X-RateLimit-Reset when rejecting requests
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
@@ -42,11 +42,11 @@ We have recently fixed and improved some features, and the summary of the update
 
 ### Apache APISIX
 
-- [Add `chaitin-waf` plugin](https://github.com/apache/apisix/pull/9838) (Contributor: [lingsamuel](https://github.com/lingsamuel))
+- [Support `chaitin-waf` plugin](https://github.com/apache/apisix/pull/9838) (Contributor: [lingsamuel](https://github.com/lingsamuel))
 
-- [Add support for configuring TLS handshake protocol for specified SNI](https://github.com/apache/apisix/pull/9903) (Contributor: [AlinsRan](https://github.com/AlinsRan))
+- [Support host-level dynamic setting of TLS protocol version](https://github.com/apache/apisix/pull/9903) (Contributor: [AlinsRan](https://github.com/AlinsRan))
 
-- [YAML configuration file supports rendering configurations from environment variables](https://github.com/apache/apisix/pull/9855) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+- [apisix.yaml configuration supports rendering configurations from environment variables](https://github.com/apache/apisix/pull/9855) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 - [`limit-count` plugin returns the correct X-RateLimit-Reset when rejecting requests](https://github.com/apache/apisix/pull/9978) (Contributor: [jiangfucheng](https://github.com/jiangfucheng))
 
@@ -56,12 +56,12 @@ We have recently fixed and improved some features, and the summary of the update
   
   In this article, we will look at examples of how we can use the rate limiting plugins in APISIX. You can find the complete configuration files and instructions to deploy for this article in this repository.
 
-- [Release Apache APISIX 3.4.1](https://apisix.apache.org/blog/2023/07/21/release-apache-apisix-3.4.1/)
+- [Release Apache APISIX 3.2.2](https://apisix.apache.org/blog/2023/07/23/release-apache-apisix-3.2.2/)
 
-  We are pleased to present Apache APISIX 3.4.1 with a security patch for JWT.
-
-- [Accelerating API Gateway Excellence: Apache APISIX Community Meetup in Malaysia](https://apisix.apache.org/blog/2023/07/11/2023-apisix-meetup-malaysia/)
+  We are pleased to present Apache APISIX 3.2.2 with a list of fixes and optimizations.
   
-  Kuala Lumpur, the capital of Malaysia, witnessed the success of the 2023 APISIX open-source Community Meetup on July 4th.
+- [Creating a Custom Data Mask Plugin](https://apisix.apache.org/blog/2023/07/20/data-mask-plugin/)
+
+  In this article, we will look at how you can create and run this plugin from the ground up while learning some basics of APISIX plugin development in Lua.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
