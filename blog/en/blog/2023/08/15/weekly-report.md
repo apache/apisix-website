@@ -24,7 +24,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 1. Support `chaitin-waf` plugin
 
-2. Support host level dynamic setting of tls protocol version
+2. Support host-level dynamic setting of TLS protocol version
 
 3. YAML configuration file supports rendering configurations from environment variables
 
