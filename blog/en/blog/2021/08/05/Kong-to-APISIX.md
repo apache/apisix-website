@@ -125,4 +125,4 @@ Apache APISIX is a production-ready open source seven-layer full traffic process
 
 ## Conclusion
 
-Subsequent development plans for the migration tool are presented in the Roadmap on Kong-To-APISIX's [GitHub repository](https://github.com/api7/kong-to-apisixc). Feel free to test and use Kong-To-APISIX, and discuss any questions you may have in the Issues section of the repository. Anyone who is interested in this project is welcome to contribute to it!
+Subsequent development plans for the migration tool are presented in the Roadmap on Kong-To-APISIX's [GitHub repository](https://github.com/api7/kong-to-apisix). Feel free to test and use Kong-To-APISIX, and discuss any questions you may have in the Issues section of the repository. Anyone who is interested in this project is welcome to contribute to it!
