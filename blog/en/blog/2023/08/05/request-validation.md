@@ -401,7 +401,7 @@ You can also set the specific version of the JSON schema used from draft 4, draf
 
 It is fair to assume that you now understand why request validation might be necessary. However, you could still argue that validation can be done on the client side or within your backend services.
 
-A key point is that you might not always own your clients, or modifying client requests might be relatively easy. Adding validation in a layer you have absolute control of is the better alternative.
+A key point is that you might not always own your clients, or modifying client requests might not be relatively easy. Adding validation in a layer you have absolute control of is the better alternative.
 
 So why can't you validate requests in your services directly? Well, after a point, it becomes too complex for the application developer to configure both request validation (header/body validation) and application/business-specific validation. Without an API gateway layer, invalid requests still end up adding load to your backend services.
 
