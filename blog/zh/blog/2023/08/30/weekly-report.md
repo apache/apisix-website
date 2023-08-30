@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/08/28/OHAygjUI_%E4%B8%AD%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
-> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括为 `openid-connect` 插件增加 proxy 配置项、tencent-cloud-cls 修复 DNS 解析失败问题、Admin-API 增加 api schema 校验支持、`WASM` 插件支持传递原生 json 数据结构等，详情请阅读本期双周报。
+> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括为 `openid-connect` 插件增加 proxy 配置项、tencent-cloud-cls 修复 DNS 解析失败问题、为 ApisixUpstream 资源增加了 pass host 的配置能力、将 Go 工具链升级至 v1.20 等，详情请阅读本期双周报。
 
 <!--truncate-->
 
