@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/08/28/riVgERes_%E8%8B%B1%E6%96%87%E5%A4%B4%E5%9B%BE.png
 ---
 
-> We have recently made fixes and improvements to certain features of Apache APISIX. These include adding proxy configuration item for `openid-connect` plugin, fixing DNS resolution issue for tencent-cloud-cls, adding pass host configuration capability for ApisixUpstream resource, upgrading Go toolchain to v1.20, etc. For more details, please refer to the biweekly report.
+> We have recently made fixes and improvements to certain features of Apache APISIX and APISIX Ingress Controller. These include adding proxy configuration item for `openid-connect` plugin, fixing DNS resolution issue for tencent-cloud-cls, adding pass host configuration capability for ApisixUpstream resource, upgrading Go toolchain to v1.20, etc. For more details, please refer to the biweekly report.
 
 <!--truncate-->
 
