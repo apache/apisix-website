@@ -55,7 +55,7 @@ We have recently fixed and improved some features, and the summary of the update
 - [`WASM` plugin supports passing native JSON data structure](https://github.com/apache/apisix/pull/10072) (Contributor: [Sn0rt](https://github.com/Sn0rt))
 
 - [Add pass host configuration capability for ApisixUpstream resource](https://github.com/apache/apisix-ingress-controller/pull/1889) (Contributor: [ikatlinsky](https://github.com/ikatlinsky))
- 
+
 - [Upgrade Go toolchain to v1.20](https://github.com/apache/apisix-ingress-controller/pull/1788) (Contributor: [WVenus](https://github.com/WVenus))
 
 ## Recent Blog Recommendations
