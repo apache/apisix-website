@@ -21,11 +21,11 @@ tags: [Community]
 
 We are pleased to present Apache APISIX 3.5.0 with exciting new features and improvements to user experiences.
 
+<!--truncate-->
+
 This new release adds a number of new features, including the dynamic configuration of TLS versions at the host level, integration with Chaitin WAF, forced deletion of resources, the use of environmental variables in configuration file when deploying APISIX in standalone mode, and more.
 
 There are a few important changes included in this release. Should you find these changes impacting your operations, it is strongly recommended that you plan accordingly for a seamless upgrade.
-
-<!--truncate-->
 
 ## Breaking Changes
 
