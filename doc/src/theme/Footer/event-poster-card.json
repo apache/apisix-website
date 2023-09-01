@@ -5,14 +5,14 @@
   "width": 400,
   "config": {
     "en": {
-      "image": "https://static.apiseven.com/uploads/2023/06/29/PcXJ4a8R_APISIX%20Singapore%20website%20poster.png",
-      "link": "https://apisix.apache.org/docs/general/events/#singapore-meetup",
-      "description": "Apache APISIX Community Meetup Singapore"
+      "image": "https://static.apiseven.com/uploads/2023/06/12/EBgipDM0_20230612-100108.jpeg",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdDqDHYt_lNdBOkC1ZJoLaCXM2_KH6o_NfF_F1ZGEr9FMOMpw/viewform",
+      "description": "Apache APISIX Community Meetup Malaysia"
     },
     "zh": {
-      "image": "https://static.apiseven.com/uploads/2023/06/29/PcXJ4a8R_APISIX%20Singapore%20website%20poster.png",
-      "link": "https://apisix.apache.org/docs/general/events/#singapore-meetup",
-      "description": "Apache APISIX Community Meetup Singapore"
+      "image": "https://static.apiseven.com/uploads/2023/06/12/EBgipDM0_20230612-100108.jpeg",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdDqDHYt_lNdBOkC1ZJoLaCXM2_KH6o_NfF_F1ZGEr9FMOMpw/viewform",
+      "description": "Apache APISIX Community Meetup Malaysia"
     }
   }
 }
