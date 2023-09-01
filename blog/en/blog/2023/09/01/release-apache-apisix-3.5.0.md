@@ -57,9 +57,9 @@ For more information about how to work with stream proxy after the change, see [
 
 PR for this change is [#9607](https://github.com/apache/apisix/pull/9607).
 
-### Support the use of `allowlist` and `denylist` at the same time in `ua-restriction` plugin
+### Do not allow the use of `allowlist` and `denylist` at the same time in `ua-restriction` plugin
 
-Support the use of `allowlist` and `denylist` at the same time in `ua-restriction` plugin.
+The use of `allowlist` and `denylist` in `ua-restriction` plugin is now mutually exclusive. You should configure only one of the two options.
 
 PR for this change is [#9841](https://github.com/apache/apisix/pull/9841).
 
