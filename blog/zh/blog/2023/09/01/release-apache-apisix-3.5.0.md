@@ -57,9 +57,9 @@ L4 和 L7 代理可在 `config.yaml` 文件中如下所示启用：
 
 相关 PR 请见 [#9607](https://github.com/apache/apisix/pull/9607)。
 
-### 在 `ua-restriction` 插件中支持同时使用`allowlist`和`denylist`
+### 在 `ua-restriction` 插件中不允许同时使用 `allowlist` 和 `denylist`
 
-在 `ua-restriction` 插件中支持同时使用 `allowlist` 和 `denylist`。
+在 `ua-restriction` 插件中，不再允许同时使用 `allowlist` 和 `denylist`。您应该只配置其中之一的选项。
 
 相关 PR 请见 [#9841](https://github.com/apache/apisix/pull/9841)。
 
