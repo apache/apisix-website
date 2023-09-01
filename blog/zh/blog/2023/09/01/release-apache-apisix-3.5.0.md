@@ -1,23 +1,23 @@
 ---
- title: "Apache APISIX 3.5.0 正式发布"
- authors:
-   - name: "Xin Rong"
-     title: "Author"
-     url: "https://github.com/AlinsRan"
-     image_url: "https://avatars.githubusercontent.com/u/2706161?v=4"
-   - name: "Traky Deng"
-     title: "Technical Writer"
-     url: "https://github.com/kayx23"
-     image_url: "https://avatars.githubusercontent.com/u/39619599?v=4"
- keywords:
- - Apache APISIX
- - API Gateway
- - API Management Platform
- - New Release
- - Cloud Native
- description: Apache APISIX 3.5.0 版本于 2023 年 9 月 1 日发布。该版本带来了振奋人心的新功能和改进的用户体验。
- tags: [Community]
- ---
+title: "Apache APISIX 3.5.0 正式发布"
+authors:
+  - name: "Xin Rong"
+    title: "Author"
+    url: "https://github.com/AlinsRan"
+    image_url: "https://avatars.githubusercontent.com/u/79972061?v=4"
+  - name: "Traky Deng"
+    title: "Technical Writer"
+    url: "https://github.com/kayx23"
+    image_url: "https://avatars.githubusercontent.com/u/39619599?v=4"
+keywords:
+- Apache APISIX
+- API Gateway
+- API Management Platform
+- New Release
+- Cloud Native
+description: Apache APISIX 3.5.0 版本于 2023 年 9 月 1 日发布。该版本带来了振奋人心的新功能和改进的用户体验。
+tags: [Community]
+---
 
 我们很高兴地宣布 Apache APISIX 3.5.0 版本已经发布，带来了振奋人心的新功能和改进的用户体验。
 
