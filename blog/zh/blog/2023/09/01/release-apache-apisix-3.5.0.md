@@ -53,7 +53,7 @@ L4 和 L7 代理可在 `config.yaml` 文件中如下所示启用：
 - 启用 L4 代理：`apisix.proxy_mode:stream`
 - 启用 L7 和 L4 代理：`apisix.proxy_mode: http&stream`
 
-有关更改后如何使用 stream 代理的更多信息，请参阅[如何启用 stream 代理](https://apisix.apache.org/zh/docs/apisix/next/stream-proxy/#如何开启-stream-代理）。
+有关更改后如何使用 stream 代理的更多信息，请参阅[如何启用 stream 代理](https://apisix.apache.org/zh/docs/apisix/next/stream-proxy/#如何开启-stream-代理)。
 
 相关 PR 请见 [#9607](https://github.com/apache/apisix/pull/9607)。
 
