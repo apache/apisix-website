@@ -13,7 +13,7 @@ keywords:
   - APISIX
   - Coraza
   - WAF
-description: Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.
+description: The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/08/gLVTG2qC_APISIX%20&%20Coraza.png
 ---
