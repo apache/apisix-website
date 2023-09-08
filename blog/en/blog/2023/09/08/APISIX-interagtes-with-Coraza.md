@@ -18,24 +18,26 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/08/gLVTG2qC_APISIX%20&%20Coraza.png
 ---
 
-With the rapid advancement of cloud-native technology, securing APIs has become increasingly crucial. In response to this growing need, Apache APISIX has introduced a range of cutting-edge features. Among them, it is commendable that APISIX has integrated Coraza. We will delve into APISIX's enhanced WAF capabilities and explore how Coraza can fortify applications against a wide array of web attacks, ensuring comprehensive security.
+With the rapid advancement of cloud-native technology, securing APIs has become increasingly crucial. In response to this growing need, [Apache APISIX](https://github.com/apache/apisix) has introduced a range of cutting-edge features. Among them, it is commendable that APISIX has integrated the [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm) plugin. We will delve into APISIX's enhanced WAF capabilities and explore how Coraza can fortify applications against a wide array of web attacks, ensuring comprehensive security.
 
 ## Apache APISIX
 
-Apache APISIX is a dynamic, real-time, high-performance open-source API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, and observability. Being built based on NGINX and LuaJIT, Apache APISIX has ultra-high performance with a single-core QPS of up to 23,000 and an average delay of only 0.2 milliseconds. It can solve problems in traditional architecture, and at the same time adapt to the needs of the cloud-native era.
+[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance open-source API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, and observability. Being built based on NGINX and LuaJIT, Apache APISIX has ultra-high performance with a single-core QPS of up to 23,000 and an average delay of only 0.2 milliseconds. It can solve problems in traditional architecture, and at the same time adapt to the needs of the cloud-native era.
 
-As an API gateway, Apache APISIX has a wide range of application scenarios. It can be applied to scenarios such as gateways, Kubernetes Ingress, and service mesh, and can help enterprises quickly and safely process API and microservice traffic. At present, it has been tested and highly recognized by worldwide enterprises and organizations such as Amber Group, Airwallex, Lotus Cars, vivo, and European Factory Platform.
+As an API gateway, Apache APISIX has a wide range of application scenarios. It can be applied to scenarios such as gateways, Kubernetes Ingress, and service mesh, and can help enterprises quickly and safely process API and microservice traffic. At present, it has been tested and highly recognized by worldwide enterprises and organizations such as Amber Group, [Airwallex](https://apisix.apache.org/blog/2021/11/03/airwallex-usercase/), Lotus Cars, vivo, and European Factory Platform.
 
 ## Coraza
 
-WAF, or Web Application Firewall, is a network security tool designed to safeguard web applications against various cyberattacks by filtering and monitoring HTTP communications between web applications and the internet.
+[WAF](https://en.wikipedia.org/wiki/Web_application_firewall), or Web Application Firewall, is a network security tool designed to safeguard web applications against various cyberattacks by filtering and monitoring HTTP communications between web applications and the internet.
 
-Coraza is a highly renowned open-source WAF implementation. Integrating Coraza with APISIX significantly enhances APISIX's ability to protect upstream services. 
+[Coraza](https://coraza.io/) is a highly renowned open-source WAF implementation. Integrating Coraza with APISIX significantly enhances APISIX's ability to protect upstream services. 
 
 **It provides specific advantages in the following areas:**
 
 1. Attack Detection and Prevention: Coraza, through real-time analysis and monitoring of HTTP and HTTPS traffic, can detect and prevent common web attacks such as SQL injection, Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), and more.
+
 2. Logging and Reporting Capabilities: Coraza offers advanced logging and reporting features, allowing administrators to track and analyze security events within the system. This aids in promptly identifying potential threats and taking appropriate measures to address security issues.
+
 3. Flexibility and Scalability: It provides flexible configuration options, allowing administrators to customize according to specific application needs. It supports custom rules and policies, which can be configured based on specific security requirements. Additionally, it can integrate with other security tools and systems, providing a more comprehensive security solution.
 
 ## Why APISIX Prefers Coraza-WAF?
@@ -48,11 +50,11 @@ The Coraza open-source community coordinates with the development and evolution 
 
 ### Support Wasm Plugins
 
-APISIX supports developing plugins with WebAssembly (Wasm), and Coraza also provides Wasm plugins as an option. Therefore, integrating Coraza with APISIX incurs relatively low costs. 
+APISIX supports developing plugins with [WebAssembly (Wasm)](https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/#how-to-use-wasm-in-apache-apisix), and Coraza also provides Wasm plugins as an option. Therefore, integrating Coraza with APISIX incurs relatively low costs. 
 
 Wasm can be utilized cross-platform, allowing APISIX and Coraza to work seamlessly without additional extensive modifications or adaptations. This eliminates extensive code modifications and adaptations.
 
-The benefits of this low-cost integration include:
+**The benefits of this low-cost integration include:**
 
 1. Verified Solution: Although the Coraza wasm plugin was not developed specifically for APISIX, it has been validated on the Istio platform. In terms of functionality, the plugin can provide guarantees consistent with Istio.
 2. Low Development and Maintenance Costs: The Coraza wasm plugin is a platform-independent binary file, making its release and development process extremely convenient. Extending the Coraza wasm plugin can be achieved with proxy-wasm-go-sdk, where releasing only requires updating the binary file, further simplifying the process.
@@ -63,9 +65,10 @@ Traditional WAF solutions often require the installation and configuration of sp
 
 However, Coraza utilizes the Core Rule Set (CRS) as its rule set. CRS is a widely adopted and validated open-source set of rules designed for the detection and defense of common attacks in web applications. What sets Coraza apart from traditional WAF solutions is its ability to directly parse and execute CRS rules without additional compilation of NGINX. The use of CRS provides enhanced security protection for APISIX along with support from the CRS community.
 
-This design brings several important benefits:
+**This design brings several important benefits:**
 
 - Simplified Maintenance for Coraza: As it doesn't require the support of nginx_module, the Ops engineers do not need to deal with complex module installation and configuration processes. Instead, they can focus on maintaining and updating the CRS rule set, ensuring it contains the latest security rules and fixes.
+
 - Increased Stability and Reliability of the Entire Solution: CRS, as a mature rule set, has undergone long-term practice and improvement and has been widely adopted and supported by the community. This means Coraza users can benefit from the collective wisdom of the CRS community and receive timely security updates and fixes.
 
 ### Easy Installation and Deployment
