@@ -11,7 +11,7 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { Icon } from '@iconify/react';
 import githubIcon from '@iconify/icons-akar-icons/github-fill';
-import twitterIcon from '@iconify/icons-ri/twitter-x-fill';
+import twitterIcon from '@iconify/icons-akar-icons/twitter-fill';
 import slackIcon from '@iconify/icons-akar-icons/slack-fill';
 import youtubeIcon from '@iconify/icons-akar-icons/youtube-fill';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
