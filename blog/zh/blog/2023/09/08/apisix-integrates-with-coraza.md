@@ -18,6 +18,9 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/08/gLVTG2qC_APISIX%20&%20Coraza.png
 ---
 
+> APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。
+<!--truncate-->
+
 随着云原生技术的飞速发展，保障 API 的安全性变得至关重要。[Apache APISIX](https://github.com/apache/apisix) 推出了一系列的前沿特性，其中值得称赞的是 APISIX 集成了 [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm) 插件。我们将深入探讨 APISIX 全新的 WAF 功能，探索 Coraza 如何强化应用程序，使其抵御各类 Web 攻击。
 
 ## Apache APISIX
