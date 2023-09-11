@@ -134,7 +134,7 @@ curl -i http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335
 
 Test the WAF rules and we can see 403
 
-```
+```shell
 curl http://localhost:9080/anything -v
 *   Trying 127.0.0.1:9080...
 * TCP_NODELAY set
