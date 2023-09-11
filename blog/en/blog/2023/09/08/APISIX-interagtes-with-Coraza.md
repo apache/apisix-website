@@ -30,7 +30,7 @@ As an API gateway, Apache APISIX has a wide range of application scenarios. It c
 
 [WAF](https://en.wikipedia.org/wiki/Web_application_firewall), or Web Application Firewall, is a network security tool designed to safeguard web applications against various cyberattacks by filtering and monitoring HTTP communications between web applications and the internet.
 
-[Coraza](https://coraza.io/) is a highly renowned open-source WAF implementation. Integrating Coraza with APISIX significantly enhances APISIX's ability to protect upstream services. 
+[Coraza](https://coraza.io/) is a highly renowned open-source WAF implementation. Integrating Coraza with APISIX significantly enhances APISIX's ability to protect upstream services.
 
 **It provides specific advantages in the following areas:**
 
@@ -44,13 +44,13 @@ As an API gateway, Apache APISIX has a wide range of application scenarios. It c
 
 ### Open-Source Community
 
-When selecting a new WAF solution, APISIX places significant importance on its support for the open-source community. Similar to APISIX, Coraza has an active developer community. The support of the open-source community enables Coraza to provide timely updates and support. Community members actively participate in the development and maintenance of Coraza, continuously improving and optimizing the code, and addressing vulnerabilities and security issues. Users benefit from these timely updates, maintaining the security and stability of their applications. 
+When selecting a new WAF solution, APISIX places significant importance on its support for the open-source community. Similar to APISIX, Coraza has an active developer community. The support of the open-source community enables Coraza to provide timely updates and support. Community members actively participate in the development and maintenance of Coraza, continuously improving and optimizing the code, and addressing vulnerabilities and security issues. Users benefit from these timely updates, maintaining the security and stability of their applications.
 
 The Coraza open-source community coordinates with the development and evolution of APISIX. As a WAF solution for APISIX, Coraza can closely integrate with the features and capabilities of APISIX to meet users' security needs. Collaboration and feedback from the open-source community contribute to driving further development of the solution and ensuring its compatibility and consistency with APISIX.
 
 ### Support Wasm Plugins
 
-APISIX supports developing plugins with [WebAssembly (Wasm)](https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/#how-to-use-wasm-in-apache-apisix), and Coraza also provides Wasm plugins as an option. Therefore, integrating Coraza with APISIX incurs relatively low costs. 
+APISIX supports developing plugins with [WebAssembly (Wasm)](https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/#how-to-use-wasm-in-apache-apisix), and Coraza also provides Wasm plugins as an option. Therefore, integrating Coraza with APISIX incurs relatively low costs.
 
 Wasm can be utilized cross-platform, allowing APISIX and Coraza to work seamlessly without additional extensive modifications or adaptations. This eliminates extensive code modifications and adaptations.
 
