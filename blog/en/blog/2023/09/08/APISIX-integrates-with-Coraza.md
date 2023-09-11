@@ -164,7 +164,7 @@ curl http://localhost:9080/anything -v
 
 Check logs `logs/error.log`
 
-```
+```text
 2023/08/31 09:20:39 [info] 126240#126240: *23933 Transaction interrupted tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 action="deny" phase="http_request_headers", client: 127.0.0.1, server: _, request: "GET /anything HTTP/1.1", host: "localhost:9080"
 2023/08/31 09:20:39 [debug] 126240#126240: *23933 Interruption already handled, sending downstream the local response tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 interruption_handled_phase="http_request_headers"
 ```
