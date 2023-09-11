@@ -82,7 +82,7 @@ Coraza 不需要 nginx_module 级别的支持，容易维护，这是因为 Cora
 
 ### 配置 APISIX 集成 coraza-proxy-wasm  
 
-进入 `APISIX` 的目录 
+进入 `APISIX` 的目录
 
 ```
 cd /home/ubuntu/apisix-master
