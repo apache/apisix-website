@@ -79,7 +79,7 @@ description: Apache APISIX 中文文档的贡献指南，适用于 APISIX 中文
     示例如下：
 
     ```shell
-     ::note 注意
+     :::note 注意
 
      为用户提供基于其他内容的额外提示。
 
