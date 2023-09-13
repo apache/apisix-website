@@ -14,7 +14,7 @@ keywords:
   - Coraza
   - WAF
 description: The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
-tags: [Community]
+tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/09/08/gLVTG2qC_APISIX%20&%20Coraza.png
 ---
 
