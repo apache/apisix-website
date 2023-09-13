@@ -50,12 +50,12 @@ We have recently fixed and improved some features, and the summary of the update
 
 ## Recent Blog Recommendations
 
-- [Release Apache APISIX 3.5.0](https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/)
-
-  We are pleased to present Apache APISIX 3.5.0 with exciting new features and improvements to user experiences.
-
 - [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
   
   The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+  
+- [Release Apache APISIX 3.5.0](https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/)
+
+  We are pleased to present Apache APISIX 3.5.0 with exciting new features and improvements to user experiences.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
