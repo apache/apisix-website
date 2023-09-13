@@ -11,7 +11,6 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { Icon } from '@iconify/react';
 import githubIcon from '@iconify/icons-akar-icons/github-fill';
-import twitterIcon from '@iconify/icons-akar-icons/twitter-fill';
 import slackIcon from '@iconify/icons-akar-icons/slack-fill';
 import youtubeIcon from '@iconify/icons-akar-icons/youtube-fill';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -63,7 +62,7 @@ const footer = {
           to: '/docs/general/join',
         },
         {
-          icon: twitterIcon,
+          icon: 'ri:twitter-x-fill',
           label: 'Twitter',
           to: 'https://twitter.com/ApacheAPISIX',
         },
