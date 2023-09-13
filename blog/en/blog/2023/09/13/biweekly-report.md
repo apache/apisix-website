@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/11/HoTbyoDz_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87-0911.png
 ---
 
-> We have recently made fixes and improvements to certain features of Apache APISIX and APISIX Ingress Controller. These include providing native JSON data structure input support for the `wasm` plugin, adding UNIX socket listening support for the Changtin Tech `WAF` plugin, and introducing the ability to remove the etcd dependency required by APISIX within the APISIX Ingress to reduce architectural complexity. For more details, please refer to the biweekly report.
+> We have recently made fixes and improvements to certain features of Apache APISIX and APISIX Ingress Controller. These include providing native JSON data structure input support for the wasm plugin, adding UNIX socket listening support for the `chaitin-waf` plugin, and introducing the ability to remove the etcd dependency required by APISIX within the APISIX Ingress to reduce architectural complexity. For more details, please refer to the biweekly report.
 
 <!--truncate-->
 
@@ -22,7 +22,7 @@ From 8.28 to 9.10, 16 contributors submitted 47 commits for Apache APISIX. Thank
 
 We have recently fixed and improved some features, and the summary of the updates is as follows:
 
-1. Provide native JSON data structure input support for the `wasm` plugin
+1. Provide native JSON data structure input support for the wasm plugin
 
 2. Add UNIX socket listening support for the `chaitin-waf` plugin
 
@@ -40,9 +40,9 @@ We have recently fixed and improved some features, and the summary of the update
 
 ### Apache APISIX
 
-- [Provides native JSON data structure input support for the `wasm` plugin](https://github.com/apache/apisix/pull/10072) (Contributor: [Sn0rt](https://github.com/Sn0rt))
+- [Provides native JSON data structure input support for the wasm plugin](https://github.com/apache/apisix/pull/10072) (Contributor: [Sn0rt](https://github.com/Sn0rt))
 
-- [Add UNIX socket listening support for the Changtin Tech `WAF` plugin](https://github.com/apache/apisix/pull/10161) (Contributor: [zclaiqcc](https://github.com/zclaiqcc))
+- [Add UNIX socket listening support for the `chaitin-waf` plugin](https://github.com/apache/apisix/pull/10161) (Contributor: [zclaiqcc](https://github.com/zclaiqcc))
 
 ### APISIX Ingress Controller
 
