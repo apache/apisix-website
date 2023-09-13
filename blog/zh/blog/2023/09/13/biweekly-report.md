@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/11/Co3naagN_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87-0911.png
 ---
 
-> 我们近期对 Apache APISIX 和 APISIX Ingress Controller 的部分功能进行了修复或改善，包括为 wasm 插件提供原生 json 数据结构入参支持，为长亭 WAF 插件增加 UNIX sock 监听支持，以及支持在 APISIX Ingress Controller 中移除 APISIX 自身需要的 etcd，减少架构复杂度。详情请阅读本期双周报。
+> 我们近期对 Apache APISIX 和 APISIX Ingress Controller 的部分功能进行了修复或改善，包括为 wasm 插件提供原生 json 数据结构入参支持，为 `chatin-waf` 插件增加 UNIX sock 监听支持，以及支持在 APISIX Ingress Controller 中移除 APISIX 自身需要的 etcd，减少架构复杂度。详情请阅读本期双周报。
 
 <!--truncate-->
 
@@ -40,9 +40,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Apache APISIX
 
-- [为 `wasm` 插件提供原生 json 数据结构入参支持](https://github.com/apache/apisix/pull/10072)（贡献者：[Sn0rt](https://github.com/Sn0rt))
+- [为 wasm 插件提供原生 json 数据结构入参支持](https://github.com/apache/apisix/pull/10072)（贡献者：[Sn0rt](https://github.com/Sn0rt))
 
-- [为长亭 `WAF` 插件增加 UNIX sock 监听支持](https://github.com/apache/apisix/pull/10161)（贡献者：[zclaiqcc](https://github.com/zclaiqcc))
+- [为 `chatin-waf` 插件增加 UNIX sock 监听支持](https://github.com/apache/apisix/pull/10161)（贡献者：[zclaiqcc](https://github.com/zclaiqcc))
 
 ### APISIX Ingress Controller
 
