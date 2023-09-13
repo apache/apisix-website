@@ -24,7 +24,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 1. Provide native JSON data structure input support for the `wasm` plugin
 
-2. Add UNIX socket listening support for the Changtin Tech `WAF` plugin
+2. Add UNIX socket listening support for the `chaitin-waf` plugin
 
 3. Introduce the ability to remove the etcd dependency required by APISIX within the APISIX Ingress to reduce architectural complexity (Experimental Feature)
 
