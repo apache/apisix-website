@@ -40,13 +40,13 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Apache APISIX
 
-- [为 `wasm` 插件提供原生 json 数据结构入参支持](https://github.com/apache/apisix/pull/10072)（贡献者：[Sn0rt](https://github.com/Sn0rt)）
+- [为 `wasm` 插件提供原生 json 数据结构入参支持](https://github.com/apache/apisix/pull/10072)（贡献者：[Sn0rt](https://github.com/Sn0rt))
 
-- [为长亭 `WAF` 插件增加 UNIX sock 监听支持](https://github.com/apache/apisix/pull/10161)（贡献者：[zclaiqcc](https://github.com/zclaiqcc)）
+- [为长亭 `WAF` 插件增加 UNIX sock 监听支持](https://github.com/apache/apisix/pull/10161)（贡献者：[zclaiqcc](https://github.com/zclaiqcc))
 
 ### APISIX Ingress Controller
 
-- [支持在 APISIX Ingress 中移除 APISIX 自身需要的 etcd，减少架构复杂度](https://github.com/apache/apisix-ingress-controller/pull/1803)（贡献者：[AlinsRan](https://github.com/AlinsRan)）
+- [支持在 APISIX Ingress 中移除 APISIX 自身需要的 etcd，减少架构复杂度](https://github.com/apache/apisix-ingress-controller/pull/1803)（贡献者：[AlinsRan](https://github.com/AlinsRan))
 
 ## 最新博客速览
 
