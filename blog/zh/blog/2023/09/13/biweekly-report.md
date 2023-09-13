@@ -22,9 +22,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 我们近期对部分功能进行了修复或改善，更新内容汇总如下：
 
-1. 为 `wasm` 插件提供原生 json 数据结构入参支持
+1. 为 wasm 插件提供原生 json 数据结构入参支持
 
-2. 为长亭 `WAF` 插件增加 UNIX sock 监听支持
+2. 为 `chatin-waf` 插件增加 UNIX sock 监听支持
 
 3. 支持在 APISIX Ingress 中移除 APISIX 自身需要的 etcd，减少架构复杂度（实验特性）
 
