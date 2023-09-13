@@ -34,7 +34,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/09/13/RsJ7HQdQ_contributors-0913.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/09/13/8rknp3pK_N-0913.png)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/09/13/XJNLRP82_NewCon-0913.png)
 
 ## Highlights of Recent Features
 
