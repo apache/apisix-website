@@ -42,7 +42,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 - [Provides native JSON data structure input support for the `wasm` plugin](https://github.com/apache/apisix/pull/10072) (Contributor: [Sn0rt](https://github.com/Sn0rt))
 
-- [Add UNIX socket listening support for the Changtin Tech `WAF` plugin](https://github.com/apache/apisix/pull/10161) (Contributor: [zclaiqcc]((https://github.com/zclaiqcc))
+- [Add UNIX socket listening support for the Changtin Tech `WAF` plugin](https://github.com/apache/apisix/pull/10161) (Contributor: [zclaiqcc](https://github.com/zclaiqcc))
 
 ### APISIX Ingress Controller
 
