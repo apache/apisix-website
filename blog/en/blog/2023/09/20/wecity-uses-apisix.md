@@ -15,7 +15,7 @@ keywords:
   - Apache APISIX
 description: WeCity has been using APISIX for its core business since May 2023. Arjen Hof, Co-founder and CTO of WeCity, and Tim van Densen, Software Architect and Lead Developer of WeCity, shared their experience with APISIX. 
 tags: [Case Studies]
-image: 
+image: https://static.apiseven.com/uploads/2023/09/20/6ZpgFEMr_WeCity.png
 ---
 
 > WeCity has been using APISIX for its core business since May 2023. Arjen Hof, Co-founder and CTO of WeCity, and Tim van Densen, Software Architect and Lead Developer of WeCity, shared their experience with APISIX. 
