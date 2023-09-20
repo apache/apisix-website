@@ -11,8 +11,9 @@ authors:
     image_url: 
 keywords:
   - WeCity
-  - API 网关
+  - API Gateway
   - Apache APISIX
+  - API Gateway Best Practice
 description: WeCity has been using APISIX for its core business since May 2023. Arjen Hof, Co-founder and CTO of WeCity, and Tim van Densen, Software Architect and Lead Developer of WeCity, shared their experience with APISIX. 
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/09/20/6ZpgFEMr_WeCity.png
