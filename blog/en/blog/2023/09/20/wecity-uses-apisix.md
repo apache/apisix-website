@@ -23,11 +23,11 @@ image:
 
 ## About WeCity
 
-WeCity, a Dutch company, serves as the vital link between smart city solution providers and their users. By offering an array of technical and organizational tools, WeCity facilitates secure and reliable data exchange.
+[WeCity](https://www.wecity.nl/en), a Dutch company, serves as the vital link between smart city solution providers and their users. By offering an array of technical and organizational tools, WeCity facilitates secure and reliable data exchange.
 
 Currently, WeCity is actively engaged in a significant initiative led by the Dutch Ministry of Infrastructure. As part of this endeavor, WeCity has been entrusted with the development of generic services for an inventive data-driven mobility ecosystem. Within this ecosystem, our company ensures that both the supply and demand sides receive robust support while adhering to agreements that foster a dependable and trustworthy data exchange. 
 
-We would be thrilled to share our exceptional experience with APISIX, providing hints for any enterprise looking for a cutting-edge API gateway solution that can take their applications to new heights.
+We would be thrilled to share our exceptional experience with [APISIX](https://apisix.apache.org/), providing hints for any enterprise looking for a cutting-edge API gateway solution that can take their applications to new heights.
 
 ## Q: Could you please use one sentence to summarize your feelings about APISIX?
 
@@ -57,7 +57,7 @@ Before using APISIX, we had to define a specific approach for every partner we w
 
 A: We thoroughly evaluated various solutions, including WSO2, Kong, Gravitee, 3Scale, API Umbrella, etc. We found that many open-source options were functionally restricted, necessitating costly enterprise agreements or support contracts for additional assistance. It was imperative for us to find a solution that seamlessly integrated into our existing architecture and infrastructure, as we anticipated the need to handle diverse data types, delivery mechanisms, and security requirements.
 
-Besides, we prefer to use open-source software in our architecture. Therefore, we followed projects the Apache Foundation offers and researched several other open-source API management solutions. We found APISIX on Apache and found that it is one of the truly open solutions, with an approach that aligns with our goals. 
+Besides, we prefer to use open-source software in our architecture. Therefore, we followed projects the [Apache Software Foundation](https://www.apache.org/) offers and researched several other open-source API management solutions. We found APISIX on Apache and found that it is one of the truly open solutions, with an approach that aligns with our goals. 
 
 After careful consideration, we made the decision to adopt APISIX in May 2023.
 
