@@ -13,10 +13,13 @@ keywords:
   - 开源社区
   - API 网关
   - Apache APISIX
-description: 
+description: APISIX 3.5 引入了一系列令人振奋的新特性，将为用户带来更高级别的安全性、性能和可扩展性，从而为用户提供更多选择，使得在构建和管理 API 时变得更加便捷和灵活。
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
+
+APISIX 3.5 引入了一系列令人振奋的新特性，将为用户带来更高级别的安全性、性能和可扩展性，从而为用户提供更多选择，使得在构建和管理 API 时变得更加便捷和灵活。
+<!--truncate-->
 
 ## APISIX 简介
 
