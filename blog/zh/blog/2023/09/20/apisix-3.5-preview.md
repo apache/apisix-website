@@ -33,9 +33,7 @@ APISIX 的出现[解决了 NGINX 的两大痛点](https://apisix.apache.org/zh/b
 
 作为亚太占有率最高的 API 网关，APISIX 有着广泛的应用场景，可应用于网关、Kubernetes Ingress、服务网格等场景，可以帮助企业快速、安全地处理 API 和微服务流量。APISIX 目前已获得全球企业和组织的测试和高度认可，用户包括 Amber Group、[Airwallex](https://apisix.apache.org/zh/blog/2021/11/03/airwallex-usercase/)、Lotus Cars、[vivo](https://apisix.apache.org/zh/blog/2022/11/13/vivo-with-apache-apisix/)、[WPS](https://apisix.apache.org/zh/blog/2021/09/28/wps-usercase/)、[爱奇艺](https://apisix.apache.org/zh/blog/2021/09/07/iqiyi-usercase/)等。
 
-![APISIX users](https://static.apiseven.com/uploads/2023/09/21/n1gjhaiT_APISIX%20Users.png)
-
-## APISIX 3.4 版本新特性
+## APISIX 3.5 版本新特性
 
 ### Host 级别 TLS 协议配置
 
