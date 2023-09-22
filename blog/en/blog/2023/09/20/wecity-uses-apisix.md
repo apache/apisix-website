@@ -3,12 +3,8 @@ title: "Charting the Future of Urban Connectivity: WeCity Collaborates with APIS
 authors:
   - name: Arjen Hof
     title: Author
-    url: 
-    image_url: 
   - name: Tim van Densen
     title: Author
-    url: 
-    image_url: 
 keywords:
   - WeCity
   - API Gateway
