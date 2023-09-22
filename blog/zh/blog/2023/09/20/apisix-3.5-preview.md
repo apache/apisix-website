@@ -41,7 +41,24 @@ APISIX 的出现[解决了 NGINX 的两大痛点](https://apisix.apache.org/zh/b
 
 APISIX 借助 OpenResty 动态地为每一个 host 指定不同的 TLS 协议，从而为用户提供更多的灵活性。
 
-![APISIX TLS configuration](https://static.apiseven.com/uploads/2023/09/21/aIT5Nt6b_host-level%20TLS%20configuration.png)
+```yaml
+apisix:
+  ssl:
+    ssl_protocols: TLSv1.2 TLSv1.3
+```
+
+```json5
+// curl http://127.0.0.1:9180/admin/apisix/ssls/1
+{
+    "cert": "$cert",
+    "key": "$key",
+    "snis": ["test.com"],
+    "ssl_protocols": [
+        "TLSv1.2",
+        "TLSv1.3"
+    ]
+}
+```
 
 ### Wasm & Coraza WAF
 
@@ -85,19 +102,15 @@ Open API 有多个版本，目前主流的是 OpenAPI 2.0（也被称为 Swagger
 
 APISIX 不仅支持使用 Lua 编写插件，还可以使用 Wasm 和其他外部插件进行编写。然而，在 Wasm 上花费了大量精力之后，我们也面临着一些问题，特别是在右边 plugin runner 上。目前，plugin runner 和 APISIX 之间的通信是通过自定义的 RPC 协议进行的。如果用户需要读取请求体或修改返回体等内容，仅仅使用这个 demo 是不够的，同时当真正要将其投入生产环境时，自定义 RPC 对于用户来说改造成本较高，因为用户必须修改 RPC 协议，而且自定义 RPC 无法很好地支持后续的各种语言库。
 
-![APISIX plugin runner](https://static.apiseven.com/uploads/2023/09/21/pmyuxN0y_plugin%20runner.png)
+![APISIX plugin runner](https://static.apiseven.com/uploads/2023/09/22/QOQToIY9_9269cb5f-41dd-4f3f-bff1-a5f0c3b01bdc.jpeg)
 
 因此，在新的 plugin runner 设计中，我们放弃 RPC 调用方式，改为标准的 HTTP 调用。在 HTTP 调用中，你可以将其类比为云服务提供商提供的基于函数的 serverless 方式。在 APISIX 中，我们将通过 HTTP 方式调用远程函数，这样一来，我们实际上并不关心底层使用的是哪种语言实现。通过这种方式，我们消除了自定义的 RPC 协议，并且在下个月我们将发布一个新的演示 demo，尽管在性能方面可能会有一定的损失，但对于用户的可扩展性和灵活性将有显著提升。
 
 用户不再需要了解中间的自定义协议，而是可以使用函数方式进行操作，这样给予了用户更多灵活选择的空间。用户可以出于性能和 APISIX 整体阶段的完整性考虑，选择使用 Lua 编写插件；如果用户认为 Lua 语言的维护难度较高，可以选择使用 Wasm；如果用户对性能要求没有那么高，可以使用我们之前提到的函数方式进行调用。
 
-![plugin runner design](https://static.apiseven.com/uploads/2023/09/21/2SD32HBX_plugin%20runner%20design.png)
-
 ### 重构文档
 
 另一个方面是 APISIX 的[文档](https://apisix.apache.org/zh/docs/)。在 APISIX 社区中，经常有人抱怨文档质量低下。APISIX 文档之所以显得不专业，存在很多问题或遗漏，主要是因为它是一个社区驱动的项目，它的背后有大约 600 个贡献者，有一半是代码贡献者，还有一半是文档贡献者。好几百个不同背景的人编写文档，每个人描述问题方式都不同，所以会出现文档内容参差不齐的情况。因此，我们将对整个文档进行全面重构，并且会确保内容的质量。
-
-![APISIX documentation](https://static.apiseven.com/uploads/2023/09/21/pV3qW2Lo_documentation.png)
 
 我们将花费半年时间来重构 APISIX 的文档。新的 APISIX 文档将包括六个部分。首先是 Getting Started，可以让你在几分钟内快速了解和运行 APISIX；然后是 How to Guide，介绍使用 APISIX 一些常见场景；还有背景信息介绍，介绍一些概念，例如什么是路由和服务；还有最佳实践，讲解 APISIX 在生产环境上的使用；另一个重点是对大约 100 个插件的介绍；最后是 reference。
 
