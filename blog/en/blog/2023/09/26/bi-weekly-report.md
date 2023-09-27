@@ -5,7 +5,7 @@ keywords:
 - API Gateway
 - Weekly Report
 - Contributor
-description: The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
+description: The Apache APISIX Community Biweekly Report helps community members understand how the Apache APISIX community is progressing, making it easier for everyone to get involved.
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
