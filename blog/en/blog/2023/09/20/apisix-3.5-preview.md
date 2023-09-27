@@ -88,7 +88,7 @@ APISIX can be used for more applications on Wasm, but asynchronous calls are not
 
 APISIX's support for HTTP/3 and QUIC protocols can bring faster transfer speeds, better network performance, and higher connection efficiency. This will help improve the performance and user experience of the application and enable it to adapt to the evolving network environment.
 
-APISIX maintains its own version of NGINX, `apisix-base`, and applies HTTP/3 and QUIC patches to it, forming its own release. 
+APISIX maintains its own version of NGINX, `apisix-base`, and applies HTTP/3 and QUIC patches to it, forming its own release.
 
 Because APISIX is built on top of NGINX and OpenResty, enabling this feature requires updating its ecosystem, particularly the upstream dependencies of NGINX and OpenResty. Currently, APISIX is awaiting the master version of OpenResty to be upgraded to NGINX 1.25 or above, after which certain patches and interfaces of APISIX will be updated. It is expected to be implemented in October.
 
