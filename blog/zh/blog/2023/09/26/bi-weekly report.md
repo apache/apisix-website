@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
 
-> 我们近期对 Apache APISIX 和 APISIX Ingress Controller 的部分功能进行了修复或改善，包括使用 xrpc 支持 dubbo 协议，支持在 access_log 中记录 opentelemetry 变量，以及支持在外部插件中修改请求 body。详情请阅读本期双周报。
+> 我们近期对 Apache APISIX 的部分功能进行了修复或改善，包括使用 xrpc 支持 dubbo 协议，支持在 access_log 中记录 opentelemetry 变量，以及支持在外部插件中修改请求 body。详情请阅读本期双周报。
 <!--truncate-->
 
 ## 导语
