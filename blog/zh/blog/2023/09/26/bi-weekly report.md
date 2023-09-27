@@ -17,7 +17,7 @@ image: https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%B
 
 Apache APISIX 在开源的第一天就以社区的方式迅速成长，成为全球最活跃的开源 API 网关项目，这一切都离不开社区伙伴们的共同努力。
 
-在 2023.09.11 - 2023.09.24 期间，有 23 名开发者提交了 43 个commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改善和壮大。
+从 2023.9.11 至 2023.9.24，有 23 名开发者提交了 43 个commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改善和壮大。
 
 最近，我们对一些功能进行了修复和改进，更新内容总结如下：
 
