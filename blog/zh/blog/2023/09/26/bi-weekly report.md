@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
 
-> 最近，我们修复并改进了 Apache APISIX 的部分功能，如 dubbo 协议的 xrpc 支持、支持在 access_log 中记录 opentelemetry 变量，以及在外部插件中修改请求  body 的功能。您可以在本期双周报中详细了解这些新功能。
+> 最近，我们修复并改进了 Apache APISIX 的部分功能，如 dubbo 协议的 `xrpc` 支持、支持在 `access_log` 中记录 opentelemetry 变量，以及在外部插件中修改请求 body 的功能。您可以在本期双周报中详细了解这些新功能。
 <!--truncate-->
 
 ## 导语
