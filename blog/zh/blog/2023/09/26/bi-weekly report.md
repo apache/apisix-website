@@ -5,7 +5,7 @@ keywords:
 - API 网关
 - 社区周报
 - 贡献者
-description: “独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
+description: “独行者速，众行者远”。Apache APISIX 社区周报旨在协助社区小伙伴们全面地了解 Apache APISIX 社区的发展，使每个人都能更容易地参与到社区建设中来。
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png
 ---
@@ -15,11 +15,11 @@ image: https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%B
 
 ## 导语
 
-Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。
+Apache APISIX 在开源的第一天就以社区的方式迅速成长，成为全球最活跃的开源 API 网关项目，这一切都离不开社区伙伴们的共同努力。
 
-从 2023.9.11 - 2023.9.24，有 23 位开发者为 Apache APISIX 提交了 43 个 commit。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！
+在 2023.09.11 - 2023.09.24 期间，有 23 名开发者提交了 43 个commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改善和壮大。
 
-我们近期对部分功能进行了修复或改善，更新内容汇总如下：
+最近，我们对一些功能进行了修复和改进，更新内容总结如下：
 
 1. 使用 `xrpc` 支持 dubbo 协议
 
@@ -27,7 +27,7 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 3. 支持在外部插件中修改请求 body
 
-“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。
+“独行者速，众行者远”。Apache APISIX 社区周报旨在协助社区小伙伴们全面地了解 Apache APISIX 社区的发展，使每个人都能更容易地参与到社区建设中来。
 
 ## 贡献者统计
 
