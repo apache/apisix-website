@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently made fixes and improvements to certain features of Apache APISIX and APISIX Ingress Controller. These include providing native JSON data structure input support for the wasm plugin, adding UNIX socket listening support for the `chaitin-waf` plugin, and introducing the ability to remove the etcd dependency required by APISIX within the APISIX Ingress to reduce architectural complexity. For more details, please refer to the biweekly report.
+> We have recently made fixes and improvements to certain features of Apache APISIX. These include utilizing xrpc to support the Dubbo protocol, enabling the recording of OpenTelemetry variables in the access_log, and allowing modification of request bodies in external plugins. For more details, please refer to the biweekly report.
 <!--truncate-->
 
 ## Introduction
@@ -21,11 +21,11 @@ From 9.11 to 9.24, 23 contributors submitted 43 commits for Apache APISIX. Thank
 
 We have recently fixed and improved some features, and the summary of the updates is as follows:
 
-1. Provide native JSON data structure input support for the wasm plugin
+1. Utilize xrpc to support the Dubbo protocol
 
-2. Add UNIX socket listening support for the `chaitin-waf` plugin
+2. Enable the recording of OpenTelemetry variables in the access_log
 
-3. Introduce the ability to remove the etcd dependency required by APISIX within the APISIX Ingress to reduce architectural complexity (Experimental Feature)
+3. Allow modification of request bodies in external plugins
 
 "If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
 
@@ -39,15 +39,17 @@ We have recently fixed and improved some features, and the summary of the update
 
 ### Apache APISIX
 
-- [Provides native JSON data structure input support for the wasm plugin](https://github.com/apache/apisix/pull/10072) (Contributor: [Sn0rt](https://github.com/Sn0rt))
+- [Utilize xrpc to support the Dubbo protocol](https://github.com/apache/apisix/pull/9660) (Contributor: [wxbty](https://github.com/wxbty))
 
-- [Add UNIX socket listening support for the `chaitin-waf` plugin](https://github.com/apache/apisix/pull/10161) (Contributor: [zclaiqcc](https://github.com/zclaiqcc))
+- [Enable the recording of OpenTelemetry variables in the access_log](https://github.com/apache/apisix/pull/8871) (Contributor: [lework](https://github.com/lework))
 
-### APISIX Ingress Controller
-
-- [Introduce the ability to remove the etcd dependency required by APISIX within the APISIX Ingress to reduce architectural complexity](https://github.com/apache/apisix-ingress-controller/pull/1803) (Contributor: [AlinsRan](https://github.com/AlinsRan))
+- [Allow modification of request bodies in external plugins](https://github.com/apache/apisix/pull/9990) (Contributor: [jiangfucheng](https://github.com/jiangfucheng), [rubikplanet](https://github.com/rubikplanet))
 
 ## Recent Blog Recommendations
+
+- [Charting the Future of Urban Connectivity: WeCity Collaborates with APISIX](https://apisix.apache.org/blog/2023/09/20/wecity-uses-apisix/)
+
+  WeCity has been using APISIX for its core business since May 2023. Arjen Hof, Co-founder and CTO of WeCity, and Tim van Densen, Software Architect and Lead Developer of WeCity, shared their experience with APISIX.
 
 - [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
 
