@@ -21,9 +21,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 我们近期对部分功能进行了修复或改善，更新内容汇总如下：
 
-1. 使用 xrpc 支持 dubbo 协议
+1. 使用 `xrpc` 支持 dubbo 协议
 
-2. 支持在 access_log 中记录 opentelemetry 变量
+2. 支持在 `access_log` 中记录 opentelemetry 变量
 
 3. 支持在外部插件中修改请求 body
 
