@@ -39,9 +39,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ### Apache APISIX
 
-- [使用 xrpc 支持 dubbo 协议](https://github.com/apache/apisix/pull/9660)（贡献者：[wxbty](https://github.com/wxbty)))
+- [使用 `xrpc` 支持 dubbo 协议](https://github.com/apache/apisix/pull/9660)（贡献者：[wxbty](https://github.com/wxbty)))
 
-- [支持在 access_log 中记录 opentelemetry 变量](https://github.com/apache/apisix/pull/8871)（贡献者：[lework](https://github.com/lework))
+- [支持在 `access_log` 中记录 opentelemetry 变量](https://github.com/apache/apisix/pull/8871)（贡献者：[lework](https://github.com/lework))
 
 - [支持在外部插件中修改请求 body](https://github.com/apache/apisix/pull/9990)（贡献者：[jiangfucheng](https://github.com/jiangfucheng)、[rubikplanet](https://github.com/rubikplanet))
 
