@@ -10,16 +10,16 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently made fixes and improvements to certain features of Apache APISIX. These include utilizing `xrpc` to support the dubbo protocol, enabling the recording of OpenTelemetry variables in the `access_log`, and allowing modification of request bodies in external plugins. For more details, please refer to the biweekly report.
+> We have recently made some fixes and improvements to specific features within Apache APISIX. These changes involve utilizing `xrpc` to support the dubbo protocol, enabling the recording of OpenTelemetry variables in the `access_log`, and allowing modification of request bodies in external plugins. For additional information, please consult the biweekly report.
 <!--truncate-->
 
 ## Introduction
 
-Apache APISIX grew up as a community from the first day it was open-sourced, and quickly became the most active open-source API gateway project in the world. These achievements are inseparable from the joint efforts of community partners.
+Apache APISIX has developed into a thriving community since its open-source debut, becoming the world's most active open-source API gateway project thanks to the collaborative efforts of our community partners.
 
-From 9.11 to 9.24, 23 contributors submitted 43 commits for Apache APISIX. Thank you for your contributions to Apache APISIX.
+Between September 11th and September 24th, a total of 23 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-We have recently fixed and improved some features, and the summary of the updates is as follows:
+We have recently addressed and enhanced various features, and here is a summary of the updates:
 
 1. Utilize `xrpc` to support the dubbo protocol
 
@@ -27,7 +27,7 @@ We have recently fixed and improved some features, and the summary of the update
 
 3. Allow modification of request bodies in external plugins
 
-"If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report can help community members better grasp the progress of the Apache APISIX community so that everyone can participate in the Apache APISIX community.
+"If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report helps community members understand how the Apache APISIX community is progressing, making it easier for everyone to get involved.
 
 ## Contributor Statistics
 
