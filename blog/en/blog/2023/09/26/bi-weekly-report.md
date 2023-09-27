@@ -17,7 +17,7 @@ image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%B
 
 Apache APISIX has developed into a thriving community since its open-source debut, becoming the world's most active open-source API gateway project thanks to the collaborative efforts of our community partners.
 
-Between September 11th and September 24th, a total of 23 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From 9.11 to 9.24, a total of 23 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 We have recently addressed and enhanced various features, and here is a summary of the updates:
 
