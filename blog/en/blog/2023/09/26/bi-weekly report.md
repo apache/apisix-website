@@ -39,9 +39,9 @@ We have recently fixed and improved some features, and the summary of the update
 
 ### Apache APISIX
 
-- [Utilize xrpc to support the Dubbo protocol](https://github.com/apache/apisix/pull/9660) (Contributor: [wxbty](https://github.com/wxbty))
+- [Utilize `xrpc` to support the Dubbo protocol](https://github.com/apache/apisix/pull/9660) (Contributor: [wxbty](https://github.com/wxbty))
 
-- [Enable the recording of OpenTelemetry variables in the access_log](https://github.com/apache/apisix/pull/8871) (Contributor: [lework](https://github.com/lework))
+- [Enable the recording of OpenTelemetry variables in the `access_log`](https://github.com/apache/apisix/pull/8871) (Contributor: [lework](https://github.com/lework))
 
 - [Allow modification of request bodies in external plugins](https://github.com/apache/apisix/pull/9990) (Contributor: [jiangfucheng](https://github.com/jiangfucheng), [rubikplanet](https://github.com/rubikplanet))
 
