@@ -21,9 +21,9 @@ From 9.11 to 9.24, 23 contributors submitted 43 commits for Apache APISIX. Thank
 
 We have recently fixed and improved some features, and the summary of the updates is as follows:
 
-1. Utilize xrpc to support the dubbo protocol
+1. Utilize `xrpc` to support the dubbo protocol
 
-2. Enable the recording of OpenTelemetry variables in the access_log
+2. Enable the recording of OpenTelemetry variables in the `access_log`
 
 3. Allow modification of request bodies in external plugins
 
