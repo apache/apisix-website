@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently made fixes and improvements to certain features of Apache APISIX. These include utilizing xrpc to support the dubbo protocol, enabling the recording of OpenTelemetry variables in the access_log, and allowing modification of request bodies in external plugins. For more details, please refer to the biweekly report.
+> We have recently made fixes and improvements to certain features of Apache APISIX. These include utilizing `xrpc` to support the dubbo protocol, enabling the recording of OpenTelemetry variables in the `access_log`, and allowing modification of request bodies in external plugins. For more details, please refer to the biweekly report.
 <!--truncate-->
 
 ## Introduction
