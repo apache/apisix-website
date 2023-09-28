@@ -13,8 +13,8 @@ keywords:
   - Open Source
   - API gateway
   - Apache APISIX
-description: APISIX 3.5 introduces a series of exciting new features that will bring users a higher level of security, performance, and scalability, thereby providing users with more choices and making it more convenient and flexible when building and managing APIs.
-tags: [Ecosystem]
+description: APISIX 3.5 introduces a series of exciting new features that will bring users a higher level of security, performance, and scalability.
+tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
