@@ -9,10 +9,10 @@ module.exports = [
     githubBranch: 'master',
     downloadPath: 'apisix/3.4.1/apache-apisix-3.4.1-src',
     dockerhubPath: 'apisix',
-    version: '3.5.0',
+    version: '3.6.0',
     LTSDownloadPath: 'apisix/3.2.2/apache-apisix-3.2.2-src',
     LTSVersion: '3.2.2',
-    releaseDate: '2023-09-01',
+    releaseDate: '2023-10-05',
     firstDocPath: '/getting-started',
   },
   {
