@@ -3,8 +3,8 @@ title: "APISIX 新特性之 GitOps 声明式配置"
 authors:
   - name: Jintao Zhang
     title: Author
-    url: 
-    image_url: 
+    url: https://github.com/tao12345666333
+    image_url: https://avatars.githubusercontent.com/u/3264292?v=4
   - name: Yilia Lin
     title: Technical Writer
     url: https://github.com/Yilialinn
@@ -13,7 +13,7 @@ keywords:
   - 开源社区
   - API 网关
   - Apache APISIX
-description: 
+description: APISIX 引入了新的周边工具：支持 GitOps 声明式，帮助用户在非 Kubernetes 环境中以声明式的方式进行各种集成。
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
@@ -66,13 +66,31 @@ ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，不需�
 
 参考 APISIX 文档，安装好 APISIX。再使用 go install 命令将 ADC 二进制安装到 $GOPATH/bin 目录：
 
+```shell
+go install github.com/api7/adc@latest
+```
+
 增加这行代码到你的 `$PATH` 环境变量：
+
+```shell
+export PATH=$PATH:$GOPATH/bin
+```
 
 如果你没有安装 Go，则可以下载最新版本的 `adc` 二进制来运行，把它加到你的 `/bin` 文件夹。
 
-你可以在发布页面上找到其他操作系统的二进制文件。将来，这些文件将发布在像 Homebrew 这样的软件包管理工具上。
+```shell
+wget https://github.com/api7/adc/releases/download/v0.2.0/adc_0.2.0_linux_amd64.tar.gz
+tar -zxvf adc_0.2.0_linux_amd64.tar.gz
+mv adc /usr/local/bin/adc
+```
+
+你可以在[发布页](https://github.com/api7/adc/releases/tag/v0.2.0)上找到其他操作系统的二进制文件。将来，这些文件将发布在像 Homebrew 这样的软件包管理工具上。
 
 运行下列代码，确认 `adc` 已经安装好：
+
+```shell
+adc --help
+```
 
 如果一切正常，你将看到可用子命令的列表以及如何使用它们。
 
@@ -80,57 +98,219 @@ ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，不需�
 
 接下来，在 ADC 中配置 APISIX 实例。
 
+```shell
+adc configure
+```
+
 它将提示你填入 APISIX 服务器地址和 token。如果都填写正确，可以看到下面的内容：
 
+```shell
+ADC configured successfully!
+Connected to APISIX successfully!
+```
+
 我们可以使用子命令 `ping` 随时检查 APISIX 的连接情况：
+
+```shell
+adc ping
+```
 
 #### 验证 APISIX 配置文件
 
 创建一个基本的 APISIX 配置，该配置具有将流量转发到上游的路由：
 
+```yaml title="config.yaml"
+name: "Basic configuration"
+version: "1.0.0"
+services:
+  - name: httpbin-service
+    hosts:
+      - api7.ai
+    upstream:
+      name: httpbin
+      nodes:
+        - host: httpbin.org
+          port: 80
+          weight: 1
+routes:
+  - name: httpbin-route
+    service_id: httpbin-service
+    uri: "/anything"
+    methods:
+      - GET
+```
+
 一旦 ADC 连接到正在运行的 APISIX 实例，我们就可以使用它来验证此配置，然后再通过运行以下代码来应用它：
 
+```shell
+adc validate -f config.yaml
+```
+
 如果配置有效，会收到类似的响应：
+
+```shell
+Read configuration file successfully: config name: Basic configuration, version: 1.0.0, routes: 1, services: 1.
+Successfully validated configuration file!
+```
 
 #### 同步配置到 APISIX 实例
 
 现在可以使用 ADC 将有效配置与连接的 APISIX 实例同步。要执行此操作，请运行：
 
+```shell
+adc sync -f config.yaml
+```
+
 这将创建我们在配置文件中声明的路由和服务：
+
+```shell
+creating service: "httpbin-service"
+creating route: "httpbin-route"
+Summary: created 2, updated 0, deleted 0
+```
 
 要验证路由是否正确创建，让我们尝试发送一个请求：
 
-如果一切都正确，我们将收到 httpbin.org 的回复。
+```shell
+curl localhost:9080/anything -H "host:api7.ai"
+```
+
+如果一切都正确，我们将收到 [httpbin.org]((https://httpbin.org)) 的回复。
 
 #### 比较本地配置和运行配置
 
-现在，让我们通过添加另一个路由来更新 config.yaml 文件中的本地配置：
+现在，让我们通过添加另一个路由来更新 `config.yaml` 文件中的本地配置：
+
+```yaml title="config.yaml" {20-24}
+name: "Basic configuration"
+version: "1.0.0"
+services:
+  - name: httpbin-service
+    hosts:
+      - api7.ai
+    upstream:
+      name: httpbin
+      nodes:
+        - host: httpbin.org
+          port: 80
+          weight: 1
+routes:
+  - name: httpbin-route-anything
+    service_id: httpbin-service
+    uri: "/anything"
+    methods:
+      - GET
+  - name: httpbin-route-ip
+    service_id: httpbin-service
+    uri: "/ip"
+    methods:
+      - GET
+```
 
 在将此配置与 APISIX 同步之前，ADC 允许您检查它与现有 APISIX 配置之间的差异。可以运行以下操作：
+
+```shell
+adc diff -f config.yaml
+```
 
 在应用配置之前，能够看到添加和删除的配置，也能了解到更改的内容。
 
 #### 将 OpenAPI 定义转换为 APISIX 配置
 
-ADC 还支持使用 OpenAPI 定义。ADC 允许将 OpenAPI 格式的定义转换为 APISIX 配置。
+ADC 还支持使用 OpenAPI 定义。ADC 允许将 [OpenAPI 格式](https://spec.openapis.org/oas/v3.0.0)的定义转换为 APISIX 配置。
 
 例如，如果你以 OpenAPI 格式记录了 API，如下所示：
 
+```yaml title="openAPI.yaml"
+openapi: 3.0.0
+info:
+  title: httpbin API
+  description: Routes for httpbin API
+  version: 1.0.0
+servers:
+  - url: http://httpbin.org
+paths:
+  /anything:
+    get:
+      tags:
+        - default
+      summary: Returns anything that is passed in the request data
+      operationId: getAnything
+      parameters:
+        - name: host
+          in: header
+          schema:
+            type: string
+          example: "{{host}}"
+      responses:
+        "200":
+          description: Successfully return anything
+          content:
+            application/json: {}
+  /ip:
+    get:
+      tags:
+        - default
+      summary: Returns the IP address of the requester
+      operationId: getIP
+      responses:
+        "200":
+          description: Successfully return IP
+          content:
+            application/json: {}
+```
+
 你可以使用子命令 `openapi2apisix` 将其转换为 APISIX 配置，如下所示：
+
+```shell
+adc openapi2apisix -o config.yaml -f openAPI.yaml
+```
 
 这将创建一个配置文件，如下所示：
 
-正如我们所看到的，配置是不完整的，仍然需要手动添加大量配置。我们正在改进ADC，以弥补 OpenAPI 定义和可以直接映射到 APISIX 配置之间的差距。
+```yaml title="config.yaml"
+name: ""
+routes:
+- desc: Returns anything that is passed in the request data
+  id: ""
+  methods:
+  - GET
+  name: getAnything
+  uris:
+  - /anything
+- desc: Returns the IP address of the requester
+  id: ""
+  methods:
+  - GET
+  name: getIP
+  uris:
+  - /ip
+services:
+- desc: Routes for httpbin API
+  id: ""
+  name: httpbin API
+  upstream:
+    id: ""
+    name: ""
+    nodes: null
+version: ""
+```
+
+正如我们所看到的，配置是不完整的，仍然需要手动添加大量配置。我们正在改进 ADC，以弥补 OpenAPI 定义和可以直接映射到 APISIX 配置之间的差距。
 
 #### 提示：使用自动完成
 
-ADC 可以为你提供很多帮助，而且功能列表一定会增加。要了解如何使用任何子命令，可以使用 --help 或 -h 标志，它将显示该子命令的文档。
+ADC 可以为你提供很多帮助，而且功能列表一定会增加。要了解如何使用任何子命令，可以使用 `--help` 或 `-h` 标志，它将显示该子命令的文档。
 
-为了让它变得更简单，您可以使用 completion 子命令为你的 shell 环境生成一个自动完成脚本。例如，如果使用的是 zsh shell，则可以运行：
+为了让它变得更简单，您可以使用 `completion` 子命令为你的 shell 环境生成一个自动完成脚本。例如，如果使用的是 zsh shell，则可以运行：
 
-然后，您可以将输出复制粘贴到你的 .zshrc 文件中，之后在你使用 ADC 时，它将显示提示。
+```shell
+adc completion zsh
+```
 
-ADC 仍处于初级阶段，并且正在不断改进。要了解有关该项目的更多信息、报告错误或建议功能，请访问 github.com/api7/adc。
+然后，您可以将输出复制粘贴到你的 `.zshrc` 文件中，之后在你使用 `adc` 时，它将显示提示。
+
+ADC 仍处于初级阶段，并且正在不断改进。要了解有关该项目的更多信息、报告错误或建议功能，请访问 [github.com/api7/adc](github.com/api7/adc)。
 
 ## 总结
 
