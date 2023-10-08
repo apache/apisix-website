@@ -46,7 +46,7 @@ APISIX 开发团队意识到支持 GitOps 声明式有以下几点好处，能�
 
 ### ADC 及其使用场景和功能
 
-ADC 全称是 APISIX declarative CLI ， 是一个 APISIX 的声明式配置工具。APISIX 通过 ADC 帮助用户在非 Kubernetes 环境中以声明式的方式进行各种集成。
+ADC 全称是 APISIX declarative CLI ，是一个 APISIX 的声明式配置工具。APISIX 通过 ADC 帮助用户在非 Kubernetes 环境中以声明式的方式进行各种集成。
 
 **ADC 允许通过命令行的方式与 APISIX 实例进行交互，当前已经实现如下功能：**
 
