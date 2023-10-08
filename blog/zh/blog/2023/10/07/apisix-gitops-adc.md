@@ -61,7 +61,8 @@ ADC 全称是 APISIX declarative CLI ，是一个 APISIX 的声明式配置工�
 - **OpenAPI 转换**：ADC 可以将 OpenAPI 规范文件转换成 APISIX 的配置文件。
 - **运行诊断**：ADC 支持 ping 等诊断命令，帮助调试 ADC 与网关的连接。
 
-ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，不需要手动调用 admin API 或者通过 Dashboard 等，通过简单的命令就能实现配置的同步。
+ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，通过简单的命令就能实现配置的同步，不需要手动调用 admin API 或者通过 Dashboard 等。
+
 
 ## APISIX 如何使用 ADC 实现声明式配置
 
