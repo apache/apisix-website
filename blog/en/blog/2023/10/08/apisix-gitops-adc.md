@@ -218,7 +218,7 @@ Before synchronizing this configuration with APISIX, ADC allows you to check the
 adc diff -f config.yaml
 ```
 
-You can see the added and deleted configurations and understand the changes before applying the configuration.
+You can see the added and deleted configurations and check the changes before applying the configuration.
 
 
 ### Converting OpenAPI Definitions to APISIX Configurations
