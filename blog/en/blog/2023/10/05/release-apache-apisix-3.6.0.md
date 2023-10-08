@@ -124,10 +124,10 @@ For more information, see [PR #9990](https://github.com/apache/apisix/pull/9990)
 
 - Support configuring the buffer size for the access log ([PR #10225](https://github.com/apache/apisix/pull/10225))
 - Remove Rust dependency to simplify installation ([PR #10121](https://github.com/apache/apisix/pull/10121))
-- Support HTTPS in traffic-split plugin ([PR #9115](https://github.com/apache/apisix/pull/9115))
-- Support UNIX sock host pattern in the chaitin-waf plugin ([PR #10161](https://github.com/apache/apisix/pull/10161))
+- Support HTTPS in `traffic-split` plugin ([PR #9115](https://github.com/apache/apisix/pull/9115))
+- Support UNIX sock host pattern in the `chaitin-waf` plugin ([PR #10161](https://github.com/apache/apisix/pull/10161))
 - Fix GraphQL POST request route matching exception ([PR #10198](https://github.com/apache/apisix/pull/10198))
-- Add error handlers for invalid cache_zone in the proxy-cache plugin ([PR #10138](https://github.com/apache/apisix/pull/10138))
+- Add error handlers for invalid `cache_zone` in the `proxy-cache` plugin ([PR #10138](https://github.com/apache/apisix/pull/10138))
 
 ## Changelog
 
