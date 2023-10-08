@@ -41,7 +41,7 @@ The APISIX development team recognizes several benefits of supporting GitOps in 
 
 1. **Improved Developer Efficiency**: By using GitOps with a declarative configuration approach, developers can directly manage API gateway configurations by modifying and committing configuration files in the code repository. This method aligns with the development workflow that developers are familiar with, reducing the learning curve and tool-switching costs, and thus enhancing developer productivity.
 
-2. **Enhanced Operational Reliability**: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This enables traceability, and auditability, and reduces the risk of failures caused by human errors.
+2. **Enhanced Operational Reliability**: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This function enables traceability and auditability, and reduces the risk of failures caused by human errors.
 
 3. **Streamlined Multi-Environment Management**: Managing different configurations across development, testing, and production environments can be simplified. By utilizing GitOps, it becomes effortless to create different branches or tags for managing configuration files in different environments, ensuring consistency across environments and reducing manual configuration errors.
 
