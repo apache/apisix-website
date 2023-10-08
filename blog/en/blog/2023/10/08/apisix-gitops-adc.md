@@ -225,7 +225,7 @@ You can see the added and deleted configurations and check the changes before ap
 
 ADC also supports the use of [OpenAPI definitions](https://spec.openapis.org/oas/v3.0.0). ADC allows the conversion of OpenAPI format definitions into APISIX configurations.
 
-For example, if you documented your API in OpenAPI format like this:
+For example, if you document your API in OpenAPI format like this:
 
 ```yaml title="openAPI.yaml"
 openapi: 3.0.0
