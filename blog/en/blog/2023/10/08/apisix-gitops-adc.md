@@ -13,12 +13,12 @@ keywords:
   - 开源社区
   - API 网关
   - Apache APISIX
-description: APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool-ADC.
+description: APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
-APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool-ADC.
+APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
 <!--truncate-->
 
 With the widespread adoption of cloud-native and microservices, the API gateway has emerged as a critical component for connecting and managing various microservices. However, as the number of services continues to grow and changes occur more frequently, the traditional imperative configuration has become increasingly challenging to manage and maintain. GitOps, on the other hand, is an operational model that leverages version control systems and automated workflows. By supporting declarative configurations, GitOps provides a more efficient, reliable, and traceable mode of operation.
@@ -32,14 +32,19 @@ Although APISIX offers a stand-alone mode that allows configuration through YAML
 In traditional API gateway management, configurations and policies are typically manipulated using imperative methods, requiring manual modifications through command-line tools or management interfaces. This approach poses several challenges, including:
 
 - **Cumbersome Configuration Management**: Manual modifications of configurations are prone to errors, especially when dealing with large-scale gateways.
+
 - **Poor Traceability**: Tracking the change history and version control of configurations becomes difficult.
+
 - **Lack of Consistency**: Configuration discrepancies among multiple environments result in inconsistencies between development, testing, and production environments.
 
 The APISIX development team recognizes several benefits of supporting GitOps in a declarative manner to effectively address these challenges:
 
 1. **Improved Developer Efficiency**: By using GitOps with a declarative configuration approach, developers can directly manage API gateway configurations by modifying and committing configuration files in the code repository. This method aligns with the development workflow that developers are familiar with, reducing the learning curve and tool-switching costs, and thus enhancing developer productivity.
+
 2. **Enhanced Operational Reliability**: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This enables traceability, and auditability, and reduces the risk of failures caused by human errors.
+
 3. **Streamlined Multi-Environment Management**: Managing different configurations across development, testing, and production environments can be simplified. By utilizing GitOps, it becomes effortless to create different branches or tags for managing configuration files in different environments, ensuring consistency across environments and reducing manual configuration errors.
+
 4. **Facilitated Team Collaboration**: The GitOps workflow promotes collaboration and communication among team members. Developers can actively participate in the development and maintenance of API gateway configurations through practices such as submitting merge requests and code reviews, thereby improving team collaboration efficiency and code quality.
 
 ## How Does APISIX Support GitOps Declarative Configuration
