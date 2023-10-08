@@ -63,9 +63,9 @@ ADC 全称是 APISIX declarative CLI ，是一个 APISIX 的声明式配置工�
 
 ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，不需要手动调用 admin API 或者通过 Dashboard 等，通过简单的命令就能实现配置的同步。
 
-### APISIX 如何使用 ADC 实现声明式配置
+## APISIX 如何使用 ADC 实现声明式配置
 
-#### 安装 APISIX 和 ADC
+### 安装 APISIX 和 ADC
 
 参考 [APISIX 文档](https://apisix.apache.org/zh/docs/apisix/getting-started/README/)，安装好 APISIX。再使用 `go install` 命令将 ADC 二进制安装到 `$GOPATH/bin` 目录：
 
@@ -97,7 +97,7 @@ adc --help
 
 如果一切正常，你将看到可用子命令的列表以及如何使用它们。
 
-#### 在 ADC 中配置 APISIX 实例
+### 在 ADC 中配置 APISIX 实例
 
 接下来，在 ADC 中配置 APISIX 实例。
 
@@ -118,7 +118,7 @@ Connected to APISIX successfully!
 adc ping
 ```
 
-#### 验证 APISIX 配置文件
+### 验证 APISIX 配置文件
 
 创建一个基本的 APISIX 配置，该配置具有将流量转发到上游的路由：
 
@@ -156,7 +156,7 @@ Read configuration file successfully: config name: Basic configuration, version:
 Successfully validated configuration file!
 ```
 
-#### 同步配置到 APISIX 实例
+### 同步配置到 APISIX 实例
 
 现在可以使用 ADC 将有效配置与连接的 APISIX 实例同步。要执行此操作，请运行：
 
@@ -180,7 +180,7 @@ curl localhost:9080/anything -H "host:api7.ai"
 
 如果一切都正确，我们将收到 [httpbin.org]((https://httpbin.org)) 的回复。
 
-#### 比较本地配置和运行配置
+### 比较本地配置和运行配置
 
 现在，让我们通过添加另一个路由来更新 `config.yaml` 文件中的本地配置：
 
@@ -218,7 +218,7 @@ adc diff -f config.yaml
 
 在应用配置之前，能够看到添加和删除的配置，也能了解到更改的内容。
 
-#### 将 OpenAPI 定义转换为 APISIX 配置
+### 将 OpenAPI 定义转换为 APISIX 配置
 
 ADC 还支持使用 OpenAPI 定义。ADC 允许将 [OpenAPI 格式](https://spec.openapis.org/oas/v3.0.0)的定义转换为 APISIX 配置。
 
@@ -301,7 +301,7 @@ version: ""
 
 正如我们所看到的，配置是不完整的，仍然需要手动添加大量配置。我们正在改进 ADC，以弥补 OpenAPI 定义和可以直接映射到 APISIX 配置之间的差距。
 
-#### 提示：使用自动完成
+### 提示：使用自动完成
 
 ADC 可以为你提供很多帮助，而且功能列表一定会增加。要了解如何使用任何子命令，可以使用 `--help` 或 `-h` 标志，它将显示该子命令的文档。
 
