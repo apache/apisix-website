@@ -64,7 +64,7 @@ ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，不需�
 
 #### 安装 APISIX 和 ADC
 
-参考 APISIX 文档，安装好 APISIX。再使用 go install 命令将 ADC 二进制安装到 $GOPATH/bin 目录：
+参考 APISIX 文档，安装好 APISIX。再使用 `go install` 命令将 ADC 二进制安装到 $GOPATH/bin 目录：
 
 ```shell
 go install github.com/api7/adc@latest
