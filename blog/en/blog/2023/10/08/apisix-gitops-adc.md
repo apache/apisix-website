@@ -29,7 +29,7 @@ To enhance developing efficiency and operational reliability, APISIX has introdu
 
 Although APISIX offers a stand-alone mode that allows configuration through YAML files, it lacks seamless integration with related ecosystems such as CI/CD tools like Jenkins and ArgoCD. While the APISIX Ingress Controller project has made significant strides in this area, APISIX itself does not provide a comprehensive set of declarative tools to support GitOps when used in non-Kubernetes environments such as bare metal or virtual machines.
 
-In traditional API gateway management, configurations and policies are typically manipulated using imperative methods, requiring manual modifications through command-line tools or management interfaces. This approach poses several challenges, including:
+In traditional API gateway management, configurations and policies are typically manipulated using imperative methods, requiring manual modifications through command-line tools or management interfaces. This approach poses several challenges:
 
 - **Cumbersome Configuration Management**: Manual modifications of configurations are prone to errors, especially when dealing with large-scale gateways.
 
