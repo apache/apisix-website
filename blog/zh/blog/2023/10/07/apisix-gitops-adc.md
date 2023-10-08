@@ -27,7 +27,7 @@ APISIX 引入了新的周边工具：支持 GitOps 声明式，帮助用户在�
 
 ## 为什么支持 GitOps 声明式配置
 
-尽管 APISIX 提供了 stand-alone 模式，可以用 YAML 文件为 APISIX 提供配置，但 APISIX 缺乏与 CI/CD 等相关生态系统，如 Jenkins、ArgoCD 等生态的完整集成。APISIX Ingress Controller 项目在这方面进行了许多对接和集成工作，但 APISIX 本身在裸金属或虚拟机等非 Kubernetes 环境中使用时，并没有提供一套完整的声明式工具来支持 GitOps。
+尽管 APISIX 提供了 stand-alone 模式，可以用 YAML 文件为 APISIX 提供配置，但 APISIX 缺乏与 CI/CD 等相关生态系统，如 Jenkins、ArgoCD 等生态的完整集成。虽然 APISIX Ingress Controller 项目在这方面进行了许多对接和集成工作，但 APISIX 本身在裸金属或虚拟机等非 Kubernetes 环境中使用时，并没有提供一套完整的声明式工具来支持 GitOps。
 
 在传统的 API 网关管理中，配置和策略通常以命令式的方式进行操作，需要通过命令行工具或管理界面手动修改。传统的管理方式方式存在一些挑战，例如：
 
