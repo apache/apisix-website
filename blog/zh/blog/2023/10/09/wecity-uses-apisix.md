@@ -10,7 +10,10 @@ authors:
     url: https://github.com/JYan00
     image_url: https://github.com/JYan00.png
 keywords:
-  - Case Studies
+  - WeCity
+  - API Gateway
+  - Apache APISIX
+  - API Gateway 最佳实践
 description: 荷兰知名公共数据管理企业 WeCity 与 APISIX 携手同行，共同打造荷兰的稳定安全的数据市场。
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/10/09/dOuH1wXz_WeCity-case-study.png
