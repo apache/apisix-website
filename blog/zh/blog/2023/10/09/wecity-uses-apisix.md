@@ -3,12 +3,8 @@ title: "荷兰智慧城市革命：WeCity 与 APISIX 的合作之旅"
 authors:
   - name: Arjen Hof
     title: Author
-    url:
-    image_url:
   - name: Tim van Densen
     title: Author
-    url:
-    image_url:
   - name: Jing Yan
     title: Technical Writer
     url:
