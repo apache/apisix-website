@@ -63,7 +63,6 @@ ADC 全称是 APISIX declarative CLI ，是一个 APISIX 的声明式配置工�
 
 ADC 本质上提供了一套声明式的 APISIX 配置和管理能力，通过简单的命令就能实现配置的同步，不需要手动调用 admin API 或者通过 Dashboard 等。
 
-
 ## APISIX 如何使用 ADC 实现声明式配置
 
 ### 安装 APISIX 和 ADC
