@@ -7,8 +7,8 @@ authors:
     title: Author
   - name: Jing Yan
     title: Technical Writer
-    url:
-    image_url: https://avatars.githubusercontent.com/u/114121331?v=4
+    url: https://github.com/JYan00
+    image_url: https://github.com/JYan00.png
 keywords:
   - Case Studies
 description: 荷兰知名公共数据管理企业 WeCity 与 APISIX 携手同行，共同打造荷兰的稳定安全的数据市场。
