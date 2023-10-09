@@ -50,7 +50,7 @@ WeCity 的数据市场涵盖了许多与公共空间有关的数据集，包括�
 
 ![WeCity](https://static.apiseven.com/uploads/2023/09/21/pcp55Tv4_Accessible%20city.png)
 
-## 为什么我们选择 APISIX
+## 为什么 WeCity 选择 APISIX
 
 为寻找适合的网关，我们曾调研多个知名开源项目，如 WSO2、Kong、Gravitee、3Scale、API Umbrella 等。然而，这些开源方案都存在不少限制。它们不仅需要我们签署昂贵的协议来获得附加技术支持，而且还需要我们的技术团队在原有基础上修改较多功能，且无法通过插件扩展，操作复杂，不符合我们对开源网关方案的期待。一番选型后，我们最终选定了 APISIX。
 
