@@ -220,7 +220,6 @@ adc diff -f config.yaml
 
 You can see the added and deleted configurations and check the changes before applying the configuration.
 
-
 ### Converting OpenAPI Definitions to APISIX Configurations
 
 ADC also supports the use of [OpenAPI definitions](https://spec.openapis.org/oas/v3.0.0). ADC allows the conversion of OpenAPI format definitions into APISIX configurations.
@@ -309,7 +308,6 @@ As we can see, the configuration is incomplete and a lot of configuration still 
 ADC offers many functions, and the list of features is sure to grow. To learn how to use any subcommand, you can use the `--help` or `-h` flag, which will display the documentation for that subcommand.
 
 To make it even easier, you can use the `completion` subcommand to generate an autocompletion script for your shell environment. For example, if you are using a zsh shell, you can run:
-
 
 ```shell
 adc completion zsh
