@@ -17,7 +17,7 @@ image: https://static.apiseven.com/uploads/2023/10/09/dOuH1wXz_WeCity-case-study
 ---
 
 > “开源项目 APISIX 的运营理念开放灵活，自身功能强大齐全，社区响应沟通及时，优点相当瞩目。”
-> 
+>
 > ——WeCity 联合创始人兼首席技术官 Arjen Hof、WeCity 软件架构师兼首席开发人员 Tim van Densen
 <!--truncate-->
 
