@@ -1,3 +1,21 @@
+---
+title: "荷兰智慧城市革命：WeCity 与 APISIX 的合作之旅"
+authors:
+  - name: Arjen Hof, Tim van Densen
+    title: Author
+    url:
+    image_url:
+  - name: Jing Yan
+    title: Technical Writer
+    url:
+    image_url: https://avatars.githubusercontent.com/u/114121331?v=4
+keywords:
+  - Case Studies
+description: 荷兰知名公共数据管理企业 WeCity 与 APISIX 携手同行，共同打造荷兰的稳定安全的数据市场。
+tags: [Case Studies]
+image: https://static.apiseven.com/uploads/2023/09/20/6ZpgFEMr_WeCity.png
+---
+
 > “开源项目 APISIX 的运营理念开放灵活，自身功能强大齐全，社区响应沟通及时，优点相当瞩目。”
 > 
 > ——WeCity 联合创始人兼首席技术官Arjen Hof、WeCity 软件架构师兼首席开发人员 Tim van Densen
@@ -25,6 +43,8 @@ WeCity 希望构建一个涵盖数据所有者、数据平台、数据提供者�
 ### 痛点 3：市面数据集种类繁多，难管理
 
 WeCity 的数据市场涵盖了许多与公共空间有关的数据集，包括交通、住房、自然、物流、废物管理等领域。我们希望确保数据所有者对这些数据集拥有绝对控制权，并同时以安全和标准化的方式使这些数据可供新的解决方案使用。然而，要实现数据管理与数据开放利用的平衡并非易事。
+
+![WeCity](https://static.apiseven.com/uploads/2023/09/21/pcp55Tv4_Accessible%20city.png)
 
 ## 为什么我们选择 APISIX
 
