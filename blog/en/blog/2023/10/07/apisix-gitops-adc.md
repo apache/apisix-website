@@ -27,7 +27,7 @@ To enhance developing efficiency and operational reliability, APISIX has introdu
 
 ## Why Does APISIX Support GitOps Declarative Configuration
 
-Although APISIX offers a stand-alone mode that allows configuration through YAML files, it lacks seamless integration with related ecosystems such as CI/CD tools like Jenkins and ArgoCD. While the APISIX Ingress Controller project has made significant strides in this area, APISIX itself does not provide a comprehensive set of declarative tools to support GitOps when used in non-Kubernetes environments such as bare metal or virtual machines.
+Although APISIX offers a stand-alone mode that allows configuration through YAML files, it lacks seamless integration with related ecosystems such as CI/CD tools like Jenkins and ArgoCD. While the APISIX Ingress Controller project makes significant strides in this area, APISIX itself does not provide a comprehensive set of declarative tools to support GitOps when used in non-Kubernetes environments such as bare metal or virtual machines.
 
 In traditional API gateway management, configurations and policies are typically manipulated using imperative methods, requiring manual modifications through command-line tools or management interfaces. This approach poses several challenges:
 
@@ -37,11 +37,11 @@ In traditional API gateway management, configurations and policies are typically
 
 - **Lack of Consistency**: Configuration discrepancies among multiple environments result in inconsistencies between development, testing, and production environments.
 
-The APISIX development team recognizes several benefits of supporting GitOps in a declarative manner to effectively address these challenges:
+The APISIX development team recognized several benefits of supporting GitOps in a declarative manner to effectively address these challenges:
 
 1. **Improved Developer Efficiency**: By using GitOps with a declarative configuration approach, developers can directly manage API gateway configurations by modifying and committing configuration files in the code repository. This method aligns with the development workflow that developers are familiar with, reducing the learning curve and tool-switching costs, and thus enhancing developer productivity.
 
-2. **Enhanced Operational Reliability**: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This function enables traceability and auditability, and reduces the risk of failures caused by human errors.
+2. **Enhanced Operational Reliability**: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This function enables traceability and auditability and reduces the risk of failures caused by human errors.
 
 3. **Streamlined Multi-Environment Management**: Managing different configurations across development, testing, and production environments can be simplified. By utilizing GitOps, it becomes effortless to create different branches or tags for managing configuration files in different environments, ensuring consistency across environments and reducing manual configuration errors.
 
@@ -97,7 +97,7 @@ Run the following code to confirm that `adc` has been installed:
 adc --help
 ```
 
-If everything goes well, you will see a list of available subcommands and how to use them.
+If everything goes well, you will see a list of available subcommands and using guide.
 
 ### Configuring ADC with APISIX Instance
 
@@ -114,7 +114,7 @@ ADC configured successfully!
 Connected to APISIX successfully!
 ```
 
-We can use the `ping` subcommand to check the APISIX connection at any time:
+You can use the `ping` subcommand to check the APISIX connection at any time:
 
 ```shell
 adc ping
@@ -145,7 +145,7 @@ routes:
       - GET
 ```
 
-Once the ADC is connected to the running APISIX instance, we can use it to validate this configuration before applying it by running:
+Once the ADC is connected to the running APISIX instance, you can use it to validate this configuration before applying it by running:
 
 ```shell
 adc validate -f config.yaml
@@ -180,7 +180,7 @@ To verify that the route was created correctly, let's try sending a request:
 curl localhost:9080/anything -H "host:api7.ai"
 ```
 
-If everything is correct, we will receive a response from [httpbin.org](httpbin.org).
+If everything is correct, you will receive a response from [httpbin.org](httpbin.org).
 
 ### Comparing Local and Running Configuration
 
@@ -301,7 +301,7 @@ services:
 version: ""
 ```
 
-As we can see, the configuration is incomplete and a lot of configuration still needs to be added manually. We are improving ADC to bridge the gap between OpenAPI definitions and configurations that can be mapped directly to APISIX.
+As you can see, the configuration is incomplete and a lot of configuration still needs to be added manually. We are improving ADC to bridge the gap between OpenAPI definitions and configurations that can be mapped directly to APISIX.
 
 ### Tip: Use Autocomplete
 
@@ -321,4 +321,4 @@ ADC is still in its infancy and is constantly being improved. To learn more abou
 
 By using the declarative configuration tool ADC, APISIX provides a more simplified, reliable, and traceable management method, allowing developers to manage and deploy API gateway configurations more efficiently. This new feature brings many benefits to team collaboration, environmental consistency, and configuration management, providing strong support for building reliable cloud-native architectures.
 
-Users can connect well with tools such as Jenkins and ArgoCD in non-Kubernetes environments, and use GitOps's internal CI/CD method to control various behaviors of APISIX to achieve functions such as multi-environment release.
+In non-Kubernetes environments, users can seamlessly integrate tools like Jenkins and ArgoCD. They can leverage GitOps' internal CI/CD approach to manage various aspects of APISIX, enabling functions like multi-environment releases.
