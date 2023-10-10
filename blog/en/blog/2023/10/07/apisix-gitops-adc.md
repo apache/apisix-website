@@ -10,8 +10,8 @@ authors:
     url: https://github.com/Yilialinn
     image_url: https://avatars.githubusercontent.com/u/114121331?v=4
 keywords:
-  - 开源社区
-  - API 网关
+  - Open Source
+  - API Gateway
   - Apache APISIX
 description: APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
 tags: [Community]
