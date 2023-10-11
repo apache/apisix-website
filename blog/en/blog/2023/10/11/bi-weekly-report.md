@@ -10,53 +10,53 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
 ---
 
-> We have recently made some fixes and improvements to specific features within Apache APISIX. These changes involve utilizing `xrpc` to support the dubbo protocol, enabling the recording of OpenTelemetry variables in the `access_log`, and allowing modification of request bodies in external plugins. For additional information, please consult the biweekly report.
+> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include adding support for the specified resolv.conf file in DNS service discovery, enabling the traffic-split plugin to work with HTTPS, and introducing ACL token support for Consul service discovery. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 
 ## Introduction
 
-Apache APISIX has developed into a thriving community since its open-source debut, becoming the world's most active open-source API gateway project thanks to the collaborative efforts of our community partners.
+From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our remarkable journey, made possible by the collective dedication of our community.
 
 From 9.25 to 10.08, a total of 22 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 We have recently addressed and enhanced various features, and here is a summary of the updates:
 
-1. Utilize `xrpc` to support the dubbo protocol
+1. Add support for the specified resolv.conf file in DNS service discovery
 
-2. Enable the recording of OpenTelemetry variables in the `access_log`
+2. Enable the `traffic-split` plugin to work with HTTPS
 
-3. Allow modification of request bodies in external plugins
+3. Introduce ACL token support for Consul service discovery
 
-"If you want to go fast, go alone. If you want to go far, go together." The Apache APISIX Community Biweekly Report helps community members understand how the Apache APISIX community is progressing, making it easier for everyone to get involved.
+Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/09/26/vv9C03oJ_Frame%204.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/10/09/1r8sLlzK_LIST.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/09/26/0xnTsOLT_9.24-newcon.png)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/10/09/xO6LPFNm_NEW.png)
 
 ## Highlights of Recent Features
 
 ### Apache APISIX
 
-- [Utilize `xrpc` to support the Dubbo protocol](https://github.com/apache/apisix/pull/9660) (Contributor: [wxbty](https://github.com/wxbty))
+- [Add support for the specified resolv.conf file in DNS service discovery](https://github.com/apache/apisix/pull/9770) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
-- [Enable the recording of OpenTelemetry variables in the `access_log`](https://github.com/apache/apisix/pull/8871) (Contributor: [lework](https://github.com/lework))
+- [Enable the `traffic-split` plugin to work with HTTPS](https://github.com/apache/apisix/pull/9115) (Contributor: [TenYearsIn](https://github.com/TenYearsIn))
 
-- [Allow modification of request bodies in external plugins](https://github.com/apache/apisix/pull/9990) (Contributor: [jiangfucheng](https://github.com/jiangfucheng), [rubikplanet](https://github.com/rubikplanet))
+- [Introduce ACL token support for Consul service discovery](https://github.com/apache/apisix/pull/10278) (Contributor: [sevensolutions](https://github.com/sevensolutions))
 
 ## Recent Blog Recommendations
 
-- [Charting the Future of Urban Connectivity: WeCity Collaborates with APISIX](https://apisix.apache.org/blog/2023/09/20/wecity-uses-apisix/)
+- [Embracing GitOps: APISIX's New Feature for Declarative Configuration](https://apisix.apache.org/blog/2023/10/07/apisix-gitops-adc/)
 
-  WeCity has been using APISIX for its core business since May 2023. Arjen Hof, Co-founder and CTO of WeCity, and Tim van Densen, Software Architect and Lead Developer of WeCity, shared their experience with APISIX.
+  APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
 
-- [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
+- [Release Apache APISIX 3.6.0](https://apisix.apache.org/blog/2023/10/05/release-apache-apisix-3.6.0/)
 
-  The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+  We are glad to present Apache APISIX 3.6.0 with exciting new features, bug fixes, and other improvements to user experiences.
 
-- [Release Apache APISIX 3.5.0](https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/)
+- [Resizing images on-the-fly](https://apisix.apache.org/blog/2023/10/05/resize-images-on-the-fly/)
 
-  We are pleased to present Apache APISIX 3.5.0 with exciting new features and improvements to user experiences.
+  As a web architect, one of the many issues is asset management. And the most significant issue in assets is images.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
