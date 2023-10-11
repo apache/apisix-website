@@ -5,9 +5,9 @@ keywords:
 - API Gateway
 - Weekly Report
 - Contributor
-description: The Apache APISIX Community Biweekly Report helps community members understand how the Apache APISIX community is progressing, making it easier for everyone to get involved.
+description: Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: https://static.apiseven.com/uploads/2023/09/25/Ttkq3Ecr_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87.png
+image: https://static.apiseven.com/uploads/2023/10/09/8BFlF9SE_EN-COVER.png
 ---
 
 > We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include adding support for the specified resolv.conf file in DNS service discovery, enabling the traffic-split plugin to work with HTTPS, and introducing ACL token support for Consul service discovery. For additional information, please consult the bi-weekly report.
