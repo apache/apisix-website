@@ -15,7 +15,7 @@ image: https://static.apiseven.com/uploads/2023/10/09/8BFlF9SE_EN-COVER.png
 
 ## Introduction
 
-From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our remarkable journey, made possible by the collective dedication of our community.
+From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.
 
 From 9.25 to 10.08, a total of 22 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
