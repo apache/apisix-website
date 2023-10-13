@@ -43,7 +43,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 - [`traffic-split` 插件支持 https](https://github.com/apache/apisix/pull/9115)（贡献者：[TenYearsIn](https://github.com/TenYearsIn))
 
-- [consul 服务发现支持 ACL tokens](https://github.com/apache/apisix/pull/10278)（贡献者：[sevensolutions](https://github.com/sevensolutions))
+- [Consul 服务发现支持 ACL tokens](https://github.com/apache/apisix/pull/10278)（贡献者：[sevensolutions](https://github.com/sevensolutions))
 
 ## 最新博客速览
 
