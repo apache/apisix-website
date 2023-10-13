@@ -49,7 +49,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 - [荷兰智慧城市革命：WeCity 与 APISIX 的合作之旅](https://apisix.apache.org/zh/blog/2023/10/09/wecity-uses-apisix/)
 
-  “开源项目 APISIX 的运营理念开放灵活，自身功能强大齐全，社区响应沟通及时，优点相当瞩目。”——WeCity 联合创始人兼首席技术官 Arjen Hof、WeCity 软件架构师兼首席开发人员 Tim van Densen
+  “开源项目 APISIX 的运营理念开放灵活，自身功能强大齐全，社区响应沟通及时，优点相当瞩目。”—— WeCity 联合创始人兼首席技术官 Arjen Hof、WeCity 软件架构师兼首席开发人员 Tim van Densen
 
 - [APISIX 新特性之 GitOps 声明式配置](https://apisix.apache.org/zh/blog/2023/10/07/apisix-gitops-adc/)
 
