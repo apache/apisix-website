@@ -21,7 +21,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 最近，我们对一些功能进行了修复和改进，更新内容总结如下：
 
-1. dns 服务发现支持指定的 resolv.conf 文件
+1. DNS 服务发现支持指定的 resolv.conf 文件
 
 2. `traffic-split` 插件支持 https
 
