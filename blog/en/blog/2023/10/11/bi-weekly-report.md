@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/10/09/8BFlF9SE_EN-COVER.png
 ---
 
-> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include adding support for the specified resolv.conf file in DNS service discovery, enabling the traffic-split plugin to work with HTTPS, and introducing ACL token support for Consul service discovery. For additional information, please consult the bi-weekly report.
+> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include adding support for the specified resolv.conf file in DNS service discovery, enabling the `traffic-split` plugin to work with HTTPS, and introducing ACL token support for Consul service discovery. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 
 ## Introduction
