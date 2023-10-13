@@ -25,7 +25,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 2. `traffic-split` 插件支持 https
 
-3. consul 服务发现支持 ACL tokens
+3. Consul 服务发现支持 ACL tokens
 
 Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的每周进展，更迅速便捷地融入 Apache APISIX 社区。
 
