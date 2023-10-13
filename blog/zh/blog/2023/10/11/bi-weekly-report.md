@@ -39,7 +39,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 ### Apache APISIX
 
-- [dns 服务发现支持指定的 resolv.conf 文件](https://github.com/apache/apisix/pull/9770)（贡献者：[Revolyssup](https://github.com/Revolyssup))
+- [DNS 服务发现支持指定的 resolv.conf 文件](https://github.com/apache/apisix/pull/9770)（贡献者：[Revolyssup](https://github.com/Revolyssup))
 
 - [`traffic-split` 插件支持 https](https://github.com/apache/apisix/pull/9115)（贡献者：[TenYearsIn](https://github.com/TenYearsIn))
 
