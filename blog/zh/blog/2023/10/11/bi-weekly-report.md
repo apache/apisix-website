@@ -57,6 +57,6 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 - [Apache APISIX 3.6.0 正式发布](https://apisix.apache.org/zh/blog/2023/10/05/release-apache-apisix-3.6.0/)
 
-  我们很高兴地宣布 Apache APISIX 3.6.0 版本已经发布，带来一系列新功能，修复，和用户体验优化。
+  我们很高兴地宣布 Apache APISIX 3.6.0 版本已经发布，带来一系列新功能、Bug 修复和相关用户体验优化。
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
