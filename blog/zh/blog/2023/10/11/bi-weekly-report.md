@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/10/09/QdFwS3Ge_ZH-COVER.png
 ---
 
-> 最近，我们修复并改进了 Apache APISIX 的部分功能，如 dns 服务发现支持指定的 resolv.conf 文件、`traffic-split` 插件支持 https，以及 consul 服务发现支持 ACL tokens。您可以在本期双周报中详细了解这些新功能。
+> 最近，我们修复并改进了 Apache APISIX 的部分功能，如 DNS 服务发现支持指定的 resolv.conf 文件、`traffic-split` 插件支持 https，以及 Consul 服务发现支持 ACL tokens。您可以在本期双周报中详细了解这些新功能。
 <!--truncate-->
 
 ## 导语
