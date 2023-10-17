@@ -19,7 +19,7 @@ description: The Apache APISIX 3.6.1 version is released on October 17, 2023. Th
 tags: [Community]
 ---
 
-We are glad to present Apache APISIX 3.6.1 with a number of bug fixes and continuous improvements to user experiences.
+> We are glad to present Apache APISIX 3.6.1 with a number of bug fixes and continuous improvements to user experiences.
 
 <!--truncate-->
 
