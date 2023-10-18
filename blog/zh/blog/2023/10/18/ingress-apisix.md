@@ -95,7 +95,7 @@ kubectl apply -f samples/deploy/composite.yaml
 
 4. 检查部署状态
 
-  - 检查 service
+- 检查 service
 
   ```shell
   kubectl get service  -n ingress-apisix # check service
@@ -106,7 +106,7 @@ kubectl apply -f samples/deploy/composite.yaml
   ingress-apisix-gateway      NodePort    10.99.236.58     <none>        80:31143/TCP,443:30166/TCP   90s
   ```
 
-  - 检查 pods
+- 检查 pods
 
   ```shell
   kubectl get pods -n ingress-apisix # check pod
@@ -151,7 +151,7 @@ ingress-apisix-composite-deployment-6bfdc5d6f6-sjpzr   2/2     Running   0      
 - 部署 `httpbin` 应用服务以及配置 `ApisixRoute`：
 
 ```shell
-kubectl apply -f samples/httpbin/httpbin-route.yaml 
+kubectl apply -f samples/httpbin/httpbin-route.yaml
 ```
 
 - 具体 `ApisixRoute` 配置如下：
@@ -182,7 +182,7 @@ kubectl apply -f samples/httpbin/httpbin-route.yaml
 
 ```Bash
 # forward port 9080 -> service 80
-kubectl port-forward service/ingress-apisix-gateway 9080:80 -n ingress-apisix & 
+kubectl port-forward service/ingress-apisix-gateway 9080:80 -n ingress-apisix &
 
 # acesss httpbin
 curl http://127.0.0.1:9080/headers -H 'Host: httpbin.org'
@@ -191,15 +191,15 @@ curl http://127.0.0.1:9080/headers -H 'Host: httpbin.org'
 ```Bash
 {
   "headers": {
-    "Accept": "*/*", 
-    "Host": "httpbin.org", 
-    "User-Agent": "curl/7.74.0", 
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.74.0",
     "X-Forwarded-Host": "httpbin.org"
   }
 }
 ```
 
-## 总结 
+## 总结
 
 本文详细探讨了 Ingress APISIX 的创新架构，它摆脱了对 etcd 集群的依赖，极大地简化了维护成本和系统复杂性。同时，Ingress APISIX 也在积极推进 Kubernetes Gateway API 标准在 Ingress Controller 中的落地实现，以提供更丰富和一致的流量管理能力。
 
