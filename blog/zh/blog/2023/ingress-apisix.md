@@ -27,13 +27,12 @@ Ingress APISIX 是一个基于 Apache APISIX 的 Kubernetes Ingress Controller�
 
 在之前的版本中，部署 Ingress APISIX 集群需要额外维护一套高可用的 etcd 集群。实际上在使用过程中，它并不是那么好用，会带来了一些问题：
 
-1. **etcd 集群维护成本高**：部署高可用集群需要较高的学习与维护成本，需要考虑内存等系统资源的消耗。在 Kubernetes 中部署 etcd 集群需要注意的事项较多，往往由于不熟悉 etcd 而无法有效解决问题。还需关心内存等系统资源消耗。
+- **etcd 集群维护成本高**：部署高可用集群需要较高的学习与维护成本，需要考虑内存等系统资源的消耗。在 Kubernetes 中部署 etcd 集群需要注意的事项较多，往往由于不熟悉 etcd 而无法有效解决问题。还需关心内存等系统资源消耗。
 
-2. **使用成本高**：Ingress APISIX 集群的部署需要三个组件，相比于单个组件的 ingress-nginx 而言，当前架构需要较高的学习和调试成本，十分不易于使用，给初次使用者带来额外的负担。
+- **使用成本高**：Ingress APISIX 集群的部署需要三个组件，相比于单个组件的 ingress-nginx 而言，当前架构需要较高的学习和调试成本，十分不易于使用，给初次使用者带来额外的负担。
+- **数据冗余和一致性问题**：即 Kubernetes etcd 保留一份，APISIX ETCD 集群也保留了一份。在使用过程中，往往需要避免两者数据不一致的情况，但由于 APISIX 并不依赖于 Ingress controller，它们之间处于解耦的关系，很难处理和避免这种情况。
 
-3. **数据冗余和一致性问题**：即 Kubernetes etcd 保留一份，APISIX ETCD 集群也保留了一份。在使用过程中，往往需要避免两者数据不一致的情况，但由于 APISIX 并不依赖于 Ingress controller，它们之间处于解耦的关系，很难处理和避免这种情况。
-
-4. **实现 Gatewa API 遇到阻碍**：Gateway API 能够动态的管理一组 Gateway（APISIX） 的生命周期，APISIX 配置主要来源于 etcd，Ingress Controlle 需要同时感知一组 etcd 集群与 APISIX 的状态，这使得维护和管理都会十分复杂。
+- **实现 Gatewa API 遇到阻碍**：Gateway API 能够动态的管理一组 Gateway（APISIX） 的生命周期，APISIX 配置主要来源于 etcd，Ingress Controlle 需要同时感知一组 etcd 集群与 APISIX 的状态，这使得维护和管理都会十分复杂。
 
 可以看到，在整个架构中，Apache APISIX 并不依赖于 Ingress Controller，后者只承担着配置推送的角色，实际上它并不具备管理 APISIX 的能力，这些问题在现有的架构中难以解决。**为了这些解决问题，我们需要设计新的 Ingress APISIX 架构。**
 
