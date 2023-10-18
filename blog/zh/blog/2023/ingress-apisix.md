@@ -1,15 +1,15 @@
 ---
 title: "Ingress APISIX：一种无需 etcd 的轻量级部署方式"
+authors:
+  - name: "容鑫"
+    title: "Author"
+    url: "https://github.com/AlinsRan"
+    image_url: "https://github.com/AlinsRan.png"
 keywords: 
 - Apache APISIX
 - Ingress APISIX
 - etcd
 description: Ingress APISIX 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。
-authors:
-  - name: "容鑫"
-    title: "Author"
-    url: "https://github.com/AlinsRan"
-    image_url: "https://avatars.githubusercontent.com/u/79972061?v=4"
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
@@ -30,6 +30,7 @@ Ingress APISIX 是一个基于 Apache APISIX 的 Kubernetes Ingress Controller�
 - **etcd 集群维护成本高**：部署高可用集群需要较高的学习与维护成本，需要考虑内存等系统资源的消耗。在 Kubernetes 中部署 etcd 集群需要注意的事项较多，往往由于不熟悉 etcd 而无法有效解决问题。还需关心内存等系统资源消耗。
 
 - **使用成本高**：Ingress APISIX 集群的部署需要三个组件，相比于单个组件的 ingress-nginx 而言，当前架构需要较高的学习和调试成本，十分不易于使用，给初次使用者带来额外的负担。
+
 - **数据冗余和一致性问题**：即 Kubernetes etcd 保留一份，APISIX ETCD 集群也保留了一份。在使用过程中，往往需要避免两者数据不一致的情况，但由于 APISIX 并不依赖于 Ingress controller，它们之间处于解耦的关系，很难处理和避免这种情况。
 
 - **实现 Gatewa API 遇到阻碍**：Gateway API 能够动态的管理一组 Gateway（APISIX） 的生命周期，APISIX 配置主要来源于 etcd，Ingress Controlle 需要同时感知一组 etcd 集群与 APISIX 的状态，这使得维护和管理都会十分复杂。
