@@ -41,7 +41,7 @@ Ingress APISIX 是一个基于 Apache APISIX 的 Kubernetes Ingress Controller�
 
 如果要解决现有架构的问题，则必须把 etcd 组件去掉。当前主要考虑了以下两个方案：
 
-1. **渲染 apisix.yaml 配置文件**：根据 CRD 生成 `apisix.yaml` 配置文件，APISIX 在 yaml 部署模式下定期每秒钟全量读取 `apisix.yaml` 配置文件。
+1. **渲染 `apisix.yaml` 配置文件**：根据 CRD 生成 `apisix.yaml` 配置文件，APISIX 在 yaml 部署模式下定期每秒钟全量读取 `apisix.yaml` 配置文件。
 
 2. **模拟 etcd server API**：根据 CRD 构建 KV 内存数据库，并模拟 etcd server API 提供给 APISIX 进行使用。APISIX 将会尝试 watch Controller 提供的资源配置。可以将会通知到所有 APISIX 实例。
 
