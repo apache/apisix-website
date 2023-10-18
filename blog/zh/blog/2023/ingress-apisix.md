@@ -4,17 +4,17 @@ keywords:
 - Apache APISIX
 - Ingress APISIX
 - etcd
-description: 
+description: Ingress APISIX 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。
 authors:
   - name: "容鑫"
     title: "Author"
-    url: ""
-    image_url: ""
+    url: "https://github.com/AlinsRan"
+    image_url: "https://avatars.githubusercontent.com/u/79972061?v=4"
 tags: [Community]
-image: 
+image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
-> 
+> Ingress APISIX 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。
 <!--truncate-->
 
 ## 背景
@@ -119,7 +119,7 @@ kubectl apply -f samples/deploy/composite.yaml
 
 ### 高可用部署
 
-- 部署 3 个实例，仅需配置 replicas 便可实现高可用。
+- 部署 3 个实例，仅需配置 [replicas](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 便可实现高可用。
 
 ```shell
  kubectl scale deployment ingress-apisix-composite-deployment --replicas=3 -n ingress
