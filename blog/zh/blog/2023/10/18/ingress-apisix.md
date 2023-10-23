@@ -5,6 +5,10 @@ authors:
     title: "Author"
     url: "https://github.com/AlinsRan"
     image_url: "https://github.com/AlinsRan.png"
+  - name: "Yilia Lin"
+    title: "Technical Writer"
+    url: "https://github.com/Yilialinn"
+    image_url: "https://avatars.githubusercontent.com/u/114121331?v=4"
 keywords: 
 - Apache APISIX
 - APISIX Ingress Controller
