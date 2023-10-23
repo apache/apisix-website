@@ -6,9 +6,9 @@ authors:
     url: "https://github.com/AlinsRan"
     image_url: "https://github.com/AlinsRan.png"
   - name: "Yilia Lin"
-    title: "Author"
-    url: "https://github.com/AlinsRan"
-    image_url: "https://github.com/AlinsRan.png"
+    title: "Technical Writer"
+    url: "https://github.com/Yilialinn"
+    image_url: "https://avatars.githubusercontent.com/u/114121331?v=4"
 keywords: 
 - Apache APISIX
 - APISIX Ingress Controller
@@ -49,7 +49,7 @@ To address the issues in the existing architecture, it is necessary to remove th
 
 2. **Simulating the etcd server API**: Building a KV in-memory database based on the CRD and simulating the etcd server API for use by APISIX. APISIX will attempt to watch the resource configurations provided by the Controller and notify all APISIX instances.
 
-Clearly, the first approach is simpler, but it is not suitable for scenarios where the gateway directly connects to backend Pods. The reason is that in Kubernetes, Pod IPs have dynamic scalability features, and the Ingress Controller generates the `apisix.yaml` configuration continuously. 
+Clearly, the first approach is simpler, but it is not suitable for scenarios where the gateway directly connects to backend Pods. The reason is that in Kubernetes, Pod IPs have dynamic scalability features, and the Ingress Controller generates the `apisix.yaml` configuration continuously.
 
 This causes the APISIX routing tree to be rebuilt frequently, causing long-term performance jitter. Finally, after discussion, the APISIX community decided to adopt the second option. Its architecture is shown in the figure below:
 
@@ -148,7 +148,7 @@ ingress-apisix-composite-deployment-6bfdc5d6f6-sjpzr   2/2     Running   0      
 
 ### Example of Usage
 
-> ApisixRoute is the CRDs resource of Ingress, used to represent routing traffic to specific backend services. 
+> ApisixRoute is the CRDs resource of Ingress, used to represent routing traffic to specific backend services.
 
 The following example shows how to configure `ApisixRoute` to route traffic to the `httpbin` backend service.
 
