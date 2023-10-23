@@ -1,5 +1,5 @@
 ---
-title: "Embrace the Lightweight Ingress APISIX Without etcd Dependency"
+title: "Embrace the Lightweight APISIX Ingress Controller Without etcd Dependency"
 authors:
   - name: "Xin Rong"
     title: "Author"
@@ -11,35 +11,35 @@ authors:
     image_url: "https://github.com/AlinsRan.png"
 keywords: 
 - Apache APISIX
-- Ingress APISIX
+- APISIX Ingress Controller
 - etcd
-description: The innovative architecture of Ingress APISIX eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+description: The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
-> The innovative architecture of Ingress APISIX eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+> The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
 <!--truncate-->
 
 ## Background
 
-Ingress APISIX is a Kubernetes Ingress Controller based on Apache APISIX. It has the capability to convert Ingress/CRDs resources from Kubernetes into routing rules for Apache APISIX, synchronizing them with the Apache APISIX cluster. As a result, users can harness the robust functionalities of Apache APISIX, including plugins, load balancing, health checks, and more, for the management of inbound traffic in Kubernetes.
+APISIX Ingress Controller is a Kubernetes Ingress Controller based on Apache APISIX. It has the capability to convert Ingress/CRDs resources from Kubernetes into routing rules for Apache APISIX, synchronizing them with the Apache APISIX cluster. As a result, users can harness the robust functionalities of Apache APISIX, including plugins, load balancing, health checks, and more, for the management of inbound traffic in Kubernetes.
 
-![Ingress APISIX Architecture](https://static.apiseven.com/uploads/2023/10/17/OhOoNtp9_Ingress-APISIX-1.png)
+![APISIX Ingress Controller Architecture](https://static.apiseven.com/uploads/2023/10/17/OhOoNtp9_Ingress-APISIX-1.png)
 
-![Architecture of Ingress APISIX with Gateway API](https://static.apiseven.com/uploads/2023/10/17/voX2DKlg_Ingress-APISIX-2.png)
+![Architecture of APISIX Ingress Controller with Gateway API](https://static.apiseven.com/uploads/2023/10/17/voX2DKlg_Ingress-APISIX-2.png)
 
-In previous versions, deploying an Ingress APISIX cluster necessitated the additional maintenance of a highly available etcd cluster. In practice, it proved to be less user-friendly and posed several challenges:
+In previous versions, deploying an APISIX Ingress Controller cluster necessitated the additional maintenance of a highly available etcd cluster. In practice, it proved to be less user-friendly and posed several challenges:
 
 1. **High Maintenance Costs for the etcd Cluster**: Setting up a highly available cluster involves significant learning and maintenance costs, including system resource consumption like memory. Deploying an etcd cluster in Kubernetes requires careful attention to various factors, often leading to challenges for those unfamiliar with etcd, and necessitating concerns about memory and other system resource consumption.
 
-2. **High Utilization Costs**: Deploying an Ingress APISIX cluster entails three components. Compared to a single-component ingress-nginx, Ingress APISIX demands higher learning and debugging costs. It is notably less straightforward to use, presenting an additional burden for first-time users.
+2. **High Utilization Costs**: Deploying an APISIX Ingress Controller cluster entails three components. Compared to a single-component ingress-nginx, the APISIX Ingress Controller demands higher learning and debugging costs. It is notably less straightforward to use, presenting an additional burden for first-time users.
 
 3. **Data Redundancy and Inconsistency**: Both Kubernetes etcd and APISIX etcd clusters retain a copy of the data. During usage, efforts are often needed to prevent discrepancies between the two datasets. Due to APISIX and the Ingress controller being decoupled, addressing and mitigating such situations becomes challenging.
 
 4. **Obstacles in Implementing Gateway API**: The Gateway API dynamically manages the full lifecycle of a set of Gateways (APISIX).  Because APISIX configuration primarily stems from etcd, the Ingress Controller must simultaneously monitor the etcd clusters and APISIX, which makes maintenance and management very complicated.
 
-In the overall architecture, Apache APISIX does not rely on the Ingress Controller. The Ingress Controller performs the role of pushing configuration but lacks the ability to manage APISIX effectively. These issues are challenging to address within the existing architecture. **To tackle these challenges and provide solutions, a new Ingress APISIX architecture needs to be designed.**
+In the overall architecture, Apache APISIX does not rely on the Ingress Controller. The Ingress Controller performs the role of pushing configuration but lacks the ability to manage APISIX effectively. These issues are challenging to address within the existing architecture. **To tackle these challenges and provide solutions, a new APISIX Ingress Controller architecture needs to be designed.**
 
 ## Design of New Architecture
 
@@ -53,11 +53,11 @@ Clearly, the first approach is simpler, but it is not suitable for scenarios whe
 
 This causes the APISIX routing tree to be rebuilt frequently, causing long-term performance jitter. Finally, after discussion, the APISIX community decided to adopt the second option. Its architecture is shown in the figure below:
 
-![Architecture of New Ingress APISIX](https://static.apiseven.com/uploads/2023/10/17/GXIZIleL_Ingress-APISIX-3.png)
+![Architecture of New APISIX Ingress Controller](https://static.apiseven.com/uploads/2023/10/17/GXIZIleL_Ingress-APISIX-3.png)
 
-![Architecture of New Ingress APISIX (HA)](https://static.apiseven.com/uploads/2023/10/17/qd2EVMWa_Ingress-APISIX-4.png)
+![Architecture of New APISIX Ingress Controller (HA)](https://static.apiseven.com/uploads/2023/10/17/qd2EVMWa_Ingress-APISIX-4.png)
 
-Ingress APISIX implements a new architecture in Release v1.7.0, which has the following advantages:
+APISIX Ingress Controller implements a new architecture in Release v1.7.0, which has the following advantages:
 
 - **Sole reliance on declarative configuration**: APISIX will exclusively rely on the configuration information provided by the Control Plane and take it as the sole source. This approach, commonly used in Kubernetes, greatly reduces operational complexity.
 
@@ -67,17 +67,17 @@ Ingress APISIX implements a new architecture in Release v1.7.0, which has the fo
 
 ## Ideal Architecture for Gateway API
 
-Gateway API is the next-generation version of the Ingress API, offering enhanced functionality and expressiveness. Currently, Gateway API has gained support from numerous vendors and projects. As one of the implementers of Gateway API, Ingress APISIX not only adheres to the standard specifications of Gateway API but also combines the rich features of Apache APISIX to provide users with a broader range of gateway configurations and policy options.
+Gateway API is the next-generation version of the Ingress API, offering enhanced functionality and expressiveness. Currently, Gateway API has gained support from numerous vendors and projects. As one of the implementers of Gateway API, APISIX Ingress Controller not only adheres to the standard specifications of Gateway API but also combines the rich features of Apache APISIX to provide users with a broader range of gateway configurations and policy options.
 
 The implementation of the new architecture further advances the realization of Gateway API, enabling better routing configuration and policies while reducing maintenance costs. This makes it easier to deploy and use, while also leveraging the advantages of Gateway API to improve the management efficiency of the API gateway.
 
 ![Gateway API](https://static.apiseven.com/uploads/2023/10/17/9n1XraKT_Ingress-APISIX-5.png)
 
-## How to Deploy and Use the New Ingress APISIX
+## How to Deploy and Use the New APISIX Ingress Controller
 
-In this chapter, we will explain the high-available installation and deployment of Ingress APISIX in Kubernetes, and demonstrate how to configure `ApisixRoute` to access the `httpbin` application service in an example.
+In this chapter, we will explain the high-available installation and deployment of APISIX Ingress Controller in Kubernetes, and demonstrate how to configure `ApisixRoute` to access the `httpbin` application service in an example.
 
-### Install Ingress APISIX
+### Install APISIX Ingress Controller
 
 1. You can run the following command to clone the APISIX source code from Github:
 
@@ -93,7 +93,7 @@ cd ingress-apisix-1.7.0
 kubectl apply -k samples/deploy/crd/v1/
 ```
 
-3. Install Ingress APISIX
+3. Install APISIX Ingress Controller
 
 ```shell
 kubectl apply -f samples/deploy/composite.yaml
@@ -207,6 +207,6 @@ curl http://127.0.0.1:9080/headers -H 'Host: httpbin.org'
 
 ## Summary
 
-We thoroughly discussed the innovative architecture of Ingress APISIX, liberating it from dependency on the etcd cluster. This greatly simplifies maintenance costs and system complexity. Simultaneously, Ingress APISIX actively advances the implementation of the Kubernetes Gateway API standard within the Ingress Controller, aiming to provide more extensive and consistent traffic management capabilities.
+We thoroughly discussed the innovative architecture of the APISIX Ingress Controller, liberating it from dependency on the etcd cluster. This greatly simplifies maintenance costs and system complexity. Simultaneously, the APISIX Ingress Controller actively advances the implementation of the Kubernetes Gateway API standard within the Ingress Controller, aiming to provide more extensive and consistent traffic management capabilities.
 
-In conclusion, whether it be the new architecture of Ingress APISIX or the implementation of the Kubernetes Gateway API, the goal is to offer users a more robust, flexible, and user-friendly Ingress Controller solution to meet the ever-changing demands of cloud-native application deployment and traffic management.
+In conclusion, whether it be the new architecture of APISIX Ingress Controller or the implementation of the Kubernetes Gateway API, the goal is to offer users a more robust, flexible, and user-friendly Ingress Controller solution to meet the ever-changing demands of cloud-native application deployment and traffic management.
