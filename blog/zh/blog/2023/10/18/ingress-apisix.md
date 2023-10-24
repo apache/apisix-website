@@ -25,9 +25,9 @@ image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 
 APISIX Ingress Controller 是一个基于 Apache APISIX 的 Kubernetes Ingress Controller，它可以将 Kubernetes 中的 Ingress/CRDs 资源转换为 Apache APISIX 的路由规则，并同步到 Apache APISIX 集群中。由此一来，用户可以利用 Apache APISIX 的强大功能，如插件、负载均衡、健康检查等，来管理 Kubernetes 的入口流量。
 
-![APISIX Ingress Controller Architecture](https://static.apiseven.com/uploads/2023/10/17/OhOoNtp9_Ingress-APISIX-1.png)
+![APISIX Ingress Controller Architecture](https://static.apiseven.com/uploads/2023/10/24/aezup4a9_APISIX-Ingress-1.png)
 
-![Architecture of APISIX Ingress Controller with Gateway API](https://static.apiseven.com/uploads/2023/10/17/voX2DKlg_Ingress-APISIX-2.png)
+![Architecture of APISIX Ingress Controller with Gateway API](https://static.apiseven.com/uploads/2023/10/24/ZtjVM6dH_APISIX-Ingress-2.png)
 
 在之前的版本中，部署 APISIX Ingress Controller 集群需要额外维护一套高可用的 etcd 集群。实际上在使用过程中，它并不是那么好用，会带来了一些问题：
 
@@ -47,13 +47,13 @@ APISIX Ingress Controller 是一个基于 Apache APISIX 的 Kubernetes Ingress C
 
 1. **渲染 `apisix.yaml` 配置文件**：根据 CRD 生成 `apisix.yaml` 配置文件，APISIX 在 yaml 部署模式下定期每秒钟全量读取 `apisix.yaml` 配置文件。
 
-2. **模拟 etcd server API**：根据 CRD 构建 KV 内存数据库，并模拟 etcd server API 提供给 APISIX 进行使用。APISIX 将会尝试 watch Controller 提供的资源配置。可以将会通知到所有 APISIX 实例。
+2. **模拟 etcd server API**：根据 CRD 构建 KV 内存数据库，并模拟 etcd server API 提供给 APISIX 进行使用。APISIX 将会尝试 watch Controller 提供的资源配置，并通知到 APISIX 实例。
 
 显然，第一种方式会简单很多，但并不适用于网关直连后端 Pod 的场景，因为 Pod IP 在 Kubernetes 中具有动态伸缩的特性，Ingress Controller 会不断的生成 `apisix.yaml` 配置，这会导致 APISIX 路由树被频繁重建，从而造成长期的性能抖动。最终经社区讨论决定采用第二种方案，它的架构如下图所示：
 
-![Architecture of New APISIX Ingress Controller](https://static.apiseven.com/uploads/2023/10/17/GXIZIleL_Ingress-APISIX-3.png)
+![Architecture of New APISIX Ingress Controller](https://static.apiseven.com/uploads/2023/10/24/H7xooJ59_APISIX-Ingress-3.png)
 
-![Architecture of New APISIX Ingress Controller (HA)](https://static.apiseven.com/uploads/2023/10/17/qd2EVMWa_Ingress-APISIX-4.png)
+![Architecture of New APISIX Ingress Controller (HA)](https://static.apiseven.com/uploads/2023/10/24/UbKWYGar_APISIX-Ingress-4.png)
 
 APISIX Ingress Controller 在 Release v1.7.0 版本中实现了新架构，它相比具有以下优势：
 
