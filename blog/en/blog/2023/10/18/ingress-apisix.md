@@ -25,9 +25,9 @@ image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 
 APISIX Ingress Controller is a Kubernetes Ingress Controller based on Apache APISIX. It has the capability to convert Ingress/CRDs resources from Kubernetes into routing rules for Apache APISIX, synchronizing them with the Apache APISIX cluster. As a result, users can harness the robust functionalities of Apache APISIX, including plugins, load balancing, health checks, and more, for the management of inbound traffic in Kubernetes.
 
-![APISIX Ingress Controller Architecture](https://static.apiseven.com/uploads/2023/10/17/OhOoNtp9_Ingress-APISIX-1.png)
+![APISIX Ingress Controller Architecture](https://static.apiseven.com/uploads/2023/10/24/aezup4a9_APISIX-Ingress-1.png)
 
-![Architecture of APISIX Ingress Controller with Gateway API](https://static.apiseven.com/uploads/2023/10/17/voX2DKlg_Ingress-APISIX-2.png)
+![Architecture of APISIX Ingress Controller with Gateway API](https://static.apiseven.com/uploads/2023/10/24/ZtjVM6dH_APISIX-Ingress-2.png)
 
 In previous versions, deploying an APISIX Ingress Controller cluster necessitated the additional maintenance of a highly available etcd cluster. In practice, it proved to be less user-friendly and posed several challenges:
 
@@ -53,9 +53,9 @@ Clearly, the first approach is simpler, but it is not suitable for scenarios whe
 
 This causes the APISIX routing tree to be rebuilt frequently, causing long-term performance jitter. Finally, after discussion, the APISIX community decided to adopt the second option. Its architecture is shown in the figure below:
 
-![Architecture of New APISIX Ingress Controller](https://static.apiseven.com/uploads/2023/10/17/GXIZIleL_Ingress-APISIX-3.png)
+![Architecture of New APISIX Ingress Controller](https://static.apiseven.com/uploads/2023/10/24/H7xooJ59_APISIX-Ingress-3.png)
 
-![Architecture of New APISIX Ingress Controller (HA)](https://static.apiseven.com/uploads/2023/10/17/qd2EVMWa_Ingress-APISIX-4.png)
+![Architecture of New APISIX Ingress Controller (HA)](https://static.apiseven.com/uploads/2023/10/24/UbKWYGar_APISIX-Ingress-4.png)
 
 APISIX Ingress Controller implements a new architecture in Release v1.7.0, which has the following advantages:
 
