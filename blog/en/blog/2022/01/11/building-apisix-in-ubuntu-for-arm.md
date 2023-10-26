@@ -150,7 +150,7 @@ make install
 
 Before starting Apache APISIX you need to install etcd, more details can refer to the [official documentation](https://apisix.apache.org/docs/apisix/2.10/install-dependencies/#ubuntu-1604--1804).
 
-:::info
+:::note
 Because the installation tutorial was not written for arm, although etcd, was successfully installed, etcd could not be run successfully due to the default use of x86 binaries. The specific part of stepping on the pit will not be repeated here, but will directly put the correct steps for your reference.
 :::
 
