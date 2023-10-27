@@ -21,7 +21,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 最近，我们对一些功能进行了修复和改进，更新内容总结如下：
 
-1. 升级 lua-resty-healthcheck 至 3.2.0 版本 
+1. 升级 lua-resty-healthcheck 至 3.2.0 版本
 
 2. 支持在 stream 路由里配置 service
 
