@@ -35,7 +35,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 ![贡献者名单](https://static.apiseven.com/uploads/2023/10/23/2nDl86Bc_All-poster.png)
 
-![新晋贡献者](https://static.apiseven.com/uploads/2023/10/23/qyGLdvQd_New-poster.png)
+![新晋贡献者](https://static.apiseven.com/uploads/2023/10/27/iEMZzOhZ_New-poster.png)
 
 ## 近期亮点功能
 
