@@ -59,8 +59,8 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
   APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
 
-- [Release Apache APISIX 3.6.0](https://apisix.apache.org/blog/2023/10/05/release-apache-apisix-3.6.0/)
+- [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
 
-  We are glad to present Apache APISIX 3.6.0 with exciting new features, bug fixes, and other improvements to user experiences.
+  The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
