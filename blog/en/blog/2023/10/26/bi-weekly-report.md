@@ -35,7 +35,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/10/23/2nDl86Bc_All-poster.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/10/23/qyGLdvQd_New-poster.png)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/10/27/iEMZzOhZ_New-poster.png)
 
 ## Highlights of Recent Features
 
