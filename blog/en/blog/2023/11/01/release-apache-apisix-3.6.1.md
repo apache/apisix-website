@@ -15,21 +15,17 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: The Apache APISIX 3.6.1 version is released on October 17, 2023. This release includes a few bug fixes.
+description: The Apache APISIX 3.6.1 version is released on November 1, 2023. This release includes a bug fix for health check.
 tags: [Community]
 ---
 
-> We are glad to present Apache APISIX 3.6.1 with a number of bug fixes and continuous improvements to user experiences.
+> We are glad to present Apache APISIX 3.6.1 with a bug fix for health check.
 
 <!--truncate-->
 
-## Bug Fixes
+## Bug Fix
 
 - Keep health check target state when upstream changes ([PR #10312](https://github.com/apache/apisix/pull/10312))
-- Fix and optimize TLS in upstream schema ([PR #10269](https://github.com/apache/apisix/pull/10269))
-- Add name field in `plugin_config` schema for consistency ([PR #10315](https://github.com/apache/apisix/pull/10315))
-- Update schema description for `cors` plugin ([PR #10314](https://github.com/apache/apisix/pull/10314))
-- Use warn logging level for `get_target_status` failure ([PR #10156](https://github.com/apache/apisix/pull/10156))
 
 ## Changelog
 
