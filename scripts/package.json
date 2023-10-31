@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "sync-docs": "node sync-docs.js && sh special-process-v2md.sh",
+    "process-ingress-mdx": "sh special-process-v2md.sh",
     "link-checker": "node link-checker.js",
     "generate-repos-info": "node generate-repos-info.js",
     "update-sitemap": "node update-sitemap-loc.js",
