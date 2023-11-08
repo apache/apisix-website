@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/06/Y2rfyA4R_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87-11.06.png
 ---
 
-> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include supporting variable export for the `Zipkin` plugin and apisix-runtime. For additional information, please consult the bi-weekly report.
+> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include supporting variable export for the `zipkin` plugin and apisix-runtime. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 
 ## Introduction
