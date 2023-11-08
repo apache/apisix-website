@@ -21,7 +21,7 @@ From 10.23 to 11.05, a total of 20 contributors made 31 commits to Apache APISIX
 
 We have recently addressed and enhanced various features, and here is a summary of the updates:
 
-1. Support variable export for the `Zipkin` plugin
+1. Support variable export for the `zipkin` plugin
   
 2. Support apisix-runtime
 
