@@ -37,7 +37,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 ### Apache APISIX
 
-- [Support variable export for the `Zipkin` plugin](https://github.com/apache/apisix/pull/10361) (Contributor: [wizhuo](https://github.com/wizhuo))
+- [Support variable export for the `zipkin` plugin](https://github.com/apache/apisix/pull/10361) (Contributor: [wizhuo](https://github.com/wizhuo))
 
 - [Support apisix-runtime](https://github.com/apache/apisix/pull/10427) (Contributor: [Sn0rt](https://github.com/Sn0rt))
 
