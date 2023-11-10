@@ -43,10 +43,6 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 ## Recent Blog Recommendations
 
-- [Release Apache APISIX 3.6.1](https://apisix.apache.org/blog/2023/11/01/release-apache-apisix-3.6.1/)
-
-  We are glad to present Apache APISIX 3.6.1 with a bug fix for health check.
-
 - [Embrace the Lightweight APISIX Ingress Controller Without etcd Dependency](https://apisix.apache.org/blog/2023/10/18/ingress-apisix/)
 
   The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
