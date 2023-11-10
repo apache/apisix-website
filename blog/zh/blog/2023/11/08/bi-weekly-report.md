@@ -42,10 +42,6 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 - [支持 apisix-runtime](https://github.com/apache/apisix/pull/10427)（贡献者：[Sn0rt](https://github.com/Sn0rt))
 
 ## 最新博客速览
-
-- [Apache APISIX 3.6.1 正式发布](https://apisix.apache.org/zh/blog/2023/11/01/release-apache-apisix-3.6.1/)
-
-  我们很高兴地宣布 Apache APISIX 3.6.1 版本已经发布。该版本包含一个关于健康检查的修复。
   
 - [APISIX Ingress Controller：一种无需 etcd 的轻量级部署方式](https://apisix.apache.org/zh/blog/2023/10/18/ingress-apisix/)
 
