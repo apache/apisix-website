@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # remove <!--\s*markdown-link-check-disable\s*--> and <!--\s*markdown-link-check-enable\s*-->
 # in /apisix-ingress-controller/references/v2.mdx
 # after synced docs
