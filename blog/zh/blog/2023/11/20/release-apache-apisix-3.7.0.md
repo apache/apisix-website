@@ -4,11 +4,11 @@ authors:
   - name: "Xin Rong"
     title: "Author"
     url: "https://github.com/AlinsRan"
-    image_url: "https://avatars.githubusercontent.com/u/79972061?v=4"
+    image_url: "https://github.com/AlinsRan.png"
   - name: "Traky Deng"
     title: "Technical Writer"
     url: "https://github.com/kayx23"
-    image_url: "https://avatars.githubusercontent.com/u/39619599?v=4"
+    image_url: "https://github.com/kayx23.png"
 keywords:
 - Apache APISIX
 - API Gateway
