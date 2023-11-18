@@ -19,7 +19,7 @@ description: Apache APISIX 3.7.0 版本于 2023 年 11 月 20 日发布。该版
 tags: [Community]
 ---
 
-我们很高兴地宣布 Apache APISIX 3.7.0 版本已经发布，带来一系列新功能，修复，和用户体验优化。
+我们很高兴地宣布 Apache APISIX 3.7.0 版本已经发布，带来了一系列新功能、Bug 修复和相关用户体验优化。
 
 <!--truncate-->
 
@@ -31,13 +31,13 @@ tags: [Community]
 
 ### 限制修改核心资源的创建时间和更新时间
 
-在早期版本中，使用 Admin API 修改资源的 `create_time` 和 `update_time` 不受限制。 这种行为是不必要的，而且容易产生风险。 从 3.7.0 开始，用户将无法修改这些时间戳。
+在早期版本中，使用 Admin API 修改资源的 `create_time` 和 `update_time` 不受限制。这种行为是不必要的，而且容易产生风险。从 3.7.0 开始，用户将无法修改这些时间戳。
 
 有关更多信息，请参阅[更改提案](https://lists.apache.org/thread/968kp7hd6zcg7ty2clomkbshmd53v71d) 和 [PR #10232](https://github.com/apache/apisix/pull/10232)。
 
 ### 从 SSL 模式中删除 `exptime`、`validity_start` 和 `validity_end` 属性
 
-从 SSL 架构中删除 `exptime`、`validity_start` 和 `validity_end` 属性，因为这些信息存在于证书中。
+从 SSL 架构中删除 `exptime`、`validity_start` 和 `validity_end` 属性，因为这些信息现已存在于证书中。
 
 有关更多信息，请参阅[更改提案](https://lists.apache.org/thread/8l4h8f6wcv482s0b7vt17do5z3g1y3o3) 和 [PR #10323](https://github.com/apache/apisix/pull/10323)。
 
@@ -63,7 +63,7 @@ tags: [Community]
 
 ### 支持在 `zipkin` 插件中设置变量
 
-支持在 `zipkin` 插件中设置变量以在重写阶段公开span信息。 有关更多信息，请参阅[文档](https://github.com/wizhuo/apisix/blob/master/docs/zh/latest/plugins/zipkin.md#如何使用变量) 和 [PR #10361](https://github.com/apache/apisix/pull/10361)。
+支持在 `zipkin` 插件中设置变量以在重写阶段公开span信息。有关更多信息，请参阅[文档](https://github.com/wizhuo/apisix/blob/master/docs/zh/latest/plugins/zipkin.md#如何使用变量) 和 [PR #10361](https://github.com/apache/apisix/pull/10361)。
 
 ### 支持 Nacos AK/SK 认证
 
@@ -83,7 +83,7 @@ discovery:
 
 - 修复 POST 表单 `Content-Type` 附加字符集时 `post_arg_*` 变量匹配失败的问题 ([PR #10372](https://github.com/apache/apisix/pull/10372))
 - 使用 `apisix-runtime` 作为默认 APISIX runtime（[PR #10415](https://github.com/apache/apisix/pull/10415) 和 [PR #10427](https://github.com/apache/apisix/pull/10427)）
-- 使用 apisix 秘密添加 `authz-keycloak` 测试（[PR #10353](https://github.com/apache/apisix/pull/10353)）
+- 使用 apisix secrets 添加 `authz-keycloak` 测试（[PR #10353](https://github.com/apache/apisix/pull/10353)）
 - 当上游更改时保持运行状况检查目标状态（[PR #10312](https://github.com/apache/apisix/pull/10312) 和 [PR #10307](https://github.com/apache/apisix/pull/10307)）
 - 修复由于 `log-rotate` 插件超时而导致的不完整日志压缩（[PR #8620](https://github.com/apache/apisix/pull/8620))
 
