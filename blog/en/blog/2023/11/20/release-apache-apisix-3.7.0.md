@@ -43,10 +43,7 @@ For more information, see [change proposal](https://lists.apache.org/thread/8l4h
 
 ### Update `opentelemetry` plugin attributes to beter follow the specifications
 
-Replace attributes `route` with `apisix.route_name`, `service` with `apisix.service_name` in the `opentelemetry` plugin to follow the OpenTelemetry specifications for span name.
-For more information, see PR #10393.
-
-For more information, see [PR #10393](https://github.com/apache/apisix/pull/10393).
+Replace attributes `route` with `apisix.route_name`, `service` with `apisix.service_name` in the `opentelemetry` plugin to follow the OpenTelemetry specifications for span name. For more information, see [PR #10393](https://github.com/apache/apisix/pull/10393).
 
 ## New Features
 
@@ -82,11 +79,11 @@ For more information, see [PR #10445](https://github.com/apache/apisix/pull/1044
 
 ## Other Updates
 
-- Fix `post_arg_*` variable matching failure when the POST form `Content-Type` is appended with character set ([PR #10372](https://github.com/apache/apisix/pull/10372))
-- Use `apisix-runtime` as the default APISIX runtime ([PR #10415](https://github.com/apache/apisix/pull/10415) and [PR #10427](https://github.com/apache/apisix/pull/10427))
-- Add tests for `authz-keycloak` with apisix secrets ([PR #10353](https://github.com/apache/apisix/pull/10353))
-- Keep healthcheck target state when upstream changes ([PR #10312](https://github.com/apache/apisix/pull/10312) and [PR #10307](https://github.com/apache/apisix/pull/10307))
-- Fix incomplete log compression due to timeout in the `log-rotate` plugin  ([PR #8620](https://github.com/apache/apisix/pull/8620))
+- 修复 POST 表单 `Content-Type` 附加字符集时 `post_arg_*` 变量匹配失败的问题 ([PR #10372](https://github.com/apache/apisix/pull/10372))
+- 使用 `apisix-runtime` 作为默认 APISIX runtime（[PR #10415](https://github.com/apache/apisix/pull/10415) 和 [PR #10427](https://github.com/apache/apisix/pull/10427)）
+- 使用 apisix 秘密添加 `authz-keycloak` 测试（[PR #10353](https://github.com/apache/apisix/pull/10353)）
+- 当上游更改时保持运行状况检查目标状态（[PR #10312](https://github.com/apache/apisix/pull/10312) 和 [PR #10307](https://github.com/apache/apisix/pull/10307)）
+- 修复由于 `log-rotate` 插件超时而导致的不完整日志压缩（[PR #8620](https://github.com/apache/apisix/pull/8620)）
 
 ## Changelog
 
