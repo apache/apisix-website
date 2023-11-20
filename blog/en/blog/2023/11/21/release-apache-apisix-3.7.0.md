@@ -57,7 +57,7 @@ Support referencing services in stream routes to configure upstreams. For more i
 
 ### Support authorization parameters in `openid-connect` plugin
 
-Support additional authorization parameters in the `authorization_params` attribute of the `openid-connect` plugin. For more information, see [PR #10588](https://github.com/apache/apisix/pull/10588).
+Support additional authorization parameters in the `authorization_params` attribute of the `openid-connect` plugin. For more information, see [PR #10058](https://github.com/apache/apisix/pull/10058).
 
 ### Support setting variables in `zipkin` plugin
 
