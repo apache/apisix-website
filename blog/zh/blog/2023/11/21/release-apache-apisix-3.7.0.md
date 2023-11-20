@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: Apache APISIX 3.7.0 版本于 2023 年 11 月 20 日发布。该版本带来了一系列变更，新功能，和修复。
+description: Apache APISIX 3.7.0 版本于 2023 年 11 月 21 日发布。该版本带来了一系列变更，新功能，和修复。
 tags: [Community]
 ---
 
