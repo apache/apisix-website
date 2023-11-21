@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: Apache APISIX 3.7.0 版本于 2023 年 11 月 20 日发布。该版本带来了一系列变更，新功能，和修复。
+description: Apache APISIX 3.7.0 版本于 2023 年 11 月 21 日发布。该版本带来了一系列变更，新功能，和修复。
 tags: [Community]
 ---
 
@@ -59,7 +59,7 @@ tags: [Community]
 
 ### 在 `openid-connect` 插件中支持授权参数
 
-在 `openid-connect` 插件的 `authorization_params` 属性中支持额外的授权参数。有关更多信息，请参阅 [PR #10588](https://github.com/apache/apisix/pull/10588)。
+在 `openid-connect` 插件的 `authorization_params` 属性中支持额外的授权参数。有关更多信息，请参阅 [PR #10058](https://github.com/apache/apisix/pull/10058)。
 
 ### 支持在 `zipkin` 插件中设置变量
 
