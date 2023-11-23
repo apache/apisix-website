@@ -19,10 +19,6 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From 11.06 to 11.19, a total of 15 contributors made 26 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-We have recently addressed and enhanced various features, and here is a summary of the update:
-
-1. Support Nacos AK/SK authentication
-
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
 ## Contributor Statistics
