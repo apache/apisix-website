@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/20/pybWlRk1_11.20-Chn.png
 ---
 
-> 最近，我们修复并改进了 Apache APISIX 的部分功能，如支持支持 Nacos AK/SK 身份验证。您可以在本期双周报中详细了解新功能。
+> 最近，我们修复并改进了 Apache APISIX 的部分功能，如支持 Nacos AK/SK 身份验证。您可以在本期双周报中详细了解新功能。
 <!--truncate-->
 
 ## 导语
