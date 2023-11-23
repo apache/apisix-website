@@ -29,8 +29,6 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 ## 近期亮点功能
 
-### Apache APISIX
-
 - [支持 Nacos AK/SK 身份验证](https://github.com/apache/apisix/pull/10445)（贡献者：[yuweizzz](https://github.com/yuweizzz))
 
 ## 最新博客速览
