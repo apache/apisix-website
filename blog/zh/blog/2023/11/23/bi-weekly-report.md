@@ -5,10 +5,9 @@ keywords:
 - API 网关
 - 社区周报
 - 贡献者
-description: Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的每周进展，更迅速便捷地融入 Apache APISIX 社区。
+description: Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/20/pybWlRk1_11.20-Chn.png
----
 
 > 最近，我们修复并改进了 Apache APISIX 的部分功能，即支持 Nacos AK/SK 身份验证。详情请阅读本期双周报。
 <!--truncate-->
@@ -19,7 +18,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 从 2023.11.06 至 2023.11.19，有 15 名开发者提交了 26 个 commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
-Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的每周进展，更迅速便捷地融入 Apache APISIX 社区。
+Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 
 ## 贡献者统计
 
