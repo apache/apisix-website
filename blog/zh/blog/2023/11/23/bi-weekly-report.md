@@ -1,6 +1,6 @@
 ---
 title: "社区双周报 (11.06 - 11.19)"
-keywords: 
+keywords:
 - Apache APISIX
 - API 网关
 - 社区周报
