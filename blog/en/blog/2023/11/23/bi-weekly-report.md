@@ -27,9 +27,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/11/20/eaimWsfQ_11.20-New.png)
 
-## Highlights of Recent Features
-
-### Apache APISIX
+## Highlight of Recent Feature
 
 - [Support Nacos AK/SK authentication](https://github.com/apache/apisix/pull/10445) (Contributor: [yuweizzz](https://github.com/yuweizzz))
 
