@@ -1,10 +1,10 @@
 ---
 title: "Biweekly Report (November 06 - November 19)"
 keywords:
-  - Apache APISIX
-  - API Gateway
-  - Weekly Report
-  - Contributor
+- Apache APISIX
+- API Gateway
+- Weekly Report
+- Contributor
 description: Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/20/LQgkAgUZ_11.20-Eng.png
