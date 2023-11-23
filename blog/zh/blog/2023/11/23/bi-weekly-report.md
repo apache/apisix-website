@@ -1,14 +1,10 @@
 ---
 title: "社区双周报 (11.06 - 11.19)"
-keywords:
-- Apache APISIX
-- API 网关
-- 社区周报
-- 贡献者
+keywords: ["Apache APISIX", "API 网关", "社区周报", "贡献者"]
 description: Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/20/pybWlRk1_11.20-Chn.png
-
+---
 > 最近，我们修复并改进了 Apache APISIX 的部分功能，即支持 Nacos AK/SK 身份验证。详情请阅读本期双周报。
 <!--truncate-->
 
