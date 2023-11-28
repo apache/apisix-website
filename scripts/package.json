@@ -2,13 +2,14 @@
   "name": "scripts",
   "version": "1.0.0",
   "scripts": {
-    "sync-docs": "node sync-docs.js && sh special-process-v2md.sh",
-    "process-ingress-mdx": "sh special-process-v2md.sh",
+    "sync-docs": "node sync-docs.js && yarn process-ingress-mdx",
+    "process-ingress-mdx": "bash special-process-v2md.sh",
     "link-checker": "node link-checker.js",
     "generate-repos-info": "node generate-repos-info.js",
     "update-sitemap": "node update-sitemap-loc.js",
     "generate-website": "node generate-website.js",
-    "generate-picked-posts": "node --experimental-modules generate-picked-posts-info.mjs"
+    "generate-picked-posts": "node --experimental-modules generate-picked-posts-info.mjs",
+    "generate-event-poster-card": "bash generate-event-poster-card.sh"
   },
   "devDependencies": {
     "@types/node": "^14.17.21",

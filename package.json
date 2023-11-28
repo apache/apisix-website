@@ -15,7 +15,8 @@
     ]
   },
   "scripts": {
-    "sync-docs": "bash ./scripts/generate-event-poster-card.sh && yarn workspace scripts sync-docs",
+    "sync-docs": "yarn workspace scripts sync-docs",
+    "generate-event-poster-card": "yarn workspace scripts generate-event-poster-card",
     "generate-repos-info": "yarn workspace scripts generate-repos-info",
     "generate-picked-posts": "yarn workspace scripts generate-picked-posts",
     "update-sitemap": "yarn workspace scripts update-sitemap",
@@ -43,7 +44,7 @@
     "build:blog:zh:preview:serve": "yarn build:blog:zh:preview && yarn serve:blog:zh",
     "build:blog:en:preview:serve": "yarn build:blog:en:preview && yarn serve:blog:en",
     "prepare": "husky install",
-    "prepare-data": "yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts",
+    "prepare-data": "yarn generate-event-poster-card && yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts",
     "postinstall": "patch-package"
   },
   "devDependencies": {
