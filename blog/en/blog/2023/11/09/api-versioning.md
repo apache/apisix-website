@@ -27,6 +27,10 @@ image: https://static.apiseven.com/uploads/2023/11/06/PjxXv0E9_signpost-3691159.
 
 <!--truncate-->
 
+<head>
+    <link rel="canonical" href="https://blog.frankel.ch/api-versioning/" />
+</head>
+
 ## Generalities
 
 Software naturally evolves, because of business need or changing regulations. In some cases, the said software has no clients but humans, _e.g._, a monolith with Server-Side Rendering. In all other cases, at least another software component interacts with your software:
