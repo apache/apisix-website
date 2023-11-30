@@ -104,7 +104,7 @@ image: https://static.apiseven.com/uploads/2023/11/30/myZBqcSg_%E5%92%AA%E5%92%9
 
 ### 发展方向：APISIX 容器化
 
-我们的发展方向之一是将 APISIX 容器化。因为我们目前的主要环境是 VM（虚拟机）操作系统，后续会改为 K8s。鉴于咪咕内部很多网关已经改造成了 APISIX，因而选型的时候我们选择了 APISIX Ingress Controller 作为我们容器化的网关。目前，我们的 VM 环境是基于 LVS的，而我们期待转变为在容器化环境中使用 APISIX Ingress Controller。
+我们的发展方向之一是将 APISIX 容器化。因为我们目前的主要环境是 VM（虚拟机）操作系统，后续会改为 K8s。鉴于咪咕内部很多网关已经改造成了 APISIX，因而选型的时候我们选择了 APISIX Ingress Controller 作为我们容器化的网关。目前，我们的 VM 环境是基于 LVS 的，而我们期待转变为在容器化环境中使用 APISIX Ingress Controller。
 
 容器化的规划会分两步进行。由于业务对稳定性的要求较高，我们可能首先替换部分业务，使 VM 和容器化环境并存，逐步进行从虚拟机到容器化的迁移。
 
