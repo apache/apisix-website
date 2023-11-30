@@ -3,8 +3,6 @@ title: "分布式网关 APISIX 在大规模视频类业务中的落地实践"
 authors:
   - name: 夏煜
     title: Author
-    url: ""
-    image_url: ""
   - name: Yilia Lin
     title: Technical Writer
     url: https://github.com/Yilialinn
