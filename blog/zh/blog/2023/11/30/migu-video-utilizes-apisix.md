@@ -17,7 +17,7 @@ tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/11/30/myZBqcSg_%E5%92%AA%E5%92%95%E7%94%A8%E6%88%B7%E6%A1%88%E4%BE%8B.png
 ---
 
-> 作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文来自于 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
+> 作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文整理自 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
 <!--truncate-->
 
 今天由我为大家分享，咪咕视频在大规模视频业务类中使用到 APISIX 的方案落地与实践的一些经验。我将从 7 个方面跟大家分享我们的经验和成果。
