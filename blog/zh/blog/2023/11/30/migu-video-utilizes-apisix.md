@@ -14,10 +14,13 @@ keywords:
   - API 网关
   - Apache APISIX
   - 咪咕视频
-description: 
+description: 咪咕视频借力 APISIX 应对大规模视频类业务需求场景下的挑战，其落地实践不仅提升了咪咕视频的业务性能，简化了后端架构，还为业务的快速发展提供了有力支持。
 tags: [Case Studies]
-image: 
+image: https://static.apiseven.com/uploads/2023/11/30/myZBqcSg_%E5%92%AA%E5%92%95%E7%94%A8%E6%88%B7%E6%A1%88%E4%BE%8B.png
 ---
+
+咪咕视频借力 APISIX 应对大规模视频类业务需求场景下的挑战，其落地实践不仅提升了咪咕视频的业务性能，简化了后端架构，还为业务的快速发展提供了有力支持。
+<!--truncate-->
 
 > 作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文来自于 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
 
@@ -35,7 +38,7 @@ image:
 
 我们比较看重的是 APISIX 的高性能、动态路由、以及安全防护等方面，还有插件的灵活运用。
 
-![](https://static.apiseven.com/uploads/2023/11/30/POh6mmLf_%E5%92%AA%E5%92%951.jpg)
+![Features of Apache APISIX](https://static.apiseven.com/uploads/2023/11/30/POh6mmLf_%E5%92%AA%E5%92%951.jpg)
 
 ## 大规模视频类业务需求
 
@@ -47,7 +50,7 @@ image:
 
 - 多格式、多协议支持：视频业务可能涉及多种视频格式和传输协议。
 
-- 内容分发网络（CDN）加速：为了提供更好的用户体验，视频类业务通常需要使用CDN进行内容加速传输。
+- 内容分发网络（CDN）加速：为了提供更好的用户体验，视频类业务通常需要使用 CDN 进行内容加速传输。
 
 ## APISIX 在大规模视频类业务中的实践
 
@@ -131,7 +134,7 @@ image:
 
 当前，咪咕视频目前也遇到了一些问题，这些也是我们未来的研究方向：结合业务使用 APISIX 限流插件的使用，如设定阀值实现熔断和降级等机制；匹配业务实现网关主动健康检查功能；以及 Ingress Controller 的图形化路由配置界面的功能。
 
-我们期望 APISIX 未来能实现：
+**我们期望 APISIX 未来能实现：**
 
 - 更完善的功能插件：期待APISIX在未来能够提供更多、更完善的功能插件，以满足更多场景的业务需求。
 
