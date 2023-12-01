@@ -12,10 +12,12 @@ keywords:
   - API 网关
   - Apache APISIX
   - DataVisor
-description: 咪咕视频借力 APISIX 应对大规模视频类业务需求场景下的挑战，其落地实践不仅提升了咪咕视频的业务性能，简化了后端架构，还为业务的快速发展提供了有力支持。
+description: DataVisor 专注于风险管理，其产品开发中不仅充分运用 APISIX 于生产环境，而且对 APISIX 进行多维度的二次开发，最终实现了卓越的生产效果。
 tags: [Case Studies]
-image: 
+image: https://static.apiseven.com/uploads/2023/12/01/u6f4iMh8_DataVisor_Cover.png
 ---
 
 > 作者：赵晓彪，DataVisor 高级架构师，Apache Kvrocks Committer，OpenResty 及 Apache APISIX Contributor。本文整理自 2023 年 11 月赵晓彪在 APISIX 上海 Meetup 的演讲。
 <!--truncate-->
+
+DataVisor 是一家专注于风控领域的公司，致力于防范反击战、反作弊等方面的工作。在 DataVisor 的产品开发中，我们不仅在生产环境中应用了 APISIX，还对 APISIX 进行了多个维度的二次开发，如插件方面的二次开发，并最终获得了良好的生产效果。下面将为大家简单分享 DataVisor 应用 APISIX 的经验。
