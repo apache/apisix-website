@@ -3,6 +3,8 @@ title: "APISIX 在 DataVisor 的应用"
 authors:
   - name: 赵晓彪
     title: Author
+    url: https://github.com/xiaobiaozhao
+    image_url: https://github.com/xiaobiaozhao.png
   - name: Jing Yan
     title: Technical Writer
     url: https://github.com/JYan00
