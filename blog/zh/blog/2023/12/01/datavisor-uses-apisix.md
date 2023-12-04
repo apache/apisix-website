@@ -1,5 +1,5 @@
 ---
-title: "APISIX 在 DataVisor 的应用"
+title: "API 网关 APISIX 在 DataVisor 的应用与实践"
 authors:
   - name: 赵晓彪
     title: Author
