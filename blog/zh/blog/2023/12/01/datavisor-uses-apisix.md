@@ -14,7 +14,7 @@ keywords:
   - API 网关
   - Apache APISIX
   - DataVisor
-description: DataVisor 专注于风险管理，其产品开发中不仅充分运用 APISIX 于生产环境，而且对 APISIX 进行多维度的二次开发，最终实现了卓越的生产效果。
+description: DataVisor 产品专注于风险管理，其研发过程中不仅将 APISIX 充分运用于生产环境，而且也基于 APISIX 进行了多维度的二次开发，最终实现了卓越的生产效果。
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/12/01/eDGEANQd_DataVisor-Cover.png
 ---
