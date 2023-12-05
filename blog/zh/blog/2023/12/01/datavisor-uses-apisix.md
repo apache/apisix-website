@@ -16,7 +16,7 @@ keywords:
   - DataVisor
 description: DataVisor 产品专注于风险管理，其研发过程中不仅将 APISIX 充分运用于生产环境，而且也基于 APISIX 进行了多维度的二次开发，最终实现了卓越的生产效果。
 tags: [Case Studies]
-image: https://static.apiseven.com/uploads/2023/12/01/eDGEANQd_DataVisor-Cover.png
+image: https://static.apiseven.com/uploads/2023/12/05/gM8zRGh1_Cover_Datavisor.png
 ---
 
 > 作者：赵晓彪，DataVisor 高级架构师，Apache Kvrocks Committer，OpenResty 及 Apache APISIX Contributor。本文整理自 2023 年 11 月赵晓彪在 APISIX 上海 Meetup 的演讲。
