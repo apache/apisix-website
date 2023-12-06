@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/12/04/ZD3OVqNc_1204-ENG.png
 ---
 
-> We have recently made some fixes and improvements to specific features within Apache APISIX. The update includes supporting Nacos AK/SK authentication. For additional information, please consult the bi-weekly report.
+> We have recently made some fixes and improvements to specific features within Apache APISIX. The updates include adding a `multi-auth` plugin, adding the required scopes configuration property to `openid-connect` plugin, and enhancing the `body-transformer` plugin. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 
 ## Introduction
@@ -27,7 +27,9 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 - [add `multi-auth` plugin](https://github.com/apache/apisix/pull/10482) (Contributor: [madhawa-gunasekara](https://github.com/madhawa-gunasekara))
 
-- 
+- [add the required scopes configuration property to `openid-connect` plugin](https://github.com/apache/apisix/pull/10493) (Contributor: [csotiriou](https://github.com/csotiriou))
+
+- [enhance the `body-transformer` plugin](https://github.com/apache/apisix/pull/10496) (Contributor: [yongxiaodong](https://github.com/yongxiaodong))
 
 ## Recent Blog Recommendations
 
