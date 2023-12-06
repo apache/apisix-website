@@ -12,9 +12,10 @@ keywords:
   - API 网关
   - Apache APISIX
   - 咪咕视频
+  - 咪咕视讯
 description: 咪咕视频借力 APISIX 应对大规模视频类业务需求场景下的挑战，其落地实践不仅提升了咪咕视频的业务性能，简化了后端架构，还为业务的快速发展提供了有力支持。
 tags: [Case Studies]
-image: https://static.apiseven.com/uploads/2023/11/30/myZBqcSg_%E5%92%AA%E5%92%95%E7%94%A8%E6%88%B7%E6%A1%88%E4%BE%8B.png
+image: https://static.apiseven.com/uploads/2023/12/06/ZYrbfw7r_Migu-video.png
 ---
 
 > 作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文整理自 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
@@ -88,7 +89,7 @@ image: https://static.apiseven.com/uploads/2023/11/30/myZBqcSg_%E5%92%AA%E5%92%9
 
 - **听云**主要用于监控整个请求链路。我们可以在听云上看到请求的上游和下游，以及每个环节的响应时间和正确率等；它在采集到信息后还能自动绘制上下游调用链路图，便于我们排查现网问题。
 
-### APISIX 适配国产欧拉操作系统
+## APISIX 适配国产欧拉操作系统
 
 另外，今年咪咕还做了一个基于国产欧拉操作系统的 APISIX 适配。近年来，国际科技环境对我国科技产业带来了一定的挑战。为了应对这种局势，我们集团今年启动了一个自主可控操作系统的项目。在服务器相关领域，我们致力于推动国产化操作系统的研发，并目前主要采用华为的欧拉操作系统。在适配过程中，我们也遇到了一些问题。
 
