@@ -15,6 +15,14 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From 11.20 to 12.03, a total of 22 contributors made 45 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
+We have recently addressed and enhanced various features, and here is a summary of the updates:
+
+1. Add a `multi-auth` plugin
+
+2. Add the required scopes configuration property to `openid-connect` plugin
+
+3. Enhance the `body-transformer` plugin
+
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
 ## Contributor Statistics
@@ -25,11 +33,11 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 ## Highlight of Recent Feature
 
-- [add `multi-auth` plugin](https://github.com/apache/apisix/pull/10482) (Contributor: [madhawa-gunasekara](https://github.com/madhawa-gunasekara))
+- [Add `multi-auth` plugin](https://github.com/apache/apisix/pull/10482) (Contributor: [madhawa-gunasekara](https://github.com/madhawa-gunasekara))
 
-- [add the required scopes configuration property to `openid-connect` plugin](https://github.com/apache/apisix/pull/10493) (Contributor: [csotiriou](https://github.com/csotiriou))
+- [Add the required scopes configuration property to `openid-connect` plugin](https://github.com/apache/apisix/pull/10493) (Contributor: [csotiriou](https://github.com/csotiriou))
 
-- [enhance the `body-transformer` plugin](https://github.com/apache/apisix/pull/10496) (Contributor: [yongxiaodong](https://github.com/yongxiaodong))
+- [Enhance the `body-transformer` plugin](https://github.com/apache/apisix/pull/10496) (Contributor: [yongxiaodong](https://github.com/yongxiaodong))
 
 ## Recent Blog Recommendations
 
