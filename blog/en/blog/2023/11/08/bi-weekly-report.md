@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/06/Y2rfyA4R_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E8%8B%B1%E6%96%87-11.06.png
 ---
 
-> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include supporting variable export for the `zipkin` plugin and apisix-runtime. For additional information, please consult the bi-weekly report.
+> We have recently made some fixes and improvements to specific features within Apache APISIX. These updates include supporting variable export for the `zipkin` plugin and switching install-dependencies from apisix-base to apisix-runtime. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 
 ## Introduction
@@ -23,7 +23,7 @@ We have recently addressed and enhanced various features, and here is a summary 
 
 1. Support variable export for the `zipkin` plugin
   
-2. Support apisix-runtime
+2. Switch install-dependencies from apisix-base to apisix-runtime
 
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
@@ -39,7 +39,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 - [Support variable export for the `zipkin` plugin](https://github.com/apache/apisix/pull/10361) (Contributor: [wizhuo](https://github.com/wizhuo))
 
-- [Support apisix-runtime](https://github.com/apache/apisix/pull/10427) (Contributor: [Sn0rt](https://github.com/Sn0rt))
+- [Switch install-dependencies apisix-base to apisix-runtime](https://github.com/apache/apisix/pull/10427) (Contributor: [Sn0rt](https://github.com/Sn0rt))
 
 ## Recent Blog Recommendations
 
