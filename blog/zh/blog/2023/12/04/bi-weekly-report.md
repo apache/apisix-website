@@ -40,6 +40,10 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区
 
 ## 最新博客速览
 
+- [分布式网关 APISIX 在大规模视频类业务中的落地实践](https://apisix.apache.org/zh/blog/2023/11/30/migu-video-utilizes-apisix/)
+
+  作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文整理自 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
+
 - [Apache APISIX 3.7.0 正式发布](https://apisix.apache.org/zh/blog/2023/11/21/release-apache-apisix-3.7.0/)
 
   我们很高兴地宣布 Apache APISIX 3.7.0 版本已经发布，带来了一系列新功能、Bug 修复和相关用户体验优化。
