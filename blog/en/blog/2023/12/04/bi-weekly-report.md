@@ -15,7 +15,7 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From 11.20 to 12.03, a total of 22 contributors made 45 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-We have recently addressed and enhanced various features, and here is a summary of the updates:
+We have recently added and enhanced several plugins, and here is a summary of the updates:
 
 1. Add a `multi-auth` plugin
 
