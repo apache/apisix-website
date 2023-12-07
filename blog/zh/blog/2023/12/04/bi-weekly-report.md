@@ -5,7 +5,7 @@ description: Apache APISIX 社区的双周报旨在帮助社区成员更全面�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/12/04/ZgiF2B5y_1204-ZH.png
 ---
-> 最近，我们修复并改进了 Apache APISIX 的部分功能，如新增 `multi-auth` 插件、`openid-connect` 新增配置项 "required scopes"、增强 `body-transformer` 插件。详情请阅读本期双周报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 `multi-auth` 插件、`openid-connect` 新增配置项 "required scopes"、增强 `body-transformer` 插件。详情请阅读本期双周报。
 <!--truncate-->
 
 ## 导语
