@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/12/04/ZD3OVqNc_1204-ENG.png
 ---
 
-> We have recently made some fixes and improvements to specific features within Apache APISIX. The updates include adding a `multi-auth` plugin, adding the required scopes configuration property to `openid-connect` plugin, and enhancing the `body-transformer` plugin. For additional information, please consult the bi-weekly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The updates include adding a `multi-auth` plugin, adding the required scopes configuration property to `openid-connect` plugin, and enhancing the `body-transformer` plugin. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 
 ## Introduction
