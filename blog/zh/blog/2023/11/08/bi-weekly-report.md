@@ -10,7 +10,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2023/11/06/8NFMgXNt_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87-11.06.png
 ---
 
-> 最近，我们修复并改进了 Apache APISIX 的部分功能，如支持导出 `zipkin` 插件的变量和 apisix-runtime。您可以在本期双周报中详细了解这些新功能。
+> 最近，我们修复并改进了 Apache APISIX 的部分功能，如支持导出 `zipkin` 插件的变量和安装依赖项从 apisix-base 改为 apisix-runtime。您可以在本期双周报中详细了解这些新功能。
 <!--truncate-->
 
 ## 导语
@@ -23,7 +23,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 1. 支持导出 `zipkin` 插件的变量  
 
-2. 支持 apisix-runtime
+2. 安装依赖项从 apisix-base 改为 apisix-runtime
 
 Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的每周进展，更迅速便捷地融入 Apache APISIX 社区。
 
@@ -39,7 +39,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
 - [支持导出 `zipkin` 插件的变量](https://github.com/apache/apisix/pull/10361)（贡献者：[wizhuo](https://github.com/wizhuo))
 
-- [支持 apisix-runtime](https://github.com/apache/apisix/pull/10427)（贡献者：[Sn0rt](https://github.com/Sn0rt))
+- [安装依赖项从 apisix-base 改为 apisix-runtime](https://github.com/apache/apisix/pull/10427)（贡献者：[Sn0rt](https://github.com/Sn0rt))
 
 ## 最新博客速览
   
