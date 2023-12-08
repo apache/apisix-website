@@ -22,10 +22,6 @@ image: https://static.apiseven.com/uploads/2023/12/08/XDJDiILW_Zheng.jpeg
 
 为解决数据跨网问题，政采云搭建了一条基于 Dubbo 的“高速公路”，同时采用了 APISIX 作为中心网关，为网络路由、公共特性提供支持。本文将重点介绍政采云“高速公路”工程建设中如何优化网关和协议的性能以应对挑战。
 
-作者：王晓彬，Apache Dubbo Commiter、政采云资深开发工程师。
-
-为解决数据跨网问题，政采云搭建了一条基于 Dubbo 的“高速公路”，同时采用了 APISIX 作为中心网关，为网络路由、公共特性提供支持。本文将重点介绍政采云“高速公路”工程建设中如何优化网关和协议的性能以应对挑战。
-
 ## 背景介绍
 
 ![Zhengcaiyun_platform](https://static.apiseven.com/uploads/2023/12/08/ngOYh85r_ZCY-1.png)
