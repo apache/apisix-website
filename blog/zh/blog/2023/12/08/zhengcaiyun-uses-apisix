@@ -14,7 +14,7 @@ keywords:
   - 政采云
 description: 政采云借力 APISIX 显著提升了网关性能，减少了协议转换的成本，并实现了中间件层面的收敛。
 tags: [Case Studies]
-image: 
+image: https://static.apiseven.com/uploads/2023/12/08/XDJDiILW_Zheng.jpeg
 ---
 
 > 作者：王晓彬，Apache Dubbo Commiter、政采云资深开发工程师。
