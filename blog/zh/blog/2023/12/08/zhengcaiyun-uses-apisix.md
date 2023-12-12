@@ -70,11 +70,9 @@ image: https://static.apiseven.com/uploads/2023/12/08/XDJDiILW_Zheng.jpeg
 
 ## 问题与目标
 
-### 高速公路架构
+### RPC 请求过程
 
 ![Highway_structure2](https://static.apiseven.com/uploads/2023/12/08/9z9QAsg5_ZCY-4.png)
-
-### RPC 请求过程
 
 在我们的架构中，例如在 A 省和 B 省之间，需要进行跨网的 RPC 请求。这一请求可能涉及不同省份的微服务架构。每个省份的微服务架构事实上是相同的一套代码，无论是在集群 A 还是集群 B 中，都有 APP1 和 APP2。区别在于，某些岛可能不需要 APP2，比如文件服务在三线城市是不需要的，因此不予部署。在存在跨网需求的情况下，例如需要调用短信服务，那么就是必需的。
 
