@@ -59,9 +59,9 @@ image: https://static.apiseven.com/uploads/2023/12/08/XDJDiILW_Zheng.jpeg
 
 这两个方面的压力随着我们历史方案切入“高速公路”后，随着流量的增加而逐渐显现。
 
-![Optimization_solutions](https://static.apiseven.com/uploads/2023/12/08/5vj9xKBr_ZCY-3.png)
-
 为了确保业务的稳定性并提高用户体验，我们采取了各种优化措施。总体而言，我们主要探索了三种思路：
+
+![Optimization_solutions](https://static.apiseven.com/uploads/2023/12/08/5vj9xKBr_ZCY-3.png)
 
 * 资源优化：这种优化思路相对较简单，主要涉及资源的重新调配。具体措施包括对单点的中心网关和 Dubbo 网关进行资源隔离，以最小化故障对系统的影响。此外，通过直接增加 pod 、升级 CPU 等方式，也能有效缓解压力。这样可以确保在资源方面有足够的储备，以满足系统在高负载情况下的需求。然而，这种方法并不能从根本上解决问题，因为如果架构存在短板，某些资源上做不到能水平扩展，那么在一定条件下就会出现故障，有可能不能在短时间内解决。
 
