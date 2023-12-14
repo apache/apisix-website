@@ -27,7 +27,7 @@ Today, I would like to share with you some of the experiences and achievements o
 
 Migu Culture Technology Co., Ltd (Migu), is a subsidiary of China Mobile, specializing in the field of mobile internet. It functions as an integrated professional entity responsible for providing, operating, and servicing digital content products. Migu serves as the sole operational entity under China Mobile's music, video, reading, gaming, and new digital business sectors. It encompasses five sub-companies: Migu Music, Migu Video, Migu Digital Media, Migu Fun, and Migu Animation.
 
-Migu has emerged as a leading comprehensive platform in China that boasts an extensive collection, including over 35 million songs, 4.6 million videos, 600,000 publications, 1,100 games, and 750,000 episodes of new digital content. 
+Migu has emerged as a leading comprehensive platform in China that boasts an extensive collection, including over 35 million songs, 4.6 million videos, 600,000 publications, 1,100 games, and 750,000 episodes of new digital content.
 
 Looking ahead, Migu is committed to innovating in "Internet + Digital Content" operations. It aims to integrate various contents with multiple channels, actively engaging in cross-domain IP operations. Migu is dedicated to building four major platforms: new media integration, digital content aggregation, copyright transactions, and content entrepreneurship and innovation. Its goal is to bring about a transformation in users' entertainment lifestyles.
 
@@ -99,7 +99,7 @@ Currently, the practical testing of APISIX on the new operating system has prove
 
 One of our development strategies is to containerize APISIX. Currently, our main environment is based on VM, but we plan to transition to Kubernetes (K8s) in the future. Considering that many gateways within Migu have already migrated into APISIX, we have chosen the APISIX Ingress Controller as our gateway for containerization.
 
-Currently, our VM environment is based on LVS (Linux Virtual Server), but we expect to transition to using the APISIX Ingress Controller in a containerized environment. 
+Currently, our VM environment is based on LVS (Linux Virtual Server), but we expect to transition to using the APISIX Ingress Controller in a containerized environment.
 
 The containerization plan will be conducted in two steps. First, due to the high stability requirements of our business, we may initially replace some services, allowing VM and containerized environments to coexist. Then, we will enable a gradual migration from VM to containerization.
 
