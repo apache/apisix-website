@@ -23,9 +23,9 @@ image: https://static.apiseven.com/uploads/2023/12/08/XDJDiILW_Zheng.jpeg
 
 ## 背景介绍
 
-![Zhengcaiyun_platform](https://static.apiseven.com/uploads/2023/12/08/ngOYh85r_ZCY-1.png)
-
 政采云平台是一个政府采购专属平台，为各级政府部门和国有企业提供支持。从网络架构的角度来看，政采云平台是一个集合了公有云、私有云和政务云的混合云网络。
+
+![Zhengcaiyun_platform](https://static.apiseven.com/uploads/2023/12/08/ngOYh85r_ZCY-1.png)
 
 例如，浙江政府部门在政采云平台上进行采购时，实际上是在云平台上进行操作。该云平台是部署在浙江的一个微服务网络体系，是公司自行部署和运维的平台。除了浙江，还有广西等六七个地区都在云平台上进行采购。
 
