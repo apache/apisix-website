@@ -3,6 +3,8 @@ title: "政采云 APISIX 优化跨网 RPC 性能实践"
 authors:
   - name: 王晓彬
     title: Author
+    url: https://github.com/wxbty
+    image_url: https://github.com/wxbty.png
   - name: Jing Yan
     title: Technical Writer
     url: https://github.com/JYan00
