@@ -16,7 +16,7 @@ keywords:
   - Kong Alternatives
 description: Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.
 tags: [Case Studies]
-image: https://static.apiseven.com/uploads/2023/06/05/PBdaOToi_Lenovo-cover-APISIX.png
+image: https://static.apiseven.com/uploads/2023/06/02/pRRqKigM_img_v2_d8efd0f7-2a28-46c2-8ed3-6e59f17cafag.png
 ---
 
 > Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.
