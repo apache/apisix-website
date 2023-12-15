@@ -16,7 +16,7 @@ keywords:
   - API Gateway 最佳实践
 description: 荷兰知名公共数据管理企业 WeCity 与 APISIX 携手同行，共同打造荷兰的稳定安全的数据市场。
 tags: [Case Studies]
-image: https://static.apiseven.com/uploads/2023/10/09/dOuH1wXz_WeCity-case-study.png
+image: https://static.apiseven.com/uploads/2023/09/20/6ZpgFEMr_WeCity.png
 ---
 
 > “开源项目 APISIX 的运营理念开放灵活，自身功能强大齐全，社区响应沟通及时，优点相当瞩目。”
