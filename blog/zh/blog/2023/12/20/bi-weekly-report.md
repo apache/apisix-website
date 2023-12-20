@@ -16,40 +16,48 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 最近，我们对一些功能进行了新增和改进，更新内容总结如下：
 
-1. 新增 `multi-auth` 插件
+1. 新增 `jwe decrypt` 插件
 
-2. `openid-connect` 新增配置项 "required scopes"
+2. `openid-connect` 插件新增更多属性
 
-3. 增强 `body-transformer` 插件
+3. `CORS` 插件支持 Timing-Allow-Origin
+
+4. 新增 `brotli` 插件
+
+5. 使用 lua-resty-events 作为默认事件机制
 
 Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 
 ## 贡献者统计
 
-![贡献者名单](https://static.apiseven.com/uploads/2023/12/04/PnNWmVdX_1204-Con.png)
+![贡献者名单](https://static.apiseven.com/uploads/2023/12/20/qNS4Ydta_CON.png)
 
-![新晋贡献者](https://static.apiseven.com/uploads/2023/12/04/vrpTk1y4_1204-New.png)
+![新晋贡献者](https://static.apiseven.com/uploads/2023/12/20/GycOBJie_NEW.png)
 
 ## 近期亮点功能
 
-- [新增 `multi-auth` 插件](https://github.com/apache/apisix/pull/10482)（贡献者：[madhawa-gunasekara](https://github.com/madhawa-gunasekara))
+- [新增 `jwe decrypt` 插件](https://github.com/apache/apisix/pull/10252)（贡献者：[fishioon](https://github.com/fishioon))
 
-- [`openid-connect` 新增配置项 "required scopes"](https://github.com/apache/apisix/pull/10493)（贡献者：[csotiriou](https://github.com/csotiriou))
+- [`openid-connect` 插件新增更多属性](https://github.com/apache/apisix/pull/10591)（贡献者：[kayx23](https://github.com/kayx23))
 
-- [增强 `body-transformer` 插件](https://github.com/apache/apisix/pull/10496)（贡献者：[yongxiaodong](https://github.com/yongxiaodong))
+- [`CORS` 插件支持 Timing-Allow-Origin](https://github.com/apache/apisix/pull/9365)（贡献者：[skimdz86](https://github.com/skimdz86))
+
+- [新增 `brotli` 插件](https://github.com/apache/apisix/pull/10515)（贡献者：[yuweizzz](https://github.com/yuweizzz))
+ 
+- [使用 lua-resty-events 作为默认事件机制](https://github.com/apache/apisix/pull/10550)（贡献者：[bzp2010](https://github.com/bzp2010))
 
 ## 最新博客速览
+
+- [政采云 APISIX 优化跨网 RPC 性能实践](https://apisix.apache.org/zh/blog/2023/12/08/zhengcaiyun-uses-apisix/)
+
+  为解决数据跨网问题，政采云搭建了一条基于 Dubbo 的“高速公路”，同时采用了 APISIX 作为中心网关，为网络路由、公共特性提供支持。本文将重点介绍政采云“高速公路”工程建设中如何优化网关和协议的性能以应对挑战。
+
+- [API 网关 APISIX 在 DataVisor 的应用与实践](https://apisix.apache.org/zh/blog/2023/12/01/datavisor-uses-apisix/)
+
+  作者：赵晓彪，DataVisor 高级架构师，Apache Kvrocks Committer，OpenResty 及 Apache APISIX Contributor。本文整理自 2023 年 11 月赵晓彪在 APISIX 上海 Meetup 的演讲。
 
 - [分布式网关 APISIX 在大规模视频类业务中的落地实践](https://apisix.apache.org/zh/blog/2023/11/30/migu-video-utilizes-apisix/)
 
   作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文整理自 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
-
-- [Apache APISIX 3.7.0 正式发布](https://apisix.apache.org/zh/blog/2023/11/21/release-apache-apisix-3.7.0/)
-
-  我们很高兴地宣布 Apache APISIX 3.7.0 版本已经发布，带来了一系列新功能、Bug 修复和相关用户体验优化。
-
-- [APISIX Ingress Controller：一种无需 etcd 的轻量级部署方式](https://apisix.apache.org/zh/blog/2023/10/18/ingress-apisix/)
-
-  APISIX Ingress Controller 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
