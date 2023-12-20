@@ -5,7 +5,7 @@ description: Apache APISIX 社区的双周报旨在帮助社区成员更全面�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2023/12/20/hTVExnq0_ZH.png
 ---
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 `multi-auth` 插件、`openid-connect` 新增配置项 "required scopes"、增强 `body-transformer` 插件。详情请阅读本期双周报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 `multi-auth` 和 `brotli` 插件、`openid-connect` 插件新增更多属性、`CORS` 插件支持 Timing-Allow-Origin、使用 lua-resty-events 作为默认事件机制。详情请阅读本期双周报。
 <!--truncate-->
 
 ## 导语
