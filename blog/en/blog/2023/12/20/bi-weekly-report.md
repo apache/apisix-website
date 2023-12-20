@@ -13,7 +13,7 @@ image: https://static.apiseven.com/uploads/2023/12/20/XSUtxSaY_EN.png
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.
 
-From 11.20 to 12.03, a total of 22 contributors made 45 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From 12.04 to 12.17, a total of 21 contributors made 46 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 We have recently added and enhanced several plugins, and here is a summary of the updates:
 
