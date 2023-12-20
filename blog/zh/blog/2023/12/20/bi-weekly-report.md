@@ -7,12 +7,12 @@ image: https://static.apiseven.com/uploads/2023/12/20/hTVExnq0_ZH.png
 ---
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 `multi-auth` 插件、`openid-connect` 新增配置项 "required scopes"、增强 `body-transformer` 插件。详情请阅读本期双周报。
 <!--truncate-->
+
 ## 导语
-JYan00 marked this conversation as resolved.
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-从 2023.11.20 至 2023.12.03，有 22 名开发者提交了 45 个 commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+从 2023.12.04 至 2023.12.17，有 21 名开发者提交了 46 个 commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
 最近，我们对一些功能进行了新增和改进，更新内容总结如下：
 
@@ -29,7 +29,6 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区
 ![贡献者名单](https://static.apiseven.com/uploads/2023/12/04/PnNWmVdX_1204-Con.png)
 
 ![新晋贡献者](https://static.apiseven.com/uploads/2023/12/04/vrpTk1y4_1204-New.png)
-JYan00 marked this conversation as resolved.
 
 ## 近期亮点功能
 
@@ -40,7 +39,6 @@ JYan00 marked this conversation as resolved.
 - [增强 `body-transformer` 插件](https://github.com/apache/apisix/pull/10496)（贡献者：[yongxiaodong](https://github.com/yongxiaodong))
 
 ## 最新博客速览
-JYan00 marked this conversation as resolved.
 
 - [分布式网关 APISIX 在大规模视频类业务中的落地实践](https://apisix.apache.org/zh/blog/2023/11/30/migu-video-utilizes-apisix/)
 
