@@ -40,7 +40,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区
 
 - [`openid-connect` 插件新增更多属性](https://github.com/apache/apisix/pull/10591)（贡献者：[kayx23](https://github.com/kayx23))
 
-- [`CORS` 插件支持 Timing-Allow-Origin](https://github.com/apache/apisix/pull/9365)（贡献者：[skimdz86](https://github.com/skimdz86))
+- [`CORS` 插件支持 Timing-Allow-Origin 响应头](https://github.com/apache/apisix/pull/9365)（贡献者：[skimdz86](https://github.com/skimdz86))
 
 - [新增 `brotli` 插件](https://github.com/apache/apisix/pull/10515)（贡献者：[yuweizzz](https://github.com/yuweizzz))
  
