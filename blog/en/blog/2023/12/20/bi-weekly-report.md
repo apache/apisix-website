@@ -45,7 +45,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 - [Add `brotli` plugin](https://github.com/apache/apisix/pull/10515) (Contributor: [yuweizzz](https://github.com/yuweizzz))
 
-- [Use lua-resty-events as the default event mechanism](https://github.com/apache/apisix/pull/10550) (Contributor: [bzp2010](https://github.com/bzp2010))
+- [Add new lua-resty-events as the default event mechanism](https://github.com/apache/apisix/pull/10550) (Contributor: [bzp2010](https://github.com/bzp2010))
 
 ## Recent Blog Recommendations
 
