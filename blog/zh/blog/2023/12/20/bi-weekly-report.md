@@ -43,7 +43,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区
 - [`CORS` 插件支持 Timing-Allow-Origin 响应头](https://github.com/apache/apisix/pull/9365)（贡献者：[skimdz86](https://github.com/skimdz86))
 
 - [新增 `brotli` 插件](https://github.com/apache/apisix/pull/10515)（贡献者：[yuweizzz](https://github.com/yuweizzz))
- 
+
 - [使用新的 lua-resty-events 作为默认事件机制](https://github.com/apache/apisix/pull/10550)（贡献者：[bzp2010](https://github.com/bzp2010))
 
 ## 最新博客速览
