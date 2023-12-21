@@ -41,7 +41,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 - [Add more attributes to `openid-connect` plugin](https://github.com/apache/apisix/pull/10591) (Contributor: [kayx23](https://github.com/kayx23))
 
-- [`CORS` plugin supports Timing-Allow-Origin](https://github.com/apache/apisix/pull/9365) (Contributor: [skimdz86](https://github.com/skimdz86))
+- [Add support for the Timing-Allow-Origin header in `CORS` plugin](https://github.com/apache/apisix/pull/9365) (Contributor: [skimdz86](https://github.com/skimdz86))
 
 - [Add `brotli` plugin](https://github.com/apache/apisix/pull/10515) (Contributor: [yuweizzz](https://github.com/yuweizzz))
 
