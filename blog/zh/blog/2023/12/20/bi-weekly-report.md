@@ -24,7 +24,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 4. 新增 `brotli` 插件
 
-5. 使用 lua-resty-events 作为默认事件机制
+5. 使用新的 lua-resty-events 作为默认事件机制
 
 Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 
