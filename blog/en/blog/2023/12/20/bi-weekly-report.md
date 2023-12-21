@@ -21,7 +21,7 @@ We have recently added and enhanced several plugins, and here is a summary of th
 
 2. Add more attributes to `openid-connect` plugin
 
-3. `CORS` plugin supports Timing-Allow-Origin
+3. Add support for the Timing-Allow-Origin header in `CORS` plugin
 
 4. Add `brotli` plugin
 
