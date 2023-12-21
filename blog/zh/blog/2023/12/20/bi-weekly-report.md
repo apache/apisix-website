@@ -20,7 +20,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 2. `openid-connect` 插件新增更多属性
 
-3. `CORS` 插件支持 Timing-Allow-Origin
+3. `CORS` 插件支持 Timing-Allow-Origin 响应头
 
 4. 新增 `brotli` 插件
 
