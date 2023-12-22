@@ -95,7 +95,7 @@ Presently, OpenResty and Lua showcase exceptional capabilities in loading dynami
 
 ### Developing Plugins
 
-![APISIX_Datavisor_plugin](https://static.apiseven.com/uploads/2023/12/01/6qx3Rqi1_7.png)
+![APISIX_Datavisor_plugin](https://static.apiseven.com/uploads/2023/12/22/k1Lg7rBk_7.jpg)
 
 As a result of our modifications to APISIX, numerous functionalities in the packaged product are embedded deeply within the project, making dynamic adjustments challenging. Accordingly, we opted to package specific plugins, integrate them into the APISIX project, and then make modifications using the Dashboard.
 
@@ -108,7 +108,7 @@ The deployment of APISIX has resulted in an overall enhancement of our system's 
 * **Latency Reduction:** One of the standout features of APISIX is its remarkable ability to substantially reduce latency. In comparison to alternative solutions, we have observed shorter processing times for user requests, a critical factor in delivering a better user experience.
 * **Throughput Boost:** The introduction of APISIX has led to a significant increase in throughput, allowing the system to handle concurrent requests with greater efficiency. Unlike using other API gateway products, we have achieved successful large-scale request processing, ensuring the stability and reliability of the system under high loads through APISIX. This outcome solidifies a dependable foundation for managing spikes in user traffic.
 
-![APISIX_Datavisor_effect](https://static.apiseven.com/uploads/2023/12/01/vMYMM2cA_8.png)
+![APISIX_Datavisor_effect](https://static.apiseven.com/uploads/2023/12/22/aHwCZUGj_8.png)
 
 ## Outlook for APISIX
 
