@@ -28,7 +28,7 @@ In tackling cross-network data challenges, Zhengcaiyun has constructed a "highwa
 
 The Zhengcaiyun platform serves as an exclusive hub for government procurement, catering to various government departments and state-owned enterprises. From a network architecture perspective, this platform forms a hybrid cloud network by integrating elements of public cloud, private cloud, and government cloud.
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDUyY2YwZDM0MmExZDMyNmJhNzhmZGVhYjEwYmEzZjdfUmNvalFYNFlYaVFkYkFnajd5ODRpZDJ5THdnZ3h4NzFfVG9rZW46WU1PQ2JDb0Nqb3VCazN4c0lFRGNKeXRsbkdiXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Zhengcaiyun_platform](https://static.apiseven.com/uploads/2023/12/26/Fw3u6Lp7_1.png)
 
 When Zhejiang governmental departments engage in procurement activities on the Zhengcaiyun platform, they are essentially utilizing the cloud-based operational framework. This cloud platform, situated in Zhejiang, forms a microservices network system. It serves as a platform that the company independently deploys and manages. Beyond Zhejiang, several other provinces also leverage the cloud platform for their procurement needs.
 
@@ -36,7 +36,7 @@ Moreover, the platform extends its services to branch offices established in dif
 
 All these microservices collectively form a segment of the hybrid cloud network. Consequently, cross-network data transmission becomes a common scenario for the business.
 
-In response to this demand, Zhengcaiyun initiated the "highway" project in late 2022. The project aimed to consolidate existing network transmission solutions, providing a unified, user-friendly, and high-speed cross-network business experience. As the integration of cross-network solutions progresses, an increasing portion of the company's cross-network traffic is directed towards this novel infrastructure.
+In response to this demand, Zhengcaiyun initiated the "highway" project in late 2022. The project aimed to consolidate existing network transmission solutions, providing a unified, user-friendly, and high-speed cross-network business experience. As the integration of cross-network solutions progresses, an increasing portion of the company's cross-network traffic is directed toward this novel infrastructure.
 
 ## "Highway" Project
 
@@ -44,29 +44,31 @@ The "highway" project unfolds in three distinctive phases. The initial phase see
 
 In the initial phase, a pioneering architecture was designed using Dubbo, with APISIX playing a central role. Each node represents an island, signifying different provinces or other administrative divisions. Interestingly, the cloud platform itself serves as a unique island, and our platform encompassed multiple such islands, collectively forming a hybrid cloud network.
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=YTI2MzExZTdkMjI0NzQxMmFmODRiZTQwMDM4NTY0NTRfVFZueWg0SXlCY3F1a0hjdjhxVElsc3RPOVFsT0lLR1dfVG9rZW46WWdETWJLb0tNb0djYVl4SE03WWNGenM2bm5mXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Highway_structure1](https://static.apiseven.com/uploads/2023/12/26/fId3VYse_2.jpg)
 
 Why did we choose the star-shaped network architecture for this project? The need for cross-network communication existed right from the inception of Zhengcaiyun. In the early days, business operations involved point-to-point data transfers across networks, eventually leading to the formation of a mesh architecture. Previously, we had various projects and solutions related to cross-network operations—some provided by the foundational platform and others developed independently by businesses. The primary goal of the current "Highway" project is to integrate these solutions, establish a unified technical foundation, reduce individual operational costs, and streamline processes. This allows businesses to concentrate on their core activities while incorporating more common features.
 
 Developing individual solutions for each business could lead to functional limitations as they would only focus on their specific areas. On the other hand, opening up business operations for others might introduce challenges, such as the need to support custom features that the business itself does not prioritize.
 
-The star-shaped architecture of the "Highway" is the outcome of this integration. In the previous mesh structure, interconnecting each island required a series of intricate processes. For instance, coordinating with the operations and maintenance teams in provinces like Shanxi and Shanghai, having them open specific ports, deploying services based on those ports, and then establishing network interactions. This resulted in numerous complex lines within the mesh structure. With n islands, there could be approximately n squared lines. The star-shaped architecture simplifies this, avoiding the intricacies of pairwise connections found in the earlier mesh structure.
+The star-shaped architecture of the "Highway" is the outcome of this integration. In the previous mesh structure, interconnecting each island required a series of intricate processes. For instance, coordinating with the operations and maintenance teams in provinces like Shanxi and Shanghai, having them open specific ports, deploying services based on those ports, and establishing network interactions. This resulted in numerous complex lines within the mesh structure. With n islands, there could be approximately n squared lines. The star-shaped architecture simplifies this, avoiding the intricacies of pairwise connections found in the earlier mesh structure.
 
 ## Challenges
 
 After the successful trial of new business in the first half of 2023 under the "Highway" project, we initiated the gradual migration of historical cross-network solutions in the latter half of the year. Monitoring revealed increased pressure from the growing traffic, evidenced by:
 
 * **Frequent alerts from the heartbeat application:** To ensure the stability of the highway, we deployed a universal heartbeat application on each segment, responsible for network interconnectivity. This application triggers alerts if any issues arise. For instance, if requests slow down within a specific timeframe, exceeding 1 second per request, we promptly receive alerts. Monitoring indicated a frequent occurrence of alerts from the heartbeat application.
-* **Declines in monitoring metrics such as response time (RT) and throughput:** We also employed the Prometheus-formatted BRAF interface for monitoring. On this interface, certain curves related to response volume and throughput exhibited a noticeable downward trend.
+* **Declines in monitoring metrics such as response time (RT) and throughput:** We also employed the Prometheus-formatted BRAF interface for monitoring. On this interface, certain response volume and throughput curves exhibited a noticeable downward trend.
 
-The pressure in these two aspects gradually manifested as we transitioned historical solutions into the "Highway" project, coupled with the increasing volume of traffic.
+The pressure in these two aspects gradually manifested as we transitioned historical solutions into the "Highway" project, coupled with the increasing traffic volume.
 
 In order to ensure the stability of our business operations and enhance the overall user experience, we have implemented a range of optimization strategies. Broadly speaking, our efforts have centered around three key approaches:
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWQwNGExYjYwNGE0ODZhZjgxNTM3MDYxN2U5NjIzN2VfNXVkUmZ6V0xUSTZyWmNZOFk3VlZTZHhxNlN0MGpUQVJfVG9rZW46RGtZVGJwUGdkb2FtZWV4Tmx0OGN3a2R1bjVkXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Optimization_solutions](https://static.apiseven.com/uploads/2023/12/26/Bs0op31X_3.jpg)
 
-* **Resource Optimization: **This step involves the relatively straightforward reallocation of resources. We have taken specific measures, such as isolating resources for single points like the central gateway and Dubbo gateway, aiming to minimize the impact of potential failures on the overall system. Additionally, actions like directly increasing the number of pods and upgrading CPUs have proven effective in alleviating pressure. While these measures ensure ample resource reserves to meet high-load demands, it is important to note that this approach does not address fundamental architectural shortcomings. If certain resources cannot be horizontally scaled due to such limitations, issues may persist under specific conditions and might not be promptly resolved.
+* **Resource Optimization:** This step involves the relatively straightforward reallocation of resources. We have taken specific measures, such as isolating resources for single points like the central gateway and Dubbo gateway, aiming to minimize the impact of potential failures on the overall system. Additionally, actions like directly increasing the number of pods and upgrading CPUs have proven effective in alleviating pressure. While these measures ensure ample resource reserves to meet high-load demands, it is important to note that this approach does not address fundamental architectural shortcomings. If certain resources cannot be horizontally scaled due to such limitations, issues may persist under specific conditions and might not be promptly resolved.
+  
 * **Performance Optimization:** This approach necessitates a deep dive into architectural optimizations to mitigate the shortcomings identified by the bucket model. Maximizing performance utilization is paramount for achieving system-wide horizontal scalability.
+
 * **Best Practices Guidance:** Recognizing that each framework has its limitations, we have actively guided users to avoid operations that could potentially lead to issues. In instances where users insist on certain operations, we provide informed advice. For instance, the Dubbo framework, used for cross-network transmission, defaults to supporting high traffic but with small requests concurrency. The high-speed highway built on Dubbo exhibits similar characteristics. We have advised users against transmitting large files through Dubbo, as it could exert significant pressure on our system. Instead, we recommend alternative methods for file transmission.
 
 By adopting a holistic approach that combines resource readiness, performance optimization, and user guidance for sensible operations, we have ensured the stability and high availability of our system.
@@ -75,7 +77,7 @@ By adopting a holistic approach that combines resource readiness, performance op
 
 ### The Process of Cross-Network RPC Requests
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=Njk5MzI5M2VjZDI3YzQwN2I5MzZlNzcyZGQ0OWQwODJfdE05MFVTbGdQODFSOHVRTXFqTmNabTV6NnI4UnBnaThfVG9rZW46VUpycWIxWnk3b0lyWWZ4STZTcmM4aEhhbmJBXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Highway_structure2](https://static.apiseven.com/uploads/2023/12/26/Ij2SKNMh_4.jpg)
 
 In our system, particularly between Provinces A and B, we often encounter the necessity for cross-network RPC requests. These requests might span various provinces and their respective microservices architectures. Despite each province sharing an essentially identical set of codes in Clusters A and B, housing both APP1 and APP2, differences arise. Certain islands may exclude APP2, like the file service unnecessary in third-tier cities, resulting in its non-deployment. Cross-network needs, such as accessing the SMS service, highlight the indispensability of certain components.
 
@@ -99,18 +101,23 @@ Within the comprehensive architecture, three gateways are employed, consisting o
 
 ## Performance Analysis of Cross-Network RPC
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=Njg2MDJmMzVkNTAzNmJlMDZjNGJiNTY2M2E2YThiZDhfaU80SjBKeUFwcUJETTlmRUt2a2RhZ216ZkNmTzFKeWFfVG9rZW46TnJwRmJ3c1FSb3oxckd4YlJIMWNlMW1obkpiXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![RPC_analysis](https://static.apiseven.com/uploads/2023/12/26/FbQajZjB_5.jpg)
 
 * **Client:** The client is already equipped with Dubbo's SDK, which encompasses proxy generation, method invocation, parameter serialization, and initiating network requests. Altering this component is currently challenging due to our adoption of a unified Dubbo, ensuring the stability of the SDK's behavior remains unchanged.
+
 * **Local Network:** Transitioning traffic within the local cluster involves Dubbo's transport mechanism. This entails considerations like I/O models, the Dubbo protocol, and data formats (e.g., parameters). Dubbo utilizes a Netty-based asynchronous non-blocking I/O model, perfectly aligning with its performance requirements. The Dubbo protocol adopts a straightforward and adaptable structure for data packets, efficiently encoding and decoding data in binary format based on specific needs.
+
 * **Dubbo Gateway:** In this process, the Dubbo gateway acts as a traffic-forwarding entity, without the responsibility of handling business logic. It brings forth considerations related to the I/O model of message reception: choosing between blocking or asynchronous message reception. Additionally, it involves packet parsing, incurring some costs as Dubbo data undergoes transformation into HTTP data, including serialization and deserialization. There are also custom extensions based on the local cluster, incorporating common features like rate limiting and authentication.
-* **Public Gateway:** Post-gateway request processing, the flow is directed to APISIX's central gateway through HTTP, utilizing HttpClient for outward-bound journeys. As HttpClient is inherently blocking, it might exhibit slightly inadequate performance. The decision to build our gateway rather than adopting existing solutions was primarily driven by the urgency to implement quickly in the first version, with performance optimization deferred as subsequent work. Yet, a significant challenge arises in this approach due to the unique process of converting Dubbo protocol to HTTP. Currently, no gateway supports this specific custom behavior. Consequently, we decided to tackle this challenge with a self-developed solution, utilizing a Netty-based Java application. When it comes to the public network, considerations include I/O models, HTTP protocols, and data formats, all of which led us to choose the high-performance APISIX.
-* **Central Gateway: **In the broader architecture, APISIX, as the central gateway, plays a pivotal role, especially in facilitating company-level common functions. It is responsible for efficient traffic handling, forwarding, and supporting common extensions. With the central gateway becoming a single point in the new network architecture, concerns related to single-point failures are duly addressed. Our current strategy regards common extensions as company-level functions, allowing for extensions at this level, such as traffic interception and execution of corresponding operations. The plugin-based features of APISIX empower us to make additional extensions, for example, discouraging unordered cross-domain calls and conducting audits only after console-registered information (e.g., app name, responsible person, etc.) verification. In addressing single-point failure concerns, we have implemented fault isolation and resource isolation in the central gateway. We maintain stringent requirements for stability and scalability, both of which are well met by APISIX.
+
+* **Public Gateway:** Post-gateway request processing, the flow is directed to APISIX's central gateway through HTTP, utilizing HttpClient for outward-bound journeys. As HttpClient is inherently blocking, it might exhibit slightly inadequate performance. The decision to build our gateway rather than adopting existing solutions was primarily driven by the urgency to implement quickly in the first version, with performance optimization deferred as subsequent work. Yet, a significant challenge arises in this approach due to the unique process of converting the Dubbo protocol to HTTP. Currently, no gateway supports this specific custom behavior. Consequently, we decided to tackle this challenge with a self-developed solution, utilizing a Netty-based Java application. When it comes to the public network, considerations include I/O models, HTTP protocols, and data formats, all of which led us to choose the high-performance APISIX.
+
+* **Central Gateway:** In the broader architecture, APISIX, as the central gateway, plays a pivotal role, especially in facilitating company-level common functions. It is responsible for efficient traffic handling, forwarding, and supporting common extensions. With the central gateway becoming a single point in the new network architecture, concerns related to single-point failures are duly addressed. Our current strategy regards common extensions as company-level functions, allowing for extensions at this level, such as traffic interception and execution of corresponding operations. The plugin-based features of APISIX empower us to make additional extensions, for example, discouraging unordered cross-domain calls and conducting audits only after console-registered information (e.g., app name, responsible person, etc.) verification. In addressing single-point failure concerns, we have implemented fault isolation and resource isolation in the central gateway. We maintain stringent requirements for stability and scalability, both of which are well met by APISIX.
+
 * **Cluster Target:** Following central gateway request forwarding, the process aligns closely with the preceding local network scenario. Since it is a midpoint call, the form may vary slightly. Due to a series of operations, the Dubbo data packet is now encapsulated via HTTP. After parsing, it can't undergo point-to-point calls and still requires Dubbo's generic invocation. Understanding the interface name, parameters, etc., then proceeds with the call, returning along the original path.
 
 ## Optimization Objective: Boosting Throughput
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=ODJlNjFmMTVkODc1Yzg1N2E2OWVhYjVjMDZkZjJjNDFfZmszek5DbTIxdGlSY0M2OERSdXBRUnJxcVM3QkNualpfVG9rZW46VWFySGJsWGo2b0Z6R0Z4SFFrc2N1cG0yblpjXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Optimization_goal](https://static.apiseven.com/uploads/2023/12/26/rcuQEhy0_6.png)
 
 Performance testing was carried out before the initial version of the architecture went live to thoroughly understand potential bottlenecks in the cross-network RPC architecture. Without performance testing and robust data support, establishing the system's baseline would be challenging. Consequently, a series of performance tests were conducted to enhance our system optimization.
 
@@ -127,7 +134,9 @@ Drawing from the preceding analysis, we identified the primary issue as the traf
 When using our custom Dubbo gateway, we've encountered several challenges.
 
 * **I/O Mode:** Converting Dubbo to HTTP essentially employs a tunneling mechanism. Due to the intricacies of the network, we've opted for using HTTP as the conduit to transmit data through this tunnel, which is later unpacked at the destination. One drawback of this tunneling approach is that there's a need for protocol data conversion within this tunnel, particularly when reaching the Dubbo gateway. Some of the components we developed ourselves might not achieve optimal performance.
+
 * **Dual Serialization:** When dealing with dual serialization, it involves a JavaBeanDescriptor object, an API in Dubbo. During serialization and deserialization, business objects can't be directly serialized in parameters, requiring encapsulation in the SDK to convert JavaBeans into a structure internal to Dubbo. After reaching the destination, this process is reversed to ensure smooth serialization and deserialization of business objects in the parameters. Moreover, there is an additional layer of complexity due to Dubbo's use of Hessian2 for serialization. Using Hessian2 for dual serialization could introduce a significant performance overhead.
+
 * **Other Business Extensions:** The Dubbo gateway demands certain business extensions, not just on the central gateway but also on the local cluster gateway. Additionally, we need some readily deployable features, such as rate limiting.
 
 ### Reasons for Opting for APISIX
@@ -135,23 +144,29 @@ When using our custom Dubbo gateway, we've encountered several challenges.
 We have decided to replace our internally developed Dubbo gateway with APISIX for several reasons. Given the potential challenges associated with our custom gateway, we prefer not to allocate excessive resources in this domain. Instead, we plan to integrate a pre-built, professional solution immediately to conserve development resources and enhance efficiency. The decision to choose APISIX is influenced by the following factors, providing insights for others:
 
 * **Vibrant Community, Code Excellence:** APISIX boasts an actively engaged open-source community, ensuring a high standard of code quality.
+
 * **Robust Architecture, Exceptional Performance:** Developed on the foundation of high-performance OpenResty, APISIX is designed to achieve performance excellence from both architectural and design perspectives, meeting our fundamental requirements for gateway performance.
+
 * **Remarkable Extensibility:** APISIX demonstrates remarkable extensibility, accommodating our custom requirements. Essentially, we aim to benefit from NGINX-like high performance while retaining the flexibility to extend functionality based on our specific needs.
 
 ## Optimizing Protocols
 
 In terms of protocols, we experimented with adopting the Dubbo protocol as a tunneling protocol, replacing the conventional HTTP protocol.
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=NWRjOWUzODg3OGU1OWUyY2Y4ZGQ1ZjNhNTc0ZTJjMTZfcG1qRUNKYUJVRHNrcTZBemhwZzRCQm9kZFVaSkYyU3VfVG9rZW46Um9MbWJxWEE3b2xGUmR4VXhpOWNrTWJPbndlXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Dubbo_optimization](https://static.apiseven.com/uploads/2023/12/26/bivRZ1ku_7.png)
 
 ### Advantages
 
 Leveraging the Dubbo protocol as our tunneling protocol offers several key advantages:
 
 * **Seamless Integration with APISIX Gateway:** Given our reliance on the APISIX gateway, we aimed for a direct Dubbo-to-Dubbo transformation, eliminating the need for dual serialization rounds and bypassing calls to essential infrastructures. As discussed in the earlier HttpClient plan, employing a single-threaded synchronous calling method requires waiting for the completion of each call before proceeding with subsequent operations. In high-concurrency scenarios, this method proves highly inefficient, and previous solutions we employed gradually proved inadequate for accommodating our growing business volume, prompting the need for an update.
+
 * **Binary Protocol Prowess:** Binary protocols, in general, outshine their text-based counterparts, representing a relatively classical form of protocol.
+
 * **Elimination of Redundant Headers:** Various HTTP clients may carry superfluous Header information, and adopting the Dubbo protocol helps sidestep the inclusion of such invalid redundant data.
+
 * **Long Connection Multiplexing:** APISIX introduces multiplexing capabilities. Long connections facilitate the simultaneous transmission of multiple requests. In contrast, while HTTP allows continuous request dispatch, it requires waiting for the completion of each request before initiating subsequent ones. This disparity in concurrency efficiency is notable between HTTP and Dubbo.
+
 * **Layer 4 Protocol Extension Framework:** APISIX implements the xRPC Layer 4 protocol extension framework, empowering developers to tailor application-specific protocols. With the xRPC framework, APISIX supports proxy implementations for various major application protocols. Users can also introduce their private, TCP-based application protocols based on this framework, offering precision akin to the HTTP protocol proxy and elevated Layer 7 control. By harnessing APISIX's xRPC extension, we have effectively introduced the capability for direct Dubbo protocol forwarding, ensuring comprehensive Dubbo protocol transmission throughout the entire process.
 
 ### Limitations
@@ -206,13 +221,16 @@ Following the extension of APISIX's protocol, we opted for APISIX to replace our
 The Triple protocol, designed by Dubbo3, is an RPC communication protocol based on HTTP. It fully embraces the gRPC protocol, supporting various communication models such as Request-Response and Streaming, and is compatible with both HTTP/1 and HTTP/2. Several features of the Triple protocol address our project's specific needs.
 
 * Full compatibility with the HTTP/2-based gRPC protocol: Despite the Triple protocol sounding like a proprietary solution, it's actually a standardized, public protocol compatible with both HTTP/1 and HTTP/2. This signifies robust penetrability, effectively resolving one of our pain points—scenario support.
+
 * Compatibility with HTTP/1 and HTTP/2, exhibiting robust penetrability.
+
 * The efficiency boost introduced by binary framing, coupled with header compression significantly reducing payload, results in a substantial enhancement in network throughput for HTTP/2.
+
 * As the primary protocol for Dubbo, it retains the advantage of sidestepping protocol conversion, aligning seamlessly with the "Highway" architecture.
 
 ### APISIX Extending Triple
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=MDQ0Y2ZiYTVlMTZhNmYxZTBiYzZiMzJkZjE5OWRjNWJfOG9jRHJ0NVc4Z2tPODFjWnNUSFhxU3BXSVhZT3BJTG1fVG9rZW46U2F2UGJjdEZCbzlFWmZ4NnN3cmNmMkdFblhkXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![APISIX_triple](https://static.apiseven.com/uploads/2023/12/26/x7tTAqj3_8.jpg)
 
 APISIX leverages its xRPC mechanism to seamlessly extend new application protocols. The xRPC not only provides us with the ability to replay interfaces but also enhances the intuitiveness of implementing custom protocols. Building upon the lessons learned from previous use cases, like Redis, which has successfully extended protocols, we find APISIX to be a versatile platform.
 
@@ -230,6 +248,6 @@ Our architecture has undergone comprehensive stress testing, providing us with a
 
 ### Charting the Course for the Future High-Speed Highway Architecture
 
-![](https://apiseven.feishu.cn/space/api/box/stream/download/asynccode/?code=NmJjMTE1YmViMzlhNjliMjQyMzU1ZDk1NWQ4M2I4MTFfbnRKU01yb3hranFhM0l0ZHNmRjRCNG4wS05sRE45aVBfVG9rZW46QnhnN2JGclhVb3dMWDd4bXN4YmMxZmkzbkhnXzE3MDM1NzcwMDU6MTcwMzU4MDYwNV9WNA)
+![Highway_future](https://static.apiseven.com/uploads/2023/12/26/r0AMeygL_9.jpg)
 
 Looking at the architecture's evolution, there is a potential shift on the horizon: the former Java-based Dubbo gateway has now evolved into APISIX. We have initiated the adoption of this model in our testing environment and ongoing research. However, this transition has not been implemented in the production environment as of now. Our strategy involves upgrading the entire cluster post the complete implementation of Triple.
