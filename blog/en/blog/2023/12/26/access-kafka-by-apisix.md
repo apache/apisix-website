@@ -14,6 +14,10 @@ description: A few days ago, I tried to add a proxy to the kafka cluster, so I c
 tags: [Ecosystem]
 ---
 
+> This blog shows how to use Apache APISIX to develop a customize authorization plugin for the kafka cluster.
+
+<!--truncate-->
+
 ## Prerequisites
 
 - Openshift cluster
