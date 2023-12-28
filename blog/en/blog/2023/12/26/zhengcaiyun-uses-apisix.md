@@ -14,7 +14,7 @@ keywords:
   - API Gateway
   - Apache APISIX
   - Zhengcaiyun
-description: Author: Xiaobin Wang, Apache Dubbo Committer, Senior Development Engineer at Zhengcaiyun. This article is based on a presentation given by Xiaobin Wang at the APISIX Shanghai Meetup in November 2023.
+description: 'Author: Xiaobin Wang, Apache Dubbo Committer, Senior Development Engineer at Zhengcaiyun. This article is based on a presentation given by Xiaobin Wang at the APISIX Shanghai Meetup in November 2023.'
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/12/08/XDJDiILW_Zheng.jpeg
 ---
