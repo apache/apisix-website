@@ -89,7 +89,7 @@ helm install apisix apisix/apisix \
 # forward 9180 port to local host
 kubectl -n apisix port-forward $(kubectl get pods -l app.kubernetes.io/name=apisix -n apisix -o jsonpath="{.items[0].metadata.name}") 9180:9180
 
-# the bridge service name can be accessed by 
+# the bridge service name can be accessed by
 # kubectl get svc -l strimzi.io/cluster=strimzi-kafka-bridge -n $KAFKA_NAMESPACE -o jsonpath="{.items[0].metadata.name}"
 curl "http://127.0.0.1:9180/apisix/admin/routes/1" \
 -H "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1" -X PUT -d '
