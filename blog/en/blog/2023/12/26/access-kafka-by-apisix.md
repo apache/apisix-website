@@ -265,4 +265,4 @@ curl -X GET 'http://localhost:9080/consumers/strimzi-kafka-consumer-group/instan
 - [How to use Go to develop Apache APISIX plugin](https://apisix.apache.org/blog/2021/08/19/go-makes-apache-apisix-better/)
 - [APISIX之Go插件开发](https://zhuanlan.zhihu.com/p/613540331)
 - [结合 casbin 为 APISIX 开发一个接口权限校验插件](https://www.fdevops.com/2022/10/09/casbin-apisix-31182)
-- https://blog.csdn.net/weixin_42873928/article/details/123279381
+- [Docker部署 apisix 并使用golang插件(自定义鉴权方式)](https://blog.csdn.net/weixin_42873928/article/details/123279381)
