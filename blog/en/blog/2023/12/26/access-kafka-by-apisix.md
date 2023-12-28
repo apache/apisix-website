@@ -206,7 +206,7 @@ nginx_config:
     - APISIX_CONF_EXPIRE_TIME
 
 ext-plugin:
-  # path_for_test: "/tmp/runner.sock" 
+  # path_for_test: "/tmp/runner.sock"
   cmd: ["/usr/local/apisix/apisix-go-plugin-runner/go-runner", "run", "-m", "prod"]
 ```
 
