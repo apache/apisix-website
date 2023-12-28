@@ -263,7 +263,7 @@ curl -X GET 'http://localhost:9080/consumers/strimzi-kafka-consumer-group/instan
   -H "Client-Certificate: $CERT_CONTENT_BASE64" \
 ```
 
-## Reference
+## References
 
 - [How to use go-plugin-runner with APISIX Ingress](https://apisix.apache.org/zh/docs/ingress-controller/tutorials/how-to-use-go-plugin-runner-in-apisix-ingress/)
 - [How to use Go to develop Apache APISIX plugin](https://apisix.apache.org/blog/2021/08/19/go-makes-apache-apisix-better/)
