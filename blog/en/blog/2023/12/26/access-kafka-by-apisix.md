@@ -262,7 +262,7 @@ curl -X GET 'http://localhost:9080/consumers/strimzi-kafka-consumer-group/instan
 
 ## Reference
 
-- https://apisix.apache.org/zh/docs/ingress-controller/tutorials/how-to-use-go-plugin-runner-in-apisix-ingress/
+- [How to use go-plugin-runner with APISIX Ingress](https://apisix.apache.org/zh/docs/ingress-controller/tutorials/how-to-use-go-plugin-runner-in-apisix-ingress/)
 - https://www.apiseven.com/blog/go-makes-apache-apisix-better
 - https://zhuanlan.zhihu.com/p/613540331
 - https://www.fdevops.com/2022/10/09/casbin-apisix-31182
