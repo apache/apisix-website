@@ -230,7 +230,7 @@ curl -i 'http://127.0.0.1:9080/topics' \
 -H 'Source: client' \
 -H "Client-Certificate: $CERT_CONTENT_BASE64"
 
-# create consumer 
+# create consumer
 curl -X POST 'http://localhost:9080/consumers/strimzi-kafka-consumer-group' \
   -H 'Host: example.com' \
   -H 'Content-Type: application/vnd.kafka.json.v2+json' \
