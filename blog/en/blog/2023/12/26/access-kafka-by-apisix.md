@@ -10,7 +10,6 @@ keywords:
   - Gateway
   - Strimzi
 description: A few days ago, I tried to add a proxy to the kafka cluster, so I can leverage the proxy to manage the kafka authentication and authorization. Next, I will show how to use the APISIX to develop a customize authorization plugin for the kafka cluster.
-
 tags: [Ecosystem]
 ---
 
