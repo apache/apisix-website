@@ -3,7 +3,7 @@ title: "Biweekly Report (December 18 - December 31)"
 keywords: ["Apache APISIX", "API Gateway", "Weekly Report", "Contributor"]
 description: Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: https://static.apiseven.com/uploads/2023/12/20/XSUtxSaY_EN.png
+image: https://static.apiseven.com/uploads/2024/01/03/7NwLI3ky_ENG.png
 ---
 
 > We have recently made some additions and improvements to specific features within Apache APISIX. The updates include adding `jwe decrypt` and `brotli` plugins, adding more attributes to `openid-connect` plugin, allowing `CORS` plugin to support Timing-Allow-Origin, and using lua-resty-events as the default event mechanism. For additional information, please consult the bi-weekly report.
@@ -22,10 +22,6 @@ We have recently added and enhanced several plugins, and here is a summary of th
 
 3. Add support for the Timing-Allow-Origin header in `CORS` plugin
 
-4. Add `brotli` plugin
-
-5. Use lua-resty-events as the default event mechanism
-
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
 ## Contributor Statistics
@@ -41,10 +37,6 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 - [Add more attributes to `openid-connect` plugin](https://github.com/apache/apisix/pull/10591) (Contributor: [kayx23](https://github.com/kayx23))
 
 - [Add support for the Timing-Allow-Origin header in `CORS` plugin](https://github.com/apache/apisix/pull/9365) (Contributor: [skimdz86](https://github.com/skimdz86))
-
-- [Add `brotli` plugin](https://github.com/apache/apisix/pull/10515) (Contributor: [yuweizzz](https://github.com/yuweizzz))
-
-- [Add new lua-resty-events as the default event mechanism](https://github.com/apache/apisix/pull/10550) (Contributor: [bzp2010](https://github.com/bzp2010))
 
 ## Recent Blog Recommendations
 
