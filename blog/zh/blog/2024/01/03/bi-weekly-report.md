@@ -1,63 +1,62 @@
 ---
-title: "Biweekly Report (December 18 - December 31)"
-keywords: ["Apache APISIX", "API Gateway", "Weekly Report", "Contributor"]
-description: Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+title: "社区双周报 (12.04 - 12.17)"
+keywords: ["Apache APISIX", "API 网关", "社区周报", "贡献者"]
+description: Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: https://static.apiseven.com/uploads/2023/12/20/XSUtxSaY_EN.png
+image: https://static.apiseven.com/uploads/2023/12/20/hTVExnq0_ZH.png
 ---
-
-> We have recently made some additions and improvements to specific features within Apache APISIX. The updates include adding `jwe decrypt` and `brotli` plugins, adding more attributes to `openid-connect` plugin, allowing `CORS` plugin to support Timing-Allow-Origin, and using lua-resty-events as the default event mechanism. For additional information, please consult the bi-weekly report.
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 `multi-auth` 和 `brotli` 插件、`openid-connect` 插件新增更多属性、`CORS` 插件支持 Timing-Allow-Origin 响应头、使用新的 lua-resty-events 作为默认事件机制。详情请阅读本期双周报。
 <!--truncate-->
-## Introduction
+## 导语
 
-From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.
+Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-From 12.04 to 12.17, a total of 21 contributors made 46 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+从 2023.12.04 至 2023.12.17，有 21 名开发者提交了 46 个 commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
-We have recently added and enhanced several plugins, and here is a summary of the updates:
+最近，我们对一些功能进行了新增和改进，更新内容总结如下：
 
-1. Add `jwe decrypt` plugin
+1. 新增 `jwe decrypt` 插件
 
-2. Add more attributes to `openid-connect` plugin
+2. `openid-connect` 插件新增更多属性
 
-3. Add support for the Timing-Allow-Origin header in `CORS` plugin
+3. `CORS` 插件支持 Timing-Allow-Origin 响应头
 
-4. Add `brotli` plugin
+4. 新增 `brotli` 插件
 
-5. Use lua-resty-events as the default event mechanism
+5. 使用新的 lua-resty-events 作为默认事件机制
 
-Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 
-## Contributor Statistics
+## 贡献者统计
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/12/20/qNS4Ydta_CON.png)
+![贡献者名单](https://static.apiseven.com/uploads/2023/12/20/qNS4Ydta_CON.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/12/20/GycOBJie_NEW.png)
+![新晋贡献者](https://static.apiseven.com/uploads/2023/12/20/GycOBJie_NEW.png)
 
-## Highlight of Recent Feature
+## 近期亮点功能
 
-- [Add `jwe decrypt` plugin](https://github.com/apache/apisix/pull/10252) (Contributor: [fishioon](https://github.com/fishioon))
+- [新增 `jwe decrypt` 插件](https://github.com/apache/apisix/pull/10252)（贡献者：[fishioon](https://github.com/fishioon))
 
-- [Add more attributes to `openid-connect` plugin](https://github.com/apache/apisix/pull/10591) (Contributor: [kayx23](https://github.com/kayx23))
+- [`openid-connect` 插件新增更多属性](https://github.com/apache/apisix/pull/10591)（贡献者：[kayx23](https://github.com/kayx23))
 
-- [Add support for the Timing-Allow-Origin header in `CORS` plugin](https://github.com/apache/apisix/pull/9365) (Contributor: [skimdz86](https://github.com/skimdz86))
+- [`CORS` 插件支持 Timing-Allow-Origin 响应头](https://github.com/apache/apisix/pull/9365)（贡献者：[skimdz86](https://github.com/skimdz86))
 
-- [Add `brotli` plugin](https://github.com/apache/apisix/pull/10515) (Contributor: [yuweizzz](https://github.com/yuweizzz))
+- [新增 `brotli` 插件](https://github.com/apache/apisix/pull/10515)（贡献者：[yuweizzz](https://github.com/yuweizzz))
 
-- [Add new lua-resty-events as the default event mechanism](https://github.com/apache/apisix/pull/10550) (Contributor: [bzp2010](https://github.com/bzp2010))
+- [使用新的 lua-resty-events 作为默认事件机制](https://github.com/apache/apisix/pull/10550)（贡献者：[bzp2010](https://github.com/bzp2010))
 
-## Recent Blog Recommendations
+## 最新博客速览
 
-- [Apache APISIX plugin priority, a leaky abstraction?](https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/)
+- [政采云 APISIX 优化跨网 RPC 性能实践](https://apisix.apache.org/zh/blog/2023/12/08/zhengcaiyun-uses-apisix/)
 
-  Apache APISIX builds upon the OpenResty reverse-proxy to offer a plugin-based architecture. The main benefit of such an architecture is that it brings structure to the configuration of routes. It's a help at scale, when managing hundreds or thousands of routes.
+  为解决数据跨网问题，政采云搭建了一条基于 Dubbo 的“高速公路”，同时采用了 APISIX 作为中心网关，为网络路由、公共特性提供支持。本文将重点介绍政采云“高速公路”工程建设中如何优化网关和协议的性能以应对挑战。
 
-- [How to Supercharge Large-Scale Video Operations with APISIX](https://apisix.apache.org/blog/2023/12/14/migu-video-adopts-apisix/)
+- [API 网关 APISIX 在 DataVisor 的应用与实践](https://apisix.apache.org/zh/blog/2023/12/01/datavisor-uses-apisix/)
 
-  Author: Yu Xia, Senior DevOps Engineer at Migu Video Construction and Operation Center. This article is based on a presentation given by Yu Xia at the APISIX Shanghai Meetup in November 2023.
+  作者：赵晓彪，DataVisor 高级架构师，Apache Kvrocks Committer，OpenResty 及 Apache APISIX Contributor。本文整理自 2023 年 11 月赵晓彪在 APISIX 上海 Meetup 的演讲。
 
-- [Canary releases with Apache APISIX](https://apisix.apache.org/blog/2023/12/07/canary-releases-apisix/)
+- [分布式网关 APISIX 在大规模视频类业务中的落地实践](https://apisix.apache.org/zh/blog/2023/11/30/migu-video-utilizes-apisix/)
 
-  In a few words, the idea of canary releases is to deliver a new software version to only a fraction of the users, analyze the results, and decide whether to proceed further or not. If results are not aligned with expectations, roll back; if they are, increase the number of users exposed until all users benefit from the new version.
+  作者：夏煜，咪咕视讯建设运行中心-高级应用运维工程师。本文整理自 2023 年 11 月夏煜在 APISIX 上海 Meetup 的演讲。
 
-A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
+Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
