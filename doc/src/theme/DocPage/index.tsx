@@ -109,18 +109,8 @@ const DocPageContent = ({
   );
 
   useEffect(() => {
-    const childrenCount = document.querySelector('.navbar__items--right').childElementCount;
-    const el = document.querySelector('.navbar__items--right').childNodes[
-      childrenCount - 2
-    ] as HTMLDivElement;
-    el.style.display = window.innerWidth > 745 ? 'block' : 'none';
-
     const navbarLink = document.querySelectorAll('.navbar__link')[0] as HTMLAnchorElement;
     navbarLink.innerText = navbarLinkMap[currentPage];
-
-    return () => {
-      el.style.display = 'none';
-    };
   }, []);
 
   const toggleSidebar = useCallback(() => {
