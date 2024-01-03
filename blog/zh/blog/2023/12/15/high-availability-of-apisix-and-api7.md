@@ -153,7 +153,7 @@ API 流量网关所处的位置通常涵盖三个安全产品线：DDoS 流量�
 
 为了满足国家信创要求，并兼顾商业公司成本和风险，API7 企业版最终还是选择了关系型数据库作为配置存储。同时为了保持与开源方案的兼容性，API7 企业版数据面仍然使用 etcd 通信协议，它通过引入一个新的服务，将数据库中的配置翻译成 etcd 通信协议，从而完成配置分发。
 
-![APISIX vs API7](https://static.apiseven.com/uploads/2024/01/02/jFJsMryW_APISIX%20vs%20API7.png)
+![APISIX vs API7](https://static.apiseven.com/uploads/2024/01/03/vRe5zylN_20240103-091409.jpeg)
 
 ## 总结
 
