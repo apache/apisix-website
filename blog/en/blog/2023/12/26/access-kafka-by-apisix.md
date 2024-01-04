@@ -21,7 +21,7 @@ tags: [Ecosystem]
 
 - Have a running OpenShift cluster
 - Run a Kafka cluster with [strimzi kafka operator](https://github.com/strimzi/strimzi-kafka-operator)
-- kubectl, [oc](https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html) and curl
+- Install [kubectl](https://kubernetes.io/docs/reference/kubectl), [OpenShift CLI](https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html) and curl on host
 
 ## Expose the Kafka Cluster by KafkaBridge
 
