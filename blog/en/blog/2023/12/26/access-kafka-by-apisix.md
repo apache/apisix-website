@@ -19,7 +19,7 @@ tags: [Ecosystem]
 
 ## Prerequisites
 
-- Openshift cluster
+- Have a running OpenShift cluster
 - Kafka cluster created by [strimzi kafka operator](https://github.com/strimzi/strimzi-kafka-operator)
 - kubectl, [oc](https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html) and curl
 
