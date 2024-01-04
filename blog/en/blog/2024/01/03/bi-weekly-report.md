@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/01/03/7NwLI3ky_ENG.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The updates include the `limit-count` plugin configuration supporting environment variables, the `response-rewrite` plugin supporting gzip when using the filters.regex option, and adding support for OpenSSL 3. For additional information, please consult the bi-weekly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The updates include the `limit-count` plugin configuration supporting environment variables, the `response-rewrite` plugin supporting gzip when using the filters.regex option, and upgrading OpenSSL 1.1.1 to OpenSSL 3.0 version. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 ## Introduction
 
@@ -20,7 +20,7 @@ We have recently added and enhanced several plugins, and here is a summary of th
 
 2. The `response-rewrite` plugin supports gzip when using the filters.regex option
 
-3. Add support for OpenSSL 3
+3. Upgrade OpenSSL 1.1.1 to OpenSSL 3.0 version
 
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
@@ -36,7 +36,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 - [The `response-rewrite` plugin supports gzip when using the filters.regex option](https://github.com/apache/apisix/pull/10637) (Contributor: [yuweizzz](https://github.com/yuweizzz))
 
-- [Add support for OpenSSL 3](https://github.com/apache/apisix/pull/10724) (Contributor: [AlinsRan](https://github.com/AlinsRan))
+- [Upgrade OpenSSL 1.1.1 to OpenSSL 3.0 version](https://github.com/apache/apisix/pull/10724) (Contributor: [AlinsRan](https://github.com/AlinsRan))
 
 ## Recent Blog Recommendations
 
