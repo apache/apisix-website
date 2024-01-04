@@ -5,7 +5,7 @@ description: Apache APISIX 社区的双周报旨在帮助社区成员更全面�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/01/03/pvWf13vV_CHN.png
 ---
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，如 `limit-count` 插件配置支持环境变量、`response-rewrite` 插件在使用 filters.regex 选项时支持 gzip、支持 OpenSSL 3。详情请阅读本期双周报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，如 `limit-count` 插件配置支持环境变量、`response-rewrite` 插件在使用 filters.regex 选项时支持 gzip、升级 OpenSSL 1.1.1 至 OpenSSL 3.0 版本。详情请阅读本期双周报。
 <!--truncate-->
 ## 导语
 
@@ -19,7 +19,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 2. `response-rewrite` 插件在使用 filters.regex 选项时支持 gzip
 
-3. 支持 OpenSSL 3
+3. 升级 OpenSSL 1.1.1 至 OpenSSL 3.0 版本
 
 Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 
