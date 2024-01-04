@@ -35,7 +35,7 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面地了解社区
 
 - [`response-rewrite` 插件在使用 filters.regex 选项时支持 gzip](https://github.com/apache/apisix/pull/10637)（贡献者：[yuweizzz](https://github.com/yuweizzz))
 
-- [支持 OpenSSL 3](https://github.com/apache/apisix/pull/10724)（贡献者：[AlinsRan](https://github.com/AlinsRan))
+- [升级 OpenSSL 1.1.1 至 OpenSSL 3.0 版本](https://github.com/apache/apisix/pull/10724)（贡献者：[AlinsRan](https://github.com/AlinsRan))
 
 ## 最新博客速览
 
