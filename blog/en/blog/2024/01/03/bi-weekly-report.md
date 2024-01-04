@@ -6,40 +6,44 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/01/03/7NwLI3ky_ENG.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The updates include adding `jwe decrypt` and `brotli` plugins, adding more attributes to `openid-connect` plugin, allowing `CORS` plugin to support Timing-Allow-Origin, and using lua-resty-events as the default event mechanism. For additional information, please consult the bi-weekly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The updates include the `limit-count` plugin configuration supporting environment variables, the `response-rewrite` plugin supporting gzip when using the filters.regex option, and adding support for OpenSSL 3. For additional information, please consult the bi-weekly report.
 <!--truncate-->
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.
 
-From 12.04 to 12.17, a total of 21 contributors made 46 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From 12.18 to 12.31, a total of 18 contributors made 32 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 We have recently added and enhanced several plugins, and here is a summary of the updates:
 
-1. Add `jwe decrypt` plugin
+1. The `limit-count` plugin configuration supports environment variables
 
-2. Add more attributes to `openid-connect` plugin
+2. The `response-rewrite` plugin supports gzip when using the filters.regex option
 
-3. Add support for the Timing-Allow-Origin header in `CORS` plugin
+3. Add support for OpenSSL 3
 
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2023/12/20/qNS4Ydta_CON.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/01/03/CPoS8MJV_Con.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2023/12/20/GycOBJie_NEW.png)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/01/03/Cs8W4P1U_New.png)
 
 ## Highlight of Recent Feature
 
-- [Add `jwe decrypt` plugin](https://github.com/apache/apisix/pull/10252) (Contributor: [fishioon](https://github.com/fishioon))
+- [The `limit-count` plugin configuration supports environment variables](https://github.com/apache/apisix/pull/10607) (Contributor: [ikatlinsky](https://github.com/ikatlinsky))
 
-- [Add more attributes to `openid-connect` plugin](https://github.com/apache/apisix/pull/10591) (Contributor: [kayx23](https://github.com/kayx23))
+- [The `response-rewrite` plugin supports gzip when using the filters.regex option](https://github.com/apache/apisix/pull/10637) (Contributor: [yuweizzz](https://github.com/yuweizzz))
 
-- [Add support for the Timing-Allow-Origin header in `CORS` plugin](https://github.com/apache/apisix/pull/9365) (Contributor: [skimdz86](https://github.com/skimdz86))
+- [Add support for OpenSSL 3](https://github.com/apache/apisix/pull/10724) (Contributor: [AlinsRan](https://github.com/AlinsRan))
 
 ## Recent Blog Recommendations
 
+- [Enhancing Security and Performance: DataVisor's Dynamic Use of APISIX](https://apisix.apache.org/blog/2023/12/19/datavisor-uses-apisix/)
+
+  Author: Xiaobiao Zhao, DataVisor Senior Architect, Apache Kvrocks Committer, OpenResty and Apache APISIX Contributor. This article is based on a presentation given by Xiaobiao Zhao at the APISIX Shanghai Meetup in November 2023.
+  
 - [Apache APISIX plugin priority, a leaky abstraction?](https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/)
 
   Apache APISIX builds upon the OpenResty reverse-proxy to offer a plugin-based architecture. The main benefit of such an architecture is that it brings structure to the configuration of routes. It's a help at scale, when managing hundreds or thousands of routes.
@@ -47,9 +51,5 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 - [How to Supercharge Large-Scale Video Operations with APISIX](https://apisix.apache.org/blog/2023/12/14/migu-video-adopts-apisix/)
 
   Author: Yu Xia, Senior DevOps Engineer at Migu Video Construction and Operation Center. This article is based on a presentation given by Yu Xia at the APISIX Shanghai Meetup in November 2023.
-
-- [Canary releases with Apache APISIX](https://apisix.apache.org/blog/2023/12/07/canary-releases-apisix/)
-
-  In a few words, the idea of canary releases is to deliver a new software version to only a fraction of the users, analyze the results, and decide whether to proceed further or not. If results are not aligned with expectations, roll back; if they are, increase the number of users exposed until all users benefit from the new version.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.
