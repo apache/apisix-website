@@ -12,6 +12,7 @@ keywords:
 description: Let's learn the importance of API gateway in the microservices architecture, and compare common API gateways.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/02/16/CHqaC3Xw_Ecosystem%20%E6%A8%A1%E6%9D%BF1.png
+canonical_url: "https://api7.ai/blog/why-do-microservices-need-an-api-gateway"
 ---
 
 >The microservices architecture has been widely adopted by many companies. As the data and API quantity of microservices increases, it is crucial to choose an excellent API gateway for high-traffic governance: APISIX.

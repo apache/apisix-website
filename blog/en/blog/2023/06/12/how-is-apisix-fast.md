@@ -13,6 +13,7 @@ keywords:
 description: Taking a look under Apache APISIX's hood to understand how it achieves ultimate performance.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/08/3LuvBVWL_apisix-fast-cover.png
+canonical_url: "https://api7.ai/blog/how-is-apisix-fast"
 ---
 
 >In this article, we will look under the hood of APISIX and see what these are and how all of these work together to keep APISIX maintaining peak performance while handling significant traffic.
