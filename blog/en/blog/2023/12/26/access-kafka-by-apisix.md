@@ -11,6 +11,7 @@ keywords:
   - Strimzi
 description: A few days ago, I added Apache APISIX as a proxy to an Apache Kafka cluster to manage authentication and authorization. Now, I created a custom authorization plugin in Go for the Kafka cluster.
 tags: [Ecosystem]
+image: https://static.apiseven.com/uploads/2023/12/29/oJyQz1c4_A&K_Cover.png
 ---
 
 > This blog shows how to use Apache APISIX to develop a customize authorization plugin for the kafka cluster.
