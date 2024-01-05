@@ -12,6 +12,7 @@ keywords:
 description: Chaos engineering is a powerful tool for ensuring system reliability and performance, and its application in designing Chaos experiments for Ingress Controllers can help organizations identify weaknesses in their applications and infrastructure.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/04/20/yeuKN9nu_Building%20a%20More%20Robust%20Apache%20APISIX%20Ingress%20Controller%20With%20Litmus%20Chaos.png
+canonical_url: "https://api7.ai/blog/apache-apisix-chaos-engineering"
 ---
 
 >Chaos engineering is a powerful tool for ensuring system reliability and performance, and its application in designing Chaos experiments for Ingress Controllers can help organizations identify weaknesses in their applications and infrastructure.
