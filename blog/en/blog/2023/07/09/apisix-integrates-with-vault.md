@@ -12,6 +12,7 @@ keywords:
 description: APISIX can integrate Vault to realize SSL certificate management, allowing for secure storage and management of SSL certificates.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/07/isIAWmKT_How%20to%20Use%20Vault%20to%20Manage%20Certificates%20in%20APISIX.png
+canonical_url: "https://api7.ai/blog/apisix-integrates-with-vault"
 ---
 
 >This article takes configuring HTTPS communication between the downstream client and APISIX as an example to introduce how APISIX integrates Vault to implement SSL certificate management.
