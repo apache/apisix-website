@@ -158,7 +158,7 @@ module.exports = {
       'data-project-logo':
         'https://user-images.githubusercontent.com/52855735/62005987-53faae80-b16d-11e9-96cc-9dba3470f5b2.png',
       'data-modal-disclaimer': 'This is a custom LLM for APISIX with access to all developer documentation, GitHub issues and discussions.',
-      'data-modal-example-questions': 'Does APISIX have a UI?,How do I use REGEX for uri routes?',
+      'data-modal-example-questions': 'What is the APISIX?,How to contribute?',
       async: true,
     },
   ],
