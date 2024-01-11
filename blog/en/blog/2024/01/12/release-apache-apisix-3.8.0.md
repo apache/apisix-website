@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: The Apache APISIX 3.8.0 version is released on January 10, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences.
+description: The Apache APISIX 3.8.0 version is released on January 12, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences.
 tags: [Community]
 ---
 
@@ -23,7 +23,7 @@ We are glad to present Apache APISIX 3.8.0 with exciting new features, bug fixes
 
 <!--truncate-->
 
-This new release adds a number of new features, including the support for JWE decryption, brotil compression, multiple authentication methods on routes and services, required scopes in `openid-connect` plugin, and more.
+This new release adds a number of new features, including the support for JWE decryption, brotli compression, multiple authentication methods on routes and services, required scopes in `openid-connect` plugin, and more.
 
 ## New Features
 
@@ -107,7 +107,7 @@ For more information, see [PR #10482](https://github.com/apache/apisix/pull/1048
 
 ### Support the use of `filters.regex` with compressed data in `response-rewrite` plugin
 
-Support the use of `filters.regex` with brotil and gzip compressed data in `response-rewrite` plugin.
+Support the use of `filters.regex` with brotli and gzip compressed data in `response-rewrite` plugin.
 
 For more information, see [PR #10588](https://github.com/apache/apisix/pull/10588) and [PR #10637](https://github.com/apache/apisix/pull/10637).
 
@@ -123,11 +123,11 @@ New attributes `timing_allow_origins` and `timing_allow_origins_by_regex` are av
 
 For more information, see [PR #9365](https://github.com/apache/apisix/pull/9365).
 
-### Support brotil compression algorithm
+### Support brotli compression algorithm
 
-Support brotil compression algorithm in the new `brotil` plugin, which dynamically sets the behavior of [brotli in NGINX](https://github.com/google/ngx_brotli). Before using the plugin, you should first build and install brotli shared libraries.
+Support brotli compression algorithm in the new `brotli` plugin, which dynamically sets the behavior of [brotli in NGINX](https://github.com/google/ngx_brotli). Before using the plugin, you should first build and install brotli shared libraries.
 
-For more information, see [PR #10515](https://github.com/apache/apisix/pull/10515) and [plugin documentation](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/brotil.md).
+For more information, see [PR #10515](https://github.com/apache/apisix/pull/10515) and [plugin documentation](https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/brotli.md).
 
 ### Expand capability of parameter parsing in `body-transformer` plugin
 
