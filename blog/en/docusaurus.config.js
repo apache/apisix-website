@@ -108,7 +108,7 @@ module.exports = {
   scripts: [
     {
       src: 'https://widget.kapa.ai/kapa-widget.bundle.js',
-      'data-website-id': '23b59d9a-682e-4c3d-9e83-bf2ee85cdc19',
+      'data-website-id': '24b59d9a-682e-4c3d-9e83-bf2ee85cdc19',
       'data-project-name': 'APISIX',
       'data-project-color': '#E8442E',
       'data-project-logo':
