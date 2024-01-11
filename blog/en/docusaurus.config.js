@@ -105,6 +105,18 @@ module.exports = {
       trackingID: 'GTM-K24PRPS',
     },
   },
+  scripts: [
+    {
+      src: 'https://widget.kapa.ai/kapa-widget.bundle.js',
+      'data-website-id': '23b59d9a-682e-4c3d-9e83-bf2ee85cdc19',
+      'data-project-name': 'APISIX',
+      'data-project-color': '#E8442E',
+      'data-project-logo':
+        'https://user-images.githubusercontent.com/52855735/62005987-53faae80-b16d-11e9-96cc-9dba3470f5b2.png',
+      'data-modal-disclaimer': 'This is a custom LLM for APISIX with access to all developer documentation, GitHub issues and discussions.',
+      'data-modal-example-questions': 'Why we need APISIX?,How to deploy APISIX?,How to manage API Observability in APISIX?,How to proxy GraphQL requests?',
+    },
+  ],
   stylesheets: [],
   /**
    * We need to check if we build site for preview env,
