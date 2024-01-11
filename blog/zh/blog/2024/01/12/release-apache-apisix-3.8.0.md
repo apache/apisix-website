@@ -51,7 +51,7 @@ curl http://127.0.0.1:9180/apisix/admin/consumers -X PUT \
         "username": "consumer1",
         "password": "consumer1_pwd"
       }
-    }   
+    }
   }'
 ```
 
@@ -66,7 +66,7 @@ curl http://127.0.0.1:9180/apisix/admin/consumers -X PUT \
       "key-auth": {
         "key": "consumer2_s3cr3t"
       }
-    }   
+    }
   }'
 ```
 
