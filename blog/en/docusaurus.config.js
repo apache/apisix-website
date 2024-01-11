@@ -115,6 +115,7 @@ module.exports = {
         'https://user-images.githubusercontent.com/52855735/62005987-53faae80-b16d-11e9-96cc-9dba3470f5b2.png',
       'data-modal-disclaimer': 'This is a custom LLM for APISIX with access to all developer documentation, GitHub issues and discussions.',
       'data-modal-example-questions': 'Why we need APISIX?,How to deploy APISIX?,How to manage API Observability in APISIX?,How to proxy GraphQL requests?',
+      async: true,
     },
   ],
   stylesheets: [],
