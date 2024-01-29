@@ -57,13 +57,14 @@ The star-shaped architecture of the "Highway" is the outcome of this integration
 After the successful trial of new business in the first half of 2023 under the "Highway" project, we initiated the gradual migration of historical cross-network solutions in the latter half of the year. Monitoring revealed increased pressure from the growing traffic, evidenced by:
 
 * **Frequent alerts from the heartbeat application:** To ensure the stability of the highway, we deployed a universal heartbeat application on each segment, responsible for network interconnectivity. This application triggers alerts if any issues arise. For instance, if requests slow down within a specific timeframe, exceeding 1 second per request, we promptly receive alerts. Monitoring indicated a frequent occurrence of alerts from the heartbeat application.
+
 * **Declines in monitoring metrics such as response time (RT) and throughput:** We also employed the Prometheus-formatted BRAF interface for monitoring. On this interface, certain response volume and throughput curves exhibited a noticeable downward trend.
 
 The pressure in these two aspects gradually manifested as we transitioned historical solutions into the "Highway" project, coupled with the increasing traffic volume.
 
-In order to ensure the stability of our business operations and enhance the overall user experience, we have implemented a range of optimization strategies. Broadly speaking, our efforts have centered around three key approaches:
+To ensure the stability of our business operations and enhance the overall user experience, we have implemented a range of optimization strategies. Broadly speaking, our efforts have centered around three key approaches:
 
-![Optimization_solutions](https://static.apiseven.com/uploads/2023/12/26/Bs0op31X_3.jpg)
+![Optimization_solutions](https://static.apiseven.com/uploads/2024/01/29/xThKSktL_3_1.jpg)
 
 * **Resource Optimization:** This step involves the relatively straightforward reallocation of resources. We have taken specific measures, such as isolating resources for single points like the central gateway and Dubbo gateway, aiming to minimize the impact of potential failures on the overall system. Additionally, actions like directly increasing the number of pods and upgrading CPUs have proven effective in alleviating pressure. While these measures ensure ample resource reserves to meet high-load demands, it is important to note that this approach does not address fundamental architectural shortcomings. If certain resources cannot be horizontally scaled due to such limitations, issues may persist under specific conditions and might not be promptly resolved.
   
@@ -101,13 +102,13 @@ Within the comprehensive architecture, three gateways are employed, consisting o
 
 ## Performance Analysis of Cross-Network RPC
 
-![RPC_analysis](https://static.apiseven.com/uploads/2023/12/26/FbQajZjB_5.jpg)
+![RPC_analysis](https://static.apiseven.com/uploads/2024/01/29/vW9R6PGC_5_1.jpg)
 
 * **Client:** The client is already equipped with Dubbo's SDK, which encompasses proxy generation, method invocation, parameter serialization, and initiating network requests. Altering this component is currently challenging due to our adoption of a unified Dubbo, ensuring the stability of the SDK's behavior remains unchanged.
 
 * **Local Network:** Transitioning traffic within the local cluster involves Dubbo's transport mechanism. This entails considerations like I/O models, the Dubbo protocol, and data formats (e.g., parameters). Dubbo utilizes a Netty-based asynchronous non-blocking I/O model, perfectly aligning with its performance requirements. The Dubbo protocol adopts a straightforward and adaptable structure for data packets, efficiently encoding and decoding data in binary format based on specific needs.
 
-* **Dubbo Gateway:** In this process, the Dubbo gateway acts as a traffic-forwarding entity, without the responsibility of handling business logic. It brings forth considerations related to the I/O model of message reception: choosing between blocking or asynchronous message reception. Additionally, it involves packet parsing, incurring some costs as Dubbo data undergoes transformation into HTTP data, including serialization and deserialization. There are also custom extensions based on the local cluster, incorporating common features like rate limiting and authentication.
+* **Dubbo Gateway:** In this process, the Dubbo gateway acts as a traffic-forwarding entity, without the responsibility of handling business logic. It brings forth considerations related to the I/O model of message reception: choosing between blocking or asynchronous message reception. Additionally, it involves packet parsing, incurring some costs as Dubbo data transforms HTTP data, including serialization and deserialization. There are also custom extensions based on the local cluster, incorporating common features like rate limiting and authentication.
 
 * **Public Gateway:** Post-gateway request processing, the flow is directed to APISIX's central gateway through HTTP, utilizing HttpClient for outward-bound journeys. As HttpClient is inherently blocking, it might exhibit slightly inadequate performance. The decision to build our gateway rather than adopting existing solutions was primarily driven by the urgency to implement quickly in the first version, with performance optimization deferred as subsequent work. Yet, a significant challenge arises in this approach due to the unique process of converting the Dubbo protocol to HTTP. Currently, no gateway supports this specific custom behavior. Consequently, we decided to tackle this challenge with a self-developed solution, utilizing a Netty-based Java application. When it comes to the public network, considerations include I/O models, HTTP protocols, and data formats, all of which led us to choose the high-performance APISIX.
 
@@ -174,6 +175,7 @@ Leveraging the Dubbo protocol as our tunneling protocol offers several key advan
 Undoubtedly, during the utilization of the Dubbo protocol, certain distinctive limitations come to the forefront:
 
 * **Limited Permeability:** An evident challenge with the Dubbo protocol lies in its limited permeability. Considering Dubbo as a proprietary protocol, our network may traverse several physical devices, including not only software-based gateways (APISIX/NGINX/WAF) but also certain physical devices. This could potentially pose some obstacles.
+
 * **Inability to Selectively Retrieve Key Information:** Unlike the HTTP protocol, which can selectively extract Header information into the gateway's memory and efficiently forward the Body using a zero-copy approach, the Dubbo protocol falls short in this aspect.
 
 Throughout this practical experimentation, although we employed Dubbo, it essentially served as an exploratory endeavor. Our ability to harness it is contingent upon our internal infrastructure. Despite the seamless network within the internal cluster, the adoption of containerization through K8s has introduced distinct namespaces. Consequently, calls between these namespaces might only be feasible via domain names.
@@ -220,7 +222,7 @@ Following the extension of APISIX's protocol, we opted for APISIX to replace our
 
 The Triple protocol, designed by Dubbo3, is an RPC communication protocol based on HTTP. It fully embraces the gRPC protocol, supporting various communication models such as Request-Response and Streaming, and is compatible with both HTTP/1 and HTTP/2. Several features of the Triple protocol address our project's specific needs.
 
-* Full compatibility with the HTTP/2-based gRPC protocol: Despite the Triple protocol sounding like a proprietary solution, it's actually a standardized, public protocol compatible with both HTTP/1 and HTTP/2. This signifies robust penetrability, effectively resolving one of our pain points—scenario support.
+* Full compatibility with the HTTP/2-based gRPC protocol: Despite the Triple protocol sounding like a proprietary solution, it's a standardized, public protocol compatible with both HTTP/1 and HTTP/2. This signifies robust penetrability, effectively resolving one of our pain points—scenario support.
 
 * Compatibility with HTTP/1 and HTTP/2, exhibiting robust penetrability.
 
@@ -248,6 +250,6 @@ Our architecture has undergone comprehensive stress testing, providing us with a
 
 ### Charting the Course for the Future High-Speed Highway Architecture
 
-![Highway_future](https://static.apiseven.com/uploads/2023/12/26/r0AMeygL_9.jpg)
+![Highway_future](https://static.apiseven.com/uploads/2024/01/29/YYqx5vTw_9_1.jpg)
 
 Looking at the architecture's evolution, there is a potential shift on the horizon: the former Java-based Dubbo gateway has now evolved into APISIX. We have initiated the adoption of this model in our testing environment and ongoing research. However, this transition has not been implemented in the production environment as of now. Our strategy involves upgrading the entire cluster post the complete implementation of Triple.
