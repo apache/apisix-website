@@ -16,7 +16,7 @@ From 01.15 to 01.28, a total of 19 contributors made 38 commits to Apache APISIX
 
 We have recently added and enhanced several plugins, and here is a summary of the update:
 
-- Adding the `ocsp-stapling` plugin
+- Add the `ocsp-stapling` plugin
 
 Our bi-weekly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 
@@ -28,7 +28,7 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
 ## Highlight of Recent Feature
 
-- [Adding the `ocsp-stapling` plugin](https://github.com/apache/apisix/pull/10817) (Contributor: [yuweizzz](https://github.com/yuweizzz))
+- [Add the `ocsp-stapling` plugin](https://github.com/apache/apisix/pull/10817) (Contributor: [yuweizzz](https://github.com/yuweizzz))
 
 ## Recent Blog Recommendations
 
