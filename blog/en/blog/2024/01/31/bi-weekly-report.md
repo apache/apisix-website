@@ -14,7 +14,7 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From 01.15 to 01.28, a total of 19 contributors made 38 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-We have recently added and enhanced several plugins, and here is a summary of the update:
+We have recently added a plugin:
 
 - Add the `ocsp-stapling` plugin
 
