@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/01/30/CeII2ZiX_20240130_EG_Cover.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The update is adding the `ocsp-stapling` plugin. For additional information, please consult the bi-weekly report.
+> We have recently added the `ocsp-stapling` plugin within Apache APISIX. Please read the bi-weekly report for more details.
 <!--truncate-->
 ## Introduction
 
