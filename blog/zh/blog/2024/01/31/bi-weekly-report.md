@@ -5,7 +5,7 @@ description: Apache APISIX 社区的双周报旨在帮助社区成员更全面�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/01/30/Nr5Ybd2a_20240130_ZH_Cover.png
 ---
-> 最近，我们新增了 Apache APISIX 的部分功能，如 `ocsp-stapling` 插件。详情请阅读本期双周报。
+> 最近，Apache APISIX 新增了 `ocsp-stapling` 插件，详情请阅读本期双周报。
 <!--truncate-->
 ## 导语
 
