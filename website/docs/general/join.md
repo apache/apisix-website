@@ -27,6 +27,16 @@ You can subscribe to the Apache APISIX mailing list to discuss issues, suggest n
 
 5. To view archived emails from the mailing list, check out the [history](https://lists.apache.org/list.html?apisix.apache.org).
 
+## Unsubscribe from the Mailing List
+
+You can unsubscribe from the Apache APISIX mailing list when you do not want to receive notifications.
+
+1. Send an email to dev-unsubscribe@apisix.apache.org, then you will receive a confirmation email from dev-help@apisix.apache.org. 
+
+2. Reply to dev-help@apisix.apache.org to confirm you unsubscription.
+
+Once successfully unsubscribed, you will receive a Goodbye email from dev-help@apisix.apache.org.
+
 ## Join the Slack Channel
 
 You can join the Apache APISIX Slack channel in two ways:
