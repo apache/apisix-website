@@ -31,7 +31,7 @@ You can subscribe to the Apache APISIX mailing list to discuss issues, suggest n
 
 You can unsubscribe from the Apache APISIX mailing list when you do not want to receive notifications.
 
-1. Send an email to dev-unsubscribe@apisix.apache.org, then you will receive a confirmation email from dev-help@apisix.apache.org. 
+1. Send an email to dev-unsubscribe@apisix.apache.org, then you will receive a confirmation email from dev-help@apisix.apache.org.
 
 2. Reply to dev-help@apisix.apache.org to confirm you unsubscription.
 
