@@ -22,9 +22,9 @@ image: https://static.apiseven.com/uploads/2024/02/07/9QAMhtmJ_deepflow-cover.jp
 
 ## 1. 安装 APISIX 和 DeepFlow
 
-基于 DeepFlow 建构 APISIX 的统一可观测性能力，需要先将 DeepFlow 及 APISIX 都部署起来。本文为了方便，将 DeepFlow 和 APISIX 都以 K8s 服务的形式部署在一个 All-in-One 的 K8s 集群中，整个部署过程大概 5 分钟左右完成。详细的部署过程，参考 DeepFlow 官方部署文档[1]及 APISIX 官方部署文档[2]。
+基于 DeepFlow 建构 APISIX 的统一可观测性能力，需要先将 DeepFlow 及 APISIX 都部署起来。本文为了方便，将 DeepFlow 和 APISIX 都以 K8s 服务的形式部署在一个 All-in-One 的 K8s 集群中，整个部署过程大概 5 分钟左右完成。详细的部署过程，参考 [DeepFlow 官方部署文档](https://apisix.apache.org/docs/apisix/3.2/installation-guide/)及 [APISIX 官方部署文档](https://deepflow.io/docs/zh/ce-install/all-in-one/)。
 
-注意：为了发挥 DeepFlow 基于 eBPF 的可观测性能力，请确保服务器 Linux 操作系统内核在 4.14 之上。
+> 注意：为了发挥 DeepFlow 基于 eBPF 的可观测性能力，请确保服务器 Linux 操作系统内核在 4.14 之上。
 
 ## 2. 分布式追踪
 
@@ -47,13 +47,13 @@ DeepFlow 的分布式追踪（AutoTracing）能力是开箱即用的，无需 AP
 
 ### 2.2 方式二：DeepFlow eBPF + OpenTelemetry
 
-此方式为 APISIX 利用 OpenTelemetry 插件生成 Trace 数据，后端服务也具备 APM 能力并且可将生成的 Trace 数据转化为 OpenTelemetry 格式。当 APISIX 与后端服务都将 Trace 数据发送给 DeepFlow 时，DeepFlow 能够生成包含APM 应用 SPAN、eBPF 系统 SPAN、cBPF 网络 SPAN 的无盲点全栈调用链追踪火焰图。
+此方式为 APISIX 利用 OpenTelemetry 插件生成 Trace 数据，后端服务也具备 APM 能力并且可将生成的 Trace 数据转化为 OpenTelemetry 格式。当 APISIX 与后端服务都将 Trace 数据发送给 DeepFlow 时，DeepFlow 能够生成包含 APM `应用 SPAN`、eBPF `系统 SPAN`、cBPF `网络 SPAN` 的无盲点全栈调用链追踪火焰图。
 
 当我们希望得到应用进程内部函数粒度的分布式追踪链路，或者后端服务在处理一个调用时使用了线程池（会导致 DeepFlow AutoTracing 断链）时，可以采用这种方式。
 
 **2.2.1 部署具备 APM 能力的后端服务**
 
-为了展示完整的追踪效果，我们首先在 APISIX 网关后面部署了一个支持 OpenTelemetry 能力的 Demo 应用。Demo 应用的部署可参考：DeepFlow Demo - 一键部署基于 Spring Boot 编写的五个微服务组成的 WebShop 应用[3]。在 APISIX 上创建访问后端服务的路由，访问域名为 apisix.deepflow.demo。
+为了展示完整的追踪效果，我们首先在 APISIX 网关后面部署了一个支持 OpenTelemetry 能力的 Demo 应用。Demo 应用的部署可参考：[DeepFlow Demo - 一键部署基于 Spring Boot 编写的五个微服务组成的 WebShop 应用](https://deepflow.io/docs/zh/integration/input/tracing/opentelemetry/#%E5%9F%BA%E4%BA%8E-spring-boot-demo-%E4%BD%93%E9%AA%8C)。在 APISIX 上创建访问后端服务的路由，访问域名为 apisix.deepflow.demo。
 
 ```
 apiVersion: apisix.apache.org/v2
@@ -169,7 +169,7 @@ curl -H "Host: apisix.deepflow.demo" 10.1.23.200:44640/shop/full-test
 
 ### 3.1 开箱即用的 eBPF 性能指标
 
-在 APISIX 所在的服务器上部署 deepflow-agent 后，可自动采集应用及网络层面非常细粒度的指标量，例如精细到某个客户端、某个 Endpoint 的请求速率、响应时延、异常状态；某一次 TCP 建连时延，建连异常等等。详细的指标量可参考 DeepFlow 官网关于指标量的介绍。在 Grafana 中打开 DeepFlow 提供的 Applicaiton - xxx Ingress  Dashboard，可查看 APISIX 相关的应用层性能指标，在 Network xxx Dashboard 中可查看网络相关的指标。
+在 APISIX 所在的服务器上部署 deepflow-agent 后，可自动采集应用及网络层面非常细粒度的指标量，例如精细到某个客户端、某个 Endpoint 的请求速率、响应时延、异常状态；某一次 TCP 建连时延，建连异常等等。详细的指标量可参考 [DeepFlow 官网关于指标量的介绍](https://deepflow.io/docs/zh/features/universal-map/metrics-and-operators/)。在 Grafana 中打开 DeepFlow 提供的 Applicaiton - xxx Ingress  Dashboard，可查看 APISIX 相关的应用层性能指标，在 Network xxx Dashboard 中可查看网络相关的指标。
 
 ![Integrating APISIX with DeepFlow](https://static.apiseven.com/uploads/2024/02/07/lbVMAzAa_deepflow-6.jpeg)
 
@@ -291,7 +291,7 @@ spec:
 
 ### 3.5 Prometheus 集成效果展示
 
-由于 DeepFlow 支持 PromQL，只需要将 Grafana 中 APISIX 提供的 Grafana Dashboard 的数据源改为 DeepFlow，即可查看 APISIX 原生的丰富性能指标了，指标的使用说明参考官方文档中关于 Prometheus 插件的说明。
+由于 DeepFlow 支持 PromQL，只需要将 Grafana 中 APISIX 提供的 [Grafana Dashboard](https://github.com/apache/apisix/blob/master/docs/assets/other/json/apisix-grafana-dashboard.json) 的数据源改为 DeepFlow，即可查看 APISIX 原生的丰富性能指标了，指标的使用说明参考[官方文档中关于 Prometheus 插件的说明](https://apisix.apache.org/docs/apisix/plugins/prometheus/)。
 
 ![Integrating APISIX with DeepFlow](https://static.apiseven.com/uploads/2024/02/07/3S4sUpX2_deepflow-8.jpeg)
 
@@ -313,14 +313,14 @@ Apache APISIX 是一个动态、实时、高性能的开源 API 网关，提供�
 
 Apache APISIX 的应用场景非常广泛，可应用于 API 网关、Kubernetes Ingress 和服务网格等场景，帮助企业快速、安全地处理 API 和微服务流量。目前已获得 Zoom、Airwallex、Lotus Cars、vivo、欧洲数字工厂等全球企业和组织的测试和高度认可。
 
-Apache APISIX 于 2019 年开源并由 API7.ai 捐赠给 Apache 软件基金会，目前是 GitHub 上最活跃的 API 网关项目，每天处理超万亿次的 API 调用，并且这一数字仍在增长。
+Apache APISIX 于 2019 年开源并由 [API7.ai](https://api7.ai/) 捐赠给 Apache 软件基金会，目前是 GitHub 上最活跃的 API 网关项目，每天处理超万亿次的 API 调用，并且这一数字仍在增长。
 
-GitHub 地址：https://github.com/apache/apisix
+GitHub 地址：[https://github.com/apache/apisix](https://github.com/apache/apisix)
 
 ## 6. 什么是 DeepFlow
 
 DeepFlow 是云杉网络开发的一款可观测性产品，旨在为复杂的云基础设施及云原生应用提供深度可观测性。DeepFlow 基于 eBPF 实现了应用性能指标、分布式追踪、持续性能剖析等观测信号的零侵扰（Zero Code）采集，并结合智能标签（SmartEncoding）技术实现了所有观测信号的全栈（Full Stack）关联和高效存取。使用 DeepFlow，可以让云原生应用自动具有深度可观测性，从而消除开发者不断插桩的沉重负担，并为 DevOps/SRE 团队提供从代码到基础设施的监控及诊断能力。
 
-GitHub 地址：https://github.com/deepflowio/deepflow
+GitHub 地址：[https://github.com/deepflowio/deepflow](https://github.com/deepflowio/deepflow)
 
-访问 DeepFlow Demo，体验零插桩、全覆盖、全关联的可观测性。
+访问 [DeepFlow Demo](https://deepflow.io/docs/zh/ce-install/overview/)，体验零插桩、全覆盖、全关联的可观测性。
