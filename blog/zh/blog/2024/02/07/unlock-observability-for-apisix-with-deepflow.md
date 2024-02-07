@@ -88,7 +88,7 @@ pluginAttrs:
     resource:
       service.name: APISIX
     collector:
-      ## 将数据传给 deepflow-agent 
+      ## 将数据传给 deepflow-agent
       ## 当然，这里也可以发给 otel-collector 进行处理后，再由 otel-collectorf发送至 deepflow-agent
       address: deepflow-agent.deepflow.svc.cluster.local/api/v1/otel/trace
       request_timeout: 3
