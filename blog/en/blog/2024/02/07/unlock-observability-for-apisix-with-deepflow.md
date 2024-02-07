@@ -91,7 +91,7 @@ pluginAttrs:
     resource:
       service.name: APISIX
     collector:
-      ## Send data to deepflow-agent 
+      ## Send data to deepflow-agent
       ## Of course, you can also send it to otel-collector for processing, and then have otel-collector forward it to deepflow-agent
       address: deepflow-agent.deepflow.svc.cluster.local/api/v1/otel/trace
       request_timeout: 3
@@ -194,8 +194,8 @@ pluginAttrs:
       ip: 0.0.0.0           ## Scrape Address
       port: 9091            ## Default port 9091
     metrics:
-      http_status:          
-        extra_labels:       
+      http_status:  
+        extra_labels:
           - upstream_addr: $upstream_addr        ## For example, add an upstream server address (the variable here is an NGINX variable)
           - upstream_status: $upstream_status    ## For example, add the status of an upstream server (the variable here is an NGINX variable)
                                                  ## APISIX Built-in Variables: https://apisix.apache.org/docs/apisix/3.2/apisix-variable/
