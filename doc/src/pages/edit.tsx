@@ -51,6 +51,10 @@ const Edit: FC = () => {
           name="og:description"
           content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
         />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="frame-src 'self' https://www.google.com/ https://app.netlify.com/;"
+        />
       </Head>
       {!isLoading && (
         <div className="page">

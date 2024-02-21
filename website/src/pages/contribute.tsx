@@ -74,6 +74,10 @@ const Contribute: FC = () => {
           name="twitter:description"
           content="Help new partners to Apache APISIX Community and make first contribution."
         />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="frame-src 'self' https://www.google.com/ https://app.netlify.com/;"
+        />
       </Head>
       <Page>
         <PageTitle>
