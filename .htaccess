@@ -18,6 +18,7 @@ Options -Indexes
     Header set Access-Control-Allow-Origin: https://apisix.apache.org
     Header set Access-Control-Allow-Methods "*"
     Header set Access-Control-Allow-Headers "*"
+    Header set Content-Security-Policy "frame-src 'self' https://www.google.com https://app.netlify.com"
 </IfModule>
 
 <IfModule mod_expires.c>
