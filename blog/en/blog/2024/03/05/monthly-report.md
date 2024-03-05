@@ -1,7 +1,7 @@
 ---
 title: "Monthly Report (January 29 - February 29)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report is your window into the project's weekly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: Our monthly Apache APISIX community report is your window into the project's monthly developments. It is a tool to facilitate your seamless integration into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/03/05/NjtLBF1e_monthly-02-en.png
 ---
