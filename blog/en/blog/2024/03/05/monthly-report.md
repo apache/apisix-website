@@ -15,6 +15,12 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From 01.29 to 02.29, a total of 25 contributors made 53 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
+## Contributor Statistics
+
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/03/04/rtlMzaYq_overall-contributors-202402.png)
+
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/03/04/wlzKrOf7_new-contributors-202402.png)
+
 ## Recent Highlights Features
 
 - [Add support for OpenResty 1.25.3.1](https://github.com/apache/apisix/pull/10887)（Contributor: [zll600](https://github.com/zll600))
