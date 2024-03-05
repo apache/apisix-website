@@ -7,6 +7,7 @@ image: https://static.apiseven.com/uploads/2024/03/05/4hrA1xua_monthly-02-cn.png
 ---
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 http-dubbo 插件、limit-req 和 limit-conn 插件新增支持 redis 和 redis-cluster、日志类插件增加支持 `include_req_body` 和 `include_resp_body`等。有关更多功能新亮点，请阅读本期双周报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
@@ -25,7 +26,8 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 - [在 K8s 服务发现中支持 EndpointSlices](https://github.com/apache/apisix/pull/10916)（贡献者：[dongjiang1989](https://github.com/dongjiang1989))
 
-- [limit-req 插件新增支持 redis 和 redis-cluster](https://github.com/apache/apisix/pull/10874)
+- [limit-req 插件新增支持 redis 和 redis-cluster](https://github.com/apache/apisix/pull/10874)（贡献者：[theweakgod](https://github.com/theweakgod))
+
 - [limit-conn 插件新增支持 redis 和 redis-cluster](https://github.com/apache/apisix/pull/10866)（贡献者：[theweakgod](https://github.com/theweakgod))
 
 - [移动 plugin/reload 至 Control API](https://github.com/apache/apisix/pull/10905)（贡献者：[sheharyaar](https://github.com/sheharyaar))
