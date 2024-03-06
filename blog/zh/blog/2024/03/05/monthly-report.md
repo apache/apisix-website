@@ -5,7 +5,7 @@ description: Apache APISIX 社区的月报旨在帮助社区成员更全面地�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/03/05/4hrA1xua_monthly-02-cn.png
 ---
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 http-dubbo 插件、limit-req 和 limit-conn 插件新增支持 redis 和 redis-cluster、日志类插件增加支持 `include_req_body` 和 `include_resp_body`等。有关更多功能新亮点，请阅读本期双周报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，如新增 http-dubbo 插件、limit-req 和 limit-conn 插件新增支持 redis 和 redis-cluster、日志类插件增加支持 `include_req_body` 和 `include_resp_body`等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
 
 ## 导语
