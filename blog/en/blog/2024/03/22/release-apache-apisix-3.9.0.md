@@ -1,5 +1,5 @@
 ---
-title: "Release Apache APISIX 3.8.0"
+title: "Release Apache APISIX 3.9.0"
 authors:
   - name: "Abhishek Choudhary"
     title: "Author"
