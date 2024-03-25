@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: Apache APISIX 3.9.0 版本于 2024 年 3 月 20 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。
+description: Apache APISIX 3.9.0 版本于 2024 年 3 月 27 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。
 tags: [Community]
 ---
 
@@ -154,7 +154,7 @@ plugin_attr:
 
 新增 `ocsp-stapling` 插件，以支持 OCSP stapling。
 
-详情请参考 [PR #10817](https://github.com/apache/apisix/pull/10817)。
+详情请参考 [插件文档](https://github.com/apache/apisix/blob/master/docs/zh/latest/plugins/ocsp-stapling.md) 和 [PR #10817](https://github.com/apache/apisix/pull/10817)。
 
 ### 支持 HTTP 与 Dubbo 的转换
 
