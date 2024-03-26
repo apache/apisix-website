@@ -19,6 +19,9 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp
 ---
 
+<head>
+    <link rel="canonical" href="https://blog.frankel.ch/secure-api-practices-apisix/2/" />
+</head>
 
 >[Last week](https://blog.frankel.ch/secure-api-practices-apisix/1/), we listed 16 practices to help secure one's APIs and described how to implement them with Apache APISIX.
 >
