@@ -19,6 +19,10 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp
 ---
 
+<head>
+    <link rel="canonical" href="https://blog.frankel.ch/secure-api-practices-apisix/1/" />
+</head>
+
 >A couple of months ago, I stumbled upon this list of  Secure your API with these [16 practices to secure your API](https://www.linkedin.com/posts/brijpandeyji_secure-your-api-with-these-16-practices-activity-7094020647529369601-5kzQ/):
 >
 > 1. Authentication 🕵️️ - Verifies the identity of users accessing APIs.
