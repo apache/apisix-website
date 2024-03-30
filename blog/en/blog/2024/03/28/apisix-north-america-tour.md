@@ -93,7 +93,7 @@ For the record, on Sunday, the whole world stopped. The Australian conference wa
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/nicolas_frankel?ref_src=twsrc%5Etfw">@nicolas_frankel</a> is starting a great talk on the basics of network traffic options on Kubernetes at <a href="https://twitter.com/hashtag/Scale21x?src=hash&amp;ref_src=twsrc%5Etfw">#Scale21x</a> in the <a href="https://twitter.com/hashtag/kcdla?src=hash&amp;ref_src=twsrc%5Etfw">#kcdla</a> track in ballroom B <a href="https://twitter.com/socallinuxexpo?ref_src=twsrc%5Etfw">@socallinuxexpo</a> <a href="https://t.co/vIQckW5QYt">pic.twitter.com/vIQckW5QYt</a></p>&mdash; Steve Wong (@cantbewong) <a href="https://twitter.com/cantbewong/status/1768725626306150526?ref_src=twsrc%5Etfw">March 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-Before leaving for home, though, I met with my friends from Yugabites: https://github.com/dmagda [Denis Magda] and https://mastodon.social/@FranckPachot[Franck Pachot]. We had lunch, then enjoyed an hour or so walking on the shore of Venice Beach. Here, you can see them counting on their fingers:
+Before leaving for home, though, I met with my friends from Yugabites: [Denis Magda](https://github.com/dmagda) and [Franck Pachot](https://mastodon.social/@FranckPachot). We had lunch, then enjoyed an hour or so walking on the shore of Venice Beach. Here, you can see them counting on their fingers:
 
 ![Nicolas Fränkel, Franck Pachot, and Denis Magda (left to righ) on Venice Beach](https://static.apiseven.com/uploads/2024/03/26/U4yG3DDI_GIwX6QxWUAALNkz.jpg)
 
