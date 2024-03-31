@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: The Apache APISIX 3.9.0 version is released on March 27, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences.
+description: The Apache APISIX 3.9.0 version is released on March 29, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences.
 tags: [Community]
 ---
 
