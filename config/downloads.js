@@ -12,7 +12,7 @@ module.exports = [
     version: '3.9.0',
     LTSDownloadPath: 'apisix/3.2.2/apache-apisix-3.2.2-src',
     LTSVersion: '3.2.2',
-    releaseDate: '2024-03-25',
+    releaseDate: '2024-03-29',
     firstDocPath: '/getting-started',
   },
   {
