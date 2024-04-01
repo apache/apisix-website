@@ -26,12 +26,12 @@ From 03.01 to 03.31, a total of 18 contributors made 48 commits to Apache APISIX
 
 - [Enable sensitive fields encryption by default](https://github.com/apache/apisix/pull/11076)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-- [Release 3.9.0](https://github.com/apache/apisix/pull/10874)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+- [Release 3.9.0](https://github.com/apache/apisix/pull/11061)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-- [Update lua-resty-t1k to 1.1.3 for chaitin-waf plugin](https://github.com/apache/apisix/pull/10866)（Contributor: [theweakgod](https://github.com/theweakgod))
+- [Update lua-resty-t1k to 1.1.3 for chaitin-waf plugin](https://github.com/apache/apisix/pull/11029)（Contributor: [blaisewang](https://github.com/blaisewang))
 
-- [Support to enable quic](https://github.com/apache/apisix/pull/10905)（Contributor: [sheharyaar](https://github.com/sheharyaar))
+- [Support to enable quic](https://github.com/apache/apisix/pull/10989)（Contributor: [zll600](https://github.com/zll600))
 
-- [Add session.cookie configuration for openid-conect plugin](https://github.com/apache/apisix/pull/10919)（Contributor: [monkeyDluffy6017](https://github.com/monkeyDluffy6017))
+- [Add session.cookie configuration for openid-conect plugin](https://github.com/apache/apisix/pull/10919)（Contributor: [illidan33](https://github.com/illidan33))
 
 The official website and GitHub Issues of Apache APISIX have accumulated rich documentation tutorials and usage experiences. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
