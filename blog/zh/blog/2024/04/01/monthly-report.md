@@ -31,6 +31,6 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 - [支持 QUIC 协议](https://github.com/apache/apisix/pull/10989)（贡献者：[zll600](https://github.com/zll600))
 
-- [OIDC 插件中补充 session.cookie 配置](https://github.com/apache/apisix/pull/10869)（贡献者：[illidan33](https://github.com/illidan33))
+- [OIDC 插件中补充 session.cookie 配置](https://github.com/apache/apisix/pull/10919)（贡献者：[illidan33](https://github.com/illidan33))
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
