@@ -5,7 +5,7 @@ description: Apache APISIX 社区的月报旨在帮助社区成员更全面地�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/04/01/VaWBqFRY_cn-cover-202403.png
 ---
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，如支持加密更多敏感字段、支持 QUIC 协议和 OIDC 插件中补充 session.cookie 配置等。有关更多功能新亮点，请阅读本期月报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，如支持加密更多敏感字段、支持 QUIC 协议和支持在 openid-connect 插件中设置 session cookie 生命周期等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
 ## 导语
 
