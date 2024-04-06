@@ -19,6 +19,7 @@ tags: [Ecosystem]
 <!--truncate-->
 
 ## Install dependencies
+
 Before starting to build APISIX we need to install some dependencies needed to launch the build process:
 
 ```shell
@@ -26,6 +27,7 @@ zypper install -y git sudo make wget
 ```
 
 ## Clone the APISIX repository
+
 Next, we can clone the APISIX repository:
 
 ```shell
@@ -34,6 +36,7 @@ cd apisix
 ```
 
 ## Modify the utils/install-dependencies.sh script
+
 Currently the `utils/install-dependencies.sh` script does not support SLES 15, so we will need to modify it slightly to add support for this distro:
 
 ```shell
@@ -41,9 +44,11 @@ wget https://raw.githubusercontent.com/osaizar/apisix/master/utils/install-depen
 mv install-dependencies.sh utils/install-dependencies.sh
 chmod 755 utils/install-dependencies.sh
 ```
+
 This will add an `install_dependencies_with_zypper` function to the script that will handle all the needed dependencies for SLES 15.
 
 ## Build APISIX from source
+
 We are ready to follow the [Building APISIX from source](https://apisix.apache.org/docs/apisix/next/building-apisix/) documentation.
 
 We can launch the next commands to build and install APISIX:
@@ -54,6 +59,7 @@ make install
 ```
 
 ## Installing etcd
+
 APISIX needs etcd to work, we can install etcd following the [official documentation](https://apisix.apache.org/docs/apisix/next/building-apisix/#installing-etcd)
 
 ```shell
@@ -72,7 +78,7 @@ Before launching APISIX we need to create a user and a group both called `nobody
 This is necessary for `openresty` to launch correctly.
 
 ```shell
-useradd nobody -U 
+useradd nobody -U
 ```
 
 ## Running APISIX
@@ -83,4 +89,3 @@ Finally APISIX can be initialized and started:
 apisix init
 apisix start
 ```
-
