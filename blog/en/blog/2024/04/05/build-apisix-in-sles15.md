@@ -274,7 +274,7 @@ tar -xvf etcd-v${ETCD_VERSION}-linux-amd64.tar.gz && \
 nohup etcd >/tmp/etcd.log 2>&1 &
 ```
 
-## Creating a nobody user & group
+## Create a nobody user and group
 
 Before launching APISIX we need to create a user and a group both called `nobody`.
 This is necessary for `openresty` to launch correctly.
