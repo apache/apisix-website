@@ -260,7 +260,7 @@ make deps
 make install
 ```
 
-## Installing etcd
+## Install etcd
 
 APISIX needs etcd to work, we can install etcd following the [official documentation](https://apisix.apache.org/docs/apisix/next/building-apisix/#installing-etcd)
 
