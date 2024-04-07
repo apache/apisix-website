@@ -283,7 +283,7 @@ This is necessary for `openresty` to launch correctly.
 useradd nobody -U
 ```
 
-## Running APISIX
+## Run APISIX
 
 Finally APISIX can be initialized and started:
 
