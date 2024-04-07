@@ -8,7 +8,7 @@ authors:
 keywords: 
 - Apache APISIX
 - SLES
-- Suse
+- SUSE
 description: By reading this article, you will learn how to build Apache APISIX for Suse Linux Enterprise 15
 tags: [Ecosystem]
 ---
