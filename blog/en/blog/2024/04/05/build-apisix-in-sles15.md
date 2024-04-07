@@ -137,7 +137,7 @@ function install_dependencies_with_zypper() {
         awk git gcc gcc-c++ curl wget unzip xz patch \
         perl libpcre1 pcre-devel pcre-tools openldap2-devel \
         openresty-zlib-devel openresty-pcre-devel
-    
+
     curl -L https://cpanmin.us | perl - --sudo App::cpanminus
 }
 
