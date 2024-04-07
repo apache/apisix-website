@@ -121,7 +121,7 @@ function install_dependencies_with_apt() {
     fi
     sudo apt-get update
 
-    # install some compilation tools
+    # Install some compilation tools
     sudo apt-get install -y curl make gcc g++ cpanminus libpcre3 libpcre3-dev libldap2-dev unzip openresty-zlib-dev openresty-pcre-dev
 }
 
