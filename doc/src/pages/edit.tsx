@@ -9,6 +9,8 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 const Edit: FC = () => {
   const [pathExist, setPathExist] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const INDEX_URL = 'https://github.com/apache/apisix';
+
   const {
     i18n: { currentLocale },
   } = useDocusaurusContext();
@@ -20,6 +22,7 @@ const Edit: FC = () => {
     const path = getPath();
 
     setIsLoading(true);
+
     fetch(path.replace('github.com', 'raw.githubusercontent.com').replace('/edit', ''))
       .then((res) => setPathExist(res.status !== 404))
       .finally(() => setIsLoading(false));
@@ -27,11 +30,17 @@ const Edit: FC = () => {
 
   const edit = useCallback(() => {
     let path = getPath();
+
     if (!pathExist) {
       const pathArr = path.replace('edit', 'new').split('/');
       pathArr[pathArr.length - 1] = `?filename=${pathArr.at(-1)}`;
       path = pathArr.join('/');
     }
+
+    if (!path?.includes(INDEX_URL)) {
+      path = INDEX_URL;
+    }
+
     window.location.replace(path);
   }, [pathExist]);
 
@@ -96,7 +105,7 @@ const Edit: FC = () => {
               <p>
                 {pathExist
                   ? 'When you are ready, click the button below to start editing the document.'
-                  : 'You can also still try to edit the document by click the below button.'}
+                  : 'You can also still try to edit the document by clicking the below button.'}
               </p>
               <button className="edit-btn" type="button" onClick={edit}>
                 Let&apos;s start editing
