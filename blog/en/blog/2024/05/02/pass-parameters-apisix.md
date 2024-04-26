@@ -11,12 +11,12 @@ keywords:
   - HTTP API
 description: >
   I recently read 6 Ways To Pass Parameters to Spring REST API. Though the title is a bit misleading, as it's unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it's beneficial when you write a custom plugin.
-tags: [Community]
+tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/04/25/V05nSV5W_american-football-63109.jpg
 ---
 
 <head>
-    <link rel="canonical" href="https://blog.frankel.ch/fix-duplicate-api-requests/" />
+    <link rel="canonical" href="https://blog.frankel.ch/pass-parameters-apisix/" />
 </head>
 
 >I recently read [6 Ways To Pass Parameters to Spring REST API](https://javabulletin.substack.com/p/6-ways-to-pass-parameters-to-spring). Though the title is a bit misleading, as it's unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it's beneficial when you write a custom plugin.
@@ -80,7 +80,7 @@ end
 ```
 
 1. APISIX stores the URI in `ctx.var.uri`
-2. Nginx offers a regexp API
+2. Nginx offers a regular expression API
 
 Let's try:
 
@@ -134,7 +134,7 @@ n: 15, offset: 3
 
 ## Query parameters
 
-Query parameters are another regular way to pass data. Like path variables, you can only pass simple values, _e.g._, `/?foo=bar`. The Lua code doesn't require regexp:
+Query parameters are another regular way to pass data. Like path variables, you can only pass simple values, _e.g._, `/?foo=bar`. The Lua code doesn't require regular expressions:
 
 ```lua
 local core = require("apisix.core")
