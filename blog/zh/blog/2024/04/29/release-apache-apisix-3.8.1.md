@@ -19,7 +19,7 @@ description: Apache APISIX 3.8.1 版本于 2024 年 4 月 29 日发布。该版�
 tags: [Community]
 ---
 
-我们很高兴发布 Apache APISIX 3.8.1。该版本带来一则修复以改善用户体验。
+我们很高兴地宣布 Apache APISIX 3.8.1 版本已经发布。该版本带来一则修复以改善用户体验。
 
 <!--truncate-->
 
