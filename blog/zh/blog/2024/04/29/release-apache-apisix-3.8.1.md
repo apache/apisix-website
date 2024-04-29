@@ -31,8 +31,8 @@ tags: [Community]
 
 在最新的修复中，如果插件的 `request_method` 配置设置为 POST，APISIX 仅添加 POST 请求标头。
 
-详情请见 [PR #11021](https://github.com/apache/apisix/pull/11021).
+详情请见 [PR #11021](https://github.com/apache/apisix/pull/11021)。
 
 ## 变更日志
 
-点击[这里](https://github.com/apache/apisix/blob/release/3.9/CHANGELOG.md#391)查看变更日志.
+点击[这里](https://github.com/apache/apisix/blob/release/3.9/CHANGELOG.md#391)查看变更日志。
