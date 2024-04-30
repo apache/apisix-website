@@ -1,7 +1,7 @@
 ---
 title: "Monthly Report (April 01 - April 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provides a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/04/30/XvSXCOav_monthly-report-apr-en.png
 ---
@@ -24,7 +24,7 @@ From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX
 
 - [Add discovery k8s dump data interface](https://github.com/apache/apisix/pull/11111)（Contributor: [hanqingwu](https://github.com/hanqingwu))
 
-- [Add max req/resp body size attributes in the `kafka-logger` plugin](https://github.com/apache/apisix/pull/11133)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+- [Add max req/resp body size attributes (`max_resp_body_bytes` and `max_req_body_bytes`) in the `kafka-logger` plugin](https://github.com/apache/apisix/pull/11133)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 - [Autogenerate the admin API key if not configured in the configuration file](https://github.com/apache/apisix/pull/11080)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
@@ -34,4 +34,4 @@ From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX
 
 - [Release Apache APISIX 3.9.1](https://apisix.apache.org/blog/2024/04/29/release-apache-apisix-3.9.1/)
 
-The official website and GitHub Issues of Apache APISIX have accumulated rich documentation tutorials and usage experiences. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+The official website and GitHub Issues of Apache APISIX provide a wealth of documentation of tutorials and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
