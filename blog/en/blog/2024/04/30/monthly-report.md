@@ -6,11 +6,11 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/04/30/XvSXCOav_monthly-report-apr-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. These include adding discovery k8s dump data interface, adding max req/resp body size attributes (`max_resp_body_bytes` and `max_req_body_bytes`) in the `kafka-logger` plugin, and autogenerating the admin API key if they are not configured in the configuration file. For detailed information, please read the monthly report.
 <!--truncate-->
 ## Introduction
 
-From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and was made possible by the collective effort of our community.
+From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
 From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
