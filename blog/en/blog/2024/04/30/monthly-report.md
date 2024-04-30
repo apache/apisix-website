@@ -26,7 +26,7 @@ From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX
 
 - [Add max req/resp body size attributes in the `kafka-logger` plugin](https://github.com/apache/apisix/pull/11133)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-- [Autogenerate Admin API key if not passed](https://github.com/apache/apisix/pull/11080)（Contributor: [Revolyssup](https://github.com/Revolyssup))
+- [Autogenerate the admin API key if not configured in the configuration file](https://github.com/apache/apisix/pull/11080)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
 ## Recent Blog Recommendations
 
