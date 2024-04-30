@@ -25,9 +25,9 @@ tags: [Community]
 
 ## 修复
 
-### 修复 `forward-auth` 插件超时
+### 修复 `forward-auth` 插件超时问题
 
-当客户端请求使用 POST 并且身份验证服务 API 需要 GET 时，修复 `forward-auth` 插件超时。该错误是由于 APISIX 将带有 `Content-Type` 和 `Expect` 等标头的 POST 请求转发到需要 GET 的身份验证服务 API 引起的。
+当客户端使用 POST 方法发送请求，但身份验证服务 API 实际上需要 GET 方法时，可能出现超时问题，为此我们针对 `forward-auth` 插件进行了修复。该问题源于 APISIX 在将带有`Content-Type` 和 `Expect` 等标头的 POST 请求转发给需要 GET 的身份验证服务 API 时出现的兼容性问题。
 
 在最新的修复中，如果插件的 `request_method` 配置设置为 POST，APISIX 仅添加 POST 请求标头。
 
