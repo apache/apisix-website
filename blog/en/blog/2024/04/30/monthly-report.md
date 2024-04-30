@@ -28,4 +28,10 @@ From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX
 
 - [Autogenerate Admin API key if not passed](https://github.com/apache/apisix/pull/11080)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
+## Recent Blog Recommendations
+
+- [Release Apache APISIX 3.8.1](https://apisix.apache.org/blog/2024/04/29/release-apache-apisix-3.8.1/)
+
+- [Release Apache APISIX 3.9.1](https://apisix.apache.org/blog/2024/04/29/release-apache-apisix-3.9.1/)
+
 The official website and GitHub Issues of Apache APISIX have accumulated rich documentation tutorials and usage experiences. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
