@@ -5,7 +5,7 @@ description: Apache APISIX 社区的月报旨在帮助社区成员更全面地�
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/04/30/0133BTQL_monthly-report-apr-cn.png
 ---
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，包含新增 Kubernetes 服务的转存数据接口、在 `kafka-logger` 插件中引入新属性 `max_resp_body_bytes` 和 `max_req_body_bytes` 以降低 CPU 使用率，和自动生成 Admin API 密钥以删除敏感 API 密钥的硬编码等。有关更多功能新亮点，请阅读本期月报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，包含新增 Kubernetes 服务的转存数据接口、在 `kafka-logger` 插件中引入新属性 `max_resp_body_bytes` 和 `max_req_body_bytes` 以降低 CPU 使用率，和自动生成 Admin API 密钥以删除 API 密钥的硬编码等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
 ## 导语
 
