@@ -20,7 +20,7 @@ From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/04/30/b01wMlfs_new-contributors-apr.png)
 
-## Recent Highlights Features
+## Recent Feature Highlights
 
 - [Add discovery k8s dump data interface](https://github.com/apache/apisix/pull/11111)（Contributor: [hanqingwu](https://github.com/hanqingwu))
 
