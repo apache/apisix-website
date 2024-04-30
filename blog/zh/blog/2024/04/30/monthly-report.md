@@ -19,10 +19,6 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ![新晋贡献者](https://static.apiseven.com/uploads/2024/04/30/b01wMlfs_new-contributors-apr.png)
 
-## Good First Issue
-
-[https://github.com/apache/apisix/issues/11141](https://github.com/apache/apisix/issues/11141)
-
 ## 近期亮点功能
 
 - [新增 Kubernetes 服务的转存数据接口](https://github.com/apache/apisix/pull/11111)（贡献者：[hanqingwu](https://github.com/hanqingwu))
@@ -30,5 +26,11 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 - [引入新属性 max_resp_body_bytes 和 max_req_body_bytes 以降低 CPU 使用率](https://github.com/apache/apisix/pull/11133)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 - [自动生成 Admin API 密钥，以删除敏感 API 密钥的硬编码](https://github.com/apache/apisix/pull/11080)（贡献者：[Revolyssup](https://github.com/Revolyssup))
+
+## 最新博客速览
+
+- [Apache APISIX 3.8.1 正式发布](https://apisix.apache.org/zh/blog/2024/04/29/release-apache-apisix-3.8.1/)
+
+- [Apache APISIX 3.9.1 正式发布](https://apisix.apache.org/zh/blog/2024/04/29/release-apache-apisix-3.9.1/)
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
