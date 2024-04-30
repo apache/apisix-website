@@ -10,7 +10,7 @@ image: https://static.apiseven.com/uploads/2024/04/30/XvSXCOav_monthly-report-ap
 <!--truncate-->
 ## Introduction
 
-From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way, made possible by the collective dedication of our community.
+From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and was made possible by the collective effort of our community.
 
 From 04.01 to 04.30, a total of 16 contributors made 43 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
