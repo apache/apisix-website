@@ -23,7 +23,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 - [新增 Kubernetes 服务的转存数据接口](https://github.com/apache/apisix/pull/11111)（贡献者：[hanqingwu](https://github.com/hanqingwu))
 
-- [引入新属性 max_resp_body_bytes 和 max_req_body_bytes 以降低 CPU 使用率](https://github.com/apache/apisix/pull/11133)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+- [在 `kafka-logger` 插件中引入新属性 `max_resp_body_bytes` 和 `max_req_body_bytes` 以降低 CPU 使用率](https://github.com/apache/apisix/pull/11133)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 - [自动生成 Admin API 密钥，以删除敏感 API 密钥的硬编码](https://github.com/apache/apisix/pull/11080)（贡献者：[Revolyssup](https://github.com/Revolyssup))
 
