@@ -12,7 +12,7 @@ image: https://static.apiseven.com/uploads/2024/05/31/cYKGTnFs_may-cover-en.png
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From 05.01 to 05.31, a total of 7 contributors made 9 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From May 1 to May 31, a total of 7 contributors made 9 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
