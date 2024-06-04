@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/05/31/cYKGTnFs_may-cover-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. These include supporting hcv namespace in HashiCorp Vault, and allowing setting headers in introspection request. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. These include supporting the hcv namespace in HashiCorp Vault and allowing setting headers in introspection requests. For detailed information, please read the monthly report.
 <!--truncate-->
 ## Introduction
 
@@ -16,7 +16,7 @@ From May 1 to May 31, a total of 7 contributors made 9 commits to Apache APISIX.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/05/31/HwuInTPw_contributors-list-may.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/06/04/nPBI02x2_may-contributors-list.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/05/31/paTYXQAh_new-contributors-may.png)
 

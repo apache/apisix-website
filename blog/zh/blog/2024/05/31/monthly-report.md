@@ -15,7 +15,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](https://static.apiseven.com/uploads/2024/05/31/HwuInTPw_contributors-list-may.png)
+![贡献者名单](https://static.apiseven.com/uploads/2024/06/04/nPBI02x2_may-contributors-list.png)
 
 ![新晋贡献者](https://static.apiseven.com/uploads/2024/05/31/paTYXQAh_new-contributors-may.png)
 
