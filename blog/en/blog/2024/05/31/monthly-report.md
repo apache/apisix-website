@@ -16,7 +16,7 @@ From May 1 to May 31, a total of 7 contributors made 9 commits to Apache APISIX.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/06/04/iRR4UPBL_may-contributors-list.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/06/04/nPBI02x2_may-contributors-list.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/05/31/paTYXQAh_new-contributors-may.png)
 
