@@ -16,7 +16,7 @@ image: https://static.apiseven.com/uploads/2024/06/12/2XTLbwyU_tower-1897536.jpg
 ---
 
 <head>
-    <link rel="canonical" href="https://blog.frankel.ch/even-more-opentelemetry/" />
+    <link rel="canonical" href="https://blog.frankel.ch/fixed-routes-apisix/" />
 </head>
 
 >My ideas for blog posts inevitably start to dry up after over two years at [Apache APISIX](https://apisix.apache.org/). Hence, I did some triage on the [APISIX repo](https://github.com/apache/apisix/issues). I stumbled upon this one question:
