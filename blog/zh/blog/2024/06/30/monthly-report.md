@@ -12,17 +12,17 @@ image: https://static.apiseven.com/uploads/2024/06/28/4EByOVsn_june-monthly-repo
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-从 2024.06.01 至 2024.06.30，有 13 名开发者提交了 21 个 commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+从 2024.06.01 至 2024.06.30，有 13 名开发者提交了 22 个 commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
 ## 贡献者统计
 
-![贡献者名单](https://static.apiseven.com/uploads/2024/06/28/FQdMd6uj_Group%20427319845.png)
+![贡献者名单](https://static.apiseven.com/uploads/2024/07/01/qMf8xVMY_june-contributors.png)
 
 ![新晋贡献者](https://static.apiseven.com/uploads/2024/06/28/8fZIturi_new-contributors-june.png)
 
 ## 近期亮点功能
 
-- [用 lyaml 替换 YAML 解析器 tinyyaml](https://github.com/apache/apisix/pull/11277)（贡献者：[bzp2010](https://github.com/bzp2010))
+- [用 lyaml 替换 YAML 解析器 tinyyaml](https://github.com/apache/apisix/pull/11312)（贡献者：[bzp2010](https://github.com/bzp2010))
 
 - [支持通过 Secret Manager 在 SSL 上存储证书和私钥](https://github.com/apache/apisix/pull/11339)（贡献者：[AlinsRan](https://github.com/AlinsRan))
 
