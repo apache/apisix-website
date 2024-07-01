@@ -13,17 +13,17 @@ image: https://static.apiseven.com/uploads/2024/06/28/Qk8AZmuH_june-monthly-repo
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From June 1 to June 30, a total of 13 contributors made 21 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From June 1 to June 30, a total of 13 contributors made 22 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/06/28/FQdMd6uj_Group%20427319845.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/07/01/qMf8xVMY_june-contributors.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/06/28/8fZIturi_new-contributors-june.png)
 
 ## Recent Feature Highlights
 
-- [Replace YAML parser tinyyaml with lyaml](https://github.com/apache/apisix/pull/11312)（Contributor: [bzp2010](https://github.com/bzp2010))
+- [Replace YAML parser `tinyyaml` with `lyaml`](https://github.com/apache/apisix/pull/11312)（Contributor: [bzp2010](https://github.com/bzp2010))
 
 - [Support storing certificates and private keys on SSL through Secret Manager](https://github.com/apache/apisix/pull/11339)（Contributor: [AlinsRan](https://github.com/AlinsRan))
 
