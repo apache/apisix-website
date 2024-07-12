@@ -11,7 +11,7 @@ keywords:
   - URL rewriting
 description: >
   I spoke at Swiss PgDay in Switzerland in late June. The talk was about how to create a no-code API with the famous PostgreSQL database, the related PostgREST, and Apache APISIX, of course. I already wrote about the idea in a previous post. However, I wanted to improve it, if only slightly.
-  PostgREST offers a powerful `SELECT` mechanism. To list all entities with a column equal to a value, you need the following URL:
+  PostgREST offers a powerful `SELECT` mechanism. To list all entities with a column equal to a value, you need the following command: curl /products?id=eq.1.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/07/11/zFguMrgf_notebook-1840276.jpg
 ---
@@ -22,7 +22,7 @@ image: https://static.apiseven.com/uploads/2024/07/11/zFguMrgf_notebook-1840276.
 
 >I spoke at [Swiss PgDay](https://www.pgday.ch/2024/#schedule) in Switzerland in late June. The talk was about how to create a no-code API with the famous [PostgreSQL](https://www.postgresql.org/) database, the related [PostgREST](https://postgrest.org/), and [Apache APISIX](https://apisix.apache.org), of course. I already wrote about the idea in a [previous post](https://blog.frankel.ch/poor-man-api/). However, I wanted to improve it, if only slightly.
 >
->PostgREST offers a powerful `SELECT` mechanism. To list all entities with a column equal to a value, you need the following URL:
+>PostgREST offers a powerful `SELECT` mechanism. To list all entities with a column equal to a value, you need the following command:
 
 <!--truncate-->
 
@@ -79,7 +79,7 @@ You can expose the `/products/1` REST-friendly URL and let APISIX rewrite it for
 
 ## Conclusion
 
-I've described using the proxy-rewrite plugin with a path variable in this post. You can reuse the same technique with multiple variables. Keep also in mind that the `serverless` plugin is a hidden jewel; it can help you with small Lua snippets before moving to a full-fledged plugin.
+I've described using the `proxy-rewrite` plugin with a path variable in this post. You can reuse the same technique with multiple variables. Keep also in mind that the `serverless` plugin is a hidden jewel; it can help you with small Lua snippets before moving to a full-fledged plugin.
 
 **To go further:**
 
