@@ -1,9 +1,9 @@
 [
     "blog/en/blog/2024/03/29/release-apache-apisix-3.9.0.md",
+    "blog/en/blog/2024/06/30/monthly-report.md",
+    "blog/en/blog/2024/07/11/watermarking-infrastructure.md",
+    "blog/en/blog/2024/06/13/fixed-routes-apisix.md",
+    "blog/en/blog/2024/06/06/even-more-opentelemetry.md",
     "blog/en/blog/2024/02/13/apisix-owasp-coraza-core-ruleset.md",
-    "blog/en/blog/2023/08/14/rate-limit.md",
-    "blog/en/blog/2023/07/20/data-mask-plugin.md",
-    "blog/en/blog/2023/12/14/migu-video-adopts-apisix.md",
-    "blog/en/blog/2023/06/02/lenovo-uses-apisix.md",
-    "blog/en/blog/2024/03/28/apisix-north-america-tour.md"
+    "blog/en/blog/2023/12/14/migu-video-adopts-apisix.md"
 ]
