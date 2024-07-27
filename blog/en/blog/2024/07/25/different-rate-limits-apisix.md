@@ -20,7 +20,7 @@ image: https://static.apiseven.com/uploads/2024/07/27/U4BZicm8_speedometer-12496
     <link rel="canonical" href="https://blog.frankel.ch/different-rate-limits-apisix/" />
 </head>
 
->In my talk Evolving your APIs, I mention that an API Gateways is a Reverse Proxy "on steroids". One key difference between the former and the latter is that the API Gateway is not unfriendly to business logic. The poster child is rate-limiting.
+>In my talk Evolving your APIs, I mention that an API Gateway is a Reverse Proxy "on steroids". One key difference between the former and the latter is that the API Gateway is not unfriendly to business logic. The poster child is rate-limiting.
 
 <!--truncate-->
 
