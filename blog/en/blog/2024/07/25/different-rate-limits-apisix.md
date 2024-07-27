@@ -93,7 +93,7 @@ Server: APISIX/3.9.1
 
 ## Per-consumer rate limiting
 
-To configure per-consumer rate limiting, we first need to implement request authentication. APISIX offers many authentication plugins; we shall use the simplest one, [key-auth](https://apisix.apache.org/docs/apisix/plugins/key-auth/). `key-auth` checks a specific HTTP request header - `apikey` by default.
+To configure per-consumer rate limiting, we first need to implement request authentication. APISIX offers many authentication plugins; we shall use the simplest one, [`key-auth`](https://apisix.apache.org/docs/apisix/plugins/key-auth/). `key-auth` checks a specific HTTP request header - `apikey` by default.
 
 Here's how we configure consumers:
 
