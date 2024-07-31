@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/07/31/U3v43S1b_report-july-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The main feature is removing `config-default.yaml` to hardcoded Lua file. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvement is moving the default values from `config-default.yaml` to a hardcoded Lua file. For detailed information, please read the monthly report.
 <!--truncate-->
 
 ## Introduction
