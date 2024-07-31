@@ -23,7 +23,7 @@ From July 1 to June 31, a total of 13 contributors made 21 commits to Apache API
 
 ## Recent Feature Highlight
 
-- [Remove `config-default.yaml` to hardcoded Lua file](https://github.com/apache/apisix/pull/11312)（Contributor: [bzp2010](https://github.com/bzp2010))
+- [Move `config-default.yaml` default values to hardcoded Lua file](https://github.com/apache/apisix/pull/11312)（Contributor: [bzp2010](https://github.com/bzp2010))
 
 ## Recent Blog Recommendations
 
