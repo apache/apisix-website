@@ -1,5 +1,5 @@
 ---
-title: Advanced URL rewriting with Apache APISIX
+title: Differentiating rate limits in Apache APISIX
 authors:
   - name: Nicolas Fränkel
     title: Author
