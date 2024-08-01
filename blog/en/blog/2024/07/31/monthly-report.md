@@ -25,9 +25,9 @@ From July 1 to June 31, a total of 13 contributors made 21 commits to Apache API
 
 - [Move `config-default.yaml` default values to hardcoded Lua file](https://github.com/apache/apisix/pull/11312)（Contributor: [bzp2010](https://github.com/bzp2010))
 
-  Apache APISIX has two configuration files: `config.yaml` which can be modified by users and `config-default.yaml`, the default configuration file. When APISIX starts, it reads both files and merges the configurations, prioritizing the user's config.yaml settings over the defaults.
+  Apache APISIX has two configuration files: `config.yaml` which can be modified by users and `config-default.yaml`, the default configuration file. When APISIX starts, it reads these two configuration files and merges and overwrites the user configuration file with the default configuration to create the configuration that is used at runtime.
   
-  To simplify the configuration process and avoid unintended issues from modifying the default file, we moved the default configuration values to a hardcoded Lua file. This allows users to focus on customizing the `config.yaml` file without the risk of accidentally changing the core default settings.
+  However, in actual use, users are often unclear on how to modify custom configurations. To simplify the configuration process and avoid unintended issues from modifying the default file, we moved the default configuration values to a hardcoded Lua file. This allows users to focus on customizing the `config.yaml` file without the risk of accidentally changing the default settings.
 
 ## Recent Blog Recommendations
 
