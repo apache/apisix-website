@@ -25,10 +25,18 @@ From July 1 to June 31, a total of 13 contributors made 21 commits to Apache API
 
 - [Move `config-default.yaml` default values to hardcoded Lua file](https://github.com/apache/apisix/pull/11312)（Contributor: [bzp2010](https://github.com/bzp2010))
 
+  Apache APISIX has two configuration files: `config.yaml` which can be modified by users and `config-default.yaml`, the default configuration file. When APISIX starts, it reads both files and merges the configurations, prioritizing the user's config.yaml settings over the defaults.
+  
+  To simplify the configuration process and avoid unintended issues from modifying the default file, we moved the default configuration values to a hardcoded Lua file. This allows users to focus on customizing the `config.yaml` file without the risk of accidentally changing the core default settings.
+
 ## Recent Blog Recommendations
 
 - [Advanced URL rewriting with Apache APISIX](https://apisix.apache.org/blog/2024/07/18/advanced-url-rewrite-apisix/)
+  
+  Explore how to leverage Apache APISIX's [`proxy-rewrite`](https://apisix.apache.org/docs/apisix/plugins/proxy-rewrite/) and [`serverless`](https://apisix.apache.org/docs/apisix/plugins/serverless/) plugins to achieve advanced URL rewriting, simplify API design, and boost development efficiency.
 
 - [Dynamic watermarking with imgproxy and Apache APISIX](https://apisix.apache.org/blog/2024/07/11/watermarking-infrastructure/)
+  
+  Discover how to leverage the power of Apache APISIX and [imgproxy](https://docs.imgproxy.net/features/watermark) to implement dynamic watermarking and on-the-fly image processing for your web applications.
 
-The official website and GitHub Issues of Apache APISIX provide a wealth of documentation of tutorials and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
