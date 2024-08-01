@@ -23,5 +23,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 ## 近期亮点功能
 
 - [删除 config-default.yaml 并将其内容移动到 Lua 文件中](https://github.com/apache/apisix/pull/11343)（贡献者：[bzp2010](https://github.com/bzp2010))
+  
+  Apache APISIX 有两个配置文件：`config.yaml`（用户可以修改）和 `config-default.yaml`（默认配置文件，用户不应修改）。当 APISIX 启动时，它会读取这两个文件并合并配置，用户配置文件中的设置会覆盖默认配置文件中的设置，最终生成在运行时实际使用的配置文件。
 
-Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
+  然而，在实际使用过程中，用户往往对如何修改自定义配置不够明确。为了简化配置过程并避免因修改默认文件而导致的意外问题，我们将默认配置值移动到硬编码的 Lua 文件中。这样用户可以专注于自定义 `config.yaml` 文件，而不会有意外更改核心默认设置的风险。
+
+Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 [Issue](https://github.com/apache/apisix/issues) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
