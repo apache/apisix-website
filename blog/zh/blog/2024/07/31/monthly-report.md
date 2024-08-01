@@ -28,4 +28,4 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
   然而，在实际使用过程中，用户往往对如何修改自定义配置不够明确。为了简化配置过程并避免因修改默认文件而导致的意外问题，我们将默认配置值移动到硬编码的 Lua 文件中。这样用户可以专注于自定义 `config.yaml` 文件，而不会有意外更改核心默认设置的风险。
 
-Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 [Issue](https://github.com/apache/apisix/issues) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。
+Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 [Issues](https://github.com/apache/apisix/issues) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issues 中搜索，也可以参与 Issues 上的讨论，提出自己的想法和实践经验。
