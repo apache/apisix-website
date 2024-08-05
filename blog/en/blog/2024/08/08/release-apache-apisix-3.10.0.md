@@ -68,7 +68,7 @@ For more information, see [PR #11403](https://github.com/apache/apisix/pull/1140
 
 Support storing certificates `certs` and private keys `keys` on SSL resource in secrets manager. In the earlier releases, only `cert` and `key` support secrets manager.
 
-You can now configure a SSL resource such as the following: 
+You can now configure a SSL resource such as the following:
 
 ```shell
 curl "http://127.0.0.1:9180/apisix/admin/ssls" -X PUT -d '
@@ -158,7 +158,7 @@ The default Admin API key `edd1c9f034335f136f87ad84b625c8f1` is now removed. If 
 
 For more information, see [PR #11080](https://github.com/apache/apisix/pull/11080).
 
-### Enable data encryption by default 
+### Enable data encryption by default
 
 The `data_encryption.enable_encrypt_fields` option now defaults to `true` to enhance data security. This means that by default, sensitive plugin fields (defined in the `encrypt_fields` attribute of plugin schema) and TLS certificate private key are now encrypted.
 
@@ -166,7 +166,7 @@ The configuration only applies when the configuration center is etcd. Encryption
 
 For more information, see [PR #11076](https://github.com/apache/apisix/pull/11076).
 
-### Categorize more sensitive plugin fields for encryption 
+### Categorize more sensitive plugin fields for encryption
 
 Categorize more sensitive plugin data fields under the `encrypt_fields` attributes, which should be encrypted when `data_encryption.enable_encrypt_fields` option is set to `true`.
 
@@ -174,7 +174,7 @@ For more information, see [PR #11095](https://github.com/apache/apisix/pull/1109
 
 ## Other Updates
 
--  Use LRU cache in secret fetching to improve performance ([PR #11201](https://github.com/apache/apisix/pull/11201))
+- Use LRU cache in secret fetching to improve performance ([PR #11201](https://github.com/apache/apisix/pull/11201))
 - Move default configurations in `config-default.yaml` to a hardcoded Lua file ([PR #11343](https://github.com/apache/apisix/pull/11343))
 - Fix etcd sync data checker ([PR #11457](https://github.com/apache/apisix/pull/11457))
 - Add plugin metadata ID to avoid the etcd checker failure ([PR #11452](https://github.com/apache/apisix/pull/11452))
