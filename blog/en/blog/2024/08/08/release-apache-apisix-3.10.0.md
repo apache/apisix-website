@@ -29,13 +29,25 @@ There are a few important changes included in this release. Should you find thes
 
 ## Breaking Changes
 
-### Remove `core.grpc` module
+### Autogenerate Admin API key if not configured
 
-As the `core.grpc` module is observed to be unstable in production and APISIX no longer depends on it, this release removes the module.
+The default Admin API key `edd1c9f034335f136f87ad84b625c8f1` is now removed. If no custom Admin API key is configured in `config.yaml`, APISIX will autogenerate an Admin API key.
 
-For users that depend on the gRPC module for custom functionalities, please plan accordingly.
+For more details, see [PR #11080](https://github.com/apache/apisix/pull/11080).
 
-For more details, see [proposal](https://lists.apache.org/thread/05xvcbvty1txr1owx61vyktsmgs2pdd5) and [PR #11427](https://github.com/apache/apisix/pull/11427).
+### Enable data encryption by default
+
+The `data_encryption.enable_encrypt_fields` option, previously defaults to `false`, now defaults to `true` to enhance data security. This means that by default, sensitive plugin fields (defined in the `encrypt_fields` attribute of plugin schema) and TLS certificate private key are now encrypted.
+
+The configuration only applies when the configuration center is etcd. Encryption does not take place when the configuration center is YAML (i.e. standalone mode) to avoid unexpected failures.
+
+For more details, see [PR #11076](https://github.com/apache/apisix/pull/11076).
+
+### Categorize more sensitive plugin fields for encryption
+
+Categorize more sensitive plugin data fields under the `encrypt_fields` attributes, which should be encrypted when `data_encryption.enable_encrypt_fields` option is set to `true`.
+
+For more information, see [PR #11095](https://github.com/apache/apisix/pull/11095).
 
 ### Introduce max request and response body sizes to `kafka-logger` plugin
 
@@ -44,6 +56,14 @@ Introduce maximum request and response body size attributes `max_req_body_bytes`
 This helps mitigates the situation when `include_req_body` or `include_resp_body` is enabled and the request or response body is very large, leading to high CPU usage.
 
 For more details, see [PR #11133](https://github.com/apache/apisix/pull/11133).
+
+### Remove `core.grpc` module
+
+As the `core.grpc` module is observed to be unstable in production and APISIX no longer depends on it, this release removes the module.
+
+For users that depend on the gRPC module for custom functionalities, please plan accordingly.
+
+For more details, see [proposal](https://lists.apache.org/thread/05xvcbvty1txr1owx61vyktsmgs2pdd5) and [PR #11427](https://github.com/apache/apisix/pull/11427).
 
 ## New Features
 
@@ -151,26 +171,6 @@ You will see the discovered node information:
 ```
 
 For more information, see [PR #11111](https://github.com/apache/apisix/pull/11111).
-
-### Autogenerate Admin API key if not configured
-
-The default Admin API key `edd1c9f034335f136f87ad84b625c8f1` is now removed. If no custom Admin API key is configured, APISIX will autogenerate an Admin API key, for better security.
-
-For more information, see [PR #11080](https://github.com/apache/apisix/pull/11080).
-
-### Enable data encryption by default
-
-The `data_encryption.enable_encrypt_fields` option now defaults to `true` to enhance data security. This means that by default, sensitive plugin fields (defined in the `encrypt_fields` attribute of plugin schema) and TLS certificate private key are now encrypted.
-
-The configuration only applies when the configuration center is etcd. Encryption does not take place when the configuration center is YAML (i.e. standalone mode) to avoid unexpected failures.
-
-For more information, see [PR #11076](https://github.com/apache/apisix/pull/11076).
-
-### Categorize more sensitive plugin fields for encryption
-
-Categorize more sensitive plugin data fields under the `encrypt_fields` attributes, which should be encrypted when `data_encryption.enable_encrypt_fields` option is set to `true`.
-
-For more information, see [PR #11095](https://github.com/apache/apisix/pull/11095).
 
 ## Other Updates
 

@@ -19,23 +19,35 @@ description: Apache APISIX 3.10.0 版本于 2024 年 8 月 8 日发布。该版�
 tags: [Community]
 ---
 
-我们很高兴地宣布 Apache APISIX 3.9.0 版本已经发布，带来了一系列新功能、修复、以及相关用户体验优化。
+我们很高兴地宣布 Apache APISIX 3.10.0 版本已经发布，带来了一系列新功能、修复、以及相关用户体验优化。
 
 <!--truncate-->
 
-这个新版本增加了许多新功能，包括对 `openid-connect` 插件中的附加标头的支持、在机密管理器中存储 SSL 证书和密钥、自动生成管理 API 密钥等。
+这个新版本增加了许多新功能，包括对 `openid-connect` 插件中的附加标头的支持、在 secrets manager 中存储 SSL 证书和密钥、自动生成 Admin API 密钥等。
 
 此外，该版本还包含了一些重要的变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。
 
 ## 重大变更
 
-### 删除 `core.grpc` 模块
+### 如未配置 Admin API 密钥则自动生成
 
-由于 `core.grpc` 模块在生产中不稳定，并且 APISIX 不再依赖它，因此此版本删除了该模块。
+默认 Admin API 密钥 `edd1c9f034335f136f87ad84b625c8f1` 现已删除。如果未配置自定义 Admin API 密钥，APISIX 将自动生成 Admin API 密钥，以提高安全性。
 
-对于依赖 gRPC 模块实现自定义功能的用户，请相应规划。
+有关更多信息，请参阅 [PR #11080](https://github.com/apache/apisix/pull/11080)。
 
-有关更多详细信息，请参阅 [proposal](https://lists.apache.org/thread/05xvcbvty1txr1owx61vyktsmgs2pdd5) 和 [PR #11427](https://github.com/apache/apisix/pull/11427)。
+### 默认启用数据加密
+
+`data_encryption.enable_encrypt_fields` 选项此前默认为 `true`，现在默认为 `true`，以增强数据安全性。这意味着默认情况下，敏感插件字段（在插件架构的 `encrypt_fields` 属性中定义）和 TLS 证书私钥现在已默认加密。
+
+该配置仅适用于配置中心为 etcd 的情况。当配置中心为 YAML（即 standalone 模式）时，不会进行加密，以避免意外报错。
+
+有关更多信息，请参阅 [PR #11076](https://github.com/apache/apisix/pull/11076)。
+
+### 对更多敏感的插件字段进行加密
+
+在 `encrypt_fields` 属性下对更多敏感的插件数据字段进行加密，当 `data_encryption.enable_encrypt_fields` 选项设置为 `true` 时生效。
+
+有关更多信息，请参阅 [PR #11095](https://github.com/apache/apisix/pull/11095)。
 
 ### `kafka-logger` 插件设置默认最大请求和响应主体大小
 
@@ -43,7 +55,15 @@ tags: [Community]
 
 这有助于缓解启用 `include_req_body` 或 `include_resp_body` 且请求或响应主体非常大而导致 CPU 使用率过高的情况。
 
-有关更多详细信息，请参阅 [PR #11133](https://github.com/apache/apisix/pull/11133)。
+有关更多信息，请参阅 [PR #11133](https://github.com/apache/apisix/pull/11133)。
+
+### 删除 `core.grpc` 模块
+
+由于 `core.grpc` 模块在生产中不稳定，并且 APISIX 不再依赖它，因此此版本删除了该模块。
+
+对于依赖 gRPC 模块实现自定义功能的用户，请相应规划。
+
+有关更多信息，请参阅 [proposal](https://lists.apache.org/thread/05xvcbvty1txr1owx61vyktsmgs2pdd5) 和 [PR #11427](https://github.com/apache/apisix/pull/11427)。
 
 ## 新功能
 
@@ -151,26 +171,6 @@ curl http://127.0.0.1:9090/v1/discovery/kubernetes/dump | jq
 ```
 
 有关更多信息，请参阅 [PR #11111](https://github.com/apache/apisix/pull/11111)。
-
-### 如未配置 Admin API 密钥则自动生成
-
-默认 Admin API 密钥 `edd1c9f034335f136f87ad84b625c8f1` 现已删除。如果未配置自定义 Admin API 密钥，APISIX 将自动生成 Admin API 密钥，以提高安全性。
-
-有关更多信息，请参阅 [PR #11080](https://github.com/apache/apisix/pull/11080)。
-
-### 默认启用数据加密
-
-`data_encryption.enable_encrypt_fields` 选项现在默认为 `true`，以增强数据安全性。这意味着默认情况下，敏感插件字段（在插件架构的 `encrypt_fields` 属性中定义）和 TLS 证书私钥现在已默认加密。
-
-该配置仅适用于配置中心为 etcd 的情况。当配置中心为 YAML（即 standalone 模式）时，不会进行加密，以避免意外故障。
-
-有关更多信息，请参阅 [PR #11076](https://github.com/apache/apisix/pull/11076)。
-
-### 对更多敏感的插件字段进行加密
-
-在 `encrypt_fields` 属性下对更多敏感的插件数据字段进行加密，当 `data_encryption.enable_encrypt_fields` 选项设置为 `true` 时生效。
-
-有关更多信息，请参阅 [PR #11095](https://github.com/apache/apisix/pull/11095)。
 
 ## 其他更新
 
