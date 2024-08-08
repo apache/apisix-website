@@ -37,7 +37,7 @@ tags: [Community]
 
 ### 默认启用数据加密
 
-`data_encryption.enable_encrypt_fields` 选项此前默认为 `true`，现在默认为 `true`，以增强数据安全性。这意味着默认情况下，敏感插件字段（在插件架构的 `encrypt_fields` 属性中定义）和 TLS 证书私钥现在已默认加密。
+`data_encryption.enable_encrypt_fields` 选项此前默认为 `false`，现在默认为 `true`，以增强数据安全性。这意味着默认情况下，敏感插件字段（在插件架构的 `encrypt_fields` 属性中定义）和 TLS 证书私钥现在已默认加密。
 
 该配置仅适用于配置中心为 etcd 的情况。当配置中心为 YAML（即 standalone 模式）时，不会进行加密，以避免意外报错。
 
