@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: Apache APISIX 3.10.0 版本于 2024 年 8 月 8 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。
+description: Apache APISIX 3.10.0 版本于 2024 年 8 月 14 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。
 tags: [Community]
 ---
 
