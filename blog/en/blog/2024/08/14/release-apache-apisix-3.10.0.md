@@ -131,7 +131,7 @@ curl http://127.0.0.1:9090/v1/discovery/kubernetes/dump | jq
 
 You will see the discovered node information:
 
-```
+```json
 {
   "endpoints": [
     {

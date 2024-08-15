@@ -131,7 +131,7 @@ curl http://127.0.0.1:9090/v1/discovery/kubernetes/dump | jq
 
 您将看到发现的节点信息：
 
-```
+```json
 {
   "endpoints": [
     {
