@@ -121,15 +121,15 @@ curl "http://127.0.0.1:9180/apisix/admin/ssls" -X PUT -d '
 
 For more information, see [PR #11277](https://github.com/apache/apisix/pull/11277).
 
-### Add K8s discovery memory dump endpoint to Control API
+### List K8s cluster endpoints in Control API discovery memory dump
 
-The Control API now offers a new endpoint `/v1/discovery/kubernetes/dump` to see the nodes discovered by K8s discovery. For example:
+The Control API `/v1/discovery/kubernetes/dump` endpoint now lists K8s cluster endpoints. For example:
 
 ```shell
 curl http://127.0.0.1:9090/v1/discovery/kubernetes/dump | jq
 ```
 
-You will see the discovered node information:
+You will see the cluster endpoints:
 
 ```json
 {
