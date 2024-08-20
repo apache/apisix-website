@@ -49,6 +49,7 @@ Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载�
 * gm-BoringSSL：个人开源项目，在 BoringSSL 上增加国密支持。已有两年未改动。
 * TaSSL：北京江南天安科技有限公司开源的项目。基于 OpenSSL 1.1.1 修改而来。
 * Tongsuo：蚂蚁集团开源的项目。基于 OpenSSL 3.0 修改而来，项目前身是 BabaSSL，现已**改名为铜锁/Tongsuo**。
+
 由于 GMSSL 3.0 并不基于 OpenSSL，即使能保证 API 兼容，也没办法确保能 100% 替换现有 OpenSSL 的行为，所以被首先排除。其次 gm-BoringSSL 疏于维护，也被排除。
 
 在 TaSSL 和 Tongsuo 之中，我倾向于选择 [Tongsuo](https://github.com/Tongsuo-Project/Tongsuo)。因为 Tongsuo 在标准上拥有更强的话语权，比如 RFC 8998（TLS 1.3 中支持 SM 套件）就是由 Tongsuo 的开发者制定的。TaSSL 则是每出一个版本，就公布一个新的仓库。比如[前一个 版本](https://github.com/jntass/TASSL-1.1.1k)，感觉不太靠谱。
