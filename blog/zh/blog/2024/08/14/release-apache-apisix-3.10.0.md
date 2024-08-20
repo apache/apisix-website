@@ -121,15 +121,15 @@ curl "http://127.0.0.1:9180/apisix/admin/ssls" -X PUT -d '
 
 有关更多信息，请参阅 [PR #11277](https://github.com/apache/apisix/pull/11277)。
 
-### Control API 支持查看 K8s 服务发现的节点
+### 在 Control API 支持查看 K8s 服务发现集群节点
 
-Control API 现在提供了一个新端点 `/v1/discovery/kubernetes/dump`，用于查看 K8s 发现发现的节点。例如：
+控制 API `/v1/discovery/kubernetes/dump` 支持查看 K8s 服务发现集群节点。例如：
 
 ```shell
 curl http://127.0.0.1:9090/v1/discovery/kubernetes/dump | jq
 ```
 
-您将看到发现的节点信息：
+您将看到发现的集群节点信息：
 
 ```json
 {
