@@ -19,10 +19,10 @@ module.exports = {
       <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-Demi.otf"  as="font" type="font/otf" crossorigin>
       <link rel="preload" href="https://static.apiseven.com/202202/MaisonNeue-ExtraBold.otf" as="font" type="font/otf" crossorigin>
       <% it.scripts.forEach((script) => { %>
-        <link rel="preload" href="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= script %>" as="script">
+        <link rel="preload" href="<%= process.env.preview ? '' : 'https://apisix.apache.org' %><%= it.baseUrl %><%= script %>" as="script">
       <% }); %>
       <% it.stylesheets.forEach((stylesheet) => { %>
-        <link rel="stylesheet" href="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= stylesheet %>" />
+        <link rel="stylesheet" href="<%= process.env.preview ? '' : 'https://apisix.apache.org' %><%= it.baseUrl %><%= stylesheet %>" />
       <% }); %>
       <!-- Matomo from the ASF -->
       <script>
@@ -50,7 +50,7 @@ module.exports = {
         <%~ it.appHtml %>
       </div>
       <% it.scripts.forEach((script) => { %>
-        <script src="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= script %>"></script>
+        <script src="<%= process.env.preview ? '' : 'https://apisix.apache.org' %><%= it.baseUrl %><%= script %>"></script>
       <% }); %>
       <%~ it.postBodyTags %>
     </body>
