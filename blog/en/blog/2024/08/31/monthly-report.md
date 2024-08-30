@@ -3,10 +3,10 @@ title: "Monthly Report (August 01 - August 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: 
+image: https://static.apiseven.com/uploads/2024/08/30/VoTAlVBX_aug-cover-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvement is moving the default values from `config-default.yaml` to a hardcoded Lua file. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include adding ai-prompt-template plugin and supporting AWS Secrets Manager. For detailed information, please read the monthly report.
 
 <!--truncate-->
 
@@ -24,9 +24,9 @@ From August 1 to August 31, a total of 16 contributors made 25 commits to Apache
 
 ## Recent Feature Highlight
 
-- [](https://github.com/apache/apisix/pull/11517)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+- [Add ai-prompt-template Plugin](https://github.com/apache/apisix/pull/11517)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-- [](https://github.com/apache/apisix/pull/11417)（Contributor: [HuanXin-Chen](https://github.com/HuanXin-Chen))
+- [Support AWS Secrets Manager](https://github.com/apache/apisix/pull/11417)（Contributor: [HuanXin-Chen](https://github.com/HuanXin-Chen))
 
 ## Recent Blog Recommendations
 
