@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/09/30/VW6dlYsu_sep-cover-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include adding `attach-consumer-label`, `ai-prompt-decorator`, and `ai-proxy` plugins, and supporting GCP Secret Manager, etc. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include the addition of `attach-consumer-label`, `ai-prompt-decorator`, and `ai-proxy` plugins, as well as support for GCP Secret Manager, among other enhancements. For detailed information, please read the monthly report.
 <!--truncate-->
 
 ## Introduction
