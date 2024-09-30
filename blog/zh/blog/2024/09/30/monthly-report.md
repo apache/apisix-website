@@ -49,6 +49,6 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 7. [取消发放 JWT 令牌以增强安全性](https://github.com/apache/apisix/pull/11597)（贡献者：[dspo](https://github.com/dspo))
 
-出于安全原因，API 网关不应接受用户私钥的上传以发放 JWT 令牌，并且不再提供发放 JWT 令牌的 API。此 PR 移除了 /apisix/plugin/jwt/sign API。
+出于安全原因，API 网关不应接受用户私钥的上传以发放 JWT 令牌，并且不再提供发放 JWT 令牌的 API。此 PR 移除了 `/apisix/plugin/jwt/sign` API。
 
 Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 [Issues](https://github.com/apache/apisix/issues) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issues 中搜索，也可以参与 Issues 上的讨论，提出自己的想法和实践经验。
