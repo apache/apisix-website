@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/09/30/InojHYaL_sep-cover-cn.png
 ---
 
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，包括新增 ai-proxy、ai-prompt-decorator、attach-consumer-label 插件和支持 GCP Secret Manager 等。有关更多功能新亮点，请阅读本期月报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，包括新增 `ai-proxy`、`ai-prompt-decorator`、`attach-consumer-label` 插件和支持 GCP Secret Manager 等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
 
 ## 导语
@@ -23,15 +23,15 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 近期亮点功能
 
-1. [新增 attach-consumer-label 插件](https://github.com/apache/apisix/pull/11604)（贡献者：[dspo](https://github.com/dspo))
+1. [新增 `attach-consumer-label` 插件](https://github.com/apache/apisix/pull/11604)（贡献者：[dspo](https://github.com/dspo))
 
 `attach-consumer-label` 插件在认证请求中附加自定义消费者相关标签，便于上游服务区分消费者并实现额外的逻辑。
 
-2. [新增 ai-prompt-decorator 插件](https://github.com/apache/apisix/pull/11597)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+2. [新增 `ai-prompt-decorator` 插件](https://github.com/apache/apisix/pull/11597)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 `ai-prompt-decorator` 插件通过在请求中添加或预置提示，简化了对 LLM 提供商（如 OpenAI 和 Anthropic）及其模型的访问。
 
-3. [新增 ai-proxy 插件](https://github.com/apache/apisix/pull/11499)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+3. [新增 `ai-proxy` 插件](https://github.com/apache/apisix/pull/11499)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 `ai-proxy` 插件通过定义标准请求格式，允许在插件配置中嵌入关键字段到请求中，简化了对 LLM 提供商和模型的访问。
 
@@ -43,7 +43,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 凭证是持有消费者凭证配置的对象。消费者可以使用多种不同类型的凭证，包括 `basic-auth`、`hmac-auth`、`jwt-auth` 和 `key-auth`。
 
-6. [重构 hmac-auth 插件](https://github.com/apache/apisix/pull/11581)（贡献者：[Revolyssup](https://github.com/Revolyssup))
+6. [重构 `hmac-auth` 插件](https://github.com/apache/apisix/pull/11581)（贡献者：[Revolyssup](https://github.com/Revolyssup))
 
 `hmac-auth` 插件有许多需要配置的请求头，这使得使用该插件变得复杂。此 PR 对 HMAC 认证插件进行了重构，以提高其可用性并遵循 RFC 标准。
 

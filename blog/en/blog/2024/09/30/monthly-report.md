@@ -23,15 +23,15 @@ From September 1 to September 30, 10 contributors made 21 commits to Apache APIS
 
 ## Recent Feature Highlights
 
-1. [Add attach-consumer-label Plugin](https://github.com/apache/apisix/pull/11604)（Contributor: [dspo](https://github.com/dspo))
+1. [Add `attach-consumer-label` Plugin](https://github.com/apache/apisix/pull/11604)（Contributor: [dspo](https://github.com/dspo))
 
 The `attach-consumer-label` plugin attaches custom consumer-related labels for upstream services to differentiate between consumers and implement additional logic.
 
-2. [Add ai-prompt-decorator Plugin](https://github.com/apache/apisix/pull/11515)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+2. [Add `ai-prompt-decorator` Plugin](https://github.com/apache/apisix/pull/11515)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 The `ai-prompt-decorator` plugin simplifies access to LLM providers, such as OpenAI and Anthropic, and their models by appending or prepending prompts into the request.
 
-3. [Add ai-proxy Plugin](https://github.com/apache/apisix/pull/11499)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+3. [Add `ai-proxy` Plugin](https://github.com/apache/apisix/pull/11499)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 The `ai-proxy` plugin simplifies access to LLM providers and models by defining a standard request format that allows key fields in plugin configuration to be embedded into the request.
 
@@ -45,7 +45,7 @@ Credential is the object that holds the credential configuration of consumers. C
 
 6. [Refactor hmac-auth Plugin](https://github.com/apache/apisix/pull/11581)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
-The `hmac-auth` plugin has a lot of headers that need to be configured, which makes it confusing to use the plugin. This PR refactors the HMAC authentication plugin to improve its usability and compliance with RFC standards.
+This PR refactors the HMAC authentication plugin to improve its usability and compliance with RFC standards.
 
 7. [Remove JWT Token Issuing](https://github.com/apache/apisix/pull/11597)（Contributor: [dspo](https://github.com/dspo))
 
