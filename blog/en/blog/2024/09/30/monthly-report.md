@@ -6,14 +6,14 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/09/30/VW6dlYsu_sep-cover-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include adding `attach-consmer-label`, `ai-prompt-decorator`, and `ai-proxy` plugins, and spporting GCP Secret Manager, etc. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include adding `attach-consumer-label`, `ai-prompt-decorator`, and `ai-proxy` plugins, and supporting GCP Secret Manager, etc. For detailed information, please read the monthly report.
 <!--truncate-->
 
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From September 1 toSeptember 30, a total of 10 contributors made 21 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From September 1 to September 30, 10 contributors made 21 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
@@ -23,7 +23,7 @@ From September 1 toSeptember 30, a total of 10 contributors made 21 commits to A
 
 ## Recent Feature Highlights
 
-1. [Add attach-consmer-label Plugin](https://github.com/apache/apisix/pull/11604)（Contributor: [dspo](https://github.com/dspo))
+1. [Add attach-consumer-label Plugin](https://github.com/apache/apisix/pull/11604)（Contributor: [dspo](https://github.com/dspo))
 
 The `attach-consumer-label` plugin attaches custom consumer-related labels, in addition to X-Consumer-Username and X-Credential-Indentifier, to authenticated requests, for upstream services to differentiate between consumers and implement additional logics.
 
@@ -41,7 +41,7 @@ This PR added the `gcp.lua` file to the original secret module, allowing users t
 
 5. [Add credential and Related Admin APIs](https://github.com/apache/apisix/pull/11601)（Contributor: [dspo](https://github.com/dspo))
 
-Credential is the object that holds the credential configuration of consumers. Consumers can use multiple credentials of different types, including `basic-auth`、`hmac-auth`、`jwt-auth` and `key-auth`.
+Credential is the object that holds the credential configuration of consumers. Consumers can use multiple credentials of different types, including `basic-auth`、`hmac-auth`、`jwt-auth`, and `key-auth`.
 
 6. [Refactored hmac-auth Plugin Documentation](https://github.com/apache/apisix/pull/11581)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
