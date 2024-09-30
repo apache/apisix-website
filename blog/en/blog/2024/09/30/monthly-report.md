@@ -25,7 +25,7 @@ From September 1 to September 30, 10 contributors made 21 commits to Apache APIS
 
 1. [Add attach-consumer-label Plugin](https://github.com/apache/apisix/pull/11604)（Contributor: [dspo](https://github.com/dspo))
 
-The `attach-consumer-label` plugin attaches custom consumer-related labels, in addition to X-Consumer-Username and X-Credential-Indentifier, to authenticated requests, for upstream services to differentiate between consumers and implement additional logics.
+The `attach-consumer-label` plugin attaches custom consumer-related labels for upstream services to differentiate between consumers and implement additional logic.
 
 2. [Add ai-prompt-decorator Plugin](https://github.com/apache/apisix/pull/11515)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
@@ -41,9 +41,9 @@ This PR added the `gcp.lua` file to the original secret module, allowing users t
 
 5. [Add credential and Related Admin APIs](https://github.com/apache/apisix/pull/11601)（Contributor: [dspo](https://github.com/dspo))
 
-Credential is the object that holds the credential configuration of consumers. Consumers can use multiple credentials of different types, including `basic-auth`、`hmac-auth`、`jwt-auth`, and `key-auth`.
+Credential is the object that holds the credential configuration of consumers. Consumers can use multiple credentials of different types, including `basic-auth`, `hmac-auth`, `jwt-auth`, and `key-auth`.
 
-6. [Refactored hmac-auth Plugin Documentation](https://github.com/apache/apisix/pull/11581)（Contributor: [Revolyssup](https://github.com/Revolyssup))
+6. [Refactor hmac-auth Plugin](https://github.com/apache/apisix/pull/11581)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
 The `hmac-auth` plugin has a lot of headers that need to be configured, which makes it confusing to use the plugin. This PR refactors the HMAC authentication plugin to improve its usability and compliance with RFC standards.
 
