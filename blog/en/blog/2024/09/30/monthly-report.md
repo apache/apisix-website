@@ -41,7 +41,7 @@ This PR added the `gcp.lua` file to the original secret module, allowing users t
 
 5. [Add credential and Related Admin APIs](https://github.com/apache/apisix/pull/11601)（Contributor: [dspo](https://github.com/dspo))
 
-Credential is the object that holds the credential configuration of consumers. Consumers can use multiple credentials of different types, including `basic-auth`, `hmac-auth`, `jwt-auth`, and `key-auth`.
+Credential is an entity used to store authentication configurations associated with consumers. A consumer can be associated with one or more credentials from a list of authentication plugins, including `basic-auth`, `hmac-auth`, `jwt-auth`, and `key-auth`.
 
 6. [Refactor hmac-auth Plugin](https://github.com/apache/apisix/pull/11581)（Contributor: [Revolyssup](https://github.com/Revolyssup))
 
