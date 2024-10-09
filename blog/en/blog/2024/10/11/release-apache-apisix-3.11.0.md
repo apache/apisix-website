@@ -39,9 +39,7 @@ For more details, see [PR #11597](https://github.com/apache/apisix/pull/11597).
 
 The plugin implementation is now based on [draft-cavage-http-signatures](https://www.ietf.org/archive/id/draft-cavage-http-signatures-12.txt) and the configurable parameters have changed.
 
-<!-- to be updated: plugin doc -->
-
-For more details, see [PR #11581](https://github.com/apache/apisix/pull/11581)
+For more details, see the latest [plugin doc](https://apisix.apache.org/docs/apisix/plugins/hmac-auth/) and [PR #11581](https://github.com/apache/apisix/pull/11581)
 
 ## New Features
 
