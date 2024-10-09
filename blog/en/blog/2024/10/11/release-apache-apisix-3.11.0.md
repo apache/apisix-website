@@ -45,9 +45,9 @@ For more details, see [PR #11581](https://github.com/apache/apisix/pull/11581)
 
 ## New Features
 
-### Add Consumer Credentials Entity and Introduce Consumer Identifiable Headers
+### Add Consumer credentials resource and introduce consumer identifiable headers
 
-Add the credential object to store authentication configurations associated with consumers. A consumer can be associated with one or more credentials from a designated list of authentication plugins, including `key-auth`, `basic-auth`, `jwt-auth`, and `hmac-auth`. The decoupling of credentials facilitates credential reuse and rotation as well as enhanced security.
+Add the credential resource to store authentication configurations associated with consumers. A consumer can be associated with one or more credentials from a designated list of authentication plugins, including `key-auth`, `basic-auth`, `jwt-auth`, and `hmac-auth`. The decoupling of credentials facilitates credential reuse and rotation as well as enhanced security.
 
 For instance, suppose you have a consumer `tom`:
 
@@ -112,7 +112,7 @@ Support the configuration of keepalive timeout in `splunk-logger` plugin paramet
 
 For more information, see [PR #11611](https://github.com/apache/apisix/pull/11611).
 
-### Support AWS and GCP Secret Managers
+### Support AWS and GCP secret managers
 
 Support the integration with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) and [GCP Secret Manager](https://cloud.google.com/security/products/secret-manager?hl=en) for secrets management.
 
