@@ -39,9 +39,7 @@ tags: [Community]
 
 该插件实现现在基于 [draft-cavage-http-signatures](https://www.ietf.org/archive/id/draft-cavage-http-signatures-12.txt)，并且可配置参数已变动。
 
-<!-- to be updated: plugin doc -->
-
-有关更多详细信息，请参阅 [PR #11581](https://github.com/apache/apisix/pull/11581)
+有关更多详细信息，请参阅最新的[插件文档](https://apisix.apache.org/zh/docs/apisix/plugins/hmac-auth/)以及 [PR #11581](https://github.com/apache/apisix/pull/11581)
 
 ### 添加消费者凭证实体
 
