@@ -7,7 +7,7 @@ module.exports = [
     color: '#e8433e',
     githubRepo: 'apache/apisix',
     githubBranch: 'master',
-    downloadPath: 'apisix/3.1q.0/apache-apisix-3.11.0-src',
+    downloadPath: 'apisix/3.11.0/apache-apisix-3.11.0-src',
     dockerhubPath: 'apisix',
     version: '3.11.0',
     LTSDownloadPath: 'apisix/3.2.2/apache-apisix-3.2.2-src',
