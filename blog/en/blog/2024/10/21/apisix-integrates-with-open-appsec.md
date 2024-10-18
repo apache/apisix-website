@@ -484,7 +484,7 @@ Additionally, it was explained, what the benefits are of connecting to open-apps
 
 We hope these new integrations will prove very useful to enhance the security of your APISIX API gateway and its exposed web APIs and web applications with open-appsec machine learning-based WAF.
 
-Welcome you to contact us if you have any feedback or questions, or might face some technical challenge that you want us to assist with.
+Welcome you to contact us if you have any feedback, questions or might face some technical challenge that you want us to assist with. You can reach the open-appsec team via the chat on [https://www.openappsec.io](https://www.openappsec.io) or via email to: [info@openappsec.io](info@openappsec.io).
 
 ## Additional Resources
 
