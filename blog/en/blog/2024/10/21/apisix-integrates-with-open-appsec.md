@@ -235,7 +235,7 @@ Make sure to have a Linux platform with both Docker and docker-compose tools ins
 
 Within the directory that you want to use for the deployment, create a folder `appsec-localconfig` which will hold the appsec declarative configuration file `mkdir ./appsec-localconfig`.
 
-### 3. Download open-appsec File into the Folder
+### 3. Download the open-appsec File into the Folder
 
 Download the initial declarative configuration file for open-appsec into that folder.
 
@@ -261,7 +261,7 @@ https://raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/a
 
 ### 6. Create a `docer-compose.yaml` File
 
-Create a docker-compose.yaml file with the content below, it can be downloaded as follows.
+Create a `docker-compose.yaml` file with the content below, which can be downloaded as follows.
 
 ```json
 wget
@@ -382,7 +382,7 @@ helm install open-appsec-k8s-apisix-latest.tgz \
 -n appsec-apisix
 ```
 
-> Replace <your-email-address> in the Helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively just remove that line if you prefer not to provide your email.
+> Replace <your-email-address> in the Helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively, just remove that line if you prefer not to provide your email.
 
 ### 4. Validate
 
@@ -484,7 +484,7 @@ Additionally, it was explained, what the benefits are of connecting to open-apps
 
 We hope these new integrations will prove very useful to enhance the security of your APISIX API gateway and its exposed web APIs and web applications with open-appsec machine learning-based WAF.
 
-Welcome you to contact us if you have any feedback, questions or might face some technical challenge that you want us to assist with.
+Welcome you to contact us if you have any feedback or questions, or might face some technical challenge that you want us to assist with.
 
 ## Additional Resources
 
