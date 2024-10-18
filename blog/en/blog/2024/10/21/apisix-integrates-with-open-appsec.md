@@ -5,6 +5,10 @@ authors:
     title: "Author"
     url: "https://github.com/ByteSkater"
     image_url: "https://github.com/ByteSkater.png"
+  - name: "Yilia Lin"
+    title: "Technical Writer"
+    url: "https://github.com/Yilialinn"
+    image_url: "https://github.com/Yilialinn.png"
 keywords: 
 - API gateway
 - Apache APISIX
@@ -38,61 +42,61 @@ This new collaboration between the open-appsec and API7 teams now allows users t
 
 Further use cases for APISIX as an API gateway include load balancing, rate limiting, authentication, and authorization. It provides comprehensive features such as traffic control, dynamic upstream, and plugin extensibility, enabling developers to customize and extend functionality according to their specific needs.
 
-Website: apisix.apache.org
+- Website: apisix.apache.org
 
-Github: www.github.com/apache/apisix
+- Github: github.com/apache/apisix
 
-Docs: apisix.apache.org/docs
+- Docs: apisix.apache.org/docs
 
 ### About open-appsec WAF
 
-[open-appsec WAF](https://www.openappsec.io) provides automatic, preemptive threat prevention and integrates with various types of reverse proxies like NGINX as well as API Gateways like APISIX. It is machine-learning-based, meaning it doesn't require signatures (or updates) at all. This enables it to provide automatic, state-of-the-art threat prevention even for true zero-day attacks while significantly reducing both administrative effort and the amount of false positives.
+[open-appsec WAF](https://www.openappsec.io) provides automatic, preemptive threat prevention and integrates with various types of reverse proxies like NGINX as well as API gateways like APISIX. It is machine-learning-based, meaning it doesn't require signatures (or updates) at all. This enables it to provide automatic, state-of-the-art threat prevention even for true zero-day attacks while significantly reducing both administrative effort and the amount of false positives.
 
-In addition, open-appsec provides many additional security layers such as AntiBot, Rate Limiting, Schema Enforcement, Snort Signature Support, Custom Rules/Exceptions, and more. open-appsec can be managed centrally using a Web UI provided as a SaaS service and also locally using a declarative configuration file.
+In addition, open-appsec provides many additional security layers such as AntiBot, rate limiting, schema enforcement, snort signature support, custom rules/exceptions, and more. open-appsec can be managed centrally using a Web UI provided as a SaaS service and also locally using a declarative configuration file.
 
-Website: www.openappsec.io
+- Website: openappsec.io
 
-Github: www.github.com/openappsec
+- Github: github.com/openappsec
 
-Docs: docs.openappsec.io
+- Docs: docs.openappsec.io
 
-Playgrounds: www.openappsec.io/playground
+- Playgrounds: openappsec.io/playground
 
 ## Integrating Apache APISIX with open-appsec
 
-With this new integration, APISIX users will now have access to open-appsec WAF as an integrated, state-of-the-art Machine Learning-based WAF solution for the protection of their Web APIs and Web Applications.
+With this new integration, APISIX users will now have access to open-appsec WAF as an integrated, state-of-the-art machine-learning-based WAF solution for the protection of their web APIs and web applications.
 
-They can now use e.g. open-appsec's free and open-source "Community Edition" to get effective, AI-based protection against known but also unknown attacks for everything exposed by their APISIX API Gateway, while at the same time reducing the amount of false positives significantly unburdening the administrator from tedious tasks such as creating exceptions, updating traditional signature-based policies and more.
+They can now use e.g. open-appsec's free and open-source "Community Edition" to get effective, AI-based protection against known but also unknown attacks for everything exposed by their APISIX API gateway, while at the same time reducing the amount of false positives significantly unburdening the administrator from tedious tasks such as creating exceptions, updating traditional signature-based policies and more.
 
 This integration will be available for all common platforms: Linux, Docker, and Kubernetes.
 
 ### Linux
 
-**For Linux "embedded" deployments** of APISIX an open-appsec installer will add an "open-appsec attachment" module to the existing APISIX installation and also install the "open-appsec agent" alongside it, which will receive the traffic from the attachment, inspect it, and return the concluded action to block or allow the traffic back to the APISIX respectively the open-appsec attachment integrated with it.
+**For Linux "embedded" deployments** of APISIX, an open-appsec installer will add an "open-appsec attachment" module to the existing APISIX installation and also install the "open-appsec agent" alongside it, which will receive the traffic from the attachment, inspect it, and return the concluded action to block or allow the traffic back to the APISIX respectively the open-appsec attachment integrated with it.
 
 Here's a simple architecture schematic for Linux deployment.
 
-![Architecture for Linus Deployment](https://static.apiseven.com/uploads/2024/10/11/3X89XzHJ_open-appsec-1.jpeg)
+![Architecture for Linus Deployment](https://static.apiseven.com/uploads/2024/10/18/6QZvRy6P_linux-deployment.png)
 
 ### Docker
 
-**For Docker-based deployments** of APISIX with open-appsec WAF there is a special APISIX container image available, to which the open-appsec attachment was already added and also an enhanced docker-compose file, which deploys both, the APISIX gateway container as well as an open-appsec Agent that does the security inspection and returns the concluded decisions to the APISIX gateway to allow or block traffic.
+**For Docker-based deployments** of APISIX with open-appsec WAF, there is a special APISIX container image available, to which the open-appsec attachment was already added and also an enhanced docker-compose file, which deploys both, the APISIX gateway container as well as an open-appsec Agent that does the security inspection and returns the concluded decisions to the APISIX gateway to allow or block traffic.
 
 Here's a simple architecture schematic for deployment on Docker.
 
-![Architecture for Docker-Based Deployment](https://static.apiseven.com/uploads/2024/10/11/pjUzl6Uf_open-appsec-2.jpeg)
+![Architecture for Docker-Based Deployment](https://static.apiseven.com/uploads/2024/10/18/bxKsXOqW_docker-deployment.png)
 
 ### Kubernetes
 
-**For Kubernetes based-deployments** of APISIX integrated with open-appsec there's a helm chart available, which is based on the official APISIX helm chart and further enhanced to also include the open-appsec attachment in the APISIX gateway container and also deploys the open-appsec agent. Further, you will have the option to configure open-appsec in a declarative "DevOps-style" way using custom resources in K8s as an alternative to using the open-appsec central management WebUI.
+**For Kubernetes based-deployments** of APISIX integrated with open-appsec, there's a Helm chart available, which is based on the official APISIX Helm chart and further enhanced to also include the open-appsec attachment in the APISIX gateway container and also deploys the open-appsec agent. Further, you will have the option to configure open-appsec in a declarative "DevOps-style" way using custom resources in K8s as an alternative to using the open-appsec central management Web UI.
 
 Here's a simple architecture schematic for deployment on Kubernetes.
 
-![Architecture for Kubernetes Deployment](https://static.apiseven.com/uploads/2024/10/11/vdAi5cUb_open-appsec-3.jpeg)
+![Architecture for Kubernetes Deployment](https://static.apiseven.com/uploads/2024/10/18/SEZQ6E14_k8s-deployment.png)
 
 ## Adding open-appsec WAF to APISIX on Linux
 
-To install open-appsec on a Linux system with APISIX installed please follow these steps:
+To install open-appsec on a Linux system with APISIX installed, please follow these steps:
 
 ### 1. Prerequisites
 
@@ -143,7 +147,7 @@ wget https://downloads.openappsec.io/open-appsec-install && chmod +x open-appsec
 
 Install open-appsec to integrate with the existing APISIX installation.
 
-> Note that the --prevent flag will install open-appsec with a default policy already set to prevent mode.
+> Note that the `--prevent` flag will install open-appsec with a default policy already set to prevent mode.
 
 ```shell
 ./open-appsec-install --auto --prevent
@@ -184,7 +188,7 @@ Let's see if this route works by accessing it.
 curl -s -v -G --data-urlencode email=user@domain.abc http://localhost:9080/anything
 ```
 
-### 7. Simulate SQL Injection Attack
+### 7. Simulate an SQL Injection Attack
 
 Now let's try to simulate an SQL injection attack (see `'OR '1'='1'` in the below HTTP request) against the `httpin.org` service exposed by the APISIX gateway which is now protected by the open-appsec WAF.
 
@@ -213,7 +217,7 @@ open-appsec-ctl --view-logs | grep -i user@domain.abc
 
 Optionally you can connect your deployment now to [https://my.openappsec.io](https://my.openappsec.io) for centrally managing open-appsec with an easy-to-use Web UI, monitoring security events and more, see section **How to Manage Your open-appsec WAF Deployment Centrally?** further below for more information.
 
-Congratulations! You successfully added open-appsec WAF to your existing APISIX installation and verified that your web services exposed by the APISIX Gateway are now protected against web attacks.
+**Congratulations!** You successfully added open-appsec WAF to your existing APISIX installation and verified that your web services exposed by the APISIX gateway are now protected against web attacks.
 
 ## Deploying APISIX with open-appsec WAF on Containerized Platforms (Docker)
 
@@ -298,11 +302,11 @@ services:
     command: /cp-nano-agent
 ```
 
-### 7. Update the `docker-compose.yaml` File
+### 7. Update Your Email Address (Optional)
 
 Edit the `docker-compose.yaml` file and replace "user@email.com" with your own email address, so we can provide assistance in case of any issues with the specific deployment in the future and provide information proactively regarding open-appsec.
 
-This is an optional parameter and can be removed. If we send automatic emails there will also be an opt-out option included for receiving similar communication in the future.
+This is an optional parameter and can be removed. If we send automatic emails, there will also be an opt-out option included for receiving similar communication in the future.
 
 ### 8. Start All Containers
 
@@ -328,7 +332,7 @@ Let's see if the standalone configuration works by accessing it.
 curl -s -v -G --data-urlencode email=user@domain.abc http://localhost:9080/anything
 ```
 
-### 11. Simulate SQL Injection Attack
+### 11. Simulate an SQL Injection Attack
 
 Now let's try to simulate an SQL injection attack against the httpin.org service exposed by the APISIX gateway container which is now protected by open-appsec.
 
@@ -348,18 +352,18 @@ Make sure the Kubernetes platform and Helm tool are available.
 
 ### 2. Download open-appsec
 
-Download the open-appsec for the APISIX helm chart here.
+Download the open-appsec for the APISIX Helm chart here.
 
 ```json
 wget https://downloads.openappsec.io/packages/helm-
 charts/apisix/open-appsec-k8s-apisix-latest.tgz
 ```
 
-### 3. Install helm chart
+### 3. Install Helm Chart
 
-This example `helm install` command is installing the open-appsec for the APISIX helm chart which is based on an extended version of the official APISIX helm chart.
+This example `helm install` command is installing the open-appsec for the APISIX Helm chart which is based on an extended version of the official APISIX Helm chart.
 
-It will deploy the APISIX gateway as the APISIX Ingress Controller, as well as open-appsec WAF integrated with it. It also offers an additional configuration option specifically for open-appsec WAF (see `values.yaml` inside the helm chart and open-appsec [docs](https://docs.openappsec.io/)).
+It will deploy the APISIX gateway as the APISIX Ingress Controller, as well as open-appsec WAF integrated with it. It also offers an additional configuration option specifically for open-appsec WAF (see `values.yaml` inside the Helm chart and open-appsec [docs](https://docs.openappsec.io/)).
 
 After deployment, you can assign your K8s ingress resources to the APISIX gateway by configuring them to use the following ingress class: `appsec-apisix`.
 
@@ -378,7 +382,7 @@ helm install open-appsec-k8s-apisix-latest.tgz \
 -n appsec-apisix
 ```
 
-> Replace <your-email-address> in the helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively just remove that line if you prefer not to provide your email.
+> Replace <your-email-address> in the Helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively just remove that line if you prefer not to provide your email.
 
 ### 4. Validate
 
@@ -441,7 +445,7 @@ Let's see if the standalone configuration works by accessing it:
 curl -s -v -G --data-urlencode email=user@domain.abc http://[YOUR-INGRESS-HOSTNAME]
 ```
 
-### 11. Simulate SQL Injection Attack
+### 11. Simulate an SQL Injection Attack
 
 Now let's try to simulate an SQL injection attack against the `httpin.org` service exposed by the APISIX gateway container which is now protected by open-appsec.
 
@@ -455,14 +459,14 @@ Replace [YOUR-INGRESS-HOSTNAME] in the command above with the hostname you set i
 
 ## How to Manage Your open-appsec WAF Deployment Centrally?
 
-If you like you can also manage your open-appsec WAF deployment (integrated with APISIX) centrally using the open-appsec WebUI (SaaS Service) available at [https://my.openappsec.io](https://my.openappsec.io), by connecting the open-appsec agent to a deployment profile in the central WebUI.
+If you like you can also manage your open-appsec WAF deployment (integrated with APISIX) centrally using the open-appsec Web UI (SaaS Service) available at [https://my.openappsec.io](https://my.openappsec.io), by connecting the open-appsec agent to a deployment profile in the central WebUI.
 
-You can alternatively continue to manage your deployment locally but still connect to a central WebUI profile in "Declarative mode" so that you will be able to see the local configuration (read-only) in the WebUI.
+You can alternatively continue to manage your deployment locally but still connect to a central WebUI profile in "Declarative mode" so that you will be able to see the local configuration (read-only) in the Web UI.
 
-Alongside the configuration of open-appsec the WebUI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and
+Alongside the configuration of open-appsec the Web UI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and
 more.
 
-Below you find some screenshots of the WebUI. For instructions on how to do this see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
+Below you find some screenshots of the Web UI. For instructions on how to do this see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
 
 [Add more specific links to docs, once available for connecting to mgmt. for docker and Linux sections]
 
@@ -474,7 +478,7 @@ Below you find some screenshots of the WebUI. For instructions on how to do this
 
 In this blog we explained how open-appsec can integrate with Apache APISIX on all of the following: regular Linux-based deployments, containerized deployments (Docker), and also Kubernetes environments.
 
-Following the deployment steps for APISIX with open-appsec WAF, we simulated an SQL injection attack, which was effectively prevented by open-appsec's machine learning-based WAF technology.
+Following the deployment steps for APISIX with open-appsec WAF, we simulated SQL injection attacks, which were effectively prevented by open-appsec's machine learning-based WAF technology.
 
 Additionally, it was explained, what the benefits are of connecting to open-appsec central WebUI for managing, monitoring, log analysis, and reporting.
 
@@ -496,7 +500,7 @@ Playgrounds: https://www.openappsec.io/playground
 
 Blogs: https://www.openappsec.io/blogs
 
-### APISIX
+### Apache APISIX
 
 Website: https://apisix.apache.org
 
