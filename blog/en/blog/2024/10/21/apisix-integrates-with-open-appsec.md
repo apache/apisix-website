@@ -27,7 +27,7 @@ image: https://static.apiseven.com/uploads/2024/10/18/8d1iVJWL_logo%20x%20open-a
 <!--truncate-->
 
 <head>
-    <link rel="canonical" href="" />
+    <link rel="canonical" href="https://www.openappsec.io/post/announcing-open-appsec-WAF-integration-with-Apache-APISIX-API-Gateway" />
 </head>
 
 ## Introduction
