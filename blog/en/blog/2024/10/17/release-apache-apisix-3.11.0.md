@@ -25,7 +25,7 @@ We are glad to present Apache APISIX 3.11.0 with exciting new features, bug fixe
 
 This new release adds a number of new features, including the addition of AI plugins to integrate with LLM providers, the support for AWS and GCP Secret Managers for secret management, and more.
 
-There are a few important changes included in this release. Should you find these changes impacting your operations, please plan accordingly for a seamless upgrade.
+There are a few breaking changes included in this release. Should you find these changes impacting your operations, please plan accordingly for a seamless upgrade.
 
 ## Breaking Changes
 
@@ -57,7 +57,7 @@ curl -i "http://127.0.0.1:9180/apisix/admin/consumers" -X PUT \
   }'
 ```
 
-To configure the consumer `key-auth` credential for `tom`, you can use leverage the credential object:
+To configure the consumer `key-auth` credential for `tom`, you can use the credential object:
 
 ```shell
 curl "http://127.0.0.1:9180/apisix/admin/consumers/tom/credentials" -X PUT \
