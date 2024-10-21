@@ -42,11 +42,11 @@ This new collaboration between the open-appsec and API7 teams now allows users t
 
 Further use cases for APISIX as an API gateway include load balancing, rate limiting, authentication, and authorization. It provides comprehensive features such as traffic control, dynamic upstream, and plugin extensibility, enabling developers to customize and extend functionality according to their specific needs.
 
-- Website: apisix.apache.org
+- Website: [apisix.apache.org](https://apisix.apache.org)
 
-- Github: github.com/apache/apisix
+- Github: [github.com/apache/apisix](https://github.com/apache/apisix)
 
-- Docs: apisix.apache.org/docs
+- Docs: [apisix.apache.org/docs](https://apisix.apache.org/docs)
 
 ### About open-appsec WAF
 
@@ -54,13 +54,13 @@ Further use cases for APISIX as an API gateway include load balancing, rate limi
 
 In addition, open-appsec provides many additional security layers such as AntiBot, rate limiting, schema enforcement, snort signature support, custom rules/exceptions, and more. open-appsec can be managed centrally using a Web UI provided as a SaaS service and also locally using a declarative configuration file.
 
-- Website: openappsec.io
+- Website: [www.openappsec.io](https://www.openappsec.io)
 
-- Github: github.com/openappsec
+- Github: [github.com/openappsec](https://github.com/openappsec)
 
-- Docs: docs.openappsec.io
+- Docs: [docs.openappsec.io](https://docs.openappsec.io)
 
-- Playgrounds: openappsec.io/playground
+- Playgrounds: [www.openappsec.io/playground](https://www.openappsec.io/playground)
 
 ## Integrating Apache APISIX with open-appsec
 
@@ -190,7 +190,7 @@ curl -s -v -G --data-urlencode email=user@domain.abc http://localhost:9080/anyth
 
 ### 7. Simulate an SQL Injection Attack
 
-Now let's try to simulate an SQL injection attack (see `'OR '1'='1'` in the below HTTP request) against the `httpin.org` service exposed by the APISIX gateway which is now protected by the open-appsec WAF.
+Now let's try to simulate an SQL injection attack (see `'OR '1'='1'` in the below HTTP request) against the `httpbin.org` service exposed by the APISIX gateway which is now protected by the open-appsec WAF.
 
 ```json
 curl -s -v -G --data-urlencode email=user@domain.abc' OR '1'='1 http://localhost:9080/anything
@@ -203,8 +203,7 @@ This simulated attack now gets blocked successfully by open-appsec's contextual 
 Check out the corresponding log files showing the "prevent" for the HTTP request with the simulated attack which we just sent.
 
 ```shell
-tail -f /var/log/nano_agent/cp-nano-http-transaction-handler.log*| grep -i
-user@domain.abc
+tail -f /var/log/nano_agent/cp-nano-http-transaction-handler.log*| grep -i user@domain.abc
 ```
 
 Alternatively you can use the `open-appsec-ctl` tool:
@@ -233,15 +232,16 @@ Make sure to have a Linux platform with both Docker and docker-compose tools ins
 
 ### 2. Create a Folder for open-appsec
 
-Within the directory that you want to use for the deployment, create a folder `appsec-localconfig` which will hold the appsec declarative configuration file `mkdir ./appsec-localconfig`.
-
+Within the directory that you want to use for the deployment, create a folder `appsec-localconfig` which will hold the appsec declarative configuration file:
+```json
+mkdir ./appsec-localconfig
+```
 ### 3. Download the open-appsec File into the Folder
 
 Download the initial declarative configuration file for open-appsec into that folder.
 
 ```json
-wget
-https://raw.githubusercontent.com/openappsec/openappsec/main/config/linux/latest/prevent/local_policy.yaml -O appsec-localconfig/local_policy.yaml
+wget https://raw.githubusercontent.com/openappsec/openappsec/main/config/linux/latest/prevent/local_policy.yaml -O appsec-localconfig/local_policy.yaml
 ```
 
 > Note that this example declarative configuration file is already set to prevent attacks.
@@ -255,18 +255,17 @@ Create another folder `apisix-localconfig` which will hold the declarative confi
 Let's download a simple declarative configuration file also for APISIX so we can verify open-appsec protection after the deployment.
 
 ```json
-wget
-https://raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/apisix-example-config/apisix-standalone.yaml -O ./apisix-localconfig/apisix-standalone.yaml
+wget https://raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/apisix-example-config/apisix-standalone.yaml -O ./apisix-localconfig/apisix-standalone.yaml
 ```
 
 ### 6. Create a `docer-compose.yaml` File
 
-Create a `docker-compose.yaml` file with the content below, which can be downloaded as follows.
+Create a `docker-compose.yaml` file with the content below, which can be downloaded as follows:
 
 ```json
-wget
-https://raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/docker-compose.yaml
-
+wget https://raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/docker-compose.yaml
+```
+```json
 version: "3"
 
 services:
@@ -355,8 +354,7 @@ Make sure the Kubernetes platform and Helm tool are available.
 Download the open-appsec for the APISIX Helm chart here.
 
 ```json
-wget https://downloads.openappsec.io/packages/helm-
-charts/apisix/open-appsec-k8s-apisix-latest.tgz
+wget https://downloads.openappsec.io/packages/helm-charts/apisix/open-appsec-k8s-apisix-latest.tgz
 ```
 
 ### 3. Install Helm Chart
@@ -399,9 +397,7 @@ Run the following command to create the "open-appsec-best-practice-policy" in K8
 > Note that this example policy is already pre-configured to prevent attacks.
 
 ```json
-kubectl apply -f
-https://raw.githubusercontent.com/openappsec/openappsec/main/config
-/k8s/v1beta1/open-appsec-k8s-prevent-config-v1beta1.yaml
+kubectl apply -f https://raw.githubusercontent.com/openappsec/openappsec/main/config/k8s/v1beta1/open-appsec-k8s-prevent-config-v1beta1.yaml
 ```
 
 You can also create your own custom policy, [here](https://docs.openappsec.io/getting-started/start-with-kubernetes/configuration-using-crds) you find all the details.
@@ -466,9 +462,9 @@ You can alternatively continue to manage your deployment locally but still conne
 Alongside the configuration of open-appsec the Web UI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and
 more.
 
-Below you find some screenshots of the Web UI. For instructions on how to do this see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
+For instructions on how to connect your deployment to the central WebUI see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
 
-[Add more specific links to docs, once available for connecting to mgmt. for docker and Linux sections]
+Below you find some screenshots of the Web UI.
 
 ![Open-websec UI 1](https://static.apiseven.com/uploads/2024/10/11/MzsUwqh3_open-appsec-4.jpeg)
 
