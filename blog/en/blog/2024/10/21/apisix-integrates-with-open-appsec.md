@@ -200,7 +200,7 @@ This simulated attack now gets blocked successfully by open-appsec's contextual 
 
 ### 8. Review Log Files
 
-Check out the corresponding log files showing the "prevent" for the HTTP request with the simulated attack which we just sent.
+Check out the corresponding log files showing the "prevent" for the HTTP request with the simulated attack that we just sent.
 
 ```shell
 tail -f /var/log/nano_agent/cp-nano-http-transaction-handler.log*| grep -i user@domain.abc
@@ -426,8 +426,7 @@ spec: ingressClassName: appsec-apisix
 
 ### 9. Add Annotation to the Ingress Resource
 
-Add this annotation to the ingress resource to activate open-appsec for this ingress by
-specifying the desired open-appsec policy custom resource.
+Add this annotation to the ingress resource to activate open-appsec for this ingress by specifying the desired open-appsec policy custom resource.
 
 ```shell
 openappsec.io/policy: open-appsec-best-practice-policy
@@ -455,12 +454,11 @@ Replace [YOUR-INGRESS-HOSTNAME] in the command above with the hostname you set i
 
 ## How to Manage Your open-appsec WAF Deployment Centrally?
 
-If you like you can also manage your open-appsec WAF deployment (integrated with APISIX) centrally using the open-appsec Web UI (SaaS Service) available at [https://my.openappsec.io](https://my.openappsec.io), by connecting the open-appsec agent to a deployment profile in the central WebUI.
+If you like you can also manage your open-appsec WAF deployment (integrated with APISIX) centrally using the open-appsec Web UI (SaaS Service) available at [https://my.openappsec.io](https://my.openappsec.io), by connecting the open-appsec agent to a deployment profile in the central Web UI.
 
 You can alternatively continue to manage your deployment locally but still connect to a central WebUI profile in "Declarative mode" so that you will be able to see the local configuration (read-only) in the Web UI.
 
-Alongside the configuration of open-appsec the Web UI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and
-more.
+Alongside the configuration of open-appsec the Web UI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and more.
 
 For instructions on how to connect your deployment to the central Web UI see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
 
@@ -480,7 +478,7 @@ Additionally, it was explained, what the benefits are of connecting to open-apps
 
 We hope these new integrations will prove very useful to enhance the security of your APISIX API gateway and its exposed web APIs and web applications with open-appsec machine learning-based WAF.
 
-Welcome you to contact us if you have any feedback, questions or might face some technical challenge that you want us to assist with. You can reach the open-appsec team via the chat on [https://www.openappsec.io](https://www.openappsec.io) or via email to: [info@openappsec.io](info@openappsec.io).
+Welcome you to contact us if you have any feedback, or questions or might face some technical challenge that you want us to assist with. You can reach the open-appsec team via the chat on [https://www.openappsec.io](https://www.openappsec.io) or via email to: [info@openappsec.io](info@openappsec.io).
 
 ## Additional Resources
 
