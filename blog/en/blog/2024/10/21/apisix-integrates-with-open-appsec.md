@@ -233,9 +233,11 @@ Make sure to have a Linux platform with both Docker and docker-compose tools ins
 ### 2. Create a Folder for open-appsec
 
 Within the directory that you want to use for the deployment, create a folder `appsec-localconfig` which will hold the appsec declarative configuration file:
+
 ```json
 mkdir ./appsec-localconfig
 ```
+
 ### 3. Download the open-appsec File into the Folder
 
 Download the initial declarative configuration file for open-appsec into that folder.
@@ -265,6 +267,7 @@ Create a `docker-compose.yaml` file with the content below, which can be downloa
 ```json
 wget https://raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/docker-compose.yaml
 ```
+
 ```json
 version: "3"
 
