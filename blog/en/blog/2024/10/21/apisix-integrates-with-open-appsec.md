@@ -462,7 +462,7 @@ You can alternatively continue to manage your deployment locally but still conne
 Alongside the configuration of open-appsec the Web UI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and
 more.
 
-For instructions on how to connect your deployment to the central WebUI see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
+For instructions on how to connect your deployment to the central Web UI see the open-appsec docs available at [https://docs.openappsec.io](https://docs.openappsec.io).
 
 Below you find some screenshots of the Web UI.
 
