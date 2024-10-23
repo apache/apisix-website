@@ -383,7 +383,7 @@ helm install open-appsec-k8s-apisix-latest.tgz \
 -n appsec-apisix
 ```
 
-> Replace <your-email-address> in the Helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively, just remove that line if you prefer not to provide your email.
+> Replace `<your-email-address>` in the Helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively, just remove that line if you prefer not to provide your email.
 
 ### 4. Validate
 
