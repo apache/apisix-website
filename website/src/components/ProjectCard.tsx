@@ -374,41 +374,44 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
         </VersionInfo>
 
         <ButtonRow>
-          <LTSCard>
-            <LTSButton
-              name={name}
-              color={color}
-              LTSVersion={LTSVersion}
-              isLTSDropdownOpen={isLTSDropdownOpen}
-              setIsLTSDropdownOpen={setIsLTSDropdownOpen}
-            />
-            <LTSDropdown
-              isLTSDropdownOpen={isLTSDropdownOpen}
-              setIsLTSDropdownOpen={setIsLTSDropdownOpen}
-            >
-              <DropdownItem
-                className="download-dropdown-item"
-                href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz`}
-                target="_blank"
-              >
-                Source
-              </DropdownItem>
-              <DropdownItem
-                className="download-dropdown-item"
-                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
-                target="_blank"
-              >
-                ASC
-              </DropdownItem>
-              <DropdownItem
-                className="download-dropdown-item"
-                href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.sha512`}
-                target="_blank"
-              >
-                SHA512
-              </DropdownItem>
-            </LTSDropdown>
-          </LTSCard>
+          {LTSVersion
+            && (
+              <LTSCard>
+                <LTSButton
+                  name={name}
+                  color={color}
+                  LTSVersion={LTSVersion}
+                  isLTSDropdownOpen={isLTSDropdownOpen}
+                  setIsLTSDropdownOpen={setIsLTSDropdownOpen}
+                />
+                <LTSDropdown
+                  isLTSDropdownOpen={isLTSDropdownOpen}
+                  setIsLTSDropdownOpen={setIsLTSDropdownOpen}
+                >
+                  <DropdownItem
+                    className="download-dropdown-item"
+                    href={`https://www.apache.org/dyn/closer.cgi/${LTSDownloadPath}.tgz`}
+                    target="_blank"
+                  >
+                    Source
+                  </DropdownItem>
+                  <DropdownItem
+                    className="download-dropdown-item"
+                    href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.asc`}
+                    target="_blank"
+                  >
+                    ASC
+                  </DropdownItem>
+                  <DropdownItem
+                    className="download-dropdown-item"
+                    href={`https://downloads.apache.org/${LTSDownloadPath}.tgz.sha512`}
+                    target="_blank"
+                  >
+                    SHA512
+                  </DropdownItem>
+                </LTSDropdown>
+              </LTSCard>
+            )}
           <ButtonCard>
             <Button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
