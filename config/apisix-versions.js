@@ -3,7 +3,7 @@
 /**
  * @type {Array<string>} version list
  */
-const versions = ['2.13', '2.14', '2.15', '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11'];
+const versions = ['3.9', '3.10', '3.11'];
 
 /**
  * @type {Array<string>} LTS version list
@@ -21,6 +21,54 @@ const versionMap = {
  * @type {Array<{label: string, href: string}>}
  */
 const archivedVersions = [
+  {
+    label: '3.8',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.8/getting-started/readme/',
+  },
+  {
+    label: '3.7',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.7/getting-started/readme/',
+  },
+  {
+    label: '3.6',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.6/getting-started/readme/',
+  },
+  {
+    label: '3.5',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.5/getting-started/readme/',
+  },
+  {
+    label: '3.4',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.4/getting-started/readme/',
+  },
+  {
+    label: '3.3',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.3/getting-started/readme/',
+  },
+  {
+    label: '3.2',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.2/getting-started/',
+  },
+  {
+    label: '3.1',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.1/getting-started/',
+  },
+  {
+    label: '3.0',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.0/getting-started/',
+  },
+  {
+    label: '2.15',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.15/getting-started/',
+  },
+  {
+    label: '2.14',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.14/getting-started/',
+  },
+  {
+    label: '2.13',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.13/getting-started/',
+  },
   {
     label: '2.12',
     href: 'https://apache-apisix.netlify.app/docs/apisix/2.12/getting-started/',
