@@ -22,7 +22,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 近期亮点功能
 
-1. [重构 google-cloud-logging 文档](https://github.com/apache/apisix/pull/11596)（贡献者：[HuanXin-Chen](https://github.com/HuanXin-Chen))
+1. [重构 `google-cloud-logging` 文档](https://github.com/apache/apisix/pull/11596)（贡献者：[HuanXin-Chen](https://github.com/HuanXin-Chen))
 
 此 PR 将 `scope` 更改为符合 OAuth2/OIDC 规则的 `scopes`，同时，替换 `google-cloud-logging/oauth.lua` 为 `utils/google-cloud-oauth.lua`。
 
