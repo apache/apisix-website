@@ -44,7 +44,7 @@ Users hope to directly use the decoded body in the template of `body-transformer
 
 6. [Support configuring `key_claim_name` in `jwt-auth` Plugin](https://github.com/apache/apisix/pull/11772) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-Configuring key_claim_name in the JWT plugin is essential for specifying which claim in the JWT contains the key that identifies the secret used for validating the token.
+Configuring `key_claim_name` in the JWT plugin is essential for specifying which claim in the JWT contains the key that identifies the secret used for validating the token.
 
 7. [Suppress Error Log in Multi-Authentication When One Authentication Succeeds](https://github.com/apache/apisix/pull/11775) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
