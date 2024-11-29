@@ -1,5 +1,5 @@
 ---
-title: "Monthly Report (October 01 - November 30)"
+title: "Bi-Monthly Report (October 01 - November 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
@@ -16,7 +16,7 @@ From October 1 to November 30, 9 contributors made 29 commits to Apache APISIX. 
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/11/29/7z0d7q0r_contributors-nov.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/11/29/WZfXkBqp_nov-new-contributors.png)
 
 ![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/11/29/53aNHiqa_nov-new-contributors.png)
 
