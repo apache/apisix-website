@@ -32,7 +32,7 @@ The `ai-prompt-decorator` plugin simplifies access to LLM providers, such as Ope
 
 3. [Add `ai-rag` Plugin](https://github.com/apache/apisix/pull/11568)（Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-Implement the ai-rag plugin that uses RAG (Retrieval Augmented Generation), to return information about untrained events/facts from LLMs.
+Implement the `ai-rag` plugin that uses RAG (Retrieval Augmented Generation), to return information about untrained events/facts from LLMs.
 
 4. [Add Total Request Panel in Grafana Dashboard](https://github.com/apache/apisix/pull/11692) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
