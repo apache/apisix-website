@@ -44,7 +44,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 6. [支持在 `jwt-auth` 插件中配置 `key_claim_name`](https://github.com/apache/apisix/pull/11772)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-支持在 jwt-auth 插件中配置 `key_claim_name`，用于指定 jwt-auth 中的哪个声明包含用于验证令牌的密钥，从而识别所使用的 secret。
+支持在 `jwt-auth` 插件中配置 `key_claim_name`，用于指定 `jwt-auth` 中的哪个声明包含用于验证令牌的密钥，从而识别所使用的 secret。
 
 7. [多重认证中任一验证通过则不记录错误日志](https://github.com/apache/apisix/pull/11775)（贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
