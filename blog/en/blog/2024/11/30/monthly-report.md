@@ -22,7 +22,7 @@ From October 1 to November 30, 9 contributors made 29 commits to Apache APISIX. 
 
 ## Recent Feature Highlights
 
-1. [Refactor google-cloud-logging Plugin](https://github.com/apache/apisix/pull/11596) (Contributor: [HuanXin-Chen](https://github.com/HuanXin-Chen))
+1. [Refactor `google-cloud-logging` Plugin](https://github.com/apache/apisix/pull/11596) (Contributor: [HuanXin-Chen](https://github.com/HuanXin-Chen))
 
 This PR changed `scope` into `scopes` according to OAuth2/OIDC rules. It also replaced `google-cloud-logging/oauth.lua` with `utils/google-cloud-oauth.lua`.
 
