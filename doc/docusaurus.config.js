@@ -90,11 +90,6 @@ module.exports = {
             projectName: 'apisix',
           });
         },
-        versions: {
-          2.15: {
-            banner: 'none',
-          },
-        },
       },
     ],
     [
