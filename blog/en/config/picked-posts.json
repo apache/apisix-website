@@ -1,9 +1,9 @@
 [
-    "blog/en/blog/2024/03/29/release-apache-apisix-3.9.0.md",
-    "blog/en/blog/2024/06/30/monthly-report.md",
-    "blog/en/blog/2024/07/11/watermarking-infrastructure.md",
-    "blog/en/blog/2024/06/13/fixed-routes-apisix.md",
-    "blog/en/blog/2024/06/06/even-more-opentelemetry.md",
-    "blog/en/blog/2024/02/13/apisix-owasp-coraza-core-ruleset.md",
-    "blog/en/blog/2023/12/14/migu-video-adopts-apisix.md"
+    "blog/en/blog/2024/10/17/release-apache-apisix-3.11.0.md",
+    "blog/en/blog/2024/11/30/bi-monthly-report.md",
+    "blog/en/blog/2024/10/22/apisix-integrates-with-open-appsec.md",
+    "blog/en/blog/2024/08/01/free-tier-api-apisix.md",
+    "blog/en/blog/2024/07/25/different-rate-limits-apisix.md",
+    "blog/en/blog/2024/07/18/advanced-url-rewrite-apisix.md",
+    "blog/en/blog/2023/12/26/zhengcaiyun-uses-apisix.md"
 ]
