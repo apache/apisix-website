@@ -23,26 +23,7 @@ image: https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQ
     <link rel="canonical" href="https://blog.frankel.ch/secure-api-practices-apisix/2/" />
 </head>
 
->[Last week](https://blog.frankel.ch/secure-api-practices-apisix/1/), we listed 16 practices to help secure one's APIs and described how to implement them with Apache APISIX.
->
-> 1. ~~Authentication 🕵️️ - Verifies the identity of users accessing APIs.~~
-> 2. ~~Authorization 🚦 - Determines permissions of authenticated users.~~
-> 3. Data Redaction 🖍️ - Obscures sensitive data for protection.
-> 4. Encryption 🔒 - Encodes data so only authorized parties can decode it.
-> 5. Error Handling ❌ - Manages responses when things go wrong, avoiding revealing sensitive info.
-> 6. ~~Input Validation & Data Sanitization 🧹 - Checks input data and removes harmful parts.~~
-> 7. Intrusion Detection Systems 👀 - Monitor networks for suspicious activities.
-> 8. ~~IP Whitelisting 📝 - Permits API access only from trusted IP addresses.~~
-> 9. ~~Logging and Monitoring 🖥️ - Keeps detailed logs and regularly monitors APIs.~~
->10. ~~Rate Limiting ⏱️ - Limits user requests to prevent overload.~~
->11. Secure Dependencies 📦 - Ensures third-party code is free from vulnerabilities.
->12. Security Headers 📋 - Enhances site security against types of attacks like XSS.
->13. Token Expiry ⏳ - Regularly expiring and renewing tokens prevents unauthorized access.
->14. Use of Security Standards and Frameworks 📘 - Guides your API security strategy.
->15. Web Application Firewall 🔥 - Protects your site from HTTP-specific attacks.
->16. API Versioning 🔄 - Maintains different versions of your API for seamless updates.
->
->This week, we will look at the remaining practices.
+>[Last week](https://blog.frankel.ch/secure-api-practices-apisix/1/), we listed 16 practices to help secure one's APIs and described how to implement them with Apache APISIX. This week, we will look at the remaining practices.
 
 <!--truncate-->
 

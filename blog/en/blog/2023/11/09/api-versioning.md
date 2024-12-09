@@ -20,16 +20,16 @@ image: https://static.apiseven.com/uploads/2023/11/06/PjxXv0E9_signpost-3691159.
 ---
 
 >In my previous post [Evolving your APIs](https://blog.frankel.ch/evolve-apis/), I mention the main API versioning approaches. During the talk of the same name, I sometimes get some questions on the subject. In this post, I'll detail each of them.
->
->I assume readers know the reasons behind versioning, semantic versioning, and product lifecycle. If not, I encourage you to read a bit about these themes; in particular, chapter 24 of the excellent [API Design Patterns](https://blog.frankel.ch/api-design-patterns/) book focuses on them.
->
->I'll summarize the subject in a few words in any case.
 
 <!--truncate-->
 
 <head>
     <link rel="canonical" href="https://blog.frankel.ch/api-versioning/" />
 </head>
+
+I assume readers know the reasons behind versioning, semantic versioning, and product lifecycle. If not, I encourage you to read a bit about these themes; in particular, chapter 24 of the excellent [API Design Patterns](https://blog.frankel.ch/api-design-patterns/) book focuses on them.
+
+I'll summarize the subject in a few words in any case.
 
 ## Generalities
 
