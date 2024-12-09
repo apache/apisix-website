@@ -21,12 +21,6 @@ image: https://static.apiseven.com/uploads/2024/02/10/vVlFQu7C_img-HDlf4Xx9m1iqS
     <link rel="canonical" href="https://blog.frankel.ch/apisix-owasp-coraza-core-ruleset/" />
 </head>
 
->The Open Worldwide Application Security Project is an online community that produces freely available articles, methodologies, documentation, tools, and technologies in the fields of IoT, system software and web application security. The OWASP provides free and open resources. It is led by a non-profit called The OWASP Foundation. The OWASP Top 10 - 2021 is the published result of recent research based on comprehensive data compiled from over 40 partner organizations.
->
-> --[OWASP website](https://owasp.org/)
->
->The OWASP regularly publishes a Top 10 vulnerability report. The report targets vulnerabilities in web applications.
->
 >In this post, I'd like to describe how to fix some of them via the [Apache APISIX API Gateway](https://apisix.apache.org/).
 
 <!--truncate-->

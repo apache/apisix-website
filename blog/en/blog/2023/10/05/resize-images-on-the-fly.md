@@ -19,8 +19,16 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/10/03/LuagzWfs_camera-514992.jpg
 ---
 
->As a web architect, one of the many issues is asset management. And the most significant issue in assets is images. A naive approach would be to set an image and let the browser resize the image via CSS:
->
+>This blog xplores effective strategies for image asset management in web architecture, highlighting traditional and innovative solutions to optimize delivery and avoid reliance on CSS resizing.
+
+<!--truncate-->
+
+<head>
+    <link rel="canonical" href="https://blog.frankel.ch/resize-images-on-the-fly/" />
+</head>
+
+As a web architect, one of the many issues is asset management. And the most significant issue in assets is images. A naive approach would be to set an image and let the browser resize the image via CSS:
+
 >```css
 >img {
 >    height: 100%;
@@ -28,16 +36,10 @@ image: https://static.apiseven.com/uploads/2023/10/03/LuagzWfs_camera-514992.jpg
 >    object-fit: contain;
 >}
 >```
->
->However, it means that you download the original image. It entails two problems: the size of the original image and the suboptimal browser-based resizing.
->
->This post will cover two alternatives: traditional and brand-new solutions.
 
-<!--truncate-->
+However, it means that you download the original image. It entails two problems: the size of the original image and the suboptimal browser-based resizing.
 
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/resize-images-on-the-fly/" />
-</head>
+This post will cover two alternatives: traditional and brand-new solutions.
 
 ## Ahead-of-time resizing
 

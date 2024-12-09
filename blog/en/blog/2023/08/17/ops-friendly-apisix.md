@@ -18,17 +18,17 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
->Though I always worked on the Dev side of IT, I was also interested in the Ops side. I even had a short experience being a WebSphere admin: I used it several times, helping Ops deal with the Admin console while being a developer.
->
->Providing a single package that Ops can configure and deploy in different environments is very important. As a JVM developer, I've been happy using Spring Boot and its wealth of configuration options: command-line parameters, JVM parameters, files, profiles, environment variables, etc.
->
->In this short post, I'd like to describe how you can do the same with Apache APISIX in the context of containers.
+>In this short post, I'd like to describe how to leverage Apache APISIX in containers, drawing on personal experiences with Spring Boot and WebSphere administration.
 
 <!--truncate-->
 
 <head>
     <link rel="canonical" href="https://blog.frankel.ch/ops-friendly-apisix/" />
 </head>
+
+Though I always worked on the Dev side of IT, I was also interested in the Ops side. I even had a short experience being a WebSphere admin: I used it several times, helping Ops deal with the Admin console while being a developer.
+
+Providing a single package that Ops can configure and deploy in different environments is very important. As a JVM developer, I've been happy using Spring Boot and its wealth of configuration options: command-line parameters, JVM parameters, files, profiles, environment variables, etc.
 
 ## File-based configuration
 

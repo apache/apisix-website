@@ -18,11 +18,7 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/08/DOxFlzQc_grpc.svg
 ---
 
->Most inter-systems communication components that use REST serialize their payload in JSON. As of now, JSON lacks a widely-used schema validation standard: [JSON Schema](https://json-schema.org/) is not widespread. Standard schema validation allows delegating the validation to a third-party library and being done with it. Without one, we must fall back to manual validation in the code. Worse, we must keep the validation code in sync with the schema.
->
->XML has schema validation out-of-the-box: an XML document can declare a grammar that it must conform to. SOAP, being based on XML, benefits from it too.
->
->Other serialization alternatives have a schema validation option: _e.g._, [Avro](https://avro.apache.org/), [Kryo](https://github.com/EsotericSoftware/kryo) and [Protocol Buffers](https://protobuf.dev/). Interestingly enough, gRPC uses Protobuf to offer RPC across distributed components:
+>In this post, we will briefly describe gRPC and how it benefits inter-service communication.
 
 <!--truncate-->
 
@@ -30,9 +26,13 @@ image: https://static.apiseven.com/uploads/2023/06/08/DOxFlzQc_grpc.svg
     <link rel="canonical" href="https://blog.frankel.ch/grpc-client-side/" />
 </head>
 
->gRPC is a modern open source high performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication. It is also applicable in last mile of distributed computing to connect devices, mobile applications and browsers to backend services.
->
->-- [Why gRPC?](https://grpc.io/)
+Most inter-systems communication components that use REST serialize their payload in JSON. As of now, JSON lacks a widely-used schema validation standard: [JSON Schema](https://json-schema.org/) is not widespread. Standard schema validation allows delegating the validation to a third-party library and being done with it. Without one, we must fall back to manual validation in the code. Worse, we must keep the validation code in sync with the schema.
+
+XML has schema validation out-of-the-box: an XML document can declare a grammar that it must conform to. SOAP, being based on XML, benefits from it too.
+
+Other serialization alternatives have a schema validation option: _e.g._, [Avro](https://avro.apache.org/), [Kryo](https://github.com/EsotericSoftware/kryo) and [Protocol Buffers](https://protobuf.dev/). Interestingly enough, gRPC uses Protobuf to offer RPC across distributed components:
+
+gRPC is a modern open source high performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication. It is also applicable in last mile of distributed computing to connect devices, mobile applications and browsers to backend services. -- [Why gRPC?](https://grpc.io/)
 
 Moreover, Protocol is a _binary_ serialization mechanism, saving a lot of bandwidth. Thus, gRPC is an excellent option for inter-systems communication. But if all your components talk gRPC, how can simple clients call them? In this post, we will build a gRPC service and show how to call it from curl.
 
