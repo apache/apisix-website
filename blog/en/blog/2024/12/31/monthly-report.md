@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/09/30/VW6dlYsu_sep-cover-en.png
 ---
 
-> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include the addition of supporting configuring response headers when using rate-limit plugin, and supporting for "system" ssl_trusted_certificate, among other enhancements. For detailed information, please read the monthly report.
+> We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include the addition of supporting configuring response headers when using the `limit-count` plugin and supporting "system" `ssl_trusted_certificate`, among other enhancements. For detailed information, please read the monthly report.
 <!--truncate-->
 ## Introduction
 
@@ -22,9 +22,9 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 ## Recent Feature Highlights
 
-1. [Make rate-limit Response Headers Configurable](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+1. [Make Rate-Limit Response Headers Configurable in Limit-Count Plugin](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-This PR allows users to configure the names of rate-limit response headers using `plugin-metadata`.
+This PR allows users to configure the names of rate-limit response headers using `plugin-metadata` when using the `limit-count` plugin.
 
 2. [Refactor Workflow Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
