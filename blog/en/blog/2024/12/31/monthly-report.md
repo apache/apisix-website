@@ -22,13 +22,13 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 ## Recent Feature Highlights
 
-1. [Make Rate-Limit Response Headers Configurable in Limit-Count Plugin](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+1. [Make Rate-Limit Response Headers Configurable in `limit-count` Plugin](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 This PR allows users to configure the names of rate-limit response headers using `plugin-metadata` when using the `limit-count` plugin.
 
-2. [Refactor Workflow Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+2. [Refactor `workflow` Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
-Current logic requires the table `supported_actions` defined in `workflow.lua` to be changed when any new plugin is added to the workflow plugin. With this change, the registration in the table is offloaded to the newly added plugin by implementing the function `workflow_handler()`.
+Current logic requires the table `supported_actions` defined in `workflow.lua` to be changed when any new plugin is added to the `workflow` plugin. With this change, the registration in the table is offloaded to the newly added plugin by implementing the function `workflow_handler()`.
 
 3. [Add Support for `system` `ssl_trusted_certificate`](https://github.com/apache/apisix/pull/11809) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
