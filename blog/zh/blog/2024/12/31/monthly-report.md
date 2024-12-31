@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2024/12/31/xuAagbRY_monthly-report-cover-cn.png
 ---
 
-> 最近，我们新增并改进了 Apache APISIX 的部分功能，包括支持 `limit-count` 插件使用插件元数据配置速率限制响应头和支持将 `system` 设置为值并引用 `ca_certs` 等。有关更多功能新亮点，请阅读本期月报。
+> 最近，我们新增并改进了 Apache APISIX 的部分功能，包括支持 `limit-count` 插件使用 plugin metadata 配置速率限制响应头和支持将 `system` 设置为值并引用 `ca_certs` 等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
 ## 导语
 
@@ -18,17 +18,17 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ![贡献者名单](https://static.apiseven.com/uploads/2024/12/31/npwFTjZH_dec-monthly-report-en.png)
 
-![新晋贡献者](https://static.apiseven.com/uploads/2024/12/31/yZ9uaOc4_dec-new-contributors.jpg)
+![新晋贡献者](https://static.apiseven.com/uploads/2024/12/31/SDOtuLWf_dec-new-contributors.jpg)
 
 ## 近期亮点功能/改进
 
-1. [支持 `limit-count` 插件使用 `metadata` 配置速率限制响应头](https://github.com/apache/apisix/pull/11831) (贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+1. [支持 `limit-count` 插件使用 plugin metadata 配置速率限制响应头](https://github.com/apache/apisix/pull/11831) (贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
 此 PR 允许用户使用插件元数据来配置速率限制响应头的名称。
 
-2. [支持将 `system` 设置为值并引用 `ca_certs`](https://github.com/apache/apisix/pull/11809) (贡献者：[Revolyssup](https://github.com/Revolyssup))
+2. [支持将 `system` 设置为值以使用系统定义的 CA 证书](https://github.com/apache/apisix/pull/11809) (贡献者：[Revolyssup](https://github.com/Revolyssup))
 
-通过此功能，用户可以将系统设置为值，以便在使用系统定义的 CA 证书时使用 `ca_certs`。
+通过此功能，用户可以在配置 `ssl_trusted_certificate` 时将 `system` 设置为值，以使用系统定义的 CA 证书。
 
 3. [新增插件 `workflow.lua` 修改逻辑](https://github.com/apache/apisix/pull/11832) (贡献者：[Revolyssup](https://github.com/Revolyssup))
 

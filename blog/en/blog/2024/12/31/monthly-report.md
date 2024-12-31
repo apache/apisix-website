@@ -18,7 +18,7 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/12/31/npwFTjZH_dec-monthly-report-en.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/12/31/yZ9uaOc4_dec-new-contributors.jpg)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/12/31/SDOtuLWf_dec-new-contributors.jpg)
 
 ## Recent Feature Highlights/Improvements
 
@@ -26,9 +26,9 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 This PR allows users to configure the names of rate-limiting response headers using plugin metadata when using the `limit-count` plugin.
 
-2. [Add Support for `system` `ssl_trusted_certificate`](https://github.com/apache/apisix/pull/11809) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+2. [Support the Configuration of `system` in `ssl_trusted_certificate`](https://github.com/apache/apisix/pull/11809) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
-With this feature, users can set `system` as the value to use when ca_certs are to be used from the system-defined `ca_certs`.
+With this feature, users can set `system` as the value when configuring `ssl_trusted_certificate`, to use the system-defined CA certificated.
 
 3. [Refactor `workflow` Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
