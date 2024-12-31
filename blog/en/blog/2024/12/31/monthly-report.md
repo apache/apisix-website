@@ -22,9 +22,9 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 ## Recent Feature Highlights
 
-1. [Make Rate-Limit Response Headers Configurable in `limit-count` Plugin](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+1. [Make Rate-Limiting Response Headers Configurable in `limit-count` Plugin](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-This PR allows users to configure the names of rate-limit response headers using `plugin-metadata` when using the `limit-count` plugin.
+This PR allows users to configure the names of rate-limiting response headers using `plugin-metadata` when using the `limit-count` plugin.
 
 2. [Refactor `workflow` Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
