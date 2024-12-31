@@ -18,9 +18,9 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/12/31/npwFTjZH_dec-monthly-report-en.png)
 
-![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/12/31/LWGfMhY3_dec-new-contributors.jpg)
+![Apache APISIX New Contributors](https://static.apiseven.com/uploads/2024/12/31/yZ9uaOc4_dec-new-contributors.jpg)
 
-## Recent Feature Highlights
+## Recent Feature Highlights/Improvements
 
 1. [Make Rate-Limiting Response Headers Configurable in `limit-count` Plugin](https://github.com/apache/apisix/pull/11831) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 

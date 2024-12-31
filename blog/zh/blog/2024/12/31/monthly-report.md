@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ![贡献者名单](https://static.apiseven.com/uploads/2024/12/31/npwFTjZH_dec-monthly-report-en.png)
 
-![新晋贡献者](https://static.apiseven.com/uploads/2024/12/31/LWGfMhY3_dec-new-contributors.jpg)
+![新晋贡献者](https://static.apiseven.com/uploads/2024/12/31/yZ9uaOc4_dec-new-contributors.jpg)
 
-## 近期亮点功能
+## 近期亮点功能/改进
 
 1. [支持 `limit-count` 插件使用 `metadata` 配置速率限制响应头](https://github.com/apache/apisix/pull/11831) (贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
