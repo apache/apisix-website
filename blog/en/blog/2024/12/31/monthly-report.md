@@ -26,13 +26,13 @@ From December 1 to December 31, 11 contributors made 27 commits to Apache APISIX
 
 This PR allows users to configure the names of rate-limiting response headers using plugin metadata when using the `limit-count` plugin.
 
-2. [Refactor `workflow` Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
-
-Current logic requires the table `supported_actions` defined in `workflow.lua` to be changed when any new plugin is added to the `workflow` plugin. With this change, the registration in the table is offloaded to the newly added plugin by implementing the function `workflow_handler()`.
-
-3. [Add Support for `system` `ssl_trusted_certificate`](https://github.com/apache/apisix/pull/11809) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+2. [Add Support for `system` `ssl_trusted_certificate`](https://github.com/apache/apisix/pull/11809) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
 With this feature, users can set `system` as the value to use when ca_certs are to be used from the system-defined `ca_certs`.
+
+3. [Refactor `workflow` Plugin Registration](https://github.com/apache/apisix/pull/11832) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+
+Current logic requires the table `supported_actions` defined in `workflow.lua` to be changed when any new plugin is added to the `workflow` plugin. With this change, the registration in the table is offloaded to the newly added plugin by implementing the function `workflow_handler()`.
 
 4. [Allow Workflow Configuration without `case`](https://github.com/apache/apisix/pull/11787) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 

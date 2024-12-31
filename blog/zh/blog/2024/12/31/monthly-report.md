@@ -26,13 +26,13 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 此 PR 允许用户使用插件元数据来配置速率限制响应头的名称。
 
-2. [新增插件 `workflow.lua` 修改逻辑](https://github.com/apache/apisix/pull/11832) (贡献者：[Revolyssup](https://github.com/Revolyssup))
-
-当前逻辑要求在向工作流插件中添加任何新插件时，必须更改在 `workflow.lua` 中定义的 `supported_actions` 表。通过此更改，表中的注册工作将通过实现 `workflow_handler()` 函数转移到新添加的插件。
-
-3. [支持将 `system` 设置为值并引用 `ca_certs`](https://github.com/apache/apisix/pull/11809) (贡献者：[Revolyssup](https://github.com/Revolyssup))
+2. [支持将 `system` 设置为值并引用 `ca_certs`](https://github.com/apache/apisix/pull/11809) (贡献者：[Revolyssup](https://github.com/Revolyssup))
 
 通过此功能，用户可以将系统设置为值，以便在使用系统定义的 CA 证书时使用 `ca_certs`。
+
+3. [新增插件 `workflow.lua` 修改逻辑](https://github.com/apache/apisix/pull/11832) (贡献者：[Revolyssup](https://github.com/Revolyssup))
+
+在向 `workflow` 插件中添加新插件时，要求必须更改在 `workflow.lua` 中定义的 `supported_actions` 表。此更改通过实现 `workflow_handler()` 函数，将表中的注册工作转移到新添加的插件。
 
 4. [插件 `workflow` 中的 `case` 设为非必填字段](https://github.com/apache/apisix/pull/11787) (贡献者：[Revolyssup](https://github.com/Revolyssup))
 
