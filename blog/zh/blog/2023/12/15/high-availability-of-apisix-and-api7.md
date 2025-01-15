@@ -17,7 +17,7 @@ keywords:
   - API7
 description: 本文整理自 2023 年 11 月王院生在 APISIX 上海 Meetup 的演讲。
 tags: [Case Studies]
-image: https://static.apiseven.com/uploads/2023/03/02/aweIgc5n_%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF%20%284%29.png
+image: https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png
 ---
 
 > 作者：王院生，支流科技联合创始人兼 CTO，Apache APISIX PMC 成员，《Apache APISIX 实战》作者。本文整理自 2023 年 11 月王院生在 APISIX 上海 Meetup 的演讲。
