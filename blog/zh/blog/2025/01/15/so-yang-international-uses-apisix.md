@@ -13,7 +13,7 @@ keywords:
   - Apache APISIX
   - 新氧科技
   - 医美
-description: 
+description: 新氧科技基于 Apache APISIX 完成了数据安全网关的建设，建立了从客户端到安全网关再到风控系统的纵深安全防御体系，实现了对高级威胁的全面检测和响应。
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2025/01/15/2F0whwRk_soyang-cover.png
 ---
