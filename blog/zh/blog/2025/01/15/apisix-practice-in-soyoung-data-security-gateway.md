@@ -1,5 +1,5 @@
 ---
-title: "新氧数据安全网关建设及应用"
+title: "APISIX 在新氧科技数据安全网关的实践"
 authors:
   - name: 新氧信息安全团队
     title: Author
