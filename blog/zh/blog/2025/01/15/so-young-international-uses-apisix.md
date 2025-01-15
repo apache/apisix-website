@@ -15,7 +15,7 @@ keywords:
   - 医美
 description: 新氧科技基于 Apache APISIX 完成了数据安全网关的建设，建立了从客户端到安全网关再到风控系统的纵深安全防御体系，实现了对高级威胁的全面检测和响应。
 tags: [Case Studies]
-image: https://static.apiseven.com/uploads/2025/01/15/2F0whwRk_soyang-cover.png
+image: https://static.apiseven.com/uploads/2025/01/15/DImvD1q2_soyoung-cover.png
 ---
 
 > 作者：马晓坤，新氧数据安全网关建设团队成员。新氧数据安全网关建设团队成员：新氧信息安全研发团队马晓坤、任怀博、郭旭鹏。
@@ -45,11 +45,11 @@ APISIX 虽提供了许多安全能力，但**要实现更复杂的安全功能�
 
 新氧数据安全网关主要分为四大模块十大功能：
 
-![10 features of Soyang Data Security Gateway](https://static.apiseven.com/uploads/2025/01/15/Sj0Oy37Z_so-yang-1.webp)
+![10 features of So-Young Data Security Gateway](https://static.apiseven.com/uploads/2025/01/15/Sj0Oy37Z_so-yang-1.webp)
 
 网关的核心由 **“条件引擎”** 与 **“动作执行”** 组成，将数据安全网关的各类需求抽象为这两类逻辑，并进行配置化，做到秒级的配置响应。基本处理逻辑如下：
 
-![Diagram of Request Handling in Soyang Data Security Gateway](https://static.apiseven.com/uploads/2025/01/15/qeIzVgvq_so-yang-2.webp)
+![Diagram of Request Handling in So-Young Data Security Gateway](https://static.apiseven.com/uploads/2025/01/15/qeIzVgvq_so-yang-2.webp)
 
 目前已实现 10 个 Actions：mask、limit、watermark、log、check 等。
 
@@ -67,7 +67,7 @@ APISIX 虽提供了许多安全能力，但**要实现更复杂的安全功能�
 
 逻辑流程图：
 
-![Authentication Diagram in Soyang Data Security Gateway](https://static.apiseven.com/uploads/2025/01/15/7axfi6rA_so-yang-5.webp)
+![Authentication Diagram in So-Young Data Security Gateway](https://static.apiseven.com/uploads/2025/01/15/7axfi6rA_so-yang-5.webp)
 
 ### 功能二：认证与授权
 
@@ -93,7 +93,7 @@ APISIX 虽提供了许多安全能力，但**要实现更复杂的安全功能�
 >
 > 在对 wx.request 方法进行 Hook 时遇到了方法覆盖后未能生效的问题。通过尝试可以采取先将 wx.reqeust 方法删除再设置的方式进行 Hook。
 >
-> ![Technical Challenge in ](https://static.apiseven.com/uploads/2025/01/15/hd4qAACf_so-yang-8.webp)
+> ![Technical Challenge](https://static.apiseven.com/uploads/2025/01/15/hd4qAACf_so-yang-8.webp)
 
 ### 功能四：统一数字水印
 
