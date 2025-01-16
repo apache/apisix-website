@@ -125,11 +125,11 @@ APISIX 虽然原生提供了频现模块，但是只能根据 IP 等单一维度
 
 ![Flowchart of Interface Control](https://static.apiseven.com/uploads/2025/01/15/RZMWXw3v_so-yang-11.webp)
 
-![Flowchart of Interface Control](https://static.apiseven.com/uploads/2025/01/15/jNuD70xf_soyoung.webp)
-
 主要逻辑代码样例（涉及主要网关 OPA 插件以及过滤引擎核心逻辑）：
 
-![Code Example](https://static.apiseven.com/uploads/2025/01/15/U7gI7NqS_so-yang-12.webp)
+![Code Example 1](https://static.apiseven.com/uploads/2025/01/15/U7gI7NqS_so-yang-12.webp)
+
+![Code Example 2](https://static.apiseven.com/uploads/2025/01/15/jNuD70xf_soyoung.webp)
 
 ### 功能七：日志监控
 
