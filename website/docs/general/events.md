@@ -17,7 +17,7 @@ To add your event to the calendar, please open an issue in the [specified format
 
 :::
 
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ea5451&ctz=UTC&showCalendars=0&showTabs=0&showPrint=0&title&showTitle=0&showNav=1&showDate=1&src=Y19zb25ubDg2OXZoNnRqZDlmcmo3dDZyY21hMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<!-- <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ea5451&ctz=UTC&showCalendars=0&showTabs=0&showPrint=0&title&showTitle=0&showNav=1&showDate=1&src=Y19zb25ubDg2OXZoNnRqZDlmcmo3dDZyY21hMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000" width="800" height="600" frameborder="0" scrolling="no"></iframe> -->
 
 ## Apache APISIX Community Meetup Malaysia and Singapore
 
