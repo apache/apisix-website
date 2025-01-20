@@ -103,9 +103,6 @@ module.exports = {
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
     metadatas,
-    gtag: {
-      trackingID: 'GTM-K24PRPS',
-    },
   },
   stylesheets: [],
   /**

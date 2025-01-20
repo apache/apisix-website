@@ -271,9 +271,6 @@ module.exports = {
         content: 'summary',
       },
     ],
-    gtag: {
-      trackingID: 'GTM-K24PRPS',
-    },
   },
   stylesheets: [],
   /**
