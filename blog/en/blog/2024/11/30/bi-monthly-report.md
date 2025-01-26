@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/11/29/skKTqZaH_nov-cover-en.png
 
 > We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include the addition of `ai-content-moderation` and `ai-rag` plugins, and a total request panel in the Grafana dashboard among other enhancements. For detailed information, please read the bi-monthly report.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.

@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2025/01/26/IW13p0Ux_monthly-report-co
 
 > We have recently added a new feature within Apache APISIX, which supports anonymous consumers in authentication. For detailed information, please read the monthly report.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.

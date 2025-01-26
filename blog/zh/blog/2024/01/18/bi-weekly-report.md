@@ -7,6 +7,7 @@ image: https://static.apiseven.com/uploads/2024/01/18/bQr92a4V_Cover_CHN.png
 ---
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，如日志相关插件新增 include_req_body 相关选项、支持从源代码一键编译安装 apisix 和 apisix-runtime、`response-rewrite` 插件在使用 filters.regex 选项时支持 Brotli 压缩，以及当使用 radixtree_uri_with_parameter 路由引擎时支持 uri_param_ 变量。详情请阅读本期双周报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。

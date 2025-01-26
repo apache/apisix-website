@@ -7,6 +7,7 @@ image: https://static.apiseven.com/uploads/2024/01/03/pvWf13vV_CHN.png
 ---
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，如 `limit-count` 插件配置支持环境变量、`response-rewrite` 插件在使用 filters.regex 选项时支持 gzip、升级 OpenSSL 1.1.1 至 OpenSSL 3.0 版本。详情请阅读本期双周报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。

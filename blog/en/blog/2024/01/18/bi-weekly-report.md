@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/01/18/3j9gLLve_Cover_ENG.png
 
 > We have recently made some additions and improvements to specific features within Apache APISIX. The updates include the newly added include_req_body option for some log-related plugins, supporting one-click compilation and installation of apisix and apisix-runtime from source code, the `response-rewrite` plugin supporting Brotli compression when using the filters.regex option, and supporting the uri_param_ variable when using the radixtree_uri_with_parameter routing engine. For additional information, please consult the bi-weekly report.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.
