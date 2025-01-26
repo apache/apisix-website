@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.apiseven.com/uploads/2025/01/26/IW13p0Ux_monthly-report-cover-en-jan.png
 ---
 
-> We have recently added a new feature within Apache APISIX, which is supporting anonymous consumer in authentication. For detailed information, please read the monthly report.
+> We have recently added a new feature within Apache APISIX, which supports anonymous consumers in authentication. For detailed information, please read the monthly report.
 <!--truncate-->
 ## Introduction
 
@@ -16,7 +16,7 @@ From January 1 to January 26, 5 contributors made 17 commits to Apache APISIX. W
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2024/12/31/npwFTjZH_dec-monthly-report-en.png)
+![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2025/01/26/REIh62gM_contributors-jan.png)
 
 ## Recent Feature Highlights/Improvements
 
