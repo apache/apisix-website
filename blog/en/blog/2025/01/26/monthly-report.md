@@ -18,7 +18,7 @@ From January 1 to January 26, 5 contributors made 17 commits to Apache APISIX. W
 
 ![Apache APISIX Contributors List](https://static.apiseven.com/uploads/2025/01/26/REIh62gM_contributors-jan.png)
 
-## Recent Feature Highlights/Improvements
+## Recent Feature Highlight
 
 [Support Anonymous Consumer in Authentication](https://github.com/apache/apisix/pull/11917) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
