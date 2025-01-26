@@ -23,9 +23,7 @@ From January 1 to January 26, 5 contributors made 17 commits to Apache APISIX. W
 
 [Support Anonymous Consumer in Authentication](https://github.com/apache/apisix/pull/11917) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
-Previously, the built-in user authentication logic in APISIX is either successful authentication reflected to the corresponding Consumer object, or authentication failure directly returned to the caller authentication failure return.
-
-Some users wanted a dummy consumer framed as an "anonymous" consumer to be attached to the request when authentication fails so that certain rules (as plugins) defined in the "anonymous" consumer will be applied.
+The anonymous consumer feature enables selective bypass of authentication requirements by allowing the configuration of an anonymous consumer on authentication plugins. This feature allows protected routes to grant access to non-authenticated callers.
 
 ## Conclusion
 
