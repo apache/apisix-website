@@ -8,7 +8,6 @@ keywords:
   - Meetups
 description: This page provides information about previous Apache APISIX's community events.
 ---
-
 ## Apache APISIX Community Meetup Malaysia and Singapore 2023
 
 Apache APISIX Community Meetups are a place where APISIX users, contributors, and maintainers come together to discuss everything APISIX.
@@ -35,18 +34,18 @@ To join the event for FREE, [submit this form](https://forms.gle/sUmjdBQAMPjDehY
 
 [Download the PDF version](https://bit.ly/apisix-meetup-malaysia).
 
-| Talk                                                  | Speaker                   | Time  |
-| ----------------------------------------------------- | ------------------------- | ----- |
-| Welcome remarks                                       | Navendu Pottekkat         | 10:15 |
-| APISIX-the past, present, and the future              | Ming Wen                  | 10:30 |
-| How banking companies use APISIX                      | Yuansheng Wang            | 11:00 |
-| Dynamic, user credentials-based routing               | Bobur Umurzokov           | 11:30 |
-| Powering the world's data centers with AMD            | Koh                       | 2:00  |
-| Elevating Apache APISIX to the cloud                  | Chao Zhang                | 2:30  |
-| Introduction to Apache CloudStack                     | Kiran Chavala             | 3:00  |
-| Managing data residency                               | Nicolas Fränkel           | 3:30  |
-| How is APISIX fast?                                   | Navendu Pottekkat         | 4:00  |
-| Using ChatGPT to write custom APISIX plugins          | Bobur Umurzokov           | 4:30  |
+| Talk                                         | Speaker           | Time  |
+| -------------------------------------------- | ----------------- | ----- |
+| Welcome remarks                              | Navendu Pottekkat | 10:15 |
+| APISIX-the past, present, and the future     | Ming Wen          | 10:30 |
+| How banking companies use APISIX             | Yuansheng Wang    | 11:00 |
+| Dynamic, user credentials-based routing      | Bobur Umurzokov   | 11:30 |
+| Powering the world's data centers with AMD   | Koh Lian Chong    | 12:00 |
+| Elevating Apache APISIX to the cloud         | Chao Zhang        | 1:30  |
+| Introduction to Apache CloudStack            | Kiran Chavala     | 2:00  |
+| Managing data residency                      | Nicolas Fränkel   | 2:30  |
+| How is APISIX fast?                          | Navendu Pottekkat | 3:00  |
+| Using ChatGPT to write custom APISIX plugins | Bobur Umurzokov   | 3:30  |
 
 ## Singapore Meetup
 
@@ -56,13 +55,13 @@ To join the event for FREE, [submit this form](https://forms.gle/sUmjdBQAMPjDehY
 
 To join the event for FREE, [submit this form](https://forms.gle/JSzVmfXon9HCTSee9).
 
-### Schedule
+#### Schedule
 
 | Talk                                                  | Speaker                   | Time  |
 | ----------------------------------------------------- | ------------------------- | ----- |
-| Introduction to Apache APISIX                         | Ming Wen                  | 10:00 |
-| Roadmap to APISIX 3.0                                 | Yuansheng Wang            | 10:30 |
-| How is APISIX fast?                                   | Navendu Pottekkat         | 11:00 |
+| Welcome remarks                                       | Navendu Pottekkat         | 10:15 |
+| How companies using APISIX                            | Yuansheng Wang            | 10:30 |
+| Best practices for building reliable APIs             | Navendu Pottekkat         | 11:00 |
 | Hands-on with Apache APISIX                           | Zhiyuan Ju                | 11:30 |
 | Contributing to an Apache Software Foundation project | Apache APISIX maintainers | 12:00 |
 
