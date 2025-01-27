@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/01/30/CeII2ZiX_20240130_EG_Cover
 
 > We have recently added the `ocsp-stapling` plugin within Apache APISIX. Please read the bi-weekly report for more details.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.

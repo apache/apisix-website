@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/04/01/5Uvc7aZb_en-cover-202403.p
 
 > We have recently made some additions and improvements to specific features within Apache APISIX. For detailed information, please read the monthly report.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.

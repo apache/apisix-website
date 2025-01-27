@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/01/03/7NwLI3ky_ENG.png
 
 > We have recently made some additions and improvements to specific features within Apache APISIX. The updates include the `limit-count` plugin configuration supporting environment variables, the `response-rewrite` plugin supporting gzip when using the filters.regex option, and upgrading OpenSSL 1.1.1 to OpenSSL 3.0 version. For additional information, please consult the bi-weekly report.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'Many hands make light work' rings true in our way, made possible by the collective dedication of our community.
