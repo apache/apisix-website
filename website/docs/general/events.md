@@ -22,7 +22,7 @@ As an attendee, you can expect talks and workshops related to but not limited to
 
 See below to learn more about the events.
 
-## Malaysia Meetup
+### Malaysia Meetup
 
 **Date**: 4th July 2023, 10 AM to 4 PM
 
@@ -30,7 +30,7 @@ See below to learn more about the events.
 
 To join the event for FREE, [submit this form](https://forms.gle/sUmjdBQAMPjDehYR8).
 
-### Schedule
+#### Schedule
 
 [Download the PDF version](https://bit.ly/apisix-meetup-malaysia).
 
@@ -47,7 +47,7 @@ To join the event for FREE, [submit this form](https://forms.gle/sUmjdBQAMPjDehY
 | How is APISIX fast?                          | Navendu Pottekkat | 3:00  |
 | Using ChatGPT to write custom APISIX plugins | Bobur Umurzokov   | 3:30  |
 
-## Singapore Meetup
+### Singapore Meetup
 
 **Date**: 8th July 2023, 10 AM to 1 PM
 
