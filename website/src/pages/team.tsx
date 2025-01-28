@@ -299,15 +299,7 @@ const Team: FC = () => {
           </Translate>
         </SectionSubtitle>
         <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
-        <SectionTitle>
-          <Translate id="team.webpage.content.ContributorOverTime">Contributor Over Time</Translate>
-        </SectionTitle>
-        <SectionSubtitle>
-          <Translate id="team.webpage.content.ContributorOverTimeNote">
-            Note: This graph contains contributors from all repos under Apache APISIX
-          </Translate>
-        </SectionSubtitle>
-        <img src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true" alt="Contributor Over Time" />
+        
         <ContributeCard>
           <ContributeCardLeftSide>
             <ContributeCardTitle>
