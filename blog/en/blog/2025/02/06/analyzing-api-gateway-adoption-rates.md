@@ -13,7 +13,7 @@ keywords:
   - APISIX
   - Adoption Rates
   - API Gateway
-description: Explore 2025 API gateway adoption trends with data-driven insights on Kong, APISIX, and Traefik. Learn how companies and regions shape API gateway usage.
+description: Explore 2025 API gateway adoption trends with data-driven insights on Kong, Apache APISIX, Traefik, WSO2, and KrakenD. Learn how companies and regions shape API gateway usage.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2025/02/06/qX7Uwq66_1738762325395.png
 ---
@@ -22,7 +22,7 @@ image: https://static.apiseven.com/uploads/2025/02/06/qX7Uwq66_1738762325395.png
     <link rel="canonical" href="https://www.linkedin.com/pulse/analyzing-api-gateway-adoption-rates-through-internet-ming-wen-prync/?trackingId=e7XGKblnQF%2BVlG5FDouG%2Fg%3D%3D" />
 </head>
 
-> [Ming Wen](https://www.linkedin.com/in/ming-wen-api7/), Chairman of Apache APISIX recently posted a blog about [data-driven analysis of API gateway adoption](https://www.linkedin.com/posts/ming-wen-api7_apigateway-kong-apisix-activity-7292899936659021824-7KrU/?utm_source=share&utm_medium=member_desktop). The analysis uses two methods: internet-wide scans (FOFA) to identify publicly exposed API gateway instances and company adoption data (BuiltWith) to reveal which businesses are using them.
+> [Ming Wen](https://www.linkedin.com/in/ming-wen-api7/), Chairman of Apache APISIX, recently posted a blog about [data-driven analysis of API gateway adoption](https://www.linkedin.com/posts/ming-wen-api7_apigateway-kong-apisix-activity-7292899936659021824-7KrU/?utm_source=share&utm_medium=member_desktop). The analysis uses two methods: internet-wide scans (FOFA) to identify publicly exposed API gateway instances and company adoption data (BuiltWith) to reveal which businesses are using them.
 <!--truncate-->
 
 ## Key Takeaways
@@ -41,7 +41,7 @@ API gateways play a crucial role in modern software architecture, acting as a co
 
 ## Measuring API Gateway Adoption with Internet-Wide Scans
 
-To find a more objective measure, I turned to internet-wide scanning techniques that reveal API gateways publicly exposed on the internet. Most API gateways are designed to expose services to external consumers, making them discoverable via network scanning tools. I initially explored both FOFA and Shodan as internet search engines, but found FOFA’s dataset to be more comprehensive for this analysis.
+To find a more objective measure, I turned to internet-wide scanning techniques that reveal API gateways publicly exposed on the internet. Most API gateways are designed to expose services to external consumers, making them discoverable via network scanning tools. I initially explored both FOFA and Shodan as internet search engines but found FOFA’s dataset to be more comprehensive for this analysis.
 
 By querying FOFA for public-facing instances of Kong, Apache APISIX, WSO2, and Traefik as of early February 2025, I obtained the following results:
 
