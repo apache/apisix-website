@@ -4,7 +4,7 @@ authors:
   - name: Ming Wen
     title: Author
     url: https://www.linkedin.com/in/ming-wen-api7/
-    image_url: https://www.linkedin.com/in/ming-wen-api7/overlay/photo/
+    image_url: https://github.com/moonming.png
   - name: Yilia Lin
     title: Technical Writer
     url: https://github.com/Yilialinn
