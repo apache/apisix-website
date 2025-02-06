@@ -1,9 +1,9 @@
 [
-    "blog/zh/blog/2024/10/17/release-apache-apisix-3.11.0.md",
-    "blog/zh/blog/2024/11/30/bi-monthly-report.md",
+    "blog/zh/blog/2025/01/26/monthly-report.md",
+    "blog/zh/blog/2025/01/13/apisix-2024-ospp.md",
+    "blog/zh/blog/2025/01/15/apisix-practice-in-soyoung-data-security-gateway.md",
     "blog/zh/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow.md",
-    "blog/zh/blog/2023/09/08/apisix-integrates-with-coraza.md",
-    "blog/zh/blog/2023/11/30/migu-video-utilizes-apisix.md",
+    "blog/zh/blog/2023/12/15/high-availability-of-apisix-and-api7.md",
     "blog/zh/blog/2023/12/08/zhengcaiyun-uses-apisix.md",
     "blog/zh/blog/2023/12/01/datavisor-uses-apisix.md"
 ]
