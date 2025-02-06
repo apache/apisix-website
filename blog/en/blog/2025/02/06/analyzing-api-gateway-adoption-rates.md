@@ -3,8 +3,8 @@ title: Analyzing API Gateway Adoption Rates Through Internet Data
 authors:
   - name: Ming Wen
     title: Author
-    url: https://github.com/moonming
-    image_url: https://github.com/moonming.png
+    url: https://www.linkedin.com/in/ming-wen-api7/
+    image_url: https://www.linkedin.com/in/ming-wen-api7/overlay/photo/
   - name: Yilia Lin
     title: Technical Writer
     url: https://github.com/Yilialinn
@@ -22,7 +22,7 @@ image: https://static.apiseven.com/uploads/2025/02/06/qX7Uwq66_1738762325395.png
     <link rel="canonical" href="https://www.linkedin.com/pulse/analyzing-api-gateway-adoption-rates-through-internet-ming-wen-prync/?trackingId=e7XGKblnQF%2BVlG5FDouG%2Fg%3D%3D" />
 </head>
 
-> [Ming Wen](https://www.linkedin.com/in/ming-wen-api7/), Chairman of Apache APISIX, recently posted a blog about [data-driven analysis of API gateway adoption](https://www.linkedin.com/posts/ming-wen-api7_apigateway-kong-apisix-activity-7292899936659021824-7KrU/?utm_source=share&utm_medium=member_desktop). The analysis uses two methods: internet-wide scans (FOFA) to identify publicly exposed API gateway instances and company adoption data (BuiltWith) to reveal which businesses are using them.
+> [Ming Wen](https://www.linkedin.com/in/ming-wen-api7/), Chairman of Apache APISIX, recently posted a blog about [data-driven analysis of API gateway adoption](https://www.linkedin.com/posts/ming-wen-api7_apigateway-kong-apisix-activity-7292899936659021824-7KrU/?utm_source=share&utm_medium=member_desktop) on LinkedIn. The analysis uses two methods: internet-wide scans (FOFA) to identify publicly exposed API gateway instances and company adoption data (BuiltWith) to reveal which businesses are using them.
 <!--truncate-->
 
 ## Key Takeaways
