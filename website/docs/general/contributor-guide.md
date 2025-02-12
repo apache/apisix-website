@@ -101,7 +101,7 @@ git checkout -b issue-no
 
 **Note**: The commits in a PR are squashed before merging. This could result in commit logs different from upstream if you are using an older branch.
 
-### Commiting your changes
+### Committing your changes
 
 Contributors are expected to adhere to the [Code of Conduct](https://www.apache.org/foundation/policies/conduct.html) throughout the process.
 

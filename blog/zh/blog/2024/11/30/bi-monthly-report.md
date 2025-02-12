@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/11/29/69Av0Gu3_nov-cover-cn.png
 
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，包括新增 `ai-content-moderation` 和 `ai-rag` 插件，在 Grafana 仪表盘中新增总请求变化面板等。有关更多功能新亮点，请阅读本期双月报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
