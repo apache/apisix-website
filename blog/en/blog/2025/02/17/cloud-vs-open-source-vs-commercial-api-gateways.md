@@ -30,7 +30,7 @@ API gateways have become essential components in modern cloud architectures. The
 Broadly, API gateways fall into three categories:
 
 - **Cloud API Gateways** (e.g., <a href="https://aws.amazon.com/api-gateway/" rel="nofollow">Amazon API Gateway</a>, <a href="https://cloud.google.com/apigee" rel="nofollow">Google Apigee</a>)
-- **Open Source API Gateways** (e.g., [Apache APISIX](https://apisix.apache.org/), <a href="https://konghq.com/products/kong-gateway" rel="nofollow">Kong Gateway</a>, <a href="https://tyk.io/" rel="nofollow">Tyk</a>)
+- **Open Source API Gateways** (e.g., [Apache APISIX](https://apisix.apache.org/), Kong Gateway, Tyk)
 - **Commercial API Gateways** (e.g., <a href="https://www.mulesoft.com/" rel="nofollow">MuleSoft</a>, <a href="https://boomi.com/" rel="nofollow">Boomi</a>)
 
 Each option has its advantages and trade-offs. This article provides a deep dive into their differences, hidden risks, and a **strategic recommendation** for companies looking to scale API usage and adopt hybrid cloud architectures.
