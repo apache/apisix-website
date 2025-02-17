@@ -3,7 +3,7 @@ title: "Cloud vs Open Source vs Commercial API Gateways: Which One Fits Your Nee
 authors:
   - name: Ming Wen
     title: Author
-    url: https://github.com/moonming
+    url: https://www.linkedin.com/in/ming-wen-api7/
     image_url: https://github.com/moonming.png
   - name: Yilia Lin
     title: Technical Writer
