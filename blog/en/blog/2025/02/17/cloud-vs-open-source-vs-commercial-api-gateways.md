@@ -29,9 +29,9 @@ API gateways have become essential components in modern cloud architectures. The
 
 Broadly, API gateways fall into three categories:
 
-- **Cloud API Gateways** (e.g., Amazon API Gateway, Google Apigee)
-- **Open Source API Gateways** (e.g., Apache APISIX, Kong API Gateway, Tyk)
-- **Commercial API Gateways** (e.g., MuleSoft, Boomi)
+- **Cloud API Gateways** (e.g., <a href="https://aws.amazon.com/api-gateway/" rel="nofollow">Amazon API Gateway</a>, <a href="https://cloud.google.com/apigee" rel="nofollow">Google Apigee</a>)
+- **Open Source API Gateways** (e.g., [Apache APISIX](https://apisix.apache.org/), <a href="https://konghq.com/products/kong-gateway" rel="nofollow">Kong Gateway</a>, <a href="https://tyk.io/" rel="nofollow">Tyk</a>)
+- **Commercial API Gateways** (e.g., <a href="https://www.mulesoft.com/" rel="nofollow">MuleSoft</a>, <a href="https://boomi.com/" rel="nofollow">Boomi</a>)
 
 Each option has its advantages and trade-offs. This article provides a deep dive into their differences, hidden risks, and a **strategic recommendation** for companies looking to scale API usage and adopt hybrid cloud architectures.
 
@@ -84,7 +84,7 @@ Some open-source API gateways are **vendor-controlled**, meaning the company beh
 To **avoid future licensing risks**, it's safer to choose an API gateway governed by a **neutral open-source foundation**, such as:
 
 - [Apache APISIX (Apache Software Foundation)](https://apisix.apache.org/)
-- [Envoy Proxy (Cloud Native Computing Foundation)](https://www.envoyproxy.io/)
+- <a href="https://www.envoyproxy.io/" rel="nofollow">Envoy Proxy (Cloud Native Computing Foundation)</a>
 
 ## Commercial API Gateways: Enterprise Features with Pricing Risks
 
@@ -126,7 +126,7 @@ If your API traffic is **growing rapidly** and **hybrid cloud** is part of your 
 
 By following this approach, you get the best of both worlds: flexibility, cost control, and enterprise-grade features when needed.
 
-🔹 **Example Strategy**: A company starts with Apache APISIX (open source) and later upgrades to API7 Enterprise when requiring advanced security and SLA support.
+🔹 **Example Strategy**: A company starts with Apache APISIX (open source) and later upgrades to [API7 Enterprise](https://api7.ai/) when requiring advanced security and SLA support.
 
 ## FAQ: Common Questions About API Gateway Selection
 
