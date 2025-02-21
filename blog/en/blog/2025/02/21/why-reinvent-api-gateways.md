@@ -15,7 +15,6 @@ keywords:
   - Open Source API Gateway
 description: Discover the journey of Apache APISIX, from a small windowless office to a global open-source success. Learn why we created APISIX, its rapid growth, and how it addresses modern API gateway needs.
 tags: [Community]
-image: 
 ---
 
 In just over five years, Apache APISIX has grown from a new open-source project to one of the most widely used API gateways in the world. Today, APISIX is an Apache Software Foundation (ASF) Top-Level Project, with over 460 contributors, 15K+ GitHub stars, and 100+ plugins. It is deployed across industries like telecommunications, automotive, financial services, and retail, with some of the largest known users running APISIX on over 10,000 CPU cores.
@@ -73,7 +72,7 @@ Then Apache APISIX is your best choice.
 
 ## Why Did We Donated APISIX to the Apache Software Foundation?
 
-Many open-source projects are controlled by a single vendor, which can lead to licensing changes (as seen with Redis and ELK). Our goal wasn’t just to build a successful product at API7 but to ensure that APISIX remains a truly open project for the global community.
+Many open-source projects are controlled by a single vendor, which can lead to licensing changes (as seen with Redis and ELK). Our goal wasn't just to build a successful product at API7 but to ensure that APISIX remains a truly open project for the global community.
 
 By donating APISIX to the Apache Software Foundation, we ensured:
 
@@ -81,7 +80,7 @@ By donating APISIX to the Apache Software Foundation, we ensured:
 - **Long-term sustainability**: The project follows Apache governance, protecting its open-source nature.
 - **Global adoption**: Apache projects are trusted by enterprises worldwide.
 
-This decision wasn't made lightly—building a successful commercial company (API7.ai) while simultaneously donating its core technology was an unconventional path. However, we believed this was the best way to maximize APISIX’s impact.
+This decision wasn't made lightly—building a successful commercial company (API7.ai) while simultaneously donating its core technology was an unconventional path. However, we believed this was the best way to maximize APISIX's impact.
 
 ## A New Path for Open Source and Business
 
@@ -92,13 +91,13 @@ Most companies either:
 
 We did the opposite:
 
-- 2019: Built APISIX from scratch.
-- 2019: Open-sourced APISIX on GitHub.
-- 2019: Donated it to Apache Software Foundation.
-- 2020: APISIX became an Apache Top-Level Project.
-- 2021: Expanded API7 from a two-person team into a company offering enterprise solutions based on APISIX.
+- **2019**: Built APISIX from scratch.
+- **2019**: Open-sourced APISIX on GitHub.
+- **2019**: Donated it to Apache Software Foundation.
+- **2020**: APISIX became an Apache Top-Level Project.
+- **2021**: Expanded API7 from a two-person team into a company offering enterprise solutions based on APISIX.
 
-This unique journey means that APISIX is engineer-led, community-driven, and deeply committed to open-source principles—something rare in today’s software landscape.
+This unique journey means that APISIX is engineer-led, community-driven, and deeply committed to open-source principles—something rare in today's software landscape.
 
 ## Conclusion: Reinventing API Gateways with an Open Future
 
