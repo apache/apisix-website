@@ -17,6 +17,10 @@ description: Discover the journey of Apache APISIX, from a small windowless offi
 tags: [Community]
 ---
 
+Apache APISIX has quickly become a leading API gateway, with over 460 contributors and 15K+ GitHub stars. This article explores its journey from a small project to a widely-used, open-source solution, addressing key challenges in modern API management.
+
+<!--truncate-->
+
 In just over five years, Apache APISIX has grown from a new open-source project to one of the most widely used API gateways in the world. Today, APISIX is an Apache Software Foundation (ASF) Top-Level Project, with over 460 contributors, 15K+ GitHub stars, and 100+ plugins. It is deployed across industries like telecommunications, automotive, financial services, and retail, with some of the largest known users running APISIX on over 10,000 CPU cores.
 
 But how did this all start?
