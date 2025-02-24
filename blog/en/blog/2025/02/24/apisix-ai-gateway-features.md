@@ -1,19 +1,18 @@
 ---
 title: "Comprehensive Overview of APISIX AI Gateway Features"
-authors:
-  - name: Ming Wen
-    title: Author
-    url: https://www.linkedin.com/in/ming-wen-api7/
-    image_url: https://github.com/moonming.png
-  - name: Yilia Lin
-    title: Technical Writer
-    url: https://github.com/Yilialinn
-    image_url: https://github.com/Yilialinn.png
 keywords:
-  - API Gateway
+  - APISIX
   - AI Gateway
-  - Open Source API Gateway
-description: "This article will provide an in-depth look at the AI gateway features of the current and upcoming versions of APISIX: LLM proxy, token rate limiting, and robust security."
+  - LLM Proxy
+  - API Gateway for AI
+  - Token Rate Limiting
+  - AI Security
+  - AI Traffic Management
+  - Open-Source API Gateway
+  - Multi-LLM Load Balancing
+  - AI API Protection
+  - AI Request Throttling
+description: "Explore the robust features of the APISIX AI Gateway, including LLM proxy, intelligent traffic scheduling, token rate limiting, and security protection. Achieve multi-LLM load balancing, API rate control, and content moderation through open-source plugins to optimize the performance, security, and cost control of AI applications."
 tags: [Ecosystem]
 ---
 
