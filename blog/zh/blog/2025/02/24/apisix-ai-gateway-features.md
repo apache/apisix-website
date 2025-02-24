@@ -1,14 +1,18 @@
 ---
 title: "APISIX 的 AI Gateway 功能一览：LLM 代理、Token 限流、安全防护"
-authors:
-  - name: 温铭
-    title: Author
-  - name: Yilia Lin
-    title: Technical Writer
 keywords:
   - APISIX
   - AI Gateway
-description: 本文将详细介绍当前及未来几个版本 APISIX 的 AI 网关功能。作为一个多功能的 API 和 AI 网关，Apache APISIX 将为 AI 应用提供高效且安全的 LLM API 调用。
+  - LLM Proxy
+  - API Gateway for AI
+  - Token Rate Limiting
+  - AI Security
+  - AI Traffic Management
+  - Open-Source API Gateway
+  - Multi-LLM Load Balancing
+  - AI API Protection
+  - AI Request Throttling
+description: 探索 APISIX AI Gateway 的强大功能，包括 LLM 代理、智能流量调度、Token 限流、安全防护等。通过开源插件实现多 LLM 负载均衡、API 速率控制、内容审核，优化 AI 应用的性能、安全性和成本控制。
 tags: [Ecosystem]
 ---
 
