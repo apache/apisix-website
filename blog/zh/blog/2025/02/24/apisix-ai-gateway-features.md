@@ -8,7 +8,7 @@ authors:
 keywords:
   - APISIX
   - AI Gateway
-description: 本文将详细介绍当前及未来几个版本 APISIX 的 AI 网关功能。作为一个多功能的 API 和 AI 网关，Apache APISIX 将为 AI 应用提供了高效且安全的 LLM API 调用。
+description: 本文将详细介绍当前及未来几个版本 APISIX 的 AI 网关功能。作为一个多功能的 API 和 AI 网关，Apache APISIX 将为 AI 应用提供高效且安全的 LLM API 调用。
 tags: [Ecosystem]
 ---
 
