@@ -72,7 +72,7 @@ If your API gateway requirements include:
 
 ✅ Handling thousands of routes without latency spikes
 
-✅ Ultra-low latency (under 5ms) for API processing 
+✅ Ultra-low latency (under 5ms) for API processing
 
 ✅ Hot plugin reloading without restarting the gateway
 
