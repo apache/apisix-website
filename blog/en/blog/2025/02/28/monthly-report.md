@@ -19,7 +19,7 @@ From January 27 to February 28, 14 contributors made 39 commits to Apache APISIX
 
 ![Apache APISIX Contributors List](https://static.api7.ai/uploads/2025/02/28/JaHy54nf_feb-contributors.png)
 
-![New Contributors List](https://static.api7.ai/uploads/2025/02/28/0jejWHGZ_feb-new-contributors.jpg)
+![New Contributors List](https://static.api7.ai/uploads/2025/02/28/5UPWs6yG_feb-new-contributors.jpg)
 
 ## Recent Feature Highlight
 
