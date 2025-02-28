@@ -105,6 +105,10 @@ body {
   overflow-x: hidden !important;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body,
 h1,
 h2,
