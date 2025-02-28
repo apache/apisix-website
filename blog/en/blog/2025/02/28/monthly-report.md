@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/02/28/83pU2BtD_feb-monthly-report-cover-en.png
 ---
 
-> We have recently added some new features within Apache APISIX, which supports the `ai-proxy-multi` plugin and `_meta.pre_function` to execute custom logic before the execution of each phase. For detailed information, please read the monthly report.
+> We have recently added some new features within Apache APISIX, including the `ai-proxy-multi` plugin that proxies to multiple LLM targets and `_meta.pre_function` that executes custom logic before the execution of each phase. For detailed information, please read the monthly report.
 <!--truncate-->
 
 ## Introduction
