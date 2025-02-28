@@ -6,8 +6,9 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/02/28/b84ROEay_feb-monthly-report-cover-cn.png
 ---
 
-> 最近，我们新增了 Apache APISIX 的部分功能，如支持 `ai-proxy-multi` 插件，以及支持 _meta.pre_function 在各个阶段前执行自定义逻辑。有关更多细节，请阅读本期月报。
+> 最近，我们新增了 Apache APISIX 的部分功能，如支持 `ai-proxy-multi` 插件，以及支持 `_meta.pre_function` 在各个阶段前执行自定义逻辑。有关更多细节，请阅读本期月报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
@@ -22,11 +23,13 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 近期亮点功能
 
-1. [支持 _meta.pre_function 在各个阶段前执行自定义逻辑](https://github.com/apache/apisix/pull/11793) (贡献者：[Revolyssup](https://github.com/Revolyssup))
+1. [支持 `_meta.pre_function` 在各个阶段前执行自定义逻辑](https://github.com/apache/apisix/pull/11793) (贡献者：[Revolyssup](https://github.com/Revolyssup))
 
-将 pre_function 添加到插件元数据中，以允许一些个性化代码在所有插件运行之前运行。比如注册个性化变量，以便插件中可以引用和使用这些临时变量。
+将 `pre_function` 添加到插件元数据中，以允许一些个性化代码在所有插件运行之前运行。比如注册个性化变量，以便插件中可以引用和使用这些临时变量。
 
-2. [支持 ai-proxy-multi 插件](https://github.com/apache/apisix/pull/11986)(贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+2. [支持 `ai-proxy-multi` 插件](https://github.com/apache/apisix/pull/11986)(贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+
+`ai-proxy-multi` 插件允许配置多个 LLM 目标以实现负载均衡和重试。
 
 ## 结语
 

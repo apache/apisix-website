@@ -23,13 +23,13 @@ From January 27 to February 28, 14 contributors made 39 commits to Apache APISIX
 
 ## Recent Feature Highlight
 
-1. [Support _meta.pre_function to execute custom logic before execution of each phase](https://github.com/apache/apisix/pull/11793) (Contributor: [Revolyssup](https://github.com/Revolyssup))
+1. [Support `_meta.pre_function` to execute custom logic before execution of each phase](https://github.com/apache/apisix/pull/11793) (Contributor: [Revolyssup](https://github.com/Revolyssup))
 
-Add pre_function to the meta of the plugin to allow some personalized code to run before all plugins run. For example, register personalized variables so that these temporary variables can be referenced and used in the plugin.
+Add `pre_function` to the meta of the plugin to allow some personalized code to run before all plugins run. For example, register personalized variables so that these temporary variables can be referenced and used in the plugin.
 
-2. [Support ai-proxy-multi Plugin](https://github.com/apache/apisix/pull/11986) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
+2. [Support `ai-proxy-multi` Plugin](https://github.com/apache/apisix/pull/11986) (Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))
 
-The ai-proxy-multi plugin allows configuring multiple LLMs targets for load balancing and retries.
+The `ai-proxy-multi` plugin allows configuring multiple LLMs targets for load balancing and retries.
 
 ## Conclusion
 
