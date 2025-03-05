@@ -11,7 +11,6 @@ import Features from '../components/sections/Features';
 import Benefits from '../components/sections/Benefits';
 import Comparison from '../components/sections/Comparison';
 import OpensourcePromo from '../components/sections/OpensourcePromo';
-import HomeEventsSection from '../components/sections/HomeEventsSection';
 import EndCTA from '../components/sections/Endcta';
 
 const ThemeResetComponent = () => {
@@ -49,11 +48,11 @@ const Index: FC = () => (
     <Head>
       <meta
         name="twitter:title"
-        content="Apache APISIX® - Cloud-Native API Gateway"
+        content="Apache APISIX® - Cloud-Native API Gateway and AI Gateway"
       />
       <meta
         name="twitter:description"
-        content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
+        content="APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability."
       />
       <meta
         name="twitter:site"
@@ -61,7 +60,7 @@ const Index: FC = () => (
       />
       <meta
         name="og:description"
-        content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
+        content="APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability."
       />
     </Head>
     <HeroSection />
@@ -70,7 +69,6 @@ const Index: FC = () => (
     <Benefits />
     <Comparison />
     <OpensourcePromo />
-    <HomeEventsSection />
     <EndCTA />
   </Layout>
 );

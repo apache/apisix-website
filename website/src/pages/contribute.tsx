@@ -43,7 +43,7 @@ const Contribute: FC = () => {
     <Layout>
       <Head>
         <title>
-          Good first issue - Apache APISIX® - Cloud-Native API Gateway
+          Good first issue - Apache APISIX® - Cloud-Native API Gateway and AI Gateway
         </title>
 
         <meta
@@ -54,11 +54,11 @@ const Contribute: FC = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="Good first issue - Apache APISIX® - Cloud-Native API Gateway"
+          content="Good first issue - Apache APISIX® - Cloud-Native API Gateway and AI Gateway"
         />
         <meta
           property="og:site_name"
-          content="Apache APISIX® -- Cloud-Native API Gateway"
+          content="Apache APISIX® -- Cloud-Native API Gateway and AI Gateway"
         />
         <meta
           property="og:description"
@@ -68,7 +68,7 @@ const Contribute: FC = () => {
         <meta name="twitter:card" content="summary" />
         <meta
           name="twitter:title"
-          content="Good first issue - Apache APISIX® - Cloud-Native API Gateway"
+          content="Good first issue - Apache APISIX® - Cloud-Native API Gateway and AI Gateway"
         />
         <meta
           name="twitter:description"
