@@ -144,8 +144,8 @@
     "description": "Start Contribute"
   },
   "arrowAnim.component.link.btn": {
-    "message": "阅读文档",
-    "description": "Go to docs..."
+    "message": "阅读博客",
+    "description": "Read Blog"
   },
   "architecture.component.title.name": {
     "message": "适用于超大规模、复杂的业务系统",
@@ -160,14 +160,14 @@
     "description": "Apache APISIX is based on NGINX and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
   },
   "features.component.why.title": {
-    "message": "为什么选择 Apache APISIX?"
+    "message": "为什么选择 APISIX API 网关？"
   },
   "features.component.why.subtitle": {
     "message": "Apache APISIX 值得信赖，你只需专注在具体业务中，而无需考虑 API 处理基础组件。",
     "description": "Reduce time fighting bugs, focus on designing world-class systems"
   },
   "features.component.why.message": {
-    "message": "Apache APISIX 是首个提供低代码能力的开源 API 网关，作为 Apache 软件基金会顶级项目，它也为开发人员提供强大且灵活的控制界面。"
+    "message": "APISIX API 网关提供近百个开源插件、全面的 API 管理能力和先进的技术优势。"
   },
   "features.component.easyDashboard.title": {
     "message": "简单易用的 Dashboard",
@@ -324,17 +324,17 @@
     "description": "Subscribe"
   },
   "hero.component.title.fragment1": {
-    "message": "全生命周期 API 管理"
+    "message": "API 网关与 AI 网关，服务 API 与 AI 代理"
   },
   "hero.component.title.fragment2": {
-    "message": "API Gateway、Ingress Controller 等"
+    "message": "开源、社区驱动、面向未来"
   },
   "hero.component.subtitle.content": {
-    "message": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
-    "description": "Apache APISIX provides rich traffic management features like Load Balancing, Dynamic Upstream, Canary Release, Circuit Breaking, Authentication, Observability, and more..."
+    "message": "APISIX API 网关提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。",
+    "description": "APISIX API Gateway provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more."
   },
   "hero.component.download.btn": {
-    "message": "立即体验",
-    "description": "Download"
+    "message": "快速开始",
+    "description": "Getting Started"
   }
 }

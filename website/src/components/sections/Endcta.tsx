@@ -28,8 +28,8 @@ const EndCTA: FC = () => {
         )}
       </p>
       <div className={style.links}>
-        <Link to={useBaseUrl('downloads')} className="btn btn-download">
-          <Translate id="hero.component.download.btn">Downloads</Translate>
+        <Link to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
+          <Translate id="hero.component.download.btn">Getting Started</Translate>
         </Link>
         <ArrowAnim />
       </div>

@@ -1,7 +1,7 @@
 const readingTime = require('reading-time');
 const { ssrTemplate } = require('../../config/ssrTemplate');
 
-const description = 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.';
+const description = 'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.';
 
 const metadatas = [
   {
@@ -23,9 +23,9 @@ const metadatas = [
 ];
 
 module.exports = {
-  title: 'Apache APISIX® -- Cloud-Native API Gateway',
+  title: 'Apache APISIX® -- Cloud-Native API Gateway and AI Gateway',
   tagline:
-    'Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.',
+    'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.',
   url: 'https://apisix.apache.org',
   baseUrl: '/zh/',
   trailingSlash: true,
