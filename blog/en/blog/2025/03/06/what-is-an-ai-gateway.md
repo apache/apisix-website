@@ -30,11 +30,11 @@ tags: [Ecosystem]
 
 In the rapidly evolving landscape of artificial intelligence (AI), Large Language Models (LLMs) and AI agents have become integral to various applications, leading to a surge in AI-related API traffic. As organizations increasingly integrate AI into their workflows, they face new challenges in managing and optimizing AI-driven interactions.
 
-The advent of open-source LLMs, such as Deekseek, has enabled enterprises to not only utilize SaaS LLM services from providers like OpenAI and Azure but also to deploy LLMs internally, fostering a hybrid cloud architecture. This shift presents numerous challenges, including data security, multi-LLM adaptation and management, performance optimization, and reliability assurance. Addressing these challenges necessitates the evolution of a traditional API gateway into a specialized AI gateway.
+The advent of open-source LLMs, such as [Deepseek](https://www.deepseek.com/), has enabled enterprises to not only utilize SaaS LLM services from providers like OpenAI and Azure but also to deploy LLMs internally, fostering a hybrid cloud architecture. This shift presents numerous challenges, including data security, multi-LLM adaptation and management, performance optimization, and reliability assurance. Addressing these challenges necessitates the evolution of a traditional API gateway into a specialized [AI gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/).
 
 ![AI emerges for data security, multi-LLM adaptation and management](https://static.api7.ai/uploads/2025/03/06/9bbxGvN5_ai-trends.webp)
 
-As a PMC member of Apache APISIX, I have also observed this trend and demand from the open-source community.
+As a PMC member of [Apache APISIX](https://apisix.apache.org/), I have also observed this trend and demand from the open-source community.
 
 ## The Rise of LLMs and AI Agents
 
@@ -49,7 +49,7 @@ This transformation has led to an exponential increase in API traffic as applica
 
 ## Emergence of Hybrid Cloud Architectures with Open-Source LLMs
 
-The availability of open-source LLMs, such as Deekseek, has empowered organizations to deploy AI models within their own infrastructure. This capability facilitates a hybrid cloud approach, combining public SaaS LLM services with private deployments. While this strategy offers flexibility and control, it also introduces complexities in managing diverse AI environments, ensuring consistent performance, and maintaining security across platforms.
+The availability of open-source LLMs, such as Deepseek, has empowered organizations to deploy AI models within their own infrastructure. This capability facilitates a hybrid cloud approach, combining public SaaS LLM services with private deployments. While this strategy offers flexibility and control, it also introduces complexities in managing diverse AI environments, ensuring consistent performance, and maintaining security across platforms.
 
 ### Challenges in Managing AI-Driven API Traffic
 
@@ -57,7 +57,7 @@ The integration of AI services into applications brings forth several challenges
 
 #### 1. Data Security
 
-Transmitting sensitive information to external LLM providers raises concerns about data privacy, regulatory compliance (such as GDPR and CCPA), and potential data leaks. Organizations must implement robust security measures, such as:
+Transmitting sensitive information to external LLM providers raises concerns about data privacy, regulatory compliance (such as [GDPR](https://gdpr-info.eu/) and [CCPA](https://oag.ca.gov/privacy/ccpa)), and potential data leaks. Organizations must implement robust security measures, such as:
 
 - Data masking and redaction before sending prompts to external AI services.
 - Role-based access control (RBAC) to limit access to sensitive AI functionalities.
