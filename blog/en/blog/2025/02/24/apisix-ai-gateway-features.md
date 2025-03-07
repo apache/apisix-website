@@ -14,6 +14,7 @@ keywords:
   - AI Request Throttling
 description: "Explore the robust features of the APISIX AI Gateway, including LLM proxy, intelligent traffic scheduling, token rate limiting, and security protection. Achieve multi-LLM load balancing, API rate control, and content moderation through open-source plugins to optimize the performance, security, and cost control of AI applications."
 tags: [Ecosystem]
+image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---
 
 >This article will provide an in-depth look at the AI gateway features of the current and upcoming versions of APISIX. As a multifunctional API and AI gateway, Apache APISIX offers efficient and secure LLM API calls for AI applications.
