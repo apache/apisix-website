@@ -54,7 +54,7 @@ $apisix-color: #e8433e;
 
   @include respond-below(sm) {
     min-height: 50vh;
-    margin: 0 1rem;
+    margin: 4rem 1rem 0;
     align-items: flex-start;
     padding: 100px 2rem;
 

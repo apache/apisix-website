@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Translate from '@docusaurus/Translate';
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
@@ -47,7 +46,7 @@ const HeroSection: FC = () => (
         </Translate>
       </h3>
       <div className="hero-ctas">
-        <Link to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
+        <Link href="/docs/apisix/getting-started" className="btn btn-download">
           <Translate id="hero.component.download.btn">Getting Started</Translate>
         </Link>
         <ArrowAnim />
