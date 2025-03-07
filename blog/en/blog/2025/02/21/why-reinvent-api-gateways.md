@@ -15,6 +15,7 @@ keywords:
   - Open Source API Gateway
 description: Discover the journey of Apache APISIX, from a small windowless office to a global open-source success. Learn why we created APISIX, its rapid growth, and how it addresses modern API gateway needs.
 tags: [Community]
+image: https://static.api7.ai/uploads/2025/03/07/uwv68gCg_story-behind-apache-pisix.webp
 ---
 
 <head>
