@@ -5,6 +5,7 @@ import Translate from '@docusaurus/Translate';
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import useWindowType from '@theme/hooks/useWindowSize';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import ArrowAnim from '../ArrowAnim';
 import '../../css/landing-sections/hero.scss';
 
@@ -46,7 +47,7 @@ const HeroSection: FC = () => (
         </Translate>
       </h3>
       <div className="hero-ctas">
-        <Link href="/docs/apisix/getting-started" className="btn btn-download">
+        <Link target="_parent" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
           <Translate id="hero.component.download.btn">Getting Started</Translate>
         </Link>
         <ArrowAnim />

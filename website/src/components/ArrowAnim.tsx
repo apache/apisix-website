@@ -1,12 +1,14 @@
 import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Translate from '@docusaurus/Translate';
 
 const ArrowAnim: FC = () => (
   <Link
-    href="/blog"
+    target="_parent"
+    to={useBaseUrl('/blog/')}
     className="btn-docs"
   >
     <div className="goto">
