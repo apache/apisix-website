@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Translate from '@docusaurus/Translate';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const ArrowAnim: FC = () => (
   <Link
