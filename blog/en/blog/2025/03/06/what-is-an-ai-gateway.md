@@ -20,6 +20,7 @@ keywords:
   - AI Reliability
 description: "AI Gateway manages LLMs traffic, enhancing security, reliability, and observability for AI  applications."
 tags: [Ecosystem]
+image: https://static.api7.ai/uploads/2025/03/07/1W9olFmu_what-is-ai-gateway.webp
 ---
 
 >This article will explore how AI gateway address pressing API gateway concerns. Let's discover how AI gateways unlock the full potential of AI, turning challenges into opportunities for growth.
