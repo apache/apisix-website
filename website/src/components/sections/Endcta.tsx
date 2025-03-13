@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Translate from '@docusaurus/Translate';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import useWindowType from '@theme/hooks/useWindowSize';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import ArrowAnim from '../ArrowAnim';
 import style from '../../css/landing-sections/endcta.module.scss';
 
@@ -28,8 +28,8 @@ const EndCTA: FC = () => {
         )}
       </p>
       <div className={style.links}>
-        <Link to={useBaseUrl('downloads')} className="btn btn-download">
-          <Translate id="hero.component.download.btn">Downloads</Translate>
+        <Link target="_parent" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
+          <Translate id="hero.component.download.btn">Getting Started</Translate>
         </Link>
         <ArrowAnim />
       </div>
