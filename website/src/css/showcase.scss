@@ -53,6 +53,14 @@
 
   .user-card {
     padding: 30px 10px;
+    border-radius: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
+      border-radius: 8px;
+    }
 
     .logo {
       max-width: 100px;
