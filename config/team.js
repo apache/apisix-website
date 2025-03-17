@@ -329,25 +329,25 @@ module.exports = [
         name: 'Fucheng Jiang',
         username: 'jiangfucheng',
         githubUsername: 'jiangfucheng',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/33349046?v=4',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/33349046?v=4'
       },
       {
         name: 'Yihao Li',
         username: 'fabriceli',
         githubUsername: 'Fabriceli',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/13508022?v=4',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/13508022?v=4'
       },
       {
         name: 'Yong Qian',
         username: 'nic-6443',
         githubUsername: 'nic-6443',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/22141303?v=4',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/22141303?v=4'
       },
       {
         name: 'Wanxing Zheng',
         username: 'ronething',
         githubUsername: 'ronething',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/28869910?v=4',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/28869910?v=4'
       },
     ],
   },
