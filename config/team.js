@@ -3,7 +3,7 @@ module.exports = [
     groupName: 'PMC',
     members: [
       {
-        name: 'Shreemaan Abhishek',
+        name: 'Abhishek Choudhary',
         username: 'shreemaanabhishek',
         githubUsername: 'shreemaan-abhishek',
         avatarUrl: 'https://avatars.githubusercontent.com/u/61597896?v=4',
