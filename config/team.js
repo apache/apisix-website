@@ -9,6 +9,12 @@ module.exports = [
         avatarUrl: 'https://avatars.githubusercontent.com/u/61597896?v=4',
       },
       {
+        name: 'Ashish Tiwari',
+        username: 'ashishtiwari',
+        githubUsername: 'Revolyssup',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/43276904?v=4',
+      },
+      {
         name: 'Ayeshmantha Perera',
         username: 'akayeshmantha',
         githubUsername: 'Akayeshmantha',
