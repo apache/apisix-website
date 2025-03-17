@@ -3,6 +3,12 @@ module.exports = [
     groupName: 'PMC',
     members: [
       {
+        name: 'Abhishek Choudhary',
+        username: 'shreemaanabhishek',
+        githubUsername: 'shreemaan-abhishek',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/61597896?v=4',
+      },
+      {
         name: 'Ayeshmantha Perera',
         username: 'akayeshmantha',
         githubUsername: 'Akayeshmantha',
