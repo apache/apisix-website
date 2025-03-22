@@ -1,0 +1,7 @@
+# Algolia-Crawler-Verif: 027907D9E46C48C1
+
+User-agent: *
+
+Sitemap: https://apisix.apache.org/sitemap.xml
+
+Sitemap: https://apisix.apache.org/zh/sitemap.xml
