@@ -5,11 +5,14 @@ authors:
 title: Technical Writer
 url: https://github.com/Yilialinn
 image_url: https://github.com/Yilialinn.png
-keywords: 'AI gateway', 'AI service management', 'AI security and compliance', 'AI cost optimization', 'AI gateway use cases', 'API workflows', 'scalability', 'AI performance monitoring'
+keywords: ['AI gateway', 'AI service management', 'AI security and compliance', 'AI cost optimization', 'AI gateway use cases', 'API workflows', 'scalability', 'AI performance monitoring']
 description: "Learn about the six essential use cases of AI gateways and discover how AI gateways optimize enterprise AI implementations through centralized management, security enforcement, cost optimization, and performance monitoring."
-image: 
+image: https://static.api7.ai/uploads/2025/03/24/FLLI0HiT_6-ai-gateway-use-case.webp
 tags: [Ecosystem]
 ---
+
+>Let's explore the six common application scenarios where AI gateways deliver significant value to modern enterprises.
+<!--truncate-->
 
 ## How AI Gateways Address Modern Enterprise Needs
 
@@ -23,7 +26,7 @@ Developers and enterprises face complex issues when deploying AI services:
 - **Security Compliance**: Meeting regulatory requirements while protecting sensitive data
 - **Scalability**: Supporting growing user bases and increasing AI workloads
 
-An AI gateway serves as critical middleware that manages, secures, and optimizes interactions between applications and AI services such as large language models (LLMs), vision APIs, and other machine learning models. It acts as a centralized control point for all AI traffic, providing essential capabilities that enhance the efficiency, security, and reliability of AI implementations.
+An [AI gateway](https://apisix.apache.org/blog/2025/03/06/what-is-an-ai-gateway/) serves as critical middleware that manages, secures, and optimizes interactions between applications and AI services such as large language models (LLMs), vision APIs, and other machine learning models. It acts as a centralized control point for all AI traffic, providing essential capabilities that enhance the efficiency, security, and reliability of AI implementations.
 
 With this foundation in place, let's explore the six common application scenarios where AI gateways deliver significant value to modern enterprises.
 
@@ -85,7 +88,7 @@ As AI adoption continues to accelerate, we can expect AI gateways to evolve with
 - **Cross-provider Optimization**: Managing costs across multiple AI service providers simultaneously
 - **Carbon-Aware Routing**: Directing requests to environmentally sustainable infrastructure options
 
-By implementing these advanced cost optimization and rate limiting strategies, businesses can ensure their AI investments deliver maximum value while remaining aligned with financial objectives.
+By implementing these advanced cost optimization and rate-limiting strategies, businesses can ensure their AI investments deliver maximum value while remaining aligned with financial objectives.
 
 ## 4. Performance Monitoring and Analytics
 
@@ -145,3 +148,6 @@ This capability reduces risk during model updates and helps organizations valida
 AI gateways have emerged as essential infrastructure for organizations looking to harness AI capabilities effectively. By providing centralized management, enforcing security policies, optimizing costs, delivering performance insights, supporting hybrid deployments, and enabling controlled model updates, AI gateways help organizations navigate the complexities of modern AI implementations.
 
 As AI adoption continues to grow across industries, these gateways will play an increasingly critical role in ensuring that AI services remain secure, efficient, and aligned with business objectives.
+
+Read more about [Apache APISIX AI Gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/) and the [differences between AI gateways and API gateways](https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/).
+
