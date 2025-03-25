@@ -150,4 +150,3 @@ AI gateways have emerged as essential infrastructure for organizations looking t
 As AI adoption continues to grow across industries, these gateways will play an increasingly critical role in ensuring that AI services remain secure, efficient, and aligned with business objectives.
 
 Read more about [Apache APISIX AI Gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/) and the [differences between AI gateways and API gateways](https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/).
-
