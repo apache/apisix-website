@@ -1,10 +1,10 @@
 ---
 title: "6 Essential AI Gateway Use Cases"
 authors:
-- name: Yilia Lin
-title: Technical Writer
-url: https://github.com/Yilialinn
-image_url: https://github.com/Yilialinn.png
+  - name: Yilia Lin
+    title: Technical Writer
+    url: https://github.com/Yilialinn
+    image_url: https://github.com/Yilialinn.png
 keywords: ['AI gateway', 'AI service management', 'AI security and compliance', 'AI cost optimization', 'AI gateway use cases', 'API workflows', 'scalability', 'AI performance monitoring']
 description: "Learn about the six essential use cases of AI gateways and discover how AI gateways optimize enterprise AI implementations through centralized management, security enforcement, cost optimization, and performance monitoring."
 image: https://static.api7.ai/uploads/2025/03/24/FLLI0HiT_6-ai-gateway-use-case.webp
