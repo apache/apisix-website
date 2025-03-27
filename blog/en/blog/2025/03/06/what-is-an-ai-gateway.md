@@ -18,7 +18,7 @@ keywords:
   - AI Observability
   - AI Prompt Engineering
   - AI Reliability
-description: "AI Gateway manages LLMs traffic, enhancing security, reliability, and observability for AI  applications."
+description: "AI Gateway manages LLMs traffic, enhancing security, reliability, and observability for AI applications."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/1W9olFmu_what-is-ai-gateway.webp
 ---
