@@ -37,7 +37,7 @@ For more information, see PR [#12030](https://github.com/apache/apisix/pull/1203
 
 ### Replace plugin attribute with plugin metadata in `opentelemetry` plugin
 
-Plugin attributes `batch_span_processor`, `collector`, and `trace_id_source` configuration are now migrated to plugin metadata from configuration file.
+Plugin attributes `batch_span_processor`, `collector`, `trace_id_source`, `resource`, and `set_ngx_var` configurations are now migrated to plugin metadata from configuration file.
 
 For more information, see PR [#11940](https://github.com/apache/apisix/pull/11940).
 
