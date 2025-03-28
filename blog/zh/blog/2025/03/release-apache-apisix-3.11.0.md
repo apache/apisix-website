@@ -35,9 +35,9 @@ tags: [Community]
 
 有关更多信息，请参阅 PR [#12030](https://github.com/apache/apisix/pull/12030)、[#12055](https://github.com/apache/apisix/pull/12055) 和 [#12004](https://github.com/apache/apisix/pull/12004)。
 
-### 在 `opentelemetry` 插件中用插件元数据替换插件属性
+### 在 `opentelemetry` 插件中用 plugin metadata 替换插件属性
 
-插件属性 `batch_span_processor`、`collector` 和 `trace_id_source` 配置现已从配置文件迁移到插件元数据。
+插件属性 `batch_span_processor`、`collector`、`trace_id_source`、`resource` 和 `set_ngx_var` 配置现已从配置文件迁移到 plugin metadata。
 
 有关详细信息，请参阅 PR [#11940](https://github.com/apache/apisix/pull/11940)。
 
