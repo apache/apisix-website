@@ -1,0 +1,76 @@
+AddDefaultCharset UTF-8
+
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.gitignore
+RedirectMatch 404 /\.htaccess
+RedirectMatch 404 /\.github
+RedirectMatch 404 /\.asf\.yaml
+
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+RewriteEngine on
+CheckSpelling on
+
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin: https://apisix.apache.org
+    Header set Access-Control-Allow-Methods "*"
+    Header set Access-Control-Allow-Headers "*"
+    Header set Content-Security-Policy "frame-src 'self' https://www.google.com https://app.netlify.com"
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive on
+
+    ExpiresByType text/html            		"access plus 1 hour"
+    ExpiresByType image/png            		"access plus 1 hour"
+    ExpiresByType image/jpg            		"access plus 1 hour"
+    ExpiresByType image/jpeg           		"access plus 1 hour"
+    ExpiresByType text/css            		"access plus 1 hour"
+    ExpiresByType application/javascript    "access plus 1 hour"
+    ExpiresByType application/json       	"access plus 1 hour"
+    ExpiresDefault                  		"access plus 10 days"
+
+</IfModule>
+
+Redirect 302 "/twitter" "https://twitter.com/ApacheAPISIX"
+Redirect 302 "/youtube" "https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"
+Redirect 302 "/slack" "https://join.slack.com/t/the-asf/shared_invite/zt-1ugrg37is-mFrbRqBEdpGWZ7_cuvvv0A"
+Redirect 302 "/community-meeting-signup" "https://docs.google.com/forms/d/1C9bIJ3eh0bQrBdv4rPGxHDUvX4giNQ_IRCmDDOQ2mgE/"
+Redirect 302 "/contributor-workshop-signup" "https://docs.google.com/forms/d/1LUER3R9-aFsUm7MhjVd_CM1xAGnkuWIe62prFH5aqAE/"
+Redirect 302 "/guest-blog-post" "https://forms.gle/unQpSm7FyqkfaSSP8/"
+RedirectMatch 302 "^/docs/apisix/getting-started/$" "/docs/apisix/getting-started/README/"
+RedirectMatch 302 "^/zh/docs/apisix/getting-started/$" "/zh/docs/apisix/getting-started/README/"
+
+Redirect 301 "/docs/apisix/install" "/docs/apisix/how-to-build/"
+Redirect 301 "/docs/apisix/architecture-design/plugin/" "/docs/apisix/architecture-design/plugin-config/"
+Redirect 301 "/docs/apisix/2.13/FAQ/plugins.md/" "/docs/apisix/2.13/architecture-design/plugin/"
+Redirect 301 "/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress" "/docs/ingress-controller/tutorials/proxy-the-httpbin-service-with-ingress/"
+Redirect 301 "/docs/apisix/admin-api/terminology/plugin-config.md/" "/docs/apisix/architecture-design/plugin-config/"
+Redirect 301 "/docs/general/community/" "/docs/general/join/"
+Redirect 301 "/docs/general/subscribe-guide/" "/docs/general/join/"
+
+Redirect 301 "/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en" "/blog/2021/08/14/contributors-the-golden-metric-of-opensource-projects/"
+Redirect 301 "/blog/2022/02/10/apisix-splunk-integration/" "/blog/2022/02/10/splunk-apisix-integration/"
+Redirect 301 "/blog/2021/08/31/Apache%20APISIX%20×%20KubeSphere-a-better-gateway-and-K8S-Ingress-Controller/" "/blog/2021/08/31/apache-apisix-kubeSphere-a-better-gateway-and-k8s-ingress-controller/"
+Redirect 301 "/blog/2021/11/30/use-apisix-ingress-in-kubesphere/httpbin.org/" "/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"
+Redirect 301 "/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX/" "/blog/2021/08/18/auth-with-casbin-in-apache-apisix/"
+Redirect 301 "/blog/2022/03/02/apisix-integration-graphql-plugin/" "/blog/2022/03/02/apisix-integration-graphql/"
+Redirect 301 "/blog/2022/09/21/apache-apisix-v3-preview" "/blog/2022/11/02/apache-apisix-v3-preview"
+
+Redirect 301 "/zh/docs/apisix/install" "/zh/docs/apisix/how-to-build/"
+Redirect 301 "/zh/docs/apisix/architecture-design/plugin/" "/zh/docs/apisix/architecture-design/plugin-config/"
+Redirect 301 "/zh/docs/apisix/2.13/FAQ/plugins.md/" "/zh/docs/apisix/2.13/architecture-design/plugin/"
+Redirect 301 "/zh/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress" "/zh/docs/ingress-controller/tutorials/proxy-the-httpbin-service-with-ingress/"
+Redirect 301 "/zh/docs/apisix/admin-api/terminology/plugin-config.md/" "/zh/docs/apisix/architecture-design/plugin-config/"
+Redirect 301 "/zh/docs/general/community/" "/zh/docs/general/join/"
+Redirect 301 "/zh/docs/general/subscribe-guide/" "/zh/docs/general/join/"
+
+Redirect 301 "/zh/blog/2021/08/14/contributors-the-golden-metric-of-openSource-projects-en" "/zh/blog/2021/08/14/contributors-the-golden-metric-of-opensource-projects/"
+Redirect 301 "/zh/blog/2022/02/10/apisix-splunk-integration/" "/zh/blog/2022/02/10/splunk-apisix-integration/"
+Redirect 301 "/zh/blog/2021/08/31/Apache%20APISIX%20×%20KubeSphere-a-better-gateway-and-K8S-Ingress-Controller/" "/zh/blog/2021/08/31/apache-apisix-kubeSphere-a-better-gateway-and-k8s-ingress-controller/"
+Redirect 301 "/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/httpbin.org/" "/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"
+Redirect 301 "/zh/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX/" "/zh/blog/2021/08/18/auth-with-casbin-in-apache-apisix/"
+Redirect 301 "/zh/blog/2022/03/02/apisix-integration-graphql-plugin/" "/zh/blog/2022/03/02/apisix-integration-graphql/"
