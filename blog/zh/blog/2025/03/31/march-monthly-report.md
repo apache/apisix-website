@@ -27,7 +27,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 相关 RP：https://github.com/apache/apisix/issues/12098
 
-Issue 描述：​在 [PR #12029](https://github.com/apache/apisix/pull/12029) 中，由于 default 值已设置为 "nil"，则无需定义 `enum` 字段的值为 "nil"，需要删除。
+Issue 描述：​参考 [PR #12029 的评论](https://github.com/apache/apisix/pull/12029#discussion_r2018012041) ，在 `chaitin-waf` 插件中，由于 default 值已设置为 "nil"，则无需定义 `enum` 字段的值为 "nil"，需要删除。
 
 ## 近期亮点功能
 
