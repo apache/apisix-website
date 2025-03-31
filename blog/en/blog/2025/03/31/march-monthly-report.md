@@ -69,7 +69,7 @@ PR: https://github.com/apache/apisix/pull/11675
 
 Contributor: [mikyll](https://github.com/mikyll)
 
-The `jwt-auth` plugin now has a new parameter: `store_in_ctx`. It allows the configuration of When enabled (default is off), it stores the validated JWT object in the request context.
+The `jwt-auth` plugin now has a new parameter: `store_in_ctx`. It allows the configuration of when enabled (default is off), it stores the validated JWT object in the request context.
 
 This feature is especially beneficial for two reasons:
 
