@@ -139,7 +139,7 @@ PR: https://github.com/apache/apisix/pull/12076
 
 Contributor: [papdaniel](https://github.com/papdaniel)
 
-Support 404 response code to hide the route from blacklisted/whitelisted sources.
+Support 404 response code to hide the route from non-whitelisted sources.
 
 ### 12. Extend `chaitin-waf` Plugin Functionalities
 

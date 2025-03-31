@@ -129,7 +129,7 @@ Issue 描述：​参考 [PR #12029 的评论](https://github.com/apache/apisix/
 
 贡献者：[papdaniel](https://github.com/papdaniel)
 
-在 `ip-restriction` 插件中支持 404 响应码，以便对黑名单或未列入白名单的来源隐藏路由。
+在 `ip-restriction` 插件中支持 404 响应码，以便对未列入白名单的来源隐藏路由。
 
 ### 12. 扩展 `chaitin-waf` 插件的功能
 
