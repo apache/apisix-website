@@ -87,7 +87,7 @@ Add JWT audience authentication to the `openid-connect` plugin to:
 
 - Allow the configuration of audience claim to enforce validation of JWT Audience Validator.
 - Asserts that it should be equal to or contain the `client_id` to comply with the OIDC specification requirements; otherwise, rejects the request.
-- Allows customization of the claim.
+- Allows customization of the claim name.
 
 Directly implemented in plugin code since jwt-validators only supports local verification, not the Introspection API. Features are disabled by default for compatibility. Users can enable them as needed.
 
