@@ -27,51 +27,75 @@ From March 1st to March 31, 14 contributors made 50 commits to Apache APISIX. We
 
 Link：[https://github.com/apache/apisix/issues/12098](https://github.com/apache/apisix/issues/12098)
 
-Problem Description: In [PR #12029](https://github.com/apache/apisix/pull/12029), the configuration code for the plugin needs to be improved.
+Issue Description: In [PR #12029](https://github.com/apache/apisix/pull/12029), the value "nil" of `enum` can be removed due to the default value is set to "nil".
 
 ## Feature Highlights
 
-### New Plugins
+### 1. Add `ai-prompt-guard` Plugin
 
-**1. [Support `ai-prompt-guard` Plugin](https://github.com/apache/apisix/pull/12008)(Contributor: [Revolyssup](https://github.com/Revolyssup))**
+PR: https://github.com/apache/apisix/pull/12008
+
+Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 The `ai-prompt-guard` plugin safeguards your AI endpoints by inspecting and validating incoming prompt messages. It checks the content of requests against user-defined allowed and denied patterns to ensure that only approved inputs are processed. Based on its configuration, the plugin can either examine just the latest message or the entire conversation history, and it can be set to check prompts from all roles or only from end users.
 
-**2. [Support `ai-rate-limiting` Plugin](https://github.com/apache/apisix/pull/12037)(Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))**
+### 2. Add `ai-rate-limiting` Plugin
+
+PR: https://github.com/apache/apisix/pull/12037
+
+Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 The `ai-rate-limiting` plugin enforces token-based rate limiting for requests sent to LLM services. It helps manage API usage by controlling the number of tokens consumed within a specified time frame, ensuring fair resource allocation and preventing excessive load on the service. It is often used with `ai-proxy-multi` plugin.
 
-**3. [Support `ai-request-rewrite` Plugin](https://github.com/apache/apisix/pull/12036)(Contributor: [LiteSun](https://github.com/LiteSun))**
+### 3. Add `ai-request-rewrite` Plugin
 
-The ai-request-rewrite plugin leverages predefined prompts and AI services to intelligently modify client requests, enabling AI-powered content transformation before forwarding to upstream services.
+PR: https://github.com/apache/apisix/pull/12036
 
-### New/Enhanced Features
+Contributor: [LiteSun](https://github.com/LiteSun)
 
-**1. [Support Proxying OpenAI-Compatible LLMs](https://github.com/apache/apisix/pull/12004)(Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))**
+The `ai-request-rewrite` plugin leverages predefined prompts and AI services to intelligently modify client requests, enabling AI-powered content transformation before forwarding to upstream services.
+
+### 4. Support Proxying OpenAI-Compatible LLMs
+
+PR: https://github.com/apache/apisix/pull/12004
+
+Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR introduces a new provider, `openai-compatible`, that can proxy requests to OpenAI-compatible LLMs.
 
-**2. [Store JWT in the Request Context in `jwt-auth` Plugin](https://github.com/apache/apisix/pull/11675)(Contributor: [mikyll](https://github.com/mikyll))**
+### 5. Store JWT in the Request Context in `jwt-auth` Plugin
 
-The `jwt-auth` plugin now has a new parameter: `store_in_ctx`. When enabled (default is off), it stores the validated JWT object in the request context.
+PR: https://github.com/apache/apisix/pull/11675
 
-This feature is especially beneficial for custom plugins:
+Contributor: [mikyll](https://github.com/mikyll)
 
-- When `hide_credential = true` removes the JWT from request attributes, store_in_ctx offers a secure alternative for token passing without exposure.
+The `jwt-auth` plugin now has a new parameter: `store_in_ctx`. It allows the configuration of When enabled (default is off), it stores the validated JWT object in the request context.
 
-- It prevents custom plugins from duplicating code to retrieve and parse JWT objects, as the `jwt-auth` plugin already handles these tasks.
+This feature is especially beneficial for two reasons:
 
-**3. [Add JWT Audience Validator in `openid-connect` Plugin](https://github.com/apache/apisix/pull/11987)(Contributor: [bzp2010](https://github.com/bzp2010))**
+- The JWT can be removed from request attributes when `hide_credential = true`, this offers a secure alternative for token passing without exposure.
 
-Add JWT audience authentication to the `openid-connect` plugin:
+- It prevents custom plugins from duplicated code, for example, retrieve and parse JWT objects.
 
-- Ensures the claim exists; otherwise, rejects the request.
-- Verifies the claim equals or contains the client_id per OIDC specs; otherwise, rejects the request.
+### 6. Add JWT Audience Validator in `openid-connect` Plugin
+
+PR: https://github.com/apache/apisix/pull/11987
+
+Contributor: [bzp2010](https://github.com/bzp2010)
+
+Add JWT audience authentication to the `openid-connect` plugin to:
+
+- Allow the configuration of audience claim to enforce validation of JWT Audience Validator.
+- Asserts that it should be equal to or contain the `client_id` to comply with the OIDC specification requirements; otherwise, rejects the request.
 - Allows customization of the claim.
 
 Directly implemented in plugin code since jwt-validators only supports local verification, not the Introspection API. Features are disabled by default for compatibility. Users can enable them as needed.
 
-**4. [Set Default Value of `ssl_trusted_certificate` to `system`](https://github.com/apache/apisix/pull/11993)(Contributor: [Revolyssup](https://github.com/Revolyssup))**
+### 7. Set Default Value of `ssl_trusted_certificate` to `system`
+
+PR: https://github.com/apache/apisix/pull/11993
+
+Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 When testing AI plugins, we found that `ssl_trusted_certificate` must be set to `system`; otherwise, APISIX reports "unable to get local issuer certificate" when accessing external AI services.
 
@@ -81,23 +105,43 @@ This PR:
 - Ensures schema validation happens first when reading YAML files, setting the default trusted certificate value to `system` before overrides (including replacing `system` with certificate paths).
 - Removes support for combining multiple certificates.
 
-**5. [Add `valid_issuers` Field in `openid-connect` Plugin](https://github.com/apache/apisix/pull/12002)(Contributor: [Revolyssup](https://github.com/Revolyssup))**
+### 8. Add `valid_issuers` Field in `openid-connect` Plugin
+
+PR: https://github.com/apache/apisix/pull/12002
+
+Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 Adds a field `valid_issuers` when JWKs is used to verify the issuer of the JWT. Whitelist the vetted issuers of the JWT. When not passed by the user, the issuer returned by the discovery endpoint will be used. If both are missing, the issuer will not be validated.
 
-**6. [Implement Rate-Limiting based on Fallback Strategy in `ai-proxy-multi` Plugin](https://github.com/apache/apisix/pull/12047)(Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))**
+### 9. Implement Rate-Limiting based on Fallback Strategy in `ai-proxy-multi` Plugin
+
+PR: https://github.com/apache/apisix/pull/12047
+
+Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 In a previous refactor PR, the fallback strategy was removed to accommodate the `ai-rate-limiting` plugin. This PR introduces a fallback strategy that fits well with the rate-limiting construction in the `ai-proxy-multi` plugin.
 
-**7. [Support embeddings API in `ai-proxy` Plugin](https://github.com/apache/apisix/pull/12062)(Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek))**
+### 10. Support Embeddings API in `ai-proxy` Plugin
+
+PR: https://github.com/apache/apisix/pull/12062
+
+Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR adds support for proxying the embeddings API in the `ai-proxy` plugin.
 
-**8. [Support 404 Response Code in `ip-restriction` Plugin](https://github.com/apache/apisix/pull/12076)(Contributor: [papdaniel](https://github.com/papdaniel))**
+### 11. Support `404` Response Code in `ip-restriction` Plugin
+
+PR: https://github.com/apache/apisix/pull/12076
+
+Contributor: [papdaniel](https://github.com/papdaniel)
 
 Support 404 response code to hide the route from blacklisted/not whitelisted sources.
 
-**9. [Extend `chaitin-waf` Plugin Functionalities](https://github.com/apache/apisix/pull/12029)(Contributor: [AlyHKafoury](https://github.com/AlyHKafoury))**
+### 12. Extend `chaitin-waf` Plugin Functionalities
+
+PR: https://github.com/apache/apisix/pull/12029
+
+Contributor: [AlyHKafoury](https://github.com/AlyHKafoury)
 
 This PR adds a configuration for the `mode` attribute, adds a configuration to enable/disable the real client IP, and uses `lrucache` to cache the var expression result.
 
