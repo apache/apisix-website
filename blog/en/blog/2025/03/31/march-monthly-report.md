@@ -23,7 +23,7 @@ From March 1st to March 31, 14 contributors made 50 commits to Apache APISIX. We
 
 ## Good First Issue
 
-### Issue #12098
+### Issue #12098 Improve Configuration Code of `chaitin-waf` Plugin
 
 Link：[https://github.com/apache/apisix/issues/12098](https://github.com/apache/apisix/issues/12098)
 
