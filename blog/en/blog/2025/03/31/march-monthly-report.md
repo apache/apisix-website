@@ -111,7 +111,7 @@ PR: https://github.com/apache/apisix/pull/12002
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-Adds a field `valid_issuers` when JWKs is used to verify the issuer of the JWT. Whitelist the vetted issuers of the JWT. When not passed by the user, the issuer returned by the discovery endpoint will be used. If both are missing, the issuer will not be validated.
+Adds a field `valid_issuers` when JWKs is used to verify the issuer of the JWT, which whitelists the vetted issuers of the JWT. When not passed by the user, the issuer returned by the discovery endpoint will be used. If both are missing, the issuer will not be validated.
 
 ### 9. Implement Rate-Limiting based on Fallback Strategy in `ai-proxy-multi` Plugin
 
