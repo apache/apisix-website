@@ -127,7 +127,7 @@ PR: https://github.com/apache/apisix/pull/12062
 
 Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-This PR adds support for proxying the embeddings API in the `ai-proxy` plugin.
+This PR adds support for proxying to the embedding models in the `ai-proxy` and `ai-proxy-multi` Plugins.
 
 ### 11. Support `404` Response Code in `ip-restriction` Plugin
 
