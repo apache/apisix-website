@@ -73,7 +73,7 @@ Issue 描述：​参考 [PR #12029 的评论](https://github.com/apache/apisix/
 
 - 当配置 `hide_credential = true` 时，JWT 会从请求属性中移除，此时 `store_in_ctx` 提供了安全的令牌传递替代方案，避免直接暴露。
 
-- 防止自定义插件重复编写获取与解析 JWT 的代码，因为 `jwt-auth` 插件已实现这些功能。
+- 用户无需开发自定义代码来获取与解析 JWT 对象。
 
 ### 6. 在 `openid-connect` 插件中新增 JWT 受众认证
 

@@ -75,7 +75,7 @@ This feature is especially beneficial for two reasons:
 
 - The JWT can be removed from request attributes when `hide_credential = true`, this offers a secure alternative for token passing without exposure.
 
-- It prevents custom plugins from duplicated code, for example, retrieve and parse JWT objects.
+- Do not require users to develop custom code to retrieve and parse JWT objects.
 
 ### 6. Add JWT Audience Validator in `openid-connect` Plugin
 
