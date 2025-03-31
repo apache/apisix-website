@@ -86,7 +86,9 @@ Contributor: [bzp2010](https://github.com/bzp2010)
 Add JWT audience authentication to the `openid-connect` plugin to:
 
 - Allow the configuration of audience claim to enforce validation of JWT Audience Validator.
+
 - Asserts that it should be equal to or contain the `client_id`  when the `client_id` is a string or an array respectively, to comply with the OIDC specification requirements; otherwise, rejects the request.
+
 - Allows customization of the claim name.
 
 Directly implemented in plugin code since jwt-validators only supports local verification, not the Introspection API. Features are disabled by default for compatibility. Users can enable them as needed.
@@ -102,7 +104,9 @@ When testing AI plugins, we found that `ssl_trusted_certificate` must be set to 
 This PR:
 
 - Moves schema validation into `read_yaml_conf` for consistency, with `local_conf` now just calling `read_yaml_conf` internally and adding caching.
+
 - Ensures schema validation happens first when reading YAML files, setting the default trusted certificate value to `system` before overrides (including replacing `system` with certificate paths).
+
 - Removes support for combining multiple certificates.
 
 ### 8. Add `valid_issuers` Field in `openid-connect` Plugin
@@ -135,7 +139,7 @@ PR: https://github.com/apache/apisix/pull/12076
 
 Contributor: [papdaniel](https://github.com/papdaniel)
 
-Support 404 response code to hide the route from blacklisted/not whitelisted sources.
+Support 404 response code to hide the route from blacklisted/whitelisted sources.
 
 ### 12. Extend `chaitin-waf` Plugin Functionalities
 

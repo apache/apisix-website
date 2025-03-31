@@ -23,7 +23,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## Good First Issue
 
-### Issue #12098 更新 chaitin-waf 插件配置码
+### 优化 `chaitin-waf` 插件的 Schema
 
 相关 RP：[https://github.com/apache/apisix/issues/12098](https://github.com/apache/apisix/issues/12098)
 
