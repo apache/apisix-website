@@ -13,7 +13,7 @@ image: https://static.api7.ai/uploads/2025/03/28/226yQ3dc_march-monthly-report-c
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From March 1st to March 31, 14 contributors made 50 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From March 1st to March 31st, 14 contributors made 50 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
