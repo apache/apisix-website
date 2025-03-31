@@ -27,7 +27,7 @@ From March 1st to March 31, 14 contributors made 50 commits to Apache APISIX. We
 
 Issue: https://github.com/apache/apisix/issues/12098
 
-Issue Description: Consider the comments of [PR #12029](https://github.com/apache/apisix/pull/12029#discussion_r2018012041) for `chaitin-waf` plugin, the value "nil" of `enum` can be removed due to the default value is set to "nil".
+Consider the comments of [PR #12029](https://github.com/apache/apisix/pull/12029#discussion_r2018012041) for `chaitin-waf` plugin. The value `nil` of `enum` can be removed since default value is already set to `nil`.
 
 ## Feature Highlights
 
