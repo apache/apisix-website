@@ -136,7 +136,7 @@ In the `env` field, you can specify the APISIX service access address, Admin API
      <source src="https://static.api7.ai/uploads/2025/04/01/iRjDmNSS_mcp-demo.avi" type="video/avi">  
    </video>  
 
-Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automatically invoke all tools in the MCP service. From the video, we can observe the AI performing the following operations based on our requirements:
+Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automatically invoke all tools in the MCP server. From the video, we can observe the AI performing the following operations based on our requirements:
 
 - Analyzing the plugins we need to configure, then calling `get_plugins_list` to retrieve all plugin names
 - Invoking `get_plugin_schema` to examine detailed configuration information for different plugins
