@@ -120,7 +120,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 
 ![Select Agent Models](https://static.api7.ai/uploads/2025/04/01/g9v91DIf_apisix-mcp-4.webp)
 
-5. 然后我们可以输入相关的操作指令看看 MCP 服务是否能正常工作，这里我们根据 APISIX 文档中的 getting start 中的流程进行操作，在对话框中输入以下内容，并发送对话。
+5. 然后我们可以输入相关的操作指令看看 MCP 服务是否能正常工作，这里我们根据 APISIX 文档中的 Getting Started 中的流程进行操作，在对话框中输入以下内容，并发送对话。
 
 > "Help me create a route with path `/api` for accessing https://httpbin.org upstream, need to configure cors and rate limit plugin appropriately. Print the route information to me after configuring."
 > 中文翻译：“帮我创建一条路径为 `/api` 的路由，用于访问上游 https://httpbin.org，需要配置 CORS 和限流限速插件。配置完成后把路由信息打印给我。”
