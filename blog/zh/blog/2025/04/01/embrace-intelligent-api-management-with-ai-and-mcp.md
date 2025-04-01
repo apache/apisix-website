@@ -30,11 +30,11 @@ image: https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp
 
 在这样的背景下，2024 年底，知名大模型 Claude 背后的公司 Anthropic 推出了一项名为模型上下文协议 **（Model Context Protocol，简称 MCP）** 的协议。MCP 将自身定义为 AI 应用的 “USB - C 接口”。我们知道，USB - C 为设备连接各类周边设备及配件提供了标准化方式，与之类似，MCP 则为 AI 模型连接不同数据源与工具提供了标准化途径。
 
-![MCP Architecture](https://static.api7.ai/uploads/2025/04/01/YNoGjZqo_apisix-mcp-1.webp)
+![MCP Architecture](https://static.api7.ai/uploads/2025/04/01/yUpL18fz_apisix-mcp-architecture.webp)
 
 目前已经有大量服务和应用基于 MCP 实现，例如我们可以使用 GitHub-MCP，用自然语言提交代码、创建 PR；利用 Figma MCP，让 AI 直接生成 UI 图，接入 Browser-tools-MCP 后，甚至还能让 cursor 根据浏览器控制台中的元素节点和打印的日志进行代码调试。
 
-在 MCP 官方仓库里，提供了诸如 Google Drive、Slack、Git 以及多种数据库的 MCP 服务。而且它作为一项开放标准，MCP 获得了 AI 社区的广泛认可，众多第三方开发者纷纷投身其中，开发了各类 MCP 服务，每天都有数百个新的 MCP 服务问世。Anthropic 作为创始者，也一直在积极推动 MCP 的发展，持续优化协议的实现，同时大力开展对开发者的相关教育工作。
+在 MCP 官方仓库里，提供了诸如 Google Drive、Slack、Git 以及多种数据库的 MCP 服务。而且它作为一项开放标准，MCP 获得了 AI 社区的广泛认可，众多第三方开发者纷纷投身其中，开发了各类 MCP 服务，每天都有数百个新的 MCP 服务问世。Anthropic 作为发布者，也一直在积极推动 MCP 的发展，持续优化协议的实现，同时大力开展对开发者的相关教育工作。
 
 ## 关于 APISIX-MCP
 
@@ -120,7 +120,10 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 
 ![Select Agent Models](https://static.api7.ai/uploads/2025/04/01/g9v91DIf_apisix-mcp-4.webp)
 
-5. 然后我们可以输入相关的操作指令看看 MCP 服务是否能正常工作，这里我们根据 APISIX 文档中的 getting start 中的流程进行操作，在对话框中输入："Help me create a route with path /api for accessing https://httpbin.org upstream, need to configure cors and rate limit plugin appropriately. Print the route information to me after configuring"，并发送对话。
+5. 然后我们可以输入相关的操作指令看看 MCP 服务是否能正常工作，这里我们根据 APISIX 文档中的 getting start 中的流程进行操作，在对话框中输入以下内容，并发送对话。
+
+> "Help me create a route with path `/api` for accessing https://httpbin.org upstream, need to configure cors and rate limit plugin appropriately. Print the route information to me after configuring."
+> 中文翻译：“帮我创建一条路径为 `/api` 的路由，用于访问上游 https://httpbin.org，需要配置 CORS 和限流限速插件。配置完成后把路由信息打印给我。”
 
 6. 接下来我们会在 cursor 中看到类似下面视频中 MCP 工具调用过程流程，由于 AI 大模型本身响应具有随机性，所以每次执行的操作不一定与示例中相同。
 
@@ -128,7 +131,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
   <source src="https://static.api7.ai/uploads/2025/04/01/iRjDmNSS_mcp-demo.avi" type="video/avi">
 </video>
 
-这里开启了自动执行模式（YOLO Mode）允许 cursor 自动调用 mcp 服务中的所有工具，从视频中我们可以看到 AI 根据我们的需求：
+这里开启了自动执行模式（YOLO Mode）允许 cursor 自动调用 mcp 服务器中的所有工具，从视频中我们可以看到 AI 根据我们的需求：
 
 - 分析我们需要配置的插件，然后调用了 `get_plugins_list` 获取所有插件的名称- 调用 `get_plugin_schema` 去查看不同插件的详细配置信息
 - 调用 `create_rotue` 创建路由
@@ -183,4 +186,4 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 
 ## 总结
 
-MCP 的出现为复杂 API 系统的智能化操作开辟了新的可能性，我们希望 APISIX-MCP 能够帮助你快速上手 Apache APISIX。后续 APISIX 将会推出更多处理 AI 流量相关的插件。我们相信，AI 与 API 管理的融合将持续推动运维效率的革新，为开发者带来更智能、更高效的基础设施管理体验。
+MCP 的出现为复杂 API 系统的智能化操作开辟了新的可能性，我们希望 APISIX-MCP 能够帮助你快速上手 Apache APISIX。后续 APISIX 将会推出更多处理 AI 流量相关的插件，也会在 API 管理方面探索更多与 AI 结合的可能性。我们相信，AI 与 API 管理的融合将持续推动运维效率的革新，为开发者带来更智能、更高效的基础设施管理体验。
