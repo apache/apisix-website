@@ -1,10 +1,10 @@
 ---
 title: "Release Apache APISIX 3.12.0"
 authors:
-  - name: "Abhishek Choudhary"
+  - name: "Ashish Tiwari"
     title: "Author"
-    url: "https://github.com/shreemaan-abhishek"
-    image_url: "https://github.com/shreemaan-abhishek.png"
+    url: "https://github.com/Revolyssup"
+    image_url: "https://github.com/Revolyssup.png"
   - name: "Traky Deng"
     title: "Technical Writer"
     url: "https://github.com/kayx23"
@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: The Apache APISIX 3.12.0 version is released on March 25, 2025. This release includes a few changes, new features, bug fixes, and other improvements to user experiences.
+description: The Apache APISIX 3.12.0 version is released on April 1, 2025. This release includes a few changes, new features, bug fixes, and other improvements to user experiences.
 tags: [Community]
 ---
 
