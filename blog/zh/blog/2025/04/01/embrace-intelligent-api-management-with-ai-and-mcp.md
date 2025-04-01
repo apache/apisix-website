@@ -149,7 +149,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
     allow_origins: *
     allow_methods: *
     allow_headers: *
-    expose_headers: X-Custom-Header 
+    expose_headers: X-Custom-Header
     max_age: 3600
     allow_credential: false
     ```
@@ -160,7 +160,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
     count: 100
     time_window: 60
     key: remote_addr
-    rejected_code: 429 
+    rejected_code: 429
     policy: local
     ```
 

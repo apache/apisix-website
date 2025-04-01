@@ -155,7 +155,7 @@ Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automat
     allow_origins: *
     allow_methods: *
     allow_headers: *
-    expose_headers: X-Custom-Header 
+    expose_headers: X-Custom-Header
     max_age: 3600
     allow_credential: false
     ```
@@ -166,7 +166,7 @@ Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automat
     count: 100
     time_window: 60
     key: remote_addr
-    rejected_code: 429 
+    rejected_code: 429
     policy: local
     ```
 
