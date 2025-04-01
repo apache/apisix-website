@@ -29,7 +29,7 @@ With the explosive growth of large-scale AI model applications, many traditional
 
 Against this backdrop, in late 2024, Anthropic—the company behind the renowned Claude model—introduced the **Model Context Protocol (MCP)**. MCP positions itself as the **"USB-C interface" for AI applications**. Just as USB-C standardizes connections for peripherals and accessories, MCP provides a standardized approach for AI models to connect with diverse data sources and tools.  
 
-![MCP Architecture](https://static.api7.ai/uploads/2025/04/01/YNoGjZqo_apisix-mcp-1.webp)  
+![MCP Architecture](https://static.api7.ai/uploads/2025/04/01/u6Q4dGDZ_apisix-mcp-architecture-new.webp)  
 
 Numerous services and applications have already adopted MCP. For example:  
 
