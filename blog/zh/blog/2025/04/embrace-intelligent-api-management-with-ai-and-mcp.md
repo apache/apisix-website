@@ -28,13 +28,13 @@ image: https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp
 
 随着 AI 大模型应用呈爆发式增长，许多传统应用都希望自己快速接入 AI 大模型。然而，当前各类 AI 工具缺乏统一标准，碎片化现象极为严重。不同大模型的能力高低不一，对接方式也大相径庭，这让传统应用在接入时困难重重。
 
-在这样的背景下，2024 年底，知名大模型 Claude 背后的公司 Anthropic 推出了一项名为模型上下文协议**（Model Context Protocol，简称 MCP）**的协议。MCP 将自身定义为 AI 应用的 “USB - C 接口”。我们知道，USB - C 为设备连接各类周边设备及配件提供了标准化方式，与之类似，MCP 则为 AI 模型连接不同数据源与工具提供了标准化途径。
+在这样的背景下，2024 年底，知名大模型 Claude 背后的公司 Anthropic 推出了一项名为模型上下文协议 **（Model Context Protocol，简称 MCP）** 的协议。MCP 将自身定义为 AI 应用的 “USB - C 接口”。我们知道，USB - C 为设备连接各类周边设备及配件提供了标准化方式，与之类似，MCP 则为 AI 模型连接不同数据源与工具提供了标准化途径。
 
 ![MCP Architecture](https://static.api7.ai/uploads/2025/04/01/YNoGjZqo_apisix-mcp-1.webp)
 
 目前已经有大量服务和应用基于 MCP 实现，例如我们可以使用 GitHub-MCP，用自然语言提交代码、创建 PR；利用 Figma MCP，让 AI 直接生成 UI 图，接入 Browser-tools-MCP 后，甚至还能让 cursor 根据浏览器控制台中的元素节点和打印的日志进行代码调试。
 
-在 MCP 官方仓库里，提供了诸如 Google Drive、Slack、Git 以及多种数据库的 MCP 服务。而且它作为一项开放标准，MCP 获得了 AI 社区的广泛认可，众多第三方开发者纷纷投身其中，开发了各类 MCP 服务，每天都有数百个新的 MCP 服务问世。Anthropic 作为创始者，也一直在积极推动 MCP 的发展，持续优化协议的实现，同时大力开展对开发者的相关教育工作 。
+在 MCP 官方仓库里，提供了诸如 Google Drive、Slack、Git 以及多种数据库的 MCP 服务。而且它作为一项开放标准，MCP 获得了 AI 社区的广泛认可，众多第三方开发者纷纷投身其中，开发了各类 MCP 服务，每天都有数百个新的 MCP 服务问世。Anthropic 作为创始者，也一直在积极推动 MCP 的发展，持续优化协议的实现，同时大力开展对开发者的相关教育工作。
 
 ## 关于 APISIX-MCP
 
