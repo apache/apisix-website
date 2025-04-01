@@ -144,7 +144,7 @@ Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automat
 - Using `update_route` to add the previously queried plugin configurations to the route
 - Executing `get_route` to verify whether the route was successfully configured and if the configuration is correct
 
-1. The resulting route configuration includes:  
+7. The resulting route configuration includes:  
 
    - **Route ID**: `httpbin`  
    - **Path**: `/api/*`  
