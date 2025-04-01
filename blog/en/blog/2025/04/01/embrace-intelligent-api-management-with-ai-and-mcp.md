@@ -140,7 +140,7 @@ Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automat
 
 - Analyzing the plugins we need to configure, then calling `get_plugins_list` to retrieve all plugin names
 - Invoking `get_plugin_schema` to examine detailed configuration information for different plugins
-- Calling `create_route` to establish the route
+- Calling `create_route` to create the route
 - Using `update_route` to add the previously queried plugin configurations to the route
 - Executing `get_route` to verify whether the route was successfully configured and if the configuration is correct
 
