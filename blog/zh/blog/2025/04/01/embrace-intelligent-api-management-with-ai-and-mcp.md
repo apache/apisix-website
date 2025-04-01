@@ -105,7 +105,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 
 | 变量                  | 描述                              | 默认值                     |
 |-----------------------|-----------------------------------|----------------------------|
-| APISIX_SERVER_HOST    | Host that have access to your APISIX server | http://127.0.0.1           |
+| APISIX_SERVER_HOST    | Host that has access to your APISIX server | http://127.0.0.1           |
 | APISIX_ADMIN_API_PORT | Admin API port                    | 9180                       |
 | APISIX_ADMIN_API_PREFIX | Admin API prefix                  | /apisix/admin              |
 | APISIX_ADMIN_KEY      | Admin API authentication key      | edd1c9f034335f136f87ad84b625c8f1 |
@@ -123,7 +123,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 5. 然后我们可以输入相关的操作指令看看 MCP 服务是否能正常工作，这里我们根据 APISIX 文档中的 Getting Started 中的流程进行操作，在对话框中输入以下内容，并发送对话。
 
 > "Help me create a route with path `/api` for accessing https://httpbin.org upstream, need to configure cors and rate limit plugin appropriately. Print the route information to me after configuring."
-> 中文翻译：“帮我创建一条路径为 `/api` 的路由，用于访问上游 https://httpbin.org，需要配置 CORS 和限流限速插件。配置完成后把路由信息打印给我。”
+> 中文翻译：“帮我创建一条路径为 `/api` 的路由，用于访问上游 `https://httpbin.org`，需要配置 CORS 和限流限速插件。配置完成后把路由信息打印给我。”
 
 6. 接下来我们会在 cursor 中看到类似下面视频中 MCP 工具调用过程流程，由于 AI 大模型本身响应具有随机性，所以每次执行的操作不一定与示例中相同。
 
@@ -168,7 +168,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 
     ```
     type: roundrobin （负载均衡策略采用轮询）
-    upstream ndoe: httpbin.org:443 （指向的后端服务地址）
+    upstream node: httpbin.org:443 （指向的后端服务地址）
     ```
 
 ## 通过 AI 进行操作的优势
