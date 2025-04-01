@@ -133,7 +133,7 @@ In the `env` field, you can specify the APISIX service access address, Admin API
 6. Next, in Cursor, you will see a process similar to the MCP tool invocation demonstrated in the video below. Due to the inherent randomness of large AI model responses, the exact operations performed may vary from the example shown.
 
    <video width="100%" controls>  
-     <source src="https://static.api7.ai/uploads/2025/04/01/iRjDmNSS_mcp-demo.avi" type="video/avi">  
+     <source src="https://static.api7.ai/uploads/2025/04/01/V7CmO59u_mcp-demo.mp4" type="video/mp4">  
    </video>  
 
 Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automatically invoke all tools in the MCP server. From the video, we can observe the AI performing the following operations based on our requirements:
@@ -144,7 +144,7 @@ Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automat
 - Using `update_route` to add the previously queried plugin configurations to the route
 - Executing `get_route` to verify whether the route was successfully configured and if the configuration is correct
 
-7. The resulting route configuration includes:  
+1. The resulting route configuration includes:  
 
    - **Route ID**: `httpbin`  
    - **Path**: `/api/*`  

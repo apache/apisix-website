@@ -128,7 +128,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 6. 接下来我们会在 cursor 中看到类似下面视频中 MCP 工具调用过程流程，由于 AI 大模型本身响应具有随机性，所以每次执行的操作不一定与示例中相同。
 
 <video width="100%" height="auto" controls>
-  <source src="https://static.api7.ai/uploads/2025/04/01/iRjDmNSS_mcp-demo.avi" type="video/avi">
+  <source src="https://static.api7.ai/uploads/2025/04/01/V7CmO59u_mcp-demo.mp4" type="video/mp4">
 </video>
 
 这里开启了自动执行模式（YOLO Mode）允许 cursor 自动调用 mcp 服务器中的所有工具，从视频中我们可以看到 AI 根据我们的需求：
@@ -138,7 +138,7 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 - 调用 `update_route` 为路由添加前面查询到的插件配置
 - 调用 `get_route` 查看路由是否配置成功，路由配置是否正确
 
-7. 最终我们通过一句话创建出了如下配置的路由：
+1. 最终我们通过一句话创建出了如下配置的路由：
 
 - 路由 ID：`httpbin`
 - 路径：`/api/*`
