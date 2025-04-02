@@ -101,7 +101,7 @@ Below is a step-by-step guide using **Cursor**:
    }
    ```  
   
-In the `mcpServers` field of the configuration file, add a service `apisix-mcp`, which can be changed. Then configure the commands of running MCP service.
+In the `mcpServers` field of the configuration file, add a service `apisix-mcp`, which can be changed. Then configure the commands for running the MCP service.
 
 - **`command`**: `npx` (Node.js package executor).  
 - **`args`**: `-y` (auto-install dependencies) and `apisix-mcp` (package name).  
@@ -126,14 +126,14 @@ In the `env` field, you can specify the APISIX service access address, Admin API
 
    ![Select Agent Models](https://static.api7.ai/uploads/2025/04/01/g9v91DIf_apisix-mcp-4.webp)  
 
-5. Next, we can enter relevant operational commands to verify if the MCP service is functioning correctly. Following the workflow in APISIX's Getting Started documentation, we input the following into the dialog box, and send the message:  
+5. Next, we can enter relevant operational commands to verify if the MCP service is functioning correctly. Following the workflow in APISIX's Getting Started documentation, we input the following into the dialog box and send the message:  
 
    > *"Help me create a route with path `/api` for accessing `https://httpbin.org` upstream, with CORS and rate-limiting plugins. Print the route details after configuration."*  
 
 6. Next, in Cursor, you will see a process similar to the MCP tool invocation demonstrated in the video below. Due to the inherent randomness of large AI model responses, the exact operations performed may vary from the example shown.
 
    <video width="100%" controls>  
-     <source src="https://static.api7.ai/uploads/2025/04/01/V7CmO59u_mcp-demo.mp4" type="video/mp4">  
+     <source src="https://static.api7.ai/uploads/2025/04/01/V7CmO59u_mcp-demo.mp4" type="video/mp4"/>  
    </video>  
 
 Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automatically invoke all tools in the MCP server. From the video, we can observe the AI performing the following operations based on our requirements:
