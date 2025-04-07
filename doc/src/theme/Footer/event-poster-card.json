@@ -1,18 +1,18 @@
 {
   "$schema": "./event-poster-card-schema.json",
   "show": true,
-  "expire": "2025-04-12",
+  "expire": "2023-07-04",
   "width": 400,
   "config": {
     "en": {
-      "image": "https://static.api7.ai/uploads/2025/04/07/HgVDEXuU_component-2.webp",
-      "link": "/docs/general/events",
-      "description": "Apache APISIX Meetup Shenzhen 2025"
+      "image": "https://static.apiseven.com/uploads/2023/06/12/EBgipDM0_20230612-100108.jpeg",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdDqDHYt_lNdBOkC1ZJoLaCXM2_KH6o_NfF_F1ZGEr9FMOMpw/viewform",
+      "description": "Apache APISIX Community Meetup Malaysia"
     },
     "zh": {
-      "image": "https://static.api7.ai/uploads/2025/04/07/UUoTrPRV_component-1.webp",
-      "link": "/docs/general/events",
-      "description": "Apache APISIX Meetup Shenzhen 2025"
+      "image": "https://static.apiseven.com/uploads/2023/06/12/EBgipDM0_20230612-100108.jpeg",
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSdDqDHYt_lNdBOkC1ZJoLaCXM2_KH6o_NfF_F1ZGEr9FMOMpw/viewform",
+      "description": "Apache APISIX Community Meetup Malaysia"
     }
   }
 }
