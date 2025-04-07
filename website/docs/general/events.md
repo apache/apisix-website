@@ -34,12 +34,12 @@ Whether you're a seasoned APISIX user or a tech explorer curious about AI gatewa
 
 14:00: Kickoff
 
-| Talk                                                                                                           | Speaker                                                              | Time  |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----- |
-| MCP Intelligent Management Practices: Deploying APISIX with One Command                                        | Zhihuang Lin (R&D Engineer at API7.ai)                               | 10:15 |
-| Gateway Practices Under Massive Business at Honor                                                              | Jiahao Fu, Weichuan Xu (Engineers at Honor PAAS Platform Department) | 10:30 |
-| From Cloud-Native to AI-Native: AI Gateway Architecture and Intelligent Application Practices in Apache APISIX | Yuansheng Wang (Apache APISIX PMC, Apache Member, CTO at API7.ai)    | 11:00 |
-| Stable Operation Practices of Business Gateway Based on TAPISIX                                                | Zemao Yang (Backend Development Engineer at Tencent Technology)      | 11:30 |
+| Talk                                                                                                           | Speaker                                                              |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| MCP Intelligent Management Practices: Deploying APISIX with One Command                                        | Zhihuang Lin (R&D Engineer at API7.ai)                               |
+| Gateway Practices Under Massive Business at Honor                                                              | Jiahao Fu, Weichuan Xu (Engineers at Honor PAAS Platform Department) |
+| From Cloud-Native to AI-Native: AI Gateway Architecture and Intelligent Application Practices in Apache APISIX | Yuansheng Wang (Apache APISIX PMC, Apache Member, CTO at API7.ai)    |
+| Stable Operation Practices of Business Gateway Based on TAPISIX                                                | Zemao Yang (Backend Development Engineer at Tencent Technology)      |
 
 ### 🎁 Why Attend?
 
@@ -51,7 +51,7 @@ Whether you're a seasoned APISIX user or a tech explorer curious about AI gatewa
 
 Scan the QR code to register now!
 
-[QR code](https://static.api7.ai/uploads/2025/04/07/64QXPMU2_registration-code.webp)
+![QR code](https://static.api7.ai/uploads/2025/04/07/64QXPMU2_registration-code.webp)
 
 ### 🚀 Don't Miss This Tech Feast!
 

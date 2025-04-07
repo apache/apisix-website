@@ -1,6 +1,6 @@
 ---
 id: events
-title: 活动
+title: 社区活动
 keywords:
   - Events
   - Conferences
@@ -42,7 +42,8 @@ description: This page provides information about previous Apache APISIX's commu
 ### 📩 报名方式
 立即扫描下方海报底部的二维码，报名参加！
 报名通道：
-[APISIX meetup](https://static.api7.ai/uploads/2025/04/07/Priv9LAg_2025-apisix-meetup.webp)
+
+![APISIX meetup](https://static.api7.ai/uploads/2025/04/07/Priv9LAg_2025-apisix-meetup.webp)
 
 ### 🚀 不要错过这场技术盛宴！
 
