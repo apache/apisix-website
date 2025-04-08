@@ -40,6 +40,7 @@ description: This page provides information about previous Apache APISIX's commu
 - 社区成长：聆听 Apache APISIX 开源社区贡献者的成长故事
 
 ### 📩 报名方式
+
 立即扫描下方海报底部的二维码，报名参加！
 报名通道：
 
