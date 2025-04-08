@@ -32,7 +32,6 @@ description: This page provides information about previous Apache APISIX's commu
 | 从云原生到 AI 原生：Apache APISIX 的 AI Gateway 架构设计与智能应用实践       | 王院生（Apache APISIX PMC，Apache Member，API7.ai CTO）  |
 | 基于 TAPISIX 的业务网关稳定运营实践                                       | 杨泽淼（腾讯科技后台开发工程师）                             |
 
-
 ### 🎁 为什么参与？
 
 - 实战经验：获取大规模流量治理中的 APISIX 实战指南
