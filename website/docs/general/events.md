@@ -12,6 +12,7 @@ description: This page provides information about previous Apache APISIX's commu
 
 The tech world is heating up in the spring of 2025! We're thrilled to invite you to the first Apache APISIX Meetup of 2025 (Shenzhen), where developers and tech enthusiasts will gather to explore the limitless possibilities of API and AI gateways!
 
+R&D engineers from Honor, Tencent's TiMi Studio Group, and API7.ai will share their practical experiences of implementing APISIX in enterprise products and discuss the latest developments and applications of AI gateways.
 ### 🌟 Event Highlights
 
 This Meetup will focus on two core themes: Apache APISIX and AI Gateway, with discussions centered around:
