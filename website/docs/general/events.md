@@ -17,9 +17,9 @@ R&D engineers from Honor, Tencent's TiMi Studio Group, and API7.ai will share th
 
 This Meetup will focus on two core themes: **Apache APISIX** and **AI Gateway**, with discussions centered around:
 
-- Apache APISIX in Production: Sharing real-world experiences in managing large-scale traffic
-- AI Gateway in Production: Exploring innovative applications of AI gateways in the industry
-- Personal Growth: Stories and insights on contributing to the Apache open-source community
+- **Apache APISIX in Production**: Sharing real-world experiences in managing large-scale traffic
+- **AI Gateway in Production**: Exploring innovative applications of AI gateways in the industry
+- **Personal Growth**: Stories and insights on contributing to the Apache open-source community
 
 Whether you're a seasoned APISIX user or a tech explorer curious about AI gateways, this event promises a deep dive into cutting-edge tech!
 
