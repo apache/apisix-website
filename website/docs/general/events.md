@@ -8,7 +8,7 @@ keywords:
   - Meetups
 description: This page provides information about previous Apache APISIX's community events.
 ---
-## APISIX Meetup (Shenzhen): An In-Person Tech Dive into AI Gateway
+## APISIX Meetup (Shenzhen): Best Practices for API and AI Gateways
 
 The tech world is heating up in the spring of 2025! We're thrilled to invite you to the first Apache APISIX Meetup of 2025 (Shenzhen), where developers and tech enthusiasts will gather to explore the limitless possibilities of API and AI gateways!
 
