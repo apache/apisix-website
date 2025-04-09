@@ -152,17 +152,17 @@ Example response:
       {
         "content": "Client information from customer service calls",
         "role": "system"
-      }, 
+      },
       {
         # highlight-next-line
         "content": "John said his debit card number is **** **** **** 1111 and SIN is ***-**-****."
         "role": "user"
       }
-    ], 
+    ],
     "model": "openai"
-  }, 
-  "method": "POST", 
-  "origin": "192.168.97.1, 103.97.2.170", 
+  },
+  "method": "POST",
+  "origin": "192.168.97.1, 103.97.2.170",
   "url": "http://127.0.0.1/anything"
 }
 ```
