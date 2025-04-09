@@ -17,7 +17,7 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---
 
-在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。
+>在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。
 
 <!--truncate-->
 
