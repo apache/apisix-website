@@ -20,6 +20,7 @@ description: This page provides information about previous Apache APISIX's commu
 ### 📍 活动信息
 
   **时间**：2025 年 4 月 12 日（周六）14:00-17:00
+  
   **地点**：深圳市南山区深南大道 10000 号（腾讯大厦）附楼二层多功能厅
 
 ### 📅 Meetup 议程
