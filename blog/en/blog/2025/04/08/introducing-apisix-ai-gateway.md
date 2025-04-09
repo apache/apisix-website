@@ -19,7 +19,7 @@ image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 
 In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway. Through a rich plugin ecosystem and flexible architectural design, we provide developers with a complete AI gateway product.
 
-This article delves into APISIX's innovative practices in the AI gateway domain from the following perspectives:
+This article delves into APISIX's innovative practices in the AI gateway domain from the following perspectives.
 
 ## Core Functions of the AI Gateway
 
@@ -29,13 +29,13 @@ APISIX's plugin ecosystem offers out-of-the-box capabilities for AI scenarios. B
 
 1. **ai-proxy**
 
-The [`ai-proxy`](https://docs.api7.ai/hub/ai-proxy) plugin simplifies access to large language models (LLMs) and embedding models by transforming plugin configurations into the designated request format. It supports integration with OpenAI, DeepSeek, and other OpenAI-compatible services.
+The [`ai-proxy`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy/) plugin simplifies access to large language models (LLMs) and embedding models by transforming plugin configurations into the designated request format. It supports integration with OpenAI, DeepSeek, and other OpenAI-compatible services.
 
 Additionally, the plugin supports logging LLM request information in the access log, such as token usage, model, time to first response, and more.
 
 2. **ai-proxy-multi**
 
-The [`ai-proxy-multi`](https://docs.api7.ai/hub/ai-proxy-multi) plugin simplifies access to large language models (LLMs) and embedding models by transforming plugin configurations into the request format required by OpenAI, DeepSeek, and other OpenAI-compatible services. It extends the capabilities of `ai-proxy` with load balancing, retries, fallbacks, and health checks.
+The [`ai-proxy-multi`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy-multi/) plugin simplifies access to large language models (LLMs) and embedding models by transforming plugin configurations into the request format required by OpenAI, DeepSeek, and other OpenAI-compatible services. It extends the capabilities of `ai-proxy` with load balancing, retries, fallbacks, and health checks.
 
 Additionally, the plugin supports logging LLM request information in the access log, such as token usage, model, time to first response, and more.
 
@@ -87,9 +87,9 @@ curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
   }'
 ```
 
-1. **ai-request-rewrite**
+3. **ai-request-rewrite**
 
-The [`ai-request-rewrite`](https://docs.api7.ai/hub/ai-request-rewrite) plugin processes client requests by forwarding them to large language model (LLM) services for transformation before relaying them to upstream services. This enables AI-driven redaction, enrichment, and reformatting of requests. The plugin supports integration with OpenAI, DeepSeek, and other OpenAI-compatible APIs.
+The [`ai-request-rewrite`](https://apisix.apache.org/docs/apisix/plugins/ai-request-rewrite) plugin processes client requests by forwarding them to large language model (LLM) services for transformation before relaying them to upstream services. This enables AI-driven redaction, enrichment, and reformatting of requests. The plugin supports integration with OpenAI, DeepSeek, and other OpenAI-compatible APIs.
 
 **Example: Redacting Sensitive Information**:
 
@@ -169,7 +169,7 @@ Example response:
 
 4. **ai-rate-limiting**
 
-The [`ai-rate-limiting`](https://docs.api7.ai/hub/ai-rate-limiting) plugin enforces token-based rate limiting for requests sent to large language model (LLM) services. It helps manage API usage by controlling the number of tokens consumed within a specified time frame, ensuring fair resource allocation and preventing excessive load on the service. It is often used in conjunction with the ai-proxy-multi plugin.
+The [`ai-rate-limiting`](https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/) plugin enforces token-based rate limiting for requests sent to large language model (LLM) services. It helps manage API usage by controlling the number of tokens consumed within a specified time frame, ensuring fair resource allocation and preventing excessive load on the service. It is often used in conjunction with the ai-proxy-multi plugin.
 
 **Example: Rate Limiting a Single Instance**:
 
@@ -269,27 +269,27 @@ If the `deepseek-instance-1` instance's rate limiting quota of 100 tokens has be
 
 5. **ai-prompt-decorator**
 
-The [`ai-prompt-decorator`](https://docs.api7.ai/hub/ai-prompt-decorator) plugin sets the context for content generation by adding pre-designed prompts before and after user input. This practice helps the model operate according to the intended guidelines during interactions.
+The [`ai-prompt-decorator`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-decorator/) plugin sets the context for content generation by adding pre-designed prompts before and after user input. This practice helps the model operate according to the intended guidelines during interactions.
 
 6. **ai-prompt-template**
 
-The [`ai-prompt-template`](https://docs.api7.ai/hub/ai-prompt-template) plugin supports pre-configured prompt templates that only accept user input in specified template variables, operating in a "fill-in-the-blank" manner.
+The [`ai-prompt-template`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-template/) plugin supports pre-configured prompt templates that only accept user input in specified template variables, operating in a "fill-in-the-blank" manner.
 
 7. **ai-prompt-guard**
 
-The [`ai-prompt-guard`](https://docs.api7.ai/hub/ai-prompt-guard) plugin protects your large language model (LLM) endpoints by inspecting and validating incoming prompt messages. It checks the request content against user-defined allow and deny patterns, ensuring only approved input is forwarded to the upstream LLM. Depending on its configuration, the plugin can check either the latest message or the entire conversation history and can be set to inspect prompts from all roles or only from the end user.
+The [`ai-prompt-guard`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/) plugin protects your large language model (LLM) endpoints by inspecting and validating incoming prompt messages. It checks the request content against user-defined allow and deny patterns, ensuring only approved input is forwarded to the upstream LLM. Depending on its configuration, the plugin can check either the latest message or the entire conversation history and can be set to inspect prompts from all roles or only from the end user.
 
 ### 4. Content Moderation
 
 8. **ai-aws-content-moderation**
 
-The [`ai-aws-content-moderation`](https://docs.api7.ai/hub/ai-aws-content-moderation) plugin integrates with AWS Comprehend to check for toxic content in the request body when proxying to large language models (LLMs), such as profanity, hate speech, insults, harassment, and violence, and rejects requests when the evaluation result exceeds the configured threshold.
+The [`ai-aws-content-moderation`](https://apisix.apache.org/docs/apisix/plugins/ai-aws-content-moderation/) plugin integrates with AWS Comprehend to check for toxic content in the request body when proxying to large language models (LLMs), such as profanity, hate speech, insults, harassment, and violence, and rejects requests when the evaluation result exceeds the configured threshold.
 
 ### 5. Data Enhancement
 
 9. **ai-rag**
 
-The [`ai-rag`](https://docs.api7.ai/hub/ai-rag) plugin provides retrieval-augmented generation (RAG) capabilities for large language models (LLMs). It efficiently retrieves relevant documents or information from external data sources to enhance LLM responses, improving the accuracy and context relevance of the generated output. The plugin supports using Azure OpenAI and Azure AI Search services to generate embeddings and perform vector searches.
+The [`ai-rag`](https://apisix.apache.org/docs/apisix/plugins/ai-rag/) plugin provides retrieval-augmented generation (RAG) capabilities for large language models (LLMs). It efficiently retrieves relevant documents or information from external data sources to enhance LLM responses, improving the accuracy and context relevance of the generated output. The plugin supports using Azure OpenAI and Azure AI Search services to generate embeddings and perform vector searches.
 
 ## Observability
 

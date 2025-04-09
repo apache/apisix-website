@@ -1,5 +1,5 @@
 ---
-title: "深度解析 APISIX AI 网关"
+title: "APISIX AI 网关介绍"
 authors:
   - name: Yilia Lin
     title: Technical Writer
@@ -29,13 +29,13 @@ APISIX 的插件生态为 AI 场景提供了开箱即用的能力，以下是核
 
 1. **ai-proxy**
 
-[`ai-proxy`](https://docs.api7.ai/hub/ai-proxy) 插件通过将插件配置转换为指定的请求格式，简化了对大语言模型（LLM）和嵌入模型的访问。它支持与 OpenAI、DeepSeek 以及其他兼容 OpenAI API 的服务进行集成。
+[`ai-proxy`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy/) 插件通过将插件配置转换为指定的请求格式，简化了对大语言模型（LLM）和嵌入模型的访问。它支持与 OpenAI、DeepSeek 以及其他兼容 OpenAI API 的服务进行集成。
 
 此外，该插件还支持将大语言模型的请求信息记录到访问日志中，例如令牌使用量、模型、首次响应时间等信息。
 
 2. **ai-proxy-multi**
 
-[`ai-proxy-multi`](https://docs.api7.ai/hub/ai-proxy-multi) 插件通过将插件配置转换为 OpenAI、DeepSeek 以及其他兼容 OpenAI API 的服务所需的请求格式，简化了对大语言模型（LLM）和嵌入模型的访问。它扩展了 `ai-proxy` 的功能，增加了负载均衡、重试、回退和健康检查等功能。
+[`ai-proxy-multi`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy-multi/) 插件通过将插件配置转换为 OpenAI、DeepSeek 以及其他兼容 OpenAI API 的服务所需的请求格式，简化了对大语言模型（LLM）和嵌入模型的访问。它扩展了 `ai-proxy` 的功能，增加了负载均衡、重试、回退和健康检查等功能。
 
 此外，该插件还支持将大语言模型的请求信息记录到访问日志中，例如令牌使用量、模型、首次响应时间等信息。
 
@@ -90,7 +90,7 @@ curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
 
 3. **ai-request-rewrite**
 
-[`ai-request-rewrite`](https://docs.api7.ai/hub/ai-request-rewrite) 插件通过将客户端请求转发至大语言模型（LLM）服务进行转换，然后将请求传递至后端服务，从而实现对请求的处理。这使得插件能够利用 LLM 实现数据屏蔽、内容丰富或格式重组等修改功能。此外，该插件支持与 OpenAI、DeepSeek 以及其他与 OpenAI 兼容的 API 进行集成。
+[`ai-request-rewrite`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-request-rewrite) 插件通过将客户端请求转发至大语言模型（LLM）服务进行转换，然后将请求传递至后端服务，从而实现对请求的处理。这使得插件能够利用 LLM 实现数据屏蔽、内容丰富或格式重组等修改功能。此外，该插件支持与 OpenAI、DeepSeek 以及其他与 OpenAI 兼容的 API 进行集成。
 
 **示例：屏蔽敏感信息**：
 
@@ -172,7 +172,7 @@ curl "http://127.0.0.1:9080/anything" -X POST \
 
 4. **ai-rate-limiting**
 
-[ai-rate-limiting](https://docs.api7.ai/hub/ai-rate-limiting) 插件通过基于令牌的速率限制机制，对发送到大语言模型（LLM）服务的请求进行限制。它通过控制在指定时间范围内消耗的令牌数量，帮助管理 API 使用量，确保资源分配公平，并防止服务过载。该插件通常与 `ai-proxy-multi` 插件配合使用。
+[ai-rate-limiting](https://apisix.apache.org/zh/docs/apisix/plugins/ai-rate-limiting/) 插件通过基于令牌的速率限制机制，对发送到大语言模型（LLM）服务的请求进行限制。它通过控制在指定时间范围内消耗的令牌数量，帮助管理 API 使用量，确保资源分配公平，并防止服务过载。该插件通常与 `ai-proxy-multi` 插件配合使用。
 
 **示例：速率限制单个实例**：
 
@@ -272,27 +272,27 @@ curl "http://127.0.0.1:9080/anything" -X POST \
 
 5. **ai-prompt-decorator**
 
-[`ai-prompt-decorator`](https://docs.api7.ai/hub/ai-prompt-decorator) 插件通过在用户输入的提示前后添加预设计的提示来设置内容生成的上下文。这种做法有助于模型在交互过程中按照期望的指导方针运行。
+[`ai-prompt-decorator`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-decorator/) 插件通过在用户输入的提示前后添加预设计的提示来设置内容生成的上下文。这种做法有助于模型在交互过程中按照期望的指导方针运行。
 
 6. **ai-prompt-template**
 
-[`ai-prompt-template`](https://docs.api7.ai/hub/ai-prompt-template) 插件支持预配置提示模板，这些模板仅接受用户在指定模板变量中的输入，以“填空”的方式运行。
+[`ai-prompt-template`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-template/) 插件支持预配置提示模板，这些模板仅接受用户在指定模板变量中的输入，以“填空”的方式运行。
 
 7. **ai-prompt-guard**
 
-[`ai-prompt-guard`](https://docs.api7.ai/hub/ai-prompt-guard) 插件通过检查和验证传入的提示消息来保护您的大语言模型（LLM）端点。它会根据用户定义的允许和拒绝模式检查请求内容，确保只有经过批准的输入才会被转发到上游的 LLM。根据其配置，该插件可以仅检查最新消息或整个对话历史，并且可以设置为检查所有角色的提示或仅检查最终用户的提示。
+[`ai-prompt-guard`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-guard/) 插件通过检查和验证传入的提示消息来保护您的大语言模型（LLM）端点。它会根据用户定义的允许和拒绝模式检查请求内容，确保只有经过批准的输入才会被转发到上游的 LLM。根据其配置，该插件可以仅检查最新消息或整个对话历史，并且可以设置为检查所有角色的提示或仅检查最终用户的提示。
 
 ### 四、内容审核
 
 8. **ai-aws-content-moderation**
 
-[`ai-aws-content-moderation`](https://docs.api7.ai/hub/ai-aws-content-moderation) 插件支持与 AWS Comprehend 集成，在代理到大语言模型（LLM）时检查请求正文中的毒性内容，例如脏话、仇恨言论、侮辱、骚扰、暴力等，并在评估结果超过配置的阈值时拒绝请求。
+[`ai-aws-content-moderation`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-aws-content-moderation/) 插件支持与 AWS Comprehend 集成，在代理到大语言模型（LLM）时检查请求正文中的毒性内容，例如脏话、仇恨言论、侮辱、骚扰、暴力等，并在评估结果超过配置的阈值时拒绝请求。
 
 ### 五、数据增强
 
 9. **ai-rag**
 
-[`ai-rag`](https://docs.api7.ai/hub/ai-rag) 插件为大语言模型（LLM）提供了检索增强生成（Retrieval-Augmented Generation, RAG）功能。它能够从外部数据源高效检索相关的文档或信息，并将其用于增强 LLM 的响应，从而提高生成输出的准确性和上下文相关性。该插件支持使用 Azure OpenAI 和 Azure AI Search 服务来生成嵌入并执行向量搜索。
+[`ai-rag`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-rag/) 插件为大语言模型（LLM）提供了检索增强生成（Retrieval-Augmented Generation, RAG）功能。它能够从外部数据源高效检索相关的文档或信息，并将其用于增强 LLM 的响应，从而提高生成输出的准确性和上下文相关性。该插件支持使用 Azure OpenAI 和 Azure AI Search 服务来生成嵌入并执行向量搜索。
 
 ## 可观测性
 
