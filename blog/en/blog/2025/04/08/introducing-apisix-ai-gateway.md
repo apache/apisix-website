@@ -17,7 +17,9 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---
 
-In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway. Through a rich plugin ecosystem and flexible architectural design, we provide developers with a complete AI gateway product.
+>In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway. Through a rich plugin ecosystem and flexible architectural design, we provide developers with a complete AI gateway product.
+
+<!--truncate-->
 
 This article delves into APISIX's innovative practices in the AI gateway domain from the following perspectives.
 
@@ -150,17 +152,17 @@ Example response:
       {
         "content": "Client information from customer service calls",
         "role": "system"
-      }, 
+      },
       {
         # highlight-next-line
         "content": "John said his debit card number is **** **** **** 1111 and SIN is ***-**-****."
         "role": "user"
       }
-    ], 
+    ],
     "model": "openai"
-  }, 
-  "method": "POST", 
-  "origin": "192.168.97.1, 103.97.2.170", 
+  },
+  "method": "POST",
+  "origin": "192.168.97.1, 103.97.2.170",
   "url": "http://127.0.0.1/anything"
 }
 ```
