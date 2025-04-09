@@ -66,4 +66,4 @@ If you would like to propose a topic for discussion, join in our Slack channel a
 
 To learn more:
 
-- [Previous meeting recordings](https://youtube.com/playlist?list=PLAoKZlos1sznjgFQsm31QAWeJmv8_w7SP)
+* [Previous meeting recordings](https://youtube.com/playlist?list=PLAoKZlos1sznjgFQsm31QAWeJmv8_w7SP)
