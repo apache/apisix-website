@@ -17,7 +17,9 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---
 
-In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway. Through a rich plugin ecosystem and flexible architectural design, we provide developers with a complete AI gateway product.
+>In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway. Through a rich plugin ecosystem and flexible architectural design, we provide developers with a complete AI gateway product.
+
+<!--truncate-->
 
 This article delves into APISIX's innovative practices in the AI gateway domain from the following perspectives.
 
