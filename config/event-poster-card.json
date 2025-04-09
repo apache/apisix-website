@@ -6,12 +6,12 @@
   "config": {
     "en": {
       "image": "https://static.api7.ai/uploads/2025/04/09/JBQWKlQv_Group427320331.webp",
-      "link": "/docs/general/events",
+      "link": "/docs/general/events/2025-apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways",
       "description": "Apache APISIX Meetup Shenzhen 2025"
     },
     "zh": {
       "image": "https://static.api7.ai/uploads/2025/04/09/9oPCEega_Group427320332.webp",
-      "link": "/zh/docs/general/events",
+      "link": "/zh/docs/general/events/2025-apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways",
       "description": "Apache APISIX Meetup Shenzhen 2025"
     }
   }

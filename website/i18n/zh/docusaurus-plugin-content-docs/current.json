@@ -18,5 +18,9 @@
   "sidebar.docs.category.Community": {
     "message": "社区指南",
     "description": "The label for category Community in sidebar docs"
+  },
+  "sidebar.docs.category.Events": {
+    "message": "社区活动",
+    "description": "The label for category Events in sidebar docs"
   }
 }
