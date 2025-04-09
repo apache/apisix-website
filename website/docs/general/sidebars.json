@@ -2,7 +2,6 @@
   "docs": {
     "Community": [
       "join",
-      "events",
       {
         "type": "category",
         "label": "Contribute to APISIX",
@@ -21,6 +20,16 @@
         "items": [
           "documentation-style-guide",
           "release-guide"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Events",
+        "items": [
+          "events/2025-apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways",
+          "events/2023-apisix-meetup-singapore",
+          "events/2023-apisix-meetup-malaysia",
+          "events/2022-apisix-meetups-conferences-workshops"
         ]
       }
     ]

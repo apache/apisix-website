@@ -1,15 +1,13 @@
 ---
-id: events
-title: 社区活动
+id: 2025-apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways
+title: "APISIX Meetup（深圳站）：API 网关和 AI 网关最佳实践"
 keywords:
   - Events
   - Conferences
   - Workshops
   - Meetups
-description: This page provides information about previous Apache APISIX's community events.
+description: 2025年首次 Apache APISIX 技术交流会将于4月12日在深圳腾讯大厦举行，会议将聚焦于 API 和 AI 网关的实践经验和创新应用。
 ---
-
-## APISIX Meetup（深圳站）：API 网关和 AI 网关最佳实践 {#apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways}
 
 2025 年的春天，技术的序幕已经拉开！我们诚挚地邀请您参与2025 年第一场 Apache APISIX Meetup（深圳站），与众多技术爱好者共同探讨 API 和 AI 网关的无限可能！届时来自荣耀、腾讯天美工作室和深圳支流科技（API7.ai）的研发工程师将分享 APISIX 在企业产品中的落地实践，并将共同探讨 AI 网关的最新进展和运用实践。
 
