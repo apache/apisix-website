@@ -103,7 +103,7 @@ Scan the QR code to register now!
 
 ## 🚀 Don't Miss This Tech Feast!
 
-Join us on April 12 at Tencent Tower, Shenzhen! Let's dive into the powerful combination of smart gateways + large models and shape the future of API and AI gateways together!
+Join us on April 12 at Tencent Tower, Shenzhen! Let's dive into the powerful combination of smart gateways + large language models and shape the future of API and AI gateways together!
 
 ## Community Meetings
 
