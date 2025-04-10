@@ -472,3 +472,33 @@ a:hover {
     transform: scale(1.2);
   }
 }
+
+/* Announcement Bar */
+div[class*="announcementBar_"] {
+  height: 40px;
+}
+
+div[class*="announcementBarContent"] {
+  font-size: 15px !important;
+  font-weight: 500;
+}
+
+div[class*="announcementBarPlaceholder"] {
+  height: 40px;
+}
+
+button[class*="announcementBarClose"] {
+  height: 40px !important;
+}
+
+@media screen and (max-width: 996px) {
+  div[class*="announcementBar_"] {
+    height: auto !important;
+    min-height: 40px;
+  }
+
+  div[class*="announcementBarContent"] {
+    font-size: 15px !important;
+    font-weight: 500;
+  }
+}
