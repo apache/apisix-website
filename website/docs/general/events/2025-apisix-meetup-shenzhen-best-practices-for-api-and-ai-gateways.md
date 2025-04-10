@@ -13,7 +13,7 @@ The tech world is heating up in the spring of 2025! We're thrilled to invite you
 
 R&D engineers from Honor, Tencent's TiMi Studio Group, and API7.ai will share their practical experiences of implementing APISIX in enterprise products and discuss the latest developments and applications of AI gateways.
 
-### 🌟 Event Highlights
+## 🌟 Event Highlights
 
 This Meetup will focus on two core themes: **Apache APISIX** and **AI Gateway**, with discussions centered around:
 
@@ -23,40 +23,87 @@ This Meetup will focus on two core themes: **Apache APISIX** and **AI Gateway**,
 
 Whether you're a seasoned APISIX user or a tech explorer curious about AI gateways, this event promises a deep dive into cutting-edge tech!
 
-### 📍 Event Details
+## 📍 Event Details
 
 **Date & Time**: Saturday, April 12, 2025, from 2:00 PM to 5:00 PM
 
 **Location**: Tencent Tower, No.10000 Shennan Avenue, Nanshan District, Shenzhen
 
-### 📅 Meetup Agenda
+## 📅 Meetup Agenda
 
 13:30–13:50: Check-in
 
 14:00: Kickoff
 
-| No. | Presentation Topic                                                                                                    | Speaker                                                                   | Presentation Highlights                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| --- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Gateway Practices Under Heavy Business Loads at Honor                                                                 | Jiahao Fu, Weichuan Xu (Engineers at Honor PAAS Platform Department)      | This presentation shares Honor's gateway evolution journey, and discusses how to evolve step by step from a traditional gateway architecture to a modern gateway architecture based on APISIX. It will deeply analyze Honor's gateway architecture, explain the design of high-performance rate limiting and circuit breaking plugins, introduce a bypass Web Application Firewall (WAF) solution for lossless security protection, and share practical experiences in reducing gateway costs. |
-| 2   | MCP Intelligent Management Practices: Deploying APISIX with One Command                                               | Zhihuang Lin (R&D Engineer, API7.ai)                                      | This presentation introduces how MCP solves data and tool integration issues for AI large models through standardized protocols, using APISIX gateway as an example to demonstrate MCP's intelligent management practices. It covers MCP's core advantages, architecture design, and real-world application scenarios, showing how to configure the APISIX gateway using natural language instructions quickly.                                                                                |
-| 3   | Stable Operation Practices of Business Gateways Based on TAPISIX                                                      | Zemiao Yang (Backend Development Engineer at Tencent's TiMi Studio Group) | For business teams, fully developing and operating a gateway independently is quite challenging. This presentation shares how to leverage Apache APISIX to significantly reduce gateway development and operation costs, enabling anyone to develop and operate an efficient and stable gateway.                                                                                                                                                                                               |
-| 4   | From Cloud-Native to AI-Native: AI Gateway Architecture Design and Intelligent Application Practices of Apache APISIX | Yuansheng Wang (Apache APISIX PMC, Apache Member, CTO of API7.ai)         | Let's explore how open-source API gateways evolve to address AI-era challenges such as high-concurrency inference, dynamic scaling, and intelligent scheduling. This presentation shares innovative practices of APISIX in AI Gateway scenarios, solving core issues like model version management and traffic governance, empowering developers to build intelligent applications efficiently.                                                                                                |
+### 1. Gateway Practices Under Heavy Business Loads at Honor  
 
-### 🎁 Why Attend?
+**Speaker**: Jiahao Fu, Weichuan Xu (Engineers at Honor PAAS Platform Department)  
+
+**Highlights**:  
+
+- Shares Honor's journey of evolving its gateway architecture from traditional to modern using APISIX.  
+
+- Deep dive into high-performance rate limiting and circuit breaking plugin designs.  
+
+- Introduces a bypass Web Application Firewall (WAF) for lossless security.  
+
+- Discusses practical experiences in reducing gateway costs.  
+
+### 2. MCP Intelligent Management Practices: Deploying APISIX with One Command
+
+**Speaker**: Zhihuang Lin (R&D Engineer, API7.ai)  
+
+**Highlights**:  
+
+- Explains how MCP addresses data and tool integration challenges for AI large models using standardized protocols.  
+
+- Demonstrates MCP's intelligent management practices with APISIX as an example.  
+
+- Covers MCP's core advantages, architecture design, and real-world applications.  
+
+- Shows how to configure APISIX using natural language instructions for quick deployment.  
+
+### 3. Stable Operation Practices of Business Gateways Based on TAPISIX
+
+**Speaker**: Zemiao Yang (Backend Development Engineer at Tencent's TiMi Studio Group)  
+
+**Highlights**:  
+
+- Addresses challenges faced by business teams in independently developing and operating gateways.  
+
+- Shares how Apache APISIX reduces development and operational costs.  
+
+- Emphasizes enabling efficient and stable gateway development for teams.  
+
+### 4. From Cloud-Native to AI-Native: AI Gateway Architecture Design and Intelligent Application Practices of Apache APISIX
+
+**Speaker**: Yuansheng Wang (Apache APISIX PMC, Apache Member, CTO of API7.ai)  
+
+**Highlights**:  
+
+- Explores how open-source API gateways evolve to tackle AI-era challenges like high-concurrency inference, dynamic scaling, and intelligent scheduling.  
+
+- Shares APISIX's innovative practices in AI Gateway scenarios.  
+
+- Focuses on solving core issues like model version management and traffic governance.  
+
+- Aims to empower developers to build intelligent applications efficiently.  
+
+## 🎁 Why Attend?
 
 - Practical Insights: Get hands-on guidance for managing large-scale traffic with APISIX
 - Industry Trends: Discover innovative AI gateway applications shaping the industry
 - Community Stories: Hear growth journeys from Apache APISIX open-source contributors
 
-### 📩 Registration
+## 📩 Registration
 
 Scan the QR code to register now!
 
 ![QR code](https://static.api7.ai/uploads/2025/04/07/64QXPMU2_registration-code.webp)
 
-### 🚀 Don't Miss This Tech Feast!
+## 🚀 Don't Miss This Tech Feast!
 
-Join us on April 12 at Tencent Tower, Shenzhen! Let's dive into the powerful combination of smart gateways + large models and shape the future of API and AI gateways together!
+Join us on April 12 at Tencent Tower, Shenzhen! Let's dive into the powerful combination of smart gateways + large language models and shape the future of API and AI gateways together!
 
 ## Community Meetings
 
