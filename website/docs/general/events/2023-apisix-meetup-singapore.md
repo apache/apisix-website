@@ -1,6 +1,6 @@
 ---
-id: events
-title: Events
+id: 2023-apisix-meetup-singapore
+title: Apache APISIX Community Meetup Singapore 2023
 keywords:
   - Events
   - Conferences
@@ -8,7 +8,6 @@ keywords:
   - Meetups
 description: This page provides information about previous Apache APISIX's community events.
 ---
-## Apache APISIX Community Meetup Malaysia and Singapore 2023
 
 Apache APISIX Community Meetups are a place where APISIX users, contributors, and maintainers come together to discuss everything APISIX.
 
@@ -21,31 +20,6 @@ As an attendee, you can expect talks and workshops related to but not limited to
 - Open source
 
 See below to learn more about the events.
-
-### Malaysia Meetup
-
-**Date**: 4th July 2023, 10 AM to 4 PM
-
-**Location**: [Level 5, Tower 2, Avenue 3, Bangsar South, Kuala Lumpur](https://goo.gl/maps/26m6CHbn86RszbtZ7)
-
-To join the event for FREE, [submit this form](https://forms.gle/sUmjdBQAMPjDehYR8).
-
-#### Schedule
-
-[Download the PDF version](https://bit.ly/apisix-meetup-malaysia).
-
-| Talk                                         | Speaker           | Time  |
-| -------------------------------------------- | ----------------- | ----- |
-| Welcome remarks                              | Navendu Pottekkat | 10:15 |
-| APISIX-the past, present, and the future     | Ming Wen          | 10:30 |
-| How banking companies use APISIX             | Yuansheng Wang    | 11:00 |
-| Dynamic, user credentials-based routing      | Bobur Umurzokov   | 11:30 |
-| Powering the world's data centers with AMD   | Koh Lian Chong    | 12:00 |
-| Elevating Apache APISIX to the cloud         | Chao Zhang        | 1:30  |
-| Introduction to Apache CloudStack            | Kiran Chavala     | 2:00  |
-| Managing data residency                      | Nicolas Fränkel   | 2:30  |
-| How is APISIX fast?                          | Navendu Pottekkat | 3:00  |
-| Using ChatGPT to write custom APISIX plugins | Bobur Umurzokov   | 3:30  |
 
 ### Singapore Meetup
 
@@ -73,4 +47,4 @@ If you would like to propose a topic for discussion, join in our Slack channel a
 
 To learn more:
 
-- [Previous meeting recordings](https://youtube.com/playlist?list=PLAoKZlos1sznjgFQsm31QAWeJmv8_w7SP)
+[Previous meeting recordings](https://youtube.com/playlist?list=PLAoKZlos1sznjgFQsm31QAWeJmv8_w7SP)

@@ -87,7 +87,7 @@ const EventPosterCard: FC<Omit<EventPosterCardInfo, 'show' | 'expire'>> = (props
           src={currentConfig.image}
           alt={currentConfig.description}
           width={width}
-          style={{ maxWidth: '100vw' }}
+          style={{ maxWidth: '100vw', borderRadius: '2px' }}
         />
       </a>
     </animated.div>
