@@ -26,12 +26,11 @@ import Sticky from 'react-stickynode';
 import clsx from 'clsx';
 import style from './style.module.scss';
 
-const Share = ({ metadata }) => {
+export const Share = ({ metadata }) => {
   const { title, description, permalink } = metadata;
   const url = `https://apisix.apache.org${permalink}`;
   return (
     <section className={style.shareSection}>
-      <h4>Share</h4>
       <div>
         <LinkedinShareButton title={title} summary={description} url={url}>
           <LinkedinIcon size={32} round />
@@ -96,7 +95,6 @@ const BlogLayout: FC<Props> = (props) => {
     sidebar, toc, children, metadata, ...layoutProps
   } = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
-  const windowType = useWindowType();
 
   return (
     <Layout {...layoutProps}>
@@ -104,11 +102,6 @@ const BlogLayout: FC<Props> = (props) => {
 
       <div className="container margin-vert--lg">
         <div className="row" style={{ justifyContent: 'center' }}>
-          {toc && windowType !== 'mobile' && (
-          <div className={clsx('col col--2', style.section)}>
-            {metadata && <Share metadata={metadata} />}
-          </div>
-          )}
           {hasSidebar && (
             <aside className="col col--3">
               <BlogSidebar sidebar={sidebar!} />
