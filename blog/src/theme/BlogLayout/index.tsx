@@ -11,7 +11,6 @@ import type { FC } from 'react';
 import React from 'react';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
-import TOC from '@theme/TOC';
 import {
   LinkedinIcon,
   LinkedinShareButton,
@@ -104,22 +103,18 @@ const BlogLayout: FC<Props> = (props) => {
       <TagsHeader />
 
       <div className="container margin-vert--lg">
-        <div className="row">
+        <div className="row" style={{ justifyContent: 'center' }}>
+          {toc && windowType !== 'mobile' && (
+          <div className={clsx('col col--2', style.section)}>
+            {metadata && <Share metadata={metadata} />}
+          </div>
+          )}
           {hasSidebar && (
             <aside className="col col--3">
               <BlogSidebar sidebar={sidebar!} />
             </aside>
           )}
           <div className={clsx({ col: true, 'col--10': toc })}>{children}</div>
-          {toc && windowType !== 'mobile' && (
-            <div className={clsx('col col--2', style.section)}>
-              {metadata && <Share metadata={metadata} />}
-              <section className={style.tocSection}>
-                <h4>Table of Contents</h4>
-                <TOC toc={toc} style={{ position: 'static' }} />
-              </section>
-            </div>
-          )}
         </div>
       </div>
     </Layout>
