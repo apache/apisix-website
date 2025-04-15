@@ -20,6 +20,7 @@ import Image from 'rc-image';
 import { MDXProvider } from '@mdx-js/react';
 import { parseSrcset, stringifySrcset } from 'srcset';
 import BlogPostPaginator from '../BlogPostPaginator';
+import { Share } from '../BlogLayout';
 
 const urlParse = (url: string) => {
   const urlParseArr = url.split('/');
@@ -135,10 +136,12 @@ const BlogPostPage = (props: Props): JSX.Element => {
       </Seo>
 
       <BlogPostItem frontMatter={frontMatter} assets={assets} metadata={metadata} isBlogPostPage>
+        <Share metadata={metadata} />
         <MDXProvider components={components}>
           <BlogPostContents />
         </MDXProvider>
       </BlogPostItem>
+      <Share metadata={metadata} />
 
       {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
     </BlogLayout>

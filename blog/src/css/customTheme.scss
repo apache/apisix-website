@@ -480,6 +480,23 @@ a:hover {
   }
 }
 
+article h1 {
+  font-size: 48px;
+}
+
+article h2 {
+  font-size: 36px;
+}
+
+article h3 {
+  font-size: 24px;
+}
+
+article {
+  font-size: 20px;
+  line-height: 35.4px;
+}
+
 /* Announcement Bar */
 div[class*="announcementBar_"] {
   height: 40px;
