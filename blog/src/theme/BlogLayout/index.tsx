@@ -107,7 +107,7 @@ const BlogLayout: FC<Props> = (props) => {
               <BlogSidebar sidebar={sidebar!} />
             </aside>
           )}
-          <div className={clsx({ col: true, 'col--10': toc })}>{children}</div>
+          <div className={clsx({ col: true, 'col--9': toc })}>{children}</div>
         </div>
       </div>
     </Layout>
