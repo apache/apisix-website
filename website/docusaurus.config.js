@@ -112,7 +112,7 @@ module.exports = {
       backgroundColor: '#e8433e',
       textColor: 'white',
       content:
-        '\u{1F914} Introducing APISIX AI Gateway – Built for LLMs and AI workloads. <a target="_blank" rel="noopener noreferrer" href="https://apisix.apache.org/blog/2025/04/08/introducing-apisix-ai-gateway/"> Learn More</a>',
+        '\u{1F914} Introducing APISIX AI Gateway – Built for LLMs and AI workloads. <a target="_blank" rel="noopener noreferrer" href="/ai-gateway/"> Learn More</a>',
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
