@@ -51,8 +51,6 @@ const Button = defineStyleConfig({
         ? 'blackAlpha.900'
         : `var(--chakra-colors-${colorScheme}-500)`;
 
-      // NOTE: 对于导航条中的链接，需要使用黑色
-
       return {
         color,
         fontWeight: 'normal',
