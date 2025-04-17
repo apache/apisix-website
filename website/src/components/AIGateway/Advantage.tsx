@@ -30,7 +30,7 @@ const Advantage: React.FC = () => {
           </Heading>
           <Button
             as="a"
-            href="https://apisix.apache.org/docs/apisix/plugins/ai-proxy"
+            href="https://apisix.apache.org/docs/apisix/next/plugins/ai-proxy/"
             target="_blank"
             w={{ base: '158px', lg: 'auto' }}
             h={{ base: '46px', lg: '48px' }}
@@ -194,7 +194,7 @@ const Advantage: React.FC = () => {
           {/* Mobile */}
           <Box maxW="full" mx="auto" display={{ base: 'unset', md: 'none' }}>
             <AvifImage
-              src="https://static.api7.ai/uploads/2025/04/17/OzCNXRTl_apisix-ai-gateway-architecture.png"
+              src="https://static.api7.ai/uploads/2025/04/17/ykJ74KyV_apisix-ai-gateway-mobile.png"
               alt="AI Gateway Architecture"
               objectFit="cover"
               width="100%"

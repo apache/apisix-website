@@ -13,7 +13,7 @@ import Button from '../theme/AIGateway/Button';
 import Text from '../theme/AIGateway/Text';
 import Icon from '../theme/AIGateway/Icon';
 import Link from '../theme/AIGateway/Link';
-// 定义一个简单的主题
+
 const theme = extendTheme(
   {
     initialColorMode: 'light',
@@ -62,7 +62,6 @@ interface ChakraWrapperProps {
   children: ReactNode;
 }
 
-// 创建一个可复用的 ChakraWrapper 组件
 export const ChakraWrapper: React.FC<ChakraWrapperProps> = ({ children }) => (
   <ChakraProvider theme={theme} resetCSS={false}>
     {children}

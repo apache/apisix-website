@@ -102,24 +102,3 @@ export const useHighlights = () => [
     link: 'https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/',
   },
 ];
-
-export const testimonials = [
-  {
-    quoteI18nKey: `"Airwallex has made a smooth transition to multi-cloud and microservices architectures thanks to APISIX's highly optimized and scalable platform and the support of our developer community!“`,
-    logo: 'https://static.api7.ai/uploads/2023/03/17/27pmMYiq_customers_airwallex.png?imageMogr2/format/webp',
-    nameI18nKey: 'Ryan Cao',
-    jobI18nKey: 'Chief Software Architect',
-    companyI18nKey: 'Airwallex',
-    link: '/customers/airwallex',
-    readStoryI18nKey: 'Read the Story',
-  },
-  {
-    quoteI18nKey: `"API7 solution performs surprisingly well in its practice in production scenarios. We love its high availability, high performance, and rich functionality, allowing us to build and grow our business in a cloud-native way."`,
-    logo: 'https://static.api7.ai/uploads/2025/03/02/tC4Bzhrn_vivo_logo.avif',
-    nameI18nKey: 'Xu Zhao',
-    jobI18nKey: 'Infrastructure Architect',
-    companyI18nKey: 'Vivo',
-    link: '/customers/vivo',
-    readStoryI18nKey: 'Read the Story',
-  },
-] as const;
