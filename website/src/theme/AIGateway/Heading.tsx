@@ -1,6 +1,4 @@
-import { defineStyleConfig } from '@chakra-ui/react';
-
-const Heading = defineStyleConfig({
+const Heading = {
   variants: {
     h1: {
       fontSize: ['36px', '56px'],
@@ -35,6 +33,6 @@ const Heading = defineStyleConfig({
       lineHeight: '1.2',
     },
   },
-});
+};
 
 export default Heading;

@@ -1,5 +1,3 @@
-import { defineStyleConfig } from '@chakra-ui/react';
-
-const Icon = defineStyleConfig({});
+const Icon = {};
 
 export default Icon;

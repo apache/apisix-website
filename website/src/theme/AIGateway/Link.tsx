@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { defineStyleConfig } from '@chakra-ui/react';
 
-const Link = defineStyleConfig({
+const Link = {
   variants: {
     primary: (props) => {
       const { colorScheme = 'brand' } = props;
@@ -22,6 +21,6 @@ const Link = defineStyleConfig({
       };
     },
   },
-});
+};
 
 export default Link;
