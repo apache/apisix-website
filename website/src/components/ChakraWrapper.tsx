@@ -54,8 +54,8 @@ const theme = extendTheme(
       },
     },
     styles,
-    proTheme,
   },
+  proTheme,
 );
 
 interface ChakraWrapperProps {
