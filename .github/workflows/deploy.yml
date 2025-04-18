@@ -6,7 +6,9 @@ name: Test and Deploy Website
 # events but only for the master branch
 on:
   push:
-    branches: [master]
+    # branches: [master]
+    pull_request:
+      branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: '0 5 * * *'
@@ -39,21 +41,21 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      - uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      # - uses: actions/cache@v3
+      #   id: yarn-cache
+      #   with:
+      #     path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Cache install
-        uses: actions/cache@v3
-        with:
-          path: |
-            ./node_modules
-            ./doc/node_modules
-            ./website/node_modules
-            ./blog/node_modules
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
+      # - name: Cache install
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ./node_modules
+      #       ./doc/node_modules
+      #       ./website/node_modules
+      #       ./blog/node_modules
+      #     key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
         run: |
@@ -65,15 +67,15 @@ jobs:
           echo "::set-output name=date::$(/bin/date -u "+%Y%V")"
         shell: bash
 
-      - name: Apply docs cache
-        id: docs-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ./scripts/temp
-          key: ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
-          restore-keys: |
-            ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+      # - name: Apply docs cache
+      #   id: docs-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ./scripts/temp
+      #     key: ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Sync documents
         run: |
@@ -81,51 +83,51 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Apply docusaurus cache
-        id: docusaurus-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ./website/.docusaurus
-            ./website/build
-            ./doc/.docusaurus
-            ./doc/build
-            ./blog/en/.docusaurus
-            ./blog/en/build
-            ./blog/zh/.docusaurus
-            ./blog/zh/build
-          key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
-          restore-keys: |
-            ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
+      # - name: Apply docusaurus cache
+      #   id: docusaurus-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ./website/.docusaurus
+      #       ./website/build
+      #       ./doc/.docusaurus
+      #       ./doc/build
+      #       ./blog/en/.docusaurus
+      #       ./blog/en/build
+      #       ./blog/zh/.docusaurus
+      #       ./blog/zh/build
+      #     key: ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docusaurus-${{ hashFiles('website/config/apisix-versions.js') }}-${{ steps.get-date.outputs.date }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-dep-${{ steps.node-version.outputs.ver }}-docs-${{ hashFiles('website/config/apisix-versions.js') }}
 
       - name: Build
         run: |
           yarn build
 
-      - name: Update sitemap.xml
-        run: |
-          yarn update-sitemap && git status
+      # - name: Update sitemap.xml
+      #   run: |
+      #     yarn update-sitemap && git status
 
-      - name: Deploy to Netlify
-        uses: ./.github/actions/actions-netlify
-        if: ${{ false }}
-        with:
-          publish-dir: './website/build'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: '${{ github.event.pull_request.title }}, Deploy from GitHub Actions'
-          enable-pull-request-comment: true
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 10
+      # - name: Deploy to Netlify
+      #   uses: ./.github/actions/actions-netlify
+      #   if: ${{ false }}
+      #   with:
+      #     publish-dir: './website/build'
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     deploy-message: '${{ github.event.pull_request.title }}, Deploy from GitHub Actions'
+      #     enable-pull-request-comment: true
+      #     enable-commit-comment: true
+      #     overwrites-pull-request-comment: true
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #   timeout-minutes: 10
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3.9.0
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.event_name == 'schedule'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: website/build
-          publish_branch: asf-site
-          force_orphan: true
+      # - name: Deploy
+      #   uses: peaceiris/actions-gh-pages@v3.9.0
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.event_name == 'schedule'
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: website/build
+      #     publish_branch: asf-site
+      #     force_orphan: true
