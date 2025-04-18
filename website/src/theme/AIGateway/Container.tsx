@@ -1,6 +1,4 @@
-import { defineStyleConfig } from '@chakra-ui/react';
-
-const Container = defineStyleConfig({
+const Container = {
   variants: {
     primary: {
       px: '20px',
@@ -9,6 +7,6 @@ const Container = defineStyleConfig({
   defaultProps: {
     variant: 'primary',
   },
-});
+};
 
 export default Container;

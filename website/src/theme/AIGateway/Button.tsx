@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { defineStyleConfig } from '@chakra-ui/react';
 
-const Button = defineStyleConfig({
+const Button = {
   variants: {
     outline: {
       borderRadius: '5px',
@@ -66,6 +65,6 @@ const Button = defineStyleConfig({
     variant: 'outline',
     colorScheme: 'brand',
   },
-});
+};
 
 export default Button;
