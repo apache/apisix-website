@@ -44,7 +44,7 @@
     "clsx": "^1.1.1",
     "docusaurus-plugin-sass": "^0.2.2",
     "fitty": "^2.3.6",
-    "framer-motion": "^7.6.16",
+    "framer-motion": "6.5.1",
     "gsap": "^3.7.1",
     "lethargy": "^1.0.9",
     "patch-package": "^6.4.7",

@@ -5,6 +5,7 @@ import {
   theme as baseTheme,
   ChakraProvider, extendTheme,
 } from '@chakra-ui/react';
+import { theme as proTheme } from '@chakra-ui/pro-theme';
 import styles from './AIGateway/style';
 import Container from '../theme/AIGateway/Container';
 import Heading from '../theme/AIGateway/Heading';
@@ -53,6 +54,7 @@ const theme = extendTheme(
       },
     },
     styles,
+    proTheme,
   },
 );
 
