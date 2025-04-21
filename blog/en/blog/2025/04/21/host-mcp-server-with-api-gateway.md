@@ -18,18 +18,18 @@ keywords:
   - mcp-bridge
 description: Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.
 tags: [Ecosystem]
-image: 
+image: https://static.api7.ai/uploads/2025/04/21/PyYEn9lg_apisix-mcp-cover.webp
 ---
 
 ## Introduction
 
 In contemporary API infrastructure, HTTP protocols and streaming communications (like SSE, WebSocket) have become mainstream for building real-time, interactive applications. Over the past few months, the Model Context Protocol (MCP) has gained popularity. However, most MCP Servers are implemented via stdio for local environments and cannot be invoked by external services and developers.
 
-To bridge these services with modern API architectures, Apache APISIX has introduced the `mcp-bridge` plugin. It seamlessly converts stdio-based MCP services into HTTP SSE streaming interfaces and manages them through an API Gateway for routing and traffic management.
+To bridge these services with modern API architectures, Apache APISIX has introduced the `mcp-bridge` plugin. It seamlessly converts stdio-based MCP services into HTTP SSE streaming interfaces and manages them through an API gateway for routing and traffic management.
 
 ## Model Context Protocol (MCP) Overview
 
-MCP is an open protocol that standardizes how AI applications provide context information to large language models (LLMs). It allows developers to switch between different LLM providers while ensuring data security and facilitating integration with local or remote data sources. Supporting a client-server architecture, MCP servers expose specific functionalities accessible to clients via these servers.
+MCP is an open protocol that standardizes how AI applications provide context information to large language models (LLMs). It allows developers to switch between different LLM providers while ensuring data security and facilitating integration with local or remote data sources. Supporting a client-server architecture, MCP servers expose specific functionalities that are accessible to clients via these servers.
 
 ## What Is the `mcp-bridge` Plugin?
 
@@ -44,7 +44,7 @@ The Apache APISIX `mcp-bridge` plugin launches a subprocess to manage the MCP Se
 
 ## How It Works and Architecture Diagram
 
-Below is a sequence diagram illustrating the working mechanism of the `mcp-bridge` plugin, helping to understand the data flow from stdio to SSE:
+Below is a sequence diagram illustrating the working mechanism of the `mcp-bridge` plugin, helping you to understand the data flow from stdio to SSE:
 
 ```
 sequenceDiagram
@@ -136,7 +136,9 @@ By integrating authentication and rate-limiting plugins with the `mcp-bridge` pl
 The current version is a prototype. Future enhancements include:
 
 - Currently, MCP sessions are not shared across multiple APISIX instances. For multi-node APISIX clusters, proper session persistence configuration on the front-end load balancer is essential to ensure requests from the same client always go to the same APISIX instance.
+
 - The current MCP SSE connection is loop-driven. While the loop doesn't consume many resources (stdio read/write will be synchronous non-blocking calls), it's not efficient. We plan to connect to a message queue for an event-driven, scalable cluster approach.
+
 - The MCP session management module is just a prototype. We intend to abstract an MCP proxy server module to support launching MCP servers within APISIX for advanced scenarios. This proxy server module will be event-driven rather than loop-driven.
 
 ## Summary
