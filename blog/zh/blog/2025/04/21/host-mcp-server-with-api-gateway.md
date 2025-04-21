@@ -16,12 +16,12 @@ keywords:
   - MCP
   - MCP Server
   - mcp-bridge
-description: 探索 Apache APISIX 的 mcp-bridge 插件如何将基于标准输入输出的 MCP Server 无缝转换为可扩展的 HTTP Server 发送事件服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。
+description: 探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp
 ---
 
->探索 Apache APISIX 的 mcp-bridge 插件如何将基于标准输入输出的 MCP Server 无缝转换为可扩展的 HTTP Server 发送事件服务。
+>探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。
 
 <!--truncate-->
 
