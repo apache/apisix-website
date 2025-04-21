@@ -3,15 +3,15 @@ title: "Apache APISIX mcp-bridge 插件介绍"
 authors:
   - name: Ming Wen
     title: author
-    url: https://github.com/moonming
+    url: https://www.linkedin.com/in/ming-wen-api7/
     image_url: https://github.com/moonming.png
   - name: Zeping Bai
     title: author
     url: https://github.com/bzp2010
     image_url: https://github.com/bzp2010.png
 keywords:
-  - AI 网关
-  - APISIX AI 网关
+  - HTTP
+  - SSE
   - API 网关
   - MCP
   - MCP Server
