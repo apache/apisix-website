@@ -3,7 +3,7 @@ title: "From stdio to HTTP SSE: Host Your MCP Server with APISIX API Gateway"
 authors:
   - name: Ming Wen
     title: author
-    url: https://github.com/moonming
+    url: https://www.linkedin.com/in/ming-wen-api7/
     image_url: https://github.com/moonming.png
   - name: Zeping Bai
     title: author
