@@ -21,6 +21,10 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp
 ---
 
+>探索 Apache APISIX 的 mcp-bridge 插件如何将基于标准输入输出的 MCP Server 无缝转换为可扩展的 HTTP Server 发送事件服务。
+
+<!--truncate-->
+
 ## 引言
 
 在现代 API 基础设施中，HTTP 协议和流式通信（如 SSE、WebSocket）已成为构建实时、交互式应用的主流方式。最近几个月， Model Context Protocol (MCP) 变得越来越流行，不过大部分 MCP Server 都是通过 stdio 实现，用于本地环境使用，不能让外部服务和开发者调用。
