@@ -21,6 +21,10 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp
 ---
 
+>Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.
+
+<!--truncate-->
+
 ## Introduction
 
 In contemporary API infrastructure, HTTP protocols and streaming communications (like SSE, WebSocket) have become mainstream for building real-time, interactive applications. Over the past few months, the Model Context Protocol (MCP) has gained popularity. However, most MCP Servers are implemented via stdio for local environments and cannot be invoked by external services and developers.

@@ -1,9 +1,9 @@
 [
-    "blog/zh/blog/2025/01/26/monthly-report.md",
-    "blog/zh/blog/2025/01/13/apisix-2024-ospp.md",
-    "blog/zh/blog/2025/01/15/apisix-practice-in-soyoung-data-security-gateway.md",
-    "blog/zh/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow.md",
-    "blog/zh/blog/2023/12/15/high-availability-of-apisix-and-api7.md",
-    "blog/zh/blog/2023/12/08/zhengcaiyun-uses-apisix.md",
-    "blog/zh/blog/2023/12/01/datavisor-uses-apisix.md"
+    "blog/zh/blog/2025/04/21/host-mcp-server-with-api-gateway.md",
+    "blog/zh/blog/2025/04/08/introducing-apisix-ai-gateway.md",
+    "blog/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp.md",
+    "blog/zh/blog/2025/04/01/release-apache-apisix-3.12.0.md",
+    "blog/zh/blog/2025/03/24/6-essential-ai-gateway-use-cases.md",
+    "blog/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained.md",
+    "blog/zh/blog/2025/01/15/apisix-practice-in-soyoung-data-security-gateway.md"
 ]
