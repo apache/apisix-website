@@ -1,18 +1,18 @@
 {
   "$schema": "./event-poster-card-schema.json",
   "show": true,
-  "expire": "2025-04-12",
+  "expire": "2025-12-31",
   "width": 400,
   "config": {
     "en": {
-      "image": "https://static.api7.ai/uploads/2025/04/09/JBQWKlQv_Group427320331.webp",
-      "link": "/docs/general/events/2025-apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways",
-      "description": "Apache APISIX Meetup Shenzhen 2025"
+      "image": "https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp",
+      "link": "https://apisix.apache.org/blog/2025/04/21/host-mcp-server-with-api-gateway/",
+      "description": "Host Your MCP Server with APISIX API Gateway"
     },
     "zh": {
-      "image": "https://static.api7.ai/uploads/2025/04/09/9oPCEega_Group427320332.webp",
-      "link": "/zh/docs/general/events/2025-apisix-meetup-shenzhen-best-practices-for-api-and-ai-gateways",
-      "description": "Apache APISIX Meetup Shenzhen 2025"
+      "image": "https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp",
+      "link": "https://apisix.apache.org/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/",
+      "description": "从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server"
     }
   }
 }
