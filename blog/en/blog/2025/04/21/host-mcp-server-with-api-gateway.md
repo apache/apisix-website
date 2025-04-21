@@ -18,7 +18,7 @@ keywords:
   - mcp-bridge
 description: Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.
 tags: [Ecosystem]
-image: https://static.api7.ai/uploads/2025/04/21/PyYEn9lg_apisix-mcp-cover.webp
+image: https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp
 ---
 
 ## Introduction
@@ -46,23 +46,7 @@ The Apache APISIX `mcp-bridge` plugin launches a subprocess to manage the MCP Se
 
 Below is a sequence diagram illustrating the working mechanism of the `mcp-bridge` plugin, helping you to understand the data flow from stdio to SSE:
 
-```
-sequenceDiagram
-    participant Client
-    participant APISIX
-    participant MCP-Bridge
-    participant MCP-Server
-    Client->>APISIX: Send SSE HTTP request
-    APISIX->>MCP-Bridge: Start SSE response, create queue
-    MCP-Bridge->>MCP-Server: Start child process (stdio)
-    loop for each RPC call
-        Client->>APISIX: Send RPC via Message Endpoint
-        APISIX->>MCP-Bridge: Put call into queue
-        MCP-Bridge->>MCP-Server: Write to stdin
-        MCP-Server-->>MCP-Bridge: Read from stdout/stderr
-        MCP-Bridge-->>Client: Push response via SSE
-    end
-```
+![MCP-Bridge Architecture Diagram](https://static.api7.ai/uploads/2025/04/21/7gnb0QrW_1-mcp-bridge-sequence-diagram.webp)
 
 **✅ Highlights:**
 
@@ -100,34 +84,7 @@ Apache APISIX provides robust authentication plugins (like OAuth 2.0, JWT, and O
 
 ## Adding Authentication and Rate Limiting to MCP Servers
 
-```
-sequenceDiagram
-    participant Client
-    participant APISIX
-    participant RateLimit plugin
-    participant MCP-Bridge
-    participant MCP-Server
-    
-    opt SSE request
-        Client->>APISIX: Establish SSE connection<br/> (with credentials)
-        APISIX->>APISIX: Validate identity (OAuth 2.0 / JWT)
-        APISIX->>MCP-Bridge: Forward valid request
-        MCP-Bridge->>MCP-Server: Process MCP request
-        MCP-Server-->>MCP-Bridge: Return response
-        MCP-Bridge-->>Client: Establish SSE response
-    end
-
-    opt Message request
-        Client->>APISIX: Send RPC request to Message endpoint
-        APISIX->>APISIX: Validate identity (OAuth 2.0 / JWT)
-        APISIX->>APISIX: Perform rate limit
-        APISIX->>MCP-Bridge: Handle RPC request
-        MCP-Bridge->>MCP-Server: Push RPC request
-        MCP-Bridge-->>Client: Return 202 Accepted
-        MCP-Server-->>MCP-Bridge: Return response via stdout
-        MCP-Bridge-->>Client: Send response via SSE
-    end
-```
+![Add Authentication and Rate Limiting to MCP Servers](https://static.api7.ai/uploads/2025/04/21/ffwep58W_2-add-auth-and-rate-limiting-to-mcp-server.webp)
 
 By integrating authentication and rate-limiting plugins with the `mcp-bridge` plugin, you can enhance API security and ensure system stability in high-concurrency environments.
 
