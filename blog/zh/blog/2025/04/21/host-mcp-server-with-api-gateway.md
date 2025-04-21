@@ -16,9 +16,9 @@ keywords:
   - MCP
   - MCP Server
   - mcp-bridge
-description: 探索 Apache APISIX 的 mcp-bridge 插件如何将基于标准输入输出的 MCP 服务器无缝转换为可扩展的 HTTP 服务器发送事件服务。学习如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。
+description: 探索 Apache APISIX 的 mcp-bridge 插件如何将基于标准输入输出的 MCP 服务器无缝转换为可扩展的 HTTP 服务器发送事件服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。
 tags: [Ecosystem]
-image: 
+image: https://static.api7.ai/uploads/2025/04/21/PyYEn9lg_apisix-mcp-cover.webp
 ---
 
 ## 引言
@@ -35,7 +35,7 @@ MCP 是一种开放的协议，旨在标准化 AI 应用如何为大语言模型
 
 Apache APISIX `mcp-bridge` 插件通过启动子进程托管 MCP Server，接管其 stdio 通道，将客户端 HTTP SSE 请求转化为 MCP 协议调用，再将响应通过 SSE 推送给客户端。
 
-核心功能：
+**核心功能：**
 
 - 📡 将 MCP RPC 调用包装成 SSE 消息流
 - 🔄 子进程 stdio 生命周期与队列式 RPC 调度
@@ -64,7 +64,7 @@ sequenceDiagram
     end
 ```
 
-✅ 亮点：
+**✅ 亮点：**
 
 - APISIX 托管 SSE 长连接
 - `mcp-bridge` 插件管理子进程 + stdio + 调度队列
@@ -72,12 +72,12 @@ sequenceDiagram
 
 ## 应用场景与优势
 
-✅ 典型应用场景
+**✅ 典型应用场景**
 
 - 🛠️ 旧有 MCP / stdio 服务接入 Web 平台
 - 🖥️ 跨语言、跨平台子进程服务托管
 
-## ✅ 优势
+**✅ 优势**
 
 - 🌐 现代化： stdio 服务秒变 HTTP SSE API
 - 🕹️ 托管式： 子进程启动、IO 生命周期统一托管
@@ -88,12 +88,12 @@ sequenceDiagram
 
 Apache APISIX 提供了强大的身份认证插件（如 OAuth 2.0、JWT 和 OIDC）和限流限速插件（如速率限制和熔断机制），可以进一步增强 `mcp-bridge` 插件的功能。使用这些插件，您可以确保对接的 MCP 服务得到安全认证并控制流量，保证系统的可靠性和稳定性。
 
-### 身份认证插件：
+### 身份认证插件
 
 - OAuth 2.0、JWT 和 OIDC 插件支持，帮助保护 API 和 MCP 服务。
 - 在请求通过 API 网关时自动验证客户端身份，防止未经授权的访问。
 
-### 限流限速插件：
+### 限流限速插件
 
 - 速率限制：限制每个客户端的请求速率，避免系统过载。
 - 熔断器：自动切换或返回错误，当流量过大或系统出现故障时避免系统崩溃。
@@ -136,7 +136,9 @@ sequenceDiagram
 当前版本仍是 prototype，未来将新增以下功能：
 
 - 现在，MCP 会话不会在多个 APISIX 实例之间共享，如果你的 APISIX 集群由多个节点组成，你必须在前端 LB 上正确配置会话粘性，以确保来自同一客户端的请求始终转发到同一个 APISIX 实例，只有这样它才能正常工作。
+
 - 当前的 MCP SSE 连接是循环驱动的，虽然循环不会占用太多资源（读取和写入 stdio 将是同步的非阻塞调用），但这效率不高，我们需要连接到一些消息队列，使其以集群的方式由事件驱动和可扩展。
+
 - MCP 会话管理模块只是一个原型，我们还应该抽象出另一个 MCP 代理服务器模块，以支持在 APISIX 内启动 MCP 服务器，以支持高级场景。代理服务器模块应该是事件驱动的，而不是循环驱动的。
 
 ## 总结
