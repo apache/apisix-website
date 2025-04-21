@@ -5,12 +5,12 @@
   "width": 400,
   "config": {
     "en": {
-      "image": "https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp",
+      "image": "https://static.api7.ai/uploads/2025/04/21/ikPSIHHP_apisix-mcp-briget-cover.webp",
       "link": "https://apisix.apache.org/blog/2025/04/21/host-mcp-server-with-api-gateway/",
       "description": "From stdio to HTTP SSE: Host Your MCP Server with APISIX"
     },
     "zh": {
-      "image": "https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp",
+      "image": "https://static.api7.ai/uploads/2025/04/21/ikPSIHHP_apisix-mcp-briget-cover.webp",
       "link": "https://apisix.apache.org/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/",
       "description": "从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server"
     }
