@@ -15,7 +15,7 @@ keywords:
   - WAF
 description: APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。
 tags: [Ecosystem]
-image: https://static.apiseven.com/uploads/2023/09/08/gLVTG2qC_APISIX%20&%20Coraza.png
+image: https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp
 ---
 
 > APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。

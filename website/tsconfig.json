@@ -4,6 +4,7 @@
     "src/"
   ],
   "compilerOptions": {
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsx": "react"
   }
 }

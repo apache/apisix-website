@@ -1,6 +1,6 @@
 const { ssrTemplate } = require('../../config/ssrTemplate');
 
-const description = 'Open Source and Cloud-Native API gateway, based on the Nginx library and etcd.';
+const description = 'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.';
 
 const metadatas = [
   {
@@ -22,9 +22,9 @@ const metadatas = [
 ];
 
 module.exports = {
-  title: 'Apache APISIX® -- Cloud-Native API Gateway',
+  title: 'Apache APISIX® -- Cloud-Native API Gateway and AI Gateway',
   tagline:
-    'Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd.',
+    'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.',
   url: 'https://apisix.apache.org',
   baseUrl: '/',
   trailingSlash: true,
@@ -81,7 +81,7 @@ module.exports = {
       backgroundColor: '#e8433e',
       textColor: 'white',
       content:
-        '\u{1F914} Have queries regarding API Gateway? Join Slack channel to discuss <a target="_blank" rel="noopener noreferrer" href="/docs/general/join">join #apisix channel</a>! ⭐️',
+        '\u{1F914} Introducing APISIX AI Gateway – Built for LLMs and AI workloads. <a target="_blank" rel="noopener noreferrer" href="/ai-gateway/"> Learn More</a>',
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
@@ -101,9 +101,6 @@ module.exports = {
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
     metadatas,
-    gtag: {
-      trackingID: 'GTM-K24PRPS',
-    },
   },
   stylesheets: [],
   /**

@@ -4,7 +4,7 @@ $apisix-color: #e8433e;
 
 .endcta {
   padding: max(14vh, 100px) 2rem;
-  margin: 0 10%;
+  margin: 4em 10% 0;
   background-color: #f8f8f8;
   display: flex;
   flex-direction: column;
@@ -54,7 +54,7 @@ $apisix-color: #e8433e;
 
   @include respond-below(sm) {
     min-height: 50vh;
-    margin: 0 1rem;
+    margin: 4rem 1rem 0;
     align-items: flex-start;
     padding: 100px 2rem;
 

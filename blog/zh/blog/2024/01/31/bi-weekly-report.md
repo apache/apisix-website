@@ -7,6 +7,7 @@ image: https://static.apiseven.com/uploads/2024/01/30/Nr5Ybd2a_20240130_ZH_Cover
 ---
 > 最近，Apache APISIX 新增了 `ocsp-stapling` 插件，详情请阅读本期双周报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。

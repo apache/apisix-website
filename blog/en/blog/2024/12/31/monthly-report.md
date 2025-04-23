@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/12/31/edSe3URN_monthly-report-co
 
 > We have recently made some additions and improvements to specific features within Apache APISIX. The main improvements include the addition of supporting configuring response headers when using the `limit-count` plugin and supporting "system" `ssl_trusted_certificate`, among other enhancements. For detailed information, please read the monthly report.
 <!--truncate-->
+
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.

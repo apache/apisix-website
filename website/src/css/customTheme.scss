@@ -478,3 +478,55 @@ a:hover {
     transform: scale(1.2);
   }
 }
+
+article h1 {
+  font-size: 48px;
+}
+
+article h2 {
+  font-size: 36px;
+}
+
+article h3 {
+  font-size: 24px;
+}
+
+article {
+  font-size: 20px;
+  line-height: 35.4px;
+}
+
+article p {
+  font-size: 20px;
+  line-height: 35.4px;
+}
+
+/* Announcement Bar */
+div[class*="announcementBar_"] {
+  height: 40px;
+}
+
+div[class*="announcementBarContent"] {
+  font-size: 15px !important;
+  font-weight: 500;
+}
+
+div[class*="announcementBarPlaceholder"] {
+  height: 40px;
+}
+
+button[class*="announcementBarClose"] {
+  height: 40px !important;
+}
+
+@media screen and (max-width: 996px) {
+  div[class*="announcementBar_"] {
+    height: auto !important;
+    min-height: 40px;
+  }
+
+  div[class*="announcementBarContent"] {
+    font-size: 15px !important;
+    font-weight: 500;
+  }
+}

@@ -8,6 +8,7 @@ image: https://static.apiseven.com/uploads/2024/12/31/xuAagbRY_monthly-report-co
 
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，包括支持 `limit-count` 插件使用 plugin metadata 配置速率限制响应头和支持将 `system` 设置为值并引用 `ca_certs` 等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。

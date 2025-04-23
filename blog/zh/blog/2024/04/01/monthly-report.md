@@ -7,6 +7,7 @@ image: https://static.apiseven.com/uploads/2024/04/01/VaWBqFRY_cn-cover-202403.p
 ---
 > 最近，我们新增并改进了 Apache APISIX 的部分功能，如支持加密更多敏感字段、支持 QUIC 协议和支持在 openid-connect 插件中设置 session cookie 生命周期等。有关更多功能新亮点，请阅读本期月报。
 <!--truncate-->
+
 ## 导语
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
