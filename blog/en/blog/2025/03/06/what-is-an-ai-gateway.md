@@ -10,14 +10,14 @@ authors:
     url: https://github.com/Yilialinn
     image_url: https://github.com/Yilialinn.png
 keywords:
-  - AI Gateway
-  - API Gateway
-  - LLM Load Balancing
-  - AI Security
-  - Multi-LLM Management
-  - AI Observability
-  - AI Prompt Engineering
-  - AI Reliability
+  - AI gateway
+  - API gateway
+  - artificial intelligence
+  - Large Language Models
+  - multi-LLM management
+  - data security
+  - AI traffic optimization
+  - hybrid cloud architecture
 description: "AI Gateway manages LLMs traffic, enhancing security, reliability, and observability for AI applications."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/1W9olFmu_what-is-ai-gateway.webp

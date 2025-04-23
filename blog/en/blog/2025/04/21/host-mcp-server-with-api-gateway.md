@@ -16,9 +16,9 @@ keywords:
   - MCP
   - MCP Server
   - mcp-bridge
-description: Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.
+description: Discover APISIX-MCP, leveraging AI for effortless API management. Simplify resource operations with natural language in Apache APISIX.
 tags: [Ecosystem]
-image: https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp
+image: https://static.api7.ai/uploads/2025/04/23/USwzplCO_apisix-mcp-briget-cover-final.webp
 ---
 
 >Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.

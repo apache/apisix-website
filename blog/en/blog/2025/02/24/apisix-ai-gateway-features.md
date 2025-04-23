@@ -1,18 +1,15 @@
 ---
-title: "Comprehensive Overview of APISIX AI Gateway Features"
+title: "Explore Key Features of Apache APISIX AI Gateway"
 keywords:
   - APISIX
-  - AI Gateway
-  - LLM Proxy
-  - API Gateway for AI
-  - Token Rate Limiting
-  - AI Security
-  - AI Traffic Management
-  - Open-Source API Gateway
-  - Multi-LLM Load Balancing
-  - AI API Protection
-  - AI Request Throttling
-description: "Explore the robust features of the APISIX AI Gateway, including LLM proxy, intelligent traffic scheduling, token rate limiting, and security protection. Achieve multi-LLM load balancing, API rate control, and content moderation through open-source plugins to optimize the performance, security, and cost control of AI applications."
+  - AI gateway
+  - LLM API
+  - security protection
+  - token rate limiting
+  - smart traffic management
+  - multi-LLM proxy
+  - cloud-native API
+description: "Explore the advanced features of Apache APISIX AI Gateway for efficient, secure LLM API calls, optimized traffic management, and enhanced data protection."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---

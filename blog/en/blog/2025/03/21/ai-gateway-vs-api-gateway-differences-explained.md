@@ -6,17 +6,15 @@ authors:
     url: https://github.com/Yilialinn
     image_url: https://github.com/Yilialinn.png
 keywords:
-  - AI Gateway
-  - API Gateway
-  - LLM
-  - APISIX AI Gateway
+  - AI gateway
+  - API gateway
+  - large language models
+  - generative AI
   - Apache APISIX
-  - API Monetization
-  - MCP
-  - Model Context Protocol
   - token consumption
-  - stream-type requests
-description: "This blog explores AI gateways, their differences from API gateways, and why evolved solutions like Apache APISIX AI Gateway are shaping the future."
+  - streaming requests
+  - AI orchestration
+description: "Explore the evolution of AI gateways vs API gateways, their unique challenges, and how Apache APISIX is shaping the future of AI workloads."
 image: https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp
 tags: [Ecosystem]
 ---

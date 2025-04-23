@@ -5,8 +5,8 @@ authors:
     title: Technical Writer
     url: https://github.com/Yilialinn
     image_url: https://github.com/Yilialinn.png
-keywords: ['AI gateway', 'AI service management', 'AI security and compliance', 'AI cost optimization', 'AI gateway use cases', 'API workflows', 'scalability', 'AI performance monitoring']
-description: "Learn about the six essential use cases of AI gateways and discover how AI gateways optimize enterprise AI implementations through centralized management, security enforcement, cost optimization, and performance monitoring."
+keywords: ['AI gateway', 'Apache APISIX', 'machine learning', 'cost management', 'security compliance', 'performance optimization', 'multi-model environments', 'hybrid AI deployments']
+description: "Discover 6 crucial AI gateway use cases that enhance efficiency, security, and cost management for modern enterprises leveraging AI technologies."
 image: https://static.api7.ai/uploads/2025/03/24/FLLI0HiT_6-ai-gateway-use-case.webp
 tags: [Ecosystem]
 ---
