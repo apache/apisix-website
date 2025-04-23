@@ -131,8 +131,6 @@ APISIX 虽然原生提供了频现模块，但是只能根据 IP 等单一维度
 
 ![Code Example 2](https://static.apiseven.com/uploads/2025/01/15/jNuD70xf_soyoung.webp)
 
-![Flowchart of Interface Control](https://static.apiseven.com/uploads/2025/01/15/jNuD70xf_soyoung.webp)
-
 ### 功能七：日志监控
 
 记录每次请求的完整上下文信息，提供多维度监控指标，便于问题追踪。
