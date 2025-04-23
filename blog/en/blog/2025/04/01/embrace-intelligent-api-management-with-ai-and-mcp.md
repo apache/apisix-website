@@ -10,12 +10,15 @@ authors:
     url: https://github.com/Yilialinn
     image_url: https://github.com/Yilialinn.png
 keywords:
-  - API Gateway
-  - APISIX AI Gateway
-  - Apache APISIX
-  - MCP
+  - APISIX-MCP
+  - intelligent API management
   - Model Context Protocol
-description: "The MCP protocol provides standardized connectivity for AI models. APISIX-MCP simplifies API management through natural language interaction, enabling intelligent configuration and automated workflows, thereby improving operational efficiency."
+  - AI integration
+  - cloud-native API gateway
+  - natural language interaction
+  - API resource management
+  - MCP services
+description: "Discover how APISIX-MCP leverages AI for intuitive API management, simplifying resource management through natural language interactions."
 image: https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp
 tags: [Ecosystem]
 ---
