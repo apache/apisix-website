@@ -3,7 +3,7 @@
 /**
  * @type {Array<string>} version list
  */
-const versions = ['3.9', '3.10', '3.11', '3.12'];
+const versions = ['3.10', '3.11', '3.12'];
 
 /**
  * @type {Array<string>} LTS version list
@@ -21,6 +21,10 @@ const versionMap = {
  * @type {Array<{label: string, href: string}>}
  */
 const archivedVersions = [
+  {
+    label: '3.9',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/3.9/getting-started/readme/',
+  },
   {
     label: '3.8',
     href: 'https://apache-apisix.netlify.app/docs/apisix/3.8/getting-started/readme/',
@@ -75,35 +79,35 @@ const archivedVersions = [
   },
   {
     label: '2.11',
-    href: 'https://625a9090d04b9a6953165811--2-11-old-docs-apache-apisix.netlify.app/docs/apisix/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.11/getting-started/',
   },
   {
     label: '2.10',
-    href: 'https://625a9090d04b9a6953165811--2-11-old-docs-apache-apisix.netlify.app/docs/apisix/2.10/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.10/getting-started/',
   },
   {
     label: '2.9',
-    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.9/getting-started/',
   },
   {
     label: '2.8',
-    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.8/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.8/getting-started/',
   },
   {
     label: '2.7',
-    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.7/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.7/getting-started/',
   },
   {
     label: '2.6',
-    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.6/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.6/getting-started/',
   },
   {
     label: '2.5',
-    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.5/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.5/getting-started/',
   },
   {
     label: '2.4',
-    href: 'https://625a57e513f19e48ae3a4468--old-docs-apache-apisix.netlify.app/docs/apisix/2.4/getting-started/',
+    href: 'https://apache-apisix.netlify.app/docs/apisix/2.4/getting-started/',
   },
 ];
 
