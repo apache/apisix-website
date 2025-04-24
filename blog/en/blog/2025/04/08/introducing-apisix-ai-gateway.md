@@ -41,6 +41,28 @@ The [`ai-proxy-multi`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy-mu
 
 Additionally, the plugin supports logging LLM request information in the access log, such as token usage, model, time to first response, and more.
 
+```mermaid
+sequenceDiagram
+    participant Client
+    participant APISIX
+    participant OpenAI
+    participant DeepSeek
+
+    Client->>APISIX: Send AI request
+    activate APISIX
+    APISIX->>APISIX: Determine routing based on plugin configuration
+    APISIX->>OpenAI: Forward 80% of requests
+    activate OpenAI
+    OpenAI-->>APISIX: Return response
+    deactivate OpenAI
+    APISIX->>DeepSeek: Forward 20% of requests
+    activate DeepSeek
+    DeepSeek-->>APISIX: Return response
+    deactivate DeepSeek
+    APISIX-->>Client: Return aggregated response
+    deactivate APISIX
+```
+
 **Example: Load Balancing**:
 
 The following example demonstrates how to configure two models for load balancing, forwarding 80% of the traffic to one instance and 20% to another.
@@ -280,6 +302,27 @@ The [`ai-prompt-template`](https://apisix.apache.org/docs/apisix/plugins/ai-prom
 #### 7. ai-prompt-guard
 
 The [`ai-prompt-guard`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/) plugin protects your large language model (LLM) endpoints by inspecting and validating incoming prompt messages. It checks the request content against user-defined allow and deny patterns, ensuring only approved input is forwarded to the upstream LLM. Depending on its configuration, the plugin can check either the latest message or the entire conversation history and can be set to inspect prompts from all roles or only from the end user.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant APISIX
+    participant LLMService
+
+    Client->>APISIX: Send AI request with prompt
+    activate APISIX
+    APISIX->>APISIX: Scan prompt against allow/deny patterns
+    alt Prompt approved
+        APISIX->>LLMService: Forward prompt
+        activate LLMService
+        LLMService-->>APISIX: Return response
+        deactivate LLMService
+        APISIX-->>Client: Return response
+    else Prompt denied
+        APISIX-->>Client: Return 403 Forbidden
+    end
+    deactivate APISIX
+```
 
 ### Content Moderation
 
