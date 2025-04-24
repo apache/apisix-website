@@ -20,7 +20,7 @@ image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 
 ## Introduction: The Rise of AI Agents and the Evolution of AI Gateway
 
-In recent years, AI agents such as AutoGPT, Chatbots, and AI Assistants have seen rapid development. These applications rely heavily on API calls to large language models (LLMs), which has brought about challenges considering high concurrency, cost control, and security.
+In recent years, AI agents such as AutoGPT, Chatbots, and AI Assistants have seen rapid development. These applications rely heavily on API calls to large language models (LLMs), which have brought about challenges considering high concurrency, cost control, and security.
 
 Traditional API gateways primarily serve Web APIs and microservices and are not optimized for the unique needs of AI applications. This has led to the emergence of the concept of AI gateway. An AI gateway needs to provide enhanced capabilities in the following areas:
 
@@ -59,6 +59,37 @@ For example:
 Users can flexibly allocate traffic weights among different DeepSeek providers based on latency, stability, and price to achieve the best calling strategy.
 
 These capabilities enable AI applications to adapt flexibly to different LLMs, improve reliability, and reduce API calling costs.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant APISIX
+    participant LLM1
+    participant LLM2
+    participant LLM3
+
+    Client->>APISIX: Send API request with LLM preference
+    activate APISIX
+    APISIX->>APISIX: Determine optimal LLM based on configuration
+    alt LLM1 is optimal
+        APISIX->>LLM1: Forward request
+        activate LLM1
+        LLM1-->>APISIX: Return response
+        deactivate LLM1
+    else LLM2 is optimal
+        APISIX->>LLM2: Forward request
+        activate LLM2
+        LLM2-->>APISIX: Return response
+        deactivate LLM2
+    else LLM3 is optimal
+        APISIX->>LLM3: Forward request
+        activate LLM3
+        LLM3-->>APISIX: Return response
+        deactivate LLM3
+    end
+    APISIX-->>Client: Return response
+    deactivate APISIX
+```
 
 ## AI Security Protection: Ensuring Safe and Compliant Use of AI
 
@@ -104,6 +135,36 @@ During AI API calls, different tasks may require different LLMs. For example:
 - Code generation requests → sent to GPT-4 or DeepSeek.
 - Long-form summarization tasks → sent to Claude.
 - General conversations → sent to GPT-3.5 or Gemini.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant APISIX
+    participant LLM_A
+    participant LLM_B
+    participant LoadBalancer
+
+    Client->>APISIX: Send API request
+    activate APISIX
+    APISIX->>LoadBalancer: Evaluate LLM performance metrics
+    activate LoadBalancer
+    LoadBalancer->>LLM_A: Check latency and stability
+    activate LLM_A
+    LLM_A-->>LoadBalancer: Return metrics
+    deactivate LLM_A
+    LoadBalancer->>LLM_B: Check latency and stability
+    activate LLM_B
+    LLM_B-->>LoadBalancer: Return metrics
+    deactivate LLM_B
+    LoadBalancer-->>APISIX: Determine optimal LLM
+    deactivate LoadBalancer
+    APISIX->>LLM_A: Forward request (based on LoadBalancer decision)
+    activate LLM_A
+    LLM_A-->>APISIX: Return response
+    deactivate LLM_A
+    APISIX-->>Client: Return response
+    deactivate APISIX
+```
 
 **The smart routing capabilities of Apache APISIX include:**
 
