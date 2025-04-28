@@ -60,36 +60,7 @@ Users can flexibly allocate traffic weights among different DeepSeek providers b
 
 These capabilities enable AI applications to adapt flexibly to different LLMs, improve reliability, and reduce API calling costs.
 
-```mermaid
-sequenceDiagram
-    participant Client
-    participant APISIX
-    participant LLM1
-    participant LLM2
-    participant LLM3
-
-    Client->>APISIX: Send API request with LLM preference
-    activate APISIX
-    APISIX->>APISIX: Determine optimal LLM based on configuration
-    alt LLM1 is optimal
-        APISIX->>LLM1: Forward request
-        activate LLM1
-        LLM1-->>APISIX: Return response
-        deactivate LLM1
-    else LLM2 is optimal
-        APISIX->>LLM2: Forward request
-        activate LLM2
-        LLM2-->>APISIX: Return response
-        deactivate LLM2
-    else LLM3 is optimal
-        APISIX->>LLM3: Forward request
-        activate LLM3
-        LLM3-->>APISIX: Return response
-        deactivate LLM3
-    end
-    APISIX-->>Client: Return response
-    deactivate APISIX
-```
+![Multi-LLM Proxy](https://static.api7.ai/uploads/2025/04/28/LX5jOmKq_multi-llm-proxy.webp)
 
 ## AI Security Protection: Ensuring Safe and Compliant Use of AI
 
@@ -136,35 +107,7 @@ During AI API calls, different tasks may require different LLMs. For example:
 - Long-form summarization tasks → sent to Claude.
 - General conversations → sent to GPT-3.5 or Gemini.
 
-```mermaid
-sequenceDiagram
-    participant Client
-    participant APISIX
-    participant LLM_A
-    participant LLM_B
-    participant LoadBalancer
-
-    Client->>APISIX: Send API request
-    activate APISIX
-    APISIX->>LoadBalancer: Evaluate LLM performance metrics
-    activate LoadBalancer
-    LoadBalancer->>LLM_A: Check latency and stability
-    activate LLM_A
-    LLM_A-->>LoadBalancer: Return metrics
-    deactivate LLM_A
-    LoadBalancer->>LLM_B: Check latency and stability
-    activate LLM_B
-    LLM_B-->>LoadBalancer: Return metrics
-    deactivate LLM_B
-    LoadBalancer-->>APISIX: Determine optimal LLM
-    deactivate LoadBalancer
-    APISIX->>LLM_A: Forward request (based on LoadBalancer decision)
-    activate LLM_A
-    LLM_A-->>APISIX: Return response
-    deactivate LLM_A
-    APISIX-->>Client: Return response
-    deactivate APISIX
-```
+![Smart Routing](https://static.api7.ai/uploads/2025/04/28/bzziWsxs_smart-routing.webp)
 
 **The smart routing capabilities of Apache APISIX include:**
 

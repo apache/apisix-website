@@ -34,31 +34,7 @@ With this foundation in place, let's explore the six common application scenario
 
 Modern enterprises increasingly rely on diverse AI models to address varied business needs, from customer-facing chatbots to internal document analysis. However, managing multiple vendors (e.g., OpenAI, Anthropic, Mistral) and deployment environments (cloud, on-prem, hybrid) introduces operational chaos.
 
-```mermaid
-sequenceDiagram
-    participant Application
-    participant AIGateway
-    participant LLM1
-    participant LLM2
-
-    Application->>AIGateway: Send AI request
-    activate AIGateway
-    AIGateway->>AIGateway: Determine optimal LLM based on policy
-    AIGateway->>LLM1: Check availability and latency
-    activate LLM1
-    LLM1-->>AIGateway: Return metrics
-    deactivate LLM1
-    AIGateway->>LLM2: Check availability and latency
-    activate LLM2
-    LLM2-->>AIGateway: Return metrics
-    deactivate LLM2
-    AIGateway->>LLM2: Forward request
-    activate LLM2
-    LLM2-->>AIGateway: Return response
-    deactivate LLM2
-    AIGateway-->>Application: Return response
-    deactivate AIGateway
-```
+![Centralized AI Service Management](https://static.api7.ai/uploads/2025/04/28/4BEJ7O31_centralized-ai-service-management.webp)
 
 Enterprises adopt specialized models for specific tasks:
 
@@ -105,31 +81,7 @@ AI services, particularly those based on large language models, can incur signif
 - **Budget Enforcement**: Setting spending limits for different teams or applications
 - **Caching Strategies**: Reducing redundant calls by storing frequent responses
 
-```mermaid
-sequenceDiagram
-    participant Application
-    participant AIGateway
-    participant LLMService
-
-    Application->>AIGateway: Send AI request
-    activate AIGateway
-    AIGateway->>AIGateway: Check token rate limits
-    alt Request within limits
-        AIGateway->>LLMService: Check cache for request
-        activate LLMService
-        alt Cache hit
-            LLMService-->>AIGateway: Return cached response
-        else Cache miss
-            LLMService->>LLMService: Process request
-            LLMService-->>AIGateway: Return response
-        end
-        deactivate LLMService
-        AIGateway-->>Application: Return response
-    else Request exceeds limits
-        AIGateway-->>Application: Return 429 Too Many Requests
-    end
-    deactivate AIGateway
-```
+![Cost Optimization and Rate Limiting](https://static.api7.ai/uploads/2025/04/28/LSJfrJtt_cost-optimization.webp)
 
 For instance, a customer service application might cache common questions about password resets or refund processes, significantly reducing the number of model invocations needed.
 

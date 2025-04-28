@@ -104,32 +104,7 @@ An effective AI gateway encompasses several key functionalities:
 - **Prompt Protection**: Ensures that prompts sent to LLMs do not contain sensitive or inappropriate content, safeguarding against unintended data exposure.
 - **Content Moderation**: Monitors and filters responses from AI models to prevent the dissemination of harmful or non-compliant information.
 
-```mermaid
-sequenceDiagram
-    participant Client
-    participant AIGateway
-    participant LLMService
-
-    Client->>AIGateway: Send API request with prompt
-    activate AIGateway
-    AIGateway->>AIGateway: Check token rate limits
-    alt Request within limits
-        AIGateway->>AIGateway: Scan prompt for sensitive content
-        alt Prompt is safe
-            AIGateway->>LLMService: Forward sanitized prompt
-            activate LLMService
-            LLMService-->>AIGateway: Return response
-            deactivate LLMService
-            AIGateway->>AIGateway: Scan response for compliance
-            AIGateway-->>Client: Return filtered response
-        else Prompt contains sensitive content
-            AIGateway-->>Client: Return 403 Forbidden
-        end
-    else Request exceeds rate limits
-        AIGateway-->>Client: Return 429 Too Many Requests
-    end
-    deactivate AIGateway
-```
+![Security](https://static.api7.ai/uploads/2025/04/28/dolhCMlm_security-workflow.webp)
 
 #### 2. Observability
 
@@ -147,36 +122,7 @@ sequenceDiagram
 
 - **Multi-LLM Load Balancing**: Distributes requests across multiple AI models to optimize performance and prevent overloading.
 
-```mermaid
-sequenceDiagram
-    participant Client
-    participant AIGateway
-    participant LLM1
-    participant LLM2
-    participant LLM3
-
-    Client->>AIGateway: Send API request
-    activate AIGateway
-    AIGateway->>AIGateway: Evaluate LLM performance metrics
-    AIGateway->>LLM1: Check latency and availability
-    activate LLM1
-    LLM1-->>AIGateway: Return metrics
-    deactivate LLM1
-    AIGateway->>LLM2: Check latency and availability
-    activate LLM2
-    LLM2-->>AIGateway: Return metrics
-    deactivate LLM2
-    AIGateway->>LLM3: Check latency and availability
-    activate LLM3
-    LLM3-->>AIGateway: Return metrics
-    deactivate LLM3
-    AIGateway->>LLM2: Forward request based on evaluation
-    activate LLM2
-    LLM2-->>AIGateway: Return response
-    deactivate LLM2
-    AIGateway-->>Client: Return response
-    deactivate AIGateway
-```
+![Multi-LLM Load Balancing](https://static.api7.ai/uploads/2025/04/28/8GKXYcvQ_multi-llm-load-balancing.webp)
 
 - **Retry and Fallback Mechanisms**: Implements strategies to handle AI service failures gracefully, ensuring uninterrupted user experiences.
 - **Traffic Prioritization**: Routes high-priority requests to the most reliable AI services while deferring less critical tasks.
