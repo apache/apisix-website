@@ -1,12 +1,12 @@
 ---
-title: "March Report (March 01 - March 31)"
+title: "Monthly Report (March 01 - March 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
 image: https://static.api7.ai/uploads/2025/03/28/226yQ3dc_march-monthly-report-cover-en.webp
 ---
 
-> We have recently added some new features within Apache APISIX, including adding supports for `ai-prompt-guard`, `ai-rate-limiting`, and `ai-request-rewrite` plugins, and some new/enhanced features like adding JWT Audience Validator in `openid-connect` Plugin. For detailed information, please read the monthly report.
+> We have recently added some new features within Apache APISIX, including adding support for `ai-prompt-guard`, `ai-rate-limiting`, and `ai-request-rewrite` plugins, and some new/enhanced features like adding JWT Audience Validator in the `openid-connect` plugin. For detailed information, please read the monthly report.
 <!--truncate-->
 
 ## Introduction
@@ -27,7 +27,7 @@ From March 1st to March 31st, 14 contributors made 50 commits to Apache APISIX. 
 
 Issue: https://github.com/apache/apisix/issues/12098
 
-Consider the comments of [PR #12029](https://github.com/apache/apisix/pull/12029#discussion_r2018012041) for `chaitin-waf` plugin. The value `nil` of `enum` can be removed since default value is already set to `nil`.
+Consider the comments of [PR #12029](https://github.com/apache/apisix/pull/12029#discussion_r2018012041) for the `chaitin-waf` plugin. The value `nil` of `enum` can be removed since the default value is already set to `nil`.
 
 ## Feature Highlights
 
@@ -45,7 +45,7 @@ PR: https://github.com/apache/apisix/pull/12037
 
 Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-The `ai-rate-limiting` plugin enforces token-based rate limiting for requests sent to LLM services. It helps manage API usage by controlling the number of tokens consumed within a specified time frame, ensuring fair resource allocation and preventing excessive load on the service. It is often used with `ai-proxy-multi` plugin.
+The `ai-rate-limiting` plugin enforces token-based rate limiting for requests sent to LLM services. It helps manage API usage by controlling the number of tokens consumed within a specified time frame, ensuring fair resource allocation and preventing excessive load on the service. It is often used with the `ai-proxy-multi` plugin.
 
 ### 3. Add `ai-request-rewrite` Plugin
 
@@ -73,7 +73,7 @@ The `jwt-auth` plugin now has a new parameter: `store_in_ctx`. It allows the con
 
 This feature is especially beneficial for two reasons:
 
-- The JWT can be removed from request attributes when `hide_credential = true`, this offers a secure alternative for token passing without exposure.
+- The JWT can be removed from request attributes when `hide_credential = true`, which offers a secure alternative for token passing without exposure.
 
 - Do not require users to develop custom code to retrieve and parse JWT objects.
 
@@ -85,15 +85,15 @@ Contributor: [bzp2010](https://github.com/bzp2010)
 
 Add JWT audience authentication to the `openid-connect` plugin to:
 
-- Allow the configuration of audience claim to enforce validation of JWT Audience Validator.
+- Allow the configuration of the audience claim to enforce validation of the JWT Audience Validator.
 
-- Asserts that it should be equal to or contain the `client_id`  when the `client_id` is a string or an array respectively, to comply with the OIDC specification requirements; otherwise, rejects the request.
+- Asserts that it should be equal to or contain the `client_id`  when the `client_id` is a string or an array, respectively, to comply with the OIDC specification requirements; otherwise, rejects the request.
 
 - Allows customization of the claim name.
 
 Directly implemented in plugin code since jwt-validators only supports local verification, not the Introspection API. Features are disabled by default for compatibility. Users can enable them as needed.
 
-### 7. Set Default Value of `ssl_trusted_certificate` to `system`
+### 7. Set the Default Value of `ssl_trusted_certificate` to `system`
 
 PR: https://github.com/apache/apisix/pull/11993
 
@@ -115,7 +115,7 @@ PR: https://github.com/apache/apisix/pull/12002
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-Adds a field `valid_issuers` when JWKs is used to verify the issuer of the JWT, which whitelists the vetted issuers of the JWT. When not passed by the user, the issuer returned by the discovery endpoint will be used. If both are missing, the issuer will not be validated.
+Adds a field `valid_issuers` when JWKs are used to verify the issuer of the JWT, which whitelists the vetted issuers of the JWT. When not passed by the user, the issuer returned by the discovery endpoint will be used. If both are missing, the issuer will not be validated.
 
 ### 9. Implement Rate-Limiting based on Fallback Strategy in `ai-proxy-multi` Plugin
 
@@ -151,7 +151,7 @@ This PR adds a configuration for the `mode` attribute, adds a configuration to e
 
 ## Conclusion
 
-The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
 
 ## Recommended Blogs
 
@@ -161,7 +161,7 @@ The [official website](https://apisix.apache.org/) and [GitHub Issues](https://g
   
 - [What Is an AI Gateway? Concept and Core Features](https://apisix.apache.org/blog/2025/03/06/what-is-an-ai-gateway/)
 
-  This article will explore how AI gateway address pressing API gateway concerns. Let's discover how AI gateways unlock the full potential of AI, turning challenges into opportunities for growth.
+  This article will explore how the AI gateway addresses pressing API gateway concerns. Let's discover how AI gateways unlock the full potential of AI, turning challenges into opportunities for growth.
 
 - [What Is an AI Gateway: Differences from API Gateway](https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/)
 
