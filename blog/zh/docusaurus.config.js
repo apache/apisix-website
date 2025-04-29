@@ -67,7 +67,10 @@ module.exports = {
       },
     ],
   ],
-  plugins: [['docusaurus-plugin-sass', {}]],
+  plugins: [
+    ['docusaurus-plugin-sass', {}],
+    require.resolve('../../config/schema-org'),
+  ],
   themeConfig: {
     navbar: {
       hideOnScroll: true,
