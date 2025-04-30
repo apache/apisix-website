@@ -6,18 +6,18 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/04/28/vsUkfrYC_april-monthly-report-cover-en.webp
 ---
 
-> We have recently added some new features within Apache APISIX, which is adding a new plugin `mcp-bridge`. For detailed information, please read the monthly report.
+> We have recently added a new plugin, `mcp-bridge`, to Apache APISIX. For detailed information, please read the monthly report.
 <!--truncate-->
 
 ## Introduction
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From April 1st to April 30, 13 contributors made 53 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From April 1st to April 30, 14 contributors made 54 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.api7.ai/uploads/2025/04/28/7DZQnq0l_april-contributor-list.webp)
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2025/04/30/jAxKhTpu_2025-april-contributor-list.webp)
 
 ![New Contributors List](https://static.api7.ai/uploads/2025/04/28/khDhj3Jw_april-new-contributors.webp)
 
@@ -58,4 +58,3 @@ The [official website](https://apisix.apache.org/) and [GitHub Issues](https://g
 - [APISIX-MCP: Embracing Intelligent API Management with AI + MCP](https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/)
 
   This article introduces the MCP protocol and its application in APISIX-MCP. APISIX-MCP simplifies API management through natural language interaction, supporting the creation, updating, and deletion of resources.
-  
