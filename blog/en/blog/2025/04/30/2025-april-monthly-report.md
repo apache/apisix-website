@@ -23,7 +23,7 @@ From April 1st to April 30, 14 contributors made 54 commits to Apache APISIX. We
 
 ## Good First Issue
 
-### Write Chinese documentation for AI plugins
+### Translate English Documentation into Chinese for AI Plugins
 
 Issue: https://github.com/apache/apisix/issues/12161
 
