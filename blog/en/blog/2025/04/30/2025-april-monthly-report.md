@@ -1,5 +1,5 @@
 ---
-title: "Monthly Report (April 01 - April 30)"
+title: "2025 Monthly Report (April 01 - April 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
