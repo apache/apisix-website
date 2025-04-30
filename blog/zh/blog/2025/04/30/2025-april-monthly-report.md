@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/04/28/d6UbcQN4_april-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们新增了 Apache APISIX 的部分功能，即新增了 mcp-bridge 插件。有关更多细节，请阅读本期月报。
+> 最近，我们新增了 Apache APISIX 的部分功能，即新增了 `mcp-bridge` 插件。有关更多细节，请阅读本期月报。
 <!--truncate-->
 
 ## 导语
