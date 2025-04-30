@@ -1,5 +1,5 @@
 ---
-title: "社区月报 (04.01 - 04.30)"
+title: "2025 社区月报 (04.01 - 04.30)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
@@ -13,11 +13,11 @@ image: https://static.api7.ai/uploads/2025/04/28/d6UbcQN4_april-monthly-report-c
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-从 2025.04.01 至 2025.04.30，有 13 名开发者提交了 53 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+从 2025.04.01 至 2025.04.30，有 14 名开发者提交了 54 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
 ## 贡献者统计
 
-![贡献者名单](https://static.api7.ai/uploads/2025/04/28/7DZQnq0l_april-contributor-list.webp)
+![贡献者名单](https://static.api7.ai/uploads/2025/04/30/ngN11L1i_2025-april-contributor-list.webp)
 
 ![新晋贡献者](https://static.api7.ai/uploads/2025/04/28/khDhj3Jw_april-new-contributors.webp)
 
@@ -31,7 +31,7 @@ Issue 描述：目前 AI 插件分类下的插件文档仅有英文版，需要�
 
 ## 近期亮点功能
 
-### 1. 新增 `mcp-bridge` 插件
+### 新增 `mcp-bridge` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/12151
 
