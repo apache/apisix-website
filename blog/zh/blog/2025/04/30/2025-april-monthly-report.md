@@ -17,9 +17,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](https://static.api7.ai/uploads/2025/04/30/ngN11L1i_2025-april-contributor-list.webp)
+![贡献者名单](https://static.api7.ai/uploads/2025/04/30/jAxKhTpu_2025-april-contributor-list.webp)
 
-![新晋贡献者](https://static.api7.ai/uploads/2025/04/28/khDhj3Jw_april-new-contributors.webp)
+![新晋贡献者](https://static.api7.ai/uploads/2025/04/30/mrYsDF6W_april-new-contributors.webp)
 
 ## Good First Issue
 
@@ -37,7 +37,7 @@ Issue 描述：目前 AI 插件分类下的插件文档仅有英文版，需要�
 
 贡献者：[bzp2010](https://github.com/bzp2010)
 
-此 PR 引入了一个名为 mcp-bridge 的新插件，使用户能够将任何基于 stdio 的 MCP Server 转换为基于 HTTP SSE 的 Server。该插件由两部分组成：一部分用于处理标准输入输出和管理子进程生命周期，另一子模块用于支持 MCP 会话管理。
+此 PR 引入了一个名为 `mcp-bridge` 的新插件，使用户能够将任何基于 stdio 的 MCP Server 转换为基于 HTTP SSE 的 Server。该插件由两部分组成：一部分用于处理标准输入输出和管理子进程生命周期，另一子模块用于支持 MCP 会话管理。
 
 此 PR 还包括一个轻量级的 MCP 会话管理模块。它负责分配会话 ID 并管理会话的队列和心跳定时器。通过使用共享字典，即使在不同的 NGINX 工作进程处理 SSE 连接和 RPC 调用时，也能确保其正常运行。
 
@@ -58,4 +58,3 @@ Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 
 - [APISIX AI 网关介绍](https://apisix.apache.org/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/)
 
   在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。
-  
