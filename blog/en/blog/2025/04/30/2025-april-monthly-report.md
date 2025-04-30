@@ -19,7 +19,7 @@ From April 1st to April 30, 14 contributors made 54 commits to Apache APISIX. We
 
 ![Apache APISIX Contributors List](https://static.api7.ai/uploads/2025/04/30/jAxKhTpu_2025-april-contributor-list.webp)
 
-![New Contributors List](https://static.api7.ai/uploads/2025/04/28/khDhj3Jw_april-new-contributors.webp)
+![New Contributors List](https://static.api7.ai/uploads/2025/04/30/mrYsDF6W_april-new-contributors.webp)
 
 ## Good First Issue
 
