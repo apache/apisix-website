@@ -37,7 +37,7 @@ PR: https://github.com/apache/apisix/pull/12151
 
 Contributor: [bzp2010](https://github.com/bzp2010)
 
-This PR introduces a new plugin called mcp-bridge, enabling users to convert any stdio-based mcp server to HTTP SSE-based. It consists of two parts, one for stdio handling and subprocess lifecycle management, and a submodule for MCP session management.
+This PR introduces a new plugin called `mcp-bridge`, enabling users to convert any stdio-based mcp server to HTTP SSE-based. It consists of two parts, one for stdio handling and subprocess lifecycle management, and a submodule for MCP session management.
 
 This PR also includes a lightweight MCP session management module. It assigns session IDs and manages queues and ping timers for sessions. Using a shared dictionary, it ensures proper functionality even when SSE connections and RPC calls are handled by different NGINX workers.
 
