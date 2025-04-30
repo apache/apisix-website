@@ -23,9 +23,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## Good First Issue
 
-### 为 AI 插件编写中文文档
+### 翻译 AI 插件文档为中文
 
-相关 RP：[https://github.com/apache/apisix/issues/12161](https://github.com/apache/apisix/issues/12161)
+相关 Issue：[https://github.com/apache/apisix/issues/12161](https://github.com/apache/apisix/issues/12161)
 
 Issue 描述：目前 AI 插件分类下的插件文档仅有英文版，需要新增中文版。提供多语言的全面文档可以确保不同背景的开发者能够有效地使用和贡献项目。
 
