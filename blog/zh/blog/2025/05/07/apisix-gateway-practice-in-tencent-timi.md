@@ -97,19 +97,19 @@ image: https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apis
 
 1. **分支管理与 PR 流程**：
 
-  a. 开发人员从 master 分支拉取一个新分支进行开发。
+    a. 开发人员从 master 分支拉取一个新分支进行开发。
   
-  b. 完成开发后，提交 Pull Request（PR）至 master 分支。
+    b. 完成开发后，提交 Pull Request（PR）至 master 分支。
 
 2. **Webhook 触发**：提交 PR 后，系统会自动触发 Webhook，启动流水线。
 
 3. **流水线检测**：
 
-  a. **Lint 检查**：主要检查代码格式规范。
+    a. **Lint 检查**：主要检查代码格式规范。
   
-  b. **单元测试**：运行单元测试，验证插件的功能是否符合预期。
+    b. **单元测试**：运行单元测试，验证插件的功能是否符合预期。
   
-  c. **Try Build**：使用源代码构建镜像，验证代码的可构建性。
+    c. **Try Build**：使用源代码构建镜像，验证代码的可构建性。
 
 ![Pipleline Building](https://static.api7.ai/uploads/2025/05/07/7QGbMcLK_4-pipeline-inspection.webp)
 
