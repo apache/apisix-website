@@ -19,6 +19,10 @@ tags: [Case Studies]
 image: https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apisix.webp
 ---
 
+> 作者：杨泽淼，腾讯天美工作室群后台开发工程师。本文整理自 2025 年 4 月 12 日杨泽淼在 APISIX 深圳 Meetup 的演讲。
+>
+<!--truncate-->
+
 ## 关于腾讯天美
 
 天美工作室群 Timi Studio Group 是腾讯游戏旗下精品游戏研发工作室，也是多款热门手游的研发商，包括《使命召唤手游》、《宝可梦大集结》、《Honor Of Kings》（《王者荣耀》国际版）和《王者荣耀》。
