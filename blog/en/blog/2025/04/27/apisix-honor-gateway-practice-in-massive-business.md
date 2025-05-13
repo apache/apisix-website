@@ -47,7 +47,7 @@ As a world-class AI terminal ecosystem company, Honor is dedicated to revolution
 
 ### Honor Gateway Architecture
 
-![]()
+![Honor Gateway Architecture](https://static.api7.ai/uploads/2025/05/13/TZKlAQ73_1-honor-gateway-architecture-2.webp)
 
 #### Gateway Architecture
 
@@ -89,9 +89,9 @@ As a world-class AI terminal ecosystem company, Honor is dedicated to revolution
 
 - **Intelligent Deployment**: Shields underlying cloud differences, supporting automated deployment and public cloud adaptation.
 
-#### Non-disruptive Upgrades
+#### Low-Loss Upgrades
 
-Frequent plugin changes during regular operations raise concerns about minimal downtime. By detaching APISIX nodes via LB to ensure all traffic is fully offline before upgrading, non-disruptive and automated upgrades are achieved.
+Frequent plugin changes during regular operations raise concerns about minimal downtime. By detaching APISIX nodes via LB to ensure all traffic is fully offline before upgrading, automated low-loss upgrades is achieved.
 
 #### Elastic Scaling
 
@@ -107,13 +107,13 @@ To handle high-traffic scenarios, the gateway can be rapidly scaled out and prom
 
 Initially, we utilized APISIX's native plugins. As business grew and requirements evolved, native plugins became insufficient. Consequently, we expanded plugins based on the platform or user-specific needs, resulting in over 100 plugins to date.
 
-![]()
+![Honor Plugin Ecosystem](https://static.api7.ai/uploads/2025/05/13/Pk221A8e_2-honor-plugins-2.webp)
 
 Plugins are categorized into four groups: traffic control, authentication, security, and observability. Since our clusters are predominantly deployed across dual Availability Zones (AZs) to ensure reliability, this setup introduces cross-AZ latency issues. To address this, the gateway facilitates local routing within the same AZ, ensuring traffic is forwarded to the nearest node.
 
 ### 1. Observability: Traffic Mirroring
 
-![]()
+![Traffic Mirroring](https://static.api7.ai/uploads/2025/05/13/1wt6a77m_3-traffic-mirror-2.webp)
 
 #### Request Processing and Traffic Mirroring
 
@@ -127,7 +127,7 @@ After a request reaches APISIX, the traffic is forwarded to the upstream service
 
 3. Asynchronous recording: Asynchronous threads extract requests from the queue and send them to the analytics platform for data recording. Since recording requests include timestamps, asynchronous operations do not affect production traffic.
 
-![]()
+![Custom Plugin Implementation](https://static.api7.ai/uploads/2025/05/13/7jNxZpWR_4-custom-plugin-2.webp)
 
 #### Recording Platform Capabilities
 
@@ -161,7 +161,7 @@ This ensures consistent and stable traffic allocation, meeting the business requ
 
 In the end-to-end canary release scenario, we have transformed the canary release plugin to achieve precise traffic scheduling. As shown in the diagram, Service A is in a canary state, while Services B and C are in the production environment. To maintain the current traffic flow from Service A to B while directing the traffic of Service C to the canary environment, this goal is achieved through API gateway. The specific implementation is as follows:
 
-![]()
+![End-to-End Canary Release Plugin Transformation](https://static.api7.ai/uploads/2025/05/13/HhJNflQZ_5-canary-plugin-2.webp)
 
 1. **Traffic Tagging and Request Header Insertion**
 
@@ -213,13 +213,13 @@ Initially, when adopting the single-node rate limiting solution, we encountered 
 
 In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, when the CPU usage reaches 80% and triggers elastic scaling, assuming the initial configuration allows for a throttling value of 2000 per node, after scaling up to 3 nodes, the total throttling value would increase to 6000. This could lead to backend services experiencing issues due to traffic exceeding their capacity.
 
-![]()
+![Single-Node Rate Limiting](https://static.api7.ai/uploads/2025/05/13/GzaePNL2_6-rate-limiting-2.webp)
 
 **Optimization Solution**
 
 To address these issues, we implemented the following solutions:
 
-![]()
+![Upgraded Single-Node Rate Limiting Solution](https://static.api7.ai/uploads/2025/05/13/9egDM2V0_7-rate-limiting-upgrade-2.webp)
 
 1. **Node Reporting and Maintenance**
 
@@ -261,13 +261,13 @@ When applying the open-source distributed rate limiting solution, we encountered
 
 3. **Increased Request Latency**: The open-source distributed rate limiting solution requires accessing Redis for counting before forwarding requests to upstream servers, adding 2–3 milliseconds of latency to business requests.
 
-![]()
+![Distributed Rate Limiting](https://static.api7.ai/uploads/2025/05/13/XLwUO4Gc_8-distributed-rate-limiting-2.webp)
 
 **Optimization Solution**
 
 To address these issues, we designed the following optimizations:
 
-![]()
+![Upgraded Distributed Rate Limiting Solution](https://static.api7.ai/uploads/2025/05/13/J4Ie3Hkg_9-distributed-rate-limiting-upgrade-2.webp)
 
 1. **Introducing Local Counting Cache**:
 
@@ -293,11 +293,11 @@ Although the open-source community provides a circuit breaker plugin, evaluation
 
 2. **State Transition Issues**: The circuit breaker plugin has only on/off states, which may allow a large number of requests to pass during state transitions, exacerbating upstream service degradation and potentially collapsing the gateway due to upstream response timeouts.
 
-**Custom Circuit Breaker Plugin Design**
+**Custom Circuit Breaker Plugin**
 
 To address these issues, Honor developed a new circuit breaker plugin based on APISIX. Its design features include:
 
-![]()
+![Custom Circuit Breaker Plugin](https://static.api7.ai/uploads/2025/05/13/OtD0QeE2_10-circuit-breaking-plugin-2.webp)
 
 1. **Percentage-Based Circuit Breaking Strategy**: Supports circuit breaking based on percentages, offering finer control.
 
@@ -331,11 +331,11 @@ To address these issues, Honor developed a new circuit breaker plugin based on A
 
 As shown in the left architecture diagram, traditional serial WAFs require modifying DNS records to direct traffic to the WAF. After scrubbing the traffic, WAFs forward it back to the origin server. However, this architecture is prone to single points of failure. If the WAF itself malfunctions, it may cause the entire link to break, impacting business traffic.
 
-![]()
+![Upgraded Bypass WAF Solution](https://static.api7.ai/uploads/2025/05/13/RQXL4gUx_11-waf-2.webp)
 
 **Bypass WAF Transformation**
 
-To resolve this issue, Honor, in collaboration with API7.ai and Tencent Cloud, implemented a bypass WAF transformation:
+To resolve this issue, Honor, in collaboration with [API7.ai](https://api7.ai/) and Tencent Cloud, implemented a bypass WAF transformation:
 
 1. **Traffic Path Optimization**: Traffic no longer needs to pass through the WAF first but directly accesses the APISIX cluster.
 
@@ -375,7 +375,7 @@ To resolve this issue, Honor, in collaboration with API7.ai and Tencent Cloud, i
 
 4. Optimization Results: In scenarios with frequent updates of 2,000 upstream nodes, the optimized CPU utilization increase is approximately 2%, compared to a 20% increase before optimization. Performance overhead is significantly reduced, and optimization results are evident.
 
-![]()
+![Health Checker Optimization](https://static.api7.ai/uploads/2025/05/13/d9KZCOjG_12-health-check-2.webp)
 
 #### Cost Optimization
 
