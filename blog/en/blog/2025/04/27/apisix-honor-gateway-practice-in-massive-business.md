@@ -15,12 +15,12 @@ keywords:
   - Apache APISIX
   - Honor
   - API gateway use case
-description: 
+description: "Explore Honor's API gateway journey using APISIX, featuring traffic scheduling, rate limiting, circuit breaking, and observability enhancements."
 tags: [Case Studies]
 image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 ---
 
-> Authors: Jiahao Fu, Weichuan Xu, Engineers from Honor PAAS Platform Department. This article is based on the presentation given by the two engineers at the APISIX Shenzhen Meetup on April 12, 2025.
+> Authors: Jiahao Fu, Weichuan Xu, Engineers from the PAAS Department at Honor. This article is based on the presentation given by the two engineers at the APISIX Shenzhen Meetup on April 12, 2025.
 <!--truncate-->
 
 ## About Honor
@@ -121,7 +121,7 @@ Plugins are categorized into four groups: traffic control, authentication, secur
 
 #### Request Processing and Traffic Mirroring
 
-After a request reaches APISIX, the traffic is forwarded to the upstream service. During this process, the request is mirrored to a third-party asset platform. However, this mirroring operation is blocking—meaning that if the recording platform does not return a response, the client's request is blocked. If the recording platform experiences a failure, it can severely impact the stability of production traffic. Therefore, instead of using the built-in mirroring features of NGINX or APISIX, we implemented asynchronous processing through a custom plugin.
+After a request reaches APISIX, the traffic is forwarded to the upstream service. During this process, the request is mirrored to a third-party asset platform. However, this mirroring operation is blocking, meaning that if the recording platform does not return a response, the client's request is blocked. If the recording platform experiences a failure, it can severely impact the stability of production traffic. Therefore, instead of using the built-in mirroring features of NGINX or APISIX, we implemented asynchronous processing through a custom plugin.
 
 #### Asynchronous Traffic Processing via Custom Plugin
 
@@ -139,7 +139,7 @@ After a request reaches APISIX, the traffic is forwarded to the upstream service
 
 The recording platform is responsible for data collection and supports the following functionalities:
 
-- Allowing scaling the traffic up or down during playback.
+- Allowing scaling of the traffic up or down during playback.
 
 - Adding specific headers to replayed requests, thus facilitating end-to-end stress testing.
 
@@ -165,11 +165,11 @@ This ensures consistent and stable traffic allocation, meeting the business requ
 
 #### Transformed End-to-End Canary Release Plugin
 
-In the end-to-end canary release scenario, we have transformed the canary release plugin to achieve precise traffic scheduling. As shown in the below diagram, Service A is in a canary state, while Services B and C are in the production environment. To maintain the current traffic flow from Service A to B while directing the traffic of Service C to the canary environment, this goal is achieved through API gateway. The specific implementation is as follows:
+In the end-to-end canary release scenario, we have transformed the canary release plugin to achieve precise traffic scheduling. As shown in the diagram below, Service A is in a canary state, while Services B and C are in the production environment. To maintain the current traffic flow from Service A to B while directing the traffic of Service C to the canary environment, this goal is achieved through an API gateway. The specific implementation is as follows:
 
 ![End-to-End Canary Release Plugin Transformation](https://static.api7.ai/uploads/2025/05/13/HhJNflQZ_5-canary-plugin-2.webp)
 
-1. **Tag Trafficand Insert Request Header**
+1. **Tag Traffic and Insert Request Header**
 
     a. When traffic passes through the APISIX API gateway, it is tagged based on canary release policies.
 
@@ -207,7 +207,7 @@ Through these transformations, we have achieved precise traffic scheduling for e
 
 ### 3. Rate Limiting and Security
 
-APISIX offers rich plugins covering single-node rate limiting and distributed rate limiting solutions. Below are optimization practices for the single-node rate limiting solution.
+APISIX offers rich plugins covering single-node rate limiting and distributed rate limiting solutions. Below are optimization practices for the single-node rate-limiting solution.
 
 #### 3.1 Rate Limiting
 
@@ -219,7 +219,7 @@ Initially, when adopting the single-node rate limiting solution, we encountered 
 
 1. If users needed to set a global rate limit (e.g., 4,000 QPS), they had to manually coordinate with platform administrators to confirm the number of gateway nodes and allocate the rate limit value accordingly (e.g., 2,000 QPS per node for two nodes). This process was cumbersome and error-prone.
 
-2. In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, the CPU usage reached 80%, triggering an automatic scale-out. Assume each node was initially configured with a 2000 QPS limit, increasing the node count to three would inadvertently raise the total rate limit to 6000 QPS. This could overwhelm backend services, leading to potential system anomalies.
+2. In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, the CPU usage reached 80%, triggering an automatic scale-out. Assume each node was initially configured with a 2000 QPS limit; increasing the node count to three would inadvertently raise the total rate limit to 6000 QPS. This could overwhelm backend services, leading to potential system anomalies.
 
 <div align="center">
 <img alt="Single-Node Rate Limiting" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/13/GzaePNL2_6-rate-limiting-2.webp"></img>
@@ -243,7 +243,7 @@ To address these issues, we implemented the following solutions:
 
     a. Plugin Development: A new plugin periodically retrieves all the node information from etcd to determine the total number of gateway nodes.
 
-    b. Excluding CP Nodes: Due to that control plane nodes do not handle traffic, only counting the number of DP nodes.
+    b. Excluding CP Nodes: Due to control plane nodes do not handle traffic, only count the number of DP nodes.
 
     c. Dynamic Rate Limit Adjustment: During rate limiting, the plugin dynamically calculates the base rate limit each node should handle, ensuring the rate limit aligns with the actual number of nodes.
 
@@ -253,7 +253,7 @@ To address these issues, we implemented the following solutions:
 
     b. Shared Memory Mechanism: Privileged processes write retrieved data to shared memory, and other processes periodically query shared memory to obtain node information.
 
-4. **Plugin Abstraction and Reusa**
+4. **Plugin Abstraction and Reuse**
 
     a. Common Plugin Abstraction: The dynamic rate limiting optimization capability is abstracted into a common plugin, providing a unified interface.
 
@@ -261,13 +261,13 @@ To address these issues, we implemented the following solutions:
 
 ##### Distributed Rate Limiting
 
-The open-source APISIX community also provides a distributed rate limiting solution.
+The open-source APISIX community also provides a distributed rate-limiting solution.
 
 **Background and Challenges**
 
 When applying the open-source distributed rate limiting solution, we encountered the following key issues:
 
-1. **Redis Performance Bottleneck**: In scenarios where rate limiting is applied using a single key—particularly when the rate limit rule targets an entire route rather than specific route characteristics—the Redis key becomes overly singular. This leads to all requests being directed to the same Redis shard, preventing effective load balancing through horizontal scaling.
+1. **Redis Performance Bottleneck**: In scenarios where rate limiting is applied using a single key, particularly when the rate limit rule targets an entire route rather than specific route characteristics, the Redis key becomes overly singular. This leads to all requests being directed to the same Redis shard, preventing effective load balancing through horizontal scaling.
 
 2. **Network Performance Overhead**: Frequent Redis requests result in a significant increase in CPU usage, with utilization rising by over 50%.
 
@@ -291,7 +291,7 @@ To address these issues, we designed the following optimizations:
 
     b. **Asynchronous Synchronization Mechanism**: The local count is periodically synchronized with Redis asynchronously. The number of requests between two synchronization periods is counted and deducted from Redis. After synchronization, the Redis count overrides the local cache, ensuring consistency in distributed rate limiting.
 
-2. **Error Control**: By applying reasonable formulas and parameter configurations, the error rate is controlled within 3%–4%, ensuring rate limiting accuracy meets business requirements.
+2. **Error Control**: By applying reasonable formulas and parameter configurations, the error rate is controlled within 3–4%, ensuring rate limiting accuracy meets business requirements.
 
 **Applicable Scenarios**
 
@@ -321,7 +321,7 @@ To address these issues, Honor developed a new circuit breaker plugin based on A
 
     a. Closed State: All requests are allowed to pass.
 
-    b. Open State: All requests are rejected until the circuit break time expires.
+    b. Open State: All requests are rejected until the circuit breaker time expires.
 
     c. Half-Open State: A limited number of requests are allowed to pass to assess whether upstream services have recovered.
 
@@ -421,7 +421,7 @@ BGP EIP bandwidth costs are prohibitively high.
 
 **Solutions**
 
-1. Configure static single-line EIP for gateway clusters, supplemented by backup BGP EIP.
+1. Configure a static single-line EIP for gateway clusters, supplemented by a backup BGP EIP.
 
 2. Use DNS intelligent resolution to direct mainstream carrier routes to corresponding single-line EIPs.
 
