@@ -37,11 +37,11 @@ As a world-class AI terminal ecosystem company, Honor is dedicated to revolution
 
 - In 2022, APISIX was officially deployed in Honor's production environment. In Q1, pilot promotion of traffic access for consumer-facing (To C) business began; in Q2, APIs were open and available for deployment platforms, supporting traffic scheduling and container instance reporting. Furthermore, even when the deployment platform was not yet fully built, traffic access and scheduling can be performed by invoking APIs through scripts.
 
-- In 2023, Q1 saw the completion of APISIX-CP containerization capabilities, followed by the launch of APISIX-DP elastic scaling capabilities in Q3. By Q4, a single cluster supported over ten million connections, and by year-end, full coverage of cloud services for To C business was achieved.
+- In 2023, Q1 saw the completion of APISIX-CP containerization, followed by the launch of APISIX-DP elastic scaling in Q3. By Q4, a single cluster supported over ten million connections, and by year-end, full coverage of cloud services for To C business was achieved.
 
-- In 2024, APISIX-DP containerization was completed in Q1, the runtime architecture was optimized to version 2.0 in Q2, and in Q4, a single cluster reached one million QPS. By year-end, Honor's API gateway, built on Apache APISIX, supported all of Honor's business projects.
+- In 2024, APISIX-DP containerization was completed in Q1, the runtime architecture was optimized to version 2.0 in Q2, and in Q4, Honor reached a throughput of 1 million QPS (queries per second) in a single cluster. By year-end, Honor's API gateway, built on Apache APISIX, supported all of Honor's business projects.
 
-- To date, the APISIX-based gateway platform within Honor has achieved peak traffic of millions of QPS. Leveraging APISIX's extensibility, nearly 100 custom plugins have been developed.
+- To date, the APISIX-based gateway platform within Honor has achieved peak traffic volumes of millions of QPS. Leveraging APISIX's extensibility, nearly 100 custom plugins have been developed.
 
 - Moving forward, Honor's technical team will explore the integration of AI with gateways and investigate how to enable automatic service reporting of gateways to Kubernetes.
 
@@ -55,9 +55,9 @@ As a world-class AI terminal ecosystem company, Honor is dedicated to revolution
 
    Honor's gateway architecture is divided into internal and external network access:
 
-   a. **External protocols supported**: QUIC and HTTPS.
+   a. **Protocols supported for external network**: QUIC and HTTPS.
 
-   b. **Internal protocols supported**: HTTP, HTTPS, and gRPC. Among these, gRPC primarily handles AI-related traffic, with its QPS showing significant growth over the past year.
+   b. **Protocols supported for internal network**: HTTP, HTTPS, and gRPC. Among these, gRPC primarily handles AI-related traffic, with its QPS showing significant growth over the past year.
 
 2. **Load Balancer and Proxy Selection**
 
@@ -75,7 +75,7 @@ As a world-class AI terminal ecosystem company, Honor is dedicated to revolution
 
 4. **Log Collection and Analysis**
 
-   The Prometheus plugin is not used. Instead, logs are collected via Kafka and combined with Elk for metric analysis and alerting capabilities.
+   The Prometheus plugin is not used. Instead, logs are collected via Kafka and combined with Elastic Stack for metric analysis and alerting.
 
 5. **etcd Load Balancing Optimization**
 
@@ -91,7 +91,7 @@ As a world-class AI terminal ecosystem company, Honor is dedicated to revolution
 
 #### Low-Loss Upgrades
 
-Frequent plugin changes during regular operations raise concerns about minimal downtime. By detaching APISIX nodes via LB to ensure all traffic is fully offline before upgrading, automated low-loss upgrades is achieved.
+Frequent plugin changes during regular operations raise concerns about downtime. By detaching APISIX nodes via LB to ensure all traffic is fully offline before upgrading, automated low-loss upgrades is achieved.
 
 #### Elastic Scaling
 
@@ -117,9 +117,9 @@ Plugins are categorized into four groups: traffic control, authentication, secur
 
 #### Request Processing and Traffic Mirroring
 
-After a request reaches APISIX, the traffic is forwarded to the upstream service. During this process, the request is mirrored to a third-party asset platform. However, this mirroring operation is blocking—meaning that if the recording platform does not return a response, the client's request is blocked. If the recording platform experiences a failure, it can severely impact the stability of production traffic. Therefore, instead of using the built-in mirroring capabilities of NGINX or APISIX, we implemented asynchronous processing through a custom plugin.
+After a request reaches APISIX, the traffic is forwarded to the upstream service. During this process, the request is mirrored to a third-party asset platform. However, this mirroring operation is blocking—meaning that if the recording platform does not return a response, the client's request is blocked. If the recording platform experiences a failure, it can severely impact the stability of production traffic. Therefore, instead of using the built-in mirroring features of NGINX or APISIX, we implemented asynchronous processing through a custom plugin.
 
-#### Custom Plugin Implementation
+#### Asynchronous Traffic Processing via Custom Plugin
 
 1. When a request arrives: The request is asynchronously saved to a queue.
 
@@ -129,27 +129,27 @@ After a request reaches APISIX, the traffic is forwarded to the upstream service
 
 ![Custom Plugin Implementation](https://static.api7.ai/uploads/2025/05/13/7jNxZpWR_4-custom-plugin-2.webp)
 
-#### Recording Platform Capabilities
+#### Recording Platform Features
 
 The recording platform is responsible for data collection and supports the following functionalities:
 
-- **Adjusting Traffic Volume During Playback**: Allows scaling the traffic up or down to simulate various load scenarios.
+- Allowing scaling the traffic up or down during playback.
 
-- **Injecting Custom Headers into Replay Requests**: Facilitates end-to-end stress testing by adding specific headers to replayed requests.
+- Adding specific headers to replayed requests, thus facilitating end-to-end stress testing.
 
 #### Queue and Thread Optimization
 
-To ensure system performance, we support configuring queue sizes and thread performance parameters. Although asynchronous forwarding does not directly impact live requests, excessive asynchronous traffic can still increase APISIX's CPU load. Therefore, it is recommended to select optimal parameters based on business requirements to balance performance and recording efficiency.
+To ensure system performance, we support configuring queue sizes and thread performance parameters. Although asynchronous forwarding does not directly impact formal requests, excessive asynchronous traffic can still increase APISIX's CPU load. Therefore, it is recommended to select optimal parameters based on business requirements to balance performance and recording efficiency.
 
 ### 2. Traffic Scheduling: Canary Release Plugin
 
-The canary release capability has been platformized, and the gray release plugin has been optimized.
+We have platformized the canary release feature and optimized the canary release plugin.
 
-#### Canary Release Plugin Optimization
+#### Optimized Canary Release Plugin
 
-Traditionally, canary release plugins support traffic distribution based on predefined rules or percentage-based allocations. However, percentage-based routing can lead to inconsistent traffic assignments; for instance, the same request might be routed to different environments at different times, potentially impacting stability in consumer-facing (B2C) scenarios.
+Traditionally, canary release plugins support traffic distribution based on predefined rules or percentage-based allocations. However, percentage-based routing can lead to inconsistent traffic assignments; for instance, the same request might be routed to different environments at different times, potentially impacting stability in 2C scenarios.
 
-To address this, a `key-hash` plugin is introduced before the canary release plugin, combining with the canary release plugin to achieve stable traffic percentage allocation. The specific implementation is as follows:
+To address this, a `key-hash` plugin is introduced in front of the canary release plugin, combining with the canary release plugin to achieve stable traffic percentage allocation. The specific implementation is as follows:
 
 1. Supports hash calculation based on specific request headers or Cookies.
 
@@ -157,19 +157,19 @@ To address this, a `key-hash` plugin is introduced before the canary release plu
 
 This ensures consistent and stable traffic allocation, meeting the business requirements of To C scenarios.
 
-#### End-to-End Canary Release Plugin Transformation
+#### Transformed End-to-End Canary Release Plugin
 
-In the end-to-end canary release scenario, we have transformed the canary release plugin to achieve precise traffic scheduling. As shown in the diagram, Service A is in a canary state, while Services B and C are in the production environment. To maintain the current traffic flow from Service A to B while directing the traffic of Service C to the canary environment, this goal is achieved through API gateway. The specific implementation is as follows:
+In the end-to-end canary release scenario, we have transformed the canary release plugin to achieve precise traffic scheduling. As shown in the below diagram, Service A is in a canary state, while Services B and C are in the production environment. To maintain the current traffic flow from Service A to B while directing the traffic of Service C to the canary environment, this goal is achieved through API gateway. The specific implementation is as follows:
 
 ![End-to-End Canary Release Plugin Transformation](https://static.api7.ai/uploads/2025/05/13/HhJNflQZ_5-canary-plugin-2.webp)
 
-1. **Traffic Tagging and Request Header Insertion**
+1. **Tag Trafficand Insert Request Header**
 
-    a. When traffic passes through the APISIX gateway, it is tagged based on canary release policies.
+    a. When traffic passes through the APISIX API gateway, it is tagged based on canary release policies.
 
-    b. If the traffic is canary release traffic, the gateway inserts a specific request header (e.g., honor-tag:gray) into the request to indicate it as canary release traffic.
+    b. If the traffic is canary traffic, the gateway inserts a specific request header (e.g., honor-tag:gray) into the request to indicate it as canary traffic.
 
-2. **Service Registration and Tagging**
+2. **Register and Tag Service**
 
     a. When Service A registers with the registration center, it also registers its canary tag (e.g., gray).
 
@@ -191,9 +191,9 @@ In the end-to-end canary release scenario, we have transformed the canary releas
 
         ii. If Service C has canary instances, the request is scheduled to the canary instance; otherwise, it is scheduled to a production instance.
 
-4. **end-to-end Canary Release Implementation**
+4. **End-to-End Canary Release**
 
-    a. Through request header propagation (e.g., honor-tag:gray), the canary tag remains consistent throughout the service chain.
+    a. Through the transparent transmission of request headers (e.g., honor-tag:gray), the canary tag remains consistent throughout the service chain.
 
     b. Each node in the service chain makes scheduling decisions based on the canary tag, enabling end-to-end canary release.
 
@@ -207,15 +207,17 @@ APISIX offers rich plugins covering single-node rate limiting and distributed ra
 
 ##### Single-Node Rate Limiting
 
-**Problem Description**
+**Background and Challenges**
 
-Initially, when adopting the single-node rate limiting solution, we encountered several challenges: if users needed to set a global rate limit (e.g., 4,000 QPS), they had to manually coordinate with platform administrators to confirm the number of gateway nodes and allocate the rate limit value per node (e.g., 2,000 QPS per node for two nodes). This process was cumbersome and error-prone.
+Initially, when adopting the single-node rate limiting solution, we encountered several challenges.
 
-In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, when the CPU usage reaches 80% and triggers elastic scaling, assuming the initial configuration allows for a throttling value of 2000 per node, after scaling up to 3 nodes, the total throttling value would increase to 6000. This could lead to backend services experiencing issues due to traffic exceeding their capacity.
+1. If users needed to set a global rate limit (e.g., 4,000 QPS), they had to manually coordinate with platform administrators to confirm the number of gateway nodes and allocate the rate limit value accordingly (e.g., 2,000 QPS per node for two nodes). This process was cumbersome and error-prone.
+
+2. In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, the CPU usage reached 80%, triggering an automatic scale-out. Assume each node was initially configured with a 2000 QPS limit, increasing the node count to three would inadvertently raise the total rate limit to 6000 QPS. This could overwhelm backend services, leading to potential system anomalies.
 
 ![Single-Node Rate Limiting](https://static.api7.ai/uploads/2025/05/13/GzaePNL2_6-rate-limiting-2.webp)
 
-**Optimization Solution**
+**Solution**
 
 To address these issues, we implemented the following solutions:
 
@@ -223,15 +225,15 @@ To address these issues, we implemented the following solutions:
 
 1. **Node Reporting and Maintenance**
 
-    a. Implementation: Utilizing the open-source `server-info` plugin, each DP node's information, such as hostname, is written to etcd as a leased key at regular intervals.
+    a. Implementation: Utilizing the `server-info` plugin of APISIX, each DP node's information, such as hostname, is written to etcd as a leased key at regular intervals.
 
-    b. "Heartbeat Mechanism": By periodically updating (similar to a heartbeat mechanism), etcd consistently maintains the full set of active DP node information in the API gateway.
+    b. "Heartbeat Mechanism": By periodically updating (similar to a heartbeat mechanism), etcd consistently maintains all active DP node information in the API gateway.
 
 2. **Dynamic Rate Limiting Calculation**
 
-    a. Plugin Development: A new plugin periodically retrieves the full set of node information from etcd to determine the total number of gateway nodes.
+    a. Plugin Development: A new plugin periodically retrieves all the node information from etcd to determine the total number of gateway nodes.
 
-    b. Excluding CP Nodes: CP nodes (control plane nodes that do not handle traffic) are excluded through a special method, counting only the number of DP nodes (data plane nodes that handle traffic).
+    b. Excluding CP Nodes: Due to that control plane nodes do not handle traffic, only counting the number of DP nodes.
 
     c. Dynamic Rate Limit Adjustment: During rate limiting, the plugin dynamically calculates the base rate limit each node should handle, ensuring the rate limit aligns with the actual number of nodes.
 
@@ -241,7 +243,7 @@ To address these issues, we implemented the following solutions:
 
     b. Shared Memory Mechanism: Privileged processes write retrieved data to shared memory, and other processes periodically query shared memory to obtain node information.
 
-4. **Plugin Abstraction and Reusability**
+4. **Plugin Abstraction and Reusa**
 
     a. Common Plugin Abstraction: The dynamic rate limiting optimization capability is abstracted into a common plugin, providing a unified interface.
 
@@ -251,19 +253,19 @@ To address these issues, we implemented the following solutions:
 
 The open-source APISIX community also provides a distributed rate limiting solution.
 
-**Problem Description**
+**Background and Challenges**
 
 When applying the open-source distributed rate limiting solution, we encountered the following key issues:
 
-1. **Redis Performance Bottleneck**: In single-key rate limiting scenarios, when rate limiting rules target entire routes rather than route features, Redis keys become overly singular. All requests concentrate on the same Redis shard, preventing horizontal scaling for load balancing.
+1. **Redis Performance Bottleneck**: In scenarios where rate limiting is applied using a single key—particularly when the rate limit rule targets an entire route rather than specific route characteristics—the Redis key becomes overly singular. This leads to all requests being directed to the same Redis shard, preventing effective load balancing through horizontal scaling.
 
-2. **Network Performance Overhead**: Frequent Redis requests can increase gateway node CPU utilization by 50%+.
+2. **Network Performance Overhead**: Frequent Redis requests result in a significant increase in CPU usage, with utilization rising by over 50%.
 
-3. **Increased Request Latency**: The open-source distributed rate limiting solution requires accessing Redis for counting before forwarding requests to upstream servers, adding 2–3 milliseconds of latency to business requests.
+3. **Increased Request Latency**: Open-source distributed rate limiting solutions typically require accessing Redis to complete counting before forwarding the request upstream. This process adds 2–3 milliseconds to the latency of business requests.
 
 ![Distributed Rate Limiting](https://static.api7.ai/uploads/2025/05/13/XLwUO4Gc_8-distributed-rate-limiting-2.webp)
 
-**Optimization Solution**
+**Solution**
 
 To address these issues, we designed the following optimizations:
 
@@ -285,13 +287,13 @@ To address these issues, we designed the following optimizations:
 
 #### 3.2 High-Reliable Circuit Breaker Plugin
 
-**Problem Description**
+**Background and Challenges**
 
 Although the open-source community provides a circuit breaker plugin, evaluation revealed it does not meet internal requirements in two aspects:
 
 1. **Lack of Failure Rate Support**: The open-source circuit breaker plugin strategy does not support circuit breaking based on failure rates.
 
-2. **State Transition Issues**: The circuit breaker plugin has only on/off states, which may allow a large number of requests to pass during state transitions, exacerbating upstream service degradation and potentially collapsing the gateway due to upstream response timeouts.
+2. **State Transition**: The circuit breaker plugin has only on/off states, which may allow a large number of requests to pass during state transitions, exacerbating upstream service degradation and potentially collapsing the gateway due to upstream response timeouts.
 
 **Custom Circuit Breaker Plugin**
 
@@ -325,25 +327,25 @@ To address these issues, Honor developed a new circuit breaker plugin based on A
 
 - **Architecture Adaptation**: To accommodate NGINX's multi-process architecture, shared memory was introduced to store state, ensuring consistent behavior across workers and avoiding the complexity and performance costs associated with sliding windows.
 
-#### 3.3 Enhance Reliability with Bypass WAF Transformation
+#### 3.3 Enhance Reliability with Bypass WAF
 
-**Limitations of Serial WAF**
+**Limitations of Inline WAF**
 
-As shown in the left architecture diagram, traditional serial WAFs require modifying DNS records to direct traffic to the WAF. After scrubbing the traffic, WAFs forward it back to the origin server. However, this architecture is prone to single points of failure. If the WAF itself malfunctions, it may cause the entire link to break, impacting business traffic.
+As shown in the left architecture diagram, traditional WAFs require modifying DNS records to route traffic to the WAF. After inspecting and filtering the traffic, WAFs forward it back to the origin server. However, this architecture is prone to single points of failure. If the WAF itself encounters a malfunction, it can disrupt the entire traffic flow, adversely affecting business operations.
 
 ![Upgraded Bypass WAF Solution](https://static.api7.ai/uploads/2025/05/13/RQXL4gUx_11-waf-2.webp)
 
-**Bypass WAF Transformation**
+**Bypass WAF**
 
-To resolve this issue, Honor, in collaboration with [API7.ai](https://api7.ai/) and Tencent Cloud, implemented a bypass WAF transformation:
+To resolve this issue, Honor, in collaboration with [API7.ai](https://api7.ai/) and Tencent Cloud, implemented a bypass WAF architecture:
 
-1. **Traffic Path Optimization**: Traffic no longer needs to pass through the WAF first but directly accesses the APISIX cluster.
+1. **Optimized Traffic Path**: Traffic no longer needs to pass through the WAF; instead, it is directed straight to the APISIX cluster.
 
-2. **Traffic Splitting and Inspection**: Within the APISIX cluster, a portion of the traffic is forwarded to the WAF for inspection to determine whether it is normal or contains malicious attacks (e.g., egress attacks and command egress attacks).
+2. **Traffic Splitting for Detection**: Within the APISIX cluster, a portion of the traffic is forwarded to the WAF for inspection to determine whether it is normal or contains malicious attacks (e.g., egress attacks and command egress attacks).
 
 3. **Status Code Response Mechanism**:
 
-    a. If the WAF detects normal traffic, it returns a `200` status code, allowing the request to proceed to the upstream server.
+    a. If the WAF detects normal traffic, it returns a `200` status code, allowing the request to pass through to the upstream server.
 
     b. If the WAF detects malicious attacks, it returns a status code similar to `403`, rejecting the request.
 
@@ -355,25 +357,27 @@ To resolve this issue, Honor, in collaboration with [API7.ai](https://api7.ai/) 
 
 #### Health Checker Optimization
 
-1. Background: Internal business traffic is substantial, with thousands of upstream nodes. During rolling updates, frequent triggering of health checker destruction and creation causes CPU utilization to spike.
+**Background and Challenges**
 
-2. Problem Description:
+In high-traffic internal business scenarios, with over a thousand upstream nodes, frequent rolling updates triggered the destruction and creation of health checkers. This led to significant CPU usage spikes.
 
-    a. Destruction and Creation Logic: When upstream nodes are updated, health checkers are destroyed. Health checkers are only probed when client requests arrive; if they do not exist, they are immediately created.
+1. Upstream Destruction and Creation: Upon upstream updates, health checkers were destroyed. Health checkers are only probed when client requests arrive; if they do not exist, they are immediately created.
 
-    b. Node-by-Node Addition: When creating health checkers, all nodes must be iterated and added to the health checker's shared memory, involving significant lock operations and memory writes, leading to notable performance overhead.
+2. Node-by-Node Addition: During creation, all nodes had to be traversed and individually added to the health checker's shared memory. This process involved extensive locking operations and memory writes, resulting in significant performance degradation.
 
-3. Optimization Measures:
+**Solutions**
 
-    a. Delayed Destruction: During upstream updates, health checkers are temporarily not destroyed but merely lose their references, reducing performance overhead from frequent destruction and creation.
+1. **Delayed Destruction**: During upstream updates, health checkers are temporarily not destroyed but merely lose their references, reducing performance overhead from frequent destruction and creation.
 
-    b. Caching Mechanism: When creating health checkers, they are cached with their creation time recorded. Subsequent requests first check if the health checker exists. If not, the cache is replenished. If not expired, it is directly returned; if expired, it is recreated.
+2. **Caching Mechanism**: When creating health checkers, they are cached with their creation time recorded. Subsequent requests first check if the health checker exists. If not, the cache is replenished. If not expired, it is directly returned; if expired, it is recreated.
 
-    c. Batch Updates: All upstream nodes are batch-updated to the health checker's shared memory, reducing the overhead of node-by-node operations.
+3. **Batch Updates**: All upstream nodes are batch-updated to the health checker's shared memory, reducing the overhead of node-by-node operations.
 
-    d. Concurrency Control: A concurrency control mechanism is introduced to ensure only one worker is responsible for creating health checkers at any given time, preventing multiple workers from performing the same operation simultaneously and significantly reducing CPU consumption.
+4. **Concurrency Control**: A concurrency control mechanism is introduced to ensure only one worker is responsible for creating health checkers at any given time, preventing multiple workers from performing the same operation simultaneously and significantly reducing CPU consumption.
 
-4. Optimization Results: In scenarios with frequent updates of 2,000 upstream nodes, the optimized CPU utilization increase is approximately 2%, compared to a 20% increase before optimization. Performance overhead is significantly reduced, and optimization results are evident.
+**Results**
+
+In scenarios involving frequent updates of 2,000 upstream nodes, the optimized approach resulted in only a ~2% increase in CPU usage, a substantial improvement compared to the previous 20% increase. This demonstrates a significant reduction in performance overhead and highlights the effectiveness of the optimization.
 
 ![Health Checker Optimization](https://static.api7.ai/uploads/2025/05/13/d9KZCOjG_12-health-check-2.webp)
 
@@ -383,38 +387,60 @@ Cost optimization primarily focuses on three aspects: traffic compression, stati
 
 #### Traffic Compression
 
-- Background: Through statistics on gateway costs, approximately three-quarters of the total cost is attributed to traffic costs. Therefore, our optimization efforts first target traffic reduction.
+**Background**
 
-- Optimization Measures: Provide compression plugins such as br and gzip, supporting dynamic compression. These plugins are user-friendly; businesses only need to include a compression identifier in the request, and clients and browsers typically support decompression.
+Through statistics on gateway costs, approximately three-quarters of the total cost is attributed to traffic costs. Therefore, our optimization efforts first target traffic reduction.
 
-- Benefits: In cloud providers' LB billing models, traffic volume is the primary billing factor. By using compression plugins, LB costs and EIP bandwidth costs can be reduced, with a maximum compression rate exceeding 70%, significantly lowering traffic costs.
+**Solutions**
+
+Honor provides compression plugins such as br and gzip, supporting dynamic compression. These plugins are user-friendly; businesses only need to include a compression identifier in the request, and clients and browsers typically support decompression.
+
+**Results**
+
+In cloud providers' LB billing models, traffic volume is the primary billing factor. By using compression plugins, LB costs and EIP bandwidth costs can be reduced, with a maximum compression rate exceeding 70%, significantly lowering traffic costs.
 
 #### Static Single-Line EIP Transformation
 
-- Background: BGP EIP bandwidth costs are prohibitively high.
+**Background**
 
-- Optimization Measures:
+BGP EIP bandwidth costs are prohibitively high.
 
-  - Configure China Telecom static single-line EIP for gateway clusters, supplemented by backup BGP EIP.
+**Solutions**
 
-  - Use DNS intelligent resolution to direct mainstream carrier routes to corresponding single-line EIPs.
+1. Configure static single-line EIP for gateway clusters, supplemented by backup BGP EIP.
 
-  - Benefits: Single-line EIP costs are one-third of BGP EIP costs, saving approximately two-thirds of public network bandwidth expenses.
+2. Use DNS intelligent resolution to direct mainstream carrier routes to corresponding single-line EIPs.
+
+**Results**
+
+Single-line EIP costs are one-third of BGP EIP costs, saving approximately two-thirds of public network bandwidth expenses.
 
 #### Gateway Scaling
 
-- Optimization Measures: Implement elastic gateway scaling based on CPU and memory utilization.
+**Optimization**
 
-- Objective: Ensure resource utilization remains within a reasonable range to avoid resource waste or insufficiency.
+Implement elastic gateway scaling based on CPU and memory utilization.
+
+**Results**
+
+Ensure resource utilization remains within a reasonable range to avoid resource waste or insufficiency.
 
 ## Summary
 
-Since adopting APISIX in 2021, Honor has continuously optimized and expanded its API gateway, building a high-performance, highly scalable, and reliable API gateway that successfully supports the rapid growth of massive business operations.
+Since adopting APISIX in 2021, Honor has developed a high-performance, scalable, and reliable API gateway to support the rapid growth of its extensive business through continuous optimization and expansion. The following are the achievements of Honor using Apache APISIX:
 
-Honor's gateway platform has evolved from pilot promotion to full business coverage, achieving peak traffic of millions of QPS and developing nearly 100 plugins to meet diverse business needs. Through optimizations such as internal and external network protocol improvements, load balancer upgrades, and plugin marketplace development, the platform's stability and scalability have been enhanced.
+- **Traffic Handling**: Honor's API gateway has evolved from pilot deployments to comprehensive coverage, handling peak traffic volumes reaching millions of QPS.
 
-From a functionality perspective, optimizations such as canary releases, rate limiting, circuit breaking, and bypass WAF architecture ensure precise traffic scheduling and enhance reliability. In terms of performance, health checker optimizations and concurrency control significantly lower CPU usage. On the cost front, strategies like traffic compression, EIP transformation, and scaling techniques substantially reduce expenses.
+- **Plugins**: To meet diverse business requirements, Honor has developed nearly 100 custom plugins.
 
-## Outlook
+- **Architecture Stability and Scalability**: Through optimizations such as internal and external network protocol supports, load balancer upgrades, and plugin marketplace development, the platform's stability and scalability have been enhanced.
 
-Moving forward, Honor will continue to explore the integration of AI with API gateways to further enhance the platform's intelligence. Additionally, through innovative approaches such as containerized auto-reporting mechanisms, Honor aims to help internal teams achieve efficient resource management and business deployment in Kubernetes environments.
+- **Features**: optimizations such as canary releases, rate limiting, circuit breaking, and bypass WAF architecture ensure precise traffic scheduling and enhance reliability.
+
+- **Performance**: Health checker optimizations and concurrency control significantly lower CPU usage.
+
+- **Cost**: Strategies like traffic compression, EIP transformation, and scaling techniques substantially reduce expenses.
+
+## Future Outlook
+
+Moving forward, Honor plans to integrate artificial intelligence into its API gateway platform to enhance intelligent traffic management and decision-making processes. Additionally, through innovative approaches such as containerized auto-reporting mechanisms, Honor aims to help internal teams achieve efficient resource management and business deployment in Kubernetes environments.
