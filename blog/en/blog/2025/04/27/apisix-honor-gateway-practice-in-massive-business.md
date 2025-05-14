@@ -107,7 +107,9 @@ To handle high-traffic scenarios, the gateway can be rapidly scaled out and prom
 
 Initially, we utilized APISIX's native plugins. As business grew and requirements evolved, native plugins became insufficient. Consequently, we expanded plugins based on the platform or user-specific needs, resulting in over 100 plugins to date.
 
-![Honor Plugin Ecosystem](https://static.api7.ai/uploads/2025/05/13/Pk221A8e_2-honor-plugins-2.webp)
+<div align="center">
+<img alt="Honor Plugin Ecosystem" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/13/Pk221A8e_2-honor-plugins-2.webp"></img>
+</div>
 
 Plugins are categorized into four groups: traffic control, authentication, security, and observability. Since our clusters are predominantly deployed across dual Availability Zones (AZs) to ensure reliability, this setup introduces cross-AZ latency issues. To address this, the gateway facilitates local routing within the same AZ, ensuring traffic is forwarded to the nearest node.
 
@@ -215,13 +217,17 @@ Initially, when adopting the single-node rate limiting solution, we encountered 
 
 2. In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, the CPU usage reached 80%, triggering an automatic scale-out. Assume each node was initially configured with a 2000 QPS limit, increasing the node count to three would inadvertently raise the total rate limit to 6000 QPS. This could overwhelm backend services, leading to potential system anomalies.
 
-![Single-Node Rate Limiting](https://static.api7.ai/uploads/2025/05/13/GzaePNL2_6-rate-limiting-2.webp)
+<div align="center">
+<img alt="Single-Node Rate Limiting" style="width: 70%" src="https://static.api7.ai/uploads/2025/05/13/GzaePNL2_6-rate-limiting-2.webp"></img>
+</div>
 
 **Solution**
 
 To address these issues, we implemented the following solutions:
 
-![Upgraded Single-Node Rate Limiting Solution](https://static.api7.ai/uploads/2025/05/13/9egDM2V0_7-rate-limiting-upgrade-2.webp)
+<div align="center">
+<img alt="Upgraded Single-Node Rate Limiting Solution" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/13/9egDM2V0_7-rate-limiting-upgrade-2.webp"></img>
+</div>
 
 1. **Node Reporting and Maintenance**
 
@@ -263,13 +269,17 @@ When applying the open-source distributed rate limiting solution, we encountered
 
 3. **Increased Request Latency**: Open-source distributed rate limiting solutions typically require accessing Redis to complete counting before forwarding the request upstream. This process adds 2–3 milliseconds to the latency of business requests.
 
-![Distributed Rate Limiting](https://static.api7.ai/uploads/2025/05/13/XLwUO4Gc_8-distributed-rate-limiting-2.webp)
+<div align="center">
+<img alt="Distributed Rate Limiting" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/13/XLwUO4Gc_8-distributed-rate-limiting-2.webp"></img>
+</div>
 
 **Solution**
 
 To address these issues, we designed the following optimizations:
 
-![Upgraded Distributed Rate Limiting Solution](https://static.api7.ai/uploads/2025/05/13/J4Ie3Hkg_9-distributed-rate-limiting-upgrade-2.webp)
+<div align="center">
+<img alt="Upgraded Distributed Rate Limiting Solution" style="width: 70%" src="https://static.api7.ai/uploads/2025/05/13/J4Ie3Hkg_9-distributed-rate-limiting-upgrade-2.webp"></img>
+</div>
 
 1. **Introducing Local Counting Cache**:
 
