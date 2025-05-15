@@ -40,7 +40,7 @@ Our services run on Kubernetes (k8s) clusters, with APISIX serving as the traffi
 
 Due to the stringent compliance requirements of our overseas business, many internal company components cannot be directly implemented.
 
-![TAPISIX Gateway Architecture](https://static.api7.ai/uploads/2025/05/07/ASgiwzO0_1-tapisx-gateway-architecture.webp)
+![TAPISIX Gateway Architecture](https://static.api7.ai/uploads/2025/05/15/jnAmJchc_timi-1.webp)
 
 This presentation will cover the following four aspects:
 
@@ -81,7 +81,7 @@ Development standards are easy to understand. We need to define a library, speci
 To lower the development threshold, we support local quick running and testing. By utilizing APISIX's Docker image, local plugins can be mounted into containers via volume mapping for convenient deployment. Additionally, by leveraging the downstream echo-service (a service developed based on open-source Node.js), upstream behavior can be simulated. This service can return all content of a request, such as request headers. By adding specific parameters in the request (e.g., HTTP status code `500`), upstream exceptional behavior can be simulated, thereby comprehensively verifying plugin functionality.
 
 <div align="center">
-<img alt="TAPISIX Project Introduction" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/07/BPa5r4Tr_2-tapisix-project.webp"></img>
+<img alt="TAPISIX Project Introduction" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/15/1r4TMUK9_timi-2.webp"></img>
 </div>
 
 ### 2. Local Quick Running and Testing
@@ -95,7 +95,7 @@ To reduce the development threshold and accelerate verification, we provide conv
 3. **Direct Browser Access**: Developers can directly verify plugin functionality by accessing relevant interfaces in a browser, without additional deployment or configuration.
 
 <div align="center">
-<img alt="Run and Test" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/07/vlmK6Cls_3-run-and-test.webp"></img>
+<img alt="Run and Test" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/15/bdMFTb0b_timi-3.webp"></img>
 </div>
 
 By defining development standards and providing local quick development support, we have effectively lowered the development threshold and accelerated the plugin verification process. Developers can focus on feature implementation without worrying about complex deployment and testing procedures, thereby improving overall development efficiency.
@@ -121,7 +121,7 @@ During pipeline construction, it is essential to ensure reliability and stabilit
     c. Try Build: Constructs an image using the source code to verify its buildability.
 
 <div align="center">
-<img alt="Pipeline Building" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/07/7QGbMcLK_4-pipeline-inspection.webp"></img>
+<img alt="Pipeline Building" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/15/VAFUteFJ_timi-4.webp"></img>
 </div>
 
 ### 4. Reliability Assurance (CR, lint, unit testing, black-box testing)
@@ -133,12 +133,12 @@ We utilize the k6 testing framework from Grafana to validate core test cases. Th
 k6 Test Cases: Comprising hundreds of test cases covering core processes to ensure plugin reliability.
 
 <div align="center">
-<img alt="K6 Test" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/07/DbmDfZFS_5-k6.webp"></img>
+<img alt="K6 Test" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/15/80NTJpcY_timi-5.webp"></img>
 </div>
 
 Through the complete process of local development, quick validation, MR submission, pipeline inspection, reliability assurance, and packaging deployment, we ensure that every stage of plugin development and deployment undergoes strict quality control.
 
-![Gateway Development Workflow](https://static.api7.ai/uploads/2025/05/07/ZZ7VuEAM_6-gateway-development-workflow.webp)
+![Gateway Development Workflow](https://static.api7.ai/uploads/2025/05/15/0sIEPiql_timi-6.webp)
 
 ## Deployment and Operations
 
@@ -184,7 +184,7 @@ To address this, we adopted the GitOps model, deploying YAML files to a Kubernet
 ### Deployment Process Example
 
 <div align="center">
-<img alt="Deployment Workflow" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/07/KdOcfic9_8-deployment-workflow.webp"></img>
+<img alt="Deployment Workflow" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/15/S2R27TnZ_timi-8.webp"></img>
 </div>
 
 In the deployment process illustrated above, SREs (Site Reliability Engineers) manage configurations on behalf of users. Any modifications, such as route changes or image updates, must be implemented by altering the Helm Chart repository. After the change, Argo CD automatically detects it and triggers the pipeline to pull the latest configuration for deployment. Additionally, a strong synchronization is established between Git and Kubernetes, ensuring configuration consistency and reliability.
@@ -201,7 +201,7 @@ This management model offers numerous benefits:
 
 In deployment, we only need to maintain two repositories: the code repository (for application code) and the deployment repository (for all deployment-related configuration files). This simplified model renders many traditional management platforms unnecessary, making the entire process more efficient and streamlined. When deploying applications to other clusters, simply pull the corresponding branch from the deployment repository and apply it to the target cluster. The entire process is simple and efficient.
 
-![GitOps Advantages](https://static.api7.ai/uploads/2025/05/07/tCWrisXX_9-gitops-advantages.webp)
+![GitOps Advantages](https://static.api7.ai/uploads/2025/05/15/20UakpGY_timi-9.webp)
 
 In our deployment practices, key APISIX configuration files (e.g., routing configurations and `config.yaml` startup configurations) are integrated into a single Helm Chart repository for unified management and deployment. However, this deployment approach may also present an issue: it essentially treats APISIX as a regular service for deployment.
 
@@ -239,7 +239,7 @@ When deploying APISIX in a k8s environment, hot configuration updates are crucia
 
 2. **Startup Configuration** (`config.yaml`): Serves as the startup configuration file, specifying key parameters such as the APISIX runtime port. Changes to certain configuration items require a service restart to take effect.
 
-![Hot Reloading](https://static.api7.ai/uploads/2025/05/07/tjWlC7eT_12-hot-reloading.webp)
+![Hot Reloading](https://static.api7.ai/uploads/2025/05/15/HBe8lFgq_timi-12.webp)
 
 ### k8s Resource Deployment Process
 
@@ -267,35 +267,35 @@ To address this issue, the k8s community proposes a solution that involves split
 
 To automatically detect configuration changes and trigger the update process, we annotate the ConfigMap content with a hash and write the hash value into the `deployment.yaml` file. When configuration changes cause the hash value to update, the `deployment.yaml` file also changes. The k8s system detects this change and automatically triggers the update process, ensuring that the APISIX deployment instance promptly applies the new configurations.
 
-![Hot Reloading](https://static.api7.ai/uploads/2025/05/07/AvlvZYeD_13-hot-reloading-2.webp)
+![Hot Reloading](https://static.api7.ai/uploads/2025/05/15/TQVZcDbl_timi-13.webp)
 
 ## Runtime Operations
 
 Runtime operations are primarily divided into three parts: metrics collection, trace reporting, and log collection.
 
-![Runtime Operation](https://static.api7.ai/uploads/2025/05/07/pCdeHyAR_14-runtime.webp)
+![Runtime Operation](https://static.api7.ai/uploads/2025/05/15/bYcxhAf1_timi-14.webp)
 
 ### 1. Metrics Collection
 
 k8s clusters offer an official metrics collection solution called the Kubernetes Prometheus Operator. By periodically scraping metrics ports and information exposed by services, data is regularly reported to external systems such as Prometheus. Since this part has not been deeply customized, it will not be detailed here. Related k8s configurations are fully described in APISIX's Helm Chart.
 
-![Metrics](https://static.api7.ai/uploads/2025/05/07/CDwYvj3i_15-metrics.webp)
+![Metrics](https://static.api7.ai/uploads/2025/05/15/HWY7oK1j_timi-15.webp)
 
 ### 2. Trace Reporting
 
 Trace reporting is implemented based on the OpenTelemetry plugin provided by APISIX. This plugin sends data to the OpenTelemetry Collector via the OpenTelemetry protocol, which ultimately writes the data to ClickHouse for trace data collection and storage.
 
-![Trace](https://static.api7.ai/uploads/2025/05/07/uftvZ7OL_16-trace.webp)
+![Trace](https://static.api7.ai/uploads/2025/05/15/aHPC3JJa_timi-16.webp)
 
 ### 3. Log Collection
 
 Log collection also utilizes the OpenTelemetry protocol. However, the OpenTelemetry plugin in the APISIX community edition only supports trace reporting and does not include log reporting. Therefore, we recommend using local log storage. By employing a sidecar mode, APISIX logs are written to a shared folder. In the Deployment, another Pod is mounted, which shares the same log folder as the APISIX Pod, thereby achieving log collection and reporting via the OpenTelemetry protocol.
 
-![Log](https://static.api7.ai/uploads/2025/05/07/JYyeu0Pb_17-log.webp)
+![Log](https://static.api7.ai/uploads/2025/05/15/fKomicyg_timi-17.webp)
 
 Additionally, the monitoring dashboard provided by APISIX are relatively general-purpose and lack specificity. Therefore, we have custom-developed dedicated monitoring panels based on the collected metric data to meet specific monitoring requirements. The alerting system is built using Grafana's open-source solution, leveraging its powerful visualization and alerting capabilities to achieve real-time monitoring and alerting of APISIX's operational status.
 
-![Alerting](https://static.api7.ai/uploads/2025/05/07/xDHx5iYn_18-alert.webp)
+![Monitoring and Alerting](https://static.api7.ai/uploads/2025/05/15/nMkIzdmq_timi-18.webp)
 
 ## Other Experiences
 
@@ -309,7 +309,7 @@ To address these challenges, we implemented a two-pronged strategy to optimize o
 
 - Domain-Based Segmentation: We further refined our route files by organizing them based on domain names, making route configurations more refined and organized for easier maintenance and expansion.
 
-![Standalone Route Management](https://static.api7.ai/uploads/2025/05/07/qhKhr8w1_19-standalone-route-management.webp)
+![Standalone Route Management](https://static.api7.ai/uploads/2025/05/15/eQ80I0SA_timi-19.webp)
 
 ### Reuse of Route Configurations
 
@@ -333,7 +333,7 @@ The inclusion of the Ingress layer, specifically Istio, was primarily due to his
 
 However, as our business evolved and technology advanced, we recognized the need for a more efficient and flexible traffic management system. Consequently, we plan to replace the existing Ingress layer with APISIX, leveraging it as the Kubernetes Ingress Controller.
 
-![APISIX Replaces Ingress](https://static.api7.ai/uploads/2025/05/07/OwxNQ9vv_21-apisix-replaces-ingress.webp)
+![APISIX Replaces Ingress](https://static.api7.ai/uploads/2025/05/15/68MNH7c5_timi-21.webp)
 
 ### Migration Solution Evaluation
 
@@ -343,7 +343,7 @@ During the migration process, we evaluated two primary migration solutions:
 
 - **Solution Two: CDN Traffic Steering** – This approach allows configuring multiple CLB routes and achieving traffic push based on percentages. Its advantage lies in the ability to gradually switch traffic to the new APISIX instance without changing the user access entry point. Additionally, the traffic ratio can be flexibly adjusted based on actual conditions, facilitating observation and evaluation of the migration effects.
 
-![Migration Solutions](https://static.api7.ai/uploads/2025/05/07/CSfhtSNy_22-migration-solution.webp)
+![Migration Solutions](https://static.api7.ai/uploads/2025/05/15/Ae6ayVyJ_timi-22.webp)
 
 ### Implementation and Advantages of the Final Solution
 
@@ -359,7 +359,7 @@ We ultimately chose Solution Two, successfully establishing a new traffic path: 
 
 Below is the overall migration process.
 
-![Migration Practices](https://static.api7.ai/uploads/2025/05/07/u9YScyoO_23-migration-practices.webp)
+![Migration Practices](https://static.api7.ai/uploads/2025/05/15/y1FiOjxR_timi-23.webp)
 
 ## Conclusion
 
