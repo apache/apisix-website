@@ -16,21 +16,6 @@ module.exports = [
     firstDocPath: '/getting-started',
   },
   {
-    name: 'APISIX® Dashboard',
-    nameInParamCase: 'dashboard',
-    description:
-      'Designed to make it as easy as possible for users to operate Apache APISIX through a frontend interface.',
-    shape: 'square',
-    color: '#10B981',
-    githubRepo: 'apache/apisix-dashboard',
-    githubBranch: 'master',
-    downloadPath: 'apisix/dashboard/3.0.0/apache-apisix-dashboard-3.0.0-src',
-    dockerhubPath: 'apisix-dashboard',
-    version: '3.0.0',
-    releaseDate: '2023-02-01',
-    firstDocPath: '/USER_GUIDE',
-  },
-  {
     name: 'APISIX® Ingress Controller',
     nameInParamCase: 'ingress-controller',
     description: 'APISIX Ingress Controller for Kubernetes.',
