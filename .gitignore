@@ -44,6 +44,7 @@ scripts/yarn.lock
 /doc/docs/*
 /doc/docs-apisix*/**
 /doc/docs-apisix*.json
+!/doc/docs/apisix-dashboard
 
 /doc/i18n/zh/docusaurus-plugin-content-docs-docs-*/**
 scripts/temp/**
