@@ -51,10 +51,6 @@
     "message": "APISIX",
     "description": "Navbar item with label APISIX"
   },
-  "item.label.APISIX Dashboard": {
-    "message": "APISIX Dashboard",
-    "description": "Navbar item with label APISIX Dashboard"
-  },
   "item.label.Apache APISIX®️": {
     "message": "Apache APISIX®️",
     "description": "Navbar item with label Apache APISIX®️"
