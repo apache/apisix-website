@@ -11,11 +11,6 @@ module.exports = [
         target: '_parent',
       },
       {
-        label: 'Apache APISIX®️ Dashboard',
-        to: '/docs/dashboard/USER_GUIDE',
-        target: '_parent',
-      },
-      {
         label: 'Apache APISIX®️ Ingress Controller',
         to: '/docs/ingress-controller/getting-started/',
         target: '_parent',
