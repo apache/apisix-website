@@ -99,6 +99,7 @@ module.exports = {
         path: 'docs/apisix-dashboard',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
+        includeCurrentVersion: false,
         routeBasePath: '/docs/dashboard',
         sidebarPath: require.resolve('./docs/apisix-dashboard/sidebars.json'),
         editUrl(props) {
