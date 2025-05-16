@@ -137,6 +137,7 @@ const tasks = new Listr([
           },
           {
             title: `Extract ${project.name} next version documents`,
+            skip: () => project.name === 'apisix-dashboard',
             task: () => extractDocsNextVersionTasks(project, project.branch),
           },
         ]),
