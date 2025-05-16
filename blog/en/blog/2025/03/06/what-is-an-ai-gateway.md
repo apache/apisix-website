@@ -104,6 +104,8 @@ An effective AI gateway encompasses several key functionalities:
 - **Prompt Protection**: Ensures that prompts sent to LLMs do not contain sensitive or inappropriate content, safeguarding against unintended data exposure.
 - **Content Moderation**: Monitors and filters responses from AI models to prevent the dissemination of harmful or non-compliant information.
 
+![Security](https://static.api7.ai/uploads/2025/04/28/dolhCMlm_security-workflow.webp)
+
 #### 2. Observability
 
 - **Usage Tracking**: Monitors token consumption and provides insights into how AI services are utilized, aiding in cost management and capacity planning.
@@ -119,6 +121,9 @@ An effective AI gateway encompasses several key functionalities:
 #### 4. Reliability
 
 - **Multi-LLM Load Balancing**: Distributes requests across multiple AI models to optimize performance and prevent overloading.
+
+![Multi-LLM Load Balancing](https://static.api7.ai/uploads/2025/04/28/8GKXYcvQ_multi-llm-load-balancing.webp)
+
 - **Retry and Fallback Mechanisms**: Implements strategies to handle AI service failures gracefully, ensuring uninterrupted user experiences.
 - **Traffic Prioritization**: Routes high-priority requests to the most reliable AI services while deferring less critical tasks.
 
