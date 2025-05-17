@@ -10,6 +10,12 @@ on:
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: '0 5 * * *'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Specify the branch name'
+        required: true
+        default: 'master'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
