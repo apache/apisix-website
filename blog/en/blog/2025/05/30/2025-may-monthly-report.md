@@ -59,7 +59,7 @@ PR: https://github.com/apache/apisix/pull/12180
 
 Contributor: [nic-6443](https://github.com/nic-6443)
 
-This PR added support for the health checker for the stream subsystem.
+This PR added support for health checks when APISIX is operating as an L4 (stream) proxy.
 
 ### Add Standalone Admin API
 
