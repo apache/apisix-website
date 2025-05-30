@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/05/30/ss67zkrY_2025-may-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们新增了一些功能，如新增了 `lago` 插件，在 Standalone 模式下支持 API 配置增量更新，为 stream 子系统添加健康检查器，新增 Standalone Admin API 等。有关更多细节，请阅读本期月报。
+> 最近，我们新增了一些功能，如新增了 `lago` 插件，在 Standalone 模式下支持 API 配置增量更新，支持 L4 健康检查，新增 Standalone Admin API 等。有关更多细节，请阅读本期月报。
 <!--truncate-->
 
 ## 导语
