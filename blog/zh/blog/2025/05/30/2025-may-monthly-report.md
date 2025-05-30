@@ -57,7 +57,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 相关 PR：https://github.com/apache/apisix/pull/12179
 
-贡献者：[AlinsRan](https://github.com/AlinsRan)
+贡献者：[bzp2010](https://github.com/bzp2010)
 
 该 PR 引入了一个专用于 Standalone 模式的 Admin API，使用户能够更新内存中的配置，而无需依赖文件系统，从而进一步增强无状态特性。用户可通过 HTTP PUT 请求以 JSON 或 YAML 格式提交配置。该特性消除了对静态配置文件的依赖，有助于支持 Ingress Controller 等使用场景。
 
