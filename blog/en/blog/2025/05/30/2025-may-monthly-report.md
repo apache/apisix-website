@@ -35,7 +35,7 @@ PR: https://github.com/apache/apisix/pull/12196
 
 Contributor: [bzp2010](https://github.com/bzp2010)
 
-Add `lago` plugin to allow users to use APISIX as a monetization gateway to charge subscribers via API consumption. It can be used in an AI cloud platform for charging by consumed tokens, like OpenAI and Deepseek, and for charging for calls to specified APIs, e.g., selling weather APIs.
+Add `lago` plugin to allow users to use APISIX as a monetization gateway, allowing them to charge subscribers based on API consumption. This can be applied in AI cloud platforms to charge by consumed tokens—similar to OpenAI and Deepseek—or to charge for access to specific APIs, such as monetized weather data services.
 
 ### Support Revision in API-Driven Standalone Mode like etcd
 
