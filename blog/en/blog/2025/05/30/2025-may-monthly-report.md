@@ -53,7 +53,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 In standalone mode, APISIX's Admin API requires clients to fetch the entire configuration on every sync. As configurations grow or change frequently, this full-sync mechanism causes excessive network traffic and latency when applying updates. Additionally, frequent resource changes trigger a complete rebuild of the internal radixtree, degrading route lookup performance under high churn. In service discovery scenarios where upstreams are frequently updated, we aim to update only upstream data without impacting other resources.
 
-### Support Health Checker for Stream Subsystem
+### Support Health Checks on L4
 
 PR: https://github.com/apache/apisix/pull/12180
 
