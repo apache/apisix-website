@@ -27,7 +27,7 @@ PR: https://github.com/apache/apisix/pull/12224
 
 Contributor: [bzp2010](https://github.com/bzp2010)
 
-This PR refactors the resource schema to ensure that user-facing resources include a standardized `metadata` section with `name`, `desc`, and `labels` fields. This improves consistency and helps resolve issues in downstream projects like the embedded dashboard and APISIX's declarative configuration tool (ADC).
+This PR refactors the resource schema to ensure that user-facing resources include a standardized `metadata` section with `name`, `desc`, and `labels` fields. This improves consistency and helps resolve issues in downstream projects like APISIX dashboard and APISIX's declarative CLI (ADC).
 
 ### Add `lago` Plugin
 

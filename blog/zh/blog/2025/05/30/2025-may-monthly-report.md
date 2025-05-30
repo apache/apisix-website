@@ -45,13 +45,13 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 在 Standalone 模式下，APISIX 的 Admin API 要求客户端每次同步时都拉取整个配置。随着配置规模的增长或频繁变动，这种全量同步方式会带来不必要的网络开销，并增加更新延迟。此外，频繁的资源变更会触发内部 radixtree 的完全重建，在高频变更场景下严重影响路由查找性能。在服务发现场景中，上游配置经常变动，我们希望只更新上游数据，而不影响其他资源的使用。
 
-### 为 stream 子系统添加健康检查器
+### 支持 L4 健康检查
 
 相关 PR：https://github.com/apache/apisix/pull/12180
 
 贡献者：[nic-6443](https://github.com/nic-6443)
 
-该 PR 为 stream 子系统添加了对健康检查器的支持。
+该 PR 为 APISIX 在作为 L4 代理运行时增加了健康检查支持。
 
 ### 新增 Standalone Admin API
 
