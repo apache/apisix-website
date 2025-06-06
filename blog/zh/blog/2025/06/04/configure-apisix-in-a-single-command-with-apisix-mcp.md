@@ -154,7 +154,7 @@ MCP 中有 6 个核心概念，分别是 Tools 工具、Resources 资源、Promp
 
 工具 （Tools）用于让 MCP 服务向客户端公开可以执行的功能。通过工具，AI 可以与外部系统交互、执行计算并在现实世界中采取行动，它的实现结构是这样的：`tool(工具名称，工具描述，入参格式，回调函数)`。
 
-![MCP Tools](https://static.api7.ai/uploads/2025/06/04/E9ielmgu_apisix-mcp-practices-9.webp)
+![MCP Tools Example](https://static.api7.ai/uploads/2025/06/06/rAYDrRU5_mcp-example.webp)
 
 工具可以使用 MCP 服务向客户端公开可执行的内容，通过工具，AI 大语言模型可以与外部系统交互执行计算，并在现实世界中采取行动。结构如下，tool 是一个函数，在执行 MCP 服务时有一个实例，tool 是上面的一个函数，最多可以接受四个参数。
 
@@ -203,13 +203,13 @@ APISIX-MCP 支持以下操作：
 }
 ```
 
-在 “MCP Servers” 字段，我添加了名为 “apisix-mcp” 的服务，大家可自定义名称。配置完成后，需运行命令以启动 MCP 服务。我通过 Node.js 的命令行工具 npx 来操作，APISIX 的 MCP 已发布到 npm 包管理器，可直接线上获取。大家可根据开发语言选择对应工具。
+在 “MCP Servers” 字段，我添加了名为 `apisix-mcp` 的服务，大家可自定义名称。配置完成后，需运行命令以启动 MCP 服务。我通过 Node.js 的命令行工具 npx 来操作，APISIX 的 MCP 已发布到 npm 包管理器，可直接线上获取。大家可根据开发语言选择对应工具。
 
-`-y` 参数表示默认允许安装依赖。“apisix-mcp” 是指服务名称。除前两个参数外，还可传入环境变量，但 APISIX-MCP 内的环境变量有默认值，无需单独传递。如果 APISIX-MCP 仅本地运行且未更改配置，也无需传递环境变量。
+`-y` 参数表示默认允许安装依赖。`apisix-mcp` 是指服务名称。除前两个参数外，还可传入环境变量，但 APISIX-MCP 内的环境变量有默认值，无需单独传递。如果 APISIX-MCP 仅本地运行且未更改配置，也无需传递环境变量。
 
-配置完成后，MCP 处会新增一个名为 “APISIX-MCP” 的服务，小绿点表示连接成功，并展示所提供的工具，这些都是 APISIX-MCP 提供的工具。
+配置完成后，MCP 处会新增一个名为 `apisix-mcp` 的服务，小绿点表示连接成功，并展示所提供的工具，这些都是 APISIX-MCP 提供的工具。
 
-![APISIX-MCP Tools](https://static.api7.ai/uploads/2025/06/05/y0Y3NNRH_mcp-tools.webp)
+![APISIX-MCP Tools](https://static.api7.ai/uploads/2025/06/06/ypIeLxZK_1-apisix-tools.webp)
 
 ### APISIX-MCP 场景演示
 
@@ -223,7 +223,7 @@ APISIX-MCP 支持以下操作：
 
 它解析我们的语意后，发现我们需要调用 MCP 服务实现功能。这里调用了一个工具，即 `create_roots` 里的参数。我们已经提供了上下文，点击 run tool 进行确认。在生产环境中，运维层面的配置都很关键，不能随意更改，因而需要进行确认这个步骤。点击 run tool 后，我们可以看到响应，了解调用 API 后的具体情况，包括它会执行什么功能、向网关发送请求，以及验证路由是否创建成功。再次点击 run tool，创建成功。
 
-![]()
+![Create a Route](https://static.api7.ai/uploads/2025/06/06/UuTuMbed_2-apisix-demo-1.webp)
 
 我们不需要太关注这些响应内容，系统会自动创建路由并发送测试请求进行验证，最后会汇总执行结果。上述操作如果想自己配置的话，需要在命令行设置 API 密钥，还得构建完整的测试命令。如果操作过程中的输入有误却未能及时发现，还得再花额外的时间去排查。
 
@@ -231,15 +231,21 @@ APISIX-MCP 支持以下操作：
 
 我们将对现有路由进行调整。我们为刚才创建的路由新增一个上游节点，指向的是将 `mock.api7.ai` 前缀修改为 `/headers`，透传的 host 使用上游节点的 host，且负载均衡使用最小连接数的策略，然后给网关发十个请求验证是否配置成功。
 
-![]()
+![Configure Load Balancing](https://static.api7.ai/uploads/2025/06/06/S2aRjAIw_3-apisix-demo-1.webp)
 
 #### 配置请求认证
 
 第三步，为 id 为 httpbin 路由开启 `key-auth` 插件，然后创建一个开启 `key-auth` 的消费者，名字为 zhihuang，随机生成一个安全性高的 key 并告诉我，然后给网关发一个请求验证是否配置成功。
 
-![]()
+![Configure Authentication Plugin](https://static.api7.ai/uploads/2025/06/06/HEowAo0w_4-apisix-demo-1.webp)
 
-刚才的场景成功展示了 MCP 的能力：它自动开启了 key-auth 认证插件，创建了消费者，并基于随机生成的消费者凭证进行校验。校验过程中，它先携带凭证请求，再不带凭证请求，从而确认配置完成。
+MCP 自动开启了 key-auth 认证插件，创建了消费者，并基于随机生成的消费者凭证进行校验。校验过程中，它先携带凭证请求，再不带凭证请求，从而确认配置完成。
+
+#### 配置插件
+
+最后，配置插件，要求 AI “为我的 httpbin 路由开启跨域，然后配置限流限速，每 1 分钟只能请求两次，超出的请求响应 `503`，然后给网关发一个请求验证是否配置成功。”
+
+![Configure Authentication Plugin](https://static.api7.ai/uploads/2025/06/06/SxHopLf8_5-apisix-demo-1.webp)
 
 ## 总结
 

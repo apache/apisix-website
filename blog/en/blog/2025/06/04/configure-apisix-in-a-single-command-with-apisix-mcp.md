@@ -143,7 +143,7 @@ The MCP protocol is constantly evolving. After its release by Anthropic, the com
 
 ### MCP Architecture
 
-![MCP Architecture](https://static.api7.ai/uploads/2025/06/04/r4wK9p9T_apisix-mcp-practices-7.webp)
+![MCP Architecture](https://static.api7.ai/uploads/2025/06/06/Cd0weD3t_mcp-architecture-en.webp)
 
 On the far left is the MCP client host, representing AI clients we commonly use, such as Claude, Cursor, or Windsurf. These clients connect with MCP services via the MCP protocol. A single MCP client host can connect to multiple MCP services, such as GitHub MCP or Figma MCP mentioned earlier. These services can also be combined, for example, first pulling code from GitHub and then generating Figma design drafts.
 
@@ -208,45 +208,49 @@ First, click the settings in the top right corner, and on the left sidebar, ther
 }
 ```
 
-In the "MCP service" field, I added a service named "APISIX-MCP"; you can customize the name. After configuration, a command needs to be run to start the MCP service. I use the Node.js command-line tool npx for this operation. APISIX's MCP is published to the npm package manager and can be obtained online. You can choose the corresponding tool based on your development language.
+In the "MCP service" field, I added a service named `apisix-mcp`; you can customize the name. After configuration, a command needs to be run to start the MCP service. I use the Node.js command-line tool npx for this operation. APISIX's MCP is published to the npm package manager and can be obtained online. You can choose the corresponding tool based on your development language.
 
-Here, the `-y` parameter indicates default permission to install dependencies. "APISIX MCP" refers to the service name. In addition to the first two parameters, environment variables can also be passed, but APISIX-MCP has default values for its environment variables, so there is no need to pass them separately. If APISIX-MCP is only running locally and the configuration has not been changed, there is also no need to pass environment variables.
+Here, the `-y` parameter indicates default permission to install dependencies. `apisix-mcp` refers to the service name. In addition to the first two parameters, environment variables can also be passed, but APISIX-MCP has default values for its environment variables, so there is no need to pass them separately. If APISIX-MCP is only running locally and the configuration has not been changed, there is also no need to pass environment variables.
 
-After configuration, a new service named "APISIX-MCP" will appear in the MCP section. The green dot indicates a successful connection, and the provided tools are those offered by APISIX-MCP.
+After configuration, a new service named `apisix-mcp` will appear in the MCP section. The green dot indicates a successful connection, and the provided tools are those offered by APISIX-MCP.
 
-![APISIX-MCP Tools](https://static.api7.ai/uploads/2025/06/05/y0Y3NNRH_mcp-tools.webp)
+![APISIX-MCP Tools](https://static.api7.ai/uploads/2025/06/06/ypIeLxZK_1-apisix-tools.webp)
 
 ### APISIX-MCP Scenario Demonstration
 
 Next, I will demonstrate practical examples.
 
-![APISIX-MCP Demo](https://static.api7.ai/uploads/2025/06/05/DYG0kQdl_11-apisix-mcp-demo.webp)
+#### Create a Route
 
-#### Creating a Route
-
-I set up some scenarios, such as asking APISIX-MCP to "Create a route accessing the upstream `https://httpbin.org` with the ID httpbin and a proxy prefix of `/ip`. Then, test the configuration by sending a request to the gateway."
+I set up some scenarios, such as asking APISIX-MCP to "Create a route to `https://httpbin.org` with the ID 'httpbin' with a prefix of `/ip`. Send a request to the gateway to verify the configuration."
 
 After parsing our semantics, AI identifies the need to invoke MCP services to achieve this functionality. Here, it calls a tool with parameters from `create_roots`. We have provided the context, and clicking "run tool" confirms the action. In production environments, operational configurations are critical and cannot be changed arbitrarily, hence the need for confirmation.
 
 After clicking "run tool," we can see the response, understanding the specifics of the API call, including what functions it executes, sends requests to the gateway, and verifies whether the route is successfully created. Clicking "run tool" again completes the creation.
 
-![]()
+![Create a Route](https://static.api7.ai/uploads/2025/06/06/YWFgEXJv_2-apisix-demo-en.webp)
 
 We needn't focus on these responses. The system automatically creates routes, sends test requests for verification, and finally summarizes the execution results. If you want to configure the above operations yourself, you need to set the API key in the command line and build complete test commands. Moreover, if there are input errors during the process that aren't detected in time, you'll have to spend extra time troubleshooting.
 
-#### Configuring Load Balancing
+#### Configure Load Balancing
 
-We will adjust the existing route. For the route created earlier, we add a new upstream node pointing to `mock.api7.ai` with the prefix modified to `/headers`. The transmitted host uses the upstream node's host, and the load balancing strategy employs the least connection count. Then, send ten requests to the gateway to verify whether the configuration is successful.
+We will adjust the existing route in this step. Require the AI to "Add an upstream node to the 'httpbin' route accessing `https://mock.api7.ai` , change the prefix to `/headers`, use the upstream node's host for header passthrough, and set the load balancing strategy to minimum connections. Send ten requests to the gateway to verify the configuration."
 
-![]()
+![Configure Load Balancing](https://static.api7.ai/uploads/2025/06/06/30qqIOAZ_3-apisix-demo-en.webp)
 
-#### Configuring Request Authentication
+#### Configure Authentication
 
-Thirdly, enable the `key-auth` plugin for the route with ID httpbin. Then, create a consumer named `zhihuang` with `key-auth` enabled, generate a high-security random key, and tell me. Send a request to the gateway to verify whether the configuration is successful.
+"Enable `key-auth` for the 'httpbin' route. Create a consumer named 'zhihuang' with `key-auth` enabled, generate a high-security random key, and inform me. Send a request to the gateway to verify the configuration."
 
-![]()
+![Configure Authentication](https://static.api7.ai/uploads/2025/06/06/0q5QxuIk_4-apisix-demo-en.webp)
 
-The above scenarios successfully showcase the capabilities of MCP: it automatically enables the `key-auth` authentication plugin, creates a consumer, and validates based on randomly generated consumer credentials. During validation, it first sends a request with credentials and then without, confirming the completion of the configuration.
+MCP automatically enables the `key-auth` plugin, creates a consumer, and validates based on randomly generated consumer credentials. During validation, it first sends a request with credentials and then without, confirming the completion of the configuration.
+
+### Configure Plugins
+
+Last step, ask the AI to "Enable `CORS` for the "httpbin" route and configure rate limiting to allow only two requests per minute, responding with `503` for exceeding requests. Send a request to the gateway to verify the configuration."
+
+![Configure Plugins](https://static.api7.ai/uploads/2025/06/06/QucQJBVZ_5-apisix-demo-en.webp)
 
 ## Summary
 
