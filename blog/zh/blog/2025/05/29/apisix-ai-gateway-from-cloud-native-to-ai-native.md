@@ -94,7 +94,7 @@ APISIX 是一个全动态、实时且高性能的 API 网关。作为 Apache 顶
 
 ### APISIX AI Gateway 插件概览
 
-APISIX AI 网关目前有以下常用插件，在代理能力方面，我们并未采用标准的 upstream 机制，而是通过名为 `ai-proxy` 的插件，实现动态代理的功能。
+APISIX AI 网关目前有以下常用插件，在代理能力方面，我们并未采用标准的 upstream 机制，而是通过名为 `ai-proxy` 等插件，实现动态代理的功能。
 
 ![APISIX AI Gateway Plugins](https://static.api7.ai/uploads/2025/05/29/LeOiK7xE_8-ai-gateway-plugins.webp)
 
