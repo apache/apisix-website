@@ -243,7 +243,7 @@ APISIX 是一款高性能 API 网关，由于网关的功能比较多，因此�
 
 ![Configure Authentication Plugin](https://static.api7.ai/uploads/2025/06/06/HEowAo0w_4-apisix-demo-1.webp)
 
-MCP 自动开启了 `key-auth` 认证插件，创建了消费者，并根据随机生成的消费者凭证进行校验。校验过程中，它先携带凭证请求，再不带凭证请求，从而确认配置完成。
+MCP 自动开启了 `key-auth` 认证插件，创建了消费者，并根据随机生成的消费者凭证进行校验。校验过程中，它先测试携带凭证进行请求，再测试不携带凭证可哦能行请求，从而确认配置正确完成。
 
 #### 配置插件
 
