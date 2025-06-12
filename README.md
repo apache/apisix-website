@@ -74,7 +74,7 @@ yarn prepare-data
 # Tip.
 # The `yarn prepare-data` command contains the following three commands
 # If necessary, you can run any of the following commands individually
-yarn sync-doc # Sync all project documents
+yarn sync-docs # Sync all project documents
 yarn generate-repos-info # Generate repository information for each project
 yarn generate-picked-posts # Generate frontmatter information for featured blogs
 ```
