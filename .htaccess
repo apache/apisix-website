@@ -43,6 +43,8 @@ Redirect 302 "/contributor-workshop-signup" "https://docs.google.com/forms/d/1LU
 Redirect 302 "/guest-blog-post" "https://forms.gle/unQpSm7FyqkfaSSP8/"
 RedirectMatch 302 "^/docs/apisix/getting-started/$" "/docs/apisix/getting-started/README/"
 RedirectMatch 302 "^/zh/docs/apisix/getting-started/$" "/zh/docs/apisix/getting-started/README/"
+RedirectMatch 302 ^/docs/apisix/3\.2/(.*)$ https://apache-apisix.netlify.app/docs/apisix/3.2/$1
+Redirect 302 /docs/apisix/3.2 https://apache-apisix.netlify.app/docs/apisix/3.2
 
 Redirect 301 "/docs/apisix/install" "/docs/apisix/how-to-build/"
 Redirect 301 "/docs/apisix/architecture-design/plugin/" "/docs/apisix/architecture-design/plugin-config/"
