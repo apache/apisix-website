@@ -15,7 +15,7 @@ keywords:
   - Apache APISIX
   - AI gateway
   - APISIX AI gateway
-description: This article is based on Zhihuang Lin's presentation at the APISIX Shenzhen Meetup on April 12, 2025.
+description: "This article is based on Zhihuang Lin's presentation at the APISIX Shenzhen Meetup on April 12, 2025."
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png
 ---
