@@ -30,13 +30,13 @@ Enter **AI gateways**—the middleware revolution transforming enterprise AI fro
 
 ## What Is an AI Gateway
 
-An AI gateway is a middleware platform designed to manage and facilitate the integration and deployment of artificial intelligence (AI) models and services, such as OpenAI, Anthropic, Gemini, etc. It acts as a bridge between AI models and the applications that use them, simplifying integration and deployment, especially for large language models. Essentially, an AI gateway serves as a crucial control point for managing AI services within an organization. It also plays a vital role in security by inspecting inbound prompts and outbound responses to prevent data leaks and mitigate risks within the AI application workflow.
+An [AI gateway](https://apisix.apache.org/blog/2025/03/06/what-is-an-ai-gateway/) is a middleware platform designed to manage and facilitate the integration and deployment of artificial intelligence models and services, such as OpenAI, Anthropic, Gemini, etc. It acts as a bridge between AI models and the applications that use them, simplifying integration and deployment, especially for large language models. Essentially, an AI gateway serves as a crucial control point for managing AI services within an organization. It also plays a vital role in security by inspecting inbound prompts and outbound responses to prevent data leaks and mitigate risks within the AI application workflow.
 
 ![AI Gateway Architecture](https://static.api7.ai/uploads/2025/06/18/9qDk6nbs_1-ai-gateway-architecture.webp)
 
 ## AI Gateway vs API Gateway: Critical Differences
 
-Great question. While AI Gateways and API Gateways share some infrastructure-level similarities, they differ significantly in purpose, functionality, and optimization.
+While [AI gateways and API gateways](https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/) share some infrastructure-level similarities, they differ significantly in purpose, functionality, and optimization.
 
 | Feature | AI Gateway | API Gateway |
 |---------|------------|-------------|
@@ -53,10 +53,10 @@ Great question. While AI Gateways and API Gateways share some infrastructure-lev
 
 **Summary of Key Distinctions**:
 
-- **Focus**: AI Gateways specialize in **intelligent traffic management for AI models**, while API Gateways focus on standard API traffic orchestration.
-- **Observability**: AI Gateways require **fine-grained monitoring**, including cost and token-level visibility.
-- **Security**: API Gateways offer **general web security**, whereas AI Gateways need **content-level protections** (e.g., for prompt injection).
-- **Optimization**: AI Gateways can **route based on AI-specific metrics** (e.g., model latency, accuracy, cost), unlike traditional API Gateways.
+- **Focus**: AI gateways specialize in **intelligent traffic management for AI models**, while AI gateways focus on standard API traffic orchestration.
+- **Observability**: AI gateways require **fine-grained monitoring**, including cost and token-level visibility.
+- **Security**: AI gateways offer **general web security**, whereas AI gateways need **content-level protections** (e.g., for prompt injection).
+- **Optimization**: AI gateways can **route based on AI-specific metrics** (e.g., model latency, accuracy, cost), unlike traditional AI gateways.
 
 ![AI Gateway and API Gateway](https://static.api7.ai/uploads/2025/06/18/ek1HZbV5_2-connections-of-api-gateway-and-ai-gateway.webp)
 
@@ -64,7 +64,7 @@ Great question. While AI Gateways and API Gateways share some infrastructure-lev
 
 In a world where AI adoption is accelerating, AI gateways offer a **critical layer of control, visibility, and governance**. They enable enterprises to confidently integrate AI into their systems securely, scalably, and sustainably.
 
-**You need an AI Gateway when:**
+**You need an AI gateway when:**
 
 - You're using LLMs or AI APIs in production (e.g., OpenAI, Claude, Gemini).
 - You want **centralized governance and cost control** over AI usage.
@@ -140,7 +140,7 @@ Here's a comprehensive look at the **trends shaping AI gateways** in 2025 and be
 
 Modern AI apps increasingly call multiple models—OpenAI for coding, Claude for summarization, open-source LLMs for privacy.
 
-- **AI Gateways are evolving to support multi-model orchestration**: routing requests based on latency, accuracy, cost, or trust.
+- **AI gateways are evolving to support multi-model orchestration**: routing requests based on latency, accuracy, cost, or trust.
 - **Federated AI inference** across local, edge, and cloud-hosted models is becoming common.
 
 ### 2. Token-Aware Cost Governance
@@ -154,7 +154,7 @@ Cost-first LLMOps with budget capping and per-call spend limits. LLM APIs are pr
 
 **Built-in security layers** are becoming standard for enterprise-grade LLM access. Prompt injection, jailbreaks, and hallucinations are real risks.
 
-- AI Gateways increasingly support **pre-processing filters (for prompt safety) and post-processing checks (for toxic/hallucinated content).**
+- AI gateways increasingly support **pre-processing filters (for prompt safety) and post-processing checks (for toxic/hallucinated content).**
 - Expect **pluggable moderation**, e.g., connecting to third-party content filters or in-house classifiers.
 
 ![Prompt and Output Moderation Pipelines](https://static.api7.ai/uploads/2025/06/18/Vx6Fn7Nc_4-prompt-and-output-moderation-pipeline.webp)
