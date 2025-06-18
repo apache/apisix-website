@@ -34,22 +34,6 @@ An AI gateway is a middleware platform designed to manage and facilitate the int
 
 ![AI Gateway Architecture](https://static.api7.ai/uploads/2025/06/18/9qDk6nbs_1-ai-gateway-architecture.webp)
 
-```mermaid
-flowchart TD
-    A[Departmental AI Tools] --> B{AI Gateway}
-    B --> C[Unified Control Layer]
-    C --> D[Security Enforcement]
-    C --> E[Cost Monitoring]
-    C --> F[Policy Enforcement]
-    C --> G[Performance Optimization]
-    C --> H[Centralized Logging]
-    C --> I[Model Versioning]
-    
-    A1[Marketing: GPT-4] --> A
-    A2[Development: Llama 3] --> A
-    A3[Legal: Claude 3] --> A
-```
-
 ## AI Gateway vs API Gateway: Critical Differences
 
 Great question. While AI Gateways and API Gateways share some infrastructure-level similarities, they differ significantly in purpose, functionality, and optimization.
