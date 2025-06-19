@@ -39,8 +39,4 @@ Once successfully unsubscribed, you will receive a Goodbye email from dev-help@a
 
 ## Join the Slack Channel
 
-You can join the Apache APISIX Slack channel in two ways:
-
-- Join Apache Software Foundation Slack workspace using [this invite](https://apisix.apache.org/slack) (_Please [open an issue](./submit-issue.md) if this link is expired_), and then join the **#apisix** channel (Channels -> Browse channels -> search for "apisix").
-
-- By [subscribing to the mailing list](#subscribe-to-the-mailing-list) and sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
+By [subscribing to the mailing list](#subscribe-to-the-mailing-list) and sending an email to the list ([dev@apisix.apache.org](mailto:dev@apisix.apache.org)) requesting help to join.
