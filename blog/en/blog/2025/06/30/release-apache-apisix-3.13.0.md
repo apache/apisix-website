@@ -43,7 +43,7 @@ For more information, see the [mailing list proposal](https://lists.apache.org/t
 
 ## New Features
 
-### Add Standalone Admin API
+### Add standalone Admin API
 
 This release introduces a new Admin API for standalone mode, allowing users to manage in-memory configurations via HTTP PUT (to update) and GET (to retrieve). Configurations can be submitted in JSON or YAML, validated, and broadcast to all workers within the same APISIX instance—making the mode fully stateless. This feature improves support for use cases such as the Ingress Controller.
 
