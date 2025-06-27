@@ -31,13 +31,13 @@ tags: [Community]
 
 ### 标记 `server-info` 插件为弃用
 
-`server-info` 插件已被标记为弃用，并将在未来的版本中被移除。该插件会定期将服务器信息写入 etcd，在大型集群中可能会由于启动时过多的 etcd 写入操作而导致性能问题。
+`server-info` 插件已被标记为弃用，并将在未来的版本中移除。该插件会定期将服务器信息写入 etcd，在大型集群中可能会由于启动时 etcd 写入操作过多而导致性能问题。
 
 更多信息请参见 [邮件列表讨论](https://lists.apache.org/thread/nrwqo1gbc0z4z48fkb8dd4rn0trnfnz9) 和 [PR #12244](https://github.com/apache/apisix/pull/12244)。
 
 ### 在 decoupled 的 `data_plane` 模式中对 etcd 写操作进行警告
 
-当 APISIX 以 data plane 实例运行在解耦模式下时，如果通过 core.etcd 函数或 CLI 执行 etcd 写操作，现在将记录警告日志。未来版本中将弃用这些写操作，届时此类操作将被禁止。
+当 APISIX 以数据面实例运行在解耦模式时，如果通过 core.etcd 函数或 CLI 执行 etcd 写操作，将记录警告日志。未来版本中将弃用并禁止此类操作。
 
 更多信息请参见 [邮件列表讨论](https://lists.apache.org/thread/gfsooqm4cz6cx2sh7htmqgwlml5kggm2)，该讨论说明了未来的限制计划，以及本次变更的 [PR #12241](https://github.com/apache/apisix/pull/12241)。
 
