@@ -40,7 +40,7 @@ Contributor: [slow-groovin](https://github.com/slow-groovin)
 
 This PR adds a new headers attribute `authorization` for the `loki-logger` plugin to provide an HTTP authorization header when using non-local Loki services.
 
-### 3. Add `max_pending_entries` option to batch processor
+### 3. Add `max_pending_entries` attribute to batch processor
 
 PR: https://github.com/apache/apisix/pull/12338
 
@@ -48,7 +48,7 @@ Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 This feature introduces a new `max_pending_entries` option to the batch processor to prevent memory spikes when the log server is slow or unresponsive. This option allows dropping new entries if too many pending callbacks are waiting to be processed.
 
-### 4. Enhance admin api filter
+### 4. Enhance Admin API filtering
 
 PR: https://github.com/apache/apisix/pull/12291
 
@@ -98,7 +98,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This update expands the allowed characters in credential_id for the API-driven mode in standalone deployments. Now, credential_id can include underscores (_), periods (.), and short hyphens (-), enhancing flexibility for credential naming.
 
-### 10. Allow `-` in consumer username
+### 10. Support dash (-) in consumer usernames
 
 PR: https://github.com/apache/apisix/pull/12296
 
@@ -106,7 +106,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR adds support in APISIX for the same naming rules, aligning with the APISIX Ingress Controller's approach of isolating resources via namespace, such as using a namespace-username format for consumer names.
 
-### 11. Expose apisix version in prometheus `node_info` metric
+### 11. Expose APISIX version in Prometheus `node_info` metric
 
 PR: https://github.com/apache/apisix/pull/12369
 
@@ -114,7 +114,7 @@ Contributor: [flearc](https://github.com/flearc)
 
 This PR enhances the Prometheus `node_info` metric by adding a version label to expose the current APISIX version, improving observability and version tracking.
 
-### 12. Add warning for data plane writing to etcd
+### 12. Warn on etcd write operations in decoupled `data_plane` mode
 
 PR: https://github.com/apache/apisix/pull/12241
 
