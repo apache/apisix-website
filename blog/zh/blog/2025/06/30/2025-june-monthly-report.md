@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/06/30/aYysTnJw_june-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们新增并优化了一些功能，如新增 devcontainer 支持、增强 Admin API 过滤功能、为 loki-logger 插件添加 `headers` 属性等。有关更多细节，请阅读本期月报。
+> 最近，我们新增并优化了一些功能，如新增 devcontainer 支持、增强 Admin API 过滤功能、为 `loki-logger` 插件添加 `headers` 属性等。有关更多细节，请阅读本期月报。
 
 <!--truncate-->
 

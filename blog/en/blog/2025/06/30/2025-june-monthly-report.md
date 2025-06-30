@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/06/30/hNrgfyse_june-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced and updated some new features, including adding devcontainer support, enhancing Admin API filter, adding `headers` attribute for `loki-logger` plugin, etc. For more details, please read this month's newsletter.
+> Recently, we've introduced and updated some new features, including adding devcontainer support, enhancing Admin API filtering, and adding `headers` attribute for `loki-logger` plugin, etc. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
