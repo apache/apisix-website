@@ -96,7 +96,7 @@ PR: https://github.com/apache/apisix/pull/12295
 
 Contributor: [AlinsRan](https://github.com/AlinsRan)
 
-This update expands the allowed characters in credential_id for the API-driven mode in standalone deployments. Now, credential_id can include underscores (_), periods (.), and short hyphens (-), enhancing flexibility for credential naming.
+This update expands the allowed characters in `credential_id` for the API-driven mode in standalone deployments. Now, `credential_id` can include underscores (_), periods (.), and short hyphens (-), enhancing flexibility for credential naming.
 
 ### 10. Support dash (-) in consumer usernames
 
@@ -104,7 +104,7 @@ PR: https://github.com/apache/apisix/pull/12296
 
 Contributor: [AlinsRan](https://github.com/AlinsRan)
 
-This PR adds support in APISIX for the same naming rules, aligning with the APISIX Ingress Controller's approach of isolating resources via namespace, such as using a namespace-username format for consumer names.
+This PR adds support in APISIX for the same naming rules, aligning with the APISIX Ingress Controller's approach of isolating resources via namespace, using a `namespace-username` format for consumer names.
 
 ### 11. Expose APISIX version in Prometheus `node_info` metric
 
