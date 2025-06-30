@@ -38,17 +38,27 @@ const tasks = new Listr([
           const exist = await isDirExisted(dir);
           if (exist) {
             gitMap[name] = simpleGit(dir);
+            // Use more robust fetch for existing repositories
             await gitMap[name]
               .cwd(dir)
-              .fetch(['--prune', '--filter=blob:none', '--recurse-submodules=no']);
+              .fetch(['--prune', '--recurse-submodules=no']);
           } else {
             gitMap[name] = simpleGit();
-            await gitMap[name]
-              .clone(`https://github.com/apache/${name}.git`, dir, {
+            // Use more robust clone without filter in CI environment
+            const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+            const cloneOptions = isCI
+              ? {
+                '--sparse': true,
+                '--recurse-submodules': 'no',
+              }
+              : {
                 '--filter': 'blob:none',
                 '--sparse': true,
                 '--recurse-submodules': 'no',
-              })
+              };
+
+            await gitMap[name]
+              .clone(`https://github.com/apache/${name}.git`, dir, cloneOptions)
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
 
@@ -77,7 +87,7 @@ const tasks = new Listr([
               projectReleases[project.name] = ret.all
                 .filter((release) => (isIngressController
                   ? release.includes('remotes/origin/v')
-                      && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
+                  && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
                   : release.includes('remotes/origin/release/')))
                 .map((release) => (isIngressController
                   ? release.replace('remotes/origin/v', '')
@@ -193,8 +203,7 @@ async function replaceMDElements(project, path, branch = 'master') {
       const projectNameWithoutPrefix = project === 'apisix' ? 'apisix' : project.replace('apisix-', '');
       const newUrl = match.replace(
         /\]\(.*\)/g,
-        `](https://apisix.apache.org${
-          lang === 'en' ? '' : `/${lang}`
+        `](https://apisix.apache.org${lang === 'en' ? '' : `/${lang}`
         }/docs/${projectNameWithoutPrefix}/${urlPath})`,
       );
       log(`${project}: ${match} 👉 ${newUrl}`);
