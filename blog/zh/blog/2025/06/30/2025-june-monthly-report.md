@@ -94,7 +94,7 @@ Admin API 支持通过 `service_id` 和 `upstream_id` 过滤 routes 和 stream r
 
 贡献者：[AlinsRan](https://github.com/AlinsRan)
 
-为 APISIX 的 Standalone 模式中的 credential_id 增加了对更多字符的支持，包括下划线（_）、点（.）和短横线（-），提升了凭证命名的灵活性。
+为 APISIX 的 Standalone 模式中的 `credential_id` 增加了对更多字符的支持，包括下划线（_）、点（.）和短横线（-），提升了凭证命名的灵活性。
 
 ### 10. 支持在 consumer 用户名中使用连字符 (-)
 
@@ -102,7 +102,7 @@ Admin API 支持通过 `service_id` 和 `upstream_id` 过滤 routes 和 stream r
 
 贡献者：[AlinsRan](https://github.com/AlinsRan)
 
-APISIX Ingress Controller 通过 namespace 来隔离资源，例如，为 consumer 设置 namespace-username 格式的名称。本 PR 为 APISIX 增加对相同命名规则的支持，允许在 consumer 用户名中使用连字符，从而与 APISIX Ingress Controller 相一致。
+APISIX Ingress Controller 通过 namespace 来隔离资源，例如，为 consumer 设置 `namespace-username` 格式的名称。本 PR 为 APISIX 增加对相同命名规则的支持，允许在 consumer 用户名中使用连字符，从而与 APISIX Ingress Controller 相一致。
 
 ### 11. 在 Prometheus `node_info` 指标中暴露 APISIX 版本
 
