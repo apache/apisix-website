@@ -347,67 +347,14 @@ function extractDocsVersionTasks(project, version) {
   return new Listr([
     {
       title: `Checkout ${project.name} version: ${version}`,
-      task: async () => {
-        const branch = isIngressController
-          ? `remotes/origin/v${version}`
-          : `remotes/origin/release/${version}`;
-
-        try {
-          // First attempt to checkout the branch
-          await gitMap[project.name]
-            .cwd(projectPath)
-            .checkout(branch, ['-f']);
-        } catch (error) {
-          // If checkout fails, try to fix it
-          console.log(`Checkout failed for ${project.name} ${version}, attempting to fix: ${error.message}`);
-
-          try {
-            // Try to fetch the specific branch first
-            await gitMap[project.name]
-              .cwd(projectPath)
-              .fetch(['origin', branch.replace('remotes/origin/', ''), '--depth=1']);
-
-            // Retry checkout after fetch
-            await gitMap[project.name]
-              .cwd(projectPath)
-              .checkout(branch, ['-f']);
-          } catch (fetchError) {
-            console.log(`Fetch failed for ${project.name}, re-cloning repository...`);
-
-            // If fetch doesn't work, re-clone the repository
-            await fs.rm(projectPath, { recursive: true, force: true });
-
-            gitMap[project.name] = simpleGit();
-            const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-            const cloneOptions = isCI
-              ? {
-                '--sparse': true,
-                '--recurse-submodules': 'no',
-              }
-              : {
-                '--filter': 'blob:none',
-                '--sparse': true,
-                '--recurse-submodules': 'no',
-              };
-
-            await gitMap[project.name]
-              .clone(`https://github.com/apache/${project.name}.git`, projectPath, cloneOptions)
-              .cwd(projectPath)
-              .raw(['sparse-checkout', 'set', 'docs']);
-
-            if (project.name === 'apisix') {
-              await gitMap[project.name]
-                .cwd(projectPath)
-                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
-            }
-
-            // Final checkout attempt
-            await gitMap[project.name]
-              .cwd(projectPath)
-              .checkout(branch, ['-f']);
-          }
-        }
-      },
+      task: () => gitMap[project.name]
+        .cwd(projectPath)
+        .checkout(
+          isIngressController
+            ? `remotes/origin/v${version}`
+            : `remotes/origin/release/${version}`,
+          ['-f'],
+        ),
     },
     {
       title: 'Generate API docs for APISIX',
@@ -452,59 +399,7 @@ function extractDocsNextVersionTasks(project, version) {
   return new Listr([
     {
       title: `Checkout ${project.name} version: ${version}`,
-      task: async () => {
-        const branch = `remotes/origin/${version}`;
-
-        try {
-          // First attempt to checkout the branch
-          await gitMap[project.name].cwd(projectPath).checkout(branch, ['-f']);
-        } catch (error) {
-          // If checkout fails, try to fix it
-          console.log(`Checkout failed for ${project.name} ${version}, attempting to fix: ${error.message}`);
-
-          try {
-            // Try to fetch the specific branch first
-            await gitMap[project.name]
-              .cwd(projectPath)
-              .fetch(['origin', version, '--depth=1']);
-
-            // Retry checkout after fetch
-            await gitMap[project.name].cwd(projectPath).checkout(branch, ['-f']);
-          } catch (fetchError) {
-            console.log(`Fetch failed for ${project.name}, re-cloning repository...`);
-
-            // If fetch doesn't work, re-clone the repository
-            await fs.rm(projectPath, { recursive: true, force: true });
-
-            gitMap[project.name] = simpleGit();
-            const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-            const cloneOptions = isCI
-              ? {
-                '--sparse': true,
-                '--recurse-submodules': 'no',
-              }
-              : {
-                '--filter': 'blob:none',
-                '--sparse': true,
-                '--recurse-submodules': 'no',
-              };
-
-            await gitMap[project.name]
-              .clone(`https://github.com/apache/${project.name}.git`, projectPath, cloneOptions)
-              .cwd(projectPath)
-              .raw(['sparse-checkout', 'set', 'docs']);
-
-            if (project.name === 'apisix') {
-              await gitMap[project.name]
-                .cwd(projectPath)
-                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
-            }
-
-            // Final checkout attempt
-            await gitMap[project.name].cwd(projectPath).checkout(branch, ['-f']);
-          }
-        }
-      },
+      task: () => gitMap[project.name].cwd(projectPath).checkout(`remotes/origin/${version}`, ['-f']),
     },
     {
       title: 'Generate API docs for APISIX',
