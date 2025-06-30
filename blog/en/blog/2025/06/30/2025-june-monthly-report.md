@@ -38,7 +38,7 @@ PR: https://github.com/apache/apisix/pull/11420
 
 Contributor: [slow-groovin](https://github.com/slow-groovin)
 
-This PR adds a new headers attribute `authorization` for the `loki-logger` plugin to provide an HTTP authorization header when using non-local Loki services.
+This PR adds a `headers` attribute to the `loki-logger` plugin. This allows, for example, setting an authorization header when sending logs to a remote Loki service.
 
 ### 3. Add `max_pending_entries` attribute to the batch processor
 
@@ -72,13 +72,13 @@ Contributor: [bzp2010](https://github.com/bzp2010)
 
 This PR adds a new embedded UI to APISIX as part of the Apache APISIX Dashboard Enhancement Plan.
 
-### 7. Add `apisix:dev` docker image triggering workflow
+### 7. Build APISIX dashboard into the `apisix:dev` Docker image
 
-PR: https://github.com/apache/apisix/pull/12369
+PR: https://github.com/apache/apisix/pull/12300
 
 Contributor: [SkyeYoung](https://github.com/SkyeYoung)
 
-As a part of the APISIX Dashboard Enhancement plan, this PR adds a workflow, which triggers the building and pushing (to the master branch only) of the `apisix:dev` Docker image.
+As a part of the APISIX Dashboard Enhancement Plan, this PR adds a workflow, which triggers the building and pushing (to the master branch only) of the APISIX dashboard into the `apisix:dev` Docker image.
 
 Moving image-building files from apisix-docker to the main apisix repo improves maintenance and ensures the latest code is readily available for development and testing.
 

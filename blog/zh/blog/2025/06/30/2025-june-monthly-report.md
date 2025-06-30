@@ -72,13 +72,13 @@ Admin API 支持通过 `service_id` 和 `upstream_id` 过滤 routes 和 stream r
 
 作为 APISIX Dashboard 优化计划的一部分，本 PR 在 APISIX 中支持了嵌入式仪表盘的基础架构。
 
-### 7. 新增触发 `apisix:dev` Docker 镜像构建的工作流
+### 7. 将 APISIX Dashboard 构建到 `apisix:dev` Docker 镜像中
 
 相关 PR：https://github.com/apache/apisix/pull/12300
 
 贡献者：[SkyeYoung](https://github.com/SkyeYoung)
 
-此特性为 APISIX Dashboard 优化计划的一部分。该 PR引入了一个工作流，当向 master 主分支提交代码时，会触发 `apisix:dev` Docker 镜像的构建与推送。将镜像构建文件从 `apisix-docker` 移至主 `apisix` 仓库，便于维护管理，并确保开发测试能及时用上最新代码。
+此特性为 APISIX Dashboard 优化计划的一部分。该 PR 引入了一个工作流，仅 master 主分支上提交代码时，会触发 APISIX Dashboard `apisix:dev` Docker 镜像的构建与推送。将镜像构建文件从 `apisix-docker` 移至主 `apisix` 仓库，便于维护管理，并确保开发测试能及时用上最新代码。
 
 ### 8. 为 Standalone 模式引入 JSON 格式支持
 
