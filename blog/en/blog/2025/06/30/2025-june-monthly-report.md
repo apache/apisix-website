@@ -40,7 +40,7 @@ Contributor: [slow-groovin](https://github.com/slow-groovin)
 
 This PR adds a new headers attribute `authorization` for the `loki-logger` plugin to provide an HTTP authorization header when using non-local Loki services.
 
-### 3. Add `max_pending_entries` attribute to batch processor
+### 3. Add `max_pending_entries` attribute to the batch processor
 
 PR: https://github.com/apache/apisix/pull/12338
 
@@ -56,7 +56,7 @@ Contributor: [bzp2010](https://github.com/bzp2010)
 
 The Admin API now supports filtering routes and stream routes by `service_id` and `upstream_id`, making it easier to query and manage related resources, especially for the APISIX Dashboard project.
 
-### 5. Add apisix dashboard to dev image
+### 5. Add APISIX dashboard to dev image
 
 PR: https://github.com/apache/apisix/pull/12369
 
@@ -132,7 +132,7 @@ This PR switches the Nacos discovery mechanism from the `lua-resty-events` libra
 
 ## Conclusion
 
-The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
 
 ## Recommended Blogs
 
