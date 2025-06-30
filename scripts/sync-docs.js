@@ -38,17 +38,27 @@ const tasks = new Listr([
           const exist = await isDirExisted(dir);
           if (exist) {
             gitMap[name] = simpleGit(dir);
+            // Use more robust fetch for existing repositories
             await gitMap[name]
               .cwd(dir)
-              .fetch(['--prune', '--filter=blob:none', '--recurse-submodules=no']);
+              .fetch(['--prune', '--recurse-submodules=no']);
           } else {
             gitMap[name] = simpleGit();
-            await gitMap[name]
-              .clone(`https://github.com/apache/${name}.git`, dir, {
+            // Use more robust clone without filter in CI environment
+            const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+            const cloneOptions = isCI
+              ? {
+                '--sparse': true,
+                '--recurse-submodules': 'no',
+              }
+              : {
                 '--filter': 'blob:none',
                 '--sparse': true,
                 '--recurse-submodules': 'no',
-              })
+              };
+
+            await gitMap[name]
+              .clone(`https://github.com/apache/${name}.git`, dir, cloneOptions)
               .cwd(dir)
               .raw(['sparse-checkout', 'set', 'docs']);
 
@@ -77,7 +87,7 @@ const tasks = new Listr([
               projectReleases[project.name] = ret.all
                 .filter((release) => (isIngressController
                   ? release.includes('remotes/origin/v')
-                      && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
+                  && semver.gt(release.replace('remotes/origin/v', ''), '0.3.0')
                   : release.includes('remotes/origin/release/')))
                 .map((release) => (isIngressController
                   ? release.replace('remotes/origin/v', '')
@@ -193,8 +203,7 @@ async function replaceMDElements(project, path, branch = 'master') {
       const projectNameWithoutPrefix = project === 'apisix' ? 'apisix' : project.replace('apisix-', '');
       const newUrl = match.replace(
         /\]\(.*\)/g,
-        `](https://apisix.apache.org${
-          lang === 'en' ? '' : `/${lang}`
+        `](https://apisix.apache.org${lang === 'en' ? '' : `/${lang}`
         }/docs/${projectNameWithoutPrefix}/${urlPath})`,
       );
       log(`${project}: ${match} 👉 ${newUrl}`);
@@ -338,14 +347,67 @@ function extractDocsVersionTasks(project, version) {
   return new Listr([
     {
       title: `Checkout ${project.name} version: ${version}`,
-      task: () => gitMap[project.name]
-        .cwd(projectPath)
-        .checkout(
-          isIngressController
-            ? `remotes/origin/v${version}`
-            : `remotes/origin/release/${version}`,
-          ['-f'],
-        ),
+      task: async () => {
+        const branch = isIngressController
+          ? `remotes/origin/v${version}`
+          : `remotes/origin/release/${version}`;
+
+        try {
+          // First attempt to checkout the branch
+          await gitMap[project.name]
+            .cwd(projectPath)
+            .checkout(branch, ['-f']);
+        } catch (error) {
+          // If checkout fails, try to fix it
+          console.log(`Checkout failed for ${project.name} ${version}, attempting to fix: ${error.message}`);
+
+          try {
+            // Try to fetch the specific branch first
+            await gitMap[project.name]
+              .cwd(projectPath)
+              .fetch(['origin', branch.replace('remotes/origin/', ''), '--depth=1']);
+
+            // Retry checkout after fetch
+            await gitMap[project.name]
+              .cwd(projectPath)
+              .checkout(branch, ['-f']);
+          } catch (fetchError) {
+            console.log(`Fetch failed for ${project.name}, re-cloning repository...`);
+
+            // If fetch doesn't work, re-clone the repository
+            await fs.rm(projectPath, { recursive: true, force: true });
+
+            gitMap[project.name] = simpleGit();
+            const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+            const cloneOptions = isCI
+              ? {
+                '--sparse': true,
+                '--recurse-submodules': 'no',
+              }
+              : {
+                '--filter': 'blob:none',
+                '--sparse': true,
+                '--recurse-submodules': 'no',
+              };
+
+            await gitMap[project.name]
+              .clone(`https://github.com/apache/${project.name}.git`, projectPath, cloneOptions)
+              .cwd(projectPath)
+              .raw(['sparse-checkout', 'set', 'docs']);
+
+            if (project.name === 'apisix') {
+              await gitMap[project.name]
+                .cwd(projectPath)
+                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
+            }
+
+            // Final checkout attempt
+            await gitMap[project.name]
+              .cwd(projectPath)
+              .checkout(branch, ['-f']);
+          }
+        }
+      },
     },
     {
       title: 'Generate API docs for APISIX',
@@ -390,7 +452,59 @@ function extractDocsNextVersionTasks(project, version) {
   return new Listr([
     {
       title: `Checkout ${project.name} version: ${version}`,
-      task: () => gitMap[project.name].cwd(projectPath).checkout(`remotes/origin/${version}`, ['-f']),
+      task: async () => {
+        const branch = `remotes/origin/${version}`;
+
+        try {
+          // First attempt to checkout the branch
+          await gitMap[project.name].cwd(projectPath).checkout(branch, ['-f']);
+        } catch (error) {
+          // If checkout fails, try to fix it
+          console.log(`Checkout failed for ${project.name} ${version}, attempting to fix: ${error.message}`);
+
+          try {
+            // Try to fetch the specific branch first
+            await gitMap[project.name]
+              .cwd(projectPath)
+              .fetch(['origin', version, '--depth=1']);
+
+            // Retry checkout after fetch
+            await gitMap[project.name].cwd(projectPath).checkout(branch, ['-f']);
+          } catch (fetchError) {
+            console.log(`Fetch failed for ${project.name}, re-cloning repository...`);
+
+            // If fetch doesn't work, re-clone the repository
+            await fs.rm(projectPath, { recursive: true, force: true });
+
+            gitMap[project.name] = simpleGit();
+            const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+            const cloneOptions = isCI
+              ? {
+                '--sparse': true,
+                '--recurse-submodules': 'no',
+              }
+              : {
+                '--filter': 'blob:none',
+                '--sparse': true,
+                '--recurse-submodules': 'no',
+              };
+
+            await gitMap[project.name]
+              .clone(`https://github.com/apache/${project.name}.git`, projectPath, cloneOptions)
+              .cwd(projectPath)
+              .raw(['sparse-checkout', 'set', 'docs']);
+
+            if (project.name === 'apisix') {
+              await gitMap[project.name]
+                .cwd(projectPath)
+                .raw(['sparse-checkout', 'add', 'apisix/core', 'autodocs']);
+            }
+
+            // Final checkout attempt
+            await gitMap[project.name].cwd(projectPath).checkout(branch, ['-f']);
+          }
+        }
+      },
     },
     {
       title: 'Generate API docs for APISIX',
