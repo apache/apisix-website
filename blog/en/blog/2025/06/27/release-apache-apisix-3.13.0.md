@@ -1,5 +1,5 @@
 ---
-title: "Release Apache APISIX 3.12.0"
+title: "Release Apache APISIX 3.13.0"
 authors:
   - name: "Ashish Tiwari"
     title: "Author"
