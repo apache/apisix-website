@@ -7,7 +7,7 @@ The website of <a href="https://github.com/apache/apisix/">Apache APISIX®</a>
 
 A cloud-native microservices API Gateway
 
-<a href="https://apisix.apache.org/slack"><img  width="150" src="./website/static/img/join-slack.png"></a>
+<a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel"><img  width="150" src="./website/static/img/join-slack.png"></a>
 
 </div>
 
@@ -74,7 +74,7 @@ yarn prepare-data
 # Tip.
 # The `yarn prepare-data` command contains the following three commands
 # If necessary, you can run any of the following commands individually
-yarn sync-doc # Sync all project documents
+yarn sync-docs # Sync all project documents
 yarn generate-repos-info # Generate repository information for each project
 yarn generate-picked-posts # Generate frontmatter information for featured blogs
 ```

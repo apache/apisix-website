@@ -81,7 +81,9 @@ image: https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apis
 
 为降低开发门槛，我们支持本地快速运行与测试。借助 APISIX 的 Docker 镜像，可将本地插件通过卷映射至容器中，实现便捷部署。同时，利用下游的 echo-service（基于开源 Node.js 开发的服务），可模拟上游行为。该服务能够返回请求的所有内容，如请求头等。通过在请求中添加特定参数（如 HTTP 状态码 500），可模拟上游的异常行为，从而全面验证插件功能。
 
-![TAPISIX Project Introduction](https://static.api7.ai/uploads/2025/05/07/BPa5r4Tr_2-tapisix-project.webp)
+<div align="center">
+<img alt="TAPISIX Project Introduction" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/07/BPa5r4Tr_2-tapisix-project.webp"></img>
+</div>
 
 ### 2. 本地快速运行与测试
 
@@ -91,7 +93,9 @@ image: https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apis
 2. **Makefile 构建**：构建 Makefile 文件，支持通过 make run-dev 命令快速启动插件测试环境，确保本地文件与容器无缝连接。
 3. **浏览器直接访问**：开发人员只需在浏览器中访问相关接口，即可直接验证插件功能，无需额外部署或配置。
 
-![Run and Test](https://static.api7.ai/uploads/2025/05/07/vlmK6Cls_3-run-and-test.webp)
+<div align="center">
+<img alt="Run and Test" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/07/vlmK6Cls_3-run-and-test.webp"></img>
+</div>
 
 通过定义开发规范和提供本地快速开发支持，我们有效降低了开发门槛，加速了插件的验证过程。开发人员可以专注于功能实现，而无需担心复杂的部署和测试流程，从而提高了整体开发效率。
 
@@ -115,7 +119,9 @@ image: https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apis
   
     c. **Try Build**：使用源代码构建镜像，验证代码的可构建性。
 
-![Pipleline Building](https://static.api7.ai/uploads/2025/05/07/7QGbMcLK_4-pipeline-inspection.webp)
+<div align="center">
+<img alt="Pipeline Building" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/07/7QGbMcLK_4-pipeline-inspection.webp"></img>
+</div>
 
 ### 4. 可靠性保障（CR、lint、单侧、黑盒测试）
 
@@ -125,7 +131,9 @@ image: https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apis
 
 k6 测试用例：包含几百个测试用例，覆盖了核心流程，确保插件的可靠性。
 
-![K6 Test](https://static.api7.ai/uploads/2025/05/07/DbmDfZFS_5-k6.webp)
+<div align="center">
+<img alt="K6 Test" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/07/DbmDfZFS_5-k6.webp"></img>
+</div>
 
 通过本地开发、快速验证、MR 提交、流水线检测、可靠性保障以及打包部署的完整流程，我们确保了插件从开发到上线的每个环节都经过严格的质量控制。
 
@@ -143,7 +151,9 @@ APISIX 提供了三种部署方式，以适应不同的生产环境需求：
 
 只保留数据面的独立模式也是我们使用的方式，所有的配置都存储在本地，避免了对 etcd 的依赖。这种模式更适用于海外场景。由于 etcd 属于数据库选型，部分云厂商不提供 etcd 服务，且海外对数据合规性要求严格，并且我们的部署环境在 k8s，因此也采用了对 k8s 友好的配置管理方式。
 
-![APISIX Deployment](https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp)
+<div align="center">
+<img alt="APISIX Deployment" style="width: 75%" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp"></img>
+</div>
 
 - **YAML 配置**：所有配置直接存储在 YAML 文件中，便于管理和自动化部署。
 - **ConfigMap 存储**：将 yaml 文件直接放置在 k8s 的 ConfigMap 中，确保配置的版本化和可追溯性。
@@ -162,7 +172,9 @@ APISIX 提供了三种部署方式，以适应不同的生产环境需求：
 
 ### 部署流程示例
 
-![Deployment Workflow](https://static.api7.ai/uploads/2025/05/07/KdOcfic9_8-deployment-workflow.webp)
+<div align="center">
+<img alt="Deployment Workflow" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/07/KdOcfic9_8-deployment-workflow.webp"></img>
+</div>
 
 在上图展示的部署流程中，SRE（Site Reliability Engineer）代表用户进行配置管理。任何修改，如路由变更或镜像更新，都需要通过修改 Helm Chart 仓库来实现。修改后，Argo CD 会自动检测到变更并触发流水线，拉取最新的配置完成部署。另外，Git 和 Kubernetes 之间建立了强同步关系，确保配置的一致性和可靠性。
 
@@ -192,7 +204,9 @@ APISIX Ingress Controller 作为社区为 k8s 提供的官方解决方案，其�
 
 将这些 CRD 部署到 k8s 集群后，Ingress Controller 会持续监听相关的 CRD 资源。解析 CRD 中的配置信息，并通过调用 APISIX 的 Admin API 将配置同步到 APISIX 中。Ingress Controller 主要为了进行 CRD 和 APISIX 之间的部署，最终还是将数据写入etcd。
 
-![APISIX Ingress Controller](https://static.api7.ai/uploads/2025/05/07/XbjN7Bky_11-ingress-controller.webp)
+<div align="center">
+<img alt="APISIX Ingress Controller" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/07/XbjN7Bky_11-ingress-controller.webp"></img>
+</div>
 
 经过审慎评估，我们发现 APISIX Ingress Controller 的部署和运维模式并不完全适配我们的团队需求，主要有以下原因：
 
@@ -286,7 +300,9 @@ Trace 上报基于 APISIX 提供的 OpenTelemetry 插件实现。该插件通过
 
 在 k8s 的 upstream 配置中，存在多种类型，这些不同类型配置间的差异往往仅体现在 service name 这一关键要素上。在引入新版本并更新 Lua 包后，我们充分利用其支持的锚点功能，对重复配置问题进行了有效治理。通过锚点机制，实现了对共性配置部分的抽象与复用，在实际应用中成功减少了约 70% 的重复配置内容，极大地提升了配置管理的效率与简洁性，降低了因重复配置而引入错误的风险。
 
-![Duplicated Route Configuration](https://static.api7.ai/uploads/2025/05/07/hbEPdHAf_20-duplicated-route-configuration.webp)
+<div align="center">
+<img alt="Duplicated Route Configuration" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/07/hbEPdHAf_20-duplicated-route-configuration.webp"></img>
+</div>
 
 ## APISIX 替换 Ingress 迁移实践
 
