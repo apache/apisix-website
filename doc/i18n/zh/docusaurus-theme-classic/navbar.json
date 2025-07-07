@@ -50,9 +50,5 @@
   "item.label.APISIX": {
     "message": "APISIX",
     "description": "Navbar item with label APISIX"
-  },
-  "item.label.APISIX Dashboard": {
-    "message": "APISIX Dashboard",
-    "description": "Navbar item with label APISIX Dashboard"
   }
 }
