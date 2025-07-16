@@ -107,6 +107,18 @@ module.exports = {
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
     metadatas,
   },
+  scripts: [
+    {
+      src: 'https://widget.kapa.ai/kapa-widget.bundle.js',
+      'data-website-id': '24b59d9a-682e-4c3d-9e83-bf2ee85cdc19',
+      'data-project-name': 'APISIX',
+      'data-project-color': '#E8442E',
+      'data-project-logo': 'https://static.apiseven.com/202202/apache-apisix.png',
+      'data-modal-disclaimer': 'This is a custom LLM for APISIX with access to all developer documentation, GitHub issues and discussions.',
+      'data-modal-example-questions': 'Why we need APISIX?,How to deploy APISIX?,How to manage API Observability in APISIX?,How to proxy GraphQL requests?',
+      async: true,
+    },
+  ],
   stylesheets: [],
   /**
    * We need to check if we build site for preview env,
