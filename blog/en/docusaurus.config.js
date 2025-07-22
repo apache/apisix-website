@@ -113,7 +113,7 @@ module.exports = {
       'data-project-color': '#E8442E',
       'data-project-logo': 'https://static.apiseven.com/202202/apache-apisix.png',
       'data-modal-disclaimer': 'This is a custom LLM for APISIX with access to all developer documentation, GitHub issues and discussions.',
-      'data-modal-example-questions': 'Why we need APISIX?,How to deploy APISIX?,How to manage API Observability in APISIX?,How to proxy GraphQL requests?',
+      'data-modal-example-questions': 'How to use APISIX to proxy multiple LLM services?,How to record and view token usage when proxying LLM services in APISIX?,How to use APISIX to proxy MCP services?,How to develop a custom APISIX plugin?,How to configure mTLS between clients and APISIX?,How to set up access control to allow only specific APISIX consumers to access special services?',
       async: true,
     },
   ],
