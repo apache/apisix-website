@@ -17,6 +17,8 @@ description: "Discover how AI gateways are revolutionizing enterprise AI infrast
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---
+> Discover how AI gateways are revolutionizing enterprise AI infrastructure, offering centralized control, security, cost management, and governance for AI models and services.
+<!--truncate-->
 
 ## AI Infrastructure Revolution
 
