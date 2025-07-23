@@ -17,7 +17,7 @@ module.exports = [
       },
       {
         label: 'Apache APISIX®️ Ingress Controller',
-        to: '/docs/ingress-controller/getting-started/',
+        to: '/docs/ingress-controller/overview/',
         target: '_parent',
       },
       {
