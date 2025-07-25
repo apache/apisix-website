@@ -1,10 +1,10 @@
 ---
 title: "Load Balancing AI/ML API with Apache APISIX"
 authors:
-  - name: ""
+  - name: "Sergey Nuzhnyy"
     title: "Author"
-    url: ""
-    image_url: ""
+    url: "https://github.com/OctavianTheI"
+    image_url: "https://github.com/OctavianTheI.png"
   - name: "Yilia Lin"
     title: "Technical Writer"
     url: "https://github.com/Yilialinn"
@@ -26,7 +26,7 @@ image: https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp
 
 ## Overview
 
-**AI/ML API** is a one-stop, OpenAI-compatible endpoint that trusted by 150,000+ developers to to 200+ state-of-the-art models—chat, vision, image/video/music generation, embeddings, OCR and more—from Google, Meta, OpenAI, Anthropic, Mistral and others.
+**AI/ML API** is a one-stop, OpenAI-compatible endpoint that is trusted by 150,000+ developers to to 200+ state-of-the-art models—chat, vision, image/video/music generation, embeddings, OCR, and more—from Google, Meta, OpenAI, Anthropic, Mistral, and others.
 
 **Apache APISIX** is a dynamic, real-time, high-performance API Gateway. APISIX API Gateway provides rich traffic management features and can serve as an AI Gateway through its flexible plugin system.
 
