@@ -108,6 +108,8 @@ You should receive a response similar to the following:
 }
 ```
 
+> The AI/ML APIs will be supported in the next APISIX version.
+
 ## Core Use Cases
 
 1. **Unified AI Service Management**
