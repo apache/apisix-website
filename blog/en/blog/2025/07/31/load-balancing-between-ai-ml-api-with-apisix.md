@@ -174,6 +174,7 @@ curl -i http://127.0.0.1:9180/apisix/admin/routes/aimlapi-split \
 ```
 
 > **Tip:** Adjust the `weight` values to shift traffic ratios (e.g., 80/20 for canary).
+> 
 > **Note:** `rewrite` must match the internal API path exactly.
 
 ## Verify Split Endpoint Functionality
