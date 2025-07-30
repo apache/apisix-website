@@ -16,7 +16,7 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp
 ---
 
-> We're thrilled to announce that **AI/ML API** has become a supported provider to the `ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` plugins in **Apache APISIX**.
+> We're thrilled to announce that **AI/ML API** has become a supported provider to the `ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` plugins in **Apache APISIX**. All the AI/ML APIs will be supported in the next APISIX version.
 <!--truncate-->
 
 ## Introduction
@@ -107,8 +107,6 @@ You should receive a response similar to the following:
   ...
 }
 ```
-
-> The AI/ML APIs will be supported in the next APISIX version.
 
 ## Core Use Cases
 
