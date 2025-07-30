@@ -1,10 +1,6 @@
 ---
 title: "Announcing APISIX Integration with AI/ML API"
 authors:
-  - name: "Sergey Nuzhnyy"
-    title: "Author"
-    url: "https://github.com/OctavianTheI"
-    image_url: "https://github.com/OctavianTheI.png"
   - name: "Yilia Lin"
     title: "Technical Writer"
     url: "https://github.com/Yilialinn"
@@ -31,84 +27,84 @@ We're thrilled to announce that **AI/ML API** has become a supported provider to
 
 AI/ML API provides a unified OpenAI-compatible API with access to **300+ LLMs** such as GPT-4, Claude, Gemini, DeepSeek, and others. This integration bridges the gap between your API infrastructure and leading AI services, enabling you to deploy intelligent features—like chatbots, real-time translations, and data analysis—faster than ever.
 
-## Get Started in 5 Minutes: Connect APISIX to OpenAI
+## Proxy to OpenAI via AI/ML API
 
 ### Prerequisites
 
 1. [Install APISIX](https://apisix.apache.org/docs/apisix/installation-guide/).
-2. Get your [OpenAI API key](https://platform.openai.com/api-keys).
+2. Generate AI/ML API Key [OpenAI API key](https://platform.openai.com/api-keys).
+  ![Generate AI/ML API Key](https://static.api7.ai/uploads/2025/07/30/dGXA7d0r_ai-ml-api-key.webp)
 
 ### Configure the Route
 
-Add this configuration to your `conf/config.yaml`:
+Create a route and configure the `ai-proxy` plugin as such:
 
 ```yaml
-routes:
-  - uri: /chat
-    # Enable the AI plugin
-    plugins:
-      ai:
-        # OpenAI provider configuration
-        openai:
-          api_key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  # Replace with your key
-          model: gpt-4-turbo          # Choose model: gpt-4, gpt-3.5-turbo, etc.
-          timeout: 10000              # Timeout in ms (optional)
-          max_retries: 2              # Auto-retry failed requests (optional)
-    # Optional upstream for hybrid workflows
-    upstream:
-      nodes:
-        "http://your-ai-app:3000": 1  # Forward to your app after AI processing
-```
-
-### Apply Configuration
-
-Reload APISIX to activate the route:
-
-```bash
-apisix reload
-# Verify with
-curl http://127.0.0.1:9080/apisix/admin/routes -i
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${ADMIN_API_KEY}" \
+  -d '{
+    "id": "ai-proxy-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "aimlapi",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$OPENAI_API_KEY"'" # Generated openai key from AI/ML API dashboard
+          }
+        },
+        "options":{
+          "model": "gpt-4"
+        }
+      }
+    }
+  }'
 ```
 
 ### Test the Integration
 
-Send a chat request using OpenAI's message format:
+Send a POST request to the route with a system prompt and a sample user question in the request body:
 
 ```bash
-curl http://127.0.0.1:9080/chat -X POST \
+curl "http://127.0.0.1:9080/anything" -X POST \
   -H "Content-Type: application/json" \
+  -H "Host: api.openai.com" \
   -d '{
     "messages": [
-      {"role": "system", "content": "You are a helpful assistant"},
-      {"role": "user", "content": "What is APISIX?"}
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
     ]
   }'
 ```
 
 ### Verify Response
 
-You should receive a structured OpenAI response:
+You should receive a response similar to the following:
 
 ```json
 {
-  "id": "chatcmpl-9abc...",
-  "model": "gpt-4-turbo",
-  "object": "chat.completion",
+  ...,
   "choices": [
     {
       "index": 0,
+      "finish_reason": "stop",
+      "logprobs": null,
       "message": {
         "role": "assistant",
-        "content": "Apache APISIX is an open-source API gateway..."
-      },
-      "finish_reason": "stop"
+        "content": "1 + 1 equals 2.",
+        "refusal": null,
+        "annotations": []
+      }
     }
   ],
+  "created": 1753845968,
+  "model": "gpt-4-0613",
   "usage": {
-    "prompt_tokens": 27,
-    "completion_tokens": 89,
-    "total_tokens": 116
-  }
+    "prompt_tokens": 1449,
+    "completion_tokens": 1008,
+    "total_tokens": 2457
+  ...
 }
 ```
 
@@ -116,27 +112,28 @@ You should receive a structured OpenAI response:
 
 1. **Unified AI Service Management**
 
-   - **Multi-Model Abstraction**: Replace hardcoded vendor endpoints with a single APISIX interface, dynamically routing requests to models from OpenAI, Anthropic, Mistral, etc., based on cost, latency, or performance needs.
+   - **Multi-Model Proxy and Load Balancing**: Replace hardcoded vendor endpoints with a single APISIX interface, dynamically routing requests to models from OpenAI, Claude, DeepSeek, Gemini, Mistral, etc., based on cost, latency, or performance needs.
    - **Vendor-Agnostic Workflows**: Seamlessly switch between models (e.g., GPT-4 for creative tasks, Claude for document analysis) without code changes.
 
-2. **Enterprise AI Security & Compliance**
-
-   - **PII Masking**: Automatically redact sensitive data (e.g., credit card numbers) in prompts before sending to LLMs.
-   - **Content Moderation**: Scan inputs/outputs for toxicity, bias, or prompt injection attacks using integrated plugins like `ai-request-rewrite`.
-
-3. **Cost-Optimized AI Operations**
+2. **Cost-Optimized Token Governance**
 
    - **Token-Based Budget Enforcement**: Set per-team/monthly spending limits; auto-throttle requests when thresholds are exceeded.
    - **Caching & Fallbacks**: Cache frequent LLM responses (e.g., FAQ answers) or reroute to cheaper models during provider outages.
 
-4. **Real-Time AI Application Scaling**
+3. **Real-Time AI Application Scaling**
 
    - **Chatbots & Virtual Agents**: Power low-latency conversational interfaces with streaming support for token-by-token responses.
    - **Data Enrichment Pipelines**: Augment APIs with AI—e.g., auto-summarize user reviews or translate product descriptions on-the-fly.
 
-5. **Hybrid/Multi-Cloud AI Deployment**
+4. **Hybrid/Multi-Cloud AI Deployment**
 
    - **Unified Control Plane**: Manage on-prem LLMs (e.g., Llama 3) alongside cloud APIs (OpenAI, Azure) with consistent policy enforcement.
+   - **High Availability & Fault Tolerance**: Built-in health-checks, automatic retries and failover; if one LLM fails, traffic is rerouted within seconds to keep services alive.
+
+5. **Enterprise AI Security & Compliance**
+
+   - **Data Security and Compliance**: Prompt Guard, content moderation, PII redaction and full audit logs in a single place.
+   - **One Auth Layer for 300+ LLMs**: Unified authentication (JWT/OAuth2/OIDC) and authorization for 300+ LLM keys and policies.
 
 ## Conclusion
 
