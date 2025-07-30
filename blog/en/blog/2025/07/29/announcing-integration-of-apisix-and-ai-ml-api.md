@@ -32,7 +32,7 @@ AI/ML API provides a unified OpenAI-compatible API with access to **300+ LLMs** 
 ### Prerequisites
 
 1. [Install APISIX](https://apisix.apache.org/docs/apisix/installation-guide/).
-2. Generate AI/ML API Key [OpenAI API key](https://platform.openai.com/api-keys).
+2. Generate your API key on [AI/ML API dashboard](https://platform.openai.com/api-keys).
   ![Generate AI/ML API Key](https://static.api7.ai/uploads/2025/07/30/dGXA7d0r_ai-ml-api-key.webp)
 
 ### Configure the Route
