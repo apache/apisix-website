@@ -26,9 +26,9 @@ image: https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp
 
 ## Overview
 
-**AI/ML API** is a one-stop, OpenAI-compatible endpoint that is trusted by 150,000+ developers to 300+ state-of-the-art models—chat, vision, image/video/music generation, embeddings, OCR, and more—from Google, Meta, OpenAI, Anthropic, Mistral, and others.
+[**AI/ML API**](https://aimlapi.com/) is a one-stop, OpenAI-compatible endpoint that is trusted by 150,000+ developers to 300+ state-of-the-art models—chat, vision, image/video/music generation, embeddings, OCR, and more—from Google, Meta, OpenAI, Anthropic, Mistral, and others.
 
-**Apache APISIX** is a dynamic, real-time, high-performance API Gateway. APISIX API Gateway provides rich traffic management features and can serve as an AI Gateway through its flexible plugin system.
+[**Apache APISIX**](https://github.com/apache/apisix) is a dynamic, real-time, high-performance API Gateway. APISIX API Gateway provides rich traffic management features and can serve as an AI Gateway through its flexible plugin system.
 
 Modern AI workloads often require smooth version migrations, A/B testing, and rolling updates. This guide shows you how to:
 
@@ -41,7 +41,7 @@ Modern AI workloads often require smooth version migrations, A/B testing, and ro
 
 To perform authenticated requests, you'll need an AI/ML API key. You can get one at [https://aimlapi.com/app/keys/](https://aimlapi.com/app/keys?utm_source=apisix&utm_medium=guide&utm_campaign=integration) and use it as a Bearer token in your Authorization headers.
 
-![Generate AI/ML API Key](https://static.api7.ai/uploads/2025/07/30/dGXA7d0r_ai-ml-api-key.webp)
+![Generate AI/ML API Key](https://static.api7.ai/uploads/2025/07/30/XdAXZUT6_generate-ai-ml-api-key.webp)
 
 ## Quickstart Installation
 
