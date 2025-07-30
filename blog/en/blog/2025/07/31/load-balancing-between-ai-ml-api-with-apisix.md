@@ -41,7 +41,7 @@ Modern AI workloads often require smooth version migrations, A/B testing, and ro
 
 To perform authenticated requests, you'll need an AI/ML API key. You can get one at [https://aimlapi.com/app/keys/](https://aimlapi.com/app/keys?utm_source=apisix&utm_medium=guide&utm_campaign=integration) and use it as a Bearer token in your Authorization headers.
 
-![Generate AI/ML API Key](https://static.api7.ai/uploads/2025/07/23/4qM4cdzN_generate-api-key.webp)
+![Generate AI/ML API Key](https://static.api7.ai/uploads/2025/07/30/dGXA7d0r_ai-ml-api-key.webp)
 
 ## Quickstart Installation
 
