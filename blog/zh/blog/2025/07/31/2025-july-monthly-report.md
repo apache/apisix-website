@@ -46,7 +46,7 @@ Datadog 插件之前未涵盖限流限速响应计数、服务不可达时的网
 
 贡献者：[beardnick](https://github.com/beardnick)
 
-支持在 OpenID Connect 认证中对自定义 Claim 进行校验。用户可通过 `claim_validators` 配置某个 Claim 的合法取值（如 `foo`、`bar`），若未匹配成功，则返回 `401` 拒绝访问，从而实现对后端服务的精细化访问控制。
+支持在 OpenID Connect 认证中对自定义 Claim 进行校验。用户可通过 `claim_validators` 配置某个 Claim 的合法取值，若未匹配成功，则返回 `401` 拒绝访问，从而实现对后端服务的精细化访问控制。
 
 ### 4. `forward-auth` 插件新增 `extra_headers` 支持
 
@@ -54,7 +54,7 @@ Datadog 插件之前未涵盖限流限速响应计数、服务不可达时的网
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-此 PR 用于修复 #11200，是 #12404 的进一步完善。在 `forward-auth` 插件中新增 `extra_headers` 配置项，支持将请求体中的指定字段提取为请求头并转发至认证服务。
+此 PR 用于修复 [#11200](https://github.com/apache/apisix/issues/11200)，是 [#12404](https://github.com/apache/apisix/pull/12404) 的进一步完善。在 `forward-auth` 插件中新增 `extra_headers` 配置项，支持将请求体中的指定字段提取为请求头并转发至认证服务。
 
 ### 5. 新增全局开关一键禁用上游健康检查功能
 
@@ -78,7 +78,7 @@ Datadog 插件之前未涵盖限流限速响应计数、服务不可达时的网
 
 贡献者：[D1m7asis](https://github.com/D1m7asis)
 
-此 PR 为 Apache APISIX 的 `ai-proxy`、`ai-proxy-multi` 和 `ai-request-rewrite` 插件新增 AIMLAPI 提供者支持。AIMLAPI 提供兼容 OpenAI 的 API，接入超 300 个大模型，无需自定义驱动或进行任何覆盖配置，即可轻松实现请求路由与代理。
+此 PR 为 Apache APISIX 的 `ai-proxy`、`ai-proxy-multi` 和 `ai-request-rewrite` 插件新增 AI/ML API 为 Provider。AI/ML API 提供兼容 OpenAI 的 API，接入超 300 个大模型，无需自定义驱动或进行任何覆盖配置，即可轻松实现请求路由与代理。
 
 ### 8. 支持基于请求体的 `ctx.var.post_arg` 路由匹配
 
