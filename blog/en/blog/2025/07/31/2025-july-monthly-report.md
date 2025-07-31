@@ -30,7 +30,7 @@ PR: https://github.com/apache/apisix/pull/11943
 
 Contributor: [deiwin](https://github.com/deiwin)
 
-The Datadog plugin previously lacked critical metrics such as rate-limited response counts, gateway errors when services were unreachable, and network delays between the gateway and the service.
+The Datadog plugin previously lacked critical metrics such as rate limiting response counts, gateway errors when services were unreachable, and network delays between the gateway and the service.
 
 This PR addresses these limitations by providing more comprehensive and compatible metrics, ensuring backward compatibility and cost-effectiveness.
 
