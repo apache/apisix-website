@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/07/31/t62Fx9Uu_2025-july-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced and updated some new features, including adding AIMLAPI as a new provider to AI plugins, improving metrics support for Datadog plugin, and supporting custom Claim Validator in OIDC, etc. For more details, please read this month's newsletter.
+> Recently, we've introduced and updated some new features, including adding AI/ML API as a new provider to AI plugins, improving metrics support for Datadog plugin, and supporting custom Claim Validator in OIDC, etc. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
@@ -74,13 +74,13 @@ Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 This PR enables logging up to 16 unique `json.delay_encode` objects within a single log entry, enhancing flexibility for structured data logging in Apache APISIX.
 
-### 7. Add AIMLAPI Provider Support to AI Plugins
+### 7. Add AI/ML API Provider to AI Plugins
 
 PR: https://github.com/apache/apisix/pull/12379
 
 Contributor: [D1m7asis](https://github.com/D1m7asis)
 
-This PR adds AIMLAPI as a supported provider to the `ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` plugins in Apache APISIX. AIMLAPI provides a unified OpenAI-compatible API with access to 300+ LLMs. This change enables APISIX users to easily route and proxy requests through AIMLAPI without needing custom drivers or overrides.
+This PR adds AI/ML API as a supported provider to the `ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` plugins in Apache APISIX. AIMLAPI provides a unified OpenAI-compatible API with access to 300+ LLMs. This change enables APISIX users to easily route and proxy requests through AIMLAPI without needing custom drivers or overrides.
 
 ### 8. Support `ctx.var.post_arg` for vars-based Route Matching on Request Body
 

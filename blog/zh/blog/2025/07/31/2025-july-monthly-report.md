@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/07/31/pjYuOSbt_2025-july-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们新增并优化了一些功能，如在 AI 插件中新增 AIMLAPI 为 Provider、完善 Datadog 插件指标、OIDC 认证中支持自定义 Claim 校验等。有关更多细节，请阅读本期月报。
+> 最近，我们新增并优化了一些功能，如在 AI 插件中新增 AI/ML API 为 Provider、完善 Datadog 插件指标、OIDC 认证中支持自定义 Claim 校验等。有关更多细节，请阅读本期月报。
 
 <!--truncate-->
 
@@ -72,7 +72,7 @@ Datadog 插件之前未涵盖限流限速响应计数、服务不可达时的网
 
 支持在单条日志中添加最多 16 个唯一的 `json.delay_encode` 对象，提升 Apache APISIX 的结构化日志记录能力。
 
-### 7. AI 插件中新增 AIMLAPI 为 Provider
+### 7. AI 插件中新增 AI/ML API 为 Provider
 
 相关 PR：https://github.com/apache/apisix/pull/12379
 
