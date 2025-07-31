@@ -38,7 +38,7 @@ Datadog 插件之前未涵盖限流限速响应计数、服务不可达时的网
 
 贡献者：[SkyeYoung](https://github.com/SkyeYoung)
 
-此 PR 针对 Apache APISIX Prometheus Exporter 功能的增强，实现了指标计算与输出的分离。计算过程现在在特权代理进程中定期（默认每 15 秒）运行，数据存储在共享字典中；`/apisix/prometheus/metrics` API 移至工作进程中，它仅读取并返回共享字典中的缓存数据。
+此 PR 针对 Apache APISIX Prometheus Exporter 的功能进行增强，实现了指标计算与输出的分离。计算过程现在在特权代理进程中定期（默认每 15 秒）运行，数据存储在共享字典中；`/apisix/prometheus/metrics` API 移至工作进程中，它仅读取并返回共享字典中的缓存数据。
 
 ### 3. OIDC 认证中支持自定义 Claim 校验
 
