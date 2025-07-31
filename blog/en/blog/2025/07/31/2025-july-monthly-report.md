@@ -48,7 +48,7 @@ PR: https://github.com/apache/apisix/pull/11824
 
 Contributor: [beardnick](https://github.com/beardnick)
 
-Enable validation of custom claims in OpenID Connect authentication. Users can configure `claim_validators` to define allowed values for specific claims. If the claim does not match the expected values (e.g., `foo`, `bar`), access is denied with a `401` response, enhancing fine-grained access control to backend services.
+Enable validation of custom claims in OpenID Connect authentication. Users can configure `claim_validators` to define allowed values for specific claims. If the claim does not match the expected values, access is denied with a `401` response, enhancing fine-grained access control to backend services.
 
 ### 4. Add Support for `extra_headers` in `forward-auth` Plugin
 
