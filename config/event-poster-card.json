@@ -1,7 +1,7 @@
 {
   "$schema": "./event-poster-card-schema.json",
-  "show": true,
-  "expire": "2025-12-31",
+  "show": false,
+  "expire": "2025-07-31",
   "width": 400,
   "config": {
     "en": {
