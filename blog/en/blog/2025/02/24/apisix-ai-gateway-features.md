@@ -20,7 +20,7 @@ image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 
 ## Introduction: The Rise of AI Agents and the Evolution of AI Gateway
 
-In recent years, AI agents such as AutoGPT, Chatbots, and AI Assistants have seen rapid development. These applications rely heavily on API calls to large language models (LLMs), which has brought about challenges considering high concurrency, cost control, and security.
+In recent years, AI agents such as AutoGPT, Chatbots, and AI Assistants have seen rapid development. These applications rely heavily on API calls to large language models (LLMs), which have brought about challenges considering high concurrency, cost control, and security.
 
 Traditional API gateways primarily serve Web APIs and microservices and are not optimized for the unique needs of AI applications. This has led to the emergence of the concept of AI gateway. An AI gateway needs to provide enhanced capabilities in the following areas:
 
@@ -60,6 +60,8 @@ Users can flexibly allocate traffic weights among different DeepSeek providers b
 
 These capabilities enable AI applications to adapt flexibly to different LLMs, improve reliability, and reduce API calling costs.
 
+![AI Proxy](https://static.api7.ai/uploads/2025/08/01/TmTsNypy_ai-proxy-multi-workflow.webp)
+
 ## AI Security Protection: Ensuring Safe and Compliant Use of AI
 
 AI APIs may involve sensitive data, misleading information, and potential misuse. Therefore, an AI gateway needs to provide security at multiple levels.
@@ -98,6 +100,8 @@ Calling LLM APIs consumes tokens, and API abuse can lead to significant costs. A
 Through Apache APISIX, enterprises can achieve fine-grained management of token resources and prevent high bills due to API abuse.
 
 ## Smart Routing: Dynamic Traffic Management for AI APIs
+
+![Smart Routing](https://static.api7.ai/uploads/2025/04/28/bzziWsxs_smart-routing.webp)
 
 During AI API calls, different tasks may require different LLMs. For example:
 

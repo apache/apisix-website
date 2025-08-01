@@ -105,6 +105,8 @@ To connect AI agents with external data and APIs, the **[Model Context Protocol 
 2. **Gateway Routing**: The AI gateway validates permissions, injects API keys, and routes the request to relevant services.
 3. **Response Synthesis**: The gateway aggregates API responses (e.g., weather data + CRM contacts) and feeds them back to the AI model.
 
+![How MCP Works](https://static.api7.ai/uploads/2025/08/01/zHkQ4hM0_how-mcp-works.webp)
+
 **Example**: A user asks, "Email our top client in NYC about today's weather." The AI gateway uses MCP to:
 
 - Fetch the top client from Salesforce.
