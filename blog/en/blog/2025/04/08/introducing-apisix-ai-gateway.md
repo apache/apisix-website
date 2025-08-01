@@ -41,7 +41,7 @@ The [`ai-proxy-multi`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy-mu
 
 Additionally, the plugin supports logging LLM request information in the access log, such as token usage, model, time to first response, and more.
 
-![AI Proxy](https://static.api7.ai/uploads/2025/04/28/4X6OlD2d_ai-proxy.webp)
+![AI Proxy](https://static.api7.ai/uploads/2025/08/01/TmTsNypy_ai-proxy-multi-workflow.webp)
 
 **Example: Load Balancing**:
 
@@ -283,7 +283,7 @@ The [`ai-prompt-template`](https://apisix.apache.org/docs/apisix/plugins/ai-prom
 
 The [`ai-prompt-guard`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/) plugin protects your large language model (LLM) endpoints by inspecting and validating incoming prompt messages. It checks the request content against user-defined allow and deny patterns, ensuring only approved input is forwarded to the upstream LLM. Depending on its configuration, the plugin can check either the latest message or the entire conversation history and can be set to inspect prompts from all roles or only from the end user.
 
-![ai-prompt-guard](https://static.api7.ai/uploads/2025/04/28/cVhx6SfZ_ai-prompt-guard.webp)
+![ai-prompt-guard](https://static.api7.ai/uploads/2025/08/01/6Dl4AQGL_ai-prompt-guard-workflow.webp)
 
 ### Content Moderation
 

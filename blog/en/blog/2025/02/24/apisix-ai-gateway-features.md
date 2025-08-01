@@ -60,7 +60,7 @@ Users can flexibly allocate traffic weights among different DeepSeek providers b
 
 These capabilities enable AI applications to adapt flexibly to different LLMs, improve reliability, and reduce API calling costs.
 
-![Multi-LLM Proxy](https://static.api7.ai/uploads/2025/04/28/LX5jOmKq_multi-llm-proxy.webp)
+![AI Proxy](https://static.api7.ai/uploads/2025/08/01/TmTsNypy_ai-proxy-multi-workflow.webp)
 
 ## AI Security Protection: Ensuring Safe and Compliant Use of AI
 
@@ -101,13 +101,13 @@ Through Apache APISIX, enterprises can achieve fine-grained management of token 
 
 ## Smart Routing: Dynamic Traffic Management for AI APIs
 
+![Smart Routing](https://static.api7.ai/uploads/2025/04/28/bzziWsxs_smart-routing.webp)
+
 During AI API calls, different tasks may require different LLMs. For example:
 
 - Code generation requests → sent to GPT-4 or DeepSeek.
 - Long-form summarization tasks → sent to Claude.
 - General conversations → sent to GPT-3.5 or Gemini.
-
-![Smart Routing](https://static.api7.ai/uploads/2025/04/28/bzziWsxs_smart-routing.webp)
 
 **The smart routing capabilities of Apache APISIX include:**
 
