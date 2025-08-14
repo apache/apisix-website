@@ -54,7 +54,7 @@ Here’s a list of activities you can do to get started contributing:
 | Other ideas?                       | If you want to contribute in another way and you’re not sure how to get started, send a proposal to dev@apisix.apache.org                                                                                                                                                                                                                                                            |
 
 Have you already contributed to some of the above activities during the last 2 months?
-Please, claim your [Recognition of Valuable Contribution](https://docs.google.com/forms/d/e/1FAIpQLSeulo9oMf7PIsSeJwPnlZwNdPiWqPN_VgoCSd8cd8g9n8JmRg/viewform) Certification from the Apache APISIX PMC Chair.
+Please, claim your [Recognition of Valuable Contribution](https://forms.gle/yHpP9oWKmjxxkFvX6) Certification from the Apache APISIX PMC Chair.
 
 ![Certification Apache APISIX](https://static.apiseven.com/uploads/2023/02/09/5ZjlxCPK_Certificate111.psd.png)
 
