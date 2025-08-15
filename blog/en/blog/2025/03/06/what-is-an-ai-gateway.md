@@ -92,7 +92,7 @@ As AI systems become integral to business operations, ensuring their reliability
 
 To address these challenges, the concept of an AI gateway has emerged. An AI gateway extends the functionalities of a traditional API gateway by incorporating features specifically designed for AI applications and LLM scenarios. It serves as a unified endpoint for connecting AI infrastructure and services, providing comprehensive control, security, and observability of AI traffic between applications and models.
 
-![API7 AI gateway architecture](https://static.api7.ai/uploads/2025/03/06/iCGmdwUZ_api7-ai-gateway.webp)
+![APISIX AI gateway architecture](https://static.api7.ai/uploads/2025/08/01/KvjMKKx2_apisix-ai-gateway-architecture.webp)
 
 ### Core Features of an AI Gateway
 
@@ -103,6 +103,8 @@ An effective AI gateway encompasses several key functionalities:
 - **Token-Based Rate Limiting**: Controls the rate of requests to AI services, preventing abuse and managing resource utilization.
 - **Prompt Protection**: Ensures that prompts sent to LLMs do not contain sensitive or inappropriate content, safeguarding against unintended data exposure.
 - **Content Moderation**: Monitors and filters responses from AI models to prevent the dissemination of harmful or non-compliant information.
+
+![Security Workflow](https://static.api7.ai/uploads/2025/08/01/unlrtuQl_ai-gateway-security-feature.webp)
 
 #### 2. Observability
 
@@ -119,6 +121,9 @@ An effective AI gateway encompasses several key functionalities:
 #### 4. Reliability
 
 - **Multi-LLM Load Balancing**: Distributes requests across multiple AI models to optimize performance and prevent overloading.
+
+![AI Proxy](https://static.api7.ai/uploads/2025/08/01/TmTsNypy_ai-proxy-multi-workflow.webp)
+
 - **Retry and Fallback Mechanisms**: Implements strategies to handle AI service failures gracefully, ensuring uninterrupted user experiences.
 - **Traffic Prioritization**: Routes high-priority requests to the most reliable AI services while deferring less critical tasks.
 
