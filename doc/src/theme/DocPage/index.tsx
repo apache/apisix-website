@@ -45,7 +45,6 @@ type DocPageContentProps = {
 const navbarLinkMap = {
   general: 'General',
   apisix: 'Apache APISIX®',
-  dashboard: 'Apache APISIX® Dashboard',
   'ingress-controller': 'Apache APISIX® Ingress Controller',
   'helm-chart': 'Apache APISIX® Helm Chart',
   docker: 'Apache APISIX® Docker',
