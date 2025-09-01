@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/08/29/dfR8DC8m_aug-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced and updated some new features, including adding ai-aliyun-content-moderation plugin and allowing environment variables in openid-connect plugin, etc. For more details, please read this month's newsletter.
+> Recently, we've introduced and updated some new features, including adding the `ai-aliyun-content-moderation` plugin and allowing environment variables in the `openid-connect` plugin, etc. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
@@ -46,7 +46,7 @@ PR: https://github.com/apache/apisix/pull/11451
 
 Contributor: [darkSheep404](https://github.com/darkSheep404)
 
-This PR adds the feature of using environment variables in openid-connect plugin.
+This PR adds the feature of using environment variables in the `openid-connect` plugin.
 
 ### 4. Add Healthcheck Support for `ai-proxy-multi` Plugin
 
@@ -64,7 +64,7 @@ Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 This PR adds latency and token info for `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels, `request_type` to distinguish between normal requests and AI-related requests & `llm_model`.
 
-### 6. Add last_modified and digest Metadata to Standalone API
+### 6. Add last_modified and digest Metadata to the Standalone API
 
 PR: https://github.com/apache/apisix/pull/12526
 
@@ -92,7 +92,7 @@ PR: https://github.com/apache/apisix/pull/12515
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR defines log format and adds support for pushing `ai-proxy` request/response logs to any logger.
+This PR defines the log format and adds support for pushing `ai-proxy` request/response logs to any logger.
 
 ## Conclusion
 
