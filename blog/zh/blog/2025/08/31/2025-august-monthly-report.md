@@ -24,77 +24,75 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 近期亮点功能
 
-### 1. 新增 ai-aliyun-content-moderation 插件
+### 1. 新增 `ai-aliyun-content-moderation` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/12530
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-1. 此 PR 将 LLM 后端的块解码逻辑重构并优化至独立的 `sse.lua` 模块；
+本 PR 引入 `ai-aliyun-content-moderation` 插件，用于通过阿里云对 LLM 返回的请求/响应内容进行内容审核。
 
-2. 新增 `lua_response_filter` 机制，用于运行各插件定义的 `lua_body_filter` 处理逻辑。由于 AI 响应由 APISIX 直接管理，无法直接使用原有的 `lua_body_filter` 处理机制，因此引入此新阶段；
+### 2. 使用 sse.lua 重构 Chunk 解码
 
-3. 修改 ai-request-rewrite 插件，使其利用 `lua_body_filter` 机制进行响应写入。
+相关 PR：https://github.com/apache/apisix/pull/12530
 
-### 2. 在 openid-connect 插件中支持使用环境变量
+贡献者：[Revolyssup](https://github.com/Revolyssup)
+
+本 PR 还将 LLM 后端的 chunk 解码逻辑重构并迁移到独立的 `sse.lua` 中。由于 AI 响应由 APISIX 直接管理，无法直接触发原有的 `lua_body_filter` 逻辑，因而新增 `lua_response_filter` 阶段；同时更新 `ai-request-rewrite` 插件，以利用 `lua_body_filter` 机制写入响应。
+
+### 3. 在 `openid-connect` 插件中支持使用环境变量
 
 相关 PR：https://github.com/apache/apisix/pull/11451
 
 贡献者：[darkSheep404](https://github.com/darkSheep404)
 
-### 3. ai-proxy-multi 插件新增健康检查支持
+### 4. `ai-proxy-multi` 插件新增健康检查支持
 
 相关 PR：https://github.com/apache/apisix/pull/12509
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-本 PR 为 ai-proxy-multi 插件引入健康检查功能，确保流量仅被转发到健康可用的 AI 后端。同时，Healthcheck Manager 经过改造，现已支持通过 resource key 直接引用运行时动态创建的 upstream。
+本 PR 为 `ai-proxy-multi` 插件引入健康检查功能，确保流量仅被转发到健康可用的 AI 后端。同时，Healthcheck Manager 经过改造，现已支持通过 resource key 直接引用运行时动态创建的 upstream。
 
-### 4. 增强 ai-proxy 插件可观测性
+### 5. 增强 `ai-proxy` 插件可观测性
 
 相关 PR：https://github.com/apache/apisix/pull/12518
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-1. 本 PR 在访问日志中新增记录 ai-proxy 插件请求的延迟及 Token 信息，方便排查问题；
+本 PR 在访问日志中新增记录 `ai-proxy` 插件请求的延迟及 Token 信息，方便排查问题；同时为 AI 相关请求新增 Prometheus 指标，并引入两个标签：`request_type`（区分普通请求与 AI 请求）和 `llm_model`（标识所用大模型）。
 
-2. 为 AI 相关请求新增 Prometheus 指标，并引入两个标签：`request_type`（区分普通请求与 AI 请求）和 `llm_model`（标识所用大模型）。
-
-### 5. Standalone API 元数据中新增 `last_modified` 与 `digest` 字段
+### 6. Standalone API 元数据中新增 `last_modified` 与 `digest` 字段
 
 相关 PR：https://github.com/apache/apisix/pull/12526
 
 贡献者：[bzp2010p](https://github.com/bzp2010)
 
-1. 本 PR 为 Standalone API 新增了元数据响应头，包含 `X-Last-Modified` 和 `X-Digest` 字段。这些字段用于追踪多节点 APISIX 集群中最近更新的实例节点，并标识当前生效的配置摘要。
+本 PR 为 Standalone API 新增了元数据响应头，包含 `X-Last-Modified` 和 `X-Digest` 字段。这些字段用于追踪多节点 APISIX 集群中最近更新的实例节点，并标识当前生效的配置摘要。同时新增了对 `HEAD` 方法的支持，该方法仅返回元数据而不返回具体配置内容。
 
-2. 同时新增了对 `HEAD` 方法的支持，该方法仅返回元数据而不返回具体配置内容。
-
-### 6. 在 Workflow 插件中支持 limit-conn
+### 7. 在 Workflow 插件中支持 `limit-conn` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/12465
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-本 PR 使 limit-conn 插件可在 workflow 插件内使用，为工作流扩展了基于连接的流量控制能力。
+本 PR 把 `limit-conn` 插件加入到 workflow 插件内使用范畴中，为工作流扩展了基于连接的流量控制能力。
 
-### 7. 引入 Healthcheck Manager，解耦上游与健康检查
+### 8. 引入 Healthcheck Manager，解耦上游与健康检查
 
 相关 PR：https://github.com/apache/apisix/pull/12426
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-1. 解耦上游与健康检查器之间的强耦合，改由全新的 Healthcheck Manager 维护一个轻量级索引，该索引以 `resource_path` 和 `resource_version` 作为键值。
+本 PR 解耦上游与健康检查器之间的强耦合，改由全新的 Healthcheck Manager 维护一个轻量级索引，该索引以 `resource_path` 和 `resource_version` 作为键值。后台定时器会异步从“待检池”中创建探活器；用户请求仅需将上游加入队列，不再直接创建健康检查器，从而将健康检查器的生命周期与请求路径完全隔离。
 
-2. 后台定时器会异步从“待检池”中创建探活器；用户请求仅需将上游加入队列，不再直接创建健康检查器，从而将健康检查器的生命周期与请求路径完全隔离。
-
-### 8. ai-proxy 插件支持日志上报
+### 9. `ai-proxy` 插件支持日志上报
 
 相关 PR：https://github.com/apache/apisix/pull/12515
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-本 PR 为 ai-proxy 插件定义了标准日志结构，并支持将 ai-proxy 请求/响应以日志形式推送至任何记录器。
+本 PR 为 `ai-proxy` 插件定义了标准日志结构，并支持将 `ai-proxy` 请求/响应以日志形式推送至任何记录器。
 
 ## 结语
 

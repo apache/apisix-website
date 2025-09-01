@@ -14,7 +14,7 @@ image: https://static.api7.ai/uploads/2025/08/29/dfR8DC8m_aug-monthly-report-cov
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From August 1st to August 31, 16 contributors made 56 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From August 1st to August 31st, 16 contributors made 56 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
@@ -24,81 +24,75 @@ From August 1st to August 31, 16 contributors made 56 commits to Apache APISIX. 
 
 ## Feature Highlights
 
-### 1. Add ai-aliyun-content-moderation Plugin
+### 1. Add `ai-aliyun-content-moderation` Plugin
 
 PR: https://github.com/apache/apisix/pull/12530
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR:
+This PR introduces `ai-aliyun-content-moderation` plugin to perform content moderation on request and responses returned by LLM backends via aliyun.
 
-1. refactors and improves the chunk decoding from the LLM backend into a separate sse.lua.
+### 2. Refactor Chunk Decoding with `sse.lua`
 
-2. introduces `lua_response_filter` to run `lua_body_filter` as defined by each plugin, because `lua_body_filter` can't be processed directly in AI responses, which are managed by APISIX.
+PR: https://github.com/apache/apisix/pull/12530
 
-3. modifies the ai-request-rewrite plugin to leverage the `lua_body_filter` for writing the response.
+Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-### 2. Allow Environment Variables in openid-connect Plugin
+This PR also refactors and improves the chunk decoding from the LLM backend into a separate `sse.lua`. It introduces `lua_response_filter` to run `lua_body_filter` as defined by each plugin, because `lua_body_filter` can't be processed directly in AI responses, which are managed by APISIX. It also modifies the `ai-request-rewrite` plugin to leverage the `lua_body_filter` for writing the response.
+
+### 3. Allow Environment Variables in `openid-connect` Plugin
 
 PR: https://github.com/apache/apisix/pull/11451
 
 Contributor: [darkSheep404](https://github.com/darkSheep404)
 
-### 3. Add Healthcheck Support for ai-proxy-multi Plugin
+### 4. Add Healthcheck Support for `ai-proxy-multi` Plugin
 
 PR: https://github.com/apache/apisix/pull/12509
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR introduces health check support for the ai-proxy-multi plugin, ensuring traffic is routed to live, healthy AI backends. Healthcheck manager has been modified with the capability to use dynamically created upstreams via the resource key.
+This PR introduces health check support for the `ai-proxy-multi` plugin, ensuring traffic is routed to live, healthy AI backends. Healthcheck manager has been modified with the capability to use dynamically created upstreams via the resource key.
 
-### 4. Add Latency and Token Usage in Access Log and Prometheus Metrics in ai-proxy Plugin
+### 5. Add Latency and Token Usage in Access Log and Prometheus Metrics in `ai-proxy` Plugin
 
 PR: https://github.com/apache/apisix/pull/12518
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR adds:
+This PR adds latency and token info for `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels, `request_type` to distinguish between normal requests and AI-related requests & `llm_model`.
 
-1. latency and token info for ai-proxy plugin in the access log for easy debugging;
-
-2. Prometheus metrics for AI-related requests and adds two more labels, `request_type` to distinguish between normal requests and AI-related requests & `llm_model`.
-
-### 5. Add last_modified and digest Metadata to Standalone API
+### 6. Add last_modified and digest Metadata to Standalone API
 
 PR: https://github.com/apache/apisix/pull/12526
 
 Contributor: [bzp2010](https://github.com/bzp2010)
 
-1. This PR adds a new metadata response header to the Standalone API. This includes X-Last-Modified and X-Digest. These are used to track the most recently updated instance within a cluster of multiple APISIX nodes and to identify the currently active configuration digest.
+This PR adds a new metadata response header to the Standalone API. This includes `X-Last-Modified` and `X-Digest`. These are used to track the most recently updated instance within a cluster of multiple APISIX nodes and to identify the currently active configuration digest. It also adds support for the `HEAD` method, which only returns metadata rather than configuration.
 
-2. It also adds support for the HEAD method, which only returns metadata rather than configuration.
-
-### 6. Support limit-conn in Workflow Plugin
+### 7. Support `limit-conn` in Workflow Plugin
 
 PR: https://github.com/apache/apisix/pull/12465
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR enhances the Workflow plugin by adding support for embedding the limit-conn plugin within workflow rules.
+This PR enhances the Workflow plugin by adding support for embedding the `limit-conn` plugin within workflow rules.
 
-### 7. Add Healthcheck Manager to Decouple Upstream
+### 8. Add Healthcheck Manager to Decouple Upstream
 
 PR: https://github.com/apache/apisix/pull/12426
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-1. The tight coupling between upstreams and health checkers is replaced with a lightweight index—keyed on `resource_path` and `resource_version`—managed by the new Healthcheck Manager.
+The tight coupling between upstreams and health checkers is replaced with a lightweight index—keyed on `resource_path` and `resource_version`—managed by the new Healthcheck Manager. Besides, a background timer asynchronously creates checkers from a "waiting pool". The requests no longer directly create health checkers; therefore, the health checker lifecycle is decoupled from requests.
 
-2. A background timer asynchronously creates checkers from a "waiting pool". The requests no longer directly create health checkers; therefore, the health checker lifecycle is decoupled from requests.
-
-### 8. Add Support for Pushing Logs in ai-proxy Plugin
+### 9. Add Support for Pushing Logs in `ai-proxy` Plugin
 
 PR: https://github.com/apache/apisix/pull/12515
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR defines log format and adds support for pushing ai-proxy request/response in logs to any logger.
+This PR defines log format and adds support for pushing `ai-proxy` request/response in logs to any logger.
 
 ## Conclusion
 
