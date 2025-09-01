@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/08/29/IH1SUVsc_aug-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们新增并优化了一些功能，如新增 ai-aliyun-content-moderation 插件、在 openid-connect 插件中支持使用环境变量、ai-proxy-multi 插件新增健康检查支持等。有关更多细节，请阅读本期月报。
+> 最近，我们新增并优化了一些功能，如新增 `ai-aliyun-content-moderation` 插件、在 `openid-connect` 插件中支持使用环境变量、`ai-proxy-multi` 插件新增健康检查支持等。有关更多细节，请阅读本期月报。
 
 <!--truncate-->
 
@@ -54,7 +54,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-本 PR 为 `ai-proxy-multi` 插件引入健康检查功能，确保流量仅被转发到健康可用的 AI 后端。同时，Healthcheck Manager 经过改造，现已支持通过 resource key 直接引用运行时动态创建的 upstream。
+本 PR 为 `ai-proxy-multi` 插件引入健康检查功能，确保流量仅被转发到健康可用的 AI 后端。同时，Healthcheck Manager 经过改造，现已支持通过 resource key 直接引用运行时动态创建的上游。
 
 ### 5. 增强 `ai-proxy` 插件可观测性
 
