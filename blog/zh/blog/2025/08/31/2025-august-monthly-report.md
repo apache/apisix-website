@@ -78,7 +78,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-本 PR 把 `limit-conn` 插件加入到 workflow 插件内使用范畴中，为工作流扩展了基于连接的流量控制能力。
+本 PR 把 `limit-conn` 插件加入到 `workflow` 插件内使用范畴中，为工作流扩展了基于连接的流量控制能力。
 
 ### 8. 引入 Healthcheck Manager，解耦上游与健康检查
 
@@ -86,7 +86,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-本 PR 解耦上游与健康检查器之间的强耦合，改由全新的 Healthcheck Manager 维护一个轻量级索引，该索引以 `resource_path` 和 `resource_version` 作为键值。后台定时器会异步从“待检池”中创建探活器；用户请求仅需将上游加入队列，不再直接创建健康检查器，从而将健康检查器的生命周期与请求路径完全隔离。
+本 PR 解耦上游与健康检查器之间的强耦合，改由全新的 Healthcheck Manager 维护一个轻量级索引，该索引以 `resource_path` 和 `resource_version` 作为键值。后台定时器会异步从“待检池”中创建健康检查器；用户请求仅需将上游加入队列，不再直接创建健康检查器，从而将健康检查器的生命周期与请求路径完全隔离。
 
 ### 9. `ai-proxy` 插件支持日志上报
 
