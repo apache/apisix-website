@@ -32,7 +32,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 引入 `ai-aliyun-content-moderation` 插件，用于通过阿里云对 LLM 返回的请求/响应内容进行内容审核。
 
-### 2. 使用 sse.lua 重构 Chunk 解码
+### 2. 使用 `sse.lua` 重构 Chunk 解码
 
 相关 PR：https://github.com/apache/apisix/pull/12530
 
@@ -45,6 +45,8 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 相关 PR：https://github.com/apache/apisix/pull/11451
 
 贡献者：[darkSheep404](https://github.com/darkSheep404)
+
+本 PR 为 `openid-connect` 插件新增了使用环境变量的功能。
 
 ### 4. `ai-proxy-multi` 插件新增健康检查支持
 
@@ -70,7 +72,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为 Standalone API 新增了元数据响应头，包含 `X-Last-Modified` 和 `X-Digest` 字段。这些字段用于追踪多节点 APISIX 集群中最近更新的实例节点，并标识当前生效的配置摘要。同时新增了对 `HEAD` 方法的支持，该方法仅返回元数据而不返回具体配置内容。
 
-### 7. 在 Workflow 插件中支持 `limit-conn` 插件
+### 7. 在 `workflow` 插件中支持 `limit-conn` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/12465
 

@@ -46,6 +46,8 @@ PR: https://github.com/apache/apisix/pull/11451
 
 Contributor: [darkSheep404](https://github.com/darkSheep404)
 
+This PR adds the feature of using environment variables in openid-connect plugin.
+
 ### 4. Add Healthcheck Support for `ai-proxy-multi` Plugin
 
 PR: https://github.com/apache/apisix/pull/12509
@@ -68,17 +70,15 @@ PR: https://github.com/apache/apisix/pull/12526
 
 Contributor: [bzp2010](https://github.com/bzp2010)
 
-This PR adds a new metadata response header to the Standalone API. This includes `X-Last-Modified` and `X-Digest`. These are used to track the most recently updated instance within a cluster of multiple APISIX nodes and to identify the currently active configuration digest. It also adds support for the `HEAD` method, which only returns metadata rather than configuration.
-
-### 7. Support `limit-conn` in Workflow Plugin
+### 7. Support `limit-conn` in `workflow` Plugin
 
 PR: https://github.com/apache/apisix/pull/12465
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR enhances the Workflow plugin by adding support for embedding the `limit-conn` plugin within workflow rules.
+This PR enhances the `workflow` plugin by adding support for the `limit-conn` plugin within workflow rules.
 
-### 8. Add Healthcheck Manager to Decouple Upstream
+### 8. Add Healthcheck Manager to Decouple from Upstream
 
 PR: https://github.com/apache/apisix/pull/12426
 
@@ -92,7 +92,7 @@ PR: https://github.com/apache/apisix/pull/12515
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR defines log format and adds support for pushing `ai-proxy` request/response in logs to any logger.
+This PR defines log format and adds support for pushing `ai-proxy` request/response logs to any logger.
 
 ## Conclusion
 
