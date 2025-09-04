@@ -1,5 +1,5 @@
 ---
-title: "360 Built a Unified L7 Load Balancer with Apache APISIX"
+title: "360 Built Unified L7 Load Balancing with Apache APISIX"
 authors:
   - name: Zemiao Yang
     title: Author
@@ -14,18 +14,18 @@ keywords:
   - 360
   - L7 load balancing
   - API gateway use case
-description: 360 unifies Layer 7 load balancing with APISIX, gaining VPC, cloud-native and fine-grained routing in one seamless upgrade.
+description: 360 unifies Layer 7 load balancing with APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.
 tags: [Case Studies]
 image: https://static.api7.ai/uploads/2025/09/03/36LXpfih_360-use-case.webp
 ---
 
-> 360 unifies Layer 7 load balancing with APISIX, gaining VPC, cloud-native and fine-grained routing in one seamless upgrade.
+> 360 unifies Layer 7 load balancing with APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.
 >
 <!--truncate-->
 
 ## About 360
 
-360 Security Technology Inc., also branded as Qihoo 360, is a leading Internet company and also the number one provider of Internet and mobile security products in China as measured by its user base, according to iResearch.
+360 Security Technology Inc., also branded as Qihoo 360, is a leading Internet company and the number one provider of Internet and mobile security products in China as measured by its user base, according to iResearch.
 
 360 Zhihui Cloud is an enterprise application open service platform aimed at "aggregating the value of data and enabling an intelligent future." It integrates 360's extensive products and technological capabilities to provide platform services for customers. The unified L7 load balancing project is conducted by 360 Zhihui Cloud.
 
@@ -33,7 +33,7 @@ image: https://static.api7.ai/uploads/2025/09/03/36LXpfih_360-use-case.webp
 
 Layer 7 (L7) load balancing, which operates at the application layer of the OSI model, provides deep inspection of protocols like HTTP/HTTPS and supports a rich set of advanced routing rules. Unlike Layer 4 (L4) load balancing, which only considers IP addresses and ports, L7 load balancing understands application-layer content, enabling far more granular traffic control.
 
-Our existing internal L7 load balancing system at 360 faced two critical limitations:
+Our existing internal L7 load-balancing system at 360 faced two critical limitations:
 
 1. It was built for traditional data center infrastructure and did not support Virtual Private Clouds (VPCs), making it unable to meet the needs of our cloud-based tenants.
 2. While it supported bare-metal and virtual machine backends, it was not designed for modern, cloud-native workloads such as containers.
@@ -71,7 +71,7 @@ The configuration workflow is as follows:
 
 ### 2. Service Deployment Architecture
 
-Our deployment architecture is shown as the diagram below. It has several features:
+Our deployment architecture is shown in the diagram below. It has several features:
 
 * **Unified Interface:** Our internal "Stack" platform provides a single OpenAPI for all teams, including our container cloud platform, to manage their L7 load balancing resources.
 * **High Availability:** The control plane and storage are deployed at a regional level. The data plane is deployed in a clustered mode within each Availability Zone (AZ), ensuring that if one server fails, requests are automatically redirected to other nodes in the cluster.
