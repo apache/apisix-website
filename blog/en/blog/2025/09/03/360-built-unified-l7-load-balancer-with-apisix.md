@@ -1,7 +1,7 @@
 ---
 title: "360 Built Unified L7 Load Balancing Using Apache APISIX"
 authors:
-  - name: Zemiao Yang
+  - name: 360 ZYUN Cloud
     title: Author
   - name: Yilia Lin
     title: Technical Writer
@@ -27,7 +27,7 @@ image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-cas
 
 360 Security Technology Inc., also branded as Qihoo 360, is a leading Internet and security technology enterprise and first advocate of free Internet security in China. In the wave of AI, it is committed to helping industries and organizations achieve intelligent digital transformation.
 
-360 ZYUN Cloud is the intelligent data cloud foundation of 360, offering a wide range of products and services including databases, middleware, storage, big data, artificial intelligence, computing, networking, video and IoT integration, and communications, as well as one-stop solutions.
+360 ZYUN Cloud is the intelligent data cloud foundation of 360, offering a wide range of products and services including databases, middleware, storage, big data, artificial intelligence, computing, networking, video, and IoT integration, and communications, as well as one-stop solutions.
 
 Positioned as an open enterprise application service platform with the mission of "aggregating the value of data and enabling an intelligent future," 360 ZYUN Cloud provides robust products and technical services for businesses and applications across industries, helping enterprises and organizations unlock greater commercial value.
 
