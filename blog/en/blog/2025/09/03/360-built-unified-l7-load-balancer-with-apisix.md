@@ -1,5 +1,5 @@
 ---
-title: "360 Built Unified L7 Load Balancing with Apache APISIX"
+title: "360 Built Unified L7 Load Balancing Using Apache APISIX"
 authors:
   - name: Zemiao Yang
     title: Author
@@ -14,20 +14,22 @@ keywords:
   - 360
   - L7 load balancing
   - API gateway use case
-description: 360 unifies Layer 7 load balancing with APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.
+description: 360 unifies Layer 7 load balancing using APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.
 tags: [Case Studies]
-image: https://static.api7.ai/uploads/2025/09/03/36LXpfih_360-use-case.webp
+image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-case.webp
 ---
 
-> 360 unifies Layer 7 load balancing with APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.
+> 360 unifies Layer 7 load balancing using APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.
 >
 <!--truncate-->
 
 ## About 360
 
-360 Security Technology Inc., also branded as Qihoo 360, is a leading Internet company and the number one provider of Internet and mobile security products in China as measured by its user base, according to iResearch.
+360 Security Technology Inc., also branded as Qihoo 360, is a leading Internet and security technology enterprise and first advocate of free Internet security in China. In the wave of AI, it is committed to helping industries and organizations achieve intelligent digital transformation.
 
-360 Zhihui Cloud is an enterprise application open service platform aimed at "aggregating the value of data and enabling an intelligent future." It integrates 360's extensive products and technological capabilities to provide platform services for customers. The unified L7 load balancing project is conducted by 360 Zhihui Cloud.
+360 ZYUN Cloud is the intelligent data cloud foundation of 360, offering a wide range of products and services including databases, middleware, storage, big data, artificial intelligence, computing, networking, video and IoT integration, and communications, as well as one-stop solutions.
+
+Positioned as an open enterprise application service platform with the mission of "aggregating the value of data and enabling an intelligent future," 360 ZYUN Cloud provides robust products and technical services for businesses and applications across industries, helping enterprises and organizations unlock greater commercial value.
 
 ## Project Background
 
@@ -60,14 +62,13 @@ The **data plane** is the component that processes client requests and forwards 
 
 ![360 L7 Load Balancing Architecture](https://static.api7.ai/uploads/2025/09/04/yXqvnBrv_2.1-en.webp)
 
-The configuration workflow is as follows:
+L7 resources (e.g., `service`, `route`, `upstream`) are managed via calls to the internal `LBC-API`. The workflow is as follows:
 
-1. L7 resources (e.g., `service`, `route`, `upstream`) are managed via calls to the internal `LBC-API`.
-2. The API then calls the `apisix admin API` to persist the configuration into the `etcd` cluster.
-3. The `LBC-AGENT` process listens for changes in `etcd` and applies VPC IP mapping configurations to the FNAT data plane.
-4. The APISIX data plane nodes also listen for changes in `etcd`, allowing new L7 routing rules to take effect dynamically.
-5. Traffic from our on-prem data center (IDC) is forwarded directly to its destination IP, while traffic destined for VPCs is encapsulated and forwarded to its host.
-6. To use the service, teams simply point their application's DNS to the corresponding Virtual IP (EIP for public services or a VPC-internal VIP).
+1. The API then calls the `apisix admin API` to persist the configuration into the `etcd` cluster.
+2. The `LBC-AGENT` process listens for changes in `etcd` and applies VPC IP mapping configurations to the FNAT data plane.
+3. The APISIX data plane nodes also listen for changes in `etcd`, allowing new L7 routing rules to take effect dynamically.
+4. Traffic from our on-prem data center (IDC) is forwarded directly to its destination IP, while traffic destined for VPCs is encapsulated and forwarded to its host.
+5. To use the service, teams simply point their application's DNS to the corresponding Virtual IP (EIP for public services or a VPC-internal VIP).
 
 ### 2. Service Deployment Architecture
 

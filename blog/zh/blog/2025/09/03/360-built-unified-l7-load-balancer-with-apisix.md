@@ -13,18 +13,20 @@ keywords:
   - API 网关
   - 七层负载均衡
   - L7
-description: 360 使用 APISIX 统一七层负载均衡，通过其 Admin API + etcd 热同步机制，实现了对传统架构的平滑升级。
+description: 360 使用 Apache APISIX 统一七层负载均衡，通过其 Admin API 和 etcd 热同步机制，实现了 VPC、云原生能力以及精细化路由的一体化升级。
 tags: [Case Studies]
-image: https://static.api7.ai/uploads/2025/09/03/36LXpfih_360-use-case.webp
+image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-case.webp
 ---
 
-> 360 使用 APISIX 统一七层负载均衡，通过其 Admin API + etcd 热同步机制，实现了对传统架构的平滑升级。
+> 360 使用 Apache APISIX 统一七层负载均衡，通过其 Admin API 和 etcd 热同步机制，实现了 VPC、云原生能力以及精细化路由的一体化升级。
 >
 <!--truncate-->
 
 ## 360 简介
 
-360 安全科技股份有限公司中国领先的互联网和安全技术公司，是中国最大的互联网和移动安全产品提供商之一。360 智汇云是以“汇聚数据价值，助力智能未来”为目标的企业应用开放服务平台，融合 360 丰富的产品、技术力量，为客户提供平台服务。统一七层负载均衡项目正是由 360 智汇云负责实施。
+360 公司是中国领先的互联网和安全技术公司，是中国首家互联网免费安全的倡导者。AI 浪潮下，致力于帮助产业和组织智转数改。
+
+360 智汇云是 360 公司的智数云底座，提供数据库、中间件、存储、大数据、人工智能、计算、网络、视联物联与通信等多种产品服务以及一站式解决方案。智汇云以“汇聚数据价值，助力智能未来”为目标的企业应用开放服务平台，为各行各业的业务及应用提供强有力的产品、技术服务，帮助企业和业务实现更大的商业价值。
 
 ## 项目背景
 
@@ -54,13 +56,13 @@ image: https://static.api7.ai/uploads/2025/09/03/36LXpfih_360-use-case.webp
 
 统一七层负载均衡架构分为控制面和转发面两部分。
 
-控制面除原有 LBC-API（四七层共用）外，还引入 apisix admin API 用于七层规则的下发。存储使用 etcd 集群，毫秒级的变化通知机制，使得配置变更达到实时的效果，支持集群管理，更好的适配容器场景。VPC 场景下，控制面为 VPC 内 upstream 分配一个唯一 IP 用于替换 upstream 的真实 VPC IP。
+控制面除原有 LBC-API（四七层共用）外，还引入 APISIX Admin API 用于七层规则的下发。存储使用 etcd 集群，毫秒级的变化通知机制，使得配置变更达到实时的效果，支持集群管理，更好的适配容器场景。VPC 场景下，控制面为 VPC 内 upstream 分配一个唯一 IP 用于替换 upstream 的真实 VPC IP。
 
 第二部分是转发面，真正去处理来自客户端请求，转发用户的真实流量，支持多种功能，如身份验证、证书卸载、日志分析和可观测性等，不做数据的存储。VPC 场景中，转发面复用 FNAT 网关转发逻辑，根据唯一 IP 和真实 VPC IP 的映射关系，将流量封装 VXLAN 后发送至 upstream 所在宿主机。
 
 ![360 L7 Load Balancing Architecture](https://static.api7.ai/uploads/2025/09/04/VWV24ftv_2.1-cn.webp)
 
-七层相关资源如 service、route、upstream 等可通过调用 LBC-API 创建/删除/修改。
+七层相关资源如 service、route、upstream 等可通过调用 LBC-API 创建/删除/修改。具体流程如下：
 
 1. API 会继续调用 admin api vip 将请求写入 etcd 集群。
 
