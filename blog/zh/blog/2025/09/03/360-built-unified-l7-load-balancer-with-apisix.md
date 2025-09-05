@@ -22,7 +22,7 @@ image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-cas
 >
 <!--truncate-->
 
-## 360 简介
+## 360 及 360 智汇云简介
 
 360 公司是中国领先的互联网和安全技术公司，是中国首家互联网免费安全的倡导者。AI 浪潮下，致力于帮助产业和组织智转数改。
 
@@ -94,7 +94,9 @@ image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-cas
 
 - **VPC 云上七层流量**：公网 EIP -> 四层负载均衡集群（vpc vip） -> 七层负载均衡网关（vxlan封装）-> VPC 内 IP（包括虚机/POD等）。
 
-![Traffic Path Diagram](https://static.api7.ai/uploads/2025/09/04/BFDB1z4d_3.1-cn.webp)
+<div align="center">
+<img alt="Traffic Path Diagram" style="width: 65%" src="https://static.api7.ai/uploads/2025/09/04/BFDB1z4d_3.1-cn.webp"></img>
+</div>
 
 ## 总结与展望
 
