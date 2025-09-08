@@ -25,7 +25,7 @@ image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-cas
 
 ## About 360 and 360 ZYUN Cloud
 
-360 Security Technology Inc., also branded as Qihoo 360, is a leading Internet and security technology enterprise and the first advocate of free Internet security in China. In the wave of AI, it is committed to helping industries and organizations achieve intelligent digital transformation.
+360 Security Technology Inc., also branded as [Qihoo 360](https://www.linkedin.com/company/qihoo-360/), is a leading Internet and security technology enterprise and the first advocate of free Internet security in China. In the wave of AI, it is committed to helping industries and organizations achieve intelligent digital transformation.
 
 360 ZYUN Cloud is the intelligent data cloud foundation of 360, offering a wide range of products and services, including databases, middleware, storage, big data, artificial intelligence, computing, networking, video, and IoT integration, and communications, as well as one-stop solutions.
 
