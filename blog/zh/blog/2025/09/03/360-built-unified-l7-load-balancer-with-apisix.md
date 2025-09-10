@@ -94,9 +94,11 @@ image: https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-cas
 
 - **VPC 云上七层流量**：公网 EIP -> 四层负载均衡集群（vpc vip） -> 七层负载均衡网关（vxlan封装）-> VPC 内 IP（包括虚机/POD等）。
 
-<div align="center">
-<img alt="Traffic Path Diagram" style="width: 65%" src="https://static.api7.ai/uploads/2025/09/04/BFDB1z4d_3.1-cn.webp"></img>
-</div>
+<p align="center">
+  <a href="Traffic Path Diagram">
+    <img width="500" src="https://static.api7.ai/uploads/2025/09/04/zO2tt4qq_3.1-en.webp" />
+  </a>
+</p>
 
 ## 总结与展望
 

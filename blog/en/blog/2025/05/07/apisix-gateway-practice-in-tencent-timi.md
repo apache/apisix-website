@@ -80,9 +80,11 @@ Development standards are easy to understand. We need to define a library, speci
 
 To lower the development threshold, we support local quick running and testing. By utilizing APISIX's Docker image, local plugins can be mounted into containers via volume mapping for convenient deployment. Additionally, by leveraging the downstream echo-service (a service developed based on open-source Node.js), upstream behavior can be simulated. This service can return all content of a request, such as request headers. By adding specific parameters in the request (e.g., HTTP status code `500`), upstream exceptional behavior can be simulated, thereby comprehensively verifying plugin functionality.
 
-<div align="center">
-<img alt="TAPISIX Project Introduction" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/15/1r4TMUK9_timi-2.webp"></img>
-</div>
+<p align="center">
+  <a href="Honor Plugin Ecosystem">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/15/1r4TMUK9_timi-2.webp" />
+  </a>
+</p>
 
 ### 2. Local Quick Running and Testing
 
@@ -94,9 +96,11 @@ To reduce the development threshold and accelerate verification, we provide conv
 
 3. **Direct Browser Access**: Developers can directly verify plugin functionality by accessing relevant interfaces in a browser, without additional deployment or configuration.
 
-<div align="center">
-<img alt="Run and Test" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/15/bdMFTb0b_timi-3.webp"></img>
-</div>
+<p align="center">
+  <a href="Honor Plugin Ecosystem">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/15/bdMFTb0b_timi-3.webp" />
+  </a>
+</p>
 
 By defining development standards and providing local quick development support, we have effectively lowered the development threshold and accelerated the plugin verification process. Developers can focus on feature implementation without worrying about complex deployment and testing procedures, thereby improving overall development efficiency.
 
@@ -120,9 +124,11 @@ During pipeline construction, it is essential to ensure reliability and stabilit
 
     c. Try Build: Constructs an image using the source code to verify its buildability.
 
-<div align="center">
-<img alt="Pipeline Building" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/15/VAFUteFJ_timi-4.webp"></img>
-</div>
+<p align="center">
+  <a href="Pipeline Building">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/15/VAFUteFJ_timi-4.webp" />
+  </a>
+</p>
 
 ### 4. Reliability Assurance (CR, lint, unit testing, black-box testing)
 
@@ -132,9 +138,11 @@ We utilize the k6 testing framework from Grafana to validate core test cases. Th
 
 k6 Test Cases: Comprising hundreds of test cases covering core processes to ensure plugin reliability.
 
-<div align="center">
-<img alt="K6 Test" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/15/80NTJpcY_timi-5.webp"></img>
-</div>
+<p align="center">
+  <a href="K6 Test">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/15/80NTJpcY_timi-5.webp" />
+  </a>
+</p>
 
 Through the complete process of local development, quick validation, MR submission, pipeline inspection, reliability assurance, and packaging deployment, we ensure that every stage of plugin development and deployment undergoes strict quality control.
 
@@ -154,9 +162,11 @@ APISIX offers three deployment methods to accommodate the needs of different pro
 
 We utilize the standalone mode that retains only the data plane. All configurations are stored locally, avoiding reliance on etcd. This mode is more suitable for overseas scenarios. Since etcd is a database, some cloud providers do not offer etcd services. Given the stringent overseas data compliance requirements and our k8s-based deployment environment, we have also implemented a configuration management approach that is k8s-friendly.
 
-<div align="center">
-<img alt="APISIX Deployment" style="width: 75%" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp"></img>
-</div>
+<p align="center">
+  <a href="APISIX Deployment">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp" />
+  </a>
+</p>
 
 - YAML Configuration: All configurations are directly stored in YAML files for easy management and automated deployment.
 - ConfigMap Storage: YAML files are directly placed in k8s ConfigMaps to ensure configuration versioning and traceability.
@@ -183,9 +193,11 @@ To address this, we adopted the GitOps model, deploying YAML files to a Kubernet
 
 ### Deployment Process Example
 
-<div align="center">
-<img alt="Deployment Workflow" style="width: 80%" src="https://static.api7.ai/uploads/2025/05/15/S2R27TnZ_timi-8.webp"></img>
-</div>
+<p align="center">
+  <a href="Deployment Workflow">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/15/S2R27TnZ_timi-8.webp" />
+  </a>
+</p>
 
 In the deployment process illustrated above, SREs (Site Reliability Engineers) manage configurations on behalf of users. Any modifications, such as route changes or image updates, must be implemented by altering the Helm Chart repository. After the change, Argo CD automatically detects it and triggers the pipeline to pull the latest configuration for deployment. Additionally, a strong synchronization is established between Git and Kubernetes, ensuring configuration consistency and reliability.
 
@@ -213,9 +225,11 @@ The APISIX Ingress Controller, as the official community solution for k8s, follo
 
 After deploying these CRDs to the k8s cluster, the Ingress Controller continuously monitors the relevant CRD resources. It parses the configuration information from the CRDs and synchronizes the configurations to APISIX by invoking APISIX's Admin API. The Ingress Controller primarily facilitates deployment between CRDs and APISIX, ultimately writing data to etcd.
 
-<div align="center">
-<img alt="APISIX Ingress Controller" style="width: 50%" src="https://static.api7.ai/uploads/2025/05/07/XbjN7Bky_11-ingress-controller.webp"></img>
-</div>
+<p align="center">
+  <a href="APISIX Ingress Controller">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/07/XbjN7Bky_11-ingress-controller.webp" />
+  </a>
+</p>
 
 After careful evaluation, we found that the deployment and operational model of the APISIX Ingress Controller does not fully align with our team's requirements for the following reasons:
 
@@ -315,9 +329,11 @@ To address these challenges, we implemented a two-pronged strategy to optimize o
 
 In k8s upstream configurations, there are various types, differed solely by the service name. After introducing a new version and updating the Lua package, we effectively addressed the issue of duplicated configurations by fully utilizing leveraged YAML's anchor (&) and alias (*) features. Through the anchor mechanism, we abstracted and reused common configuration parts, reducing duplicated configurations by approximately 70% in practical applications. This significantly improved the efficiency and simplicity of configuration management and reduced the risk of errors introduced by duplicated configurations.
 
-<div align="center">
-<img alt="Duplicated Route Configuration" style="width: 60%" src="https://static.api7.ai/uploads/2025/05/07/hbEPdHAf_20-duplicated-route-configuration.webp"></img>
-</div>
+<p align="center">
+  <a href="Duplicated Route Configuration">
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/07/hbEPdHAf_20-duplicated-route-configuration.webp" />
+  </a>
+</p>
 
 ## Migration Practices of APISIX Replacing Ingress
 

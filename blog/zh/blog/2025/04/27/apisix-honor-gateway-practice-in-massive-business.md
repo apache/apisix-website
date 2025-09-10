@@ -24,7 +24,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 > 作者：付家浩、许伟川，荣耀 PAAS 平台部工程师。本文整理自 2025 年 4 月 12 日两位工程师在 APISIX 深圳 Meetup 的演讲。
 <!--truncate-->
 
-## 关于荣耀
+## 荣耀简介
 
 [荣耀](https://www.honor.com/cn/)成立于 2013 年，是全球领先的智能终端提供商。荣耀的产品已销往全球 100 多个国家和地区，并与 200 多个运营商建立了合作关系。荣耀在全球的体验店与专区专柜超 52000，在网设备数超 2.5 亿。
 
@@ -99,7 +99,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Honor Plugin Ecosystem">
-    <img width="500" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp" />
+    <img width="550" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp" />
   </a>
 </p>
 
@@ -111,7 +111,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Honor Traffic Mirroring">
-    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
+    <img width="600" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
   </a>
 </p>
 
@@ -129,7 +129,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Custom Plugin Implementation">
-    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
+    <img width="600" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
   </a>
 </p>
 
@@ -217,7 +217,7 @@ APISIX 提供了丰富的插件能力，涵盖单机限流和分布式限流方�
 
 <p align="center">
   <a href="Single-Node Rate Limiting">
-    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp" />
   </a>
 </p>
 
@@ -227,7 +227,7 @@ APISIX 提供了丰富的插件能力，涵盖单机限流和分布式限流方�
 
 <p align="center">
   <a href="Upgraded Single-Node Rate Limiting Solution">
-    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp" />
   </a>
 </p>
 
@@ -273,7 +273,7 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 
 <p align="center">
   <a href="Distributed Rate Limiting">
-    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp" />
   </a>
 </p>
 
@@ -283,7 +283,7 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 
 <p align="center">
   <a href="Upgraded Distributed Rate Limiting Solution">
-    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp" />
   </a>
 </p>
 
@@ -353,8 +353,8 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 2. **分流量检测**：在 APISIX 集群中，将部分流量转发至 WAF 进行检测，判断流量是否正常或是否包含恶意攻击（如出口攻击和命令出口攻击）。
 3. **状态码响应机制**：
 
-   a. 若 WAF 检测到流量正常，返回 200 状态码，请求被放通到上游。
-   b. 若 WAF 检测到恶意攻击，返回类似 403 的状态码，请求被拒绝。
+   a. 若 WAF 检测到流量正常，返回 `200` 状态码，请求被放通到上游。
+   b. 若 WAF 检测到恶意攻击，返回类似 `403` 的状态码，请求被拒绝。
 
 4. **故障容错**：若 WAF 发生故障，流量可直接转发到后端，避免因 WAF 故障导致链路中断，提升整体链路的可靠性。
 

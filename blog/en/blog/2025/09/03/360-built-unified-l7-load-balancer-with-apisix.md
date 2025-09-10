@@ -89,9 +89,11 @@ Traffic flows through one of two primary paths depending on the environment:
 * **VPC Cloud L7 Traffic:**
     Public EIP -> L4 Load Balancer (vpc vip) -> **L7 LB Gateway with VXLAN encapsulation** -> VPC-internal IP (VM, pod, etc.)
 
-<div align="center">
-<img alt="Traffic Path Diagram" style="width: 65%" src="https://static.api7.ai/uploads/2025/09/04/zO2tt4qq_3.1-en.webp"></img>
-</div>
+<p align="center">
+  <a href="Traffic Path Diagram">
+    <img width="500" src="https://static.api7.ai/uploads/2025/09/04/zO2tt4qq_3.1-en.webp" />
+  </a>
+</p>
 
 ### Conclusion & Future Outlook
 
