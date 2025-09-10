@@ -24,7 +24,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 > 作者：付家浩、许伟川，荣耀 PAAS 平台部工程师。本文整理自 2025 年 4 月 12 日两位工程师在 APISIX 深圳 Meetup 的演讲。
 <!--truncate-->
 
-## 关于荣耀
+## 荣耀简介
 
 [荣耀](https://www.honor.com/cn/)成立于 2013 年，是全球领先的智能终端提供商。荣耀的产品已销往全球 100 多个国家和地区，并与 200 多个运营商建立了合作关系。荣耀在全球的体验店与专区专柜超 52000，在网设备数超 2.5 亿。
 
@@ -97,9 +97,9 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 关于 APISIX 在荣耀海量业务下的实践，最初我们使用 APISIX 的原生插件，随着业务发展和要求，原生插件已经无法满足我们的需求。因此我们基于平台或者用户基于自身的需求扩展了一些插件，目前已经有 100 多个。
 
-<div align="center">
-<img alt="Honor Plugin Ecosystem" style="width: 65%" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp"></img>
-</div>
+<p align="center">
+  <img width="550" alt="Honor Plugin Ecosystem" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp" />
+</p>
 
 ### 插件分类
 
@@ -107,9 +107,9 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 ### 1. 可观测：流量镜像
 
-<div align="center">
-<img alt="Traffic Mirroring" style="width: 80%" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp"></img>
-</div>
+<p align="center">
+  <img width="700" alt="Honor Traffic Mirroring" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
+</p>
 
 #### 请求处理与流量镜像
 
@@ -123,9 +123,9 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 2. **上游处理**：APISIX 将请求转发至上游，上游返回响应后，客户端请求流程结束。
 3. **异步录制**：通过异步线程从队列中提取请求，并将其发送至录制平台进行数据录制。由于录制请求包含时间戳，异步操作不会影响正式流量。
 
-<div align="center">
-<img alt="Custom Plugin Implementation" style="width: 80%" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp"></img>
-</div>
+<p align="center">
+  <img width="700" alt="Custom Plugin Implementation" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
+</p>
 
 #### 录制平台功能
 
@@ -146,7 +146,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 传统灰度插件支持基于规则或流量百分比的灰度功能，但其流量百分比灰度可能导致流量分配不一致，例如同一请求在不同时间可能被分配到不同的灰度环境。这种情况在 To C 场景中可能影响业务的稳定性。
 
-为解决这一问题，我们在灰度插件前引入了哈希插件 key-hash，结合灰度插件实现稳定的灰度百分比分配。具体实现方式如下：
+为解决这一问题，我们在灰度插件前引入了哈希插件 `key-hash`，结合灰度插件实现稳定的灰度百分比分配。具体实现方式如下：
 
 1. 支持基于特定请求头或 Cookie 的输入进行哈希计算。
 2. 将哈希结果作为灰度插件的输入，用于确定流量分配的百分比。
@@ -163,11 +163,11 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
    a. 当流量通过 APISIX 网关时，会根据灰度策略对流量进行打标。
 
-   b. 若通过的流量为灰度流量，网关会在请求中插入特定的请求头（如 honor-tag:gray），标识该请求为灰度流量。
+   b. 若通过的流量为灰度流量，网关会在请求中插入特定的请求头（如 `honor-tag:gray`），标识该请求为灰度流量。
 
 **2. 服务注册与标识**：
 
-   a. 服务 A 在注册到注册中心时，会将自己的灰度标识（如 gray）一并注册。
+   a. 服务 A 在注册到注册中心时，会将自己的灰度标识（如 `gray`）一并注册。
 
    b. 注册中心维护了服务的灰度标识与实例的映射关系。
 
@@ -175,7 +175,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
    a. 服务 A 调用服务 B：
 
-      i. 服务 A 收到请求后，首先检查请求中是否包含灰度标识（如 honor-tag:gray）。
+      i. 服务 A 收到请求后，首先检查请求中是否包含灰度标识（如 `honor-tag:gray`）。
       
       ii. 若请求包含灰度标识，服务 A 会根据该标识从注册中心获取服务 B 的灰度实例，并优先调度灰度实例。
       
@@ -183,13 +183,13 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
    b. 服务 B 调用服务 C：
 
-      i. 服务 B 收到服务 A 传递的灰度标识（如 honor-tag:gray）后，同样会根据该标识从注册中心获取服务 C 的灰度实例。
+      i. 服务 B 收到服务 A 传递的灰度标识（如 `honor-tag:gray`）后，同样会根据该标识从注册中心获取服务 C 的灰度实例。
       
       ii. 若服务 C 存在灰度实例，则将请求调度到灰度实例；否则，调度正式实例。
 
 **4. 全链路灰度实现**：
 
-   a. 通过请求头的透传（如 honor-tag:gray），确保灰度标识在服务链路中保持一致。
+   a. 通过请求头的透传（如 `honor-tag:gray`），确保灰度标识在服务链路中保持一致。
 
    b. 服务链路中的每个节点根据灰度标识进行调度决策，从而实现全链路灰度能力。
 
@@ -209,17 +209,17 @@ APISIX 提供了丰富的插件能力，涵盖单机限流和分布式限流方�
 
 在弹性伸缩场景下，网关触发扩容或缩容时，限流值可能出现不匹配问题。例如，当 CPU 使用率达到 80% 时触发弹性扩容，假设初始配置为每个节点限流值为 2000，扩容后节点数量增加至 3 个，总限流值会变为 6000，这可能导致后端服务因流量超出承载能力而异常。
 
-<div align="center">
-<img alt="Single-Node Rate Limiting" style="width: 50%" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp"></img>
-</div>
+<p align="center">
+  <img width="500" alt="Single-Node Rate Limiting" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp" />
+</p>
 
 **优化方案**
 
 为解决上述问题，我们引入了以下优化措施：
 
-<div align="center">
-<img alt="Upgraded Single-Node Rate Limiting Solution" style="width: 60%" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp"></img>
-</div>
+<p align="center">
+  <img width="500" alt="Upgraded Single-Node Rate Limiting Solution" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp" />
+</p>
 
 **1. 节点信息上报与维护**
 
@@ -261,17 +261,17 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 
 3. **请求时延增加**：开源分布式限流方案需先访问 Redis 完成计数，再将请求转发至上游，导致业务请求时延增加 2-3 毫秒。
 
-<div align="center">
-<img alt="Distributed Rate Limiting" style="width: 40%" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp"></img>
-</div>
+<p align="center">
+  <img width="500" alt="Distributed Rate Limiting" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp" />
+</p>
 
 **优化方案**
 
 为解决上述问题，我们设计了以下优化方案：
 
-<div align="center">
-<img alt="Upgraded Distributed Rate Limiting Solution" style="width: 45%" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp"></img>
-</div>
+<p align="center">
+  <img width="500" alt="Upgraded Distributed Rate Limiting Solution" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp" />
+</p>
 
 **1. 引入本地计数缓存**：
 
@@ -339,8 +339,8 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 2. **分流量检测**：在 APISIX 集群中，将部分流量转发至 WAF 进行检测，判断流量是否正常或是否包含恶意攻击（如出口攻击和命令出口攻击）。
 3. **状态码响应机制**：
 
-   a. 若 WAF 检测到流量正常，返回 200 状态码，请求被放通到上游。
-   b. 若 WAF 检测到恶意攻击，返回类似 403 的状态码，请求被拒绝。
+   a. 若 WAF 检测到流量正常，返回 `200` 状态码，请求被放通到上游。
+   b. 若 WAF 检测到恶意攻击，返回类似 `403` 的状态码，请求被拒绝。
 
 4. **故障容错**：若 WAF 发生故障，流量可直接转发到后端，避免因 WAF 故障导致链路中断，提升整体链路的可靠性。
 
