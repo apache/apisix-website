@@ -159,9 +159,11 @@ APISIX 提供了三种部署方式，以适应不同的生产环境需求：
 
 只保留数据面的独立模式也是我们使用的方式，所有的配置都存储在本地，避免了对 etcd 的依赖。这种模式更适用于海外场景。由于 etcd 属于数据库选型，部分云厂商不提供 etcd 服务，且海外对数据合规性要求严格，并且我们的部署环境在 k8s，因此也采用了对 k8s 友好的配置管理方式。
 
-<div align="center">
-<img alt="APISIX Deployment" style="width: 75%" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp"></img>
-</div>
+<p align="center">
+  <a href="APISIX Deployment">
+    <img width="650" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp" />
+  </a>
+</p>
 
 - **YAML 配置**：所有配置直接存储在 YAML 文件中，便于管理和自动化部署。
 - **ConfigMap 存储**：将 yaml 文件直接放置在 k8s 的 ConfigMap 中，确保配置的版本化和可追溯性。

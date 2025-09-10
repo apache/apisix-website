@@ -164,7 +164,7 @@ We utilize the standalone mode that retains only the data plane. All configurati
 
 <p align="center">
   <a href="APISIX Deployment">
-    <img width="550" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp" />
+    <img width="650" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp" />
   </a>
 </p>
 

@@ -111,7 +111,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Honor Traffic Mirroring">
-    <img width="600" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
+    <img width="700" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
   </a>
 </p>
 
@@ -129,7 +129,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Custom Plugin Implementation">
-    <img width="600" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
+    <img width="700" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
   </a>
 </p>
 

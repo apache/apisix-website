@@ -119,7 +119,7 @@ Plugins are categorized into four groups: traffic control, authentication, secur
 
 <p align="center">
   <a href="Honor Traffic Mirroring">
-    <img width="600" src="https://static.api7.ai/uploads/2025/05/13/1wt6a77m_3-traffic-mirror-2.webp" />
+    <img width="700" src="https://static.api7.ai/uploads/2025/05/13/1wt6a77m_3-traffic-mirror-2.webp" />
   </a>
 </p>
 
@@ -137,7 +137,7 @@ After a request reaches APISIX, the traffic is forwarded to the upstream service
 
 <p align="center">
   <a href="Custom Plugin Implementation">
-    <img width="600" src="https://static.api7.ai/uploads/2025/05/13/7jNxZpWR_4-custom-plugin-2.webp" />
+    <img width="700" src="https://static.api7.ai/uploads/2025/05/13/7jNxZpWR_4-custom-plugin-2.webp" />
   </a>
 </p>
 
