@@ -97,9 +97,11 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 关于 APISIX 在荣耀海量业务下的实践，最初我们使用 APISIX 的原生插件，随着业务发展和要求，原生插件已经无法满足我们的需求。因此我们基于平台或者用户基于自身的需求扩展了一些插件，目前已经有 100 多个。
 
-<div align="center">
-<img alt="Honor Plugin Ecosystem" style="width: 65%" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp"></img>
-</div>
+<p align="center">
+  <a href="Honor Plugin Ecosystem">
+    <img width="320" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp" />
+  </a>
+</p>
 
 ### 插件分类
 
@@ -107,9 +109,11 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 ### 1. 可观测：流量镜像
 
-<div align="center">
-<img alt="Traffic Mirroring" style="width: 80%" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp"></img>
-</div>
+<p align="center">
+  <a href="Honor Traffic Mirroring">
+    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
+  </a>
+</p>
 
 #### 请求处理与流量镜像
 
@@ -123,9 +127,11 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 2. **上游处理**：APISIX 将请求转发至上游，上游返回响应后，客户端请求流程结束。
 3. **异步录制**：通过异步线程从队列中提取请求，并将其发送至录制平台进行数据录制。由于录制请求包含时间戳，异步操作不会影响正式流量。
 
-<div align="center">
-<img alt="Custom Plugin Implementation" style="width: 80%" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp"></img>
-</div>
+<p align="center">
+  <a href="Custom Plugin Implementation">
+    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
+  </a>
+</p>
 
 #### 录制平台功能
 
@@ -209,17 +215,21 @@ APISIX 提供了丰富的插件能力，涵盖单机限流和分布式限流方�
 
 在弹性伸缩场景下，网关触发扩容或缩容时，限流值可能出现不匹配问题。例如，当 CPU 使用率达到 80% 时触发弹性扩容，假设初始配置为每个节点限流值为 2000，扩容后节点数量增加至 3 个，总限流值会变为 6000，这可能导致后端服务因流量超出承载能力而异常。
 
-<div align="center">
-<img alt="Single-Node Rate Limiting" style="width: 50%" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp"></img>
-</div>
+<p align="center">
+  <a href="Single-Node Rate Limiting">
+    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp" />
+  </a>
+</p>
 
 **优化方案**
 
 为解决上述问题，我们引入了以下优化措施：
 
-<div align="center">
-<img alt="Upgraded Single-Node Rate Limiting Solution" style="width: 60%" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp"></img>
-</div>
+<p align="center">
+  <a href="Upgraded Single-Node Rate Limiting Solution">
+    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp" />
+  </a>
+</p>
 
 **1. 节点信息上报与维护**
 
@@ -261,17 +271,21 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 
 3. **请求时延增加**：开源分布式限流方案需先访问 Redis 完成计数，再将请求转发至上游，导致业务请求时延增加 2-3 毫秒。
 
-<div align="center">
-<img alt="Distributed Rate Limiting" style="width: 40%" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp"></img>
-</div>
+<p align="center">
+  <a href="Distributed Rate Limiting">
+    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp" />
+  </a>
+</p>
 
 **优化方案**
 
 为解决上述问题，我们设计了以下优化方案：
 
-<div align="center">
-<img alt="Upgraded Distributed Rate Limiting Solution" style="width: 45%" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp"></img>
-</div>
+<p align="center">
+  <a href="Upgraded Distributed Rate Limiting Solution">
+    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp" />
+  </a>
+</p>
 
 **1. 引入本地计数缓存**：
 
