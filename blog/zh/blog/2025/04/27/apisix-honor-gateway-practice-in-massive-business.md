@@ -99,7 +99,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Honor Plugin Ecosystem">
-    <img width="320" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/05/16/eycp2ZaK_2-honor-plugins-ecosystem.webp" />
   </a>
 </p>
 
@@ -111,7 +111,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Honor Traffic Mirroring">
-    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/N6bqzJgO_3-traffic-mirror.webp" />
   </a>
 </p>
 
@@ -129,7 +129,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 <p align="center">
   <a href="Custom Plugin Implementation">
-    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
+    <img width="500" src="https://static.api7.ai/uploads/2025/04/27/0x2hYRcj_4-custom-plugin.webp" />
   </a>
 </p>
 
@@ -152,7 +152,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
 传统灰度插件支持基于规则或流量百分比的灰度功能，但其流量百分比灰度可能导致流量分配不一致，例如同一请求在不同时间可能被分配到不同的灰度环境。这种情况在 To C 场景中可能影响业务的稳定性。
 
-为解决这一问题，我们在灰度插件前引入了哈希插件 key-hash，结合灰度插件实现稳定的灰度百分比分配。具体实现方式如下：
+为解决这一问题，我们在灰度插件前引入了哈希插件 `key-hash`，结合灰度插件实现稳定的灰度百分比分配。具体实现方式如下：
 
 1. 支持基于特定请求头或 Cookie 的输入进行哈希计算。
 2. 将哈希结果作为灰度插件的输入，用于确定流量分配的百分比。
@@ -169,11 +169,11 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
    a. 当流量通过 APISIX 网关时，会根据灰度策略对流量进行打标。
 
-   b. 若通过的流量为灰度流量，网关会在请求中插入特定的请求头（如 honor-tag:gray），标识该请求为灰度流量。
+   b. 若通过的流量为灰度流量，网关会在请求中插入特定的请求头（如 `honor-tag:gray`），标识该请求为灰度流量。
 
 **2. 服务注册与标识**：
 
-   a. 服务 A 在注册到注册中心时，会将自己的灰度标识（如 gray）一并注册。
+   a. 服务 A 在注册到注册中心时，会将自己的灰度标识（如 `gray`）一并注册。
 
    b. 注册中心维护了服务的灰度标识与实例的映射关系。
 
@@ -181,7 +181,7 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
    a. 服务 A 调用服务 B：
 
-      i. 服务 A 收到请求后，首先检查请求中是否包含灰度标识（如 honor-tag:gray）。
+      i. 服务 A 收到请求后，首先检查请求中是否包含灰度标识（如 `honor-tag:gray`）。
       
       ii. 若请求包含灰度标识，服务 A 会根据该标识从注册中心获取服务 B 的灰度实例，并优先调度灰度实例。
       
@@ -189,13 +189,13 @@ image: https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp
 
    b. 服务 B 调用服务 C：
 
-      i. 服务 B 收到服务 A 传递的灰度标识（如 honor-tag:gray）后，同样会根据该标识从注册中心获取服务 C 的灰度实例。
+      i. 服务 B 收到服务 A 传递的灰度标识（如 `honor-tag:gray`）后，同样会根据该标识从注册中心获取服务 C 的灰度实例。
       
       ii. 若服务 C 存在灰度实例，则将请求调度到灰度实例；否则，调度正式实例。
 
 **4. 全链路灰度实现**：
 
-   a. 通过请求头的透传（如 honor-tag:gray），确保灰度标识在服务链路中保持一致。
+   a. 通过请求头的透传（如 `honor-tag:gray`），确保灰度标识在服务链路中保持一致。
 
    b. 服务链路中的每个节点根据灰度标识进行调度决策，从而实现全链路灰度能力。
 
@@ -217,7 +217,7 @@ APISIX 提供了丰富的插件能力，涵盖单机限流和分布式限流方�
 
 <p align="center">
   <a href="Single-Node Rate Limiting">
-    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp" />
+    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/35KRFtE7_6-rate-limiting.webp" />
   </a>
 </p>
 
@@ -227,7 +227,7 @@ APISIX 提供了丰富的插件能力，涵盖单机限流和分布式限流方�
 
 <p align="center">
   <a href="Upgraded Single-Node Rate Limiting Solution">
-    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp" />
+    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/BsEyxG1X_7-rate-limiting-upgrade.webp" />
   </a>
 </p>
 
@@ -273,7 +273,7 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 
 <p align="center">
   <a href="Distributed Rate Limiting">
-    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp" />
+    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/Jg0gGugw_8-distributed-rate-limiting.webp" />
   </a>
 </p>
 
@@ -283,7 +283,7 @@ b. **插件复用**：内部大量插件（如固定窗口限流、自定义性�
 
 <p align="center">
   <a href="Upgraded Distributed Rate Limiting Solution">
-    <img width="300" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp" />
+    <img width="400" src="https://static.api7.ai/uploads/2025/04/27/peXIhano_9-distributed-rate-limiting-upgrade.webp" />
   </a>
 </p>
 
