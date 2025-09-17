@@ -10,11 +10,6 @@ const projects = [
     hasChangelog: true,
   },
   {
-    name: 'apisix-dashboard',
-    branch: 'master',
-    hasChangelog: true,
-  },
-  {
     name: 'apisix-docker',
     branch: 'master',
     hasChangelog: false,

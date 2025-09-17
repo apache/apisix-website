@@ -12,7 +12,7 @@ module.exports = [
       },
       {
         label: 'Apache APISIX®️ Dashboard',
-        to: '/docs/dashboard/USER_GUIDE',
+        to: '/docs/apisix/next/dashboard',
         target: '_parent',
       },
       {

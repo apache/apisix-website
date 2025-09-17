@@ -95,24 +95,6 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'docs-apisix-dashboard',
-        path: 'docs/apisix-dashboard',
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-        includeCurrentVersion: false,
-        routeBasePath: '/docs/dashboard',
-        sidebarPath: require.resolve('./docs/apisix-dashboard/sidebars.json'),
-        editUrl(props) {
-          return getEditUrl({
-            ...props,
-            projectName: 'apisix-dashboard',
-          });
-        },
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
         id: 'docs-apisix-ingress-controller',
         path: 'docs/apisix-ingress-controller',
         showLastUpdateAuthor: true,
