@@ -56,7 +56,7 @@ Admin API 不再用默认值覆盖用户数据。写入 etcd 时保持原样，�
 
 本 PR 在访问日志中为 `ai-proxy` 插件补充了延迟和 token 信息，方便排障；同时新增 AI 相关请求的 Prometheus 指标，并追加两个标签：`request_type` 用于区分普通请求与 AI 请求；`llm_model` 用于记录转发给上游 LLM 服务的模型名称。
 
-### 5. 日志新增 ctx 变量保留客户端原始 LLM 模型
+### 5. 新增上下文变量 `request_llm_model` 在日志中保留客户端原始 LLM 模型
 
 相关 PR：https://github.com/apache/apisix/pull/12554
 
