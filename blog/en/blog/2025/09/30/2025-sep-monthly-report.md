@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2025/09/29/APa3g8ZM_sep-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced and updated some new features, including adding fallback mechanism for specific error codes in `ai-proxy-multi` plugin, adding KSUID algorithm in `request-id` plugin, etc. For more details, please read this month's newsletter.
+> Recently, we've introduced and updated some new features, including adding fallback mechanism for specific error codes in `ai-proxy-multi` plugin and adding KSUID algorithm in `request-id` plugin, etc. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
@@ -32,7 +32,7 @@ Contributor: [SkyeYoung](https://github.com/SkyeYoung)
 
 This PR removes the logic of populating default values before writing to the admin API. By leaving the copy in etcd untouched and applying the new defaults only inside APISIX, the PR keeps the user's config identical to what was posted, removing surprise diffs and letting the ingress controller's ADC diff logic keep working with older versions.
 
-### 2. Add KSUID algorithm in `request-id` Plugin
+### 2. Add the KSUID algorithm in the `request-id` Plugin
 
 PR: https://github.com/apache/apisix/pull/12573
 
@@ -54,7 +54,7 @@ PR: https://github.com/apache/apisix/pull/12518
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR adds latency and token info for the `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels, `request_type` to distinguish between normal requests and AI-related requests & `llm_model`.
+This PR adds latency and token info for the `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels, `request_type` to distinguish between normal requests and AI-related requests, and `llm_model`.
 
 ### 5. Add New ctx Variable for Requesting LLM Model
 
