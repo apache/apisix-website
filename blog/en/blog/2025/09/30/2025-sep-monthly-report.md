@@ -38,7 +38,7 @@ PR: https://github.com/apache/apisix/pull/12573
 
 Contributor: [Crazy-xyr](https://github.com/Crazy-xyr)
 
-This PR replaces the previous request-id generation method with the KSUID (K-Sortable Unique IDentifier) algorithm. KSUIDs are always 27 characters long and are encoded in base62, making them URL-safe. Their key advantage is that they are lexicographically sortable, ensuring they remain in time order even when treated as strings. With 128 bits of randomness, they also provide stronger collision resistance than standard UUIDs.
+This PR replaces the previous request ID generation method with the KSUID (K-Sortable Unique IDentifier) algorithm. KSUIDs are always 27 characters long and are encoded in base62, making them URL-safe. Their key advantage is that they are lexicographically sortable, ensuring they remain in time order even when treated as strings. With 128 bits of randomness, they also provide stronger collision resistance than standard UUIDs.
 
 ### 3. Add Fallback Mechanism for Specific Error Codes in `ai-proxy-multi` Plugin
 
