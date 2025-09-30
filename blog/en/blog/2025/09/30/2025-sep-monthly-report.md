@@ -56,13 +56,13 @@ Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 This PR adds latency and token info for the `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels: `request_type` to distinguish between regular requests and AI-related requests; and `llm_model` for the LLM model name forwarded to the upstream LLM service.
 
-### 5. Add New ctx Variable for Requesting LLM Model
+### 5. Add New ctx Variable `request_llm_model` for Requesting LLM Model
 
-PR: https://github.com/apache/apisix/pull/12518
+PR: https://github.com/apache/apisix/pull/12554
 
-Contributor: [Revolyssup](https://github.com/Revolyssup)
+Contributor: [bzp2010](https://github.com/bzp2010)
 
-When logging AI requests, the user needs to record the LLM model of client requests that are not modified by the API gateway, so add a new context variable to record this.
+Users need to record the LLM model of client requests that are not modified by the gateway when logging AI proxy requests, so a new context variable `request_llm_model` is added to record it.
 
 ## Recommended Blogs
 

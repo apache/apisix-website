@@ -36,11 +36,11 @@ Admin API 不再用默认值覆盖用户数据。写入 etcd 时保持原样，�
 
 相关 PR：https://github.com/apache/apisix/pull/12573
 
-贡献者：[Revolyssup](https://github.com/Revolyssup)
+贡献者：[Crazy-xyr](https://github.com/Crazy-xyr)
 
 本 PR 将原有的 `request-id` 生成方式替换为 KSUID（可排序唯一标识符）算法。KSUID 始终为 27 位字符，采用 base62 编码，确保其可用于 URL 场景。其核心优势在于支持字典序排序，即使作为字符串处理也能保持时间顺序。该算法还包含 128 位随机数，相比标准 UUID 具有更强的防冲突能力。
 
-### 3. `ai-proxy-multi` 插件针对 429/5xx 状态码增加自动重试与节点降级
+### 3. `ai-proxy-multi` 插件针对 `429`/`5xx` 状态码增加自动重试与节点降级
 
 相关 PR：https://github.com/apache/apisix/pull/12571
 
@@ -54,7 +54,7 @@ Admin API 不再用默认值覆盖用户数据。写入 etcd 时保持原样，�
 
 贡献者：[Revolyssup](https://github.com/Revolyssup)
 
-`ai-proxy` 插件在访问日志里输出每次 AI 请求的延迟和 token 用量，方便排障；同时把 AI 请求纳入 Prometheus 指标，并新增 `request_type`（用于区分普通请求与 AI 请求）和 `llm_model` 两个标签。
+本 PR 在访问日志中为 `ai-proxy` 插件补充了延迟和 token 信息，方便排障；同时新增 AI 相关请求的 Prometheus 指标，并追加两个标签：`request_type` 用于区分普通请求与 AI 请求；`llm_model` 用于记录转发给上游 LLM 服务的模型名称。
 
 ### 5. 日志新增 ctx 变量保留客户端原始 LLM 模型
 
