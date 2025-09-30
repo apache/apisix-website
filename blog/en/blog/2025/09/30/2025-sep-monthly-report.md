@@ -54,7 +54,7 @@ PR: https://github.com/apache/apisix/pull/12518
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR adds latency and token info for the `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels, `request_type` to distinguish between normal requests and AI-related requests, and `llm_model`.
+This PR adds latency and token info for the `ai-proxy` plugin in the access log for easy debugging. It also adds Prometheus metrics for AI-related requests and adds two more labels: `request_type` to distinguish between regular requests and AI-related requests; and `llm_model` for the LLM model name forwarded to the upstream LLM service.
 
 ### 5. Add New ctx Variable for Requesting LLM Model
 
