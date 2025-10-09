@@ -71,7 +71,7 @@ For more information, see [PR #12407](https://github.com/apache/apisix/pull/1240
 
 ### Support multiple objects in a single log
 
-This release increases flexibility of the `json.delay_encode` logging feature: up to 16 distinct `delay_encode` objects can now be included in a single log entry. This gives finer control over how and which parts of log payloads are delayed or encoded. 
+This release increases flexibility of the `json.delay_encode` logging feature: up to 16 distinct `delay_encode` objects can now be included in a single log entry. This gives finer control over how and which parts of log payloads are delayed or encoded.
 
 For more information, see [PR #12395](https://github.com/apache/apisix/pull/12395).
 
@@ -161,10 +161,10 @@ For more information, see [PR #12465](https://github.com/apache/apisix/pull/1246
 
 The `datadog` plugin now provides enhanced metrics and tags to support a wider range of observability needs. This update introduces several new tags:
 
-- `response_status`: The HTTP response status code (e.g., "200", "404", "503").
-- `response_status_class`: The class of the HTTP response status code (e.g., "2xx", "4xx", "5xx").
-- `path`: The HTTP path pattern, available only if the `include_path` attribute is set to `true`.
-- `method`: The HTTP method, available only if the `include_method` attribute is set to `true`.
+* `response_status`: The HTTP response status code (e.g., "200", "404", "503").
+* `response_status_class`: The class of the HTTP response status code (e.g., "2xx", "4xx", "5xx").
+* `path`: The HTTP path pattern, available only if the `include_path` attribute is set to `true`.
+* `method`: The HTTP method, available only if the `include_method` attribute is set to `true`.
 
 For more information, see [PR #11943](https://github.com/apache/apisix/pull/11943).
 
@@ -176,43 +176,43 @@ For more information, see [PR #12405](https://github.com/apache/apisix/pull/1240
 
 ## Other Updates
 
-- Add healthcheck manager to decouple upstream (PR [#12426](https://github.com/apache/apisix/pull/12426))
-- Decouple Prometheus exporter calculation and output (PR [#12383](https://github.com/apache/apisix/pull/12383))
-- Redact encrypted fields from error logs to prevent sensitive data leakage (PR [#12629](https://github.com/apache/apisix/pull/12629))
-- Fix inconsistent resolved nodes for health checks in the `ai-proxy-multi` plugin (PR [#12594](https://github.com/apache/apisix/pull/12594))
-- Only trust `X-Forwarded-*` headers from configured `trusted_addresses` (PR [#12551](https://github.com/apache/apisix/pull/12551))
-- Ensure redirects work correctly when scheme is not HTTPS (PR [#12561](https://github.com/apache/apisix/pull/12561))
-- Fix UI redirect errors when running behind a proxy (PR [#12566](https://github.com/apache/apisix/pull/12566))
-- Refresh stale LRU cache items for secrets in the background (PR [#12614](https://github.com/apache/apisix/pull/12614))
-- Restore missing runtime information in health check manager (PR [#12607](https://github.com/apache/apisix/pull/12607))
-- Support stream route configuration in Standalone Admin API mode (PR [#12604](https://github.com/apache/apisix/pull/12604))
-- Only log response body when `include_resp_body` is enabled (PR [#12599](https://github.com/apache/apisix/pull/12599))
-- Correct spelling of `get_healthcheck_events_module` function name (PR [#12587](https://github.com/apache/apisix/pull/12587))
-- Prevent panic when `ai-proxy-multi` instance lacks a custom endpoint (PR [#12584](https://github.com/apache/apisix/pull/12584))
-- Prevent message accumulation across requests in AI Prompt Decorator plugin (PR [#12582](https://github.com/apache/apisix/pull/12582))
-- Remove stale `stream_worker_events.sock` file in Docker entrypoint (PR [#12546](https://github.com/apache/apisix/pull/12546))
-- Add expiration time (`exptime`) to EWMA shared dictionary items (PR [#12557](https://github.com/apache/apisix/pull/12557))
-- Catch malformed override endpoints in `ai-proxy` schema validation (PR [#12563](https://github.com/apache/apisix/pull/12563))
-- Fix missing `ctx.llm_raw_usage` value in non-stream mode (PR [#12564](https://github.com/apache/apisix/pull/12564))
-- Check types of `choices`, `usage`, and `content` fields in `ai-proxy` before use (PR [#12548](https://github.com/apache/apisix/pull/12548))
-- Adjust ID length for Kubernetes service discovery (PR [#12536](https://github.com/apache/apisix/pull/12536))
-- Make `basic-auth` scheme case-insensitive (PR [#12539](https://github.com/apache/apisix/pull/12539))
-- Skip client certificate verification when only `tls.verify` is configured (PR [#12527](https://github.com/apache/apisix/pull/12527))
-- Load full data from etcd when worker restarts (PR [#12523](https://github.com/apache/apisix/pull/12523))
-- Upgrade etcd revision on watch request timeout (PR [#12514](https://github.com/apache/apisix/pull/12514))
-- Enable EndpointSlices support for Kubernetes discovery (PR [#11654](https://github.com/apache/apisix/pull/11654))
-- Include gRPC trailers even when response body is empty in `grpc-web` (PR [#12490](https://github.com/apache/apisix/pull/12490))
-- Fix hostname retrieval issue on Red Hat systems (PR [#12267](https://github.com/apache/apisix/pull/12267))
-- Fix batch processor cache not working when plugin is configured on service level (PR [#12474](https://github.com/apache/apisix/pull/12474))
-- Resolve variable references in `$post_arg` for Forward Auth plugin’s `extra_headers` (PR [#12435](https://github.com/apache/apisix/pull/12435))
-- Fix inconsistent circuit breaking due to premature `breaker_time` increment in `api-breaker` plugin (PR [#12451](https://github.com/apache/apisix/pull/12451))
-- Add missing configuration validation for Standalone Admin API mode (PR [#12424](https://github.com/apache/apisix/pull/12424))
-- Skip writing access logs when `enable_access_log` is set to false (PR [#11310](https://github.com/apache/apisix/pull/11310))
-- Remove unused `set_ngx_var` attribute from OpenTelemetry plugin (PR [#12411](https://github.com/apache/apisix/pull/12411))
-- Support `Content-Type` headers with charset for URL-encoded data in Request Validation plugin (PR [#12406](https://github.com/apache/apisix/pull/12406))
-- Fix Zipkin `trace_id` and `span_id` format in `ngx_var` (PR [#12403](https://github.com/apache/apisix/pull/12403))
-- Fix missed consumer updates caused by incorrect cache versioning (PR [#12413](https://github.com/apache/apisix/pull/12413))
-- Ensure `get_keys` returns all items from shared dictionary beyond default 1024 limit (PR [#12380](https://github.com/apache/apisix/pull/12380))
+* Add healthcheck manager to decouple upstream (PR [#12426](https://github.com/apache/apisix/pull/12426))
+* Decouple Prometheus exporter calculation and output (PR [#12383](https://github.com/apache/apisix/pull/12383))
+* Redact encrypted fields from error logs to prevent sensitive data leakage (PR [#12629](https://github.com/apache/apisix/pull/12629))
+* Fix inconsistent resolved nodes for health checks in the `ai-proxy-multi` plugin (PR [#12594](https://github.com/apache/apisix/pull/12594))
+* Only trust `X-Forwarded-*` headers from configured `trusted_addresses` (PR [#12551](https://github.com/apache/apisix/pull/12551))
+* Ensure redirects work correctly when scheme is not HTTPS (PR [#12561](https://github.com/apache/apisix/pull/12561))
+* Fix UI redirect errors when running behind a proxy (PR [#12566](https://github.com/apache/apisix/pull/12566))
+* Refresh stale LRU cache items for secrets in the background (PR [#12614](https://github.com/apache/apisix/pull/12614))
+* Restore missing runtime information in health check manager (PR [#12607](https://github.com/apache/apisix/pull/12607))
+* Support stream route configuration in Standalone Admin API mode (PR [#12604](https://github.com/apache/apisix/pull/12604))
+* Only log response body when `include_resp_body` is enabled (PR [#12599](https://github.com/apache/apisix/pull/12599))
+* Correct spelling of `get_healthcheck_events_module` function name (PR [#12587](https://github.com/apache/apisix/pull/12587))
+* Prevent panic when `ai-proxy-multi` instance lacks a custom endpoint (PR [#12584](https://github.com/apache/apisix/pull/12584))
+* Prevent message accumulation across requests in AI Prompt Decorator plugin (PR [#12582](https://github.com/apache/apisix/pull/12582))
+* Remove stale `stream_worker_events.sock` file in Docker entrypoint (PR [#12546](https://github.com/apache/apisix/pull/12546))
+* Add expiration time (`exptime`) to EWMA shared dictionary items (PR [#12557](https://github.com/apache/apisix/pull/12557))
+* Catch malformed override endpoints in `ai-proxy` schema validation (PR [#12563](https://github.com/apache/apisix/pull/12563))
+* Fix missing `ctx.llm_raw_usage` value in non-stream mode (PR [#12564](https://github.com/apache/apisix/pull/12564))
+* Check types of `choices`, `usage`, and `content` fields in `ai-proxy` before use (PR [#12548](https://github.com/apache/apisix/pull/12548))
+* Adjust ID length for Kubernetes service discovery (PR [#12536](https://github.com/apache/apisix/pull/12536))
+* Make `basic-auth` scheme case-insensitive (PR [#12539](https://github.com/apache/apisix/pull/12539))
+* Skip client certificate verification when only `tls.verify` is configured (PR [#12527](https://github.com/apache/apisix/pull/12527))
+* Load full data from etcd when worker restarts (PR [#12523](https://github.com/apache/apisix/pull/12523))
+* Upgrade etcd revision on watch request timeout (PR [#12514](https://github.com/apache/apisix/pull/12514))
+* Enable EndpointSlices support for Kubernetes discovery (PR [#11654](https://github.com/apache/apisix/pull/11654))
+* Include gRPC trailers even when response body is empty in `grpc-web` (PR [#12490](https://github.com/apache/apisix/pull/12490))
+* Fix hostname retrieval issue on Red Hat systems (PR [#12267](https://github.com/apache/apisix/pull/12267))
+* Fix batch processor cache not working when plugin is configured on service level (PR [#12474](https://github.com/apache/apisix/pull/12474))
+* Resolve variable references in `$post_arg` for Forward Auth plugin’s `extra_headers` (PR [#12435](https://github.com/apache/apisix/pull/12435))
+* Fix inconsistent circuit breaking due to premature `breaker_time` increment in `api-breaker` plugin (PR [#12451](https://github.com/apache/apisix/pull/12451))
+* Add missing configuration validation for Standalone Admin API mode (PR [#12424](https://github.com/apache/apisix/pull/12424))
+* Skip writing access logs when `enable_access_log` is set to false (PR [#11310](https://github.com/apache/apisix/pull/11310))
+* Remove unused `set_ngx_var` attribute from OpenTelemetry plugin (PR [#12411](https://github.com/apache/apisix/pull/12411))
+* Support `Content-Type` headers with charset for URL-encoded data in Request Validation plugin (PR [#12406](https://github.com/apache/apisix/pull/12406))
+* Fix Zipkin `trace_id` and `span_id` format in `ngx_var` (PR [#12403](https://github.com/apache/apisix/pull/12403))
+* Fix missed consumer updates caused by incorrect cache versioning (PR [#12413](https://github.com/apache/apisix/pull/12413))
+* Ensure `get_keys` returns all items from shared dictionary beyond default 1024 limit (PR [#12380](https://github.com/apache/apisix/pull/12380))
 
 ## Changelog
 

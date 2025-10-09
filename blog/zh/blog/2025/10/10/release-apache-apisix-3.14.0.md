@@ -161,10 +161,10 @@ AI/ML API 提供统一的 OpenAI 兼容 API，可访问 300 多个 LLM，例如 
 
 `datadog` 插件现在提供增强的指标和标签，以支持更广泛的可观察性需求。此更新引入了几个新标签：
 
-- `response_status`：HTTP 响应状态代码（例如，“200”、“404”、“503”）。
-- `response_status_class`：HTTP 响应状态代码的类别（例如，“2xx”、“4xx”、“5xx”）。
-- `path`：HTTP 路径模式，仅当 `include_path` 属性设置为 `true` 时可用。
-- `method`：HTTP 方法，仅当 `include_method` 属性设置为 `true` 时可用。
+* `response_status`：HTTP 响应状态代码（例如，“200”、“404”、“503”）。
+* `response_status_class`：HTTP 响应状态代码的类别（例如，“2xx”、“4xx”、“5xx”）。
+* `path`：HTTP 路径模式，仅当 `include_path` 属性设置为 `true` 时可用。
+* `method`：HTTP 方法，仅当 `include_method` 属性设置为 `true` 时可用。
 
 更多信息，请参阅 [PR #11943](https://github.com/apache/apisix/pull/11943)。
 
@@ -176,43 +176,43 @@ AI/ML API 提供统一的 OpenAI 兼容 API，可访问 300 多个 LLM，例如 
 
 ## 其他更新
 
-- 添加健康检查管理器以解耦上游 (PR [#12426](https://github.com/apache/apisix/pull/12426))
-- 解耦 Prometheus 导出器的计算和输出 (PR [#12383](https://github.com/apache/apisix/pull/12383))
-- 删除错误日志中的加密字段，以防止敏感数据泄露 (PR [#12629](https://github.com/apache/apisix/pull/12629))
-- 修复 `ai-proxy-multi` 插件中健康检查解析节点不一致的问题 (PR [#12594](https://github.com/apache/apisix/pull/12594))
-- 仅信任已配置 `trusted_addresses` 中的 `X-Forwarded-*` 标头 (PR [#12551](https://github.com/apache/apisix/pull/12551))
-- 确保当协议不是 HTTPS 时重定向能够正常工作 (PR [#12561](https://github.com/apache/apisix/pull/12561))
-- 修复在代理后运行时 UI 重定向错误 (PR [#12566](https://github.com/apache/apisix/pull/12566))
-- 在后台刷新过期的 LRU 缓存项以获取机密信息 (PR [#12614](https://github.com/apache/apisix/pull/12614))
-- 恢复健康检查管理器中丢失的运行时信息 (PR [#12607](https://github.com/apache/apisix/pull/12607))
-- 支持在独立管理 API 模式下配置 stream 路由 (PR) [#12604](https://github.com/apache/apisix/pull/12604))
-- 仅在启用 `include_resp_body` 时记录响应正文 (PR [#12599](https://github.com/apache/apisix/pull/12599))
-- 更正 `get_healthcheck_events_module` 函数名称的拼写 (PR [#12587](https://github.com/apache/apisix/pull/12587))
-- 防止 `ai-proxy-multi` 实例缺少自定义端点时出现崩溃 (PR [#12584](https://github.com/apache/apisix/pull/12584))
-- 防止 AI Prompt Decorator 插件中跨请求的消息累积 (PR [#12582](https://github.com/apache/apisix/pull/12582))
-- 删除过时的消息Docker 入口点中的 `stream_worker_events.sock` 文件 (PR [#12546](https://github.com/apache/apisix/pull/12546))
-- 为 EWMA 共享字典项添加过期时间 (`exptime`) (PR [#12557](https://github.com/apache/apisix/pull/12557))
-- 在 `ai-proxy` 模式验证中捕获格式错误的覆盖端点 (PR [#12563](https://github.com/apache/apisix/pull/12563))
-- 修复非 stream 模式下缺失 `ctx.llm_raw_usage` 值的问题 (PR [#12564](https://github.com/apache/apisix/pull/12564))
-- 使用前检查 `ai-proxy` 中 `choices`、`usage` 和 `content` 字段的类型(PR [#12548](https://github.com/apache/apisix/pull/12548))
-- 调整 Kubernetes 服务发现的 ID 长度 (PR [#12536](https://github.com/apache/apisix/pull/12536))
-- 使 `basic-auth` 方案不区分大小写 (PR [#12539](https://github.com/apache/apisix/pull/12539))
-- 仅配置 `tls.verify` 时跳过客户端证书验证 (PR [#12527](https://github.com/apache/apisix/pull/12527))
-- 工作进程重启时从 etcd 加载完整数据 (PR [#12523](https://github.com/apache/apisix/pull/12523))
-- 升级 etcd 版本以应对监视请求超时问题 (PR [#12514](https://github.com/apache/apisix/pull/12514))
-- 为 Kubernetes 发现启用 EndpointSlices 支持 (PR [#11654](https://github.com/apache/apisix/pull/11654))
-- 即使 `grpc-web` 中的响应正文为空，也包含 gRPC 尾部 (PR [#12490](https://github.com/apache/apisix/pull/12490))
-- 修复 Red Hat 系统上的主机名检索问题 (PR [#12267](https://github.com/apache/apisix/pull/12267))
-- 修复在服务级别配置插件时批处理器缓存不工作的问题 (PR [#12474](https://github.com/apache/apisix/pull/12474))
-- 解析 `$post_arg` 中的变量引用Forward Auth 插件的 `extra_headers` (PR [#12435](https://github.com/apache/apisix/pull/12435))
-- 修复 `api-breaker` 插件中 `breaker_time` 过早递增导致的熔断不一致问题 (PR [#12451](https://github.com/apache/apisix/pull/12451))
-- 为 Standalone Admin API 模式添加缺失的配置验证 (PR [#12424](https://github.com/apache/apisix/pull/12424))
-- 当 `enable_access_log` 设置为 false 时，跳过写入访问日志 (PR [#11310](https://github.com/apache/apisix/pull/11310))
-- 从 OpenTelemetry 插件中移除未使用的 `set_ngx_var` 属性 (PR [#12411](https://github.com/apache/apisix/pull/12411))
-- 在请求验证插件中，支持 URL 编码数据的 `Content-Type` 标头及其字符集 (PR [#12406](https://github.com/apache/apisix/pull/12406))
-- 修复 Zipkin 在 `ngx_var` 中 `trace_id` 和 `span_id` 格式的问题 (PR [#12403](https://github.com/apache/apisix/pull/12403))
-- 修复由于缓存版本控制不正确导致的消费者更新丢失问题 (PR [#12413](https://github.com/apache/apisix/pull/12413))
-- 确保 `get_keys` 返回共享字典中超出默认 1024 个限制的所有项 (PR) [#12380](https://github.com/apache/apisix/pull/12380)
+* 添加健康检查管理器以解耦上游 (PR [#12426](https://github.com/apache/apisix/pull/12426))
+* 解耦 Prometheus 导出器的计算和输出 (PR [#12383](https://github.com/apache/apisix/pull/12383))
+* 删除错误日志中的加密字段，以防止敏感数据泄露 (PR [#12629](https://github.com/apache/apisix/pull/12629))
+* 修复 `ai-proxy-multi` 插件中健康检查解析节点不一致的问题 (PR [#12594](https://github.com/apache/apisix/pull/12594))
+* 仅信任已配置 `trusted_addresses` 中的 `X-Forwarded-*` 标头 (PR [#12551](https://github.com/apache/apisix/pull/12551))
+* 确保当协议不是 HTTPS 时重定向能够正常工作 (PR [#12561](https://github.com/apache/apisix/pull/12561))
+* 修复在代理后运行时 UI 重定向错误 (PR [#12566](https://github.com/apache/apisix/pull/12566))
+* 在后台刷新过期的 LRU 缓存项以获取机密信息 (PR [#12614](https://github.com/apache/apisix/pull/12614))
+* 恢复健康检查管理器中丢失的运行时信息 (PR [#12607](https://github.com/apache/apisix/pull/12607))
+* 支持在独立管理 API 模式下配置 stream 路由 (PR) [#12604](https://github.com/apache/apisix/pull/12604))
+* 仅在启用 `include_resp_body` 时记录响应正文 (PR [#12599](https://github.com/apache/apisix/pull/12599))
+* 更正 `get_healthcheck_events_module` 函数名称的拼写 (PR [#12587](https://github.com/apache/apisix/pull/12587))
+* 防止 `ai-proxy-multi` 实例缺少自定义端点时出现崩溃 (PR [#12584](https://github.com/apache/apisix/pull/12584))
+* 防止 AI Prompt Decorator 插件中跨请求的消息累积 (PR [#12582](https://github.com/apache/apisix/pull/12582))
+* 删除过时的消息Docker 入口点中的 `stream_worker_events.sock` 文件 (PR [#12546](https://github.com/apache/apisix/pull/12546))
+* 为 EWMA 共享字典项添加过期时间 (`exptime`) (PR [#12557](https://github.com/apache/apisix/pull/12557))
+* 在 `ai-proxy` 模式验证中捕获格式错误的覆盖端点 (PR [#12563](https://github.com/apache/apisix/pull/12563))
+* 修复非 stream 模式下缺失 `ctx.llm_raw_usage` 值的问题 (PR [#12564](https://github.com/apache/apisix/pull/12564))
+* 使用前检查 `ai-proxy` 中 `choices`、`usage` 和 `content` 字段的类型(PR [#12548](https://github.com/apache/apisix/pull/12548))
+* 调整 Kubernetes 服务发现的 ID 长度 (PR [#12536](https://github.com/apache/apisix/pull/12536))
+* 使 `basic-auth` 方案不区分大小写 (PR [#12539](https://github.com/apache/apisix/pull/12539))
+* 仅配置 `tls.verify` 时跳过客户端证书验证 (PR [#12527](https://github.com/apache/apisix/pull/12527))
+* 工作进程重启时从 etcd 加载完整数据 (PR [#12523](https://github.com/apache/apisix/pull/12523))
+* 升级 etcd 版本以应对监视请求超时问题 (PR [#12514](https://github.com/apache/apisix/pull/12514))
+* 为 Kubernetes 发现启用 EndpointSlices 支持 (PR [#11654](https://github.com/apache/apisix/pull/11654))
+* 即使 `grpc-web` 中的响应正文为空，也包含 gRPC 尾部 (PR [#12490](https://github.com/apache/apisix/pull/12490))
+* 修复 Red Hat 系统上的主机名检索问题 (PR [#12267](https://github.com/apache/apisix/pull/12267))
+* 修复在服务级别配置插件时批处理器缓存不工作的问题 (PR [#12474](https://github.com/apache/apisix/pull/12474))
+* 解析 `$post_arg` 中的变量引用Forward Auth 插件的 `extra_headers` (PR [#12435](https://github.com/apache/apisix/pull/12435))
+* 修复 `api-breaker` 插件中 `breaker_time` 过早递增导致的熔断不一致问题 (PR [#12451](https://github.com/apache/apisix/pull/12451))
+* 为 Standalone Admin API 模式添加缺失的配置验证 (PR [#12424](https://github.com/apache/apisix/pull/12424))
+* 当 `enable_access_log` 设置为 false 时，跳过写入访问日志 (PR [#11310](https://github.com/apache/apisix/pull/11310))
+* 从 OpenTelemetry 插件中移除未使用的 `set_ngx_var` 属性 (PR [#12411](https://github.com/apache/apisix/pull/12411))
+* 在请求验证插件中，支持 URL 编码数据的 `Content-Type` 标头及其字符集 (PR [#12406](https://github.com/apache/apisix/pull/12406))
+* 修复 Zipkin 在 `ngx_var` 中 `trace_id` 和 `span_id` 格式的问题 (PR [#12403](https://github.com/apache/apisix/pull/12403))
+* 修复由于缓存版本控制不正确导致的消费者更新丢失问题 (PR [#12413](https://github.com/apache/apisix/pull/12413))
+* 确保 `get_keys` 返回共享字典中超出默认 1024 个限制的所有项 (PR) [#12380](https://github.com/apache/apisix/pull/12380)
 
 ## 变更日志
 
