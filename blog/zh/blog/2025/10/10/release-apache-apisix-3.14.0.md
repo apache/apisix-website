@@ -212,7 +212,7 @@ AI/ML API 提供统一的 OpenAI 兼容 API，可访问 300 多个 LLM，例如 
 * 在请求验证插件中，支持 URL 编码数据的 `Content-Type` 标头及其字符集 (PR [#12406](https://github.com/apache/apisix/pull/12406))
 * 修复 Zipkin 在 `ngx_var` 中 `trace_id` 和 `span_id` 格式的问题 (PR [#12403](https://github.com/apache/apisix/pull/12403))
 * 修复由于缓存版本控制不正确导致的消费者更新丢失问题 (PR [#12413](https://github.com/apache/apisix/pull/12413))
-* 确保 `get_keys` 返回共享字典中超出默认 1024 个限制的所有项 (PR [#12380](https://github.com/apache/apisix/pull/12380)) 
+* 确保 `get_keys` 返回共享字典中超出默认 1024 个限制的所有项 (PR [#12380](https://github.com/apache/apisix/pull/12380))
 
 ## 变更日志
 
