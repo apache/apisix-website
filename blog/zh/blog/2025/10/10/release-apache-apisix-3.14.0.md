@@ -161,7 +161,6 @@ AI/ML API 提供统一的 OpenAI 兼容 API，可访问 300 多个 LLM，例如 
 
 `datadog` 插件现在提供增强的指标和标签，以支持更广泛的可观察性需求。此更新引入了几个新标签：
 
-* `response_status`：HTTP 响应状态代码（例如，“200”、“404”、“503”）。
 * `response_status_class`：HTTP 响应状态代码的类别（例如，“2xx”、“4xx”、“5xx”）。
 * `path`：HTTP 路径模式，仅当 `include_path` 属性设置为 `true` 时可用。
 * `method`：HTTP 方法，仅当 `include_method` 属性设置为 `true` 时可用。
