@@ -161,7 +161,6 @@ For more information, see [PR #12465](https://github.com/apache/apisix/pull/1246
 
 The `datadog` plugin now provides enhanced metrics and tags to support a wider range of observability needs. This update introduces several new tags:
 
-* `response_status`: The HTTP response status code (e.g., "200", "404", "503").
 * `response_status_class`: The class of the HTTP response status code (e.g., "2xx", "4xx", "5xx").
 * `path`: The HTTP path pattern, available only if the `include_path` attribute is set to `true`.
 * `method`: The HTTP method, available only if the `include_method` attribute is set to `true`.
