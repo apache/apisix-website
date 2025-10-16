@@ -29,16 +29,6 @@ tags: [Community]
 
 ## 重大变更
 
-### Admin API 不再填充默认值
-
-Admin API 在写入配置时将不再自动填充默认值。以前，当用户通过 Admin API 提交配置时，APISIX 会在存储可选字段之前自动填充默认值。此行为已被移除，以避免用户混淆，并提高与 APISIX Ingress Controller 等工具的兼容性。
-
-此变更会影响配置的写入方式，但不会影响配置的读取方式——通过 GET 请求检索配置时，默认值仍会显示在响应中，因为它们是在读取操作期间填充的。
-
-用户应确保其配置在 Admin API 负载中提供所有必要值，因为在写入操作期间将不再自动添加默认值。
-
-更多信息，请参阅 [PR #12603](https://github.com/apache/apisix/pull/12603)。
-
 ### `jwt-auth` 插件需要为非 RS/ES 算法提供 `secret`
 
 如果未为 RS256 和 ES256 以外的算法提供密钥，`jwt-auth` 插件将不再自动生成密钥值。以前，如果用户配置 `jwt-auth` 插件时未为 HS256 或 HS512 等算法提供密钥，APISIX 会自动生成一个密钥。
@@ -175,6 +165,7 @@ AI/ML API 提供统一的 OpenAI 兼容 API，可访问 300 多个 LLM，例如 
 
 ## 其他更新
 
+* Admin API 不再填充默认值 (PR [#12603](https://github.com/apache/apisix/pull/12603))
 * 添加健康检查管理器以解耦上游 (PR [#12426](https://github.com/apache/apisix/pull/12426))
 * 解耦 Prometheus 导出器的计算和输出 (PR [#12383](https://github.com/apache/apisix/pull/12383))
 * 删除错误日志中的加密字段，以防止敏感数据泄露 (PR [#12629](https://github.com/apache/apisix/pull/12629))
