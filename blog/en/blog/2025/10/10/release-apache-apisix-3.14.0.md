@@ -29,16 +29,6 @@ There are also a few important changes included in this release. Should you find
 
 ## Breaking Changes
 
-### Admin API no longer populates default values
-
-The Admin API will no longer automatically populate default values when writing configurations. Previously, when users submitted configurations through the Admin API, APISIX would automatically fill in default values for optional fields before storing them. This behavior has been removed to prevent user confusion and improve compatibility with tools like the APISIX Ingress Controller.
-
-This change affects how configurations are written but not how they are read - when retrieving configurations via GET requests, the default values will still be present in the response as they are populated during the read operation.
-
-Users should ensure their configuration supply all necessary values in the Admin API payload, as default values will no longer be automatically added during write operations.
-
-For more information, see [PR #12603](https://github.com/apache/apisix/pull/12603).
-
 ### `jwt-auth` plugin requires `secret` for non-RS/ES algorithms
 
 The `jwt-auth` plugin will no longer automatically generate a secret value when none is provided for algorithms other than RS256 and ES256. Previously, when users configured the `jwt-auth` plugin without providing a secret for algorithms like HS256 or HS512, APISIX would automatically generate one.
@@ -161,7 +151,6 @@ For more information, see [PR #12465](https://github.com/apache/apisix/pull/1246
 
 The `datadog` plugin now provides enhanced metrics and tags to support a wider range of observability needs. This update introduces several new tags:
 
-* `response_status`: The HTTP response status code (e.g., "200", "404", "503").
 * `response_status_class`: The class of the HTTP response status code (e.g., "2xx", "4xx", "5xx").
 * `path`: The HTTP path pattern, available only if the `include_path` attribute is set to `true`.
 * `method`: The HTTP method, available only if the `include_method` attribute is set to `true`.
@@ -176,6 +165,7 @@ For more information, see [PR #12405](https://github.com/apache/apisix/pull/1240
 
 ## Other Updates
 
+* Admin API no longer populates default values (PR [#12603](https://github.com/apache/apisix/pull/12603))
 * Add healthcheck manager to decouple upstream (PR [#12426](https://github.com/apache/apisix/pull/12426))
 * Decouple Prometheus exporter calculation and output (PR [#12383](https://github.com/apache/apisix/pull/12383))
 * Redact encrypted fields from error logs to prevent sensitive data leakage (PR [#12629](https://github.com/apache/apisix/pull/12629))
