@@ -15,7 +15,7 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: Apache APISIX 3.14.1 版本于 2025 年 10 月 16 日发布。该版本带来一则修复。
+description: Apache APISIX 3.14.1 版本于 2025 年 10 月 17 日发布。该版本带来一则修复。
 tags: [Community]
 ---
 
