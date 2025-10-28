@@ -8,7 +8,7 @@ on:
   push:
     branches: [master]
     tags:
-      - 'test-deploy'
+      - 'test-build'
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: '0 5 * * *'
@@ -35,7 +35,7 @@ jobs:
 
       - name: Check deployment mode
         run: |
-          if [[ "${{ github.ref }}" == "refs/tags/test-deploy" ]]; then
+          if [[ "${{ github.ref }}" == "refs/tags/test-build" ]]; then
             echo "🧪 Test deploy mode: Build only, skip deployment"
             echo "TEST_DEPLOY=true" >> $GITHUB_ENV
           else
@@ -179,4 +179,4 @@ jobs:
         run: |
           echo "✅ Test deploy completed successfully!"
           echo "Build artifacts are ready but not deployed."
-          echo "To deploy, push to master branch or remove the test-deploy tag."
+          echo "To deploy, push to master branch or remove the test-build tag."
