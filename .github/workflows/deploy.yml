@@ -108,6 +108,32 @@ jobs:
         run: |
           yarn build
 
+      - name: Show build logs on failure
+        if: failure()
+        run: |
+          LOG_DIR="/tmp/apisix-website-build-logs"
+          if [ -d "$LOG_DIR" ]; then
+            echo "Build logs:"
+            for logfile in "$LOG_DIR"/*.log; do
+              if [ -f "$logfile" ]; then
+                echo ""
+                echo "========== $(basename $logfile .log) =========="
+                cat "$logfile"
+              fi
+            done
+          else
+            echo "No log directory found at $LOG_DIR"
+          fi
+
+      - name: Upload build logs as artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: /tmp/apisix-website-build-logs/
+          retention-days: 7
+          if-no-files-found: warn
+
       - name: Update sitemap.xml
         run: |
           yarn update-sitemap && git status
