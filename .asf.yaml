@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-# NOTE: All configurations could be found here: https://cwiki.apache.org/confluence/display/INFRA/Git+-+.asf.yaml+features
+# NOTE: All configurations could be found here: https://github.com/apache/infrastructure-asfyaml/blob/main/README.md
 github:
   description: Apache APISIX Website
   homepage: https://apisix.apache.org/
@@ -46,3 +46,9 @@ github:
         required_approving_review_count: 2
 publish:
   whoami: asf-site
+# If there is a test site in preview/sample-staging
+# autostage will publish the site at apisix-sample.staged.apache.org
+staging:
+  profile: ~
+  whoami:  asf-staging
+  autostage: preview/*
