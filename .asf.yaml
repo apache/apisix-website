@@ -50,5 +50,5 @@ publish:
 # autostage will publish the site at apisix-sample.staged.apache.org
 staging:
   profile: ~
-  whoami:  asf-staging
+  whoami: asf-staging
   autostage: preview/*
