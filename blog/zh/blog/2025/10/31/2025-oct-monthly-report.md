@@ -67,3 +67,13 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 ## 结语
 
 Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 [Issues](https://github.com/apache/apisix/issues) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issues 中搜索，也可以参与 Issues 上的讨论，提出自己的想法和实践经验。
+
+## 近期博客推荐
+
+- [Apache APISIX 3.14.0 正式发布](https://apisix.apache.org/zh/blog/2025/10/10/release-apache-apisix-3.14.0/)
+
+  此版本引入了多项新功能，包括用于日志记录的新 AI 插件变量、AI 插件中对 AI/ML API 提供程序的支持、基于请求正文的路由匹配、request-id 插件中对 KSUID 算法的支持等等。
+
+- [Apache APISIX 3.14.1 正式发布](https://apisix.apache.org/zh/blog/2025/10/17/release-apache-apisix-3.14.1/)
+
+  我们很高兴地宣布 Apache APISIX 3.14.1 版本已经发布。该版本带来一则修复以改善用户体验。
