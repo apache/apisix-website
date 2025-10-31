@@ -18,7 +18,7 @@ From October 1st to October 31st, 9 contributors made 73 commits to Apache APISI
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.api7.ai/uploads/2025/10/31/DnI3irYQ_2025-oct-contributors.webp)
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2025/10/31/SOcjK3wK_2025-oct-contributors.webp)
 
 ![New Contributors List](https://static.api7.ai/uploads/2025/10/31/V7U7v4Z5_2025-oct-new-contributor.webp)
 
