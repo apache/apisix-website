@@ -148,7 +148,7 @@ ingress-apisix-composite-deployment-6bfdc5d6f6-sjpzr   2/2     Running   0      
 
 > ApisixRoute 是 Ingress 的 CRDs 资源，用于表示将流量路由到具体的后端服务。
 
-以下示例将延迟如何配置 `ApisixRoute` 将流量路由 `httpbin` 后端服务。
+以下示例将演示如何配置 `ApisixRoute` 将流量路由 `httpbin` 后端服务。
 
 #### 部署 httpbin 应用服务
 
