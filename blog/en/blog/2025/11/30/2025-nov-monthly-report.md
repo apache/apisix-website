@@ -1,12 +1,12 @@
 ---
-title: "2025 Monthly Report (November 01 - November 31)"
+title: "2025 Monthly Report (November 01 - November 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
 image: https://static.api7.ai/uploads/2025/12/05/wal292Og_2025-nov-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced a new feature, which is adding a validate API to standalone mode. For more details, please read this month's newsletter.
+> Recently, we've introduced a new feature that adds a validate API to standalone mode. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
@@ -30,7 +30,7 @@ PR: https://github.com/apache/apisix/pull/12718
 
 Contributor: [Revolyssup](https://github.com/Revolyssup)
 
-This PR introduces a validate API to standalone mode. The validate API only validates configuration input, but does not save it to memory. It allows the APISIX Ingress Controller to verify the CRD-converted plugin configurations before applying them, preventing runtime failures.
+This PR introduces a validate API to standalone mode. The validate API checks the configuration input without saving it to memory. It allows the APISIX Ingress Controller to verify the CRD-converted plugin configurations before applying them, preventing runtime failures.
 
 ## Recommended Blogs
 
@@ -40,4 +40,4 @@ This PR introduces a validate API to standalone mode. The validate API only vali
 
 - [Release Apache APISIX 3.14.0](https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/)
 
-  This release introduces several new features, including new AI proxy variables for logging, support for AI/ML API providers in AI plugins, route matching based on the request body, support for the KSUID algorithm in the request-id plugin, and more.
+  This release introduces several new features, including new AI proxy variables for logging, support for AI/ML API providers in AI plugins, route matching based on the request body, support for the KSUID algorithm in the `request-id` plugin, and more.
