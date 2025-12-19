@@ -20,7 +20,7 @@ image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 
 <!--truncate-->
 
-Built on the high-performance API gateway Apache APISIX, [APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller) has undergone multiple iterations and validations, now capable of handling large-scale traffic management demands. The Apache APISIX community is pleased to announce the official release of [APISIX Ingress Controller 2.0](https://apisix.apache.org/docs/ingress-controller/overview/). This release delivers substantial enhancements across three foundational pillars—comprehensive compatibility, adaptable architecture, and enterprise-grade stability—empowering users to migrate their technology stacks smoothly and reliably.
+Built on the high-performance API gateway Apache APISIX, [APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller) has undergone multiple iterations and validations, and is now capable of handling large-scale traffic management demands. The Apache APISIX community is pleased to announce the official release of [APISIX Ingress Controller 2.0](https://apisix.apache.org/docs/ingress-controller/overview/). This release delivers substantial enhancements across three foundational pillars—**comprehensive compatibility**, **adaptable architecture**, and **enterprise-grade stability**—empowering users to migrate their technology stacks smoothly and reliably.
 
 ## Highlights of Apache APISIX Ingress Controller 2.0
 
