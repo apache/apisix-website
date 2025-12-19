@@ -17,9 +17,9 @@ module.exports = [
     shape: 'hexagon',
     color: '#2563EB',
     githubRepo: 'apache/apisix-ingress-controller',
-    version: '1.6.0',
-    releaseDate: '2022-12-30',
-    firstDocPath: '/getting-started',
+    version: '2.0.0',
+    releaseDate: '2025-12-17',
+    firstDocPath: '/overview',
   },
   {
     name: 'APISIX® Helm Charts',

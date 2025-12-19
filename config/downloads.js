@@ -25,9 +25,9 @@ module.exports = [
     githubBranch: 'master',
     downloadPath: 'apisix/ingress-controller/1.6.0/apache-apisix-ingress-controller-1.6.0-src',
     dockerhubPath: 'apisix-ingress-controller',
-    version: '1.6.0',
-    releaseDate: '2022-12-30',
-    firstDocPath: '/getting-started',
+    version: '2.0.0',
+    releaseDate: '2025-12-17',
+    firstDocPath: '/overview',
   },
   {
     name: 'APISIX® Java Plugin Runner',
