@@ -30,7 +30,7 @@ This release achieves a significant milestone in Gateway API coverage with the a
 
 ### Introduce Gateway API Extensions
 
-APISIX Ingress Controller 2.0 introduces a set of official Gateway API extensions under the `apisix.apache.org/v1alpha1` group. Developed and maintained within the Gateway API implementer community, these extensions provide production-grade capabilities that securely and reliably extend the standard specification.
+APISIX Ingress Controller 2.0 introduces a set of official Gateway API extensions under the `apisix.apache.org/v1alpha1` group. Developed and maintained within the APISIX Ingress Controller community, these extensions provide production-grade capabilities that securely and reliably extend the standard specification.
 
 - **GatewayProxy**: It defines the connection between the APISIX Ingress Controller and the APISIX, including auth, endpoints, and global plugins. It is referenced via `parametersRef` in Gateway, GatewayClass, or IngressClass resources.
 
@@ -52,8 +52,6 @@ This deployment paradigm stores routing configurations entirely in memory rather
 
 This mode is designed specifically for the APISIX Ingress Controller and is primarily intended for integration with [ADC (API Declarative CLI)](https://github.com/api7/adc).
 
-> ⚠️ This mode is intended for use with APISIX Ingress Controller and ADC. Direct usage without fully understanding its internal behavior is not recommended.
-
 ### Support Multi-Data-Plane Deployment Mode
 
 This release introduces flexible deployment options supporting multiple data plane modes, enabling a single ingress controller to manage several independent APISIX instances. This approach is ideal for environments requiring strict isolation—such as multi-tenancy, staging vs. production, or region-based routing—while maintaining centralized control.
@@ -68,10 +66,7 @@ In the traditional deployment approach, APISIX uses etcd as its configuration ce
 
 #### Standalone Mode (Experimental)
 
-APISIX can also run independently without relying on etcd, which is especially well‑suited for Kubernetes and single‑node deployments. It operates in two sub‑modes:
-
-- **File-driven**: Configuration is managed through `conf/apisix.yaml` files
-- **API-driven**: Configuration is stored in memory and fully managed through the dedicated `/apisix/admin/configs` endpoint
+APISIX can also run independently without relying on etcd, which is especially well‑suited for Kubernetes and single‑node deployments. It stores configurations in memory and manages them through the dedicated `/apisix/admin/configs` endpoint.
 
 This mode is particularly suitable for Kubernetes environments and single-node deployments, where the API-driven memory management approach combines the convenience of traditional Admin API with the simplicity of Standalone mode.
 

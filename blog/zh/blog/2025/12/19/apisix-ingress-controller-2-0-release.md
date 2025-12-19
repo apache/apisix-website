@@ -30,7 +30,7 @@ image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 
 ### 引入 Gateway API 扩展
 
-APISIX Ingress Controller 2.0 引入了一套在 `apisix.apache.org/v1alpha1` 组下的官方 Gateway API 扩展。这些扩展由 Gateway API 社区开发和维护，以安全可靠的方式提供生产级能力，丰富了标准规范。
+APISIX Ingress Controller 2.0 引入了一套在 `apisix.apache.org/v1alpha1` 组下的官方 Gateway API 扩展。这些扩展由 APISIX Ingress Controller 社区开发和维护，以安全可靠的方式提供生产级能力，丰富了标准规范。
 
 - **GatewayProxy**：定义了 APISIX Ingress Controller 与 APISIX 数据面之间的连接，涵盖认证、端点及全局插件，可通过 Gateway、GatewayClass 或 IngressClass 资源中的 `parametersRef` 进行引用。
 
@@ -52,8 +52,6 @@ APISIX Ingress Controller 2.0 提供了轻量级、无需 etcd 的 Standalone [A
 
 此模式专为 APISIX Ingress Controller 设计，主要面向与 [ADC（API 声明式 CLI）](https://github.com/api7/adc)的深度集成场景。
 
-> ⚠️ 此模式建议与 APISIX Ingress Controller 及 ADC 配合使用。如不完全了解其内部机制，请勿直接用于生产核心场景。
-
 ### 支持多数据平面部署模式
 
 APISIX Ingress Controller 2.0 推出了灵活的多数据面部署支持，允许单个 Controller 管理多个独立的 APISIX 实例。这一设计非常适用于需要严格隔离的环境，例如多租户、灰度生产隔离或地域化路由，同时能实现全局集中管控。
@@ -68,10 +66,7 @@ APISIX Ingress Controller 2.0 推出了灵活的多数据面部署支持，允�
 
 #### Standalone 模式（实验性）
 
-APISIX 也可脱离 etcd 独立运行，尤其适用于 Kubernetes 环境和单节点部署。它提供两种子模式：
-
-- **文件驱动**：通过 `conf/apisix.yaml` 文件管理配置。
-- **API 驱动**：配置存储于内存中，并通过专用的 `/apisix/admin/configs` 端点进行全量管理。
+APISIX 也可脱离 etcd 独立运行，尤其适用于 Kubernetes 环境和单节点部署。它通过 API 驱动模式，配置存储于内存中，并通过专用的 `/apisix/admin/configs` 端点进行全量管理。
 
 该模式巧妙融合了传统 Admin API 的便利性与 Standalone 模式的简洁性，为 Kubernetes 和单节点场景提供了高效灵活的管理体验。
 
