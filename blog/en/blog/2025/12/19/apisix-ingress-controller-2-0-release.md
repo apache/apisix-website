@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Ingress Controller 2.0: Production-Ready Platform for Modern Traffic Management"
+title: "Release Apache APISIX Ingress Controller 2.0"
 authors:
   - name: Yilia Lin
     title: Technical Writer
@@ -12,7 +12,7 @@ keywords:
   - Gateway API
   - Apache APISIX
 description: Apache APISIX Ingress Controller 2.0 delivers comprehensive Gateway API support, flexible multi-data-plane deployment, and etcd-free operation for robust, scalable Kubernetes traffic management.
-tags: [Ecosystem]
+tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
