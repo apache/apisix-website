@@ -30,7 +30,7 @@ This release achieves a significant milestone in Gateway API coverage with the a
 
 ### Introduce Gateway API Extensions
 
-APISIX Ingress Controller 2.0 introduces a set of official Gateway API extensions under the `apisix.apache.org/v1alpha1` group. Developed and maintained within the APISIX Ingress Controller community, these extensions provide production-grade capabilities that securely and reliably extend the standard specification.
+Building upon adherence to the Gateway API design principles, APISIX Ingress Controller 2.0 introduces a set of API extensions under `apisix.apache.org/v1alpha1` based on the Gateway API. These extensions provide additional capabilities not currently directly covered by the standard Gateway API, while maintaining the core semantics and usage patterns of the standard resources. They are designed to meet more complex and diverse real-world usage scenarios.
 
 - **GatewayProxy**: It defines the connection between the APISIX Ingress Controller and the APISIX, including auth, endpoints, and global plugins. It is referenced via `parametersRef` in Gateway, GatewayClass, or IngressClass resources.
 
@@ -48,7 +48,7 @@ These extensions offer a standardized, vendor-supported path to leverage advance
 
 APISIX Ingress Controller 2.0 offers a lightweight, etcd-free deployment option through its Standalone [API-Driven Mode](https://apisix.apache.org/docs/apisix/deployment-modes/#api-driven).
 
-This deployment paradigm stores routing configurations entirely in memory rather than in a configuration file, eliminating reliance on external databases. Updates are performed through a dedicated Standalone Admin API, which replaces the full configuration in a single operation and takes effect immediately via hot reloading, without requiring a restart.
+This deployment paradigm stores routing configurations entirely in memory rather than in a configuration file. Updates are performed through a dedicated Standalone Admin API, which replaces the full configuration in a single operation and takes effect immediately via hot reloading, without requiring a restart.
 
 This mode is designed specifically for the APISIX Ingress Controller and is primarily intended for integration with [ADC (API Declarative CLI)](https://github.com/api7/adc).
 
@@ -64,7 +64,7 @@ In the traditional deployment approach, APISIX uses etcd as its configuration ce
 <img alt="APISIX Ingress Controller Admin API Mode" style="width: 60%" src="https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp"></img>
 </div>
 
-#### Standalone Mode (Experimental)
+#### Standalone Mode
 
 APISIX can also run independently without relying on etcd, which is especially well‑suited for Kubernetes and single‑node deployments. It stores configurations in memory and manages them through the dedicated `/apisix/admin/configs` endpoint.
 
