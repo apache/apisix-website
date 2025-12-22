@@ -13,7 +13,7 @@ keywords:
   - Apache APISIX
 description: Apache APISIX Ingress Controller 2.0 delivers comprehensive Gateway API support, flexible multi-data-plane deployment, and etcd-free operation for robust, scalable Kubernetes traffic management.
 tags: [Community]
-image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
+image: https://static.api7.ai/uploads/2025/12/22/q17SNFmp_apisix-ingress-controller-cover.webp
 ---
 
 > Apache APISIX Ingress Controller 2.0 is officially released. It delivers comprehensive Gateway API support, flexible multi-data-plane deployment, and etcd-free operation for robust, scalable Kubernetes traffic management.
@@ -60,9 +60,9 @@ This release introduces flexible deployment options supporting multiple data pla
 
 In the traditional deployment approach, APISIX uses etcd as its configuration center, allowing administrators to dynamically manage routes, upstreams, and other resources through RESTful APIs. It supports distributed cluster deployments with real-time configuration synchronization.
 
-<div align="center">
-<img alt="APISIX Ingress Controller Admin API Mode" style="width: 60%" src="https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp"></img>
-</div>
+<p align="center">
+  <img width="600" alt="APISIX Ingress Controller Admin API Mode" src="https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp" />
+</p>
 
 #### Standalone Mode
 
@@ -70,9 +70,9 @@ APISIX can also run independently without relying on etcd, which is especially w
 
 This mode is particularly suitable for Kubernetes environments and single-node deployments, where the API-driven memory management approach combines the convenience of traditional Admin API with the simplicity of Standalone mode.
 
-<div align="center">
-<img alt="APISIX Ingress Controller Standalone Mode" style="width: 60%" src="https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp"></img>
-</div>
+<p align="center">
+  <img width="550" alt="APISIX Ingress Controller Standalone Mode" src="https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp" />
+</p>
 
 This multi-mode strategy empowers organizations to tailor their ingress architecture to diverse requirements without sacrificing manageability or control.
 
