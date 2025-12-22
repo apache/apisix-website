@@ -61,7 +61,7 @@ This release introduces flexible deployment options supporting multiple data pla
 In the traditional deployment approach, APISIX uses etcd as its configuration center, allowing administrators to dynamically manage routes, upstreams, and other resources through RESTful APIs. It supports distributed cluster deployments with real-time configuration synchronization.
 
 <p align="center">
-  <img width="550" alt="APISIX Ingress Controller Admin API Mode" src="[https://static.api7.ai/uploads/2025/05/13/Pk221A8e_2-honor-plugins-2.webp](https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp)" />
+  <img width="600" alt="APISIX Ingress Controller Admin API Mode" src="https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp" />
 </p>
 
 #### Standalone Mode
@@ -70,12 +70,8 @@ APISIX can also run independently without relying on etcd, which is especially w
 
 This mode is particularly suitable for Kubernetes environments and single-node deployments, where the API-driven memory management approach combines the convenience of traditional Admin API with the simplicity of Standalone mode.
 
-<div align="center">
-<img alt="APISIX Ingress Controller Standalone Mode" style="width: 60%" src="https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp"></img>
-</div>
-
 <p align="center">
-  <img width="550" alt="APISIX Ingress Controller Standalone Mode" src="[[https://static.api7.ai/uploads/2025/05/13/Pk221A8e_2-honor-plugins-2.webp](https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp](https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp))" />
+  <img width="550" alt="APISIX Ingress Controller Standalone Mode" src="https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp" />
 </p>
 
 This multi-mode strategy empowers organizations to tailor their ingress architecture to diverse requirements without sacrificing manageability or control.
