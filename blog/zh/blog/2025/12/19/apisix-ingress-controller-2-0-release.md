@@ -13,7 +13,7 @@ keywords:
   - Apache APISIX
 description: Apache APISIX Ingress Controller 2.0 正式发布，带来全面的 Gateway API 支持、灵活的多数据面部署模式以及无需 etcd 的轻量级运维，以实现更稳健、可扩展的 Kubernetes 流量管理。
 tags: [Community]
-image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
+image: https://static.api7.ai/uploads/2025/12/22/q17SNFmp_apisix-ingress-controller-cover.webp
 ---
 
 > Apache APISIX Ingress Controller 2.0 正式发布，带来全面的 Gateway API 支持、灵活的多数据面部署模式以及无需 etcd 的轻量级运维，以实现更稳健、可扩展的 Kubernetes 流量管理。
@@ -60,9 +60,9 @@ APISIX Ingress Controller 2.0 推出了灵活的多数据面部署支持，允�
 
 在传统部署架构中，APISIX 使用 etcd 作为其配置中心，管理员可通过 RESTful API 动态管理路由、上游服务等资源。该模式支持分布式集群部署，并能实现配置的实时同步。
 
-<div align="center">
-<img alt="APISIX Ingress Controller Admin API Mode" style="width: 60%" src="https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp"></img>
-</div>
+<p align="center">
+  <img width="600" alt="APISIX Ingress Controller Admin API Mode" src="https://static.api7.ai/uploads/2025/12/19/lX98Vcaj_apisix-ingress-controller-2-admin-api-mode.webp" />
+</p>
 
 #### Standalone 模式
 
@@ -70,9 +70,9 @@ APISIX 也可脱离 etcd 独立运行，尤其适用于 Kubernetes 环境和单�
 
 该模式巧妙融合了传统 Admin API 的便利性与 Standalone 模式的简洁性，为 Kubernetes 和单节点场景提供了高效灵活的管理体验。
 
-<div align="center">
-<img alt="APISIX Ingress Controller Standalone Mode" style="width: 60%" src="https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp"></img>
-</div>
+<p align="center">
+  <img width="550" alt="APISIX Ingress Controller Standalone Mode" src="https://static.api7.ai/uploads/2025/12/19/8IxjQgCP_apisix-ingress-controller-2-standalone-mode.webp" />
+</p>
 
 通过这种多模式策略，企业可以根据多样化的需求灵活定制入口架构，在提升控制力的同时，不牺牲可管理性。
 
