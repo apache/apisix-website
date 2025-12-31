@@ -24,7 +24,7 @@ From December 1st to December 31st, 18 contributors made 45 commits to Apache AP
 
 ## Feature Highlight
 
-### 1.Add Global Default `path` Property to `file-logger` Plugin Metadata
+### 1. Add Global Default `path` Property to `file-logger` Plugin Metadata
 
 PR: https://github.com/apache/apisix/pull/12825
 
