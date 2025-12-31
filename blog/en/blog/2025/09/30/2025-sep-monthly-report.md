@@ -64,6 +64,10 @@ Contributor: [bzp2010](https://github.com/bzp2010)
 
 Users need to record the LLM model of client requests that are not modified by the gateway when logging AI proxy requests, so a new context variable `request_llm_model` is added to record it.
 
+## Conclusion
+
+The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+
 ## Recommended Blogs
 
 - [360 Built Unified L7 Load Balancer Using Apache APISIX](https://apisix.apache.org/blog/2025/09/03/360-built-unified-l7-load-balancer-with-apisix/)

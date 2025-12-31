@@ -32,6 +32,10 @@ Contributor: [Revolyssup](https://github.com/Revolyssup)
 
 This PR introduces a validate API to standalone mode. The validate API checks the configuration input without saving it to memory. It allows the APISIX Ingress Controller to verify the CRD-converted plugin configurations before applying them, preventing runtime failures.
 
+## Conclusion
+
+The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+
 ## Recommended Blogs
 
 - [Release Apache APISIX 3.14.1](https://apisix.apache.org/blog/2025/10/17/release-apache-apisix-3.14.1/)
