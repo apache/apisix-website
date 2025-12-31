@@ -61,5 +61,3 @@ Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 Github 上的 
 - [Apache APISIX Ingress Controller 2.0 正式发布](https://apisix.apache.org/zh/blog/2025/12/19/apisix-ingress-controller-2-0-release/)
 
   Apache APISIX Ingress Controller 2.0 正式发布，带来全面的 Gateway API 支持、灵活的多数据面部署模式以及无需 etcd 的轻量级运维，以实现更稳健、可扩展的 Kubernetes 流量管理。
-
-我们很高兴地宣布 Apache APISIX 3.14.1 版本已经发布。该版本带来一则修复以改善用户体验。
