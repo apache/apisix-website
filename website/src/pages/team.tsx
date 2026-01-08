@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-
 import Translate, { translate } from '@docusaurus/Translate';
 
 import GitHubLogo from '../assets/icons/github-logo.svg';
@@ -41,6 +40,7 @@ const MembersContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
 `;
+
 const MemberCard = styled.a`
   border-radius: 0.75rem;
   border: 1px solid #eee;
@@ -54,9 +54,12 @@ const MemberCard = styled.a`
   min-width: calc(108px + 2rem);
   cursor: pointer;
   height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   &:hover {
-    color: inherit;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     text-decoration: none;
+    color: inherit;
   }
 `;
 
@@ -65,6 +68,7 @@ const Avatar = styled.img`
   width: 108px;
   border-radius: 50%;
 `;
+
 const MemberName = styled.div`
   font-size: 1rem;
   font-weight: 600;
@@ -72,6 +76,7 @@ const MemberName = styled.div`
   margin-bottom: -4px;
   line-height: 1rem;
 `;
+
 const Username = styled.div`
   font-size: 0.8rem;
   font-weight: 500;
@@ -82,6 +87,7 @@ const SectionTitle = styled.h2`
   margin-bottom: 24px;
   margin-top: 84px;
 `;
+
 const SectionSubtitle = styled.p`
   opacity: 0.68;
   margin-top: -12px;
@@ -92,6 +98,7 @@ const RepoCardsContainer = styled.div`
   flex-wrap: wrap;
   margin-left: -8px;
 `;
+
 const RepoCard = styled.a`
   border-radius: 0.75rem;
   border: 1px solid #eee;
@@ -102,13 +109,13 @@ const RepoCard = styled.a`
   padding: 1rem;
   margin: 8px;
   cursor: pointer;
-  transition: all 0.3s;
-
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     opacity: 0.98;
     text-decoration: none;
   }
-
   svg {
     margin-right: 8px;
     transition: all 0.3s;
@@ -124,15 +131,18 @@ const ContributeCard = styled.div`
   color: white;
   padding: 2rem 2.4rem;
 `;
+
 const ContributeCardTitle = styled.div`
   font-size: 2.4rem;
   font-weight: 700;
 `;
+
 const ContributeCardSubtitle = styled.div`
   opacity: 0.78;
   font-size: 14px;
   margin-top: 1rem;
 `;
+
 const ContributeCardButton = styled.a`
   padding: 12px 24px;
   font-size: 20px;
@@ -258,8 +268,7 @@ const Team: FC = () => {
           <Avatar src={member.avatarUrl} />
           <MemberName>{member.name}</MemberName>
           <Username>
-            @
-            {member.username}
+            @{member.username}
           </Username>
         </MemberCard>
       </div>
@@ -273,6 +282,7 @@ const Team: FC = () => {
       </div>
     );
   });
+
   const repoComponents = allRepos.map((repo) => (
     <RepoCard
       className="team-repocard"
@@ -285,13 +295,20 @@ const Team: FC = () => {
       {repo}
     </RepoCard>
   ));
+
   return (
     <Layout title={translate({ message: 'Team' })}>
       <Page>
         <PageTitle><Translate id="team.webpage.title.Team">Team</Translate></PageTitle>
-        <PageSubtitle><Translate id="team.webpage.title.DocumentSubtitle">We love open source.</Translate></PageSubtitle>
+        <PageSubtitle>
+          <Translate id="team.webpage.title.DocumentSubtitle">
+            We love open source.
+          </Translate>
+        </PageSubtitle>
         {memberSections}
-        <SectionTitle><Translate id="team.webpage.content.Contributors">Contributors</Translate></SectionTitle>
+        <SectionTitle>
+          <Translate id="team.webpage.content.Contributors">Contributors</Translate>
+        </SectionTitle>
         <SectionSubtitle>
           <Translate id="team.webpage.content.ContributorsSub">
             You can find all contributors of Apache APISIX from GitHub contribution
@@ -299,7 +316,20 @@ const Team: FC = () => {
           </Translate>
         </SectionSubtitle>
         <RepoCardsContainer>{repoComponents}</RepoCardsContainer>
-        
+        <SectionTitle>
+          <Translate id="team.webpage.content.ContributorOverTime">
+            Contributor Over Time
+          </Translate>
+        </SectionTitle>
+        <SectionSubtitle>
+          <Translate id="team.webpage.content.ContributorOverTimeNote">
+            Note: This graph contains contributors from all repos under Apache APISIX
+          </Translate>
+        </SectionSubtitle>
+        <img
+          src="https://contributor-graph-api.apiseven.com/contributors-svg?repo=apache/apisix&merge=true"
+          alt="Contributor Over Time"
+        />
         <ContributeCard>
           <ContributeCardLeftSide>
             <ContributeCardTitle>
