@@ -118,30 +118,30 @@ API 驱动的独立模式（主要用于 Ingress 控制器）现在支持新的�
 
 ## 其他更新
 
-* 支持 file-driven standalone 模式下的状态 API (PR [#12810](https://github.com/apache/apisix/pull/12810))
-* 正确处理 Kubernetes 服务发现中的 EndpointSlices (PR [#12634](https://github.com/apache/apisix/pull/12634))
-* 将资源名称长度从 100 个字符放宽至 256 个字符，以更好地支持入口控制器名称生成模式 (PR [#11822](https://github.com/apache/apisix/pull/11822))
-* 为流路由添加验证和删除保护 (PR [#12794](https://github.com/apache/apisix/pull/12794))
-* 通过在 `limit-conn` 插件中配置 Redis 密钥过期时间来防止永久配额阻塞 (PR [#12872](https://github.com/apache/apisix/pull/12872))
-* 通过在 SkyWalking 集成中路由命中时启动计时器来提高计时精度 (PR [#12855](https://github.com/apache/apisix/pull/12855))
-* 通过在销毁 Prometheus 时移除不必要的深拷贝来提高性能 (PR [#12905](https://github.com/apache/apisix/pull/12905))
-* 通过在 `limit-req` 插件中确保安全的 Redis 键驱逐来防止数据损坏 (PR [#12911](https://github.com/apache/apisix/pull/12911))
-* 通过在 `limit-count` 插件中使用元父级来识别插件源来改进调试 (PR [#12900](https://github.com/apache/apisix/pull/12900))
-* 在 MQTT 插件中，将 `protocol_name` 设置为可选，并将其默认值设为 `MQTT` (PR [#12831](https://github.com/apache/apisix/pull/12831))
-* 在 `batch-requests` 插件中，确保子响应的数量与子请求的数量匹配 (PR [#12779](https://github.com/apache/apisix/pull/12779))
-* 修正 `ai-proxy-multi` 插件中的日志模式键 (PR [#12795](https://github.com/apache/apisix/pull/12795))
-* 修复插件元数据中 `enable_data_encryption` 的初始化和查询问题 (PR [#12624](https://github.com/apache/apisix/pull/12624))
-* 当传入请求包含空值时，添加 `X-Request-Id` 标头 (PR [#12837](https://github.com/apache/apisix/pull/12837))
-* 调整目录权限，允许 APISIX 在 OpenShift 上运行而无需使用 `anyuid` 命令 (PR [#12824](https://github.com/apache/apisix/pull/12824))
-* 修复 Kubernetes 服务发现中的前置和后置钩子拼写错误，并提高清理安全性 (PR [#12288](https://github.com/apache/apisix/pull/12288))
-* 通过将 IPv6 检查移至模式验证来提高性能 (PR [#12714](https://github.com/apache/apisix/pull/12714))
-* 重构缓存逻辑，使用密钥 URI 作为缓存键，并改进 LRU 缓存实现 (PR [#12682](https://github.com/apache/apisix/pull/12682))
-* 确保独立上游的 `node_version` 得到维护 (PR [#12856](https://github.com/apache/apisix/pull/12856))
-* 修复当任何 Eureka 节点不可用时，重新加载期间的请求失败问题 (PR [#12906](https://github.com/apache/apisix/pull/12906))
-* 为 Nacos 服务发现请求失败后添加重试逻辑 (PR [#12734](https://github.com/apache/apisix/pull/12734))
-* 移除从核心依赖项中移除 `lua-resty-worker-events`（PR [#12930](https://github.com/apache/apisix/pull/12930)）
-* 升级 `lua-resty-logger-socket` 依赖项（PR [#12898](https://github.com/apache/apisix/pull/12898)）
-* 升级 `lua-resty-dns-client` 依赖项（PR [#12851](https://github.com/apache/apisix/pull/12851)）
+- 支持 file-driven standalone 模式下的状态 API (PR [#12810](https://github.com/apache/apisix/pull/12810))
+- 正确处理 Kubernetes 服务发现中的 EndpointSlices (PR [#12634](https://github.com/apache/apisix/pull/12634))
+- 将资源名称长度从 100 个字符放宽至 256 个字符，以更好地支持入口控制器名称生成模式 (PR [#11822](https://github.com/apache/apisix/pull/11822))
+- 为流路由添加验证和删除保护 (PR [#12794](https://github.com/apache/apisix/pull/12794))
+- 通过在 `limit-conn` 插件中配置 Redis 密钥过期时间来防止永久配额阻塞 (PR [#12872](https://github.com/apache/apisix/pull/12872))
+- 通过在 SkyWalking 集成中路由命中时启动计时器来提高计时精度 (PR [#12855](https://github.com/apache/apisix/pull/12855))
+- 通过在销毁 Prometheus 时移除不必要的深拷贝来提高性能 (PR [#12905](https://github.com/apache/apisix/pull/12905))
+- 通过在 `limit-req` 插件中确保安全的 Redis 键驱逐来防止数据损坏 (PR [#12911](https://github.com/apache/apisix/pull/12911))
+- 通过在 `limit-count` 插件中使用元父级来识别插件源来改进调试 (PR [#12900](https://github.com/apache/apisix/pull/12900))
+- 在 MQTT 插件中，将 `protocol_name` 设置为可选，并将其默认值设为 `MQTT` (PR [#12831](https://github.com/apache/apisix/pull/12831))
+- 在 `batch-requests` 插件中，确保子响应的数量与子请求的数量匹配 (PR [#12779](https://github.com/apache/apisix/pull/12779))
+- 修正 `ai-proxy-multi` 插件中的日志模式键 (PR [#12795](https://github.com/apache/apisix/pull/12795))
+- 修复插件元数据中 `enable_data_encryption` 的初始化和查询问题 (PR [#12624](https://github.com/apache/apisix/pull/12624))
+- 当传入请求包含空值时，添加 `X-Request-Id` 标头 (PR [#12837](https://github.com/apache/apisix/pull/12837))
+- 调整目录权限，允许 APISIX 在 OpenShift 上运行而无需使用 `anyuid` 命令 (PR [#12824](https://github.com/apache/apisix/pull/12824))
+- 修复 Kubernetes 服务发现中的前置和后置钩子拼写错误，并提高清理安全性 (PR [#12288](https://github.com/apache/apisix/pull/12288))
+- 通过将 IPv6 检查移至模式验证来提高性能 (PR [#12714](https://github.com/apache/apisix/pull/12714))
+- 重构缓存逻辑，使用密钥 URI 作为缓存键，并改进 LRU 缓存实现 (PR [#12682](https://github.com/apache/apisix/pull/12682))
+- 确保独立上游的 `node_version` 得到维护 (PR [#12856](https://github.com/apache/apisix/pull/12856))
+- 修复当任何 Eureka 节点不可用时，重新加载期间的请求失败问题 (PR [#12906](https://github.com/apache/apisix/pull/12906))
+- 为 Nacos 服务发现请求失败后添加重试逻辑 (PR [#12734](https://github.com/apache/apisix/pull/12734))
+- 移除从核心依赖项中移除 `lua-resty-worker-events`（PR [#12930](https://github.com/apache/apisix/pull/12930)）
+- 升级 `lua-resty-logger-socket` 依赖项（PR [#12898](https://github.com/apache/apisix/pull/12898)）
+- 升级 `lua-resty-dns-client` 依赖项（PR [#12851](https://github.com/apache/apisix/pull/12851)）
 
 ## 更新日志
 
