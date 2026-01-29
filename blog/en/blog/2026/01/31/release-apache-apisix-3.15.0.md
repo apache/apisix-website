@@ -58,7 +58,7 @@ For more information, see [PR #12852](https://github.com/apache/apisix/pull/1285
 
 ### Auth plugins custom `www-authenticate` header with realm
 
-Authentication plugins `basic-auth`, `key-auth`, `hmac-auth`, `jwt-auth`, and `ldap-auth`, now support customizing the realm value in `WWW-Authenticate` header on 401 responses, implementing RFC 7235 standards for HTTP authentication.
+Authentication plugins `basic-auth`, `key-auth`, `hmac-auth`, `jwt-auth`, and `ldap-auth` now support customizing the realm value in `WWW-Authenticate` header on 401 responses, implementing RFC 7235 standards for HTTP authentication.
 
 For more information, see [PR #12864](https://github.com/apache/apisix/pull/12864).
 
@@ -104,7 +104,7 @@ SSL certificate matching now supports the complete wildcard `*` value, in additi
 
 For more information, see [PR #12668](https://github.com/apache/apisix/pull/12668).
 
-### `grpc-web` plugin supports non prefix based routes
+### `grpc-web` plugin supports exact matching in route URI
 
 The `grpc-web` plugin now works with routes that do not use prefix matching, expanding flexibility for gRPC-Web deployments.
 
@@ -131,7 +131,7 @@ For more information, see [PR #12718](https://github.com/apache/apisix/pull/1271
 - Ensure the number of sub-responses matches the sub-request count in the `batch-requests` plugin (PR [#12779](https://github.com/apache/apisix/pull/12779))
 - Correct the logging schema key in the `ai-proxy-multi` plugin (PR [#12795](https://github.com/apache/apisix/pull/12795))
 - Fix initialization and querying issues for `enable_data_encryption` in plugin metadata (PR [#12624](https://github.com/apache/apisix/pull/12624))
-- Add a `X-Request-Id` header when the incoming request contains an empty value (PR [#12837](https://github.com/apache/apisix/pull/12837))
+- Add an `X-Request-Id` header when the incoming request contains an empty value (PR [#12837](https://github.com/apache/apisix/pull/12837))
 - Adjust directory permissions to allow APISIX to run on OpenShift without the `anyuid` command (PR [#12824](https://github.com/apache/apisix/pull/12824))
 - Fix pre- and post-hook typos in Kubernetes discovery and improve cleanup safety (PR [#12288](https://github.com/apache/apisix/pull/12288))
 - Improve performance by moving the IPv6 check to schema validation (PR [#12714](https://github.com/apache/apisix/pull/12714))

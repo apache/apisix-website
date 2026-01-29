@@ -47,8 +47,8 @@ tags: [Community]
 
 - [PR #12933 (Google Cloud Vertex AI)](https://github.com/apache/apisix/pull/12933)
 - [PR #12883 (Google Gemini)](https://github.com/apache/apisix/pull/12883)
-- [PR #12881 (Anthropic)](https://github.com/apache/apisix/pull/12881) 
-- [PR #12878 (OpenRouter)](https://github.com/apache/apisix/pull/12878) 
+- [PR #12881 (Anthropic)](https://github.com/apache/apisix/pull/12881)
+- [PR #12878 (OpenRouter)](https://github.com/apache/apisix/pull/12878)
 
 ### Kubernetes 服务发现就绪状态检查
 
@@ -104,7 +104,7 @@ SSL 证书匹配现在除了支持精确域名和部分通配符外，还支持�
 
 更多信息，请参阅 [PR #12668](https://github.com/apache/apisix/pull/12668)。
 
-### `grpc-web` 插件支持非前缀路由
+### `grpc-web` 插件支持精确匹配路由 URI
 
 `grpc-web` 插件现在可以处理不使用前缀匹配的路由，从而增强了 gRPC-Web 部署的灵活性。
 
@@ -139,7 +139,7 @@ API 驱动的独立模式（主要用于 Ingress 控制器）现在支持新的�
 - 确保独立上游的 `node_version` 得到维护 (PR [#12856](https://github.com/apache/apisix/pull/12856))
 - 修复当任何 Eureka 节点不可用时，重新加载期间的请求失败问题 (PR [#12906](https://github.com/apache/apisix/pull/12906))
 - 为 Nacos 服务发现请求失败后添加重试逻辑 (PR [#12734](https://github.com/apache/apisix/pull/12734))
-- 移除从核心依赖项中移除 `lua-resty-worker-events`（PR [#12930](https://github.com/apache/apisix/pull/12930)）
+- 从核心依赖项中移除 `lua-resty-worker-events`（PR [#12930](https://github.com/apache/apisix/pull/12930)）
 - 升级 `lua-resty-logger-socket` 依赖项（PR [#12898](https://github.com/apache/apisix/pull/12898)）
 - 升级 `lua-resty-dns-client` 依赖项（PR [#12851](https://github.com/apache/apisix/pull/12851)）
 
