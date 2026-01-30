@@ -62,9 +62,9 @@ Authentication plugins `basic-auth`, `key-auth`, `hmac-auth`, `jwt-auth`, and `l
 
 For more information, see [PR #12864](https://github.com/apache/apisix/pull/12864).
 
-### `request-id` plugin supports `apisix_request_id` variable
+### Add `apisix_request_id` variable for request identification
 
-The `request-id` plugin now includes support for the `apisix_request_id` variable and records request IDs in error logs, significantly improving debugging and tracing capabilities.
+This release adds `apisix_request_id` variable that logs request IDs in both access and error logs. The variable is automatically set from the built-in `$request_id` and can be updated by the `request-id` plugin when enabled. This improves debugging and log correlation capabilities.
 
 For more information, see [PR #12931](https://github.com/apache/apisix/pull/12931).
 
