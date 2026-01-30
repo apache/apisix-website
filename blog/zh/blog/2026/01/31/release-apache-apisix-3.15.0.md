@@ -70,9 +70,9 @@ Kubernetes 服务发现现在通过 `/status/ready` 接口提供就绪状态查�
 
 ### 速率限制插件支持配置 Redis keepalive
 
-`limit-count`、`limit-conn` 和 `limit-req` 插件现在支持 Redis 连接 keepalive 设置，从而提升连接稳定性并降低系统开销。
+`limit-count`、`limit-conn` 和 `limit-req` 插件现在支持 Redis 连接 keepalive 参数 `redis_keepalive_timeout` 和 `redis_keepalive_pool`，从而提升连接稳定性并降低系统开销。
 
-更多信息，请参阅 [PR #12861](https://github.com/apache/apisix/pull/12861)。
+更多信息，请参阅 [PR #12861](https://github.com/apache/apisix/pull/12861) 和 [PR #12955](https://github.com/apache/apisix/pull/12955)。
 
 ### 访问日志插件支持 `max_pending_entries`
 

@@ -70,9 +70,9 @@ For more information, see [PR #12931](https://github.com/apache/apisix/pull/1293
 
 ### Rate limiting plugins support configuring Redis keepalive
 
-The `limit-count`, `limit-conn`, and `limit-req` plugins now support Redis connection keepalive settings, improving connection stability and reducing overhead.
+The `limit-count`, `limit-conn`, and `limit-req` plugins now support Redis connection keepalive parameters `redis_keepalive_timeout` and `redis_keepalive_pool`, improving connection stability and reducing overhead.
 
-For more information, see [PR #12861](https://github.com/apache/apisix/pull/12861).
+For more information, see [PR #12861](https://github.com/apache/apisix/pull/12861) and [PR #12955](https://github.com/apache/apisix/pull/12955).
 
 ### Access log logging plugins support max pending entries
 
