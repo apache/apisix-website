@@ -74,9 +74,9 @@ Kubernetes 服务发现现在通过 `/status/ready` 接口提供就绪状态查�
 
 更多信息，请参阅 [PR #12861](https://github.com/apache/apisix/pull/12861)。
 
-### 日志插件支持最大待处理条目数
+### 访问日志插件支持 `max_pending_entries`
 
-所有日志插件现在都支持 `max_pending_entries` 参数，该参数用于设置批处理处理器中允许的最大未处理条目数。当达到此限制时，新条目将被丢弃，直到积压的条目减少为止。这有助于防止日志记录器运行缓慢或不可用时出现内存峰值。
+所有访问日志相关插件现在都在 plugin metadata 中支持配置 `max_pending_entries` 参数。该参数用于设置批处理处理器中允许的最大未处理条目数。当达到此限制时，新条目将被丢弃，直到积压的条目减少为止。这有助于防止日志记录器运行缓慢或不可用时出现内存峰值。
 
 更多信息，请参阅 [PR #12709](https://github.com/apache/apisix/pull/12709)。
 

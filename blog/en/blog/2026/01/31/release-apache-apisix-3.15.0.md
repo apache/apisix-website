@@ -74,9 +74,9 @@ The `limit-count`, `limit-conn`, and `limit-req` plugins now support Redis conne
 
 For more information, see [PR #12861](https://github.com/apache/apisix/pull/12861).
 
-### Logger plugins support max pending entries
+### Access log logging plugins support max pending entries
 
-All logger plugins now support the `max_pending_entries` parameter, which sets the maximum number of unprocessed entries allowed in the batch processor. When this limit is reached, new entries will be dropped until the backlog is reduced. This helps prevent memory spikes when the logger is slow or unavailable.
+All access log logging plugins now support the `max_pending_entries` parameter in their plugin metadata, which sets the maximum number of unprocessed entries allowed in the batch processor. When this limit is reached, new entries will be dropped until the backlog is reduced. This helps prevent memory spikes when the logger is slow or unavailable.
 
 For more information, see [PR #12709](https://github.com/apache/apisix/pull/12709).
 
