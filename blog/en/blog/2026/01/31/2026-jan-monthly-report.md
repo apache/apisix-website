@@ -82,13 +82,13 @@ Contributor: [SkyeYoung](https://github.com/SkyeYoung)
 
 This PR adds support for OpenRouter by aligning with and extending the implementation introduced in [#12565](https://github.com/apache/apisix/pull/12565), allowing users to route requests to OpenRouter through APISIX.
 
-### 7. Add `Realm` in `WWW-Authenticate` Response Headers for Auth Plugins
+### 7. Add Realm in `WWW-Authenticate` Response Headers for Auth Plugins
 
 PR: https://github.com/apache/apisix/pull/12864
 
 Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-This PR adds a `realm` configuration option to to the following authentication plugins: `basic-auth`, `key-auth`, `hmac-auth`, `jwt-auth`, and `ldap-auth`. This allows users to customize the realm value returned in the `WWW-Authenticate` response header for `401 Unauthorized` failures.
+This PR adds a `realm` configuration option to the following authentication plugins: `basic-auth`, `key-auth`, `hmac-auth`, `jwt-auth`, and `ldap-auth`. This allows users to customize the realm value returned in the `WWW-Authenticate` response header for `401 Unauthorized` failures.
 
 This aligns with the HTTP authentication protocol (RFC 7235), helping clients identify the "protection area" of the requested resource and determine which credentials to use for retrying the request.
 
