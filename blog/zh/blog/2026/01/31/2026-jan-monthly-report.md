@@ -22,6 +22,14 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ![新晋贡献者](https://static.api7.ai/uploads/2026/01/30/knUmnrVN_2026-jan-new-contributors.webp)
 
+### Issue #12932
+
+**链接**：https://github.com/apache/apisix/issues/12932
+
+**问题描述**：APISIX 以 Standalone 模式运行时，在 `apisix.yaml` 文件中设置环境变量，如果变量值是数字，则会被自动转换为数字。对于非常大的数字（超过 Lua 双精度浮点数可精确表示的范围），会出现精度丢失。例如，原本想作为字符串的数字 `356002209726529540` 被解析后变为 `3.5600220972653e+17`，导致实际值不正确。即使变量值使用双引号，也不会被当作字符串处理。
+
+**预期结果**：在 `apisix.yaml` 中以 `${{VAR}}` 形式传入的值应始终被视为字符串，保留原始值，即使它看起来像数字。
+
 ## 近期亮点功能
 
 ### 1. 为限流插件支持 Redis Keepalive

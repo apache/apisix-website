@@ -22,6 +22,16 @@ From January 1st to January 31st, 13 contributors made 48 commits to Apache APIS
 
 ![New Contributors List](https://static.api7.ai/uploads/2026/01/30/knUmnrVN_2026-jan-new-contributors.webp)
 
+## Good First Issue
+
+### Issue #12932
+
+**Link**: https://github.com/apache/apisix/issues/12932
+
+**Description**: In APISIX's standalone mode, when an environment variable is set in the `apisix.yaml` file, if the value is numeric, it is automatically converted to a number. This can cause errors when the number exceeds Lua's double precision limits. Even with double quotes, such values are not treated as strings.
+
+**Expected Behavior**: Values passed as `${{VAR}}` in `apisix.yaml` should be treated as strings, preserving the exact value even if it looks numeric.
+
 ## Feature Highlights
 
 ### 1. Support Redis Keepalive for Rate Limiting Plugins
