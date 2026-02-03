@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: The Apache APISIX 3.15.0 version is released on Jan 31, 2026. This release includes a few changes, new features, bug fixes, and other improvements to user experiences.
+description: The Apache APISIX 3.15.0 version is released on Feb 5, 2026. This release includes a few changes, new features, bug fixes, and other improvements to user experiences.
 tags: [Community]
 ---
 
