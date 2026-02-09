@@ -27,7 +27,7 @@ This release introduces new AI providers, enhanced logging features, and multipl
 
 This release introduces one breaking change that may impact existing deployments. Please review the change and plan your upgrade accordingly.
 
-## Breaking Changes
+## Breaking Change
 
 ### Disallow creating duplicate plugins in global rules
 
