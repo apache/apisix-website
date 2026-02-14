@@ -150,15 +150,236 @@ header h2 {
   }
 }
 
-/* navbar */
-.navbar__link:hover,
-.navbar__link--active {
-  color: var(--color-primary);
+/* navbar - Default styling for all pages */
+.navbar {
+  background: #ffffff !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
 }
 
 .navbar__title {
   font-size: 18px;
   height: 30px;
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+.navbar__link {
+  color: #1a202c !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  margin: 0 2px !important;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #000000 !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  font-weight: 700 !important;
+}
+
+.navbar__toggle {
+  color: #1a202c !important;
+  font-weight: 700 !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  z-index: 9999 !important;
+}
+
+.navbar__toggle:hover,
+.navbar__toggle:focus {
+  background: rgba(0, 0, 0, 0.1) !important;
+  border-radius: 4px !important;
+}
+
+.navbar__search-input {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  color: #000000 !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+
+.navbar__search-input::placeholder {
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-weight: 500 !important;
+}
+
+/* Mobile menu styling */
+.navbar-sidebar {
+  background: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  z-index: 9999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 100vh !important;
+  width: 300px !important;
+  transform: translateX(0) !important;
+}
+
+.navbar-sidebar__brand {
+  background: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  padding: 16px !important;
+}
+
+.navbar-sidebar__items {
+  background: #ffffff !important;
+  padding: 20px 0 !important;
+  overflow-y: auto !important;
+}
+
+.navbar-sidebar .menu__link {
+  color: #1a202c !important;
+  font-weight: 600 !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  margin: 4px 8px !important;
+  display: block !important;
+  text-decoration: none !important;
+}
+
+.navbar-sidebar .menu__link:hover,
+.navbar-sidebar .menu__link--active {
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: #000000 !important;
+}
+
+.navbar-sidebar__backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+  z-index: 9998 !important;
+}
+
+/* Hero section mobile menu */
+.hero-navbar .navbar-sidebar {
+  background: rgba(0, 0, 0, 0.95) !important;
+  z-index: 9999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 100vh !important;
+  width: 300px !important;
+}
+
+.hero-navbar .navbar-sidebar__brand {
+  background: rgba(0, 0, 0, 0.95) !important;
+  padding: 16px !important;
+}
+
+.hero-navbar .navbar-sidebar__items {
+  background: rgba(0, 0, 0, 0.95) !important;
+  padding: 20px 0 !important;
+}
+
+.hero-navbar .navbar-sidebar .menu__link {
+  color: #ffffff !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+  font-weight: 600 !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  margin: 4px 8px !important;
+  display: block !important;
+  text-decoration: none !important;
+}
+
+.hero-navbar .navbar-sidebar .menu__link:hover,
+.hero-navbar .navbar-sidebar .menu__link--active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.hero-navbar .navbar-sidebar__backdrop {
+  background: rgba(0, 0, 0, 0.7) !important;
+  z-index: 9998 !important;
+}
+
+/* Hero section specific navbar styling - only when in hero viewport */
+.hero-navbar .navbar {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Mobile specific navbar enhancement */
+@media (max-width: 768px) {
+  .hero-navbar .navbar {
+    background: rgba(0, 0, 0, 0.85) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4) !important;
+  }
+  
+  .hero-navbar .navbar__title {
+    font-size: 1.1rem !important;
+    font-weight: 900 !important;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 1) !important;
+  }
+  
+  .hero-navbar .navbar__link {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 1) !important;
+    padding: 10px 14px !important;
+  }
+  
+  .hero-navbar .navbar__toggle {
+    font-size: 1.2rem !important;
+    font-weight: 900 !important;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 1) !important;
+  }
+}
+
+.hero-navbar .navbar__title {
+  color: #ffffff !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.hero-navbar .navbar__link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  margin: 0 4px !important;
+}
+
+.hero-navbar .navbar__link:hover,
+.hero-navbar .navbar__link--active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+.hero-navbar .navbar__toggle {
+  color: #ffffff !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  z-index: 9999 !important;
+}
+
+.hero-navbar .navbar__toggle:hover,
+.hero-navbar .navbar__toggle:focus {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px !important;
+}
+
+.hero-navbar .navbar__search-input {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+}
+
+.hero-navbar .navbar__search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* button */
@@ -291,23 +512,63 @@ a:hover {
   }
 
   .hero-sec-wrap {
-    display: block;
-    height: fit-content;
+    display: flex !important;
+    height: 100vh !important;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    position: relative !important;
   }
 
   .homeCanvas-overlay {
     position: absolute;
-    width: 100vw;
-    height: 50vh;
-    background: #ebe6dc;
-    top: -1px;
-    right: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .homeCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 0 !important;
+    opacity: 0.2 !important;
+  }
+
+  .hero-infograph {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .add-margin {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
   }
 
   .hero-text {
-    height: 50%;
-    width: 100%;
-    padding: 5rem 0 0 6vw;
+    height: 100%;
+    width: 50%;
+    padding: 0 4vw 0 6vw;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    box-sizing: border-box;
   }
 
   .hero-title {
@@ -322,18 +583,6 @@ a:hover {
     padding-right: 20px;
   }
 
-  .add-margin {
-    margin: 30px 0 0;
-  }
-
-  .homeCanvas {
-    width: 100vw;
-    height: 50vh;
-  }
-
-  .hero-infograph {
-    overflow: hidden;
-  }
 
   .add-left-margin {
     position: relative;
