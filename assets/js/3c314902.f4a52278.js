@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[32129],{88183:s=>{s.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/ingress","name":"Ingress","count":1,"permalink":"/blog/tags/ingress"}')}}]);

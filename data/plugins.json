@@ -1,0 +1,359 @@
+[
+  {
+    "groupName": "General",
+    "plugins": [
+      {
+        "name": "batch-requests",
+        "description": "The batch-requests plugin accepts multiple requests, sends them from APISIX via HTTP pipelining, and returns an aggregated response to the client"
+      },
+      {
+        "name": "redirect",
+        "description": "The redirect Plugin can be used to configure redirects"
+      },
+      {
+        "name": "echo",
+        "description": "The echo Plugin is to help users understand how they can develop an APISIX Plugin"
+      },
+      {
+        "name": "gzip",
+        "description": "The gzip Plugin dynamically sets the behavior of gzip in Nginx"
+      },
+      {
+        "name": "real-ip",
+        "description": "The real-ip Plugin is used to dynamically change the client's IP address and port as seen by APISIX"
+      },
+      {
+        "name": "server-info",
+        "description": "The server-info Plugin periodically reports basic server information to etcd"
+      },
+      {
+        "name": "ext-plugin-pre-req",
+        "description": "The ext-plugin-pre-req Plugin is for running specific external Plugins in the Plugin Runner before executing the built-in Lua Plugins"
+      },
+      {
+        "name": "ext-plugin-post-req",
+        "description": "ext-plugin-post-req differs from the ext-plugin-pre-req Plugin in that it runs after executing the built-in Lua Plugins and before proxying to the Upstream"
+      },
+      {
+        "name": "ext-plugin-post-resp",
+        "description": "The ext-plugin-post-resp Plugin is for running specific external Plugins in the Plugin Runner before executing the built-in Lua Plugins"
+      }
+    ]
+  },
+  {
+    "groupName": "Transformation",
+    "plugins": [
+      {
+        "name": "response-rewrite",
+        "description": "The response-rewrite Plugin rewrites the content returned by the Upstream and APISIX"
+      },
+      {
+        "name": "proxy-rewrite",
+        "description": "The proxy-rewrite Plugin rewrites Upstream proxy information such as scheme, uri and host"
+      },
+      {
+        "name": "grpc-transcode",
+        "description": "The grpc-transcode Plugin converts between HTTP and gRPC requests"
+      },
+      {
+        "name": "grpc-web",
+        "description": "The grpc-web Plugin is a proxy Plugin that can process gRPC Web requests from JavaScript clients to a gRPC service"
+      },
+      {
+        "name": "fault-injection",
+        "description": "The fault-injection Plugin can be used to test the resiliency of your application. This Plugin will be executed before the other configured Plugins"
+      },
+      {
+        "name": "mocking",
+        "description": "The mocking Plugin is used for mocking an API. When executed, it returns random mock data in the format specified and the request is not forwarded to the Upstream"
+      }
+    ]
+  },
+  {
+    "groupName": "Authentication",
+    "plugins": [
+      {
+        "name": "key-auth",
+        "description": "An authentication plugin that need to work with consumer to add key authentication to your Services"
+      },
+      {
+        "name": "jwt-auth",
+        "description": "An authentication plugin that need to work with consumer to securely authenticate a valid user requesting access"
+      },
+      {
+        "name": "basic-auth",
+        "description": "An authentication plugin that need to work with consumer to add Basic Authentication to a Service or a Route"
+      },
+      {
+        "name": "authz-keycloak",
+        "description": "An authorization plugin that can be used to add authentication with Keycloak Identity Server"
+      },
+      {
+        "name": "authz-casdoor",
+        "description": "An authorization plugin that can be used to add centralized authentication with Casdoor"
+      },
+      {
+        "name": "wolf-rbac",
+        "description": "An authorization plugin providing a role-based access control system with wolf to a Route or a Service"
+      },
+      {
+        "name": "openid-connect",
+        "description": "An authentication plugin that provides authentication and introspection capability to APISIX"
+      },
+      {
+        "name": "cas-auth",
+        "description": "An authorization plugin can be used to access CAS (Central Authentication Service 2.0) IdP (Identity Provider) to do authentication, from the SP (service provider) perspective"
+      },
+      {
+        "name": "hmac-auth",
+        "description": "An authentication plugin that need to work with consumer to establish the integrity of incoming requests"
+      },
+      {
+        "name": "authz-casbin",
+        "description": "An authorization plugin based on Lua Casbin supporting various access control models"
+      },
+      {
+        "name": "ldap-auth",
+        "description": "An authorization plugin can be used to add LDAP authentication to a Route or a Service"
+      },
+      {
+        "name": "opa",
+        "description": "An authorization plugin can be used to integrate with Open Policy Agente"
+      },
+      {
+        "name": "forward-auth",
+        "description": "The forward-auth Plugin implements a classic external authentication model"
+      }
+    ]
+  },
+  {
+    "groupName": "Security",
+    "plugins": [
+      {
+        "name": "cors",
+        "description": "The plugin can help you enable CORS easily"
+      },
+      {
+        "name": "uri-blocker",
+        "description": "The plugin intercepts user requests with a set of block_rules"
+      },
+      {
+        "name": "ip-restriction",
+        "description": "The plugin allows you to restrict access to a Service or a Route by either whitelisting or blacklisting IP addresses"
+      },
+      {
+        "name": "ua-restriction",
+        "description": "The plugin allows you to restrict access to a Route or Service based on the User-Agent header with an allowlist and a denylist"
+      },
+      {
+        "name": "referer-restriction",
+        "description": "The plugin can be used to restrict access to a Service or a Route by whitelisting/blacklisting the Referer request header"
+      },
+      {
+        "name": "consumer-restriction",
+        "description": "The plugin makes corresponding access restrictions based on different objects selected"
+      },
+      {
+        "name": "CSRF",
+        "description": "Based on the Double Submit Cookie way, protect your API from CSRF attacks",
+        "beta": true
+      },
+      {
+        "name": "public-api",
+        "description": "The public-api is used for exposing an API endpoint through a general HTTP API router"
+      }
+    ]
+  },
+  {
+    "groupName": "Traffic",
+    "plugins": [
+      {
+        "name": "limit-req",
+        "description": "The plugin limits request rate using the eaky bucket method"
+      },
+      {
+        "name": "limit-conn",
+        "description": "The plugin  Limits request concurrency"
+      },
+      {
+        "name": "limit-count",
+        "description": "The plugin Limits request rate by a fixed number of requests in a given time window"
+      },
+      {
+        "name": "proxy-cache",
+        "description": "The proxy-cache Plugin can be used to cache the response from the Upstream"
+      },
+      {
+        "name": "request-validation",
+        "description": "The request-validation Plugin can be used to validate the requests before forwarding them to an Upstream service"
+      },
+      {
+        "name": "proxy-mirror",
+        "description": "The proxy-mirror Plugin can be used to mirror client requests"
+      },
+      {
+        "name": "api-breaker",
+        "description": "The api-breaker Plugin implements circuit breaker functionality to protect Upstream services"
+      },
+      {
+        "name": "traffic-split",
+        "description": "The traffic split plugin allows users to incrementally direct percentages of traffic between various upstreams"
+      },
+      {
+        "name": "request-id",
+        "description": "The request-id Plugin adds a unique ID to each request proxied through APISIX"
+      },
+      {
+        "name": "proxy-control",
+        "description": "The proxy-control Plugin dynamically controls the behavior of the NGINX proxy"
+      },
+      {
+        "name": "client-control",
+        "description": "The client-control Plugin can be used to dynamically control the behavior of NGINX to handle a client request, by setting the max size of the request body"
+      }
+    ]
+  },
+  {
+    "groupName": "Observability",
+    "plugins": [
+      {
+        "name": "zipkin",
+        "description": "Zipkin is a OpenTracing plugin"
+      },
+      {
+        "name": "skywalking",
+        "description": "Skywalking uses its native Nginx LUA tracer to provide tracing, topology analysis, and metrics from service and URI perspective"
+      },
+      {
+        "name": "opentelemetry",
+        "description": "The opentelemetry Plugin can be used to report tracing data according to the OpenTelemetry specification"
+      },
+      {
+        "name": "prometheus",
+        "description": "The plugin exposes metrics in Prometheus Exposition format"
+      },
+      {
+        "name": "node-status",
+        "description": "The node-status Plugin can be used get the status of requests to APISIX by exposing an API endpoint"
+      },
+      {
+        "name": "datadog",
+        "description": "Datadog is a monitoring plugin built into Apache APISIX to push metrics of different services into DatadogHQ via a locally run Datadog agent."
+      },
+      {
+        "name": "http-logger",
+        "description": "Http-logger is a plugin which push Log data requests to HTTP/HTTPS servers"
+      },
+      {
+        "name": "skywalking-loggerr",
+        "description": "The skywalking-logger Plugin can be used to push access log data to SkyWalking OAP server of HTTP"
+      },
+      {
+        "name": "tcp-logger",
+        "description": "Tcp-logger pushes Log data requests to TCP servers"
+      },
+      {
+        "name": "kafka-logger",
+        "description": "Kafka-logger is a plugin which works as a Kafka client driver for the ngx_lua nginx module"
+      },
+      {
+        "name": "rocketmq-logger",
+        "description": "The rocketmq-logger Plugin provides the ability to push logs as JSON objects to your RocketMQ clusters"
+      },
+      {
+        "name": "udp-logger",
+        "description": "Udp-logger pushes Log data requests to UDP servers"
+      },
+      {
+        "name": "clickhouse-logger",
+        "description": "The clickhouse-logger Plugin is used to push logs to ClickHouse database"
+      },
+      {
+        "name": "syslog",
+        "description": "Sys pushes Log data requests to Syslog"
+      },
+      {
+        "name": "log-rotate",
+        "description": "The log-rotate Plugin is used to keep rotating access and error log files in the log directory at regular intervals"
+      },
+      {
+        "name": "error-log-logger",
+        "description": "Error-log-logger is a plugin which pushes the log data of APISIX's error.log to TCP servers"
+      },
+      {
+        "name": "sls-logger",
+        "description": "Sls-logger pushes Log data requests to ali cloud Log Server with RF5424"
+      },
+      {
+        "name": "google-cloud-logging",
+        "description": "google-cloud-logging plugin is used to send the access log of Apache APISIX to the Google Cloud Logging Service"
+      },
+      {
+        "name": "splunk-hec-logging",
+        "description": "The splunk-hec-logging Plugin is used to forward logs to Splunk HTTP Event Collector (HEC) for analysis and storage"
+      },
+      {
+        "name": "file-logger",
+        "description": "The file-logger Plugin is used to push log streams to a specific location"
+      },
+      {
+        "name": "loggly",
+        "description": "The loggly Plugin is used to forward logs to SolarWinds Loggly for analysis and storage"
+      },
+      {
+        "name": "elasticsearch-logger",
+        "description": "The elasticsearch-logger Plugin is used to forward logs to Elasticsearch for analysis and storage"
+      },
+      {
+        "name": "tencent-cloud-cls",
+        "description": "The tencent-cloud-cls Plugin uses TencentCloud CLSAPI to forward APISIX logs to your topic"
+      }
+    ]
+  },
+  {
+    "groupName": "Serverless",
+    "plugins": [
+      {
+        "name": "serverless",
+        "description": "There are two serverless Plugins in APISIX: serverless-pre-function and serverless-post-function."
+      },
+      {
+        "name": "azure-functions",
+        "description": "The azure-functions Plugin is used to integrate APISIX with Azure Serverless Function as a dynamic upstream to proxy all requests for a particular URI to the Microsoft Azure Cloud"
+      },
+      {
+        "name": "openwhisk",
+        "description": "The openwhisk Plugin is used to integrate APISIX with Apache OpenWhisk serverless platfor"
+      },
+      {
+        "name": "aws-lambda",
+        "description": "The aws-lambda Plugin is used for integrating APISIX with AWS Lambda as a dynamic upstream to proxy all requests for a particular URI to the AWS Cloud"
+      },
+      {
+        "name": "workflow",
+        "description": "The workflow plugin is used to introduce lua-resty-expr to provide complex traffic control features"
+      },
+      {
+        "name": "openfunction",
+        "description": "The openfunction Plugin is used to integrate APISIX with CNCF OpenFunction serverless platform"
+      }
+    ]
+  },
+  {
+    "groupName": "Other protocols",
+    "plugins": [
+      {
+        "name": "dubbo-proxy",
+        "description": "The dubbo-proxy Plugin allows you to proxy HTTP requests to Apache Dubbo"
+      },
+      {
+        "name": "mqtt-proxy",
+        "description": "The mqtt-proxy Plugin is used for dynamic load balancing with client_id of MQTT. It only works in stream mode"
+      },
+      {
+        "name": "kafka-proxy",
+        "description": "The kafka-proxy plugin can be used to configure advanced parameters for the kafka upstream of Apache APISIX, such as SASL authentication"
+      }
+    ]
+  }
+]
