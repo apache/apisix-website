@@ -45,14 +45,14 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      - uses: actions/cache@v3
+      - uses: actions/cache@v5
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
       - name: Cache install
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ./node_modules
@@ -73,7 +73,7 @@ jobs:
 
       - name: Apply docs cache
         id: docs-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ./scripts/temp
@@ -89,7 +89,7 @@ jobs:
 
       - name: Apply docusaurus cache
         id: docusaurus-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ./website/.docusaurus
