@@ -56,13 +56,13 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 修复了 Stream 模式下的上游健康检查状态无法通过 Control API 获取的问题。此前 `/v1/healthcheck` 接口仅返回 HTTP 上游的健康检查状态，导致 Stream 路由的健康检查数据无法显示。现在该接口已扩展支持返回 Stream 上游的健康检查信息，确保所有健康检查状态都能被完整展示。
 
-### 4. 在 `limit-count` 插件的规则中支持配置 `header` 前缀
+### 4. 在 `limit-count` 插件的规则中支持通过 `header_prefix` 配置响应头前缀
 
 相关 PR：https://github.com/apache/apisix/pull/13004
 
 贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-本 PR 为 `limit-count` 插件新增 `header` 前缀配置能力，用于在多条规则同时触发时区分不同限流状态的响应头。用户可通过配置 `header_prefix` 自定义前缀，默认值为当前执行规则的索引值，从而实现多条限流规则的响应头隔离，避免状态信息混淆。
+本 PR 为 `limit-count` 插件新增通过 `header_prefix` 配置响应头前缀的能力，用于在多条规则同时触发时区分不同限流状态的响应头。用户可通过配置 `header_prefix` 自定义前缀，默认值为当前执行规则的索引值，从而实现多条限流规则的响应头隔离，避免状态信息混淆。
 
 ### 5. `elasticsearch-logger` 插件支持通过请求头进行认证
 
