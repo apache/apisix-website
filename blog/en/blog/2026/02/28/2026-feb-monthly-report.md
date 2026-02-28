@@ -62,7 +62,7 @@ PR: https://github.com/apache/apisix/pull/13004
 
 Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-This PR adds the ability to configure a `header` prefix in the `limit-count` plugin to differentiate rate-limiting response headers when multiple rules are triggered simultaneously. Users can customize the prefix via `header_prefix` (defaults to the index of the currently executed rule), allowing isolation of response headers across multiple rate-limiting rules and avoiding status information confusion.
+This PR adds the ability to configure a `header_prefix` prefix in the `limit-count` plugin to differentiate rate-limiting response headers when multiple rules are triggered simultaneously. Users can customize the prefix via `header_prefix` (defaults to the index of the currently executed rule), allowing isolation of response headers across multiple rate-limiting rules and avoiding status information confusion.
 
 ### 5. Support Request Header-Based Authentication in `elasticsearch-logger` Plugin
 
