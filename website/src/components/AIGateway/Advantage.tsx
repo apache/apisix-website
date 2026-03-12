@@ -156,7 +156,7 @@ const Advantage: React.FC = () => {
                   </Text>
                   <AvifImage
                     src={item.picture}
-                    alt=""
+                    alt="AI plugin icons for LLMs load balancing and token rate limiting"
                     height="50px"
                     w="full"
                     objectFit="contain"

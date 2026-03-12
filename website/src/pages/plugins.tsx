@@ -236,6 +236,8 @@ const Plugins: FC = () => {
   return (
     <Layout title={translate({ message: 'Plugin Hub' })}>
       <Head>
+        <meta name="description" content={translate({ id: 'plugins.meta.description', message: 'Explore 80+ Apache APISIX plugins for authentication, security, traffic control, observability, and AI. Powerful integrations for your API Gateway.' })} />
+        <meta property="og:description" content={translate({ id: 'plugins.meta.ogDescription', message: 'Explore 80+ Apache APISIX plugins for authentication, security, traffic control, observability, and AI.' })} />
         <script src="/js/plugin-icon.js" defer />
       </Head>
       <Page>

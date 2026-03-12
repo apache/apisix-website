@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import Translate, { translate } from '@docusaurus/Translate';
@@ -177,6 +178,10 @@ const Docs: FC = () => {
 
   return (
     <Layout title={translate({ message: 'Documentation' })}>
+      <Head>
+        <meta name="description" content={translate({ id: 'docs.meta.description', message: 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development. Get started with guides, tutorials, and API references.' })} />
+        <meta property="og:description" content={translate({ id: 'docs.meta.ogDescription', message: 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development.' })} />
+      </Head>
       <Page>
         <PageTitle>
           <Translate id="docs.webpage.title.Document">Documentation</Translate>

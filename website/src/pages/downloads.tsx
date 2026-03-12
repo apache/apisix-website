@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import CodeBlock from '@theme/CodeBlock';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -57,6 +58,10 @@ const DownloadCards: FC = () => {
 
 const Downloads: FC = () => (
   <Layout title={translate({ message: 'Downloads' })}>
+    <Head>
+      <meta name="description" content={translate({ id: 'download.meta.description', message: 'Download Apache APISIX, the cloud-native API Gateway and AI Gateway. Get the latest release, verify signatures, and access historical versions.' })} />
+      <meta property="og:description" content={translate({ id: 'download.meta.ogDescription', message: 'Download Apache APISIX, the cloud-native API Gateway and AI Gateway. Get the latest release and historical versions.' })} />
+    </Head>
     <DownloadsPage>
       <PageTitle><Translate id="download.website.title">Downloads</Translate></PageTitle>
       <PageSubtitle><Translate id="download.website.subtitle">We love open source.</Translate></PageSubtitle>

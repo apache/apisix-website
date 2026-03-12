@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import Translate, { translate } from '@docusaurus/Translate';
@@ -287,6 +288,10 @@ const Team: FC = () => {
   ));
   return (
     <Layout title={translate({ message: 'Team' })}>
+      <Head>
+        <meta name="description" content={translate({ id: 'team.meta.description', message: 'Meet the Apache APISIX team — PMC members, committers, and contributors building the cloud-native API Gateway and AI Gateway.' })} />
+        <meta property="og:description" content={translate({ id: 'team.meta.ogDescription', message: 'Meet the Apache APISIX team — PMC members, committers, and contributors.' })} />
+      </Head>
       <Page>
         <PageTitle><Translate id="team.webpage.title.Team">Team</Translate></PageTitle>
         <PageSubtitle><Translate id="team.webpage.title.DocumentSubtitle">We love open source.</Translate></PageSubtitle>

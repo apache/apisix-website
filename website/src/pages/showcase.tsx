@@ -4,6 +4,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate, { translate } from '@docusaurus/Translate';
 
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import '../css/showcase.scss';
 
 const Container: FC = (props) => {
@@ -80,6 +81,10 @@ const Content: FC = () => {
 
 const Showcase: FC = () => (
   <Layout title={translate({ message: 'ShowCase' })}>
+    <Head>
+      <meta name="description" content={translate({ id: 'showcase.meta.description', message: 'See which companies and organizations use Apache APISIX in production. Join the growing community of API Gateway users worldwide.' })} />
+      <meta property="og:description" content={translate({ id: 'showcase.meta.ogDescription', message: 'See which companies and organizations use Apache APISIX in production.' })} />
+    </Head>
     <Container>
       <Header />
       <Content />

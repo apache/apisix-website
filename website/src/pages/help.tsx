@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 
 import Translate, { translate } from '@docusaurus/Translate';
 
@@ -28,6 +29,10 @@ const Page = styled.div`
 
 const Help: FC = () => (
   <Layout title={translate({ message: 'Help' })}>
+    <Head>
+      <meta name="description" content={translate({ id: 'help.meta.description', message: 'Get help with Apache APISIX. Browse documentation, join the community on GitHub, Slack, and Twitter, and connect with contributors.' })} />
+      <meta property="og:description" content={translate({ id: 'help.meta.ogDescription', message: 'Get help with Apache APISIX. Browse documentation and join the community on GitHub, Slack, and Twitter.' })} />
+    </Head>
     <Page className="help-page">
       <PageTitle><Translate id="help.website.title">NEED HELP?</Translate></PageTitle>
       <PageSubtitle>
