@@ -50,8 +50,8 @@ module.exports = {
       },
     },
   },
-  onBrokenLinks: 'ignore',
-  onBrokenMarkdownLinks: 'ignore',
+  onBrokenLinks: 'log',
+  onBrokenMarkdownLinks: 'warn',
   noIndex: false,
   presets: [
     [
@@ -143,7 +143,7 @@ module.exports = {
       },
       {
         name: 'twitter:card',
-        content: 'summary',
+        content: 'summary_large_image',
       },
     ],
   },

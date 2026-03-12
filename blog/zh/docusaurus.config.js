@@ -18,7 +18,7 @@ const metadatas = [
   },
   {
     name: 'twitter:card',
-    content: 'summary',
+    content: 'summary_large_image',
   },
 ];
 
@@ -32,8 +32,8 @@ module.exports = {
   organizationName: 'Apache',
   projectName: 'apisix-website',
   favicon: 'https://static.apiseven.com/202202/favicon.png',
-  onBrokenLinks: 'ignore',
-  onBrokenMarkdownLinks: 'ignore',
+  onBrokenLinks: 'log',
+  onBrokenMarkdownLinks: 'warn',
   noIndex: false,
   i18n: {
     defaultLocale: 'zh',

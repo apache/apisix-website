@@ -1,6 +1,12 @@
 # Algolia-Crawler-Verif: 027907D9E46C48C1
 
 User-agent: *
+Disallow: /blog/tags/
+Disallow: /zh/blog/tags/
+Disallow: /blog/page/
+Disallow: /zh/blog/page/
+Disallow: /search
+Disallow: /zh/search
 
 Sitemap: https://apisix.apache.org/sitemap.xml
 

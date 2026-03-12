@@ -62,7 +62,7 @@ const Hero: React.FC = () => {
             <Box w="full">
               <AvifImage
                 src="https://static.api7.ai/uploads/2025/04/17/zdPVQ1zg_apisix-ai-gateway.png"
-                alt=""
+                alt="Apache APISIX AI Gateway architecture overview"
                 animation={fadeInAnimation}
                 w="full"
                 transform="scale(1.1)"
