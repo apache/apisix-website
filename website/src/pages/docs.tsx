@@ -179,8 +179,8 @@ const Docs: FC = () => {
   return (
     <Layout title={translate({ message: 'Documentation' })}>
       <Head>
-        <meta name="description" content="Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development. Get started with guides, tutorials, and API references." />
-        <meta property="og:description" content="Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development." />
+        <meta name="description" content={translate({ id: 'docs.meta.description', message: 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development. Get started with guides, tutorials, and API references.' })} />
+        <meta property="og:description" content={translate({ id: 'docs.meta.ogDescription', message: 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development.' })} />
       </Head>
       <Page>
         <PageTitle>

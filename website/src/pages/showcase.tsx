@@ -82,8 +82,8 @@ const Content: FC = () => {
 const Showcase: FC = () => (
   <Layout title={translate({ message: 'ShowCase' })}>
     <Head>
-      <meta name="description" content="See which companies and organizations use Apache APISIX in production. Join the growing community of API Gateway users worldwide." />
-      <meta property="og:description" content="See which companies and organizations use Apache APISIX in production." />
+      <meta name="description" content={translate({ id: 'showcase.meta.description', message: 'See which companies and organizations use Apache APISIX in production. Join the growing community of API Gateway users worldwide.' })} />
+      <meta property="og:description" content={translate({ id: 'showcase.meta.ogDescription', message: 'See which companies and organizations use Apache APISIX in production.' })} />
     </Head>
     <Container>
       <Header />

@@ -30,8 +30,8 @@ const Page = styled.div`
 const Help: FC = () => (
   <Layout title={translate({ message: 'Help' })}>
     <Head>
-      <meta name="description" content="Get help with Apache APISIX. Browse documentation, join the community on GitHub, Slack, and Twitter, and connect with contributors." />
-      <meta property="og:description" content="Get help with Apache APISIX. Browse documentation and join the community on GitHub, Slack, and Twitter." />
+      <meta name="description" content={translate({ id: 'help.meta.description', message: 'Get help with Apache APISIX. Browse documentation, join the community on GitHub, Slack, and Twitter, and connect with contributors.' })} />
+      <meta property="og:description" content={translate({ id: 'help.meta.ogDescription', message: 'Get help with Apache APISIX. Browse documentation and join the community on GitHub, Slack, and Twitter.' })} />
     </Head>
     <Page className="help-page">
       <PageTitle><Translate id="help.website.title">NEED HELP?</Translate></PageTitle>

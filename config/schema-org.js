@@ -15,11 +15,6 @@ module.exports = function () {
                 '@type': 'WebSite',
                 name: 'Apache APISIX',
                 url: 'https://apisix.apache.org',
-                potentialAction: {
-                  '@type': 'SearchAction',
-                  target: 'https://apisix.apache.org/search?q={search_term_string}',
-                  'query-input': 'required name=search_term_string',
-                },
               },
               {
                 '@context': 'https://schema.org',

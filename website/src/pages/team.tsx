@@ -289,8 +289,8 @@ const Team: FC = () => {
   return (
     <Layout title={translate({ message: 'Team' })}>
       <Head>
-        <meta name="description" content="Meet the Apache APISIX team — PMC members, committers, and contributors building the cloud-native API Gateway and AI Gateway." />
-        <meta property="og:description" content="Meet the Apache APISIX team — PMC members, committers, and contributors." />
+        <meta name="description" content={translate({ id: 'team.meta.description', message: 'Meet the Apache APISIX team — PMC members, committers, and contributors building the cloud-native API Gateway and AI Gateway.' })} />
+        <meta property="og:description" content={translate({ id: 'team.meta.ogDescription', message: 'Meet the Apache APISIX team — PMC members, committers, and contributors.' })} />
       </Head>
       <Page>
         <PageTitle><Translate id="team.webpage.title.Team">Team</Translate></PageTitle>
