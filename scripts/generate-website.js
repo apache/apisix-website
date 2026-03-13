@@ -9,7 +9,13 @@ const exec = util.promisify(require('node:child_process').exec);
 // Streams stdout/stderr to a log file via spawn (no maxBuffer limit).
 function runBuild(cmd, logFilePath) {
   return new Promise((resolve) => {
+    let logStreamFailed = false;
     const logStream = fs.createWriteStream(logFilePath);
+
+    logStream.on('error', () => {
+      logStreamFailed = true;
+    });
+
     const child = spawn(cmd, { shell: true, stdio: ['ignore', 'pipe', 'pipe'] });
 
     child.stdout.pipe(logStream, { end: false });
@@ -17,7 +23,7 @@ function runBuild(cmd, logFilePath) {
 
     child.on('close', (code) => {
       logStream.end(() => {
-        resolve({ failed: code !== 0 });
+        resolve({ failed: code !== 0 || logStreamFailed });
       });
     });
 
