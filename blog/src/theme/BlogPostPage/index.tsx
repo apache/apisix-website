@@ -7,12 +7,13 @@
 
 import type { HTMLAttributes } from 'react';
 import React from 'react';
-import Seo from '@theme/Seo';
+import Head from '@docusaurus/Head';
 import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme-original/BlogPostItem';
 import type { Props } from '@theme-original/BlogPostPage';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThemeClassNames } from '@docusaurus/theme-common';
+import { BlogPostProvider } from '@docusaurus/plugin-content-blog/client';
 import MDXComponents from '@theme-original/MDXComponents';
 import type { ImageProps } from 'rc-image';
 import Image from 'rc-image';
@@ -101,50 +102,49 @@ const BlogPostPage = (props: Props): JSX.Element => {
   const image = assets.image ?? frontMatter.image;
 
   return (
-    <BlogLayout
-      wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogPostPage}
-      sidebar={sidebar}
-      toc={!hideTableOfContents && BlogPostContents.toc ? BlogPostContents.toc : undefined}
-      frontMatter={frontMatter}
-      metadata={metadata}
-    >
-      <Seo
-        // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
-        // otherwise  default image (set by BlogLayout) would shadow the custom blog post image
-        title={title}
-        description={description}
-        keywords={keywords}
-        image={image}
+    <BlogPostProvider content={BlogPostContents} isBlogPostPage>
+      <BlogLayout
+        wrapperClassName={ThemeClassNames.wrapper.blogPages}
+        pageClassName={ThemeClassNames.page.blogPostPage}
+        sidebar={sidebar}
+        toc={!hideTableOfContents && BlogPostContents.toc ? BlogPostContents.toc : undefined}
+        frontMatter={frontMatter}
+        metadata={metadata}
       >
-        <meta property="og:type" content="article" />
-        <meta property="article:published_time" content={date} />
+        <Head>
+          {title && <title>{title}</title>}
+          {description && <meta name="description" content={description} />}
+          {keywords && <meta name="keywords" content={Array.isArray(keywords) ? keywords.join(',') : keywords} />}
+          {image && <meta property="og:image" content={image} />}
+          <meta property="og:type" content="article" />
+          <meta property="article:published_time" content={date} />
 
-        {/* TODO double check those article metas array syntaxes, see https://ogp.me/#array */}
-        {authors.some((author) => author.url) && (
-          <meta
-            property="article:author"
-            content={authors
-              .map((author) => author.url)
-              .filter(Boolean)
-              .join(',')}
-          />
-        )}
-        {tags.length > 0 && (
-          <meta property="article:tag" content={tags.map((tag) => tag.label).join(',')} />
-        )}
-      </Seo>
+          {/* TODO double check those article metas array syntaxes, see https://ogp.me/#array */}
+          {authors.some((author) => author.url) && (
+            <meta
+              property="article:author"
+              content={authors
+                .map((author) => author.url)
+                .filter(Boolean)
+                .join(',')}
+            />
+          )}
+          {tags.length > 0 && (
+            <meta property="article:tag" content={tags.map((tag) => tag.label).join(',')} />
+          )}
+        </Head>
 
-      <BlogPostItem frontMatter={frontMatter} assets={assets} metadata={metadata} isBlogPostPage>
+        <BlogPostItem frontMatter={frontMatter} assets={assets} metadata={metadata} isBlogPostPage>
+          <Share metadata={metadata} />
+          <MDXProvider components={components}>
+            <BlogPostContents />
+          </MDXProvider>
+        </BlogPostItem>
         <Share metadata={metadata} />
-        <MDXProvider components={components}>
-          <BlogPostContents />
-        </MDXProvider>
-      </BlogPostItem>
-      <Share metadata={metadata} />
 
-      {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
-    </BlogLayout>
+        {(nextItem || prevItem) && <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />}
+      </BlogLayout>
+    </BlogPostProvider>
   );
 };
 

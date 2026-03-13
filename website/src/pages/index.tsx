@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
-import useThemeContext from '@theme/hooks/useThemeContext';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useColorMode } from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
 import Head from '@docusaurus/Head';
-import useWindowType from '@theme/hooks/useWindowSize';
+import { useWindowSize } from '@docusaurus/theme-common/internal';
 
 import HeroSection from '../components/sections/HeroSection';
 import Architecture from '../components/sections/Architecture';
@@ -14,11 +15,11 @@ import OpensourcePromo from '../components/sections/OpensourcePromo';
 import EndCTA from '../components/sections/Endcta';
 
 const ThemeResetComponent = () => {
-  const { isDarkTheme, setLightTheme } = useThemeContext();
-  const windowType = useWindowType();
+  const { colorMode, setColorMode } = useColorMode();
+  const windowSize = useWindowSize();
 
   useEffect(() => {
-    if (windowType === 'mobile') {
+    if (windowSize === 'mobile') {
       //  remove mode switch at navbar-sidebar
       const sidebarModeSwitch = document.querySelector('div.navbar-sidebar__brand > div') as HTMLDivElement;
       if (sidebarModeSwitch) {
@@ -31,13 +32,13 @@ const ThemeResetComponent = () => {
         navbarModeSwitch.style.display = 'none';
       }
     }
-  }, [windowType]);
+  }, [windowSize]);
 
   useEffect(() => {
-    if (isDarkTheme) {
-      setLightTheme();
+    if (colorMode === 'dark') {
+      setColorMode('light');
     }
-  }, [isDarkTheme]);
+  }, [colorMode]);
 
   return (null);
 };

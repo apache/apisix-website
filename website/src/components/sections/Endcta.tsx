@@ -3,13 +3,13 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import useWindowType from '@theme/hooks/useWindowSize';
+import { useWindowSize } from '@docusaurus/theme-common/internal';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import ArrowAnim from '../ArrowAnim';
 import style from '../../css/landing-sections/endcta.module.scss';
 
 const EndCTA: FC = () => {
-  const windowType = useWindowType();
+  const windowSize = useWindowSize();
 
   return (
     <div className={style.endcta}>
@@ -17,7 +17,7 @@ const EndCTA: FC = () => {
         <span>Try </span>
         <span className={style.apisix}>Apache APISIX </span>
         <span>today.</span>
-        {windowType === 'desktop' && (
+        {windowSize === 'desktop' && (
           <LazyLoadImage
             className={style.rocket}
             src="https://static.apiseven.com/202202/rocket.gif"

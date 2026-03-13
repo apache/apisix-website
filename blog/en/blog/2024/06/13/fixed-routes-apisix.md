@@ -25,7 +25,7 @@ image: https://static.apiseven.com/uploads/2024/06/12/2XTLbwyU_tower-1897536.jpg
 
 >We have a requirement to use a plugin, where we need to route the traffic on percentage basis. I'll give an example for better understanding.
 >
->We have an URL <https://xyz.com/ca/fr/index.html> where ca is country (canada) and fr is french language. Now the traffic needs to routed 10% to <https://xyz.com/ca/en/index.html> and the remaining 90% to <https://xyz.com/ca/fr/index.html>. And whenever we're routing the traffic to <https://xyz.com/ca/en/index.html> we need to set a cookie. So for next call, if the cookie is there, it should directly go to <https://xyz.com/ca/en/index.html> else it should go via a 10:90 traffic split. What is the best possible way to achieve this ??
+>We have an URL https://xyz.com/ca/fr/index.html where ca is country (canada) and fr is french language. Now the traffic needs to routed 10% to https://xyz.com/ca/en/index.html and the remaining 90% to https://xyz.com/ca/fr/index.html. And whenever we're routing the traffic to https://xyz.com/ca/en/index.html we need to set a cookie. So for next call, if the cookie is there, it should directly go to https://xyz.com/ca/en/index.html else it should go via a 10:90 traffic split. What is the best possible way to achieve this ??
 >
 >-- [help request: Setting cookie based on a condition](https://github.com/apache/apisix/issues/11279)
 
@@ -183,7 +183,7 @@ curl -v --cookie 'site=en' localhost:9080                  #1
 
 1. The cookie name is case-sensitive; beware
 
-The browser keeps the cookie, so it's even simpler. Just go to <http:localhost:9080> and refresh several times: the content is the same as well. The content will change if you change the cookie to another possible value and request again.
+The browser keeps the cookie, so it's even simpler. Just go to `http://localhost:9080` and refresh several times: the content is the same as well. The content will change if you change the cookie to another possible value and request again.
 
 The complete source code for this post can be found on [GitHub](https://github.com/ajavageek/fixed-route-apisix).
 

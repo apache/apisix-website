@@ -157,9 +157,9 @@ Fill in the fields:
 
 In the Docker Compose configuration above, use the Client ID and Client Secret as `OIDC_CLIENTID` and `OIDC_SECRET`. I wrote them down as environment variables in a `.env` file.
 
-The last missing variable is `OIDC_ISSUER`: it's `accounts.google.com`. If you navigate to <https://accounts.google.com/.well-known/openid-configuration>, you'll see all data required by OAuth 2.0 (and more).
+The last missing variable is `OIDC_ISSUER`: it's `accounts.google.com`. If you navigate to https://accounts.google.com/.well-known/openid-configuration, you'll see all data required by OAuth 2.0 (and more).
 
-At this point, we can start our setup with `docker compose up`. When we navigate to <http://localhost:9080/>, the browser redirects us to the Google authentication page. Since I'm already authenticated, I can choose my ID - and I need one bound to the organization of the project I created above.
+At this point, we can start our setup with `docker compose up`. When we navigate to http://localhost:9080/, the browser redirects us to the Google authentication page. Since I'm already authenticated, I can choose my ID - and I need one bound to the organization of the project I created above.
 
 ![Choose the Google account you want to authenticate with](https://static.apiseven.com/uploads/2023/06/13/yckQhlJf_google-auth-choose-account.jpg)
 

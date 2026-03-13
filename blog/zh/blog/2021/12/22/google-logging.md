@@ -147,7 +147,7 @@ auth_config.token_uri|否|oauth2.googleapis.com/token|请求 Google Service Acco
 |auth_config.scopes|否|["https://www.googleapis.com/auth/logging.read","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/logging.admin","https://www.googleapis.com/auth/cloud-platform"]|谷歌服务账号的访问范围, 参考：[OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes#logging)|
 |auth_file|否|n/a|谷歌服务账号 JSON 文件的路径（必须配置 auth_config 或 auth_file 之一）|
 |ssl_verify|否|TRUE|启用 SSL 验证, 配置根据 [OpenResty documentation](https://github.com/openresty/lua-nginx-module#tcpsocksslhandshake)选项|
-|resource|否|{"type": "global"}|谷歌监控资源，参考：[MonitoredResource](https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource)|
+|resource|否|`{"type": "global"}`|谷歌监控资源，参考：[MonitoredResource](https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource)|
 |log_id|否|apisix.apache.org%2Flogs|谷歌日志 ID，参考：[LogEntry](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry).|
 |max_retry_count|否|0|从处理管道中移除之前的最大重试次数|
 |retry_delay|否|1|如果执行失败，流程执行应延迟的秒数|

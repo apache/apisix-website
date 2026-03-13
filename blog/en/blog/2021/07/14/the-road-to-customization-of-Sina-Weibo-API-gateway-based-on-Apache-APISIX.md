@@ -110,7 +110,7 @@ The full canary release feature requires some API support exposed on the gateway
 
 ![Support Canary Release3](https://static.apiseven.com/202108/1646900211377-0c1df098-c5be-4c69-bda6-eabd1518f0f5.png)
 
-Canary release API fixed URI, the unified path is /admin/services/gray/{SAAS_ID}/ routes. Different HTTP Method presents different business meanings, POST means create, DELETE means to stop canary release, GET means to view.
+Canary release API fixed URI, the unified path is `/admin/services/gray/{SAAS_ID}/` routes. Different HTTP Method presents different business meanings, POST means create, DELETE means to stop canary release, GET means to view.
 
 #### Activation Process
 

@@ -108,7 +108,7 @@ image: https://static.apiseven.com/2022/blog/0817/%E6%96%B0%E6%B5%AA%E5%BE%AE%E5
 
 ![xinlang10](https://user-images.githubusercontent.com/23514812/125597285-cf3c9145-adc6-4fa4-979e-124ea8f376b5.png)
 
-灰度发布 API 固定 URI, 统一路径为 /admin/services/gray/{SAAS_ID}/routes。不同 HTTP Method 呈现不同业务含义，POST 表示创建，停止灰度是 DELETE，查看就是 GET。
+灰度发布 API 固定 URI, 统一路径为 `/admin/services/gray/{SAAS_ID}/routes`。不同 HTTP Method 呈现不同业务含义，POST 表示创建，停止灰度是 DELETE，查看就是 GET。
 
 #### 3.3.1 启动流程
 

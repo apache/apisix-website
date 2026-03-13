@@ -644,7 +644,7 @@ Forwarding from 127.0.0.1:8080 -> 9000
 Forwarding from [::1]:8080 -> 9000
 ```
 
-Then access the dashboard on **“hdev”** pointing the web browser to the url “http://localhost:9090”
+Then access the dashboard on **“hdev”** pointing the web browser to the url `http://localhost:9090`
 Login with **“admin / admin”**
 
 ![ad01](https://static.apiseven.com/uploads/2023/01/20/INeavn6G_8%20ad01.png)
@@ -889,7 +889,7 @@ Access “https://apisix.h.net” from a browser. You should receive page not fo
 
 > Work on **hdev**
 
-port forward apisix-dashboard and access it at “http://localhost:9090” and login with **“admin” / "admin“**
+port forward apisix-dashboard and access it at `http://localhost:9090` and login with **“admin” / "admin“**
 
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80
@@ -960,7 +960,7 @@ sysop@hserv:~/H$ rsync -vau --stats ./hservcerts/* hdev.int.h.net://home/sysop/H
 
 > Work on **hdev**
 
-Port forward apisix-dashboard and access it ah “http://localhost:9090” and login with **“admin” / "admin“**
+Port forward apisix-dashboard and access it ah `http://localhost:9090` and login with **“admin” / "admin“**
 
 ```
 kubectl -n apisix port-forward service/apisix-dashboard 9090:80

@@ -159,7 +159,7 @@ global_rules:
 6. Use all rules. We could pick and choose the ones we want for more fine-grained control
 7. Use the `default` configuration defined above
 
-We proceed to define routes to <https://httpbin.org/> to test our setup. Let's call the route to `/get`:
+We proceed to define routes to https://httpbin.org/ to test our setup. Let's call the route to `/get`:
 
 ```bash
 curl localhost:9080?user=foobar

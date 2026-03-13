@@ -1,3 +1,4 @@
+const { themes } = require('prism-react-renderer');
 const { ssrTemplate } = require('../../config/ssrTemplate');
 
 const description = 'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.';
@@ -78,7 +79,11 @@ module.exports = {
       },
       items: require('../../config/navbar.js'),
     },
-    hideableSidebar: true,
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
     announcementBar: {
       id: 'query',
       backgroundColor: '#e8433e',
@@ -87,8 +92,8 @@ module.exports = {
         '\u{1F914} Introducing APISIX AI Gateway – Built for LLMs and AI workloads. <a target="_blank" rel="noopener noreferrer" href="/ai-gateway/"> Learn More</a>',
     },
     prism: {
-      theme: require('prism-react-renderer/themes/github'),
-      darkTheme: require('prism-react-renderer/themes/dracula'),
+      theme: themes.github,
+      darkTheme: themes.dracula,
       defaultLanguage: 'bash',
     },
     algolia: {
@@ -103,7 +108,7 @@ module.exports = {
       respectPrefersColorScheme: false,
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
-    metadatas,
+    metadata: metadatas,
   },
   scripts: [
     {

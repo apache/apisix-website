@@ -11,10 +11,11 @@ import type {
   FC, HTMLAttributes, DetailedHTMLProps, ImgHTMLAttributes,
 } from 'react';
 import React from 'react';
-import useWindowType from '@theme/hooks/useWindowSize';
+import { useWindowSize } from '@docusaurus/theme-common/internal';
 import { useLocation } from '@docusaurus/router';
 import { translate } from '@docusaurus/Translate';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
+import Head from '@docusaurus/Head';
 
 // pickedPosts will be auto generated
 // eslint-disable-next-line import/no-unresolved
@@ -25,6 +26,8 @@ import style from './style.module.scss';
 import { imgPropsParse } from '../BlogPostPage';
 
 const components = {
+  head: Head,
+  Head,
   blockquote: ({ children }) => children,
   p: ({ children }) => <p>{children.length > 200 ? `${children.slice(0, 200)}...` : children}</p>,
   a: ({ children }) => children,
@@ -93,8 +96,8 @@ const BlogPostItem: FC<BlogPostItemProps> = (props) => {
   const {
     date, formattedDate, permalink, tags, title, authors,
   } = metadata;
-  const windowType = useWindowType();
-  const effect = windowType === 'mobile' ? 'opacity' : 'blur';
+  const windowSize = useWindowSize();
+  const effect = windowSize === 'mobile' ? 'opacity' : 'blur';
   const { withBaseUrl } = useBaseUrlUtils();
 
   const image = assets?.image ?? frontMatter.image ?? withBaseUrl(defaultImg, { absolute: true });

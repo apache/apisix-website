@@ -104,7 +104,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f13
 
 | 名称             |  默认值        |  描述                                             |
 | ---------------- |  ------------- | ------------------------------------------------ |
-| log_format       |  {"host": "$host", "@timestamp": "$time_iso8601", "client_ip": "$remote_addr"} |    以 JSON 格式的键值对来声明日志格式。对于值部分，仅支持字符串。如果是以 `$` 开头，则表明是要获取 __APISIX__ 变量或 [Nginx 内置变量](http://nginx.org/en/docs/varindex.html)。特别的，__该设置是全局生效的__，意味着指定 log_format 后，将对所有绑定 http-logger 的 Route 或 Service 生效。 |
+| log_format       |  `{"host": "$host", "@timestamp": "$time_iso8601", "client_ip": "$remote_addr"}` |    以 JSON 格式的键值对来声明日志格式。对于值部分，仅支持字符串。如果是以 `$` 开头，则表明是要获取 __APISIX__ 变量或 [Nginx 内置变量](http://nginx.org/en/docs/varindex.html)。特别的，__该设置是全局生效的__，意味着指定 log_format 后，将对所有绑定 http-logger 的 Route 或 Service 生效。 |
 
 日志格式调整完成后，需要向 `/apisix/admin/plugin_metadata` 端点发出请求来更新元数据，具体可参考下方代码。
 

@@ -1,0 +1,17 @@
+.sidebarVersionSwitch {
+  display: flex;
+  align-items: center;
+  padding: 4px 1rem;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 3%);
+}
+
+.sidebarVersionSwitch a {
+  display: inline-block;
+}
+
+.sidebarVersionSwitch div {
+  display: inline-block !important;
+}

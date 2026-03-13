@@ -53,7 +53,7 @@ etcd:
   prefix: /apisix # apisix configurations prefix
 ```
 
-and upstreams/1 is equivalent to http { upstream 1 {} } in nginx.conf. Similar keywords are used in /apisix/services/, /apisix/routes/, and so on.
+and upstreams/1 is equivalent to http \{ upstream 1 \{\} \} in nginx.conf. Similar keywords are used in /apisix/services/, /apisix/routes/, and so on.
 
 So, how does Nginx get the etcd configuration data changes through the watch mechanism? Does it start a new agent process? Does it communicate with etcd via HTTP/1.1 or gRPC?
 

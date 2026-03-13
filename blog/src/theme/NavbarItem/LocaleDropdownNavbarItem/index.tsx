@@ -9,12 +9,11 @@ import React from 'react';
 import type { Props } from '@theme/NavbarItem/DropdownNavbarItem';
 import type { LinkLikeNavbarItemProps } from '@theme/NavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import IconLanguage from '@theme/IconLanguage';
+import IconLanguage from '@theme/Icon/Language';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useAlternatePageUtils } from '@docusaurus/theme-common';
+import { useAlternatePageUtils, useWindowSize } from '@docusaurus/theme-common/internal';
 import { useLocation } from '@docusaurus/router';
-import useWindowType from '@theme/hooks/useWindowSize';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
@@ -32,9 +31,9 @@ const LocaleDropdownNavbarItem: FC<LocaleDropdownNavbarItemProps> = (props) => {
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
   const { pathname } = useLocation();
-  const windowType = useWindowType();
+  const windowSize = useWindowSize();
 
-  if (windowType !== 'mobile') {
+  if (windowSize !== 'mobile') {
     if (pathname.startsWith('/zh/blog')) {
       return (
         <Link

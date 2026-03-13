@@ -14,7 +14,7 @@ import MDXComponents from '@theme/MDXComponents';
 import { translate } from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
-import { usePluralForm } from '@docusaurus/theme-common';
+import { usePluralForm } from '@docusaurus/theme-common/internal';
 import EditThisPage from '@theme/EditThisPage';
 import type { Props } from '@theme/BlogPostItem';
 

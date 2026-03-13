@@ -264,7 +264,7 @@ curl http://127.0.0.1:9080/anything/test -H "Authorization: Bearer ${AccessToken
 2. **如何修改 Session 存储的 Cookie 名称、存储位置？**
 
 目前 openid-connect 插件未提供自定义这部分配置的能力，因此可以使用 lua-resty-session 中提供的方法：通过 NGINX 变量的方式对其默认配置进行覆盖。
-此处借助 APISIX 提供的 NGINX 配置注入能力以实现覆盖：通过在配置文件 {apisix}/conf/config.yaml 中添加这些代码，可修改 Session 存储 Cookie 的名称：
+此处借助 APISIX 提供的 NGINX 配置注入能力以实现覆盖：通过在配置文件 `{apisix}/conf/config.yaml` 中添加这些代码，可修改 Session 存储 Cookie 的名称：
 
 ```yaml
 nginx_config:
