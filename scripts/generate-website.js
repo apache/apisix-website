@@ -3,7 +3,38 @@ const util = require('util');
 const fs = require('fs');
 const path = require('path');
 const { chdir } = require('node:process');
+const { spawn } = require('node:child_process');
 const exec = util.promisify(require('node:child_process').exec);
+
+// Streams stdout/stderr to a log file via spawn (no maxBuffer limit).
+function runBuild(cmd, logFilePath) {
+  return new Promise((resolve) => {
+    let logStreamFailed = false;
+    const logStream = fs.createWriteStream(logFilePath);
+
+    logStream.on('error', () => {
+      logStreamFailed = true;
+    });
+
+    const child = spawn(cmd, { shell: true, stdio: ['ignore', 'pipe', 'pipe'] });
+
+    child.stdout.pipe(logStream, { end: false });
+    child.stderr.pipe(logStream, { end: false });
+
+    child.on('close', (code) => {
+      logStream.end(() => {
+        resolve({ failed: code !== 0 || logStreamFailed });
+      });
+    });
+
+    child.on('error', (err) => {
+      logStream.write(`\nError: ${err.message}\n`);
+      logStream.end(() => {
+        resolve({ failed: true });
+      });
+    });
+  });
+}
 
 // Detect CI environment
 const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
@@ -60,56 +91,28 @@ const tasks = new Listr([
         { name: 'website', cmd: 'yarn run build:website' },
       ];
 
-      // Execute all builds in parallel, capturing output
-      const results = await Promise.allSettled(
-        buildSteps.map((step) => exec(step.cmd)),
+      const results = await Promise.all(
+        buildSteps.map((step) => {
+          const logFilePath = path.join(logDir, `${step.name}.log`);
+          return runBuild(step.cmd, logFilePath);
+        }),
       );
 
-      // Check for failures and save logs to files
       const failures = [];
       const logFiles = [];
 
       results.forEach((result, index) => {
         const step = buildSteps[index];
         const logFilePath = path.join(logDir, `${step.name}.log`);
-        let logContent = '';
-
-        if (result.status === 'fulfilled') {
-          // Write raw stdout and stderr without extra formatting
-          if (result.value.stdout) {
-            logContent += result.value.stdout;
-          }
-          if (result.value.stderr) {
-            if (logContent) logContent += '\n';
-            logContent += result.value.stderr;
-          }
-        } else {
+        logFiles.push({ path: logFilePath, step: step.name, failed: result.failed });
+        if (result.failed) {
           failures.push(step.name);
-          // Write raw stdout and stderr for failed builds
-          if (result.reason.stdout) {
-            logContent += result.reason.stdout;
-          }
-          if (result.reason.stderr) {
-            if (logContent) logContent += '\n';
-            logContent += result.reason.stderr;
-          }
-          // Add error message at the end if available
-          if (result.reason.message && !result.reason.stderr?.includes(result.reason.message)) {
-            if (logContent) logContent += '\n';
-            logContent += `Error: ${result.reason.message}\n`;
-          }
         }
-
-        // Write to log file
-        fs.writeFileSync(logFilePath, logContent);
-        logFiles.push({ path: logFilePath, step: step.name, failed: result.status === 'rejected' });
       });
 
-      // Store in context for later use
       ctx.buildLogFiles = logFiles;
       ctx.buildFailures = failures;
 
-      // If any build failed, throw error
       if (failures.length > 0) {
         throw new Error(`Build failed for: ${failures.join(', ')}`);
       }
