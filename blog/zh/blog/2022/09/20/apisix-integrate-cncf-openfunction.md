@@ -122,7 +122,7 @@ curl http://127.0.0.1:9180/apisix/admin/routes/1 \
 
 ### 步骤五：发送请求
 
-插件配置完成后，你可以向路由发送一个请求，它会调用配置好的函数。官方的示例函数 hello-world 会输出 “Hello, {函数 uri 中的后缀部分}!\n”。
+插件配置完成后，你可以向路由发送一个请求，它会调用配置好的函数。官方的示例函数 hello-world 会输出 “Hello, \{函数 uri 中的后缀部分\}!\n”。
 
 ```shell
 # 9080 是 APISIX 除 admin API 以外暴露的端口

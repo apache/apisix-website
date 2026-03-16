@@ -220,7 +220,7 @@ Currently, ETCD-Adapter is not feature-complete (to say the least) and requires 
 
 The complete source code for this post can be found on GitHub:
 
-{% embed https://github.com/ajavageek/apisix-mysql %}
+[https://github.com/ajavageek/apisix-mysql](https://github.com/ajavageek/apisix-mysql)
 
 **To go further:**
 

@@ -10,18 +10,18 @@ import type { FC } from 'react';
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import type { GlobalVersion } from '@theme/hooks/useDocs';
-import { useVersions, useLatestVersion, useActiveDocContext } from '@theme/hooks/useDocs';
+import type { GlobalVersion } from '@docusaurus/plugin-content-docs/client';
+import {
+  useVersions, useLatestVersion, useActiveDocContext, useDocsPreferredVersion,
+} from '@docusaurus/plugin-content-docs/client';
 import type { Props } from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
-import { useDocsPreferredVersion } from '@docusaurus/theme-common';
 import { translate } from '@docusaurus/Translate';
-import type { GlobalDataVersion } from '@docusaurus/plugin-content-docs-types';
 import clsx from 'clsx';
 import { LTSVersions } from '../../../../config/apisix-versions';
 import style from './style.module.scss';
 import './style.scss';
 
-const getVersionMainDoc = (version: GlobalDataVersion) => version.docs.find((doc) => doc.id === version.mainDocId)!;
+const getVersionMainDoc = (version: GlobalVersion) => version.docs.find((doc) => doc.id === version.mainDocId)!;
 
 const badgeObj = {
   LTS: <div className={clsx(style.badge, style.LTS)}>LTS</div>,

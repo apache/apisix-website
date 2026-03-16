@@ -9,9 +9,6 @@
       "scripts",
       "blog",
       "doc"
-    ],
-    "nohoist": [
-      "doc/@docusaurus/**"
     ]
   },
   "scripts": {
@@ -44,8 +41,7 @@
     "build:blog:zh:preview:serve": "yarn build:blog:zh:preview && yarn serve:blog:zh",
     "build:blog:en:preview:serve": "yarn build:blog:en:preview && yarn serve:blog:en",
     "prepare": "husky install",
-    "prepare-data": "yarn generate-event-poster-card && yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts",
-    "postinstall": "patch-package"
+    "prepare-data": "yarn generate-event-poster-card && yarn sync-docs && yarn generate-repos-info && yarn generate-picked-posts"
   },
   "devDependencies": {
     "@julian_cataldo/remark-lint-frontmatter-schema": "^3.6.2",
@@ -76,11 +72,9 @@
     "*.{scss,css}": "stylelint --cache --fix",
     "*.md": "remark ./blog/{en,zh}/blog/**/*.md ./website/{docs,i18n}/**/*.md"
   },
-  "dependencies": {
-    "patch-package": "^6.5.1",
-    "postinstall-postinstall": "^2.1.0"
-  },
+  "dependencies": {},
   "resolutions": {
+    "serialize-javascript": ">=7.0.3",
     "immutable": "^4.3.8",
     "minimatch": "^3.1.4",
     "node-forge": "^1.3.2",

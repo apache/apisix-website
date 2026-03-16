@@ -4,14 +4,14 @@ import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import useWindowType from '@theme/hooks/useWindowSize';
+import { useWindowSize } from '@docusaurus/theme-common/internal';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import ArrowAnim from '../ArrowAnim';
 import '../../css/landing-sections/hero.scss';
 
 const LazyLoadHeroCanvas = () => {
-  const windowType = useWindowType();
-  if (windowType === 'mobile') return null;
+  const windowSize = useWindowSize();
+  if (windowSize === 'mobile') return null;
 
   return (
     <BrowserOnly>

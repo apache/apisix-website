@@ -146,7 +146,7 @@ curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f1
 |auth_config.scopes|No|["https://www.googleapis.com/auth/logging.read","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/logging.admin","https://www.googleapis.com/auth/cloud-platform"]|Google Services account access scope, refer to: [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes#logging)|
 |auth_file|No|n/a|Path to the Google Services account JSON file (either auth_config or auth_file must be configured)|
 |ssl_verify|No|TRUE|Enable SSL authentication, configured according to [OpenResty documentation](https://github.com/openresty/lua-nginx-module#tcpsocksslhandshake) options.|
-|resource|No|{"type": "global"}|Google Monitored Resources, please refer to [MonitoredResource](https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource).|
+|resource|No|`{"type": "global"}`|Google Monitored Resources, please refer to [MonitoredResource](https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource).|
 |log_id|No|apisix.apache.org%2Flogs|Google Log ID, reference: [LogEntry](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry).|
 |max_retry_count|No|0|Maximum number of retries before removal from the processing pipeline.|
 |retry_delay|No|1|Number of seconds that process execution should be delayed if execution fails.|

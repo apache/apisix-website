@@ -27,7 +27,7 @@ const BlogListPage: FC<Props> = (props) => {
     <BlogLayout
       title={title}
       description={blogDescription}
-      searchMetadatas={{
+      searchMetadata={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_posts_list',
       }}

@@ -94,9 +94,9 @@ Have an Okta account ready for use.
    ![save the changes](https://static.apiseven.com/202108/1639467449049-628d7796-0d8e-4ed9-8334-5ba7f0fb32f4.png)
 5. Visit the General page of the application to obtain the following configuration, which is required to configure Apache APISIX OpenID Connect.
 
-- Client ID: OAuth client ID, the application ID, which corresponds to client_id and {YOUR_CLIENT_ID} below.
-- Client secret: OAuth client secret, the application key, which corresponds to client_secret and {YOUR_CLIENT_SECRET} below.
-- Okta domain: The domain name used by the application, corresponding to {YOUR_ISSUER} below.
+- Client ID: OAuth client ID, the application ID, which corresponds to client_id and `{YOUR_CLIENT_ID}` below.
+- Client secret: OAuth client secret, the application key, which corresponds to client_secret and `{YOUR_CLIENT_SECRET}` below.
+- Okta domain: The domain name used by the application, corresponding to `{YOUR_ISSUER}` below.
 
 ![obtain configuration](https://static.apiseven.com/202108/1639467501106-d95bf8ad-db47-4918-ac70-424b12488e5b.png)
 

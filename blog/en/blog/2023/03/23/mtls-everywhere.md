@@ -43,7 +43,7 @@ We now have enough understanding of the concepts to get our hands dirty.
 
 ## Generating certificates with cert-manager
 
-A couple of root <abbr title="Certificate Authority">CA</abbr> are installed in browsers by default. That's how we can browse HTTPS websites safely, trusting that <https://apache.org> is the site they pretend to be. The infrastructure has no pre-installed certificates, so we must start from scratch.
+A couple of root <abbr title="Certificate Authority">CA</abbr> are installed in browsers by default. That's how we can browse HTTPS websites safely, trusting that https://apache.org is the site they pretend to be. The infrastructure has no pre-installed certificates, so we must start from scratch.
 
 We need at least one root certificate. In turn, it will generate all other certificates. While it's possible to do every manually, I'll rely on [cert-manager](https://cert-manager.io/) in Kubernetes. As its name implies, cert-manager is a solution to manage certificates.
 

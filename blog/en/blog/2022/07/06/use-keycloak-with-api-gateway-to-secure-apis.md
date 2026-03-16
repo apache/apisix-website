@@ -273,7 +273,7 @@ Because APISIX writes `id_token`, `access_token`, and `refresh_token` into the c
 2. **How to change the name and location of the cookie stored in the Session?**
 
 Currently, the openid-connect plugin does not provide the ability to customize this part of the configuration, so we can use the method provided in `lua-resty-session`: override its default configuration by NGINX variables.
-We rely on the NGINX configuration injection capabilities provided by APISIX to achieve the override: the name of the Session storage cookie can be modified by adding this code to the configuration file {apisix}/conf/config.yaml.
+We rely on the NGINX configuration injection capabilities provided by APISIX to achieve the override: the name of the Session storage cookie can be modified by adding this code to the configuration file `{apisix}/conf/config.yaml`.
 
 ```yaml
 nginx_config:

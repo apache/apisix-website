@@ -19,7 +19,7 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from 'react-share';
-import useWindowType from '@theme/hooks/useWindowSize';
+import { useWindowSize } from '@docusaurus/theme-common/internal';
 import type { Props } from '@theme/BlogLayout';
 import Link from '@docusaurus/Link';
 import Sticky from 'react-stickynode';
@@ -74,9 +74,9 @@ const tags = [
 ];
 
 const TagsHeader: FC = () => {
-  const windowType = useWindowType();
+  const windowSize = useWindowSize();
   return (
-    <Sticky innerZ={199} className={style.placeholder} enabled={windowType !== 'mobile'}>
+    <Sticky innerZ={199} className={style.placeholder} enabled={windowSize !== 'mobile'}>
       {(s) => (
         <div className={clsx(style.tagsHeader, s.status === Sticky.STATUS_FIXED && style.expand)}>
           {tags.map((tag) => (

@@ -9,10 +9,10 @@ import React from 'react';
 import type { Props } from '@theme/NavbarItem/DropdownNavbarItem';
 import type { LinkLikeNavbarItemProps } from '@theme/NavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
-import IconLanguage from '@theme/IconLanguage';
+import IconLanguage from '@theme/Icon/Language';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useAlternatePageUtils } from '@docusaurus/theme-common';
+import { useAlternatePageUtils } from '@docusaurus/theme-common/internal';
 import { useLocation } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';

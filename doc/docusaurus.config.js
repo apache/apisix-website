@@ -1,3 +1,4 @@
+const { themes } = require('prism-react-renderer');
 const { ssrTemplate } = require('../config/ssrTemplate');
 
 const getEditUrl = (props) => {
@@ -215,7 +216,11 @@ module.exports = {
       },
       items: require('../config/navbar.js'),
     },
-    hideableSidebar: true,
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
     announcementBar: {
       id: 'query',
       backgroundColor: '#e8433e',
@@ -224,8 +229,8 @@ module.exports = {
         '\u{1F914} Introducing APISIX AI Gateway – Built for LLMs and AI workloads. <a target="_blank" rel="noopener noreferrer" href="/ai-gateway/"> Learn More</a>',
     },
     prism: {
-      theme: require('prism-react-renderer/themes/github'),
-      darkTheme: require('prism-react-renderer/themes/dracula'),
+      theme: themes.github,
+      darkTheme: themes.dracula,
       defaultLanguage: 'bash',
     },
     algolia: {
@@ -240,7 +245,7 @@ module.exports = {
       respectPrefersColorScheme: false,
     },
     image: 'https://static.apiseven.com/202202/apache-apisix.png',
-    metadatas: [
+    metadata: [
       {
         name: 'description',
         content:
