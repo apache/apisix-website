@@ -25,7 +25,7 @@ tags: [Community]
 
 本次版本扩展了速率限制能力，增强了 OpenTelemetry 可观测性，新增了认证、日志记录和服务发现等方面的插件功能，同时包含多项缺陷修复和稳定性改进。
 
-此外，该版本还包含了一项重大变更。如果您发现这项变更会对您的使用产生影响，请进行相应的计划升级。
+此外，该版本还包含了两项重大变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。
 
 ## 重大变更
 
@@ -36,6 +36,14 @@ tags: [Community]
 如果您使用的是自签名证书或私有 CA 颁发的证书，现在必须在插件配置中显式设置 `ssl_verify: false` 以保留原有行为。
 
 更多信息，请参阅 [PR #13010](https://github.com/apache/apisix/pull/13010)。
+
+### `tencent-cloud-cls` 插件默认 scheme 更改为 `https`
+
+`tencent-cloud-cls` 插件发送日志请求所使用的默认协议已从 `http` 更改为 `https`，与安全最佳实践保持一致，确保日志数据在传输过程中被加密。
+
+如果您的腾讯云 CLS 端点只能通过明文 HTTP 访问，现在必须在插件配置中显式将 scheme 设置为 `http` 以保留原有行为。
+
+更多信息，请参阅 [PR #13009](https://github.com/apache/apisix/pull/13009)。
 
 ## 新功能
 
@@ -85,12 +93,6 @@ OpenTelemetry 插件现在可以生成更多 span，覆盖各个 NGINX 阶段、
 Eureka 服务发现模块现在除了支持 IP 地址节点外，还支持以主机名（域名）注册的节点。此前，只有使用 IP 地址的节点才能被正确处理。这使 APISIX 能够与服务使用 DNS 名称注册的 Eureka 部署集成。
 
 更多信息，请参阅 [PR #12993](https://github.com/apache/apisix/pull/12993)。
-
-### `tencent-cloud-cls` 插件 scheme 现可配置
-
-`tencent-cloud-cls` 插件现在支持配置请求协议（`http` 或 `https`）。默认值已从 `http` 更改为 `https`，与安全最佳实践保持一致。需要使用明文 HTTP 的用户现在必须显式指定 scheme。
-
-更多信息，请参阅 [PR #13009](https://github.com/apache/apisix/pull/13009)。
 
 ### `clickhouse-logger` 插件支持密钥存储凭证
 

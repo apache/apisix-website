@@ -25,9 +25,9 @@ We are glad to present Apache APISIX 3.16.0 with exciting new features, bug fixe
 
 This release introduces expanded rate limiting capabilities, enhanced observability with OpenTelemetry, new plugin features for authentication, logging, and service discovery, along with multiple bug fixes and stability improvements.
 
-This release introduces one breaking change that may impact existing deployments. Please review the change and plan your upgrade accordingly.
+This release introduces two breaking changes that may impact existing deployments. Please review the changes and plan your upgrade accordingly.
 
-## Breaking Change
+## Breaking Changes
 
 ### `openid-connect` plugin `ssl_verify` default changed to `true`
 
@@ -36,6 +36,14 @@ The default value of the `ssl_verify` option in the `openid-connect` plugin has 
 If you are using self-signed certificates or certificates from a private CA, you must now explicitly set `ssl_verify: false` in your plugin configuration to preserve the previous behavior.
 
 For more information, see [PR #13010](https://github.com/apache/apisix/pull/13010).
+
+### `tencent-cloud-cls` plugin default scheme changed to `https`
+
+The default scheme for requests made by the `tencent-cloud-cls` plugin has been changed from `http` to `https`. This aligns with security best practices by encrypting log data in transit.
+
+If your Tencent Cloud CLS endpoint is only reachable over plain HTTP, you must now explicitly set the scheme to `http` in your plugin configuration to preserve the previous behavior.
+
+For more information, see [PR #13009](https://github.com/apache/apisix/pull/13009).
 
 ## New Features
 
@@ -85,12 +93,6 @@ For more information, see [PR #12963](https://github.com/apache/apisix/pull/1296
 The Eureka service discovery module now supports nodes registered with hostnames (domain names) in addition to IP addresses. Previously, only IP-addressed nodes were correctly handled. This enables APISIX to integrate with Eureka deployments where services register using DNS names.
 
 For more information, see [PR #12993](https://github.com/apache/apisix/pull/12993).
-
-### `tencent-cloud-cls` plugin scheme is now configurable
-
-The `tencent-cloud-cls` plugin now allows the request scheme (`http` or `https`) to be configured. The default has been changed from `http` to `https`, aligning with security best practices. Users who require plain HTTP must now explicitly set the scheme.
-
-For more information, see [PR #13009](https://github.com/apache/apisix/pull/13009).
 
 ### `clickhouse-logger` plugin supports secrets for credentials
 
