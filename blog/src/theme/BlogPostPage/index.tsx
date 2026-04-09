@@ -133,6 +133,37 @@ const BlogPostPage = (props: Props): JSX.Element => {
         {tags.length > 0 && (
           <meta property="article:tag" content={tags.map((tag) => tag.label).join(',')} />
         )}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: title,
+            description,
+            datePublished: date,
+            ...(image && { image }),
+            author: authors.map((author) => ({
+              '@type': 'Person',
+              name: author.name,
+              ...(author.url && { url: author.url }),
+              ...(author.imageURL && { image: author.imageURL }),
+            })),
+            ...(tags.length > 0 && {
+              keywords: tags.map((tag) => tag.label).join(', '),
+            }),
+            publisher: {
+              '@type': 'Organization',
+              name: 'Apache APISIX',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://apisix.apache.org/img/logo2.svg',
+              },
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': metadata.permalink,
+            },
+          })}
+        </script>
       </Seo>
 
       <BlogPostItem frontMatter={frontMatter} assets={assets} metadata={metadata} isBlogPostPage>
