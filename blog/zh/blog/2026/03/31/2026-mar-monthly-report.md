@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2026/04/09/U5gntpTT_2026-03-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们引入并更新了一些新功能，包括在 Standalone 模式下拒绝配置未知插件、为日志插件添加 `max/resp_body_bytes` 属性，以及在 `clickhouse-logger` 插件中支持使用密钥管理等。有关更多细节，请阅读本期月报。
+> 最近，我们引入并更新了一些新功能，包括在 Standalone 模式下拒绝配置未知插件、为日志插件添加 `max_body_bytes` 和 `resp_body_bytes` 属性，以及在 `clickhouse-logger` 插件中支持使用密钥管理等。有关更多细节，请阅读本期月报。
 
 <!--truncate-->
 
