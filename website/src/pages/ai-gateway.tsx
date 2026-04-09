@@ -26,7 +26,7 @@ const ChakraTestPage: React.FC = () => (
       />
       <meta
         property="og:site_name"
-        content="Apache APISIX® -- Cloud-Native API Gateway and AI Gateway"
+        content="Apache APISIX"
       />
       <meta
         property="og:description"

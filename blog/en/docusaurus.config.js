@@ -22,7 +22,7 @@ const metadatas = [
 ];
 
 module.exports = {
-  title: 'Apache APISIX® -- Cloud-Native API Gateway and AI Gateway',
+  title: 'Apache APISIX',
   tagline:
     'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.',
   url: 'https://apisix.apache.org',

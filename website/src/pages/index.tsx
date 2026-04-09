@@ -46,6 +46,7 @@ const Index: FC = () => (
   <Layout>
     <ThemeResetComponent />
     <Head>
+      <title>Apache APISIX® -- Cloud-Native API Gateway and AI Gateway</title>
       <meta
         name="twitter:title"
         content="Apache APISIX® - Cloud-Native API Gateway and AI Gateway"
