@@ -22,11 +22,6 @@ image: https://static.apiseven.com/uploads/2023/10/03/LuagzWfs_camera-514992.jpg
 >This blog xplores effective strategies for image asset management in web architecture, highlighting traditional and innovative solutions to optimize delivery and avoid reliance on CSS resizing.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/resize-images-on-the-fly/" />
-</head>
-
 As a web architect, one of the many issues is asset management. And the most significant issue in assets is images. A naive approach would be to set an image and let the browser resize the image via CSS:
 
 >```css

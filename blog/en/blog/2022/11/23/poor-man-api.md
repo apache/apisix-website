@@ -19,11 +19,6 @@ image: https://static.apiseven.com/2022/11/28/63841cb4ad10a.png
 > Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don't know whether it's worth it: you'd like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/poor-man-api/" />
-</head>
-
 ## The solution
 
 The main requirement of the solution is to use the [PostgreSQL database](https://www.postgresql.org/). It's a well-established Open Source SQL database.

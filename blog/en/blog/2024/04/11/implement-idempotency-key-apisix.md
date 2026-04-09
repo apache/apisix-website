@@ -20,11 +20,6 @@ description: >
 tags: [Plugin]
 image: https://static.apiseven.com/uploads/2024/04/09/0rfsRevo_stormtrooper-2899993.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/implement-idempotency-key-apisix/" />
-</head>
-
 >Last week, I wrote an [analysis](https://apisix.apache.org/blog/2024/04/04/fix-duplicate-api-requests/) of the [IETF Idempotency-Key specification](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-idempotency-key-header-04). The specification aims to avoid duplicated requests. In short, the idea is for the client to send a unique key along with the request:
 >
 >* If the server doesn't know the key, it proceeds as usual and then stores the response

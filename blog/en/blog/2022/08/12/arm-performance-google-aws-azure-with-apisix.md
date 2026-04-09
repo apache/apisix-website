@@ -29,11 +29,6 @@ image: https://static.apiseven.com/2022/10/18/634e6963ea45f.png
 > This article uses  Apache APISIX to compare the performance of AWS, Google, Azure, and Oracle ARM-based servers in network IO-intensive scenarios.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://api7.ai/2022/08/12/arm-performance-google-aws-azure-with-apisix/" />
-</head>
-
 ## Background
 
 The ARM architecture is a member of the [RISC (Reduced instruction set computer)](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer) design family. The RISC microprocessor architecture design enables small processors to efficiently handle complex tasks by using a set of highly optimized instructions. Being widely used in many embedded system designs, the ARM architecture has become the cornerstone of the world’s largest computing ecosystem and mobile devices. Many experts regard it as the future of cloud computing due to its advantages of low power consumption, low cost, high performance, and flexible licensing. Therefore, mainstream cloud vendors led by AWS (Amazon Web Services), GCP (Google Cloud Platform), Azure (Microsoft Azure), and OCI (Oracle Cloud Infrastructure) have successively launched ARM-based servers. This article selects servers from these vendors to conduct performance testing. Let’s first examine the four major manufacturers and their products.

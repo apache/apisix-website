@@ -21,11 +21,6 @@ image: https://static.apiseven.com/uploads/2023/09/22/7BPpDQyu_falling-5472195.j
 >My demo, Evolving your APIs, features a custom Apache APISIX plugin. I believe that the process of [creating a custom plugin](https://apisix.apache.org/docs/apisix/plugin-develop/) is relatively well-documented. However, I wanted to check the parameters of the `_M.access(conf, ctx)` function, especially the `ctx` one.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/rabbit-hole-apisix-plugin/" />
-</head>
-
 The documentation states:
 
 >The `ctx` parameter caches data information related to the request. You can use `core.log.warn(core.json.encode(ctx, true))` to output it to `error.log` for viewing.

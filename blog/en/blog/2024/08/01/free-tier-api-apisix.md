@@ -15,11 +15,6 @@ description: >
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/08/03/9WL5vdEC_beer-2439237.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/free-tier-api-apisix/" />
-</head>
-
 >Lots of service providers offer a free tier of their service. The idea is to let you kick their service's tires freely. If you need to go above the free tier at any point, you'll likely stay on the service and pay. In this day and age, most services are online and accessible via an API. Today, we will implement a free tier with [Apache APISIX](https://apisix.apache.org/).
 
 <!--truncate-->

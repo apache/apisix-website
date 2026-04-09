@@ -22,11 +22,6 @@ image: https://static.apiseven.com/uploads/2023/12/09/acT4tzVw_puzzle-3486885.jp
 >In this post, I'd like to describe how plugins, priority, and phases play together and what pitfalls you must be aware of.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/apisix-plugins-priority-leaky-abstraction/" />
-</head>
-
 ## APISIX plugin's priority
 
 When you configure a route with multiple plugins, Apache APISIX needs to execute them in a **consistent** order so that the results are the same over time. For this reason, every APISIX plugin has a _harcoded_ **priority**. You can check a plugin priority directly in the code. For example, here's the relevant code fragment for the `basic-auth` plugin:

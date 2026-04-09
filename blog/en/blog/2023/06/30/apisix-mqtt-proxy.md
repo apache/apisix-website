@@ -18,11 +18,6 @@ image: https://static.apiseven.com/uploads/2023/06/23/kdd9TigM_mqtt-apisix-cover
 > APISIX's support for [stream routes](https://apisix.apache.org/docs/apisix/stream-proxy/) and, in extension, the MQTT protocol is often overlooked. Let's change this by looking at an end-to-end example of how APISIX can act as an MQTT proxy.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://navendu.me/posts/iot-to-cloud/" />
-</head>
-
 People typically use the [MQTT protocol](https://mqtt.org/) when transferring data from IoT devices because of its low overhead and ease of implementation.
 
 MQTT was created for sending small chunks of data over unreliable networks and uses a binary format rather than the typical text-based format used in protocols like HTTP or SMTP. With [client libraries](https://mqtt.org/software/) in multiple programming languages, you are unlikely to have to implement the protocol on your own but use an existing library.

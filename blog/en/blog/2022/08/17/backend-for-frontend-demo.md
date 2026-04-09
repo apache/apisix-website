@@ -18,11 +18,6 @@ image: https://static.apiseven.com/2022/11/03/63634494405e7.png
 > This article describes a demo code to implement the Backend-For-Frontend pattern.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/backend-for-frontend-demo/" />
-</head>
-
 In [one of my earlier posts](https://blog.frankel.ch/backend-for-frontend/), I described the Backend-for-Frontend pattern. In short, it offers a single facade over multiple backend parts. Moreover, it provides each client type, _e.g._ desktop, mobile, exactly the data that it needs and not more in the format required by this client type.
 
 ## The use-case
@@ -77,7 +72,6 @@ Here's the code for each microservice:
 def info():
     return debug                 #1
 
-
 @app.route("/products")
 def get_products():
     return jsonify(products)     #2
@@ -90,7 +84,6 @@ def get_products():
 @app.route("/info")
 def info():
     return debug                 #1
-
 
 @app.route("/news")
 def get_news():

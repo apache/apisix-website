@@ -18,11 +18,6 @@ image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 > 本文首发于 [API7.ai](https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway)，从多个角度（在开发人员中的受欢迎程度、开源许可证、性能和整个生态系统）对比多个 API 网关（Kong、Tyk、Gloo）。
 
 <!--truncate-->
-
-<head>
-  <link rel="canonical" href="https://www.apiseven.com/blog/why-is-apache-apisix-the-best-api-gateway" />
-</head>
-
 今天，我们可以通过手机和各种 APP 完成各种各样的事情，比如社交，网购等。这些行为的背后，API 起到了关键的作用。作为 API 的使用者，我们并不关心 API 的稳定、安全和高效，但是通过 API 提供数据服务的企业则需要选择一个合适的 API 网关，用来保证数千乃至数万的 API 为提供快速和安全的服务。
 
 在 CNCF 的 [API Gateway landscape](https://landscape.cncf.io/card-mode?category=api-gateway&grouping=category&sort=contributors) 中有接近 20 个 API 网关的选型（不包括公有云厂商的产品），包括 Apache APISIX、Kong、Tyk 等等。

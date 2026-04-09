@@ -17,11 +17,6 @@ image: https://repository-images.githubusercontent.com/560493734/4073382d-d3de-4
 > Apache APISIX, the Apache-led API Gateway, comes out of the box with many plugins to implement your use case. Sometimes, however, the plugin you're looking for is not available. While creating your own is always possible, it's sometimes necessary. Today, I'll show you how to route users according to their location without writing a single line of Lua code.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/georouting-apisix/" />
-</head>
-
 ## Why geo-routing?
 
 Geo-routing is to forward HTTP requests based on a user's physical location, inferred from their IP. There are many reasons to do that, and here is a couple of them.

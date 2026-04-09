@@ -15,11 +15,6 @@ description: >
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/03/28/XObjRS46_stormtrooper-2899993.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/fix-duplicate-api-requests/" />
-</head>
-
 >The first rule of distributed systems is "Don’t distribute your system". Designing distributed systems right is infamously hard for multiple reasons.
 
 <!--truncate-->

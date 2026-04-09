@@ -18,11 +18,6 @@ image: https://static.apiseven.com/2022/12/13/63981be362ec4.jpg
 >The subject of Web resource caching is as old as the World Wide Web itself. However, I'd like to offer an as-exhaustive-as-possible catalog of how one can improve performance by caching. Web resource caching can happen in two different places: client-side - on the browser and server side. In the [previous post](https://blog.frankel.ch/web-caching/client/), I explained the former; this post focuses on the latter.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/web-caching/server/" />
-</head>
-
 While client-side caching works well, it has one central issue: to serve the resource locally, it must first have it in the cache. Thus, each client needs its cached resource. If the requested resource is intensive to compute, it doesn't scale. The idea behind server-side caching is to compute the resource once and serve it from the cache to all clients.
 
 ![Server-side cache principle](https://blog.frankel.ch/assets/generated/web-caching/server-cache.svg)

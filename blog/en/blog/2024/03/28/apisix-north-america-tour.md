@@ -14,11 +14,6 @@ description: >
 tags: [Community]
 image: https://static.apiseven.com/uploads/2024/03/26/qIgl44le_globe-1311758_1280.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/apisix-north-america-tour/" />
-</head>
-
 >Once in a while, I write non-technical blog posts when I've something worth sharing. Today, I'd like to write about my North America "Tour" across several conferences and user groups.
 
 <!--truncate-->

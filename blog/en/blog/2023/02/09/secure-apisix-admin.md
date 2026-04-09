@@ -17,11 +17,6 @@ image: https://static.apiseven.com/uploads/2023/02/09/GCYH53g6_security-g85f9e28
 > API Gateways are critical components in one's infrastructure. If an attacker could change the configuration of routes, they could direct traffic to their infrastructure. Consequences could range from data theft to financial losses. Worse, data theft could only be noticed after a long time by mirroring the load. Hence, protecting your API Gateway is of utmost importance.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/secure-apisix-admin/" />
-</head>
-
 In this short blog post, I'll list a couple of ways to secure your [Apache APISIX](https://apisix.apache.org/) admin access.
 
 ## Change admin tokens

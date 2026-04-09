@@ -17,11 +17,6 @@ description: >
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/05/29/RkjCnHCV_sun-rays-7387131.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/even-more-opentelemetry/" />
-</head>
-
 >I continue to work on my [Opentelemetry demo](https://github.com/nfrankel/opentelemetry-tracing). Its main idea is to showcase _traces_ across various technology stacks, including asynchronous communication via an MQTT queue. This week, I added a couple of components and changed the architecture. Here are some noteworthy learnings; note that some of them might not be entirely connected to OpenTelemetry.
 
 <!--truncate-->

@@ -16,11 +16,6 @@ description: >
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/10/vVlFQu7C_img-HDlf4Xx9m1iqS0Ico3oBZ.png
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/apisix-owasp-coraza-core-ruleset/" />
-</head>
-
 >In this post, I'd like to describe how to fix some of them via the [Apache APISIX API Gateway](https://apisix.apache.org/).
 
 <!--truncate-->

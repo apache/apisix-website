@@ -25,11 +25,6 @@ image: https://static.apiseven.com/uploads/2024/10/18/8d1iVJWL_logo%20x%20open-a
 > We are excited to announce a new integration between Apache APISIX and open-appsec WAF, combining the power of a dynamic API gateway with cutting-edge application security.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://www.openappsec.io/post/announcing-open-appsec-WAF-integration-with-Apache-APISIX-API-Gateway" />
-</head>
-
 ## Introduction
 
 open-appsec WAF is excited to announce a new integration with the open-source API gateway Apache APISIX.
