@@ -3,10 +3,10 @@ title: "2026 社区月报 (03.01 - 03.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/04/09/U5gntpTT_2026-03-monthly-report-cover-cn.webp
 ---
 
-> 最近，我们引入并更新了一些新功能，包括在 Standalone 模式下拒绝配置未知插件、为日志插件添加 max/resp_body_bytes 属性，以及在 clickhouse-logger 插件中支持使用密钥管理等。有关更多细节，请阅读本期月报。
+> 最近，我们引入并更新了一些新功能，包括在 Standalone 模式下拒绝配置未知插件、为日志插件添加 `max/resp_body_bytes` 属性，以及在 `clickhouse-logger` 插件中支持使用密钥管理等。有关更多细节，请阅读本期月报。
 
 <!--truncate-->
 
@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
+![贡献者名单](https://static.api7.ai/uploads/2026/04/09/OMqEYzVH_2026-march-contributor-list.webp)
 
-![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
+![新晋贡献者](https://static.api7.ai/uploads/2026/04/09/RUAKNAsx_2026-03-contributors.webp)
 
 ## Good First Issue
 

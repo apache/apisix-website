@@ -3,10 +3,10 @@ title: "2026 Monthly Report (March 01 - March 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/04/09/nfqoLi8d_2026-03-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced and updated some new features, including rejecting unknown plugin configurations in standalone mode, adding max/resp_body_bytes attributes to logger plugins, and supporting secrets in the clickhouse-logger plugin. For more details, please read this month's newsletter.
+> Recently, we've introduced and updated some new features, including rejecting unknown plugin configurations in standalone mode, adding `max/resp_body_bytes` attributes to logger plugins, and supporting secrets in `clickhouse-logger` plugin. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
@@ -18,9 +18,9 @@ From March 1st to March 31st, 14 contributors made 32 commits to Apache APISIX. 
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/04/09/OMqEYzVH_2026-march-contributor-list.webp)
 
-![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
+![New Contributors List](https://static.api7.ai/uploads/2026/04/09/RUAKNAsx_2026-03-contributors.webp)
 
 ## Good First Issue
 
