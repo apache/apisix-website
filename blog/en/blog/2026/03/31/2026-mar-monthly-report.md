@@ -6,7 +6,7 @@ tags: [Community]
 image: https://static.api7.ai/uploads/2026/04/09/nfqoLi8d_2026-03-monthly-report-cover-en.webp
 ---
 
-> Recently, we've introduced and updated some new features, including rejecting unknown plugin configurations in standalone mode, adding `max/resp_body_bytes` attributes to logger plugins, and supporting secrets in `clickhouse-logger` plugin. For more details, please read this month's newsletter.
+> Recently, we've introduced and updated some new features, including rejecting unknown plugin configurations in standalone mode, adding `max_body_bytes` and `resp_body_bytes` attributes to logger plugins, and supporting secrets in `clickhouse-logger` plugin. For more details, please read this month's newsletter.
 
 <!--truncate-->
 
