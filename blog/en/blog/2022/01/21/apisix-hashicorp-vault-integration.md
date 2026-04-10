@@ -1,5 +1,5 @@
 ---
-title: "HashiCorp Vault Secure Storage Backend in Apache APISIX Ecosystem"
+title: "APISIX + HashiCorp Vault: Secure Secret Storage"
 authors:
   - name: "Bisakh Mondal"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - Vault
 - jwt-auth
 - authentication
-description: This article describe the upcoming release of the Vault with Apache APISIX integration, and show the details of configuration.
+description: Configure HashiCorp Vault as a secure storage backend in APISIX for managing JWT secrets and sensitive credentials.
 tags: [Authentication,Ecosystem,Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/vault.png
 ---

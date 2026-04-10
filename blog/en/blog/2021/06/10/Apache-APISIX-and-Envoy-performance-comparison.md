@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX v.s Envoy: Which Has the Better Performance?"
+title: "APISIX vs Envoy: Performance Benchmark Comparison"
 slug: 2021/06/10/apache-apisix-and-envoy-performance-comparison
 author: "Yuansheng Wang"
 authorURL: "https://github.com/membphis"
@@ -11,7 +11,7 @@ keywords:
 - Service Mesh
 - API Gateway
 - Performance
-description: The performance of the cloud native API gateway Apache APISIX is stronger than that of Envoy when multiple workers are enabled. 
+description: Benchmark comparison of APISIX vs Envoy on response latency and QPS, showing APISIX advantages with multiple worker processes.
 tags: [Ecosystem]
 ---
 

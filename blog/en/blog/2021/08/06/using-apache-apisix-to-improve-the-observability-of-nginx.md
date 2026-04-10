@@ -1,5 +1,5 @@
 ---
-title: How to Improve the Observability of Nginx with Apache APISX
+title: Improve Nginx Observability with APISIX
 author: Wei Jin
 authorURL: "https://github.com/gxthrj"
 authorImageURL: "https://avatars.githubusercontent.com/u/4413028?v=4"
@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Nginx
 - observability
-description: This article will introduce NGINX observability, the relationship between Apache APISIX and Nginx, APISIX observability, and further improving observability with Apache SkyWalking.
+description: Learn how APISIX enhances Nginx observability with built-in metrics, logging, and tracing via Apache SkyWalking integration.
 tags: [Ecosystem]
 ---
 

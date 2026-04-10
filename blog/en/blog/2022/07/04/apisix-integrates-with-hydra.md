@@ -16,7 +16,7 @@ keywords:
 - Hydra
 - OpenID Connect
 - OIDC
-description: This article describes the API gateway Apache APISIX for centralized authentication via the OpenID Connect plugin Hydra integration.
+description: Set up centralized OAuth 2.0 authentication in APISIX using the OpenID Connect plugin with Ory Hydra as the identity provider.
 tags: [Authentication, Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/ory.png
 ---

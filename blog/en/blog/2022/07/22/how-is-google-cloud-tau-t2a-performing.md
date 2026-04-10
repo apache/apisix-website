@@ -1,5 +1,5 @@
 ---
-title: "How is Google Cloud Tau T2A performing? "
+title: "Google Cloud T2A vs T2D: ARM64 API Gateway Benchmark"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
@@ -11,7 +11,7 @@ keywords:
     - Google Cloud
     - Google Cloud T2A
     - ARM64
-description: This article mainly uses the cloud native API gateway Apache APISIX to compare the performance of Google Cloud T2A and Google Cloud T2D.
+description: Performance benchmark of Google Cloud Tau T2A (ARM64) vs T2D using APISIX as the API gateway workload for comparison.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/11/636dc26637f24.png
 ---

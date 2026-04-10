@@ -15,7 +15,7 @@ keywords:
 - AI
 - AI/ML API
 - traffic management
-description: This blog provides a step-by-step guide to configure Apache APISIX for AI traffic splitting and load balancing between API versions, covering security setup, canary testing, and deployment monitoring.
+description: Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp
 ---

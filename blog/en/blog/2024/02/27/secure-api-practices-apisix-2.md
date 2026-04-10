@@ -1,5 +1,5 @@
 ---
-title: Secure your API with these 16 Practices with Apache APISIX - part 2
+title: "16 API Security Best Practices with APISIX (Part 2)"
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -10,11 +10,7 @@ keywords:
   - Security
   - Good practices
 description: >
-  A couple of months ago, I stumbled upon this list of  Secure your API with these 16 practices to secure your API.
-  Authentication. Authorization. Data Redaction. Encryption. Error Handling. Input Validation & Data Sanitization.
-  Intrusion Detection Systems. IP Whitelisting. Logging and Monitoring.
-  Rate Limiting. Secure Dependencies. Security Headers. Token Expiry. Use of Security Standards and Frameworks.
-  Web Application Firewall. API Versioning
+  Continue implementing API security with APISIX: security headers, WAF, IP whitelisting, logging, token expiry, and API versioning.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp
 ---

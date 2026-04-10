@@ -1,5 +1,5 @@
 ---
-title: "Coming soon! Apache APISIX Integrate with Apache OpenWhisk"
+title: "APISIX OpenWhisk Plugin: Serverless Integration"
 authors:
   - name: "Zeping Bai"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - Apache OpenWhisk
 - Serverless
 - Plugin
-description: The `openwhisk` plugin is combined with the API Gateway Apache APISIX authentication plugin to achieve authentication and authorization functions.
+description: Learn how the APISIX openwhisk plugin integrates serverless functions with API gateway authentication and authorization.
 tags: [Plugins,Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png
 ---

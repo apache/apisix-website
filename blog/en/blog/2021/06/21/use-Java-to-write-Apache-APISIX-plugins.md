@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Java
 - plugin
-description: The cloud native API Gateway Apache APISIX already supports Java to write plugins. Users can not only write plugins in Java language, but also integrate into the Spring Cloud ecosystem.
+description: Write APISIX plugins in Java and integrate with Spring Cloud. Includes setup steps and plugin runner architecture.
 tags: [Ecosystem]
 ---
 

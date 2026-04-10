@@ -1,5 +1,5 @@
 ---
-title: "Upgrade of observability capabilities, API Gateway Apache APISIX integrates OpenTelemetry"
+title: "APISIX OpenTelemetry Plugin: Distributed Tracing"
 authors:
   - name: "Haochao Zhuang"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - OpenTelemetry
 - Observability
 - Ecosystem
-description: This article introduces you to the API Gateway Apache APISIX `opentelemetry` plugin concept and how to enable and deploy the `opentelemetry` plugin.
+description: Enable distributed tracing in APISIX with the OpenTelemetry plugin. Learn setup, configuration, and deployment steps.
 tags: [Plugins,Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png
 ---

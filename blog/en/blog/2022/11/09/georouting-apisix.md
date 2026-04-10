@@ -9,7 +9,7 @@ keywords:
   - Georouting
   - GeoIP
   - Nginx
-description: Apache APISIX, the Apache-led API Gateway, comes out of the box with many plugins to implement your use case. Sometimes, however, the plugin you're looking for is not available. While creating your own is always possible, it's sometimes necessary. Today, I'll show you how to route users according to their location without writing a single line of Lua code.
+description: Route API traffic by user geolocation in APISIX without writing Lua code, using GeoIP and built-in plugins for geographic routing.
 tags: [Ecosystem]
 image: https://repository-images.githubusercontent.com/560493734/4073382d-d3de-42b8-aa58-d0a139978768
 ---

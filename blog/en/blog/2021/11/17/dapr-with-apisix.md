@@ -1,5 +1,5 @@
 ---
-title: "How to integrate with Dapr to build Apache APISIX Gateway Controller"
+title: "Integrate Dapr with APISIX Ingress Controller"
 author: "Shanyou Zhang"
 authorURL: "https://github.com/geffzhang"
 authorImageURL: "https://avatars.githubusercontent.com/u/439390?v=4"
@@ -9,7 +9,7 @@ keywords:
 - Kubernetes
 - API Gateway
 - Sidecar
-description: This article introduces the concepts of Dapr and Apache APISIX Ingress Controller, and shows how to integrate Dapr to create an Apache APISIX controller.
+description: Learn how to integrate Dapr sidecars with APISIX Ingress Controller on Kubernetes for microservice communication and API management.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/dapr.png
 ---

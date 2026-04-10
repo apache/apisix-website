@@ -15,7 +15,7 @@ keywords:
 - ClickHouse
 - Logging
 - Ecosystem
-description: This article describes how Zhendong Qi contributed `clickhouse-logger` to API gateway Apache APISIX, and how to use this plugin to simplify business architecture.
+description: Use the APISIX clickhouse-logger plugin to send API gateway logs directly to ClickHouse for efficient log storage and analysis.
 tags: [Plugins,Ecosystem]
 image: https://static.apiseven.com/2022/11/18/63774d2d76267.png
 ---

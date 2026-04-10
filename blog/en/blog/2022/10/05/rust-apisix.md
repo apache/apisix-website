@@ -1,5 +1,5 @@
 ---
-title: "Rewriting the Apache APISIX response-rewrite plugin in Rust"
+title: "Write APISIX Plugins in Rust with WebAssembly"
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -10,7 +10,7 @@ keywords:
 - Apache APISIX
 - Rust
 - WebAssembly
-description: This article describes how to redevelop the response-rewrite plugin using Rust and WebAssembly.
+description: Build APISIX plugins using Rust and WebAssembly. Walkthrough of rewriting the response-rewrite plugin in Rust with Wasm support.
 tags: [Plugins]
 image: https://static.apiseven.com/2022/10/28/635b5378cdd1f.png
 ---
