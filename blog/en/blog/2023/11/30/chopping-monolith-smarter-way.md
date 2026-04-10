@@ -22,11 +22,6 @@ image: https://static.apiseven.com/uploads/2023/11/29/LfrGvISN_roger_stone.jpg
 >In my previous post [Chopping the Monolith](https://blog.frankel.ch/chopping-monolith-smarter-way/), I explained that some parts of a monolith are pretty stable and only the fast-changing parts are worth being "chopped." I turned the post into a talk and presented it at several conferences. I think it's pretty well received; I believe it's because most developers understand, or have direct experience, that microservices are not a good fit for traditional organizations, as per [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law).
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/chopping-monolith-smarter-way/" />
-</head>
-
 In the talk, I use an e-commerce webapp as an example.
 
 ![Regular requests flow](https://static.apiseven.com/uploads/2023/11/29/Cjqme0MX_original-flow.svg)

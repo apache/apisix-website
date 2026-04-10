@@ -29,11 +29,6 @@ image: https://static.apiseven.com/uploads/2023/03/01/UTBANOhW_choice-geedae7b7e
 >It seems logical that people in this situation try to solve problems with the solutions they are most familiar with. However, it doesn't mean it's the best approach. It's a bad one in most cases.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/right-feature-right-place/" />
-</head>
-
 ## A concrete example
 
 Imagine an API application. It runs on the JVM, and it's written in the "Reactive" style with the help of the Spring Boot framework.

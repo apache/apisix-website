@@ -23,11 +23,6 @@ image: https://static.apiseven.com/2022/10/28/635b53794f32a.png
 > This article uses API Gateway Apache APISIX to compare the performance of Azure Ddsv5 and Azure Dpdsv5 in network IO-intensive scenarios.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://api7.ai/2022/08/08/apache-apisix-performance-test-in-azure/" />
-</head>
-
 ## Background
 
 In April, Microsoft announced a preview of its family of Azure virtual machines based on Ampere® Altra® Arm processors. The new VM series includes general-purpose Dpsv5 and memory-optimized Epsv5 VMs. For details, refer to the following figure:

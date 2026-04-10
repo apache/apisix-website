@@ -17,11 +17,6 @@ description: Discover the journey of Apache APISIX, from a small windowless offi
 tags: [Community]
 image: https://static.api7.ai/uploads/2025/03/07/uwv68gCg_story-behind-apache-pisix.webp
 ---
-
-<head>
-  <link rel="canonical" href="https://www.linkedin.com/pulse/why-we-reinventing-api-gateways-story-behind-apache-apisix-ming-wen-h3yqc/" />
-</head>
-
 >Apache APISIX has quickly become a leading API gateway, with over 460 contributors and 15K+ GitHub stars. This article explores its journey from a small project to a widely-used, open-source solution, addressing key challenges in modern API management.
 
 <!--truncate-->

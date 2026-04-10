@@ -19,11 +19,6 @@ image: https://static.apiseven.com/uploads/2023/06/08/JXRmK9nZ_keys.jpeg
 >Security in one's information system has always been among the most critical Non-Functional Requirements. Transport Secure Layer, _aka_ TLS, formerly SSL, is among its many pillars. In this post, I'll show how to configure TLS for [Apache APISIX](https://apisix.apache.org/).
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/mtls-everywhere/" />
-</head>
-
 ## TLS in a few words
 
 [TLS](https://wikipedia.org/wiki/Transport_Layer_Security) offers several capabilities:

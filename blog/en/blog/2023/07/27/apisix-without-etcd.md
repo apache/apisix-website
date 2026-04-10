@@ -18,11 +18,6 @@ image: https://static.apiseven.com/uploads/2023/07/26/T33IqLZ8_information-16419
 >While a great database, etcd is not devoid of issues. In this post, I'll show how you can use Apache APISIX with MySQL.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/apisix-without-etcd/" />
-</head>
-
 [etcd](https://etcd.io/) is an excellent key-value distributed database used internally by Kubernetes and managed by the CNCF. It's a great option, and that's the reason why Apache APISIX uses it too. Yet, it's not devoid of issues.
 
 First, some mention scalability, but one can expect this from a distributed data store that values consistency. Another issue may be the need for more familiarity with etcd. It's relatively new, so your Ops team may need help operating it correctly while having decades of operating MySQL or Postgres. Finally, only a few etcd users are aware that it lacks maintainers:

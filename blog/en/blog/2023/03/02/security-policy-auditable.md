@@ -20,11 +20,6 @@ image: https://static.apiseven.com/uploads/2023/06/08/pzULiHZO_opa-horizontal-co
 >Last week, I wrote about [putting the right feature at the right place](https://blog.frankel.ch/right-feature-right-place/). I used rate limiting as an example, moving it from a library inside the application to the API Gateway. Today, I'll use another example: authentication and authorization.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/security-policy-auditable/" />
-</head>
-
 ## Securing a Spring Boot application
 
 I'll keep using Spring Boot in the following because I'm familiar with it. The Spring Boot application offers a REST endpoint to check employees' salaries.

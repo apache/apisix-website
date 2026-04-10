@@ -18,11 +18,6 @@ image: https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png
 > In this article, we will look at examples of how we can use the rate limiting plugins in APISIX.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://navendu.me/posts/rate-limit/" />
-</head>
-
 Setting up rate limits is a solid way to improve the reliability of your services.
 
 You can ensure your services are not overloaded by setting up rate limits, providing consistent performance for the end users. It can also help enhance security by preventing denial-of-service (DoS) attacks which can take down your services.

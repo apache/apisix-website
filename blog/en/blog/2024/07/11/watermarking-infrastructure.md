@@ -16,11 +16,6 @@ description: >
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/07/04/j2xS06dA_faucet-1684902.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/dynamic-watermarking/2/" />
-</head>
-
 >Last week, I described [how to add a dynamic watermark to your images on the JVM](https://blog.frankel.ch/dynamic-watermarking/1/). I didn't find any library, so I had to develop the feature, or, more precisely, an embryo of a feature, by myself. Depending on your tech stack, you must search for an existing library or roll up your sleeves. For example, Rust offers such an out-of-the-box library. Worse, this approach might be impossible to implement if you don't have access to the source image.
 >
 >Another alternative is to use ready-made components, namely [imgproxy](https://imgproxy.net/) and [Apache APISIX](https://apisix.apache.org/). I already combined them to [resize images on-the-fly](https://blog.frankel.ch/resize-images-on-the-fly/).

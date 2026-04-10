@@ -21,11 +21,6 @@ image: https://static.apiseven.com/uploads/2023/12/05/OH9weScF_bird-5285011.jpg
 >In this post, I'd like to detail this introduction briefly, explain different ways to define the fraction, and show how to execute it with Apache APISIX.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/canary-releases-apisix/" />
-</head>
-
 ## Introduction to canary releases
 
 The term "canary" originates from the coal mining industry. When mining, it's not uncommon to release toxic gases: In a small enclosed space, it can mean quick death. Worse, the gas may be odorless, so miners would breathe it until it was too late to leave. Carbon monoxide is quite common in coal mines and is not detectable by human senses.

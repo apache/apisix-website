@@ -14,11 +14,6 @@ description: >
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/04/25/V05nSV5W_american-football-63109.jpg
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/pass-parameters-apisix/" />
-</head>
-
 >I recently read [6 Ways To Pass Parameters to Spring REST API](https://javabulletin.substack.com/p/6-ways-to-pass-parameters-to-spring). Though the title is a bit misleading, as it's unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it's beneficial when you write a custom plugin.
 
 <!--truncate-->

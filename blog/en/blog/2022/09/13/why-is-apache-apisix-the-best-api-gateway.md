@@ -19,11 +19,6 @@ image: https://static.apiseven.com/2022/11/05/6365f2b8be5a7.png
 > Why is Apache APISIX the best API Gateway? We will compare multiple API gateways (Kong, Tyk, Gloo) in terms of the popularity among developers, their open source licenses, their performances, and the ecosystem as a whole.
 
 <!--truncate-->
-
-<head>
-  <link rel="canonical" href="https://api7.ai/blog/why-is-apache-apisix-the-best-api-gateway" />
-</head>
-
 > This post was first published at [API7.ai](https://api7.ai/blog/why-is-apache-apisix-the-best-api-gateway/) by [Ming Wen](https://github.com/moonming).
 
 Nowadays, mobile phones are used for all sorts of things, and various applications are available on the AppStore including social media, utility, games, lifestyle, online shopping, etc. Building these apps is inseparable from APIs. Therefore, companies that provide services through APIs must choose a reliable API gateway to ensure their services’ speed, stability, and security.

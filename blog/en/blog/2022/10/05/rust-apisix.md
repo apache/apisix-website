@@ -18,11 +18,6 @@ image: https://static.apiseven.com/2022/10/28/635b5378cdd1f.png
 > This article describes how to redevelop the response-rewrite plugin using Rust and WebAssembly.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/rust-apisix/2/" />
-</head>
-
 Last week, I described the basics on [how to develop and deploy a Rust plugin for Apache APISIX](https://blog.frankel.ch/rust-apisix/1/). The plugin just logged a message when it received the request. Today, I want to leverage what we learned to create something more valuable: write part of the [response-rewrite](https://apisix.apache.org/docs/apisix/plugins/response-rewrite/) plugin with Rust.
 
 ## Adding a hard-coded header

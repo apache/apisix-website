@@ -18,11 +18,6 @@ image: https://static.apiseven.com/2022/10/08/634113b161cce.png
 > This article shows the steps to perform to develop and deploy WebAssembly plugins from Rust.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/rust-apisix/1/" />
-</head>
-
 Apache APISIX is built upon the shoulders of two giants:
 
 * [NGINX](https://www.nginx.com/), a widespread Open Source reverse-proxy

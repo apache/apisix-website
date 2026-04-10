@@ -17,11 +17,6 @@ image: https://static.apiseven.com/2022/blog/0818/ecosystem/dapr.png
 > 本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器。包括项目概念以及具体操作步骤。
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.dapr.io/posts/2022/01/13/enable-dapr-with-apache-apisix-ingress-controller/" />
-</head>
-
 本质上，Apache APISIX 控制器将配置相同标准 Dapr annotations 以注入 daprd sidecar。通过公开这个 sidecar，将允许外部应用程序与集群中启用 Dapr 的应用程序进行通信。
 
 下图为实际项目中的架构流程：

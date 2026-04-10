@@ -18,11 +18,6 @@ image: https://static.apiseven.com/2022/12/13/63981dcbe4b0c.jpg
 >The subject of Web resource caching is as old as the World Wide Web itself. However, I'd like to offer an as-exhaustive-as-possible catalog of how one can improve performance by caching. Web resource caching can happen in two different places: client-side - on the browser and server-side. This post is dedicated to the former; the next post will focus on the latter.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/web-caching/client/" />
-</head>
-
 ## Caching 101
 
 The idea behind caching is simple: if a resource is a time- or resource-consuming to compute, do it once and store the result. When somebody requests the resource afterward, return the stored result instead of computing it a second time. It looks simple - and it is, but the devil is in the detail, as they say.

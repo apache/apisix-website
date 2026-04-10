@@ -19,11 +19,6 @@ image: https://static.apiseven.com/2022/12/06/638e30968ec3e.png
 > In this post, we’ll go through **the 5 most popular API styles** and look at very common questions like “_How to decide on the right API style and which technology to choose for a style_” and provide practical scenarios where an [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) can supplement their weaknesses.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://iambobur.com/2022/12/06/how-to-choose-the-right-api-style-and-technology/" />
-</head>
-
 ## No best API style
 
 [API](https://en.wikipedia.org/wiki/API)s are an essential design element in any software architecture that interconnects components digitally and allows various systems and devices to communicate easily with each other.  When we built a new API, initially we think about the API design, and how the API interacts with the external world by using which **style and technology**.

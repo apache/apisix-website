@@ -18,11 +18,6 @@ description: >
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp
 ---
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/secure-api-practices-apisix/1/" />
-</head>
-
 >A couple of months ago, I stumbled upon this list of  Secure your API with these [16 practices to secure your API](https://www.linkedin.com/posts/brijpandeyji_secure-your-api-with-these-16-practices-activity-7094020647529369601-5kzQ/):
 >
 >While it's debatable whether some points relate to security, _e.g.,_, versioning, the list is a good starting point anyway. In this two-post series, I'd like to describe how we can implement each point with Apache APISXI (or not).

@@ -19,11 +19,6 @@ image: https://static.apiseven.com/uploads/2023/06/13/OZebsxXL_eye-gd82fef23c.jp
 >Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://blog.frankel.ch/authenticate-openid-connect/" />
-</head>
-
 ## OpenID Connect
 
 The idea of an _authorization_ open standard started with [OAuth](https://en.wikipedia.org/wiki/OAuth) around 2006. Because of a security issue, OAuth 2.0 superseded the initial version. OAuth 2.0 became an <abbr title="Internet Engineering Task Force">IETF</abbr> <abbr title="Request For Comments">RFC</abbr> in 2012:

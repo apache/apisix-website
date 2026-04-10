@@ -23,11 +23,6 @@ image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 > 本文通过详细的步骤为大家展示了如何在 Apache APISIX 使用 OpenID-Connect 协议和 Keycloak 进行身份认证。通过对接 Keycloak，Apache APISIX 仅需通过配置即可实现对使用者和应用服务进行认证与鉴权，从而大大减少了相关开发工作。
 
 <!--truncate-->
-
-<head>
-    <link rel="canonical" href="https://www.keycloak.org/2021/12/apisix" />
-</head>
-
 ![Keycloak-APISIX 集成](https://static.apiseven.com/202108/1639129658486-393e8a3a-ccf2-496d-9b46-4db741bd6e55.png)
 
 ## 什么是 Keycloak
