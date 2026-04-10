@@ -1,5 +1,5 @@
 ---
-title: "Announcing APISIX Integration with AI/ML API"
+title: "APISIX Integrates AI/ML API: 300+ LLMs"
 authors:
   - name: "Yilia Lin"
     title: "Technical Writer"
@@ -11,7 +11,7 @@ keywords:
 - AI
 - AI/ML API
 - AI plugins
-description: "Apache APISIX supports 300+ LLMs through the integration with AI/ML API. Get your secure, single-endpoint access to AI models like GPT-4 and Claude, and more."
+description: "APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp
 ---

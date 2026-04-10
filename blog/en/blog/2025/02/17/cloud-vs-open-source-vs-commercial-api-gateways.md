@@ -1,5 +1,5 @@
 ---
-title: "Cloud vs Open Source vs Commercial API Gateways: Which One Fits Your Needs?"
+title: "Cloud vs Open Source vs Commercial API Gateways"
 authors:
   - name: Ming Wen
     title: Author

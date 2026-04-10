@@ -1,5 +1,5 @@
 ---
-title: "Enhancing Security and Performance: DataVisor's Dynamic Use of APISIX"
+title: "DataVisor Case Study: Custom APISIX Plugins"
 authors:
   - name: Xiaobiao Zhao
     title: Author
@@ -15,7 +15,7 @@ keywords:
   - Apache APISIX
   - DataVisor
   - API gateway best practice
-description:  DataVisor not only uses APISIX in its production environment but also enhances APISIX through customization, and these efforts have proven successful in optimizing DataVisor's production processes.
+description: DataVisor uses customized APISIX plugins for risk control APIs. Learn their production deployment, custom plugins, and performance gains.
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/12/05/gM8zRGh1_Cover_Datavisor.png
 ---

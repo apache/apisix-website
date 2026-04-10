@@ -1,5 +1,5 @@
 ---
-title: Licensing with Casbin in Apache APISIX
+title: RBAC with Casbin in APISIX
 slug: 2021/08/18/auth-with-casbin-in-apache-apisix
 author: Casbin & Apache APISIX
 keywords:
@@ -8,7 +8,7 @@ keywords:
 - Apache APISIX
 - Casbin
 - RBAC
-description: When we are using API Gateway Apache APISIX, we may need to add complex authorization logic. we can implement RBAC using APISIX's built-in Casbin plugin (authz-casbin).
+description: Implement role-based access control in APISIX using the authz-casbin plugin. Step-by-step RBAC configuration guide.
 tags: [Ecosystem, Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/casbin.png
 ---

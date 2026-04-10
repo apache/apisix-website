@@ -1,5 +1,5 @@
 ---
-title: "Using APISIX Ingress to access custom monitoring in KubeSphere"
+title: "APISIX Ingress with KubeSphere Monitoring"
 author: "Haili Zhang"
 authorURL: "https://github.com/webup"
 authorImageURL: "https://avatars.githubusercontent.com/u/2936504?v=4"
@@ -10,7 +10,7 @@ keywords:
 - Kubenetes
 - Ingress Controller
 - Monitor
-description: This article uses Apache APISIX Ingress Controller as an example to introduce how to quickly use different gateways for Kubernetes clusters and monitor status through KubeSphere.
+description: Deploy APISIX Ingress Controller in KubeSphere with built-in monitoring. Configure cluster and project gateways step by step.
 tags: [Ecosystem]
 ---
 

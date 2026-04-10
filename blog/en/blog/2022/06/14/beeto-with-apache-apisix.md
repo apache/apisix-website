@@ -1,5 +1,5 @@
 ---
-title: "Practice of localized application with API gateway in the Middle East"
+title: "How Beeto Uses APISIX for API Management"
 authors:
   - name: "Lilin Hu"
     title: "Author"
@@ -14,7 +14,7 @@ keywords:
 - the Middle East
 - Traffic
 - Security
-description: This article introduces how the Middle East social software Beeto uses APISIX to achieve localized deployment in security and scalability.
+description: Learn how Beeto, a Middle East social app, uses APISIX for localized API deployment with enhanced security and scalability.
 tags: [Case Studies]
 image: https://static.apiseven.com/2022/blog/0817/beeto.png
 ---

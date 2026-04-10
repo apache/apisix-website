@@ -1,5 +1,5 @@
 ---
-title: "Web resource caching: Server-Side"
+title: "Web Caching: Server-Side Cache Strategies"
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -10,7 +10,7 @@ keywords:
   - HTTP
   - Cache
   - Performance
-description: "The subject of Web resource caching is as old as the World Wide Web itself. However, I'd like to offer an as-exhaustive-as-possible catalog of how one can improve performance by caching. Web resource caching can happen in two different places: client-side - on the browser and server side. In the previous post, I explained the former; this post focuses on the latter."
+description: "Implement server-side caching with Varnish, Redis, Memcached, and API gateways. Compare reverse proxy caching strategies for web performance."
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/12/13/63981be362ec4.jpg
 ---

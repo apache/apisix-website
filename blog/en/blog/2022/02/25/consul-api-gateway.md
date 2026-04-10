@@ -14,7 +14,7 @@ keywords:
 - Consul
 - Service Discovery
 - Servici Register
-description: Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in APISIX.
+description: Integrate Consul KV with APISIX for service discovery and registration. Configure upstream resolution with health checks.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---

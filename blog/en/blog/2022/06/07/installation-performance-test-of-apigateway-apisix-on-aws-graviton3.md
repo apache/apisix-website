@@ -1,5 +1,5 @@
 ---
-title: "Installation and performance testing of API Gateway Apache APISIX on AWS Graviton3"
+title: "APISIX Performance on AWS Graviton3 vs Graviton2"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - AWS
 - AWS Graviton3
 - ARM64
-description: This article uses APISIX to compare the performance of AWS Graviton3 and AWS Graviton2. AWS Graviton3 shows the power performance in the API gateway.
+description: Benchmark APISIX on AWS Graviton3 (C7g) vs Graviton2 (C6g). Deployment guide and performance comparison on ARM64.
 tags: [Ecosystem]
 ---
 

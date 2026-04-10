@@ -1,5 +1,5 @@
 ---
-title: "Envoy and Apache APISIX: Another way to implement the Envoy filter"
+title: "Run APISIX Plugins in Envoy as Filters"
 author: "Junxu Chen"
 authorURL: "https://github.com/nic-chen"
 authorImageURL: "https://avatars.githubusercontent.com/u/33000667?v=4"
@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Envoy
 - Envoy filter
-description: This article describes extending Envoy with new functionality and concrete examples using the base library of the cloud-native API gateway Apache APISIX.
+description: Run APISIX Lua plugins as Envoy filters using apisix-seed. Extend Envoy with dynamic capabilities without writing C++ code.
 tags: [Ecosystem]
 ---
 

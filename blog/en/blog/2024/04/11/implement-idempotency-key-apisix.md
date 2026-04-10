@@ -1,5 +1,5 @@
 ---
-title: Implementing the Idempotency-Key specification on Apache APISIX
+title: Implement Idempotency-Key in APISIX
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -13,10 +13,7 @@ keywords:
   - plugin
   - coding
 description: >
-  Last week, I wrote an analysis of the IETF Idempotency-Key specification. The specification aims to avoid duplicated requests. In short, the idea is for the client to send a unique key along with the request:
-  If the server doesn't know the key, it proceeds as usual and then stores the response.
-  If the server knows the key, it short-circuits any further processing and immediately returns the stored response.
-  This post shows how to implement it with Apache APISIX.
+  Build an APISIX plugin implementing the IETF Idempotency-Key spec to prevent duplicate API requests and ensure safe retries.
 tags: [Plugin]
 image: https://static.apiseven.com/uploads/2024/04/09/0rfsRevo_stormtrooper-2899993.jpg
 ---

@@ -1,5 +1,5 @@
 ---
-title: "How to Integrate API Gateway and Consul? Not Consul K/V"
+title: "APISIX with Consul Service Discovery (Not KV)"
 authors:
   - name: "Yihao LI"
     title: "Author"
@@ -10,7 +10,7 @@ keywords:
 - Consul
 - Service Discovery
 - Service Register
-description: Apache APISIX supports the Consul service discovery registry. This article will walk you through the process of implementing service discovery and service registry in APISIX.
+description: Integrate Consul native service discovery with APISIX. Configure service registration and upstream resolution without Consul KV.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
 ---

@@ -1,5 +1,5 @@
 ---
-title: "APISIX Architecture: How to Dynamically Manage NGINX Cluster?"
+title: "APISIX: Dynamic Management for Nginx Clusters"
 author: Hui Tao
 keywords:
 - API Gateway
@@ -8,7 +8,7 @@ keywords:
 - Lua
 - Dynamic Management
 date: "2021-08-10"
-description: This article mainly introduces the principle of APISIX to implement REST API remote control of Nginx cluster based on APISIX 2.8, OpenResty 1.19.3.2 and Nginx 1.19.3.
+description: Learn how APISIX dynamically manages Nginx clusters via REST API and etcd, enabling hot reloads without downtime.
 tags: [Ecosystem]
 ---
 

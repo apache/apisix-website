@@ -8,7 +8,7 @@ keywords:
   - APISIX
   - Apache APISIX
   - Helm Chart
-description: This article describes what E2E testing is and why the API Gateway Apache APISIX dashboard uses Cypress for stable product delivery.
+description: Why APISIX Dashboard uses Cypress for E2E testing. Learn the setup, configuration, and best practices for stable product delivery.
 tags: [Ecosystem]
 ---
 

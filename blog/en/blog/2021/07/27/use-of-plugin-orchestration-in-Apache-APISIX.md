@@ -1,5 +1,5 @@
 ---
-title: "Apply Plugin Orchestration in Apache APISIX"
+title: "APISIX Plugin Orchestration: Low-Code Guide"
 slug: 2021/07/27/use-of-plugin-orchestration-in-apache-apisix
 author: "Zhiyuan Ju"
 authorURL: "https://github.com/juzhiyuan"
@@ -9,7 +9,7 @@ keywords:
 - Plugin Orchestration
 - Apache APISIX Dashboard
 - API Gateway
-description: Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.
+description: Build API processing pipelines with drag-and-drop plugin orchestration in APISIX Dashboard. Low-code configuration tutorial.
 tags: [Ecosystem]
 ---
 

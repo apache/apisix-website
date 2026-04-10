@@ -1,5 +1,5 @@
 ---
-title: Why do you need Apache APISIX when you have NGINX and Kong?
+title: Why Choose APISIX Over NGINX and Kong?
 author: "Fei Han"
 authorURL: "https://github.com/hf400159"
 authorImageURL: "https://github.com/hf400159.png"
@@ -10,7 +10,7 @@ keywords:
 - Nginx
 - Open Source
 - API Management
-description: This article introduces how the cloud native API gateway Apache APISIX solves the business pain points and usage scenarios brought by Nginx and Kong.
+description: APISIX solves key NGINX and Kong pain points: dynamic config, cluster management, and hot reloads. See the architecture comparison.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/07/636916ea65769.png
 ---

@@ -1,5 +1,5 @@
 ---
-title: Top 10 API Management Trends for 2023
+title: Top 10 API Management Trends in 2023
 authors:
   - name: API7.ai
     title: Author
@@ -9,7 +9,7 @@ keywords:
   - Apache APISIX
   - API Management
   - Microservices
-description: "10 major trends in API management: API security, standardization, cloud-based API management solutions, low-code API platforms, API marketplaces, emerging API protocols, AI and APIs, developer experience, API analytics, and serverless architecture."
+description: "Explore 10 API management trends: security, standardization, cloud platforms, low-code, AI integration, and developer experience."
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/04/12/PtHsoEJS_top-10-trends.png
 canonical_url: "https://api7.ai/blog/10-api-management-trends-2023"

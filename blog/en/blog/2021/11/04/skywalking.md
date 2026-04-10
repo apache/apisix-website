@@ -1,5 +1,5 @@
 ---
-title: "The observability of Apache APISIX"
+title: "APISIX Observability with SkyWalking"
 authors:
   - name: "Haochao Zhuang"
     title: "Author"
@@ -16,7 +16,7 @@ keywords:
 - SkyWalking
 - Apache
 - Prometheus
-description: This article introduces the observability capabilities of Apache APISIX and how to improve the observability capabilities of Apache APISIX through Apache SkyWalking.
+description: Deploy SkyWalking to monitor APISIX metrics, traces, and logs. Step-by-step guide for full API gateway observability.
 tags: [Plugins,Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png
 ---
