@@ -7,7 +7,7 @@ keywords:
 - KubeSphere
 - Apache APISIX
 - API Gateway
-- Kubenetes
+- Kubernetes
 - Ingress Controller
 - Monitor
 description: Deploy APISIX Ingress Controller in KubeSphere with built-in monitoring. Configure cluster and project gateways step by step.
