@@ -1,5 +1,5 @@
 ---
-title: "API monetization using an API Management and a billing provider"
+title: "How to Monetize APIs with APISIX and Billing"
 authors:
   - name: Bobur Umurzokov
     title: Author
@@ -13,7 +13,7 @@ keywords:
 - Microservices
 - Rate limiting
 - Quota
-description: 💁🏼 This blog post gives you an idea of building your technology stack with an API Gateway and a payment provider that can help you run quickly and securely your API monetization system which simply provides flexibility for your customers.
+description: Build an API monetization system using APISIX for rate limiting and quota management with a payment provider for billing.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/25/6357addd22a01.png
 ---

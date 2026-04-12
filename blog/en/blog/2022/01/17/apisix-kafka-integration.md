@@ -1,5 +1,5 @@
 ---
-title: "APISIX integrate with Kafka for real-time log monitoring"
+title: "APISIX Kafka Integration for Real-Time Logging"
 authors:
   - name: "Zeping Bai"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - Kafka
 - logging
 - monitoring
-description: This article describes how to use the kafka-logger plugin with APISIX. Wiht enhancements, the plugin now has mature and complete functions.
+description: Configure the APISIX kafka-logger plugin to stream API logs to Apache Kafka for real-time monitoring and analysis.
 tags: [Ecosystem,Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/kafka.png
 ---

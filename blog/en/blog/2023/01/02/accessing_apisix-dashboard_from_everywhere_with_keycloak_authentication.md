@@ -1,5 +1,5 @@
 ---
-title: "Accessing APISIX-Dashboard from Everywhere with Keycloak Authentication"
+title: "Secure APISIX Dashboard Access with Keycloak"
 authors:
   - name: "Busico Mirto Silvio"
     title: "Author"
@@ -11,7 +11,7 @@ keywords:
   - Nginx reverse proxy
   - OpenID-Connect
   - Keycloak
-description: This guest blog shares how to expose the APISIX Dashboard using APISIX to authenticate access with the OpenID-Connect plugin and Keycloak server to manage identities.
+description: Expose the APISIX Dashboard securely using the OpenID-Connect plugin with Keycloak for identity management and authentication.
 tags:
   - Ecosystem
 cover: https://static.apiseven.com/uploads/2023/01/19/FKDU7U6j_blog01a.png

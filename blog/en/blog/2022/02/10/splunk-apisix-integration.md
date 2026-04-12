@@ -1,5 +1,5 @@
 ---
-title: "Integrating Splunk HTTP Event Collector with API Gateway"
+title: "APISIX Splunk Integration: Send Logs via HEC"
 authors:
   - name: "Jinchao Shuai"
     title: "Author"
@@ -14,7 +14,7 @@ keywords:
 - API Gateway
 - Splunk
 - Observability
-description: This article describes how to interface with the Splunk HEC service through the splunk-hec-logging plugin in the cloud-native API gateway Apache APISIX.
+description: Configure the APISIX splunk-hec-logging plugin to forward API gateway logs to Splunk HTTP Event Collector for centralized monitoring.
 tags: [Ecosystem,Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/splunk.png
 ---

@@ -1,5 +1,5 @@
 ---
-title: mTLS everywhere
+title: "How to Configure mTLS in APISIX"
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -11,7 +11,7 @@ keywords:
   - DevOps
   - cert-manager
 description: >
-  Security in one's information system has always been among the most critical Non-Functional Requirements. Transport Secure Layer, aka TLS, formerly SSL, is among its many pillars. In this post, I'll show how to configure TLS for Apache APISIX.
+  Configure mutual TLS (mTLS) for APISIX to secure client-to-gateway and gateway-to-upstream connections with certificate-based authentication.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/08/JXRmK9nZ_keys.jpeg
 ---

@@ -14,7 +14,7 @@ keywords:
 - gRPC
 - API Gateway
 - Ecology
-description: APISIX has broadened the scope of support for the gRPC ecosystem. This article will introduce details of using the gRPC web protocol request proxy.
+description: Configure APISIX to proxy gRPC-Web requests, enabling browser-based gRPC clients to communicate with backend gRPC services.
 tags: [Ecosystem,Plugins]
 ---
 

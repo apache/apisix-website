@@ -1,5 +1,5 @@
 ---
-title: Centralized authentication using the OpenID Connect plugin for Apache APISIX
+title: "Centralized Authentication with APISIX OpenID Connect"
 slug: 2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication
 authors:
   - name: "Xinxin Zhu"
@@ -16,7 +16,7 @@ keywords:
   - Apache APISIX
   - Okta
   - Authorization
-description: Using the openid-connect plugin of the cloud-native API gateway Apache APISIX can quickly interface with the centralized authentication solution OKat.
+description: Simplify API authentication by using the APISIX openid-connect plugin to centralize identity verification at the gateway level.
 tags: [Authentication, Plugins, Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/plugins/openid%20connect.png
 ---

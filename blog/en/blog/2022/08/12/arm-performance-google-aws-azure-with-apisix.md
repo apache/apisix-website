@@ -1,5 +1,5 @@
 ---
-title: "GCP, AWS, Azure, and OCI ARM-Based Server Performance Comparison"
+title: "ARM Server Benchmark: GCP vs AWS vs Azure vs OCI"
 authors:
   - name: "Shirui Zhao"
     title: "Author"
@@ -21,7 +21,7 @@ keywords:
 - Google
 - Oracle
 - Apache APISIX
-description: This article compares the performance of Google, AWS, Azure, and Oracle ARM-based servers in network IO-intensive scenarios through the API gateway Apache APISIX.
+description: Performance comparison of ARM-based cloud servers from Google, AWS, Azure, and Oracle using APISIX API gateway as the benchmark workload.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/18/634e6963ea45f.png
 ---

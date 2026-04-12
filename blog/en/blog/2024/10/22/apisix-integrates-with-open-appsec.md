@@ -1,5 +1,5 @@
 ---
-title: "Announcing Integration between Apache APISIX and open-appsec WAF"
+title: "APISIX + open-appsec: ML-Based WAF Protection"
 authors:
   - name: "Christopher Lutat"
     title: "Author"
@@ -17,7 +17,7 @@ keywords:
 - Machine Learning
 - API Security
 - Open Source
-description: Let's protect your web APIs and applications exposed by Apache APISIX against known and unknown attacks with open-appsec - the automatic, machine learning-based WAF.
+description: Protect APIs exposed by APISIX against known and zero-day attacks using open-appsec, a machine learning-based web application firewall.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/10/18/8d1iVJWL_logo%20x%20open-appsec.png
 ---

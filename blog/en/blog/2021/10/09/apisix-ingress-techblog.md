@@ -1,5 +1,5 @@
 ---
-title: Get started with Apache APISIX Ingress from concept to practice
+title: "APISIX Ingress Controller: Concepts and Practice"
 author: Jintao Zhang
 authorURL: "https://github.com/tao12345666333"
 authorImageURL: "https://avatars.githubusercontent.com/u/3264292?v=4"
@@ -9,7 +9,7 @@ keywords:
 - Ingress
 - API Gateway
 - Kubernetes
-description: This article introduces the definition of API gateway Apache APISIX Ingress and its differences and advantages with K8s Ingress NGINX.
+description: Learn what APISIX Ingress Controller is, how it differs from Kubernetes Ingress NGINX, and its key advantages for API management.
 tags: [Ecosystem, Community]
 ---
 
