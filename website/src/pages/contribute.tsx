@@ -43,7 +43,7 @@ const Contribute: FC = () => {
     <Layout>
       <Head>
         <title>
-          Good first issue - Apache APISIX® - Cloud-Native API Gateway and AI Gateway
+          Good first issue | Apache APISIX
         </title>
 
         <meta
