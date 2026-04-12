@@ -13,7 +13,7 @@ keywords:
 - API Gateway
 - Consul
 - Service Discovery
-- Servici Register
+- Service Register
 description: Integrate Consul KV with APISIX for service discovery and registration. Configure upstream resolution with health checks.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png
