@@ -6,7 +6,7 @@ keywords:
 - Apache APISIX
 - Sina
 - Weibo
-- Usser Case
+- Use Case
 - API Gateway
 description: Sina Weibo replaced their NGINX-based API gateway with APISIX for dynamic routing, hot reloads, and DevOps-friendly management.
 tags: [Case Studies]
