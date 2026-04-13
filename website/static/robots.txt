@@ -8,6 +8,119 @@ Disallow: /zh/blog/page/
 Disallow: /search
 Disallow: /zh/search
 
+# Blog aggregation and pagination pages (low-value for indexing)
+Disallow: /blog/tags/
+Disallow: /zh/blog/tags/
+Disallow: /blog/page/
+Disallow: /zh/blog/page/
+
+# Search pages
+Disallow: /search
+Disallow: /zh/search
+
+# Versioned docs — only the unversioned (latest) paths should be indexed.
+# e.g. /docs/apisix/ is the latest; /docs/apisix/3.14/ is a duplicate.
+Disallow: /docs/apisix/3.10/
+Disallow: /docs/apisix/3.11/
+Disallow: /docs/apisix/3.12/
+Disallow: /docs/apisix/3.13/
+Disallow: /docs/apisix/3.14/
+Disallow: /docs/apisix/3.15/
+Disallow: /docs/apisix/next/
+Disallow: /docs/ingress-controller/3.10/
+Disallow: /docs/ingress-controller/3.11/
+Disallow: /docs/ingress-controller/3.12/
+Disallow: /docs/ingress-controller/3.13/
+Disallow: /docs/ingress-controller/3.14/
+Disallow: /docs/ingress-controller/3.15/
+Disallow: /docs/ingress-controller/next/
+Disallow: /docs/helm-chart/3.10/
+Disallow: /docs/helm-chart/3.11/
+Disallow: /docs/helm-chart/3.12/
+Disallow: /docs/helm-chart/3.13/
+Disallow: /docs/helm-chart/3.14/
+Disallow: /docs/helm-chart/3.15/
+Disallow: /docs/helm-chart/next/
+Disallow: /docs/docker/3.10/
+Disallow: /docs/docker/3.11/
+Disallow: /docs/docker/3.12/
+Disallow: /docs/docker/3.13/
+Disallow: /docs/docker/3.14/
+Disallow: /docs/docker/3.15/
+Disallow: /docs/docker/next/
+Disallow: /docs/java-plugin-runner/3.10/
+Disallow: /docs/java-plugin-runner/3.11/
+Disallow: /docs/java-plugin-runner/3.12/
+Disallow: /docs/java-plugin-runner/3.13/
+Disallow: /docs/java-plugin-runner/3.14/
+Disallow: /docs/java-plugin-runner/3.15/
+Disallow: /docs/java-plugin-runner/next/
+Disallow: /docs/go-plugin-runner/3.10/
+Disallow: /docs/go-plugin-runner/3.11/
+Disallow: /docs/go-plugin-runner/3.12/
+Disallow: /docs/go-plugin-runner/3.13/
+Disallow: /docs/go-plugin-runner/3.14/
+Disallow: /docs/go-plugin-runner/3.15/
+Disallow: /docs/go-plugin-runner/next/
+Disallow: /docs/python-plugin-runner/3.10/
+Disallow: /docs/python-plugin-runner/3.11/
+Disallow: /docs/python-plugin-runner/3.12/
+Disallow: /docs/python-plugin-runner/3.13/
+Disallow: /docs/python-plugin-runner/3.14/
+Disallow: /docs/python-plugin-runner/3.15/
+Disallow: /docs/python-plugin-runner/next/
+
+# Chinese equivalents
+Disallow: /zh/docs/apisix/3.10/
+Disallow: /zh/docs/apisix/3.11/
+Disallow: /zh/docs/apisix/3.12/
+Disallow: /zh/docs/apisix/3.13/
+Disallow: /zh/docs/apisix/3.14/
+Disallow: /zh/docs/apisix/3.15/
+Disallow: /zh/docs/apisix/next/
+Disallow: /zh/docs/ingress-controller/3.10/
+Disallow: /zh/docs/ingress-controller/3.11/
+Disallow: /zh/docs/ingress-controller/3.12/
+Disallow: /zh/docs/ingress-controller/3.13/
+Disallow: /zh/docs/ingress-controller/3.14/
+Disallow: /zh/docs/ingress-controller/3.15/
+Disallow: /zh/docs/ingress-controller/next/
+Disallow: /zh/docs/helm-chart/3.10/
+Disallow: /zh/docs/helm-chart/3.11/
+Disallow: /zh/docs/helm-chart/3.12/
+Disallow: /zh/docs/helm-chart/3.13/
+Disallow: /zh/docs/helm-chart/3.14/
+Disallow: /zh/docs/helm-chart/3.15/
+Disallow: /zh/docs/helm-chart/next/
+Disallow: /zh/docs/docker/3.10/
+Disallow: /zh/docs/docker/3.11/
+Disallow: /zh/docs/docker/3.12/
+Disallow: /zh/docs/docker/3.13/
+Disallow: /zh/docs/docker/3.14/
+Disallow: /zh/docs/docker/3.15/
+Disallow: /zh/docs/docker/next/
+Disallow: /zh/docs/java-plugin-runner/3.10/
+Disallow: /zh/docs/java-plugin-runner/3.11/
+Disallow: /zh/docs/java-plugin-runner/3.12/
+Disallow: /zh/docs/java-plugin-runner/3.13/
+Disallow: /zh/docs/java-plugin-runner/3.14/
+Disallow: /zh/docs/java-plugin-runner/3.15/
+Disallow: /zh/docs/java-plugin-runner/next/
+Disallow: /zh/docs/go-plugin-runner/3.10/
+Disallow: /zh/docs/go-plugin-runner/3.11/
+Disallow: /zh/docs/go-plugin-runner/3.12/
+Disallow: /zh/docs/go-plugin-runner/3.13/
+Disallow: /zh/docs/go-plugin-runner/3.14/
+Disallow: /zh/docs/go-plugin-runner/3.15/
+Disallow: /zh/docs/go-plugin-runner/next/
+Disallow: /zh/docs/python-plugin-runner/3.10/
+Disallow: /zh/docs/python-plugin-runner/3.11/
+Disallow: /zh/docs/python-plugin-runner/3.12/
+Disallow: /zh/docs/python-plugin-runner/3.13/
+Disallow: /zh/docs/python-plugin-runner/3.14/
+Disallow: /zh/docs/python-plugin-runner/3.15/
+Disallow: /zh/docs/python-plugin-runner/next/
+
 Sitemap: https://apisix.apache.org/sitemap.xml
 
 Sitemap: https://apisix.apache.org/zh/sitemap.xml
