@@ -1,5 +1,5 @@
 ---
-title: "APISIX: Dynamic Management for Nginx Clusters"
+title: "APISIX: Dynamic Management for NGINX Clusters"
 author: Hui Tao
 keywords:
 - API Gateway
@@ -8,7 +8,7 @@ keywords:
 - Lua
 - Dynamic Management
 date: "2021-08-10"
-description: Learn how APISIX dynamically manages Nginx clusters via REST API and etcd, enabling hot reloads without downtime.
+description: Learn how APISIX dynamically manages NGINX clusters via REST API and etcd, enabling hot reloading without downtime.
 tags: [Ecosystem]
 ---
 

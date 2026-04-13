@@ -10,7 +10,7 @@ keywords:
 - Nginx
 - Open Source
 - API Management
-description: APISIX solves key NGINX and Kong pain points: dynamic config, cluster management, and hot reloads. See the architecture comparison.
+description: APISIX solves key NGINX and Kong pain points: dynamic config, cluster management, and hot reloading. See the architecture comparison.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/07/636916ea65769.png
 ---
