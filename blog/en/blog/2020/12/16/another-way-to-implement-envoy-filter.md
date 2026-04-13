@@ -9,7 +9,7 @@ keywords:
 - Apache APISIX
 - Envoy
 - Envoy filter
-description: Run APISIX Lua plugins as Envoy filters using apisix-seed. Extend Envoy with dynamic capabilities without writing C++ code.
+description: Run APISIX Lua plugins as Envoy filters using envoy-apisix. Extend Envoy with dynamic capabilities without writing C++ code.
 tags: [Ecosystem]
 ---
 
