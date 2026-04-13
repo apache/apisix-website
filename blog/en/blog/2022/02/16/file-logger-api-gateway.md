@@ -1,5 +1,5 @@
 ---
-title: "How to develop plugin in API Gateway"
+title: "Build an APISIX Plugin: file-logger Tutorial"
 authors:
   - name: "Qi Guo"
     title: "Author"
@@ -13,7 +13,7 @@ keywords:
 - API Gateway
 - Logging
 - file logger
-description: This article introduces the specific steps for front-end engineers to develop file-logger plugins on the cloud-native API gateway Apache APISIX.
+description: Step-by-step guide to developing a custom APISIX plugin. Learn the full workflow by building the file-logger plugin from scratch.
 tags: [Plugins,Ecosystem]
 ---
 

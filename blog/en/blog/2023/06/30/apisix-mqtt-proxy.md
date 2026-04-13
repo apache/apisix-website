@@ -1,5 +1,5 @@
 ---
-title: Connecting IoT Devices to the Cloud with APISIX MQTT Proxy
+title: APISIX as an MQTT Proxy for IoT Devices
 authors:
   - name: Navendu Pottekkat
     title: Author
@@ -10,7 +10,7 @@ keywords:
   - MQTT
   - Cloud
   - TLS
-description: A guide to using Apache APISIX as an MQTT proxy to connect IoT devices to the cloud.
+description: Use APISIX as an MQTT proxy to connect IoT devices to the cloud. Configure stream routes, TLS, and load balancing for MQTT traffic.
 tags: [Plugins]
 image: https://static.apiseven.com/uploads/2023/06/23/kdd9TigM_mqtt-apisix-cover.png
 ---

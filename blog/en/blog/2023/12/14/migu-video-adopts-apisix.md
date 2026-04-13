@@ -1,5 +1,5 @@
 ---
-title: "How to Supercharge Large-Scale Video Operations with APISIX"
+title: "Migu Video: APISIX at Large-Scale Streaming"
 authors:
   - name: Yu Xia
     title: Author
@@ -13,7 +13,7 @@ keywords:
   - Apache APISIX
   - Migu Video
   - API gateway best practice
-description: Explore the ultimate guide on optimizing large-scale video operations using APISIX in Migu Video.
+description: Migu Video deploys APISIX for large-scale streaming operations. Real-world architecture, traffic management, and performance results.
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2023/12/06/ZYrbfw7r_Migu-video.png
 ---

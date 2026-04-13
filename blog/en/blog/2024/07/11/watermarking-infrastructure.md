@@ -1,5 +1,5 @@
 ---
-title: Dynamic watermarking with imgproxy and Apache APISIX
+title: Dynamic Image Watermarking with APISIX
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -11,8 +11,7 @@ keywords:
   - image processing
   - imgproxy
 description: >
-  Last week, I described how to add a dynamic watermark to your images on the JVM. I didn't find any library, so I had to develop the feature, or, more precisely, an embryo of a feature, by myself. Depending on your tech stack, you must search for an existing library or roll up your sleeves. For example, Rust offers such an out-of-the-box library. Worse, this approach might be impossible to implement if you don't have access to the source image.
-  Another alternative is to use ready-made components, namely imgproxy and Apache APISIX. I already combined them to resize images on-the-fly.
+  Add dynamic watermarks to images on-the-fly using imgproxy and APISIX. No source code changes needed for infrastructure-level watermarking.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/07/04/j2xS06dA_faucet-1684902.jpg
 ---

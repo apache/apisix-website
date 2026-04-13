@@ -1,5 +1,5 @@
 ---
-title: "Get Front-End Test Coverage with Cypress"
+title: "Get E2E Test Coverage with Cypress"
 author: "Yi Sun"
 authorURL: "https://github.com/LiteSun"
 authorImageURL: "https://avatars.githubusercontent.com/u/31329157?s=400&u=e81b4bb4db2be162c1fcac6d188f5b0f82f71920&v=4"
@@ -8,7 +8,7 @@ keywords:
 - Apache APISIX
 - API Gateway
 - Cypress
-description: This article will explain how to use Cypress to get API Gateway Apache APISIX Dashboard front-end E2E coverage and what is code coverage.
+description: Collect front-end E2E test coverage with Cypress and Istanbul. Measure code coverage for APISIX Dashboard UI testing.
 tags: [Ecosystem]
 ---
 

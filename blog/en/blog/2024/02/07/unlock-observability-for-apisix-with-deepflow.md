@@ -1,5 +1,5 @@
 ---
-title: "Unlock All-in-One Observability for APISIX with DeepFlow"
+title: "APISIX Observability with DeepFlow and eBPF"
 authors:
   - name: Qian Li
     title: Author
@@ -9,7 +9,7 @@ keywords:
   - APISIX
   - DeepFlow
   - Observability
-description: This article aims to elucidate how to leverage DeepFlow's zero-code feature based on eBPF to construct an observability solution for APISIX.
+description: Build zero-code observability for APISIX using DeepFlow and eBPF. Unified tracing, metrics, logs, and profiling without code changes.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg
 ---

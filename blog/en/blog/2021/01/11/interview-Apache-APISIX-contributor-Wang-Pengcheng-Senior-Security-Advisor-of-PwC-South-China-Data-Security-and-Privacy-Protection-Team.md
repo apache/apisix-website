@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX Contributor Interview | Pengcheng Wang from PricewaterhouseCoopers 
+title: "APISIX CVE-2020-13945: Admin API Token Flaw"
 slug: 2021/01/11/interview-apache-apisix-contributor-wang-pengcheng-senior-security-advisor-of-pwc-south-china-data-security-and-privacy-protection-team
 author: Ming Wen
 authorURL: "https://github.com/moonming"
@@ -10,7 +10,7 @@ keywords:
 - Apache APISIX
 - PricewaterhouseCoopers 
 - CVE
-description: PricewaterhouseCoopers reported a vulnerability in the Admin API default token of the API gateway Apache APISIX.
+description: PwC security advisor Pengcheng Wang reported CVE-2020-13945, an Admin API default token vulnerability in APISIX. Read the full interview.
 tags: [Vulnerabilities]
 image: https://static.apiseven.com/2022/blog/0818/cve/CVE-2020-13945.png
 ---

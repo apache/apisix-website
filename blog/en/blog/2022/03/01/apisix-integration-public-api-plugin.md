@@ -1,5 +1,5 @@
 ---
-title: "API Gateway Apache APISIX provides enhancements on API Management"
+title: "APISIX public-api Plugin: Protect Internal APIs"
 authors:
   - name: "Zeping Bai"
     title: "Author"
@@ -14,7 +14,7 @@ keywords:
 - API Gateway
 - Security
 - Ecosystem
-description: You can protect custom APIs in APISIX plugins through the public-api plugin of Apache APISIX, a cloud-native API gateway, and introduce its application scenarios.
+description: Protect internal plugin APIs from public access using the APISIX public-api plugin. Learn configuration and use cases.
 tags: [Plugins,Ecosystem]
 ---
 

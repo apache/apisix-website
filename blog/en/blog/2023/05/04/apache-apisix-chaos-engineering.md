@@ -1,5 +1,5 @@
 ---
-title: Building a More Robust Apache APISIX Ingress Controller With Litmus Chaos
+title: Chaos Engineering for APISIX Ingress Controller
 authors:
   - name: API7.ai
     title: Author
@@ -9,7 +9,7 @@ keywords:
   - Apache APISIX
   - Chaos Engineering
   - APISIX Ingress Controller
-description: Chaos engineering is a powerful tool for ensuring system reliability and performance, and its application in designing Chaos experiments for Ingress Controllers can help organizations identify weaknesses in their applications and infrastructure.
+description: Design chaos experiments for APISIX Ingress Controller using LitmusChaos. Test resilience with pod failures and network disruptions.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/04/20/yeuKN9nu_Building%20a%20More%20Robust%20Apache%20APISIX%20Ingress%20Controller%20With%20Litmus%20Chaos.png
 ---

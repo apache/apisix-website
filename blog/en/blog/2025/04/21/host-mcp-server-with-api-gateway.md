@@ -1,5 +1,5 @@
 ---
-title: "From stdio to HTTP SSE: Host Your MCP Server with APISIX API Gateway"
+title: "Host MCP Servers via HTTP SSE with APISIX"
 authors:
   - name: Ming Wen
     title: author
@@ -16,7 +16,7 @@ keywords:
   - MCP
   - MCP Server
   - mcp-bridge
-description: Discover APISIX-MCP, leveraging AI for effortless API management. Simplify resource operations with natural language in Apache APISIX.
+description: Convert stdio-based MCP servers to scalable HTTP SSE services using the APISIX mcp-bridge plugin. Step-by-step deployment guide.
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/23/USwzplCO_apisix-mcp-briget-cover-final.webp
 ---

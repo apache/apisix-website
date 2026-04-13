@@ -1,5 +1,5 @@
 ---
-title: Apache APISIX plugin priority, a leaky abstraction?
+title: APISIX Plugin Priority and Execution Phases
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -11,8 +11,7 @@ keywords:
   - priority
   - abstraction
 description: >
-    Apache APISIX builds upon the OpenResty reverse-proxy to offer a plugin-based architecture. The main benefit of such an architecture is that it brings structure to the configuration of routes. It's a help at scale, when managing hundreds or thousands of routes.
-    In this post, I'd like to describe how plugins, priority, and phases play together and what pitfalls you must be aware of.
+    Understand how APISIX plugin priority and execution phases interact. Avoid common pitfalls when ordering plugins across rewrite and access phases.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/12/09/acT4tzVw_puzzle-3486885.jpg
 ---

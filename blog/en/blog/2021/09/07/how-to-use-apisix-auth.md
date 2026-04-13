@@ -1,5 +1,5 @@
 ---
-title: Centralized Authentication with Apache APISIX and Advanced Tricks
+title: Centralized Authentication with APISIX
 author: Xinxin Zhu
 authorURL: "https://github.com/starsz"
 authorImageURL: "https://avatars.githubusercontent.com/u/25628854?v=4"
@@ -8,7 +8,7 @@ keywords:
 - Casbin
 - Authorization
 - Practical Case
-description: This article introduces the authentication function of the cloud native API gateway Apache APISIX, and introduces the importance and usage in detail.
+description: Centralize API authentication with APISIX using key-auth, JWT, and OpenID Connect plugins. Reduce backend complexity and improve security.
 tags: [Authentication, Ecosystem]
 ---
 

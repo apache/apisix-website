@@ -1,5 +1,5 @@
 ---
-title: "Apache APISIX Integrates with SkyWalking for Log Processing"
+title: "APISIX SkyWalking Log Plugins Guide"
 authors: 
   - name: "Haochao Zhuang"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - Apache SkyWalking
 - Log Process
 - Plugin
-description: This paper mainly introduces two Apache APISIX integrated SkyWalking log plugins to provide a more convenient operation and environment for log processing in Apache APISIX.
+description: Configure APISIX SkyWalking log plugins for centralized API log processing. Collect error logs and access logs with tracing context.
 tags: [Plugins,Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png
 ---

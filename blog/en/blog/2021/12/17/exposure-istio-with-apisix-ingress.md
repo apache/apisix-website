@@ -1,5 +1,5 @@
 ---
-title: "Secure Exposure of Istio Services with APISIX Ingress"
+title: "Expose Istio Services with APISIX Ingress"
 authors:
   - name: "Jintao Zhang"
     title: "Author"
@@ -15,7 +15,7 @@ keywords:
 - Kubernetes
 - APISIX Ingress Controller
 - Service Mesh
-description: This article shows how to use Istio Service Mesh and API Gateway Apache APISIX to expose services from a Service Mesh-enabled Kubernetes cluster outside the cluster.
+description: Expose Kubernetes services from an Istio service mesh using APISIX Ingress Controller. Step-by-step integration guide.
 tags: [Ecosystem]
 ---
 

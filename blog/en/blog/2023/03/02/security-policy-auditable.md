@@ -12,7 +12,7 @@ keywords:
   - Spring Security
   - Solutions Architecture
 description: >
-  Last week, I wrote about putting the right feature at the right place. I used rate limiting as an example, moving it from a library inside the application to the API Gateway. Today, I'll use another example: authentication and authorization.
+  Move authentication and authorization to your API gateway for auditable, centralized security. Compare app-level vs gateway-level approaches.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/08/pzULiHZO_opa-horizontal-color.svg
 ---

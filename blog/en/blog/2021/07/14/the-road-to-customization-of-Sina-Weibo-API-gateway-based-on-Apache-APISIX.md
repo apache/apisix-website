@@ -1,19 +1,19 @@
 ---
-title: "The Road to Customized Development of Sina Weibo API Gateway"
+title: "Sina Weibo: Migrating from NGINX to APISIX"
 slug: 2021/07/06/the-road-to-customization-of-sina-weibo-api-gateway-based-on-apache-apisix
 author: "Yong Nie"
 keywords:
 - Apache APISIX
 - Sina
 - Weibo
-- Usser Case
+- Use Case
 - API Gateway
-description: This article analyzes the pain points of NGINX Sina Weibo when using NGINX, and why the cloud-native API gateway Apache APISIX was chosen as the company's API gateway.
+description: Sina Weibo replaced their NGINX-based API gateway with APISIX for dynamic routing, hot reloading, and DevOps-friendly management.
 tags: [Case Studies]
 image: https://static.apiseven.com/2022/blog/0817/weibo.png
 ---
 
-> Sina Weibo’s previous HTTP API gateway was built based on Nginx, which brought up a series of problems. After some research, we chose Apache APISIX, which is dynamic, efficient and stable to meet the fast response requirements of the business.
+> Sina Weibo's previous HTTP API gateway was built based on Nginx, which brought up a series of problems. After some research, we chose Apache APISIX, which is dynamic, efficient and stable to meet the fast response requirements of the business.
 
 <!--truncate-->
 

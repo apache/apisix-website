@@ -16,7 +16,7 @@ keywords:
 - APISIX Dashboard
 - Deployment
 - Cluster
-description: API Gateway Apache APISIX currently supports multiple ways to install and deploy. This article focuses on how to deploy APISIX and Dashboard in a Kubernetes environment.
+description: Deploy APISIX and Dashboard in Kubernetes using Helm Chart. Step-by-step guide with configuration examples and best practices.
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/blog/0818/ecosystem/kubernetes.png
 ---

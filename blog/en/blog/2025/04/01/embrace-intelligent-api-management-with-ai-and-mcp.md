@@ -1,5 +1,5 @@
 ---
-title: "APISIX-MCP: Embracing Intelligent API Management with AI + MCP"
+title: "APISIX-MCP: Manage APIs with Natural Language"
 authors:
   - name: Zhihuang Lin
     title: API7 Engineer
@@ -18,7 +18,7 @@ keywords:
   - natural language interaction
   - API resource management
   - MCP services
-description: "Discover how APISIX-MCP leverages AI for intuitive API management, simplifying resource management through natural language interactions."
+description: "Use APISIX-MCP to manage API routes and upstreams through natural language. Create, update, and delete resources via AI integration."
 image: https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp
 tags: [Ecosystem]
 ---
