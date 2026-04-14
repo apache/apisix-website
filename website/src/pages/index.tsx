@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import Layout from '@theme/Layout';
 import Head from '@docusaurus/Head';
+import { translate } from '@docusaurus/Translate';
 import useWindowType from '@theme/hooks/useWindowSize';
 
 import HeroSection from '../components/sections/HeroSection';
@@ -46,22 +47,24 @@ const Index: FC = () => (
   <Layout>
     <ThemeResetComponent />
     <Head>
-      <title>Apache APISIX® -- Cloud-Native API Gateway and AI Gateway</title>
+      <title>{translate({ id: 'homepage.meta.title', message: 'Apache APISIX - Open Source API Gateway & AI Gateway' })}</title>
+      <link rel="canonical" href="https://apisix.apache.org/" />
+      <meta
+        property="og:title"
+        content="Apache APISIX - Open Source API Gateway &amp; AI Gateway"
+      />
+      <meta
+        property="og:description"
+        content="Apache APISIX is a dynamic, high-performance, open-source API gateway and AI gateway. Features include load balancing, authentication, rate limiting, AI proxying, LLM load balancing, and 100+ plugins."
+      />
+      <meta property="og:url" content="https://apisix.apache.org/" />
       <meta
         name="twitter:title"
-        content="Apache APISIX® - Cloud-Native API Gateway and AI Gateway"
+        content="Apache APISIX - Open Source API Gateway &amp; AI Gateway"
       />
       <meta
         name="twitter:description"
-        content="APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability."
-      />
-      <meta
-        name="twitter:site"
-        content="@apacheapisix"
-      />
-      <meta
-        name="og:description"
-        content="APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability."
+        content="Apache APISIX is a dynamic, high-performance, open-source API gateway and AI gateway. Features include load balancing, authentication, rate limiting, AI proxying, LLM load balancing, and 100+ plugins."
       />
     </Head>
     <HeroSection />

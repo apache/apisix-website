@@ -95,8 +95,21 @@ module.exports = {
         blogTitle: 'Article',
       },
     ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'learning-center',
+        routeBasePath: 'learning-center',
+        path: 'learning-center',
+        blogSidebarCount: 'ALL',
+        blogSidebarTitle: 'Learning Center',
+        blogTitle: 'Learning Center',
+        showReadingTime: true,
+      },
+    ],
     ['docusaurus-plugin-sass', {}],
     require.resolve('../config/schema-org'),
+    require.resolve('../config/hreflang'),
   ],
   themeConfig: {
     navbar: {
@@ -144,6 +157,22 @@ module.exports = {
       {
         name: 'twitter:card',
         content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:site',
+        content: '@apacheapisix',
+      },
+      {
+        property: 'og:site_name',
+        content: 'Apache APISIX',
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:image',
+        content: 'https://static.apiseven.com/202202/apache-apisix.png',
       },
     ],
   },

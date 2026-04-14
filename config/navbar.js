@@ -53,6 +53,12 @@ module.exports = [
     ],
   },
   {
+    to: '/learning-center',
+    label: 'Learning Center',
+    position: 'right',
+    target: '_parent',
+  },
+  {
     to: '/blog',
     label: 'Blog',
     position: 'right',
