@@ -61,6 +61,27 @@ const Downloads: FC = () => (
     <Head>
       <meta name="description" content={translate({ id: 'download.meta.description', message: 'Download Apache APISIX, the cloud-native API Gateway and AI Gateway. Get the latest release, verify signatures, and access historical versions.' })} />
       <meta property="og:description" content={translate({ id: 'download.meta.ogDescription', message: 'Download Apache APISIX, the cloud-native API Gateway and AI Gateway. Get the latest release and historical versions.' })} />
+      <script type="application/ld+json">
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'Apache APISIX',
+          applicationCategory: 'DeveloperApplication',
+          operatingSystem: 'Linux, macOS, Docker, Kubernetes',
+          license: 'https://www.apache.org/licenses/LICENSE-2.0',
+          url: 'https://apisix.apache.org/downloads/',
+          author: {
+            '@type': 'Organization',
+            name: 'Apache Software Foundation',
+            url: 'https://www.apache.org/',
+          },
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+        })}
+      </script>
     </Head>
     <DownloadsPage>
       <PageTitle><Translate id="download.website.title">Downloads</Translate></PageTitle>

@@ -256,7 +256,7 @@ const Team: FC = () => {
           href={`https://github.com/${member.githubUsername}`}
           target="_blank"
         >
-          <Avatar src={member.avatarUrl} />
+          <Avatar src={member.avatarUrl} alt={member.name || member.username} width={108} height={108} loading="lazy" />
           <MemberName>{member.name}</MemberName>
           <Username>
             @
