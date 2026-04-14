@@ -323,6 +323,7 @@ helm upgrade apisix apisix/apisix --set image.tag=3.16.0
 ```
 
 Check the full documentation:
+
 - [limit-count plugin](https://apisix.apache.org/docs/apisix/plugins/limit-count/)
 - [limit-conn plugin](https://apisix.apache.org/docs/apisix/plugins/limit-conn/)
 - [ai-rate-limiting plugin](https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/)
