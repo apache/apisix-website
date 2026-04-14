@@ -13,9 +13,9 @@ A Kubernetes API gateway is the component that manages external traffic entering
 
 Kubernetes does not include a built-in data plane for external traffic management. The platform defines APIs (Ingress, Gateway API) that describe how traffic should be routed, but the actual implementation is delegated to third-party controllers. These controllers run as pods within the cluster, watch for resource changes, and configure their underlying proxy accordingly.
 
-This design reflects Kubernetes' philosophy of extensibility. According to the 2025 CNCF Annual Survey, 96% of organizations either use or are evaluating Kubernetes, making the choice of API gateway for Kubernetes one of the most consequential infrastructure decisions a platform team faces.
+This design reflects Kubernetes' philosophy of extensibility. With Kubernetes now the dominant container orchestration platform, the choice of API gateway is one of the most consequential infrastructure decisions a platform team faces.
 
-The Kubernetes gateway landscape has evolved significantly. The original Ingress resource, introduced in Kubernetes 1.1 (2015), provided minimal routing capabilities. The newer Gateway API, which reached GA for core features in 2023, offers a far richer model with support for traffic splitting, header-based routing, and role-oriented configuration. According to the Kubernetes Gateway API project's 2025 adoption survey, 47% of new Kubernetes deployments now use Gateway API resources, up from 18% in 2023.
+The Kubernetes gateway landscape has evolved significantly. The original Ingress resource, introduced in Kubernetes 1.1 (2015), provided minimal routing capabilities. The newer Gateway API, which reached GA for core features in 2023, offers a far richer model with support for traffic splitting, header-based routing, and role-oriented configuration. Adoption of Gateway API resources in new Kubernetes deployments has grown rapidly since its GA release.
 
 ## Kubernetes Ingress vs Gateway API
 
@@ -25,7 +25,7 @@ The Ingress resource is Kubernetes' original API for defining external HTTP rout
 
 Ingress is simple but limited. It supports only HTTP and HTTPS traffic, has no native concept of traffic splitting, and lacks a standard way to express advanced routing (header matching, query parameter routing, request mirroring). To work around these limitations, every ingress controller defines its own annotations, creating vendor lock-in and configuration inconsistency.
 
-Despite its limitations, Ingress remains widely deployed. The 2025 Datadog Container Report found that 68% of Kubernetes clusters still have at least one Ingress resource defined, though many organizations are migrating to Gateway API for new workloads.
+Despite its limitations, Ingress remains widely deployed. Most Kubernetes clusters still have at least one Ingress resource defined, though many organizations are migrating to Gateway API for new workloads.
 
 ### Gateway API
 
@@ -38,7 +38,7 @@ The Gateway API is a collection of Kubernetes custom resources that provide a mo
 
 Gateway API's role-oriented design separates infrastructure concerns (managed by platform teams via GatewayClass and Gateway) from application routing (managed by service teams via HTTPRoute). This separation mirrors real organizational structures where platform engineers control the gateway infrastructure and application teams define their own routes.
 
-According to benchmarks by the Kubernetes SIG-Network, Gateway API implementations process configuration changes 30-40% faster than equivalent annotation-based Ingress configurations because the structured resource model eliminates the need for annotation parsing and interpretation.
+Gateway API implementations generally process configuration changes faster than equivalent annotation-based Ingress configurations because the structured resource model eliminates the need for annotation parsing and interpretation.
 
 ### Comparison Table
 
@@ -63,7 +63,7 @@ An ingress controller is a Kubernetes controller that watches Ingress (and optio
 
 Every ingress controller uses a different underlying proxy technology. APISIX Ingress Controller uses Apache APISIX. NGINX Ingress Controller uses NGINX. Traefik and Kong act as both the controller and the proxy. The choice of controller determines the available features, performance characteristics, and operational model.
 
-According to CNCF's 2025 End User Technology Radar, the ingress controller market is consolidating around four primary options: NGINX Ingress Controller (legacy standard), Apache APISIX Ingress Controller (feature-rich, high performance), Traefik (developer-friendly, auto-discovery), and Kong Ingress Controller (API management focus).
+The ingress controller market has consolidated around several primary options: NGINX Ingress Controller (legacy standard), Apache APISIX Ingress Controller (feature-rich, high performance), Traefik (developer-friendly, auto-discovery), and Kong Ingress Controller (API management focus).
 
 ## Choosing an Ingress Controller
 
@@ -75,7 +75,7 @@ APISIX is built on NGINX and LuaJIT, delivering throughput exceeding 20,000 requ
 
 ### NGINX Ingress Controller
 
-The NGINX Ingress Controller is the most widely deployed option, used in approximately 40% of Kubernetes clusters according to the 2025 Datadog Container Report. It is stable and well-documented but relies heavily on annotations for advanced configuration, which creates verbose and hard-to-maintain manifests as complexity grows.
+The NGINX Ingress Controller is the most widely deployed option. It is stable and well-documented but relies heavily on annotations for advanced configuration, which creates verbose and hard-to-maintain manifests as complexity grows.
 
 ### Traefik
 
@@ -99,7 +99,7 @@ A typical production deployment runs 2-3 APISIX data plane replicas behind a clo
 
 APISIX Ingress Controller implements the Gateway API specification, supporting GatewayClass, Gateway, and HTTPRoute resources. Platform teams define GatewayClass and Gateway resources that configure the APISIX data plane. Application teams create HTTPRoute resources that define routing rules for their services.
 
-This role-based model aligns with enterprise organizational structures. According to a 2025 Kubernetes SIG-Network survey, organizations using role-oriented Gateway API resources reported 35% fewer misconfigurations compared to those using annotation-based Ingress resources.
+This role-based model aligns with enterprise organizational structures and helps reduce misconfigurations compared to annotation-based Ingress resources.
 
 ### Custom Resources
 
@@ -117,7 +117,7 @@ The simplest pattern deploys APISIX as the sole ingress point for a single Kuber
 
 ### Multi-Cluster with Shared Gateway
 
-For organizations running multiple Kubernetes clusters (multi-region, staging/production, or domain-separated), a shared APISIX deployment can route traffic across clusters. APISIX's upstream configuration supports endpoints outside the local cluster, enabling cross-cluster routing. According to the 2025 Kubernetes Benchmark Report by Fairwinds, 58% of organizations now operate three or more production Kubernetes clusters, making cross-cluster traffic management a common requirement.
+For organizations running multiple Kubernetes clusters (multi-region, staging/production, or domain-separated), a shared APISIX deployment can route traffic across clusters. APISIX's upstream configuration supports endpoints outside the local cluster, enabling cross-cluster routing. Many organizations now operate multiple production Kubernetes clusters, making cross-cluster traffic management a common requirement.
 
 ### Gateway Per Namespace
 

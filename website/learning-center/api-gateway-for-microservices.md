@@ -13,11 +13,11 @@ Microservices architectures need an API gateway to provide a single entry point 
 
 A microservices architecture decomposes a monolithic application into independently deployable services, each owning a specific business domain. While this approach improves development velocity and scaling flexibility, it introduces operational challenges that compound as the number of services grows.
 
-Without a gateway, every client must know the network location of every service it needs. A single mobile application screen might require data from five different services, forcing the client to manage multiple connections, handle partial failures, and aggregate responses. According to the 2025 CNCF Annual Survey, organizations running microservices in production operate a median of 42 services, with large enterprises managing over 500. Client-side orchestration at that scale is impractical.
+Without a gateway, every client must know the network location of every service it needs. A single mobile application screen might require data from five different services, forcing the client to manage multiple connections, handle partial failures, and aggregate responses. As organizations scale their microservices fleets, client-side orchestration becomes impractical.
 
-The API gateway pattern, first described by Chris Richardson and widely adopted since, solves this by interposing a single component between clients and the service fleet. The gateway accepts all client requests, routes them to the appropriate services, and returns consolidated responses. A 2025 survey by Ambassador Labs found that 89% of organizations running microservices in production deploy at least one API gateway.
+The API gateway pattern, first described by Chris Richardson and widely adopted since, solves this by interposing a single component between clients and the service fleet. The gateway accepts all client requests, routes them to the appropriate services, and returns consolidated responses. The pattern has become a standard component in production microservices architectures.
 
-The gateway also addresses a second fundamental problem: cross-cutting concern duplication. Authentication, logging, rate limiting, CORS handling, and request validation must be applied consistently across all services. Without a gateway, each service team implements these independently, leading to drift, inconsistency, and duplicated effort. Engineering teams report that centralizing cross-cutting concerns at the gateway reduces per-service boilerplate code by 40-60%, according to case studies from enterprises that migrated to gateway-first architectures.
+The gateway also addresses a second fundamental problem: cross-cutting concern duplication. Authentication, logging, rate limiting, CORS handling, and request validation must be applied consistently across all services. Without a gateway, each service team implements these independently, leading to drift, inconsistency, and duplicated effort. Centralizing cross-cutting concerns at the gateway significantly reduces per-service boilerplate code.
 
 ## Core Gateway Patterns
 
@@ -31,7 +31,7 @@ Dynamic routing takes this further by reading route configurations from a contro
 
 API composition combines responses from multiple microservices into a single response for the client. Instead of requiring a mobile application to make five separate API calls to render a dashboard, the gateway fetches data from all five services in parallel and returns a unified response.
 
-This pattern reduces client-side complexity and network round trips. According to Google's research on mobile application performance, reducing the number of API calls per screen from five to one decreases page load time by 35-50% on 4G connections and by even more on slower networks. The reduction in round trips is particularly impactful for mobile clients with high-latency connections.
+This pattern reduces client-side complexity and network round trips. Consolidating multiple API calls into a single gateway request significantly decreases page load time, especially on mobile networks where each round trip adds noticeable latency.
 
 ### Backend for Frontend (BFF)
 
@@ -43,7 +43,7 @@ Each BFF acts as a specialized gateway layer that transforms and filters upstrea
 
 In architectures that deploy both an API gateway and a service mesh, the gateway handles north-south traffic (client to cluster) while the service mesh manages east-west traffic (service to service). The gateway provides external-facing features like API key authentication, rate limiting, and response transformation. The mesh handles internal concerns like mTLS, circuit breaking, and service-to-service load balancing.
 
-According to the CNCF's 2025 service mesh survey, 62% of organizations using a service mesh also deploy an API gateway, and the majority report clear boundaries between the two components. This separation avoids the complexity of running a full mesh for external traffic while preserving mesh benefits for internal communication.
+Most organizations using a service mesh also deploy an API gateway with clear boundaries between the two components. This separation avoids the complexity of running a full mesh for external traffic while preserving mesh benefits for internal communication.
 
 ## Key Features for Microservices
 
@@ -53,13 +53,13 @@ In a microservices environment, services scale dynamically and their network loc
 
 Apache APISIX integrates with multiple service discovery systems, documented in its [discovery configuration guide](/docs/apisix/discovery/). Supported registries include Consul, Eureka, Nacos, and Kubernetes-native service discovery. When a new service instance registers or an existing instance becomes unhealthy, APISIX updates its routing table automatically.
 
-In Kubernetes environments, APISIX can read Service and Endpoint resources directly, eliminating the need for a separate discovery system. A 2025 Datadog study found that Kubernetes-native service discovery reduces routing update latency to under 2 seconds compared to 5-15 seconds for polling-based approaches.
+In Kubernetes environments, APISIX can read Service and Endpoint resources directly, eliminating the need for a separate discovery system. Kubernetes-native service discovery typically provides faster routing updates compared to polling-based approaches.
 
 ### Circuit Breaking
 
 Circuit breaking prevents cascading failures by stopping requests to an unhealthy upstream service. When error rates exceed a configured threshold, the circuit opens and the gateway returns a fast failure response instead of forwarding requests to the struggling service. After a cooldown period, the circuit enters a half-open state and allows a limited number of test requests through. If those succeed, the circuit closes and normal traffic resumes.
 
-Without circuit breaking, a single unhealthy service can consume all available connections and thread pools in the gateway, causing failures to cascade across the entire system. According to a 2025 Gremlin chaos engineering report, organizations using circuit breakers experienced 58% shorter outage durations compared to those without them.
+Without circuit breaking, a single unhealthy service can consume all available connections and thread pools in the gateway, causing failures to cascade across the entire system. Organizations using circuit breakers typically experience significantly shorter outage durations.
 
 ### Canary Deployment
 
@@ -71,7 +71,7 @@ APISIX supports traffic splitting through weighted upstream configurations. A ty
 
 In a microservices architecture, a single client request might traverse ten or more services. Distributed tracing tracks the request's path through the entire service chain, recording latency at each hop. The gateway plays a critical role by injecting trace context headers (W3C Trace Context or B3) into every request it forwards.
 
-APISIX supports trace context propagation to observability backends including Zipkin, Jaeger, SkyWalking, and OpenTelemetry. With tracing enabled at the gateway, operations teams gain end-to-end visibility into request flows. According to Lightstep's 2025 observability survey, organizations using distributed tracing resolve production incidents 44% faster than those relying solely on logs and metrics.
+APISIX supports trace context propagation to observability backends including Zipkin, Jaeger, SkyWalking, and OpenTelemetry. With tracing enabled at the gateway, operations teams gain end-to-end visibility into request flows, enabling faster incident resolution compared to relying solely on logs and metrics.
 
 ## API Gateway vs Service Mesh
 
@@ -87,7 +87,7 @@ API gateways and service meshes both manage network traffic in a microservices a
 | Protocol support | HTTP, gRPC, WebSocket, GraphQL | TCP, HTTP, gRPC |
 | Request transformation | Yes | Typically no |
 
-The two technologies are complementary, not competitive. A 2025 InfoQ survey found that 71% of platform teams deploying both an API gateway and a service mesh reported improved overall system reliability compared to using either component alone.
+The two technologies are complementary, not competitive. Organizations deploying both an API gateway and a service mesh generally report improved overall system reliability compared to using either component alone.
 
 ## How Apache APISIX Supports Microservices
 

@@ -13,7 +13,7 @@ API gateway rate limiting is the practice of controlling how many requests a cli
 
 Rate limiting enforces a maximum request throughput for API consumers. When a client exceeds its allowed quota, the gateway returns an HTTP 429 (Too Many Requests) response instead of forwarding the request to the upstream service. The response typically includes a `Retry-After` header indicating when the client can resume making requests.
 
-The need for rate limiting has grown alongside API traffic volumes. Cloudflare's 2025 API Security Report found that API traffic now accounts for 65% of all HTTP requests processed globally, up from 58% in 2023. With that volume comes increased risk: the same report identified that 31% of API traffic consists of automated requests, many of which are abusive or unintentional high-frequency polling.
+The need for rate limiting has grown alongside API traffic volumes. API traffic now represents the majority of HTTP requests processed globally, and a significant portion consists of automated requests, many of which are abusive or unintentional high-frequency polling.
 
 Without rate limiting, a single misbehaving client can consume disproportionate backend resources, degrading performance for all consumers. Rate limiting is also a contractual tool: it enforces the usage tiers defined in API monetization plans and SLAs.
 
@@ -21,9 +21,9 @@ Without rate limiting, a single misbehaving client can consume disproportionate 
 
 Implementing rate limiting at the API gateway rather than in individual services provides several structural advantages.
 
-**Single enforcement point.** When rate limits are defined at the gateway, every request passes through the same throttling logic regardless of which upstream service handles it. This eliminates the risk of inconsistent enforcement across a microservices fleet. According to a 2025 Kong survey, organizations with centralized gateway rate limiting reported 72% fewer availability incidents caused by traffic spikes compared to those enforcing limits at the service level.
+**Single enforcement point.** When rate limits are defined at the gateway, every request passes through the same throttling logic regardless of which upstream service handles it. This eliminates the risk of inconsistent enforcement across a microservices fleet and reduces availability incidents caused by traffic spikes.
 
-**Reduced backend load.** Rejected requests never reach the upstream service. This means the gateway absorbs the cost of excess traffic, keeping backend services operating within their designed capacity. For high-traffic APIs, this can reduce backend compute costs by 15-25%, based on AWS case studies of API Gateway implementations.
+**Reduced backend load.** Rejected requests never reach the upstream service. This means the gateway absorbs the cost of excess traffic, keeping backend services operating within their designed capacity.
 
 **Consistent client experience.** Centralized rate limiting ensures all consumers receive the same HTTP 429 responses with standardized headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`), making it straightforward for client developers to implement backoff logic.
 
@@ -44,7 +44,7 @@ Token bucket allows short bursts up to the bucket capacity while enforcing an av
 
 The leaky bucket algorithm processes requests at a fixed rate, queuing excess requests until the queue is full. It smooths traffic into a uniform output rate regardless of input burstiness.
 
-Leaky bucket is ideal for backends that require strictly uniform request rates, such as third-party APIs with their own rate limits or services with fixed connection pools. A 2024 benchmarking study by the IEEE found that leaky bucket reduced P99 latency variance by 43% compared to token bucket under identical traffic loads.
+Leaky bucket is ideal for backends that require strictly uniform request rates, such as third-party APIs with their own rate limits or services with fixed connection pools.
 
 **Pros:** Produces perfectly smooth output, prevents backend overload from bursts.
 **Cons:** Higher latency for bursty traffic due to queuing, queue size requires tuning.
@@ -62,7 +62,7 @@ For example, if the window is 60 seconds and the current position is 40 seconds 
 
 The fixed window algorithm divides time into non-overlapping intervals and counts requests within each interval. When the count exceeds the limit, subsequent requests are rejected until the next window begins.
 
-Fixed window is the simplest algorithm but has a well-known boundary problem: a client can make double the intended rate by clustering requests at the end of one window and the beginning of the next. Despite this limitation, fixed window remains widely deployed. According to Akamai's 2025 State of the Internet report, approximately 35% of API rate limiting implementations still use fixed window due to its simplicity and low overhead.
+Fixed window is the simplest algorithm but has a well-known boundary problem: a client can make double the intended rate by clustering requests at the end of one window and the beginning of the next. Despite this limitation, fixed window remains widely deployed due to its simplicity and low overhead.
 
 **Pros:** Minimal memory and computation, easy to understand and debug.
 **Cons:** Boundary burst problem allows temporary rate doubling.
@@ -86,7 +86,7 @@ Per-consumer rate limiting requires the rate limiting plugin to execute after au
 
 ### Per-IP
 
-Throttle requests based on the client's source IP address. This strategy is effective for public APIs that do not require authentication, such as health check endpoints or public data feeds. According to Fastly's 2025 API Abuse Report, IP-based rate limiting blocks approximately 60% of volumetric API abuse when combined with reputation scoring.
+Throttle requests based on the client's source IP address. This strategy is effective for public APIs that do not require authentication, such as health check endpoints or public data feeds. IP-based rate limiting is a practical first line of defense against volumetric API abuse, especially when combined with reputation scoring.
 
 Per-IP limiting has limitations in environments where many clients share a single IP (corporate NATs, mobile carriers). Use it as a coarse first defense layer, not as the sole rate limiting strategy.
 
@@ -124,7 +124,7 @@ This plugin is essential for APIs that serve large file downloads, streaming res
 
 APISIX allows stacking all three plugins on a single route. A typical production configuration might combine limit-count for daily quotas, limit-req for per-second smoothing, and limit-conn for concurrent connection caps. The plugins execute in order, and a request rejected by any plugin does not consume quota in subsequent plugins.
 
-This layered approach mirrors industry best practice. According to Google Cloud's API design guide, production APIs should enforce at least two independent rate limiting dimensions to provide comprehensive protection.
+This layered approach mirrors industry best practice. Production APIs benefit from enforcing at least two independent rate limiting dimensions to provide comprehensive protection.
 
 ## FAQ
 

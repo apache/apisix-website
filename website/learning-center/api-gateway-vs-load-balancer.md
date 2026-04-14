@@ -15,7 +15,7 @@ A load balancer sits between clients and a pool of backend servers, distributing
 
 Layer 4 load balancers route traffic based on IP address and port number without inspecting the request content. They are fast, protocol-agnostic, and add minimal latency. Layer 7 load balancers inspect HTTP headers, URLs, and sometimes request bodies to make more intelligent routing decisions.
 
-Load balancers are foundational infrastructure. According to F5's 2025 State of Application Strategy report, 97% of organizations use some form of load balancing in their production environments. The technology has been a networking staple for over two decades, with the core algorithms (round-robin, least connections, weighted distribution) remaining largely unchanged.
+Load balancers are foundational infrastructure. The vast majority of organizations use some form of load balancing in their production environments. The technology has been a networking staple for over two decades, with the core algorithms (round-robin, least connections, weighted distribution) remaining largely unchanged.
 
 The primary value of a load balancer is availability. By distributing traffic and performing health checks, load balancers ensure that the failure of a single backend instance does not cause a service outage. They also enable horizontal scaling: adding more backend instances to handle increased traffic without changing the client-facing endpoint.
 
@@ -24,8 +24,6 @@ The primary value of a load balancer is availability. By distributing traffic an
 An API gateway is an application-layer proxy that acts as the single entry point for API consumers. Beyond routing requests to the correct backend service, an API gateway provides a rich set of cross-cutting concerns: authentication, authorization, rate limiting, request and response transformation, caching, logging, and monitoring.
 
 API gateways emerged from the needs of microservices architectures and API-first product strategies. When an organization exposes dozens or hundreds of microservices, a gateway centralizes the operational concerns that would otherwise be duplicated across every service.
-
-The API management market reflects this importance. Gartner estimated the global API management market at $7.5 billion in 2025, growing at 18% annually. A significant portion of this market centers on the API gateway as the core runtime component.
 
 An API gateway typically operates exclusively at Layer 7 and understands application-level protocols like HTTP, gRPC, WebSocket, and GraphQL. It makes routing decisions based on URL paths, headers, query parameters, and even request body content.
 
@@ -59,7 +57,7 @@ The table makes the distinction clear: load balancers focus on network-level tra
 
 A load balancer answers the question: which backend server should handle this connection? An API gateway answers a broader set of questions: is this client authenticated? Are they authorized for this endpoint? Have they exceeded their rate limit? Does the request need transformation before forwarding? Should the response be cached?
 
-According to a 2025 survey by the Cloud Native Computing Foundation, 81% of organizations using API gateways configure at least four distinct cross-cutting policies (authentication, rate limiting, logging, and CORS), none of which fall within a traditional load balancer's responsibility.
+In practice, most organizations using API gateways configure multiple cross-cutting policies (authentication, rate limiting, logging, and CORS), none of which fall within a traditional load balancer's responsibility.
 
 ### Protocol Awareness
 
@@ -98,7 +96,7 @@ Layer 4 load balancers add microsecond-level latency because they operate below 
 
 In most production architectures, load balancers and API gateways coexist at different layers. A common deployment pattern places a Layer 4 or cloud-native load balancer (AWS NLB, Google Cloud Load Balancing) in front of a cluster of API gateway instances. The load balancer distributes traffic across gateway nodes for high availability, while the gateway handles application-level API management.
 
-According to NGINX's 2025 survey of platform engineering teams, 73% of organizations deploy a load balancer in front of their API gateway cluster. This separation of concerns allows each component to do what it does best.
+This separation of concerns allows each component to do what it does best.
 
 ## How Apache APISIX Combines Both
 

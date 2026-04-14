@@ -13,9 +13,9 @@ API gateway authentication is the practice of verifying client identity at a cen
 
 In a distributed architecture, every service that exposes an endpoint must answer a fundamental question: who is making this request? Without a gateway, each service independently implements its own authentication stack. This leads to inconsistent enforcement, duplicated code, and a broader attack surface.
 
-An API gateway centralizes this concern. It intercepts every inbound request, validates credentials against a configured identity provider or local store, and either forwards the authenticated request downstream or rejects it immediately. According to the 2025 State of API Security report by Salt Security, 78% of organizations experienced an API security incident in the past twelve months, with broken authentication ranking as the top vulnerability category.
+An API gateway centralizes this concern. It intercepts every inbound request, validates credentials against a configured identity provider or local store, and either forwards the authenticated request downstream or rejects it immediately. Broken authentication consistently ranks among the top API vulnerability categories, making centralized enforcement critical.
 
-Centralizing authentication at the gateway layer provides three measurable advantages. First, it reduces per-service authentication code by an estimated 60-80%, based on migration case studies from enterprises adopting gateway-first security. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.
+Centralizing authentication at the gateway layer provides three key advantages. First, it significantly reduces per-service authentication code by consolidating auth logic into a single component. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.
 
 ## Authentication Methods
 
@@ -23,7 +23,7 @@ Centralizing authentication at the gateway layer provides three measurable advan
 
 Key authentication is the simplest method. The client includes a static API key in a header or query parameter. The gateway validates the key against a stored registry and maps it to a consumer identity.
 
-Key Auth works well for server-to-server communication where transport security (TLS) is guaranteed and the client population is small. Gartner estimates that API keys still account for roughly 40% of machine-to-machine API authentication in enterprise environments, though that share is declining as organizations move toward token-based methods.
+Key Auth works well for server-to-server communication where transport security (TLS) is guaranteed and the client population is small. API keys remain common for machine-to-machine authentication, though their share is declining as organizations move toward token-based methods.
 
 Apache APISIX supports Key Auth natively through its [key-auth plugin](/docs/apisix/plugins/key-auth/). Configuration requires only defining a consumer and attaching the plugin to a route.
 
@@ -31,7 +31,7 @@ Apache APISIX supports Key Auth natively through its [key-auth plugin](/docs/api
 
 JWT authentication uses digitally signed tokens that carry claims about the client. The gateway validates the token signature, checks expiration, and optionally verifies audience and issuer claims. Because JWTs are self-contained, the gateway does not need to call an external service on every request.
 
-JWTs dominate modern API authentication. A 2025 survey by SlashData found that 67% of professional developers use JWT as their primary API authentication mechanism. The compact format and stateless verification make JWTs particularly well-suited for high-throughput gateways where microsecond-level latency matters.
+JWTs dominate modern API authentication. The compact format and stateless verification make JWTs particularly well-suited for high-throughput gateways where microsecond-level latency matters.
 
 APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plugins/jwt-auth/), supporting both HS256 and RS256 algorithms with configurable claim validation.
 
@@ -39,7 +39,7 @@ APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plug
 
 OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to an API on behalf of a resource owner. The gateway validates bearer tokens issued by an authorization server, typically by introspecting the token or verifying a JWT access token locally.
 
-OAuth 2.0 adoption continues to grow. According to Okta's 2025 Businesses at Work report, 92% of enterprises with more than 1,000 employees use OAuth 2.0 for at least some of their API integrations. The framework's delegation model makes it essential for any API exposed to external developers or partner ecosystems.
+OAuth 2.0 is widely adopted across enterprises for API integrations. The framework's delegation model makes it essential for any API exposed to external developers or partner ecosystems.
 
 ### OpenID Connect (OIDC)
 
@@ -51,7 +51,7 @@ OIDC is the de facto standard for single sign-on in API ecosystems. Major identi
 
 Mutual TLS requires both the client and server to present certificates during the TLS handshake. The gateway validates the client certificate against a trusted certificate authority, establishing strong machine identity without application-layer tokens.
 
-mTLS adoption has surged alongside zero-trust architecture initiatives. A 2025 CNCF survey reported that 54% of organizations running Kubernetes in production use mTLS between services. At the gateway level, mTLS is particularly valuable for B2B integrations and internal service-to-service communication where certificate management infrastructure already exists.
+mTLS adoption has surged alongside zero-trust architecture initiatives. In Kubernetes environments, mTLS between services has become increasingly common. At the gateway level, mTLS is particularly valuable for B2B integrations and internal service-to-service communication where certificate management infrastructure already exists.
 
 ### HMAC Authentication
 
@@ -72,7 +72,7 @@ HMAC is common in financial APIs and webhook verification scenarios where reques
 
 ## Best Practices
 
-**Layer your authentication.** Use mTLS at the transport layer for service identity and JWT or OAuth 2.0 at the application layer for user identity. Defense in depth reduces the impact of any single credential compromise. According to IBM's 2025 Cost of a Data Breach report, organizations with layered security controls experienced breach costs 38% lower than those relying on a single authentication mechanism.
+**Layer your authentication.** Use mTLS at the transport layer for service identity and JWT or OAuth 2.0 at the application layer for user identity. Defense in depth reduces the impact of any single credential compromise.
 
 **Enforce short-lived tokens.** Set JWT and OAuth 2.0 access token lifetimes to 15 minutes or less for user-facing flows. Use refresh tokens to obtain new access tokens without re-authentication. Short token lifetimes limit the window of exploitation if a token is leaked.
 
