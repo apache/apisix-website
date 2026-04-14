@@ -11,7 +11,7 @@ Mutual TLS (mTLS) is a security protocol where both the client and server authen
 
 ## Why Mutual TLS Matters
 
-Standard TLS protects the vast majority of internet traffic today. According to Google's Transparency Report, over 95% of web traffic traversing Chrome uses HTTPS as of 2026. However, standard TLS only solves half the authentication problem: clients verify that the server holds a valid certificate, but servers have no cryptographic assurance about the client's identity. They rely on application-layer mechanisms like API keys, tokens, or passwords instead.
+Standard TLS protects the vast majority of internet traffic today. The overwhelming majority of web traffic now uses HTTPS. However, standard TLS only solves half the authentication problem: clients verify that the server holds a valid certificate, but servers have no cryptographic assurance about the client's identity. They rely on application-layer mechanisms like API keys, tokens, or passwords instead.
 
 This gap becomes critical in zero-trust architectures, service-to-service communication, and regulated environments where network-level identity verification is required. mTLS closes this gap by making identity verification bilateral and cryptographic.
 
@@ -28,7 +28,7 @@ This gap becomes critical in zero-trust architectures, service-to-service commun
 | Performance overhead | Baseline | ~5-10% additional handshake time |
 | Common in browsers | Yes | Rare (except enterprise) |
 
-A 2025 Forrester report on zero-trust adoption found that 68% of organizations implementing zero-trust network access (ZTNA) use mTLS as their primary service-to-service authentication mechanism, up from 39% in 2022. The shift reflects growing recognition that network perimeter-based security is insufficient for distributed architectures.
+mTLS has become the predominant service-to-service authentication mechanism in zero-trust network access (ZTNA) implementations, reflecting growing recognition that network perimeter-based security is insufficient for distributed architectures.
 
 ## How the mTLS Handshake Works
 
@@ -46,13 +46,13 @@ The mTLS handshake extends the standard TLS 1.3 handshake with additional steps 
 
 **Step 6: Secure Channel Established.** Both parties derive session keys from the shared secret. All subsequent communication is encrypted and authenticated in both directions.
 
-The entire handshake adds approximately 1-2 milliseconds of latency compared to standard TLS, depending on certificate chain depth and revocation checking methods. According to Cloudflare's 2025 performance research, TLS 1.3 with mTLS adds a median of 1.4 milliseconds per handshake over TLS 1.3 without client authentication.
+The entire handshake adds approximately 1-2 milliseconds of latency compared to standard TLS, depending on certificate chain depth and revocation checking methods.
 
 ## Use Cases for Mutual TLS
 
 ### Zero-Trust Architecture
 
-Zero-trust security models operate on the principle of "never trust, always verify." Every service must authenticate cryptographically before communicating, regardless of network location. mTLS provides the transport-layer foundation for this model. According to Gartner's 2025 Security Infrastructure forecast, 70% of new network access deployments will be zero-trust by 2027, with mTLS as the predominant service identity mechanism.
+Zero-trust security models operate on the principle of "never trust, always verify." Every service must authenticate cryptographically before communicating, regardless of network location. mTLS provides the transport-layer foundation for this model. The industry trend is strongly toward zero-trust for new network access deployments, with mTLS as the predominant service identity mechanism.
 
 ### Microservices Communication
 
@@ -60,7 +60,7 @@ In microservices architectures, dozens or hundreds of services communicate over 
 
 ### IoT Device Authentication
 
-IoT devices operate in physically untrusted environments where API keys or passwords can be extracted from device firmware. mTLS binds device identity to a hardware-backed certificate, making impersonation significantly harder. A 2025 IoT Analytics report estimated that 4.2 billion IoT devices use certificate-based authentication, with mTLS adoption growing 28% year-over-year in industrial and healthcare IoT deployments.
+IoT devices operate in physically untrusted environments where API keys or passwords can be extracted from device firmware. mTLS binds device identity to a hardware-backed certificate, making impersonation significantly harder. Certificate-based authentication is widely adopted across IoT devices, with mTLS adoption growing rapidly in industrial and healthcare IoT deployments.
 
 ### API Security and Partner Integration
 
@@ -72,7 +72,7 @@ APIs exposed to partners or regulated industries often require stronger authenti
 
 Every client and server in an mTLS deployment needs a valid certificate. For an organization running 500 microservices with 3 replicas each, that means managing 1,500 certificates with their own issuance, renewal, and revocation cycles. Without automation, this becomes operationally unsustainable. Tools like cert-manager (for Kubernetes), HashiCorp Vault, and SPIFFE/SPIRE address this by automating certificate lifecycle operations.
 
-According to a 2025 Venafi machine identity report, 74% of organizations experienced at least one certificate-related outage in the previous 12 months, with an average remediation cost of $300,000 per incident. Automated rotation is not optional for production mTLS deployments.
+Certificate-related outages are common in organizations managing large certificate inventories, and remediation can be costly. Automated rotation is not optional for production mTLS deployments.
 
 ### Certificate Rotation
 
@@ -101,8 +101,6 @@ When upstream services require mTLS, configure the upstream resource with the cl
 ### Per-Route mTLS Policies
 
 APISIX allows different mTLS policies per route, enabling gradual rollout. Internal admin APIs can require mTLS immediately while public-facing routes continue using standard TLS with application-layer authentication. This granularity is configured through the route's `ssl` and `upstream` settings.
-
-According to Apache APISIX project statistics, mTLS-related configuration accounts for approximately 12% of SSL resource usage across tracked community deployments, with adoption growing 45% year-over-year as zero-trust architectures expand.
 
 The [certificate management guide](/docs/apisix/certificate/) covers integration with cert-manager and external CA providers for automated certificate rotation within APISIX deployments.
 
