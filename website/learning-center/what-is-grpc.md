@@ -124,7 +124,7 @@ Apache APISIX provides native gRPC support across all three integration patterns
 
 ### Native gRPC Proxying
 
-APISIX proxies gRPC traffic natively over HTTP/2, supporting unary and streaming calls. Routes can be configured with gRPC-specific upstream settings, and the full [plugin ecosystem](/docs/apisix/plugins/batch-processors/) applies to gRPC routes: authentication (JWT, key-auth), rate limiting, circuit breaking, and observability all work transparently on gRPC traffic.
+APISIX proxies gRPC traffic natively over HTTP/2, supporting unary and streaming calls. Routes can be configured with gRPC-specific upstream settings, and the full [plugin ecosystem](/plugins/) applies to gRPC routes: authentication (JWT, key-auth), rate limiting, circuit breaking, and observability all work transparently on gRPC traffic.
 
 ### gRPC-Web Support
 
