@@ -48,4 +48,12 @@
 ## Learning Center
 
 - [What is an API Gateway?](https://apisix.apache.org/learning-center/what-is-an-api-gateway/): Definition, benefits, and use cases
-- [What is API Management?](https://apisix.apache.org/learning-center/what-is-api-management/): Platforms, tools, and best practices
+- [API Gateway Authentication: Methods, Best Practices & Implementation](/learning-center/api-gateway-authentication): Auth at gateway layer (JWT, OAuth2, mTLS, HMAC)
+- [API Gateway for Microservices: Architecture, Patterns & Best Practices](/learning-center/api-gateway-for-microservices): Microservices architecture with API gateway
+- [API Gateway Rate Limiting: Algorithms, Strategies & Configuration](/learning-center/api-gateway-rate-limiting): Token bucket, sliding window, leaky bucket
+- [API Gateway vs Load Balancer: Key Differences Explained](/learning-center/api-gateway-vs-load-balancer): Gateway vs load balancer comparison
+- [Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices](/learning-center/kubernetes-api-gateway): Kubernetes Gateway API and Ingress
+- [API Monetization: Models, Strategies & Implementation Guide](/learning-center/api-monetization-guide): API pricing and monetization models
+- [Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik](/learning-center/open-source-api-gateway-comparison): API gateway comparison
+- [What is gRPC? Protocol Buffers, Performance & API Gateway Integration](/learning-center/what-is-grpc): gRPC basics and gateway integration
+- [What is Mutual TLS (mTLS)? How Two-Way Authentication Works](/learning-center/what-is-mutual-tls): mTLS and zero-trust security
