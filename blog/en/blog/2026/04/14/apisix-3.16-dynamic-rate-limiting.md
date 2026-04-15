@@ -32,7 +32,7 @@ APISIX 3.16 introduces two complementary features across the `limit-count`, `lim
 | Feature | Description | Supported Plugins |
 |---------|-------------|-------------------|
 | Multiple rules | Define an array of rate limiting rules with independent thresholds and time windows | `limit-count`, `limit-conn`, `ai-rate-limiting` |
-| Variable support | Use APISIX variables (`${remote_addr}`, `${http_*}`, `${consumer_name}`, etc.) in `count`, `time_window`, and `key` fields, with optional default values via `${var ?? default}` | `limit-count`, `limit-conn`, `ai-rate-limiting` |
+| Variable support | Use APISIX variables (`$remote_addr`, `$http_*`, `$consumer_name`, etc.) in `key` and plugin-specific rate or threshold fields | `limit-count`, `limit-conn`, `ai-rate-limiting` |
 
 Both features are fully backward compatible. Existing configurations continue to work without modification.
 
