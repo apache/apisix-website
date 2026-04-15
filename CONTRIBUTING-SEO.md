@@ -60,6 +60,7 @@ individual services don't need to implement these concerns.
 Include **at least one statistic or data point every 150-200 words**. Concrete numbers make content more authoritative and more likely to be cited by AI engines.
 
 Examples:
+
 - "Apache APISIX processes 18,000 requests per second per core with 0.2ms latency"
 - "Over 147,000 deployments across 5,200+ companies"
 - "100+ built-in plugins covering authentication, security, and traffic control"
