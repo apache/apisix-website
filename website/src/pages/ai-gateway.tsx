@@ -23,7 +23,7 @@ const ChakraTestPage: React.FC = () => (
       <meta property="og:type" content="website" />
       <meta
         property="og:title"
-        content="What is an AI Gateway? APISIX AI Gateway for LLMs &amp; AI Agents"
+        content="What is an AI Gateway? APISIX AI Gateway for LLMs & AI Agents"
       />
       <meta property="og:url" content="https://apisix.apache.org/ai-gateway/" />
       <meta
