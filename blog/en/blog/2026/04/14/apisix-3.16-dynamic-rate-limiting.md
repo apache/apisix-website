@@ -110,10 +110,13 @@ Variable support lets you pull rate limiting parameters directly from the reques
 
 Suppose your authentication middleware injects an `X-Rate-Quota` header based on the user's subscription tier:
 
+> **Prerequisite**: this example uses `${consumer_name}` as the rate limit key, which requires an authentication plugin on the route so that the consumer identity is available at request time. Add `key-auth` (or any other auth plugin) to the route plugins and create a consumer before testing.
+
 ```json
 {
   "uri": "/api/v1/*",
   "plugins": {
+    "key-auth": {},
     "limit-count": {
       "rules": [
         {
@@ -178,10 +181,15 @@ Tenant A calling `/api/v1/users` and Tenant B calling the same endpoint get inde
 
 The `limit-conn` plugin also supports rules and variables, enabling dynamic concurrency control:
 
+> **Prerequisite**: the per-consumer rule uses `${consumer_name}`, which requires an authentication plugin. Add `key-auth` to the route plugins and create a consumer before testing.
+>
+> **Note**: plain constant strings (e.g. `"global"`) are not supported as `key` values in the `rules` array due to a current APISIX limitation — the rule is silently skipped at runtime. Use a variable expression that always resolves instead, such as `"${http_host ?? global}"`. A fix has been filed at [apache/apisix#13180](https://github.com/apache/apisix/issues/13180).
+
 ```json
 {
   "uri": "/api/v1/inference",
   "plugins": {
+    "key-auth": {},
     "limit-conn": {
       "default_conn_delay": 0.1,
       "rules": [
@@ -193,7 +201,7 @@ The `limit-conn` plugin also supports rules and variables, enabling dynamic conc
         {
           "conn": 100,
           "burst": 20,
-          "key": "global"
+          "key": "${http_host ?? global}"
         }
       ],
       "rejected_code": 503
@@ -211,6 +219,10 @@ The `limit-conn` plugin also supports rules and variables, enabling dynamic conc
 This limits each consumer to 5 concurrent connections while capping the total at 100 — preventing any single consumer from monopolizing backend capacity.
 
 ## AI Rate Limiting: Token Budget Management
+
+> **Prerequisite**: `ai-rate-limiting` must be used alongside the `ai-proxy` plugin. Without `ai-proxy`, the plugin is silently inactive — it relies on `ai-proxy` to populate `ctx.picked_ai_instance_name` and `ctx.ai_token_usage` at runtime. The configuration below shows `ai-rate-limiting` in isolation for clarity; in production, add your `ai-proxy` configuration to the same route.
+>
+> **Note**: the global cap rule uses `"${http_host ?? global}"` instead of a plain `"global"` string. See the note in Example 3 for the reason.
 
 For AI gateway use cases, the `ai-rate-limiting` plugin combines multiple rules with variable support for fine-grained token budget control:
 
@@ -236,7 +248,7 @@ For AI gateway use cases, the `ai-rate-limiting` plugin combines multiple rules 
         {
           "count": 1000000,
           "time_window": 60,
-          "key": "global",
+          "key": "${http_host ?? global}",
           "header_prefix": "global"
         }
       ],
@@ -264,10 +276,13 @@ As AI API costs scale directly with token usage, this kind of layered budget con
 
 The real power emerges when you combine both features. Here is a complete example for an API platform with tiered pricing:
 
+> **Prerequisite**: add an authentication plugin (e.g. `key-auth`) to the route so that `${consumer_name}` is populated at runtime. The global cap rule uses `"${http_host ?? global}"` instead of a plain `"global"` string — see the note in Example 3 for the reason.
+
 ```json
 {
   "uri": "/api/v1/*",
   "plugins": {
+    "key-auth": {},
     "limit-count": {
       "rules": [
         {
@@ -285,7 +300,7 @@ The real power emerges when you combine both features. Here is a complete exampl
         {
           "count": 100000,
           "time_window": 60,
-          "key": "global",
+          "key": "${http_host ?? global}",
           "header_prefix": "global"
         }
       ],
