@@ -1,4 +1,8 @@
 {
+  "homepage.meta.title": {
+    "message": "Apache APISIX - 开源云原生 API 网关与 AI 网关",
+    "description": "Homepage title for Chinese locale"
+  },
   "common.punctuation.anEnd": {
     "message": "。",
     "description": "."
