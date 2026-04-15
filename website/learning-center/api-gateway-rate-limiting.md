@@ -38,6 +38,7 @@ The token bucket algorithm maintains a bucket of tokens for each rate-limited en
 Token bucket allows short bursts up to the bucket capacity while enforcing an average rate over time. This makes it well-suited for APIs where occasional traffic spikes are acceptable but sustained overuse is not.
 
 **Pros:** Permits controlled bursting, simple to implement, low memory footprint.
+
 **Cons:** Burst size must be tuned carefully; overly generous bursts can still overwhelm backends.
 
 ### Leaky Bucket
@@ -47,6 +48,7 @@ The leaky bucket algorithm processes requests at a fixed rate, queuing excess re
 Leaky bucket is ideal for backends that require strictly uniform request rates, such as third-party APIs with their own rate limits or services with fixed connection pools.
 
 **Pros:** Produces perfectly smooth output, prevents backend overload from bursts.
+
 **Cons:** Higher latency for bursty traffic due to queuing, queue size requires tuning.
 
 ### Sliding Window
@@ -56,6 +58,7 @@ The sliding window algorithm divides time into overlapping windows and counts re
 For example, if the window is 60 seconds and the current position is 40 seconds into the window, the algorithm weights 33% of the previous window's count and 100% of the current window's count to determine if the limit is exceeded.
 
 **Pros:** Accurate rate enforcement without boundary spikes, reasonable memory usage.
+
 **Cons:** Slightly more complex to implement than fixed window.
 
 ### Fixed Window
@@ -65,6 +68,7 @@ The fixed window algorithm divides time into non-overlapping intervals and count
 Fixed window is the simplest algorithm but has a well-known boundary problem: a client can make double the intended rate by clustering requests at the end of one window and the beginning of the next. Despite this limitation, fixed window remains widely deployed due to its simplicity and low overhead.
 
 **Pros:** Minimal memory and computation, easy to understand and debug.
+
 **Cons:** Boundary burst problem allows temporary rate doubling.
 
 ### Algorithm Comparison
