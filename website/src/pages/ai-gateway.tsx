@@ -11,7 +11,7 @@ const ChakraTestPage: React.FC = () => (
   <Layout>
     <Head>
       <title>
-        What is an AI Gateway? APISIX AI Gateway for LLMs &amp; AI Agents
+        What is an AI Gateway? APISIX AI Gateway for LLMs & AI Agents
       </title>
       <link rel="canonical" href="https://apisix.apache.org/ai-gateway/" />
 
