@@ -48,17 +48,62 @@ function shouldExclude(url) {
 }
 
 /**
- * Filter out excluded URLs from a sitemap object and return removal count.
+ * Determine the priority for a URL based on its path.
+ * Higher priority for key landing pages, lower for deep docs and archives.
+ */
+function getPriority(url) {
+  // Homepage
+  if (/^https:\/\/apisix\.apache\.org\/(zh\/)?$/.test(url)) return '1.0';
+  // Key landing pages
+  if (/\/(ai-gateway|plugins|downloads|docs|learning-center)\/$/.test(url)) return '0.8';
+  // Learning center articles and blog posts
+  if (/\/learning-center\//.test(url)) return '0.8';
+  if (/\/blog\/\d{4}\//.test(url)) return '0.6';
+  // Doc pages (latest version)
+  if (/\/docs\//.test(url)) return '0.7';
+  // Everything else
+  return '0.5';
+}
+
+/**
+ * Determine the changefreq for a URL based on its path.
+ */
+function getChangefreq(url) {
+  if (/^https:\/\/apisix\.apache\.org\/(zh\/)?$/.test(url)) return 'weekly';
+  if (/\/blog\/\d{4}\//.test(url)) return 'monthly';
+  if (/\/docs\//.test(url)) return 'monthly';
+  if (/\/learning-center\//.test(url)) return 'monthly';
+  return 'weekly';
+}
+
+/**
+ * Filter out excluded URLs from a sitemap object, set differentiated
+ * priority/changefreq, and add lastmod. Returns removal count.
  */
 function filterSitemapUrls(sitemap) {
   const urls = Array.isArray(sitemap.urlset.url)
     ? sitemap.urlset.url
     : [sitemap.urlset.url];
   const before = urls.length;
-  sitemap.urlset.url = urls.filter((entry) => {
-    const loc = entry.loc && entry.loc._text;
-    return !loc || !shouldExclude(loc);
-  });
+  const today = new Date().toISOString().split('T')[0];
+
+  sitemap.urlset.url = urls
+    .filter((entry) => {
+      const loc = entry.loc && entry.loc._text;
+      return !loc || !shouldExclude(loc);
+    })
+    .map((entry) => {
+      const loc = entry.loc && entry.loc._text;
+      if (loc) {
+        entry.priority = { _text: getPriority(loc) };
+        entry.changefreq = { _text: getChangefreq(loc) };
+        if (!entry.lastmod) {
+          entry.lastmod = { _text: today };
+        }
+      }
+      return entry;
+    });
+
   return before - sitemap.urlset.url.length;
 }
 
