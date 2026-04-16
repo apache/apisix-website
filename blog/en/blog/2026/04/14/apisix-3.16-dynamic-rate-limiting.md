@@ -14,7 +14,7 @@ keywords:
   - Multi-Tenant
   - Token Budget
 description: Apache APISIX 3.16 introduces dynamic rate limiting with multiple rules and variable support across limit-count, limit-conn, and ai-rate-limiting plugins, enabling context-aware, per-tier, and multi-tenant rate limiting in a single route configuration.
-tags: [Products]
+tags: [Community]
 ---
 
 Rate limiting is one of the most critical capabilities in any API gateway. Yet for years, most gateways — including APISIX — have treated it as a static, one-size-fits-all configuration: set a number, set a time window, done.
