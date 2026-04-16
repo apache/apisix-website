@@ -1,19 +1,11 @@
 # Algolia-Crawler-Verif: 027907D9E46C48C1
 
 User-agent: *
-Disallow: /blog/tags/
-Disallow: /zh/blog/tags/
-Disallow: /blog/page/
-Disallow: /zh/blog/page/
-Disallow: /search
-Disallow: /zh/search
-
 # Blog aggregation and pagination pages (low-value for indexing)
 Disallow: /blog/tags/
 Disallow: /zh/blog/tags/
 Disallow: /blog/page/
 Disallow: /zh/blog/page/
-
 # Search pages
 Disallow: /search
 Disallow: /zh/search
@@ -122,5 +114,8 @@ Disallow: /zh/docs/python-plugin-runner/3.15/
 Disallow: /zh/docs/python-plugin-runner/next/
 
 Sitemap: https://apisix.apache.org/sitemap.xml
-
 Sitemap: https://apisix.apache.org/zh/sitemap.xml
+
+# AI search engine crawlers — explicitly allowed
+# llms.txt for AI-friendly documentation index
+# See https://apisix.apache.org/llms.txt

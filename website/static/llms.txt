@@ -1,0 +1,62 @@
+# Apache APISIX
+
+> Apache APISIX is a dynamic, real-time, high-performance open-source API gateway and AI gateway that provides load balancing, authentication, rate limiting, observability, and 100+ plugins for managing API traffic at scale.
+
+## Core Documentation
+
+- [Getting Started](https://apisix.apache.org/docs/apisix/getting-started/): Install and configure Apache APISIX
+- [Architecture](https://apisix.apache.org/docs/apisix/architecture-design/apisix/): How APISIX works internally
+- [Routes](https://apisix.apache.org/docs/apisix/terminology/route/): Define routing rules for API traffic
+- [Upstreams](https://apisix.apache.org/docs/apisix/terminology/upstream/): Configure backend service targets
+- [Plugins](https://apisix.apache.org/docs/apisix/terminology/plugin/): Extend APISIX with built-in and custom plugins
+- [Plugin Hub](https://apisix.apache.org/plugins/): Browse all 100+ available plugins
+- [Admin API](https://apisix.apache.org/docs/apisix/admin-api/): Manage APISIX configuration via REST API
+
+## Authentication & Security
+
+- [Key Authentication](https://apisix.apache.org/docs/apisix/plugins/key-auth/): Simple API key-based authentication
+- [JWT Authentication](https://apisix.apache.org/docs/apisix/plugins/jwt-auth/): JSON Web Token validation
+- [OpenID Connect](https://apisix.apache.org/docs/apisix/plugins/openid-connect/): SSO with OIDC providers
+- [mTLS](https://apisix.apache.org/docs/apisix/mtls/): Mutual TLS for zero-trust security
+- [CORS](https://apisix.apache.org/docs/apisix/plugins/cors/): Cross-origin resource sharing
+
+## Traffic Control
+
+- [Rate Limiting (limit-req)](https://apisix.apache.org/docs/apisix/plugins/limit-req/): Request rate limiting with leaky bucket
+- [Rate Limiting (limit-count)](https://apisix.apache.org/docs/apisix/plugins/limit-count/): Fixed window counter-based rate limiting
+- [Concurrency Limiting](https://apisix.apache.org/docs/apisix/plugins/limit-conn/): Connection concurrency control
+- [Traffic Split](https://apisix.apache.org/docs/apisix/plugins/traffic-split/): Canary releases and A/B testing
+- [Proxy Cache](https://apisix.apache.org/docs/apisix/plugins/proxy-cache/): Response caching
+
+## AI Gateway
+
+- [AI Gateway Overview](https://apisix.apache.org/ai-gateway/): LLM proxy for AI workloads
+- [AI Proxy Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-proxy/): Route requests to 20+ LLM providers
+- [AI RAG Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-rag/): Retrieval-augmented generation support
+
+## Observability
+
+- [Prometheus](https://apisix.apache.org/docs/apisix/plugins/prometheus/): Metrics export for monitoring
+- [Datadog](https://apisix.apache.org/docs/apisix/plugins/datadog/): Integration with Datadog
+- [Zipkin](https://apisix.apache.org/docs/apisix/plugins/zipkin/): Distributed tracing
+
+## Kubernetes
+
+- [APISIX Ingress Controller](https://apisix.apache.org/docs/ingress-controller/overview/): Kubernetes-native API gateway
+- [Gateway API](https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/): Kubernetes Gateway API support
+
+## Learning Center
+
+- [What is an API Gateway?](https://apisix.apache.org/learning-center/what-is-an-api-gateway/): Definition, benefits, and use cases
+- [API Gateway Authentication: Methods, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-authentication): Auth at gateway layer (JWT, OAuth2, mTLS, HMAC)
+- [API Gateway for Microservices: Architecture, Patterns & Best Practices](https://apisix.apache.org/learning-center/api-gateway-for-microservices): Microservices architecture with API gateway
+- [API Gateway Rate Limiting: Algorithms, Strategies & Configuration](https://apisix.apache.org/learning-center/api-gateway-rate-limiting): Token bucket, sliding window, leaky bucket
+- [API Gateway vs Load Balancer: Key Differences Explained](https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer): Gateway vs load balancer comparison
+- [Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices](https://apisix.apache.org/learning-center/kubernetes-api-gateway): Kubernetes Gateway API and Ingress
+- [API Monetization: Models, Strategies & Implementation Guide](https://apisix.apache.org/learning-center/api-monetization-guide): API pricing and monetization models
+- [Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik](https://apisix.apache.org/learning-center/open-source-api-gateway-comparison): API gateway comparison
+- [What is gRPC? Protocol Buffers, Performance & API Gateway Integration](https://apisix.apache.org/learning-center/what-is-grpc): gRPC basics and gateway integration
+- [What is Mutual TLS (mTLS)? How Two-Way Authentication Works](https://apisix.apache.org/learning-center/what-is-mutual-tls): mTLS and zero-trust security
+- [API Gateway Security: Threats, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-security): API security, WAF, rate limiting, zero trust
+- [Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks](https://apisix.apache.org/learning-center/apisix-vs-kong): APISIX vs Kong comparison
+- [MCP Protocol & AI Gateways: Managing AI Agent Traffic at Scale](https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway): MCP and AI gateway architecture
