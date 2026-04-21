@@ -50,33 +50,33 @@ const Comparison: FC = () => (
           </tr>
           <tr>
             <th scope="row">Dubbo, MQTT, Tengine and REST API to gRPC transcoding</th>
-            <td><Tick /></td>
-            <td><Cross /></td>
+            <td><Tick title="Supported" /></td>
+            <td><Cross title="Not supported" /></td>
           </tr>
           <tr>
             <th scope="row">Configuration rollback</th>
-            <td><Tick /></td>
-            <td><Cross /></td>
+            <td><Tick title="Supported" /></td>
+            <td><Cross title="Not supported" /></td>
           </tr>
           <tr>
             <th scope="row">Custom Load Balancing and routing</th>
-            <td><Tick /></td>
-            <td><Cross /></td>
+            <td><Tick title="Supported" /></td>
+            <td><Cross title="Not supported" /></td>
           </tr>
           <tr>
             <th scope="row">Plugin hot loading</th>
-            <td><Tick /></td>
-            <td><Cross /></td>
+            <td><Tick title="Supported" /></td>
+            <td><Cross title="Not supported" /></td>
           </tr>
           <tr>
             <th scope="row">Dashboard</th>
-            <td><Tick /></td>
-            <td><Cross /></td>
+            <td><Tick title="Supported" /></td>
+            <td><Cross title="Not supported" /></td>
           </tr>
           <tr>
             <th scope="row">Support any NGINX variable as routing condition</th>
-            <td><Tick /></td>
-            <td><Cross /></td>
+            <td><Tick title="Supported" /></td>
+            <td><Cross title="Not supported" /></td>
           </tr>
         </tbody>
       </table>
