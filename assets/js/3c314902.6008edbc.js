@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkblog=globalThis.webpackChunkblog||[]).push([[54414],{21503(s){s.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/ingress","name":"Ingress","count":1,"permalink":"/blog/tags/ingress"}')}}]);
