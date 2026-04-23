@@ -127,7 +127,7 @@ jobs:
 
       - name: Upload build logs as artifact
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-logs
           path: /tmp/apisix-website-build-logs/
