@@ -3,7 +3,7 @@ title: "2026 社区月报 (04.01 - 04.30)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/04/30/qaKsoh3b_2026-apr-monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了一些新功能，包括 `ai-proxy` 插件支持 AWS Bedrock、原生支持 Anthropic Messages API 协议、支持 OpenAI Responses API、`ai-rate-limiting` 新增基于表达式的限流策略、`request-id` 插件支持 UUID v7 生成等。有关更多细节，请阅读本期月报。
@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
+![贡献者名单](https://static.api7.ai/uploads/2026/04/30/hcKyxF8v_2026-apr-contributors.webp)
 
-![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
+![新晋贡献者](https://static.api7.ai/uploads/2026/04/30/JEF7CpIj_2026-apr-new-contributors.webp)
 
 ## 近期亮点功能
 

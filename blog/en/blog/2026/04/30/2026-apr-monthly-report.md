@@ -3,7 +3,7 @@ title: "2026 Monthly Report (April 01 - April 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/04/30/eNntRfyu_2026-apr-monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated some new features, including AWS Bedrock support in `ai-proxy`, native Anthropic Messages API protocol support, OpenAI Responses API support, expression-based rate limiting in `ai-rate-limiting`, UUID v7 generation in `request-id`, and more. For more details, please read this month's newsletter.
@@ -18,9 +18,9 @@ From April 1st to April 30th, 17 contributors made 129 commits to Apache APISIX.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/04/30/hcKyxF8v_2026-apr-contributors.webp)
 
-![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
+![New Contributors List](https://static.api7.ai/uploads/2026/04/30/JEF7CpIj_2026-apr-new-contributors.webp)
 
 ## Feature Highlights
 
