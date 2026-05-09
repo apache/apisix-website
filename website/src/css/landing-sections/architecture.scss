@@ -36,9 +36,10 @@
   font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
   text-align: center;
-  position: relative;
-  bottom: -15px;
   font-size: 1rem;
+  line-height: 1.6;
+  margin: 20px 0;
+  padding: 10px;
 }
 
 .arch-card-border {
@@ -71,11 +72,18 @@
   font-size: 1.13rem;
   position: relative;
   left: 16.8%;
-  width: 70%;
+  width: 60%;
+  max-width: 60%;
   color: #615d5d;
   letter-spacing: 0.2px;
   font-family: MaisonNeue-Light, sans-serif;
   font-weight: 700;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  box-sizing: border-box;
+  padding-right: 2%;
+  line-height: 1.5;
 }
 
 .add-left-margin {
@@ -113,6 +121,83 @@
   .docs-promo-subtitle,
   .oss-promo-subtitle {
     left: 7%;
-    width: 85%;
+    width: 80%;
+    max-width: 80%;
+    padding-right: 13%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.5;
+  }
+  
+  .arch-card-caption > p {
+    width: 95%;
+    font-size: 0.9rem;
+    padding: 5px;
+  }
+}
+
+/* Medium tablets and large phones */
+@media (max-width: 768px) {
+  .arch-card-caption > p {
+    width: 92%;
+    font-size: 0.85rem;
+    padding: 6px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .arch-card-border {
+    width: 85% !important;
+    left: 7.5% !important;
+    height: 110% !important;
+  }
+  
+  .arch-card-caption {
+    padding: 0 10px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .arch-card-caption > p {
+    font-size: 0.65rem;
+    width: 80%;
+    max-width: 80%;
+    padding: 8px 0;
+    margin: 15px 0;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto;
+    line-height: 1.4;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .arch-card-border {
+    width: 90% !important;
+    left: 5% !important;
+    height: 115% !important;
+  }
+  
+  .arch-card-caption {
+    padding: 0 8px;
+  }
+  
+  .arch-card-caption > p {
+    font-size: 0.6rem;
+    width: 75%;
+    max-width: 75%;
+    word-break: break-all !important;
+    line-height: 1.3;
+    margin: 12px 0;
+    padding: 6px 0;
   }
 }

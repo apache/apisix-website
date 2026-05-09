@@ -1,12 +1,14 @@
 ---
 id: code-samples
-title: Code samples
+title: Code Samples
 keywords:
   - API gateway
   - Code samples
   - Example projects
   - Source code
-description: Apache APISIX code samples and projects.
+  - Apache APISIX
+  - Tutorials
+description: Comprehensive collection of Apache APISIX code samples, tutorials, and example projects to accelerate your API development journey.
 ---
 
 **Welcome to Apache APISIX Code Samples!**
