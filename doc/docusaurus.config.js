@@ -55,7 +55,7 @@ module.exports = {
       },
     },
   },
-  onBrokenLinks: 'log',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   noIndex: false,
   presets: [
