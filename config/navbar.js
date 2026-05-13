@@ -2,7 +2,7 @@ module.exports = [
   {
     label: 'Docs',
     position: 'right',
-    to: '/docs',
+    href: 'https://apisix.apache.org/docs/',
     target: '_parent',
     items: [
       {
@@ -47,7 +47,7 @@ module.exports = [
       },
       {
         label: 'General',
-        to: '/docs/general/join',
+        href: 'https://apisix.apache.org/docs/general/join/',
         target: '_parent',
       },
     ],
@@ -98,7 +98,7 @@ module.exports = [
         target: '_parent',
       },
       {
-        to: '/docs/general/code-samples',
+        href: 'https://apisix.apache.org/docs/general/code-samples/',
         label: 'Code Samples',
         target: '_parent',
       },
@@ -108,12 +108,12 @@ module.exports = [
         target: '_parent',
       },
       {
-        to: '/docs/general/join',
+        href: 'https://apisix.apache.org/docs/general/join/',
         label: 'Community',
         target: '_parent',
       },
       {
-        to: '/docs/general/events',
+        href: 'https://apisix.apache.org/docs/general/events/',
         label: 'Events',
         target: '_parent',
       },
