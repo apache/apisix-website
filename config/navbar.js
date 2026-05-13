@@ -53,37 +53,37 @@ module.exports = [
     ],
   },
   {
-    to: '/learning-center',
+    href: 'https://apisix.apache.org/learning-center/',
     label: 'Learning Center',
     position: 'right',
     target: '_parent',
   },
   {
-    to: '/blog',
+    href: 'https://apisix.apache.org/blog/',
     label: 'Blog',
     position: 'right',
     target: '_parent',
   },
   {
-    to: '/blog/tags/case-studies',
+    href: 'https://apisix.apache.org/blog/tags/case-studies/',
     label: 'Case Studies',
     position: 'right',
     target: '_parent',
   },
   {
-    to: '/downloads',
+    href: 'https://apisix.apache.org/downloads/',
     label: 'Downloads',
     position: 'right',
     target: '_parent',
   },
   {
-    to: '/help',
+    href: 'https://apisix.apache.org/help/',
     label: 'Help',
     position: 'right',
     target: '_parent',
   },
   {
-    to: 'team',
+    href: 'https://apisix.apache.org/team/',
     label: 'Team',
     position: 'right',
     target: '_parent',
@@ -93,7 +93,7 @@ module.exports = [
     position: 'right',
     items: [
       {
-        to: '/showcase',
+        href: 'https://apisix.apache.org/showcase/',
         label: 'Showcase',
         target: '_parent',
       },
@@ -103,7 +103,7 @@ module.exports = [
         target: '_parent',
       },
       {
-        to: '/plugins',
+        href: 'https://apisix.apache.org/plugins/',
         label: 'PluginHub',
         target: '_parent',
       },

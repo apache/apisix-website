@@ -33,7 +33,7 @@ const NotFound: FC = () => (
       <p>
         You can also return to
         {' '}
-        <Link href="/">
+        <Link href="https://apisix.apache.org/">
           the home page
         </Link>
         . Or, return to

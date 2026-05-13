@@ -78,15 +78,15 @@ const footer = {
       items: [
         {
           label: 'Blog',
-          to: '/blog/',
+          href: 'https://apisix.apache.org/blog/',
           target: '_parent',
         }, {
           label: 'Showcase',
-          to: '/showcase',
+          href: 'https://apisix.apache.org/showcase/',
           target: '_parent',
         }, {
           label: 'Plugin Hub',
-          to: '/plugins',
+          href: 'https://apisix.apache.org/plugins/',
           target: '_parent',
         },
         {
