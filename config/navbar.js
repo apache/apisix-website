@@ -104,7 +104,7 @@ module.exports = [
       },
       {
         to: '/plugins',
-        label: 'PluginHub',
+        label: 'Plugin Hub',
         target: '_parent',
       },
       {
