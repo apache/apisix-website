@@ -42,12 +42,112 @@ $apisix-color: #e8433e;
 
   & .links {
     display: flex;
+    
+    :global(.btn-download) {
+      background: #030c16;
+      border-style: solid;
+      border-width: 1px;
+      border: none;
+      color: white;
+      padding: 5px 20px;
+      border-radius: 20px;
+      font-size: 1rem;
+      text-decoration: none;
+      margin: 0 10px 0 0;
+      transition: all 0.3s;
+      box-shadow: none;
+      
+      &:hover {
+        background: #000000;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(244, 89, 89, 0.4);
+      }
+    }
+    
+    :global(.btn-docs) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      
+      &:hover {
+        text-decoration: none;
+      }
+      
+      :global(.goto) {
+        color: #000;
+        text-shadow: none;
+      }
+      
+      &:hover :global(.goto),
+      &:active :global(.goto) {
+        opacity: 0.8;
+        text-shadow: none;
+      }
+      
+      :global(.arrow) {
+        width: 30px;
+        height: 30px;
+        position: relative;
+        
+        svg {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        
+        polygon,
+        rect {
+          transition: all 250ms;
+        }
+        
+        rect {
+          opacity: 0;
+        }
+      }
+      
+      &:hover :global(.arrow) {
+        polygon {
+          transform: translateX(100px);
+        }
+        
+        rect {
+          transform: translateX(240px);
+          opacity: 1;
+        }
+      }
+    }
   }
 
   @include respond-below(lg) {
     & .text {
       & .rocket {
         display: none;
+      }
+    }
+  }
+
+  /* Medium tablets */
+  @media (max-width: 768px) {
+    & .text {
+      font-size: 3.5rem;
+      
+      & .apisix {
+        margin: -0.8rem 0;
+      }
+    }
+    
+    & .links {
+      :global(.btn-download) {
+        font-size: 0.9rem;
+        padding: 4px 18px;
+      }
+      
+      :global(.btn-docs) {
+        :global(.goto) {
+          font-size: 0.85rem;
+        }
       }
     }
   }
@@ -65,6 +165,37 @@ $apisix-color: #e8433e;
 
       & .apisix {
         margin: -1rem 0;
+      }
+    }
+    
+    & .links {
+      :global(.btn-download) {
+        font-size: 0.8rem;
+        padding: 4px 16px;
+      }
+      
+      :global(.btn-docs) {
+        :global(.goto) {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .endcta {
+    & .links {
+      :global(.btn-download) {
+        font-size: 0.7rem;
+        padding: 3px 14px;
+      }
+      
+      :global(.btn-docs) {
+        :global(.goto) {
+          font-size: 0.65rem;
+        }
       }
     }
   }
