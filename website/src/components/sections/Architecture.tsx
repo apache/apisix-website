@@ -42,10 +42,10 @@ const Architecture: FC = () => (
       </div>
       <div className="arch-card-caption">
         <p>
-          <Translate id="architecture.component.card.caption">
-            Apache APISIX is based on NGINX and etcd. Compared with traditional API Gateways, APISIX
-            has features like dynamic routing and hot-loading plugins, etc.
-          </Translate>
+          Apache APISIX is based on NGINX and etcd.
+          Compared with traditional API Gateways,
+          APISIX has features like dynamic routing<br />
+          and hot-loading plugins, etc.
         </p>
       </div>
       <div className="arch-card-border" />

@@ -204,15 +204,19 @@ const Plugins: FC = () => {
       return (
         <div key={plugin.name}>
           <PluginCard href={plugin.beta ? `/docs/apisix/next/plugins/${pluginUrl}` : `/docs/apisix/plugins/${pluginUrl}`} target="_blank">
+
             <PluginIcon>
-              {plugin.useDefaultIcon
-                ? <img className="plugin-logo shadow default" src="/img/plugin/default-icon.png" alt={plugin.name} />
-                : (
+              {['batch-requests', 'grpc-transcode', 'error-log-logger', 'proxy-cache', 'http-logger', 'proxy-mirror', 'proxy-rewrite', 'response-rewrite', 'request-id', 'tcp-logger', 'zipkin', 'udp-logger', 'sls-logger', 'syslog', 'limit-conn', 'api-breaker', 'consumer-restriction', 'basic-auth', 'fault-injection', 'ip-restriction', 'hmac-auth', 'key-auth', 'limit-count', 'cors', 'limit-req', 'traffic-split', 'request-validation', 'referer-restriction', 'wolf-rbac', 'jwt-auth', 'authz-casbin', 'authz-keycloak', 'kafka-logger', 'openid-connect', 'prometheus', 'skywalking', 'datadog', 'google-cloud-logging', 'uri-blocker', 'redirect', 'echo', 'gzip', 'real-ip', 'server-info', 'grpc-web', 'mocking', 'authz-casdoor', 'cas-auth', 'ldap-auth', 'opa', 'forward-auth', 'ext-plugin-pre-req', 'ext-plugin-post-req', 'ext-plugin-post-resp', 'ua-restriction', 'csrf', 'public-api', 'node-status', 'opentelemetry', 'skywalking-loggerr', 'rocketmq-logger', 'clickhouse-logger', 'log-rotate', 'splunk-hec-logging', 'file-logger', 'loggly', 'elasticsearch-logger', 'tencent-cloud-cls', 'serverless', 'azure-functions', 'openwhisk', 'aws-lambda', 'workflow', 'openfunction', 'dubbo-proxy', 'mqtt-proxy', 'kafka-proxy', 'proxy-control', 'client-control', 'CSRF'].includes(plugin.name)
+
+                ? (
                   <svg className="plugin-logo shadow" aria-hidden="true">
                     <use xlinkHref={`#icon${plugin.name}`} />
                   </svg>
+                ) : (
+                  <img className="plugin-logo shadow default" src="/img/plugin/default-icon.png" alt={plugin.name} />
                 )}
             </PluginIcon>
+
             <PluginName>
               {plugin.name}
               {plugin.beta && <SBeta title="This plugin will be supported in the next version of Apache APISIX">Beta</SBeta>}
