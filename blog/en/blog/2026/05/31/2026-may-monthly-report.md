@@ -3,7 +3,7 @@ title: "2026 Monthly Report (May 01 - May 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/hHcHm2BY_monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated some new features, including new authentication plugins for Feishu and DingTalk, GraphQL request cost limiting, OpenAPI request validation, safer proxy caching, and expanded AI proxy protocol support. For more details, please read this month's newsletter.
@@ -18,9 +18,9 @@ From May 1st to May 31st, 16 contributors made 74 commits to Apache APISIX. We s
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
+![Apache APISIX Contributors List](https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/bzwKQ6n1_2026-june-contributor-list.webp)
 
-![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
+![New Contributors List](https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/8FBAfGMh_Group%20427320348.webp)
 
 ## Feature Highlights
 
@@ -144,7 +144,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR introduces the `oas-validator` plugin for validating inbound HTTP requests against an OpenAPI Specification 3.x document before forwarding them upstream. Invalid requests can be rejected with a configurable status code, helping API providers enforce contracts at the gateway layer.
 
-### 16. Support Bedrock ConverseStream Streaming in `ai-proxy`
+### 16. Support Bedrock ConverseStream Streaming in `ai-proxy` Plugin
 
 PR: https://github.com/apache/apisix/pull/13307
 
@@ -152,7 +152,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR extends the Bedrock provider in `ai-proxy` with ConverseStream support. APISIX can now route streaming Bedrock requests, parse AWS EventStream framing, and forward streaming model responses through the same provider abstraction used by other AI protocols.
 
-### 17. Support Dynamic Indexes in `elasticsearch-logger`
+### 17. Support Dynamic Indexes in `elasticsearch-logger` Plugin
 
 PR: https://github.com/apache/apisix/pull/13334
 
@@ -176,11 +176,15 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR adds a passthrough protocol adapter to `ai-proxy` for non-empty JSON request bodies that do not match a known AI protocol. It allows APISIX to proxy OpenAI-compatible or custom endpoints such as image generation APIs without forcing every payload shape through a specialized parser.
 
-## Good First Issues
+## Good First Issue
 
-The following open issue was labeled as `good first issue` in May. New contributors are welcome to take a look and join the Apache APISIX community:
+### Issue #13395
 
-- [docs: hmac-auth body validation example should sign the Digest header](https://github.com/apache/apisix/issues/13395)
+Link: https://github.com/apache/apisix/issues/13395
+
+Description: The `hmac-auth` plugin documentation has a body-validation example where the request body `Digest` header is computed and sent, but the `Digest` header is not included in the HMAC signed headers list or the signing string. This makes the example slightly misleading: it appears to demonstrate end-to-end body integrity, but the body digest is not actually bound to the signature.
+
+Expected Behavior: Update the `hmac-auth` documentation example so the SHA-256 body digest is computed first, then included in the signing string as `digest: SHA-256=<base64 body digest>`. The `Authorization` header should also include `digest` in the signed headers list, such as `headers="@request-target date digest"`. It would also be helpful to add a short note explaining that `validate_request_body` checks the `Digest` header against the request body, and users who want the body bound to the signature should include `Digest` in the signed headers.
 
 ## Conclusion
 

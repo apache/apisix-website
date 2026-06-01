@@ -3,7 +3,7 @@ title: "2026 社区月报 (05.01 - 05.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了一些新功能，包括新增飞书与钉钉认证插件、GraphQL 请求成本限制、OpenAPI 请求校验、更安全的代理缓存，以及更丰富的 AI 代理协议支持等。有关更多细节，请阅读本期月报。
@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
+![贡献者名单](https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/bzwKQ6n1_2026-june-contributor-list.webp)
 
-![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
+![新晋贡献者](https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/8FBAfGMh_Group%20427320348.webp)
 
 ## 近期亮点功能
 
@@ -144,7 +144,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 引入 `oas-validator` 插件，可在请求转发到上游之前，根据 OpenAPI Specification 3.x 文档校验入站 HTTP 请求。对于不符合规范的请求，插件可以返回可配置的错误状态码，帮助 API 提供方在网关层执行契约校验。
 
-### 16. `ai-proxy` 支持 Bedrock ConverseStream 流式响应
+### 16. `ai-proxy` 插件支持 Bedrock ConverseStream 流式响应
 
 相关 PR：https://github.com/apache/apisix/pull/13307
 
@@ -152,7 +152,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为 `ai-proxy` 的 Bedrock provider 增加 ConverseStream 支持。APISIX 现在可以路由 Bedrock 流式请求，解析 AWS EventStream 帧，并通过与其他 AI 协议一致的 provider 抽象转发模型流式响应。
 
-### 17. `elasticsearch-logger` 支持动态索引
+### 17. `elasticsearch-logger` 插件支持动态索引
 
 相关 PR：https://github.com/apache/apisix/pull/13334
 
@@ -176,11 +176,15 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为 `ai-proxy` 新增 passthrough 协议适配器，用于处理无法匹配已知 AI 协议但包含非空 JSON 请求体的场景。这样 APISIX 可以代理 OpenAI 兼容或自定义端点，例如图像生成 API，而不必为每种请求体格式都实现专门解析器。
 
-## 适合新手参与的 Issue
+## Good First Issue
 
-以下仍处于打开状态的 issue 在 5 月被标记为 `good first issue`。欢迎新贡献者关注并参与 Apache APISIX 社区：
+### Issue #13395
 
-- [docs: hmac-auth body validation example should sign the Digest header](https://github.com/apache/apisix/issues/13395)
+链接：https://github.com/apache/apisix/issues/13395
+
+描述：`hmac-auth` 插件文档中的请求体验证示例会计算并发送 `Digest` 请求头，但该请求头没有被加入 HMAC 签名请求头列表，也没有出现在签名字符串中。这会让示例略显误导：它看起来是在演示端到端的请求体完整性校验，但实际请求体摘要并没有被签名绑定。
+
+预期行为：更新 `hmac-auth` 文档示例，先计算请求体的 SHA-256 digest，再将其以 `digest: SHA-256=<base64 body digest>` 的形式加入签名字符串。同时，`Authorization` 请求头中的签名头列表也应加入 `digest`，例如 `headers="@request-target date digest"`。此外，可以补充一小段说明：`validate_request_body` 会校验 `Digest` 请求头与请求体是否匹配；如果用户希望请求体被签名绑定，也应将 `Digest` 加入 signed headers。
 
 ## 结语
 
