@@ -1,5 +1,6 @@
 ---
-title: "Release Apache APISIX Ingress Controller 2.0"
+title: "Release Apache APISIX Ingress Controller 2.1.0"
+date: 2026-06-01 14:20:06
 authors:
   - name: Yilia Lin
     title: Technical Writer
@@ -11,7 +12,7 @@ keywords:
   - Kubernetes Ingress
   - Gateway API
   - Apache APISIX
-description: Apache APISIX Ingress Controller 2.0 delivers comprehensive Gateway API support, flexible multi-data-plane deployment, and etcd-free operation for robust, scalable Kubernetes traffic management.
+description: Apache APISIX Ingress Controller 2.1.0 delivers comprehensive Gateway API support, flexible multi-data-plane deployment, and etcd-free operation for robust, scalable Kubernetes traffic management.
 tags: [Community]
 image: https://static.api7.ai/uploads/2025/12/22/q17SNFmp_apisix-ingress-controller-cover.webp
 ---
@@ -82,4 +83,4 @@ Apache APISIX Ingress Controller 2.0 represents a significant evolution in Kuber
 
 Whether you are standardizing ingress across diverse workloads, seeking greater architectural flexibility, or requiring enterprise-grade stability at scale, APISIX Ingress Controller 2.0 offers a forward-looking solution that simplifies operations without compromising capability. It stands as a testament to the community-driven innovation within the Apache APISIX ecosystem, designed to meet today's demands while adapting to tomorrow's challenges.
 
-> For a complete list of features and changes, please refer to the [Release Changelog](https://github.com/apache/apisix-ingress-controller/blob/2.0.0/CHANGELOG.md#200).
+> For a complete list of features and changes, please refer to the [Release Changelog](https://github.com/apache/apisix-ingress-controller/blob/2.1.0/CHANGELOG.md#210).
