@@ -29,11 +29,11 @@ This release also includes several breaking changes in authentication, caching, 
 
 ## Breaking Changes
 
-### Authentication validation and signing behavior are stricter by default
+### Stricter authentication defaults
 
 This release tightens several authentication plugins to enforce safer defaults.
 
-The `jwt-auth` plugin now treats configured `claims_to_verify` values as required claims, and an empty `claims_to_verify: []` no longer disables the default `exp` and `nbf` checks. The `hmac-auth` plugin now defaults `signed_headers` to `["date"]`, so clients must sign the `Date` header unless the configuration explicitly overrides this behavior.
+The `jwt-auth` plugin now treats configured `claims_to_verify` values as required claims, and an empty `claims_to_verify: []` no longer disables the default `exp` and `nbf` checks. The `key-auth` plugin now strips invalid credentials from both headers and query arguments before falling back to an anonymous consumer when `hide_credentials` is enabled. The `hmac-auth` plugin now defaults `signed_headers` to `["date"]`, so clients must sign the `Date` header unless the configuration explicitly overrides this behavior.
 
 For more information, see [PR #13468](https://github.com/apache/apisix/pull/13468) and [PR #13388](https://github.com/apache/apisix/pull/13388).
 
@@ -41,7 +41,7 @@ For more information, see [PR #13468](https://github.com/apache/apisix/pull/1346
 
 The `cas-auth` plugin now uses a nested `cookie` configuration and requires `cookie.secret`. It also signs the login redirect cookie and tightens cookie handling.
 
-Existing `cas-auth` configurations that still use the previous top-level cookie secret field must be updated before they will validate and work correctly on 3.17.0.
+Existing `cas-auth` configurations must add the new required `cookie.secret` value before upgrading to 3.17.0. Use the same secret on every APISIX node, and set `cookie.secure` to `false` for HTTP-only deployments.
 
 For more information, see [PR #13331](https://github.com/apache/apisix/pull/13331).
 
@@ -53,15 +53,15 @@ For more information, see [PR #13464](https://github.com/apache/apisix/pull/1346
 
 ### `proxy-cache` uses safer cache defaults
 
-The `proxy-cache` plugin now isolates cache entries by authenticated consumer by default and avoids caching `Set-Cookie` responses in memory unless explicitly enabled.
+The `proxy-cache` plugin now isolates cache entries by authenticated consumer by default, avoids caching `Set-Cookie` responses in memory unless explicitly enabled, and always honors upstream `Cache-Control: private`, `no-store`, and `no-cache` response directives in memory mode.
 
 Deployments that previously relied on shared authenticated caches or permissive cookie caching may see different cache hit behavior after upgrading.
 
 For more information, see [PR #13350](https://github.com/apache/apisix/pull/13350).
 
-### `batch-requests` enforces stricter request validation and limits
+### Stricter `batch-requests` validation
 
-The `batch-requests` plugin now requires each pipeline item to include `path`, rejects unknown fields, requires `timeout` to be at least `1`, and limits the number of pipeline items with `max_pipeline_items`.
+The `batch-requests` plugin now requires each pipeline item to include `path`, rejects unknown fields, requires `timeout` to be at least `1`, and limits each request to `max_pipeline_items` pipeline items, which defaults to `1000` and can be configured in plugin metadata.
 
 Requests that previously relied on tolerated invalid payloads or oversized pipelines must be updated.
 
@@ -81,7 +81,7 @@ For more information, see [PR #13346](https://github.com/apache/apisix/pull/1334
 
 APISIX 3.17.0 introduces two new plugins for GraphQL workloads.
 
-The `graphql-limit-count` plugin rate limits requests based on GraphQL query depth, while the `graphql-proxy-cache` plugin caches GraphQL query responses and automatically bypasses cache for mutations.
+The `graphql-limit-count` plugin rate limits requests based on GraphQL query depth, while the `graphql-proxy-cache` plugin caches GraphQL query responses for GET and POST requests using disk or memory cache strategies. It isolates cache entries by authenticated identity by default, automatically bypasses cache for mutations, and exposes a PURGE API for invalidation.
 
 For more information, see [PR #13372](https://github.com/apache/apisix/pull/13372) and [PR #13435](https://github.com/apache/apisix/pull/13435).
 
@@ -89,7 +89,7 @@ For more information, see [PR #13372](https://github.com/apache/apisix/pull/1337
 
 This release adds the `data-mask`, `error-page`, and `proxy-buffering` plugins.
 
-The `data-mask` plugin redacts sensitive fields before they are written by logging plugins. The `error-page` plugin customizes APISIX-generated error responses such as `404`, `500`, `502`, and `503`. The `proxy-buffering` plugin allows proxy buffering to be disabled per route for SSE and other streaming responses.
+The `data-mask` plugin masks or redacts sensitive query parameters, headers, and JSON or URL-encoded request bodies before they are written to access logs or logger plugins. The `error-page` plugin customizes APISIX-generated error responses such as `404`, `500`, `502`, and `503` through plugin metadata; upstream-generated responses are not modified. The `proxy-buffering` plugin allows proxy buffering to be disabled per route for SSE and other streaming responses.
 
 For more information, see [PR #13347](https://github.com/apache/apisix/pull/13347), [PR #13380](https://github.com/apache/apisix/pull/13380), and [PR #13446](https://github.com/apache/apisix/pull/13446).
 
@@ -103,7 +103,7 @@ For more information, see [PR #13495](https://github.com/apache/apisix/pull/1349
 
 ### `proxy-cache` correctness and cache safety improvements
 
-This release improves correctness in the `proxy-cache` plugin by honoring upstream `Vary` headers in memory mode, avoiding `Vary: *` caching, and making `PURGE` work correctly with expired and variant cache entries.
+This release improves correctness in the `proxy-cache` plugin by honoring upstream `Vary` headers in memory mode, avoiding `Vary: *` caching, and making `PURGE` work correctly with expired and variant cache entries. It also prevents memory cache from storing responses with `Set-Cookie` headers added by upstreams or other plugins unless cookie caching is explicitly enabled.
 
 For more information, see [PR #13376](https://github.com/apache/apisix/pull/13376).
 
@@ -111,13 +111,13 @@ For more information, see [PR #13376](https://github.com/apache/apisix/pull/1337
 
 This release fixes multiple reliability issues across AI proxying workflows.
 
-The `ai-proxy-multi` plugin now handles domain-based upstreams more reliably for multi-IP endpoints, preserving the original host information for `Host`, SNI, and AWS SigV4 signing. AI request JSON encoding is now deterministic to improve prompt cache hit rates with compatible providers, and upstream AI timeouts now return `504 Gateway Timeout` instead of `500`.
+The `ai-proxy-multi` plugin now handles domain-based upstreams more reliably for multi-IP endpoints, preserving the original host information for `Host`, SNI, and AWS SigV4 signing. AI request JSON encoding is now deterministic to improve prompt cache hit rates with compatible providers. AI streaming also supports `streaming_flush_interval_ms` for latency control and better disconnect handling, and upstream AI timeouts now return `504 Gateway Timeout` instead of `500`.
 
 For more information, see [PR #13441](https://github.com/apache/apisix/pull/13441), [PR #13461](https://github.com/apache/apisix/pull/13461), and [PR #13481](https://github.com/apache/apisix/pull/13481).
 
 ### Rate limiting fixes for Redis-backed workflows
 
-This release fixes a Redis race in `limit-req` by making leaky-bucket state updates atomic, and corrects dynamic `conn` and `burst` validation in `limit-conn`, including support for dynamic `burst: 0`.
+This release fixes a Redis race in `limit-req` by making leaky-bucket state updates atomic. It also tightens dynamic `conn` and `burst` validation in `limit-conn`: resolved values must be safe integers, `conn` must be positive, and `burst` may be `0` but cannot be negative.
 
 For more information, see [PR #13467](https://github.com/apache/apisix/pull/13467).
 
@@ -125,13 +125,13 @@ For more information, see [PR #13467](https://github.com/apache/apisix/pull/1346
 
 This release fixes several authentication and session handling issues.
 
-`authz-keycloak` no longer mutates shared permissions while appending request method scopes. `authz-casdoor` now scopes sessions by `client_id`. The `cas-auth` plugin hardens callback and session handling to prevent invalid callback sessions and cross-route session reuse.
+`authz-keycloak` no longer mutates shared permissions while appending request method scopes. `authz-casdoor` now scopes sessions by `client_id`. The `cas-auth` plugin hardens callback and session handling to prevent invalid callback sessions and cross-route session reuse, supports absolute `cas_callback_uri` values, and returns `400` for malformed CAS single logout callbacks instead of failing with `500` or accepting empty tickets.
 
 For more information, see [PR #13410](https://github.com/apache/apisix/pull/13410), [PR #13387](https://github.com/apache/apisix/pull/13387), and [PR #13427](https://github.com/apache/apisix/pull/13427).
 
 ### Better secret handling and token validation
 
-This release expands at-rest encryption coverage for sensitive plugin fields when field encryption is enabled. It also prevents raw Google Cloud credential file contents from appearing in parse errors, and ensures `jwe-decrypt` rejects undecryptable tokens instead of forwarding them upstream.
+This release expands at-rest encryption coverage for sensitive plugin fields when field encryption is enabled, including session secrets, Redis passwords, logger credentials, serverless tokens, and AI-provider credentials. It also prevents raw Google Cloud credential file contents from appearing in parse errors, and ensures `jwe-decrypt` rejects undecryptable tokens instead of forwarding them upstream.
 
 For more information, see [PR #13389](https://github.com/apache/apisix/pull/13389), [PR #13409](https://github.com/apache/apisix/pull/13409), and [PR #13404](https://github.com/apache/apisix/pull/13404).
 
@@ -146,13 +146,13 @@ For more information, see [PR #13433](https://github.com/apache/apisix/pull/1343
 - Improve request body processing performance by caching parsed JSON, form, and multipart bodies within a request (PR [#13377](https://github.com/apache/apisix/pull/13377))
 - Improve AI streaming performance and behavior with faster SSE decoding, better disconnect handling, and reuse of the original request body when no rewrite is needed (PR [#13391](https://github.com/apache/apisix/pull/13391) and PR [#13406](https://github.com/apache/apisix/pull/13406))
 - Add `max_req_body_size` safeguards to `hmac-auth`, `forward-auth`, `ai-proxy`, and `ai-proxy-multi` to reject oversized request bodies with `413` (PR [#13478](https://github.com/apache/apisix/pull/13478) and PR [#13466](https://github.com/apache/apisix/pull/13466))
-- Improve `openid-connect` compatibility by supporting newer `lua-resty-session` configuration options and making `client_secret` optional for local JWT verification, PKCE, and `private_key_jwt` modes (PR [#13178](https://github.com/apache/apisix/pull/13178) and PR [#13472](https://github.com/apache/apisix/pull/13472))
+- Improve `openid-connect` compatibility by supporting newer `lua-resty-session` configuration options, making `client_secret` optional for local JWT verification, PKCE, and `private_key_jwt` modes, and applying `claim_schema` validation to bearer-token JWT or introspection responses (PR [#13178](https://github.com/apache/apisix/pull/13178) and PR [#13472](https://github.com/apache/apisix/pull/13472))
 - Improve concurrency safety by replacing shared mutable tables with per-request allocation in several request-processing paths (PR [#13369](https://github.com/apache/apisix/pull/13369))
 - Ensure stream routes that reference services preserve the correct service-level plugin context after updates (PR [#13402](https://github.com/apache/apisix/pull/13402))
 - Fix HTTP/2 and HTTP/3 request body handling when requests do not include `Content-Length` (PR [#13428](https://github.com/apache/apisix/pull/13428))
 - Optimize Redis-backed `limit-count` by using `EVALSHA` with `NOSCRIPT` fallback (PR [#13363](https://github.com/apache/apisix/pull/13363))
 - Harden Redis xRPC request parsing by rejecting malformed RESP lengths and bounding command preallocation (PR [#13483](https://github.com/apache/apisix/pull/13483))
-- Harden plugin handling for malformed inputs in `cors`, `multi-auth`, and `body-transformer`, and clear client-supplied `X-Userinfo` before DingTalk authentication (PR [#13469](https://github.com/apache/apisix/pull/13469) and PR [#13491](https://github.com/apache/apisix/pull/13491))
+- Harden malformed-input handling in `cors`, `multi-auth`, and `body-transformer`, including missing `Origin` headers, auth plugins that return a status without an error message, malformed multipart bodies, and request fields that shadow reserved template helpers. DingTalk authentication now also clears client-supplied `X-Userinfo` before authentication (PR [#13469](https://github.com/apache/apisix/pull/13469) and PR [#13491](https://github.com/apache/apisix/pull/13491))
 
 ## Changelog
 

@@ -33,7 +33,7 @@ tags: [Community]
 
 此版本收紧了多个身份认证插件的默认行为，以提供更安全的默认配置。
 
-`jwt-auth` 插件现在会将 `claims_to_verify` 中显式配置的声明视为必填声明，而空的 `claims_to_verify: []` 也不再禁用默认的 `exp` 和 `nbf` 校验。`hmac-auth` 插件现在默认将 `signed_headers` 设置为 `["date"]`，因此除非显式覆盖配置，否则客户端必须对 `Date` 标头进行签名。
+`jwt-auth` 插件现在会将 `claims_to_verify` 中显式配置的声明视为必填声明，而空的 `claims_to_verify: []` 也不再禁用默认的 `exp` 和 `nbf` 校验。当启用 `hide_credentials` 且无效 key 回退到匿名 consumer 时，`key-auth` 插件现在会在转发到上游前从标头和查询参数中移除该无效凭证。`hmac-auth` 插件现在默认将 `signed_headers` 设置为 `["date"]`，因此除非显式覆盖配置，否则客户端必须对 `Date` 标头进行签名。
 
 更多信息，请参阅 [PR #13468](https://github.com/apache/apisix/pull/13468) 和 [PR #13388](https://github.com/apache/apisix/pull/13388)。
 
@@ -41,7 +41,7 @@ tags: [Community]
 
 `cas-auth` 插件现在使用嵌套的 `cookie` 配置，并要求提供 `cookie.secret`。该插件还会对登录重定向 Cookie 进行签名，并收紧 Cookie 处理逻辑。
 
-仍然使用旧版顶层 Cookie secret 字段的 `cas-auth` 配置，需要在升级到 3.17.0 前完成调整，否则将无法通过校验并正常工作。
+现有 `cas-auth` 配置在升级到 3.17.0 前必须添加新的必填项 `cookie.secret`。请在所有 APISIX 节点上使用相同的 secret；对于仅使用 HTTP 的部署，需要将 `cookie.secure` 设置为 `false`。
 
 更多信息，请参阅 [PR #13331](https://github.com/apache/apisix/pull/13331)。
 
@@ -53,7 +53,7 @@ tags: [Community]
 
 ### `proxy-cache` 采用了更安全的缓存默认值
 
-`proxy-cache` 插件现在默认按照已认证 consumer 隔离缓存条目，并且除非显式启用，否则不会在内存模式中缓存带有 `Set-Cookie` 的响应。
+`proxy-cache` 插件现在默认按照已认证 consumer 隔离缓存条目，除非显式启用，否则不会在内存模式中缓存带有 `Set-Cookie` 的响应，并且在内存模式中始终遵循上游 `Cache-Control: private`、`no-store` 和 `no-cache` 响应指令。
 
 此前依赖共享认证缓存或较宽松 Cookie 缓存行为的部署，在升级后可能会看到不同的缓存命中表现。
 
@@ -61,7 +61,7 @@ tags: [Community]
 
 ### `batch-requests` 强化了请求校验和限制
 
-`batch-requests` 插件现在要求每个 pipeline 条目都必须包含 `path`，会拒绝未知字段，要求 `timeout` 至少为 `1`，并通过 `max_pipeline_items` 限制 pipeline 条目数量。
+`batch-requests` 插件现在要求每个 pipeline 条目都必须包含 `path`，会拒绝未知字段，要求 `timeout` 至少为 `1`，并通过 `max_pipeline_items` 限制每个请求中的 pipeline 条目数量。该值默认是 `1000`，可以通过 plugin metadata 配置。
 
 此前依赖宽松校验或超大 pipeline 的请求，需要在升级后进行调整。
 
@@ -81,7 +81,7 @@ tags: [Community]
 
 Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
-`graphql-limit-count` 插件支持基于 GraphQL 查询深度进行限流，而 `graphql-proxy-cache` 插件支持缓存 GraphQL 查询响应，并会自动绕过对 mutation 请求的缓存。
+`graphql-limit-count` 插件支持基于 GraphQL 查询深度进行限流，而 `graphql-proxy-cache` 插件支持使用磁盘或内存缓存策略缓存 GET 和 POST GraphQL 查询响应。它默认按已认证身份隔离缓存条目，会自动绕过对 mutation 请求的缓存，并提供 PURGE API 用于缓存失效。
 
 更多信息，请参阅 [PR #13372](https://github.com/apache/apisix/pull/13372) 和 [PR #13435](https://github.com/apache/apisix/pull/13435)。
 
@@ -89,7 +89,7 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 此版本新增了 `data-mask`、`error-page` 和 `proxy-buffering` 插件。
 
-`data-mask` 插件会在日志插件写入日志前对敏感字段进行脱敏或掩码处理。`error-page` 插件支持自定义 APISIX 生成的 `404`、`500`、`502` 和 `503` 等错误响应。`proxy-buffering` 插件则支持在路由级别关闭代理缓冲，以更好地处理 SSE 和其他流式响应。
+`data-mask` 插件会在访问日志或日志插件写入前，对敏感查询参数、标头以及 JSON 或 URL 编码请求体进行脱敏或掩码处理。`error-page` 插件通过 plugin metadata 支持自定义 APISIX 生成的 `404`、`500`、`502` 和 `503` 等错误响应；上游生成的响应不会被修改。`proxy-buffering` 插件则支持在路由级别关闭代理缓冲，以更好地处理 SSE 和其他流式响应。
 
 更多信息，请参阅 [PR #13347](https://github.com/apache/apisix/pull/13347)、[PR #13380](https://github.com/apache/apisix/pull/13380) 和 [PR #13446](https://github.com/apache/apisix/pull/13446)。
 
@@ -103,7 +103,7 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 ### `proxy-cache` 的正确性和缓存安全性改进
 
-此版本改进了 `proxy-cache` 插件的正确性表现，包括在内存模式中遵循上游 `Vary` 标头、避免缓存 `Vary: *` 响应，以及让 `PURGE` 能够正确处理过期和多变体缓存条目。
+此版本改进了 `proxy-cache` 插件的正确性表现，包括在内存模式中遵循上游 `Vary` 标头、避免缓存 `Vary: *` 响应，以及让 `PURGE` 能够正确处理过期和多变体缓存条目。此外，除非显式启用 Cookie 缓存，否则内存缓存不会存储由上游或其他插件添加了 `Set-Cookie` 标头的响应。
 
 更多信息，请参阅 [PR #13376](https://github.com/apache/apisix/pull/13376)。
 
@@ -111,13 +111,13 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 此版本修复了多个与 AI 代理工作流相关的稳定性问题。
 
-`ai-proxy-multi` 插件现在可以更稳定地处理多 IP 域名上游，并在 `Host`、SNI 以及 AWS SigV4 签名中保留原始主机信息。AI 请求 JSON 编码现在是确定性的，可提升兼容提供商上的 prompt cache 命中率；上游 AI 超时现在也会返回 `504 Gateway Timeout`，而不再是 `500`。
+`ai-proxy-multi` 插件现在可以更稳定地处理多 IP 域名上游，并在 `Host`、SNI 以及 AWS SigV4 签名中保留原始主机信息。AI 请求 JSON 编码现在是确定性的，可提升兼容提供商上的 prompt cache 命中率。AI 流式处理也支持通过 `streaming_flush_interval_ms` 控制延迟并改进断连处理；上游 AI 超时现在会返回 `504 Gateway Timeout`，而不再是 `500`。
 
 更多信息，请参阅 [PR #13441](https://github.com/apache/apisix/pull/13441)、[PR #13461](https://github.com/apache/apisix/pull/13461) 和 [PR #13481](https://github.com/apache/apisix/pull/13481)。
 
 ### 面向 Redis 工作流的限流修复
 
-此版本修复了 `limit-req` 在 Redis 场景下的竞态问题，通过原子化漏桶状态更新来提升正确性；同时修复了 `limit-conn` 中动态 `conn` 和 `burst` 的校验逻辑，并支持动态 `burst: 0`。
+此版本修复了 `limit-req` 在 Redis 场景下的竞态问题，通过原子化漏桶状态更新来提升正确性。同时，它也收紧了 `limit-conn` 中动态 `conn` 和 `burst` 的校验逻辑：解析后的值必须是安全整数，`conn` 必须为正数，`burst` 可以为 `0` 但不能为负数。
 
 更多信息，请参阅 [PR #13467](https://github.com/apache/apisix/pull/13467)。
 
@@ -125,13 +125,13 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 此版本修复了多个身份认证和会话处理问题。
 
-`authz-keycloak` 在追加请求方法作用域时不再修改共享权限配置。`authz-casdoor` 现在会按 `client_id` 隔离会话。`cas-auth` 插件也强化了回调和会话处理逻辑，以防止无效回调会话以及跨路由会话复用。
+`authz-keycloak` 在追加请求方法作用域时不再修改共享权限配置。`authz-casdoor` 现在会按 `client_id` 隔离会话。`cas-auth` 插件也强化了回调和会话处理逻辑，以防止无效回调会话以及跨路由会话复用；同时支持绝对路径形式的 `cas_callback_uri`，并在 CAS 单点登出回调格式错误时返回 `400`，避免返回 `500` 或接受空 ticket。
 
 更多信息，请参阅 [PR #13410](https://github.com/apache/apisix/pull/13410)、[PR #13387](https://github.com/apache/apisix/pull/13387) 和 [PR #13427](https://github.com/apache/apisix/pull/13427)。
 
 ### 更好的敏感信息处理和令牌校验
 
-此版本在启用字段加密时，扩展了对敏感插件字段的静态加密覆盖范围。同时，它还避免在解析错误中暴露原始 Google Cloud 凭证文件内容，并确保 `jwe-decrypt` 会拒绝无法解密的令牌，而不是继续将其转发到上游。
+此版本在启用字段加密时，扩展了对敏感插件字段的静态加密覆盖范围，包括 session secret、Redis 密码、日志插件凭证、serverless token 和 AI 提供商凭证。同时，它还避免在解析错误中暴露原始 Google Cloud 凭证文件内容，并确保 `jwe-decrypt` 会拒绝无法解密的令牌，而不是继续将其转发到上游。
 
 更多信息，请参阅 [PR #13389](https://github.com/apache/apisix/pull/13389)、[PR #13409](https://github.com/apache/apisix/pull/13409) 和 [PR #13404](https://github.com/apache/apisix/pull/13404)。
 
@@ -146,13 +146,13 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 - 通过在单次请求内缓存已解析的 JSON、form 和 multipart 请求体，提升请求体处理性能（PR [#13377](https://github.com/apache/apisix/pull/13377)）
 - 通过更快的 SSE 解码、更好的断连处理，以及在无需重写时复用原始请求体，提升 AI 流式处理性能和行为表现（PR [#13391](https://github.com/apache/apisix/pull/13391) 和 PR [#13406](https://github.com/apache/apisix/pull/13406)）
 - 为 `hmac-auth`、`forward-auth`、`ai-proxy` 和 `ai-proxy-multi` 添加 `max_req_body_size` 保护，以 `413` 拒绝过大的请求体（PR [#13478](https://github.com/apache/apisix/pull/13478) 和 PR [#13466](https://github.com/apache/apisix/pull/13466)）
-- 改进 `openid-connect` 兼容性，支持更新版 `lua-resty-session` 配置项，并在本地 JWT 校验、PKCE 和 `private_key_jwt` 模式下将 `client_secret` 设为可选（PR [#13178](https://github.com/apache/apisix/pull/13178) 和 PR [#13472](https://github.com/apache/apisix/pull/13472)）
+- 改进 `openid-connect` 兼容性，支持更新版 `lua-resty-session` 配置项，在本地 JWT 校验、PKCE 和 `private_key_jwt` 模式下将 `client_secret` 设为可选，并对 bearer-token JWT 或 introspection 响应应用 `claim_schema` 校验（PR [#13178](https://github.com/apache/apisix/pull/13178) 和 PR [#13472](https://github.com/apache/apisix/pull/13472)）
 - 通过在多个请求处理路径中使用按请求分配替代共享可变表，提升并发安全性（PR [#13369](https://github.com/apache/apisix/pull/13369)）
 - 确保引用 service 的 stream routes 在更新后仍能保留正确的 service 级插件上下文（PR [#13402](https://github.com/apache/apisix/pull/13402)）
 - 修复未包含 `Content-Length` 的 HTTP/2 和 HTTP/3 请求体处理问题（PR [#13428](https://github.com/apache/apisix/pull/13428)）
 - 通过使用 `EVALSHA` 和 `NOSCRIPT` 回退机制优化基于 Redis 的 `limit-count`（PR [#13363](https://github.com/apache/apisix/pull/13363)）
 - 通过拒绝畸形 RESP 长度并限制命令预分配大小，强化 Redis xRPC 请求解析（PR [#13483](https://github.com/apache/apisix/pull/13483)）
-- 强化 `cors`、`multi-auth` 和 `body-transformer` 对畸形输入的处理，并在 DingTalk 认证前清理客户端自行传入的 `X-Userinfo` 标头（PR [#13469](https://github.com/apache/apisix/pull/13469) 和 PR [#13491](https://github.com/apache/apisix/pull/13491)）
+- 强化 `cors`、`multi-auth` 和 `body-transformer` 对畸形输入的处理，包括缺失的 `Origin` 标头、返回状态码但不返回错误消息的认证插件、格式错误的 multipart 请求体，以及会覆盖保留模板辅助函数的请求字段。DingTalk 认证现在也会在认证前清理客户端自行传入的 `X-Userinfo` 标头（PR [#13469](https://github.com/apache/apisix/pull/13469) 和 PR [#13491](https://github.com/apache/apisix/pull/13491)）
 
 ## 变更日志
 
