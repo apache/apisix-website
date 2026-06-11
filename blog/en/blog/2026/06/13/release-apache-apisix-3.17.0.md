@@ -25,7 +25,7 @@ We are glad to present Apache APISIX 3.17.0 with exciting new features, bug fixe
 
 This release introduces new AI Gateway capabilities, authentication and access control plugins, GraphQL traffic management, data protection features, and platform improvements for validation, secret handling, and stream proxy configuration.
 
-This release also includes several breaking changes in authentication, TLS verification, caching, request validation, and standalone configuration parsing behavior. Please review the changes carefully and plan your upgrade accordingly.
+This release also includes compatibility-impacting changes in authentication, TLS verification, caching, request validation, and standalone configuration parsing behavior. Many of these changes are security or validation hardening updates that only affect specific configurations. Please review the changes that apply to your deployment and plan your upgrade accordingly.
 
 ## Breaking Changes
 
