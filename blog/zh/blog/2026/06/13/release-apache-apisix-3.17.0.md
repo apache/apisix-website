@@ -23,9 +23,9 @@ tags: [Community]
 
 <!--truncate-->
 
-此版本引入了新的身份认证、访问控制、GraphQL 和数据保护能力，并在 AI、缓存和限流相关工作流上带来了多项稳定性改进。
+此版本引入了新的 AI Gateway 能力、身份认证和访问控制插件、GraphQL 流量治理、数据保护功能，以及面向配置校验、Secret 处理和 stream proxy 配置的平台能力改进。
 
-此版本还包含多项与身份认证、缓存和请求校验行为相关的重大变更。请仔细审阅这些变更，并提前规划升级。
+此版本还包含多项与身份认证、TLS 校验、缓存、请求校验和 standalone 配置解析行为相关的重大变更。请仔细审阅这些变更，并提前规划升级。
 
 ## 重大变更
 
@@ -33,9 +33,23 @@ tags: [Community]
 
 此版本收紧了多个身份认证插件的默认行为，以提供更安全的默认配置。
 
-`jwt-auth` 插件现在会将 `claims_to_verify` 中显式配置的声明视为必填声明，而空的 `claims_to_verify: []` 也不再禁用默认的 `exp` 和 `nbf` 校验。当启用 `hide_credentials` 且无效 key 回退到匿名 consumer 时，`key-auth` 插件现在会在转发到上游前从标头和查询参数中移除该无效凭证。`hmac-auth` 插件现在默认将 `signed_headers` 设置为 `["date"]`，因此除非显式覆盖配置，否则客户端必须对 `Date` 标头进行签名。
+`jwt-auth` 插件现在会将 `claims_to_verify` 中显式配置的声明视为必填声明，而空的 `claims_to_verify: []` 也不再禁用默认的 `exp` 和 `nbf` 校验。同时，它会在签名校验前强制检查算法是否匹配。当启用 `hide_credentials` 且无效 key 回退到匿名 consumer 时，`key-auth` 插件现在会在转发到上游前从标头和查询参数中移除该无效凭证。`hmac-auth` 插件现在默认将 `signed_headers` 设置为 `["date"]`，因此除非显式覆盖配置，否则客户端必须对 `Date` 标头进行签名。
 
-更多信息，请参阅 [PR #13468](https://github.com/apache/apisix/pull/13468) 和 [PR #13388](https://github.com/apache/apisix/pull/13388)。
+更多信息，请参阅 [PR #13468](https://github.com/apache/apisix/pull/13468)、[PR #13182](https://github.com/apache/apisix/pull/13182) 和 [PR #13388](https://github.com/apache/apisix/pull/13388)。
+
+### Admin Schema 校验端点现在需要认证
+
+Schema 校验端点现在需要 Admin API key。此前未携带认证信息调用该端点的客户端，在升级后必须提供有效的 Admin API 凭证。
+
+更多信息，请参阅 [PR #13328](https://github.com/apache/apisix/pull/13328)。
+
+### TLS 校验默认值更加严格
+
+`tencent-cloud-cls` 插件现在支持 `ssl_verify`，且默认值为 `true`。此外，TLS 校验强化也使 `ai-rag` 的 `ssl_verify` 默认值变为 `true`。
+
+如果部署需要连接使用自签名或不受信任证书的服务，请在升级前配置受信任证书，或显式检查相关 TLS 校验设置。
+
+更多信息，请参阅 [PR #13194](https://github.com/apache/apisix/pull/13194) 和 [PR #13203](https://github.com/apache/apisix/pull/13203)。
 
 ### `cas-auth` 需要新的 `cookie.secret` 配置
 
@@ -67,7 +81,31 @@ tags: [Community]
 
 更多信息，请参阅 [PR #13492](https://github.com/apache/apisix/pull/13492)。
 
+### Standalone 模式会在 YAML 解析前解析环境变量
+
+Standalone 模式现在会在 YAML 解析前解析环境变量。因此，未加引号的 `${VAR}` 占位符现在可能会被解析为数字或布尔值，而不再总是字符串。
+
+请检查使用环境变量替换的 standalone 配置文件，并为必须保持字符串类型的值添加引号。
+
+更多信息，请参阅 [PR #13078](https://github.com/apache/apisix/pull/13078)。
+
 ## 新功能
+
+### 扩展 AI Gateway 支持
+
+此版本带来了多项 AI Gateway 改进，包括支持 Amazon Bedrock 提供商、Bedrock ConverseStream 流式能力、原生 Anthropic Messages API 协议、OpenAI Responses API，以及对未识别 AI API 格式的 passthrough 处理。
+
+AI 代理也新增了 provider-aware `max_tokens` 覆盖、按协议配置请求体覆盖、`max_stream_duration_ms` 和 `max_response_bytes` 等保护机制、客户端断连时中止上游读取，以及在 cosocket transport 中填充上游 NGINX 变量的能力。
+
+更多信息，请参阅 [PR #13249](https://github.com/apache/apisix/pull/13249)、[PR #13307](https://github.com/apache/apisix/pull/13307)、[PR #13181](https://github.com/apache/apisix/pull/13181)、[PR #13186](https://github.com/apache/apisix/pull/13186)、[PR #13320](https://github.com/apache/apisix/pull/13320)、[PR #13251](https://github.com/apache/apisix/pull/13251)、[PR #13269](https://github.com/apache/apisix/pull/13269)、[PR #13250](https://github.com/apache/apisix/pull/13250)、[PR #13254](https://github.com/apache/apisix/pull/13254) 和 [PR #13317](https://github.com/apache/apisix/pull/13317)。
+
+### 核心校验、可观测性和 Secret 管理增强
+
+APISIX 现在支持在 `stream_proxy` 配置中批量设置 TCP/UDP 端口范围，并在所有部署模式下提供 `/configs/validate`。此版本还新增了 `core.response.get_response_source()`，用于识别响应来源，并新增 `rate-limiting-info` 变量以增强限流可观测性。
+
+Secret 处理也得到增强，包括支持嵌套结构的 `encrypt_fields`，以及为所有插件提供集中式 Secret 引用解析。
+
+更多信息，请参阅 [PR #13153](https://github.com/apache/apisix/pull/13153)、[PR #13220](https://github.com/apache/apisix/pull/13220)、[PR #13224](https://github.com/apache/apisix/pull/13224)、[PR #13155](https://github.com/apache/apisix/pull/13155)、[PR #13192](https://github.com/apache/apisix/pull/13192) 和 [PR #13312](https://github.com/apache/apisix/pull/13312)。
 
 ### 新增身份认证和访问控制插件
 
@@ -87,17 +125,23 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 ### 新增数据保护和响应定制插件
 
-此版本新增了 `data-mask`、`error-page` 和 `proxy-buffering` 插件。
+此版本新增了 `data-mask`、`error-page`、`proxy-buffering`、`oas-validator`、`traffic-label` 和 `exit-transformer` 插件。
 
-`data-mask` 插件会在访问日志或日志插件写入前，对敏感查询参数、标头以及 JSON 或 URL 编码请求体进行脱敏或掩码处理。`error-page` 插件通过 plugin metadata 支持自定义 APISIX 生成的 `404`、`500`、`502` 和 `503` 等错误响应；上游生成的响应不会被修改。`proxy-buffering` 插件则支持在路由级别关闭代理缓冲，以更好地处理 SSE 和其他流式响应。
+`data-mask` 插件会在访问日志或日志插件写入前，对敏感查询参数、标头以及 JSON 或 URL 编码请求体进行脱敏或掩码处理。`error-page` 插件通过 plugin metadata 支持自定义 APISIX 生成的 `404`、`500`、`502` 和 `503` 等错误响应；上游生成的响应不会被修改。`proxy-buffering` 插件则支持在路由级别关闭代理缓冲，以更好地处理 SSE 和其他流式响应。`oas-validator`、`traffic-label` 和 `exit-transformer` 插件分别提供 OpenAPI 请求校验、流量标签和响应转换能力。
 
-更多信息，请参阅 [PR #13347](https://github.com/apache/apisix/pull/13347)、[PR #13380](https://github.com/apache/apisix/pull/13380) 和 [PR #13446](https://github.com/apache/apisix/pull/13446)。
+更多信息，请参阅 [PR #13347](https://github.com/apache/apisix/pull/13347)、[PR #13380](https://github.com/apache/apisix/pull/13380)、[PR #13446](https://github.com/apache/apisix/pull/13446)、[PR #13344](https://github.com/apache/apisix/pull/13344)、[PR #13342](https://github.com/apache/apisix/pull/13342) 和 [PR #13343](https://github.com/apache/apisix/pull/13343)。
 
 ### `ai-proxy-multi` 提供更细粒度的回退控制
 
 `ai-proxy-multi` 插件现在支持 `max_retries` 和 `retry_on_failure_within_ms`，让用户能够更精细地控制多 AI 提供商之间的回退行为。
 
 更多信息，请参阅 [PR #13495](https://github.com/apache/apisix/pull/13495)。
+
+### 其他插件增强
+
+`request-id` 插件现在支持生成 UUID v7。`ai-rate-limiting` 插件新增了基于表达式的限流策略，`elasticsearch-logger` 则支持使用时间和变量解析生成动态索引名称。
+
+更多信息，请参阅 [PR #13152](https://github.com/apache/apisix/pull/13152)、[PR #13191](https://github.com/apache/apisix/pull/13191) 和 [PR #13334](https://github.com/apache/apisix/pull/13334)。
 
 ## 修复
 

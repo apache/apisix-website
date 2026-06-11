@@ -23,9 +23,9 @@ We are glad to present Apache APISIX 3.17.0 with exciting new features, bug fixe
 
 <!--truncate-->
 
-This release introduces new authentication, access control, GraphQL, and data protection capabilities, along with reliability improvements for AI, caching, and rate limiting workflows.
+This release introduces new AI Gateway capabilities, authentication and access control plugins, GraphQL traffic management, data protection features, and platform improvements for validation, secret handling, and stream proxy configuration.
 
-This release also includes several breaking changes in authentication, caching, and request validation behavior. Please review the changes carefully and plan your upgrade accordingly.
+This release also includes several breaking changes in authentication, TLS verification, caching, request validation, and standalone configuration parsing behavior. Please review the changes carefully and plan your upgrade accordingly.
 
 ## Breaking Changes
 
@@ -33,9 +33,23 @@ This release also includes several breaking changes in authentication, caching, 
 
 This release tightens several authentication plugins to enforce safer defaults.
 
-The `jwt-auth` plugin now treats configured `claims_to_verify` values as required claims, and an empty `claims_to_verify: []` no longer disables the default `exp` and `nbf` checks. The `key-auth` plugin now strips invalid credentials from both headers and query arguments before falling back to an anonymous consumer when `hide_credentials` is enabled. The `hmac-auth` plugin now defaults `signed_headers` to `["date"]`, so clients must sign the `Date` header unless the configuration explicitly overrides this behavior.
+The `jwt-auth` plugin now treats configured `claims_to_verify` values as required claims, and an empty `claims_to_verify: []` no longer disables the default `exp` and `nbf` checks. It also enforces algorithm matching before signature verification. The `key-auth` plugin now strips invalid credentials from both headers and query arguments before falling back to an anonymous consumer when `hide_credentials` is enabled. The `hmac-auth` plugin now defaults `signed_headers` to `["date"]`, so clients must sign the `Date` header unless the configuration explicitly overrides this behavior.
 
-For more information, see [PR #13468](https://github.com/apache/apisix/pull/13468) and [PR #13388](https://github.com/apache/apisix/pull/13388).
+For more information, see [PR #13468](https://github.com/apache/apisix/pull/13468), [PR #13182](https://github.com/apache/apisix/pull/13182), and [PR #13388](https://github.com/apache/apisix/pull/13388).
+
+### Admin schema validation now requires authentication
+
+The schema validation endpoint now requires an Admin API key. Clients that previously called the endpoint without authentication must include valid Admin API credentials after upgrading.
+
+For more information, see [PR #13328](https://github.com/apache/apisix/pull/13328).
+
+### TLS verification defaults are stricter
+
+The `tencent-cloud-cls` plugin now supports `ssl_verify`, which defaults to `true`. In addition, TLS verification hardening changes make `ai-rag` default `ssl_verify` to `true`.
+
+Deployments that connect to services with self-signed or otherwise untrusted certificates should configure trusted certificates or explicitly review their TLS verification settings before upgrading.
+
+For more information, see [PR #13194](https://github.com/apache/apisix/pull/13194) and [PR #13203](https://github.com/apache/apisix/pull/13203).
 
 ### `cas-auth` requires the new `cookie.secret` configuration
 
@@ -67,7 +81,31 @@ Requests that previously relied on tolerated invalid payloads or oversized pipel
 
 For more information, see [PR #13492](https://github.com/apache/apisix/pull/13492).
 
+### Standalone env var parsing changed
+
+Standalone mode now resolves environment variables before YAML parsing. As a result, unquoted `${VAR}` placeholders can now be interpreted as numbers or booleans instead of always being strings.
+
+Review standalone configuration files that rely on environment-variable substitution and quote values that must remain strings.
+
+For more information, see [PR #13078](https://github.com/apache/apisix/pull/13078).
+
 ## New Features
+
+### Expanded AI Gateway support
+
+This release adds broad AI Gateway improvements, including Amazon Bedrock provider support, Bedrock ConverseStream streaming, native Anthropic Messages API protocol support, OpenAI Responses API support, and passthrough handling for unrecognized AI API formats.
+
+AI proxying also gains provider-aware `max_tokens` overrides, per-protocol request body overrides, safeguards such as `max_stream_duration_ms` and `max_response_bytes`, upstream read cancellation on client disconnect, and upstream NGINX variable population for cosocket transport.
+
+For more information, see [PR #13249](https://github.com/apache/apisix/pull/13249), [PR #13307](https://github.com/apache/apisix/pull/13307), [PR #13181](https://github.com/apache/apisix/pull/13181), [PR #13186](https://github.com/apache/apisix/pull/13186), [PR #13320](https://github.com/apache/apisix/pull/13320), [PR #13251](https://github.com/apache/apisix/pull/13251), [PR #13269](https://github.com/apache/apisix/pull/13269), [PR #13250](https://github.com/apache/apisix/pull/13250), [PR #13254](https://github.com/apache/apisix/pull/13254), and [PR #13317](https://github.com/apache/apisix/pull/13317).
+
+### Core platform enhancements
+
+APISIX now supports batch TCP/UDP port ranges in `stream_proxy` configuration and makes `/configs/validate` available in all deployment modes. This release also adds `core.response.get_response_source()` for classifying response origins and a `rate-limiting-info` variable for rate limit observability.
+
+Secret handling is also improved with nested `encrypt_fields` support and centralized secret reference resolution across all plugins.
+
+For more information, see [PR #13153](https://github.com/apache/apisix/pull/13153), [PR #13220](https://github.com/apache/apisix/pull/13220), [PR #13224](https://github.com/apache/apisix/pull/13224), [PR #13155](https://github.com/apache/apisix/pull/13155), [PR #13192](https://github.com/apache/apisix/pull/13192), and [PR #13312](https://github.com/apache/apisix/pull/13312).
 
 ### New authentication and access control plugins
 
@@ -87,17 +125,23 @@ For more information, see [PR #13372](https://github.com/apache/apisix/pull/1337
 
 ### New data protection and response customization plugins
 
-This release adds the `data-mask`, `error-page`, and `proxy-buffering` plugins.
+This release adds the `data-mask`, `error-page`, `proxy-buffering`, `oas-validator`, `traffic-label`, and `exit-transformer` plugins.
 
-The `data-mask` plugin masks or redacts sensitive query parameters, headers, and JSON or URL-encoded request bodies before they are written to access logs or logger plugins. The `error-page` plugin customizes APISIX-generated error responses such as `404`, `500`, `502`, and `503` through plugin metadata; upstream-generated responses are not modified. The `proxy-buffering` plugin allows proxy buffering to be disabled per route for SSE and other streaming responses.
+The `data-mask` plugin masks or redacts sensitive query parameters, headers, and JSON or URL-encoded request bodies before they are written to access logs or logger plugins. The `error-page` plugin customizes APISIX-generated error responses such as `404`, `500`, `502`, and `503` through plugin metadata; upstream-generated responses are not modified. The `proxy-buffering` plugin allows proxy buffering to be disabled per route for SSE and other streaming responses. The `oas-validator`, `traffic-label`, and `exit-transformer` plugins add OpenAPI request validation, traffic labeling, and response transformation capabilities.
 
-For more information, see [PR #13347](https://github.com/apache/apisix/pull/13347), [PR #13380](https://github.com/apache/apisix/pull/13380), and [PR #13446](https://github.com/apache/apisix/pull/13446).
+For more information, see [PR #13347](https://github.com/apache/apisix/pull/13347), [PR #13380](https://github.com/apache/apisix/pull/13380), [PR #13446](https://github.com/apache/apisix/pull/13446), [PR #13344](https://github.com/apache/apisix/pull/13344), [PR #13342](https://github.com/apache/apisix/pull/13342), and [PR #13343](https://github.com/apache/apisix/pull/13343).
 
 ### Better fallback control for `ai-proxy-multi`
 
 The `ai-proxy-multi` plugin now supports `max_retries` and `retry_on_failure_within_ms` to give users finer control over fallback behavior across multiple AI providers.
 
 For more information, see [PR #13495](https://github.com/apache/apisix/pull/13495).
+
+### Additional plugin enhancements
+
+The `request-id` plugin now supports UUID v7 generation. The `ai-rate-limiting` plugin adds an expression-based limit strategy, and `elasticsearch-logger` supports dynamic index names with time and variable resolution.
+
+For more information, see [PR #13152](https://github.com/apache/apisix/pull/13152), [PR #13191](https://github.com/apache/apisix/pull/13191), and [PR #13334](https://github.com/apache/apisix/pull/13334).
 
 ## Bug Fixes
 
