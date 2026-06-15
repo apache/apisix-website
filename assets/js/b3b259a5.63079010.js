@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[3734],{4163(e){e.exports=JSON.parse('{"permalink":"/learning-center/page/2","page":2,"postsPerPage":10,"totalPages":2,"totalCount":13,"previousPage":"/learning-center","nextPage":null,"blogDescription":"Blog","blogTitle":"Learning Center"}')}}]);

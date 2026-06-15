@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Apache APISIX Blog</title>
+        <link>https://apisix.apache.org/learning-center</link>
+        <description>Apache APISIX Blog</description>
+        <lastBuildDate>Tue, 14 Apr 2026 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[API Gateway Authentication: Methods, Best Practices & Implementation]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-authentication</link>
+            <guid>api-gateway-authentication</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to implement authentication at the API gateway layer. Covers Key Auth, JWT, OAuth 2.0, OpenID Connect, mTLS, and HMAC with practical examples.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway for Microservices: Architecture, Patterns & Best Practices]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-for-microservices</link>
+            <guid>api-gateway-for-microservices</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn why microservices architectures need an API gateway. Covers service discovery, load balancing, circuit breaking, and API composition patterns.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway Rate Limiting: Algorithms, Strategies & Configuration]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-rate-limiting</link>
+            <guid>api-gateway-rate-limiting</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Understand API rate limiting at the gateway layer. Covers token bucket, sliding window, and leaky bucket algorithms with practical configuration examples.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway Security: Threats, Best Practices & Implementation]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-security</link>
+            <guid>api-gateway-security</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to secure your API gateway against common threats. Covers authentication, authorization, rate limiting, WAF, IP filtering, and zero-trust architecture.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway vs Load Balancer: Key Differences Explained]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer</link>
+            <guid>api-gateway-vs-load-balancer</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Understand the differences between an API gateway and a load balancer. Learn when to use each, how they complement each other, and where they overlap.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Monetization: Models, Strategies & Implementation Guide]]></title>
+            <link>https://apisix.apache.org/learning-center/api-monetization-guide</link>
+            <guid>api-monetization-guide</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to monetize APIs with proven pricing models. Covers freemium, pay-per-call, tiered pricing, and revenue sharing with practical implementation guidance.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-kong</link>
+            <guid>apisix-vs-kong</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Detailed comparison of Apache APISIX and Kong API Gateway. Covers architecture, performance, plugin ecosystem, Kubernetes support, and when to choose each.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices]]></title>
+            <link>https://apisix.apache.org/learning-center/kubernetes-api-gateway</link>
+            <guid>kubernetes-api-gateway</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Kubernetes Gateway API vs Ingress, understand ingress controllers, and learn how to deploy an API gateway on Kubernetes with Apache APISIX.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[MCP Protocol & AI Gateways: Managing AI Agent Traffic at Scale]]></title>
+            <link>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway</link>
+            <guid>mcp-protocol-ai-gateway</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn about the Model Context Protocol (MCP), how AI gateways manage LLM and AI agent traffic, and how Apache APISIX bridges MCP servers with enterprise infrastructure.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik]]></title>
+            <link>https://apisix.apache.org/learning-center/open-source-api-gateway-comparison</link>
+            <guid>open-source-api-gateway-comparison</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare the leading open-source API gateways. Feature-by-feature analysis of Apache APISIX, Kong, Envoy, and Traefik covering architecture, plugins, Kubernetes support, and community.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[What is an API Gateway? Definition, Benefits & Use Cases]]></title>
+            <link>https://apisix.apache.org/learning-center/what-is-an-api-gateway</link>
+            <guid>what-is-an-api-gateway</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn what an API gateway is, how it works, key features like load balancing, authentication, and rate limiting, and why modern architectures need one.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[What is gRPC? Protocol Buffers, Performance & API Gateway Integration]]></title>
+            <link>https://apisix.apache.org/learning-center/what-is-grpc</link>
+            <guid>what-is-grpc</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Understand gRPC, how it compares to REST, its performance advantages, and how to proxy and transform gRPC traffic through an API gateway.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[What is Mutual TLS (mTLS)? How Two-Way Authentication Works]]></title>
+            <link>https://apisix.apache.org/learning-center/what-is-mutual-tls</link>
+            <guid>what-is-mutual-tls</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn what mutual TLS is, how it differs from standard TLS, the mTLS handshake process, and how to configure mTLS in API gateways for zero-trust security.]]></description>
+        </item>
+    </channel>
+</rss>

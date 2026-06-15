@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[5649],{4047(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/api-monetization","name":"api-monetization","count":1,"permalink":"/zh/learning-center/tags/api-monetization"}')}}]);
