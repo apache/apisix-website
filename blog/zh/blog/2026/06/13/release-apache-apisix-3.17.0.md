@@ -157,7 +157,7 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 `ai-proxy-multi` 插件现在可以更稳定地处理多 IP 域名上游，并在 `Host`、SNI 以及 AWS SigV4 签名中保留原始主机信息。AI 请求 JSON 编码现在是确定性的，可提升兼容提供商上的 prompt cache 命中率。AI 流式处理也支持通过 `streaming_flush_interval_ms` 控制延迟并改进断连处理；上游 AI 超时现在会返回 `504 Gateway Timeout`，而不再是 `500`。
 
-更多信息，请参阅 [PR #13441](https://github.com/apache/apisix/pull/13441)、[PR #13461](https://github.com/apache/apisix/pull/13461) 和 [PR #13481](https://github.com/apache/apisix/pull/13481)。
+更多信息，请参阅 [PR #13441](https://github.com/apache/apisix/pull/13441)、[PR #13461](https://github.com/apache/apisix/pull/13461)、[PR #13391](https://github.com/apache/apisix/pull/13391) 和 [PR #13481](https://github.com/apache/apisix/pull/13481)。
 
 ### 面向 Redis 工作流的限流修复
 
@@ -169,9 +169,9 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 此版本修复了多个身份认证和会话处理问题。
 
-`authz-keycloak` 在追加请求方法作用域时不再修改共享权限配置。`authz-casdoor` 现在会按 `client_id` 隔离会话。`cas-auth` 插件也强化了回调和会话处理逻辑，以防止无效回调会话以及跨路由会话复用；同时支持绝对路径形式的 `cas_callback_uri`，并在 CAS 单点登出回调格式错误时返回 `400`，避免返回 `500` 或接受空 ticket。
+`authz-keycloak` 在追加请求方法作用域时不再修改共享权限配置。`authz-casdoor` 现在会按 `client_id` 隔离会话。`cas-auth` 插件也强化了回调和会话处理逻辑，以防止无效回调会话以及跨路由会话复用；同时支持绝对 URL 形式的 `cas_callback_uri`，并在 CAS 单点登出回调格式错误时返回 `400`，避免返回 `500` 或接受空 ticket。
 
-更多信息，请参阅 [PR #13410](https://github.com/apache/apisix/pull/13410)、[PR #13387](https://github.com/apache/apisix/pull/13387) 和 [PR #13427](https://github.com/apache/apisix/pull/13427)。
+更多信息，请参阅 [PR #13410](https://github.com/apache/apisix/pull/13410)、[PR #13387](https://github.com/apache/apisix/pull/13387)、[PR #13427](https://github.com/apache/apisix/pull/13427) 和 [PR #13471](https://github.com/apache/apisix/pull/13471)。
 
 ### 更好的敏感信息处理和令牌校验
 

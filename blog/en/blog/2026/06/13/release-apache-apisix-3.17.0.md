@@ -157,7 +157,7 @@ This release fixes multiple reliability issues across AI proxying workflows.
 
 The `ai-proxy-multi` plugin now handles domain-based upstreams more reliably for multi-IP endpoints, preserving the original host information for `Host`, SNI, and AWS SigV4 signing. AI request JSON encoding is now deterministic to improve prompt cache hit rates with compatible providers. AI streaming also supports `streaming_flush_interval_ms` for latency control and better disconnect handling, and upstream AI timeouts now return `504 Gateway Timeout` instead of `500`.
 
-For more information, see [PR #13441](https://github.com/apache/apisix/pull/13441), [PR #13461](https://github.com/apache/apisix/pull/13461), and [PR #13481](https://github.com/apache/apisix/pull/13481).
+For more information, see [PR #13441](https://github.com/apache/apisix/pull/13441), [PR #13461](https://github.com/apache/apisix/pull/13461), [PR #13391](https://github.com/apache/apisix/pull/13391), and [PR #13481](https://github.com/apache/apisix/pull/13481).
 
 ### Rate limiting fixes for Redis-backed workflows
 
@@ -171,7 +171,7 @@ This release fixes several authentication and session handling issues.
 
 `authz-keycloak` no longer mutates shared permissions while appending request method scopes. `authz-casdoor` now scopes sessions by `client_id`. The `cas-auth` plugin hardens callback and session handling to prevent invalid callback sessions and cross-route session reuse, supports absolute `cas_callback_uri` values, and returns `400` for malformed CAS single logout callbacks instead of failing with `500` or accepting empty tickets.
 
-For more information, see [PR #13410](https://github.com/apache/apisix/pull/13410), [PR #13387](https://github.com/apache/apisix/pull/13387), and [PR #13427](https://github.com/apache/apisix/pull/13427).
+For more information, see [PR #13410](https://github.com/apache/apisix/pull/13410), [PR #13387](https://github.com/apache/apisix/pull/13387), [PR #13427](https://github.com/apache/apisix/pull/13427), and [PR #13471](https://github.com/apache/apisix/pull/13471).
 
 ### Better secret handling and token validation
 
