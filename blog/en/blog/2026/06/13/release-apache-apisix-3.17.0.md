@@ -101,7 +101,7 @@ For more information, see [PR #13249](https://github.com/apache/apisix/pull/1324
 
 ### Core platform enhancements
 
-APISIX now supports batch TCP/UDP port ranges in `stream_proxy` configuration and makes `/configs/validate` available in all deployment modes. This release also adds `core.response.get_response_source()` for classifying response origins and a `rate-limiting-info` variable for rate limit observability.
+APISIX now supports batch TCP/UDP port ranges in `stream_proxy` configuration and makes `/configs/validate` available in all deployment modes. This release also adds `core.response.get_response_source()` for classifying response origins and a `rate_limiting_info` variable for rate limit observability.
 
 Secret handling is also improved with nested `encrypt_fields` support and centralized secret reference resolution across all plugins.
 

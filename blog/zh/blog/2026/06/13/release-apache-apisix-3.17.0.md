@@ -101,7 +101,7 @@ AI 代理也新增了 provider-aware `max_tokens` 覆盖、按协议配置请求
 
 ### 核心校验、可观测性和 Secret 管理增强
 
-APISIX 现在支持在 `stream_proxy` 配置中批量设置 TCP/UDP 端口范围，并在所有部署模式下提供 `/configs/validate`。此版本还新增了 `core.response.get_response_source()`，用于识别响应来源，并新增 `rate-limiting-info` 变量以增强限流可观测性。
+APISIX 现在支持在 `stream_proxy` 配置中批量设置 TCP/UDP 端口范围，并在所有部署模式下提供 `/configs/validate`。此版本还新增了 `core.response.get_response_source()`，用于识别响应来源，并新增 `rate_limiting_info` 变量以增强限流可观测性。
 
 Secret 处理也得到增强，包括支持嵌套结构的 `encrypt_fields`，以及为所有插件提供集中式 Secret 引用解析。
 
