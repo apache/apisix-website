@@ -50,6 +50,10 @@ const Index: FC = () => (
       <title>{translate({ id: 'homepage.meta.title', message: 'Apache APISIX - Open Source API Gateway & AI Gateway' })}</title>
       <link rel="canonical" href="https://apisix.apache.org/" />
       <meta
+        name="description"
+        content="Apache APISIX is a dynamic, high-performance, open-source API gateway and AI gateway. Features include load balancing, authentication, rate limiting, AI proxying, LLM load balancing, and 100+ plugins."
+      />
+      <meta
         property="og:title"
         content="Apache APISIX - Open Source API Gateway &amp; AI Gateway"
       />

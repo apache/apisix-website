@@ -2,6 +2,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import { translate } from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 import style from './styles.module.scss';
@@ -14,6 +15,9 @@ const NotFound: FC = () => (
       message: 'Page Not Found',
     })}
   >
+    <Head>
+      <meta name="robots" content="noindex,follow" />
+    </Head>
     <main className={style.container}>
       <section>
         <Fitty tagName="h1" contentEditable>404</Fitty>
@@ -31,12 +35,16 @@ const NotFound: FC = () => (
         .
       </p>
       <p>
-        You can also return to
+        You can also open the
         {' '}
-        <Link href="/">
-          the home page
-        </Link>
-        . Or, return to
+        <Link to="/">home page</Link>
+        ,
+        {' '}
+        <Link to="/docs/">documentation</Link>
+        ,
+        {' '}
+        <Link to="/blog/">blog</Link>
+        , or
         {' '}
         <a
           role="button"
@@ -45,7 +53,7 @@ const NotFound: FC = () => (
             window?.history.back();
           }}
         >
-          the source page
+          return to the source page
         </a>
         .
       </p>

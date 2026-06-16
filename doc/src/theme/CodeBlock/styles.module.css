@@ -17,6 +17,8 @@
 .codeBlockContent {
   position: relative;
   direction: ltr;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .codeBlockTitle {
@@ -30,6 +32,7 @@
   margin: 0;
   padding: 0;
   border-radius: 0;
+  min-width: 100%;
 }
 
 .copyButton {
@@ -63,5 +66,11 @@
 @media print {
   .codeBlockLines {
     white-space: pre-wrap;
+  }
+}
+
+@media (hover: none) {
+  .copyButton {
+    opacity: 1;
   }
 }

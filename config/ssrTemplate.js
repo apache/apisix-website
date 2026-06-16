@@ -6,6 +6,11 @@ module.exports = {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="ahrefs-site-verification" content="c2f7370ecf46173f4fb25f114e74c97e0a2976d4f02f61c9b00a9d7d34e34698">
       <meta name="generator" content="Docusaurus v<%= it.version %>">
+      <link rel="preconnect" href="https://static.apiseven.com" crossorigin>
+      <link rel="preconnect" href="https://apisix-website-static.apiseven.com" crossorigin>
+      <link rel="preconnect" href="https://static.api7.ai" crossorigin>
+      <link rel="dns-prefetch" href="https://analytics.apache.org">
+      <link rel="dns-prefetch" href="https://widget.kapa.ai">
       <% if (it.noIndex) { %>
         <meta name="robots" content="noindex, nofollow" />
       <% } %>
@@ -22,21 +27,29 @@ module.exports = {
       <% }); %>
       <!-- Matomo from the ASF -->
       <script>
-        var _paq = window._paq = window._paq || [];
-        /* tracker methods like "setCustomDimension" should be called before
+        window._paq = window._paq || [];
+        function loadMatomo() {
+          var _paq = window._paq;
+          /* tracker methods like "setCustomDimension" should be called before
       "trackPageView" */
-        /* We explicitly disable cookie tracking to avoid privacy issues */
-        _paq.push(['disableCookies']);
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-          var u="https://analytics.apache.org/";
-          _paq.push(['setTrackerUrl', u+'matomo.php']);
-          _paq.push(['setSiteId', '17']);
-          var d=document, g=d.createElement('script'),
-      s=d.getElementsByTagName('script')[0];
-          g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-        })();
+          /* We explicitly disable cookie tracking to avoid privacy issues */
+          _paq.push(['disableCookies']);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="https://analytics.apache.org/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '17']);
+            var d=document, g=d.createElement('script'),
+        s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+          })();
+        }
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(loadMatomo, { timeout: 3000 });
+        } else {
+          window.addEventListener('load', loadMatomo, { once: true });
+        }
       </script>
       <!-- End Matomo Code -->
     </head>

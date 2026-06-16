@@ -530,3 +530,58 @@ button[class*="announcementBarClose"] {
     font-weight: 500;
   }
 }
+
+/* stylelint-disable no-descending-specificity */
+.markdown img,
+article img {
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.markdown pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+h1,
+h2,
+h3,
+[id] {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 16px);
+}
+
+@media screen and (max-width: 996px) {
+  article {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  article p {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  article h1 {
+    font-size: 2.1rem;
+    line-height: 1.15;
+  }
+
+  article h2 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  article h3 {
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+}
+/* stylelint-enable no-descending-specificity */

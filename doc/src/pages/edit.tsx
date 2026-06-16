@@ -57,7 +57,7 @@ const Edit: FC = () => {
         />
         <meta name="twitter:site" content="@apacheapisix" />
         <meta
-          name="og:description"
+          property="og:description"
           content="Apache APISIX is a dynamic, real-time, high-performance Cloud-Native API gateway, based on the Nginx library and etcd."
         />
       </Head>
