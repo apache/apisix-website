@@ -171,7 +171,7 @@ This release fixes several authentication and session handling issues.
 
 `authz-keycloak` no longer mutates shared permissions while appending request method scopes. `authz-casdoor` now scopes sessions by `client_id`. The `cas-auth` plugin hardens callback and session handling to prevent invalid callback sessions and cross-route session reuse, supports absolute `cas_callback_uri` values, and returns `400` for malformed CAS single logout callbacks instead of failing with `500` or accepting empty tickets.
 
-For more information, see [PR #13410](https://github.com/apache/apisix/pull/13410), [PR #13387](https://github.com/apache/apisix/pull/13387), [PR #13427](https://github.com/apache/apisix/pull/13427), and [PR #13471](https://github.com/apache/apisix/pull/13471).
+For more information, see [PR #13410](https://github.com/apache/apisix/pull/13410), [PR #13387](https://github.com/apache/apisix/pull/13387), [PR #13427](https://github.com/apache/apisix/pull/13427), [PR #13413](https://github.com/apache/apisix/pull/13413), and [PR #13471](https://github.com/apache/apisix/pull/13471).
 
 ### Better secret handling and token validation
 
@@ -187,8 +187,8 @@ For more information, see [PR #13433](https://github.com/apache/apisix/pull/1343
 
 ## Other Updates
 
-- Improve request body processing performance by caching parsed JSON, form, and multipart bodies within a request (PR [#13377](https://github.com/apache/apisix/pull/13377))
-- Improve AI streaming performance and behavior with faster SSE decoding, better disconnect handling, and reuse of the original request body when no rewrite is needed (PR [#13391](https://github.com/apache/apisix/pull/13391) and PR [#13406](https://github.com/apache/apisix/pull/13406))
+- Improve request body processing performance by caching parsed JSON, form, and multipart bodies within a request (PR [#13377](https://github.com/apache/apisix/pull/13377) and PR [#13356](https://github.com/apache/apisix/pull/13356))
+- Improve AI streaming performance and behavior with faster SSE decoding, better disconnect handling, and reuse of the original request body when no rewrite is needed (PR [#13391](https://github.com/apache/apisix/pull/13391), PR [#13254](https://github.com/apache/apisix/pull/13254), and PR [#13406](https://github.com/apache/apisix/pull/13406))
 - Add `max_req_body_size` safeguards to `hmac-auth`, `forward-auth`, `ai-proxy`, and `ai-proxy-multi` to reject oversized request bodies with `413` (PR [#13478](https://github.com/apache/apisix/pull/13478) and PR [#13466](https://github.com/apache/apisix/pull/13466))
 - Improve `openid-connect` compatibility by supporting newer `lua-resty-session` configuration options, making `client_secret` optional for local JWT verification, PKCE, and `private_key_jwt` modes, and applying `claim_schema` validation to bearer-token JWT or introspection responses (PR [#13178](https://github.com/apache/apisix/pull/13178) and PR [#13472](https://github.com/apache/apisix/pull/13472))
 - Improve concurrency safety by replacing shared mutable tables with per-request allocation in several request-processing paths (PR [#13369](https://github.com/apache/apisix/pull/13369))

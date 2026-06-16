@@ -171,7 +171,7 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 `authz-keycloak` 在追加请求方法作用域时不再修改共享权限配置。`authz-casdoor` 现在会按 `client_id` 隔离会话。`cas-auth` 插件也强化了回调和会话处理逻辑，以防止无效回调会话以及跨路由会话复用；同时支持绝对 URL 形式的 `cas_callback_uri`，并在 CAS 单点登出回调格式错误时返回 `400`，避免返回 `500` 或接受空 ticket。
 
-更多信息，请参阅 [PR #13410](https://github.com/apache/apisix/pull/13410)、[PR #13387](https://github.com/apache/apisix/pull/13387)、[PR #13427](https://github.com/apache/apisix/pull/13427) 和 [PR #13471](https://github.com/apache/apisix/pull/13471)。
+更多信息，请参阅 [PR #13410](https://github.com/apache/apisix/pull/13410)、[PR #13387](https://github.com/apache/apisix/pull/13387)、[PR #13427](https://github.com/apache/apisix/pull/13427)、[PR #13413](https://github.com/apache/apisix/pull/13413) 和 [PR #13471](https://github.com/apache/apisix/pull/13471)。
 
 ### 更好的敏感信息处理和令牌校验
 
@@ -187,8 +187,8 @@ Apache APISIX 3.17.0 为 GraphQL 工作负载引入了两个新插件。
 
 ## 其他更新
 
-- 通过在单次请求内缓存已解析的 JSON、form 和 multipart 请求体，提升请求体处理性能（PR [#13377](https://github.com/apache/apisix/pull/13377)）
-- 通过更快的 SSE 解码、更好的断连处理，以及在无需重写时复用原始请求体，提升 AI 流式处理性能和行为表现（PR [#13391](https://github.com/apache/apisix/pull/13391) 和 PR [#13406](https://github.com/apache/apisix/pull/13406)）
+- 通过在单次请求内缓存已解析的 JSON、form 和 multipart 请求体，提升请求体处理性能（PR [#13377](https://github.com/apache/apisix/pull/13377) 和 PR [#13356](https://github.com/apache/apisix/pull/13356)）
+- 通过更快的 SSE 解码、更好的断连处理，以及在无需重写时复用原始请求体，提升 AI 流式处理性能和行为表现（PR [#13391](https://github.com/apache/apisix/pull/13391)、PR [#13254](https://github.com/apache/apisix/pull/13254) 和 PR [#13406](https://github.com/apache/apisix/pull/13406)）
 - 为 `hmac-auth`、`forward-auth`、`ai-proxy` 和 `ai-proxy-multi` 添加 `max_req_body_size` 保护，以 `413` 拒绝过大的请求体（PR [#13478](https://github.com/apache/apisix/pull/13478) 和 PR [#13466](https://github.com/apache/apisix/pull/13466)）
 - 改进 `openid-connect` 兼容性，支持更新版 `lua-resty-session` 配置项，在本地 JWT 校验、PKCE 和 `private_key_jwt` 模式下将 `client_secret` 设为可选，并对 bearer-token JWT 或 introspection 响应应用 `claim_schema` 校验（PR [#13178](https://github.com/apache/apisix/pull/13178) 和 PR [#13472](https://github.com/apache/apisix/pull/13472)）
 - 通过在多个请求处理路径中使用按请求分配替代共享可变表，提升并发安全性（PR [#13369](https://github.com/apache/apisix/pull/13369)）
