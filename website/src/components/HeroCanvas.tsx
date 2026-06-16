@@ -50,8 +50,6 @@ const HeroCanvas: FC = () => {
     let camera; let mesh; let scene; let renderer; let material; let
       geometry;
 
-    window.addEventListener('resize', onWindowResize, false);
-
     if (screenWidth > 1100) {
       canvasHeight = screenHeight;
       canvasWidth = screenWidth / 2;
@@ -63,7 +61,7 @@ const HeroCanvas: FC = () => {
     canvasRef.current.width = canvasWidth;
     canvasRef.current.height = canvasHeight;
 
-    canvasRef.current.addEventListener('mousemove', (event) => {
+    const handleCanvasMouseMove = (event: MouseEvent) => {
       const ctx = {
         x: (event.clientX),
         y: (event.clientY),
@@ -96,7 +94,10 @@ const HeroCanvas: FC = () => {
           material.uniforms.u_fragMouse.value.y = fragMouse.y;
         },
       });
-    });
+    };
+
+    window.addEventListener('resize', onWindowResize, false);
+    canvasRef.current.addEventListener('mousemove', handleCanvasMouseMove);
 
     function getRandom(a, b) {
       return a + (b - a) * Math.random();
@@ -114,8 +115,6 @@ const HeroCanvas: FC = () => {
         if (entry.isIntersecting && isLoaded) {
           if (isLoaded && !isRendering) {
             animate();
-          } else {
-            console.log('Loading');
           }
         } else {
           if (animationFrame) {
@@ -210,7 +209,7 @@ const HeroCanvas: FC = () => {
 
       controls.update();
 
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       onWindowResize();
 
       isLoaded = true;
@@ -249,6 +248,8 @@ const HeroCanvas: FC = () => {
     }
 
     return () => {
+      window.removeEventListener('resize', onWindowResize, false);
+      canvasRef.current?.removeEventListener('mousemove', handleCanvasMouseMove);
       // eslint-disable-next-line prefer-spread
       scene.remove.apply(scene, scene.children);
       canvasObserver.disconnect();

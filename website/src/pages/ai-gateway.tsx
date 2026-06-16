@@ -30,7 +30,12 @@ const ChakraTestPage: React.FC = () => (
         property="og:description"
         content="An AI gateway manages traffic between applications and LLM providers. Apache APISIX AI Gateway provides LLM load balancing, token rate limiting, MCP support, and security for AI agents."
       />
+      <meta
+        property="og:image"
+        content="https://static.api7.ai/uploads/2025/04/17/zdPVQ1zg_apisix-ai-gateway.png"
+      />
 
+      <meta name="twitter:card" content="summary_large_image" />
       <meta
         name="twitter:title"
         content="What is an AI Gateway? APISIX AI Gateway for LLMs &amp; AI Agents"
@@ -38,6 +43,10 @@ const ChakraTestPage: React.FC = () => (
       <meta
         name="twitter:description"
         content="An AI gateway manages traffic between applications and LLM providers. Apache APISIX AI Gateway provides LLM load balancing, token rate limiting, MCP support, and security for AI agents."
+      />
+      <meta
+        name="twitter:image"
+        content="https://static.api7.ai/uploads/2025/04/17/zdPVQ1zg_apisix-ai-gateway.png"
       />
 
       <script type="application/ld+json">

@@ -59,10 +59,11 @@ const Hero: React.FC = () => {
             display="flex"
             alignItems="center"
           >
-            <Box w="full">
+            <Box w="full" minH={{ base: '260px', md: '360px' }}>
               <AvifImage
                 src="https://static.api7.ai/uploads/2025/04/17/zdPVQ1zg_apisix-ai-gateway.png"
                 alt="Apache APISIX AI Gateway architecture overview"
+                loading="eager"
                 animation={fadeInAnimation}
                 w="full"
                 transform="scale(1.1)"

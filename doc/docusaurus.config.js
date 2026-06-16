@@ -252,8 +252,16 @@ module.exports = {
         content: 'index,follow',
       },
       {
+        property: 'og:site_name',
+        content: 'Apache APISIX',
+      },
+      {
         name: 'twitter:card',
         content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:site',
+        content: '@apacheapisix',
       },
     ],
   },
