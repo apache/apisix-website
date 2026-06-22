@@ -59,7 +59,7 @@ module.exports = [
     target: '_parent',
   },
   {
-    to: '/learning-center/tags/comparison',
+    to: '/comparisons/',
     label: 'Comparisons',
     position: 'right',
     target: '_parent',
