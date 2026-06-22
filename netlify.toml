@@ -1,0 +1,13 @@
+# The production site (https://apisix.apache.org) is served by Apache
+# infrastructure (Apache httpd + Fastly) and does NOT read this file.
+#
+# This config exists only to keep the auxiliary Netlify deploy
+# (apache-apisix.netlify.app and PR deploy previews) OUT of search indexes, so
+# they don't compete with the canonical production site for rankings. Netlify
+# applies these headers to every deploy it builds from this repo; Apache infra
+# ignores the file entirely.
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    X-Robots-Tag = "noindex"
