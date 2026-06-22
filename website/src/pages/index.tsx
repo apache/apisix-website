@@ -15,6 +15,7 @@ import OpensourcePromo from '../components/sections/OpensourcePromo';
 import EndCTA from '../components/sections/Endcta';
 import Pathways from '../components/sections/Pathways';
 import Integrations from '../components/sections/Integrations';
+import AIGatewaySection from '../components/sections/AIGatewaySection';
 
 // Structured data for the homepage. Organization + WebSite are already injected
 // globally by config/schema-org.js; these add product-level (SoftwareApplication)
@@ -139,6 +140,7 @@ const Index: FC = () => (
     </Head>
     <HeroSection />
     <Pathways />
+    <AIGatewaySection />
     <Architecture />
     <Features />
     <Integrations />
