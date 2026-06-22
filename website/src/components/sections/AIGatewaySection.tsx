@@ -8,6 +8,7 @@ import '../../css/landing-sections/ai-gateway-home.scss';
 interface Capability {
   title: JSX.Element;
   desc: JSX.Element;
+  href: string;
 }
 
 const CAPABILITIES: Capability[] = [
@@ -18,6 +19,7 @@ const CAPABILITIES: Capability[] = [
         Route to OpenAI, Anthropic, AWS Bedrock, DeepSeek, Ollama and 20+ providers through one endpoint.
       </Translate>
     ),
+    href: '/docs/apisix/plugins/ai-proxy/',
   },
   {
     title: <Translate id="home.ai.cap.lb.t">LLM load balancing</Translate>,
@@ -26,6 +28,7 @@ const CAPABILITIES: Capability[] = [
         Distribute traffic across providers and models for throughput and resilience.
       </Translate>
     ),
+    href: '/docs/apisix/plugins/ai-proxy-multi/',
   },
   {
     title: <Translate id="home.ai.cap.fallback.t">Retry &amp; fallback</Translate>,
@@ -34,6 +37,7 @@ const CAPABILITIES: Capability[] = [
         Fail over to a backup model or provider automatically when one is unavailable.
       </Translate>
     ),
+    href: '/docs/apisix/plugins/ai-proxy-multi/',
   },
   {
     title: <Translate id="home.ai.cap.token.t">Token rate limiting</Translate>,
@@ -42,6 +46,7 @@ const CAPABILITIES: Capability[] = [
         Cap usage and cost with token-based rate limits per consumer.
       </Translate>
     ),
+    href: '/docs/apisix/plugins/ai-rate-limiting/',
   },
   {
     title: <Translate id="home.ai.cap.security.t">Prompt security</Translate>,
@@ -50,6 +55,7 @@ const CAPABILITIES: Capability[] = [
         Guardrails, content moderation, and prompt decoration before requests reach the model.
       </Translate>
     ),
+    href: '/docs/apisix/plugins/ai-prompt-guard/',
   },
   {
     title: <Translate id="home.ai.cap.mcp.t">MCP support</Translate>,
@@ -58,6 +64,7 @@ const CAPABILITIES: Capability[] = [
         Expose and govern Model Context Protocol tools through the gateway.
       </Translate>
     ),
+    href: '/ai-gateway/',
   },
 ];
 
@@ -98,10 +105,10 @@ const AIGatewaySection: FC = () => (
 
       <div className="ai-home__grid">
         {CAPABILITIES.map((capability) => (
-          <div className="ai-home__card" key={capability.title.props.id}>
+          <Link className="ai-home__card" to={capability.href} key={capability.title.props.id}>
             <h3 className="ai-home__card-title">{capability.title}</h3>
             <p className="ai-home__card-desc">{capability.desc}</p>
-          </div>
+          </Link>
         ))}
       </div>
 
