@@ -1,0 +1,89 @@
+.trusted-by {
+  padding: 3rem 0 2.5rem;
+  text-align: center;
+}
+
+.trusted-by__eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  margin-bottom: 1.5rem;
+}
+
+.trusted-by__viewport {
+  overflow: hidden;
+  // Fade the logos in/out at both edges instead of cutting them off hard.
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+
+.trusted-by__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 3.5rem;
+  // Compositor-only animation (transform). The track holds two identical
+  // copies of the list, so translateX(-50%) lands exactly on the loop seam.
+  animation: trusted-by-marquee 45s linear infinite;
+  will-change: transform;
+}
+
+.trusted-by:hover .trusted-by__track {
+  animation-play-state: paused;
+}
+
+.trusted-by__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.trusted-by__logo {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.65;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+
+  .trusted-by__item:hover & {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+.trusted-by__wordmark {
+  font-size: 1.15rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #7a7975;
+  transition: color 0.2s ease;
+
+  .trusted-by__item:hover & {
+    color: #e8433e;
+  }
+}
+
+@keyframes trusted-by-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trusted-by__track {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem 3rem;
+  }
+}
