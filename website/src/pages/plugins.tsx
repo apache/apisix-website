@@ -254,7 +254,7 @@ const Plugins: FC = () => {
           '@type': 'ListItem',
           position: index + 1,
           name: plugin.name,
-          url: `https://apisix.apache.org/docs/apisix/${basePath}/${slug}`,
+          url: `https://apisix.apache.org/docs/apisix/${basePath}/${slug}/`,
         };
       }),
     },
