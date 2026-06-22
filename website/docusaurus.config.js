@@ -109,7 +109,6 @@ module.exports = {
     ],
     ['docusaurus-plugin-sass', {}],
     require.resolve('../config/schema-org'),
-    require.resolve('../config/hreflang'),
   ],
   themeConfig: {
     navbar: {
