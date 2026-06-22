@@ -22,6 +22,9 @@ const BlogListPage: FC<Props> = (props) => {
   const { blogDescription, blogTitle, permalink } = metadata;
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
+  // Visible H1 for the blog list page. The default Docusaurus blog index ships
+  // without one, which is an on-page SEO gap (every indexable page needs an H1).
+  const headingTitle = isBlogOnlyMode ? siteTitle : `${siteTitle} ${blogTitle}`;
 
   return (
     <BlogLayout
@@ -34,6 +37,7 @@ const BlogListPage: FC<Props> = (props) => {
       sidebar={sidebar}
       toc={false}
     >
+      <h1 className="margin-bottom--lg">{headingTitle}</h1>
       <BlogPosts
         itemType="http://schema.org/Blog"
         items={items}
