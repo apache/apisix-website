@@ -585,3 +585,20 @@ h3,
   }
 }
 /* stylelint-enable no-descending-specificity */
+
+/* Learning Center / blog article layout.
+   The default blog layout gives the nav sidebar col--3 (25%) and the article
+   only col--7 (~58%), squeezing the reading column between the sidebar and the
+   right-hand table of contents. Rebalance to a narrower sidebar and a wider
+   content column. Desktop only, so the mobile stacked layout stays intact. */
+@media (min-width: 997px) {
+  .blog-wrapper .container > .row > .col--3 {
+    flex: 0 0 18%;
+    max-width: 18%;
+  }
+
+  .blog-wrapper .container > .row > .col--7 {
+    flex: 0 0 65%;
+    max-width: 65%;
+  }
+}
