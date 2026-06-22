@@ -24,8 +24,8 @@
 }
 
 .compare-table {
-  width: 100%;
-  max-width: 760px;
+  width: fit-content;
+  max-width: 100%;
   margin: 0 auto;
   border-collapse: separate;
   border-spacing: 0;
@@ -71,6 +71,11 @@
 
 .compare-col-apisix {
   color: #e8433e;
+}
+
+.compare-col-apisix,
+.compare-col-other {
+  min-width: 160px;
 }
 
 .compare-apisix-cell {
