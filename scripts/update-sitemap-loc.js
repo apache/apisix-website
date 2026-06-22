@@ -29,8 +29,10 @@ const sitemapXMLs = [
  *   pages, also blocked by robots.txt.
  */
 const excludePatterns = [
-  // Versioned docs: /docs/<project>/<version>/ where version is digits.digits
-  /\/docs\/[\w-]+\/\d+\.\d+\//,
+  // Versioned docs: /docs/<project>/<version>/ — only the unversioned (latest)
+  // path should be indexed. Matches 2-part (apisix 3.14), 3-part semver
+  // (ingress 2.0.0), and prefixed (docker apisix-2.10.0) version segments.
+  /\/docs\/[\w-]+\/(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?\//,
   // Development "next" docs
   /\/docs\/[\w-]+\/next\//,
   // Search pages (blocked by robots.txt)

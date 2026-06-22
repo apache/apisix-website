@@ -18,6 +18,14 @@ const websitePath = '../doc';
 const gitMap = {};
 const projectReleases = {};
 
+// SEO: only the newest N released versions of each non-apisix sub-project
+// (ingress-controller, helm-chart, docker, *-plugin-runner) are built and
+// published. Publishing every historical release bloated the sitemap with
+// hundreds of thin/duplicate pages (e.g. ingress 0.4.0–2.0.0, docker
+// apisix-2.10.x) and orphaned 403 landing dirs. apisix itself is curated
+// separately in config/apisix-versions.js. Increase this for a wider window.
+const SUBPROJECT_VERSIONS_TO_KEEP = 1;
+
 const tasks = new Listr([
   {
     title: 'Start documents sync',
@@ -92,7 +100,9 @@ const tasks = new Listr([
                 .map((release) => (isIngressController
                   ? release.replace('remotes/origin/v', '')
                   : release.replace('remotes/origin/release/', '')))
-                .sort((a, b) => semver.compare(semver.coerce(a).version, semver.coerce(b).version));
+                .sort((a, b) => semver.compare(semver.coerce(a).version, semver.coerce(b).version))
+                // SEO: keep only the newest N released versions (see constant above).
+                .slice(-SUBPROJECT_VERSIONS_TO_KEEP);
             }
           },
         }));
