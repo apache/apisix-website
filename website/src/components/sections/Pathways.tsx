@@ -37,15 +37,15 @@ const PATHWAYS: Pathway[] = [
     cta: <Translate id="home.pathways.learn.cta">Explore the learning center</Translate>,
   },
   {
-    id: 'plugins',
-    to: '/plugins/',
-    title: <Translate id="home.pathways.plugins.title">Browse plugins</Translate>,
+    id: 'case-studies',
+    to: '/blog/tags/case-studies/',
+    title: <Translate id="home.pathways.cases.title">Case studies</Translate>,
     description: (
-      <Translate id="home.pathways.plugins.desc">
-        100+ plugins for auth, security, traffic control, observability and AI.
+      <Translate id="home.pathways.cases.desc">
+        See how teams run Apache APISIX in production at scale.
       </Translate>
     ),
-    cta: <Translate id="home.pathways.plugins.cta">Open the plugin hub</Translate>,
+    cta: <Translate id="home.pathways.cases.cta">Read case studies</Translate>,
   },
 ];
 
