@@ -10,13 +10,9 @@ interface Integration {
   name: string;
   /** Plugin name whose brand-colored icon lives in the shared plugin sprite. */
   icon?: string;
-  /**
-   * Optional logo URL, for ecosystem logos that are not plugin icons (e.g.
-   * Kubernetes, OpenTelemetry, LLM providers). Host official colored SVGs on
-   * the API7 CDN and set this; it takes precedence over `icon`.
-   */
+  /** Colored logo served from /img/integrations/ (for non-plugin ecosystem logos). */
   logo?: string;
-  /** Doc link. Defaults to the plugin's doc page derived from `icon`. */
+  /** Doc link. Falls back to the plugin doc derived from `icon`. */
   href?: string;
 }
 
@@ -25,18 +21,19 @@ const GROUPS: { title: string; items: Integration[] }[] = [
     title: 'Observability & tracing',
     items: [
       { name: 'Prometheus', icon: 'prometheus' },
+      { name: 'Grafana', logo: '/img/integrations/grafana.svg', href: '/docs/apisix/plugins/prometheus/' },
       { name: 'Datadog', icon: 'datadog' },
+      { name: 'OpenTelemetry', logo: '/img/integrations/opentelemetry.svg', href: '/docs/apisix/plugins/opentelemetry/' },
       { name: 'Apache SkyWalking', icon: 'skywalking' },
       { name: 'Zipkin', icon: 'zipkin' },
-      { name: 'Google Cloud', icon: 'google-cloud-logging' },
     ],
   },
   {
-    title: 'Authentication & security',
+    title: 'Logging & data',
     items: [
-      { name: 'OpenID Connect', icon: 'openid-connect' },
-      { name: 'Keycloak', icon: 'authz-keycloak' },
-      { name: 'Casbin', icon: 'authz-casbin' },
+      { name: 'Elasticsearch', logo: '/img/integrations/elasticsearch.svg', href: '/docs/apisix/plugins/elasticsearch-logger/' },
+      { name: 'ClickHouse', logo: '/img/integrations/clickhouse.svg', href: '/docs/apisix/plugins/clickhouse-logger/' },
+      { name: 'Google Cloud', icon: 'google-cloud-logging' },
     ],
   },
   {
@@ -46,6 +43,34 @@ const GROUPS: { title: string; items: Integration[] }[] = [
       { name: 'gRPC', icon: 'grpc-transcode' },
     ],
   },
+  {
+    title: 'Service discovery & runtime',
+    items: [
+      { name: 'Kubernetes', logo: '/img/integrations/kubernetes.svg', href: '/docs/apisix/discovery/kubernetes/' },
+      { name: 'Consul', logo: '/img/integrations/consul.svg', href: '/docs/apisix/discovery/consul/' },
+      { name: 'NGINX', logo: '/img/integrations/nginx.svg', href: '/docs/apisix/architecture-design/apisix/' },
+      { name: 'Redis', logo: '/img/integrations/redis.svg', href: '/docs/apisix/plugins/limit-count/' },
+    ],
+  },
+  {
+    title: 'Security & secrets',
+    items: [
+      { name: 'OpenID Connect', icon: 'openid-connect' },
+      { name: 'Keycloak', icon: 'authz-keycloak' },
+      { name: 'Casbin', icon: 'authz-casbin' },
+      { name: 'HashiCorp Vault', logo: '/img/integrations/vault.svg', href: '/docs/apisix/terminology/secret/' },
+    ],
+  },
+  {
+    title: 'AI & LLM providers',
+    items: [
+      { name: 'OpenAI', href: '/docs/apisix/plugins/ai-proxy/' },
+      { name: 'Anthropic', href: '/docs/apisix/plugins/ai-proxy/' },
+      { name: 'AWS Bedrock', href: '/docs/apisix/plugins/ai-proxy/' },
+      { name: 'DeepSeek', href: '/docs/apisix/plugins/ai-proxy/' },
+      { name: 'Ollama', href: '/docs/apisix/plugins/ai-proxy/' },
+    ],
+  },
 ];
 
 const IntegrationTile: FC<{ item: Integration }> = ({ item }) => {
@@ -53,12 +78,12 @@ const IntegrationTile: FC<{ item: Integration }> = ({ item }) => {
   const inner = (
     <>
       {item.logo ? (
-        <img className="integrations__img" src={item.logo} alt={item.name} loading="lazy" width={40} height={40} />
-      ) : (
+        <img className="integrations__img" src={item.logo} alt={item.name} loading="lazy" width={30} height={30} />
+      ) : item.icon ? (
         <svg className="integrations__icon" aria-hidden="true">
           <use xlinkHref={`#icon${item.icon}`} />
         </svg>
-      )}
+      ) : null}
       <span className="integrations__name">{item.name}</span>
     </>
   );
@@ -84,7 +109,7 @@ const Integrations: FC = () => (
     </h2>
     <p className="integrations__subtitle">
       <Translate id="home.integrations.subtitle">
-        Connect APISIX to your observability, security, and streaming tools through 100+ plugins.
+        Connect APISIX to your observability, security, service discovery, and AI tools through 100+ plugins.
       </Translate>
     </p>
     <div className="integrations__groups">
