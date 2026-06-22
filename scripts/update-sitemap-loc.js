@@ -33,6 +33,8 @@ const excludePatterns = [
   // path should be indexed. Matches 2-part (apisix 3.14), 3-part semver
   // (ingress 2.0.0), and prefixed (docker apisix-2.10.0) version segments.
   /\/docs\/[\w-]+\/(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?\//,
+  // Doc tag aggregation pages (low-value, mirrors the /blog/tags/ rule below)
+  /\/docs\/[\w./-]+\/tags\//,
   // Development "next" docs
   /\/docs\/[\w-]+\/next\//,
   // Search pages (blocked by robots.txt)
