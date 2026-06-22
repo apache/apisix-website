@@ -16,6 +16,8 @@ interface Integration {
    * the API7 CDN and set this; it takes precedence over `icon`.
    */
   logo?: string;
+  /** Doc link. Defaults to the plugin's doc page derived from `icon`. */
+  href?: string;
 }
 
 const GROUPS: { title: string; items: Integration[] }[] = [
@@ -46,18 +48,30 @@ const GROUPS: { title: string; items: Integration[] }[] = [
   },
 ];
 
-const IntegrationTile: FC<{ item: Integration }> = ({ item }) => (
-  <div className="integrations__tile" title={item.name}>
-    {item.logo ? (
-      <img className="integrations__img" src={item.logo} alt={item.name} loading="lazy" width={40} height={40} />
-    ) : (
-      <svg className="integrations__icon" aria-hidden="true">
-        <use xlinkHref={`#icon${item.icon}`} />
-      </svg>
-    )}
-    <span className="integrations__name">{item.name}</span>
-  </div>
-);
+const IntegrationTile: FC<{ item: Integration }> = ({ item }) => {
+  const href = item.href ?? (item.icon ? `/docs/apisix/plugins/${item.icon}/` : undefined);
+  const inner = (
+    <>
+      {item.logo ? (
+        <img className="integrations__img" src={item.logo} alt={item.name} loading="lazy" width={40} height={40} />
+      ) : (
+        <svg className="integrations__icon" aria-hidden="true">
+          <use xlinkHref={`#icon${item.icon}`} />
+        </svg>
+      )}
+      <span className="integrations__name">{item.name}</span>
+    </>
+  );
+  return href ? (
+    <Link className="integrations__tile" to={href} title={item.name}>
+      {inner}
+    </Link>
+  ) : (
+    <div className="integrations__tile" title={item.name}>
+      {inner}
+    </div>
+  );
+};
 
 const Integrations: FC = () => (
   <section className="integrations" aria-labelledby="integrations-heading">

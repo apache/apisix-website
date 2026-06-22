@@ -13,7 +13,6 @@ import Benefits from '../components/sections/Benefits';
 import Comparison from '../components/sections/Comparison';
 import OpensourcePromo from '../components/sections/OpensourcePromo';
 import EndCTA from '../components/sections/Endcta';
-import TrustedBy from '../components/sections/TrustedBy';
 import Pathways from '../components/sections/Pathways';
 import Integrations from '../components/sections/Integrations';
 
@@ -139,7 +138,6 @@ const Index: FC = () => (
       <script type="application/ld+json">{JSON.stringify(HOMEPAGE_FAQ_SCHEMA)}</script>
     </Head>
     <HeroSection />
-    <TrustedBy />
     <Pathways />
     <Architecture />
     <Features />
