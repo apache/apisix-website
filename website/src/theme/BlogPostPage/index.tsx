@@ -36,6 +36,13 @@ type Props = React.ComponentProps<typeof BlogPostPage>;
 
 const LEARNING_CENTER_PREFIX = '/learning-center/';
 
+// JSON.stringify does not escape "</script>"; escaping "<" keeps author-authored
+// front matter from ever breaking out of the JSON-LD <script> element.
+const toJsonLd = (data: object): string => JSON.stringify(data).replace(/</g, '\\u003c');
+
+// Article rich results want an image; fall back to the site's default social card.
+const DEFAULT_OG_IMAGE = 'https://static.apiseven.com/202202/apache-apisix.png';
+
 const BlogPostPageWrapper = (props: Props): JSX.Element => {
   const { siteConfig } = useDocusaurusContext();
   const siteUrl = siteConfig.url.replace(/\/$/, '');
@@ -56,7 +63,7 @@ const BlogPostPageWrapper = (props: Props): JSX.Element => {
   const rawImage = assets.image ?? frontMatter.image;
   const image = rawImage
     ? (rawImage.startsWith('http') ? rawImage : siteUrl + rawImage)
-    : undefined;
+    : DEFAULT_OG_IMAGE;
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -114,10 +121,10 @@ const BlogPostPageWrapper = (props: Props): JSX.Element => {
   return (
     <>
       <Head>
-        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{toJsonLd(articleSchema)}</script>
+        <script type="application/ld+json">{toJsonLd(breadcrumbSchema)}</script>
         {faqSchema && (
-          <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+          <script type="application/ld+json">{toJsonLd(faqSchema)}</script>
         )}
       </Head>
       <BlogPostPage {...props} />
