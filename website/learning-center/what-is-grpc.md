@@ -165,3 +165,9 @@ In controlled benchmarks, gRPC typically delivers significantly higher throughpu
 ### Does gRPC work with WebAssembly or edge computing?
 
 Yes. Protobuf serialization libraries exist for languages targeting WebAssembly, and gRPC-Web enables browser-based Wasm applications to call gRPC backends. For edge computing, gRPC's compact payloads and efficient serialization are advantageous on bandwidth-constrained links. Several CDN providers, including Cloudflare and Fastly, now support gRPC proxying at the edge as of 2025.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

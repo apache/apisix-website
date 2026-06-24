@@ -142,3 +142,11 @@ Both gateways are investing in AI gateway capabilities, but they approach it dif
 ### How do the two gateways compare on gRPC and streaming support?
 
 APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX's broader built-in protocol support reduces the need for custom plugins or sidecars.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs NGINX](/learning-center/apisix-vs-nginx/)
+- [Apache APISIX vs AWS API Gateway](/learning-center/apisix-vs-aws-api-gateway/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

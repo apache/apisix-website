@@ -120,3 +120,10 @@ A decentralized model where service teams own their route configurations works w
 ### What is the performance impact of adding an API gateway to a microservices architecture?
 
 Apache APISIX, built on NGINX and LuaJIT, adds 1-2ms of latency per request with a typical plugin configuration (authentication, rate limiting, logging). For most microservices architectures where end-to-end request latency is 50-500ms, this overhead is under 2% of total latency. The operational benefits of centralized security, observability, and traffic management significantly outweigh the minor latency cost.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Kubernetes API gateway](/learning-center/kubernetes-api-gateway/)
+- [Compare API gateways](/comparisons/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

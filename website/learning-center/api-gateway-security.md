@@ -129,3 +129,10 @@ Terminate TLS at the gateway for client-facing connections. This centralizes cer
 ### How many rate limiting layers should an API gateway enforce?
 
 Apply at least three layers: a global rate limit to protect overall infrastructure capacity, a per-consumer limit to prevent any single client from monopolizing resources, and per-route limits for endpoints with expensive backend operations. Use sliding window or leaky bucket algorithms rather than fixed windows to provide smoother throttling behavior and prevent burst abuse at window boundaries.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway authentication](/learning-center/api-gateway-authentication/)
+- [What is mutual TLS (mTLS)?](/learning-center/what-is-mutual-tls/)
+- [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)

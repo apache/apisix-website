@@ -130,3 +130,11 @@ Cloud-managed gateways trade control for convenience. They handle infrastructure
 ### Which gateway has the best Kubernetes support?
 
 All four gateways support Kubernetes, but the depth varies. APISIX and Kong offer dedicated ingress controllers with CRD-based configuration. Envoy integrates through the Kubernetes Gateway API and service mesh deployments. Traefik auto-discovers Kubernetes services natively. The emerging Kubernetes Gateway API standard is supported by all four projects to varying degrees, and is becoming the recommended approach for new deployments.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs Kong](/learning-center/apisix-vs-kong/)
+- [Apache APISIX vs Traefik](/learning-center/apisix-vs-traefik/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)
