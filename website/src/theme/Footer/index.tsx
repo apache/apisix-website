@@ -88,6 +88,10 @@ const footer = {
           label: 'Plugin Hub',
           to: '/plugins',
           target: '_parent',
+        }, {
+          label: 'API Gateway Guides',
+          to: '/comparison',
+          target: '_parent',
         },
         {
           label: 'Roadmap',

@@ -108,6 +108,11 @@ module.exports = [
         target: '_parent',
       },
       {
+        to: '/comparison',
+        label: 'API Gateway Guides',
+        target: '_parent',
+      },
+      {
         to: '/docs/general/join',
         label: 'Community',
         target: '_parent',
