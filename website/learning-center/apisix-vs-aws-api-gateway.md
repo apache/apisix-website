@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed"
-description: "Compare Apache APISIX and Amazon AWS API Gateway: architecture, pricing at scale, vendor lock-in, performance, and when to choose a self-hosted open-source gateway over a managed cloud service."
+description: "Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance."
 slug: apisix-vs-aws-api-gateway
 date: 2026-06-24
 tags: [comparison, apisix, aws-api-gateway, api-gateway]

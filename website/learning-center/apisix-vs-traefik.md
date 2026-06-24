@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX vs Traefik: Performance vs Auto-Discovery"
-description: "Compare Apache APISIX and Traefik. APISIX offers higher throughput and a larger plugin ecosystem; Traefik offers container-native auto-discovery and automatic TLS. Covers architecture, performance, Kubernetes, and when to choose each."
+description: "Compare Apache APISIX and Traefik: APISIX for higher throughput and a larger plugin ecosystem, Traefik for container-native auto-discovery and TLS."
 slug: apisix-vs-traefik
 date: 2026-06-24
 tags: [comparison, apisix, traefik, api-gateway]

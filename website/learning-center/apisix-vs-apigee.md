@@ -1,6 +1,6 @@
 ---
-title: "Apache APISIX vs Apigee: Open-Source Gateway vs API Management Platform"
-description: "Compare Apache APISIX and Google Cloud Apigee. APISIX is a high-performance open-source gateway; Apigee is a full enterprise API management platform. Covers scope, cost, developer portal, analytics, and when to choose each."
+title: "Apache APISIX vs Apigee: Gateway vs API Management Platform"
+description: "Compare Apache APISIX and Google Cloud Apigee: an open-source API gateway vs a full enterprise API management platform — scope, cost, and portability."
 slug: apisix-vs-apigee
 date: 2026-06-24
 tags: [comparison, apisix, apigee, api-gateway]

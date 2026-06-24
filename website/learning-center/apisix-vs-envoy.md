@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX vs Envoy: API Gateway vs Service Proxy"
-description: "Compare Apache APISIX and Envoy. APISIX is a turnkey API gateway with a built-in control plane; Envoy is a high-performance proxy that needs a separate control plane. Covers architecture, service mesh, and when to choose each."
+description: "Compare Apache APISIX and Envoy: a turnkey API gateway with a built-in control plane vs a high-performance proxy that needs one (Istio, Gloo)."
 slug: apisix-vs-envoy
 date: 2026-06-24
 tags: [comparison, apisix, envoy, api-gateway]

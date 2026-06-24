@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX vs NGINX: API Gateway vs Reverse Proxy"
-description: "Compare Apache APISIX and NGINX as API gateways. APISIX is built on NGINX but adds dynamic configuration, 100+ plugins, and an Admin API. Covers NGINX OSS, NGINX Plus, and when to choose each."
+description: "Compare Apache APISIX and NGINX as API gateways. APISIX is built on NGINX but adds dynamic config, 100+ plugins, and an Admin API; NGINX Plus too."
 slug: apisix-vs-nginx
 date: 2026-06-24
 tags: [comparison, apisix, nginx, api-gateway]
