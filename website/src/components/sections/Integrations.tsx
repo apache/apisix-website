@@ -112,16 +112,9 @@ const Integrations: FC = () => (
         Connect APISIX to your observability, security, service discovery, and AI tools through 100+ plugins.
       </Translate>
     </p>
-    <div className="integrations__groups">
-      {GROUPS.map((group) => (
-        <div className="integrations__group" key={group.title}>
-          <div className="integrations__group-title">{group.title}</div>
-          <div className="integrations__tiles">
-            {group.items.map((item) => (
-              <IntegrationTile item={item} key={item.name} />
-            ))}
-          </div>
-        </div>
+    <div className="integrations__tiles">
+      {GROUPS.flatMap((group) => group.items).map((item) => (
+        <IntegrationTile item={item} key={item.name} />
       ))}
     </div>
     <Link className="integrations__cta" to="/plugins/">
