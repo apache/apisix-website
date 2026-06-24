@@ -5,6 +5,19 @@ slug: open-source-api-gateway-comparison
 date: 2026-04-14
 tags: [comparison, api-gateway, open-source]
 hide_table_of_contents: false
+faq:
+  - q: "Is Apache APISIX production-ready for enterprise workloads?"
+    a: >-
+      Yes. Apache APISIX is an Apache Software Foundation top-level project used in production by organizations worldwide. The etcd-backed architecture provides high availability without single points of failure when deployed with an etcd cluster.
+  - q: "Can I migrate from Kong to APISIX without downtime?"
+    a: >-
+      A zero-downtime migration is achievable using a canary deployment approach: run both gateways in parallel behind a load balancer, gradually shifting traffic from Kong to APISIX as you validate route-by-route equivalence. APISIX supports most Kong plugin equivalents natively, and the Admin API allows automated route provisioning during migration.
+  - q: "How do open-source API gateways compare to cloud-managed options like AWS API Gateway?"
+    a: >-
+      Cloud-managed gateways trade control for convenience. They handle infrastructure operations but impose vendor lock-in, per-request pricing that grows with traffic volume, and limited plugin customization. Open-source gateways like APISIX provide full control over the data plane, support multi-cloud and hybrid deployments, and eliminate per-request platform fees.
+  - q: "Which gateway has the best Kubernetes support?"
+    a: >-
+      All four gateways support Kubernetes, but the depth varies. APISIX and Kong offer dedicated ingress controllers with CRD-based configuration. Envoy integrates through the Kubernetes Gateway API and service mesh deployments. Traefik auto-discovers Kubernetes services natively. The emerging Kubernetes Gateway API standard is supported by all four projects to varying degrees, and is becoming the recommended approach for new deployments.
 ---
 
 An open-source API gateway sits between clients and backend services, handling routing, authentication, rate limiting, and observability. Apache APISIX, Kong, Envoy, and Traefik are among the most widely adopted options, each with distinct architectural decisions that affect performance, extensibility, and operational complexity.

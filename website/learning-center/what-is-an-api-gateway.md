@@ -5,6 +5,22 @@ slug: what-is-an-api-gateway
 date: 2026-04-14
 tags: [api-gateway, concepts]
 hide_table_of_contents: false
+faq:
+  - q: "What is the difference between an API gateway and a load balancer?"
+    a: >-
+      A load balancer distributes incoming traffic across multiple server instances using algorithms like round-robin or least connections. It operates at the network or transport layer (L4) or HTTP layer (L7) but does not understand API semantics. An API gateway performs load balancing as one of many functions, and adds API-specific capabilities: authentication, rate limiting, request transformation, caching, and observability. If you only need to distribute traffic, a load balancer suffices. If you need to manage, secure, and observe API traffic, you need a gateway.
+  - q: "Do I need an API gateway for a monolithic application?"
+    a: >-
+      An API gateway is not strictly required for a monolith, but it can still add value. If your monolith exposes APIs consumed by external clients, mobile apps, or third-party integrators, a gateway provides centralized authentication, rate limiting, and monitoring without modifying the application. It also positions your architecture for incremental migration to microservices using the strangler fig pattern.
+  - q: "How does an API gateway affect latency?"
+    a: >-
+      A well-implemented gateway adds minimal latency — typically 0.2ms to 2ms per request depending on the number of active plugins. High-performance gateways like Apache APISIX are optimized for sub-millisecond overhead. The latency tradeoff is almost always worthwhile: the gateway eliminates redundant auth checks, reduces backend calls through caching, and prevents cascading failures through circuit breaking, all of which improve overall system response times.
+  - q: "Can an API gateway replace a service mesh?"
+    a: >-
+      An API gateway and a service mesh serve different layers. The gateway handles north-south traffic (external clients to internal services), while a service mesh manages east-west traffic (service-to-service communication within the cluster). They are complementary, not competing, technologies. Some organizations use APISIX as both a gateway and an ingress controller, bridging the two layers, but a full service mesh (Istio, Linkerd) addresses concerns like mutual TLS between services and fine-grained internal traffic policies that fall outside a gateway's scope.
+  - q: "Is an API gateway the same as an API management platform?"
+    a: >-
+      No. An API gateway is the runtime component that processes API traffic. An API management platform is a broader category that typically includes a gateway, a developer portal, API documentation tools, lifecycle management, and analytics dashboards. The gateway is the engine; the management platform is the full vehicle. Apache APISIX provides the high-performance gateway layer, and organizations often pair it with additional tooling for the complete API management lifecycle.
 ---
 
 An API gateway is a server that sits between clients and backend services, acting as the single entry point for all API traffic. It accepts incoming requests, applies policies such as authentication, rate limiting, and transformation, then routes each request to the appropriate upstream service and returns the response to the caller.
