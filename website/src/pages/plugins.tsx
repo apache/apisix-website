@@ -191,9 +191,48 @@ const SBeta = styled.div`
   }
 `;
 
+interface PluginEntry {
+  name: string;
+  description?: string;
+  logo?: string;
+  useDefaultIcon?: boolean;
+  beta?: boolean;
+}
+
+interface PluginGroup {
+  groupName: string;
+  plugins: PluginEntry[];
+}
+
+const renderPluginIcon = (plugin: PluginEntry): JSX.Element => {
+  if (plugin.logo) {
+    return (
+      <img
+        className="plugin-logo shadow"
+        src={plugin.logo}
+        alt={plugin.name}
+        loading="lazy"
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = '/img/plugin/default-icon.png';
+          e.currentTarget.classList.add('default');
+        }}
+      />
+    );
+  }
+  if (plugin.useDefaultIcon) {
+    return <img className="plugin-logo shadow" src="/img/plugin/apisix.svg" alt={plugin.name} loading="lazy" />;
+  }
+  return (
+    <svg className="plugin-logo shadow" aria-hidden="true">
+      <use xlinkHref={`#icon${plugin.name}`} />
+    </svg>
+  );
+};
+
 const Plugins: FC = () => {
   const { siteConfig } = useDocusaurusContext();
-  const { plugins = [] } = siteConfig.customFields as { plugins: any[] };
+  const { plugins = [] } = siteConfig.customFields as { plugins: PluginGroup[] };
   const sidebar = plugins.map((section) => (
     <SidebarItem key={section.groupName}><a className="sidebar-link" href={`#${section.groupName}`}>{section.groupName}</a></SidebarItem>
   ));
@@ -205,13 +244,7 @@ const Plugins: FC = () => {
         <div key={plugin.name}>
           <PluginCard href={plugin.beta ? `/docs/apisix/next/plugins/${pluginUrl}` : `/docs/apisix/plugins/${pluginUrl}`} target="_blank">
             <PluginIcon>
-              {plugin.useDefaultIcon
-                ? <img className="plugin-logo shadow default" src="/img/plugin/default-icon.png" alt={plugin.name} />
-                : (
-                  <svg className="plugin-logo shadow" aria-hidden="true">
-                    <use xlinkHref={`#icon${plugin.name}`} />
-                  </svg>
-                )}
+              {renderPluginIcon(plugin)}
             </PluginIcon>
             <PluginName>
               {plugin.name}
