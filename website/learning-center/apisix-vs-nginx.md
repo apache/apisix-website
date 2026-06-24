@@ -89,3 +89,11 @@ NGINX Plus is the commercial edition of NGINX, adding dynamic reconfiguration, a
 ### Can I migrate my nginx.conf to Apache APISIX?
 
 Most nginx.conf reverse-proxy setups map cleanly onto APISIX concepts: server and location blocks become routes, proxy_pass upstreams become APISIX upstreams, and directives like rate limiting, header rewriting, and access control become plugins. The main shift is moving from a static file that requires reloads to dynamic configuration managed through the Admin API, which removes reload-related downtime.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs Envoy](/learning-center/apisix-vs-envoy/)
+- [Apache APISIX vs Traefik](/learning-center/apisix-vs-traefik/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

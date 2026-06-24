@@ -98,3 +98,11 @@ APISIX provides strong runtime observability through integrations with Prometheu
 ### How do I migrate from Apigee to Apache APISIX?
 
 Migration usually starts with the gateway runtime: map Apigee API proxies to APISIX routes and upstreams, and translate Apigee policies (for authentication, quotas, spike arrest, and transformation) to the equivalent APISIX plugins. Higher-level Apigee features such as the developer portal and monetization are addressed separately with complementary tooling. Running both in parallel and shifting traffic incrementally allows a controlled, low-risk migration.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs AWS API Gateway](/learning-center/apisix-vs-aws-api-gateway/)
+- [Apache APISIX vs Kong](/learning-center/apisix-vs-kong/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

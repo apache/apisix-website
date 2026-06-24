@@ -93,3 +93,11 @@ APISIX ships with 100+ built-in plugins and supports custom plugins in Lua, Go, 
 ### Do both Apache APISIX and Traefik support Kubernetes and the Gateway API?
 
 Yes. Both run as Kubernetes ingress controllers and both support the Kubernetes Gateway API. Traefik is known for automatically discovering Kubernetes services and configuring routes from annotations and CRDs. APISIX provides its own ingress controller with CRDs, standard Ingress support, and Gateway API support, with configuration propagated through etcd in real time.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs NGINX](/learning-center/apisix-vs-nginx/)
+- [Apache APISIX vs Envoy](/learning-center/apisix-vs-envoy/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

@@ -104,3 +104,11 @@ The common approach is to stand up APISIX behind the same DNS or load balancer a
 ### Does AWS API Gateway or Apache APISIX add more latency?
 
 A self-hosted APISIX deployment running close to your backends typically adds sub-millisecond proxy overhead and avoids extra network hops. AWS API Gateway is a managed regional service, so requests traverse AWS infrastructure and are subject to service limits such as integration timeouts. For latency-sensitive workloads where you control the network path, a self-hosted gateway gives you more control over the latency floor.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs Apigee](/learning-center/apisix-vs-apigee/)
+- [Apache APISIX vs Kong](/learning-center/apisix-vs-kong/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

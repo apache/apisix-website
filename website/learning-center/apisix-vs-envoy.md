@@ -93,3 +93,11 @@ No. APISIX ships with its own control plane: an Admin API, etcd-backed configura
 ### Should I use Apache APISIX or Envoy for a service mesh?
 
 For a full service mesh with sidecar proxies and service-to-service mTLS, Envoy (typically through Istio) is the established choice; it was designed for that role. For an API gateway handling north-south traffic at the edge, with authentication, rate limiting, and a plugin ecosystem ready to use, APISIX is the more direct fit. The two roles are different, and many platforms use both.
+
+## Related
+
+- [All API gateway comparisons](/comparisons/)
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX vs NGINX](/learning-center/apisix-vs-nginx/)
+- [Apache APISIX vs Traefik](/learning-center/apisix-vs-traefik/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)
