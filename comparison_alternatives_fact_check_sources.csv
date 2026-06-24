@@ -1,0 +1,24 @@
+Page,Claim / Topic,Source Type,Source URL / File,Verified?,Action Taken,Notes
+All APISIX pages,APISIX is open-source and ASF top-level project with dynamic routing/rate limiting/auth/observability/plugins,Official APISIX docs,https://apisix.apache.org/docs/apisix/getting-started/,Yes,Kept,Used APISIX official docs as primary APISIX source
+All APISIX pages,APISIX plugin coverage and 100+ plugins,Official APISIX plugin hub,https://apisix.apache.org/plugins/,Yes,Kept,Used plugin hub and APISIX docs for plugin claims
+Kubernetes pages,Apache APISIX Ingress Controller is the Kubernetes controller path for APISIX,Official APISIX docs,https://apisix.apache.org/docs/ingress-controller/overview/,Yes,Kept,Clarified controller vs gateway runtime boundary
+All APISIX pages,Apache APISIX source code and contribution path,Official GitHub repository,https://github.com/apache/apisix,Yes,Kept,Added GitHub next-step link
+AI Gateway page and AI mentions,APISIX AI Gateway capabilities,Official APISIX page,https://apisix.apache.org/ai-gateway/,Yes,Kept with source notes,Claims limited to public APISIX page language
+AI Gateway page and AI mentions,APISIX ai-proxy plugin,Official APISIX plugin docs,https://apisix.apache.org/docs/apisix/plugins/ai-proxy/,Yes,Added source note,Supports AI Gateway source discipline
+Kong pages,Kong Gateway positioning and plugin ecosystem,Official Kong docs,https://developer.konghq.com/gateway/,Yes,Kept with neutral wording,Avoided unsupported negative claims
+Kong/Kubernetes pages,Kong Ingress Controller configures Kong Gateway from Kubernetes resources,Official Kong docs,https://developer.konghq.com/kubernetes-ingress-controller/,Yes,Kept,Separated Kong Gateway from Kong Ingress Controller
+Tyk pages,Tyk API gateway/API management focus,Official Tyk docs,https://tyk.io/docs,Yes,Kept with neutral wording,Avoided unsupported edition claims
+Gravitee pages,Gravitee API management/platform positioning,Official Gravitee docs,https://documentation.gravitee.io/,Yes,Kept with neutral wording,Positioned as API management platform
+KrakenD pages,KrakenD gateway documentation and declarative evaluation,Official KrakenD docs,https://www.krakend.io/docs/,Yes,Kept with neutral wording,Avoided unsupported performance claims
+NGINX pages,NGINX reverse proxy/load balancing foundation,Official NGINX docs,https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/,Yes,Kept,No claim that NGINX is unsuitable for APIs
+NGINX/Kubernetes pages,NGINX Ingress Controller,Official NGINX docs,https://docs.nginx.com/nginx-ingress-controller/,Yes,Kept,Used only for controller comparison
+Traefik pages,Traefik proxy and Kubernetes Ingress provider,Official Traefik docs,https://doc.traefik.io/traefik/,Yes,Kept,Used neutral ingress/proxy framing
+Traefik/Kubernetes pages,Traefik Kubernetes Ingress provider,Official Traefik docs,https://doc.traefik.io/traefik/providers/kubernetes-ingress/,Yes,Kept,Used for controller layer
+Envoy pages,Envoy is an L7 proxy and service-oriented architecture communication bus,Official Envoy docs,https://www.envoyproxy.io/docs/envoy/latest/intro/what_is_envoy,Yes,Kept,No claim that Envoy is a complete API management replacement
+Envoy Gateway/Kubernetes pages,Envoy Gateway and Gateway API-oriented workflow,Official Envoy Gateway docs,https://gateway.envoyproxy.io/docs/,Yes,Kept,Used for controller comparison
+Apigee pages,Apigee API management platform,Official Google Cloud docs,https://docs.cloud.google.com/apigee/docs/api-platform/get-started/what-apigee,Yes,Kept,Framed as Google Cloud API management
+AWS pages,Amazon API Gateway managed service,Official AWS docs,https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html,Yes,Kept,Framed as AWS-native managed API service
+Azure pages,Azure API Management publishing and gateway workflows,Official Microsoft docs,https://learn.microsoft.com/en-us/azure/api-management/,Yes,Kept,Framed as managed Azure API management
+WSO2 pages,WSO2 API Manager lifecycle and gateway docs,Official WSO2 docs,https://apim.docs.wso2.com/en/latest/,Yes,Kept,Framed as API management suite
+All pages,Unsupported performance benchmark claims,N/A,N/A,Yes,Removed/Avoided,No unverified performance ranking added
+All pages,API7/API7 Enterprise/API7 AI Gateway references,N/A,N/A,Yes,Removed/Avoided,No commercial company/product conversion paths remain

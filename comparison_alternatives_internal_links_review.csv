@@ -1,0 +1,13 @@
+Source Page,Target URL,Anchor Text,Link Purpose,Exists?,Action Taken
+All comparison/alternative pages,https://apisix.apache.org/docs/apisix/getting-started/,Get started with Apache APISIX,Hands-on open-source evaluation path,Yes,Added as open-source next step
+All comparison/alternative pages,/plugins/,Explore Apache APISIX plugins,Plugin discovery and policy evaluation,Yes,Added as open-source next step
+All comparison/alternative pages,https://apisix.apache.org/docs/ingress-controller/overview/,Apache APISIX Ingress Controller,Kubernetes controller evaluation path,Yes,Added as open-source next step
+All comparison/alternative pages,https://github.com/apache/apisix,View Apache APISIX on GitHub,Open-source source code and contribution path,Yes,Added as open-source next step
+All comparison/alternative pages,/docs/general/join/,Join the Apache APISIX community,Community user path,Yes,Added as open-source next step
+All comparison/alternative pages,/docs/general/how-to-contribute/,Contribute to Apache APISIX,Contributor path,Yes,Added as open-source next step
+AI Gateway Comparison,/ai-gateway/,Explore APISIX AI Gateway,AI/LLM traffic evaluation path,Yes,Kept as primary CTA
+Kubernetes Ingress Controller Comparison,https://apisix.apache.org/docs/ingress-controller/overview/,Explore Apache APISIX Ingress Controller,Kubernetes user path,Yes,Kept as primary CTA
+All comparison/alternative pages,/comparison/,API Gateway Guides,Hub navigation,Yes,Kept in related links
+All comparison/alternative pages,/comparison/api-gateway/,API Gateway Comparison,Broad category navigation,Yes,Kept in related links
+All comparison/alternative pages,/comparison/open-source-api-gateway/,Open-source API Gateway Comparison,Open-source cluster navigation,Yes,Kept in related links
+All comparison/alternative pages,/alternatives/,API Gateway Alternatives,Alternative cluster navigation,Yes,Kept in related links

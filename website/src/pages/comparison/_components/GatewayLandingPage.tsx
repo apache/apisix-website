@@ -71,6 +71,7 @@ export type GatewayLandingPageData = {
   guidanceTitle: string;
   guidanceIntro: string;
   guidanceCards: InfoCard[];
+  resourceLinks?: GuideLink[];
   relatedLinks?: GuideLink[];
   sources: SourceLink[];
   faqs: Faq[];
@@ -226,17 +227,39 @@ const GatewayLandingPage: React.FC<{ data: GatewayLandingPageData }> = ({ data }
         </div>
       </section>
 
+      {data.resourceLinks ? (
+        <section className={styles.sectionTight}>
+          <div className={styles.resourcePanel}>
+            <div>
+              <p className={styles.kicker}>Open-source next steps</p>
+              <h2>Continue with Apache APISIX resources</h2>
+              <p>
+                Move from evaluation to hands-on testing with documentation, plugins,
+                Kubernetes resources, GitHub, and community channels.
+              </p>
+            </div>
+            <div className={styles.resourceLinks}>
+              {data.resourceLinks.map((resource) => (
+                <Link className={styles.resourceLink} to={resource.href} key={resource.href}>
+                  <strong>{resource.title}</strong>
+                  <span>{resource.description}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {data.relatedLinks ? (
         <section className={styles.section}>
           <p className={styles.kicker}>Related guides</p>
           <h2 className={styles.heading}>Continue comparing API gateway options</h2>
           <p className={styles.sectionIntro}>
-            Use these related pages to move from broad comparison to alternatives, migration planning, or APISIX evaluation.
+            Use these related pages to move from broad comparison to alternatives or APISIX evaluation.
           </p>
           <div className={styles.guideGrid}>
             {data.relatedLinks.map((guide) => (
               <Link className={styles.guideCard} to={guide.href} key={guide.href}>
-                <div className={styles.guideMeta}>{guide.priority ?? 'Guide'}</div>
                 <h3>{guide.title}</h3>
                 <p>{guide.description}</p>
               </Link>

@@ -1,0 +1,7 @@
+Priority,Issue,Why Not Changed Now,Recommended Next Step
+P1,Add API Gateway Guides entry to Resources nav and footer,User requested local preview first and no push; global nav/footer changes need review,Add a single "API Gateway Guides" entry after page content is approved
+P1,Add contextual links from high-traffic docs/blog/learning-center pages,Task scope avoids bulk editing existing docs/blog/learning-center pages,Select 10-20 high-traffic pages from GSC and add contextual links after publication
+P1,Monitor cannibalization between API Gateway Comparison and Open-source API Gateway Comparison,Need GSC data after pages are indexed,Review impressions/queries/CTR after 4-8 weeks
+P2,Create deeper API Security/API Management/AI Gateway topic clusters,Current task is page review not new page creation,Use GSC/Semrush data to prioritize follow-up content briefs
+P2,Add structured product comparison schema beyond FAQ,Would require broader SEO component decision,Evaluate after preview and build review
+P2,Review competitor details quarterly,Vendor docs and edition boundaries change over time,Schedule quarterly source review against official documentation

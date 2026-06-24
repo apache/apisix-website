@@ -20,14 +20,53 @@ const apisixSources: SourceLink[] = [
   { label: 'Apache APISIX on GitHub', href: 'https://github.com/apache/apisix' },
 ];
 
+const apisixResourceLinks = [
+  {
+    title: 'Get started with Apache APISIX',
+    href: 'https://apisix.apache.org/docs/apisix/getting-started/',
+    description: 'Install APISIX locally, create a first route, and add a gateway plugin.',
+  },
+  {
+    title: 'Explore Apache APISIX plugins',
+    href: '/plugins/',
+    description: 'Review plugins for authentication, security, traffic control, observability, and AI traffic.',
+  },
+  {
+    title: 'Apache APISIX Ingress Controller',
+    href: 'https://apisix.apache.org/docs/ingress-controller/overview/',
+    description: 'Evaluate the Kubernetes controller path for APISIX-backed ingress and gateway policy.',
+  },
+  {
+    title: 'View Apache APISIX on GitHub',
+    href: 'https://github.com/apache/apisix',
+    description: 'Check source code, releases, issues, pull requests, and contribution activity.',
+  },
+  {
+    title: 'Join the Apache APISIX community',
+    href: '/docs/general/join/',
+    description: 'Find community channels for questions, discussion, and project participation.',
+  },
+  {
+    title: 'Contribute to Apache APISIX',
+    href: '/docs/general/how-to-contribute/',
+    description: 'Learn how to report issues, contribute code, and participate in the Apache project workflow.',
+  },
+];
+
 const docsSources = {
+  apisixAiGateway: { label: 'APISIX AI Gateway overview', href: 'https://apisix.apache.org/ai-gateway/' },
+  apisixAiProxy: { label: 'Apache APISIX ai-proxy plugin documentation', href: 'https://apisix.apache.org/docs/apisix/plugins/ai-proxy/' },
   kong: { label: 'Kong Gateway official documentation', href: 'https://developer.konghq.com/gateway/' },
+  kongKic: { label: 'Kong Ingress Controller official documentation', href: 'https://developer.konghq.com/kubernetes-ingress-controller/' },
   tyk: { label: 'Tyk official documentation', href: 'https://tyk.io/docs' },
   apigee: { label: 'Google Cloud Apigee documentation', href: 'https://docs.cloud.google.com/apigee/docs/api-platform/get-started/what-apigee' },
   aws: { label: 'Amazon API Gateway developer guide', href: 'https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html' },
   nginx: { label: 'NGINX HTTP load balancing documentation', href: 'https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/' },
+  nginxIc: { label: 'NGINX Ingress Controller documentation', href: 'https://docs.nginx.com/nginx-ingress-controller/' },
   traefik: { label: 'Traefik official documentation', href: 'https://doc.traefik.io/traefik/' },
+  traefikKubernetesIngress: { label: 'Traefik Kubernetes Ingress provider documentation', href: 'https://doc.traefik.io/traefik/providers/kubernetes-ingress/' },
   envoy: { label: 'Envoy official documentation', href: 'https://www.envoyproxy.io/docs/envoy/latest/intro/what_is_envoy' },
+  envoyGateway: { label: 'Envoy Gateway documentation', href: 'https://gateway.envoyproxy.io/docs/' },
   gravitee: { label: 'Gravitee official documentation', href: 'https://documentation.gravitee.io/' },
   krakend: { label: 'KrakenD official documentation', href: 'https://www.krakend.io/docs/' },
   azure: { label: 'Azure API Management documentation', href: 'https://learn.microsoft.com/en-us/azure/api-management/' },
@@ -39,9 +78,9 @@ const products: Record<string, ProductDescriptor> = {
     shortName: 'Kong',
     fullName: 'Kong Gateway',
     category: 'cloud-native API gateway and API platform ecosystem',
-    bestFor: 'teams already invested in Kong Gateway, Kong-specific plugins, or Konnect-oriented platform workflows',
+    bestFor: 'teams already invested in Kong Gateway, Kong-specific plugins, or Kong-oriented platform workflows',
     operatingModel: 'Kong supports multiple deployment and configuration modes, including self-managed and platform workflows.',
-    cloudNative: 'Kong has Kubernetes paths through Kong Ingress Controller and related gateway resources.',
+    cloudNative: 'Kong has Kubernetes paths through Kong Ingress Controller, which configures Kong Gateway from Kubernetes resources.',
     extensibility: 'Kong has a broad plugin ecosystem, but teams should verify which plugins and workflows are available in the edition they plan to run.',
     decisionLens: 'Kong can remain a good fit when existing tooling, training, plugins, and control-plane workflows are already standardized around Kong.',
     source: docsSources.kong,
@@ -176,29 +215,11 @@ const sharedCards: InfoCard[] = [
   },
 ];
 
-const migrationCards: InfoCard[] = [
-  {
-    title: 'Inventory the current gateway',
-    body: 'List routes, upstreams, domains, authentication, rate limits, transformations, logging, dashboards, and team ownership before changing products.',
-    bullets: ['Routes and services', 'Policies and plugins', 'Certificates', 'Dashboards'],
-  },
-  {
-    title: 'Map behavior, not names',
-    body: 'Do not assume features match one-to-one. Translate outcomes such as authentication, throttling, retries, and observability into APISIX plugins and routes.',
-    bullets: ['Auth', 'Traffic control', 'Observability', 'Protocol support'],
-  },
-  {
-    title: 'Stage the rollout',
-    body: 'Run APISIX beside the source gateway, mirror or shift a small slice of traffic, then expand only after logs and metrics look healthy.',
-    bullets: ['Staging', 'Canary', 'Rollback', 'Runbooks'],
-  },
-];
-
 const apisixGuidance: InfoCard[] = [
   {
     title: 'Choose Apache APISIX when',
-    body: 'You need an Apache 2.0 open-source API gateway with dynamic routing, a broad plugin hub, Kubernetes support, and API/AI traffic management.',
-    bullets: ['Open-source-first evaluation', 'Dynamic gateway policy', 'Kubernetes and hybrid deployments', 'Plugin-driven security and observability'],
+    body: 'You need an Apache 2.0 open-source API gateway with dynamic routing, a broad plugin hub, Apache APISIX Ingress Controller, and APISIX AI Gateway capabilities.',
+    bullets: ['Open-source-first evaluation', 'Dynamic gateway policy', 'Kubernetes controller workflows', 'Plugin-driven security and observability'],
   },
   {
     title: 'Choose another option when',
@@ -210,7 +231,7 @@ const apisixGuidance: InfoCard[] = [
 const ctas = {
   docs: { label: 'Get started with APISIX', href: 'https://apisix.apache.org/docs/apisix/getting-started/' },
   plugins: { label: 'Explore APISIX plugins', href: '/plugins/' },
-  ingress: { label: 'Explore APISIX Ingress', href: 'https://apisix.apache.org/docs/ingress-controller/overview/' },
+  ingress: { label: 'Explore Apache APISIX Ingress Controller', href: 'https://apisix.apache.org/docs/ingress-controller/overview/' },
   github: { label: 'View APISIX on GitHub', href: 'https://github.com/apache/apisix' },
   aiGateway: { label: 'Explore APISIX AI Gateway', href: '/ai-gateway/' },
   apiGatewayHub: { label: 'Compare API gateways', href: '/comparison/api-gateway/' },
@@ -239,13 +260,14 @@ function buildPage(overrides: Partial<GatewayLandingPageData>): GatewayLandingPa
     matrixOtherLabel: 'Other option',
     matrixRows: [],
     guidanceTitle: 'How to decide',
-    guidanceIntro: 'Start with use case fit, then test the highest-risk policies and rollout path before committing to a migration.',
+    guidanceIntro: 'Start with use case fit, then test the highest-risk policies and rollout path before committing to a production change.',
     guidanceCards: apisixGuidance,
+    resourceLinks: apisixResourceLinks,
     relatedLinks: defaultRelatedGuides,
     sources: apisixSources,
     faqs: [
       {
-        question: 'Does this page compare commercial editions?',
+        question: 'Does this page compare non-open-source APISIX offerings?',
         answer: 'No. The content is written for the Apache APISIX open-source website and focuses on public documentation, open-source fit, and practical evaluation criteria.',
       },
       {
@@ -261,7 +283,7 @@ function comparisonRows(product: ProductDescriptor): MatrixRow[] {
   return [
     {
       criterion: 'Best-fit use case',
-      apisix: 'Open-source API gateway runtime for dynamic routing, plugin-based policy, Kubernetes, observability, and API/AI traffic management.',
+      apisix: 'Open-source API gateway runtime for dynamic routing, plugin-based policy, observability, Kubernetes workflows, and APISIX AI Gateway capabilities.',
       other: product.bestFor,
     },
     {
@@ -271,12 +293,12 @@ function comparisonRows(product: ProductDescriptor): MatrixRow[] {
     },
     {
       criterion: 'Cloud-native fit',
-      apisix: 'APISIX has a dedicated Ingress Controller and can be evaluated for Kubernetes, hybrid, and self-managed gateway deployments.',
+      apisix: 'Apache APISIX Ingress Controller provides the Kubernetes controller path for APISIX; APISIX Gateway itself can also be evaluated for hybrid and self-managed deployments.',
       other: product.cloudNative,
     },
     {
       criterion: 'Extensibility',
-      apisix: 'APISIX has a plugin hub spanning authentication, security, traffic control, observability, transformation, protocols, and AI-related use cases.',
+      apisix: 'APISIX has a plugin hub spanning authentication, security, traffic control, observability, transformation, protocols, and APISIX AI Gateway use cases.',
       other: product.extensibility,
     },
     {
@@ -286,7 +308,7 @@ function comparisonRows(product: ProductDescriptor): MatrixRow[] {
     },
     {
       criterion: 'Decision lens',
-      apisix: 'Choose APISIX when open-source gateway control, plugin breadth, and Kubernetes-friendly operations are primary requirements.',
+      apisix: 'Choose APISIX when open-source gateway control, plugin breadth, Kubernetes controller workflows, and APISIX AI Gateway capabilities are primary requirements.',
       other: product.decisionLens,
     },
   ];
@@ -309,16 +331,51 @@ function optionForProduct(product: ProductDescriptor): OptionCard {
   return option(
     product.fullName,
     `${product.fullName} is commonly evaluated as a ${product.category}.`,
-    `Best for ${product.bestFor}.`,
+    `Often a fit for ${product.bestFor}.`,
     [product.operatingModel, product.decisionLens],
   );
 }
 
 const apisixOption = option(
   'Apache APISIX',
-  'Apache APISIX is an Apache 2.0 open-source API gateway for dynamic routing, plugin-based policy, Kubernetes, observability, and API/AI traffic management.',
-  'Best for open-source gateway infrastructure.',
-  ['Apache Software Foundation governance', '100+ plugins across gateway policy categories', 'Ingress Controller and Kubernetes-friendly deployment'],
+  'Apache APISIX is an Apache 2.0 open-source API gateway for dynamic routing, plugin-based policy, observability, and APISIX AI Gateway capabilities.',
+  'Good fit for open-source gateway infrastructure.',
+  ['Apache Software Foundation governance', '100+ plugins across gateway policy categories', 'Apache APISIX Ingress Controller for Kubernetes workflows'],
+);
+
+const apisixIngressControllerOption = option(
+  'Apache APISIX Ingress Controller',
+  'Apache APISIX Ingress Controller is the Kubernetes controller path for using Apache APISIX as the data plane for ingress and gateway policy.',
+  'Good fit for teams that want APISIX gateway policy controlled from Kubernetes resources.',
+  ['Configures Apache APISIX for Kubernetes traffic', 'Pairs Kubernetes resources with APISIX plugins and routes', 'Best evaluated separately from the APISIX Gateway runtime alone'],
+);
+
+const kongIngressControllerOption = option(
+  'Kong Ingress Controller',
+  'Kong Ingress Controller configures Kong Gateway from Kubernetes resources such as Ingress and HTTPRoute.',
+  'Good fit for teams that already want Kong Gateway as the Kubernetes data plane.',
+  ['Controller for Kong Gateway', 'Separate evaluation from Kong Gateway runtime features', 'Relevant for Kubernetes-first Kong deployments'],
+);
+
+const traefikKubernetesIngressOption = option(
+  'Traefik Kubernetes Ingress',
+  'Traefik can act as a Kubernetes ingress controller through its Kubernetes Ingress provider and dynamic routing model.',
+  'Good fit for teams that prioritize dynamic service discovery, ingress routing, and middleware-driven edge proxying.',
+  ['Kubernetes Ingress provider', 'Traefik Proxy as the data plane', 'Middleware and provider discovery model'],
+);
+
+const nginxIngressControllerOption = option(
+  'NGINX Ingress Controller',
+  'NGINX Ingress Controller uses NGINX or NGINX Plus as the data plane for Kubernetes ingress traffic.',
+  'Good fit for teams standardized on NGINX proxy and load-balancing operations.',
+  ['Kubernetes ingress controller for NGINX', 'Mature proxy and load-balancing foundation', 'Separate from generic NGINX reverse proxy comparisons'],
+);
+
+const envoyGatewayOption = option(
+  'Envoy Gateway',
+  'Envoy Gateway is a Kubernetes-native gateway project built around Gateway API and Envoy as the data plane.',
+  'Good fit for teams evaluating Gateway API and Envoy-based gateway control.',
+  ['Gateway API-oriented project', 'Envoy as the data plane', 'More controller-focused than a general Envoy proxy comparison'],
 );
 
 const kongOption = optionForProduct(products.kong);
@@ -370,11 +427,11 @@ function buildComparisonPage(product: ProductDescriptor, config: {
     faqs: [
       {
         question: `Is Apache APISIX a direct replacement for ${product.shortName}?`,
-        answer: `It can cover many gateway runtime requirements, but it should not be treated as a drop-in replacement for every ${product.shortName} workflow. Map routes, policies, auth, observability, deployment, and team operations before migrating.`,
+        answer: `It can cover many gateway runtime requirements, but it should not be treated as a drop-in replacement for every ${product.shortName} workflow. Map routes, policies, auth, observability, deployment, and team operations before changing production traffic.`,
       },
       {
         question: `When should I choose APISIX over ${product.shortName}?`,
-        answer: 'Choose APISIX when open-source gateway control, plugin-based policy, dynamic routing, Kubernetes deployment, and API/AI traffic management are core requirements.',
+        answer: 'Choose APISIX when open-source gateway control, plugin-based policy, dynamic routing, Apache APISIX Ingress Controller, and APISIX AI Gateway capabilities are core requirements.',
       },
       {
         question: `When might ${product.shortName} still be a good fit?`,
@@ -427,118 +484,20 @@ function buildAlternativePage(product: ProductDescriptor, config: {
     sources: sourceList(product.source, ...(config.extraSources ?? [])),
     faqs: [
       {
-        question: `What is the best ${product.shortName} alternative?`,
+        question: `Which ${product.shortName} alternative should teams evaluate first?`,
         answer: `Apache APISIX is a strong option when the requirement is open-source API gateway infrastructure. Other alternatives may be better when the main need is managed cloud API management, ingress-only routing, service mesh proxying, or full lifecycle API management.`,
       },
       {
         question: `Why look for a ${product.shortName} alternative?`,
-        answer: 'Teams usually compare alternatives because of open-source requirements, deployment model, cloud lock-in, plugin needs, Kubernetes operations, API management scope, or migration cost.',
+        answer: 'Teams usually compare alternatives because of open-source requirements, deployment model, cloud lock-in, plugin needs, Kubernetes operations, API management scope, or rollout cost.',
       },
       {
         question: 'Should I compare alternatives with a checklist only?',
         answer: 'No. Use the checklist to narrow the field, then run a proof of concept using real routes, policies, auth, logs, metrics, and failure scenarios.',
       },
       {
-        question: 'Does this page promote a commercial APISIX product?',
-        answer: 'No. It is written for the Apache APISIX open-source website and points readers toward APISIX docs, plugins, GitHub, and related open-source resources.',
-      },
-    ],
-  });
-}
-
-function buildMigrationPage(product: ProductDescriptor, config: {
-  slug: string;
-  seoTitle: string;
-  meta: string;
-  h1: string;
-  deck: string;
-  chips: string[];
-  answer: string;
-  extraSources?: SourceLink[];
-}): GatewayLandingPageData {
-  const matrixRows: MatrixRow[] = [
-    {
-      criterion: 'API inventory',
-      apisix: 'Create APISIX routes, upstreams, services, consumers, certificates, and plugins from a clean inventory rather than copying legacy configuration blindly.',
-      other: `Export or document ${product.shortName} routes, APIs, policies, domains, identity providers, certificates, and observability dependencies.`,
-    },
-    {
-      criterion: 'Policy mapping',
-      apisix: 'Map behavior to APISIX plugins for authentication, rate limiting, traffic splitting, transformations, logging, and upstream control.',
-      other: `Identify which ${product.shortName} features are gateway runtime policies and which belong to broader platform workflows that should not move into APISIX.`,
-    },
-    {
-      criterion: 'Kubernetes and deployment',
-      apisix: 'Decide whether APISIX should run as an edge gateway, Kubernetes ingress gateway, internal API gateway, or AI gateway layer.',
-      other: product.cloudNative,
-    },
-    {
-      criterion: 'Observability',
-      apisix: 'Rebuild logs, metrics, tracing, dashboards, alerts, and SLOs before production traffic moves.',
-      other: `Preserve enough ${product.shortName} telemetry to compare latency, errors, upstream behavior, and policy decisions during the migration window.`,
-    },
-    {
-      criterion: 'Cutover strategy',
-      apisix: 'Use parallel run, canary, DNS or load balancer traffic shifting, and rollback runbooks rather than a single big-bang switch.',
-      other: `Keep ${product.shortName} available until APISIX behavior is verified under realistic traffic and failure conditions.`,
-    },
-    {
-      criterion: 'What not to migrate',
-      apisix: 'Use APISIX for gateway runtime responsibilities; keep unrelated API program, portal, catalog, or integration-platform workflows in the right system.',
-      other: product.decisionLens,
-    },
-  ];
-
-  return buildPage({
-    seo: {
-      title: config.seoTitle,
-      description: config.meta,
-      canonical: `https://apisix.apache.org${config.slug}`,
-    },
-    eyebrow: `${product.shortName} to APISIX Migration`,
-    h1: config.h1,
-    deck: config.deck,
-    answer: config.answer,
-    chips: config.chips,
-    secondaryCta: ctas.plugins,
-    cardsTitle: 'Migration planning checklist',
-    cardsIntro: 'Treat migration as a behavior-mapping project. The safest plan separates gateway runtime behavior from broader management, portal, or cloud platform workflows.',
-    cards: migrationCards,
-    matrixTitle: 'Migration mapping guide',
-    matrixIntro: 'Use this matrix to decide what should move to APISIX, what needs redesign, and what should remain in another platform.',
-    matrixOtherLabel: `${product.shortName} source environment`,
-    matrixRows,
-    guidanceTitle: 'Recommended rollout path',
-    guidanceIntro: 'A safe migration usually moves from inventory to staging, then canary, then gradual production traffic shift.',
-    guidanceCards: [
-      {
-        title: 'Start with a constrained service',
-        body: 'Pick a service with representative policies but manageable risk. Rebuild routes, auth, rate limits, logs, and dashboards in APISIX before moving larger traffic groups.',
-        bullets: ['Representative route', 'Known owners', 'Clear rollback', 'Observable behavior'],
-      },
-      {
-        title: 'Keep migration reversible',
-        body: 'Run both gateways during validation. Keep DNS, load balancer, or upstream routing changes reversible until APISIX behavior is proven.',
-        bullets: ['Parallel run', 'Canary traffic', 'Rollback runbook', 'Post-cutover monitoring'],
-      },
-    ],
-    sources: sourceList(product.source, ...(config.extraSources ?? [])),
-    faqs: [
-      {
-        question: `Can I migrate from ${product.shortName} to APISIX automatically?`,
-        answer: 'Do not assume a fully automatic migration. Route structures, policies, identity providers, observability, and deployment workflows usually need explicit mapping and testing.',
-      },
-      {
-        question: 'What should move to APISIX first?',
-        answer: 'Start with gateway runtime concerns: routing, upstreams, authentication, rate limits, traffic splitting, logs, metrics, and certificates.',
-      },
-      {
-        question: 'What should not be forced into APISIX?',
-        answer: 'Do not force unrelated API catalog, portal, integration-platform, or cloud account workflows into APISIX unless they are truly gateway runtime responsibilities.',
-      },
-      {
-        question: 'How do I reduce migration risk?',
-        answer: 'Use staging, traffic mirroring where possible, canary release, clear rollback rules, and side-by-side observability before full cutover.',
+        question: 'Does this page promote a non-open-source APISIX product?',
+        answer: 'No. It is written for the Apache APISIX open-source website and points readers toward APISIX docs, plugins, GitHub, community, and related open-source resources.',
       },
     ],
   });
@@ -547,11 +506,11 @@ function buildMigrationPage(product: ProductDescriptor, config: {
 export const apisixVsApigee = buildComparisonPage(products.apigee, {
   slug: '/comparison/apisix-vs-apigee/',
   seoTitle: 'Apache APISIX vs Apigee: Open-Source Gateway vs API Management',
-  meta: 'Compare Apache APISIX and Google Apigee across open-source gateway control, API management scope, Google Cloud fit, policies, Kubernetes, and migration planning.',
+  meta: 'Compare Apache APISIX and Google Apigee across open-source gateway control, API management scope, Google Cloud fit, policies, Kubernetes, and rollout planning.',
   h1: 'Apache APISIX vs Apigee: Open-Source Gateway vs API Management',
   deck: 'A practical comparison for teams deciding whether they need an open-source API gateway runtime, a Google Cloud API management platform, or both in different parts of the architecture.',
   chips: ['apisix vs apigee', 'apigee alternative', 'open-source API gateway', 'API management'],
-  answer: 'Choose Apache APISIX when you need open-source gateway runtime control, plugins, Kubernetes, and API/AI traffic policy. Choose Apigee when the main requirement is a Google Cloud-centered API management program with API proxies, policies, analytics, and developer-facing management workflows.',
+  answer: 'Choose Apache APISIX when you need open-source gateway runtime control, plugins, Apache APISIX Ingress Controller, and APISIX AI Gateway capabilities. Choose Apigee when the main requirement is a Google Cloud-centered API management program with API proxies, policies, analytics, and developer-facing management workflows.',
 });
 
 export const apisixVsNginx = buildComparisonPage(products.nginx, {
@@ -566,12 +525,12 @@ export const apisixVsNginx = buildComparisonPage(products.nginx, {
 
 export const apisixVsTraefik = buildComparisonPage(products.traefik, {
   slug: '/comparison/apisix-vs-traefik/',
-  seoTitle: 'Apache APISIX vs Traefik: API Gateway and Kubernetes Ingress Comparison',
-  meta: 'Compare Apache APISIX and Traefik across Kubernetes ingress, dynamic routing, middleware, gateway plugins, security, observability, and API traffic management.',
-  h1: 'Apache APISIX vs Traefik: API Gateway and Kubernetes Ingress Comparison',
-  deck: 'A comparison for Kubernetes and platform teams evaluating ingress, dynamic service discovery, and API gateway policy.',
+  seoTitle: 'Apache APISIX Ingress Controller vs Traefik: Kubernetes Ingress Comparison',
+  meta: 'Compare Apache APISIX Ingress Controller and Traefik across Kubernetes ingress, dynamic routing, middleware, gateway plugins, security, observability, and API traffic management.',
+  h1: 'Apache APISIX Ingress Controller vs Traefik: Kubernetes Ingress Comparison',
+  deck: 'A comparison for Kubernetes and platform teams evaluating Apache APISIX Ingress Controller, Traefik, dynamic service discovery, and API gateway policy.',
   chips: ['apisix vs traefik', 'traefik alternative', 'Kubernetes API gateway', 'ingress controller'],
-  answer: 'Choose APISIX when API gateway policy, plugins, security, observability, and API/AI traffic management are primary. Choose Traefik when dynamic ingress routing, provider discovery, and middleware-driven edge proxying are the main fit.',
+  answer: 'Choose Apache APISIX Ingress Controller when you want Kubernetes resources to configure Apache APISIX as the data plane with APISIX plugins, security, observability, and API traffic policy. Choose Traefik when dynamic ingress routing, provider discovery, and middleware-driven edge proxying are the main fit.',
   secondaryCta: ctas.ingress,
 });
 
@@ -588,7 +547,7 @@ export const apisixVsEnvoy = buildComparisonPage(products.envoy, {
 export const apisixVsAwsApiGateway = buildComparisonPage(products.aws, {
   slug: '/comparison/apisix-vs-aws-api-gateway/',
   seoTitle: 'Apache APISIX vs AWS API Gateway: Open-Source vs Managed API Gateway',
-  meta: 'Compare Apache APISIX and Amazon API Gateway across managed AWS APIs, self-hosted gateway control, Kubernetes, hybrid cloud, security, monitoring, and migration planning.',
+  meta: 'Compare Apache APISIX and Amazon API Gateway across managed AWS APIs, self-hosted gateway control, Kubernetes, hybrid cloud, security, monitoring, and rollout planning.',
   h1: 'Apache APISIX vs AWS API Gateway: Open-Source vs Managed API Gateway',
   deck: 'A comparison for teams deciding between AWS-managed API Gateway convenience and open-source gateway control with Apache APISIX.',
   chips: ['apisix vs aws api gateway', 'aws api gateway alternative', 'hybrid cloud gateway', 'serverless API gateway'],
@@ -618,11 +577,11 @@ export const apisixVsKrakend = buildComparisonPage(products.krakend, {
 export const apisixVsAzureApiManagement = buildComparisonPage(products.azure, {
   slug: '/comparison/apisix-vs-azure-api-management/',
   seoTitle: 'Apache APISIX vs Azure API Management: Open-Source Gateway vs Managed API Platform',
-  meta: 'Compare Apache APISIX and Azure API Management across managed API publishing, open-source gateway runtime, hybrid cloud, policies, developer portal, and AI gateway criteria.',
+  meta: 'Compare Apache APISIX and Azure API Management across managed API publishing, open-source gateway runtime, hybrid cloud, policies, developer portal, and APISIX AI Gateway criteria.',
   h1: 'Apache APISIX vs Azure API Management: Open-Source Gateway vs Managed API Platform',
   deck: 'A comparison for teams deciding between Azure-centered API management and an open-source gateway runtime for cloud-neutral or Kubernetes use cases.',
   chips: ['apisix vs azure api management', 'azure api management alternative', 'managed API platform', 'hybrid API gateway'],
-  answer: 'Choose APISIX when open-source gateway ownership, Kubernetes, plugin-driven policy, and cloud-neutral deployment are primary. Choose Azure API Management when managed API publishing, Azure integration, portal, policy, and AI gateway workflows are the primary requirement.',
+  answer: 'Choose APISIX when open-source gateway ownership, Apache APISIX Ingress Controller, plugin-driven policy, and cloud-neutral deployment are primary. Choose Azure API Management when managed API publishing, Azure integration, portal, policy, and AI gateway workflows are the primary requirement.',
 });
 
 export const apisixVsWso2ApiManager = buildComparisonPage(products.wso2, {
@@ -635,78 +594,109 @@ export const apisixVsWso2ApiManager = buildComparisonPage(products.wso2, {
   answer: 'Choose APISIX when open-source gateway runtime control, plugins, and Kubernetes operations matter most. Choose WSO2 API Manager when full API lifecycle, developer portal, publishing, and management workflows are the primary selection criteria.',
 });
 
-export const kubernetesApiGatewayComparison = buildPage({
+export const kubernetesIngressControllerComparison = buildPage({
   seo: {
-    title: 'Kubernetes API Gateway Comparison: APISIX, Kong, Traefik, Envoy, NGINX, and Tyk',
-    description: 'Compare Kubernetes API gateway and ingress options including Apache APISIX, Kong, Traefik, Envoy, NGINX, and Tyk by routing, policy, plugins, and operations.',
-    canonical: 'https://apisix.apache.org/comparison/kubernetes-api-gateway/',
+    title: 'Kubernetes Ingress Controller Comparison: APISIX, Kong, Traefik, NGINX, and Envoy Gateway',
+    description: 'Compare Kubernetes ingress controller and gateway controller options including Apache APISIX Ingress Controller, Kong Ingress Controller, Traefik, NGINX Ingress Controller, and Envoy Gateway.',
+    canonical: 'https://apisix.apache.org/comparison/kubernetes-ingress-controller/',
   },
-  eyebrow: 'Kubernetes API Gateway Comparison',
-  h1: 'Kubernetes API Gateway Comparison for Platform Teams',
-  deck: 'Compare common Kubernetes gateway and ingress options by API policy, routing, controller workflow, observability, and operational ownership.',
-  answer: 'APISIX is a strong Kubernetes API gateway choice when you want open-source gateway policy, plugins, and an Ingress Controller. Traefik is strong for dynamic ingress, Envoy for service mesh and proxy foundations, Kong and Tyk for their platform ecosystems, and NGINX for mature proxy/load-balancing patterns.',
-  chips: ['Kubernetes API gateway', 'Kubernetes ingress', 'Gateway API', 'cloud-native gateway'],
+  eyebrow: 'Kubernetes Ingress Controller Comparison',
+  h1: 'Kubernetes Ingress Controller Comparison for Platform Teams',
+  deck: 'Compare Kubernetes ingress controller and gateway controller options by controller behavior, data plane, Gateway API or Ingress support, policy model, observability, and operational ownership.',
+  answer: 'Keep this comparison at the controller layer: Apache APISIX Ingress Controller should be compared with Kong Ingress Controller, Traefik Kubernetes Ingress, NGINX Ingress Controller, and Envoy Gateway. Use APISIX vs Kong Gateway or APISIX vs NGINX pages when the question is about gateway runtime or reverse proxy behavior instead.',
+  chips: ['Kubernetes Ingress Controller', 'Apache APISIX Ingress Controller', 'Kong Ingress Controller', 'Gateway API'],
   primaryCta: ctas.ingress,
   secondaryCta: ctas.docs,
-  matrixOtherLabel: 'Other Kubernetes gateway options',
-  matrixRows: [
+  cardsTitle: 'What to compare in an ingress controller',
+  cardsIntro: 'This page focuses on Kubernetes controllers that translate cluster resources into gateway or proxy data-plane configuration.',
+  cards: [
     {
-      criterion: 'Gateway goal',
-      apisix: 'Use APISIX as an API gateway layer with plugins, dynamic routing, authentication, rate limiting, observability, and Kubernetes ingress workflows.',
-      other: 'Other Kubernetes options may optimize for ingress discovery, service mesh data planes, managed API platforms, or reverse proxy operations.',
+      title: 'Controller and data plane',
+      body: 'Separate the Kubernetes controller from the data plane it configures. The controller workflow and the gateway/proxy runtime are related but not identical.',
+      bullets: ['Controller resources', 'Data-plane ownership', 'Change propagation', 'Failure behavior'],
     },
     {
-      criterion: 'Policy model',
-      apisix: 'APISIX plugins let teams attach gateway behavior such as auth, traffic control, security, and logs to routes and services.',
-      other: 'Kong, Tyk, Traefik, Envoy, and NGINX use different combinations of plugins, middleware, filters, policies, annotations, and custom resources.',
+      title: 'Kubernetes API fit',
+      body: 'Check whether the controller supports the Kubernetes resources your platform team wants to standardize on.',
+      bullets: ['Ingress', 'Gateway API', 'Custom resources', 'Annotations'],
     },
     {
-      criterion: 'Operational fit',
-      apisix: 'APISIX fits teams that want gateway runtime control and can operate APISIX components in their platform.',
-      other: 'Some alternatives may be better when the team wants ingress-only simplicity, service mesh integration, or a managed API management suite.',
+      title: 'Policy attachment',
+      body: 'Compare how each controller attaches authentication, rate limiting, TLS, traffic splitting, observability, and custom gateway behavior.',
+      bullets: ['Plugins or middleware', 'Route policy', 'Security controls', 'Logs and metrics'],
     },
   ],
-  optionsTitle: 'Kubernetes gateway options to evaluate',
-  optionsIntro: 'Shortlist options by whether the requirement is API gateway policy, ingress, service mesh, or a managed API platform.',
-  options: [apisixOption, kongOption, tykOption, traefikOption, envoyOption, nginxOption],
-  sources: sourceList(docsSources.kong, docsSources.tyk, docsSources.traefik, docsSources.envoy, docsSources.nginx),
+  matrixTitle: 'Kubernetes ingress controller comparison',
+  matrixIntro: 'Compare these options as Kubernetes controllers first, then evaluate their underlying gateway or proxy data plane separately.',
+  matrixOtherLabel: 'Other ingress controller options',
+  matrixRows: [
+    {
+      criterion: 'Controller role',
+      apisix: 'Apache APISIX Ingress Controller watches Kubernetes resources and configures Apache APISIX as the data plane.',
+      other: 'Kong Ingress Controller configures Kong Gateway; Traefik uses its Kubernetes providers; NGINX Ingress Controller configures NGINX or NGINX Plus; Envoy Gateway configures Envoy through Gateway API-oriented workflows.',
+    },
+    {
+      criterion: 'Data plane',
+      apisix: 'Apache APISIX is the data plane, so teams can use APISIX routing, upstreams, plugins, traffic control, observability, and security behavior.',
+      other: 'Other controllers use their own data planes and policy systems. Evaluate the controller and data plane together, but do not collapse them into one generic API gateway comparison.',
+    },
+    {
+      criterion: 'Ingress and Gateway API fit',
+      apisix: 'Use Apache APISIX Ingress Controller when the team wants Kubernetes-native control for APISIX-backed ingress and gateway policy.',
+      other: 'Use the same lens for each alternative: confirm Ingress, Gateway API, custom resources, annotations, and rollout workflow against your platform standard.',
+    },
+    {
+      criterion: 'Policy attachment',
+      apisix: 'Apache APISIX Ingress Controller lets teams connect Kubernetes routing resources with APISIX plugins for authentication, traffic control, security, and logs.',
+      other: 'Kong Ingress Controller, Traefik, NGINX Ingress Controller, and Envoy Gateway use different combinations of plugins, middleware, filters, policies, annotations, and custom resources.',
+    },
+    {
+      criterion: 'Comparison boundary',
+      apisix: 'Compare Apache APISIX Ingress Controller with other ingress or gateway controllers. Compare Apache APISIX Gateway with gateway runtimes on separate pages.',
+      other: 'For Kong, compare Kong Ingress Controller at the controller layer and Kong Gateway at the gateway runtime layer. The same separation applies to NGINX, Envoy, and Traefik.',
+    },
+  ],
+  optionsTitle: 'Kubernetes ingress controller options to evaluate',
+  optionsIntro: 'Shortlist options by controller behavior, the data plane each controller configures, and how your team wants to attach gateway policy from Kubernetes.',
+  options: [apisixIngressControllerOption, kongIngressControllerOption, traefikKubernetesIngressOption, nginxIngressControllerOption, envoyGatewayOption],
+  sources: sourceList(docsSources.kongKic, docsSources.traefikKubernetesIngress, docsSources.nginxIc, docsSources.envoyGateway),
 });
 
 export const aiGatewayComparison = buildPage({
   seo: {
-    title: 'AI Gateway Comparison: APISIX, Apigee, Azure API Management, Kong, and Tyk',
-    description: 'Compare AI gateway options for LLM traffic management, model routing, retries, fallbacks, token-aware policy, observability, and API gateway integration.',
+    title: 'AI Gateway Comparison: APISIX AI Gateway, Apigee, Azure API Management, Kong, and Tyk',
+    description: 'Compare AI gateway options for LLM traffic management, AI proxying, LLM load balancing, retry and fallback, token rate limiting, MCP support, security, observability, and API gateway integration.',
     canonical: 'https://apisix.apache.org/comparison/ai-gateway/',
   },
   eyebrow: 'AI Gateway Comparison',
-  h1: 'AI Gateway Comparison for LLM and AI Agent Traffic',
-  deck: 'A practical guide for teams extending API gateway infrastructure to LLM APIs, AI agents, model routing, token-aware policy, retries, fallbacks, and observability.',
-  answer: 'APISIX is relevant when teams want AI gateway capabilities in an open-source gateway context. Apigee and Azure API Management document AI gateway capabilities in managed API management environments, while Kong and Tyk should be evaluated for their own AI gateway and API management workflows.',
-  chips: ['AI gateway', 'LLM gateway', 'AI API gateway', 'model routing'],
+  h1: 'AI Gateway Comparison for LLMs and AI Agents',
+  deck: 'A practical guide for teams extending API gateway infrastructure to LLM APIs, AI agents, AI proxying, LLM load balancing, token rate limiting, retry and fallback, MCP support, security, and observability.',
+  answer: 'APISIX AI Gateway is relevant when teams want AI gateway capabilities in an open-source gateway context. It focuses on AI proxying, LLM load balancing, retry and fallback, token rate limiting, MCP support, and security for AI agents. Apigee and Azure API Management document AI gateway capabilities in managed API management environments, while Kong and Tyk should be evaluated for their own AI gateway and API management workflows.',
+  chips: ['APISIX AI Gateway', 'AI gateway', 'LLM gateway', 'AI agents', 'MCP support'],
   primaryCta: ctas.aiGateway,
   secondaryCta: ctas.plugins,
   matrixOtherLabel: 'Other AI gateway options',
   matrixRows: [
     {
       criterion: 'Primary goal',
-      apisix: 'Manage API and AI traffic through an open-source gateway layer, including routing, policy, observability, and plugin-based extension points.',
+      apisix: 'Use APISIX AI Gateway to manage traffic between applications, AI agents, and LLM providers through an open-source gateway layer.',
       other: 'Managed API management platforms may package AI gateway capabilities with cloud identity, portal, analytics, and policy workflows.',
     },
     {
       criterion: 'LLM traffic concerns',
-      apisix: 'Evaluate model routing, retries, fallbacks, token-aware limits, authentication, logging, and upstream resilience.',
+      apisix: 'Evaluate AI proxying, LLM load balancing, retry and fallback, token rate limiting, MCP support, authentication, logging, and upstream resilience.',
       other: 'Each platform should be tested for model provider support, policy granularity, observability, and operational ownership.',
     },
     {
       criterion: 'Open-source fit',
       apisix: 'APISIX keeps the evaluation centered on open-source gateway infrastructure.',
-      other: 'Other options may be cloud-managed, commercial, or broader API management suites.',
+      other: 'Other options may be cloud-managed, separately packaged, or broader API management suites.',
     },
   ],
   optionsTitle: 'AI gateway options to evaluate',
-  optionsIntro: 'AI gateway evaluation is still evolving. Use official documentation and a proof of concept instead of relying on vendor claims alone.',
+  optionsIntro: 'AI gateway evaluation is still evolving. Use official documentation and a proof of concept with real LLM providers, token limits, fallback behavior, MCP tools, logs, and security controls.',
   options: [apisixOption, apigeeOption, azureOption, kongOption, tykOption],
-  sources: sourceList(docsSources.apigee, docsSources.azure, docsSources.kong, docsSources.tyk),
+  sources: sourceList(docsSources.apisixAiGateway, docsSources.apisixAiProxy, docsSources.apigee, docsSources.azure, docsSources.kong, docsSources.tyk),
 });
 
 export const apigeeAlternative = buildAlternativePage(products.apigee, {
@@ -752,7 +742,7 @@ export const traefikAlternative = buildAlternativePage(products.traefik, {
   h1: 'Top Traefik Alternatives for Kubernetes API Gateway and Ingress Teams',
   deck: 'A shortlist for teams comparing dynamic ingress routing with API gateway policy, service mesh proxying, and reverse proxy foundations.',
   chips: ['traefik alternative', 'Kubernetes ingress alternative', 'API gateway', 'cloud-native proxy'],
-  answer: 'APISIX is a strong Traefik alternative when API gateway policy, plugins, security, observability, and API/AI traffic management are more important than ingress and provider discovery alone.',
+  answer: 'APISIX is a strong Traefik alternative when API gateway policy, plugins, security, observability, Apache APISIX Ingress Controller, and APISIX AI Gateway capabilities are more important than ingress and provider discovery alone.',
   options: [apisixOption, nginxOption, envoyOption, kongOption, krakendOption],
   extraSources: [docsSources.nginx, docsSources.envoy, docsSources.kong, docsSources.krakend],
 });
@@ -779,59 +769,4 @@ export const graviteeAlternative = buildAlternativePage(products.gravitee, {
   answer: 'APISIX is a strong Gravitee alternative when the requirement is open-source gateway runtime control, plugins, Kubernetes, and API traffic policy. Gravitee may fit better when API management, portal, catalog, and event-native API workflows dominate.',
   options: [apisixOption, kongOption, tykOption, wso2Option, azureOption],
   extraSources: [docsSources.kong, docsSources.tyk, docsSources.wso2, docsSources.azure],
-});
-
-export const kongToApisixMigration = buildMigrationPage(products.kong, {
-  slug: '/migration/kong-to-apisix/',
-  seoTitle: 'Migrating from Kong to Apache APISIX: API Gateway Evaluation Guide',
-  meta: 'Plan a Kong to Apache APISIX migration by mapping routes, plugins, authentication, rate limits, observability, Kubernetes workflows, and rollout strategy.',
-  h1: 'Migrating from Kong to Apache APISIX',
-  deck: 'A practical migration planning guide for teams evaluating APISIX as an open-source gateway runtime after running Kong.',
-  chips: ['kong to apisix', 'migrate from kong', 'kong migration', 'open-source API gateway'],
-  answer: 'A Kong to APISIX migration should be planned as route, plugin, policy, and observability mapping. Start with a constrained service, run APISIX beside Kong, and shift traffic gradually.',
-  extraSources: [docsSources.kong],
-});
-
-export const nginxToApisixMigration = buildMigrationPage(products.nginx, {
-  slug: '/migration/nginx-to-apisix/',
-  seoTitle: 'Migrating from NGINX to Apache APISIX: From Reverse Proxy to API Gateway',
-  meta: 'Plan an NGINX to Apache APISIX migration by mapping proxy routes, upstreams, TLS, authentication, rate limiting, observability, and Kubernetes gateway needs.',
-  h1: 'Migrating from NGINX to Apache APISIX',
-  deck: 'A guide for teams moving API-specific policy out of reverse proxy configuration and into an open-source API gateway runtime.',
-  chips: ['nginx to apisix', 'nginx migration', 'API gateway migration', 'reverse proxy to API gateway'],
-  answer: 'Move from NGINX to APISIX when API-specific policy has outgrown reverse proxy configuration. Keep the migration scoped to gateway runtime behavior and validate it service by service.',
-  extraSources: [docsSources.nginx],
-});
-
-export const tykToApisixMigration = buildMigrationPage(products.tyk, {
-  slug: '/migration/tyk-to-apisix/',
-  seoTitle: 'Migrating from Tyk to Apache APISIX: Gateway Runtime Evaluation Guide',
-  meta: 'Plan a Tyk to Apache APISIX migration by mapping API policies, authentication, traffic control, observability, management workflows, and rollout risk.',
-  h1: 'Migrating from Tyk to Apache APISIX',
-  deck: 'A migration planning guide for teams moving gateway runtime responsibilities from Tyk workflows to Apache APISIX.',
-  chips: ['tyk to apisix', 'migrate from tyk', 'tyk alternative', 'API gateway migration'],
-  answer: 'A Tyk to APISIX migration should distinguish gateway runtime behavior from broader API management workflows. Move routes, auth, traffic policy, and observability carefully, and keep lifecycle workflows where they belong.',
-  extraSources: [docsSources.tyk],
-});
-
-export const apigeeToApisixMigration = buildMigrationPage(products.apigee, {
-  slug: '/migration/apigee-to-apisix/',
-  seoTitle: 'Migrating from Apigee to Apache APISIX: Open-Source Gateway Evaluation Guide',
-  meta: 'Plan an Apigee to Apache APISIX migration by mapping API proxies, policies, authentication, routing, observability, cloud dependencies, and rollout strategy.',
-  h1: 'Migrating from Apigee to Apache APISIX',
-  deck: 'A cautious migration planning guide for teams evaluating APISIX as an open-source gateway runtime alongside or after Google Cloud Apigee.',
-  chips: ['apigee to apisix', 'migrate from apigee', 'apigee alternative', 'open-source API gateway'],
-  answer: 'APISIX can replace many gateway runtime responsibilities, but it is not a one-to-one copy of every Apigee API management workflow. Map proxies, policies, analytics, portals, and Google Cloud dependencies explicitly.',
-  extraSources: [docsSources.apigee],
-});
-
-export const awsApiGatewayToApisixMigration = buildMigrationPage(products.aws, {
-  slug: '/migration/aws-api-gateway-to-apisix/',
-  seoTitle: 'Migrating from AWS API Gateway to Apache APISIX: Hybrid API Gateway Guide',
-  meta: 'Plan an AWS API Gateway to Apache APISIX migration by mapping APIs, Lambda integrations, auth, monitoring, WAF, routing, and hybrid deployment needs.',
-  h1: 'Migrating from AWS API Gateway to Apache APISIX',
-  deck: 'A migration planning guide for teams moving selected APIs from AWS-managed gateway workflows to a cloud-neutral open-source gateway runtime.',
-  chips: ['aws api gateway to apisix', 'aws api gateway alternative', 'hybrid API gateway', 'API gateway migration'],
-  answer: 'Move from AWS API Gateway to APISIX when you need cloud-neutral, self-hosted, Kubernetes, or hybrid gateway control. Keep AWS-native integrations where they still make architectural sense.',
-  extraSources: [docsSources.aws],
 });

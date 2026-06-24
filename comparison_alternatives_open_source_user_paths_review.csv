@@ -1,0 +1,7 @@
+Page,Primary CTA,Secondary CTA,Target User,User Path,Action Taken
+Most comparison pages,Get started with APISIX,Explore APISIX plugins,Developers and platform engineers,Read docs -> run APISIX -> test routes/plugins -> compare options,Kept and reinforced with open-source next steps
+Kubernetes Ingress Controller Comparison,Explore Apache APISIX Ingress Controller,Get started with APISIX,Kubernetes platform teams,Ingress Controller docs -> test controller resources -> evaluate data plane,Kept controller-specific CTA
+AI Gateway Comparison,Explore APISIX AI Gateway,Explore APISIX plugins,AI/LLM platform teams,AI Gateway page -> plugin docs -> LLM traffic proof of concept,Kept AI-specific CTA and added source notes
+Alternative pages,Get started with APISIX,Compare API gateways,Open-source evaluators and infrastructure leads,Shortlist alternatives -> compare category -> test APISIX,Kept alternative-specific path
+All pages,View Apache APISIX on GitHub,Join the Apache APISIX community,Open-source users and contributors,Review code/issues/releases -> ask questions -> contribute,Added through Open-source next steps section
+All pages,Contribute to Apache APISIX,Explore Apache APISIX plugins,Community users and contributors,Learn project workflow -> contribute docs/code/issues,Added through Open-source next steps section

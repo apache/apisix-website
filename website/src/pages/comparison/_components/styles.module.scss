@@ -333,6 +333,69 @@
   background: #fff;
 }
 
+.resourcePanel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 28px;
+  padding: 28px;
+  border: 1px solid #eceef3;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(16, 24, 39, 0.05);
+}
+
+.resourcePanel h2 {
+  margin: 0;
+  color: var(--color-title);
+  font-size: 28px;
+  line-height: 1.18;
+}
+
+.resourcePanel p {
+  margin: 14px 0 0;
+  color: var(--color-secondary);
+  line-height: 1.65;
+}
+
+.resourceLinks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.resourceLink {
+  display: block;
+  min-height: 112px;
+  padding: 16px;
+  color: var(--color-title);
+  border: 1px solid #eceef3;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.resourceLink:hover {
+  color: var(--color-title);
+  text-decoration: none;
+  border-color: #f2b6b3;
+  background: #fffafa;
+}
+
+.resourceLink strong,
+.resourceLink span {
+  display: block;
+}
+
+.resourceLink strong {
+  font-size: 16px;
+}
+
+.resourceLink span {
+  margin-top: 8px;
+  color: var(--color-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .sourceList {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -395,17 +458,6 @@
   box-shadow: 0 22px 54px rgba(16, 24, 39, 0.08);
 }
 
-.guideMeta {
-  display: inline-flex;
-  margin-bottom: 14px;
-  padding: 5px 9px;
-  color: #7f1e1b;
-  font-size: 12px;
-  font-weight: 800;
-  border-radius: 999px;
-  background: #fff5f5;
-}
-
 .guideCard h3 {
   margin: 0 0 10px;
   color: var(--color-title);
@@ -417,13 +469,136 @@
   line-height: 1.62;
 }
 
+.pathFinder {
+  padding-top: 0;
+}
+
+.pathGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.pathCard {
+  display: block;
+  padding: 22px;
+  color: var(--color-secondary);
+  border: 1px solid #eceef3;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(16, 24, 39, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.pathCard:hover {
+  color: var(--color-secondary);
+  text-decoration: none;
+  border-color: #f2b1ae;
+  transform: translateY(-2px);
+  box-shadow: 0 22px 54px rgba(16, 24, 39, 0.08);
+}
+
+.pathCard span,
+.pathCard strong {
+  display: block;
+}
+
+.pathCard span {
+  color: var(--color-title);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.pathCard strong {
+  margin-top: 10px;
+  color: var(--color-primary);
+  font-size: 14px;
+}
+
+.pathCard p {
+  margin: 12px 0 0;
+  line-height: 1.6;
+}
+
+.guideGroup {
+  margin-top: 34px;
+}
+
+.guideGroupHeader {
+  max-width: 820px;
+  margin-bottom: 16px;
+}
+
+.guideGroupHeader h3 {
+  margin: 0;
+  color: var(--color-title);
+  font-size: 22px;
+}
+
+.guideGroupHeader p {
+  margin: 8px 0 0;
+  color: var(--color-secondary);
+  line-height: 1.62;
+}
+
+.guideList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.guideGroup .guideList {
+  margin-top: 0;
+}
+
+.guideListItem {
+  display: flex;
+  min-height: 100%;
+  padding: 18px 20px;
+  color: var(--color-secondary);
+  border: 1px solid #eceef3;
+  border-radius: 8px;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.guideListItem:hover {
+  color: var(--color-secondary);
+  text-decoration: none;
+  border-color: #f2b1ae;
+  transform: translateY(-1px);
+  box-shadow: 0 16px 38px rgba(16, 24, 39, 0.06);
+}
+
+.guideListItem strong,
+.guideListItem small {
+  display: block;
+}
+
+.guideListItem strong {
+  color: var(--color-title);
+  font-size: 17px;
+}
+
+.guideListItem small {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
 @media (max-width: 996px) {
   .heroGrid,
   .grid,
   .gridTwo,
   .faqGrid,
   .sourceList,
-  .guideGrid {
+  .resourcePanel,
+  .resourceLinks,
+  .guideGrid,
+  .pathGrid,
+  .guideList {
     grid-template-columns: 1fr;
   }
 
