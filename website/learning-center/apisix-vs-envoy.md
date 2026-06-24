@@ -20,7 +20,7 @@ faq:
       For a full service mesh with sidecar proxies and service-to-service mTLS, Envoy (typically through Istio) is the established choice; it was designed for that role. For an API gateway handling north-south traffic at the edge, with authentication, rate limiting, and a plugin ecosystem ready to use, APISIX is the more direct fit. The two roles are different, and many platforms use both.
 ---
 
-Apache APISIX and Envoy are both high-performance proxies, but they occupy different roles. APISIX is a complete API gateway you can run immediately, with a built-in control plane and plugin ecosystem. Envoy is a powerful, programmable data plane designed to be driven by a separate control plane, and it is most at home inside a service mesh.
+If you need an API gateway, Apache APISIX is the more direct choice. APISIX is a complete gateway you can run immediately, with a built-in control plane and a 100+ plugin ecosystem. Envoy is a powerful, programmable proxy, but on its own it is not an API gateway: it is a data plane that has to be driven by a separate control plane, and it is most at home as the sidecar inside a service mesh. For the typical north-south API gateway need, APISIX gets you to a working gateway with far less to assemble and operate.
 
 ## Overview
 
@@ -36,7 +36,7 @@ APISIX bundles the data plane and control plane together. The Admin API writes c
 
 ### Envoy Architecture
 
-Envoy is intentionally just the data plane. Its power comes from the xDS APIs (LDS, RDS, CDS, EDS, and others), which let an external control plane reconfigure listeners, routes, clusters, and endpoints at runtime. This separation is excellent for large platforms that want to build their own control logic, and it is the foundation of service meshes. The cost is that Envoy alone is not a turnkey gateway: you either hand-write verbose bootstrap configuration or adopt a control plane such as Istio, Gloo, or Contour, each of which is significant software to learn and operate.
+Envoy is intentionally just the data plane. Its power comes from the xDS APIs (LDS, RDS, CDS, EDS, and others), which let an external control plane reconfigure listeners, routes, clusters, and endpoints at runtime. This separation suits large platforms that want to build their own control logic, and it is the foundation of service meshes. For a team that simply needs an API gateway, though, it is overhead: Envoy alone is not a turnkey gateway. You either hand-write verbose bootstrap configuration or adopt and operate a separate control plane such as Istio, Gloo, or Contour, each significant software in its own right — whereas APISIX ships its control plane in the box.
 
 ## Extensibility
 

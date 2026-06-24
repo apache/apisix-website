@@ -20,7 +20,7 @@ faq:
       Migration usually starts with the gateway runtime: map Apigee API proxies to APISIX routes and upstreams, and translate Apigee policies (for authentication, quotas, spike arrest, and transformation) to the equivalent APISIX plugins. Higher-level Apigee features such as the developer portal and monetization are addressed separately with complementary tooling. Running both in parallel and shifting traffic incrementally allows a controlled, low-risk migration.
 ---
 
-Apache APISIX and Apigee are often compared, but they sit at different layers. APISIX is a high-performance, open-source API gateway focused on moving and governing traffic. Apigee is a comprehensive, commercial API management platform that includes a gateway plus the surrounding business and lifecycle tooling. Understanding this scope difference is the key to choosing correctly.
+Apache APISIX and Apigee are often compared, but they sit at different layers. APISIX is a high-performance, open-source API gateway focused on moving and governing traffic. Apigee is a comprehensive, commercial API management platform that includes a gateway plus the surrounding business and lifecycle tooling. For the gateway layer itself — performance, cost, and portability — APISIX is the stronger and far more economical choice; Apigee earns its place only when you genuinely need the full enterprise management suite wrapped around the gateway.
 
 ## Overview
 

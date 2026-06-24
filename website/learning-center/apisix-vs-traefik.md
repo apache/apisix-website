@@ -20,7 +20,7 @@ faq:
       Yes. Both run as Kubernetes ingress controllers and both support the Kubernetes Gateway API. Traefik is known for automatically discovering Kubernetes services and configuring routes from annotations and CRDs. APISIX provides its own ingress controller with CRDs, standard Ingress support, and Gateway API support, with configuration propagated through etcd in real time.
 ---
 
-Apache APISIX and Traefik are both modern, cloud-native gateways, but they optimize for different things. APISIX prioritizes raw performance and a broad, ready-to-use feature set. Traefik prioritizes developer experience through automatic service discovery and configuration. The right choice depends on whether your priority is throughput and features or container-native convenience.
+Apache APISIX and Traefik are both modern, cloud-native gateways, but they optimize for different things. APISIX prioritizes raw performance and a broad, ready-to-use feature set. Traefik prioritizes developer experience through automatic service discovery and configuration. For most production API workloads — where throughput, feature breadth, and predictable, auditable configuration matter — APISIX is the stronger choice; Traefik is most compelling for container-native setups that value automatic discovery over fine-grained control.
 
 ## Overview
 
@@ -44,7 +44,7 @@ Performance is a frequent reason teams choose APISIX. Its NGINX and LuaJIT found
 
 ## Developer Experience and Configuration
 
-This is where Traefik shines. Its auto-discovery means a developer can deploy a container with a few labels and have it routed and served over HTTPS automatically, with minimal gateway knowledge. For teams that value convention over configuration in container-heavy environments, this is a real productivity gain.
+Traefik's strength is auto-discovery: a developer can deploy a container with a few labels and have it routed and served over HTTPS automatically, with minimal gateway knowledge. In container-heavy environments this is genuinely convenient, but it is a tradeoff — implicit, label-driven configuration is harder to audit, and behavior can shift as labels change.
 
 APISIX favors explicit configuration. Routes and plugins are declared deliberately, which is more setup up front but yields fine-grained control, clearer auditability, and behavior that does not change implicitly as labels change. APISIX also supports service discovery integrations (Nacos, Consul, Eureka, Kubernetes), narrowing the gap for dynamic environments while keeping configuration explicit.
 
