@@ -1,56 +1,94 @@
 .compare {
-  padding: 50px 0;
-}
-
-.table tbody td:nth-child(even) {
-  background: rgb(14 30 37 / 2%);
-}
-
-.table tbody tr:nth-child(odd) {
-  background: rgb(14 30 37 / 2%);
-}
-
-.table thead {
-  font-size: 1.13rem;
-}
-
-.table {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 10%), 0 2px 4px 0 rgb(14 30 37 / 12%);
-  color: rgb(14 30 37 / 87%);
-  font-size: 1.13rem;
-  margin: 1em auto;
-  border-collapse: collapse;
-  max-width: 100%;
-  overflow-x: auto;
-  table-layout: fixed;
-  width: 66.4%;
-  font-family: MaisonNeue-Light, sans-serif;
-  display: table;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.table td,
-.table th {
-  font-weight: 700;
-  min-width: 11.089em;
-  padding: 0.85rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.5rem var(--ifm-spacing-horizontal);
   text-align: center;
 }
 
-.table-head {
-  font-weight: 900;
-  font-family: MaisonNeue-Demi, sans-serif;
-  font-size: 1.25rem;
-}
-
-.table tbody th {
+.compare-head {
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.25rem);
   font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
-.table td:first-child,
-.table th:first-child {
+.compare-subtitle {
+  color: #6b6b6b;
+  max-width: 640px;
+  margin: 0 auto 2.25rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.compare-table-wrap {
+  overflow-x: auto;
+}
+
+.compare-table {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 1rem;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.95rem 1.1rem;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.compare-table tbody tr:last-child th,
+.compare-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.compare-table thead th {
+  font-weight: 700;
+  font-size: 1.02rem;
+  background: #fafafa;
+  border-bottom: 1px solid #ececec;
+}
+
+.compare-table tbody th[scope="row"] {
+  font-weight: 500;
+  color: #2c2c2a;
+}
+
+.compare-col-feature {
   text-align: left;
+}
+
+.compare-col-apisix,
+.compare-apisix-cell {
+  background: #fff5f4;
+}
+
+.compare-col-apisix {
+  color: #e8433e;
+}
+
+.compare-col-apisix,
+.compare-col-other {
+  min-width: 160px;
+}
+
+.compare-apisix-cell {
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+.compare-other-cell {
+  color: #8a8a8a;
+}
+
+.compare-table svg {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
 }

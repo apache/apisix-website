@@ -2,61 +2,49 @@ import type { FC } from 'react';
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
-
-import BrowserOnly from '@docusaurus/BrowserOnly';
-import useWindowType from '@theme/hooks/useWindowSize';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import ArrowAnim from '../ArrowAnim';
 import '../../css/landing-sections/hero.scss';
 
-const LazyLoadHeroCanvas = () => {
-  const windowType = useWindowType();
-  if (windowType === 'mobile') return null;
-
-  return (
-    <BrowserOnly>
-      {() => {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-        const HeroCanvas = require('../HeroCanvas').default;
-        return <HeroCanvas />;
-      }}
-    </BrowserOnly>
-  );
-};
+const STATS: { value: string; label: JSX.Element }[] = [
+  { value: '100+', label: <Translate id="hero.stats.plugins">plugins</Translate> },
+  { value: '~18k', label: <Translate id="hero.stats.qps">QPS / core</Translate> },
+  { value: '0.2 ms', label: <Translate id="hero.stats.latency">added latency</Translate> },
+  { value: 'Apache 2.0', label: <Translate id="hero.stats.license">licensed</Translate> },
+];
 
 const HeroSection: FC = () => (
-  <div className="hero-sec-wrap" style={{ width: '100%' }}>
+  <header className="hero-sec-wrap">
     <div className="hero-text">
+      <span className="hero-eyebrow">
+        <Translate id="hero.component.eyebrow">Apache Software Foundation top-level project</Translate>
+      </span>
       <h1 className="hero-title">
-        <Translate id="hero.component.title.fragment1">API Gateway & AI Gateway for APIs and AI Agents</Translate>
+        <Translate id="hero.component.title.main">The open-source API Gateway & AI Gateway</Translate>
       </h1>
-      <h2
-        className="hero-subtitle"
-        style={{
-          color: '#E8433E', fontSize: 32, fontWeight: 700, lineHeight: 1.2,
-        }}
-      >
-        <Translate id="hero.component.title.fragment2">
-          Open-Source, Community-Driven, Future-Ready
+      <p className="hero-subtitle">
+        <Translate id="hero.component.subtitle.main">
+          High-performance traffic management for APIs, microservices, and LLM workloads —
+          dynamic routing, load balancing, authentication, observability, and 100+ plugins.
         </Translate>
-      </h2>
-      <h3 className="hero-subtitle">
-        <Translate id="hero.component.subtitle.content">
-          APISIX API Gateway provides rich traffic management features like load balancing, dynamic
-          upstream, canary release, circuit breaking, auth, and observability.
-        </Translate>
-      </h3>
+      </p>
       <div className="hero-ctas">
         <Link target="_parent" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
-          <Translate id="hero.component.download.btn">Getting Started</Translate>
+          <Translate id="hero.component.download.btn">Get started</Translate>
         </Link>
-        <ArrowAnim />
+        <Link target="_parent" to={useBaseUrl('plugins/')} className="btn btn-secondary">
+          <Translate id="hero.component.plugins.btn">Browse 100+ plugins</Translate>
+        </Link>
       </div>
+      <ul className="hero-stats">
+        {STATS.map((stat) => (
+          <li className="hero-stats__item" key={stat.value}>
+            <span className="hero-stats__value">{stat.value}</span>
+            <span className="hero-stats__label">{stat.label}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-    <div className="add-margin">
-      <LazyLoadHeroCanvas />
-    </div>
-  </div>
+  </header>
 );
 
 export default HeroSection;

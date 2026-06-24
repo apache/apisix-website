@@ -59,6 +59,12 @@ module.exports = [
     target: '_parent',
   },
   {
+    to: '/comparisons/',
+    label: 'Comparisons',
+    position: 'right',
+    target: '_parent',
+  },
+  {
     to: '/blog',
     label: 'Blog',
     position: 'right',
