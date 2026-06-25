@@ -19,25 +19,13 @@
   line-height: 1.6;
 }
 
-.integrations__groups {
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-}
-
-.integrations__group-title {
-  font-size: 0.78rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #9a9a9a;
-  margin-bottom: 0.85rem;
-}
-
 .integrations__tiles {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 .integrations__tile {

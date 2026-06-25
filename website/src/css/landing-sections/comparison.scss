@@ -8,7 +8,8 @@
 .compare-head {
   font-size: clamp(1.6rem, 1rem + 2vw, 2.25rem);
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  max-width: 760px;
+  margin: 0 auto 0.5rem;
 }
 
 .compare-subtitle {
