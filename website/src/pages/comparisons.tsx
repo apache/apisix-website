@@ -21,6 +21,36 @@ const COMPARISONS: Comparison[] = [
     to: '/learning-center/apisix-vs-kong/',
   },
   {
+    title: 'Apache APISIX vs AWS API Gateway',
+    description:
+      'Self-hosted open source vs a managed cloud service — architecture, cost at scale, and vendor lock-in.',
+    to: '/learning-center/apisix-vs-aws-api-gateway/',
+  },
+  {
+    title: 'Apache APISIX vs NGINX',
+    description:
+      'APISIX is built on NGINX — what a purpose-built gateway adds over raw NGINX and NGINX Plus.',
+    to: '/learning-center/apisix-vs-nginx/',
+  },
+  {
+    title: 'Apache APISIX vs Envoy',
+    description:
+      'A turnkey API gateway vs a service proxy that needs a separate control plane.',
+    to: '/learning-center/apisix-vs-envoy/',
+  },
+  {
+    title: 'Apache APISIX vs Traefik',
+    description:
+      'Throughput and plugin breadth vs container-native auto-discovery and automatic TLS.',
+    to: '/learning-center/apisix-vs-traefik/',
+  },
+  {
+    title: 'Apache APISIX vs Apigee',
+    description:
+      'An open-source gateway vs a full enterprise API management platform — scope and cost.',
+    to: '/learning-center/apisix-vs-apigee/',
+  },
+  {
     title: 'Open-source API gateways compared',
     description:
       'APISIX vs Kong vs Envoy vs Traefik — a feature-by-feature look at the leading open-source gateways.',

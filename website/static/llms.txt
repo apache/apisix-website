@@ -48,15 +48,25 @@
 ## Learning Center
 
 - [What is an API Gateway?](https://apisix.apache.org/learning-center/what-is-an-api-gateway/): Definition, benefits, and use cases
-- [API Gateway Authentication: Methods, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-authentication): Auth at gateway layer (JWT, OAuth2, mTLS, HMAC)
-- [API Gateway for Microservices: Architecture, Patterns & Best Practices](https://apisix.apache.org/learning-center/api-gateway-for-microservices): Microservices architecture with API gateway
-- [API Gateway Rate Limiting: Algorithms, Strategies & Configuration](https://apisix.apache.org/learning-center/api-gateway-rate-limiting): Token bucket, sliding window, leaky bucket
-- [API Gateway vs Load Balancer: Key Differences Explained](https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer): Gateway vs load balancer comparison
-- [Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices](https://apisix.apache.org/learning-center/kubernetes-api-gateway): Kubernetes Gateway API and Ingress
-- [API Monetization: Models, Strategies & Implementation Guide](https://apisix.apache.org/learning-center/api-monetization-guide): API pricing and monetization models
-- [Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik](https://apisix.apache.org/learning-center/open-source-api-gateway-comparison): API gateway comparison
-- [What is gRPC? Protocol Buffers, Performance & API Gateway Integration](https://apisix.apache.org/learning-center/what-is-grpc): gRPC basics and gateway integration
-- [What is Mutual TLS (mTLS)? How Two-Way Authentication Works](https://apisix.apache.org/learning-center/what-is-mutual-tls): mTLS and zero-trust security
-- [API Gateway Security: Threats, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-security): API security, WAF, rate limiting, zero trust
-- [Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks](https://apisix.apache.org/learning-center/apisix-vs-kong): APISIX vs Kong comparison
-- [MCP Protocol & AI Gateways: Managing AI Agent Traffic at Scale](https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway): MCP and AI gateway architecture
+- [API Gateway Authentication: Methods, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-authentication/): Auth at gateway layer (JWT, OAuth2, mTLS, HMAC)
+- [API Gateway for Microservices: Architecture, Patterns & Best Practices](https://apisix.apache.org/learning-center/api-gateway-for-microservices/): Microservices architecture with API gateway
+- [API Gateway Rate Limiting: Algorithms, Strategies & Configuration](https://apisix.apache.org/learning-center/api-gateway-rate-limiting/): Token bucket, sliding window, leaky bucket
+- [API Gateway vs Load Balancer: Key Differences Explained](https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/): Gateway vs load balancer comparison
+- [Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices](https://apisix.apache.org/learning-center/kubernetes-api-gateway/): Kubernetes Gateway API and Ingress
+- [API Monetization: Models, Strategies & Implementation Guide](https://apisix.apache.org/learning-center/api-monetization-guide/): API pricing and monetization models
+- [Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik](https://apisix.apache.org/learning-center/open-source-api-gateway-comparison/): API gateway comparison
+- [What is gRPC? Protocol Buffers, Performance & API Gateway Integration](https://apisix.apache.org/learning-center/what-is-grpc/): gRPC basics and gateway integration
+- [What is Mutual TLS (mTLS)? How Two-Way Authentication Works](https://apisix.apache.org/learning-center/what-is-mutual-tls/): mTLS and zero-trust security
+- [API Gateway Security: Threats, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-security/): API security, WAF, rate limiting, zero trust
+- [Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks](https://apisix.apache.org/learning-center/apisix-vs-kong/): APISIX vs Kong comparison
+- [Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed](https://apisix.apache.org/learning-center/apisix-vs-aws-api-gateway/): Open-source self-hosted gateway vs managed cloud service, cost at scale, lock-in
+- [Apache APISIX vs NGINX: API Gateway vs Reverse Proxy](https://apisix.apache.org/learning-center/apisix-vs-nginx/): How APISIX builds a full API gateway on top of NGINX; NGINX Plus comparison
+- [Apache APISIX vs Envoy: API Gateway vs Service Proxy](https://apisix.apache.org/learning-center/apisix-vs-envoy/): Turnkey gateway vs a proxy that needs a separate control plane; service mesh
+- [Apache APISIX vs Traefik: Performance vs Auto-Discovery](https://apisix.apache.org/learning-center/apisix-vs-traefik/): Throughput and plugin breadth vs container-native auto-discovery and automatic TLS
+- [Apache APISIX vs Apigee: Open-Source Gateway vs API Management Platform](https://apisix.apache.org/learning-center/apisix-vs-apigee/): Open-source gateway vs full enterprise API management platform, scope and cost
+- [Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed](https://apisix.apache.org/learning-center/apisix-vs-aws-api-gateway/): Open-source self-hosted gateway vs managed cloud service, cost at scale, lock-in
+- [Apache APISIX vs NGINX: API Gateway vs Reverse Proxy](https://apisix.apache.org/learning-center/apisix-vs-nginx/): How APISIX builds a full API gateway on top of NGINX; NGINX Plus comparison
+- [Apache APISIX vs Envoy: API Gateway vs Service Proxy](https://apisix.apache.org/learning-center/apisix-vs-envoy/): Turnkey gateway vs a proxy that needs a separate control plane; service mesh
+- [Apache APISIX vs Traefik: Performance vs Auto-Discovery](https://apisix.apache.org/learning-center/apisix-vs-traefik/): Throughput and plugin breadth vs container-native auto-discovery and automatic TLS
+- [Apache APISIX vs Apigee: Open-Source Gateway vs API Management Platform](https://apisix.apache.org/learning-center/apisix-vs-apigee/): Open-source gateway vs full enterprise API management platform, scope and cost
+- [MCP Protocol & AI Gateways: Managing AI Agent Traffic at Scale](https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/): MCP and AI gateway architecture
