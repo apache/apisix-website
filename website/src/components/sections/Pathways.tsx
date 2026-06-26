@@ -53,7 +53,7 @@ const Pathways: FC = () => (
   <section className="pathways" aria-label="Get started with Apache APISIX">
     {PATHWAYS.map((pathway) => (
       <Link className="pathways__card" to={pathway.to} key={pathway.id}>
-        <h3 className="pathways__title">{pathway.title}</h3>
+        <h2 className="pathways__title">{pathway.title}</h2>
         <p className="pathways__desc">{pathway.description}</p>
         <span className="pathways__cta">
           {pathway.cta}

@@ -50,7 +50,7 @@ const UserCard: FC<UserCardProps> = (props) => {
   return (
     <div className="user-card">
       <a href={infoLink}>
-        <img className="logo" src={image} alt={caption} />
+        <img className="logo" src={image} alt={caption} width={100} height={40} />
       </a>
     </div>
   );
