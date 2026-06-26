@@ -271,26 +271,26 @@
     "message": "Apache APISIX 是 Apache 软件基金会下的开源项目，并且在不断蓬勃发展。下方是 Apache APISIX 与其它 API 网关对比："
   },
   "openSourcePromo.component.title": {
-    "message": "向更多开发者学习"
+    "message": "刚接触 Apache APISIX？"
   },
   "openSourcePromo.component.subtitle.fragment1": {
-    "message": "想学习 Apache APISIX 的使用，但不知道从哪里开始？请查阅我们的",
-    "description": "Want to learn Apache APISIX usage, but don&apos;t know where to start. Check out our"
+    "message": "刚接触微服务或 API 网关？查阅我们的",
+    "description": "New to microservices or API gateways? Get up and running with our"
   },
   "openSourcePromo.component.link.docs": {
     "message": "官方技术文档。",
     "description": "docs."
   },
   "openSourcePromo.component.subtitle.fragment2": {
-    "message": "如果你喜欢通过视频进行学习，可查看",
-    "description": "Like visual information, check out our"
+    "message": "想通过视频学习？前往我们的",
+    "description": "Prefer to learn by watching? Head to our"
   },
   "openSourcePromo.component.link.Youtube": {
     "message": "YouTube 频道"
   },
   "openSourcePromo.component.subtitle.fragment3": {
-    "message": "以获取更多教程，欢迎你的订阅。",
-    "description": "for detailed tutorials. Subscribe for more."
+    "message": "观看分步视频教程。",
+    "description": "for step-by-step video tutorials."
   },
   "openSourcePromo.component.ossPromo.title": {
     "message": "为 Apache APISIX 贡献你的力量！"
