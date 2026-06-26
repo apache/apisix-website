@@ -148,3 +148,9 @@ The free tier should allow a developer to build a proof of concept and demonstra
 ### How do I handle customers who consistently exceed their tier limits?
 
 Implement a graduated response: send usage alerts at 80% and 95% of the quota, allow a configurable burst buffer (10-20% over limit) with prorated charges, and only hard-block at a defined overage ceiling. Communicate upsell options proactively when consumers approach limits. APISIX's [limit-count plugin](/docs/apisix/plugins/limit-count/) supports configurable rejection behavior, and the logging pipeline can trigger automated alerts through webhook integrations when consumers cross threshold percentages.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)
+- [API gateway authentication](/learning-center/api-gateway-authentication/)

@@ -203,3 +203,12 @@ An API gateway and a service mesh serve different layers. The gateway handles no
 ### Is an API gateway the same as an API management platform?
 
 No. An API gateway is the runtime component that processes API traffic. An API management platform is a broader category that typically includes a gateway, a developer portal, API documentation tools, lifecycle management, and analytics dashboards. The gateway is the engine; the management platform is the full vehicle. Apache APISIX provides the high-performance gateway layer, and organizations often pair it with additional tooling for the complete API management lifecycle.
+
+## Related guides
+
+- [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
+- [API gateway authentication](/learning-center/api-gateway-authentication/)
+- [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)
+- [API gateway security](/learning-center/api-gateway-security/)
+- [Compare API gateways](/comparisons/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

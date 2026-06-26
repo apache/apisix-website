@@ -144,3 +144,10 @@ Yes. Kubernetes supports multiple ingress controllers differentiated by IngressC
 ### What is the resource overhead of running APISIX in Kubernetes?
 
 A production APISIX data plane replica typically requests 500m CPU and 256Mi memory, handling 10,000-20,000 requests per second depending on plugin configuration. The controller replica requests 200m CPU and 128Mi memory. For most clusters, two data plane replicas and one controller replica provide sufficient capacity and redundancy. These resource requirements are comparable to other Kubernetes ingress controllers and negligible relative to the application workloads they protect.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
+- [Compare API gateways](/comparisons/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

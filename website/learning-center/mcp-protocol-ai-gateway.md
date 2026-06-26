@@ -122,3 +122,9 @@ Function calling (also called tool use) is the LLM capability to generate struct
 ### Can I use an AI gateway without adopting MCP?
 
 Yes. AI gateways manage all types of AI traffic, including direct LLM API calls that do not use MCP. Most organizations start with basic LLM proxy and rate limiting features before adopting MCP for tool integration. The gateway provides value regardless of whether your AI applications use MCP, custom tool integrations, or simple prompt-response patterns.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Apache APISIX AI Gateway](/ai-gateway/)
+- [Compare API gateways](/comparisons/)

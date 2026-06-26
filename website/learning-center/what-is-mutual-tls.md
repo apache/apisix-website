@@ -133,3 +133,9 @@ No. mTLS authenticates the transport-layer identity (which machine or service is
 ### How does mTLS perform at scale in Kubernetes?
 
 In Kubernetes environments with service meshes, mTLS scales well because certificate issuance and rotation are fully automated by the mesh control plane. Istio, for example, issues and rotates certificates for every pod automatically using its built-in CA. The performance impact is primarily on new connections (the handshake), which is amortized by connection pooling. Organizations running mTLS across 10,000+ pods report negligible steady-state performance impact, with the main operational cost being control plane resource consumption for certificate management.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway security](/learning-center/api-gateway-security/)
+- [API gateway authentication](/learning-center/api-gateway-authentication/)

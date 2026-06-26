@@ -147,3 +147,9 @@ Yes, but with different thresholds. Internal rate limiting prevents cascading fa
 ### How do I communicate rate limits to API consumers?
 
 Document rate limits in your API reference and include them in onboarding materials. Use standard rate limit response headers on every response (not just 429 responses) so clients can monitor their consumption in real time. Provide a dedicated endpoint or dashboard where consumers can check their current usage against their quota. For paid tiers, send proactive notifications when consumers approach their limits.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway security](/learning-center/api-gateway-security/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

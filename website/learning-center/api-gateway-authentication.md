@@ -115,3 +115,10 @@ Standard TLS authenticates only the server to the client. The client verifies th
 ### Can I combine multiple authentication methods on a single route?
 
 Yes. Apache APISIX supports configuring multiple authentication plugins on a single route. The gateway attempts each configured method in order and accepts the request if any method succeeds. This is useful during migration periods or when a route serves clients with different authentication capabilities.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [API gateway security](/learning-center/api-gateway-security/)
+- [What is mutual TLS (mTLS)?](/learning-center/what-is-mutual-tls/)
+- [Get started with Apache APISIX](/docs/apisix/getting-started/)

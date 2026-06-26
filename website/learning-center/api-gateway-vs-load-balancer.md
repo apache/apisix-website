@@ -130,3 +130,9 @@ Managed gateways (AWS API Gateway, Google Apigee) reduce operational burden but 
 ### How does an API gateway differ from a reverse proxy?
 
 A reverse proxy forwards client requests to backend servers and is the foundation of both load balancers and API gateways. An API gateway is a specialized reverse proxy that adds API-specific features: authentication, rate limiting, request transformation, API versioning, and developer-facing analytics. NGINX, for example, can function as a reverse proxy, load balancer, or (with extensions) an API gateway. Apache APISIX is purpose-built as an API gateway with load balancing built in.
+
+## Related
+
+- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
+- [Compare API gateways](/comparisons/)
+- [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
