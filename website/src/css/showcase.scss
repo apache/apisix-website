@@ -55,8 +55,9 @@
     padding: 30px 10px;
 
     .logo {
-      max-width: 100px;
-      max-height: 40px;
+      width: 100px;
+      height: 40px;
+      object-fit: contain;
     }
   }
 
