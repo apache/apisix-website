@@ -55,13 +55,12 @@ const OpensourcePromo: FC = () => (
     <div className={style.docsPromo}>
       <div className={style.docsPromoHead}>
         <h3>
-          <Translate id="openSourcePromo.component.title">Learn from developers</Translate>
+          <Translate id="openSourcePromo.component.title">New to Apache APISIX?</Translate>
         </h3>
         <div className={style.docsPromoSubtitle}>
           <p>
             <Translate id="openSourcePromo.component.subtitle.fragment1">
-              What are microservices? What is an API Gateway? Want to learn Apache APISIX usage, but
-              don&apos;t know where to start? Check out our
+              New to microservices or API gateways? Get up and running with our
             </Translate>
             {' '}
             <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs')}>
@@ -70,13 +69,13 @@ const OpensourcePromo: FC = () => (
           </p>
           <p>
             <Translate id="openSourcePromo.component.subtitle.fragment2">
-              Like visual information, check out our
+              Prefer to learn by watching? Head to our
             </Translate>
             {' '}
             <VideoChannel />
             {' '}
             <Translate id="openSourcePromo.component.subtitle.fragment3">
-              for detailed tutorials. Subscribe for more.
+              for step-by-step video tutorials.
             </Translate>
           </p>
         </div>
