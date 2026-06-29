@@ -81,17 +81,8 @@ const footer = {
           to: '/blog/',
           target: '_parent',
         }, {
-          label: 'Showcase',
-          to: '/showcase',
-          target: '_parent',
-        }, {
           label: 'Plugin Hub',
           to: '/plugins',
-          target: '_parent',
-        },
-        {
-          label: 'Roadmap',
-          to: 'https://github.com/apache/apisix/milestones',
           target: '_parent',
         },
       ],
