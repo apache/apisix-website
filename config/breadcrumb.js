@@ -41,8 +41,6 @@ function buildBreadcrumbs(urlPath) {
     downloads: 'Downloads',
     team: 'Team',
     contribute: 'Contribute',
-    showcase: 'Showcase',
-    help: 'Help',
     articles: 'Articles',
     events: 'Events',
     general: 'General',

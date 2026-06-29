@@ -133,3 +133,11 @@ Redirect 301 "/docs/ingress-controller/next/references/apisix_route_v2/" "/docs/
 Redirect 301 "/docs/ingress-controller/next/deployments/k3s-rke/" "/docs/ingress-controller/install/"
 Redirect 301 "/docs/ingress-controller/next/concepts/apisix_tls/" "/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
 Redirect 301 "/docs/ingress-controller/next/concepts/apisix_plugin_config/" "/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
+
+# Removed pages (showcase, code samples, help) -> home
+RedirectMatch 301 "^/showcase/?$" "/"
+RedirectMatch 301 "^/zh/showcase/?$" "/zh/"
+RedirectMatch 301 "^/docs/general/code-samples/?$" "/"
+RedirectMatch 301 "^/zh/docs/general/code-samples/?$" "/zh/"
+RedirectMatch 301 "^/help/?$" "/"
+RedirectMatch 301 "^/zh/help/?$" "/zh/"

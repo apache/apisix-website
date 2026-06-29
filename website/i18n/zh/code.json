@@ -7,22 +7,6 @@
     "message": "。",
     "description": "."
   },
-  "showcase.website.title": {
-    "message": "用户列表",
-    "description": "Showcase"
-  },
-  "showcase.website.tips.used": {
-    "message": "Apache APISIX 被众多产品与用户所信赖",
-    "description": "This project is used by all these folks"
-  },
-  "showcase.website.tips.wantUse": {
-    "message": "你也在使用它吗？请让我们知道！",
-    "description": "Are you using this project?&nbsp;"
-  },
-  "showcase.website.link.addYourCompany": {
-    "message": "加入使用者名单",
-    "description": "Add your company"
-  },
   "docs.webpage.title.Document": {
     "message": "产品文档",
     "description": "Document"
@@ -74,34 +58,6 @@
   "download.website.verify.step2": {
     "message": "如果需要验证二进制文件/源代码，您可以从主目录下载相关的 ACS 文件，并遵循下面的指南。",
     "description": "To verify the binaries/sources you can download the relevant asc files for it from main distribution directory and follow the below guide."
-  },
-  "help.website.title": {
-    "message": "获取帮助",
-    "description": "NEED HELP?"
-  },
-  "help.website.subtitle": {
-    "message": "Apache APISIX 维护者们将积极为你答疑解惑",
-    "description": "This project is maintained by a dedicated group of people."
-  },
-  "help.website.docs.title": {
-    "message": "官方文档",
-    "description": "Browse Docs"
-  },
-  "help.website.docs.tips": {
-    "message": "访问官方技术文档以了解更多",
-    "description": "Learn more using the documentation on this site."
-  },
-  "help.website.link.docs": {
-    "message": "阅读文档",
-    "description": "Read Documents"
-  },
-  "help.website.community.title": {
-    "message": "加入社区",
-    "description": "Join Community"
-  },
-  "help.website.community.tips": {
-    "message": "告诉我们你遇到了什么问题？",
-    "description": "Ask questions about the documentation and project"
   },
   "plugins.website.title": {
     "message": "Apache APISIX®️ 插件中心",
