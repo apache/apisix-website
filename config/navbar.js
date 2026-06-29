@@ -83,12 +83,6 @@ module.exports = [
     target: '_parent',
   },
   {
-    to: '/help',
-    label: 'Help',
-    position: 'right',
-    target: '_parent',
-  },
-  {
     to: 'team',
     label: 'Team',
     position: 'right',
@@ -98,16 +92,6 @@ module.exports = [
     label: 'Resources',
     position: 'right',
     items: [
-      {
-        to: '/showcase',
-        label: 'Showcase',
-        target: '_parent',
-      },
-      {
-        to: '/docs/general/code-samples',
-        label: 'Code Samples',
-        target: '_parent',
-      },
       {
         to: '/plugins',
         label: 'Plugin Hub',
@@ -121,11 +105,6 @@ module.exports = [
       {
         to: '/docs/general/events',
         label: 'Events',
-        target: '_parent',
-      },
-      {
-        to: 'https://github.com/apache/apisix/milestones',
-        label: 'Roadmap',
         target: '_parent',
       },
     ],

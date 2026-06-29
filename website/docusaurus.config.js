@@ -13,7 +13,6 @@ module.exports = {
   customFields: {
     tagline2:
       'Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.',
-    showcases: require('./static/data/showcases.json'),
     events: {
       en: require('./static/data/events.json'),
       zh: require('./static/data/events.zh.json'),
