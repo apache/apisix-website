@@ -3,7 +3,7 @@ title: "2026 社区月报 (06.01 - 06.30)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了一些新功能，包括 SAML 认证、GraphQL 缓存、路由级代理缓冲控制、更丰富的 AI 可观测性、新增 LLM 安全与缓存插件、更安全的请求体读取，以及增强的限流后端等。有关更多细节，请阅读本期月报。

@@ -3,7 +3,7 @@ title: "2026 Monthly Report (June 01 - June 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/06/30/fx3aed6D_2026-06-monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated some new features, including SAML authentication, GraphQL caching, route-level proxy buffering, richer AI observability, new LLM security and cache plugins, safer request-body handling, and enhanced rate limiting backends. For more details, please read this month's newsletter.
