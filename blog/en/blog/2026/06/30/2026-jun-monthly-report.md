@@ -24,6 +24,14 @@ From June 1st to June 30th, 16 contributors made 137 commits to Apache APISIX. W
 
 ## Feature Highlights
 
+To make this month's updates easier to navigate, the 24 feature highlights are grouped below by theme before the detailed descriptions:
+
+- **Authentication and identity:** `saml-auth`, `openid-connect`, `jwe-decrypt`, and `hmac-auth` improvements.
+- **Traffic handling and request safety:** GraphQL caching, route-level proxy buffering, bounded request body reads, batch request limits, per-port PROXY protocol, and safer `post_arg.*` matching.
+- **AI Gateway:** fallback control, LLM observability, Consumer-bound AI plugin handling, Lakera Guard, Aliyun content moderation, AI response caching, and response scanning.
+- **Observability and logging:** Prometheus label cardinality controls and additive logger formatting.
+- **Rate limiting and credential protection:** Redis Sentinel/sliding-window support and encrypted Redis credentials for rate limiting plugins.
+
 ### 1. Add `saml-auth` Plugin
 
 PR: https://github.com/apache/apisix/pull/13346

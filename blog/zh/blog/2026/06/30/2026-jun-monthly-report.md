@@ -24,6 +24,14 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 近期亮点功能
 
+为了帮助读者更快理解本月 24 项功能更新，以下先按主题进行归类，再展开介绍每个功能：
+
+- **认证与身份管理：** `saml-auth`、`openid-connect`、`jwe-decrypt` 和 `hmac-auth` 相关增强。
+- **流量处理与请求安全：** GraphQL 缓存、路由级代理缓冲、请求体读取限制、批量请求限制、按端口配置 PROXY Protocol，以及更安全的 `post_arg.*` 匹配。
+- **AI Gateway：** 回退控制、LLM 可观测性、Consumer 绑定场景的 AI 插件处理、Lakera Guard、阿里云内容安全、AI 响应缓存和响应扫描。
+- **可观测性与日志：** Prometheus 标签基数控制，以及在保留默认日志结构的基础上扩展自定义字段。
+- **限流与凭证保护：** Redis Sentinel/滑动窗口支持，以及限流插件 Redis 凭证加密存储。
+
 ### 1. 新增 `saml-auth` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/13346
