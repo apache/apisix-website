@@ -36,7 +36,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 新增 `saml-auth` 插件，将 SAML 2.0 认证能力引入 APISIX 网关层。依赖 SAML 身份提供方的组织，可以通过 APISIX 保护上游服务，而无需在每个业务应用中分别实现 SAML 处理逻辑。
 
-#### 4. `openid-connect` 本地 JWT 校验模式下 `client_secret` 可选
+#### 2. `openid-connect` 本地 JWT 校验模式下 `client_secret` 可选
 
 相关 PR：https://github.com/apache/apisix/pull/13472
 
@@ -44,7 +44,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 让 `openid-connect` 在仅进行本地 Bearer Token 校验的模式下不再强制要求 `client_secret`，例如基于公钥或 JWKS 的 JWT 校验。对于不会调用身份提供方 token 或 introspection 端点的流程，用户无需再配置无意义的占位密钥。
 
-#### 5. 移除 `jwe-decrypt` 的服务端 Token 生成端点
+#### 3. 移除 `jwe-decrypt` 的服务端 Token 生成端点
 
 相关 PR：https://github.com/apache/apisix/pull/13464
 
@@ -52,7 +52,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 移除了 `jwe-decrypt` 插件中未完成的 `/apisix/plugin/jwe/encrypt` 辅助端点。APISIX 现在更专注于在网关层解密 JWE，而 Token 生成则由持有消费者密钥的服务负责。
 
-#### 6. `hmac-auth` 新增 `max_req_body_size`
+#### 4. `hmac-auth` 新增 `max_req_body_size`
 
 相关 PR：https://github.com/apache/apisix/pull/13478
 
@@ -60,7 +60,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为启用请求体验证的 `hmac-auth` 路由新增 `max_req_body_size` 选项。超大请求体可以在被 APISIX 缓冲进内存之前被拒绝，从而提升全局 NGINX 请求体限制被调高或关闭时的安全性。
 
-#### 7. `openid-connect` Session 配置适配 `lua-resty-session` 4.x
+#### 5. `openid-connect` Session 配置适配 `lua-resty-session` 4.x
 
 相关 PR：https://github.com/apache/apisix/pull/13178
 
@@ -70,7 +70,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ### 流量处理与请求安全
 
-#### 2. 新增 `graphql-proxy-cache` 插件
+#### 6. 新增 `graphql-proxy-cache` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/13435
 
@@ -78,7 +78,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 引入 `graphql-proxy-cache` 插件，基于 APISIX 现有的 `proxy-cache` 基础设施缓存 GraphQL 查询响应。对于可缓存的 GraphQL 操作，该插件可以减少重复上游计算，并支持磁盘和内存两种缓存策略。
 
-#### 3. 新增 `proxy-buffering` 插件
+#### 7. 新增 `proxy-buffering` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/13446
 
@@ -86,7 +86,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 新增 `proxy-buffering` 插件，用于按路由控制 NGINX 代理缓冲行为。关闭缓冲后，APISIX 可以将响应直接流式传输给客户端，这对 Server-Sent Events、流式 API 和实时数据传递等场景非常重要。
 
-#### 9. `forward-auth` 与 `ai-proxy` 限制请求体读取大小
+#### 8. `forward-auth` 与 `ai-proxy` 限制请求体读取大小
 
 相关 PR：https://github.com/apache/apisix/pull/13466
 
@@ -94,7 +94,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为 `forward-auth`、`ai-proxy` 和 `ai-proxy-multi` 新增 `max_req_body_size`。这些插件在解析前即可拒绝超大请求体，避免客户端让 worker 将任意大小的请求体缓冲到内存中。
 
-#### 10. `batch-requests` 限制 Pipeline 数量并收紧 Schema
+#### 9. `batch-requests` 限制 Pipeline 数量并收紧 Schema
 
 相关 PR：https://github.com/apache/apisix/pull/13492
 
@@ -102,7 +102,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 强化 `batch-requests` 插件，新增可配置的 `max_pipeline_items` 限制，要求 timeout 为正数，并拒绝 pipeline 条目中的未文档化字段。单个批量请求不再能扩展为无限数量的内部请求。
 
-#### 16. Stream TCP Proxy 支持按端口配置 PROXY Protocol
+#### 10. Stream TCP Proxy 支持按端口配置 PROXY Protocol
 
 相关 PR：https://github.com/apache/apisix/pull/13561
 
@@ -110,7 +110,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为 stream TCP proxy 条目新增按端口控制 PROXY Protocol 的能力。用户可以在特定端口上启用接收或发送 PROXY Protocol，而不是只能对所有 stream TCP 端口应用全局配置。
 
-#### 23. 新增 `max_post_args_readable_size` 限制 `post_arg.*` 匹配读取
+#### 11. 新增 `max_post_args_readable_size` 限制 `post_arg.*` 匹配读取
 
 相关 PR：https://github.com/apache/apisix/pull/13601
 
@@ -120,7 +120,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ### AI Gateway 安全、缓存与弹性
 
-#### 8. `ai-proxy-multi` 新增回退重试控制
+#### 12. `ai-proxy-multi` 新增回退重试控制
 
 相关 PR：https://github.com/apache/apisix/pull/13495
 
@@ -136,7 +136,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为绑定在 Consumer 或 Service 级别的 AI 安全插件新增统一的 `fail_mode` 机制。当插件收到无法检查的普通 HTTP、非 JSON 或非 AI 请求时，可以一致地选择跳过、告警或失败关闭。
 
-#### 18. 新增 `ai-lakera-guard` 插件
+#### 14. 新增 `ai-lakera-guard` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/13570
 
@@ -144,7 +144,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 新增 `ai-lakera-guard` 插件，将 APISIX 与 Lakera Guard 集成，在网关层扫描 LLM 请求。该插件可帮助 AI 应用在请求到达后端模型服务前识别 prompt injection、越狱、PII 泄露、内容策略违规和恶意链接等风险。
 
-#### 19. 优化 `ai-aliyun-content-moderation` 性能和请求检查范围
+#### 15. 优化 `ai-aliyun-content-moderation` 性能和请求检查范围
 
 相关 PR：https://github.com/apache/apisix/pull/13598
 
@@ -152,7 +152,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 优化 `ai-aliyun-content-moderation`，将 O(n²) 的内容切分改为 O(n)，降低签名开销，并在单个请求内复用 HTTP 连接。同时新增按角色感知的 `request_check_mode`，让审核可以只关注最新用户输入，而不必每轮都重新审核完整对话。
 
-#### 21. 新增 `ai-cache` 插件
+#### 16. 新增 `ai-cache` 插件
 
 相关 PR：https://github.com/apache/apisix/pull/13578
 
@@ -160,7 +160,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 新增 `ai-cache` 插件，用于缓存解析为相同 prompt 和 AI 实例的 LLM 响应。对于 FAQ 机器人、文档问答、翻译等重复性 AI 工作负载，该插件可以减少上游 token 成本和响应延迟。
 
-#### 22. `ai-lakera-guard` 支持响应扫描
+#### 17. `ai-lakera-guard` 支持响应扫描
 
 相关 PR：https://github.com/apache/apisix/pull/13606
 
@@ -170,7 +170,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ### 可观测性与日志
 
-#### 11. Prometheus 指标新增内置 LLM 直方图
+#### 18. Prometheus 指标新增内置 LLM 直方图
 
 相关 PR：https://github.com/apache/apisix/pull/13487
 
@@ -178,7 +178,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 为 AI Gateway 流量增强 Prometheus 指标，提供更清晰的延迟和 token 分布数据。APISIX 现在可以区分 LLM 总延迟和流式响应首 token 时间，并暴露 prompt 与 completion token 直方图，便于基于分位数进行监控。
 
-#### 12. 新增 LLM 可观测性 NGINX 内置变量
+#### 19. 新增 LLM 可观测性 NGINX 内置变量
 
 相关 PR：https://github.com/apache/apisix/pull/13477
 
@@ -186,7 +186,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 新增 8 个由 `ai-proxy` 自动填充的 `$llm_*` NGINX 变量。这些变量可以在访问日志和各类 logger 插件中暴露 LLM 请求与响应元数据，无需额外解析或插件配置。
 
-#### 15. Prometheus 支持禁用标签值以降低基数
+#### 20. Prometheus 支持禁用标签值以降低基数
 
 相关 PR：https://github.com/apache/apisix/pull/13202
 
@@ -194,7 +194,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 在 Prometheus 插件元数据中新增 `disabled_labels` 选项。运维人员可以将选定内置标签的值折叠为空字符串，以降低指标基数，同时保持指标 schema 对仪表盘、告警和 recording rules 的兼容性。
 
-#### 17. 新增 `log_format_extra` 以扩展默认日志输出
+#### 21. 新增 `log_format_extra` 以扩展默认日志输出
 
 相关 PR：https://github.com/apache/apisix/pull/13568
 
@@ -202,7 +202,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 本 PR 新增 `log_format_extra`，允许在保留 APISIX 默认丰富日志字段的基础上叠加用户自定义字段。同时新增 `upstream_unresolved_host` 变量，便于记录配置中的上游主机名以及解析后的上游地址。
 
-#### 20. `llm_summary` 纳入 AI 可观测性变量
+#### 22. `llm_summary` 纳入 AI 可观测性变量
 
 相关 PR：https://github.com/apache/apisix/pull/13609
 
@@ -212,7 +212,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ### 限流与凭证保护
 
-#### 14. `limit-count` 支持 Redis Sentinel、滑动窗口和延迟同步
+#### 23. `limit-count` 支持 Redis Sentinel、滑动窗口和延迟同步
 
 相关 PR：https://github.com/apache/apisix/pull/13443
 

@@ -36,7 +36,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR adds the `saml-auth` plugin, bringing SAML 2.0 authentication to the APISIX gateway layer. Organizations that rely on SAML identity providers can now protect upstream services through APISIX without implementing SAML handling in each application.
 
-#### 4. Make `client_secret` Optional for Local JWT Verification in `openid-connect`
+#### 2. Make `client_secret` Optional for Local JWT Verification in `openid-connect`
 
 PR: https://github.com/apache/apisix/pull/13472
 
@@ -44,7 +44,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR makes `client_secret` optional in `openid-connect` modes where APISIX only validates bearer tokens locally, such as public-key or JWKS-based JWT verification. Users no longer need to provide dummy secrets for flows that never call the identity provider's token or introspection endpoints.
 
-#### 5. Remove Server-Side Token Generation Endpoint from `jwe-decrypt`
+#### 3. Remove Server-Side Token Generation Endpoint from `jwe-decrypt`
 
 PR: https://github.com/apache/apisix/pull/13464
 
@@ -52,7 +52,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR removes the unfinished `/apisix/plugin/jwe/encrypt` helper endpoint from the `jwe-decrypt` plugin. APISIX now focuses on decrypting JWEs at the gateway, while token generation remains the responsibility of the service that owns the consumer secret.
 
-#### 6. Add `max_req_body_size` to `hmac-auth`
+#### 4. Add `max_req_body_size` to `hmac-auth`
 
 PR: https://github.com/apache/apisix/pull/13478
 
@@ -60,7 +60,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR adds a `max_req_body_size` option to `hmac-auth` for routes that enable request body validation. Oversized bodies can now be rejected before APISIX buffers them into memory, improving protection for deployments where the global NGINX body size limit is raised or disabled.
 
-#### 7. Update `openid-connect` Session Configuration for `lua-resty-session` 4.x
+#### 5. Update `openid-connect` Session Configuration for `lua-resty-session` 4.x
 
 PR: https://github.com/apache/apisix/pull/13178
 
@@ -70,7 +70,7 @@ This PR updates the `openid-connect` session configuration schema to match `lua-
 
 ### Traffic Handling and Request Safety
 
-#### 2. Add `graphql-proxy-cache` Plugin
+#### 6. Add `graphql-proxy-cache` Plugin
 
 PR: https://github.com/apache/apisix/pull/13435
 
@@ -78,7 +78,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR introduces the `graphql-proxy-cache` plugin, which caches GraphQL query responses using APISIX's existing `proxy-cache` infrastructure. It helps reduce repeated upstream work for cacheable GraphQL operations while supporting both disk and memory cache strategies.
 
-#### 3. Add `proxy-buffering` Plugin
+#### 7. Add `proxy-buffering` Plugin
 
 PR: https://github.com/apache/apisix/pull/13446
 
@@ -86,7 +86,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR adds the `proxy-buffering` plugin to control NGINX proxy buffering behavior per route. Disabling buffering allows APISIX to stream responses directly to clients, which is important for Server-Sent Events, streaming APIs, and other real-time delivery scenarios.
 
-#### 9. Bound Request Body Reads in `forward-auth` and `ai-proxy`
+#### 8. Bound Request Body Reads in `forward-auth` and `ai-proxy`
 
 PR: https://github.com/apache/apisix/pull/13466
 
@@ -94,7 +94,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR adds `max_req_body_size` to `forward-auth`, `ai-proxy`, and `ai-proxy-multi`. The new limit prevents these plugins from buffering arbitrarily large client bodies into worker memory and returns `413` for oversized requests before parsing.
 
-#### 10. Bound Pipeline Item Count and Schema in `batch-requests`
+#### 9. Bound Pipeline Item Count and Schema in `batch-requests`
 
 PR: https://github.com/apache/apisix/pull/13492
 
@@ -102,7 +102,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR hardens the `batch-requests` plugin by adding a configurable `max_pipeline_items` limit, requiring positive timeout values, and rejecting undocumented fields in pipeline entries. A single batch request can no longer fan out into an unbounded number of internal requests.
 
-#### 16. Support Per-Port PROXY Protocol for Stream TCP Proxy
+#### 10. Support Per-Port PROXY Protocol for Stream TCP Proxy
 
 PR: https://github.com/apache/apisix/pull/13561
 
@@ -110,7 +110,7 @@ Contributor: [nic-6443](https://github.com/nic-6443)
 
 This PR adds per-port PROXY protocol controls for stream TCP proxy entries. Instead of applying PROXY protocol globally to every stream TCP port, users can enable accepting or sending it on specific ports while preserving the existing global defaults.
 
-#### 23. Add `max_post_args_readable_size` for `post_arg.*` Matching
+#### 11. Add `max_post_args_readable_size` for `post_arg.*` Matching
 
 PR: https://github.com/apache/apisix/pull/13601
 
@@ -120,7 +120,7 @@ This PR adds `apisix.max_post_args_readable_size` to bound request body reads du
 
 ### AI Gateway Security, Caching, and Resilience
 
-#### 8. Add Fallback Retry Controls to `ai-proxy-multi`
+#### 12. Add Fallback Retry Controls to `ai-proxy-multi`
 
 PR: https://github.com/apache/apisix/pull/13495
 
@@ -136,7 +136,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR adds a shared `fail_mode` mechanism for AI security plugins bound at the Consumer or Service level. Plugins can now consistently skip, warn, or fail closed when they receive plain HTTP, non-JSON, or non-AI requests that cannot be inspected.
 
-#### 18. Add `ai-lakera-guard` Plugin
+#### 14. Add `ai-lakera-guard` Plugin
 
 PR: https://github.com/apache/apisix/pull/13570
 
@@ -144,7 +144,7 @@ Contributor: [janiussyafiq](https://github.com/janiussyafiq)
 
 This PR adds the `ai-lakera-guard` plugin, integrating APISIX with Lakera Guard to scan LLM requests at the gateway. It helps protect AI applications from prompt injection, jailbreaks, PII leakage, policy violations, and malicious links before traffic reaches backend LLM services.
 
-#### 19. Improve `ai-aliyun-content-moderation` Performance and Request Scope
+#### 15. Improve `ai-aliyun-content-moderation` Performance and Request Scope
 
 PR: https://github.com/apache/apisix/pull/13598
 
@@ -152,7 +152,7 @@ Contributor: [nic-6443](https://github.com/nic-6443)
 
 This PR optimizes `ai-aliyun-content-moderation` by replacing O(n²) content chunking with an O(n) approach, reducing signing overhead, and reusing HTTP connections within a request. It also adds role-aware `request_check_mode`, allowing moderation to focus on the latest user input instead of rechecking the full conversation every turn.
 
-#### 21. Add `ai-cache` Plugin
+#### 16. Add `ai-cache` Plugin
 
 PR: https://github.com/apache/apisix/pull/13578
 
@@ -160,7 +160,7 @@ Contributor: [janiussyafiq](https://github.com/janiussyafiq)
 
 This PR adds the `ai-cache` plugin, which caches LLM responses for repeated requests that resolve to the same prompt and AI instance. It can reduce upstream token cost and latency for repetitive AI workloads such as FAQ bots, document Q&A, and translation.
 
-#### 22. Add Response Scanning to `ai-lakera-guard`
+#### 17. Add Response Scanning to `ai-lakera-guard`
 
 PR: https://github.com/apache/apisix/pull/13606
 
@@ -170,7 +170,7 @@ This PR extends `ai-lakera-guard` with response scanning for both non-streaming 
 
 ### Observability and Logging
 
-#### 11. Add Built-In LLM Histograms to Prometheus Metrics
+#### 18. Add Built-In LLM Histograms to Prometheus Metrics
 
 PR: https://github.com/apache/apisix/pull/13487
 
@@ -178,7 +178,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR enriches Prometheus metrics for AI Gateway traffic with clearer latency and token distribution data. APISIX now distinguishes total LLM latency from streaming time to first token and exposes prompt and completion token histograms for quantile-based monitoring.
 
-#### 12. Add Built-In NGINX Variables for LLM Observability
+#### 19. Add Built-In NGINX Variables for LLM Observability
 
 PR: https://github.com/apache/apisix/pull/13477
 
@@ -186,7 +186,7 @@ Contributor: [AlinsRan](https://github.com/AlinsRan)
 
 This PR adds eight built-in `$llm_*` NGINX variables populated automatically by `ai-proxy`. These variables expose LLM request and response metadata in access logs and logger plugins without requiring custom parsing or additional plugin configuration.
 
-#### 15. Support Disabling Prometheus Labels to Reduce Cardinality
+#### 20. Support Disabling Prometheus Labels to Reduce Cardinality
 
 PR: https://github.com/apache/apisix/pull/13202
 
@@ -194,7 +194,7 @@ Contributor: [janiussyafiq](https://github.com/janiussyafiq)
 
 This PR adds a `disabled_labels` option to Prometheus plugin metadata. Operators can collapse selected built-in label values to reduce metric cardinality while keeping the metric schema stable for dashboards, alerts, and recording rules.
 
-#### 17. Add `log_format_extra` to Enrich Default Logger Output
+#### 21. Add `log_format_extra` to Enrich Default Logger Output
 
 PR: https://github.com/apache/apisix/pull/13568
 
@@ -202,7 +202,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 This PR adds `log_format_extra`, an additive logging format that preserves APISIX's default rich log entry and overlays user-defined fields. It also exposes `upstream_unresolved_host`, making it easier to log the configured upstream hostname alongside the resolved upstream address.
 
-#### 20. Include AI Observability Variables in `llm_summary`
+#### 22. Include AI Observability Variables in `llm_summary`
 
 PR: https://github.com/apache/apisix/pull/13609
 
@@ -212,7 +212,7 @@ This PR adds AI observability fields such as stream mode, tool-call metadata, ca
 
 ### Rate Limiting and Credential Protection
 
-#### 14. Add Redis Sentinel, Sliding Window, and Delayed Sync to `limit-count`
+#### 23. Add Redis Sentinel, Sliding Window, and Delayed Sync to `limit-count`
 
 PR: https://github.com/apache/apisix/pull/13443
 
