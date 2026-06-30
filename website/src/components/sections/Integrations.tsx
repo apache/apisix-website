@@ -88,7 +88,7 @@ const IntegrationTile: FC<{ item: Integration }> = ({ item }) => {
     </>
   );
   return href ? (
-    <Link className="integrations__tile" to={href} title={item.name}>
+    <Link className="integrations__tile" to={href} title={item.name} target="_blank" rel="noopener noreferrer">
       {inner}
     </Link>
   ) : (
@@ -117,7 +117,7 @@ const Integrations: FC = () => (
         <IntegrationTile item={item} key={item.name} />
       ))}
     </div>
-    <Link className="integrations__cta" to="/plugins/">
+    <Link className="integrations__cta" to="/plugins/" target="_blank" rel="noopener noreferrer">
       <Translate id="home.integrations.cta">Explore all 100+ plugins</Translate>
       {' →'}
     </Link>

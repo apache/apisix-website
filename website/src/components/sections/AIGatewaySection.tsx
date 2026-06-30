@@ -105,14 +105,14 @@ const AIGatewaySection: FC = () => (
 
       <div className="ai-home__grid">
         {CAPABILITIES.map((capability) => (
-          <Link className="ai-home__card" to={capability.href} key={capability.title.props.id}>
+          <Link className="ai-home__card" to={capability.href} key={capability.title.props.id} target="_blank" rel="noopener noreferrer">
             <h3 className="ai-home__card-title">{capability.title}</h3>
             <p className="ai-home__card-desc">{capability.desc}</p>
           </Link>
         ))}
       </div>
 
-      <Link className="ai-home__cta" to="/ai-gateway/">
+      <Link className="ai-home__cta" to="/ai-gateway/" target="_blank" rel="noopener noreferrer">
         <Translate id="home.ai.cta">Explore the AI Gateway</Translate>
         {' →'}
       </Link>

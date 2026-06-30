@@ -7,7 +7,8 @@ import Translate from '@docusaurus/Translate';
 
 const ArrowAnim: FC = () => (
   <Link
-    target="_parent"
+    target="_blank"
+    rel="noopener noreferrer"
     to={useBaseUrl('/blog/')}
     className="btn-docs"
   >

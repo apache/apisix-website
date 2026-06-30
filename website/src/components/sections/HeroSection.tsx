@@ -28,10 +28,10 @@ const HeroSection: FC = () => (
         </Translate>
       </p>
       <div className="hero-ctas">
-        <Link target="_parent" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
+        <Link target="_blank" rel="noopener noreferrer" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
           <Translate id="hero.component.download.btn">Get started</Translate>
         </Link>
-        <Link target="_parent" to={useBaseUrl('plugins/')} className="btn btn-secondary">
+        <Link target="_blank" rel="noopener noreferrer" to={useBaseUrl('plugins/')} className="btn btn-secondary">
           <Translate id="hero.component.plugins.btn">Browse 100+ plugins</Translate>
         </Link>
       </div>
