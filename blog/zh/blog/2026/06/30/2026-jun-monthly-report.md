@@ -227,6 +227,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 贡献者：[nic-6443](https://github.com/nic-6443)
 
 本 PR 为 `limit-count`、`limit-req` 和 `limit-conn` 的 `redis_password` 与 `sentinel_password` 字段加入 `encrypt_fields`。启用数据加密后，限流插件使用的 Redis 凭证会在 etcd 中加密存储，并在运行时透明解密。
+
 ## 结语
 
 Apache APISIX 的项目[官网](https://apisix.apache.org/zh/)和 GitHub 上的 [Issues](https://github.com/apache/apisix/issues) 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issues 中搜索，也可以参与 Issues 上的讨论，提出自己的想法和实践经验。

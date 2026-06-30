@@ -227,6 +227,7 @@ PR: https://github.com/apache/apisix/pull/13624
 Contributor: [nic-6443](https://github.com/nic-6443)
 
 This PR adds `redis_password` and `sentinel_password` fields to `encrypt_fields` for `limit-count`, `limit-req`, and `limit-conn`. When data encryption is enabled, Redis credentials used by rate limiting plugins are now encrypted at rest in etcd and decrypted transparently at runtime.
+
 ## Conclusion
 
 The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
