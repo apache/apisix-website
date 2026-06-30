@@ -15,11 +15,11 @@ const VideoChannel: FC = () => {
   } = useDocusaurusContext();
 
   if (currentLocale.startsWith('zh')) {
-    return <a href="https://space.bilibili.com/551921247">哔哩哔哩官方账号</a>;
+    return <a href="https://space.bilibili.com/551921247" target="_blank" rel="noopener noreferrer">哔哩哔哩官方账号</a>;
   }
 
   return (
-    <a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">
+    <a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g" target="_blank" rel="noopener noreferrer">
       <Translate id="openSourcePromo.component.link.Youtube">YouTube channel</Translate>
     </a>
   );
@@ -63,7 +63,7 @@ const OpensourcePromo: FC = () => (
               New to microservices or API gateways? Get up and running with our
             </Translate>
             {' '}
-            <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs')}>
+            <Link style={{ color: '#e8433e' }} to={useBaseUrl('docs')} target="_blank" rel="noopener noreferrer">
               <Translate id="openSourcePromo.component.link.docs">Docs.</Translate>
             </Link>
           </p>

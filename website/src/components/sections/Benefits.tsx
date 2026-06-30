@@ -453,6 +453,7 @@ const Benefits: FC = () => {
                 style={{ color: '#e8433e' }}
                 to={useBaseUrl('docs/apisix/plugins/cors/')}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <Translate id="benefits.component.security.link.here">here</Translate>
               </Link>

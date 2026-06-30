@@ -28,7 +28,7 @@ const EndCTA: FC = () => {
         )}
       </p>
       <div className={style.links}>
-        <Link target="_parent" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
+        <Link target="_blank" rel="noopener noreferrer" to={useBaseUrl('docs/apisix/getting-started')} className="btn btn-download">
           <Translate id="hero.component.download.btn">Getting Started</Translate>
         </Link>
         <ArrowAnim />

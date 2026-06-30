@@ -52,7 +52,7 @@ const PATHWAYS: Pathway[] = [
 const Pathways: FC = () => (
   <section className="pathways" aria-label="Get started with Apache APISIX">
     {PATHWAYS.map((pathway) => (
-      <Link className="pathways__card" to={pathway.to} key={pathway.id}>
+      <Link className="pathways__card" to={pathway.to} key={pathway.id} target="_blank" rel="noopener noreferrer">
         <h3 className="pathways__title">{pathway.title}</h3>
         <p className="pathways__desc">{pathway.description}</p>
         <span className="pathways__cta">
