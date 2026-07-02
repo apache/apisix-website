@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[6430],{3529(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/nginx","name":"nginx","count":1,"permalink":"/zh/learning-center/tags/nginx"}')}}]);

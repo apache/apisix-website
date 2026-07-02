@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[131],{6329(a){a.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/ai-gateway","name":"ai-gateway","count":1,"permalink":"/zh/learning-center/tags/ai-gateway"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[9239],{2408(e){e.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/rate-limiting","name":"rate-limiting","count":1,"permalink":"/learning-center/tags/rate-limiting"}')}}]);
