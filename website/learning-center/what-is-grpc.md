@@ -1,6 +1,6 @@
 ---
 title: "What is gRPC? Protocol Buffers, Performance & API Gateway Integration"
-description: "Understand gRPC, how it compares to REST, its performance advantages, and how to proxy and transform gRPC traffic through an API gateway."
+description: "Understand gRPC, Protocol Buffers, streaming, REST tradeoffs, and how Apache APISIX can proxy and transform gRPC traffic."
 slug: what-is-grpc
 date: 2026-04-14
 tags: [grpc, protocols, api-gateway]
@@ -8,6 +8,10 @@ hide_table_of_contents: false
 ---
 
 gRPC is a high-performance, open-source remote procedure call (RPC) framework originally developed by Google. It uses Protocol Buffers for binary serialization and HTTP/2 for transport, enabling strongly typed service contracts, bidirectional streaming, and significantly smaller payload sizes compared to equivalent JSON over REST.
+
+## Quick Overview
+
+This guide explains gRPC fundamentals, why teams use Protocol Buffers and HTTP/2, and how Apache APISIX can proxy, expose, and transform gRPC traffic.
 
 ## Why gRPC Exists
 
@@ -148,7 +152,7 @@ APISIX's gRPC performance is notable: internal benchmarks show gRPC proxying at 
 
 5. **Monitor per-method metrics.** Track latency, error rate, and throughput per gRPC method, not just per service. A slow `GetOrder` method is invisible if aggregated with a fast `ListOrders` method.
 
-### FAQ
+## FAQ
 
 ### Can gRPC completely replace REST?
 
@@ -165,6 +169,14 @@ In controlled benchmarks, gRPC typically delivers significantly higher throughpu
 ### Does gRPC work with WebAssembly or edge computing?
 
 Yes. Protobuf serialization libraries exist for languages targeting WebAssembly, and gRPC-Web enables browser-based Wasm applications to call gRPC backends. For edge computing, gRPC's compact payloads and efficient serialization are advantageous on bandwidth-constrained links. Several CDN providers, including Cloudflare and Fastly, now support gRPC proxying at the edge as of 2025.
+
+### When should teams use gRPC instead of REST?
+
+gRPC is a strong fit for internal service-to-service communication that needs efficient serialization, strict contracts, streaming, or low-latency calls. REST is often simpler for public APIs and browser-facing use cases.
+
+### Can Apache APISIX proxy gRPC traffic?
+
+Yes. Apache APISIX can proxy gRPC traffic and support related gateway patterns such as routing, load balancing, and protocol-aware traffic management.
 
 ## Related
 

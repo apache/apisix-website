@@ -11,7 +11,7 @@ keywords:
 - API Gateway
 - Open Source
 - API Management
-description: Many companies used to use NGINX or Kong as their API gateway but switched to Apache APISIX now. As an Open Source API Gateway, Apache APISIX solves a lot of pain points for businesses.
+description: "Learn why Apache APISIX is used as an open-source API Gateway for dynamic routing, traffic control, plugin extensibility, and cloud-native microservices."
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/08/634113b21a4aa.png
 ---
@@ -21,6 +21,10 @@ image: https://static.apiseven.com/2022/10/08/634113b21a4aa.png
 <!--truncate-->
 
 API gateway is an important infrastructure component in the cloud-native era. There are two common criteria to evaluate an API gateway: how dynamic it is, and how mature its observability is. Many companies used to use NGINX or Kong as their API gateway, but then later switched to Apache APISIX. As an API gateway born for the cloud-native era, Apache APISIX indeed solves a lot of pain points for businesses in various dimensions. Now you might wonder, why?
+
+## Quick Overview
+
+This article explains the gateway problems Apache APISIX was built to solve, including dynamic configuration, plugin-based traffic control, and cloud-native API traffic management.
 
 ## NGINX and Kong's Limitations
 
@@ -106,3 +110,20 @@ In the next five to ten years, the service mesh architecture based on the cloud-
 It has been three years since the first day Apache APISIX was open-sourced. The highly active community and [case studies](https://apisix.apache.org/blog/tags/case-studies/) have proved that APISIX is the perfect API gateway in the cloud-native era. By reading this article, I believe you have a more comprehensive understanding of APISIX.
 
 If you have any questions, you can leave a message in [GitHub issue](https://github.com/apache/apisix/issues); community contributors will respond quickly; of course, you can also join the APISIX Slack channel and mailing list; please refer to [Join Us](https://apisix.apache.org/docs/general/join/).
+
+## Related APISIX Resources
+
+- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Understand the gateway layer and common deployment patterns.
+- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See how APISIX routes traffic across distributed services.
+- [API Gateway authentication](/learning-center/api-gateway-authentication/): Compare Key Auth, JWT, OAuth 2.0, OIDC, mTLS, and HMAC.
+- [API Gateway security](/learning-center/api-gateway-security/): Learn how APISIX centralizes protection for APIs and services.
+
+## FAQ
+
+### Why use an API Gateway instead of adding logic to every service?
+
+An API Gateway centralizes cross-cutting concerns such as routing, authentication, rate limiting, observability, and traffic control. This reduces duplicated code and makes policies easier to change across services.
+
+### Where does Apache APISIX fit in a cloud-native architecture?
+
+Apache APISIX can serve as an edge API Gateway, internal microservices gateway, Kubernetes Ingress Controller, or AI Gateway, depending on where teams need dynamic traffic management and policy enforcement.

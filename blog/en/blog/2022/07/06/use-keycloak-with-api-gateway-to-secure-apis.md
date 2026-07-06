@@ -15,7 +15,7 @@ keywords:
   - Authentication
   - OpenID Connect
   - Keycloak
-description: Integrate Keycloak with APISIX using the OpenID Connect plugin. Configure SSO authentication for your APIs step by step.
+description: "Learn how to secure APIs with Keycloak and Apache APISIX using OpenID Connect, centralized authentication, and gateway-level access control."
 tags: [Authentication, Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 ---
@@ -29,6 +29,10 @@ OpenID Connect referred to as OIDC, is an authentication protocol based on the O
 ![screenshot](https://static.apiseven.com/2022/blog/0706/1.png)
 
 Keycloak is an open-source identity and access management. It adds authentication to applications and secures services with minimum effort. Also, it provides user federation, strong authentication, user management, fine-grained authorization, and more. In this post, we will take [Keycloak](https://www.keycloak.org/docs/latest/securing_apps/) as an example, and let's see how to integrate it with APISIX to protect your services.
+
+## Quick Overview
+
+This tutorial focuses on using Keycloak with Apache APISIX to enforce OpenID Connect authentication before requests reach backend APIs.
 
 ## Workflow
 
@@ -293,3 +297,10 @@ For more information please visit:
 3. [Keycloak Realm vs Client](https://stackoverflow.com/questions/56561554/keycloak-realm-vs-keycloak-client)
 4. [Keycloak Client vs User](https://stackoverflow.com/questions/49107701/keycloak-client-vs-user)
 5. [What is Client Scope?](https://wjw465150.gitbooks.io/keycloak-documentation/content/server_admin/topics/roles/client-scope.html)
+
+## Related APISIX Authentication and Security Resources
+
+- [API Gateway authentication](/learning-center/api-gateway-authentication/): Compare authentication methods and implementation tradeoffs.
+- [API Gateway security](/learning-center/api-gateway-security/): Build centralized API protection at the gateway layer.
+- [OpenID Connect plugin](/docs/apisix/plugins/openid-connect/): Use OIDC providers such as Keycloak, Okta, Auth0, or Azure AD.
+- [JWT authentication plugin](/docs/apisix/plugins/jwt-auth/): Validate signed tokens at the gateway before upstream services.

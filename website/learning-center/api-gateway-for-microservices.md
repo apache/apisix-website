@@ -1,6 +1,6 @@
 ---
 title: "API Gateway for Microservices: Architecture, Patterns & Best Practices"
-description: "Learn why microservices architectures need an API gateway. Covers service discovery, load balancing, circuit breaking, and API composition patterns."
+description: "Learn why microservices need an API Gateway and how Apache APISIX handles routing, discovery, load balancing, retries, and traffic control."
 slug: api-gateway-for-microservices
 date: 2026-04-14
 tags: [microservices, architecture, api-gateway]
@@ -8,6 +8,10 @@ hide_table_of_contents: false
 ---
 
 Microservices architectures need an API gateway to provide a single entry point that abstracts the complexity of a distributed service fleet from API consumers. The gateway handles cross-cutting concerns like authentication, routing, rate limiting, and observability centrally, preventing each microservice from reimplementing these capabilities independently and ensuring consistent behavior across the entire API surface.
+
+## Quick Overview
+
+This guide explains the API Gateway pattern for microservices and how Apache APISIX supports service routing, load balancing, discovery, retries, and policy enforcement.
 
 ## Why Microservices Need a Gateway
 

@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: The Apache APISIX 3.14.0 version is released on Oct 10, 2025. This release includes a few changes, new features, bug fixes, and other improvements to user experiences.
+description: "See what changed in Apache APISIX 3.14.0, including new features, bug fixes, plugin updates, and improvements for gateway users."
 tags: [Community]
 ---
 
@@ -26,6 +26,10 @@ We are glad to present Apache APISIX 3.14.0 with exciting new features, bug fixe
 This release introduces several new features, including new AI proxy variables for logging, support for AI/ML API providers in AI plugins, route matching based on the request body, support for the KSUID algorithm in the `request-id` plugin, and more.
 
 There are also a few important changes included in this release. Should you find these changes impacting your operations, please plan your upgrade accordingly.
+
+## Quick Overview
+
+This release note summarizes Apache APISIX 3.14.0 updates so users can quickly understand new gateway features, plugin changes, fixes, and upgrade considerations.
 
 ## Breaking Changes
 
@@ -207,3 +211,20 @@ For more information, see [PR #12405](https://github.com/apache/apisix/pull/1240
 ## Changelog
 
 For a complete list of changes in this release, please see [CHANGELOG](https://github.com/apache/apisix/blob/master/CHANGELOG.md#3140).
+
+## Related Apache APISIX Release Resources
+
+* [Get started with Apache APISIX](/docs/apisix/getting-started/): Try the latest Apache APISIX features.
+* [Plugin hub](/docs/apisix/plugins/): Explore available gateway plugins.
+* [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Connect release capabilities to microservices use cases.
+* [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Review the gateway concepts behind APISIX features.
+
+## FAQ
+
+### Why read Apache APISIX release posts?
+
+Release posts help operators understand new features, plugin changes, fixes, and behavior updates that may affect gateway deployments.
+
+### What should teams check before upgrading Apache APISIX?
+
+Review the release notes, plugin changes, compatibility notes, configuration updates, and staging test results before rolling the release into production.

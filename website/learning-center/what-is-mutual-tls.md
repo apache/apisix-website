@@ -1,6 +1,6 @@
 ---
 title: "What is Mutual TLS (mTLS)? How Two-Way Authentication Works"
-description: "Learn what mutual TLS is, how it differs from standard TLS, the mTLS handshake process, and how to configure mTLS in API gateways for zero-trust security."
+description: "Learn what mutual TLS is, how two-way certificate authentication works, and how Apache APISIX can enforce mTLS at the API Gateway layer."
 slug: what-is-mutual-tls
 date: 2026-04-14
 tags: [mtls, security, tls]
@@ -8,6 +8,10 @@ hide_table_of_contents: false
 ---
 
 Mutual TLS (mTLS) is a security protocol where both the client and server authenticate each other using X.509 certificates during the TLS handshake. Unlike standard TLS, which only verifies the server's identity, mTLS ensures that both parties prove they are who they claim to be before any application data is exchanged.
+
+## Quick Overview
+
+This guide explains mutual TLS, certificate-based client authentication, and how Apache APISIX can enforce mTLS for zero-trust API access.
 
 ## Why Mutual TLS Matters
 
@@ -116,7 +120,7 @@ The [certificate management guide](/docs/apisix/certificate/) covers integration
 
 5. **Enable OCSP stapling.** Reduce certificate validation latency by stapling OCSP responses at the server rather than requiring clients to contact the CA's OCSP responder.
 
-### FAQ
+## FAQ
 
 ### What happens if a client certificate expires during an active mTLS connection?
 
@@ -133,6 +137,14 @@ No. mTLS authenticates the transport-layer identity (which machine or service is
 ### How does mTLS perform at scale in Kubernetes?
 
 In Kubernetes environments with service meshes, mTLS scales well because certificate issuance and rotation are fully automated by the mesh control plane. Istio, for example, issues and rotates certificates for every pod automatically using its built-in CA. The performance impact is primarily on new connections (the handshake), which is amortized by connection pooling. Organizations running mTLS across 10,000+ pods report negligible steady-state performance impact, with the main operational cost being control plane resource consumption for certificate management.
+
+### When should APIs use mutual TLS?
+
+mTLS is useful when both client and server identity must be verified, especially for service-to-service communication, zero-trust architectures, partner APIs, and high-risk internal APIs.
+
+### Can Apache APISIX enforce mTLS?
+
+Yes. Apache APISIX can be configured to validate client certificates at the gateway layer so upstream services receive traffic only from trusted clients.
 
 ## Related
 

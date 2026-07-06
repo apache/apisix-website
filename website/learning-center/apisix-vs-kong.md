@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks"
-description: "Detailed comparison of Apache APISIX and Kong API Gateway. Covers architecture, performance, plugin ecosystem, Kubernetes support, and when to choose each."
+description: "Compare Apache APISIX and Kong API Gateway across architecture, performance, plugins, Kubernetes, AI Gateway support, and migration tradeoffs."
 slug: apisix-vs-kong
 date: 2026-04-14
 tags: [comparison, apisix, kong, api-gateway]
@@ -21,6 +21,10 @@ faq:
 ---
 
 Apache APISIX and Kong are the two most widely adopted open-source API gateways, both built on NGINX and Lua. APISIX differentiates itself with a fully dynamic architecture powered by etcd, higher single-core throughput, and a broader protocol support matrix, while Kong offers a mature enterprise ecosystem with extensive third-party integrations and a large plugin marketplace.
+
+## Quick Overview
+
+This comparison focuses on APISIX vs Kong decision points, including architecture, performance, plugin ecosystems, Kubernetes support, AI traffic handling, and migration planning.
 
 ## Overview
 

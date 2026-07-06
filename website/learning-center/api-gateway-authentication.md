@@ -1,6 +1,6 @@
 ---
 title: "API Gateway Authentication: Methods, Best Practices & Implementation"
-description: "Learn how to implement authentication at the API gateway layer. Covers Key Auth, JWT, OAuth 2.0, OpenID Connect, mTLS, and HMAC with practical examples."
+description: "Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control."
 slug: api-gateway-authentication
 date: 2026-04-14
 tags: [authentication, security, api-gateway]
@@ -8,6 +8,10 @@ hide_table_of_contents: false
 ---
 
 API gateway authentication is the practice of verifying client identity at a centralized entry point before requests reach backend services. By enforcing authentication at the gateway layer, organizations eliminate redundant auth logic across services, reduce attack surface, and gain a single enforcement point for access policies.
+
+## Quick Overview
+
+This guide explains API Gateway authentication methods and shows how Apache APISIX centralizes identity checks before traffic reaches upstream services.
 
 ## What is API Gateway Authentication
 

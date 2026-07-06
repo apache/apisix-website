@@ -15,13 +15,14 @@ keywords:
 - Eureka
 - Service Discovery
 - Servici Register
-description: This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
+description: "Learn how to configure Eureka service discovery with Apache APISIX and diagnose gateway-to-service-discovery issues in microservices environments."
 tags: [Ecosystem]
 ---
 
 > This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
 
 <!--truncate-->
+
 In microservices architecture, large and complex systems are vertically divided into smaller subsystems based on function or business requirements, which exist as independently deployed sub-processes that communicate with each other through network calls. How these independently deployed services discover each other is the first problem to be solved, so there is often a centralized registry in microservice architectures.
 
 As the most core development framework in the Java ecosystem, Spring continues to liberate the productivity of Java developers from Spring MVC to Spring Boot, and Spring Cloud is Spring's answer to the micro-service architecture in the Cloud native era.
@@ -29,6 +30,10 @@ As the most core development framework in the Java ecosystem, Spring continues t
 In Spring Cloud, Eureka acts as a registry. Eureka is an open source Registry service written in the Java language by Netflix that plays a key role in Netflix's infrastructure.
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an industry-leading microservice gateway, Apache APISIX provides native support for Eureka. This article will use the Spring Cloud demo project as an example to show you the main functions and features of Apache APISIX docking Eureka service discovery.
+
+## Quick Overview
+
+This guide covers Eureka service discovery with Apache APISIX, including configuration flow, diagnostics, and how service registry changes reach gateway routing.
 
 ## Preparation Phase
 
@@ -264,3 +269,20 @@ Spring Cloud is a popular microservice framework, and Apache APISIX provides the
 For more instructions and complete configuration information about the `eureka` plugin, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/discovery/eureka/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join) to communicate.
+
+## Related APISIX Service Discovery Resources
+
+- [Service discovery in APISIX](/docs/apisix/discovery/): Learn how APISIX connects routes to dynamic upstream services.
+- [Upstream configuration](/docs/apisix/terminology/upstream/): Understand how APISIX balances traffic to backend services.
+- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See why service discovery matters in microservices environments.
+- [Get started with Apache APISIX](/docs/apisix/getting-started/): Configure your first route and upstream.
+
+## FAQ
+
+### Why connect service discovery to an API Gateway?
+
+Service discovery lets the gateway route to changing service instances without manual upstream updates. This is especially useful in microservices environments where backend endpoints change frequently.
+
+### How does Apache APISIX use service discovery?
+
+Apache APISIX can resolve upstream nodes from supported discovery systems and apply gateway policies such as routing, authentication, and rate limiting before forwarding requests.

@@ -9,13 +9,17 @@ keywords:
 - Ingress
 - API Gateway
 - Kubernetes
-description: Learn what APISIX Ingress Controller is, how it differs from Kubernetes Ingress NGINX, and its key advantages for API management.
+description: "Learn what APISIX Ingress Controller is, how it maps Kubernetes Ingress resources to APISIX routes, and when to use it for Kubernetes traffic management."
 tags: [Ecosystem, Community]
 ---
 
 > Jintao Zhang, Apache APISIX Committer, Kubernetes Ingress Nginx Reviewer, and contributor to several cloud-native open source projects.
 
 <!--truncate-->
+
+## Quick Overview
+
+This guide introduces APISIX Ingress Controller for Kubernetes traffic management, including how it connects Kubernetes resources with Apache APISIX gateway capabilities.
 
 ## Apache APISIX Ingress Overview
 
@@ -196,3 +200,20 @@ APISIX Ingress will continue to be updated in terms of functionality and ecology
 Finally, we hope you can participate in the project more often, for example, there will be an APISIX Ingress community meeting every two weeks on Wednesday at 2 pm, and we will synchronize the current progress of the project or the problems we encountered. Keep an eye on the Apache APISIX video to participate in the live community meetings.
 
 [Click here](https://github.com/apache/apisix-ingress-controller/issues/614) for more details about the APISIX Ingress community meetings.
+
+## Related APISIX Ingress Resources
+
+* [APISIX Ingress Controller overview](/docs/ingress-controller/overview/): Understand the controller architecture and resource model.
+* [APISIX Ingress Controller getting started](/docs/ingress-controller/getting-started/): Deploy the controller in Kubernetes.
+* [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See how gateway patterns apply to distributed services.
+* [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Review core gateway concepts.
+
+## FAQ
+
+### When should I use APISIX Ingress Controller?
+
+Use APISIX Ingress Controller when Kubernetes services need gateway features such as authentication, traffic splitting, rate limiting, observability, and protocol support at the cluster edge.
+
+### How is APISIX Ingress Controller different from a basic Kubernetes Ingress?
+
+A basic Ingress defines HTTP routing. APISIX Ingress Controller maps Kubernetes resources to Apache APISIX, so teams can combine ingress routing with gateway plugins and dynamic traffic policies.

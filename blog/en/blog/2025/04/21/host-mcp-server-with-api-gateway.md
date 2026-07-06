@@ -16,7 +16,7 @@ keywords:
   - MCP
   - MCP Server
   - mcp-bridge
-description: Convert stdio-based MCP servers to scalable HTTP SSE services using the APISIX mcp-bridge plugin. Step-by-step deployment guide.
+description: "Learn how API gateways can protect MCP server traffic patterns, and how Apache APISIX helps with routing, authentication, and rate limiting around AI services."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/23/USwzplCO_apisix-mcp-briget-cover-final.webp
 ---
@@ -24,6 +24,10 @@ image: https://static.api7.ai/uploads/2025/04/23/USwzplCO_apisix-mcp-briget-cove
 >Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.
 
 <!--truncate-->
+
+## Quick Overview
+
+This article discusses MCP server exposure through an API Gateway pattern, with Apache APISIX used for gateway-layer routing, authentication, rate limiting, and observability around AI service traffic.
 
 ## Introduction
 
@@ -105,3 +109,20 @@ The current version is a prototype. Future enhancements include:
 ## Summary
 
 The Apache APISIX `mcp-bridge` plugin significantly simplifies the integration of Model Context Protocol (MCP) services with the HTTP API world. It offers a modern streaming interface management approach for traditional services.
+
+## Related MCP and AI Gateway Resources
+
+- [What is an AI Gateway?](/blog/2025/03/06/what-is-an-ai-gateway/): Learn how gateways manage LLM API traffic.
+- [AI Gateway vs API Gateway](/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/): Compare traditional and AI traffic patterns.
+- [APISIX AI Gateway overview](/ai-gateway/): Explore APISIX capabilities for LLM routing, security, and observability.
+- [API Gateway security](/learning-center/api-gateway-security/): Apply gateway-layer controls to AI service traffic.
+
+## FAQ
+
+### Does Apache APISIX provide a dedicated gateway product for MCP?
+
+No. Apache APISIX should not be described as a dedicated gateway product for MCP. MCP-related architectures can still use APISIX around HTTP and LLM API traffic for routing, authentication, rate limiting, observability, and security controls.
+
+### Where can APISIX fit in an MCP-related architecture?
+
+APISIX can sit in front of HTTP APIs, LLM provider APIs, or supporting services that participate in AI workflows. It helps enforce gateway policies around those services without implying native MCP protocol ownership.

@@ -8,7 +8,7 @@ keywords:
 - Lua
 - Dynamic Management
 date: "2021-08-10"
-description: Learn how APISIX dynamically manages NGINX clusters via REST API and etcd, enabling hot reloading without downtime.
+description: "Learn how Apache APISIX adds dynamic configuration, REST API control, and cluster management on top of NGINX with Lua and etcd."
 tags: [Ecosystem]
 ---
 
@@ -27,6 +27,10 @@ Making Nginx dynamically, cluster-managed is not easy, as it would face the foll
 * Multi-process architecture makes it harder to synchronize data between worker processes, so you must choose a low-cost implementation mechanism to ensure that each Nginx node and worker process has the latest configuration
 
 Apache APISIX is based on the Lua timer and the lua-resty-etcd module for dynamic configuration management. The principle of Nginx clustering.
+
+## Quick Overview
+
+This article focuses on how Apache APISIX dynamically manages NGINX clusters, including etcd-based configuration sync, Lua hot updates, route matching, and worker process coordination.
 
 ## Configuration synchronization scheme based on etcd watch mechanism
 
@@ -514,3 +518,20 @@ The key to dynamically modifying the Nginx configuration is 2 things: the Lua la
 Apache APISIX has many good designs, and this article only discusses the dynamic management of Nginx clusters.
 
 [click here for the link to the original article](https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more)
+
+## Related APISIX Architecture Resources
+
+* [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Understand where APISIX fits in modern API architectures.
+* [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Learn how APISIX manages traffic across distributed services.
+* [Get started with Apache APISIX](/docs/apisix/getting-started/): Try APISIX routing and plugin configuration.
+* [Plugin concept](/docs/apisix/terminology/plugin/): Understand how APISIX extends gateway behavior.
+
+## FAQ
+
+### Why does Apache APISIX build on NGINX and Lua?
+
+NGINX provides a high-performance traffic processing foundation, while Lua and OpenResty make it possible for APISIX to add dynamic routing, plugins, and hot configuration updates.
+
+### How does this architecture help gateway operators?
+
+Operators can change routes, upstreams, certificates, and plugin policies without rebuilding static gateway configuration for every update.

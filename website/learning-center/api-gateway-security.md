@@ -1,6 +1,6 @@
 ---
 title: "API Gateway Security: Threats, Best Practices & Implementation"
-description: "Learn how to secure your API gateway against common threats. Covers authentication, authorization, rate limiting, WAF, IP filtering, and zero-trust architecture."
+description: "Learn API Gateway security best practices with Apache APISIX, including authentication, authorization, rate limiting, WAF, mTLS, and zero-trust controls."
 slug: api-gateway-security
 date: 2026-04-14
 tags: [security, api-gateway, best-practices]
@@ -8,6 +8,10 @@ hide_table_of_contents: false
 ---
 
 API gateway security is the practice of protecting your API infrastructure at the edge by enforcing authentication, authorization, rate limiting, and traffic filtering before requests reach backend services. A properly secured gateway reduces attack surface, prevents data breaches, and ensures compliance across every API endpoint in your organization.
+
+## Quick Overview
+
+This guide focuses on API Gateway security and how Apache APISIX helps enforce authentication, authorization, rate limits, WAF policies, mTLS, and zero-trust controls.
 
 ## Why API Gateway Security Matters
 

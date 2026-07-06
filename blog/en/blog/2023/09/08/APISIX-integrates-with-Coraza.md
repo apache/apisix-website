@@ -13,15 +13,20 @@ keywords:
   - APISIX
   - Coraza
   - WAF
-description: The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+description: "Learn how Apache APISIX integrates with Coraza WAF to add open-source API security, request filtering, and protection at the gateway layer."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp
 ---
 
 > The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+
 <!--truncate-->
 
 With the rapid advancement of cloud-native technology, securing APIs has become increasingly crucial. In response to this growing need, [Apache APISIX](https://github.com/apache/apisix) has introduced a range of cutting-edge features. Among them, it is commendable that APISIX has integrated the [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm) plugin. We will delve into APISIX's enhanced WAF capabilities and explore how Coraza can fortify applications against a wide array of web attacks, ensuring comprehensive security.
+
+## Quick Overview
+
+This article explains the APISIX and Coraza integration for Web Application Firewall use cases, including how gateway-layer filtering strengthens API security.
 
 ## Apache APISIX
 
@@ -172,3 +177,20 @@ Check logs `logs/error.log`
 ## Conclusion
 
 Coraza is a powerful WAF framework that offers extensive security features and flexible configuration options, suitable for protecting enterprise web applications from various threats. The integration of APISIX with Coraza is a significant new feature of APISIX. Coraza, as an easy-to-maintain solution, integrated with APISIX, provides enterprises with robust API management and security features.
+
+## Related APISIX Security Resources
+
+- [API Gateway security](/learning-center/api-gateway-security/): Review gateway-layer protection patterns.
+- [API Gateway authentication](/learning-center/api-gateway-authentication/): Compare Key Auth, JWT, OIDC, mTLS, and HMAC.
+- [What is mutual TLS?](/learning-center/what-is-mutual-tls/): Understand certificate-based client authentication.
+- [Coraza proxy rewrite plugin](/docs/apisix/plugins/coraza-proxy-rewrite/): Learn how APISIX integrates with Coraza WAF.
+
+## FAQ
+
+### What API security controls belong at the gateway layer?
+
+Common gateway-layer controls include authentication, authorization, rate limiting, mTLS, request validation, WAF inspection, IP restrictions, and centralized security logging.
+
+### How does Apache APISIX help secure APIs?
+
+Apache APISIX applies security controls through plugins at the traffic entry point, so teams can enforce consistent policies before requests reach backend services.

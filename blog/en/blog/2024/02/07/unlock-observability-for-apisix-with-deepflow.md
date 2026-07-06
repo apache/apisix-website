@@ -9,12 +9,13 @@ keywords:
   - APISIX
   - DeepFlow
   - Observability
-description: Build zero-code observability for APISIX using DeepFlow and eBPF. Unified tracing, metrics, logs, and profiling without code changes.
+description: "Learn how to add zero-code observability for Apache APISIX with DeepFlow and eBPF, including tracing, metrics, logs, and profiling."
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg
 ---
 
 > This article aims to elucidate how to leverage DeepFlow's zero-code feature based on eBPF to construct an observability solution for APISIX.
+
 <!--truncate-->
 
 With the growing emphasis on the observability of application components, Apache APISIX has introduced a plugin mechanism to enrich observability signals. However, these data are scattered across multiple stacks, creating data silos. **This article aims to elucidate how to leverage DeepFlow's zero-code feature based on eBPF to construct an observability solution for APISIX.** On this basis, it integrates the rich data sources of existing APISIX plugins to eliminate data silos and build an all-in-one platform for comprehensive observability of the APISIX gateway.
@@ -22,6 +23,10 @@ With the growing emphasis on the observability of application components, Apache
 Through DeepFlow, APISIX can achieve comprehensive observability from traffic monitoring and tracing analysis to performance optimization, eliminating data dispersion and providing a centralized view. This accelerates fault diagnosis and performance tuning, making the work of DevOps and SRE teams more efficient. **This article will focus on how APISIX's tracing data, metric data, access logs, and performance profiling data can be integrated with DeepFlow.**
 
 ![Integrating APISIX with DeepFlow](https://static.apiseven.com/uploads/2024/02/07/klRaMpb4_deepflow-1.jpeg)
+
+## Quick Overview
+
+This guide focuses on observability for Apache APISIX with DeepFlow, showing how eBPF-based telemetry can expose gateway traffic, latency, traces, logs, and profiling data.
 
 ## 1. Install APISIX and DeepFlow
 
@@ -325,3 +330,20 @@ GitHub address：[https://github.com/apache/apisix](https://github.com/apache/ap
 DeepFlow, an open-source observability project, aims to deliver comprehensive observability for complex cloud infrastructures and cloud-native applications. Utilizing eBPF technology, it offers application performance metrics, distributed tracing, and continuous profiling with zero-code instrumentation, thanks to its integration of smart-encoding technology for full-stack correlation. DeepFlow enables automatic deep observability for cloud-native applications, easing developers' workload and equipping DevOps/SRE teams with advanced monitoring and diagnostic tools that span from code to infrastructure.
 
 GitHub address：[https://github.com/deepflowio/deepflow](https://github.com/deepflowio/deepflow)
+
+## Related APISIX Observability Resources
+
+- [Prometheus plugin](/docs/apisix/plugins/prometheus/): Export APISIX metrics for monitoring.
+- [OpenTelemetry plugin](/docs/apisix/plugins/opentelemetry/): Send traces from APISIX to observability backends.
+- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Learn why gateway-level telemetry matters in distributed systems.
+- [API Gateway security](/learning-center/api-gateway-security/): Connect observability with security monitoring.
+
+## FAQ
+
+### Why add observability at the API Gateway?
+
+The gateway sees every request before it reaches upstream services, making it a natural place to collect latency, status, routing, consumer, and policy-enforcement data.
+
+### How can Apache APISIX export observability data?
+
+Apache APISIX supports plugins for metrics, logs, and tracing, including Prometheus and OpenTelemetry integrations for common observability pipelines.

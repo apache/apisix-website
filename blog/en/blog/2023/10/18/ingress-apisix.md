@@ -13,13 +13,18 @@ keywords:
 - Apache APISIX
 - APISIX Ingress Controller
 - etcd
-description: The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+description: "Learn how APISIX Ingress Controller architecture reduces etcd operational complexity and manages Kubernetes traffic through Apache APISIX."
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
 > The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+
 <!--truncate-->
+
+## Quick Overview
+
+This article explains the APISIX Ingress Controller architecture and how it simplifies Kubernetes traffic management while keeping Apache APISIX as the data-plane gateway.
 
 ## Background
 
@@ -210,3 +215,20 @@ curl http://127.0.0.1:9080/headers -H 'Host: httpbin.org'
 We thoroughly discussed the innovative architecture of the APISIX Ingress Controller, liberating it from dependency on the etcd cluster. This greatly simplifies maintenance costs and system complexity. Simultaneously, the APISIX Ingress Controller actively advances the implementation of the Kubernetes Gateway API standard within the Ingress Controller, aiming to provide more extensive and consistent traffic management capabilities.
 
 In conclusion, whether it be the new architecture of APISIX Ingress Controller or the implementation of the Kubernetes Gateway API, the goal is to offer users a more robust, flexible, and user-friendly Ingress Controller solution to meet the ever-changing demands of cloud-native application deployment and traffic management.
+
+## Related APISIX Ingress Resources
+
+- [APISIX Ingress Controller overview](/docs/ingress-controller/overview/): Understand the controller architecture and resource model.
+- [APISIX Ingress Controller getting started](/docs/ingress-controller/getting-started/): Deploy the controller in Kubernetes.
+- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See how gateway patterns apply to distributed services.
+- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Review core gateway concepts.
+
+## FAQ
+
+### When should I use APISIX Ingress Controller?
+
+Use APISIX Ingress Controller when Kubernetes services need gateway features such as authentication, traffic splitting, rate limiting, observability, and protocol support at the cluster edge.
+
+### How is APISIX Ingress Controller different from a basic Kubernetes Ingress?
+
+A basic Ingress defines HTTP routing. APISIX Ingress Controller maps Kubernetes resources to Apache APISIX, so teams can combine ingress routing with gateway plugins and dynamic traffic policies.

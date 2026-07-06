@@ -1,6 +1,6 @@
 ---
 title: "What is an API Gateway? Definition, Benefits & Use Cases"
-description: "Learn what an API gateway is, how it works, key features like load balancing, authentication, and rate limiting, and why modern architectures need one."
+description: "Learn what an API Gateway is, how it handles routing, authentication, rate limiting, observability, and where Apache APISIX fits."
 slug: what-is-an-api-gateway
 date: 2026-04-14
 tags: [api-gateway, concepts]
@@ -26,6 +26,10 @@ faq:
 An API gateway is a server that sits between clients and backend services, acting as the single entry point for all API traffic. It accepts incoming requests, applies policies such as authentication, rate limiting, and transformation, then routes each request to the appropriate upstream service and returns the response to the caller.
 
 In practice, an API gateway consolidates cross-cutting concerns that would otherwise be duplicated across every microservice: access control, traffic shaping, observability, and protocol translation. Instead of embedding this logic in each service, teams centralize it at the gateway layer, reducing code duplication, simplifying deployments, and giving platform teams a single control plane for governing API behavior at scale.
+
+## Quick Overview
+
+This guide explains the API Gateway layer, why modern systems use it, and how Apache APISIX provides routing, security, traffic control, and observability for API traffic.
 
 ## How Does an API Gateway Work?
 
@@ -203,6 +207,14 @@ An API gateway and a service mesh serve different layers. The gateway handles no
 ### Is an API gateway the same as an API management platform?
 
 No. An API gateway is the runtime component that processes API traffic. An API management platform is a broader category that typically includes a gateway, a developer portal, API documentation tools, lifecycle management, and analytics dashboards. The gateway is the engine; the management platform is the full vehicle. Apache APISIX provides the high-performance gateway layer, and organizations often pair it with additional tooling for the complete API management lifecycle.
+
+### Why use an API Gateway instead of adding logic to every service?
+
+An API Gateway centralizes cross-cutting concerns such as routing, authentication, rate limiting, observability, and traffic control. This reduces duplicated code and makes policies easier to change across services.
+
+### Where does Apache APISIX fit in a cloud-native architecture?
+
+Apache APISIX can serve as an edge API Gateway, internal microservices gateway, Kubernetes Ingress Controller, or AI Gateway, depending on where teams need dynamic traffic management and policy enforcement.
 
 ## Related guides
 

@@ -15,13 +15,17 @@ keywords:
 - API gateway
 - Service Discovery
 - Service Registry
-description: This article introduces the basic concepts of Apache APISIX and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
+description: "Learn how Apache APISIX integrates with Nacos for service discovery, dynamic upstream updates, and API Gateway routing in microservices architectures."
 tags: [Ecosystem]
 ---
 
 > This article introduces the basic concepts of Apache APISIX and the Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
 
 <!--truncate-->
+
+## Quick Overview
+
+This article shows how Nacos service discovery works with Apache APISIX so gateway routes can follow changing upstream services in microservices environments.
 
 ## Background Information
 
@@ -196,3 +200,20 @@ This article introduces the concept of registry center and how Apache APISIX coo
 To get more information about the `nacos` plugin description and full configuration list, you can refer to the [Apache APISIX's official documentation](https://apisix.apache.org/docs/apisix/discovery/nacos/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/zh/docs/general/join) to communicate.
+
+## Related APISIX Service Discovery Resources
+
+- [Service discovery in APISIX](/docs/apisix/discovery/): Learn how APISIX connects routes to dynamic upstream services.
+- [Upstream configuration](/docs/apisix/terminology/upstream/): Understand how APISIX balances traffic to backend services.
+- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See why service discovery matters in microservices environments.
+- [Get started with Apache APISIX](/docs/apisix/getting-started/): Configure your first route and upstream.
+
+## FAQ
+
+### Why connect service discovery to an API Gateway?
+
+Service discovery lets the gateway route to changing service instances without manual upstream updates. This is especially useful in microservices environments where backend endpoints change frequently.
+
+### How does Apache APISIX use service discovery?
+
+Apache APISIX can resolve upstream nodes from supported discovery systems and apply gateway policies such as routing, authentication, and rate limiting before forwarding requests.

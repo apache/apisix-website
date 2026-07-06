@@ -18,13 +18,18 @@ keywords:
   - Hybrid Cloud
   - Vendor Lock-in
   - API Strategy
-description: This article explores the differences between cloud-managed, open-source, and commercial API gateways.
+description: "Compare cloud-managed, open-source, and commercial API gateways, and learn where Apache APISIX fits for self-hosted API traffic management."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/02/17/gWz2QJYq_api-gateway-comparison.png
 ---
 
 This article explores the differences between cloud-managed, open-source, and commercial API gateways. It highlights key pros and cons, pricing risks, and strategic recommendations for businesses that anticipate API growth and hybrid cloud adoption.
+
 <!--truncate-->
+
+## Quick Overview
+
+This article compares API Gateway deployment models and helps teams decide when open-source Apache APISIX is a better fit than cloud-managed or commercial gateway options.
 
 ## Introduction
 
@@ -158,3 +163,10 @@ Choosing the right API gateway depends on your **scalability, budget, and cloud 
 | **Support**                   | Cloud provider support     | Community-driven           | SLA-backed                 |
 
 If **API traffic is growing rapidly** and **hybrid cloud adoption is planned**, a **hybrid approach**—starting with **open source** and upgrading to a **commercial enterprise solution** when needed—offers the best flexibility and cost efficiency.
+
+## Related APISIX Evaluation Resources
+
+- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Start with the core gateway responsibilities.
+- [Apache APISIX vs Kong](/learning-center/apisix-vs-kong/): Compare two open-source gateway options.
+- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Evaluate gateway needs in microservices environments.
+- [Get started with Apache APISIX](/docs/apisix/getting-started/): Try APISIX as a self-hosted open-source gateway.

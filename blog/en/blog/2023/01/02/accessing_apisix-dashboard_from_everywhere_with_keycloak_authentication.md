@@ -11,7 +11,7 @@ keywords:
   - Nginx reverse proxy
   - OpenID-Connect
   - Keycloak
-description: Expose the APISIX Dashboard securely using the OpenID-Connect plugin with Keycloak for identity management and authentication.
+description: "Learn how to secure remote access to the APISIX Dashboard with Keycloak authentication and centralized identity controls."
 tags:
   - Ecosystem
 cover: https://static.apiseven.com/uploads/2023/01/19/FKDU7U6j_blog01a.png
@@ -24,6 +24,10 @@ cover: https://static.apiseven.com/uploads/2023/01/19/FKDU7U6j_blog01a.png
 ![framework](https://static.apiseven.com/uploads/2023/01/20/mV2GUS21_blog01a.png)
 
 This article presents how to setup a framework where a user can access the Apisix-dashboard protected using an authentication system managed by a Keycloak server.
+
+## Quick Overview
+
+This tutorial focuses on protecting APISIX Dashboard access with Keycloak, so administrators can add identity-aware controls before exposing dashboard access remotely.
 
 ## Prerequisites
 
@@ -394,7 +398,6 @@ server {
     ssl_certificate     /home/sysop/H/hservcerts/k6k.crt;
     ssl_certificate_key /home/sysop/H/hservcerts/k6k.key;
 
-
     location / {
         index  index.html index.htm;
     }
@@ -753,7 +756,6 @@ server {
     ssl_certificate     /home/sysop/H/hservcerts/apisix.crt;
     ssl_certificate_key /home/sysop/H/hservcerts/apisix.key;
 
-
     location / {
         index  index.html index.htm;
     }
@@ -808,7 +810,6 @@ upstream hcluster {
     server 192.168.101.23:443;
     server 192.168.101.24:443;
 }
-
 
 server {
 
@@ -1148,3 +1149,20 @@ In this article were presented the intruction to:
 - set up the apisix resources, including openid-connect plugin, to access the apisix-dashboard with authentication provided by the keycloak server
 
 Note that this set up is only for educational purpose. Do not use in production.
+
+## Related APISIX Authentication and Security Resources
+
+- [API Gateway authentication](/learning-center/api-gateway-authentication/): Compare authentication methods and implementation tradeoffs.
+- [API Gateway security](/learning-center/api-gateway-security/): Build centralized API protection at the gateway layer.
+- [OpenID Connect plugin](/docs/apisix/plugins/openid-connect/): Use OIDC providers such as Keycloak, Okta, Auth0, or Azure AD.
+- [JWT authentication plugin](/docs/apisix/plugins/jwt-auth/): Validate signed tokens at the gateway before upstream services.
+
+## FAQ
+
+### Why centralize authentication at the API Gateway?
+
+Centralized authentication keeps identity checks consistent across services, reduces duplicated application code, and gives platform teams a single place to enforce access policies.
+
+### Can Apache APISIX work with identity providers such as Keycloak?
+
+Yes. Apache APISIX supports OpenID Connect and other authentication plugins, so it can validate requests with identity providers before traffic reaches upstream services.

@@ -13,7 +13,7 @@ keywords:
 - Use-cases
 - Webhook
 - Event-driven
-description: This post elaborates on building event-driven APIs by making use of Webhook and API Gateway, we understand the role of each in this solution.
+description: "Learn how Apache APISIX can secure, route, and manage webhook APIs and event-driven traffic with gateway policies and plugins."
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/07/6368d30abf672.png
 ---
@@ -21,6 +21,10 @@ image: https://static.apiseven.com/2022/11/07/6368d30abf672.png
 > There are many ways and technology options to consider when implementing an event-driven API. For example, we explored how to [build event-driven APIs using these 3 well-known patterns](https://dev.to/apisix/building-event-driven-api-services-using-cqrs-api-gateway-and-serverless-af4): [CQRS](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs), [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) and [Serverless](https://learn.microsoft.com/en-us/dotnet/architecture/serverless/serverless-architecture) on the previous blog post. This post elaborates on **building event-driven APIs by making use of Webhook and API Gateway**, we understand the role of each in this solution. Firstly, let’s turn our attention to the initial problem statement without the webhook in place.
 
 <!--truncate-->
+
+## Quick Overview
+
+This article focuses on webhook and event-driven API traffic, showing how Apache APISIX can add routing, authentication, rate limiting, and observability in front of webhook endpoints.
 
 ## Need for a webhook
 
@@ -99,3 +103,20 @@ As we understood throughout the post, Webhook tries to decouple the concerns lik
 - [Implementing resilient applications with API Gateway (Health Check)](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c).
 
 - [10 most common use cases of an API Gateway](https://apisix.apache.org/blog/2022/10/27/ten-use-cases-api-gateway/).
+
+## Related APISIX Webhook Resources
+
+- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Understand gateway controls for inbound API traffic.
+- [API Gateway security](/learning-center/api-gateway-security/): Protect webhook endpoints from abuse.
+- [Limit count plugin](/docs/apisix/plugins/limit-count/): Rate-limit event bursts and retries.
+- [Proxy rewrite plugin](/docs/apisix/plugins/proxy-rewrite/): Normalize webhook requests before upstream delivery.
+
+## FAQ
+
+### Why manage webhooks through an API Gateway?
+
+Webhook endpoints often receive bursty external traffic. A gateway can authenticate senders, rate-limit retries, normalize requests, log delivery attempts, and protect backend services.
+
+### How can Apache APISIX help with event-driven APIs?
+
+Apache APISIX can route webhook traffic, apply security plugins, rewrite requests, and expose observability data before events are delivered to upstream services.
