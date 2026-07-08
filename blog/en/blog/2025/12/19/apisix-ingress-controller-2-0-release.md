@@ -11,7 +11,7 @@ keywords:
   - Kubernetes Ingress
   - Gateway API
   - Apache APISIX
-description: "Learn what changed in APISIX Ingress Controller 2.0, including architecture updates, deployment modes, and Kubernetes traffic management improvements."
+description: Apache APISIX Ingress Controller 2.0 delivers comprehensive Gateway API support, flexible multi-data-plane deployment, and etcd-free operation for robust, scalable Kubernetes traffic management.
 tags: [Community]
 image: https://static.api7.ai/uploads/2025/12/22/q17SNFmp_apisix-ingress-controller-cover.webp
 ---
@@ -21,10 +21,6 @@ image: https://static.api7.ai/uploads/2025/12/22/q17SNFmp_apisix-ingress-control
 <!--truncate-->
 
 Built on the high-performance API gateway Apache APISIX, [APISIX Ingress Controller](https://github.com/apache/apisix-ingress-controller) has undergone multiple iterations and validations, and is now capable of handling large-scale traffic management demands. The Apache APISIX community is pleased to announce the official release of [APISIX Ingress Controller 2.0](https://apisix.apache.org/docs/ingress-controller/overview/). This release delivers substantial enhancements across three foundational pillars—**comprehensive compatibility**, **adaptable architecture**, and **enterprise-grade stability**—empowering users to migrate their technology stacks smoothly and reliably.
-
-## Quick Overview
-
-This release article highlights APISIX Ingress Controller 2.0 changes for Kubernetes users, including deployment modes, architecture updates, and operational improvements.
 
 ## Highlights of Apache APISIX Ingress Controller 2.0
 
@@ -87,20 +83,3 @@ Apache APISIX Ingress Controller 2.0 represents a significant evolution in Kuber
 Whether you are standardizing ingress across diverse workloads, seeking greater architectural flexibility, or requiring enterprise-grade stability at scale, APISIX Ingress Controller 2.0 offers a forward-looking solution that simplifies operations without compromising capability. It stands as a testament to the community-driven innovation within the Apache APISIX ecosystem, designed to meet today's demands while adapting to tomorrow's challenges.
 
 > For a complete list of features and changes, please refer to the [Release Changelog](https://github.com/apache/apisix-ingress-controller/blob/2.0.0/CHANGELOG.md#200).
-
-## Related APISIX Ingress Resources
-
-- [APISIX Ingress Controller overview](/docs/ingress-controller/overview/): Understand the controller architecture and resource model.
-- [APISIX Ingress Controller getting started](/docs/ingress-controller/getting-started/): Deploy the controller in Kubernetes.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See how gateway patterns apply to distributed services.
-- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Review core gateway concepts.
-
-## FAQ
-
-### When should I use APISIX Ingress Controller?
-
-Use APISIX Ingress Controller when Kubernetes services need gateway features such as authentication, traffic splitting, rate limiting, observability, and protocol support at the cluster edge.
-
-### How is APISIX Ingress Controller different from a basic Kubernetes Ingress?
-
-A basic Ingress defines HTTP routing. APISIX Ingress Controller maps Kubernetes resources to Apache APISIX, so teams can combine ingress routing with gateway plugins and dynamic traffic policies.
