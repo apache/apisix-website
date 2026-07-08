@@ -24,10 +24,6 @@ Through DeepFlow, APISIX can achieve comprehensive observability from traffic mo
 
 ![Integrating APISIX with DeepFlow](https://static.apiseven.com/uploads/2024/02/07/klRaMpb4_deepflow-1.jpeg)
 
-## Quick Overview
-
-This guide focuses on observability for Apache APISIX with DeepFlow, showing how eBPF-based telemetry can expose gateway traffic, latency, traces, logs, and profiling data.
-
 ## 1. Install APISIX and DeepFlow
 
 For convenience, this article describes deploying both DeepFlow and APISIX as Kubernetes services, with the entire deployment process taking approximately 5 minutes. For detailed deployment steps, refer to the [DeepFlow](https://deepflow.io/docs/ce-install/all-in-one/) and [APISIX](https://apisix.apache.org/docs/apisix/3.2/installation-guide/) official deployment documentation.
@@ -330,20 +326,3 @@ GitHub address：[https://github.com/apache/apisix](https://github.com/apache/ap
 DeepFlow, an open-source observability project, aims to deliver comprehensive observability for complex cloud infrastructures and cloud-native applications. Utilizing eBPF technology, it offers application performance metrics, distributed tracing, and continuous profiling with zero-code instrumentation, thanks to its integration of smart-encoding technology for full-stack correlation. DeepFlow enables automatic deep observability for cloud-native applications, easing developers' workload and equipping DevOps/SRE teams with advanced monitoring and diagnostic tools that span from code to infrastructure.
 
 GitHub address：[https://github.com/deepflowio/deepflow](https://github.com/deepflowio/deepflow)
-
-## Related APISIX Observability Resources
-
-- [Prometheus plugin](/docs/apisix/plugins/prometheus/): Export APISIX metrics for monitoring.
-- [OpenTelemetry plugin](/docs/apisix/plugins/opentelemetry/): Send traces from APISIX to observability backends.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Learn why gateway-level telemetry matters in distributed systems.
-- [API Gateway security](/learning-center/api-gateway-security/): Connect observability with security monitoring.
-
-## FAQ
-
-### Why add observability at the API Gateway?
-
-The gateway sees every request before it reaches upstream services, making it a natural place to collect latency, status, routing, consumer, and policy-enforcement data.
-
-### How can Apache APISIX export observability data?
-
-Apache APISIX supports plugins for metrics, logs, and tracing, including Prometheus and OpenTelemetry integrations for common observability pipelines.

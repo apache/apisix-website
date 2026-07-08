@@ -9,10 +9,6 @@ hide_table_of_contents: false
 
 gRPC is a high-performance, open-source remote procedure call (RPC) framework originally developed by Google. It uses Protocol Buffers for binary serialization and HTTP/2 for transport, enabling strongly typed service contracts, bidirectional streaming, and significantly smaller payload sizes compared to equivalent JSON over REST.
 
-## Quick Overview
-
-This guide explains gRPC fundamentals, why teams use Protocol Buffers and HTTP/2, and how Apache APISIX can proxy, expose, and transform gRPC traffic.
-
 ## Why gRPC Exists
 
 REST has dominated API design for over fifteen years, and it remains an excellent choice for public-facing, resource-oriented APIs. However, as microservices architectures scaled into hundreds or thousands of inter-service calls per request, the limitations of REST became measurable: text-based JSON serialization consumes CPU cycles, HTTP/1.1 head-of-line blocking limits concurrency, and the lack of a formal contract language leads to integration drift.

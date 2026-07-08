@@ -30,10 +30,6 @@ image: https://static.apiseven.com/2022/10/18/634e6963ea45f.png
 
 <!--truncate-->
 
-## Quick Overview
-
-This benchmark uses Apache APISIX as a network-intensive API Gateway workload to compare ARM server performance across major cloud providers.
-
 ## Background
 
 The ARM architecture is a member of the [RISC (Reduced instruction set computer)](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer) design family. The RISC microprocessor architecture design enables small processors to efficiently handle complex tasks by using a set of highly optimized instructions. Being widely used in many embedded system designs, the ARM architecture has become the cornerstone of the world’s largest computing ecosystem and mobile devices. Many experts regard it as the future of cloud computing due to its advantages of low power consumption, low cost, high performance, and flexible licensing. Therefore, mainstream cloud vendors led by AWS (Amazon Web Services), GCP (Google Cloud Platform), Azure (Microsoft Azure), and OCI (Oracle Cloud Infrastructure) have successively launched ARM-based servers. This article selects servers from these vendors to conduct performance testing. Let’s first examine the four major manufacturers and their products.
@@ -139,20 +135,3 @@ We will reveal multi-core test results in the future, please stay tuned!
 - [Tau T2A machine series (Preview)](https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines)
 - [Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors](https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/)
 - [Ampere A1 Compute](https://www.oracle.com/hk/cloud/compute/arm/)
-
-## Related APISIX Performance Resources
-
-- [Benchmark](/docs/apisix/benchmark/): Review Apache APISIX performance testing guidance.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Understand high-throughput gateway deployment patterns.
-- [What is gRPC?](/learning-center/what-is-grpc/): Learn how protocol choices affect service communication.
-- [Get started with Apache APISIX](/docs/apisix/getting-started/): Test APISIX in your own environment.
-
-## FAQ
-
-### Why benchmark an API Gateway on different cloud instances?
-
-Gateway performance depends on CPU architecture, network throughput, TLS cost, and upstream latency. Testing different environments helps teams choose infrastructure that matches expected traffic.
-
-### What should I monitor when running Apache APISIX at high throughput?
-
-Monitor latency percentiles, error rates, worker CPU usage, upstream health, connection counts, and plugin overhead. These signals show whether bottlenecks come from the gateway, network, or upstream services.

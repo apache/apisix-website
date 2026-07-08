@@ -23,10 +23,6 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
-## Quick Overview
-
-This article compares traditional API Gateway responsibilities with AI Gateway requirements such as LLM routing, token limits, prompt-aware controls, and AI traffic observability.
-
 ## What Is an AI Gateway? Why Did It Arise in the AI Era?
 
 The AI era has ushered in unprecedented complexity in deploying and managing artificial intelligence (AI) models. Organizations now juggle multiple models—from computer vision to large language models (LLMs)—across diverse environments (cloud, edge, hybrid). Traditional API gateways, designed for general-purpose data traffic, often fall short in addressing the unique challenges posed by AI workloads. This is where **AI gateways** emerge as critical middleware, acting as a unified control plane for routing, securing, and optimizing AI workloads.
@@ -155,20 +151,3 @@ In the future, the line between "AI gateway" and "API gateway" will blur. But th
 AI gateways are not a replacement but an evolution of API gateways. While purpose-built solutions address immediate LLM challenges, their limitations in observability and scalability make them transitional. Established API gateways—enhanced with streaming support, token-aware plugins, and MCP—are poised to dominate.
 
 Solutions like **[Apache APISIX AI Gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/)** exemplify this shift, blending AI-native features with battle-tested API management. As AI permeates every app, enterprises must choose platforms that scale beyond siloed use cases. The winners? Adaptable, extensible tools that speak both API and AI.
-
-## Related APISIX AI Gateway Resources
-
-- [APISIX AI Gateway overview](/ai-gateway/): Route, secure, and observe traffic across LLM providers.
-- [What is an AI Gateway?](/blog/2025/03/06/what-is-an-ai-gateway/): Learn core AI Gateway use cases and architecture.
-- [AI Gateway vs API Gateway](/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/): Compare API and AI traffic management patterns.
-- [AI proxy plugin](/docs/apisix/plugins/ai-proxy/): Manage supported LLM provider traffic through APISIX.
-
-## FAQ
-
-### Is an AI Gateway different from an API Gateway?
-
-Yes. An API Gateway focuses on general API traffic such as routing, authentication, rate limiting, and observability. An AI Gateway extends those controls for LLM traffic with model routing, token-based rate limiting, retry and fallback, prompt governance, and AI-specific security.
-
-### When should a team use Apache APISIX as an AI Gateway?
-
-Use Apache APISIX as an AI Gateway when applications call multiple LLM providers, need centralized access control, require cost and token governance, or need safer traffic paths for AI applications.

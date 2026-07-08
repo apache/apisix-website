@@ -9,10 +9,6 @@ hide_table_of_contents: false
 
 API gateway security is the practice of protecting your API infrastructure at the edge by enforcing authentication, authorization, rate limiting, and traffic filtering before requests reach backend services. A properly secured gateway reduces attack surface, prevents data breaches, and ensures compliance across every API endpoint in your organization.
 
-## Quick Overview
-
-This guide focuses on API Gateway security and how Apache APISIX helps enforce authentication, authorization, rate limits, WAF policies, mTLS, and zero-trust controls.
-
 ## Why API Gateway Security Matters
 
 APIs have become the primary attack vector for modern applications. According to the OWASP API Security Top 10 (2023 edition), broken object-level authorization and broken authentication remain the two most critical API vulnerabilities, affecting organizations across every industry. The explosive growth of API-first architectures has created an equally explosive growth in API-targeted attacks.

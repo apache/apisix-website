@@ -26,10 +26,6 @@ Artificial Intelligence (AI) has become the backbone of modern innovation, drivi
 
 In this blog, we'll dive deep into **MCP monetization** strategies, explore the role of API gateways, and demonstrate how Apache APISIX empowers developers to maximize their AI model's potential. By the end, you'll have actionable insights to navigate the AI economy and unlock new revenue streams.
 
-## Quick Overview
-
-This article keeps the focus on MCP monetization while explaining how gateway-layer controls such as authentication, rate limiting, logging, and analytics support AI API business models.
-
 ## What Is MCP and Why Is It Important for AI Monetization?
 
 ### Defining MCP
@@ -154,20 +150,3 @@ This flexibility empowers developers to adapt their monetization strategies to e
 Monetizing MCP-driven AI models is essential for thriving in today's AI economy. By leveraging strategies like API-based monetization, marketplace integration, and value-added services, developers can unlock significant revenue potential.
 
 **API gateways** like Apache APISIX serves as a cornerstone for this journey, providing the tools needed to manage, secure, and scale MCP-driven APIs effectively. Whether you're a developer, an enterprise, or an innovator, embracing MCP and API gateways is key to navigating the AI economy.
-
-## Related MCP and AI Gateway Resources
-
-- [What is an AI Gateway?](/blog/2025/03/06/what-is-an-ai-gateway/): Learn how gateways manage LLM API traffic.
-- [AI Gateway vs API Gateway](/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/): Compare traditional and AI traffic patterns.
-- [APISIX AI Gateway overview](/ai-gateway/): Explore APISIX capabilities for LLM routing, security, and observability.
-- [API Gateway security](/learning-center/api-gateway-security/): Apply gateway-layer controls to AI service traffic.
-
-## FAQ
-
-### Does Apache APISIX provide a dedicated gateway product for MCP?
-
-No. Apache APISIX should not be described as a dedicated gateway product for MCP. MCP-related architectures can still use APISIX around HTTP and LLM API traffic for routing, authentication, rate limiting, observability, and security controls.
-
-### Where can APISIX fit in an MCP-related architecture?
-
-APISIX can sit in front of HTTP APIs, LLM provider APIs, or supporting services that participate in AI workflows. It helps enforce gateway policies around those services without implying native MCP protocol ownership.

@@ -9,10 +9,6 @@ hide_table_of_contents: false
 
 An AI gateway is a specialized API gateway that manages traffic between applications and large language models (LLMs), enforcing token-based rate limiting, model routing, cost controls, and content safety policies. As AI agents adopt the Model Context Protocol (MCP) to interact with external tools and data sources, AI gateways become essential infrastructure for securing, observing, and scaling these interactions in production environments.
 
-## Quick Overview
-
-This guide explains MCP-related AI traffic patterns and how gateway-layer controls such as routing, authentication, rate limits, logging, and observability fit around LLM API calls.
-
 ## What is an AI Gateway
 
 An AI gateway sits between your applications and AI model providers (OpenAI, Anthropic, Google, open-source models), routing requests, enforcing policies, and providing observability across all AI interactions. Unlike traditional API gateways that focus on REST and gRPC traffic patterns, AI gateways understand LLM-specific concerns: token consumption, prompt structure, model-specific rate limits, and response streaming.

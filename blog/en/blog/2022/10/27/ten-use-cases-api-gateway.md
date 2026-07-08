@@ -34,10 +34,6 @@ Here is the summary of 10 patterns that uses the API Gateway (but not all):
 9. API Fault handling.
 10. API Versioning.
 
-## Quick Overview
-
-This guide maps common API Gateway use cases to Apache APISIX features, including security, traffic management, observability, and cloud-native deployment patterns.
-
 ## API-Led Architecture
 
 First of all, let’s revise once again these 3 terms like: **API Gateway**, **API-Led architecture**, and **API-Led Connectivity**.
@@ -180,20 +176,3 @@ For example, I explained in another blog post how to [develop API services using
 - 🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
 - 📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
 - 📧 [Mail to us](dev@apisix.apache.org) with your questions.
-
-## Related APISIX Resources
-
-- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Understand the gateway layer and common deployment patterns.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See how APISIX routes traffic across distributed services.
-- [API Gateway authentication](/learning-center/api-gateway-authentication/): Compare Key Auth, JWT, OAuth 2.0, OIDC, mTLS, and HMAC.
-- [API Gateway security](/learning-center/api-gateway-security/): Learn how APISIX centralizes protection for APIs and services.
-
-## FAQ
-
-### Why use an API Gateway instead of adding logic to every service?
-
-An API Gateway centralizes cross-cutting concerns such as routing, authentication, rate limiting, observability, and traffic control. This reduces duplicated code and makes policies easier to change across services.
-
-### Where does Apache APISIX fit in a cloud-native architecture?
-
-Apache APISIX can serve as an edge API Gateway, internal microservices gateway, Kubernetes Ingress Controller, or AI Gateway, depending on where teams need dynamic traffic management and policy enforcement.

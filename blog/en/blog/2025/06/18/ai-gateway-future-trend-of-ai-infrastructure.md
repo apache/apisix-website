@@ -21,10 +21,6 @@ image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 
 <!--truncate-->
 
-## Quick Overview
-
-This article looks at AI infrastructure trends and the role of AI Gateways in production LLM traffic management, including routing, security, observability, and cost control.
-
 ## AI Infrastructure Revolution
 
 The enterprise AI landscape has exploded into fragmented chaos. Marketing teams deploy GPT-4 for content generation, developers fine-tune Llama 3 for coding assistants, while legal departments rely on Claude 3 for contract analysis. This siloed adoption creates three critical pain points:
@@ -194,20 +190,3 @@ AI gateways are **security enforcers, policy engines, observability hubs, and op
 As Anthropic CEO Dario Amodei notes: *"The next AI competitive advantage won't come from larger models, but from smarter orchestration*."* Organizations delaying adoption face irreversible technical debt, while early adopters already attribute revenue growth to AI gateway-optimized personalization systems.
 
 The future is clear: AI gateways are becoming the **central nervous system** of intelligent enterprises. Those who architect this layer today will dominate the AI-driven economy of tomorrow.
-
-## Related APISIX AI Gateway Resources
-
-- [APISIX AI Gateway overview](/ai-gateway/): Route, secure, and observe traffic across LLM providers.
-- [What is an AI Gateway?](/blog/2025/03/06/what-is-an-ai-gateway/): Learn core AI Gateway use cases and architecture.
-- [AI Gateway vs API Gateway](/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/): Compare API and AI traffic management patterns.
-- [AI proxy plugin](/docs/apisix/plugins/ai-proxy/): Manage supported LLM provider traffic through APISIX.
-
-## FAQ
-
-### Is an AI Gateway different from an API Gateway?
-
-Yes. An API Gateway focuses on general API traffic such as routing, authentication, rate limiting, and observability. An AI Gateway extends those controls for LLM traffic with model routing, token-based rate limiting, retry and fallback, prompt governance, and AI-specific security.
-
-### When should a team use Apache APISIX as an AI Gateway?
-
-Use Apache APISIX as an AI Gateway when applications call multiple LLM providers, need centralized access control, require cost and token governance, or need safer traffic paths for AI applications.

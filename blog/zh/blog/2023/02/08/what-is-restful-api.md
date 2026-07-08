@@ -35,10 +35,6 @@ tags: [Ecosystem]
 
 这一过程软件 B 不需要知道软件 A 为什么要数据，就好比商店老板不会问你买电池的目的。软件 A 也不需要知道 B 软件的数据是怎么找到的，就好比你买电池的时候你也不会问老板电池从哪里进货一样。每个软件之间通过 API 传递信息，各司其事，使得程序世界变得有序可靠。
 
-## 快速概览
-
-本文聚焦 RESTful API 的概念、设计原则和实践方式，并说明 Apache APISIX 如何在不改动业务代码的情况下帮助治理和保护 API 流量。
-
 ## 什么是 RESTful API
 
 Roy Fielding 在他 2000 年的博士论文《建筑风格和基于网络的软件架构设计》中定义了REST（Representational state transfer），REST 架构风格定义了六个指导性约束。一个符合**部分**或**全部**约束的系统被松散地称为 RESTful。
@@ -266,13 +262,6 @@ APISIX 支持非常丰富的插件，期待你去挖掘更多的玩法。
 ## 总结
 
 本文详细说明了什么是 API，什么是 RESTful API 以及其最佳实践。另外还介绍了如何通过 APISIX 来实现业务逻辑和安全逻辑分离，如何使用 APISIX 在不改动原有业务代码的情况下将历史 API 服务更加 RESTful。希望本文对你了解 RESTful API 有所帮助，也欢迎你来 GitHub 一起玩耍。
-
-## 相关 APISIX 资源
-
-* [什么是 API 网关？](/zh/learning-center/what-is-an-api-gateway/)：了解 API 网关的核心职责和部署模式。
-* [微服务为什么需要 API 网关？](/zh/blog/2023/03/08/why-do-microservices-need-an-api-gateway/)：理解微服务场景下的统一流量治理。
-* [API 网关安全](/zh/learning-center/api-gateway-security/)：了解认证、限流、mTLS 和 WAF 等网关层安全能力。
-* [Apache APISIX 快速入门](/zh/docs/apisix/getting-started/)：配置第一个路由和上游服务。
 
 ## 常见问题
 

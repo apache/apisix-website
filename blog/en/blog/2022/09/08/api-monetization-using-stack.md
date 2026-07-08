@@ -24,10 +24,6 @@ image: https://static.apiseven.com/2022/10/25/6357addd22a01.png
 
 ![Api Monetization Technological Stack](https://static.apiseven.com/2022/09/08/63199c499a244.png)
 
-## Quick Overview
-
-This article connects API monetization strategy with gateway controls such as authentication, rate limiting, analytics, and policy enforcement in Apache APISIX.
-
 ## API Monetization
 
 As an owner of API, you develop some code and deploy it to a server. That server might have a bunch of HTTP/HTTPs endpoints that do something useful. Maybe like retrieving data about all current discounts and voucher information from different markets in your city. And other developers want to use this data but they do not want to implement the same solution on their own. So, they reach out to you for permission to make requests to your server.
@@ -153,20 +149,3 @@ As we went through the post, there is an effortless way to monetize your API tha
 🐦 [Follow us on Twitter](https://twitter.com/ApacheAPISIX)
 📝 [Find us on Slack](https://join.slack.com/t/the-asf/shared_invite/zt-vlfbf7ch-HkbNHiU_uDlcH_RvaHv9gQ)
 📧 [Mail to us](dev@apisix.apache.org) with your questions.
-
-## Related APISIX Monetization Resources
-
-- [API Gateway authentication](/learning-center/api-gateway-authentication/): Identify consumers before applying paid access rules.
-- [API Gateway security](/learning-center/api-gateway-security/): Protect paid APIs from abuse and misuse.
-- [Limit count plugin](/docs/apisix/plugins/limit-count/): Enforce request quotas and rate limits.
-- [Prometheus plugin](/docs/apisix/plugins/prometheus/): Export usage metrics for analytics and billing workflows.
-
-## FAQ
-
-### Why is an API Gateway useful for API monetization?
-
-A gateway can identify consumers, enforce quotas, rate-limit requests, collect usage metrics, and apply access policies, which are all required for paid API products.
-
-### Which APISIX capabilities support paid API plans?
-
-Authentication plugins identify users, rate-limiting plugins enforce plan limits, and observability plugins export traffic metrics that can feed analytics or billing workflows.

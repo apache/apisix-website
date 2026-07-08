@@ -9,10 +9,6 @@ hide_table_of_contents: false
 
 Mutual TLS (mTLS) is a security protocol where both the client and server authenticate each other using X.509 certificates during the TLS handshake. Unlike standard TLS, which only verifies the server's identity, mTLS ensures that both parties prove they are who they claim to be before any application data is exchanged.
 
-## Quick Overview
-
-This guide explains mutual TLS, certificate-based client authentication, and how Apache APISIX can enforce mTLS for zero-trust API access.
-
 ## Why Mutual TLS Matters
 
 Standard TLS protects the vast majority of internet traffic today. The overwhelming majority of web traffic now uses HTTPS. However, standard TLS only solves half the authentication problem: clients verify that the server holds a valid certificate, but servers have no cryptographic assurance about the client's identity. They rely on application-layer mechanisms like API keys, tokens, or passwords instead.

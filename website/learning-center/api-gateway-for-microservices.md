@@ -9,10 +9,6 @@ hide_table_of_contents: false
 
 Microservices architectures need an API gateway to provide a single entry point that abstracts the complexity of a distributed service fleet from API consumers. The gateway handles cross-cutting concerns like authentication, routing, rate limiting, and observability centrally, preventing each microservice from reimplementing these capabilities independently and ensuring consistent behavior across the entire API surface.
 
-## Quick Overview
-
-This guide explains the API Gateway pattern for microservices and how Apache APISIX supports service routing, load balancing, discovery, retries, and policy enforcement.
-
 ## Why Microservices Need a Gateway
 
 A microservices architecture decomposes a monolithic application into independently deployable services, each owning a specific business domain. While this approach improves development velocity and scaling flexibility, it introduces operational challenges that compound as the number of services grows.

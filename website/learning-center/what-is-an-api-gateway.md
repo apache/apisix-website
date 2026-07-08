@@ -27,10 +27,6 @@ An API gateway is a server that sits between clients and backend services, actin
 
 In practice, an API gateway consolidates cross-cutting concerns that would otherwise be duplicated across every microservice: access control, traffic shaping, observability, and protocol translation. Instead of embedding this logic in each service, teams centralize it at the gateway layer, reducing code duplication, simplifying deployments, and giving platform teams a single control plane for governing API behavior at scale.
 
-## Quick Overview
-
-This guide explains the API Gateway layer, why modern systems use it, and how Apache APISIX provides routing, security, traffic control, and observability for API traffic.
-
 ## How Does an API Gateway Work?
 
 The request lifecycle through an API gateway follows a well-defined pipeline:
@@ -207,14 +203,6 @@ An API gateway and a service mesh serve different layers. The gateway handles no
 ### Is an API gateway the same as an API management platform?
 
 No. An API gateway is the runtime component that processes API traffic. An API management platform is a broader category that typically includes a gateway, a developer portal, API documentation tools, lifecycle management, and analytics dashboards. The gateway is the engine; the management platform is the full vehicle. Apache APISIX provides the high-performance gateway layer, and organizations often pair it with additional tooling for the complete API management lifecycle.
-
-### Why use an API Gateway instead of adding logic to every service?
-
-An API Gateway centralizes cross-cutting concerns such as routing, authentication, rate limiting, observability, and traffic control. This reduces duplicated code and makes policies easier to change across services.
-
-### Where does Apache APISIX fit in a cloud-native architecture?
-
-Apache APISIX can serve as an edge API Gateway, internal microservices gateway, Kubernetes Ingress Controller, or AI Gateway, depending on where teams need dynamic traffic management and policy enforcement.
 
 ## Related guides
 

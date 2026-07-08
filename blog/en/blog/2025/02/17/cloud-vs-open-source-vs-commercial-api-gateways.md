@@ -27,10 +27,6 @@ This article explores the differences between cloud-managed, open-source, and co
 
 <!--truncate-->
 
-## Quick Overview
-
-This article compares API Gateway deployment models and helps teams decide when open-source Apache APISIX is a better fit than cloud-managed or commercial gateway options.
-
 ## Introduction
 
 API gateways have become essential components in modern cloud architectures. They provide security, traffic management, observability, and service orchestration—critical for handling APIs at scale. However, with multiple API gateway solutions available, choosing the right one can be challenging.
@@ -163,10 +159,3 @@ Choosing the right API gateway depends on your **scalability, budget, and cloud 
 | **Support**                   | Cloud provider support     | Community-driven           | SLA-backed                 |
 
 If **API traffic is growing rapidly** and **hybrid cloud adoption is planned**, a **hybrid approach**—starting with **open source** and upgrading to a **commercial enterprise solution** when needed—offers the best flexibility and cost efficiency.
-
-## Related APISIX Evaluation Resources
-
-- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Start with the core gateway responsibilities.
-- [Apache APISIX vs Kong](/learning-center/apisix-vs-kong/): Compare two open-source gateway options.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Evaluate gateway needs in microservices environments.
-- [Get started with Apache APISIX](/docs/apisix/getting-started/): Try APISIX as a self-hosted open-source gateway.

@@ -25,10 +25,6 @@ image: https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png
 
 <!--truncate-->
 
-## 快速概览
-
-本文介绍 Apache APISIX 从云原生网关走向 AI 原生网关的思路，重点关注 LLM 流量治理、多模型访问、安全、观测和 Token 成本控制。
-
 ## 导语：AI 时代的焦点——Why
 
 2015 年，支流科技创立了 APISIX 这个开源项目，在 2019 年把 APISIX 捐给了 Apache Software Foundation。如今，六年时间过去了，它取得的成就非常显著。最开始，我们的目标很简单，就是希望能做出一个能够被别人使用的 API 网关。但随着时间的推移，越来越多不同领域的开发者、企业用户开始使用 APISIX，比如吉利汽车、荣耀手机等，当他们借助 APISIX 为自己提供服务时，就像自己孩子用另一种方式在反哺父母，自豪且令人鼓舞。
@@ -157,20 +153,3 @@ APISIX 可以帮助用户更加便捷地接入那些基于标准输入/输出构
 与此同时，还必须兼顾治理、可观测性与安全等方面的问题，实现统一的管理与控制机制。对于企业来说，问题并不仅仅在于能否将接口对外暴露，更关键的是如何确保统一管理、安全控制等合规性要求。
 
 MCP 的主要能力已经开放，欢迎大家尝试并反馈可能存在的不合理之处，该功能也在持续迭代过程中，待达到一定的稳定性与质量后会面向社区开放。
-
-## 相关 APISIX AI 网关资源
-
-- [APISIX AI 网关概览](/zh/ai-gateway/)：了解面向 LLM 流量的路由、安全和可观测能力。
-- [什么是 AI 网关？](/zh/blog/2025/03/06/what-is-an-ai-gateway/)：了解 AI 网关的核心能力、架构和应用场景。
-- [AI 网关与 API 网关的区别](/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/)：理解 API 流量和 AI 流量治理模式的差异。
-- [AI Proxy 插件](/zh/docs/apisix/plugins/ai-proxy/)：了解如何通过 APISIX 代理支持的 LLM Provider 请求。
-
-## 常见问题
-
-### 什么时候适合使用 Apache APISIX 作为 AI 网关？
-
-当 LLM 应用需要统一路由、认证、Token 级限流、重试降级、可观测性和安全策略时，可以使用 Apache APISIX 承担 AI 网关能力。
-
-### AI 网关会替代传统 API 网关吗？
-
-不会。AI 网关是在 API 网关能力之上，进一步面向 LLM 流量增加模型路由、Token 控制、Prompt 治理和 AI 安全等能力。

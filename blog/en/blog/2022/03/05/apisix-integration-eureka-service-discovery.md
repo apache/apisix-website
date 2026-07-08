@@ -31,10 +31,6 @@ In Spring Cloud, Eureka acts as a registry. Eureka is an open source Registry se
 
 Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an industry-leading microservice gateway, Apache APISIX provides native support for Eureka. This article will use the Spring Cloud demo project as an example to show you the main functions and features of Apache APISIX docking Eureka service discovery.
 
-## Quick Overview
-
-This guide covers Eureka service discovery with Apache APISIX, including configuration flow, diagnostics, and how service registry changes reach gateway routing.
-
 ## Preparation Phase
 
 This demonstration uses the official [`spring-cloud-netflix`](https://spring.io/projects/spring-cloud-netflix#overview) tutorial provided by Spring as an example, which provides the Eureka Server started with SpringBoot as the registration center of Spring Cloud. We also use the same method to start the Eureka server for demonstration. Please visit  [`spring-cloud-samples/eureka`](https://github.com/spring-cloud-samples/eureka，) for the project address.
@@ -269,20 +265,3 @@ Spring Cloud is a popular microservice framework, and Apache APISIX provides the
 For more instructions and complete configuration information about the `eureka` plugin, please refer to the [Apache APISIX official documentation](https://apisix.apache.org/docs/apisix/discovery/eureka/).
 
 Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in [GitHub Discussion](https://github.com/apache/apisix/discussions), or via the [mailing list](https://apisix.apache.org/docs/general/join) to communicate.
-
-## Related APISIX Service Discovery Resources
-
-- [Service discovery in APISIX](/docs/apisix/discovery/): Learn how APISIX connects routes to dynamic upstream services.
-- [Upstream configuration](/docs/apisix/terminology/upstream/): Understand how APISIX balances traffic to backend services.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): See why service discovery matters in microservices environments.
-- [Get started with Apache APISIX](/docs/apisix/getting-started/): Configure your first route and upstream.
-
-## FAQ
-
-### Why connect service discovery to an API Gateway?
-
-Service discovery lets the gateway route to changing service instances without manual upstream updates. This is especially useful in microservices environments where backend endpoints change frequently.
-
-### How does Apache APISIX use service discovery?
-
-Apache APISIX can resolve upstream nodes from supported discovery systems and apply gateway policies such as routing, authentication, and rate limiting before forwarding requests.

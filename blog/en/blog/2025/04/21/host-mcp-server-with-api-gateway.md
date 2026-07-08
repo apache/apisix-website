@@ -21,27 +21,25 @@ tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/23/USwzplCO_apisix-mcp-briget-cover-final.webp
 ---
 
->Discover how the Apache APISIX mcp-bridge plugin seamlessly converts stdio-based MCP servers to scalable HTTP SSE services.
+>Explore a prototype `mcp-bridge` approach for exposing stdio-based MCP servers over HTTP SSE and applying APISIX traffic controls around that traffic.
 
 <!--truncate-->
-
-## Quick Overview
-
-This article discusses MCP server exposure through an API Gateway pattern, with Apache APISIX used for gateway-layer routing, authentication, rate limiting, and observability around AI service traffic.
 
 ## Introduction
 
 In contemporary API infrastructure, HTTP protocols and streaming communications (like SSE, WebSocket) have become mainstream for building real-time, interactive applications. Over the past few months, the Model Context Protocol (MCP) has gained popularity. However, most MCP Servers are implemented via stdio for local environments and cannot be invoked by external services and developers.
 
-To bridge these services with modern API architectures, Apache APISIX has introduced the `mcp-bridge` plugin. It seamlessly converts stdio-based MCP services into HTTP SSE streaming interfaces and manages them through an API gateway for routing and traffic management.
+To bridge these services with modern API architectures, this article discusses the `mcp-bridge` prototype. It converts stdio-based MCP services into HTTP SSE streaming interfaces and lets API gateway policies handle routing and traffic management around that traffic.
 
 ## Model Context Protocol (MCP) Overview
 
 MCP is an open protocol that standardizes how AI applications provide context information to large language models (LLMs). It allows developers to switch between different LLM providers while ensuring data security and facilitating integration with local or remote data sources. Supporting a client-server architecture, MCP servers expose specific functionalities that are accessible to clients via these servers.
 
-## What Is the `mcp-bridge` Plugin?
+## What Is the `mcp-bridge` Prototype?
 
-The Apache APISIX `mcp-bridge` plugin launches a subprocess to manage the MCP Server, takes over its stdio channel, transforms client HTTP SSE requests into MCP protocol calls, and pushes responses back to the client via SSE.
+The `mcp-bridge` prototype launches a subprocess to manage the MCP Server, takes over its stdio channel, transforms client HTTP SSE requests into MCP protocol calls, and pushes responses back to the client via SSE.
+
+This is not a dedicated MCP gateway product. It is an experimental bridge pattern for MCP-to-HTTP traffic where APISIX can still provide routing, authentication, rate limiting, and observability around HTTP-facing services.
 
 **Key features:**
 
@@ -52,14 +50,14 @@ The Apache APISIX `mcp-bridge` plugin launches a subprocess to manage the MCP Se
 
 ## How It Works and Architecture Diagram
 
-Below is a sequence diagram illustrating the working mechanism of the `mcp-bridge` plugin, helping you to understand the data flow from stdio to SSE:
+Below is a sequence diagram illustrating the working mechanism of `mcp-bridge`, helping you to understand the data flow from stdio to SSE:
 
 ![MCP-Bridge Architecture Diagram](https://static.api7.ai/uploads/2025/04/21/7gnb0QrW_1-mcp-bridge-sequence-diagram.webp)
 
 **✅ Highlights:**
 
 - APISIX manages SSE long-lived connections
-- The `mcp-bridge` plugin handles subprocesses, stdio, and scheduling queues
+- `mcp-bridge` handles subprocesses, stdio, and scheduling queues
 - Clients receive real-time subprocess outputs, forming streaming SSE responses
 
 ## Application Scenarios and Benefits
@@ -78,7 +76,7 @@ Below is a sequence diagram illustrating the working mechanism of the `mcp-bridg
 
 ## Authentication and Rate Limiting with Apache APISIX Plugins
 
-Apache APISIX provides robust authentication plugins (like OAuth 2.0, JWT, and OIDC) and rate-limiting plugins (such as rate limiting and circuit breakers). These enhance the `mcp-bridge` plugin, ensuring secure authentication and traffic control for connected MCP services.
+Apache APISIX provides robust authentication plugins (like OAuth 2.0, JWT, and OIDC) and rate-limiting plugins (such as rate limiting and circuit breakers). These policies can protect the HTTP-facing traffic around MCP services.
 
 ### Authentication Plugins
 
@@ -94,7 +92,7 @@ Apache APISIX provides robust authentication plugins (like OAuth 2.0, JWT, and O
 
 ![Add Authentication and Rate Limiting to MCP Servers](https://static.api7.ai/uploads/2025/04/21/ffwep58W_2-add-auth-and-rate-limiting-to-mcp-server.webp)
 
-By integrating authentication and rate-limiting plugins with the `mcp-bridge` plugin, you can enhance API security and ensure system stability in high-concurrency environments.
+By applying authentication and rate-limiting policies at the gateway layer, you can improve API security and system stability in high-concurrency environments.
 
 ## Roadmap
 
@@ -108,21 +106,4 @@ The current version is a prototype. Future enhancements include:
 
 ## Summary
 
-The Apache APISIX `mcp-bridge` plugin significantly simplifies the integration of Model Context Protocol (MCP) services with the HTTP API world. It offers a modern streaming interface management approach for traditional services.
-
-## Related MCP and AI Gateway Resources
-
-- [What is an AI Gateway?](/blog/2025/03/06/what-is-an-ai-gateway/): Learn how gateways manage LLM API traffic.
-- [AI Gateway vs API Gateway](/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/): Compare traditional and AI traffic patterns.
-- [APISIX AI Gateway overview](/ai-gateway/): Explore APISIX capabilities for LLM routing, security, and observability.
-- [API Gateway security](/learning-center/api-gateway-security/): Apply gateway-layer controls to AI service traffic.
-
-## FAQ
-
-### Does Apache APISIX provide a dedicated gateway product for MCP?
-
-No. Apache APISIX should not be described as a dedicated gateway product for MCP. MCP-related architectures can still use APISIX around HTTP and LLM API traffic for routing, authentication, rate limiting, observability, and security controls.
-
-### Where can APISIX fit in an MCP-related architecture?
-
-APISIX can sit in front of HTTP APIs, LLM provider APIs, or supporting services that participate in AI workflows. It helps enforce gateway policies around those services without implying native MCP protocol ownership.
+The `mcp-bridge` prototype explores how Model Context Protocol (MCP) services can be exposed through HTTP-facing interfaces while still benefiting from gateway-level traffic policies.

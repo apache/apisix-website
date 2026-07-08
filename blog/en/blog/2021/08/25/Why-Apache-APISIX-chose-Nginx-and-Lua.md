@@ -26,10 +26,6 @@ So why do Apache APISIX and other well-known gateways choose Lua?
 
 The technology stack used by Apache APISIX is not only Lua. To be precise, it should be Nginx with Lua. Apache APISIX is based on Nginx and uses Lua to build plugins or other features.
 
-## Quick Overview
-
-This article explains the NGINX and Lua design choices behind Apache APISIX, including performance tradeoffs, dynamic routing, plugin execution, and extensibility.
-
 ## LuaJIT VS Go
 
 Serious readers may point out that Apache APISIX is not based on the Nginx + Lua stack, but Nginx + LuaJIT (also known as OpenResty). LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language, its performance is much better than Lua. LuaJIT adds FFI functions to make it easy and efficient to call C code.
@@ -175,20 +171,3 @@ The graphql_name here is not an Nginx built-in variable, but is defined through 
 Suppose we need particular logic in the routing process, users can implement custom variables and operators, such as determining which route to use by matching the geographic location of the IP library. Users only need to write some Lua code, which is much less complicated than modifying the Nginx C module.
 
 In Apache APISIX, the routing system is dynamic. Our TLS server-side certificates and upstream node configurations are dynamic. There is no need to modify Nginx — the above functions can run on the official Nginx and Lua stack. Of course, by modifying Nginx, we have also implemented more advanced features, such as dynamic gzip configuration and dynamic client request size limit. We will implement our own Nginx distribution later so that open source users can easily use these advanced functions.
-
-## Related APISIX Architecture Resources
-
-- [What is an API Gateway?](/learning-center/what-is-an-api-gateway/): Understand where APISIX fits in modern API architectures.
-- [API Gateway for microservices](/learning-center/api-gateway-for-microservices/): Learn how APISIX manages traffic across distributed services.
-- [Get started with Apache APISIX](/docs/apisix/getting-started/): Try APISIX routing and plugin configuration.
-- [Plugin concept](/docs/apisix/terminology/plugin/): Understand how APISIX extends gateway behavior.
-
-## FAQ
-
-### Why does Apache APISIX build on NGINX and Lua?
-
-NGINX provides a high-performance traffic processing foundation, while Lua and OpenResty make it possible for APISIX to add dynamic routing, plugins, and hot configuration updates.
-
-### How does this architecture help gateway operators?
-
-Operators can change routes, upstreams, certificates, and plugin policies without rebuilding static gateway configuration for every update.

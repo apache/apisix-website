@@ -9,10 +9,6 @@ hide_table_of_contents: false
 
 API gateway authentication is the practice of verifying client identity at a centralized entry point before requests reach backend services. By enforcing authentication at the gateway layer, organizations eliminate redundant auth logic across services, reduce attack surface, and gain a single enforcement point for access policies.
 
-## Quick Overview
-
-This guide explains API Gateway authentication methods and shows how Apache APISIX centralizes identity checks before traffic reaches upstream services.
-
 ## What is API Gateway Authentication
 
 In a distributed architecture, every service that exposes an endpoint must answer a fundamental question: who is making this request? Without a gateway, each service independently implements its own authentication stack. This leads to inconsistent enforcement, duplicated code, and a broader attack surface.

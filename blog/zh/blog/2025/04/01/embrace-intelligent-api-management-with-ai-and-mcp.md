@@ -25,10 +25,6 @@ image: https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp
 
 <!--truncate-->
 
-## 快速概览
-
-本文聚焦 AI 与 MCP 场景带来的 API 管理变化，并说明 Apache APISIX 如何在 LLM 流量周边提供路由、安全、审计和成本控制能力。
-
 ## 前言
 
 随着 AI 大模型应用呈爆发式增长，许多传统应用都希望自己快速接入 AI 大模型。然而，当前各类 AI 工具缺乏统一标准，碎片化现象极为严重。不同大模型的能力高低不一，对接方式也大相径庭，这让传统应用在接入时困难重重。
@@ -192,20 +188,3 @@ APISIX-MCP 目前已经开源并发布到了 npm（[apisix-mcp npm](https://www.
 ## 总结
 
 MCP 的出现为复杂 API 系统的智能化操作开辟了新的可能性，我们希望 APISIX-MCP 能够帮助你快速上手 Apache APISIX。后续 APISIX 不仅会推出更多处理 AI 流量相关的插件，同时也会在 API 管理方面探索更多与 AI 结合的可能性。我们相信，AI 与 API 管理的融合将持续推动运维效率的革新，为开发者带来更智能、更高效的基础设施管理体验。
-
-## 相关 APISIX AI 与 MCP 资源
-
-- [APISIX AI 网关概览](/zh/ai-gateway/)：了解 APISIX 面向 LLM 流量的治理能力。
-- [什么是 AI 网关？](/zh/blog/2025/03/06/what-is-an-ai-gateway/)：理解 AI 网关的核心能力和适用场景。
-- [AI 网关与 API 网关的区别](/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/)：比较传统 API 流量和 AI 流量治理模式。
-- [API 网关安全](/zh/learning-center/api-gateway-security/)：了解认证、限流和观测等网关层控制。
-
-## 常见问题
-
-### Apache APISIX 是否是专门的 MCP 网关产品？
-
-不是。Apache APISIX 不应被描述为专门的 MCP 网关产品。MCP 相关架构仍然可以在 HTTP API、LLM API 或支撑服务周边使用 APISIX 提供路由、认证、限流、可观测性和安全控制。
-
-### APISIX 可以在 MCP 相关架构中承担什么角色？
-
-APISIX 可以位于 HTTP API、LLM Provider API 或 AI 工作流支撑服务之前，统一执行网关层策略，但这不等同于声明 APISIX 原生拥有 MCP 协议网关能力。
