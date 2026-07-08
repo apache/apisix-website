@@ -265,10 +265,10 @@ APISIX 支持非常丰富的插件，期待你去挖掘更多的玩法。
 
 ## 常见问题
 
-### 为什么微服务架构通常需要 API 网关？
+### RESTful API 和普通 HTTP API 有什么区别？
 
-API 网关可以统一处理路由、认证、限流、可观测性和流量治理，避免每个服务重复实现这些横切能力。
+普通 HTTP API 只说明接口通过 HTTP 暴露；RESTful API 更强调资源建模、统一的 HTTP 方法、无状态交互、清晰的 URI 设计和合适的状态码。也就是说，RESTful API 是一种更有约束的 HTTP API 设计风格。
 
-### Apache APISIX 适合放在架构中的什么位置？
+### API 网关如何帮助旧接口更接近 RESTful 风格？
 
-Apache APISIX 可以作为边缘 API 网关、内部微服务网关或 Kubernetes Ingress Controller，负责在服务入口处统一执行流量策略。
+API 网关可以在不改动上游服务代码的情况下，对路径、请求头、响应头和状态码做统一改写。例如使用 Apache APISIX 的 `proxy-rewrite` 和 `response-rewrite` 插件，可以把历史接口逐步整理成更一致的 RESTful 访问形式。
