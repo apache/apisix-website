@@ -15,13 +15,14 @@ keywords:
   - APISIX AI 网关
   - AI 原生
   - 云原生
-description: 作者：王院生，Apache APISIX PMC Member，Apahce Member，API7.ai 创始人 & CTO，《Apache APISIX 实战》作者。本文整理自 2025 年 4 月 12 日院生在 APISIX 深圳 Meetup 的演讲。
+description: "了解 Apache APISIX 如何从云原生 API 网关扩展到 AI 网关，覆盖 LLM 流量治理、安全、观测和成本控制。"
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png
 ---
 
 > 作者：王院生，Apache APISIX PMC 成员，Apahce 成员，API7.ai 创始人 & CTO，《Apache APISIX 实战》作者。本文整理自 2025 年 4 月 12 日院生在 APISIX 深圳 Meetup 的演讲。
 >
+
 <!--truncate-->
 
 ## 导语：AI 时代的焦点——Why

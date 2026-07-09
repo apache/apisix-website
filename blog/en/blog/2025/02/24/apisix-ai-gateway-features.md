@@ -9,7 +9,7 @@ keywords:
   - smart traffic management
   - multi-LLM proxy
   - cloud-native API
-description: "Explore the advanced features of Apache APISIX AI Gateway for efficient, secure LLM API calls, optimized traffic management, and enhanced data protection."
+description: "Learn how Apache APISIX AI Gateway handles LLM traffic with model routing, token rate limiting, retry and fallback, prompt controls, and observability."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---

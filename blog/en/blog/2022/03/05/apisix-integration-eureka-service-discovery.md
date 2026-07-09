@@ -15,13 +15,14 @@ keywords:
 - Eureka
 - Service Discovery
 - Servici Register
-description: This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
+description: "Learn how to configure Eureka service discovery with Apache APISIX and diagnose gateway-to-service-discovery issues in microservices environments."
 tags: [Ecosystem]
 ---
 
 > This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.
 
 <!--truncate-->
+
 In microservices architecture, large and complex systems are vertically divided into smaller subsystems based on function or business requirements, which exist as independently deployed sub-processes that communicate with each other through network calls. How these independently deployed services discover each other is the first problem to be solved, so there is often a centralized registry in microservice architectures.
 
 As the most core development framework in the Java ecosystem, Spring continues to liberate the productivity of Java developers from Spring MVC to Spring Boot, and Spring Cloud is Spring's answer to the micro-service architecture in the Cloud native era.

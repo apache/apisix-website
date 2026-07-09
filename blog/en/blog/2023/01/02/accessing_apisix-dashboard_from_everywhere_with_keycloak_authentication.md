@@ -11,7 +11,7 @@ keywords:
   - Nginx reverse proxy
   - OpenID-Connect
   - Keycloak
-description: Expose the APISIX Dashboard securely using the OpenID-Connect plugin with Keycloak for identity management and authentication.
+description: "Learn how to secure remote access to the APISIX Dashboard with Keycloak authentication and centralized identity controls."
 tags:
   - Ecosystem
 cover: https://static.apiseven.com/uploads/2023/01/19/FKDU7U6j_blog01a.png
@@ -394,7 +394,6 @@ server {
     ssl_certificate     /home/sysop/H/hservcerts/k6k.crt;
     ssl_certificate_key /home/sysop/H/hservcerts/k6k.key;
 
-
     location / {
         index  index.html index.htm;
     }
@@ -753,7 +752,6 @@ server {
     ssl_certificate     /home/sysop/H/hservcerts/apisix.crt;
     ssl_certificate_key /home/sysop/H/hservcerts/apisix.key;
 
-
     location / {
         index  index.html index.htm;
     }
@@ -808,7 +806,6 @@ upstream hcluster {
     server 192.168.101.23:443;
     server 192.168.101.24:443;
 }
-
 
 server {
 

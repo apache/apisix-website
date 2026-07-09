@@ -12,7 +12,7 @@ keywords:
   - AI Plugins
   - API Management
   - AI-Driven Applications
-description: In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway.
+description: "Explore Apache APISIX AI Gateway capabilities for LLM proxying, multi-model routing, token-based rate limiting, prompt handling, and AI traffic security."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---

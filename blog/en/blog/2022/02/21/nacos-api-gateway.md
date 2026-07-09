@@ -15,7 +15,7 @@ keywords:
 - API gateway
 - Service Discovery
 - Service Registry
-description: This article introduces the basic concepts of Apache APISIX and Service Registry, and shows you the practice of Nacos service discovery on API Gateway.
+description: "Learn how Apache APISIX integrates with Nacos for service discovery, dynamic upstream updates, and API Gateway routing in microservices architectures."
 tags: [Ecosystem]
 ---
 

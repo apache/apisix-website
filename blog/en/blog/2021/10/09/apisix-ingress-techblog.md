@@ -9,7 +9,7 @@ keywords:
 - Ingress
 - API Gateway
 - Kubernetes
-description: Learn what APISIX Ingress Controller is, how it differs from Kubernetes Ingress NGINX, and its key advantages for API management.
+description: "Learn what APISIX Ingress Controller is, how it maps Kubernetes Ingress resources to APISIX routes, and when to use it for Kubernetes traffic management."
 tags: [Ecosystem, Community]
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks"
-description: "Detailed comparison of Apache APISIX and Kong API Gateway. Covers architecture, performance, plugin ecosystem, Kubernetes support, and when to choose each."
+description: "Compare Apache APISIX and Kong API Gateway across architecture, performance, plugin ecosystem, Kubernetes support, and migration tradeoffs."
 slug: apisix-vs-kong
 date: 2026-04-14
 tags: [comparison, apisix, kong, api-gateway]
@@ -12,9 +12,6 @@ faq:
   - q: "Is APISIX harder to operate because it requires etcd?"
     a: >-
       etcd adds a dependency compared to Kong's DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong's DB-mode.
-  - q: "Which gateway has better AI and LLM support?"
-    a: >-
-      Both gateways are investing in AI gateway capabilities, but they approach it differently. APISIX provides the ai-proxy plugin in its open-source edition, supporting multi-model routing, token-based rate limiting, and prompt transformation for major LLM providers. Kong offers AI Gateway plugins primarily through its enterprise edition and Konnect platform. For teams building AI-powered applications on an open-source budget, APISIX currently provides more built-in AI functionality without licensing costs.
   - q: "How do the two gateways compare on gRPC and streaming support?"
     a: >-
       APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX's broader built-in protocol support reduces the need for custom plugins or sidecars.
@@ -68,7 +65,6 @@ For many production deployments, both gateways provide sufficient throughput, an
 | Admin API | Full REST API, fully dynamic | REST API, DB-mode or DB-less |
 | Service discovery | Nacos, Consul, Eureka, DNS, Kubernetes | DNS, Consul (others via plugins) |
 | Kubernetes ingress | APISIX Ingress Controller (CRD-based) | Kong Ingress Controller (KIC) |
-| AI gateway capabilities | ai-proxy plugin, multi-LLM routing | AI Gateway plugins (Enterprise) |
 | Multi-language plugin support | Go, Java, Python, Wasm, Lua | Go, JavaScript, Python (PDK) |
 | Configuration storage | etcd (distributed, real-time) | PostgreSQL (requires migrations) |
 | Canary/traffic splitting | Built-in traffic-split plugin | Canary plugin (Enterprise) |
@@ -77,7 +73,7 @@ Both gateways support core functionality like rate limiting, authentication (JWT
 
 ## Plugin Ecosystem
 
-APISIX ships with over 80 built-in plugins covering authentication, security, traffic management, observability, and protocol transformation. Notably, plugins for serverless functions (running custom Lua, Java, or Go code inline), AI proxy routing, and advanced traffic management are available in the open-source edition.
+APISIX ships with over 80 built-in plugins covering authentication, security, traffic management, observability, and protocol transformation. Notably, plugins for serverless functions (running custom Lua, Java, or Go code inline) and advanced traffic management are available in the open-source edition.
 
 Kong's open-source edition includes approximately 40 built-in plugins, with a substantial number of additional plugins available through Kong Plugin Hub and the enterprise edition. Kong's plugin marketplace includes many third-party and partner-contributed plugins, giving it a broader ecosystem for specific vendor integrations like Datadog, PagerDuty, and Moesif.
 
@@ -110,7 +106,7 @@ Both projects maintain active community forums, Slack channels, and regular rele
 APISIX is the stronger choice when your requirements include:
 
 - **Dynamic configuration at scale:** Environments where routes and plugins change frequently benefit from etcd-based instant propagation without restarts.
-- **Maximum open-source functionality:** Teams that need advanced features like traffic splitting, AI proxy, and multi-protocol support without enterprise licensing.
+- **Maximum open-source functionality:** Teams that need advanced features like traffic splitting and multi-protocol support without enterprise licensing.
 - **High-performance requirements:** Workloads where per-request latency and single-core throughput directly impact infrastructure costs.
 - **Kubernetes-native deployments:** Organizations adopting Gateway API and wanting tight integration with cloud-native service discovery (Nacos, Consul, Eureka).
 - **Vendor-neutral governance:** Teams that prefer Apache Software Foundation stewardship over single-vendor control.
@@ -134,10 +130,6 @@ Yes. Both gateways can operate in parallel by splitting traffic at the load bala
 ### Is APISIX harder to operate because it requires etcd?
 
 etcd adds a dependency compared to Kong's DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong's DB-mode.
-
-### Which gateway has better AI and LLM support?
-
-Both gateways are investing in AI gateway capabilities, but they approach it differently. APISIX provides the ai-proxy plugin in its open-source edition, supporting multi-model routing, token-based rate limiting, and prompt transformation for major LLM providers. Kong offers AI Gateway plugins primarily through its enterprise edition and Konnect platform. For teams building AI-powered applications on an open-source budget, APISIX currently provides more built-in AI functionality without licensing costs.
 
 ### How do the two gateways compare on gRPC and streaming support?
 

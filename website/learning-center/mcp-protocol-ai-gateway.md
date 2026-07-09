@@ -1,6 +1,6 @@
 ---
 title: "MCP Protocol & AI Gateways: Managing AI Agent Traffic at Scale"
-description: "Learn about the Model Context Protocol (MCP), how AI gateways manage LLM and AI agent traffic, and how Apache APISIX bridges MCP servers with enterprise infrastructure."
+description: "Learn what Model Context Protocol means for AI agent traffic and how API gateways such as Apache APISIX can secure, observe, and control surrounding LLM API calls."
 slug: mcp-protocol-ai-gateway
 date: 2026-04-14
 tags: [mcp, ai-gateway, ai-agents, llm]
@@ -122,6 +122,10 @@ Function calling (also called tool use) is the LLM capability to generate struct
 ### Can I use an AI gateway without adopting MCP?
 
 Yes. AI gateways manage all types of AI traffic, including direct LLM API calls that do not use MCP. Most organizations start with basic LLM proxy and rate limiting features before adopting MCP for tool integration. The gateway provides value regardless of whether your AI applications use MCP, custom tool integrations, or simple prompt-response patterns.
+
+### Does Apache APISIX provide a dedicated gateway product for MCP?
+
+No. Apache APISIX should not be described as a dedicated gateway product for MCP. MCP-related architectures can still use APISIX around HTTP and LLM API traffic for routing, authentication, rate limiting, observability, and security controls.
 
 ## Related
 

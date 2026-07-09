@@ -13,7 +13,7 @@ keywords:
 - Microservices
 - Rate limiting
 - Quota
-description: Build an API monetization system using APISIX for rate limiting and quota management with a payment provider for billing.
+description: "Learn how API monetization works with Apache APISIX, including traffic control, authentication, analytics, and gateway policies for paid API products."
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/25/6357addd22a01.png
 ---

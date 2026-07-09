@@ -8,7 +8,7 @@ keywords:
 - Lua
 - Dynamic Management
 date: "2021-08-10"
-description: Learn how APISIX dynamically manages NGINX clusters via REST API and etcd, enabling hot reloading without downtime.
+description: "Learn how Apache APISIX adds dynamic configuration, REST API control, and cluster management on top of NGINX with Lua and etcd."
 tags: [Ecosystem]
 ---
 

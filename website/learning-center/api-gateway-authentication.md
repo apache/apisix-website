@@ -1,6 +1,6 @@
 ---
 title: "API Gateway Authentication: Methods, Best Practices & Implementation"
-description: "Learn how to implement authentication at the API gateway layer. Covers Key Auth, JWT, OAuth 2.0, OpenID Connect, mTLS, and HMAC with practical examples."
+description: "Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control."
 slug: api-gateway-authentication
 date: 2026-04-14
 tags: [authentication, security, api-gateway]

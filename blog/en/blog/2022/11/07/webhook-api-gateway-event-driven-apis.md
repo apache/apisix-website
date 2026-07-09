@@ -13,7 +13,7 @@ keywords:
 - Use-cases
 - Webhook
 - Event-driven
-description: This post elaborates on building event-driven APIs by making use of Webhook and API Gateway, we understand the role of each in this solution.
+description: "Learn how Apache APISIX can secure, route, and manage webhook APIs and event-driven traffic with gateway policies and plugins."
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/07/6368d30abf672.png
 ---

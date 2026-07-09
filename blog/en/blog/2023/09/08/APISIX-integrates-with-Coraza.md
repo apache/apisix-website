@@ -13,12 +13,13 @@ keywords:
   - APISIX
   - Coraza
   - WAF
-description: The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+description: "Learn how Apache APISIX integrates with Coraza WAF to add open-source API security, request filtering, and protection at the gateway layer."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp
 ---
 
 > The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+
 <!--truncate-->
 
 With the rapid advancement of cloud-native technology, securing APIs has become increasingly crucial. In response to this growing need, [Apache APISIX](https://github.com/apache/apisix) has introduced a range of cutting-edge features. Among them, it is commendable that APISIX has integrated the [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm) plugin. We will delve into APISIX's enhanced WAF capabilities and explore how Coraza can fortify applications against a wide array of web attacks, ensuring comprehensive security.

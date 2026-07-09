@@ -10,7 +10,7 @@ keywords:
 - Lua
 - Nginx
 - API Gateway
-description: This article introduces the historical background of Apache APISIX's choice of Nginx + Lua technology stack and the advantages they bring to APISIX.
+description: "Learn why Apache APISIX uses NGINX and Lua, and how this architecture supports high-performance dynamic routing, plugins, and hot configuration updates."
 tags: [Ecosystem]
 ---
 

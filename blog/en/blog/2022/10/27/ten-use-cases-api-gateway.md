@@ -12,7 +12,7 @@ keywords:
 - Architecture
 - Use-cases
 - Microservices
-description: This post elaborates on the 10 most common usages of an API Gateway such as Apache APISIX in architecting API-Led Connectivity.
+description: "Explore ten API Gateway use cases with Apache APISIX, from authentication and rate limiting to traffic splitting, observability, and Kubernetes ingress."
 tags: [Case Studies]
 image: https://static.apiseven.com/2022/10/27/635a40e58b27a.png
 ---

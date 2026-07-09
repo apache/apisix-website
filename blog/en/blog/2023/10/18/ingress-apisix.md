@@ -13,12 +13,13 @@ keywords:
 - Apache APISIX
 - APISIX Ingress Controller
 - etcd
-description: The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+description: "Learn how APISIX Ingress Controller architecture reduces etcd operational complexity and manages Kubernetes traffic through Apache APISIX."
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
 > The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+
 <!--truncate-->
 
 ## Background

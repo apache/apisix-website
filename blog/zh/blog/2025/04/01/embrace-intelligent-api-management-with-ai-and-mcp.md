@@ -16,12 +16,13 @@ keywords:
   - AI模型
   - API管理
   - 自然语言交互
-description: MCP 协议为 AI 模型提供标准化连接，APISIX-MCP 通过自然语言交互简化 API 管理，实现智能配置与自动化工作流，提升运维效率。
+description: "了解 AI 与 MCP 场景下的 API 管理需求，以及 Apache APISIX 如何用于 LLM 流量路由、安全、审计和成本控制。"
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp
 ---
 
 > 本文介绍了 MCP 协议及其在 APISIX-MCP 中的应用。MCP 协议为 AI 模型提供标准化连接，解决碎片化问题。APISIX-MCP 通过自然语言交互简化 API 管理，支持创建、更新、删除资源，实现自动化工作流和闭环验证，显著降低认知成本，提升运维效率。
+
 <!--truncate-->
 
 ## 前言

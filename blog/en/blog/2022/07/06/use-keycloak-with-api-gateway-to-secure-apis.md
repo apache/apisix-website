@@ -15,7 +15,7 @@ keywords:
   - Authentication
   - OpenID Connect
   - Keycloak
-description: Integrate Keycloak with APISIX using the OpenID Connect plugin. Configure SSO authentication for your APIs step by step.
+description: "Learn how to secure APIs with Keycloak and Apache APISIX using OpenID Connect, centralized authentication, and gateway-level access control."
 tags: [Authentication, Plugins]
 image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 ---

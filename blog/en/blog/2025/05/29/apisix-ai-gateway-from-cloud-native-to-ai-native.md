@@ -15,12 +15,13 @@ keywords:
   - Apache APISIX
   - AI gateway
   - APISIX AI gateway
-description: This article is based on Yuansheng's presentation at the APISIX Shenzhen Meetup on April 12, 2025.
+description: "Learn how Apache APISIX evolves from cloud-native API Gateway to AI Gateway for LLM traffic management, security, observability, and token governance."
 tags: [Case Studies]
 image: https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png
 ---
 
 > Authors: Yuansheng Wang, Apache APISIX PMC member, Apache member, Co-founder & CTO of API7.ai, and author of *Apache APISIX in Action*. This article is based on Yuansheng's presentation at the APISIX Shenzhen Meetup on April 12, 2025.
+
 <!--truncate-->
 
 ## The Focus of the AI Era — Why

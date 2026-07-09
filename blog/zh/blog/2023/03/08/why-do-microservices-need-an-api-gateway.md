@@ -9,7 +9,7 @@ keywords:
 - RESTful
 - Apache APISIX
 - API
-description: 随着微服务的数据越来越多，API 的数量也越来越多，对于大流量的治理，选择一个优秀的 API 网关是至关重要的。本文列举了常见网关，并进行对比，列出各自的优缺点，如果你正在做 API 网关的技术选型，或者你的微服务系统出现了性能问题，再或者你想搭建一个高效稳定的微服务系统，希望本文可以带给你一定的启发。
+description: "了解微服务为什么需要 API 网关，以及 Apache APISIX 如何帮助统一路由、认证、限流、观测和流量治理。"
 tags: [Ecosystem]
 ---
 

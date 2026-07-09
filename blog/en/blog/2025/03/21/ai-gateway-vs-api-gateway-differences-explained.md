@@ -14,12 +14,13 @@ keywords:
   - token consumption
   - streaming requests
   - AI orchestration
-description: "Explore the evolution of AI gateways vs API gateways, their unique challenges, and how Apache APISIX is shaping the future of AI workloads."
+description: "Compare AI Gateways and traditional API Gateways, including LLM traffic patterns, token controls, model routing, and where Apache APISIX fits."
 image: https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp
 tags: [Ecosystem]
 ---
 
 >_"The future isn't AI gateways—it's API gateways that speak AI."_ This blog explores AI gateways, their differences from API gateways, and why evolved solutions like [Apache APISIX AI Gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/) are shaping the future.
+
 <!--truncate-->
 
 ## What Is an AI Gateway? Why Did It Arise in the AI Era?

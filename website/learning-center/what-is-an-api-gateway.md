@@ -1,6 +1,6 @@
 ---
 title: "What is an API Gateway? Definition, Benefits & Use Cases"
-description: "Learn what an API gateway is, how it works, key features like load balancing, authentication, and rate limiting, and why modern architectures need one."
+description: "Learn what an API Gateway is, how it handles routing, authentication, rate limiting, observability, and where Apache APISIX fits."
 slug: what-is-an-api-gateway
 date: 2026-04-14
 tags: [api-gateway, concepts]

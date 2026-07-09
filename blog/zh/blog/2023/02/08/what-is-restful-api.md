@@ -9,7 +9,7 @@ keywords:
 - RESTful
 - Apache APISIX
 - API
-description: 本文将介绍什么是 RESTful API 以及我们如何使用它。
+description: "了解 RESTful API 的核心概念、最佳实践，以及如何使用 Apache APISIX 在网关层统一治理、保护和改造 API 流量。"
 tags: [Ecosystem]
 ---
 
@@ -262,3 +262,13 @@ APISIX 支持非常丰富的插件，期待你去挖掘更多的玩法。
 ## 总结
 
 本文详细说明了什么是 API，什么是 RESTful API 以及其最佳实践。另外还介绍了如何通过 APISIX 来实现业务逻辑和安全逻辑分离，如何使用 APISIX 在不改动原有业务代码的情况下将历史 API 服务更加 RESTful。希望本文对你了解 RESTful API 有所帮助，也欢迎你来 GitHub 一起玩耍。
+
+## 常见问题
+
+### RESTful API 和普通 HTTP API 有什么区别？
+
+普通 HTTP API 只说明接口通过 HTTP 暴露；RESTful API 更强调资源建模、统一的 HTTP 方法、无状态交互、清晰的 URI 设计和合适的状态码。也就是说，RESTful API 是一种更有约束的 HTTP API 设计风格。
+
+### API 网关如何帮助旧接口更接近 RESTful 风格？
+
+API 网关可以在不改动上游服务代码的情况下，对路径、请求头、响应头和状态码做统一改写。例如使用 Apache APISIX 的 `proxy-rewrite` 和 `response-rewrite` 插件，可以把历史接口逐步整理成更一致的 RESTful 访问形式。

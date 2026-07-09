@@ -13,11 +13,12 @@ keywords:
   - AI cost control
   - AI security
   - APISIX AI gateway
-description: "Discover how AI gateways are revolutionizing enterprise AI infrastructure, offering centralized control, security, cost management, and governance for AI models and services."
+description: "Explore AI Gateway infrastructure trends and how Apache APISIX can help manage LLM traffic, model routing, token limits, and AI application security."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp
 ---
 > Discover how AI gateways are revolutionizing enterprise AI infrastructure, offering centralized control, security, cost management, and governance for AI models and services.
+
 <!--truncate-->
 
 ## AI Infrastructure Revolution

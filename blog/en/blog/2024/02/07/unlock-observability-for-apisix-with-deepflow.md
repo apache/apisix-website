@@ -9,12 +9,13 @@ keywords:
   - APISIX
   - DeepFlow
   - Observability
-description: Build zero-code observability for APISIX using DeepFlow and eBPF. Unified tracing, metrics, logs, and profiling without code changes.
+description: "Learn how to add zero-code observability for Apache APISIX with DeepFlow and eBPF, including tracing, metrics, logs, and profiling."
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg
 ---
 
 > This article aims to elucidate how to leverage DeepFlow's zero-code feature based on eBPF to construct an observability solution for APISIX.
+
 <!--truncate-->
 
 With the growing emphasis on the observability of application components, Apache APISIX has introduced a plugin mechanism to enrich observability signals. However, these data are scattered across multiple stacks, creating data silos. **This article aims to elucidate how to leverage DeepFlow's zero-code feature based on eBPF to construct an observability solution for APISIX.** On this basis, it integrates the rich data sources of existing APISIX plugins to eliminate data silos and build an all-in-one platform for comprehensive observability of the APISIX gateway.

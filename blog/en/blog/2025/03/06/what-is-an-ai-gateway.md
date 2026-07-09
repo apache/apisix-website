@@ -18,7 +18,7 @@ keywords:
   - data security
   - AI traffic optimization
   - hybrid cloud architecture
-description: "AI Gateway manages LLMs traffic, enhancing security, reliability, and observability for AI applications."
+description: "Learn what an AI Gateway is and how Apache APISIX can manage LLM API traffic, model routing, token limits, security, and observability."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/1W9olFmu_what-is-ai-gateway.webp
 ---

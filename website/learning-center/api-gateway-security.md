@@ -1,6 +1,6 @@
 ---
 title: "API Gateway Security: Threats, Best Practices & Implementation"
-description: "Learn how to secure your API gateway against common threats. Covers authentication, authorization, rate limiting, WAF, IP filtering, and zero-trust architecture."
+description: "Learn API Gateway security best practices with Apache APISIX, including authentication, authorization, rate limiting, WAF, mTLS, and zero-trust controls."
 slug: api-gateway-security
 date: 2026-04-14
 tags: [security, api-gateway, best-practices]
