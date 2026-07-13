@@ -134,6 +134,17 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      # Guards the canonical contract of versioned doc pages (see
+      # doc/src/theme/LayoutHead/index.tsx): versioned pages must carry exactly
+      # one canonical pointing at the version-less latest URL, and canonicals
+      # embedded in the doc markdown itself must still win.
+      - name: Assert canonical contract
+        run: |
+          f=$(ls website/build/docs/apisix/3.*/plugins/cors/index.html | head -1)
+          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
+          grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' website/build/docs/apisix/plugins/cors/index.html
+
       - name: Update sitemap.xml
         run: |
           yarn update-sitemap && git status
