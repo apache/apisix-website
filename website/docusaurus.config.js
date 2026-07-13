@@ -104,7 +104,7 @@ module.exports = {
         blogSidebarTitle: 'Learning Center',
         blogTitle: 'Learning Center',
         blogDescription:
-          'Practical guides to API gateway concepts — authentication, rate limiting, security, observability — plus comparisons of Apache APISIX with Kong, Envoy, and NGINX.',
+          'Practical guides to API gateway concepts — authentication, rate limiting, security, mutual TLS — plus comparisons of Apache APISIX with Kong, Envoy, and NGINX.',
         showReadingTime: true,
       },
     ],
