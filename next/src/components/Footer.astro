@@ -1,0 +1,22 @@
+---
+import { FOOTER, localePrefix, type Locale } from '../lib/site';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const prefix = localePrefix(locale);
+const href = (h: string) => (h.startsWith('http') ? h : `${prefix}${h}`);
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-cols">
+      {FOOTER.cols.map((col) => (
+        <div>
+          <p class="footer-title">{col.title}</p>
+          <ul>
+            {col.links.map((l) => <li><a href={href(l.href)}>{l.label}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <p class="footer-legal">{FOOTER.legal}</p>
+  </div>
+</footer>

@@ -1,0 +1,13 @@
+---
+import CollectionPages from '../../../components/CollectionPages.astro';
+import { getLearningPosts } from '../../../lib/content';
+---
+<CollectionPages
+  locale="zh"
+  page={1}
+  posts={getLearningPosts('zh')}
+  urlBase="/learning-center"
+  heading="Learning Center"
+  sub="Guides to API gateway concepts, security, Kubernetes, and gateway comparisons."
+  withTags
+/>

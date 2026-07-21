@@ -1,0 +1,12 @@
+---
+import CollectionPages from '../../components/CollectionPages.astro';
+import { getArticles } from '../../lib/content';
+---
+<CollectionPages
+  locale="en"
+  page={1}
+  posts={getArticles('en')}
+  urlBase="/articles"
+  heading="Articles"
+  sub="Stories about the Apache APISIX community and the Apache Way."
+/>

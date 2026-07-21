@@ -1,0 +1,10 @@
+---
+import Article from '../../layouts/Article.astro';
+import { getArticles } from '../../lib/content';
+
+export function getStaticPaths() {
+  return getArticles('en').map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+const { post } = Astro.props;
+---
+<Article post={post} locale="en" path={`/articles/${post.slug}/`} schemaType="Article" />

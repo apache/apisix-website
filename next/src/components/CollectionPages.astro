@@ -1,0 +1,36 @@
+---
+/**
+ * Generic listing page for flat markdown collections (learning-center, articles).
+ * Renders one page of a paginated list, in the requested locale.
+ */
+import ListPage from '../layouts/ListPage.astro';
+import { paginate, type Post } from '../lib/content';
+import { localePrefix, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  page: number;
+  posts: Post[];
+  urlBase: string; // e.g. "/learning-center"
+  heading: string;
+  sub?: string;
+  withTags?: boolean;
+}
+const { locale, page, posts, urlBase, heading, sub, withTags = false } = Astro.props;
+const prefix = localePrefix(locale);
+const pages = paginate(posts);
+const pagePosts = pages[page - 1] ?? [];
+---
+<ListPage
+  title={heading}
+  heading={heading}
+  sub={sub}
+  locale={locale}
+  path={page === 1 ? `${urlBase}/` : `${urlBase}/page/${page}/`}
+  base={`${prefix}${urlBase}/`}
+  posts={pagePosts}
+  current={page}
+  total={pages.length}
+  archiveUrl={`${prefix}${urlBase}/archive/`}
+  tagsUrl={withTags ? `${prefix}${urlBase}/tags/` : undefined}
+/>

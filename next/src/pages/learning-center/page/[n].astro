@@ -1,0 +1,16 @@
+---
+import CollectionPages from '../../../components/CollectionPages.astro';
+import { getLearningPosts, paginate } from '../../../lib/content';
+
+export function getStaticPaths() {
+  return paginate(getLearningPosts('en')).slice(1).map((_, i) => ({ params: { n: String(i + 2) } }));
+}
+---
+<CollectionPages
+  locale="en"
+  page={Number(Astro.params.n)}
+  posts={getLearningPosts('en')}
+  urlBase="/learning-center"
+  heading="Learning Center"
+  withTags
+/>

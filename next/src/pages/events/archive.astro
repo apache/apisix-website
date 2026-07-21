@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getGeneralDocs } from '../../lib/content';
+
+const events = getGeneralDocs('en')
+  .filter((d) => d.id.startsWith('events/'))
+  .sort((a, b) => b.id.localeCompare(a.id));
+---
+<Base title="Events Archive" locale="en" path="/events/archive/">
+  <div class="container">
+    <div class="page-title"><h1>Events archive</h1></div>
+    <div class="archive-list">
+      <ul>
+        {events.map((e) => <li><a href={e.url}>{e.title}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</Base>

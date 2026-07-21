@@ -1,0 +1,31 @@
+---
+import DocPage from '../../../../layouts/DocPage.astro';
+import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar } from '../../../../lib/content';
+
+export function getStaticPaths() {
+  return Object.keys(SUBPROJECTS).flatMap((project) => {
+    const docs = getSubprojectDocs(project, 'zh');
+    // Sidebar config ids are path-derived; map them to post-override titles/urls.
+    const titleById = new Map(docs.map((d) => [d.pathId, d.title]));
+    const urlByPathId = new Map(docs.map((d) => [d.pathId, d.url]));
+    return docs.map((entry) => ({
+      params: { project, id: entry.id },
+      props: { entry, titleById, urlByPathId, project },
+    }));
+  });
+}
+const { entry, titleById, urlByPathId, project } = Astro.props;
+const sidebar = getSubprojectSidebar(project);
+const urlById = (id: string) => urlByPathId.get(id) ?? `/zh/docs/${project}/${id}/`;
+const repo = SUBPROJECTS[project].repo;
+---
+<DocPage
+  entry={entry}
+  activeId={entry.pathId}
+  locale="zh"
+  path={`/docs/${project}/${entry.id}/`}
+  sidebar={sidebar}
+  titleById={titleById}
+  urlById={urlById}
+  editUrl={`https://github.com/apache/${repo}/edit/master/docs/zh/latest/${entry.id}.md`}
+/>

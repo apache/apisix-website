@@ -1,0 +1,13 @@
+---
+import type { Post } from '../lib/content';
+interface Props { post: Post }
+const { post } = Astro.props;
+---
+<a class="post-card" href={post.url}>
+  {post.image && <img class="cover" src={post.image} alt={post.title} loading="lazy" width="640" height="360" />}
+  <div class="body">
+    <h3>{post.title}</h3>
+    {post.description && <p class="desc">{post.description}</p>}
+    <p class="meta">{post.dateStr}{post.author ? ` · ${post.author}` : ''}</p>
+  </div>
+</a>

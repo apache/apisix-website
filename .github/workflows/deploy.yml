@@ -149,6 +149,52 @@ jobs:
         run: |
           yarn update-sitemap && git status
 
+      # ---- Static homepage migration (wave 1) --------------------------------
+      # The landing page (/ and /zh/) is served from a zero-JS Astro build in
+      # next/; every other URL above is produced by Docusaurus. The Astro
+      # homepage needs no synced docs, so this build skips the content sync.
+      # Runs last, after every Node 16 Docusaurus step (build, canonical
+      # assert, sitemap), so switching to Node 22 never touches the Docusaurus
+      # toolchain. See next/MIGRATION.md.
+      - name: Set up Node.js 22 for the Astro build
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build the Astro homepage
+        working-directory: next
+        run: |
+          npm ci
+          npx astro build
+
+      - name: Overlay the Astro homepage onto the Docusaurus build
+        run: |
+          set -euo pipefail
+          # File-level allowlist: only the two landing pages and the shared
+          # Astro asset dir come from the Astro build. Everything else in
+          # website/build (docs, blog, sitemaps, .htaccess, robots) is left as
+          # Docusaurus produced it, so URLs stay byte-identical.
+          for path in index.html zh/index.html _astro; do
+            rm -rf "website/build/$path"
+            mkdir -p "website/build/$(dirname "$path")"
+            cp -R "next/dist/$path" "website/build/$path"
+          done
+          # Fail the deploy if the landing pages are not the Astro build, or
+          # if the homepage lost its stylesheet link.
+          grep -q 'The same gateway, now for your LLM traffic' website/build/index.html
+          grep -q '同一个网关' website/build/zh/index.html
+          grep -q '/_astro/.*\.css' website/build/index.html
+          test -d website/build/_astro
+          # Merge the homepage's image assets (integration brand icons, feature
+          # infographics, architecture diagram) into the Docusaurus img tree.
+          # cp merges: it adds the new files and overwrites only same-named
+          # logos with byte-identical copies, leaving every other image intact.
+          mkdir -p website/build/img
+          cp -R next/dist/img/. website/build/img/
+          test -f website/build/img/infographs/performance.svg
+          test -f website/build/img/integrations/icon-prometheus.svg
+          test -f website/build/img/architecture.svg
+
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify
         if: ${{ false }}

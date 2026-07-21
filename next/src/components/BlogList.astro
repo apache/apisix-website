@@ -1,0 +1,23 @@
+---
+import ListPage from '../layouts/ListPage.astro';
+import { getBlogPosts, paginate } from '../lib/content';
+import { t, localePrefix, type Locale } from '../lib/site';
+
+interface Props { locale: Locale; page: number }
+const { locale, page } = Astro.props;
+const prefix = localePrefix(locale);
+const pages = paginate(getBlogPosts(locale));
+const posts = pages[page - 1] ?? [];
+---
+<ListPage
+  title={t(locale, 'Blog', '博客')}
+  heading={t(locale, 'Apache APISIX Blog', 'Apache APISIX 博客')}
+  sub={t(locale, 'Release notes, case studies, ecosystem integrations, and engineering deep dives.', '版本发布、用户案例、生态集成与工程实践。')}
+  locale={locale}
+  path={page === 1 ? '/blog/' : `/blog/page/${page}/`}
+  base={`${prefix}/blog/`}
+  posts={posts}
+  current={page}
+  total={pages.length}
+  archiveUrl={`${prefix}/blog/archive/`}
+/>

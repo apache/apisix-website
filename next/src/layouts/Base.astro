@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, SITE_NAME, DEFAULT_DESCRIPTION, FAVICON, ORG_JSONLD, type Locale } from '../lib/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  locale?: Locale;
+  /** Path of this page without locale prefix, e.g. "/blog/". Used for canonical + hreflang. */
+  path: string;
+  image?: string;
+  jsonLd?: object[];
+  /** Set false for pages that exist in only one locale. */
+  hasAlternate?: boolean;
+  noindex?: boolean;
+  /** Cross-site canonical embedded in upstream docs (docs.api7.ai hub pages). */
+  canonicalOverride?: string;
+  /** Set false when the title is already the complete tag (homepage). */
+  titleSuffix?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale = 'en',
+  path,
+  image,
+  jsonLd = [],
+  hasAlternate = true,
+  noindex = false,
+  canonicalOverride,
+  titleSuffix = true,
+} = Astro.props;
+
+const enUrl = `${SITE}${path}`;
+const zhUrl = `${SITE}/zh${path}`;
+const canonical = canonicalOverride ?? (locale === 'zh' ? zhUrl : enUrl);
+// Same pattern as production: "<page title> | Apache APISIX".
+const fullTitle = titleSuffix && !title.includes(' | ') ? `${title} | ${SITE_NAME}` : title;
+const desc = description?.trim() || DEFAULT_DESCRIPTION;
+const allJsonLd = [...ORG_JSONLD, ...jsonLd];
+---
+<html lang={locale === 'zh' ? 'zh-CN' : 'en'}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={desc} />
+  {noindex ? <meta name="robots" content="noindex" /> : <meta name="robots" content="index,follow" />}
+  <link rel="canonical" href={canonical} />
+  {hasAlternate && <link rel="alternate" hreflang="en" href={enUrl} />}
+  {hasAlternate && <link rel="alternate" hreflang="zh" href={zhUrl} />}
+  {hasAlternate && <link rel="alternate" hreflang="x-default" href={enUrl} />}
+  <link rel="icon" href={FAVICON} />
+  <link rel="sitemap" type="application/xml" href={locale === 'zh' ? '/zh/sitemap.xml' : '/sitemap.xml'} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={desc} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content="Apache APISIX" />
+  {image && <meta property="og:image" content={image} />}
+  {image && <meta name="twitter:image" content={image} />}
+  <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:site" content="@apacheapisix" />
+  <script type="application/ld+json" set:html={JSON.stringify(allJsonLd)} />
+</head>
+<body>
+  <Header locale={locale} path={path} />
+  <main>
+    <slot />
+  </main>
+  <Footer locale={locale} />
+</body>
+</html>

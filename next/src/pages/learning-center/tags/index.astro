@@ -1,0 +1,19 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getLearningPosts, groupByTag } from '../../../lib/content';
+
+const tags = groupByTag(getLearningPosts('en'));
+const sorted = [...tags.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+---
+<Base title="Tags | Learning Center" locale="en" path="/learning-center/tags/">
+  <div class="container">
+    <div class="page-title"><h1>Learning Center tags</h1></div>
+    <div class="archive-list">
+      <ul>
+        {sorted.map(([slug, { label, posts }]) => (
+          <li><a href={`/learning-center/tags/${slug}/`}>{label}</a> ({posts.length})</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</Base>

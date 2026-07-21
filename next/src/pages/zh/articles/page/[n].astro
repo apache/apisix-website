@@ -1,0 +1,15 @@
+---
+import CollectionPages from '../../../../components/CollectionPages.astro';
+import { getArticles, paginate } from '../../../../lib/content';
+
+export function getStaticPaths() {
+  return paginate(getArticles('zh')).slice(1).map((_, i) => ({ params: { n: String(i + 2) } }));
+}
+---
+<CollectionPages
+  locale="zh"
+  page={Number(Astro.params.n)}
+  posts={getArticles('zh')}
+  urlBase="/articles"
+  heading="Articles"
+/>
